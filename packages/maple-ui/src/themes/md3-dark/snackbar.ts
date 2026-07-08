@@ -1,0 +1,17 @@
+export default {
+  '--mp-snackbar-color': '#322F35',
+  '--mp-snackbar-background': 'var(--mp-color-inverse-surface)',
+  '--mp-snackbar-width': '256px',
+  '--mp-snackbar-border-radius': '4px',
+  '--mp-snackbar-font-size': 'var(--mp-font-size-md)',
+  '--mp-snackbar-margin': '6px 24px',
+  '--mp-snackbar-border-color': 'currentColor',
+  '--mp-snackbar-success-background': 'var(--mp-color-success)',
+  '--mp-snackbar-info-background': 'var(--mp-color-info)',
+  '--mp-snackbar-error-background': 'var(--mp-color-danger)',
+  '--mp-snackbar-warning-background': 'var(--mp-color-warning)',
+  '--mp-snackbar-content-padding': '14px 16px',
+  '--mp-snackbar-action-margin': '0 8px',
+  '--mp-snackbar-vertical-action-margin': '0 8px 8px 0',
+  '--mp-snackbar-icon-margin': '0 8px',
+}

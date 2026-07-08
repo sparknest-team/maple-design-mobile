@@ -1,0 +1,32 @@
+{
+  "name": "@maplejs/maple-icons",
+  "version": "1.0.3",
+  "description": "Icons of maple",
+  "keywords": [
+    "icons",
+    "svg",
+    "maple"
+  ],
+  "bugs": {
+    "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile"
+  },
+  "license": "MIT",
+  "author": "shuai.meng",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "maple-cli build:icons",
+    "dev": "maple-cli build:icons -w"
+  },
+  "devDependencies": {
+    "@maplejs/maple-cli": "workspace:*"
+  }
+}

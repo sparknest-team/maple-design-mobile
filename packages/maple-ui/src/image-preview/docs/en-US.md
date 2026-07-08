@@ -1,0 +1,328 @@
+# ImagePreview
+
+### Intro
+
+Image-Preview, Support double-click magnification, Support function call and component call two ways.
+
+### Function Call
+
+#### Basic Usage
+
+```html
+<script setup>
+import { ImagePreview } from '@nio-pow/maple-ui'
+
+function preview() {
+  ImagePreview('https://maplejs.org/cat.jpg')
+}
+</script>
+
+<template>
+  <mp-button type="primary" block @click="preview">Basic Use</mp-button>
+</template>
+```
+
+#### Call Back
+```html
+<script setup>
+import { ImagePreview, Snackbar } from '@nio-pow/maple-ui'
+
+function preview() {
+  ImagePreview({
+    images: [
+      'https://maplejs.org/cat.jpg',
+      'https://maplejs.org/cat2.jpg'
+    ],
+    onChange(index) {
+      Snackbar(String(index))
+    }
+  })
+}
+</script>
+
+<template>
+  <mp-button type="primary" block @click="preview">Handle callback function</mp-button>
+</template>
+```
+
+
+## Component Call
+
+### Basic Use
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const show = ref(false)
+const images = ref([
+  'https://maplejs.org/cat.jpg',
+  'https://maplejs.org/cat2.jpg',
+])
+</script>
+
+<template>
+  <mp-button
+    type="warning"
+    block
+    @click="show = true"
+  >
+    Basic Use
+  </mp-button>
+  <mp-image-preview :images="images" v-model:show="show" />
+</template>
+```
+
+### Specify Initial Position
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const show = ref(false)
+const images = ref([
+  'https://maplejs.org/cat.jpg',
+  'https://maplejs.org/cat2.jpg',
+])
+</script>
+
+<template>
+ <mp-button 
+    type="warning" 
+    block
+    @click="show = true"
+  >
+    Specify initial position
+  </mp-button>
+  <mp-image-preview
+    :initial-index="1"
+    :images="images"
+    v-model:show="show" 
+  />
+</template>
+```
+
+### Display The Close Button
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const show = ref(false)
+const images = ref([
+  'https://maplejs.org/cat.jpg',
+  'https://maplejs.org/cat2.jpg',
+])
+</script>
+
+<template>
+   <mp-button 
+    type="warning" 
+    block 
+    @click="show = true"
+  >
+    Display the close button
+  </mp-button>
+  <mp-image-preview
+    closeable
+    :images="images"
+    v-model:show="show" 
+  />
+</template>
+```
+
+### Listen For Close Event
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Snackbar } from '@nio-pow/maple-ui'
+
+const show = ref(false)
+const images = ref([
+  'https://maplejs.org/cat.jpg',
+  'https://maplejs.org/cat2.jpg',
+])
+</script>
+
+<template>
+  <mp-button
+    block
+    type="warning"
+    @click="show = true"
+  >
+    Listen for close event
+  </mp-button>
+  <mp-image-preview 
+    :images="images"
+    v-model:show="show"
+    @close="Snackbar('The shutdown event was triggered.')" 
+  />
+</template>
+```
+
+### Listen For Long Press Event
+
+The `image-prevent-default` attribute prohibits the default behavior of images, and the `long-press` event can be customized to achieve long press requirements.
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Snackbar } from '@nio-pow/maple-ui'
+
+const show = ref(false)
+const images = ref([
+  'https://maplejs.org/cat.jpg',
+  'https://maplejs.org/cat2.jpg',
+])
+</script>
+
+<template>
+  <mp-button
+    block
+    type="warning"
+    @click="show = true"
+  >
+    Listen for long press event
+  </mp-button>
+  <mp-image-preview
+    image-prevent-default
+    :images="images"
+    v-model:show="show"
+    @long-press="Snackbar('Long press event is triggered')"
+  />
+</template>
+```
+
+### Show Extra Slots
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const show = ref(false)
+const menuShow = ref(false)
+const images = ref([
+  'https://maplejs.org/cat.jpg',
+  'https://maplejs.org/cat2.jpg',
+])
+const actions = [
+  {
+    name: 'operate',
+    icon: 'wrench'
+  },
+  {
+    name: 'operate',
+    icon: 'wrench'
+  }
+]
+</script>
+
+<template>
+   <mp-button
+     block
+     type="warning"
+     @click="show = true"
+  >
+    Show extra slots
+  </mp-button>
+  <mp-image-preview :images="images" v-model:show="show">
+    <template #extra>
+      <mp-icon
+        name="menu"
+        :size="22"
+        color="#fff"
+        @click="menuShow = true"
+      />
+      <mp-action-sheet :actions="actions" v-model:show="menuShow" />
+    </template>
+  </mp-image-preview>
+</template>
+```
+
+## API
+
+### Props
+
+| Prop         | Description   | Type  | Default  |
+| ------------ | ------------ | ------------------ | ------------ |
+| `v-model:show` | Whether or display | _boolean_ | `false` |
+| `images`     | Need to preview the image URL | _string[]_ | `[]` |
+| `initial-index`   | Index from which the image preview starts | _string \| number_ | `0`     |
+| `zoom`       | Double-click to zoom in | _string \| number_ | `2` |
+| `closeable`  | Whether to show the close button | _boolean_ | `false` |
+| `close-on-key-escape` | Whether to support keyboard ESC to close the image-preview | _boolean_ | `true`  |
+| `loop`       | Whether to open loop playback | _boolean_ | `true` |
+| `indicator`  | Whether to show paging | _boolean_ | `true` |
+| `lock-scroll` | Lock scroll | _boolean_ | `true` |
+| `teleport`   | The location of the pop-up layer to mount | _TeleportProps['to'] \| false_ | `body` |
+| `image-prevent-default` | Whether to disable the default behavior of images |  _boolean_ | `false` |
+
+### Events
+
+| Event | Description | Arguments |
+| ----- | ---- | ----- |
+| `change` | The callback function when switching images, the callback parameter is the current index | `index: number` Image indexing |
+| `open`   | Triggered when Image-Preview is turned on | `-`  |
+| `opened` | Triggered at the end of the open image-preview animation | `-` |
+| `close`  | Triggered when Image-Preview is off | `-` |
+| `closed` | Triggered when the animation that closes the image-preview ends | `-` |
+| `long-press` | The callback function when long pressing an image, the callback parameter is the current index | `index: number` Image indexing | 
+| `key-escape` | Triggered when click keyboard ESC  | `-` |
+
+### Methods
+
+| Method | Description | Arguments | Return |
+| --- | --- | --- | --- |
+| `ImagePreview` | Open image-preview | _options \| string \| string[]_ | `-` |
+| `ImagePreview.close` | Close image-preview | _-_ | `-` |
+| `ImagePreview.setDefaultOptions` | Set default option configuration | _options_ | `-` |
+| `ImagePreview.resetDefaultOptions` | Reset default option configuration | _-_ | `-` |
+| `prev`   | Previous page                                                        | `options?: SwipeToOptions`             | `-`    |
+| `next`   | Next page                                                            | `options?: SwipeToOptions`             | `-`    |
+| `to`     | To index page                                                        | `index: number, options?: SwipeToOptions` | `-`    |
+| `zoom` | Enlarge or reduce the picture | `ratio: number` | `-` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --- | --- | --- |
+| `indicator` | Paging indicator | `index: number` Image indexing <br> `length: number` Total number of image |
+| `close-icon` | Close button | `-` |
+| `extra` | Extra slots | `-` |
+
+### ImagePreview Options
+
+| Prop   | Description  |  Type  | Default |
+| ------ | ----------- | ------ | -------- |
+| `images`     | The image URL array or the URL of a single image to be previewed | _string[] \| string_ | `[]` |
+| `initialIndex`   | Index from which the image preview starts | _string \| number_ | `0`     |
+| `zoom`       | Double-click to zoom in | _string \| number_ | `2` |
+| `closeable`  | Whether to show the close button | _boolean_ | `false` |
+| `closeOnKeyEscape` | Whether to support keyboard ESC to close the image-preview | _boolean_ | `true` |
+| `loop`       | Whether to open loop playback | _boolean_ | `true` |
+| `indicator`  | Whether to show paging | _boolean_ | `true` |
+| `lockScroll` | Lock scroll | _boolean_ | `true` |
+| `imagePreventDefault` | Whether to disable the default behavior of images |  _boolean_ | `false` |
+| `onChange`   | The callback function when switching images, the callback parameter is the current index | _(index: number) => void_  |  `-` |
+| `onOpen`   | Callback when image-preview is turned on |  _() => void_ | `-` |
+| `onOpened` | Callback at the end of the animation that opened image-preview |   _() => void_ | `-` |
+| `onClose`  | Callback when image-preview is closed |  _() => void_ |  `-` |
+| `onClosed` | Callback at the end of the animation that closes the image-preview |  _() => void_ | `-` |
+| `onLongPress` | The callback function when long pressing an image, the callback parameter is the current index | _(index: number) => void_  |  `-` |
+| `onKeyEscape` | Triggered when click keyboard ESC | _() => void_ | `-` |
+
+### Style Variables
+Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+
+| Variable | Default |
+| ------ | -------- |
+| `--image-preview-swipe-indicators-text-color` | `#ddd`  |
+| `--image-preview-swipe-indicators-padding`    | `16px 0` |
+| `--image-preview-zoom-container-background`   | `#000`  |
+| `--image-preview-close-icon-top`              | `14px` |
+| `--image-preview-close-icon-right`            | `14px` |
+| `--image-preview-close-icon-size`             | `22px` |
+| `--image-preview-close-icon-color`            | `#fff` |
+| `--image-preview-extra-top`                   | `14px` |
+| `--image-preview-extra-left`                  | `14px` |

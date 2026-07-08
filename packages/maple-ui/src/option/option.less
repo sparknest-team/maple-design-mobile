@@ -1,0 +1,47 @@
+:root {
+  --mp-option-height: 38px;
+  --mp-option-padding: 0 12px;
+  --mp-option-font-size: 16px;
+  --mp-option-selected-background: var(--mp-field-decorator-focus-color);
+  --mp-option-text-color: #555;
+  --mp-option-disabled-color: var(--mp-color-text-disabled);
+}
+
+.mp-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--mp-option-height);
+  padding: var(--mp-option-padding);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--mp-option-text-color);
+  outline: none;
+
+  &__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.2;
+    background: transparent;
+  }
+
+  &__text {
+    font-size: var(--mp-option-font-size);
+  }
+
+  &--selected-background {
+    background: var(--mp-option-selected-background);
+  }
+
+  &--selected-color {
+    color: var(--mp-option-selected-background);
+  }
+
+  &--disabled {
+    color: var(--mp-option-disabled-color);
+    cursor: not-allowed;
+  }
+}

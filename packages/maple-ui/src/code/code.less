@@ -1,0 +1,22 @@
+:root {
+  --mp-code-font-size: 14px;
+  --mp-code-line-height: 1.7;
+}
+
+.mp-code {
+  width: 100%;
+  line-height: var(--mp-code-line-height);
+  font-size: var(--mp-code-font-size);
+
+  pre {
+    width: 100%;
+    margin: 0;
+    overflow: auto;
+    background-color: transparent !important;
+  }
+
+  &--word-wrap pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}

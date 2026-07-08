@@ -1,0 +1,52 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`switch valiation with zod 1`] = `
+"<div class="mp-switch" role="switch" aria-checked="true">
+  <div class="mp-switch__block mp-switch__block--active">
+    <div class="mp-switch__track mp-switch__track--active" style=""></div>
+    <div class="mp-switch__ripple mp-switch__ripple--active" tabindex="0" style="">
+      <div class="mp-switch__handle mp-elevation--2 mp-switch__handle--active">
+        <!--v-if-->
+      </div>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`test switch component props > variant mode 1`] = `
+"<div class="mp-switch" role="switch" aria-checked="true">
+  <div class="mp-switch__block mp-switch__block--active">
+    <div class="mp-switch__track mp-switch__track--active"></div>
+    <div class="mp-switch__ripple mp-switch__ripple--active" tabindex="0">
+      <div class="mp-switch__handle mp-elevation--2 mp-switch__handle--active">
+        <!--v-if-->
+      </div>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`test switch component props > variant mode 2`] = `
+"<div class="mp-switch mp-switch--variant" role="switch" aria-checked="true">
+  <div class="mp-switch__block mp-switch__block--active">
+    <div class="mp-switch__track mp-switch__track--active"></div>
+    <div class="mp-switch__ripple mp-switch__ripple--active" tabindex="0">
+      <div class="mp-switch__handle mp-elevation--2 mp-switch__handle--active">
+        <!--v-if-->
+      </div>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;

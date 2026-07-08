@@ -1,0 +1,84 @@
+{
+  "name": "@maplejs/maple-ui",
+  "version": "1.0.3",
+  "description": "A Vue3 component library based on Material Design 2 and 3, supporting mobile and desktop.",
+  "keywords": [
+    "Vue3",
+    "Mobile",
+    "Material Design",
+    "UI",
+    "Components"
+  ],
+  "homepage": "https://maplejs.org",
+  "bugs": {
+    "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://xxx/pe.frontend/materials/maplejs/maple-design-mobile.git"
+  },
+  "license": "MIT",
+  "author": "shuai.meng",
+  "sideEffects": [
+    "es/**/style/*",
+    "lib/**/style/*",
+    "es/style.mjs",
+    "lib/style.js",
+    "*.css"
+  ],
+  "main": "lib/maple.cjs.js",
+  "jsdelivr": "umd/maple.js",
+  "unpkg": "umd/maple.js",
+  "module": "es/index.mjs",
+  "typings": "types/index.d.ts",
+  "style": "umd/style.css",
+  "files": [
+    "json",
+    "lib",
+    "es",
+    "umd",
+    "highlight",
+    "types"
+  ],
+  "scripts": {
+    "build": "maple-cli build",
+    "compile": "maple-cli compile",
+    "compile:style-vars": "maple-cli compile:style-vars",
+    "create": "maple-cli create -i",
+    "dev": "maple-cli dev",
+    "preview": "maple-cli preview",
+    "test": "maple-cli test",
+    "test:coverage": "maple-cli test -cov",
+    "test:watch": "maple-cli test -w -cov"
+  },
+  "dependencies": {
+    "@maplejs/maple-shared": "workspace:*",
+    "@maplejs/maple-use": "workspace:*",
+    "@popperjs/core": "^2.11.8",
+    "@maplejs/maple-icons": "workspace:*",
+    "dayjs": "^1.11.13",
+    "decimal.js": "^10.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@maplejs/maple-cli": "workspace:*",
+    "@maplejs/maple-touch-emulator": "workspace:*",
+    "@maplejs/maple-ui": "workspace:*",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@vue/runtime-core": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "clipboard": "^2.0.11",
+    "jsdom": "catalog:",
+    "live-server": "catalog:",
+    "shiki": "^1.29.2",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "zod": "^3.25.76"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "web-types": "highlight/web-types.en-US.json"
+}

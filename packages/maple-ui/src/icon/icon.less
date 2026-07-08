@@ -1,0 +1,37 @@
+@import '@nio-pow/maple-icons/dist/css/maple-icons.less';
+
+:root {
+  --mp-icon-size: 20px;
+}
+
+.mp-icon {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: bottom;
+  color: inherit;
+  font-size: var(--mp-icon-size);
+
+  &::before {
+    position: relative;
+    display: inline-block;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+  }
+
+  &--shrinking {
+    transform: scale(0);
+    transition-property: transform;
+  }
+
+  &__image {
+    width: var(--mp-icon-size);
+    height: var(--mp-icon-size);
+    object-fit: cover;
+  }
+}

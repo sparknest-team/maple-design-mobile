@@ -1,0 +1,32 @@
+{
+  "name": "@maplejs/maple-touch-emulator",
+  "version": "1.0.3",
+  "description": "touch-emulator",
+  "keywords": [
+    "emulator",
+    "maple"
+  ],
+  "homepage": "https://github.com/varletjs/varlet#readme",
+  "bugs": {
+    "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://xxx/pe.frontend/materials/maplejs/maple-design-mobile"
+  },
+  "license": "MIT",
+  "author": "BeADre <beadre_wang@163.com>",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "files": [
+    "iife.js",
+    "index.js"
+  ],
+  "scripts": {
+    "build": "tsup index.js --format iife --out-dir=. --globalName=VarletTouchEmulator && node build.js"
+  },
+  "devDependencies": {
+    "tsup": "catalog:"
+  }
+}

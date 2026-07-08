@@ -1,0 +1,62 @@
+:root {
+  --mp-radio-checked-color: var(--mp-color-primary);
+  --mp-radio-unchecked-color: #555;
+  --mp-radio-disabled-color: var(--mp-color-text-disabled);
+  --mp-radio-error-color: var(--mp-color-danger);
+  --mp-radio-icon-size: 24px;
+  --mp-radio-action-padding: 6px;
+  --mp-radio-text-color: #555;
+}
+
+.mp-radio {
+  display: flex;
+  align-items: center;
+  transform: translateX(calc(-1 * var(--mp-radio-action-padding)));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &__wrap {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  &__action {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    padding: var(--mp-radio-action-padding);
+    border-radius: 50%;
+    outline: none;
+    transition:
+      background-color 0.25s,
+      color 0.25s;
+  }
+
+  &__icon[mp-radio-cover] {
+    display: block;
+    font-size: var(--mp-radio-icon-size);
+  }
+
+  &__text {
+    color: var(--mp-radio-text-color);
+  }
+
+  &--checked {
+    color: var(--mp-radio-checked-color);
+  }
+
+  &--unchecked {
+    color: var(--mp-radio-unchecked-color);
+  }
+
+  &--disabled {
+    color: var(--mp-radio-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--error {
+    color: var(--mp-radio-error-color);
+  }
+}

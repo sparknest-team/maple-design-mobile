@@ -1,0 +1,14 @@
+coverage/**
+highlight/**
+es/**
+umd/**
+lib/**
+site/**
+public/**
+.maple/**
+types/index.d.ts
+*.md
+package.json
+
+pnpm-lock.yaml
+pnpm-workspace.yaml

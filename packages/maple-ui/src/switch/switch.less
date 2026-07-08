@@ -1,0 +1,216 @@
+:root {
+  --mp-switch-width: 40px;
+  --mp-switch-height: 24px;
+  --mp-switch-track-width: 38px;
+  --mp-switch-track-height: 14.4px;
+  --mp-switch-track-border-radius: calc(20px * 2 / 3);
+  --mp-switch-track-background: #fff;
+  --mp-switch-track-active-background: var(--mp-color-primary);
+  --mp-switch-track-error-background: var(--mp-color-danger);
+  --mp-switch-handle-width: 20px;
+  --mp-switch-handle-height: 20px;
+  --mp-switch-handle-background: var(--mp-color-on-primary);
+  --mp-switch-handle-color: var(--mp-color-primary);
+  --mp-switch-handle-active-color: var(--mp-color-on-primary);
+  --mp-switch-handle-active-background: var(--mp-color-primary);
+  --mp-switch-handle-error-background: var(--mp-color-danger);
+  --mp-switch-ripple-color: var(--mp-color-primary);
+  --mp-switch-ripple-size: 40px;
+  --mp-switch-ripple-left: -10px;
+  --mp-switch-ripple-active-left: 10px;
+  --mp-switch-loading-size: 16px;
+  --mp-switch-disabled-opacity: var(--mp-opacity-disabled);
+  --mp-switch-variant-width: 52px;
+  --mp-switch-variant-height: 32px;
+  --mp-switch-variant-track-border-color: #888;
+  --mp-switch-variant-track-background: var(--mp-color-surface-container-highest);
+  --mp-switch-variant-handle-width: 24px;
+  --mp-switch-variant-handle-height: 24px;
+  --mp-switch-variant-handle-color: var(--mp-color-on-primary);
+  --mp-switch-variant-handle-active-color: var(--mp-color-primary);
+  --mp-switch-variant-handle-background: #888;
+  --mp-switch-variant-handle-active-background: var(--mp-color-on-primary);
+  --mp-switch-variant-ripple-left: -4px;
+  --mp-switch-variant-ripple-active-left: 16px;
+}
+
+.mp-switch {
+  display: inline-block;
+
+  &__block {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    align-items: center;
+    justify-content: center;
+    width: var(--mp-switch-width);
+    height: var(--mp-switch-height);
+    transition: filter 0.25s;
+  }
+
+  &--disabled {
+    filter: opacity(var(--mp-switch-disabled-opacity));
+    cursor: not-allowed;
+  }
+
+  &__track {
+    width: var(--mp-switch-track-width);
+    height: var(--mp-switch-track-height);
+    border-radius: var(--mp-switch-track-border-radius);
+    background-color: var(--mp-switch-track-background);
+    transition: background-color 0.25s;
+    filter: opacity(var(--mp-switch-disabled-opacity));
+
+    &--active {
+      background-color: var(--mp-switch-track-active-background);
+    }
+
+    &--error {
+      background-color: var(--mp-switch-track-error-background) !important;
+    }
+  }
+
+  &__ripple {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mp-switch-ripple-color);
+    border-radius: 50%;
+    overflow: hidden;
+    outline: none;
+    transition: 0.3s var(--mp-cubic-bezier);
+    width: var(--mp-switch-ripple-size);
+    height: var(--mp-switch-ripple-size);
+    left: var(--mp-switch-ripple-left);
+
+    &--active {
+      left: var(--mp-switch-ripple-active-left);
+    }
+  }
+
+  &__handle {
+    border-radius: 50%;
+    background-color: var(--mp-switch-handle-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mp-switch-handle-color);
+    transition: background-color 0.25s;
+    width: var(--mp-switch-handle-width);
+    height: var(--mp-switch-handle-height);
+    outline: none;
+
+    &--active {
+      background-color: var(--mp-switch-handle-active-background);
+      color: var(--mp-switch-handle-active-color);
+    }
+
+    &--error {
+      background-color: var(--mp-switch-handle-error-background) !important;
+    }
+  }
+
+  &--variant {
+    .mp-switch {
+      &__block {
+        width: var(--mp-switch-variant-width);
+        height: var(--mp-switch-variant-height);
+
+        &:active .mp-switch__handle {
+          transform: scale(7 / 6);
+        }
+      }
+
+      &__track {
+        width: 100%;
+        height: 100%;
+        border-radius: calc(var(--mp-switch-variant-height) / 2);
+        background-color: var(--mp-switch-variant-track-background);
+        border: 2px solid var(--mp-switch-variant-track-border-color);
+        filter: none;
+
+        &--active {
+          background-color: var(--mp-switch-track-active-background);
+          border: none;
+        }
+      }
+
+      &__ripple {
+        left: var(--mp-switch-variant-ripple-left);
+
+        &--active {
+          left: var(--mp-switch-variant-ripple-active-left);
+        }
+      }
+
+      &__handle {
+        width: var(--mp-switch-variant-handle-width);
+        height: var(--mp-switch-variant-handle-height);
+        color: var(--mp-switch-variant-handle-color);
+        transform: scale(2 / 3);
+        background-color: var(--mp-switch-variant-handle-background);
+        transition: transform 0.2s;
+
+        &--active {
+          color: var(--mp-switch-variant-handle-active-color);
+          background-color: var(--mp-switch-variant-handle-active-background);
+          transform: none;
+        }
+      }
+
+      &--disabled {
+        &:active .mp-switch__handle {
+          transform: none;
+        }
+      }
+    }
+  }
+
+  &__loading {
+    display: inline-block;
+    width: var(--mp-switch-loading-size);
+    height: var(--mp-switch-loading-size);
+    animation: circle 1.8s linear infinite;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      circle {
+        animation: circular 1.5s ease-in-out infinite;
+        stroke: currentColor;
+        stroke-width: 3;
+        stroke-linecap: round;
+      }
+    }
+
+    @keyframes circle {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes circular {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+
+      50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -40;
+      }
+
+      100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -120;
+      }
+    }
+  }
+}

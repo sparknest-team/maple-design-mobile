@@ -1,0 +1,16 @@
+export default {
+  '--mp-dialog-width': '312px',
+  '--mp-dialog-background': 'var(--mp-color-surface-container-high)',
+  '--mp-dialog-title-color': 'var(--mp-color-inverse-surface)',
+  '--mp-dialog-message-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-dialog-border-radius': '28px',
+  '--mp-dialog-title-padding': '24px 24px 0',
+  '--mp-dialog-message-padding': '16px 24px 24px',
+  '--mp-dialog-actions-padding': '0 24px 24px',
+  '--mp-dialog-title-font-size': '20px',
+  '--mp-dialog-button-margin-left': '8px',
+  '--mp-dialog-message-line-height': '24px',
+  '--mp-dialog-message-font-size': 'var(--mp-font-size-md)',
+  '--mp-dialog-confirm-button-color': 'var(--mp-color-primary)',
+  '--mp-dialog-cancel-button-color': 'var(--mp-color-primary)',
+}

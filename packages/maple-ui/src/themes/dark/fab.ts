@@ -1,0 +1,15 @@
+export default {
+  '--mp-fab-top': '70px',
+  '--mp-fab-bottom': '16px',
+  '--mp-fab-left': '16px',
+  '--mp-fab-right': '16px',
+  '--mp-fab-trigger-size': '56px',
+  '--mp-fab-trigger-border-radius': '50%',
+  '--mp-fab-trigger-inactive-icon-size': '26px',
+  '--mp-fab-trigger-active-icon-size': '22px',
+  '--mp-fab-actions-padding': '10px 0',
+  '--mp-fab-action-margin': '6px',
+  '--mp-fab-action-size': '40px',
+  '--mp-fab-action-border-radius': '50%',
+  '--mp-fab-transition-standard-easing': 'cubic-bezier(0.4, 0, 0.2, 1)',
+}

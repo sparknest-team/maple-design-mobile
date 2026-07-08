@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`test link component props > link rel 1`] = `"<a href="https://maplejs.org/varlet/" target="_blank" rel="noopener noreferrer" class="mp-link mp--box mp--inline-flex mp-link--default mp-link--underline-always"></a>"`;

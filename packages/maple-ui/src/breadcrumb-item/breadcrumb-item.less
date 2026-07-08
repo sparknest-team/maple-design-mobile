@@ -1,0 +1,27 @@
+:root {
+  --mp-breadcrumb-item-active-color: var(--mp-color-primary);
+  --mp-breadcrumb-item-inactive-color: #888;
+  --mp-breadcrumb-item-separator-margin: 0 10px;
+  --mp-breadcrumb-item-separator-font-size: 14px;
+}
+
+.mp-breadcrumb-item {
+  display: flex;
+  align-items: center;
+  color: var(--mp-breadcrumb-item-inactive-color);
+
+  &__separator {
+    margin: var(--mp-breadcrumb-item-separator-margin);
+    font-size: var(--mp-breadcrumb-item-separator-font-size);
+  }
+
+  &--active {
+    color: var(--mp-breadcrumb-item-active-color);
+    transition: opacity 0.25s;
+
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  }
+}

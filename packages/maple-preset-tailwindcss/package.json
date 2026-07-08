@@ -1,0 +1,47 @@
+{
+  "name": "@maplejs/maple-preset-tailwindcss",
+  "version": "1.0.3",
+  "description": "tailwindcss preset of maple",
+  "keywords": [
+    "tailwindcss",
+    "preset",
+    "maple"
+  ],
+  "bugs": {
+    "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile"
+  },
+  "license": "MIT",
+  "author": "chouchouji <1305974212@qq.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean",
+    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

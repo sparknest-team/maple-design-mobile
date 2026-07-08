@@ -1,0 +1,50 @@
+:root {
+  --mp-form-details-error-message-color: var(--mp-color-danger);
+  --mp-form-details-extra-message-color: #888;
+  --mp-form-details-margin-top: 6px;
+  --mp-form-details-font-size: 12px;
+  --mp-form-details-message-margin-right: 4px;
+}
+
+.mp-form-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--mp-form-details-font-size);
+  margin-top: var(--mp-form-details-margin-top);
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    margin-top: 2px !important;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition: 0.2s all var(--mp-cubic-bezier);
+  }
+
+  &__message-enter-from,
+  &__message-leave-to {
+    opacity: 0;
+  }
+
+  &__message-enter-active,
+  &__message-leave-active {
+    transition: 0.2s all var(--mp-cubic-bezier);
+  }
+
+  &__error-message {
+    flex-grow: 1;
+    color: var(--mp-form-details-error-message-color);
+    margin-right: var(--mp-form-details-message-margin-right);
+    user-select: none;
+    text-align: left;
+  }
+
+  &__extra-message {
+    flex-shrink: 0;
+    color: var(--mp-form-details-extra-message-color);
+    user-select: none;
+    text-align: right;
+  }
+}

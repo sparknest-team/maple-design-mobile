@@ -1,0 +1,121 @@
+:root {
+  --mp-snackbar-width: 256px;
+  --mp-snackbar-color: rgba(255, 255, 255, 0.87);
+  --mp-snackbar-border-radius: 4px;
+  --mp-snackbar-background: #333;
+  --mp-snackbar-font-size: var(--mp-font-size-md);
+  --mp-snackbar-margin: 6px 24px;
+  --mp-snackbar-border-color: currentColor;
+  --mp-snackbar-success-background: var(--mp-color-success);
+  --mp-snackbar-info-background: var(--mp-color-info);
+  --mp-snackbar-error-background: var(--mp-color-danger);
+  --mp-snackbar-warning-background: var(--mp-color-warning);
+  --mp-snackbar-content-padding: 14px 16px;
+  --mp-snackbar-action-margin: 0 8px;
+  --mp-snackbar-vertical-action-margin: 0 8px 8px 0;
+  --mp-snackbar-icon-margin: 0 8px;
+}
+
+.mp-transition-group {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.mp-pointer-auto {
+  pointer-events: auto;
+}
+
+.mp-snackbar {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.15s var(--mp-cubic-bezier);
+
+  &__transition {
+    top: 0;
+    position: fixed;
+
+    .mp-snackbar__wrapper {
+      position: absolute;
+
+      &-top {
+        top: 5%;
+      }
+
+      &-center {
+        top: 45%;
+      }
+
+      &-bottom {
+        bottom: 5%;
+      }
+    }
+  }
+
+  &__wrapper {
+    width: var(--mp-snackbar-width);
+    display: flex;
+    border-radius: var(--mp-snackbar-border-radius);
+    color: var(--mp-snackbar-color);
+    background: var(--mp-snackbar-background);
+    font-size: var(--mp-snackbar-font-size);
+    margin: var(--mp-snackbar-margin);
+    align-items: center;
+    border-color: var(--mp-snackbar-border-color);
+    pointer-events: auto;
+    transition: 0.3s var(--mp-cubic-bezier);
+
+    &-success {
+      background: var(--mp-snackbar-success-background);
+    }
+
+    &-info {
+      background: var(--mp-snackbar-info-background);
+    }
+
+    &-warning {
+      background: var(--mp-snackbar-warning-background);
+    }
+
+    &-error {
+      background: var(--mp-snackbar-error-background);
+    }
+  }
+
+  &__icon {
+    margin: var(--mp-snackbar-icon-margin);
+  }
+
+  &__content {
+    flex-grow: 1;
+    padding: var(--mp-snackbar-content-padding);
+  }
+
+  &__action {
+    margin: var(--mp-snackbar-action-margin);
+    display: flex;
+  }
+
+  &__vertical {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .mp-snackbar__action {
+      align-self: flex-end;
+      margin: var(--mp-snackbar-vertical-action-margin);
+    }
+  }
+
+  &-fade-enter-from,
+  &-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}

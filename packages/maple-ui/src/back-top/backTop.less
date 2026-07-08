@@ -1,0 +1,26 @@
+:root {
+  --mp-back-top-right: 40px;
+  --mp-back-top-bottom: 40px;
+  --mp-back-top-button-size: 40px;
+  --mp-back-top-button-border-radius: 50%;
+}
+
+.mp-back-top {
+  position: fixed;
+  z-index: 100;
+  right: var(--mp-back-top-right);
+  bottom: var(--mp-back-top-bottom);
+  transform: scale(0);
+  transition: 0.3s var(--mp-cubic-bezier);
+  -webkit-tap-highlight-color: transparent;
+
+  .mp-button[mp-back-top-cover] {
+    width: var(--mp-back-top-button-size);
+    height: var(--mp-back-top-button-size);
+    border-radius: var(--mp-back-top-button-border-radius);
+  }
+
+  &--active {
+    transform: scale(1);
+  }
+}

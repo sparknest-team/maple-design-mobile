@@ -1,0 +1,16 @@
+export default {
+  '--mp-step-content-color': 'rgba(255, 255, 255, .38)',
+  '--mp-step-content-active-color': '#fff',
+  '--mp-step-line-background': '#fff',
+  '--mp-step-tag-size': '20px',
+  '--mp-step-tag-background': '#9e9e9e',
+  '--mp-step-tag-font-size': 'var(--mp-font-size-md)',
+  '--mp-step-tag-color': 'var(--mp-color-on-primary)',
+  '--mp-step-tag-active-color': 'var(--mp-color-primary)',
+  '--mp-step-tag-margin': '4px 0',
+  '--mp-step-tag-icon-size': 'var(--mp-font-size-lg)',
+  '--mp-step-content-font-size': 'var(--mp-font-size-md)',
+  '--mp-step-line-gap': '8px',
+  '--mp-step-vertical-tag-margin': '0 4px',
+  '--mp-step-vertical-min-height': '50px',
+}

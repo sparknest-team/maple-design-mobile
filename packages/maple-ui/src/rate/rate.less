@@ -1,0 +1,45 @@
+:root {
+  --mp-rate-color: var(--mp-color-text);
+  --mp-rate-size: 24px;
+  --mp-rate-disabled-color: var(--mp-color-text-disabled);
+  --mp-rate-error-color: var(--mp-color-danger);
+  --mp-rate-action-padding: 4px;
+  --mp-rate-primary-color: var(--mp-color-primary);
+}
+
+.mp-rate {
+  display: flex;
+  transform: translateX(calc(-1 * var(--mp-rate-action-padding)));
+
+  &__wrap {
+    width: 100%;
+  }
+
+  &__content {
+    position: relative;
+    display: flex;
+    padding: var(--mp-rate-action-padding);
+    cursor: pointer;
+    border-radius: 50%;
+    color: var(--mp-rate-color);
+    transition: color 0.25s;
+    -webkit-tap-highlight-color: transparent;
+
+    &-icon[mp-rate-cover] {
+      font-size: var(--mp-rate-size);
+    }
+  }
+
+  &--primary {
+    color: var(--mp-rate-primary-color);
+  }
+
+  &--disabled {
+    color: var(--mp-rate-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--error {
+    color: var(--mp-rate-error-color);
+  }
+}

@@ -1,0 +1,1492 @@
+{
+  "name": "Maple",
+  "namespace": "mp",
+  "host": "localhost",
+  "port": 8080,
+  "title": "Maple",
+  "logo": "varlet_icon.png",
+  "defaultLanguage": "zh-CN",
+  "themeKey": "VARLET_V3_THEME",
+  "defaultLightTheme": "md3LightTheme",
+  "defaultDarkTheme": "md3DarkTheme",
+  "useMobile": true,
+  "_cf": [
+    "pages.dev",
+    "maplejs.org"
+  ],
+  "analysis": {
+    "baidu": "https://hm.baidu.com/hm.js?5c628ce58967c90ff4dd9c8803d930fa"
+  },
+  "pc": {
+    "title": {
+      "zh-CN": "Maple UI - Vue3 Maple Design 组件库",
+      "en-US": "Maple UI - Vue3 Maple Design Component Library"
+    },
+    "menu": [
+      {
+        "text": {
+          "zh-CN": "开发指南",
+          "en-US": "Developer Guide"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "基本介绍",
+          "en-US": "Basic Introduce"
+        },
+        "doc": "home",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "快速开始",
+          "en-US": "Quick Start"
+        },
+        "doc": "quickstart",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "按需引入",
+          "en-US": "Import On Demand"
+        },
+        "doc": "importOnDemand",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "浏览器适配",
+          "en-US": "Browser Adaptation"
+        },
+        "doc": "browserAdaptation",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "主题定制",
+          "en-US": "Theme Customization"
+        },
+        "doc": "themes",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "国际化",
+          "en-US": "Locale"
+        },
+        "doc": "locale",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "服务端渲染",
+          "en-US": "Server-Side Rendering"
+        },
+        "doc": "serverSideRendering",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "Zod 验证",
+          "en-US": "Zod Validation"
+        },
+        "doc": "zodValidation",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "原子化 CSS 支持",
+          "en-US": "Atomic CSS Support"
+        },
+        "doc": "atomicCssSupport",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "VSCode 插件",
+          "en-US": "VSCode Extension"
+        },
+        "doc": "extension",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "默认值定制",
+          "en-US": "Defaults Customization"
+        },
+        "doc": "defaultsCustomization",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "设计资源",
+          "en-US": "Design Resources"
+        },
+        "doc": "designResources",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "组件库快速成型工具",
+          "en-US": "Components Library Tools"
+        },
+        "doc": "cli",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "从 2.x 迁移",
+          "en-US": "Migrate from 2.x"
+        },
+        "doc": "migrationGuide",
+        "type": 3
+      },
+      {
+        "text": {
+          "zh-CN": "基础组件",
+          "en-US": "Basic Components"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "StyleProvider 样式定制",
+          "en-US": "StyleProvider"
+        },
+        "doc": "style-provider",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Button 按钮",
+          "en-US": "Button"
+        },
+        "doc": "button",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Fab 悬浮动作按钮",
+          "en-US": "Fab"
+        },
+        "doc": "fab",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Breadcrumb 面包屑",
+          "en-US": "Breadcrumb"
+        },
+        "doc": "breadcrumb",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Link 链接",
+          "en-US": "Link"
+        },
+        "doc": "link",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Cell 单元格",
+          "en-US": "Cell"
+        },
+        "doc": "cell",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Icon 图标",
+          "en-US": "Icon"
+        },
+        "doc": "icon",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Image 图片",
+          "en-US": "Image"
+        },
+        "doc": "image",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Avatar 头像",
+          "en-US": "Avatar"
+        },
+        "doc": "avatar",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Loading 加载",
+          "en-US": "Loading"
+        },
+        "doc": "loading",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Chip 纸片",
+          "en-US": "Chip"
+        },
+        "doc": "chip",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Tag 标签",
+          "en-US": "Tag"
+        },
+        "doc": "tag",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Badge 徽标",
+          "en-US": "Badge"
+        },
+        "doc": "badge",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Ellipsis 文本省略",
+          "en-US": "Ellipsis"
+        },
+        "doc": "ellipsis",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Paper 纸张",
+          "en-US": "Paper"
+        },
+        "doc": "paper",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Elevation 海拔效果",
+          "en-US": "Elevation"
+        },
+        "doc": "styles",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "展示组件",
+          "en-US": "Display Components"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "Empty 空状态",
+          "en-US": "Empty"
+        },
+        "doc": "empty",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Skeleton 骨架屏",
+          "en-US": "Skeleton"
+        },
+        "doc": "skeleton",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Collapse 折叠面板",
+          "en-US": "Collapse"
+        },
+        "doc": "collapse",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "CollapseTransition 折叠动效",
+          "en-US": "CollapseTransition"
+        },
+        "doc": "collapse-transition",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Space 间隔",
+          "en-US": "Space"
+        },
+        "doc": "space",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Layout 布局",
+          "en-US": "Layout"
+        },
+        "doc": "row",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Sticky 粘性布局",
+          "en-US": "Sticky"
+        },
+        "doc": "sticky",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Progress 进度条",
+          "en-US": "Progress"
+        },
+        "doc": "progress",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "List 无限滚动列表",
+          "en-US": "List"
+        },
+        "doc": "list",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Swipe 轮播",
+          "en-US": "Swipe"
+        },
+        "doc": "swipe",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Steps 步骤条",
+          "en-US": "Steps"
+        },
+        "doc": "steps",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "ImagePreview 图片预览",
+          "en-US": "ImagePreview"
+        },
+        "doc": "image-preview",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Card 卡片",
+          "en-US": "Card"
+        },
+        "doc": "card",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Result 结果",
+          "en-US": "Result"
+        },
+        "doc": "result",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Divider 分割线",
+          "en-US": "Divider"
+        },
+        "doc": "divider",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Table 表格",
+          "en-US": "Table"
+        },
+        "doc": "table",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Watermark 水印",
+          "en-US": "Watermark"
+        },
+        "doc": "watermark",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Code 代码块",
+          "en-US": "Code"
+        },
+        "doc": "code",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "导航组件",
+          "en-US": "Navigation Components"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "Tabs 选项卡",
+          "en-US": "Tabs"
+        },
+        "doc": "tabs",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "IndexBar 索引栏",
+          "en-US": "IndexBar"
+        },
+        "doc": "index-bar",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "AppBar 导航栏",
+          "en-US": "AppBar"
+        },
+        "doc": "app-bar",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "BottomNavigation 底部导航栏",
+          "en-US": "BottomNavigation"
+        },
+        "doc": "bottom-navigation",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "功能指令",
+          "en-US": "Functional Directives"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "Ripple 水波指令",
+          "en-US": "Ripple"
+        },
+        "doc": "ripple",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Lazy 懒加载",
+          "en-US": "Lazy"
+        },
+        "doc": "lazy",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Hover 悬停指令",
+          "en-US": "Hover"
+        },
+        "doc": "hover",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "反馈组件",
+          "en-US": "Action Components"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "Alert 警告信息",
+          "en-US": "Alert"
+        },
+        "doc": "alert",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Drag 拖拽",
+          "en-US": "Drag"
+        },
+        "doc": "drag",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Snackbar 消息条",
+          "en-US": "Snackbar"
+        },
+        "doc": "snackbar",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "ActionSheet 动作面板",
+          "en-US": "ActionSheet"
+        },
+        "doc": "action-sheet",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "FloatingPanel 浮动面板",
+          "en-US": "FloatingPanel"
+        },
+        "doc": "floating-panel",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Dialog 对话框",
+          "en-US": "Dialog"
+        },
+        "doc": "dialog",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "PullRefresh 下拉刷新",
+          "en-US": "PullRefresh"
+        },
+        "doc": "pull-refresh",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Overlay 遮罩层",
+          "en-US": "Overlay"
+        },
+        "doc": "overlay",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Popup 弹出层",
+          "en-US": "Popup"
+        },
+        "doc": "popup",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Pagination 分页",
+          "en-US": "Pagination"
+        },
+        "doc": "pagination",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Menu 菜单",
+          "en-US": "Menu"
+        },
+        "doc": "menu",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "MenuSelect 菜单选择器",
+          "en-US": "MenuSelect"
+        },
+        "doc": "menu-select",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Tooltip 提示",
+          "en-US": "Tooltip"
+        },
+        "doc": "tooltip",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "BackTop 回到顶部",
+          "en-US": "BackTop"
+        },
+        "doc": "back-top",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "LoadingBar 加载条",
+          "en-US": "LoadingBar"
+        },
+        "doc": "loading-bar",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "CountTo 数字动画",
+          "en-US": "CountTo"
+        },
+        "doc": "count-to",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Countdown 倒计时",
+          "en-US": "Countdown"
+        },
+        "doc": "countdown",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Picker 多列选择器",
+          "en-US": "Picker"
+        },
+        "doc": "picker",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "DatePicker 日期选择器",
+          "en-US": "DatePicker"
+        },
+        "doc": "date-picker",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "TimePicker 时间选择器",
+          "en-US": "TimePicker"
+        },
+        "doc": "time-picker",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Signature 签名",
+          "en-US": "Signature"
+        },
+        "doc": "signature",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "表单组件",
+          "en-US": "Form Components"
+        },
+        "type": 1
+      },
+      {
+        "text": {
+          "zh-CN": "Form 表单",
+          "en-US": "Form"
+        },
+        "doc": "form",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Input 输入框",
+          "en-US": "Input"
+        },
+        "doc": "input",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "AutoComplete 自动补全",
+          "en-US": "AutoComplete"
+        },
+        "doc": "auto-complete",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Select 选择框",
+          "en-US": "Select"
+        },
+        "doc": "select",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Radio 单选框",
+          "en-US": "Radio"
+        },
+        "doc": "radio-group",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Checkbox 复选框",
+          "en-US": "Checkbox"
+        },
+        "doc": "checkbox-group",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Counter 计数器",
+          "en-US": "Counter"
+        },
+        "doc": "counter",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Switch 开关",
+          "en-US": "Switch"
+        },
+        "doc": "switch",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Slider 滑块",
+          "en-US": "Slider"
+        },
+        "doc": "slider",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Rate 评分",
+          "en-US": "Rate"
+        },
+        "doc": "rate",
+        "type": 2
+      },
+      {
+        "text": {
+          "zh-CN": "Uploader 文件上传",
+          "en-US": "Uploader"
+        },
+        "doc": "uploader",
+        "type": 2
+      }
+    ],
+    "redirect": "/index",
+    "indexPage": {
+      "description": {
+        "zh-CN": "Maple UI 是一个基于 Vue3 开发的 Maple Design 组件库，全面拥抱 Vue3 生态，支持移动端和桌面端，由 maplejs 组织维护。支持 Typescript、按需引入、暗黑模式、主题定制、国际化，并提供 VSCode 插件保障良好的开发体验。",
+        "en-US": "Maple UI is a Maple design component library developed based on Vue3, supporting mobile and desktop, developed and maintained by maplejs organization. Support Typescript, import on demand, dark mode, theme customization, internationalization, and provide VSCode plugin to ensure a good development experience."
+      },
+      "started": {
+        "zh-CN": "快速开始",
+        "en-US": "Get Started"
+      },
+      "viewOnGithub": {
+        "zh-CN": "查看源码",
+        "en-US": "View On Github"
+      },
+      "features": [
+        {
+          "name": {
+            "zh-CN": "组件丰富",
+            "en-US": "Rich components"
+          },
+          "description": {
+            "zh-CN": "提供 60+ 个高质量通用组件",
+            "en-US": "Provide 60+ high quality general purpose components"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "按需引入",
+            "en-US": "On-Demand"
+          },
+          "description": {
+            "zh-CN": "每一个组件都可单独引入，并有着良好的 tree-shaking 优化",
+            "en-US": "Each component can be imported separately and has good tree-shaking optimization"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "主题定制",
+            "en-US": "Theme customization"
+          },
+          "description": {
+            "zh-CN": "内置亮色和暗色两种主题，支持组件的样式自定义",
+            "en-US": "Built-in light and dark themes, support style customization of components"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "国际化",
+            "en-US": "Locale"
+          },
+          "description": {
+            "zh-CN": "内置国际化 API，内置中文和英文的语言包",
+            "en-US": "Built-in i18n API, which supports both Chinese and English languages by default"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "支持 Typescript",
+            "en-US": "Support typescript"
+          },
+          "description": {
+            "zh-CN": "使用 Typescript 构建，提供良好的组件类型系统",
+            "en-US": "Built with typescript, which provides a nice components type system"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "服务端渲染",
+            "en-US": "Server-side rendering"
+          },
+          "description": {
+            "zh-CN": "对服务端渲染支持良好，并对 Nuxt 进行了适配",
+            "en-US": "Good support for server-side rendering and adaptation to Nuxt"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "国人开发",
+            "en-US": "Developed by Chinese"
+          },
+          "description": {
+            "zh-CN": "由国人开发，完善的中英文文档和后勤保障",
+            "en-US": "Complete Chinese and English documentation and logistics support"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "IDE 支持",
+            "en-US": "IDE Code Support"
+          },
+          "description": {
+            "zh-CN": "支持在 webstorm，vscode 中的组件语法高亮, 并提供 vscode 插件为开发提升效率",
+            "en-US": "Supports to highlight the component syntax for webstorm and vscode, and provides a separate helper plugin for vscode"
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "组件库快速成型工具",
+            "en-US": "Component library toolchain"
+          },
+          "description": {
+            "zh-CN": "开源了搭建本组件库的所有工具链，提供快速开发组件库的能力",
+            "en-US": "Open-sourced the toolchain for building this component library, providing the ability to rapidly develop the component library"
+          }
+        }
+      ],
+      "teamMembers": {
+        "label": {
+          "zh-CN": "团队成员",
+          "en-US": "Team Members"
+        },
+        "members": [
+          {
+            "name": {
+              "zh-CN": "haoziqaq",
+              "en-US": "haoziqaq"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 核心团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/24223652",
+            "github": "https://github.com/haoziqaq",
+            "twitter": "https://twitter.com/haozijunqaq"
+          },
+          {
+            "name": {
+              "zh-CN": "BeADre",
+              "en-US": "BeADre"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 核心团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/34639100",
+            "github": "https://github.com/BeADre"
+          },
+          {
+            "name": {
+              "zh-CN": "zhangmo8",
+              "en-US": "zhangmo8"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs & ikun-ui 核心团队成员",
+              "en-US": "Core team member of maplejs & ikun-ui"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/43628500",
+            "github": "https://github.com/zhangmo8",
+            "twitter": "https://twitter.com/wegi8666"
+          },
+          {
+            "name": {
+              "zh-CN": "chouchouji",
+              "en-US": "chouchouji"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 核心团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/70570907",
+            "github": "https://github.com/chouchouji"
+          },
+          {
+            "name": {
+              "zh-CN": "tiny-dust",
+              "en-US": "tiny-dust"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 核心团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/49502875",
+            "github": "https://github.com/tiny-dust"
+          },
+          {
+            "name": {
+              "zh-CN": "songjianet",
+              "en-US": "songjianet"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs & apache & w3c & naiveui & ikun-ui 团队成员",
+              "en-US": "Core team member of maplejs & apache & w3c & naiveui & ikun-ui"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/19239641",
+            "github": "https://github.com/songjianet",
+            "twitter": "https://twitter.com/songjianet"
+          },
+          {
+            "name": {
+              "zh-CN": "running snail",
+              "en-US": "running snail"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs & dcloud 团队成员",
+              "en-US": "Core team member of maplejs & dcloud"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/37523000",
+            "github": "https://github.com/zhenyuWang"
+          },
+          {
+            "name": {
+              "zh-CN": "qytayh",
+              "en-US": "qytayh"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/39668309",
+            "github": "https://github.com/qytayh"
+          },
+          {
+            "name": {
+              "zh-CN": "Erkelost",
+              "en-US": "Erkelost"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs & unplugin & farm & devui & wujie 团队成员",
+              "en-US": "Core team member of maplejs & unplugin & farm & devui & wujie"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/66500121",
+            "github": "https://github.com/ErKeLost"
+          },
+          {
+            "name": {
+              "zh-CN": "EmberSpirit",
+              "en-US": "EmberSpirit"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/85718018",
+            "github": "https://github.com/wangKBweb"
+          },
+          {
+            "name": {
+              "zh-CN": "ayangweb",
+              "en-US": "ayangweb"
+            },
+            "title": {
+              "zh-CN": "开源开发者 & B 站 UP 主",
+              "en-US": "Open Source Developer & Bilibili UP"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/75017711",
+            "github": "https://github.com/ayangweb"
+          },
+          {
+            "name": {
+              "zh-CN": "jiechen66",
+              "en-US": "jiechen66"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/42862411",
+            "github": "https://github.com/jiechen66"
+          },
+          {
+            "name": {
+              "zh-CN": "dyggod",
+              "en-US": "dyggod"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/49914353",
+            "github": "https://github.com/dyggod"
+          },
+          {
+            "name": {
+              "zh-CN": "clen cat",
+              "en-US": "clen cat"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/37403253",
+            "github": "https://github.com/a145789"
+          },
+          {
+            "name": {
+              "zh-CN": "gaoting",
+              "en-US": "gaoting"
+            },
+            "title": {
+              "zh-CN": "开源开发者",
+              "en-US": "Open Source Developer"
+            },
+            "description": {
+              "zh-CN": "maplejs 团队成员",
+              "en-US": "Core team member of maplejs"
+            },
+            "avatar": "https://avatars.githubusercontent.com/u/7401170",
+            "github": "https://github.com/gaoting"
+          }
+        ]
+      },
+      "contributors": {
+        "label": {
+          "zh-CN": "贡献者",
+          "en-US": "Contributors"
+        },
+        "link": "https://github.com/varletjs/varlet/graphs/contributors",
+        "image": "https://contrib.rocks/image?repo=varletjs/varlet"
+      },
+      "sponsors": {
+        "label": {
+          "zh-CN": "赞助者",
+          "en-US": "Sponsors"
+        },
+        "link": "https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg",
+        "image": "https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg"
+      },
+      "license": {
+        "zh-CN": "组件库基于 MIT 协议，您可以自由的使用和分享",
+        "en-US": "Released under the MIT License, You can use and share freely."
+      },
+      "copyright": {
+        "zh-CN": "Copyright © 2025 maplejs 组织成员以及 maple 的贡献者们",
+        "en-US": "Copyright © 2025 maplejs member and maple contributors."
+      }
+    },
+    "header": {
+      "i18n": {
+        "zh-CN": "中文",
+        "en-US": "English"
+      },
+      "currentVersion": "v3.x",
+      "versions": [
+        {
+          "name": "maplejs.org",
+          "items": [
+            {
+              "label": "v3.x",
+              "link": "https://maplejs.org"
+            },
+            {
+              "label": "v2.x",
+              "link": "https://maplejs.org/v2"
+            }
+          ]
+        },
+        {
+          "name": "varlet.pages.dev",
+          "items": [
+            {
+              "label": "v3.x",
+              "link": "https://varlet.pages.dev"
+            },
+            {
+              "label": "v2.x",
+              "link": "https://varlet.pages.dev/v2"
+            }
+          ]
+        },
+        {
+          "name": "varletjs.vercel.app",
+          "items": [
+            {
+              "label": "v3.x",
+              "link": "https://maple-varletjs.vercel.app"
+            },
+            {
+              "label": "v2.x",
+              "link": "https://maple-git-v2x-varletjs.vercel.app"
+            }
+          ]
+        }
+      ],
+      "github": "https://github.com/varletjs/varlet",
+      "changelog": "https://github.com/varletjs/varlet/blob/main/CHANGELOG.md",
+      "playground": "http://localhost:3000",
+      "themes": [
+        {
+          "zh-CN": "Md2 亮色",
+          "en-US": "Md2 Light",
+          "value": "lightTheme"
+        },
+        {
+          "zh-CN": "Md2 暗色",
+          "en-US": "Md2 Dark",
+          "value": "darkTheme"
+        },
+        {
+          "zh-CN": "Md3 亮色",
+          "en-US": "Md3 Light",
+          "value": "md3LightTheme"
+        },
+        {
+          "zh-CN": "Md3 暗色",
+          "en-US": "Md3 Dark",
+          "value": "md3DarkTheme"
+        }
+      ]
+    },
+    "clipboard": {
+      "zh-CN": "代码已复制到剪切板",
+      "en-US": "The code has been copied to the clipboard"
+    },
+    "fold": {
+      "defaultFold": false,
+      "foldHeight": 50
+    },
+    "htmlInject": {
+      "head": [],
+      "body": []
+    }
+  },
+  "mobile": {
+    "title": {
+      "zh-CN": "Maple UI - Vue3 Maple Design 组件库",
+      "en-US": "Maple UI - Vue3 Maple Design Component Library"
+    },
+    "redirect": "/home",
+    "header": {
+      "i18n": {
+        "zh-CN": "中文",
+        "en-US": "English"
+      },
+      "github": "https://github.com/varletjs/varlet",
+      "themes": [
+        {
+          "zh-CN": "Md2 亮色",
+          "en-US": "Md2 Light",
+          "value": "lightTheme"
+        },
+        {
+          "zh-CN": "Md2 暗色",
+          "en-US": "Md2 Dark",
+          "value": "darkTheme"
+        },
+        {
+          "zh-CN": "Md3 亮色",
+          "en-US": "Md3 Light",
+          "value": "md3LightTheme"
+        },
+        {
+          "zh-CN": "Md3 暗色",
+          "en-US": "Md3 Dark",
+          "value": "md3DarkTheme"
+        }
+      ]
+    },
+    "htmlInject": {
+      "head": [],
+      "body": []
+    }
+  },
+  "seo": {
+    "title": "Maple UI - Vue3 Maple Design Component Library",
+    "description": "Maple UI is a Maple design component library developed based on Vue3, supporting mobile and desktop, developed and maintained by maplejs organization. Support Typescript, import on demand, dark mode, theme customization, internationalization, and provide VSCode plugin to ensure a good development experience.",
+    "keywords": "Maple,Maple UI,maple,maple-ui,UI,Vue3 Mobile Components Library,Maple Design,Mobile,Desktop,Provide 60+ high quality general purpose components,Components are very lightweight,Developed by Chinese, complete Chinese and English documentation and logistics support,Support on-demand introduction,Support theme customization,Support internationalization,Support WebStorm syntax highlighting,Support the SSR,Support Nuxt Module,Support the Typescript,Make sure more than 90 percent unit test coverage, providing stability assurance,Supports Maple Design design systems,Support dark mode,Provide official VSCode extension,Support Accessibility (still improving),Vue3 组件库,移动端,桌面端,提供 60+ 个高质量通用组件,组件十分轻量,由国人开发，完善的中英文文档和后勤保障,支持按需引入,支持主题定制,支持国际化,支持 webstorm 组件属性高亮,支持 SSR,支持 Nuxt Module,支持 Typescript,提供官方的 VSCode 插件,支持无障碍访问（持续改进中）"
+  },
+  "lightTheme": {
+    "color-body": "#fff",
+    "color-index-page-background": "#fff",
+    "color-index-page-get-started-button": "#3a7afe",
+    "color-index-page-logo-mask-background": "linear-gradient(-45deg, #8baff8 50%, #84e0ff 50%)",
+    "color-index-page-second-text-color": "rgba(60, 60, 60, .7)",
+    "color-index-page-divider-color": "#ddd",
+    "card-border-radius": "12px",
+    "code-example-border-radius": "8px",
+    "color-bar": "#fff",
+    "color-text": "#555",
+    "color-sub-text": "#888",
+    "color-border": "rgba(0, 0, 0, 0.12)",
+    "color-shadow": "#eee",
+    "color-introduce-border": "#2196f3",
+    "color-primary": "#2196f3",
+    "color-link": "#00c48f",
+    "color-type": "#00c48f",
+    "color-loading-bar": "#1d92e9",
+    "color-side-bar": "#3a7afe",
+    "color-side-bar-active-background": "#3a7afe1a",
+    "color-app-bar": "#3a7afe",
+    "color-nav-button-hover-background": "rgba(0, 0, 0, 0.08)",
+    "color-mobile-cell-hover": "#3a7afe",
+    "color-pc-language-active": "#3a7afe",
+    "color-pc-language-active-background": "#edf5ff",
+    "color-mobile-language-active": "#3a7afe",
+    "color-mobile-language-active-background": "#edf5ff",
+    "color-pc-theme-active": "#3a7afe",
+    "color-pc-theme-active-background": "#edf5ff",
+    "color-mobile-theme-active": "#3a7afe",
+    "color-mobile-theme-active-background": "#edf5ff",
+    "color-mobile-body": "#fff",
+    "color-hl-background": "#fafafa",
+    "color-hl-code": "#58727e",
+    "color-hl-border": "#f3f3f3",
+    "color-hl-group-a": "#7c7c7c",
+    "color-hl-group-b": "#2196f3",
+    "color-hl-group-c": "#ff9422",
+    "color-hl-group-d": "#58c193",
+    "color-hl-group-e": "#ff9422",
+    "color-hl-group-f": "#ff9422",
+    "color-hl-group-g": "#ff9422",
+    "color-hl-group-h": "#06a6e9",
+    "color-hl-group-i": "#2196f3"
+  },
+  "darkTheme": {
+    "color-body": "#121212",
+    "color-index-page-background": "#1e1e1e",
+    "color-index-page-feature-background": "#303030",
+    "color-index-page-logo-mask-background": "linear-gradient(-45deg, #729dfc 50%, #6859f4 50%)",
+    "color-index-page-second-text-color": "rgba(255, 255, 255, .75)",
+    "color-index-page-divider-color": "rgba(84, 84, 84, .8)",
+    "card-border-radius": "12px",
+    "code-example-border-radius": "8px",
+    "color-bar": "#1e1e1e",
+    "color-text": "#fff",
+    "color-sub-text": "#aaa",
+    "color-border": "#333",
+    "color-shadow": "#121212",
+    "color-introduce-border": "#555",
+    "color-primary": "#96cbfe",
+    "color-link": "#A8FFC4",
+    "color-type": "#A8FFC4",
+    "color-loading-bar": "#5580f8",
+    "color-side-bar": "#4a7afe",
+    "color-side-bar-active-background": "#4a7afe1a",
+    "color-app-bar": "#272727",
+    "color-nav-button-hover-background": "rgba(255, 255, 255, 0.08)",
+    "color-mobile-cell-hover": "#4a7afe",
+    "color-pc-language-active": "#4a7afe",
+    "color-pc-language-active-background": "#4a7afe20",
+    "color-mobile-language-active": "#4a7afe",
+    "color-mobile-language-active-background": "#4a7afe20",
+    "color-pc-theme-active": "#4a7afe",
+    "color-pc-theme-active-background": "#4a7afe20",
+    "color-mobile-theme-active": "#4a7afe",
+    "color-mobile-theme-active-background": "#4a7afe20",
+    "color-mobile-body": "#1e1e1e",
+    "color-hl-background": "#272727",
+    "color-hl-code": "#fff",
+    "color-hl-border": "#272727",
+    "color-hl-group-a": "#7c7c7c",
+    "color-hl-group-b": "#96cbfe",
+    "color-hl-group-c": "#ff7b1e",
+    "color-hl-group-d": "#A8FFC4",
+    "color-hl-group-e": "#ff7b1e",
+    "color-hl-group-f": "#ff7b1e",
+    "color-hl-group-g": "#ff7b1e",
+    "color-hl-group-h": "#14a6e9",
+    "color-hl-group-i": "#96cbfe"
+  },
+  "md3LightTheme": {
+    "color-body": "#fff",
+    "color-index-page-background": "#fff",
+    "color-index-page-feature-background": "#fff",
+    "color-index-page-logo-mask-background": "linear-gradient(-45deg, #8baff8 50%, #84e0ff 50%)",
+    "color-index-page-second-text-color": "rgba(60, 60, 60, .7)",
+    "color-index-page-divider-color": "#ddd",
+    "card-border-radius": "12px",
+    "code-example-border-radius": "8px",
+    "color-bar": "#fff",
+    "color-text": "#555",
+    "color-sub-text": "#888",
+    "color-border": "rgba(0, 0, 0, 0.12)",
+    "color-shadow": "#eee",
+    "color-introduce-border": "#6750A4",
+    "color-primary": "#6750A4",
+    "color-link": "#536525",
+    "color-type": "#536525",
+    "color-loading-bar": "#6750A4",
+    "color-side-bar": "#6750A4",
+    "color-side-bar-active-background": "#E8DEF8",
+    "color-app-bar": "#6750A4",
+    "color-nav-button-hover-background": "rgba(0, 0, 0, 0.08)",
+    "color-mobile-cell-hover": "#6750A4",
+    "color-pc-language-active": "#6750A4",
+    "color-pc-language-active-background": "#E8DEF8",
+    "color-mobile-language-active": "#6750A4",
+    "color-mobile-language-active-background": "#E8DEF8",
+    "color-pc-theme-active": "#6750A4",
+    "color-pc-theme-active-background": "#E8DEF8",
+    "color-mobile-theme-active": "#6750A4",
+    "color-mobile-theme-active-background": "#E8DEF8",
+    "color-mobile-body": "#FEF7FF",
+    "color-hl-background": "#fafafa",
+    "color-hl-code": "#58727e",
+    "color-hl-border": "#f3f3f3",
+    "color-hl-group-a": "#7c7c7c",
+    "color-hl-group-b": "#6750A4",
+    "color-hl-group-c": "#7D5260",
+    "color-hl-group-d": "#B3261E",
+    "color-hl-group-e": "#7D5260",
+    "color-hl-group-f": "#7D5260",
+    "color-hl-group-g": "#7D5260",
+    "color-hl-group-h": "#633B48",
+    "color-hl-group-i": "#633B48"
+  },
+  "md3DarkTheme": {
+    "color-body": "#050505",
+    "color-index-page-background": "#1e1e1e",
+    "color-index-page-feature-background": "#303030",
+    "color-index-page-logo-mask-background": "linear-gradient(-45deg, #729dfc 50%, #6859f4 50%)",
+    "color-index-page-second-text-color": "rgba(255, 255, 255, .75)",
+    "color-index-page-divider-color": "rgba(84, 84, 84, .8)",
+    "card-border-radius": "12px",
+    "code-example-border-radius": "8px",
+    "color-bar": "#1e1e1e",
+    "color-text": "#fff",
+    "color-sub-text": "#aaa",
+    "color-border": "#333",
+    "color-shadow": "#090909",
+    "color-introduce-border": "#555",
+    "color-primary": "#D0BCFF",
+    "color-link": "#BACF83",
+    "color-type": "#BACF83",
+    "color-loading-bar": "#D0BCFF",
+    "color-side-bar": "#D0BCFF",
+    "color-side-bar-active-background": "#4A4458",
+    "color-app-bar": "#211F26",
+    "color-nav-button-hover-background": "rgba(255, 255, 255, 0.08)",
+    "color-mobile-cell-hover": "#D0BCFF",
+    "color-pc-language-active": "#D0BCFF",
+    "color-pc-language-active-background": "#4A4458",
+    "color-mobile-language-active": "#D0BCFF",
+    "color-mobile-language-active-background": "#4A4458",
+    "color-pc-theme-active": "#D0BCFF",
+    "color-pc-theme-active-background": "#4A4458",
+    "color-mobile-theme-active": "#D0BCFF",
+    "color-mobile-theme-active-background": "#4A4458",
+    "color-mobile-body": "#141218",
+    "color-hl-background": "#272727",
+    "color-hl-code": "#fff",
+    "color-hl-border": "#272727",
+    "color-hl-group-a": "#7c7c7c",
+    "color-hl-group-b": "#D0BCFF",
+    "color-hl-group-c": "#EFB8C8",
+    "color-hl-group-d": "#F2B8B5",
+    "color-hl-group-e": "#EFB8C8",
+    "color-hl-group-f": "#EFB8C8",
+    "color-hl-group-g": "#EFB8C8",
+    "color-hl-group-h": "#EFB8C8",
+    "color-hl-group-i": "#EFB8C8"
+  },
+  "icons": {
+    "name": "maple-icons",
+    "namespace": "mp-icon",
+    "fontStyle": "normal",
+    "fontWeight": "normal",
+    "fontFamilyClassName": "mp-icon--set",
+    "base64": true
+  },
+  "esbuild": {
+    "target": "es2016"
+  },
+  "directives": [
+    "ripple",
+    "lazy",
+    "hover"
+  ],
+  "copy": [
+    {
+      "from": "../maple-icons/dist/png",
+      "to": "./public/icons/png",
+      "type": "folder"
+    }
+  ]
+}

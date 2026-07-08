@@ -1,0 +1,15 @@
+export default {
+  '--mp-bottom-navigation-item-active-background-color': 'var(--mp-color-info-container)',
+  '--mp-bottom-navigation-item-inactive-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-bottom-navigation-item-variant-active-background-color': 'var(--mp-color-info-container)',
+  '--mp-bottom-navigation-item-variant-active-color': 'var(--mp-color-on-info-container)',
+  '--mp-bottom-navigation-fab-border-radius': '12px',
+  '--mp-bottom-navigation-item-font-size': 'var(--mp-font-size-sm)',
+  '--mp-bottom-navigation-item-active-color': 'var(--mp-color-primary)',
+  '--mp-bottom-navigation-item-line-height': '1',
+  '--mp-bottom-navigation-item-icon-size': '22px',
+  '--mp-bottom-navigation-item-icon-margin-bottom': '5px',
+  '--mp-bottom-navigation-item-variant-icon-container-height': '30px',
+  '--mp-bottom-navigation-item-variant-icon-container-border-radius': '100px',
+  '--mp-bottom-navigation-item-variant-icon-container-max-width': '58px',
+}

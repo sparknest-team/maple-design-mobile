@@ -1,0 +1,88 @@
+:root {
+  --mp-menu-option-normal-height: 38px;
+  --mp-menu-option-small-height: 30px;
+  --mp-menu-option-mini-height: 24px;
+  --mp-menu-option-large-height: 46px;
+  --mp-menu-option-padding: 0 12px;
+  --mp-menu-option-normal-font-size: var(--mp-font-size-md);
+  --mp-menu-option-small-font-size: var(--mp-font-size-sm);
+  --mp-menu-option-mini-font-size: var(--mp-font-size-xs);
+  --mp-menu-option-large-font-size: var(--mp-font-size-lg);
+  --mp-menu-option-selected-background: var(--mp-color-primary);
+  --mp-menu-option-text-color: #555;
+  --mp-menu-option-disabled-color: var(--mp-color-text-disabled);
+  --mp-menu-option-arrow-padding: 0 6px 0 8px;
+  --mp-menu-option-arrow-icon-size: 18px;
+}
+
+.mp-menu-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--mp-menu-option-padding);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--mp-menu-option-text-color);
+  outline: none;
+
+  &__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.2;
+    background: transparent;
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  &__arrow {
+    padding: var(--mp-menu-option-arrow-padding);
+  }
+
+  &__arrow-icon[mp-menu-option-cover] {
+    font-size: var(--mp-menu-option-arrow-icon-size);
+  }
+
+  &--children-trigger {
+    padding-right: 0;
+  }
+
+  &--normal {
+    height: var(--mp-menu-option-normal-height);
+    font-size: var(--mp-menu-option-normal-font-size);
+  }
+
+  &--large {
+    height: var(--mp-menu-option-large-height);
+    font-size: var(--mp-menu-option-large-font-size);
+  }
+
+  &--small {
+    height: var(--mp-menu-option-small-height);
+    font-size: var(--mp-menu-option-small-font-size);
+  }
+
+  &--mini {
+    height: var(--mp-menu-option-mini-height);
+    font-size: var(--mp-menu-option-mini-font-size);
+  }
+
+  &--selected-background {
+    background: var(--mp-menu-option-selected-background);
+  }
+
+  &--selected-color {
+    color: var(--mp-menu-option-selected-background);
+  }
+
+  &--disabled {
+    color: var(--mp-menu-option-disabled-color);
+    cursor: not-allowed;
+  }
+}

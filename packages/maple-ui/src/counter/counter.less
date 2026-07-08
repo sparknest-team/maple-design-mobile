@@ -1,0 +1,89 @@
+:root {
+  --mp-counter-padding: 0 4px;
+  --mp-counter-font-color: #fff;
+  --mp-counter-background: var(--mp-color-primary);
+  --mp-counter-input-width: 28px;
+  --mp-counter-input-margin: 0 4px;
+  --mp-counter-input-font-size: 14px;
+  --mp-counter-button-size: 28px;
+  --mp-counter-button-text-color: #fff;
+  --mp-counter-button-icon-size: 100%;
+  --mp-counter-disabled-color: var(--mp-color-disabled);
+  --mp-counter-disabled-opacity: var(--mp-opacity-disabled);
+  --mp-counter-error-color: var(--mp-color-danger);
+}
+
+.mp-counter {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &__controller {
+    display: flex;
+    align-items: center;
+    color: var(--mp-counter-font-color);
+    border-radius: var(--mp-counter-button-size);
+    padding: var(--mp-counter-padding);
+    background: var(--mp-counter-background);
+    transition:
+      color 0.25s,
+      background-color 0.25s,
+      opacity 0.25s;
+  }
+
+  &__input {
+    width: var(--mp-counter-input-width);
+    font-size: var(--mp-counter-input-font-size);
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    text-align: center;
+    color: var(--mp-counter-font-color);
+    margin: var(--mp-counter-input-margin);
+
+    &[disabled] {
+      background: transparent;
+    }
+  }
+
+  &__increment-button[mp-counter-cover],
+  &__decrement-button[mp-counter-cover] {
+    width: var(--mp-counter-button-size);
+    height: var(--mp-counter-button-size);
+    font-size: var(--mp-counter-button-icon-size);
+    color: var(--mp-counter-button-text-color);
+    border-radius: 50%;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  &--disabled {
+    opacity: var(--mp-counter-disabled-opacity);
+    cursor: not-allowed;
+
+    .mp-hover-overlay {
+      opacity: 0;
+    }
+  }
+
+  &--not-allowed {
+    cursor: not-allowed !important;
+  }
+
+  &--hidden {
+    opacity: 0;
+  }
+
+  &--error {
+    background: var(--mp-counter-error-color);
+  }
+}

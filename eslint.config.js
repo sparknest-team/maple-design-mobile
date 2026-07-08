@@ -1,0 +1,32 @@
+import { defineConfig } from '@configurajs/eslint'
+
+export default defineConfig({
+  ignores: [
+    'packages/maple-cli/lib/**',
+    'packages/maple-cli/site/**',
+    'packages/maple-cli/template/**',
+    'packages/maple-cli/client.js',
+    'packages/maple-cli/client.d.ts',
+    'packages/maple-vite-plugins/lib/**',
+    'packages/maple-vscode-extension/dist/**',
+    'packages/maple-ui/lib/**',
+    'packages/maple-ui/es/**',
+    'packages/maple-ui/umd/**',
+    'packages/maple-ui/site/**',
+    'packages/maple-ui/public/**',
+    'packages/maple-ui/coverage/**',
+    'packages/maple-ui/highlight/**',
+    'packages/maple-ui/types/index.d.ts',
+    'packages/maple-ui/types/styleVars.d.ts',
+    'packages/maple-ui/src/*/__tests__/__snapshots__/*',
+    'packages/maple-ui/.maple/**',
+    'packages/maple-ui-playground/public/**',
+    'packages/maple-ui-playground/site/**',
+    'packages/maple-shared/lib/**',
+    'packages/maple-use/lib/**',
+    'packages/maple-preset-tailwindcss/lib/**',
+    'packages/maple-preset-unocss/lib/**',
+    'packages/maple-import-resolver/lib/**',
+    'packages/maple-touch-emulator/iife.js',
+  ],
+})

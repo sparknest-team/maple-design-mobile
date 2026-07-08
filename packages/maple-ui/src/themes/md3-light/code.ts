@@ -1,0 +1,4 @@
+export default {
+  '--mp-code-font-size': '14px',
+  '--mp-code-line-height': '1.7',
+}

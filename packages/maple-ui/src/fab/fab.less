@@ -1,0 +1,196 @@
+:root {
+  --mp-fab-top: 70px;
+  --mp-fab-bottom: 16px;
+  --mp-fab-left: 16px;
+  --mp-fab-right: 16px;
+  --mp-fab-trigger-size: 56px;
+  --mp-fab-trigger-border-radius: 50%;
+  --mp-fab-trigger-inactive-icon-size: 26px;
+  --mp-fab-trigger-active-icon-size: 22px;
+  --mp-fab-actions-padding: 10px 0;
+  --mp-fab-action-margin: 6px;
+  --mp-fab-action-size: 40px;
+  --mp-fab-action-border-radius: 50%;
+  --mp-fab-transition-standard-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mp-fab-transition-default {
+  &-enter-active {
+    transition: 0.3s var(--mp-fab-transition-standard-easing) !important;
+  }
+
+  &-leave-active {
+    transition: 0.3s var(--mp-fab-transition-standard-easing) !important;
+  }
+}
+
+.mp-fab {
+  &__trigger[mp-fab-cover] {
+    width: var(--mp-fab-trigger-size);
+    height: var(--mp-fab-trigger-size);
+    border-radius: var(--mp-fab-trigger-border-radius);
+  }
+
+  &__trigger-inactive-icon[mp-fab-cover] {
+    font-size: var(--mp-fab-trigger-inactive-icon-size);
+  }
+
+  &__trigger-active-icon[mp-fab-cover] {
+    font-size: var(--mp-fab-trigger-active-icon-size);
+  }
+
+  &__actions {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--mp-fab-actions-padding);
+  }
+
+  &__action {
+    margin: var(--mp-fab-action-margin);
+
+    .mp-button {
+      width: var(--mp-fab-action-size);
+      height: var(--mp-fab-action-size);
+      border-radius: var(--mp-fab-action-border-radius);
+    }
+  }
+
+  &--position {
+    &-left-top {
+      top: var(--mp-fab-top);
+      left: var(--mp-fab-left);
+    }
+
+    &-right-top {
+      top: var(--mp-fab-top);
+      right: var(--mp-fab-right);
+    }
+
+    &-left-bottom {
+      bottom: var(--mp-fab-bottom);
+      left: var(--mp-fab-left);
+    }
+
+    &-right-bottom {
+      bottom: var(--mp-fab-bottom);
+      right: var(--mp-fab-right);
+    }
+  }
+
+  &--direction {
+    &-left,
+    &-right {
+      .mp-fab__actions {
+        height: 100%;
+        top: 0;
+        padding: 0 var(--mp-fab-actions-padding);
+      }
+    }
+
+    &-left {
+      .mp-fab__actions {
+        flex-direction: row-reverse;
+        right: 100%;
+      }
+    }
+
+    &-right {
+      .mp-fab__actions {
+        flex-direction: row;
+        left: 100%;
+      }
+    }
+
+    &-top,
+    &-bottom {
+      .mp-fab__actions {
+        width: 100%;
+        left: 0;
+      }
+    }
+
+    &-top {
+      .mp-fab__actions {
+        flex-direction: column-reverse;
+        bottom: 100%;
+      }
+    }
+
+    &-bottom {
+      .mp-fab__actions {
+        flex-direction: column;
+        top: 100%;
+      }
+    }
+  }
+
+  &--fixed {
+    position: fixed;
+  }
+
+  &--absolute {
+    position: absolute;
+  }
+
+  &--active-transition {
+    .mp-fab-transition-default();
+
+    &-enter-from,
+    &-leave-to {
+      transform: scale(0);
+    }
+  }
+
+  &--actions-transition-top {
+    .mp-fab-transition-default();
+
+    &-enter-from,
+    &-leave-to {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+  }
+
+  &--actions-transition-bottom {
+    .mp-fab-transition-default();
+
+    &-enter-from,
+    &-leave-to {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+  }
+
+  &--actions-transition-left {
+    .mp-fab-transition-default();
+
+    &-enter-from,
+    &-leave-to {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+  }
+
+  &--actions-transition-right {
+    .mp-fab-transition-default();
+
+    &-enter-from,
+    &-leave-to {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+  }
+
+  &--trigger-icon-animation {
+    transform: scale(0.4);
+    opacity: 0;
+    transition-property: transform, opacity;
+  }
+
+  &--safe-area {
+    margin-bottom: constant(safe-area-inset-bottom); // iOS < 11.2
+    margin-bottom: env(safe-area-inset-bottom); // iOS >= 11.2
+  }
+}

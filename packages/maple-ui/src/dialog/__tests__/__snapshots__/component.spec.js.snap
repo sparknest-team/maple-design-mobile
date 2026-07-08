@@ -1,0 +1,76 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`test dialog component slots > dialog actions slot 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup" style="z-index: 1998;">
+    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-dialog__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-dialog-cover="">
+        <div class="mp--box mp-dialog">
+          <div class="mp-dialog__title">提示</div>
+          <div class="mp-dialog__message" style="text-align: left;"></div>
+          <div class="mp-dialog__actions"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 cancel" type="button">
+              <!--v-if-->
+              <div class="mp-button__content">cancel</div>
+              <div class="mp-hover-overlay"></div>
+            </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 confirm" type="button">
+              <!--v-if-->
+              <div class="mp-button__content">confirm</div>
+              <div class="mp-hover-overlay"></div>
+            </button></div>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test dialog component slots > dialog default slot 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup" style="z-index: 1998;">
+    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-dialog__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-dialog-cover="">
+        <div class="mp--box mp-dialog">
+          <div class="mp-dialog__title">提示</div>
+          <div class="mp-dialog__message" style="text-align: left;"> dialog default slot </div>
+          <div class="mp-dialog__actions"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-dialog__button mp-dialog__cancel-button" type="button" mp-dialog-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content">取消</div>
+              <div class="mp-hover-overlay"></div>
+            </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-dialog__button mp-dialog__confirm-button" type="button" mp-dialog-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content">确认</div>
+              <div class="mp-hover-overlay"></div>
+            </button></div>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test dialog component slots > dialog title slot 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup" style="z-index: 1998;">
+    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-dialog__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-dialog-cover="">
+        <div class="mp--box mp-dialog">
+          <div class="mp-dialog__title"><i class="mp-icon mp-icon--set mp-icon-information" style="transition-duration: 0ms;"></i></div>
+          <div class="mp-dialog__message" style="text-align: left;"></div>
+          <div class="mp-dialog__actions"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-dialog__button mp-dialog__cancel-button" type="button" mp-dialog-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content">取消</div>
+              <div class="mp-hover-overlay"></div>
+            </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-dialog__button mp-dialog__confirm-button" type="button" mp-dialog-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content">确认</div>
+              <div class="mp-hover-overlay"></div>
+            </button></div>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;

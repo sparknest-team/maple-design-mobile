@@ -1,0 +1,85 @@
+import { createApp } from 'vue'
+import { mount } from '@vue/test-utils'
+import { describe, expect, test, vi } from 'vitest'
+import BackTop from '..'
+import { delay, mockScrollTo } from '../../utils/test'
+import VarBackTop from '../BackTop'
+
+mockScrollTo()
+
+const clickHandle = vi.fn()
+const Wrapper = {
+  components: {
+    [VarBackTop.name]: VarBackTop,
+  },
+  methods: {
+    clickHandle,
+  },
+  template: `
+    <div class="back-top__test" style="height: 300px; overflow: auto">
+      <div style="height: 5000px"></div>
+      <mp-back-top
+        target=".back-top__test"
+        :duration="500"
+        visibility-height="500"
+        right="80"
+        bottom="80"
+        @click="clickHandle"
+      />
+    </div>
+  `,
+}
+
+test('backTop plugin', () => {
+  const app = createApp({}).use(BackTop)
+  expect(app.component(BackTop.name)).toBeTruthy()
+})
+
+describe('test backTop props', () => {
+  test('backTop visibilityHeight', async () => {
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+
+    const backTopEl = document.querySelector('.mp-back-top')
+    expect(backTopEl.classList.contains('mp-back-top--active')).toBe(false)
+
+    wrapper.element.scrollTop = 600
+    await wrapper.trigger('scroll')
+    expect(backTopEl.classList.contains('mp-back-top--active')).toBe(true)
+
+    wrapper.unmount()
+  })
+
+  test('backTop position', () => {
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const backTopEl = document.querySelector('.mp-back-top')
+
+    expect(backTopEl.style.right).toBe('80px')
+    expect(backTopEl.style.bottom).toBe('80px')
+
+    wrapper.unmount()
+  })
+
+  test('backTop elevation', () => {
+    const wrapper = mount(VarBackTop, { attachTo: document.body })
+
+    expect(wrapper.find('.mp-elevation--2').exists()).toBe(true)
+    wrapper.unmount()
+  })
+})
+
+describe('test backTop events', () => {
+  test('backTop onClick', async () => {
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const backTopEl = document.querySelector('.mp-back-top')
+
+    wrapper.element.scrollTop = 600
+    await wrapper.trigger('scroll')
+    await backTopEl.click()
+    await delay(500)
+
+    expect(wrapper.element.scrollTop).toBeLessThan(1)
+    expect(clickHandle).toHaveBeenCalledTimes(1)
+
+    wrapper.unmount()
+  })
+})

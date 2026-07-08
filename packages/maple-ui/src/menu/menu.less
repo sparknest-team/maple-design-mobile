@@ -1,0 +1,29 @@
+:root {
+  --mp-menu-background-color: var(--mp-color-surface-container-high);
+  --mp-menu-border-radius: 2px;
+}
+
+.mp-menu {
+  display: inline-flex;
+  outline: none;
+
+  &__menu {
+    border-radius: var(--mp-menu-border-radius);
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition-property: opacity, transform;
+    transition-duration: 0.2s;
+  }
+
+  &--menu-background-color {
+    background: var(--mp-menu-background-color);
+  }
+}

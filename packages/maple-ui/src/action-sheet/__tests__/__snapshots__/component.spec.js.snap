@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`action-sheet styles 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup" style="z-index: 1998;">
+    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <transition-stub name="mp-pop-bottom" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--bottom mp-popup--content-background-color mp-elevation--3 mp-popup--safe-area mp-action-sheet__popup-radius" style="z-index: 2000;" role="dialog" aria-modal="true">
+        <div class="mp-action-sheet mp--box">
+          <div class="mp-action-sheet__title">请选择</div>
+          <div class="mp-action-sheet__action-item customClass" style="color: rgb(76, 175, 80);"><i class="mp-icon mp-icon--set mp-icon-account-circle mp-action-sheet__action-icon" style="transition-duration: 0ms; font-size: 30px;" mp-action-sheet-cover=""></i>
+            <div class="mp-action-sheet__action-name">Item 01</div>
+            <div class="mp-hover-overlay"></div>
+          </div>
+          <div class="mp-action-sheet__action-item"><i class="mp-icon mp-icon--set mp-icon-account-circle mp-action-sheet__action-icon" style="transition-duration: 0ms;" mp-action-sheet-cover=""></i>
+            <div class="mp-action-sheet__action-name">Item 02</div>
+            <div class="mp-hover-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;

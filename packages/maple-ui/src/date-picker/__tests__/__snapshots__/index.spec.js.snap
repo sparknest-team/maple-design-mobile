@@ -1,0 +1,1173 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`datePicker allowedDates 1`] = `
+"<div class="mp-date-picker">
+  <div class="mp-date-picker__title">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2021</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>03-01 星期一</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-day-picker">
+        <div class="mp-day-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2021 三月</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <div>
+              <ul class="mp-day-picker__head">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+              </ul>
+              <ul class="mp-day-picker__body"></ul>
+            </div>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`datePicker rerender date panel when max or min changes 1`] = `
+"<div class="mp-date-picker">
+  <div class="mp-date-picker__title">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2020</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>12-23 星期三</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-day-picker">
+        <div class="mp-day-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-button--disabled mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="" disabled="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2020 十二月</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-button--disabled mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="" disabled="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <div>
+              <ul class="mp-day-picker__head">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+              </ul>
+              <ul class="mp-day-picker__body">
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">1</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">2</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">3</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">4</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">5</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">6</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">7</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">8</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">9</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">10</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">11</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">12</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">13</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">14</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">15</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">16</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">17</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">18</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">19</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">20</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">21</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">22</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">23</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">24</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">25</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">26</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">27</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">28</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">29</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">30</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">31</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+              </ul>
+            </div>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`datePicker rerender date panel when max or min changes 2`] = `
+"<div class="mp-date-picker">
+  <div class="mp-date-picker__title">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2020</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>01-06 星期一</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-day-picker">
+        <div class="mp-day-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-button--disabled mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="" disabled="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2020 一月</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-button--disabled mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="" disabled="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <div>
+              <ul class="mp-day-picker__head">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+              </ul>
+              <ul class="mp-day-picker__body">
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">1</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">2</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">3</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">4</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">5</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">6</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">7</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">8</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">9</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">10</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">11</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">12</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">13</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">14</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">15</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">16</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">17</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">18</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">19</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">20</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false" disabled="">
+                    <!--v-if-->
+                    <div class="mp-button__content">21</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false" disabled="">
+                    <!--v-if-->
+                    <div class="mp-button__content">22</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false" disabled="">
+                    <!--v-if-->
+                    <div class="mp-button__content">23</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">24</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">25</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">26</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">27</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">28</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">29</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">30</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button mp-day-picker__button--usable mp-day-picker__button--disabled" type="submit" disabled="" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">31</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+              </ul>
+            </div>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`datePicker style and type 1`] = `
+"<div class="mp-date-picker mp-elevation--2">
+  <div class="mp-date-picker__title" style="background: purple;">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2021</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>五月</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-month-picker">
+        <div class="mp-month-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2021</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <ul>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">一月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">二月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">三月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">四月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-month-picker__button" style="background: rgb(123, 184, 114);" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="false">
+                  <!--v-if-->
+                  <div class="mp-button__content">五月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">六月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">七月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">八月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">九月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">十月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">十一月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">十二月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+            </ul>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`datePicker style and type 2`] = `
+"<div class="mp-date-picker mp-elevation--2">
+  <div class="mp-date-picker__title" style="background: purple;">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2021</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>05-19 星期三</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-day-picker">
+        <div class="mp-day-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2021 五月</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <div>
+              <ul class="mp-day-picker__head">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+              </ul>
+              <ul class="mp-day-picker__body">
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">1</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">2</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">3</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">4</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">5</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">6</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">7</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">8</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">9</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">10</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">11</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">12</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">13</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">14</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">15</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">16</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">17</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">18</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">19</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">20</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">21</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">22</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">23</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">24</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">25</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">26</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">27</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">28</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">29</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">30</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">31</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+              </ul>
+            </div>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`test datePicker style and type > datePicker style and date 1`] = `
+"<div class="mp-date-picker mp-elevation--2">
+  <div class="mp-date-picker__title" style="background: purple;">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2021</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>04-08 星期四</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-day-picker">
+        <div class="mp-day-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2021 四月</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <div>
+              <ul class="mp-day-picker__head">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+              </ul>
+              <ul class="mp-day-picker__body">
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
+                    <!--v-if-->
+                    <div class="mp-button__content"></div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">1</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">2</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">3</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">4</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">5</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">6</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">7</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false">
+                    <!--v-if-->
+                    <div class="mp-button__content">8</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">9</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">10</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">11</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">12</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">13</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">14</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">15</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">16</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">17</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">18</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">19</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">20</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">21</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">22</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">23</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">24</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">25</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">26</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">27</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">28</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">29</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+                <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
+                    <!--v-if-->
+                    <div class="mp-button__content">30</div>
+                    <div class="mp-hover-overlay"></div>
+                  </button></li>
+              </ul>
+            </div>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`test datePicker style and type > datePicker style and month 1`] = `
+"<div class="mp-date-picker mp-elevation--2">
+  <div class="mp-date-picker__title" style="background: purple;">
+    <div class="mp-date-picker__title-select">
+      <div class="mp-date-picker__title-hint">选择日期</div>
+      <div class="mp-date-picker__title-year">2021</div>
+    </div>
+    <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
+      <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
+        <div>四月</div>
+      </transition-stub>
+    </div>
+  </div>
+  <div class="mp-date-picker__body">
+    <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
+      <div class="mp-month-picker">
+        <div class="mp-month-picker__content">
+          <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+            <div class="mp-date-picker-header__value">
+              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+                <div>2021</div>
+              </transition-stub>
+            </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+              <!--v-if-->
+              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-hover-overlay"></div>
+            </button>
+          </div>
+          <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
+            <ul>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">一月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">二月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">三月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-month-picker__button" style="background: rgb(123, 184, 114);" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="false">
+                  <!--v-if-->
+                  <div class="mp-button__content">四月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">五月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">六月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">七月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">八月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">九月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">十月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">十一月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+              <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-month-picker__button" type="submit" mp-month-picker-cover="" mp-date-picker-color-cover="true">
+                  <!--v-if-->
+                  <div class="mp-button__content">十二月</div>
+                  <div class="mp-hover-overlay"></div>
+                </button></li>
+            </ul>
+          </transition-stub>
+        </div>
+      </div>
+    </transition-stub>
+  </div>
+  <!--v-if-->
+</div>"
+`;

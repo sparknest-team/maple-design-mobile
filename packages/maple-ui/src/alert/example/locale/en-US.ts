@@ -1,0 +1,15 @@
+export default {
+  title: 'Title',
+  message: 'Message',
+  alertTitle: 'Pride and Prejudice',
+  alertText: 'I cannot fix on the hour, or the spot, or the look, or the words.',
+  type: 'Type',
+  customIcon: 'Custom Icon',
+  allowToClose: 'Allow to Close',
+  variant: 'Variant',
+  banner: 'Banner',
+  center: 'Center',
+  showIcon: 'Hide Icon',
+  action: 'Action',
+  defaultType: 'Default Type',
+}

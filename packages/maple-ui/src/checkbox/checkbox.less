@@ -1,0 +1,62 @@
+:root {
+  --mp-checkbox-checked-color: var(--mp-color-primary);
+  --mp-checkbox-unchecked-color: #555;
+  --mp-checkbox-disabled-color: var(--mp-color-text-disabled);
+  --mp-checkbox-error-color: var(--mp-color-danger);
+  --mp-checkbox-action-padding: 6px;
+  --mp-checkbox-text-color: #555;
+  --mp-checkbox-icon-size: 24px;
+}
+
+.mp-checkbox {
+  display: flex;
+  align-items: center;
+  transform: translateX(calc(-1 * var(--mp-checkbox-action-padding)));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &__wrap {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  &__action {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    padding: var(--mp-checkbox-action-padding);
+    border-radius: 50%;
+    transition:
+      background-color 0.25s,
+      color 0.25s;
+    outline: none;
+  }
+
+  &__icon[mp-checkbox-cover] {
+    display: block;
+    font-size: var(--mp-checkbox-icon-size);
+  }
+
+  &__text {
+    color: var(--mp-checkbox-text-color);
+  }
+
+  &--checked {
+    color: var(--mp-checkbox-checked-color);
+  }
+
+  &--unchecked {
+    color: var(--mp-checkbox-unchecked-color);
+  }
+
+  &--disabled {
+    color: var(--mp-checkbox-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--error {
+    color: var(--mp-checkbox-error-color);
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "maple-playground-demo",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@maplejs/maple-touch-emulator": "latest",
+    "@maplejs/maple-ui": "latest",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.1.1"
+  }
+}

@@ -1,0 +1,193 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`counter decimalLength 1`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter decimalLength 2`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="decimal"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter decrementButton 1`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter decrementButton 2`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button mp-counter--hidden" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter elevation 1`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter elevation 2`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter incrementButton 1`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter incrementButton 2`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button mp-counter--hidden" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter validation 1`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2 mp-counter--error"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <div class="mp-form-details">
+      <div class="mp-form-details__error-message">
+        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
+          <div>The value must be more than zero</div>
+        </transition-stub>
+      </div>
+      <div class="mp-form-details__extra-message">
+        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
+          <!--v-if-->
+        </transition-stub>
+      </div>
+    </div>
+  </transition-stub>
+</div>"
+`;
+
+exports[`counter validation with zod 1`] = `
+"<div class="mp-counter mp--box">
+  <div class="mp-counter__controller mp-elevation--2 mp-counter--error"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+      <!--v-if-->
+      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-hover-overlay"></div>
+    </button></div>
+  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+    <div class="mp-form-details">
+      <div class="mp-form-details__error-message">
+        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
+          <div>The value must be more than zero</div>
+        </transition-stub>
+      </div>
+      <div class="mp-form-details__extra-message">
+        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
+          <!--v-if-->
+        </transition-stub>
+      </div>
+    </div>
+  </transition-stub>
+</div>"
+`;

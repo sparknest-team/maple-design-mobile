@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`test image preview component props > image preview imagePreventDefault 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <div class="mp-swipe mp-image-preview__swipe" mp-image-preview-cover="">
+          <div class="mp-swipe__track" style="width: 375px; transform: translateX(0px); transition-duration: 300ms;">
+            <div class="mp-swipe-item mp-image-preview__swipe-item" style="width: 375px; transform: translateX(0px);" tabindex="-1" aria-hidden="false" mp-image-preview-cover="">
+              <div class="mp-image-preview__zoom-container" style="transform: scale(1) translate(0px, 0px);"><img role="img" class="mp-image-preview__image mp-image-preview--prevent" src="https://maplejs.org/varlet/cat.jpg" alt="https://maplejs.org/varlet/cat.jpg"></div>
+            </div>
+          </div>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </div>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test image preview component props > image preview initialIndex 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <div class="mp-swipe mp-image-preview__swipe" mp-image-preview-cover="">
+          <div class="mp-swipe__track" style="width: 750px; transform: translateX(-375px); transition-duration: 300ms;">
+            <div class="mp-swipe-item mp-image-preview__swipe-item" style="width: 375px; transform: translateX(0px);" tabindex="-1" aria-hidden="true" mp-image-preview-cover="">
+              <div class="mp-image-preview__zoom-container" style="transform: scale(1) translate(0px, 0px);"><img role="img" class="mp-image-preview__image" src="https://maplejs.org/varlet/cat.jpg" alt="https://maplejs.org/varlet/cat.jpg"></div>
+            </div>
+            <div class="mp-swipe-item mp-image-preview__swipe-item" style="width: 375px; transform: translateX(0px);" tabindex="-1" aria-hidden="false" mp-image-preview-cover="">
+              <div class="mp-image-preview__zoom-container" style="transform: scale(1) translate(0px, 0px);"><img role="img" class="mp-image-preview__image" src="https://maplejs.org/varlet/cat2.jpg" alt="https://maplejs.org/varlet/cat2.jpg"></div>
+            </div>
+          </div>
+          <!--v-if-->
+          <!--v-if-->
+          <div class="mp-image-preview__indicators">2 / 2</div>
+        </div>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test image preview component props > image preview show 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998; display: none;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000; display: none;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <!---->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test image preview component props > image preview show 2`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <div class="mp-swipe mp-image-preview__swipe" mp-image-preview-cover="">
+          <div class="mp-swipe__track" style="width: 0px; transform: translateX(0px); transition-duration: 300ms;"></div>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </div>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;

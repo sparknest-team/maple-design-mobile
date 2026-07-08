@@ -1,0 +1,15 @@
+export default {
+  '--mp-slider-error-color': 'var(--mp-color-danger)',
+  '--mp-slider-track-background': '#bdbdbd',
+  '--mp-slider-track-height': '2px',
+  '--mp-slider-track-border-radius': '0',
+  '--mp-slider-track-fill-border-radius': '0',
+  '--mp-slider-track-fill-background': 'var(--mp-color-primary)',
+  '--mp-slider-thumb-block-background': 'var(--mp-color-primary)',
+  '--mp-slider-thumb-ripple-background': 'var(--mp-color-primary)',
+  '--mp-slider-thumb-label-background': 'var(--mp-color-primary)',
+  '--mp-slider-thumb-label-font-size': 'var(--mp-font-size-sm)',
+  '--mp-slider-thumb-label-text-color': 'var(--mp-color-on-primary)',
+  '--mp-slider-thumb-size': '12px',
+  '--mp-slider-disabled-opacity': 'var(--mp-opacity-disabled)',
+}

@@ -1,0 +1,206 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Size related props 1`] = `
+"<ul class="mp-pagination">
+  <li class="mp-pagination__item mp-pagination__prev mp-pagination__item--disabled mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></li>
+  <li class="mp-pagination__simple">
+    <div class="mp-input mp--box" mp-pagination-cover="">
+      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
+          <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
+            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" style="--mp-input-placeholder-color: var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color));" value="1">
+          </div>
+          <!--v-if-->
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint">
+            <!--v-if-->
+          </div>
+        </div>
+        <div class="mp-field-decorator__line">
+          <div class="mp-field-decorator__dot"></div>
+        </div>
+      </div>
+      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+        <!--v-if-->
+      </transition-stub>
+    </div><span> / 6 <div class="mp-pagination__simple-line"></div></span>
+  </li>
+  <li class="mp-pagination__item mp-pagination__next mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
+  <div class="mp-menu mp--box mp-menu-select" tabindex="-1">
+    <li class="mp-pagination__size">
+      <div class="mp-pagination__size--open mp-pagination__size--open--disabled"><span>20条 / 页</span><i class="mp-icon mp-icon--set mp-icon-menu-down mp-pagination__size--open-icon" style="transition-duration: 0ms;" mp-pagination-cover=""></i></div>
+    </li>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+  <!--v-if-->
+  <!--v-if-->
+</ul>"
+`;
+
+exports[`Size related props 2`] = `
+"<ul class="mp-pagination">
+  <li class="mp-pagination__item mp-pagination__prev mp-pagination__item--disabled mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></li>
+  <li class="mp-pagination__simple">
+    <div class="mp-input mp--box" mp-pagination-cover="">
+      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
+          <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
+            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" style="--mp-input-placeholder-color: var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color));" value="1">
+          </div>
+          <!--v-if-->
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint">
+            <!--v-if-->
+          </div>
+        </div>
+        <div class="mp-field-decorator__line">
+          <div class="mp-field-decorator__dot"></div>
+        </div>
+      </div>
+      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+        <!--v-if-->
+      </transition-stub>
+    </div><span> / 6 <div class="mp-pagination__simple-line"></div></span>
+  </li>
+  <li class="mp-pagination__item mp-pagination__next mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
+  <!--v-if-->
+  <!--v-if-->
+  <!--v-if-->
+</ul>"
+`;
+
+exports[`basic mode > disabled prop 1`] = `
+"<ul class="mp-pagination">
+  <li class="mp-pagination__item mp-pagination__prev mp-pagination__item--disabled mp-elevation--2"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></li>
+  <li class="mp-pagination__item mp-pagination__next mp-pagination__item--disabled mp-elevation--2"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
+  <div class="mp-menu mp--box mp-menu-select" tabindex="-1">
+    <li class="mp-pagination__size mp-pagination__item--disabled">
+      <div class="mp-pagination__size--open mp-pagination__size--open--disabled"><span>10条 / 页</span><i class="mp-icon mp-icon--set mp-icon-menu-down mp-pagination__size--open-icon" style="transition-duration: 0ms;" mp-pagination-cover=""></i></div>
+    </li>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+  <!--v-if-->
+  <!--v-if-->
+</ul>"
+`;
+
+exports[`basic mode > mount 1`] = `
+"<ul class="mp-pagination">
+  <li class="mp-pagination__item mp-pagination__prev mp-pagination__item--disabled mp-elevation--2"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></li>
+  <li item-mode="basic" class="mp-pagination__item mp-elevation--2 mp-pagination__item--active">1</li>
+  <li item-mode="head" class="mp-pagination__item mp-elevation--2 mp-pagination__item--hide">...</li>
+  <li item-mode="basic" class="mp-pagination__item mp-elevation--2">2</li>
+  <li item-mode="basic" class="mp-pagination__item mp-elevation--2">3</li>
+  <li item-mode="basic" class="mp-pagination__item mp-elevation--2">4</li>
+  <li item-mode="tail" class="mp-pagination__item mp-elevation--2">...</li>
+  <li item-mode="basic" class="mp-pagination__item mp-elevation--2">13</li>
+  <li class="mp-pagination__item mp-pagination__next mp-elevation--2"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
+  <div class="mp-menu mp--box mp-menu-select" tabindex="-1">
+    <li class="mp-pagination__size">
+      <div class="mp-pagination__size--open mp-pagination__size--open--disabled"><span>10条 / 页</span><i class="mp-icon mp-icon--set mp-icon-menu-down mp-pagination__size--open-icon" style="transition-duration: 0ms;" mp-pagination-cover=""></i></div>
+    </li>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+  <li class="mp-pagination__quickly">前往 <div class="mp-input mp--box" mp-pagination-cover="">
+      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
+          <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
+            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" style="--mp-input-placeholder-color: var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color));" value="">
+          </div>
+          <!--v-if-->
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint">
+            <!--v-if-->
+          </div>
+        </div>
+        <div class="mp-field-decorator__line">
+          <div class="mp-field-decorator__dot"></div>
+        </div>
+      </div>
+      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+        <!--v-if-->
+      </transition-stub>
+    </div>
+  </li>
+  <li class="mp-pagination__total">1-10 of 123 items</li>
+</ul>"
+`;
+
+exports[`simple mode > disabled prop 1`] = `
+"<ul class="mp-pagination">
+  <li class="mp-pagination__item mp-pagination__prev mp-pagination__item--disabled mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></li>
+  <li class="mp-pagination__simple mp-pagination__item--disabled">
+    <div class="mp-input mp--box" mp-pagination-cover="">
+      <div class="mp-field-decorator mp--box mp-field-decorator--standard mp-field-decorator--disabled">
+        <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
+          <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
+            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--disabled" autocomplete="new-password" disabled="" type="text" style="--mp-input-placeholder-color: var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color));" value="1">
+          </div>
+          <!--v-if-->
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint">
+            <!--v-if-->
+          </div>
+        </div>
+        <div class="mp-field-decorator__line mp-field-decorator--line-disabled">
+          <div class="mp-field-decorator__dot mp-field-decorator--line-disabled"></div>
+        </div>
+      </div>
+      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+        <!--v-if-->
+      </transition-stub>
+    </div><span> / 0 <div class="mp-pagination__simple-line"></div></span>
+  </li>
+  <li class="mp-pagination__item mp-pagination__next mp-pagination__item--disabled mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
+  <div class="mp-menu mp--box mp-menu-select" tabindex="-1">
+    <li class="mp-pagination__size mp-pagination__item--disabled">
+      <div class="mp-pagination__size--open mp-pagination__size--open--disabled"><span>10条 / 页</span><i class="mp-icon mp-icon--set mp-icon-menu-down mp-pagination__size--open-icon" style="transition-duration: 0ms;" mp-pagination-cover=""></i></div>
+    </li>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+  <!--v-if-->
+  <!--v-if-->
+</ul>"
+`;
+
+exports[`simple mode > mount 1`] = `
+"<ul class="mp-pagination">
+  <li class="mp-pagination__item mp-pagination__prev mp-pagination__item--disabled mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></li>
+  <li class="mp-pagination__simple">
+    <div class="mp-input mp--box" mp-pagination-cover="">
+      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
+          <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
+            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" style="--mp-input-placeholder-color: var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color));" value="1">
+          </div>
+          <!--v-if-->
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint">
+            <!--v-if-->
+          </div>
+        </div>
+        <div class="mp-field-decorator__line">
+          <div class="mp-field-decorator__dot"></div>
+        </div>
+      </div>
+      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
+        <!--v-if-->
+      </transition-stub>
+    </div><span> / 13 <div class="mp-pagination__simple-line"></div></span>
+  </li>
+  <li class="mp-pagination__item mp-pagination__next mp-pagination__item--simple"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
+  <div class="mp-menu mp--box mp-menu-select" tabindex="-1">
+    <li class="mp-pagination__size">
+      <div class="mp-pagination__size--open mp-pagination__size--open--disabled"><span>10条 / 页</span><i class="mp-icon mp-icon--set mp-icon-menu-down mp-pagination__size--open-icon" style="transition-duration: 0ms;" mp-pagination-cover=""></i></div>
+    </li>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+  <!--v-if-->
+  <li class="mp-pagination__total">1-10 of 123 items</li>
+</ul>"
+`;
