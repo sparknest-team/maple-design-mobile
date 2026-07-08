@@ -1,50 +1,643 @@
-import{b as m,l as o,m as a,p as l,w as e,Q as s,$ as p,e as d,f as c}from"./index-CLBN0B2q.js";const h={components:{}},i={class:"maple-site-doc"},j={class:"card"},b={id:"Intro"},u={class:"card"},g={id:"BasicUsage"},S={class:"card"},f={id:"Separator"},k={class:"card"},v={id:"ChildSeparator"},y={class:"card"},x={id:"SeparatorSlot"},B={class:"card"},C={id:"ClickEvent"},L={class:"card"},P={id:"Props"},E={class:"card"},V={id:"Events"},D={class:"card"},I={id:"Slots"},w={class:"card"},H={id:"StyleVariables"};function N(U,t,z,_,$,T){const n=d("router-link"),r=d("mp-site-code-example");return c(),o("div",i,[t[32]||(t[32]=a("h1",null,"Breadcrumb",-1)),a("div",j,[a("h3",b,[l(n,{to:"#Intro"},{default:e(()=>t[0]||(t[0]=[s("#")])),_:1}),t[1]||(t[1]=s("Intro"))]),t[2]||(t[2]=a("p",null,"Used to display information hierarchically.",-1))]),a("div",u,[a("h3",g,[l(n,{to:"#BasicUsage"},{default:e(()=>t[3]||(t[3]=[s("#")])),_:1}),t[4]||(t[4]=s("Basic Usage"))]),l(r,null,{default:e(()=>t[5]||(t[5]=[a("pre",{class:"hljs"},[a("code",null,[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-   `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Home"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Link 1"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Link 2"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-   `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-`)])],-1)])),_:1})]),a("div",S,[a("h3",f,[l(n,{to:"#Separator"},{default:e(()=>t[6]||(t[6]=[s("#")])),_:1}),t[7]||(t[7]=s("Separator"))]),l(r,null,{default:e(()=>t[8]||(t[8]=[a("pre",{class:"hljs"},[a("code",null,[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-   `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(),a("span",{class:"hljs-attr"},"separator"),s("="),a("span",{class:"hljs-string"},'"\\"'),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Home"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Link 1"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Link 2"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-   `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-`)])],-1)])),_:1})]),a("div",k,[a("h3",v,[l(n,{to:"#ChildSeparator"},{default:e(()=>t[9]||(t[9]=[s("#")])),_:1}),t[10]||(t[10]=s("Child Separator"))]),l(r,null,{default:e(()=>t[11]||(t[11]=[a("pre",{class:"hljs"},[a("code",null,[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-   `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Home"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(),a("span",{class:"hljs-attr"},"separator"),s("="),a("span",{class:"hljs-string"},'"~"'),s(">")]),s("Link 1"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-     `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Link 2"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-   `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-`)])],-1)])),_:1})]),a("div",y,[a("h3",x,[l(n,{to:"#SeparatorSlot"},{default:e(()=>t[12]||(t[12]=[s("#")])),_:1}),t[13]||(t[13]=s("Separator Slot"))]),t[15]||(t[15]=a("p",null,"Custom content can be used as separator by setting slot.",-1)),l(r,null,{default:e(()=>t[14]||(t[14]=[a("pre",{class:"hljs"},[a("code",null,[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-  `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-      Home
-      `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(" #"),a("span",{class:"hljs-attr"},"separator"),s(">")]),s(`
-        `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-icon"),s(),a("span",{class:"hljs-attr"},"name"),s("="),a("span",{class:"hljs-string"},'"menu-right"'),s(),a("span",{class:"hljs-attr"},"style"),s("="),a("span",{class:"hljs-string"},'"margin: 1px 4px 0"'),s(" />")]),s(`
-      `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-      Link 1
-      `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(" #"),a("span",{class:"hljs-attr"},"separator"),s(">")]),s(`
-        `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-icon"),s(),a("span",{class:"hljs-attr"},"name"),s("="),a("span",{class:"hljs-string"},'"menu-right"'),s(),a("span",{class:"hljs-attr"},"style"),s("="),a("span",{class:"hljs-string"},'"margin: 1px 4px 0"'),s(" />")]),s(`
-      `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s("Link 2"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-  `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-`)])],-1)])),_:1})]),a("div",B,[a("h3",C,[l(n,{to:"#ClickEvent"},{default:e(()=>t[16]||(t[16]=[s("#")])),_:1}),t[17]||(t[17]=s("Click Event"))]),t[19]||(t[19]=a("p",null,[s("Register the click event of the breadcrumb through "),a("code",null,"@click"),s(", the last breadcrumb will not trigger the click event.")],-1)),l(r,null,{default:e(()=>t[18]||(t[18]=[a("pre",{class:"hljs"},[a("code",null,[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"script"),s(),a("span",{class:"hljs-attr"},"setup"),s(">")]),a("span",{class:"javascript"},[s(`
-`),a("span",{class:"hljs-keyword"},"import"),s(" { Snackbar } "),a("span",{class:"hljs-keyword"},"from"),s(),a("span",{class:"hljs-string"},"'@nio-pow/maple-ui'"),s(`
-`)]),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"script"),s(">")]),s(`
+import { m as a, f as c, e as d, w as e, p as l, b as m, l as o, $ as p, Q as s } from './index-CLBN0B2q.js'
 
-`),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-  `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(" @"),a("span",{class:"hljs-attr"},"click"),s("="),a("span",{class:"hljs-string"},`"Snackbar('Home')"`),s(">")]),s("Home"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(" @"),a("span",{class:"hljs-attr"},"click"),s("="),a("span",{class:"hljs-string"},`"Snackbar('Link 1')"`),s(">")]),s("Link 1"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(" @"),a("span",{class:"hljs-attr"},"click"),s("="),a("span",{class:"hljs-string"},`"Snackbar('Link 2')"`),s(">")]),s("Link 2"),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb-item"),s(">")]),s(`
-  `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"mp-breadcrumb"),s(">")]),s(`
-`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
-`)])],-1)])),_:1})]),t[33]||(t[33]=a("h2",null,"API",-1)),a("div",L,[a("h3",P,[l(n,{to:"#Props"},{default:e(()=>t[20]||(t[20]=[s("#")])),_:1}),t[21]||(t[21]=s("Props"))]),t[22]||(t[22]=p("<h4>Breadcrumb Props</h4><table><thead><tr><th>Prop</th><th>Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td><code>separator</code></td><td>Separator</td><td><em>string</em></td><td><code>/</code></td></tr></tbody></table><h4>BreadcrumbItem Props</h4><table><thead><tr><th>Prop</th><th>Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td><code>separator</code></td><td>Separator</td><td><em>string</em></td><td><code>-</code></td></tr></tbody></table>",4))]),a("div",E,[a("h3",V,[l(n,{to:"#Events"},{default:e(()=>t[23]||(t[23]=[s("#")])),_:1}),t[24]||(t[24]=s("Events"))]),t[25]||(t[25]=p("<h4>BreadcrumbItem Events</h4><table><thead><tr><th>Event</th><th>Description</th><th>Arguments</th></tr></thead><tbody><tr><td><code>click</code></td><td>Triggered when a breadcrumb is clicked</td><td><code>event: Event</code></td></tr></tbody></table>",2))]),a("div",D,[a("h3",I,[l(n,{to:"#Slots"},{default:e(()=>t[26]||(t[26]=[s("#")])),_:1}),t[27]||(t[27]=s("Slots"))]),t[28]||(t[28]=p("<h4>Breadcrumb Slots</h4><table><thead><tr><th>Name</th><th>Description</th><th>SlotProps</th></tr></thead><tbody><tr><td><code>default</code></td><td>Customize the default content</td><td><code>-</code></td></tr></tbody></table><h4>BreadcrumbItem Slots</h4><table><thead><tr><th>Name</th><th>Description</th><th>SlotProps</th></tr></thead><tbody><tr><td><code>default</code></td><td>Customize the default content</td><td><code>-</code></td></tr><tr><td><code>separator</code></td><td>Customize separator content</td><td><code>-</code></td></tr></tbody></table>",4))]),a("div",w,[a("h3",H,[l(n,{to:"#StyleVariables"},{default:e(()=>t[29]||(t[29]=[s("#")])),_:1}),t[30]||(t[30]=s("Style Variables"))]),t[31]||(t[31]=p('<p>Here are the CSS variables used by the component. Styles can be customized using <a href="#/en-US/style-provider">StyleProvider</a>.</p><h4>BreadcrumbItem Variables</h4><table><thead><tr><th>Variable</th><th>Default</th></tr></thead><tbody><tr><td><code>--breadcrumb-item-active-color</code></td><td><code>var(--color-primary)</code></td></tr><tr><td><code>--breadcrumb-item-inactive-color</code></td><td><code>#888</code></td></tr><tr><td><code>--breadcrumb-item-separator-margin</code></td><td><code>0 10px</code></td></tr><tr><td><code>--breadcrumb-item-separator-font-size</code></td><td><code>14px</code></td></tr></tbody></table>',3))])])}const Q=m(h,[["render",N]]);export{Q as default};
+const h = { components: {} },
+  i = { class: 'maple-site-doc' },
+  j = { class: 'card' },
+  b = { id: 'Intro' },
+  u = { class: 'card' },
+  g = { id: 'BasicUsage' },
+  S = { class: 'card' },
+  f = { id: 'Separator' },
+  k = { class: 'card' },
+  v = { id: 'ChildSeparator' },
+  y = { class: 'card' },
+  x = { id: 'SeparatorSlot' },
+  B = { class: 'card' },
+  C = { id: 'ClickEvent' },
+  L = { class: 'card' },
+  P = { id: 'Props' },
+  E = { class: 'card' },
+  V = { id: 'Events' },
+  D = { class: 'card' },
+  I = { id: 'Slots' },
+  w = { class: 'card' },
+  H = { id: 'StyleVariables' }
+function N(U, t, z, _, $, T) {
+  const n = d('router-link'),
+    r = d('mp-site-code-example')
+  return (
+    c(),
+    o('div', i, [
+      t[32] || (t[32] = a('h1', null, 'Breadcrumb', -1)),
+      a('div', j, [
+        a('h3', b, [
+          l(n, { to: '#Intro' }, { default: e(() => t[0] || (t[0] = [s('#')])), _: 1 }),
+          t[1] || (t[1] = s('Intro')),
+        ]),
+        t[2] || (t[2] = a('p', null, 'Used to display information hierarchically.', -1)),
+      ]),
+      a('div', u, [
+        a('h3', g, [
+          l(n, { to: '#BasicUsage' }, { default: e(() => t[3] || (t[3] = [s('#')])), _: 1 }),
+          t[4] || (t[4] = s('Basic Usage')),
+        ]),
+        l(r, null, {
+          default: e(
+            () =>
+              t[5] ||
+              (t[5] = [
+                a(
+                  'pre',
+                  { class: 'hljs' },
+                  [
+                    a('code', null, [
+                      a('span', { class: 'hljs-tag' }, [s('<'), a('span', { class: 'hljs-name' }, 'template'), s('>')]),
+                      s(`
+   `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Home'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Link 1'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Link 2'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+   `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                    ]),
+                  ],
+                  -1,
+                ),
+              ]),
+          ),
+          _: 1,
+        }),
+      ]),
+      a('div', S, [
+        a('h3', f, [
+          l(n, { to: '#Separator' }, { default: e(() => t[6] || (t[6] = [s('#')])), _: 1 }),
+          t[7] || (t[7] = s('Separator')),
+        ]),
+        l(r, null, {
+          default: e(
+            () =>
+              t[8] ||
+              (t[8] = [
+                a(
+                  'pre',
+                  { class: 'hljs' },
+                  [
+                    a('code', null, [
+                      a('span', { class: 'hljs-tag' }, [s('<'), a('span', { class: 'hljs-name' }, 'template'), s('>')]),
+                      s(`
+   `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'separator'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, '"\\"'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Home'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Link 1'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Link 2'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+   `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                    ]),
+                  ],
+                  -1,
+                ),
+              ]),
+          ),
+          _: 1,
+        }),
+      ]),
+      a('div', k, [
+        a('h3', v, [
+          l(n, { to: '#ChildSeparator' }, { default: e(() => t[9] || (t[9] = [s('#')])), _: 1 }),
+          t[10] || (t[10] = s('Child Separator')),
+        ]),
+        l(r, null, {
+          default: e(
+            () =>
+              t[11] ||
+              (t[11] = [
+                a(
+                  'pre',
+                  { class: 'hljs' },
+                  [
+                    a('code', null, [
+                      a('span', { class: 'hljs-tag' }, [s('<'), a('span', { class: 'hljs-name' }, 'template'), s('>')]),
+                      s(`
+   `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Home'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'separator'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, '"~"'),
+                        s('>'),
+                      ]),
+                      s('Link 1'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+     `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Link 2'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+   `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                    ]),
+                  ],
+                  -1,
+                ),
+              ]),
+          ),
+          _: 1,
+        }),
+      ]),
+      a('div', y, [
+        a('h3', x, [
+          l(n, { to: '#SeparatorSlot' }, { default: e(() => t[12] || (t[12] = [s('#')])), _: 1 }),
+          t[13] || (t[13] = s('Separator Slot')),
+        ]),
+        t[15] || (t[15] = a('p', null, 'Custom content can be used as separator by setting slot.', -1)),
+        l(r, null, {
+          default: e(
+            () =>
+              t[14] ||
+              (t[14] = [
+                a(
+                  'pre',
+                  { class: 'hljs' },
+                  [
+                    a('code', null, [
+                      a('span', { class: 'hljs-tag' }, [s('<'), a('span', { class: 'hljs-name' }, 'template'), s('>')]),
+                      s(`
+  `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+      Home
+      `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s(' #'),
+                        a('span', { class: 'hljs-attr' }, 'separator'),
+                        s('>'),
+                      ]),
+                      s(`
+        `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-icon'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'name'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, '"menu-right"'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'style'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, '"margin: 1px 4px 0"'),
+                        s(' />'),
+                      ]),
+                      s(`
+      `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+      Link 1
+      `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s(' #'),
+                        a('span', { class: 'hljs-attr' }, 'separator'),
+                        s('>'),
+                      ]),
+                      s(`
+        `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-icon'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'name'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, '"menu-right"'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'style'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, '"margin: 1px 4px 0"'),
+                        s(' />'),
+                      ]),
+                      s(`
+      `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s('Link 2'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+  `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                    ]),
+                  ],
+                  -1,
+                ),
+              ]),
+          ),
+          _: 1,
+        }),
+      ]),
+      a('div', B, [
+        a('h3', C, [
+          l(n, { to: '#ClickEvent' }, { default: e(() => t[16] || (t[16] = [s('#')])), _: 1 }),
+          t[17] || (t[17] = s('Click Event')),
+        ]),
+        t[19] ||
+          (t[19] = a(
+            'p',
+            null,
+            [
+              s('Register the click event of the breadcrumb through '),
+              a('code', null, '@click'),
+              s(', the last breadcrumb will not trigger the click event.'),
+            ],
+            -1,
+          )),
+        l(r, null, {
+          default: e(
+            () =>
+              t[18] ||
+              (t[18] = [
+                a(
+                  'pre',
+                  { class: 'hljs' },
+                  [
+                    a('code', null, [
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'script'),
+                        s(),
+                        a('span', { class: 'hljs-attr' }, 'setup'),
+                        s('>'),
+                      ]),
+                      a('span', { class: 'javascript' }, [
+                        s(`
+`),
+                        a('span', { class: 'hljs-keyword' }, 'import'),
+                        s(' { Snackbar } '),
+                        a('span', { class: 'hljs-keyword' }, 'from'),
+                        s(),
+                        a('span', { class: 'hljs-string' }, "'@maplejs/maple-ui'"),
+                        s(`
+`),
+                      ]),
+                      a('span', { class: 'hljs-tag' }, [s('</'), a('span', { class: 'hljs-name' }, 'script'), s('>')]),
+                      s(`
+
+`),
+                      a('span', { class: 'hljs-tag' }, [s('<'), a('span', { class: 'hljs-name' }, 'template'), s('>')]),
+                      s(`
+  `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s(' @'),
+                        a('span', { class: 'hljs-attr' }, 'click'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, `"Snackbar('Home')"`),
+                        s('>'),
+                      ]),
+                      s('Home'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s(' @'),
+                        a('span', { class: 'hljs-attr' }, 'click'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, `"Snackbar('Link 1')"`),
+                        s('>'),
+                      ]),
+                      s('Link 1'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+    `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('<'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s(' @'),
+                        a('span', { class: 'hljs-attr' }, 'click'),
+                        s('='),
+                        a('span', { class: 'hljs-string' }, `"Snackbar('Link 2')"`),
+                        s('>'),
+                      ]),
+                      s('Link 2'),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb-item'),
+                        s('>'),
+                      ]),
+                      s(`
+  `),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'mp-breadcrumb'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                      a('span', { class: 'hljs-tag' }, [
+                        s('</'),
+                        a('span', { class: 'hljs-name' }, 'template'),
+                        s('>'),
+                      ]),
+                      s(`
+`),
+                    ]),
+                  ],
+                  -1,
+                ),
+              ]),
+          ),
+          _: 1,
+        }),
+      ]),
+      t[33] || (t[33] = a('h2', null, 'API', -1)),
+      a('div', L, [
+        a('h3', P, [
+          l(n, { to: '#Props' }, { default: e(() => t[20] || (t[20] = [s('#')])), _: 1 }),
+          t[21] || (t[21] = s('Props')),
+        ]),
+        t[22] ||
+          (t[22] = p(
+            '<h4>Breadcrumb Props</h4><table><thead><tr><th>Prop</th><th>Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td><code>separator</code></td><td>Separator</td><td><em>string</em></td><td><code>/</code></td></tr></tbody></table><h4>BreadcrumbItem Props</h4><table><thead><tr><th>Prop</th><th>Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td><code>separator</code></td><td>Separator</td><td><em>string</em></td><td><code>-</code></td></tr></tbody></table>',
+            4,
+          )),
+      ]),
+      a('div', E, [
+        a('h3', V, [
+          l(n, { to: '#Events' }, { default: e(() => t[23] || (t[23] = [s('#')])), _: 1 }),
+          t[24] || (t[24] = s('Events')),
+        ]),
+        t[25] ||
+          (t[25] = p(
+            '<h4>BreadcrumbItem Events</h4><table><thead><tr><th>Event</th><th>Description</th><th>Arguments</th></tr></thead><tbody><tr><td><code>click</code></td><td>Triggered when a breadcrumb is clicked</td><td><code>event: Event</code></td></tr></tbody></table>',
+            2,
+          )),
+      ]),
+      a('div', D, [
+        a('h3', I, [
+          l(n, { to: '#Slots' }, { default: e(() => t[26] || (t[26] = [s('#')])), _: 1 }),
+          t[27] || (t[27] = s('Slots')),
+        ]),
+        t[28] ||
+          (t[28] = p(
+            '<h4>Breadcrumb Slots</h4><table><thead><tr><th>Name</th><th>Description</th><th>SlotProps</th></tr></thead><tbody><tr><td><code>default</code></td><td>Customize the default content</td><td><code>-</code></td></tr></tbody></table><h4>BreadcrumbItem Slots</h4><table><thead><tr><th>Name</th><th>Description</th><th>SlotProps</th></tr></thead><tbody><tr><td><code>default</code></td><td>Customize the default content</td><td><code>-</code></td></tr><tr><td><code>separator</code></td><td>Customize separator content</td><td><code>-</code></td></tr></tbody></table>',
+            4,
+          )),
+      ]),
+      a('div', w, [
+        a('h3', H, [
+          l(n, { to: '#StyleVariables' }, { default: e(() => t[29] || (t[29] = [s('#')])), _: 1 }),
+          t[30] || (t[30] = s('Style Variables')),
+        ]),
+        t[31] ||
+          (t[31] = p(
+            '<p>Here are the CSS variables used by the component. Styles can be customized using <a href="#/en-US/style-provider">StyleProvider</a>.</p><h4>BreadcrumbItem Variables</h4><table><thead><tr><th>Variable</th><th>Default</th></tr></thead><tbody><tr><td><code>--breadcrumb-item-active-color</code></td><td><code>var(--color-primary)</code></td></tr><tr><td><code>--breadcrumb-item-inactive-color</code></td><td><code>#888</code></td></tr><tr><td><code>--breadcrumb-item-separator-margin</code></td><td><code>0 10px</code></td></tr><tr><td><code>--breadcrumb-item-separator-font-size</code></td><td><code>14px</code></td></tr></tbody></table>',
+            3,
+          )),
+      ]),
+    ])
+  )
+}
+const Q = m(h, [['render', N]])
+export { Q as default }

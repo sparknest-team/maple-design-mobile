@@ -11,7 +11,7 @@
 ```js
 // playground-ignore
 // main.ts
-import { Button } from '@nio-pow/maple-ui'
+import { Button } from '@maplejs/maple-ui'
 
 Button.setPropsDefaults({
   type: 'primary',

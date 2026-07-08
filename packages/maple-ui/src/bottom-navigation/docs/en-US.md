@@ -89,7 +89,7 @@ const active = ref(0)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const active = ref(0)
 
@@ -113,7 +113,7 @@ function handleChange(active) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const active = ref(0)
 

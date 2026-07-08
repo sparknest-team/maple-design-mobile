@@ -97,7 +97,7 @@ const time = ref(30 * 60 * 60 * 1000)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const countdown = ref(null)
 

@@ -38,7 +38,7 @@ When the name passed in is a URL the `img` tag is displayed in `cover` mode.
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 </script>
 
 <template>

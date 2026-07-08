@@ -1,30 +1,354 @@
-import{b as i,l as p,m as s,p as a,w as d,Q as t,$ as o,e as r,f as c}from"./index-CLBN0B2q.js";const h={components:{}},u={class:"maple-site-doc"},m={class:"card"},j={id:"jie4shao4"},g={class:"card"},y={id:"duo1yu3yan2qie4huan4(han2shu4shi4)"},f={class:"card"},v={id:"duo1yu3yan2qie4huan4(zu3jian4sheng1ming2shi4)"},L={class:"card"},z={id:"zhu4yi4shi4xiang4"},k={class:"card"},w={id:"mu4qian2zhi1chi2de0yu3yan2"},b={class:"card"},N={id:"shu3xing4"},x={class:"card"},C={id:"cha1cao2"};function S(U,l,P,q,$,R){const n=r("router-link"),e=r("mp-site-code-example");return c(),p("div",u,[l[26]||(l[26]=s("h1",null,"国际化",-1)),s("div",m,[s("h3",j,[a(n,{to:"#jie4shao4"},{default:d(()=>l[0]||(l[0]=[t("#")])),_:1}),l[1]||(l[1]=t("介绍"))]),l[2]||(l[2]=s("p",null,"组件库使用中文作为默认语言，支持多语言切换。",-1))]),s("div",g,[s("h3",y,[a(n,{to:"#duo1yu3yan2qie4huan4(han2shu4shi4)"},{default:d(()=>l[3]||(l[3]=[t("#")])),_:1}),l[4]||(l[4]=t("多语言切换 (函数式)"))]),l[8]||(l[8]=s("p",null,[t("使用 "),s("code",null,"Locale.add"),t(" 进行语言扩展。")],-1)),a(e,{"playground-ignore":""},{default:d(()=>l[5]||(l[5]=[s("pre",{class:"hljs"},[s("code",null,[s("span",{class:"hljs-keyword"},"import"),t(" { Locale } "),s("span",{class:"hljs-keyword"},"from"),t(),s("span",{class:"hljs-string"},"'@nio-pow/maple-ui'"),t(`
+import { p as a, f as c, w as d, b as i, $ as o, l as p, e as r, m as s, Q as t } from './index-CLBN0B2q.js'
 
-Locale.add(`),s("span",{class:"hljs-string"},"'en-US'"),t(`, Locale.enUS)
-`)])],-1)])),_:1}),l[9]||(l[9]=s("p",null,[t("使用 "),s("code",null,"Locale.merge"),t(" 进行语言内容覆盖。")],-1)),a(e,{"playground-ignore":""},{default:d(()=>l[6]||(l[6]=[s("pre",{class:"hljs"},[s("code",null,[t("Locale.merge("),s("span",{class:"hljs-string"},"'en-US'"),t(`, {
-  `),s("span",{class:"hljs-attr"},"dialogTitle"),t(": "),s("span",{class:"hljs-string"},"'Hello'"),t(`
+const h = { components: {} },
+  u = { class: 'maple-site-doc' },
+  m = { class: 'card' },
+  j = { id: 'jie4shao4' },
+  g = { class: 'card' },
+  y = { id: 'duo1yu3yan2qie4huan4(han2shu4shi4)' },
+  f = { class: 'card' },
+  v = { id: 'duo1yu3yan2qie4huan4(zu3jian4sheng1ming2shi4)' },
+  L = { class: 'card' },
+  z = { id: 'zhu4yi4shi4xiang4' },
+  k = { class: 'card' },
+  w = { id: 'mu4qian2zhi1chi2de0yu3yan2' },
+  b = { class: 'card' },
+  N = { id: 'shu3xing4' },
+  x = { class: 'card' },
+  C = { id: 'cha1cao2' }
+function S(U, l, P, q, $, R) {
+  const n = r('router-link'),
+    e = r('mp-site-code-example')
+  return (
+    c(),
+    p('div', u, [
+      l[26] || (l[26] = s('h1', null, '国际化', -1)),
+      s('div', m, [
+        s('h3', j, [
+          a(n, { to: '#jie4shao4' }, { default: d(() => l[0] || (l[0] = [t('#')])), _: 1 }),
+          l[1] || (l[1] = t('介绍')),
+        ]),
+        l[2] || (l[2] = s('p', null, '组件库使用中文作为默认语言，支持多语言切换。', -1)),
+      ]),
+      s('div', g, [
+        s('h3', y, [
+          a(n, { to: '#duo1yu3yan2qie4huan4(han2shu4shi4)' }, { default: d(() => l[3] || (l[3] = [t('#')])), _: 1 }),
+          l[4] || (l[4] = t('多语言切换 (函数式)')),
+        ]),
+        l[8] || (l[8] = s('p', null, [t('使用 '), s('code', null, 'Locale.add'), t(' 进行语言扩展。')], -1)),
+        a(
+          e,
+          { 'playground-ignore': '' },
+          {
+            default: d(
+              () =>
+                l[5] ||
+                (l[5] = [
+                  s(
+                    'pre',
+                    { class: 'hljs' },
+                    [
+                      s('code', null, [
+                        s('span', { class: 'hljs-keyword' }, 'import'),
+                        t(' { Locale } '),
+                        s('span', { class: 'hljs-keyword' }, 'from'),
+                        t(),
+                        s('span', { class: 'hljs-string' }, "'@maplejs/maple-ui'"),
+                        t(`
+
+Locale.add(`),
+                        s('span', { class: 'hljs-string' }, "'en-US'"),
+                        t(`, Locale.enUS)
+`),
+                      ]),
+                    ],
+                    -1,
+                  ),
+                ]),
+            ),
+            _: 1,
+          },
+        ),
+        l[9] || (l[9] = s('p', null, [t('使用 '), s('code', null, 'Locale.merge'), t(' 进行语言内容覆盖。')], -1)),
+        a(
+          e,
+          { 'playground-ignore': '' },
+          {
+            default: d(
+              () =>
+                l[6] ||
+                (l[6] = [
+                  s(
+                    'pre',
+                    { class: 'hljs' },
+                    [
+                      s('code', null, [
+                        t('Locale.merge('),
+                        s('span', { class: 'hljs-string' }, "'en-US'"),
+                        t(`, {
+  `),
+                        s('span', { class: 'hljs-attr' }, 'dialogTitle'),
+                        t(': '),
+                        s('span', { class: 'hljs-string' }, "'Hello'"),
+                        t(`
 })
-`)])],-1)])),_:1}),l[10]||(l[10]=s("p",null,[t("使用 "),s("code",null,"Locale.use"),t(" 切换语言。")],-1)),a(e,{"playground-ignore":""},{default:d(()=>l[7]||(l[7]=[s("pre",{class:"hljs"},[s("code",null,[t("Locale.use("),s("span",{class:"hljs-string"},"'en-US'"),t(`)
-`)])],-1)])),_:1})]),s("div",f,[s("h3",v,[a(n,{to:"#duo1yu3yan2qie4huan4(zu3jian4sheng1ming2shi4)"},{default:d(()=>l[11]||(l[11]=[t("#")])),_:1}),l[12]||(l[12]=t("多语言切换 (组件声明式)"))]),a(e,null,{default:d(()=>l[13]||(l[13]=[s("pre",{class:"hljs"},[s("code",null,[s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"script"),t(),s("span",{class:"hljs-attr"},"setup"),t(">")]),s("span",{class:"javascript"},[t(`
-`),s("span",{class:"hljs-keyword"},"import"),t(" { ref } "),s("span",{class:"hljs-keyword"},"from"),t(),s("span",{class:"hljs-string"},"'vue'"),t(`
-`),s("span",{class:"hljs-keyword"},"import"),t(" { Locale } "),s("span",{class:"hljs-keyword"},"from"),t(),s("span",{class:"hljs-string"},"'@nio-pow/maple-ui'"),t(`
+`),
+                      ]),
+                    ],
+                    -1,
+                  ),
+                ]),
+            ),
+            _: 1,
+          },
+        ),
+        l[10] || (l[10] = s('p', null, [t('使用 '), s('code', null, 'Locale.use'), t(' 切换语言。')], -1)),
+        a(
+          e,
+          { 'playground-ignore': '' },
+          {
+            default: d(
+              () =>
+                l[7] ||
+                (l[7] = [
+                  s(
+                    'pre',
+                    { class: 'hljs' },
+                    [
+                      s('code', null, [
+                        t('Locale.use('),
+                        s('span', { class: 'hljs-string' }, "'en-US'"),
+                        t(`)
+`),
+                      ]),
+                    ],
+                    -1,
+                  ),
+                ]),
+            ),
+            _: 1,
+          },
+        ),
+      ]),
+      s('div', f, [
+        s('h3', v, [
+          a(
+            n,
+            { to: '#duo1yu3yan2qie4huan4(zu3jian4sheng1ming2shi4)' },
+            { default: d(() => l[11] || (l[11] = [t('#')])), _: 1 },
+          ),
+          l[12] || (l[12] = t('多语言切换 (组件声明式)')),
+        ]),
+        a(e, null, {
+          default: d(
+            () =>
+              l[13] ||
+              (l[13] = [
+                s(
+                  'pre',
+                  { class: 'hljs' },
+                  [
+                    s('code', null, [
+                      s('span', { class: 'hljs-tag' }, [
+                        t('<'),
+                        s('span', { class: 'hljs-name' }, 'script'),
+                        t(),
+                        s('span', { class: 'hljs-attr' }, 'setup'),
+                        t('>'),
+                      ]),
+                      s('span', { class: 'javascript' }, [
+                        t(`
+`),
+                        s('span', { class: 'hljs-keyword' }, 'import'),
+                        t(' { ref } '),
+                        s('span', { class: 'hljs-keyword' }, 'from'),
+                        t(),
+                        s('span', { class: 'hljs-string' }, "'vue'"),
+                        t(`
+`),
+                        s('span', { class: 'hljs-keyword' }, 'import'),
+                        t(' { Locale } '),
+                        s('span', { class: 'hljs-keyword' }, 'from'),
+                        t(),
+                        s('span', { class: 'hljs-string' }, "'@maplejs/maple-ui'"),
+                        t(`
 
-`),s("span",{class:"hljs-keyword"},"const"),t(" date = ref("),s("span",{class:"hljs-string"},"'2021-04-08'"),t(`)
-`),s("span",{class:"hljs-keyword"},"const"),t(" locale = ref("),s("span",{class:"hljs-string"},"'zh-CN'"),t(`)
-`),s("span",{class:"hljs-keyword"},"const"),t(` messages = {
-  `),s("span",{class:"hljs-string"},"'zh-CN'"),t(`: Locale.zhCN,
-  `),s("span",{class:"hljs-string"},"'en-US'"),t(`: Locale.enUS
+`),
+                        s('span', { class: 'hljs-keyword' }, 'const'),
+                        t(' date = ref('),
+                        s('span', { class: 'hljs-string' }, "'2021-04-08'"),
+                        t(`)
+`),
+                        s('span', { class: 'hljs-keyword' }, 'const'),
+                        t(' locale = ref('),
+                        s('span', { class: 'hljs-string' }, "'zh-CN'"),
+                        t(`)
+`),
+                        s('span', { class: 'hljs-keyword' }, 'const'),
+                        t(` messages = {
+  `),
+                        s('span', { class: 'hljs-string' }, "'zh-CN'"),
+                        t(`: Locale.zhCN,
+  `),
+                        s('span', { class: 'hljs-string' }, "'en-US'"),
+                        t(`: Locale.enUS
 }
 
-`),s("span",{class:"hljs-function"},[s("span",{class:"hljs-keyword"},"function"),t(),s("span",{class:"hljs-title"},"switchLocale"),t("("),s("span",{class:"hljs-params"}),t(") ")]),t(`{
-  locale.value = locale.value === `),s("span",{class:"hljs-string"},"'zh-CN'"),t(" ? "),s("span",{class:"hljs-string"},"'en-US'"),t(" : "),s("span",{class:"hljs-string"},"'zh-CN'"),t(`
+`),
+                        s('span', { class: 'hljs-function' }, [
+                          s('span', { class: 'hljs-keyword' }, 'function'),
+                          t(),
+                          s('span', { class: 'hljs-title' }, 'switchLocale'),
+                          t('('),
+                          s('span', { class: 'hljs-params' }),
+                          t(') '),
+                        ]),
+                        t(`{
+  locale.value = locale.value === `),
+                        s('span', { class: 'hljs-string' }, "'zh-CN'"),
+                        t(' ? '),
+                        s('span', { class: 'hljs-string' }, "'en-US'"),
+                        t(' : '),
+                        s('span', { class: 'hljs-string' }, "'zh-CN'"),
+                        t(`
 }
-`)]),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"script"),t(">")]),t(`
+`),
+                      ]),
+                      s('span', { class: 'hljs-tag' }, [t('</'), s('span', { class: 'hljs-name' }, 'script'), t('>')]),
+                      t(`
 
-`),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"template"),t(">")]),t(`
-  `),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"mp-locale-provider"),t(),s("span",{class:"hljs-attr"},":locale"),t("="),s("span",{class:"hljs-string"},'"locale"'),t(),s("span",{class:"hljs-attr"},":messages"),t("="),s("span",{class:"hljs-string"},'"messages"'),t(">")]),t(`
-    `),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"mp-date-picker"),t(),s("span",{class:"hljs-attr"},"v-model"),t("="),s("span",{class:"hljs-string"},'"date"'),t(" />")]),t(`
-    `),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"mp-button"),t(),s("span",{class:"hljs-attr"},"type"),t("="),s("span",{class:"hljs-string"},'"primary"'),t(" @"),s("span",{class:"hljs-attr"},"click"),t("="),s("span",{class:"hljs-string"},'"switchLocale"'),t(">")]),t("切换"),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"mp-button"),t(">")]),t(`
-  `),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"mp-locale-provider"),t(">")]),t(`
-`),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"template"),t(">")]),t(`
-`)])],-1)])),_:1})]),s("div",L,[s("h3",z,[a(n,{to:"#zhu4yi4shi4xiang4"},{default:d(()=>l[14]||(l[14]=[t("#")])),_:1}),l[15]||(l[15]=t("注意事项"))]),l[16]||(l[16]=s("ul",null,[s("li",null,[s("code",null,"Locale.use"),t(" 操作的是单例语言实例，请不要在服务端使用，推荐用于客户端渲染的场景。")]),s("li",null,[s("code",null,"LocaleProvider"),t(" 仅对组件包裹的子孙组件有效，对组件的函数式调用无效，推荐用于服务端渲染的场景。")])],-1))]),s("div",k,[s("h3",w,[a(n,{to:"#mu4qian2zhi1chi2de0yu3yan2"},{default:d(()=>l[17]||(l[17]=[t("#")])),_:1}),l[18]||(l[18]=t("目前支持的语言"))]),l[19]||(l[19]=o("<table><thead><tr><th>语言名称</th><th>语言编码</th><th>语言包</th><th>支持版本</th></tr></thead><tbody><tr><td><code>简体中文</code></td><td>zh-CN</td><td><em>Locale.zhCN</em></td><td><code>v2.0.0</code></td></tr><tr><td><code>英语</code></td><td>en-US</td><td><em>Locale.enUS</em></td><td><code>v2.0.0</code></td></tr><tr><td><code>繁体中文(台)</code></td><td>zh-TW</td><td><em>Locale.zhTW</em></td><td><code>v2.17.0</code></td></tr><tr><td><code>繁体中文(港)</code></td><td>zh-HK</td><td><em>Locale.zhHK</em></td><td><code>v2.17.0</code></td></tr><tr><td><code>波斯语</code></td><td>fa-IR</td><td><em>Locale.faIR</em></td><td><code>v2.22.0</code></td></tr><tr><td><code>日语</code></td><td>ja-JP</td><td><em>Locale.jaJP</em></td><td><code>v3.9.0</code></td></tr></tbody></table>",1))]),l[27]||(l[27]=s("h2",null,"API",-1)),s("div",b,[s("h3",N,[a(n,{to:"#shu3xing4"},{default:d(()=>l[20]||(l[20]=[t("#")])),_:1}),l[21]||(l[21]=t("属性"))]),l[22]||(l[22]=o("<h4>LocaleProvider Props</h4><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>默认值</th></tr></thead><tbody><tr><td><code>locale</code></td><td>当前语言</td><td><em>string</em></td><td><code>zh-CN</code></td></tr><tr><td><code>messages</code></td><td>语言包</td><td><em>Record&lt;string, Record&lt;string, string&gt;&gt;</em></td><td><code>-</code></td></tr><tr><td><code>tag</code></td><td>自定义标签名</td><td><em>string</em></td><td><code>div</code></td></tr></tbody></table>",2))]),s("div",x,[s("h3",C,[a(n,{to:"#cha1cao2"},{default:d(()=>l[23]||(l[23]=[t("#")])),_:1}),l[24]||(l[24]=t("插槽"))]),l[25]||(l[25]=o("<h4>LocaleProvider Slots</h4><table><thead><tr><th>插槽名</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td><code>default</code></td><td>组件内容</td><td><code>-</code></td></tr></tbody></table>",2))])])}const V=i(h,[["render",S]]);export{V as default};
+`),
+                      s('span', { class: 'hljs-tag' }, [t('<'), s('span', { class: 'hljs-name' }, 'template'), t('>')]),
+                      t(`
+  `),
+                      s('span', { class: 'hljs-tag' }, [
+                        t('<'),
+                        s('span', { class: 'hljs-name' }, 'mp-locale-provider'),
+                        t(),
+                        s('span', { class: 'hljs-attr' }, ':locale'),
+                        t('='),
+                        s('span', { class: 'hljs-string' }, '"locale"'),
+                        t(),
+                        s('span', { class: 'hljs-attr' }, ':messages'),
+                        t('='),
+                        s('span', { class: 'hljs-string' }, '"messages"'),
+                        t('>'),
+                      ]),
+                      t(`
+    `),
+                      s('span', { class: 'hljs-tag' }, [
+                        t('<'),
+                        s('span', { class: 'hljs-name' }, 'mp-date-picker'),
+                        t(),
+                        s('span', { class: 'hljs-attr' }, 'v-model'),
+                        t('='),
+                        s('span', { class: 'hljs-string' }, '"date"'),
+                        t(' />'),
+                      ]),
+                      t(`
+    `),
+                      s('span', { class: 'hljs-tag' }, [
+                        t('<'),
+                        s('span', { class: 'hljs-name' }, 'mp-button'),
+                        t(),
+                        s('span', { class: 'hljs-attr' }, 'type'),
+                        t('='),
+                        s('span', { class: 'hljs-string' }, '"primary"'),
+                        t(' @'),
+                        s('span', { class: 'hljs-attr' }, 'click'),
+                        t('='),
+                        s('span', { class: 'hljs-string' }, '"switchLocale"'),
+                        t('>'),
+                      ]),
+                      t('切换'),
+                      s('span', { class: 'hljs-tag' }, [
+                        t('</'),
+                        s('span', { class: 'hljs-name' }, 'mp-button'),
+                        t('>'),
+                      ]),
+                      t(`
+  `),
+                      s('span', { class: 'hljs-tag' }, [
+                        t('</'),
+                        s('span', { class: 'hljs-name' }, 'mp-locale-provider'),
+                        t('>'),
+                      ]),
+                      t(`
+`),
+                      s('span', { class: 'hljs-tag' }, [
+                        t('</'),
+                        s('span', { class: 'hljs-name' }, 'template'),
+                        t('>'),
+                      ]),
+                      t(`
+`),
+                    ]),
+                  ],
+                  -1,
+                ),
+              ]),
+          ),
+          _: 1,
+        }),
+      ]),
+      s('div', L, [
+        s('h3', z, [
+          a(n, { to: '#zhu4yi4shi4xiang4' }, { default: d(() => l[14] || (l[14] = [t('#')])), _: 1 }),
+          l[15] || (l[15] = t('注意事项')),
+        ]),
+        l[16] ||
+          (l[16] = s(
+            'ul',
+            null,
+            [
+              s('li', null, [
+                s('code', null, 'Locale.use'),
+                t(' 操作的是单例语言实例，请不要在服务端使用，推荐用于客户端渲染的场景。'),
+              ]),
+              s('li', null, [
+                s('code', null, 'LocaleProvider'),
+                t(' 仅对组件包裹的子孙组件有效，对组件的函数式调用无效，推荐用于服务端渲染的场景。'),
+              ]),
+            ],
+            -1,
+          )),
+      ]),
+      s('div', k, [
+        s('h3', w, [
+          a(n, { to: '#mu4qian2zhi1chi2de0yu3yan2' }, { default: d(() => l[17] || (l[17] = [t('#')])), _: 1 }),
+          l[18] || (l[18] = t('目前支持的语言')),
+        ]),
+        l[19] ||
+          (l[19] = o(
+            '<table><thead><tr><th>语言名称</th><th>语言编码</th><th>语言包</th><th>支持版本</th></tr></thead><tbody><tr><td><code>简体中文</code></td><td>zh-CN</td><td><em>Locale.zhCN</em></td><td><code>v2.0.0</code></td></tr><tr><td><code>英语</code></td><td>en-US</td><td><em>Locale.enUS</em></td><td><code>v2.0.0</code></td></tr><tr><td><code>繁体中文(台)</code></td><td>zh-TW</td><td><em>Locale.zhTW</em></td><td><code>v2.17.0</code></td></tr><tr><td><code>繁体中文(港)</code></td><td>zh-HK</td><td><em>Locale.zhHK</em></td><td><code>v2.17.0</code></td></tr><tr><td><code>波斯语</code></td><td>fa-IR</td><td><em>Locale.faIR</em></td><td><code>v2.22.0</code></td></tr><tr><td><code>日语</code></td><td>ja-JP</td><td><em>Locale.jaJP</em></td><td><code>v3.9.0</code></td></tr></tbody></table>',
+            1,
+          )),
+      ]),
+      l[27] || (l[27] = s('h2', null, 'API', -1)),
+      s('div', b, [
+        s('h3', N, [
+          a(n, { to: '#shu3xing4' }, { default: d(() => l[20] || (l[20] = [t('#')])), _: 1 }),
+          l[21] || (l[21] = t('属性')),
+        ]),
+        l[22] ||
+          (l[22] = o(
+            '<h4>LocaleProvider Props</h4><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>默认值</th></tr></thead><tbody><tr><td><code>locale</code></td><td>当前语言</td><td><em>string</em></td><td><code>zh-CN</code></td></tr><tr><td><code>messages</code></td><td>语言包</td><td><em>Record&lt;string, Record&lt;string, string&gt;&gt;</em></td><td><code>-</code></td></tr><tr><td><code>tag</code></td><td>自定义标签名</td><td><em>string</em></td><td><code>div</code></td></tr></tbody></table>',
+            2,
+          )),
+      ]),
+      s('div', x, [
+        s('h3', C, [
+          a(n, { to: '#cha1cao2' }, { default: d(() => l[23] || (l[23] = [t('#')])), _: 1 }),
+          l[24] || (l[24] = t('插槽')),
+        ]),
+        l[25] ||
+          (l[25] = o(
+            '<h4>LocaleProvider Slots</h4><table><thead><tr><th>插槽名</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td><code>default</code></td><td>组件内容</td><td><code>-</code></td></tr></tbody></table>',
+            2,
+          )),
+      ]),
+    ])
+  )
+}
+const V = i(h, [['render', S]])
+export { V as default }

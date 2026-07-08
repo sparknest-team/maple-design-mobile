@@ -1,58 +1,56 @@
 // src/index.ts
-import { kebabCase } from "@nio-pow/maple-shared";
+import { kebabCase } from '@maplejs/maple-shared'
+
 var varFunctions = [
-  "ImagePreview",
-  "Snackbar",
-  "Picker",
-  "ActionSheet",
-  "Dialog",
-  "Locale",
-  "StyleProvider",
-  "LoadingBar"
-];
-var varDirectives = ["Ripple", "Lazy", "Hover"];
+  'ImagePreview',
+  'Snackbar',
+  'Picker',
+  'ActionSheet',
+  'Dialog',
+  'Locale',
+  'StyleProvider',
+  'LoadingBar',
+]
+var varDirectives = ['Ripple', 'Lazy', 'Hover']
 function getResolved(name, options) {
-  const { importStyle = true, autoImport = false } = options;
-  const sideEffects = [];
+  const { importStyle = true, autoImport = false } = options
+  const sideEffects = []
   if (importStyle) {
-    sideEffects.push(`@nio-pow/maple-ui/es/${kebabCase(name)}/style/index.mjs`);
+    sideEffects.push(`@maplejs/maple-ui/es/${kebabCase(name)}/style/index.mjs`)
   }
   return {
-    from: "@nio-pow/maple-ui",
+    from: '@maplejs/maple-ui',
     name: autoImport ? name : `_${name}Component`,
-    sideEffects
-  };
+    sideEffects,
+  }
 }
 function MapleImportResolver(options = {}) {
   return [
     {
-      type: "component",
+      type: 'component',
       resolve: (name) => {
-        const { autoImport = false } = options;
+        const { autoImport = false } = options
         if (autoImport && varFunctions.includes(name)) {
-          return getResolved(name, options);
+          return getResolved(name, options)
         }
-        if (name.startsWith("Mp")) {
-          return getResolved(name.slice(2), options);
+        if (name.startsWith('Mp')) {
+          return getResolved(name.slice(2), options)
         }
-      }
+      },
     },
     {
-      type: "directive",
+      type: 'directive',
       resolve: (name) => {
-        const { directives = true } = options;
+        const { directives = true } = options
         if (!directives) {
-          return;
+          return
         }
         if (!varDirectives.includes(name)) {
-          return;
+          return
         }
-        return getResolved(name, options);
-      }
-    }
-  ];
+        return getResolved(name, options)
+      },
+    },
+  ]
 }
-export {
-  MapleImportResolver,
-  getResolved
-};
+export { MapleImportResolver, getResolved }

@@ -28,12 +28,12 @@ Varlet 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移�
 
 | 名称                                                                                                   | 描述                       |
 |------------------------------------------------------------------------------------------------------|--------------------------|
-| [@nio-pow/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
-| [@nio-pow/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
-| [@nio-pow/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Varlet 组件库在线编辑工具`       |
-| [@nio-pow/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Varlet 按需引入`   |
-| [@nio-pow/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `varlet 的` [UnoCss](https://unocss.dev/) `预设` |
-| [@nio-pow/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `varlet 的` [tailwindcss](https://tailwindcss.com/) `预设` |
+| [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
+| [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
+| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Varlet 组件库在线编辑工具`       |
+| [@maplejs/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Varlet 按需引入`   |
+| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `varlet 的` [UnoCss](https://unocss.dev/) `预设` |
+| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `varlet 的` [tailwindcss](https://tailwindcss.com/) `预设` |
 | [maple-theme-builder](https://github.com/varletjs/maple-theme-builder) | `主题生成器，用于为 varlet material design 3 生成主题变量` | 
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Varlet 组件库 VSCode 插件`   |
 | [vscode-theme-varlet](https://github.com/varletjs/vscode-theme-varlet)  | `Varlet VSCode 主题`   |

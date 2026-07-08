@@ -53,7 +53,7 @@ const files = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 
 const files = ref([
   {
@@ -169,7 +169,7 @@ If the limit is exceeded, the file will be blocked. You can get the file by list
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const files = ref([])
 </script>
@@ -207,7 +207,7 @@ Operate on a file by registering a `before-read` event that returns a false valu
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const files = ref([])
 
@@ -234,7 +234,7 @@ By listen the `click-action` event, you can intercept the click behavior of the 
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const files = ref([])
 
@@ -288,7 +288,7 @@ Before deleting the file, the `before-remove` event is triggered, and a falsy va
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 
 const files = ref([
   {

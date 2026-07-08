@@ -1,16 +1,210 @@
-import{b as i,l as r,m as s,p as a,w as l,Q as t,e as p,f as m}from"./index-CLBN0B2q.js";const d={components:{}},u={class:"maple-site-doc"},c={class:"card"},h={id:"Intro"},j={class:"card"},f={id:"BasicUsage"};function g(b,n,v,y,_,w){const o=p("router-link"),e=p("mp-site-code-example");return m(),r("div",u,[n[10]||(n[10]=s("h1",null,"Defaults Customization",-1)),s("div",c,[s("h3",h,[a(o,{to:"#Intro"},{default:l(()=>n[0]||(n[0]=[t("#")])),_:1}),n[1]||(n[1]=t("Intro"))]),n[2]||(n[2]=s("p",null,"The component library provides the ability to customize the default values of component props.",-1))]),s("div",j,[s("h3",f,[a(o,{to:"#BasicUsage"},{default:l(()=>n[3]||(n[3]=[t("#")])),_:1}),n[4]||(n[4]=t("Basic Usage"))]),n[8]||(n[8]=s("p",null,[t("Customize the component's property definition through the static method "),s("code",null,"setPropsDefaults"),t(" provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.")],-1)),a(e,{"playground-ignore":""},{default:l(()=>n[5]||(n[5]=[s("pre",{class:"hljs"},[s("code",null,[s("span",{class:"hljs-comment"},"// main.ts"),t(`
-`),s("span",{class:"hljs-keyword"},"import"),t(" { Button } "),s("span",{class:"hljs-keyword"},"from"),t(),s("span",{class:"hljs-string"},"'@nio-pow/maple-ui'"),t(`
+import { p as a, b as i, w as l, f as m, e as p, l as r, m as s, Q as t } from './index-CLBN0B2q.js'
+
+const d = { components: {} },
+  u = { class: 'maple-site-doc' },
+  c = { class: 'card' },
+  h = { id: 'Intro' },
+  j = { class: 'card' },
+  f = { id: 'BasicUsage' }
+function g(b, n, v, y, _, w) {
+  const o = p('router-link'),
+    e = p('mp-site-code-example')
+  return (
+    m(),
+    r('div', u, [
+      n[10] || (n[10] = s('h1', null, 'Defaults Customization', -1)),
+      s('div', c, [
+        s('h3', h, [
+          a(o, { to: '#Intro' }, { default: l(() => n[0] || (n[0] = [t('#')])), _: 1 }),
+          n[1] || (n[1] = t('Intro')),
+        ]),
+        n[2] ||
+          (n[2] = s(
+            'p',
+            null,
+            'The component library provides the ability to customize the default values of component props.',
+            -1,
+          )),
+      ]),
+      s('div', j, [
+        s('h3', f, [
+          a(o, { to: '#BasicUsage' }, { default: l(() => n[3] || (n[3] = [t('#')])), _: 1 }),
+          n[4] || (n[4] = t('Basic Usage')),
+        ]),
+        n[8] ||
+          (n[8] = s(
+            'p',
+            null,
+            [
+              t("Customize the component's property definition through the static method "),
+              s('code', null, 'setPropsDefaults'),
+              t(
+                ' provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.',
+              ),
+            ],
+            -1,
+          )),
+        a(
+          e,
+          { 'playground-ignore': '' },
+          {
+            default: l(
+              () =>
+                n[5] ||
+                (n[5] = [
+                  s(
+                    'pre',
+                    { class: 'hljs' },
+                    [
+                      s('code', null, [
+                        s('span', { class: 'hljs-comment' }, '// main.ts'),
+                        t(`
+`),
+                        s('span', { class: 'hljs-keyword' }, 'import'),
+                        t(' { Button } '),
+                        s('span', { class: 'hljs-keyword' }, 'from'),
+                        t(),
+                        s('span', { class: 'hljs-string' }, "'@maplejs/maple-ui'"),
+                        t(`
 
 Button.setPropsDefaults({
-  `),s("span",{class:"hljs-attr"},"type"),t(": "),s("span",{class:"hljs-string"},"'primary'"),t(`,
-  `),s("span",{class:"hljs-attr"},"elevation"),t(": "),s("span",{class:"hljs-number"},"10"),t(`
+  `),
+                        s('span', { class: 'hljs-attr' }, 'type'),
+                        t(': '),
+                        s('span', { class: 'hljs-string' }, "'primary'"),
+                        t(`,
+  `),
+                        s('span', { class: 'hljs-attr' }, 'elevation'),
+                        t(': '),
+                        s('span', { class: 'hljs-number' }, '10'),
+                        t(`
 })
-`)])],-1)])),_:1}),n[9]||(n[9]=s("p",null,"After customization, the following two writing methods will be equivalent.",-1)),a(e,{"playground-ignore":""},{default:l(()=>n[6]||(n[6]=[s("pre",{class:"hljs"},[s("code",null,[s("span",{class:"hljs-comment"},"<!-- App.vue -->"),t(`
-`),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"template"),t(">")]),t(`
-  `),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"mp-button"),t(">")]),t("Hello"),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"mp-button"),t(">")]),t(`
-`),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"template"),t(">")]),t(`
-`)])],-1)])),_:1}),a(e,{"playground-ignore":""},{default:l(()=>n[7]||(n[7]=[s("pre",{class:"hljs"},[s("code",null,[s("span",{class:"hljs-comment"},"<!-- App.vue -->"),t(`
-`),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"template"),t(">")]),t(`
-  `),s("span",{class:"hljs-tag"},[t("<"),s("span",{class:"hljs-name"},"mp-button"),t(),s("span",{class:"hljs-attr"},"type"),t("="),s("span",{class:"hljs-string"},'"primary"'),t(),s("span",{class:"hljs-attr"},":elevation"),t("="),s("span",{class:"hljs-string"},'"10"'),t(">")]),t("Hello"),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"mp-button"),t(">")]),t(`
-`),s("span",{class:"hljs-tag"},[t("</"),s("span",{class:"hljs-name"},"template"),t(">")]),t(`
-`)])],-1)])),_:1})])])}const B=i(d,[["render",g]]);export{B as default};
+`),
+                      ]),
+                    ],
+                    -1,
+                  ),
+                ]),
+            ),
+            _: 1,
+          },
+        ),
+        n[9] || (n[9] = s('p', null, 'After customization, the following two writing methods will be equivalent.', -1)),
+        a(
+          e,
+          { 'playground-ignore': '' },
+          {
+            default: l(
+              () =>
+                n[6] ||
+                (n[6] = [
+                  s(
+                    'pre',
+                    { class: 'hljs' },
+                    [
+                      s('code', null, [
+                        s('span', { class: 'hljs-comment' }, '<!-- App.vue -->'),
+                        t(`
+`),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('<'),
+                          s('span', { class: 'hljs-name' }, 'template'),
+                          t('>'),
+                        ]),
+                        t(`
+  `),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('<'),
+                          s('span', { class: 'hljs-name' }, 'mp-button'),
+                          t('>'),
+                        ]),
+                        t('Hello'),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('</'),
+                          s('span', { class: 'hljs-name' }, 'mp-button'),
+                          t('>'),
+                        ]),
+                        t(`
+`),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('</'),
+                          s('span', { class: 'hljs-name' }, 'template'),
+                          t('>'),
+                        ]),
+                        t(`
+`),
+                      ]),
+                    ],
+                    -1,
+                  ),
+                ]),
+            ),
+            _: 1,
+          },
+        ),
+        a(
+          e,
+          { 'playground-ignore': '' },
+          {
+            default: l(
+              () =>
+                n[7] ||
+                (n[7] = [
+                  s(
+                    'pre',
+                    { class: 'hljs' },
+                    [
+                      s('code', null, [
+                        s('span', { class: 'hljs-comment' }, '<!-- App.vue -->'),
+                        t(`
+`),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('<'),
+                          s('span', { class: 'hljs-name' }, 'template'),
+                          t('>'),
+                        ]),
+                        t(`
+  `),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('<'),
+                          s('span', { class: 'hljs-name' }, 'mp-button'),
+                          t(),
+                          s('span', { class: 'hljs-attr' }, 'type'),
+                          t('='),
+                          s('span', { class: 'hljs-string' }, '"primary"'),
+                          t(),
+                          s('span', { class: 'hljs-attr' }, ':elevation'),
+                          t('='),
+                          s('span', { class: 'hljs-string' }, '"10"'),
+                          t('>'),
+                        ]),
+                        t('Hello'),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('</'),
+                          s('span', { class: 'hljs-name' }, 'mp-button'),
+                          t('>'),
+                        ]),
+                        t(`
+`),
+                        s('span', { class: 'hljs-tag' }, [
+                          t('</'),
+                          s('span', { class: 'hljs-name' }, 'template'),
+                          t('>'),
+                        ]),
+                        t(`
+`),
+                      ]),
+                    ],
+                    -1,
+                  ),
+                ]),
+            ),
+            _: 1,
+          },
+        ),
+      ]),
+    ])
+  )
+}
+const B = i(d, [['render', g]])
+export { B as default }

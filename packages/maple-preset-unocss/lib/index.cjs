@@ -130,7 +130,7 @@ function getColors(options = {}) {
 function presetMaple(options = {}) {
   const { fontSize = true } = options;
   return {
-    name: "@nio-pow/maple-preset-unocss",
+    name: "@maplejs/maple-preset-unocss",
     theme: {
       colors: getColors(options),
       breakpoints: getBreakpoints(options)

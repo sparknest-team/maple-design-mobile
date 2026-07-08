@@ -12,7 +12,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function createBasic() {
   const action = await ActionSheet({ 
@@ -45,7 +45,7 @@ async function createBasic() {
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -81,7 +81,7 @@ The option is passed `disabled` to leave the action in the disabled state.
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({
@@ -117,7 +117,7 @@ Passing in `CloseOnClickAction` disallows the action of `ActionSheet` closing au
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   await ActionSheet({ 
@@ -152,7 +152,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -191,7 +191,7 @@ async function handleSelect() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -229,7 +229,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -268,7 +268,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -307,7 +307,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -346,7 +346,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([

@@ -7,7 +7,7 @@
 
 ```js
 // playground-ignore
-import '@nio-pow/maple-ui/es/styles/elevation.css'
+import '@maplejs/maple-ui/es/styles/elevation.css'
 ```
 
 ### 基本使用

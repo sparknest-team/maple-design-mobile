@@ -8,7 +8,7 @@ specification to represent the dimensionality of an element.
 
 ```js
 // playground-ignore
-import '@nio-pow/maple-ui/es/styles/elevation.css'
+import '@maplejs/maple-ui/es/styles/elevation.css'
 ```
 
 ### Basic Usage

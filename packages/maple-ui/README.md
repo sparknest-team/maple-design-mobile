@@ -9,10 +9,10 @@
     <a href="https://github.com/varletjs/varlet/blob/dev/README.zh-CN.md">中文介绍</a>
   </p>
   <p>
-    <img src="https://img.shields.io/npm/v/@nio-pow/maple-ui?style=flat-square" alt="version">
+    <img src="https://img.shields.io/npm/v/@maplejs/maple-ui?style=flat-square" alt="version">
     <img src="https://img.shields.io/github/stars/varletjs/varlet" alt="stars">
     <img src="https://img.shields.io/badge/vue-v3.2.0%2B-%23407fbc" alt="vue">
-    <img src="https://img.shields.io/npm/l/@nio-pow/maple-ui.svg" alt="licence">
+    <img src="https://img.shields.io/npm/l/@maplejs/maple-ui.svg" alt="licence">
     <img src="https://img.shields.io/codecov/c/github/varletjs/varlet" alt="coverage">
     <img src="https://github.com/varletjs/varlet/workflows/CI/badge.svg" alt="ci">
   </p>
@@ -52,8 +52,8 @@ Maple is a `Vue3` component library based on Material Design 2 and 3, supporting
 <div id="app"></div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
  <!-- Desktop Adaptation -->
-<script src="https://cdn.jsdelivr.net/npm/@nio-pow/maple-touch-emulator/iife.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@nio-pow/maple-ui/umd/varlet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-touch-emulator/iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/umd/varlet.js"></script>
 <script>
   const app = Vue.createApp({
     template: '<mp-button>Button</mp-button>'
@@ -67,20 +67,20 @@ Maple is a `Vue3` component library based on Material Design 2 and 3, supporting
 # Install with npm or yarn or pnpm
 
 # npm
-npm i @nio-pow/maple-ui -S
+npm i @maplejs/maple-ui -S
 
 # yarn
-yarn add @nio-pow/maple-ui
+yarn add @maplejs/maple-ui
 
 # pnpm
-pnpm add @nio-pow/maple-ui
+pnpm add @maplejs/maple-ui
 ```
 
 ```js
 import App from './App.vue'
-import Maple from '@nio-pow/maple-ui'
+import Maple from '@maplejs/maple-ui'
 import { createApp } from 'vue'
-import '@nio-pow/maple-ui/es/style'
+import '@maplejs/maple-ui/es/style'
 
 createApp(App).use(Maple).mount('#app')
 ```
@@ -91,12 +91,12 @@ The following projects are maintained by the official team for a long time.
 
 | Name | Description |
 |------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [@nio-pow/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli) | `Vue3 component library rapid prototyping tool` |
-| [@nio-pow/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `Desktop adapter, so that the mobile component library can run on the desktop` |
-| [@nio-pow/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground) | `Maple component library online editing tool` |
-| [@nio-pow/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | `A resolver for` [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) ` used to implement Maple and import it on demand`   |
-| [@nio-pow/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | [UnoCss](https://unocss.dev/) `presets for maple` |
-| [@nio-pow/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | [tailwindcss](https://tailwindcss.com/) `presets for maple` |
+| [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli) | `Vue3 component library rapid prototyping tool` |
+| [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `Desktop adapter, so that the mobile component library can run on the desktop` |
+| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground) | `Maple component library online editing tool` |
+| [@maplejs/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | `A resolver for` [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) ` used to implement Maple and import it on demand`   |
+| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | [UnoCss](https://unocss.dev/) `presets for maple` |
+| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | [tailwindcss](https://tailwindcss.com/) `presets for maple` |
 | [maple-theme-builder](https://github.com/maplejs/maple-theme-builder) | `Theme generator for generating theme variables for maple Material Design 3` | 
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension) | `Maple Component Library VSCode Plugin` |
 | [vscode-theme-maple](https://github.com/maplejs/vscode-theme-maple)  | `Maple VSCode Theme`   |

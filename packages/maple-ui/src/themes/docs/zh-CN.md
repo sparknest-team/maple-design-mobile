@@ -32,7 +32,7 @@ body {
 ```html
 <!-- playground-ignore -->
 <script setup>
-import { StyleProvider, Themes } from '@nio-pow/maple-ui'
+import { StyleProvider, Themes } from '@maplejs/maple-ui'
 </script>
 
 <template>
@@ -52,7 +52,7 @@ import { StyleProvider, Themes } from '@nio-pow/maple-ui'
 ```html
 <!-- playground-ignore -->
 <script setup>
-import { StyleProvider, Themes } from '@nio-pow/maple-ui'
+import { StyleProvider, Themes } from '@maplejs/maple-ui'
 
 const customTheme = {
   ...Themes.md3Light,

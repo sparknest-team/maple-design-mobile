@@ -11,11 +11,11 @@ We've provided common CSS atomization framework presets, made it easier to acces
 ```shell
 # playground-ignore
 # npm
-npm i @nio-pow/maple-preset-unocss -D
+npm i @maplejs/maple-preset-unocss -D
 # yarn
-yarn add @nio-pow/maple-preset-unocss -D
+yarn add @maplejs/maple-preset-unocss -D
 # pnpm
-pnpm add @nio-pow/maple-preset-unocss -D
+pnpm add @maplejs/maple-preset-unocss -D
 ```
 
 #### Configuration
@@ -24,7 +24,7 @@ pnpm add @nio-pow/maple-preset-unocss -D
 // playground-ignore
 // uno.config.ts
 import { defineConfig, presetUno } from 'unocss'
-import { presetMaple } from '@nio-pow/maple-preset-unocss'
+import { presetMaple } from '@maplejs/maple-preset-unocss'
 
 export default defineConfig({
   presets: [presetUno(), presetMaple()]
@@ -42,11 +42,11 @@ Presets detailed definition [please watch here](https://xxx/pe.frontend/material
 ```shell
 # playground-ignore
 # npm
-npm i @nio-pow/maple-preset-tailwindcss -D
+npm i @maplejs/maple-preset-tailwindcss -D
 # yarn
-yarn add @nio-pow/maple-preset-tailwindcss -D
+yarn add @maplejs/maple-preset-tailwindcss -D
 # pnpm
-pnpm add @nio-pow/maple-preset-tailwindcss -D
+pnpm add @maplejs/maple-preset-tailwindcss -D
 ```
 
 #### Tailwindcss V3 Configuration
@@ -54,7 +54,7 @@ pnpm add @nio-pow/maple-preset-tailwindcss -D
 ```js
 // playground-ignore
 // tailwind.config.js
-import { presetMaple } from '@nio-pow/maple-preset-tailwindcss'
+import { presetMaple } from '@maplejs/maple-preset-tailwindcss'
 
 export default {
   content: [
@@ -70,7 +70,7 @@ export default {
 ```js
 // playground-ignore
 // tailwind.config.js
-import { presetMaple } from '@nio-pow/maple-preset-tailwindcss'
+import { presetMaple } from '@maplejs/maple-preset-tailwindcss'
 
 export default {
   presets: [presetMaple()]

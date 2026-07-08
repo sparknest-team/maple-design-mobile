@@ -8,7 +8,7 @@ import {
   setTheme,
   watchTheme,
   type Theme,
-} from '@nio-pow/maple-cli/client'
+} from '@maplejs/maple-cli/client'
 import { useRoute, useRouter } from 'vue-router'
 import AppAd from '../../components/AppAd.vue'
 import AppHeader from '../../components/AppHeader.vue'

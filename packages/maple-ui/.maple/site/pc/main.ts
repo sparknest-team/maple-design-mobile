@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import config from '@config'
-import Maple, { Snackbar } from '@nio-pow/maple-ui'
+import Maple, { Snackbar } from '@maplejs/maple-ui'
 import routes from '@pc-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import CodeExample from './components/code-example'
-import '@nio-pow/maple-ui/es/style'
-import '@nio-pow/maple-touch-emulator'
+import '@maplejs/maple-ui/es/style'
+import '@maplejs/maple-touch-emulator'
 
 const defaultLanguage = config?.defaultLanguage
 const redirect = config?.pc?.redirect

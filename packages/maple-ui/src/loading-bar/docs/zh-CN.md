@@ -9,7 +9,7 @@
 ```html
 <script setup>
 import { ref } from 'vue'
-import { LoadingBar } from '@nio-pow/maple-ui'
+import { LoadingBar } from '@maplejs/maple-ui'
 
 const hasCustomStyle = ref(false)
 

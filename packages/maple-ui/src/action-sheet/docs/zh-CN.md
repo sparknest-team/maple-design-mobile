@@ -12,7 +12,7 @@
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function createBasic() {
   const action = await ActionSheet({ 
@@ -45,7 +45,7 @@ async function createBasic() {
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect(){
   const action = await ActionSheet({ 
@@ -81,7 +81,7 @@ async function handleSelect(){
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -118,7 +118,7 @@ async function handleSelect() {
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect(){
   await ActionSheet({ 
@@ -153,7 +153,7 @@ async function handleSelect(){
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@nio-pow/maple-ui'
+import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -192,7 +192,7 @@ async function handleSelect() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -230,7 +230,7 @@ function handleSelect(action){
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -269,7 +269,7 @@ function handleSelect(action){
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -308,7 +308,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -347,7 +347,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([

@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
-import VarletUI from '@nio-pow/maple-ui'
+import VarletUI from '@maplejs/maple-ui'
 import App from './App.vue'
-import '@nio-pow/maple-ui/es/style'
-import '@nio-pow/maple-touch-emulator'
+import '@maplejs/maple-ui/es/style'
+import '@maplejs/maple-touch-emulator'
 
 createApp(App).use(VarletUI).mount('#app')

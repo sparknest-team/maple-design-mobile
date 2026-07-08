@@ -70,7 +70,7 @@
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 </script>
 
 <template>

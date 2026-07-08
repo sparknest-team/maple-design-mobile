@@ -116,7 +116,7 @@ Button component for triggering actions.
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 function handleClick() {
   Snackbar.success('Click Success')

@@ -10,7 +10,7 @@ Image-Preview, Support double-click magnification, Support function call and com
 
 ```html
 <script setup>
-import { ImagePreview } from '@nio-pow/maple-ui'
+import { ImagePreview } from '@maplejs/maple-ui'
 
 function preview() {
   ImagePreview('https://maplejs.org/cat.jpg')
@@ -25,7 +25,7 @@ function preview() {
 #### Call Back
 ```html
 <script setup>
-import { ImagePreview, Snackbar } from '@nio-pow/maple-ui'
+import { ImagePreview, Snackbar } from '@maplejs/maple-ui'
 
 function preview() {
   ImagePreview({
@@ -136,7 +136,7 @@ const images = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const images = ref([
@@ -168,7 +168,7 @@ The `image-prevent-default` attribute prohibits the default behavior of images, 
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const images = ref([

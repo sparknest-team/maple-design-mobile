@@ -4,7 +4,7 @@
 
 组件库提供移动端和桌面端适配方案，
 移动端使用 [postcss-px-to-viewport](https://github.com/evrone/postcss-px-to-viewport) 方案进行适配，
-桌面端使用 `@nio-pow/maple-touch-emulator` 方案进行适配。
+桌面端使用 `@maplejs/maple-touch-emulator` 方案进行适配。
 
 ### 移动端适配
 
@@ -47,7 +47,7 @@ module.exports = {
 因为主题包是运行时挂载的，不受 postcss 影响，组件库提供了实用工具 `Themes.toViewport` 进行适配，函数返回的主题将默认使用 `375px -> 100vmin` 的规则。
 
 ```js
-import { Themes } from '@nio-pow/maple-ui'
+import { Themes } from '@maplejs/maple-ui'
 
 const viewportTheme = Themes.toViewport(Themes.md3Dark)
 ```
@@ -55,7 +55,7 @@ const viewportTheme = Themes.toViewport(Themes.md3Dark)
 也可以对转换规则进行更改
 
 ```js
-import { Themes } from '@nio-pow/maple-ui'
+import { Themes } from '@maplejs/maple-ui'
 
 const viewportTheme = Themes.toViewport(Themes.md3Dark, {
   // 默认值为 375
@@ -72,7 +72,7 @@ const viewportTheme = Themes.toViewport(Themes.md3Dark, {
 与 `Viewport` 方案类似
 
 ```js
-import { Themes } from '@nio-pow/maple-ui'
+import { Themes } from '@maplejs/maple-ui'
 
 const remTheme = Themes.toRem(Themes.md3Dark)
 ```
@@ -80,7 +80,7 @@ const remTheme = Themes.toRem(Themes.md3Dark)
 也支持自定义
 
 ```js
-import { Themes } from '@nio-pow/maple-ui'
+import { Themes } from '@maplejs/maple-ui'
 
 const viewportTheme = Themes.toRem(Themes.md3Dark, {
   // 默认值为 16
@@ -93,19 +93,19 @@ const viewportTheme = Themes.toRem(Themes.md3Dark, {
 ### 桌面端适配
 
 由于组件库交互事件使用 `touch` 事件进行开发，不支持桌面端的 `mouse` 事件，
-推荐使用 `@nio-pow/maple-touch-emulator` 将 `touch -> mouse` 从而实现桌面端适配。
+推荐使用 `@maplejs/maple-touch-emulator` 将 `touch -> mouse` 从而实现桌面端适配。
 
 ```shell
 # playground-ignore
 # npm
-npm i @nio-pow/maple-touch-emulator
+npm i @maplejs/maple-touch-emulator
 # yarn
-yarn add @nio-pow/maple-touch-emulator
+yarn add @maplejs/maple-touch-emulator
 # pnpm
-pnpm add @nio-pow/maple-touch-emulator
+pnpm add @maplejs/maple-touch-emulator
 ```
 
 ```js
 // playground-ignore
-import '@nio-pow/maple-touch-emulator'
+import '@maplejs/maple-touch-emulator'
 ```

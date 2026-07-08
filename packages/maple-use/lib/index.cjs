@@ -66,7 +66,7 @@ module.exports = __toCommonJS(src_exports);
 
 // src/useEventListener.ts
 var import_vue2 = require("vue");
-var import_maple_shared = require("@nio-pow/maple-shared");
+var import_maple_shared = require("@maplejs/maple-shared");
 
 // src/onSmartMounted.ts
 var import_vue = require("vue");
@@ -149,7 +149,7 @@ function useEventListener(target, type, listener, options = {}) {
 
 // src/useClickOutside.ts
 var import_vue3 = require("vue");
-var import_maple_shared2 = require("@nio-pow/maple-shared");
+var import_maple_shared2 = require("@maplejs/maple-shared");
 function useClickOutside(target, type, listener) {
   if (!(0, import_maple_shared2.inBrowser)()) {
     return;
@@ -218,7 +218,7 @@ function useParent(key) {
 
 // src/useChildren.ts
 var import_vue6 = require("vue");
-var import_maple_shared3 = require("@nio-pow/maple-shared");
+var import_maple_shared3 = require("@maplejs/maple-shared");
 function flatVNodes(subTree) {
   const vNodes = [];
   const flat = (subTree2) => {
@@ -294,7 +294,7 @@ function useInitialized(source, value) {
 
 // src/useTouch.ts
 var import_vue8 = require("vue");
-var import_maple_shared4 = require("@nio-pow/maple-shared");
+var import_maple_shared4 = require("@maplejs/maple-shared");
 function getDirection(x, y) {
   if (x > y) {
     return "horizontal";
@@ -409,7 +409,7 @@ function useTouch() {
 
 // src/useId.ts
 var import_vue9 = require("vue");
-var import_maple_shared5 = require("@nio-pow/maple-shared");
+var import_maple_shared5 = require("@maplejs/maple-shared");
 function useId() {
   const id = (0, import_vue9.ref)();
   const instance = (0, import_vue9.getCurrentInstance)();
@@ -420,7 +420,7 @@ function useId() {
 
 // src/useClientId.ts
 var import_vue10 = require("vue");
-var import_maple_shared6 = require("@nio-pow/maple-shared");
+var import_maple_shared6 = require("@maplejs/maple-shared");
 function useClientId() {
   const instance = (0, import_vue10.getCurrentInstance)();
   const name = (0, import_maple_shared6.kebabCase)(instance.type.name);
@@ -435,7 +435,7 @@ function useClientId() {
 
 // src/useWindowSize.ts
 var import_vue11 = require("vue");
-var import_maple_shared7 = require("@nio-pow/maple-shared");
+var import_maple_shared7 = require("@maplejs/maple-shared");
 function useWindowSize(options = {}) {
   const { initialWidth = 0, initialHeight = 0 } = options;
   const width = (0, import_vue11.ref)(initialWidth);
@@ -457,7 +457,7 @@ function useWindowSize(options = {}) {
 
 // src/useVModel.ts
 var import_vue12 = require("vue");
-var import_maple_shared8 = require("@nio-pow/maple-shared");
+var import_maple_shared8 = require("@maplejs/maple-shared");
 function useVModel(props, key, options = {}) {
   const { passive = true, eventName, defaultValue, emit } = options;
   const event = eventName != null ? eventName : `onUpdate:${key.toString()}`;
@@ -501,7 +501,7 @@ function useVModel(props, key, options = {}) {
 
 // src/useMotion.ts
 var import_vue13 = require("vue");
-var import_maple_shared9 = require("@nio-pow/maple-shared");
+var import_maple_shared9 = require("@maplejs/maple-shared");
 function useMotion(options) {
   const value = (0, import_vue13.ref)(getter(options.from));
   const state = (0, import_vue13.ref)("pending");

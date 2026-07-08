@@ -24,7 +24,7 @@ __export(src_exports, {
   getResolved: () => getResolved
 });
 module.exports = __toCommonJS(src_exports);
-var import_maple_shared = require("@nio-pow/maple-shared");
+var import_maple_shared = require("@maplejs/maple-shared");
 var varFunctions = [
   "ImagePreview",
   "Snackbar",
@@ -40,10 +40,10 @@ function getResolved(name, options) {
   const { importStyle = true, autoImport = false } = options;
   const sideEffects = [];
   if (importStyle) {
-    sideEffects.push(`@nio-pow/maple-ui/es/${(0, import_maple_shared.kebabCase)(name)}/style/index.mjs`);
+    sideEffects.push(`@maplejs/maple-ui/es/${(0, import_maple_shared.kebabCase)(name)}/style/index.mjs`);
   }
   return {
-    from: "@nio-pow/maple-ui",
+    from: "@maplejs/maple-ui",
     name: autoImport ? name : `_${name}Component`,
     sideEffects
   };

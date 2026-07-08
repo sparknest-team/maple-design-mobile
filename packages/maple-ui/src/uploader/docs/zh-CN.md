@@ -52,7 +52,7 @@ const files = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 
 const files = ref([
   {
@@ -168,7 +168,7 @@ const files = ref([])
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const files = ref([])
 </script>
@@ -206,7 +206,7 @@ function handleBeforeFilter(files) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const files = ref([])
 
@@ -233,7 +233,7 @@ function handleBeforeRead(file) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const files = ref([])
 
@@ -287,7 +287,7 @@ const files = ref([])
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 
 const files = ref([
   {

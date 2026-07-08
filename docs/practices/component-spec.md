@@ -144,7 +144,7 @@ export const props = spaceProps
 
 ## 5. 父子组件通信
 
-使用 `@nio-pow/maple-use` 的 `useChildren` / `useParent`，文件 `provide.ts` 内导出 `XXX_BIND_KEY` Symbol 与 `useXxxs()` / `useXxxGroup()` 封装。子组件读取 group 配置必须 `??` 兜底：`props.size ?? group.size.value`。
+使用 `@maplejs/maple-use` 的 `useChildren` / `useParent`，文件 `provide.ts` 内导出 `XXX_BIND_KEY` Symbol 与 `useXxxs()` / `useXxxGroup()` 封装。子组件读取 group 配置必须 `??` 兜底：`props.size ?? group.size.value`。
 
 ---
 

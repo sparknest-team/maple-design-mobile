@@ -91,8 +91,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch, type ComputedRef, type Ref } from 'vue'
 import config from '@config'
-import { getBrowserTheme, getMobileIndex, setTheme, watchLang, watchTheme, type Theme } from '@nio-pow/maple-cli/client'
-import { pascalCase } from '@nio-pow/maple-shared'
+import { getBrowserTheme, getMobileIndex, setTheme, watchLang, watchTheme, type Theme } from '@maplejs/maple-cli/client'
+import { pascalCase } from '@maplejs/maple-shared'
 import { useRoute } from 'vue-router'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 

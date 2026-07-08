@@ -76,7 +76,7 @@
 ```js
 // playground-ignore
 import { createApp } from 'vue'
-import { Lazy } from '@nio-pow/maple-ui'
+import { Lazy } from '@maplejs/maple-ui'
 
 createApp().use(Lazy, {
   loading: 'https://xxx.cn/loading.png',

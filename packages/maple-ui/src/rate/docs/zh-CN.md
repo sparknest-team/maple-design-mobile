@@ -141,7 +141,7 @@ const score = ref(3.5)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const score = ref(3)
 

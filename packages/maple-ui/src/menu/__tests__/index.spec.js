@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { doubleRaf } from '@nio-pow/maple-shared'
+import { doubleRaf } from '@maplejs/maple-shared'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Menu from '..'

@@ -150,7 +150,7 @@ const emailSuggestions = computed(() =>
 ```html
 <script setup>
 import { reactive } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const formData = reactive({
   username: '',
@@ -201,7 +201,7 @@ function handleReset() {
 ```html
 // playground-ignore
 <script setup>
-import { Form } from '@nio-pow/maple-ui'
+import { Form } from '@maplejs/maple-ui'
 import { nextTick } from 'vue'
 
 const props = defineProps({

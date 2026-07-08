@@ -117,7 +117,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import config from '@config'
-import { getBrowserTheme, getPCLocationInfo, setTheme, Theme, watchTheme } from '@nio-pow/maple-cli/client'
+import { getBrowserTheme, getPCLocationInfo, setTheme, Theme, watchTheme } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
 import { removeEmpty } from '../../utils'
 

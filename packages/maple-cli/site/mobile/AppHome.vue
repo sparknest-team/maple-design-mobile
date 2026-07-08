@@ -22,7 +22,7 @@
 <script lang="ts">
 import { reactive, ref } from 'vue'
 import config from '@config'
-import { watchLang, watchPlatform } from '@nio-pow/maple-cli/client'
+import { watchLang, watchPlatform } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
 import { inIframe, isPhone } from '../utils'
 

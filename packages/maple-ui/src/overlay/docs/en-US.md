@@ -55,7 +55,7 @@ const show = ref(false)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 </script>

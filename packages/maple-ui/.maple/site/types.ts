@@ -1,4 +1,4 @@
-import { type IContext } from '@nio-pow/maple-ui'
+import { type IContext } from '@maplejs/maple-ui'
 
 export interface SiteContext extends IContext {
   showPlayground: boolean

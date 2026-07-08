@@ -137,7 +137,7 @@ const show = ref(false)
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 </script>
 
 <template>
@@ -149,7 +149,7 @@ import { Snackbar } from '@nio-pow/maple-ui'
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 function createSnackbar() {
   Snackbar({
@@ -168,7 +168,7 @@ function createSnackbar() {
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 function createSnackbar() {
   Snackbar({
@@ -188,7 +188,7 @@ function createSnackbar() {
 ```html
 <script setup>
 import { h } from 'vue'
-import { Snackbar, Icon, Button } from '@nio-pow/maple-ui'
+import { Snackbar, Icon, Button } from '@maplejs/maple-ui'
 
 function createSnackbar() {
   const customSnackbar = Snackbar({
@@ -221,7 +221,7 @@ function createSnackbar() {
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 function createSnackbar(type) {
   Snackbar[type]("Hello, I'm a snackbar")
@@ -280,7 +280,7 @@ When using functional calls, Snackbar use singleton mode by default, if you need
 
 ```html
 <script setup>
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 function openMultiple() {
   Snackbar.allowMultiple(true)

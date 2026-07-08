@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, ref, watch, type Ref } from 'vue'
 import config from '@config'
-import { getPCLocationInfo } from '@nio-pow/maple-cli/client'
-import { Context } from '@nio-pow/maple-ui'
+import { getPCLocationInfo } from '@maplejs/maple-cli/client'
+import { Context } from '@maplejs/maple-ui'
 import { useRoute } from 'vue-router'
 import { type SiteContext } from '../types'
 import { MenuTypes, type Menu } from '../utils'

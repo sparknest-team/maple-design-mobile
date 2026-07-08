@@ -12,7 +12,7 @@ The function will return the information selected by the user and the user's las
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@nio-pow/maple-ui'
+import { Picker, Snackbar } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, values, indexes, options } = await Picker({ 
@@ -41,7 +41,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@nio-pow/maple-ui'
+import { Picker, Snackbar } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, values, indexes, options } = await Picker({ 
@@ -86,7 +86,7 @@ Set the `cascade` property to enable cascading scrolling.
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@nio-pow/maple-ui'
+import { Picker, Snackbar } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, texts, indexes } = await Picker({
@@ -143,8 +143,8 @@ The component library provides cascade data of Chinese provinces and cities, whi
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@nio-pow/maple-ui'
-import columns from '@nio-pow/maple-ui/json/area.json'
+import { Picker, Snackbar } from '@maplejs/maple-ui'
+import columns from '@maplejs/maple-ui/json/area.json'
 
 async function picker() {
   const { state, texts, indexes } = await Picker({
@@ -168,8 +168,8 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@nio-pow/maple-ui'
-import columns from '@nio-pow/maple-ui/json/area.json'
+import { Picker, Snackbar } from '@maplejs/maple-ui'
+import columns from '@maplejs/maple-ui/json/area.json'
 
 async function picker() {
   const { state, texts, indexes } = await Picker({
@@ -192,7 +192,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@nio-pow/maple-ui'
+import { Picker, Snackbar } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, values, indexes, options } = await Picker({ 
@@ -235,7 +235,7 @@ async function picker() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const columns = ref([
   [
@@ -262,7 +262,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const columns = ref([
   [
@@ -303,7 +303,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const columns = ref([
   {
@@ -355,8 +355,8 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
-import area from '@nio-pow/maple-ui/json/area.json'
+import { Snackbar } from '@maplejs/maple-ui'
+import area from '@maplejs/maple-ui/json/area.json'
 
 const columns = ref(area)
 
@@ -375,8 +375,8 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
-import area from '@nio-pow/maple-ui/json/area.json'
+import { Snackbar } from '@maplejs/maple-ui'
+import area from '@maplejs/maple-ui/json/area.json'
 
 const columns = ref(area)
 
@@ -395,7 +395,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const columns = ref([
   [
@@ -433,7 +433,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const values = ref(['A', 'B', 'C'])
 const columns = ref([

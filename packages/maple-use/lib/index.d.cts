@@ -1,6 +1,6 @@
 import * as vue from 'vue';
 import { Ref, ComponentInternalInstance, ComputedRef, WatchSource, WritableComputedRef } from 'vue';
-import { MotionState } from '@nio-pow/maple-shared';
+import { MotionState } from '@maplejs/maple-shared';
 
 type UseEventListenerTarget = EventTarget | Ref<EventTarget | undefined | null> | (() => EventTarget);
 interface UseEventListenerOptions {

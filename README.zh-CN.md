@@ -10,10 +10,10 @@
     <a href="https://github.com/varletjs/varlet/blob/dev/README.md">ENGLISH README</a>
   </p>
   <p>
-    <img src="https://img.shields.io/npm/v/@nio-pow/maple-ui?style=flat-square" alt="version">
+    <img src="https://img.shields.io/npm/v/@maplejs/maple-ui?style=flat-square" alt="version">
     <img src="https://img.shields.io/github/stars/varletjs/varlet" alt="stars">
     <img src="https://img.shields.io/badge/vue-v3.2.0%2B-%23407fbc" alt="vue">
-    <img src="https://img.shields.io/npm/l/@nio-pow/maple-ui.svg" alt="license">
+    <img src="https://img.shields.io/npm/l/@maplejs/maple-ui.svg" alt="license">
     <img src="https://img.shields.io/codecov/c/github/varletjs/varlet" alt="coverage">
     <img src="https://github.com/varletjs/varlet/workflows/CI/badge.svg" alt="ci">
   </p>
@@ -52,8 +52,8 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 <div id="app"></div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
  <!-- 桌面端兼容 -->
-<script src="https://cdn.jsdelivr.net/npm/@nio-pow/maple-touch-emulator/iife.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@nio-pow/maple-ui/umd/maple.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-touch-emulator/iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/umd/maple.js"></script>
 <script>
   const app = Vue.createApp({
     template: '<mp-button>按钮</mp-button>'
@@ -67,20 +67,20 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 # 通过 npm 或 yarn 或 pnpm 安装
 
 # npm
-npm i @nio-pow/maple-ui -S
+npm i @maplejs/maple-ui -S
 
 # yarn
-yarn add @nio-pow/maple-ui
+yarn add @maplejs/maple-ui
 
 # pnpm
-pnpm add @nio-pow/maple-ui
+pnpm add @maplejs/maple-ui
 ```
 
 ```js
 import App from './App.vue'
-import Maple from '@nio-pow/maple-ui'
+import Maple from '@maplejs/maple-ui'
 import { createApp } from 'vue'
-import '@nio-pow/maple-ui/es/style'
+import '@maplejs/maple-ui/es/style'
 
 createApp(App).use(Maple).mount('#app')
 ```
@@ -91,12 +91,12 @@ createApp(App).use(Maple).mount('#app')
 
 | 名称                                                                                                   | 描述                       |
 |------------------------------------------------------------------------------------------------------|--------------------------|
-| [@nio-pow/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
-| [@nio-pow/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
-| [@nio-pow/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
-| [@nio-pow/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Varlet 按需引入`   |
-| [@nio-pow/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
-| [@nio-pow/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
+| [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
+| [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
+| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
+| [@maplejs/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Varlet 按需引入`   |
+| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
+| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
 | [maple-theme-builder](https://github.com/varletjs/maple-theme-builder) | `主题生成器，用于为 maple design 生成主题变量` | 
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Maple 组件库 VSCode 插件`   |
 | [vscode-theme-varlet](https://github.com/varletjs/vscode-theme-varlet)  | `Maple VSCode 主题`   |

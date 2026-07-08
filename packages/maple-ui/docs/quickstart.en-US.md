@@ -14,7 +14,7 @@ Here are the most basic ways to access component libraries in common development
 <!-- playground-ignore -->
 <div id="app"></div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="https://cdn.jsdelivr.net/npm/@nio-pow/maple-ui/umd/maple.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/umd/maple.js"></script>
 <script>
   const app = Vue.createApp({
     template: '<mp-button>Button</mp-button>'
@@ -30,21 +30,21 @@ Here are the most basic ways to access component libraries in common development
 # Install with npm, yarn or pnpm
 
 # npm
-npm i @nio-pow/maple-ui -S
+npm i @maplejs/maple-ui -S
 
 # yarn
-yarn add @nio-pow/maple-ui
+yarn add @maplejs/maple-ui
 
 # pnpm
-pnpm add @nio-pow/maple-ui
+pnpm add @maplejs/maple-ui
 ```
 
 ```js
 // playground-ignore
 import App from './App.vue'
-import Maple from '@nio-pow/maple-ui'
+import Maple from '@maplejs/maple-ui'
 import { createApp } from 'vue'
-import '@nio-pow/maple-ui/es/style'
+import '@maplejs/maple-ui/es/style'
 
 createApp(App).use(Maple).mount('#app')
 ```
@@ -60,7 +60,7 @@ Starting from version 3.x, Maple supports both Material Design 2 and Material De
 ```js
 // playground-ignore
 // Maple defaults to Material Design 2 light mode
-import { Themes, StyleProvider } from '@nio-pow/maple-ui'
+import { Themes, StyleProvider } from '@maplejs/maple-ui'
 
 // Material Design 2 Dark Mode
 StyleProvider(Themes.dark)

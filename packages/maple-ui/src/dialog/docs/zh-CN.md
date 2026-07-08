@@ -11,7 +11,7 @@
 
 ```html
 <script setup>
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 </script>
 
 <template>
@@ -23,7 +23,7 @@ import { Dialog } from '@nio-pow/maple-ui'
 
 ```html
 <script setup>
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 
 function modifyTitle() {
   Dialog({
@@ -42,7 +42,7 @@ function modifyTitle() {
 
 ```html
 <script setup>
-import { Dialog } from '@nio-pow/maple-ui'
+import { Dialog } from '@maplejs/maple-ui'
 
 function hideButton() {
   Dialog({
@@ -65,7 +65,7 @@ function hideButton() {
 
 ```html
 <script setup>
-import { Dialog, Snackbar } from '@nio-pow/maple-ui'
+import { Dialog, Snackbar } from '@maplejs/maple-ui'
 
 const actions = {
   confirm: () => Snackbar.success('confirm'),
@@ -89,7 +89,7 @@ async function createAction() {
 
 ```html
 <script setup>
-import { Dialog, Snackbar } from '@nio-pow/maple-ui'
+import { Dialog, Snackbar } from '@maplejs/maple-ui'
 
 const actions = {
   confirm: () => Snackbar.success('confirm'),
@@ -126,7 +126,7 @@ function createAction() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
    
 const show = ref(false)
 </script>
@@ -149,7 +149,7 @@ const show = ref(false)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@nio-pow/maple-ui'
+import { Snackbar } from '@maplejs/maple-ui'
 
 const show = ref(false)
 

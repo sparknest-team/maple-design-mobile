@@ -9,7 +9,7 @@ Display loading progress at the top of the page.
 ```html
 <script setup>
 import { ref } from 'vue'
-import { LoadingBar } from '@nio-pow/maple-ui'
+import { LoadingBar } from '@maplejs/maple-ui'
 
 const hasCustomStyle = ref(false)
 

@@ -10,7 +10,7 @@
 
 ```js
 // playground-ignore
-import { Locale } from '@nio-pow/maple-ui'
+import { Locale } from '@maplejs/maple-ui'
 
 Locale.add('en-US', Locale.enUS)
 ```
@@ -36,7 +36,7 @@ Locale.use('en-US')
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Locale } from '@nio-pow/maple-ui'
+import { Locale } from '@maplejs/maple-ui'
 
 const date = ref('2021-04-08')
 const locale = ref('zh-CN')

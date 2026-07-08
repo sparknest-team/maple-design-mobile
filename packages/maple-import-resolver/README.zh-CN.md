@@ -2,7 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-`@nio-pow/maple-import-resolver` 是 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 的一个解析器，用于实现 Varlet 按需引入。
+`@maplejs/maple-import-resolver` 是 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 的一个解析器，用于实现 Varlet 按需引入。
 
 ## 特性
 
@@ -21,13 +21,13 @@
 
 ```shell
 # npm
-npm i @nio-pow/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @nio-pow/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @nio-pow/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
 ```
 
 ### Vite
@@ -37,7 +37,7 @@ pnpm add @nio-pow/maple-import-resolver unplugin-vue-components unplugin-auto-im
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleImportResolver } from '@nio-pow/maple-import-resolver'
+import { MapleImportResolver } from '@maplejs/maple-import-resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -59,7 +59,7 @@ export default defineConfig({
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleImportResolver } = require('@nio-pow/maple-import-resolver')
+const { MapleImportResolver } = require('@maplejs/maple-import-resolver')
 
 module.exports = {
   configureWebpack: {
@@ -92,8 +92,8 @@ module.exports = {
 ```js
 import App from './App.vue'
 import { createApp } from 'vue'
-import { Button } from '@nio-pow/maple-ui'
-import '@nio-pow/maple-ui/es/button/style/index'
+import { Button } from '@maplejs/maple-ui'
+import '@maplejs/maple-ui/es/button/style/index'
 
 createApp(App).use(Button)
 ```
@@ -102,8 +102,8 @@ createApp(App).use(Button)
 
 ```html
 <script setup>
-import { Button as VarButton } from '@nio-pow/maple-ui'
-import '@nio-pow/maple-ui/es/button/style/index'
+import { Button as VarButton } from '@maplejs/maple-ui'
+import '@maplejs/maple-ui/es/button/style/index'
 </script>
 
 <template>
@@ -117,9 +117,9 @@ import '@nio-pow/maple-ui/es/button/style/index'
 
 ```html
 <script setup>
-import { Button as VarButton, Snackbar } from '@nio-pow/maple-ui'
-import '@nio-pow/maple-ui/es/button/style/index'
-import '@nio-pow/maple-ui/es/snackbar/style/index'
+import { Button as VarButton, Snackbar } from '@maplejs/maple-ui'
+import '@maplejs/maple-ui/es/button/style/index'
+import '@maplejs/maple-ui/es/snackbar/style/index'
 
 function handleClick() {
   Snackbar('你好!')
