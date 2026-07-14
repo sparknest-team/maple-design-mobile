@@ -21,36 +21,36 @@ const mitt_star = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
   __proto__: null,
   default: default2
 }, Symbol.toStringTag, { value: "Module" }));
-var __defProp$F = Object.defineProperty;
+var __defProp$G = Object.defineProperty;
 var __defProps$j = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropSymbols$F = Object.getOwnPropertySymbols;
-var __hasOwnProp$F = Object.prototype.hasOwnProperty;
-var __propIsEnum$F = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$F = (obj, key3, value) => key3 in obj ? __defProp$F(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$F = (a, b) => {
+var __getOwnPropSymbols$G = Object.getOwnPropertySymbols;
+var __hasOwnProp$G = Object.prototype.hasOwnProperty;
+var __propIsEnum$G = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$G = (obj, key3, value) => key3 in obj ? __defProp$G(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$G = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$F.call(b, prop))
-      __defNormalProp$F(a, prop, b[prop]);
-  if (__getOwnPropSymbols$F)
-    for (var prop of __getOwnPropSymbols$F(b)) {
-      if (__propIsEnum$F.call(b, prop))
-        __defNormalProp$F(a, prop, b[prop]);
+    if (__hasOwnProp$G.call(b, prop))
+      __defNormalProp$G(a, prop, b[prop]);
+  if (__getOwnPropSymbols$G)
+    for (var prop of __getOwnPropSymbols$G(b)) {
+      if (__propIsEnum$G.call(b, prop))
+        __defNormalProp$G(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
 var __export = (target, all) => {
   for (var name2 in all)
-    __defProp$F(target, name2, { get: all[name2], enumerable: true });
+    __defProp$G(target, name2, { get: all[name2], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key3 of __getOwnPropNames(from))
-      if (!__hasOwnProp$F.call(to, key3) && key3 !== except)
-        __defProp$F(to, key3, { get: () => from[key3], enumerable: !(desc = __getOwnPropDesc(from, key3)) || desc.enumerable });
+      if (!__hasOwnProp$G.call(to, key3) && key3 !== except)
+        __defProp$G(to, key3, { get: () => from[key3], enumerable: !(desc = __getOwnPropDesc(from, key3)) || desc.enumerable });
   }
   return to;
 };
@@ -818,7 +818,7 @@ function getRect(element) {
       width,
       height
     };
-    return __spreadProps$j(__spreadValues$F({}, rect), {
+    return __spreadProps$j(__spreadValues$G({}, rect), {
       toJSON: () => rect
     });
   }
@@ -854,7 +854,7 @@ function raf() {
   });
 }
 function createStorage(storage) {
-  return __spreadProps$j(__spreadValues$F({}, storage), {
+  return __spreadProps$j(__spreadValues$G({}, storage), {
     set(key3, value) {
       if (value == null) {
         return;
@@ -1271,30 +1271,30 @@ var isURL = (val) => {
   }
   return /^(http)|(\.*\/)/.test(val);
 };
-var __defProp$E = Object.defineProperty;
-var __getOwnPropSymbols$E = Object.getOwnPropertySymbols;
-var __hasOwnProp$E = Object.prototype.hasOwnProperty;
-var __propIsEnum$E = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$E = (obj, key3, value) => key3 in obj ? __defProp$E(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$E = (a, b) => {
+var __defProp$F = Object.defineProperty;
+var __getOwnPropSymbols$F = Object.getOwnPropertySymbols;
+var __hasOwnProp$F = Object.prototype.hasOwnProperty;
+var __propIsEnum$F = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$F = (obj, key3, value) => key3 in obj ? __defProp$F(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$F = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$E.call(b, prop))
-      __defNormalProp$E(a, prop, b[prop]);
-  if (__getOwnPropSymbols$E)
-    for (var prop of __getOwnPropSymbols$E(b)) {
-      if (__propIsEnum$E.call(b, prop))
-        __defNormalProp$E(a, prop, b[prop]);
+    if (__hasOwnProp$F.call(b, prop))
+      __defNormalProp$F(a, prop, b[prop]);
+  if (__getOwnPropSymbols$F)
+    for (var prop of __getOwnPropSymbols$F(b)) {
+      if (__propIsEnum$F.call(b, prop))
+        __defNormalProp$F(a, prop, b[prop]);
     }
   return a;
 };
 var __objRest = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$E.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$F.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$E)
-    for (var prop of __getOwnPropSymbols$E(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$E.call(source, prop))
+  if (source != null && __getOwnPropSymbols$F)
+    for (var prop of __getOwnPropSymbols$F(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$F.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -1470,7 +1470,7 @@ function useChildren(key3) {
     removeItem(childProviders, childProvider);
   };
   const bindChildren = (parentProvider) => {
-    vue.provide(key3, __spreadValues$E({
+    vue.provide(key3, __spreadValues$F({
       childInstances,
       collect,
       clear: clear2
@@ -1724,21 +1724,21 @@ function useMotion(options) {
     reset
   };
 }
-var __defProp$D = Object.defineProperty;
+var __defProp$E = Object.defineProperty;
 var __defProps$i = Object.defineProperties;
 var __getOwnPropDescs$i = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$D = Object.getOwnPropertySymbols;
-var __hasOwnProp$D = Object.prototype.hasOwnProperty;
-var __propIsEnum$D = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$D = (obj, key3, value) => key3 in obj ? __defProp$D(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$D = (a, b) => {
+var __getOwnPropSymbols$E = Object.getOwnPropertySymbols;
+var __hasOwnProp$E = Object.prototype.hasOwnProperty;
+var __propIsEnum$E = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$E = (obj, key3, value) => key3 in obj ? __defProp$E(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$E = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$D.call(b, prop))
-      __defNormalProp$D(a, prop, b[prop]);
-  if (__getOwnPropSymbols$D)
-    for (var prop of __getOwnPropSymbols$D(b)) {
-      if (__propIsEnum$D.call(b, prop))
-        __defNormalProp$D(a, prop, b[prop]);
+    if (__hasOwnProp$E.call(b, prop))
+      __defNormalProp$E(a, prop, b[prop]);
+  if (__getOwnPropSymbols$E)
+    for (var prop of __getOwnPropSymbols$E(b)) {
+      if (__propIsEnum$E.call(b, prop))
+        __defNormalProp$E(a, prop, b[prop]);
     }
   return a;
 };
@@ -1787,7 +1787,7 @@ function withPropsDefaultsSetter(target, props2) {
         return;
       }
       if (isPlainObject(prop)) {
-        props2[key3] = __spreadProps$i(__spreadValues$D({}, prop), {
+        props2[key3] = __spreadProps$i(__spreadValues$E({}, prop), {
           default: value
         });
         return;
@@ -1816,7 +1816,7 @@ function mount$1(component) {
 function mountInstance(component, props2 = {}, eventListener = {}) {
   const Host = {
     setup() {
-      return () => vue.h(component, __spreadValues$D(__spreadValues$D({}, props2), eventListener));
+      return () => vue.h(component, __spreadValues$E(__spreadValues$E({}, props2), eventListener));
     }
   };
   const { unmount: unmount2 } = mount$1(Host);
@@ -2452,19 +2452,19 @@ var stdin_default$6j = {
   timePickerHint: "選擇時間"
 };
 var stdin_default$6i = stdin_default$6j;
-var __defProp$C = Object.defineProperty;
-var __getOwnPropSymbols$C = Object.getOwnPropertySymbols;
-var __hasOwnProp$C = Object.prototype.hasOwnProperty;
-var __propIsEnum$C = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$C = (obj, key3, value) => key3 in obj ? __defProp$C(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$C = (a, b) => {
+var __defProp$D = Object.defineProperty;
+var __getOwnPropSymbols$D = Object.getOwnPropertySymbols;
+var __hasOwnProp$D = Object.prototype.hasOwnProperty;
+var __propIsEnum$D = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$D = (obj, key3, value) => key3 in obj ? __defProp$D(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$D = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$C.call(b, prop))
-      __defNormalProp$C(a, prop, b[prop]);
-  if (__getOwnPropSymbols$C)
-    for (var prop of __getOwnPropSymbols$C(b)) {
-      if (__propIsEnum$C.call(b, prop))
-        __defNormalProp$C(a, prop, b[prop]);
+    if (__hasOwnProp$D.call(b, prop))
+      __defNormalProp$D(a, prop, b[prop]);
+  if (__getOwnPropSymbols$D)
+    for (var prop of __getOwnPropSymbols$D(b)) {
+      if (__propIsEnum$D.call(b, prop))
+        __defNormalProp$D(a, prop, b[prop]);
     }
   return a;
 };
@@ -2487,7 +2487,7 @@ function useLocale() {
       console.warn(`The ${lang} does not exist. You can mount a language message using the add method`);
       return;
     }
-    messages2.value[lang] = __spreadValues$C(__spreadValues$C({}, messages2.value[lang]), message);
+    messages2.value[lang] = __spreadValues$D(__spreadValues$D({}, messages2.value[lang]), message);
     use2(lang);
   };
   const t2 = (id) => {
@@ -2554,10 +2554,10 @@ const context = {
 };
 const _ContextComponent = vue.reactive(context);
 var stdin_default$6g = vue.reactive(context);
-const { n: n$1v } = createNamespace("");
+const { n: n$1u } = createNamespace("");
 function resolveLock() {
   const lockCounts = Object.keys(stdin_default$6g.locks).length;
-  lockCounts <= 0 ? document.body.classList.remove(n$1v("$--lock")) : document.body.classList.add(n$1v("$--lock"));
+  lockCounts <= 0 ? document.body.classList.remove(n$1u("$--lock")) : document.body.classList.add(n$1u("$--lock"));
 }
 function addLock(uid) {
   stdin_default$6g.locks[uid] = 1;
@@ -2738,25 +2738,25 @@ function usePopupItems() {
     bindPopupItems: bindChildren
   };
 }
-var __defProp$B = Object.defineProperty;
-var __getOwnPropSymbols$B = Object.getOwnPropertySymbols;
-var __hasOwnProp$B = Object.prototype.hasOwnProperty;
-var __propIsEnum$B = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$B = (obj, key3, value) => key3 in obj ? __defProp$B(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$B = (a, b) => {
+var __defProp$C = Object.defineProperty;
+var __getOwnPropSymbols$C = Object.getOwnPropertySymbols;
+var __hasOwnProp$C = Object.prototype.hasOwnProperty;
+var __propIsEnum$C = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$C = (obj, key3, value) => key3 in obj ? __defProp$C(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$C = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$B.call(b, prop))
-      __defNormalProp$B(a, prop, b[prop]);
-  if (__getOwnPropSymbols$B)
-    for (var prop of __getOwnPropSymbols$B(b)) {
-      if (__propIsEnum$B.call(b, prop))
-        __defNormalProp$B(a, prop, b[prop]);
+    if (__hasOwnProp$C.call(b, prop))
+      __defNormalProp$C(a, prop, b[prop]);
+  if (__getOwnPropSymbols$C)
+    for (var prop of __getOwnPropSymbols$C(b)) {
+      if (__propIsEnum$C.call(b, prop))
+        __defNormalProp$C(a, prop, b[prop]);
     }
   return a;
 };
 const {
   name: name$1m,
-  n: n$1u,
+  n: n$1t,
   classes: classes$19
 } = createNamespace("popup");
 var stdin_default$6f = vue.defineComponent({
@@ -2810,8 +2810,8 @@ var stdin_default$6f = vue.defineComponent({
         overlayStyle
       } = props2;
       return vue.createVNode("div", {
-        "class": classes$19(n$1u("overlay"), overlayClass),
-        "style": __spreadValues$B({
+        "class": classes$19(n$1t("overlay"), overlayClass),
+        "style": __spreadValues$C({
           zIndex: normalizedZIndex.value - 1
         }, overlayStyle),
         "onClick": hidePopup
@@ -2819,7 +2819,7 @@ var stdin_default$6f = vue.defineComponent({
     }
     function renderContent() {
       return vue.withDirectives(vue.createVNode("div", vue.mergeProps({
-        "class": classes$19(n$1u("content"), n$1u(`--${props2.position}`), [props2.defaultStyle, n$1u("--content-background-color")], [props2.defaultStyle, n$1u("$-elevation--3")], [props2.safeArea, n$1u("--safe-area")], [props2.safeAreaTop, n$1u("--safe-area-top")]),
+        "class": classes$19(n$1t("content"), n$1t(`--${props2.position}`), [props2.defaultStyle, n$1t("--content-background-color")], [props2.defaultStyle, n$1t("$-elevation--3")], [props2.safeArea, n$1t("--safe-area")], [props2.safeAreaTop, n$1t("--safe-area-top")]),
         "style": {
           zIndex: normalizedZIndex.value
         },
@@ -2829,17 +2829,17 @@ var stdin_default$6f = vue.defineComponent({
     }
     function renderPopup() {
       return vue.createVNode(vue.Transition, {
-        "name": n$1u("$-fade"),
+        "name": n$1t("$-fade"),
         "onAfterEnter": props2.onOpened,
         "onAfterLeave": props2.onClosed
       }, {
         default: () => [vue.withDirectives(vue.createVNode("div", {
-          "class": classes$19(n$1u("$--box"), n$1u(), [!props2.overlay, n$1u("--pointer-events-none")]),
+          "class": classes$19(n$1t("$--box"), n$1t(), [!props2.overlay, n$1t("--pointer-events-none")]),
           "style": {
             zIndex: normalizedZIndex.value - 2
           }
         }, [props2.overlay && renderOverlay(), vue.createVNode(vue.Transition, {
-          "name": props2.transition || n$1u(`$-pop-${props2.position}`)
+          "name": props2.transition || n$1t(`$-pop-${props2.position}`)
         }, {
           default: () => [renderContent()]
         })]), [[vue.vShow, props2.show]])]
@@ -2876,26 +2876,26 @@ withInstall(stdin_default$6f);
 withPropsDefaultsSetter(stdin_default$6f, props$1i);
 const _PopupComponent = stdin_default$6f;
 var stdin_default$6e = stdin_default$6f;
-var __defProp$A = Object.defineProperty;
+var __defProp$B = Object.defineProperty;
 var __defProps$h = Object.defineProperties;
 var __getOwnPropDescs$h = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$A = Object.getOwnPropertySymbols;
-var __hasOwnProp$A = Object.prototype.hasOwnProperty;
-var __propIsEnum$A = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$A = (obj, key3, value) => key3 in obj ? __defProp$A(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$A = (a, b) => {
+var __getOwnPropSymbols$B = Object.getOwnPropertySymbols;
+var __hasOwnProp$B = Object.prototype.hasOwnProperty;
+var __propIsEnum$B = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$B = (obj, key3, value) => key3 in obj ? __defProp$B(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$B = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$A.call(b, prop))
-      __defNormalProp$A(a, prop, b[prop]);
-  if (__getOwnPropSymbols$A)
-    for (var prop of __getOwnPropSymbols$A(b)) {
-      if (__propIsEnum$A.call(b, prop))
-        __defNormalProp$A(a, prop, b[prop]);
+    if (__hasOwnProp$B.call(b, prop))
+      __defNormalProp$B(a, prop, b[prop]);
+  if (__getOwnPropSymbols$B)
+    for (var prop of __getOwnPropSymbols$B(b)) {
+      if (__propIsEnum$B.call(b, prop))
+        __defNormalProp$B(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$h = (a, b) => __defProps$h(a, __getOwnPropDescs$h(b));
-const { n: n$1t } = createNamespace("ripple");
+const { n: n$1s } = createNamespace("ripple");
 const ANIMATION_DURATION$1 = 250;
 function setStyles(element) {
   const { zIndex, position } = getStyle$1(element);
@@ -2931,7 +2931,7 @@ function createRipple(event) {
     _ripple.tasker = null;
     const { x, y, centerX, centerY, size } = computeRippleStyles(this, event);
     const ripple = document.createElement("div");
-    ripple.classList.add(n$1t());
+    ripple.classList.add(n$1s());
     ripple.style.opacity = `0`;
     ripple.style.transform = `translate(${x}px, ${y}px) scale3d(.3, .3, .3)`;
     ripple.style.width = `${size}px`;
@@ -2950,7 +2950,7 @@ function createRipple(event) {
 function removeRipple() {
   const _ripple = this._ripple;
   const task = () => {
-    const ripples = this.querySelectorAll(`.${n$1t()}`);
+    const ripples = this.querySelectorAll(`.${n$1s()}`);
     if (!ripples.length) {
       return;
     }
@@ -2991,7 +2991,7 @@ function removeKeyboardRipple() {
 }
 function mounted$2(el, binding) {
   var _a;
-  el._ripple = __spreadProps$h(__spreadValues$A({
+  el._ripple = __spreadProps$h(__spreadValues$B({
     tasker: null
   }, (_a = binding.value) != null ? _a : {}), {
     removeRipple: removeRipple.bind(el)
@@ -3025,7 +3025,7 @@ function updated$2(el, binding) {
   };
   const diff2 = newBinding.color !== ((_c = el._ripple) == null ? void 0 : _c.color) || newBinding.disabled !== ((_d = el._ripple) == null ? void 0 : _d.disabled);
   if (diff2) {
-    el._ripple = __spreadValues$A({
+    el._ripple = __spreadValues$B({
       tasker: newBinding.disabled ? null : (_e = el._ripple) == null ? void 0 : _e.tasker,
       removeRipple: (_f = el._ripple) == null ? void 0 : _f.removeRipple
     }, newBinding);
@@ -3171,7 +3171,7 @@ const props$1h = {
   hovering: Boolean,
   focusing: Boolean
 };
-const { name: name$1l, n: n$1s, classes: classes$18 } = createNamespace("hover-overlay");
+const { name: name$1l, n: n$1r, classes: classes$18 } = createNamespace("hover-overlay");
 function __render__$1v(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -3187,7 +3187,7 @@ const __sfc__$1y = vue.defineComponent({
   name: name$1l,
   props: props$1h,
   setup: () => ({
-    n: n$1s,
+    n: n$1r,
     classes: classes$18,
     inMobile
   })
@@ -3434,7 +3434,7 @@ var __async$k = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$1k, n: n$1r, classes: classes$17 } = createNamespace("icon");
+const { name: name$1k, n: n$1q, classes: classes$17 } = createNamespace("icon");
 function __render__$1u(_ctx, _cache) {
   return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.isURL(_ctx.name) ? "img" : "i"), {
     class: vue.normalizeClass(
@@ -3484,7 +3484,7 @@ const __sfc__$1x = vue.defineComponent({
     return {
       nextName,
       animateInProgress,
-      n: n$1r,
+      n: n$1q,
       classes: classes$17,
       isURL,
       toNumber,
@@ -3498,7 +3498,7 @@ withInstall(stdin_default$69);
 withPropsDefaultsSetter(stdin_default$69, props$1g);
 const _IconComponent = stdin_default$69;
 var stdin_default$68 = stdin_default$69;
-const { name: name$1j, n: n$1q, classes: classes$16 } = createNamespace("action-sheet");
+const { name: name$1j, n: n$1p, classes: classes$16 } = createNamespace("action-sheet");
 function __render__$1t(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   const _component_mp_hover_overlay = vue.resolveComponent("mp-hover-overlay");
@@ -3559,7 +3559,7 @@ const __sfc__$1w = vue.defineComponent({
     const { hovering, handleHovering } = useHoverOverlay();
     return {
       hovering,
-      n: n$1q,
+      n: n$1p,
       classes: classes$16,
       handleHovering
     };
@@ -3567,23 +3567,23 @@ const __sfc__$1w = vue.defineComponent({
 });
 __sfc__$1w.render = __render__$1t;
 var stdin_default$67 = __sfc__$1w;
-var __defProp$z = Object.defineProperty;
-var __getOwnPropSymbols$z = Object.getOwnPropertySymbols;
-var __hasOwnProp$z = Object.prototype.hasOwnProperty;
-var __propIsEnum$z = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$z = (obj, key3, value) => key3 in obj ? __defProp$z(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$z = (a, b) => {
+var __defProp$A = Object.defineProperty;
+var __getOwnPropSymbols$A = Object.getOwnPropertySymbols;
+var __hasOwnProp$A = Object.prototype.hasOwnProperty;
+var __propIsEnum$A = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$A = (obj, key3, value) => key3 in obj ? __defProp$A(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$A = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$z.call(b, prop))
-      __defNormalProp$z(a, prop, b[prop]);
-  if (__getOwnPropSymbols$z)
-    for (var prop of __getOwnPropSymbols$z(b)) {
-      if (__propIsEnum$z.call(b, prop))
-        __defNormalProp$z(a, prop, b[prop]);
+    if (__hasOwnProp$A.call(b, prop))
+      __defNormalProp$A(a, prop, b[prop]);
+  if (__getOwnPropSymbols$A)
+    for (var prop of __getOwnPropSymbols$A(b)) {
+      if (__propIsEnum$A.call(b, prop))
+        __defNormalProp$A(a, prop, b[prop]);
     }
   return a;
 };
-const props$1f = __spreadValues$z({
+const props$1f = __spreadValues$A({
   show: Boolean,
   title: String,
   actions: {
@@ -3614,7 +3614,7 @@ const props$1f = __spreadValues$z({
   "onRouteChange",
   "onKeyEscape"
 ]));
-const { name: name$1i, n: n$1p, classes: classes$15 } = createNamespace("action-sheet");
+const { name: name$1i, n: n$1o, classes: classes$15 } = createNamespace("action-sheet");
 function __render__$1s(_ctx, _cache) {
   const _component_mp_action_item = vue.resolveComponent("mp-action-item");
   const _component_mp_popup = vue.resolveComponent("mp-popup");
@@ -3714,7 +3714,7 @@ const __sfc__$1v = vue.defineComponent({
       show,
       pt,
       t,
-      n: n$1p,
+      n: n$1o,
       classes: classes$15,
       handleSelect
     };
@@ -3722,26 +3722,26 @@ const __sfc__$1v = vue.defineComponent({
 });
 __sfc__$1v.render = __render__$1s;
 var stdin_default$66 = __sfc__$1v;
-var __defProp$y = Object.defineProperty;
-var __getOwnPropSymbols$y = Object.getOwnPropertySymbols;
-var __hasOwnProp$y = Object.prototype.hasOwnProperty;
-var __propIsEnum$y = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$y = (obj, key3, value) => key3 in obj ? __defProp$y(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$y = (a, b) => {
+var __defProp$z = Object.defineProperty;
+var __getOwnPropSymbols$z = Object.getOwnPropertySymbols;
+var __hasOwnProp$z = Object.prototype.hasOwnProperty;
+var __propIsEnum$z = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$z = (obj, key3, value) => key3 in obj ? __defProp$z(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$z = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$y.call(b, prop))
-      __defNormalProp$y(a, prop, b[prop]);
-  if (__getOwnPropSymbols$y)
-    for (var prop of __getOwnPropSymbols$y(b)) {
-      if (__propIsEnum$y.call(b, prop))
-        __defNormalProp$y(a, prop, b[prop]);
+    if (__hasOwnProp$z.call(b, prop))
+      __defNormalProp$z(a, prop, b[prop]);
+  if (__getOwnPropSymbols$z)
+    for (var prop of __getOwnPropSymbols$z(b)) {
+      if (__propIsEnum$z.call(b, prop))
+        __defNormalProp$z(a, prop, b[prop]);
     }
   return a;
 };
 let singletonOptions$3;
 let defaultOptions$3 = {};
 function normalizeOptions$3(options = {}) {
-  return __spreadValues$y(__spreadValues$y({}, defaultOptions$3), options);
+  return __spreadValues$z(__spreadValues$z({}, defaultOptions$3), options);
 }
 function ActionSheet(options) {
   if (!inBrowser()) {
@@ -3836,21 +3836,21 @@ const alertProps = {
   /** 关闭动画结束后回调 */
   onAfterClose: defineListenerProp()
 };
-var __defProp$x = Object.defineProperty;
+var __defProp$y = Object.defineProperty;
 var __defProps$g = Object.defineProperties;
 var __getOwnPropDescs$g = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$x = Object.getOwnPropertySymbols;
-var __hasOwnProp$x = Object.prototype.hasOwnProperty;
-var __propIsEnum$x = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$x = (obj, key3, value) => key3 in obj ? __defProp$x(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$x = (a, b) => {
+var __getOwnPropSymbols$y = Object.getOwnPropertySymbols;
+var __hasOwnProp$y = Object.prototype.hasOwnProperty;
+var __propIsEnum$y = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$y = (obj, key3, value) => key3 in obj ? __defProp$y(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$y = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$x.call(b, prop))
-      __defNormalProp$x(a, prop, b[prop]);
-  if (__getOwnPropSymbols$x)
-    for (var prop of __getOwnPropSymbols$x(b)) {
-      if (__propIsEnum$x.call(b, prop))
-        __defNormalProp$x(a, prop, b[prop]);
+    if (__hasOwnProp$y.call(b, prop))
+      __defNormalProp$y(a, prop, b[prop]);
+  if (__getOwnPropSymbols$y)
+    for (var prop of __getOwnPropSymbols$y(b)) {
+      if (__propIsEnum$y.call(b, prop))
+        __defNormalProp$y(a, prop, b[prop]);
     }
   return a;
 };
@@ -3979,7 +3979,7 @@ function __render__$1r(_ctx, _cache, $props, $setup, $data, $options) {
     /* FORWARDED */
   });
 }
-const __sfc__$1u = /* @__PURE__ */ vue.defineComponent(__spreadProps$g(__spreadValues$x({}, {
+const __sfc__$1u = /* @__PURE__ */ vue.defineComponent(__spreadProps$g(__spreadValues$y({}, {
   name: createNamespace("alert").name
 }), {
   __name: "Alert",
@@ -4050,7 +4050,7 @@ const props$1e = {
   fixed: Boolean,
   placeholder: Boolean
 };
-const { name: name$1h, n: n$1o, classes: classes$14 } = createNamespace("app-bar");
+const { name: name$1h, n: n$1n, classes: classes$14 } = createNamespace("app-bar");
 function __render__$1q(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     vue.Fragment,
@@ -4227,7 +4227,7 @@ const __sfc__$1t = vue.defineComponent({
       rootStyles,
       paddingLeft,
       paddingRight,
-      n: n$1o,
+      n: n$1n,
       classes: classes$14,
       formatElevation,
       appBar,
@@ -4251,7 +4251,7 @@ const props$1d = {
     default: ""
   }
 };
-const { name: name$1g, n: n$1n } = createNamespace("form-details");
+const { name: name$1g, n: n$1m } = createNamespace("form-details");
 const _hoisted_1$B = { key: 0 };
 const _hoisted_2$b = { key: 0 };
 function __render__$1p(_ctx, _cache) {
@@ -4330,7 +4330,7 @@ function __render__$1p(_ctx, _cache) {
 const __sfc__$1s = vue.defineComponent({
   name: name$1g,
   props: props$1d,
-  setup: () => ({ n: n$1n })
+  setup: () => ({ n: n$1m })
 });
 __sfc__$1s.render = __render__$1p;
 var stdin_default$60 = __sfc__$1s;
@@ -4338,21 +4338,21 @@ withInstall(stdin_default$60);
 withPropsDefaultsSetter(stdin_default$60, props$1d);
 const _FormDetailsComponent = stdin_default$60;
 var stdin_default$5$ = stdin_default$60;
-var __defProp$w = Object.defineProperty;
+var __defProp$x = Object.defineProperty;
 var __defProps$f = Object.defineProperties;
 var __getOwnPropDescs$f = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$w = Object.getOwnPropertySymbols;
-var __hasOwnProp$w = Object.prototype.hasOwnProperty;
-var __propIsEnum$w = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$w = (obj, key3, value) => key3 in obj ? __defProp$w(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$w = (a, b) => {
+var __getOwnPropSymbols$x = Object.getOwnPropertySymbols;
+var __hasOwnProp$x = Object.prototype.hasOwnProperty;
+var __propIsEnum$x = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$x = (obj, key3, value) => key3 in obj ? __defProp$x(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$x = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$w.call(b, prop))
-      __defNormalProp$w(a, prop, b[prop]);
-  if (__getOwnPropSymbols$w)
-    for (var prop of __getOwnPropSymbols$w(b)) {
-      if (__propIsEnum$w.call(b, prop))
-        __defNormalProp$w(a, prop, b[prop]);
+    if (__hasOwnProp$x.call(b, prop))
+      __defNormalProp$x(a, prop, b[prop]);
+  if (__getOwnPropSymbols$x)
+    for (var prop of __getOwnPropSymbols$x(b)) {
+      if (__propIsEnum$x.call(b, prop))
+        __defNormalProp$x(a, prop, b[prop]);
     }
   return a;
 };
@@ -4362,7 +4362,7 @@ function useForm() {
   const { parentProvider, index, bindParent } = useParent(FORM_BIND_FORM_ITEM_KEY);
   const instance = vue.getCurrentInstance();
   const bindForm = bindParent ? (formItemProvider) => {
-    bindParent(__spreadProps$f(__spreadValues$w({}, formItemProvider), { instance }));
+    bindParent(__spreadProps$f(__spreadValues$x({}, formItemProvider), { instance }));
   } : null;
   return {
     index,
@@ -4378,36 +4378,36 @@ function useFormItems() {
     bindFormItems: bindChildren
   };
 }
-const SWIPE_BIND_SWIPE_ITEM_KEY = Symbol("SWIPE_BIND_SWIPE_ITEM_KEY");
-const SWIPE_RESIZE_DISPATCHER_BIND_SWIPE_RESIZE_LISTENER_KEY = Symbol(
-  "SWIPE_RESIZE_DISPATCHER_BIND_SWIPE_RESIZE_LISTENER_KEY"
+const CAROUSEL_BIND_CAROUSEL_ITEM_KEY = Symbol("CAROUSEL_BIND_CAROUSEL_ITEM_KEY");
+const CAROUSEL_RESIZE_DISPATCHER_BIND_CAROUSEL_RESIZE_LISTENER_KEY = Symbol(
+  "CAROUSEL_RESIZE_DISPATCHER_BIND_CAROUSEL_RESIZE_LISTENER_KEY"
 );
-function useSwipeItems() {
+function useCarouselItems() {
   const { childProviders, length, bindChildren } = useChildren(
-    SWIPE_BIND_SWIPE_ITEM_KEY
+    CAROUSEL_BIND_CAROUSEL_ITEM_KEY
   );
   return {
     length,
-    swipeItems: childProviders,
-    bindSwipeItems: bindChildren
+    carouselItems: childProviders,
+    bindCarouselItems: bindChildren
   };
 }
-function useSwipeResizeListeners() {
+function useCarouselResizeListeners() {
   const { childProviders, bindChildren } = useChildren(
-    SWIPE_RESIZE_DISPATCHER_BIND_SWIPE_RESIZE_LISTENER_KEY
+    CAROUSEL_RESIZE_DISPATCHER_BIND_CAROUSEL_RESIZE_LISTENER_KEY
   );
   return {
-    swipeResizeListeners: childProviders,
-    bindSwipeResizeListeners: bindChildren
+    carouselResizeListeners: childProviders,
+    bindCarouselResizeListeners: bindChildren
   };
 }
-function useSwipeResizeDispatcher() {
+function useCarouselResizeDispatcher() {
   const { parentProvider, bindParent } = useParent(
-    SWIPE_RESIZE_DISPATCHER_BIND_SWIPE_RESIZE_LISTENER_KEY
+    CAROUSEL_RESIZE_DISPATCHER_BIND_CAROUSEL_RESIZE_LISTENER_KEY
   );
   return {
-    swipeResizeDispatcher: parentProvider,
-    bindSwipeResizeDispatcher: bindParent
+    carouselResizeDispatcher: parentProvider,
+    bindCarouselResizeDispatcher: bindParent
   };
 }
 const props$1c = {
@@ -4473,7 +4473,7 @@ var __async$j = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$1f, n: n$1m, classes: classes$13 } = createNamespace("field-decorator");
+const { name: name$1f, n: n$1l, classes: classes$13 } = createNamespace("field-decorator");
 const _hoisted_1$A = ["for"];
 function __render__$1o(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
@@ -4683,7 +4683,7 @@ const __sfc__$1r = vue.defineComponent({
     const transitionDisabled = vue.ref(true);
     const isFloating = vue.computed(() => props2.hint && (!isEmpty(props2.value) || props2.isFocusing));
     const { popup, bindPopup } = usePopup();
-    const { bindSwipeResizeDispatcher } = useSwipeResizeDispatcher();
+    const { bindCarouselResizeDispatcher } = useCarouselResizeDispatcher();
     const color = vue.computed(
       () => !props2.isError ? props2.isFocusing ? props2.focusColor : props2.blurColor : void 0
     );
@@ -4696,7 +4696,7 @@ const __sfc__$1r = vue.defineComponent({
     });
     vue.onUpdated(resize);
     call(bindPopup, null);
-    call(bindSwipeResizeDispatcher, {
+    call(bindCarouselResizeDispatcher, {
       onResize() {
         vue.nextTick().then(resize);
       }
@@ -4715,10 +4715,10 @@ const __sfc__$1r = vue.defineComponent({
     function computePlaceholderState() {
       const { hint, value, composing } = props2;
       if (!hint && (!isEmpty(value) || composing)) {
-        return n$1m("--placeholder-hidden");
+        return n$1l("--placeholder-hidden");
       }
       if (isFloating.value) {
-        return n$1m("--placeholder-hint");
+        return n$1l("--placeholder-hint");
       }
     }
     function handleClear(e) {
@@ -4749,7 +4749,7 @@ const __sfc__$1r = vue.defineComponent({
       transitionDisabled,
       resize,
       computePlaceholderState,
-      n: n$1m,
+      n: n$1l,
       classes: classes$13,
       isEmpty,
       handleClear,
@@ -4763,26 +4763,26 @@ withInstall(stdin_default$5_);
 withPropsDefaultsSetter(stdin_default$5_, props$1c);
 const _FieldDecoratorComponent = stdin_default$5_;
 var stdin_default$5Z = stdin_default$5_;
-var __defProp$v = Object.defineProperty;
+var __defProp$w = Object.defineProperty;
 var __defProps$e = Object.defineProperties;
 var __getOwnPropDescs$e = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
-var __hasOwnProp$v = Object.prototype.hasOwnProperty;
-var __propIsEnum$v = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$v = (obj, key3, value) => key3 in obj ? __defProp$v(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$v = (a, b) => {
+var __getOwnPropSymbols$w = Object.getOwnPropertySymbols;
+var __hasOwnProp$w = Object.prototype.hasOwnProperty;
+var __propIsEnum$w = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$w = (obj, key3, value) => key3 in obj ? __defProp$w(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$w = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$v.call(b, prop))
-      __defNormalProp$v(a, prop, b[prop]);
-  if (__getOwnPropSymbols$v)
-    for (var prop of __getOwnPropSymbols$v(b)) {
-      if (__propIsEnum$v.call(b, prop))
-        __defNormalProp$v(a, prop, b[prop]);
+    if (__hasOwnProp$w.call(b, prop))
+      __defNormalProp$w(a, prop, b[prop]);
+  if (__getOwnPropSymbols$w)
+    for (var prop of __getOwnPropSymbols$w(b)) {
+      if (__propIsEnum$w.call(b, prop))
+        __defNormalProp$w(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$e = (a, b) => __defProps$e(a, __getOwnPropDescs$e(b));
-const props$1b = __spreadProps$e(__spreadValues$v({
+const props$1b = __spreadProps$e(__spreadValues$w({
   modelValue: String,
   modelModifiers: {
     type: Object,
@@ -4843,7 +4843,7 @@ const props$1b = __spreadProps$e(__spreadValues$v({
   }
   // internal end
 });
-const { name: name$1e, n: n$1l, classes: classes$12 } = createNamespace("input");
+const { name: name$1e, n: n$1k, classes: classes$12 } = createNamespace("input");
 const _hoisted_1$z = ["aria-label", "placeholder", "enterkeyhint"];
 const _hoisted_2$a = ["id", "aria-label", "autocomplete", "disabled", "readonly", "type", "value", "placeholder", "maxlength", "rows", "enterkeyhint", "inputmode"];
 const _hoisted_3$4 = ["id", "aria-label", "autocomplete", "disabled", "readonly", "type", "value", "placeholder", "maxlength", "enterkeyhint", "inputmode"];
@@ -5191,7 +5191,7 @@ const __sfc__$1q = vue.defineComponent({
       maxlengthText,
       formDisabled: form == null ? void 0 : form.disabled,
       formReadonly: form == null ? void 0 : form.readonly,
-      n: n$1l,
+      n: n$1k,
       classes: classes$12,
       isEmpty,
       handleFocus,
@@ -5271,7 +5271,7 @@ function useCheckboxGroup() {
     bindCheckboxGroup: bindParent
   };
 }
-const { name: name$1d, n: n$1k, classes: classes$11 } = createNamespace("checkbox");
+const { name: name$1d, n: n$1j, classes: classes$11 } = createNamespace("checkbox");
 const _hoisted_1$y = ["tabindex"];
 function __render__$1m(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
@@ -5493,7 +5493,7 @@ const __sfc__$1p = vue.defineComponent({
       formDisabled: form == null ? void 0 : form.disabled,
       formReadonly: form == null ? void 0 : form.readonly,
       hovering,
-      n: n$1k,
+      n: n$1j,
       classes: classes$11,
       handleHovering,
       handleClick,
@@ -5568,7 +5568,7 @@ var __async$i = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$1c, n: n$1j, classes: classes$10 } = createNamespace("menu-option");
+const { name: name$1c, n: n$1i, classes: classes$10 } = createNamespace("menu-option");
 const _hoisted_1$x = ["tabindex"];
 function __render__$1l(_ctx, _cache) {
   const _component_mp_checkbox = vue.resolveComponent("mp-checkbox");
@@ -5775,7 +5775,7 @@ const __sfc__$1o = vue.defineComponent({
       hovering,
       isFocusing,
       labelVNode,
-      n: n$1j,
+      n: n$1i,
       classes: classes$10,
       handleHovering,
       handleClick,
@@ -6975,21 +6975,21 @@ var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyS
 var createPopper = /* @__PURE__ */ popperGenerator({
   defaultModifiers
 });
-var __defProp$u = Object.defineProperty;
+var __defProp$v = Object.defineProperty;
 var __defProps$d = Object.defineProperties;
 var __getOwnPropDescs$d = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$u = Object.getOwnPropertySymbols;
-var __hasOwnProp$u = Object.prototype.hasOwnProperty;
-var __propIsEnum$u = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$u = (obj, key3, value) => key3 in obj ? __defProp$u(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$u = (a, b) => {
+var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
+var __hasOwnProp$v = Object.prototype.hasOwnProperty;
+var __propIsEnum$v = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$v = (obj, key3, value) => key3 in obj ? __defProp$v(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$v = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$u.call(b, prop))
-      __defNormalProp$u(a, prop, b[prop]);
-  if (__getOwnPropSymbols$u)
-    for (var prop of __getOwnPropSymbols$u(b)) {
-      if (__propIsEnum$u.call(b, prop))
-        __defNormalProp$u(a, prop, b[prop]);
+    if (__hasOwnProp$v.call(b, prop))
+      __defNormalProp$v(a, prop, b[prop]);
+  if (__getOwnPropSymbols$v)
+    for (var prop of __getOwnPropSymbols$v(b)) {
+      if (__propIsEnum$v.call(b, prop))
+        __defNormalProp$v(a, prop, b[prop]);
     }
   return a;
 };
@@ -7273,15 +7273,15 @@ function usePopover(options) {
   function getPopperOptions() {
     const { placement, skidding, distance } = getPosition();
     const modifiers = [
-      __spreadProps$d(__spreadValues$u({}, flip$1), {
+      __spreadProps$d(__spreadValues$v({}, flip$1), {
         enabled: show.value
       }),
-      __spreadProps$d(__spreadValues$u({}, offset$1), {
+      __spreadProps$d(__spreadValues$v({}, offset$1), {
         options: {
           offset: [skidding, distance]
         }
       }),
-      __spreadProps$d(__spreadValues$u({}, computeStyles$1), {
+      __spreadProps$d(__spreadValues$v({}, computeStyles$1), {
         options: {
           adaptive: false,
           gpuAcceleration: false
@@ -7360,7 +7360,7 @@ function usePopover(options) {
     close
   };
 }
-const { name: name$1b, n: n$1i, classes: classes$$ } = createNamespace("menu");
+const { name: name$1b, n: n$1h, classes: classes$$ } = createNamespace("menu");
 function __render__$1k(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -7459,7 +7459,7 @@ const __sfc__$1n = vue.defineComponent({
       allowClose,
       formatElevation,
       toSizeUnit,
-      n: n$1i,
+      n: n$1h,
       classes: classes$$,
       handlePopoverMouseenter,
       handlePopoverMouseleave,
@@ -7545,26 +7545,26 @@ function useSelectController(options) {
     getSelectedValue
   };
 }
-var __defProp$t = Object.defineProperty;
+var __defProp$u = Object.defineProperty;
 var __defProps$c = Object.defineProperties;
 var __getOwnPropDescs$c = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$t = Object.getOwnPropertySymbols;
-var __hasOwnProp$t = Object.prototype.hasOwnProperty;
-var __propIsEnum$t = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$t = (obj, key3, value) => key3 in obj ? __defProp$t(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$t = (a, b) => {
+var __getOwnPropSymbols$u = Object.getOwnPropertySymbols;
+var __hasOwnProp$u = Object.prototype.hasOwnProperty;
+var __propIsEnum$u = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$u = (obj, key3, value) => key3 in obj ? __defProp$u(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$u = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$t.call(b, prop))
-      __defNormalProp$t(a, prop, b[prop]);
-  if (__getOwnPropSymbols$t)
-    for (var prop of __getOwnPropSymbols$t(b)) {
-      if (__propIsEnum$t.call(b, prop))
-        __defNormalProp$t(a, prop, b[prop]);
+    if (__hasOwnProp$u.call(b, prop))
+      __defNormalProp$u(a, prop, b[prop]);
+  if (__getOwnPropSymbols$u)
+    for (var prop of __getOwnPropSymbols$u(b)) {
+      if (__propIsEnum$u.call(b, prop))
+        __defNormalProp$u(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$c = (a, b) => __defProps$c(a, __getOwnPropDescs$c(b));
-const props$17 = __spreadProps$c(__spreadValues$t({
+const props$17 = __spreadProps$c(__spreadValues$u({
   modelValue: {
     type: [String, Number, Boolean, Array],
     default: void 0
@@ -7622,19 +7622,19 @@ const props$17 = __spreadProps$c(__spreadValues$t({
   onKeyEscape: defineListenerProp()
   // internal end
 });
-var __defProp$s = Object.defineProperty;
-var __getOwnPropSymbols$s = Object.getOwnPropertySymbols;
-var __hasOwnProp$s = Object.prototype.hasOwnProperty;
-var __propIsEnum$s = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$s = (obj, key3, value) => key3 in obj ? __defProp$s(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$s = (a, b) => {
+var __defProp$t = Object.defineProperty;
+var __getOwnPropSymbols$t = Object.getOwnPropertySymbols;
+var __hasOwnProp$t = Object.prototype.hasOwnProperty;
+var __propIsEnum$t = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$t = (obj, key3, value) => key3 in obj ? __defProp$t(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$t = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$s.call(b, prop))
-      __defNormalProp$s(a, prop, b[prop]);
-  if (__getOwnPropSymbols$s)
-    for (var prop of __getOwnPropSymbols$s(b)) {
-      if (__propIsEnum$s.call(b, prop))
-        __defNormalProp$s(a, prop, b[prop]);
+    if (__hasOwnProp$t.call(b, prop))
+      __defNormalProp$t(a, prop, b[prop]);
+  if (__getOwnPropSymbols$t)
+    for (var prop of __getOwnPropSymbols$t(b)) {
+      if (__propIsEnum$t.call(b, prop))
+        __defNormalProp$t(a, prop, b[prop]);
     }
   return a;
 };
@@ -7658,7 +7658,7 @@ var __async$g = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$1a, n: n$1h } = createNamespace("menu-children");
+const { name: name$1a, n: n$1g } = createNamespace("menu-children");
 const _hoisted_1$w = { ref: "menuOptions" };
 function __render__$1j(_ctx, _cache) {
   const _component_mp_menu_option = vue.resolveComponent("mp-menu-option");
@@ -7756,7 +7756,7 @@ const __sfc__$1m = vue.defineComponent({
     MpMenu: stdin_default$5S,
     MpMenuOption: stdin_default$5U
   },
-  props: __spreadValues$s({
+  props: __spreadValues$t({
     parentShow: Boolean,
     disabled: Boolean,
     option: {
@@ -7836,7 +7836,7 @@ const __sfc__$1m = vue.defineComponent({
       trigger,
       menuOptions,
       menuChildren,
-      n: n$1h,
+      n: n$1g,
       close,
       handleArrowLeft,
       handleArrowRight,
@@ -7848,26 +7848,26 @@ const __sfc__$1m = vue.defineComponent({
 });
 __sfc__$1m.render = __render__$1j;
 var stdin_default$5Q = __sfc__$1m;
-var __defProp$r = Object.defineProperty;
+var __defProp$s = Object.defineProperty;
 var __defProps$b = Object.defineProperties;
 var __getOwnPropDescs$b = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$r = Object.getOwnPropertySymbols;
-var __hasOwnProp$r = Object.prototype.hasOwnProperty;
-var __propIsEnum$r = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$r = (obj, key3, value) => key3 in obj ? __defProp$r(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$r = (a, b) => {
+var __getOwnPropSymbols$s = Object.getOwnPropertySymbols;
+var __hasOwnProp$s = Object.prototype.hasOwnProperty;
+var __propIsEnum$s = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$s = (obj, key3, value) => key3 in obj ? __defProp$s(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$s = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$r.call(b, prop))
-      __defNormalProp$r(a, prop, b[prop]);
-  if (__getOwnPropSymbols$r)
-    for (var prop of __getOwnPropSymbols$r(b)) {
-      if (__propIsEnum$r.call(b, prop))
-        __defNormalProp$r(a, prop, b[prop]);
+    if (__hasOwnProp$s.call(b, prop))
+      __defNormalProp$s(a, prop, b[prop]);
+  if (__getOwnPropSymbols$s)
+    for (var prop of __getOwnPropSymbols$s(b)) {
+      if (__propIsEnum$s.call(b, prop))
+        __defNormalProp$s(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$b = (a, b) => __defProps$b(a, __getOwnPropDescs$b(b));
-const { name: name$19, n: n$1g, classes: classes$_ } = createNamespace("menu-select");
+const { name: name$19, n: n$1f, classes: classes$_ } = createNamespace("menu-select");
 function __render__$1i(_ctx, _cache) {
   const _component_mp_menu_children = vue.resolveComponent("mp-menu-children");
   const _component_mp_menu_option = vue.resolveComponent("mp-menu-option");
@@ -8032,7 +8032,7 @@ const __sfc__$1l = vue.defineComponent({
     function enhance(options) {
       function baseEnhance(options2, parent) {
         return options2.map((option) => {
-          option = __spreadProps$b(__spreadValues$r({}, option), { _rawOption: option });
+          option = __spreadProps$b(__spreadValues$s({}, option), { _rawOption: option });
           if (parent) {
             option._parent = parent;
           }
@@ -8185,7 +8185,7 @@ const __sfc__$1l = vue.defineComponent({
       menuOptionsRef,
       menuChildren,
       highlightOptions,
-      n: n$1g,
+      n: n$1f,
       classes: classes$_,
       allowChildrenClose,
       formatElevation,
@@ -8202,23 +8202,23 @@ withInstall(stdin_default$5P);
 withPropsDefaultsSetter(stdin_default$5P, props$17);
 const _MenuSelectComponent = stdin_default$5P;
 var stdin_default$5O = stdin_default$5P;
-var __defProp$q = Object.defineProperty;
-var __getOwnPropSymbols$q = Object.getOwnPropertySymbols;
-var __hasOwnProp$q = Object.prototype.hasOwnProperty;
-var __propIsEnum$q = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$q = (obj, key3, value) => key3 in obj ? __defProp$q(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$q = (a, b) => {
+var __defProp$r = Object.defineProperty;
+var __getOwnPropSymbols$r = Object.getOwnPropertySymbols;
+var __hasOwnProp$r = Object.prototype.hasOwnProperty;
+var __propIsEnum$r = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$r = (obj, key3, value) => key3 in obj ? __defProp$r(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$r = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$q.call(b, prop))
-      __defNormalProp$q(a, prop, b[prop]);
-  if (__getOwnPropSymbols$q)
-    for (var prop of __getOwnPropSymbols$q(b)) {
-      if (__propIsEnum$q.call(b, prop))
-        __defNormalProp$q(a, prop, b[prop]);
+    if (__hasOwnProp$r.call(b, prop))
+      __defNormalProp$r(a, prop, b[prop]);
+  if (__getOwnPropSymbols$r)
+    for (var prop of __getOwnPropSymbols$r(b)) {
+      if (__propIsEnum$r.call(b, prop))
+        __defNormalProp$r(a, prop, b[prop]);
     }
   return a;
 };
-const props$16 = __spreadValues$q({
+const props$16 = __spreadValues$r({
   modelValue: String,
   options: {
     type: Array,
@@ -8280,7 +8280,7 @@ var __async$f = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$18, n: n$1f } = createNamespace("auto-complete");
+const { name: name$18, n: n$1e } = createNamespace("auto-complete");
 const _hoisted_1$v = ["tabindex"];
 function __render__$1h(_ctx, _cache) {
   const _component_mp_input = vue.resolveComponent("mp-input");
@@ -8584,7 +8584,7 @@ const __sfc__$1k = vue.defineComponent({
       formReadonly: form == null ? void 0 : form.readonly,
       errorMessage,
       maxlengthText,
-      n: n$1f,
+      n: n$1e,
       handleInput,
       handleClear,
       handleClick,
@@ -8654,19 +8654,19 @@ const padStart$1 = (str, maxLength, fillString = "") => {
   const repeatCount = Math.floor(len / fillString.length);
   return fillString.repeat(repeatCount) + fillString.slice(0, len % fillString.length) + str;
 };
-var __defProp$p = Object.defineProperty;
-var __getOwnPropSymbols$p = Object.getOwnPropertySymbols;
-var __hasOwnProp$p = Object.prototype.hasOwnProperty;
-var __propIsEnum$p = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$p = (obj, key3, value) => key3 in obj ? __defProp$p(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$p = (a, b) => {
+var __defProp$q = Object.defineProperty;
+var __getOwnPropSymbols$q = Object.getOwnPropertySymbols;
+var __hasOwnProp$q = Object.prototype.hasOwnProperty;
+var __propIsEnum$q = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$q = (obj, key3, value) => key3 in obj ? __defProp$q(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$q = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$p.call(b, prop))
-      __defNormalProp$p(a, prop, b[prop]);
-  if (__getOwnPropSymbols$p)
-    for (var prop of __getOwnPropSymbols$p(b)) {
-      if (__propIsEnum$p.call(b, prop))
-        __defNormalProp$p(a, prop, b[prop]);
+    if (__hasOwnProp$q.call(b, prop))
+      __defNormalProp$q(a, prop, b[prop]);
+  if (__getOwnPropSymbols$q)
+    for (var prop of __getOwnPropSymbols$q(b)) {
+      if (__propIsEnum$q.call(b, prop))
+        __defNormalProp$q(a, prop, b[prop]);
     }
   return a;
 };
@@ -8756,7 +8756,7 @@ function createLazy(el, binding) {
     error: (_b = el.getAttribute(LAZY_ERROR)) != null ? _b : defaultLazyOptions.error,
     attempt: el.getAttribute(LAZY_ATTEMPT) ? Number(el.getAttribute(LAZY_ATTEMPT)) : defaultLazyOptions.attempt
   };
-  el._lazy = __spreadValues$p({
+  el._lazy = __spreadValues$q({
     src: binding.value,
     arg: binding.arg,
     currentAttempt: 0,
@@ -8884,7 +8884,7 @@ const props$15 = {
   onError: defineListenerProp()
 };
 const isInternalSize$1 = (size) => ["mini", "small", "normal", "large"].includes(size);
-const { name: name$17, n: n$1e, classes: classes$Z } = createNamespace("avatar");
+const { name: name$17, n: n$1d, classes: classes$Z } = createNamespace("avatar");
 const _hoisted_1$u = ["src", "alt", "lazy-loading", "lazy-error"];
 const _hoisted_2$9 = ["src", "alt"];
 function __render__$1g(_ctx, _cache) {
@@ -9003,7 +9003,7 @@ const __sfc__$1j = vue.defineComponent({
       avatarElement,
       textElement,
       scale,
-      n: n$1e,
+      n: n$1d,
       classes: classes$Z,
       isInternalSize: isInternalSize$1,
       toSizeUnit,
@@ -9023,7 +9023,7 @@ const props$14 = {
   offset: [Number, String],
   vertical: Boolean
 };
-const { name: name$16, n: n$1d, classes: classes$Y } = createNamespace("avatar-group");
+const { name: name$16, n: n$1c, classes: classes$Y } = createNamespace("avatar-group");
 function __render__$1f(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -9052,7 +9052,7 @@ const __sfc__$1i = vue.defineComponent({
     });
     return {
       rootStyles,
-      n: n$1d,
+      n: n$1c,
       classes: classes$Y
     };
   }
@@ -9077,7 +9077,7 @@ const props$13 = {
   description: String,
   loading: Boolean
 };
-const { name: name$15, n: n$1c, classes: classes$X } = createNamespace("loading");
+const { name: name$15, n: n$1b, classes: classes$X } = createNamespace("loading");
 function __render__$1e(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -9247,7 +9247,7 @@ const __sfc__$1h = vue.defineComponent({
     return {
       loadingTypeDict,
       isShow,
-      n: n$1c,
+      n: n$1b,
       classes: classes$X,
       multiplySizeUnit
     };
@@ -9259,21 +9259,21 @@ withInstall(stdin_default$5G);
 withPropsDefaultsSetter(stdin_default$5G, props$13);
 const _LoadingComponent = stdin_default$5G;
 var stdin_default$5F = stdin_default$5G;
-var __defProp$o = Object.defineProperty;
+var __defProp$p = Object.defineProperty;
 var __defProps$a = Object.defineProperties;
 var __getOwnPropDescs$a = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$o = Object.getOwnPropertySymbols;
-var __hasOwnProp$o = Object.prototype.hasOwnProperty;
-var __propIsEnum$o = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$o = (obj, key3, value) => key3 in obj ? __defProp$o(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$o = (a, b) => {
+var __getOwnPropSymbols$p = Object.getOwnPropertySymbols;
+var __hasOwnProp$p = Object.prototype.hasOwnProperty;
+var __propIsEnum$p = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$p = (obj, key3, value) => key3 in obj ? __defProp$p(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$p = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$o.call(b, prop))
-      __defNormalProp$o(a, prop, b[prop]);
-  if (__getOwnPropSymbols$o)
-    for (var prop of __getOwnPropSymbols$o(b)) {
-      if (__propIsEnum$o.call(b, prop))
-        __defNormalProp$o(a, prop, b[prop]);
+    if (__hasOwnProp$p.call(b, prop))
+      __defNormalProp$p(a, prop, b[prop]);
+  if (__getOwnPropSymbols$p)
+    for (var prop of __getOwnPropSymbols$p(b)) {
+      if (__propIsEnum$p.call(b, prop))
+        __defNormalProp$p(a, prop, b[prop]);
     }
   return a;
 };
@@ -9379,13 +9379,13 @@ const buttonProps = {
   /**
    * loading 指示器尺寸
    */
-  loadingSize: __spreadProps$a(__spreadValues$o({}, pickProps(props$13, "size")), {
+  loadingSize: __spreadProps$a(__spreadValues$p({}, pickProps(props$13, "size")), {
     default: void 0
   }),
   /**
    * loading 指示器颜色
    */
-  loadingColor: __spreadProps$a(__spreadValues$o({}, pickProps(props$13, "color")), {
+  loadingColor: __spreadProps$a(__spreadValues$p({}, pickProps(props$13, "color")), {
     default: "currentColor"
   }),
   onClick: defineListenerProp(),
@@ -9408,21 +9408,21 @@ function useButtonGroup() {
     bindButtonGroup: bindParent
   };
 }
-var __defProp$n = Object.defineProperty;
+var __defProp$o = Object.defineProperty;
 var __defProps$9 = Object.defineProperties;
 var __getOwnPropDescs$9 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$n = Object.getOwnPropertySymbols;
-var __hasOwnProp$n = Object.prototype.hasOwnProperty;
-var __propIsEnum$n = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$n = (obj, key3, value) => key3 in obj ? __defProp$n(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$n = (a, b) => {
+var __getOwnPropSymbols$o = Object.getOwnPropertySymbols;
+var __hasOwnProp$o = Object.prototype.hasOwnProperty;
+var __propIsEnum$o = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$o = (obj, key3, value) => key3 in obj ? __defProp$o(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$o = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$n.call(b, prop))
-      __defNormalProp$n(a, prop, b[prop]);
-  if (__getOwnPropSymbols$n)
-    for (var prop of __getOwnPropSymbols$n(b)) {
-      if (__propIsEnum$n.call(b, prop))
-        __defNormalProp$n(a, prop, b[prop]);
+    if (__hasOwnProp$o.call(b, prop))
+      __defNormalProp$o(a, prop, b[prop]);
+  if (__getOwnPropSymbols$o)
+    for (var prop of __getOwnPropSymbols$o(b)) {
+      if (__propIsEnum$o.call(b, prop))
+        __defNormalProp$o(a, prop, b[prop]);
     }
   return a;
 };
@@ -9490,7 +9490,7 @@ function __render__$1d(_ctx, _cache, $props, $setup, $data, $options) {
     [$setup["vHover"], $setup.handleHovering, "desktop"]
   ]);
 }
-const __sfc__$1g = /* @__PURE__ */ vue.defineComponent(__spreadProps$9(__spreadValues$n({}, {
+const __sfc__$1g = /* @__PURE__ */ vue.defineComponent(__spreadProps$9(__spreadValues$o({}, {
   name: createNamespace("button").name
 }), {
   __name: "Button",
@@ -9604,7 +9604,7 @@ const props$12 = {
   target: [String, Object],
   onClick: defineListenerProp()
 };
-const { name: name$14, n: n$1b, classes: classes$W } = createNamespace("back-top");
+const { name: name$14, n: n$1a, classes: classes$W } = createNamespace("back-top");
 function __render__$1c(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   const _component_mp_button = vue.resolveComponent("mp-button");
@@ -9697,7 +9697,7 @@ const __sfc__$1f = vue.defineComponent({
       show,
       backTopEl,
       toSizeUnit,
-      n: n$1b,
+      n: n$1a,
       classes: classes$W,
       handleClick
     };
@@ -9805,21 +9805,21 @@ const badgeProps = {
     default: "default"
   }
 };
-var __defProp$m = Object.defineProperty;
+var __defProp$n = Object.defineProperty;
 var __defProps$8 = Object.defineProperties;
 var __getOwnPropDescs$8 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$m = Object.getOwnPropertySymbols;
-var __hasOwnProp$m = Object.prototype.hasOwnProperty;
-var __propIsEnum$m = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$m = (obj, key3, value) => key3 in obj ? __defProp$m(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$m = (a, b) => {
+var __getOwnPropSymbols$n = Object.getOwnPropertySymbols;
+var __hasOwnProp$n = Object.prototype.hasOwnProperty;
+var __propIsEnum$n = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$n = (obj, key3, value) => key3 in obj ? __defProp$n(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$n = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$m.call(b, prop))
-      __defNormalProp$m(a, prop, b[prop]);
-  if (__getOwnPropSymbols$m)
-    for (var prop of __getOwnPropSymbols$m(b)) {
-      if (__propIsEnum$m.call(b, prop))
-        __defNormalProp$m(a, prop, b[prop]);
+    if (__hasOwnProp$n.call(b, prop))
+      __defNormalProp$n(a, prop, b[prop]);
+  if (__getOwnPropSymbols$n)
+    for (var prop of __getOwnPropSymbols$n(b)) {
+      if (__propIsEnum$n.call(b, prop))
+        __defNormalProp$n(a, prop, b[prop]);
     }
   return a;
 };
@@ -9926,7 +9926,7 @@ function __render__$1b(_ctx, _cache, $props, $setup, $data, $options) {
     /* CLASS */
   );
 }
-const __sfc__$1e = /* @__PURE__ */ vue.defineComponent(__spreadProps$8(__spreadValues$m({}, {
+const __sfc__$1e = /* @__PURE__ */ vue.defineComponent(__spreadProps$8(__spreadValues$n({}, {
   name: createNamespace("badge").name
 }), {
   __name: "Badge",
@@ -10053,23 +10053,23 @@ function useBottomNavigationItems() {
     bindBottomNavigationItem: bindChildren
   };
 }
-var __defProp$l = Object.defineProperty;
-var __getOwnPropSymbols$l = Object.getOwnPropertySymbols;
-var __hasOwnProp$l = Object.prototype.hasOwnProperty;
-var __propIsEnum$l = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$l = (obj, key3, value) => key3 in obj ? __defProp$l(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$l = (a, b) => {
+var __defProp$m = Object.defineProperty;
+var __getOwnPropSymbols$m = Object.getOwnPropertySymbols;
+var __hasOwnProp$m = Object.prototype.hasOwnProperty;
+var __propIsEnum$m = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$m = (obj, key3, value) => key3 in obj ? __defProp$m(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$m = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$l.call(b, prop))
-      __defNormalProp$l(a, prop, b[prop]);
-  if (__getOwnPropSymbols$l)
-    for (var prop of __getOwnPropSymbols$l(b)) {
-      if (__propIsEnum$l.call(b, prop))
-        __defNormalProp$l(a, prop, b[prop]);
+    if (__hasOwnProp$m.call(b, prop))
+      __defNormalProp$m(a, prop, b[prop]);
+  if (__getOwnPropSymbols$m)
+    for (var prop of __getOwnPropSymbols$m(b)) {
+      if (__propIsEnum$m.call(b, prop))
+        __defNormalProp$m(a, prop, b[prop]);
     }
   return a;
 };
-const { name: name$13, n: n$1a, classes: classes$V } = createNamespace("bottom-navigation");
+const { name: name$13, n: n$19, classes: classes$V } = createNamespace("bottom-navigation");
 const { n: nItem } = createNamespace("bottom-navigation-item");
 const RIGHT_HALF_SPACE_CLASS = nItem("--mp-right-half-space");
 const LEFT_HALF_SPACE_CLASS = nItem("--mp-left-half-space");
@@ -10155,7 +10155,7 @@ const __sfc__$1d = vue.defineComponent({
     vue.watch(
       () => props2.fabProps,
       (newValue) => {
-        fabProps.value = __spreadValues$l(__spreadValues$l({}, defaultFabProps), newValue);
+        fabProps.value = __spreadValues$m(__spreadValues$m({}, defaultFabProps), newValue);
       },
       { immediate: true, deep: true }
     );
@@ -10260,7 +10260,7 @@ const __sfc__$1d = vue.defineComponent({
       bottomNavigationDom,
       fabProps,
       placeholderHeight,
-      n: n$1a,
+      n: n$19,
       classes: classes$V,
       handleFabClick
     };
@@ -10294,7 +10294,7 @@ function useBottomNavigation() {
     bindBottomNavigation: bindParent
   };
 }
-const { name: name$12, n: n$19, classes: classes$U } = createNamespace("bottom-navigation-item");
+const { name: name$12, n: n$18, classes: classes$U } = createNamespace("bottom-navigation-item");
 const defaultBadgeProps = {
   status: "danger",
   dot: true
@@ -10413,7 +10413,7 @@ const __sfc__$1c = vue.defineComponent({
       badgeProps: badgeProps2,
       isActive,
       variant,
-      n: n$19,
+      n: n$18,
       classes: classes$U,
       handleClick
     };
@@ -10442,7 +10442,7 @@ function useBreadcrumbItems() {
     bindBreadcrumbItems: bindChildren
   };
 }
-const { name: name$11, n: n$18 } = createNamespace("breadcrumb");
+const { name: name$11, n: n$17 } = createNamespace("breadcrumb");
 function __render__$18(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -10469,7 +10469,7 @@ const __sfc__$1b = vue.defineComponent({
       separator
     };
     bindBreadcrumbItems(breadcrumbProvider);
-    return { n: n$18 };
+    return { n: n$17 };
   }
 });
 __sfc__$1b.render = __render__$18;
@@ -10492,7 +10492,7 @@ function useBreadcrumbItem() {
     bindBreadcrumb: bindParent
   };
 }
-const { name: name$10, n: n$17, classes: classes$T } = createNamespace("breadcrumb-item");
+const { name: name$10, n: n$16, classes: classes$T } = createNamespace("breadcrumb-item");
 function __render__$17(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -10550,7 +10550,7 @@ const __sfc__$1a = vue.defineComponent({
       call(props2.onClick, e);
     }
     return {
-      n: n$17,
+      n: n$16,
       classes: classes$T,
       isLast,
       parentSeparator,
@@ -10614,21 +10614,21 @@ const buttonGroupProps = {
     default: true
   }
 };
-var __defProp$k = Object.defineProperty;
+var __defProp$l = Object.defineProperty;
 var __defProps$7 = Object.defineProperties;
 var __getOwnPropDescs$7 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$k = Object.getOwnPropertySymbols;
-var __hasOwnProp$k = Object.prototype.hasOwnProperty;
-var __propIsEnum$k = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$k = (obj, key3, value) => key3 in obj ? __defProp$k(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
-var __spreadValues$k = (a, b) => {
+var __getOwnPropSymbols$l = Object.getOwnPropertySymbols;
+var __hasOwnProp$l = Object.prototype.hasOwnProperty;
+var __propIsEnum$l = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$l = (obj, key3, value) => key3 in obj ? __defProp$l(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$l = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$k.call(b, prop))
-      __defNormalProp$k(a, prop, b[prop]);
-  if (__getOwnPropSymbols$k)
-    for (var prop of __getOwnPropSymbols$k(b)) {
-      if (__propIsEnum$k.call(b, prop))
-        __defNormalProp$k(a, prop, b[prop]);
+    if (__hasOwnProp$l.call(b, prop))
+      __defNormalProp$l(a, prop, b[prop]);
+  if (__getOwnPropSymbols$l)
+    for (var prop of __getOwnPropSymbols$l(b)) {
+      if (__propIsEnum$l.call(b, prop))
+        __defNormalProp$l(a, prop, b[prop]);
     }
   return a;
 };
@@ -10654,7 +10654,7 @@ function __render__$16(_ctx, _cache, $props, $setup, $data, $options) {
     /* CLASS */
   );
 }
-const __sfc__$19 = /* @__PURE__ */ vue.defineComponent(__spreadProps$7(__spreadValues$k({}, {
+const __sfc__$19 = /* @__PURE__ */ vue.defineComponent(__spreadProps$7(__spreadValues$l({}, {
   name: createNamespace("button-group").name
 }), {
   __name: "ButtonGroup",
@@ -10748,7 +10748,7 @@ var __async$d = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$$, n: n$16, classes: classes$S } = createNamespace("card");
+const { name: name$$, n: n$15, classes: classes$S } = createNamespace("card");
 const RIPPLE_DELAY = 500;
 const _hoisted_1$t = ["src", "alt"];
 function __render__$15(_ctx, _cache) {
@@ -11079,7 +11079,7 @@ const __sfc__$18 = vue.defineComponent({
       isRow,
       showFloatingButtons,
       floated,
-      n: n$16,
+      n: n$15,
       classes: classes$S,
       toSizeUnit,
       close,
@@ -11095,6 +11095,842 @@ withPropsDefaultsSetter(stdin_default$5o, props$Z);
 const _CardComponent = stdin_default$5o;
 var stdin_default$5n = stdin_default$5o;
 const props$Y = {
+  loop: {
+    type: Boolean,
+    default: true
+  },
+  autoplay: [String, Number, Object],
+  duration: {
+    type: [String, Number],
+    default: 300
+  },
+  initialIndex: {
+    type: [String, Number],
+    default: 0
+  },
+  navigation: {
+    type: [Boolean, String],
+    default: false
+  },
+  indicator: {
+    type: Boolean,
+    default: true
+  },
+  indicatorColor: String,
+  indicatorType: {
+    type: String,
+    default: "dot"
+  },
+  indicatorPosition: {
+    type: String,
+    default: "bottom"
+  },
+  vertical: Boolean,
+  touchable: {
+    type: Boolean,
+    default: true
+  },
+  draggable: {
+    type: Boolean,
+    default: false
+  },
+  effect: {
+    type: String,
+    default: "slide"
+  },
+  slidesPerView: {
+    type: [String, Number],
+    default: 1
+  },
+  spaceBetween: {
+    type: [String, Number],
+    default: 0
+  },
+  centeredSlides: {
+    type: Boolean,
+    default: false
+  },
+  height: String,
+  transitionTimingFunction: {
+    type: String,
+    default: "cubic-bezier(0.25, 0.8, 0.5, 1)"
+  },
+  trigger: {
+    type: String,
+    default: "click"
+  },
+  mousewheel: {
+    type: Boolean,
+    default: false
+  },
+  keyboard: {
+    type: Boolean,
+    default: false
+  },
+  onChange: defineListenerProp()
+};
+var __defProp$k = Object.defineProperty;
+var __getOwnPropSymbols$k = Object.getOwnPropertySymbols;
+var __hasOwnProp$k = Object.prototype.hasOwnProperty;
+var __propIsEnum$k = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$k = (obj, key3, value) => key3 in obj ? __defProp$k(obj, key3, { enumerable: true, configurable: true, writable: true, value }) : obj[key3] = value;
+var __spreadValues$k = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$k.call(b, prop))
+      __defNormalProp$k(a, prop, b[prop]);
+  if (__getOwnPropSymbols$k)
+    for (var prop of __getOwnPropSymbols$k(b)) {
+      if (__propIsEnum$k.call(b, prop))
+        __defNormalProp$k(a, prop, b[prop]);
+    }
+  return a;
+};
+var __async$c = (__this, __arguments, generator) => {
+  return new Promise((resolve, reject) => {
+    var fulfilled = (value) => {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var rejected = (value) => {
+      try {
+        step(generator.throw(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+    step((generator = generator.apply(__this, __arguments)).next());
+  });
+};
+const SWIPE_DELAY = 250;
+const SWIPE_OFFSET = 20;
+const { name: name$_, n: n$14, classes: classes$R } = createNamespace("carousel");
+const _hoisted_1$s = ["onClick", "onMouseenter"];
+function __render__$14(_ctx, _cache) {
+  const _component_mp_icon = vue.resolveComponent("mp-icon");
+  const _component_mp_button = vue.resolveComponent("mp-button");
+  const _directive_hover = vue.resolveDirective("hover");
+  return vue.withDirectives((vue.openBlock(), vue.createElementBlock(
+    "div",
+    {
+      ref: "carouselEl",
+      class: vue.normalizeClass(
+        _ctx.classes(
+          _ctx.n(),
+          [_ctx.effect === "fade", _ctx.n("--fade")],
+          [_ctx.effect === "card", _ctx.n("--card")],
+          [_ctx.height, _ctx.n("--custom-height")]
+        )
+      ),
+      style: vue.normalizeStyle(_ctx.height ? { height: _ctx.toSizeUnit(_ctx.height) } : void 0),
+      onMouseenter: _cache[12] || (_cache[12] = (...args) => _ctx.handleMouseEnter && _ctx.handleMouseEnter(...args)),
+      onMouseleave: _cache[13] || (_cache[13] = (...args) => _ctx.handleMouseLeave && _ctx.handleMouseLeave(...args))
+    },
+    [
+      vue.createCommentVNode(" Track (only for slide/card effect) "),
+      _ctx.effect !== "fade" ? (vue.openBlock(), vue.createElementBlock(
+        "div",
+        {
+          key: 0,
+          class: vue.normalizeClass(_ctx.classes(_ctx.n("track"), [_ctx.vertical, _ctx.n("--vertical")])),
+          style: vue.normalizeStyle({
+            width: !_ctx.vertical ? _ctx.toSizeUnit(_ctx.trackSize) : void 0,
+            height: _ctx.vertical ? _ctx.toSizeUnit(_ctx.trackSize) : void 0,
+            transform: `translate${_ctx.vertical ? "Y" : "X"}(${_ctx.toSizeUnit(_ctx.trackTranslate)})`,
+            transitionDuration: _ctx.lockDuration ? "0ms" : `${_ctx.toNumber(_ctx.duration)}ms`,
+            transitionTimingFunction: _ctx.transitionTimingFunction,
+            gap: _ctx.spaceBetween ? _ctx.toSizeUnit(_ctx.spaceBetween) : void 0
+          }),
+          onTouchstart: _cache[0] || (_cache[0] = (...args) => _ctx.handleTouchstart && _ctx.handleTouchstart(...args)),
+          onTouchmove: _cache[1] || (_cache[1] = (...args) => _ctx.handleTouchmove && _ctx.handleTouchmove(...args)),
+          onTouchend: _cache[2] || (_cache[2] = (...args) => _ctx.handleTouchend && _ctx.handleTouchend(...args)),
+          onMousedown: _cache[3] || (_cache[3] = (...args) => _ctx.handleMousedown && _ctx.handleMousedown(...args)),
+          onWheel: _cache[4] || (_cache[4] = (...args) => _ctx.handleWheel && _ctx.handleWheel(...args))
+        },
+        [
+          vue.renderSlot(_ctx.$slots, "default")
+        ],
+        38
+        /* CLASS, STYLE, NEED_HYDRATION */
+      )) : vue.createCommentVNode("v-if", true),
+      vue.createCommentVNode(" Fade container "),
+      _ctx.effect === "fade" ? (vue.openBlock(), vue.createElementBlock(
+        "div",
+        {
+          key: 1,
+          class: vue.normalizeClass(_ctx.n("fade-container")),
+          onTouchstart: _cache[5] || (_cache[5] = (...args) => _ctx.handleTouchstart && _ctx.handleTouchstart(...args)),
+          onTouchmove: _cache[6] || (_cache[6] = (...args) => _ctx.handleTouchmove && _ctx.handleTouchmove(...args)),
+          onTouchend: _cache[7] || (_cache[7] = (...args) => _ctx.handleTouchend && _ctx.handleTouchend(...args)),
+          onMousedown: _cache[8] || (_cache[8] = (...args) => _ctx.handleMousedown && _ctx.handleMousedown(...args)),
+          onWheel: _cache[9] || (_cache[9] = (...args) => _ctx.handleWheel && _ctx.handleWheel(...args))
+        },
+        [
+          vue.renderSlot(_ctx.$slots, "default")
+        ],
+        34
+        /* CLASS, NEED_HYDRATION */
+      )) : vue.createCommentVNode("v-if", true),
+      vue.createCommentVNode(" Prev Navigation "),
+      _ctx.showArrow !== "never" ? vue.renderSlot(_ctx.$slots, "prev", vue.normalizeProps(vue.mergeProps({ key: 2 }, {
+        index: _ctx.index,
+        length: _ctx.length,
+        prev: _ctx.prev,
+        next: _ctx.next,
+        to: _ctx.to,
+        hovering: _ctx.hovering
+      })), () => [
+        vue.createVNode(vue.Transition, {
+          name: _ctx.getNavigationAnimation("prev")
+        }, {
+          default: vue.withCtx(() => [
+            _ctx.showArrow === "always" || _ctx.hovering ? (vue.openBlock(), vue.createElementBlock(
+              "div",
+              {
+                key: 0,
+                class: vue.normalizeClass(_ctx.classes(_ctx.n("navigation"), _ctx.n("navigation-prev"), [_ctx.vertical, _ctx.n("--navigation-vertical-prev")]))
+              },
+              [
+                vue.createVNode(_component_mp_button, {
+                  "mp-carousel-cover": "",
+                  disabled: !_ctx.loop && _ctx.index === 0,
+                  class: vue.normalizeClass(_ctx.n("navigation-prev-button")),
+                  onClick: _cache[10] || (_cache[10] = ($event) => _ctx.prev())
+                }, {
+                  default: vue.withCtx(() => [
+                    vue.createVNode(_component_mp_icon, {
+                      "mp-carousel-cover": "",
+                      class: vue.normalizeClass(_ctx.n("navigation-prev-button-icon")),
+                      name: _ctx.vertical ? "chevron-up" : "chevron-left"
+                    }, null, 8, ["class", "name"])
+                  ]),
+                  _: 1
+                  /* STABLE */
+                }, 8, ["disabled", "class"])
+              ],
+              2
+              /* CLASS */
+            )) : vue.createCommentVNode("v-if", true)
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["name"])
+      ]) : vue.createCommentVNode("v-if", true),
+      vue.createCommentVNode(" Next Navigation "),
+      _ctx.showArrow !== "never" ? vue.renderSlot(_ctx.$slots, "next", vue.normalizeProps(vue.mergeProps({ key: 3 }, {
+        index: _ctx.index,
+        length: _ctx.length,
+        prev: _ctx.prev,
+        next: _ctx.next,
+        to: _ctx.to,
+        hovering: _ctx.hovering
+      })), () => [
+        vue.createVNode(vue.Transition, {
+          name: _ctx.getNavigationAnimation("next")
+        }, {
+          default: vue.withCtx(() => [
+            _ctx.showArrow === "always" || _ctx.hovering ? (vue.openBlock(), vue.createElementBlock(
+              "div",
+              {
+                key: 0,
+                class: vue.normalizeClass(_ctx.classes(_ctx.n("navigation"), _ctx.n("navigation-next"), [_ctx.vertical, _ctx.n("--navigation-vertical-next")]))
+              },
+              [
+                vue.createVNode(_component_mp_button, {
+                  "mp-carousel-cover": "",
+                  disabled: !_ctx.loop && _ctx.index === _ctx.length - 1,
+                  class: vue.normalizeClass(_ctx.n("navigation-next-button")),
+                  onClick: _cache[11] || (_cache[11] = ($event) => _ctx.next())
+                }, {
+                  default: vue.withCtx(() => [
+                    vue.createVNode(_component_mp_icon, {
+                      "mp-carousel-cover": "",
+                      class: vue.normalizeClass(_ctx.n("navigation-next-button-icon")),
+                      name: _ctx.vertical ? "chevron-down" : "chevron-right"
+                    }, null, 8, ["class", "name"])
+                  ]),
+                  _: 1
+                  /* STABLE */
+                }, 8, ["disabled", "class"])
+              ],
+              2
+              /* CLASS */
+            )) : vue.createCommentVNode("v-if", true)
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["name"])
+      ]) : vue.createCommentVNode("v-if", true),
+      vue.createCommentVNode(" Indicator "),
+      vue.renderSlot(_ctx.$slots, "indicator", vue.normalizeProps(vue.guardReactiveProps({
+        index: _ctx.index,
+        length: _ctx.length,
+        hovering: _ctx.hovering,
+        prev: _ctx.prev,
+        next: _ctx.next,
+        to: _ctx.to
+      })), () => [
+        _ctx.indicator && _ctx.length ? (vue.openBlock(), vue.createElementBlock(
+          "div",
+          {
+            key: 0,
+            class: vue.normalizeClass(
+              _ctx.classes(
+                _ctx.n("indicators"),
+                [_ctx.vertical || _ctx.indicatorPosition === "left" || _ctx.indicatorPosition === "right", _ctx.n("--indicators-vertical")],
+                [_ctx.indicatorPosition === "top", _ctx.n("--indicators-top")],
+                [_ctx.indicatorPosition === "left", _ctx.n("--indicators-left")],
+                [_ctx.indicatorPosition === "right", _ctx.n("--indicators-right")],
+                [_ctx.indicatorPosition === "outer", _ctx.n("--indicators-outer")]
+              )
+            )
+          },
+          [
+            (vue.openBlock(true), vue.createElementBlock(
+              vue.Fragment,
+              null,
+              vue.renderList(_ctx.length, (l, idx) => {
+                return vue.openBlock(), vue.createElementBlock("div", {
+                  key: l,
+                  class: vue.normalizeClass(
+                    _ctx.classes(
+                      _ctx.n("indicator"),
+                      [_ctx.indicatorType === "line", _ctx.n("--indicator-line")],
+                      [_ctx.index === idx, _ctx.n("--indicator-active")],
+                      [_ctx.vertical || _ctx.indicatorPosition === "left" || _ctx.indicatorPosition === "right", _ctx.n("--indicator-vertical")]
+                    )
+                  ),
+                  style: vue.normalizeStyle(__spreadValues$k({
+                    background: _ctx.indicatorColor
+                  }, _ctx.indicatorType === "slider" && _ctx.index === idx ? { width: "16px" } : {})),
+                  onClick: ($event) => _ctx.trigger === "click" && _ctx.to(idx),
+                  onMouseenter: ($event) => _ctx.trigger === "hover" && _ctx.to(idx)
+                }, null, 46, _hoisted_1$s);
+              }),
+              128
+              /* KEYED_FRAGMENT */
+            ))
+          ],
+          2
+          /* CLASS */
+        )) : vue.createCommentVNode("v-if", true)
+      ])
+    ],
+    38
+    /* CLASS, STYLE, NEED_HYDRATION */
+  )), [
+    [_directive_hover, _ctx.handleHovering]
+  ]);
+}
+const __sfc__$17 = vue.defineComponent({
+  name: name$_,
+  directives: { Hover: stdin_default$6c },
+  components: { MpButton: stdin_default$5D, MpIcon: stdin_default$68 },
+  props: props$Y,
+  setup(props2) {
+    const carouselEl = vue.ref(null);
+    const size = vue.ref(0);
+    const vertical = vue.computed(() => props2.vertical);
+    const trackSize = vue.ref(0);
+    const trackTranslate = vue.ref(0);
+    const lockDuration = vue.ref(false);
+    const index = vue.ref(0);
+    const hovering = vue.ref(false);
+    const isDragging = vue.ref(false);
+    const dragStartX = vue.ref(0);
+    const dragStartY = vue.ref(0);
+    const dragTranslate = vue.ref(0);
+    const { carouselItems, bindCarouselItems, length } = useCarouselItems();
+    const { carouselResizeListeners, bindCarouselResizeListeners } = useCarouselResizeListeners();
+    const { popup, bindPopup } = usePopup();
+    const {
+      deltaX,
+      deltaY,
+      moveX,
+      moveY,
+      offsetX,
+      offsetY,
+      touching,
+      direction,
+      startTime,
+      startTouch,
+      moveTouch,
+      endTouch
+    } = useTouch();
+    const isExpectDirection = vue.computed(() => direction.value === (props2.vertical ? "vertical" : "horizontal"));
+    const showArrow = vue.computed(() => {
+      if (props2.navigation === false) return "never";
+      if (props2.navigation === true || props2.navigation === "always") return "always";
+      return "hover";
+    });
+    const slideSize = vue.computed(() => {
+      if (props2.slidesPerView === "auto") return "auto";
+      return size.value / Math.max(1, toNumber(props2.slidesPerView));
+    });
+    let initializedIndex = false;
+    let timer = -1;
+    const carouselProvider = {
+      size: slideSize,
+      currentIndex: index,
+      vertical
+    };
+    bindCarouselItems(carouselProvider);
+    useEventListener(() => window, "keydown", handleKeydown);
+    call(bindPopup, null);
+    call(bindCarouselResizeListeners, null);
+    vue.watch(
+      () => length.value,
+      () => __async$c(this, null, function* () {
+        yield doubleRaf();
+        initialIndex();
+        resize();
+      })
+    );
+    if (popup) {
+      vue.watch(
+        () => popup.show.value,
+        (show) => __async$c(this, null, function* () {
+          if (show) {
+            yield doubleRaf();
+            resize();
+          } else {
+            stopAutoplay();
+          }
+        })
+      );
+    }
+    vue.onActivated(resize);
+    onSmartUnmounted(stopAutoplay);
+    onWindowResize(resize);
+    function findCarouselItem(idx) {
+      return carouselItems.find(({ index: index2 }) => index2.value === idx);
+    }
+    function dispatchCarouselItems() {
+      if (!props2.loop || length.value <= 1) {
+        return;
+      }
+      const sp = toNumber(props2.spaceBetween);
+      const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+      const totalSlideSize = length.value * (sv + sp) - sp;
+      if (trackTranslate.value >= 0) {
+        findCarouselItem(length.value - 1).setTranslate(-totalSlideSize - (sv + sp));
+      }
+      if (trackTranslate.value <= -(totalSlideSize - size.value + (sv + sp))) {
+        findCarouselItem(0).setTranslate(totalSlideSize + (sv + sp));
+      }
+      if (trackTranslate.value > -(totalSlideSize - size.value + (sv + sp)) && trackTranslate.value < 0) {
+        findCarouselItem(length.value - 1).setTranslate(0);
+        findCarouselItem(0).setTranslate(0);
+      }
+    }
+    function getCarouselIndex(targetCarouselIndex) {
+      const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+      const sp = toNumber(props2.spaceBetween);
+      const carouselIndex = isNumber(targetCarouselIndex) ? targetCarouselIndex : Math.floor((trackTranslate.value - (sv + sp) / 2) / -(sv + sp));
+      const { loop } = props2;
+      if (carouselIndex <= -1) {
+        return loop ? -1 : 0;
+      }
+      if (carouselIndex >= length.value) {
+        return loop ? length.value : length.value - 1;
+      }
+      return carouselIndex;
+    }
+    function carouselIndexToIndex(carouselIndex) {
+      const { loop } = props2;
+      if (carouselIndex === -1) {
+        return loop ? length.value - 1 : 0;
+      }
+      if (carouselIndex === length.value) {
+        return loop ? 0 : length.value - 1;
+      }
+      return carouselIndex;
+    }
+    function clampIndex(index2) {
+      if (props2.loop) {
+        if (index2 < 0) {
+          return length.value + index2;
+        }
+        if (index2 >= length.value) {
+          return index2 - length.value;
+        }
+        return index2;
+      }
+      return clamp$1(index2, 0, length.value - 1);
+    }
+    function fixPosition() {
+      return __async$c(this, null, function* () {
+        const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+        const sp = toNumber(props2.spaceBetween);
+        const totalSlideSize = length.value * (sv + sp) - sp;
+        const overLeft = trackTranslate.value >= sv + sp;
+        const overRight = trackTranslate.value <= -(totalSlideSize - size.value + sv + sp);
+        const leftTranslate = 0;
+        const rightTranslate = -(totalSlideSize - size.value);
+        lockDuration.value = true;
+        if (overLeft || overRight) {
+          trackTranslate.value = overRight ? leftTranslate : rightTranslate;
+          findCarouselItem(0).setTranslate(0);
+          findCarouselItem(length.value - 1).setTranslate(0);
+        }
+        yield doubleRaf();
+        lockDuration.value = false;
+      });
+    }
+    function initialIndex() {
+      if (initializedIndex) {
+        return;
+      }
+      index.value = clampIndex(toNumber(props2.initialIndex));
+      initializedIndex = true;
+    }
+    function startAutoplay() {
+      const { autoplay } = props2;
+      if (!autoplay || length.value <= 1) {
+        return;
+      }
+      stopAutoplay();
+      timer = window.setTimeout(() => {
+        next();
+        startAutoplay();
+      }, toNumber(autoplay));
+    }
+    function stopAutoplay() {
+      timer && clearTimeout(timer);
+      timer = -1;
+    }
+    function handleMouseEnter() {
+      const { autoplay } = props2;
+      if (autoplay && typeof autoplay === "object" && autoplay.hoverToPause) {
+        stopAutoplay();
+      }
+    }
+    function handleMouseLeave() {
+      const { autoplay } = props2;
+      if (autoplay && typeof autoplay === "object" && autoplay.hoverToPause) {
+        startAutoplay();
+      }
+    }
+    function handleTouchstart(event) {
+      return __async$c(this, null, function* () {
+        if (length.value <= 1 || !props2.touchable) {
+          return;
+        }
+        startTouch(event);
+        stopAutoplay();
+        yield fixPosition();
+        lockDuration.value = true;
+      });
+    }
+    function handleTouchmove(event) {
+      const { touchable } = props2;
+      if (!touching.value || !touchable) {
+        return;
+      }
+      moveTouch(event);
+      if (!isExpectDirection.value) {
+        return;
+      }
+      preventDefault(event);
+      trackTranslate.value += vertical.value ? moveY.value : moveX.value;
+      dispatchCarouselItems();
+    }
+    function handleTouchend() {
+      if (!touching.value) {
+        return;
+      }
+      endTouch();
+      if (!isExpectDirection.value) {
+        return;
+      }
+      const { onChange } = props2;
+      const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+      const sp = toNumber(props2.spaceBetween);
+      const positive = vertical.value ? deltaY.value < 0 : deltaX.value < 0;
+      const offset2 = vertical.value ? offsetY.value : offsetX.value;
+      const quickSwiping = performance.now() - startTime.value <= SWIPE_DELAY && offset2 >= SWIPE_OFFSET;
+      const swipeIndex = quickSwiping ? positive ? getCarouselIndex(index.value + 1) : getCarouselIndex(index.value - 1) : getCarouselIndex();
+      lockDuration.value = false;
+      trackTranslate.value = swipeIndex * -(sv + sp);
+      const prevIndex = index.value;
+      index.value = carouselIndexToIndex(swipeIndex);
+      startAutoplay();
+      if (prevIndex !== index.value) {
+        call(onChange, index.value);
+      }
+    }
+    function handleMousedown(event) {
+      if (length.value <= 1 || !props2.draggable || props2.touchable) {
+        return;
+      }
+      isDragging.value = true;
+      dragStartX.value = event.clientX;
+      dragStartY.value = event.clientY;
+      dragTranslate.value = trackTranslate.value;
+      stopAutoplay();
+      const handleMousemove = (e) => {
+        if (!isDragging.value) return;
+        const diff2 = vertical.value ? e.clientY - dragStartY.value : e.clientX - dragStartX.value;
+        trackTranslate.value = dragTranslate.value + diff2;
+        dispatchCarouselItems();
+      };
+      const handleMouseup = () => {
+        if (!isDragging.value) return;
+        isDragging.value = false;
+        const diff2 = vertical.value ? event.clientY - dragStartY.value : event.clientX - dragStartX.value;
+        document.removeEventListener("mousemove", handleMousemove);
+        document.removeEventListener("mouseup", handleMouseup);
+        const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+        const sp = toNumber(props2.spaceBetween);
+        const { onChange } = props2;
+        const positive = diff2 < 0;
+        const absDiff = Math.abs(diff2);
+        const quickSwiping = absDiff >= SWIPE_OFFSET;
+        const swipeIndex = quickSwiping ? positive ? getCarouselIndex(index.value + 1) : getCarouselIndex(index.value - 1) : getCarouselIndex();
+        lockDuration.value = false;
+        trackTranslate.value = swipeIndex * -(sv + sp);
+        const prevIndex = index.value;
+        index.value = carouselIndexToIndex(swipeIndex);
+        startAutoplay();
+        if (prevIndex !== index.value) {
+          call(onChange, index.value);
+        }
+      };
+      document.addEventListener("mousemove", handleMousemove);
+      document.addEventListener("mouseup", handleMouseup);
+    }
+    function handleWheel(event) {
+      if (!props2.mousewheel || length.value <= 1) {
+        return;
+      }
+      preventDefault(event);
+      const delta = vertical.value ? event.deltaY : event.deltaX;
+      if (Math.abs(delta) < 10) {
+        return;
+      }
+      if (delta > 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
+    function handleHovering(value) {
+      if (showArrow.value === "hover") {
+        hovering.value = value;
+      }
+    }
+    function getNavigationAnimation(type) {
+      if (showArrow.value !== "hover") {
+        return "";
+      }
+      return n$14(`--navigation${props2.vertical ? "-vertical" : ""}-${type}-animation`);
+    }
+    function handleKeydown(event) {
+      if (!props2.keyboard || !carouselItems.length) {
+        return;
+      }
+      const focusingCarouselItemIndex = carouselItems.findIndex(({ isFocusing }) => isFocusing.value);
+      if (focusingCarouselItemIndex === -1) {
+        return;
+      }
+      const { key: key3 } = event;
+      preventDefault(event);
+      if (key3 === "ArrowLeft" || key3 === "ArrowUp") {
+        prev();
+      }
+      if (key3 === "ArrowRight" || key3 === "ArrowDown") {
+        next();
+      }
+    }
+    function resize() {
+      if (!carouselEl.value) {
+        return;
+      }
+      lockDuration.value = true;
+      size.value = props2.vertical ? carouselEl.value.offsetHeight : carouselEl.value.offsetWidth;
+      const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+      const sp = toNumber(props2.spaceBetween);
+      trackSize.value = length.value * (sv + sp) - sp;
+      trackTranslate.value = -(index.value * (sv + sp));
+      carouselItems.forEach((carouselItem) => {
+        carouselItem.setTranslate(0);
+      });
+      startAutoplay();
+      setTimeout(() => {
+        lockDuration.value = false;
+      });
+      carouselResizeListeners.forEach(({ onResize }) => {
+        onResize();
+      });
+    }
+    function next(options) {
+      return __async$c(this, null, function* () {
+        if (length.value <= 1) {
+          return;
+        }
+        initialIndex();
+        const { loop, onChange } = props2;
+        const currentIndex = index.value;
+        index.value = clampIndex(currentIndex + 1);
+        const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+        const sp = toNumber(props2.spaceBetween);
+        if ((options == null ? void 0 : options.event) !== false) {
+          call(onChange, index.value);
+        }
+        yield fixPosition();
+        if (currentIndex === length.value - 1 && loop) {
+          findCarouselItem(0).setTranslate(trackSize.value + (sv + sp));
+          trackTranslate.value = length.value * -(sv + sp);
+          return;
+        }
+        if (currentIndex !== length.value - 1) {
+          trackTranslate.value = index.value * -(sv + sp);
+        }
+      });
+    }
+    function prev(options) {
+      return __async$c(this, null, function* () {
+        if (length.value <= 1) {
+          return;
+        }
+        initialIndex();
+        const { loop, onChange } = props2;
+        const currentIndex = index.value;
+        index.value = clampIndex(currentIndex - 1);
+        const sv = props2.slidesPerView === "auto" ? size.value : slideSize.value;
+        const sp = toNumber(props2.spaceBetween);
+        if ((options == null ? void 0 : options.event) !== false) {
+          call(onChange, index.value);
+        }
+        yield fixPosition();
+        if (currentIndex === 0 && loop) {
+          findCarouselItem(length.value - 1).setTranslate(-(trackSize.value + (sv + sp)));
+          trackTranslate.value = sv + sp;
+          return;
+        }
+        if (currentIndex !== 0) {
+          trackTranslate.value = index.value * -(sv + sp);
+        }
+      });
+    }
+    function to(idx, options) {
+      if (length.value <= 1 || idx === index.value) {
+        return;
+      }
+      idx = idx < 0 ? 0 : idx;
+      idx = idx >= length.value ? length.value : idx;
+      const task = idx > index.value ? next : prev;
+      const count = Math.abs(idx - index.value);
+      Array.from({ length: count }).forEach((_, index2) => {
+        task({ event: index2 === count - 1 ? options == null ? void 0 : options.event : false });
+      });
+    }
+    return {
+      length,
+      index,
+      carouselEl,
+      trackSize,
+      trackTranslate,
+      lockDuration,
+      hovering,
+      showArrow,
+      n: n$14,
+      toSizeUnit,
+      classes: classes$R,
+      handleTouchstart,
+      handleTouchmove,
+      handleTouchend,
+      handleMousedown,
+      handleWheel,
+      handleMouseEnter,
+      handleMouseLeave,
+      next,
+      prev,
+      to,
+      resize,
+      toNumber,
+      handleHovering,
+      getNavigationAnimation
+    };
+  }
+});
+__sfc__$17.render = __render__$14;
+var stdin_default$5m = __sfc__$17;
+withInstall(stdin_default$5m);
+withPropsDefaultsSetter(stdin_default$5m, props$Y);
+const _CarouselComponent = stdin_default$5m;
+var stdin_default$5l = stdin_default$5m;
+function useCarousel() {
+  const { bindParent, index, parentProvider } = useParent(
+    CAROUSEL_BIND_CAROUSEL_ITEM_KEY
+  );
+  assert(!!bindParent, "CarouselItem", "<mp-carousel-item/> must in <mp-carousel/>");
+  return {
+    index,
+    carousel: parentProvider,
+    bindCarousel: bindParent
+  };
+}
+const { name: name$Z } = createNamespace("carousel-item");
+const _hoisted_1$r = ["aria-hidden"];
+function __render__$13(_ctx, _cache) {
+  return vue.openBlock(), vue.createElementBlock("div", {
+    class: vue.normalizeClass(_ctx.n()),
+    style: vue.normalizeStyle(_ctx.itemStyle),
+    tabindex: "-1",
+    "aria-hidden": _ctx.currentIndex !== _ctx.index,
+    onFocus: _cache[0] || (_cache[0] = ($event) => _ctx.isFocusing = true),
+    onBlur: _cache[1] || (_cache[1] = ($event) => _ctx.isFocusing = false)
+  }, [
+    vue.renderSlot(_ctx.$slots, "default")
+  ], 46, _hoisted_1$r);
+}
+const __sfc__$16 = vue.defineComponent({
+  name: name$Z,
+  setup() {
+    const translate = vue.ref(0);
+    const isFocusing = vue.ref(false);
+    const { carousel, bindCarousel, index } = useCarousel();
+    const { size, currentIndex, vertical } = carousel;
+    const itemStyle = vue.computed(() => {
+      const style = {};
+      if (!vertical.value) {
+        style.width = toSizeUnit(size.value);
+      } else {
+        style.height = toSizeUnit(size.value);
+      }
+      if (translate.value) {
+        style.transform = `translate${vertical.value ? "Y" : "X"}(${toSizeUnit(translate.value)})`;
+      }
+      return style;
+    });
+    const carouselItemProvider = {
+      index,
+      isFocusing: vue.computed(() => isFocusing.value),
+      setTranslate
+    };
+    bindCarousel(carouselItemProvider);
+    function setTranslate(x) {
+      translate.value = x;
+    }
+    return {
+      isFocusing,
+      size,
+      index,
+      currentIndex,
+      itemStyle
+    };
+  }
+});
+__sfc__$16.render = __render__$13;
+var stdin_default$5k = __sfc__$16;
+withInstall(stdin_default$5k);
+const _CarouselItemComponent = stdin_default$5k;
+var stdin_default$5j = stdin_default$5k;
+const props$X = {
   title: String,
   icon: pickProps(props$1g, "name"),
   namespace: pickProps(props$1g, "namespace"),
@@ -11108,8 +11944,8 @@ const props$Y = {
   ripple: Boolean,
   onClick: defineListenerProp()
 };
-const { name: name$_, n: n$15, classes: classes$R } = createNamespace("cell");
-function __render__$14(_ctx, _cache) {
+const { name: name$Y, n: n$13, classes: classes$Q } = createNamespace("cell");
+function __render__$12(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   const _directive_ripple = vue.resolveDirective("ripple");
   return vue.withDirectives((vue.openBlock(), vue.createElementBlock(
@@ -11190,11 +12026,11 @@ function __render__$14(_ctx, _cache) {
     [_directive_ripple, { disabled: !_ctx.ripple }]
   ]);
 }
-const __sfc__$17 = vue.defineComponent({
-  name: name$_,
+const __sfc__$15 = vue.defineComponent({
+  name: name$Y,
   components: { MpIcon: stdin_default$68 },
   directives: { Ripple: stdin_default$6d },
-  props: props$Y,
+  props: props$X,
   setup(props2) {
     const borderOffsetStyles = vue.computed(() => {
       if (props2.borderOffset == null) {
@@ -11210,20 +12046,20 @@ const __sfc__$17 = vue.defineComponent({
     }
     return {
       borderOffsetStyles,
-      n: n$15,
-      classes: classes$R,
+      n: n$13,
+      classes: classes$Q,
       toSizeUnit,
       handleClick
     };
   }
 });
-__sfc__$17.render = __render__$14;
-var stdin_default$5m = __sfc__$17;
-withInstall(stdin_default$5m);
-withPropsDefaultsSetter(stdin_default$5m, props$Y);
-const _CellComponent = stdin_default$5m;
-var stdin_default$5l = stdin_default$5m;
-const props$X = {
+__sfc__$15.render = __render__$12;
+var stdin_default$5i = __sfc__$15;
+withInstall(stdin_default$5i);
+withPropsDefaultsSetter(stdin_default$5i, props$X);
+const _CellComponent = stdin_default$5i;
+var stdin_default$5h = stdin_default$5i;
+const props$W = {
   modelValue: {
     type: Array,
     default: () => []
@@ -11253,8 +12089,8 @@ const props$X = {
   onChange: defineListenerProp(),
   "onUpdate:modelValue": defineListenerProp()
 };
-const { name: name$Z, n: n$14, classes: classes$Q } = createNamespace("checkbox-group");
-function __render__$13(_ctx, _cache) {
+const { name: name$X, n: n$12, classes: classes$P } = createNamespace("checkbox-group");
+function __render__$11(_ctx, _cache) {
   const _component_maybe_v_node = vue.resolveComponent("maybe-v-node");
   const _component_mp_checkbox = vue.resolveComponent("mp-checkbox");
   const _component_mp_form_details = vue.resolveComponent("mp-form-details");
@@ -11302,10 +12138,10 @@ function __render__$13(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$16 = vue.defineComponent({
-  name: name$Z,
+const __sfc__$14 = vue.defineComponent({
+  name: name$X,
   components: { MpFormDetails: stdin_default$5$, MpCheckbox: stdin_default$5V, MaybeVNode },
-  props: props$X,
+  props: props$W,
   setup(props2) {
     const max2 = vue.computed(() => props2.max);
     const checkedCount = vue.computed(() => props2.modelValue.length);
@@ -11381,8 +12217,8 @@ const __sfc__$16 = vue.defineComponent({
     }
     return {
       errorMessage,
-      n: n$14,
-      classes: classes$Q,
+      n: n$12,
+      classes: classes$P,
       checkAll: checkAll2,
       inverseAll,
       reset,
@@ -11392,13 +12228,13 @@ const __sfc__$16 = vue.defineComponent({
     };
   }
 });
-__sfc__$16.render = __render__$13;
-var stdin_default$5k = __sfc__$16;
-withInstall(stdin_default$5k);
-withPropsDefaultsSetter(stdin_default$5k, props$X);
-const _CheckboxGroupComponent = stdin_default$5k;
-var stdin_default$5j = stdin_default$5k;
-const props$W = {
+__sfc__$14.render = __render__$11;
+var stdin_default$5g = __sfc__$14;
+withInstall(stdin_default$5g);
+withPropsDefaultsSetter(stdin_default$5g, props$W);
+const _CheckboxGroupComponent = stdin_default$5g;
+var stdin_default$5f = stdin_default$5g;
+const props$V = {
   type: {
     type: String,
     default: "default"
@@ -11424,8 +12260,8 @@ const props$W = {
   closeable: Boolean,
   onClose: defineListenerProp()
 };
-const { name: name$Y, n: n$13, classes: classes$P } = createNamespace("chip");
-function __render__$12(_ctx, _cache) {
+const { name: name$W, n: n$11, classes: classes$O } = createNamespace("chip");
+function __render__$10(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   return vue.openBlock(), vue.createBlock(vue.Transition, {
     name: _ctx.n("$-fade")
@@ -11476,13 +12312,13 @@ function __render__$12(_ctx, _cache) {
     /* FORWARDED */
   }, 8, ["name"]);
 }
-const __sfc__$15 = vue.defineComponent({
-  name: name$Y,
+const __sfc__$13 = vue.defineComponent({
+  name: name$W,
   components: {
     MpIcon: stdin_default$68
   },
   inheritAttrs: false,
-  props: props$W,
+  props: props$V,
   setup(props2) {
     const chipStyle = vue.computed(() => {
       const { plain, textColor, color } = props2;
@@ -11499,10 +12335,10 @@ const __sfc__$15 = vue.defineComponent({
     });
     const contentClass = vue.computed(() => {
       const { size, block, type, plain, round: round2 } = props2;
-      const blockClass = block ? n$13("$--flex") : n$13("$--inline-flex");
-      const plainTypeClass = plain ? `${n$13("plain")} ${n$13(`plain-${type}`)}` : n$13(`--${type}`);
-      const roundClass = round2 ? n$13("--round") : null;
-      return [n$13(`--${size}`), blockClass, plainTypeClass, roundClass];
+      const blockClass = block ? n$11("$--flex") : n$11("$--inline-flex");
+      const plainTypeClass = plain ? `${n$11("plain")} ${n$11(`plain-${type}`)}` : n$11(`--${type}`);
+      const roundClass = round2 ? n$11("--round") : null;
+      return [n$11(`--${size}`), blockClass, plainTypeClass, roundClass];
     });
     function handleClose(e) {
       call(props2.onClose, e);
@@ -11510,19 +12346,19 @@ const __sfc__$15 = vue.defineComponent({
     return {
       chipStyle,
       contentClass,
-      n: n$13,
-      classes: classes$P,
+      n: n$11,
+      classes: classes$O,
       formatElevation,
       handleClose
     };
   }
 });
-__sfc__$15.render = __render__$12;
-var stdin_default$5i = __sfc__$15;
-withInstall(stdin_default$5i);
-withPropsDefaultsSetter(stdin_default$5i, props$W);
-const _ChipComponent = stdin_default$5i;
-var stdin_default$5h = stdin_default$5i;
+__sfc__$13.render = __render__$10;
+var stdin_default$5e = __sfc__$13;
+withInstall(stdin_default$5e);
+withPropsDefaultsSetter(stdin_default$5e, props$V);
+const _ChipComponent = stdin_default$5e;
+var stdin_default$5d = stdin_default$5e;
 const HIGHLIGHTER_PROVIDER_KEY = Symbol("HIGHLIGHTER_PROVIDER_KEY");
 function provideHighlighterProvider(highlighterProvider) {
   vue.provide(HIGHLIGHTER_PROVIDER_KEY, highlighterProvider);
@@ -11533,7 +12369,7 @@ function injectHighlighterProvider() {
   }
   return vue.inject(HIGHLIGHTER_PROVIDER_KEY);
 }
-const props$V = {
+const props$U = {
   code: {
     type: String,
     default: ""
@@ -11546,7 +12382,7 @@ const props$V = {
     default: true
   }
 };
-var __async$c = (__this, __arguments, generator) => {
+var __async$b = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -11566,17 +12402,17 @@ var __async$c = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$X, n: n$12, classes: classes$O } = createNamespace("code");
-const _hoisted_1$s = ["innerHTML"];
-function __render__$11(_ctx, _cache) {
+const { name: name$V, n: n$10, classes: classes$N } = createNamespace("code");
+const _hoisted_1$q = ["innerHTML"];
+function __render__$$(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock("div", {
     class: vue.normalizeClass(_ctx.classes(_ctx.n(), [_ctx.wordWrap, _ctx.n("--word-wrap")])),
     innerHTML: _ctx.highlightedCode
-  }, null, 10, _hoisted_1$s);
+  }, null, 10, _hoisted_1$q);
 }
-const __sfc__$14 = vue.defineComponent({
-  name: name$X,
-  props: props$V,
+const __sfc__$12 = vue.defineComponent({
+  name: name$V,
+  props: props$U,
   setup(props2) {
     const { highlighter, theme } = injectHighlighterProvider();
     const highlightedCode = vue.ref("");
@@ -11587,7 +12423,7 @@ const __sfc__$14 = vue.defineComponent({
     if (highlighter) {
       vue.watch(
         () => [highlighter.value, props2.code, props2.language, normalizedTheme.value, props2.trim],
-        (_0) => __async$c(this, [_0], function* ([highlighter2, code, lang = "", theme2 = "", trim]) {
+        (_0) => __async$b(this, [_0], function* ([highlighter2, code, lang = "", theme2 = "", trim]) {
           if (!highlighter2) {
             return;
           }
@@ -11597,19 +12433,19 @@ const __sfc__$14 = vue.defineComponent({
       );
     }
     return {
-      n: n$12,
-      classes: classes$O,
+      n: n$10,
+      classes: classes$N,
       highlightedCode
     };
   }
 });
-__sfc__$14.render = __render__$11;
-var stdin_default$5g = __sfc__$14;
-withInstall(stdin_default$5g);
-withPropsDefaultsSetter(stdin_default$5g, props$V);
-const _CodeComponent = stdin_default$5g;
-var stdin_default$5f = stdin_default$5g;
-const props$U = {
+__sfc__$12.render = __render__$$;
+var stdin_default$5c = __sfc__$12;
+withInstall(stdin_default$5c);
+withPropsDefaultsSetter(stdin_default$5c, props$U);
+const _CodeComponent = stdin_default$5c;
+var stdin_default$5b = stdin_default$5c;
+const props$T = {
   span: {
     type: [String, Number],
     default: 24
@@ -11648,8 +12484,8 @@ function useRow() {
     bindRow: bindParent
   };
 }
-const { name: name$W, n: n$11, classes: classes$N } = createNamespace("col");
-function __render__$10(_ctx, _cache) {
+const { name: name$U, n: n$$, classes: classes$M } = createNamespace("col");
+function __render__$_(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -11684,9 +12520,9 @@ function __render__$10(_ctx, _cache) {
     /* CLASS, STYLE */
   );
 }
-const __sfc__$13 = vue.defineComponent({
-  name: name$W,
-  props: props$U,
+const __sfc__$11 = vue.defineComponent({
+  name: name$U,
+  props: props$T,
   setup(props2) {
     const span = vue.computed(() => toNumber(props2.span));
     const offset2 = vue.computed(() => toNumber(props2.offset));
@@ -11705,15 +12541,15 @@ const __sfc__$13 = vue.defineComponent({
       if (isPlainObject(size)) {
         const { offset: offset22, span: span2 } = size;
         if (Number(span2) >= 0) {
-          classes2.push(n$11(`--span-${mode}-${span2}`));
+          classes2.push(n$$(`--span-${mode}-${span2}`));
         }
         if (offset22) {
-          classes2.push(n$11(`--offset-${mode}-${offset22}`));
+          classes2.push(n$$(`--offset-${mode}-${offset22}`));
         }
         return classes2;
       }
       if (Number(size) >= 0) {
-        classes2.push(n$11(`--span-${mode}-${size}`));
+        classes2.push(n$$(`--span-${mode}-${size}`));
       }
       return classes2;
     }
@@ -11724,8 +12560,8 @@ const __sfc__$13 = vue.defineComponent({
       span,
       offset: offset2,
       padding,
-      n: n$11,
-      classes: classes$N,
+      n: n$$,
+      classes: classes$M,
       toNumber,
       toSizeUnit,
       getSize: getSize2,
@@ -11734,13 +12570,13 @@ const __sfc__$13 = vue.defineComponent({
     };
   }
 });
-__sfc__$13.render = __render__$10;
-var stdin_default$5e = __sfc__$13;
-withInstall(stdin_default$5e);
-withPropsDefaultsSetter(stdin_default$5e, props$U);
-const _ColComponent = stdin_default$5e;
-var stdin_default$5d = stdin_default$5e;
-const props$T = {
+__sfc__$11.render = __render__$_;
+var stdin_default$5a = __sfc__$11;
+withInstall(stdin_default$5a);
+withPropsDefaultsSetter(stdin_default$5a, props$T);
+const _ColComponent = stdin_default$5a;
+var stdin_default$59 = stdin_default$5a;
+const props$S = {
   modelValue: [Array, String, Number],
   accordion: Boolean,
   offset: {
@@ -11769,8 +12605,8 @@ function useCollapseItem() {
     bindCollapseItems: bindChildren
   };
 }
-const { name: name$V, n: n$10 } = createNamespace("collapse");
-function __render__$$(_ctx, _cache) {
+const { name: name$T, n: n$_ } = createNamespace("collapse");
+function __render__$Z(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -11783,9 +12619,9 @@ function __render__$$(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$12 = vue.defineComponent({
-  name: name$V,
-  props: props$T,
+const __sfc__$10 = vue.defineComponent({
+  name: name$T,
+  props: props$S,
   setup(props2) {
     const offset2 = vue.computed(() => props2.offset);
     const divider = vue.computed(() => props2.divider);
@@ -11872,18 +12708,18 @@ const __sfc__$12 = vue.defineComponent({
     };
     return {
       divider,
-      n: n$10,
+      n: n$_,
       toggleAll
     };
   }
 });
-__sfc__$12.render = __render__$$;
-var stdin_default$5c = __sfc__$12;
-withInstall(stdin_default$5c);
-withPropsDefaultsSetter(stdin_default$5c, props$T);
-const _CollapseComponent = stdin_default$5c;
-var stdin_default$5b = stdin_default$5c;
-var __async$b = (__this, __arguments, generator) => {
+__sfc__$10.render = __render__$Z;
+var stdin_default$58 = __sfc__$10;
+withInstall(stdin_default$58);
+withPropsDefaultsSetter(stdin_default$58, props$S);
+const _CollapseComponent = stdin_default$58;
+var stdin_default$57 = stdin_default$58;
+var __async$a = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -11916,7 +12752,7 @@ function useCollapseTransition(options) {
     { immediate: true }
   );
   function open() {
-    return __async$b(this, null, function* () {
+    return __async$a(this, null, function* () {
       if (!contentEl.value) {
         return;
       }
@@ -11942,7 +12778,7 @@ function useCollapseTransition(options) {
       }
     });
   }
-  const close = () => __async$b(this, null, function* () {
+  const close = () => __async$a(this, null, function* () {
     if (!contentEl.value) {
       return;
     }
@@ -11965,7 +12801,7 @@ function useCollapseTransition(options) {
     handleTransitionStart
   };
 }
-const props$S = {
+const props$R = {
   name: [String, Number],
   title: String,
   icon: {
@@ -11985,9 +12821,9 @@ function useCollapse() {
     bindCollapse: bindParent
   };
 }
-const { name: name$U, n: n$$, classes: classes$M } = createNamespace("collapse-item");
-const _hoisted_1$r = ["aria-expanded", "aria-disabled", "role"];
-function __render__$_(_ctx, _cache) {
+const { name: name$S, n: n$Z, classes: classes$L } = createNamespace("collapse-item");
+const _hoisted_1$p = ["aria-expanded", "aria-disabled", "role"];
+function __render__$Y(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   return vue.openBlock(), vue.createElementBlock(
     "div",
@@ -12053,7 +12889,7 @@ function __render__$_(_ctx, _cache) {
           2
           /* CLASS */
         )
-      ], 10, _hoisted_1$r),
+      ], 10, _hoisted_1$p),
       vue.withDirectives(vue.createElementVNode(
         "div",
         {
@@ -12085,12 +12921,12 @@ function __render__$_(_ctx, _cache) {
     /* CLASS, STYLE */
   );
 }
-const __sfc__$11 = vue.defineComponent({
-  name: name$U,
+const __sfc__$$ = vue.defineComponent({
+  name: name$S,
   components: {
     MpIcon: stdin_default$68
   },
-  props: props$S,
+  props: props$R,
   setup(props2) {
     const isShow = vue.ref(false);
     const showContent = vue.ref(false);
@@ -12129,8 +12965,8 @@ const __sfc__$11 = vue.defineComponent({
       elevation,
       contentEl,
       accordion,
-      n: n$$,
-      classes: classes$M,
+      n: n$Z,
+      classes: classes$L,
       toggle,
       formatElevation,
       handleTransitionEnd,
@@ -12138,17 +12974,17 @@ const __sfc__$11 = vue.defineComponent({
     };
   }
 });
-__sfc__$11.render = __render__$_;
-var stdin_default$5a = __sfc__$11;
-withInstall(stdin_default$5a);
-withPropsDefaultsSetter(stdin_default$5a, props$S);
-const _CollapseItemComponent = stdin_default$5a;
-var stdin_default$59 = stdin_default$5a;
-const props$R = {
+__sfc__$$.render = __render__$Y;
+var stdin_default$56 = __sfc__$$;
+withInstall(stdin_default$56);
+withPropsDefaultsSetter(stdin_default$56, props$R);
+const _CollapseItemComponent = stdin_default$56;
+var stdin_default$55 = stdin_default$56;
+const props$Q = {
   expand: Boolean
 };
-const { name: name$T, n: n$_ } = createNamespace("collapse-transition");
-function __render__$Z(_ctx, _cache) {
+const { name: name$R, n: n$Y } = createNamespace("collapse-transition");
+function __render__$X(_ctx, _cache) {
   return vue.withDirectives((vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -12166,9 +13002,9 @@ function __render__$Z(_ctx, _cache) {
     [vue.vShow, _ctx.showContent]
   ]);
 }
-const __sfc__$10 = vue.defineComponent({
-  name: name$T,
-  props: props$R,
+const __sfc__$_ = vue.defineComponent({
+  name: name$R,
+  props: props$Q,
   setup(props2) {
     const showContent = vue.ref(false);
     const contentEl = vue.ref(null);
@@ -12181,19 +13017,19 @@ const __sfc__$10 = vue.defineComponent({
     return {
       showContent,
       contentEl,
-      n: n$_,
+      n: n$Y,
       handleTransitionEnd,
       handleTransitionStart
     };
   }
 });
-__sfc__$10.render = __render__$Z;
-var stdin_default$58 = __sfc__$10;
-withInstall(stdin_default$58);
-withPropsDefaultsSetter(stdin_default$58, props$R);
-const _CollapseTransitionComponent = stdin_default$58;
-var stdin_default$57 = stdin_default$58;
-const props$Q = {
+__sfc__$_.render = __render__$X;
+var stdin_default$54 = __sfc__$_;
+withInstall(stdin_default$54);
+withPropsDefaultsSetter(stdin_default$54, props$Q);
+const _CollapseTransitionComponent = stdin_default$54;
+var stdin_default$53 = stdin_default$54;
+const props$P = {
   from: {
     type: [String, Number],
     default: 0
@@ -12219,8 +13055,8 @@ const props$Q = {
   },
   onEnd: defineListenerProp()
 };
-const { name: name$S, n: n$Z } = createNamespace("count-to");
-function __render__$Y(_ctx, _cache) {
+const { name: name$Q, n: n$X } = createNamespace("count-to");
+function __render__$W(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -12239,9 +13075,9 @@ function __render__$Y(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$$ = vue.defineComponent({
-  name: name$S,
-  props: props$Q,
+const __sfc__$Z = vue.defineComponent({
+  name: name$Q,
+  props: props$P,
   setup(props2) {
     const {
       value: _value,
@@ -12270,7 +13106,7 @@ const __sfc__$$ = vue.defineComponent({
     }
     return {
       value,
-      n: n$Z,
+      n: n$X,
       start: start2,
       pause,
       reset,
@@ -12279,13 +13115,13 @@ const __sfc__$$ = vue.defineComponent({
     };
   }
 });
-__sfc__$$.render = __render__$Y;
-var stdin_default$56 = __sfc__$$;
-withInstall(stdin_default$56);
-withPropsDefaultsSetter(stdin_default$56, props$Q);
-const _CountToComponent = stdin_default$56;
-var stdin_default$55 = stdin_default$56;
-const props$P = {
+__sfc__$Z.render = __render__$W;
+var stdin_default$52 = __sfc__$Z;
+withInstall(stdin_default$52);
+withPropsDefaultsSetter(stdin_default$52, props$P);
+const _CountToComponent = stdin_default$52;
+var stdin_default$51 = stdin_default$52;
+const props$O = {
   time: {
     type: [String, Number],
     default: 0
@@ -12301,12 +13137,12 @@ const props$P = {
   onEnd: defineListenerProp(),
   onChange: defineListenerProp()
 };
-const { name: name$R, n: n$Y } = createNamespace("countdown");
+const { name: name$P, n: n$W } = createNamespace("countdown");
 const SECOND = 1e3;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
-function __render__$X(_ctx, _cache) {
+function __render__$V(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -12325,9 +13161,9 @@ function __render__$X(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$_ = vue.defineComponent({
-  name: name$R,
-  props: props$P,
+const __sfc__$Y = vue.defineComponent({
+  name: name$P,
+  props: props$O,
   setup(props2) {
     const showTime = vue.ref("");
     const timeData = vue.ref({
@@ -12451,19 +13287,19 @@ const __sfc__$_ = vue.defineComponent({
     return {
       showTime,
       timeData,
-      n: n$Y,
+      n: n$W,
       start: start2,
       pause,
       reset
     };
   }
 });
-__sfc__$_.render = __render__$X;
-var stdin_default$54 = __sfc__$_;
-withInstall(stdin_default$54);
-withPropsDefaultsSetter(stdin_default$54, props$P);
-const _CountdownComponent = stdin_default$54;
-var stdin_default$53 = stdin_default$54;
+__sfc__$Y.render = __render__$V;
+var stdin_default$50 = __sfc__$Y;
+withInstall(stdin_default$50);
+withPropsDefaultsSetter(stdin_default$50, props$O);
+const _CountdownComponent = stdin_default$50;
+var stdin_default$4$ = stdin_default$50;
 /*!
  *  decimal.js v10.6.0
  *  An arbitrary-precision Decimal type for JavaScript.
@@ -14619,7 +15455,7 @@ P[Symbol.toStringTag] = "Decimal";
 var Decimal = P.constructor = clone(DEFAULTS);
 LN10 = new Decimal(LN10);
 PI = new Decimal(PI);
-const props$O = {
+const props$N = {
   modelValue: {
     type: Number,
     default: 0
@@ -14674,9 +15510,9 @@ const props$O = {
 };
 const SPEED = 100;
 const DELAY = 600;
-const { name: name$Q, n: n$X, classes: classes$L } = createNamespace("counter");
-const _hoisted_1$q = ["inputmode", "readonly", "disabled"];
-function __render__$W(_ctx, _cache) {
+const { name: name$O, n: n$V, classes: classes$K } = createNamespace("counter");
+const _hoisted_1$o = ["inputmode", "readonly", "disabled"];
+function __render__$U(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   const _component_mp_button = vue.resolveComponent("mp-button");
   const _component_mp_form_details = vue.resolveComponent("mp-form-details");
@@ -14735,7 +15571,7 @@ function __render__$W(_ctx, _cache) {
             readonly: _ctx.readonly || _ctx.formReadonly,
             disabled: _ctx.disabled || _ctx.formDisabled || _ctx.disableInput,
             onChange: _cache[1] || (_cache[1] = (...args) => _ctx.handleChange && _ctx.handleChange(...args))
-          }, null, 46, _hoisted_1$q), [
+          }, null, 46, _hoisted_1$o), [
             [vue.vModelText, _ctx.inputValue]
           ]),
           vue.createVNode(_component_mp_button, {
@@ -14774,8 +15610,8 @@ function __render__$W(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$Z = vue.defineComponent({
-  name: name$Q,
+const __sfc__$X = vue.defineComponent({
+  name: name$O,
   components: {
     MpButton: stdin_default$5D,
     MpIcon: stdin_default$68,
@@ -14783,7 +15619,7 @@ const __sfc__$Z = vue.defineComponent({
   },
   directives: { Ripple: stdin_default$6d },
   inheritAttrs: false,
-  props: props$O,
+  props: props$N,
   setup(props2) {
     const inputValue = vue.ref("");
     const { bindForm, form } = useForm();
@@ -14969,8 +15805,8 @@ const __sfc__$Z = vue.defineComponent({
       formReadonly,
       isMax,
       isMin,
-      n: n$X,
-      classes: classes$L,
+      n: n$V,
+      classes: classes$K,
       formatElevation,
       validate,
       reset,
@@ -14987,12 +15823,12 @@ const __sfc__$Z = vue.defineComponent({
     };
   }
 });
-__sfc__$Z.render = __render__$W;
-var stdin_default$52 = __sfc__$Z;
-withInstall(stdin_default$52);
-withPropsDefaultsSetter(stdin_default$52, props$O);
-const _CounterComponent = stdin_default$52;
-var stdin_default$51 = stdin_default$52;
+__sfc__$X.render = __render__$U;
+var stdin_default$4_ = __sfc__$X;
+withInstall(stdin_default$4_);
+withPropsDefaultsSetter(stdin_default$4_, props$N);
+const _CounterComponent = stdin_default$4_;
+var stdin_default$4Z = stdin_default$4_;
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -15461,7 +16297,7 @@ dayjs.Ls = Ls;
 dayjs.p = {};
 const MONTH_LIST = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 const WEEK_HEADER = ["0", "1", "2", "3", "4", "5", "6"];
-const props$N = {
+const props$M = {
   modelValue: [String, Array],
   type: {
     type: String,
@@ -15510,8 +16346,8 @@ const isSameOrBefore = function(o, c) {
     return this.isSame(that, units) || this.isBefore(that, units);
   };
 };
-const { n: n$W } = createNamespace("date-picker-header");
-function __render__$V(_ctx, _cache) {
+const { n: n$U } = createNamespace("date-picker-header");
+function __render__$T(_ctx, _cache) {
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   const _component_mp_button = vue.resolveComponent("mp-button");
   return vue.openBlock(), vue.createElementBlock(
@@ -15579,7 +16415,7 @@ function __render__$V(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$Y = vue.defineComponent({
+const __sfc__$W = vue.defineComponent({
   name: "PanelHeader",
   components: {
     MpButton: stdin_default$5D,
@@ -15632,15 +16468,15 @@ const __sfc__$Y = vue.defineComponent({
       }
     );
     return {
-      n: n$W,
+      n: n$U,
       reverse,
       showDate,
       checkDate
     };
   }
 });
-__sfc__$Y.render = __render__$V;
-var stdin_default$50 = __sfc__$Y;
+__sfc__$W.render = __render__$T;
+var stdin_default$4Y = __sfc__$W;
 var __defProp$j = Object.defineProperty;
 var __getOwnPropSymbols$j = Object.getOwnPropertySymbols;
 var __hasOwnProp$j = Object.prototype.hasOwnProperty;
@@ -15659,9 +16495,9 @@ var __spreadValues$j = (a, b) => {
 };
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
-const { n: n$V, classes: classes$K } = createNamespace("day-picker");
+const { n: n$T, classes: classes$J } = createNamespace("day-picker");
 const { n: nDate$2 } = createNamespace("date-picker");
-function __render__$U(_ctx, _cache) {
+function __render__$S(_ctx, _cache) {
   const _component_panel_header = vue.resolveComponent("panel-header");
   const _component_mp_button = vue.resolveComponent("mp-button");
   return vue.openBlock(), vue.createElementBlock(
@@ -15768,11 +16604,11 @@ function __render__$U(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$X = vue.defineComponent({
+const __sfc__$V = vue.defineComponent({
   name: "DayPickerPanel",
   components: {
     MpButton: stdin_default$5D,
-    PanelHeader: stdin_default$50
+    PanelHeader: stdin_default$4Y
   },
   props: {
     choose: {
@@ -15886,7 +16722,7 @@ const __sfc__$X = vue.defineComponent({
           variant: "text",
           status: "default",
           textColor: "",
-          class: n$V("button"),
+          class: n$T("button"),
           disabled: true
         };
       }
@@ -15954,7 +16790,7 @@ const __sfc__$X = vue.defineComponent({
         status: !computeText() ? "primary" : "default",
         textColor: isCover ? "" : textColorOrCover(),
         [`${nDate$2()}-color-cover`]: isCover,
-        class: classes$K(n$V("button"), n$V("button--usable"), [disabled, n$V("button--disabled")]),
+        class: classes$J(n$T("button"), n$T("button--usable"), [disabled, n$T("button--disabled")]),
         disabled
       };
     };
@@ -15965,7 +16801,7 @@ const __sfc__$X = vue.defineComponent({
     };
     const chooseDay = (day, event) => {
       const buttonEl = event.currentTarget;
-      if (buttonEl.classList.contains(n$V("button--disabled"))) {
+      if (buttonEl.classList.contains(n$T("button--disabled"))) {
         return;
       }
       emit("choose-day", day);
@@ -15986,7 +16822,7 @@ const __sfc__$X = vue.defineComponent({
     );
     vue.watch(() => [props2.componentProps.max, props2.componentProps.min], initHeader);
     return {
-      n: n$V,
+      n: n$T,
       nDate: nDate$2,
       days,
       reverse,
@@ -16003,8 +16839,8 @@ const __sfc__$X = vue.defineComponent({
     };
   }
 });
-__sfc__$X.render = __render__$U;
-var stdin_default$4$ = __sfc__$X;
+__sfc__$V.render = __render__$S;
+var stdin_default$4X = __sfc__$V;
 var __defProp$i = Object.defineProperty;
 var __getOwnPropSymbols$i = Object.getOwnPropertySymbols;
 var __hasOwnProp$i = Object.prototype.hasOwnProperty;
@@ -16023,9 +16859,9 @@ var __spreadValues$i = (a, b) => {
 };
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
-const { n: n$U, classes: classes$J } = createNamespace("month-picker");
+const { n: n$S, classes: classes$I } = createNamespace("month-picker");
 const { n: nDate$1 } = createNamespace("date-picker");
-function __render__$T(_ctx, _cache) {
+function __render__$R(_ctx, _cache) {
   const _component_panel_header = vue.resolveComponent("panel-header");
   const _component_mp_button = vue.resolveComponent("mp-button");
   return vue.openBlock(), vue.createElementBlock(
@@ -16096,11 +16932,11 @@ function __render__$T(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$W = vue.defineComponent({
+const __sfc__$U = vue.defineComponent({
   name: "MonthPickerPanel",
   components: {
     MpButton: stdin_default$5D,
-    PanelHeader: stdin_default$50
+    PanelHeader: stdin_default$4Y
   },
   props: {
     choose: {
@@ -16241,13 +17077,13 @@ const __sfc__$W = vue.defineComponent({
         color: !computeText() ? color : "",
         textColor: isCover ? "" : textColorOrCover(),
         [`${nDate$1()}-color-cover`]: isCover,
-        class: classes$J(n$U("button"), [disabled, n$U("button--disabled")]),
+        class: classes$I(n$S("button"), [disabled, n$S("button--disabled")]),
         disabled
       };
     };
     const chooseMonth = (month, event) => {
       const buttonEl = event.currentTarget;
-      if (buttonEl.classList.contains(n$U("button--disabled"))) {
+      if (buttonEl.classList.contains(n$S("button--disabled"))) {
         return;
       }
       emit("choose-month", month);
@@ -16273,7 +17109,7 @@ const __sfc__$W = vue.defineComponent({
       { immediate: true }
     );
     return {
-      n: n$U,
+      n: n$S,
       nDate: nDate$1,
       t,
       MONTH_LIST,
@@ -16289,9 +17125,9 @@ const __sfc__$W = vue.defineComponent({
     };
   }
 });
-__sfc__$W.render = __render__$T;
-var stdin_default$4_ = __sfc__$W;
-const props$M = {
+__sfc__$U.render = __render__$R;
+var stdin_default$4W = __sfc__$U;
+const props$L = {
   offsetTop: {
     type: [String, Number],
     default: 0
@@ -16304,7 +17140,7 @@ const props$M = {
   disabled: Boolean,
   onScroll: defineListenerProp()
 };
-var __async$a = (__this, __arguments, generator) => {
+var __async$9 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -16324,8 +17160,8 @@ var __async$a = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$P, n: n$T, classes: classes$I } = createNamespace("sticky");
-function __render__$S(_ctx, _cache) {
+const { name: name$N, n: n$R, classes: classes$H } = createNamespace("sticky");
+function __render__$Q(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -16364,9 +17200,9 @@ function __render__$S(_ctx, _cache) {
     /* CLASS, STYLE */
   );
 }
-const __sfc__$V = vue.defineComponent({
-  name: name$P,
-  props: props$M,
+const __sfc__$T = vue.defineComponent({
+  name: name$N,
+  props: props$L,
   setup(props2) {
     const stickyEl = vue.ref(null);
     const wrapperEl = vue.ref(null);
@@ -16382,7 +17218,7 @@ const __sfc__$V = vue.defineComponent({
     const offsetTop = vue.computed(() => toPxNum(props2.offsetTop));
     let scroller;
     vue.watch(() => props2.disabled, resize);
-    onSmartMounted(() => __async$a(this, null, function* () {
+    onSmartMounted(() => __async$9(this, null, function* () {
       yield doubleRaf();
       setupScroller();
       handleScroll();
@@ -16444,7 +17280,7 @@ const __sfc__$V = vue.defineComponent({
       scroller.removeEventListener("scroll", handleScroll);
     }
     function resize() {
-      return __async$a(this, null, function* () {
+      return __async$9(this, null, function* () {
         isFixed.value = false;
         yield raf();
         computeFixedParams();
@@ -16463,19 +17299,19 @@ const __sfc__$V = vue.defineComponent({
       fixedWrapperHeight,
       enableCSSMode,
       enableFixedMode,
-      n: n$T,
-      classes: classes$I,
+      n: n$R,
+      classes: classes$H,
       resize,
       toNumber
     };
   }
 });
-__sfc__$V.render = __render__$S;
-var stdin_default$4Z = __sfc__$V;
-withInstall(stdin_default$4Z);
-withPropsDefaultsSetter(stdin_default$4Z, props$M);
-const _StickyComponent = stdin_default$4Z;
-var stdin_default$4Y = stdin_default$4Z;
+__sfc__$T.render = __render__$Q;
+var stdin_default$4V = __sfc__$T;
+withInstall(stdin_default$4V);
+withPropsDefaultsSetter(stdin_default$4V, props$L);
+const _StickyComponent = stdin_default$4V;
+var stdin_default$4U = stdin_default$4V;
 var __defProp$h = Object.defineProperty;
 var __getOwnPropSymbols$h = Object.getOwnPropertySymbols;
 var __hasOwnProp$h = Object.prototype.hasOwnProperty;
@@ -16492,9 +17328,9 @@ var __spreadValues$h = (a, b) => {
     }
   return a;
 };
-const { n: n$S, classes: classes$H } = createNamespace("year-picker");
+const { n: n$Q, classes: classes$G } = createNamespace("year-picker");
 const { n: nDate } = createNamespace("date-picker");
-function __render__$R(_ctx, _cache) {
+function __render__$P(_ctx, _cache) {
   const _component_panel_header = vue.resolveComponent("panel-header");
   const _component_mp_sticky = vue.resolveComponent("mp-sticky");
   const _component_mp_button = vue.resolveComponent("mp-button");
@@ -16565,12 +17401,12 @@ function __render__$R(_ctx, _cache) {
     }, 8, ["name"])
   ]);
 }
-const __sfc__$U = vue.defineComponent({
+const __sfc__$S = vue.defineComponent({
   name: "YearPickerPanel",
   components: {
     MpButton: stdin_default$5D,
-    MpSticky: stdin_default$4Y,
-    PanelHeader: stdin_default$50
+    MpSticky: stdin_default$4U,
+    PanelHeader: stdin_default$4Y
   },
   props: {
     choose: {
@@ -16698,13 +17534,13 @@ const __sfc__$U = vue.defineComponent({
         color: !computeText() ? color : "",
         textColor: isCover ? "" : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,
-        class: classes$H(n$S("button"), [disabled, n$S("button--disabled")]),
+        class: classes$G(n$Q("button"), [disabled, n$Q("button--disabled")]),
         disabled
       };
     };
     const chooseYear = (year, event) => {
       const buttonEl = event.currentTarget;
-      if (buttonEl.classList.contains(n$S("button--disabled"))) {
+      if (buttonEl.classList.contains(n$Q("button--disabled"))) {
         return;
       }
       emit("choose-year", year);
@@ -16751,8 +17587,8 @@ const __sfc__$U = vue.defineComponent({
       }
     );
     return {
-      n: n$S,
-      classes: classes$H,
+      n: n$Q,
+      classes: classes$G,
       buttonProps: buttonProps2,
       panel,
       headerEl,
@@ -16768,9 +17604,9 @@ const __sfc__$U = vue.defineComponent({
     };
   }
 });
-__sfc__$U.render = __render__$R;
-var stdin_default$4X = __sfc__$U;
-var __async$9 = (__this, __arguments, generator) => {
+__sfc__$S.render = __render__$P;
+var stdin_default$4T = __sfc__$S;
+var __async$8 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -16790,8 +17626,8 @@ var __async$9 = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$O, n: n$R, classes: classes$G } = createNamespace("date-picker");
-function __render__$Q(_ctx, _cache) {
+const { name: name$M, n: n$P, classes: classes$F } = createNamespace("date-picker");
+function __render__$O(_ctx, _cache) {
   var _a;
   const _component_year_picker_panel = vue.resolveComponent("year-picker-panel");
   const _component_month_picker_panel = vue.resolveComponent("month-picker-panel");
@@ -17035,14 +17871,14 @@ function __render__$Q(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$T = vue.defineComponent({
-  name: name$O,
+const __sfc__$R = vue.defineComponent({
+  name: name$M,
   components: {
-    MonthPickerPanel: stdin_default$4_,
-    YearPickerPanel: stdin_default$4X,
-    DayPickerPanel: stdin_default$4$
+    MonthPickerPanel: stdin_default$4W,
+    YearPickerPanel: stdin_default$4T,
+    DayPickerPanel: stdin_default$4X
   },
-  props: props$N,
+  props: props$M,
   setup(props2) {
     const { t: pt } = injectLocaleProvider();
     const currentDate = dayjs().format("YYYY-MM-D");
@@ -17225,7 +18061,7 @@ const __sfc__$T = vue.defineComponent({
       checkType = x > 0 ? "prev" : "next";
     }
     function handleTouchend() {
-      return __async$9(this, null, function* () {
+      return __async$8(this, null, function* () {
         if (isUntouchable.value || touchDirection !== "x") {
           return;
         }
@@ -17445,8 +18281,8 @@ const __sfc__$T = vue.defineComponent({
       formatRange,
       pt,
       t,
-      n: n$R,
-      classes: classes$G,
+      n: n$P,
+      classes: classes$F,
       clickEl,
       handleTouchstart,
       handleTouchmove,
@@ -17459,12 +18295,12 @@ const __sfc__$T = vue.defineComponent({
     };
   }
 });
-__sfc__$T.render = __render__$Q;
-var stdin_default$4W = __sfc__$T;
-withInstall(stdin_default$4W);
-withPropsDefaultsSetter(stdin_default$4W, props$N);
-const _DatePickerComponent = stdin_default$4W;
-var stdin_default$4V = stdin_default$4W;
+__sfc__$R.render = __render__$O;
+var stdin_default$4S = __sfc__$R;
+withInstall(stdin_default$4S);
+withPropsDefaultsSetter(stdin_default$4S, props$M);
+const _DatePickerComponent = stdin_default$4S;
+var stdin_default$4R = stdin_default$4S;
 var __defProp$g = Object.defineProperty;
 var __getOwnPropSymbols$g = Object.getOwnPropertySymbols;
 var __hasOwnProp$g = Object.prototype.hasOwnProperty;
@@ -17481,7 +18317,7 @@ var __spreadValues$g = (a, b) => {
     }
   return a;
 };
-const props$L = __spreadValues$g({
+const props$K = __spreadValues$g({
   show: Boolean,
   width: [Number, String],
   title: String,
@@ -17543,8 +18379,8 @@ var __spreadValues$f = (a, b) => {
     }
   return a;
 };
-const { name: name$N, n: n$Q, classes: classes$F } = createNamespace("dialog");
-function __render__$P(_ctx, _cache) {
+const { name: name$L, n: n$O, classes: classes$E } = createNamespace("dialog");
+function __render__$N(_ctx, _cache) {
   const _component_mp_button = vue.resolveComponent("mp-button");
   const _component_mp_popup = vue.resolveComponent("mp-popup");
   return vue.openBlock(), vue.createBlock(_component_mp_popup, {
@@ -17681,14 +18517,14 @@ function __render__$P(_ctx, _cache) {
     /* FORWARDED */
   }, 8, ["class", "show", "overlay", "overlay-class", "overlay-style", "lock-scroll", "close-on-click-overlay", "teleport", "onOpen", "onClose", "onClosed", "onOpened", "onKeyEscape", "onRouteChange", "onClickOverlay"]);
 }
-const __sfc__$S = vue.defineComponent({
-  name: name$N,
+const __sfc__$Q = vue.defineComponent({
+  name: name$L,
   components: {
     MpPopup: stdin_default$6e,
     MpButton: stdin_default$5D
   },
   inheritAttrs: false,
-  props: props$L,
+  props: props$K,
   setup(props2) {
     const popupShow = vue.ref(false);
     const popupCloseOnClickOverlay = vue.ref(false);
@@ -17756,8 +18592,8 @@ const __sfc__$S = vue.defineComponent({
       popupCloseOnClickOverlay,
       pt,
       t,
-      n: n$Q,
-      classes: classes$F,
+      n: n$O,
+      classes: classes$E,
       handleClickOverlay,
       confirm,
       cancel,
@@ -17766,8 +18602,8 @@ const __sfc__$S = vue.defineComponent({
     };
   }
 });
-__sfc__$S.render = __render__$P;
-var stdin_default$4U = __sfc__$S;
+__sfc__$Q.render = __render__$N;
+var stdin_default$4Q = __sfc__$Q;
 var __defProp$e = Object.defineProperty;
 var __defProps$6 = Object.defineProperties;
 var __getOwnPropDescs$6 = Object.getOwnPropertyDescriptors;
@@ -17805,7 +18641,7 @@ function Dialog(options) {
     const reactiveDialogOptions = vue.reactive(dialogOptions);
     reactiveDialogOptions.teleport = "body";
     singletonOptions$2 = reactiveDialogOptions;
-    const { unmountInstance } = mountInstance(stdin_default$4U, reactiveDialogOptions, {
+    const { unmountInstance } = mountInstance(stdin_default$4Q, reactiveDialogOptions, {
       onConfirm: () => {
         call(reactiveDialogOptions.onConfirm);
         resolve("confirm");
@@ -17849,13 +18685,13 @@ Dialog.close = function() {
     });
   }
 };
-Dialog.Component = stdin_default$4U;
-withInstall(stdin_default$4U);
-withInstall(stdin_default$4U, Dialog);
-withPropsDefaultsSetter(Dialog, props$L);
-const _DialogComponent = stdin_default$4U;
-var stdin_default$4T = Dialog;
-const props$K = {
+Dialog.Component = stdin_default$4Q;
+withInstall(stdin_default$4Q);
+withInstall(stdin_default$4Q, Dialog);
+withPropsDefaultsSetter(Dialog, props$K);
+const _DialogComponent = stdin_default$4Q;
+var stdin_default$4P = Dialog;
+const props$J = {
   inset: {
     type: [Boolean, Number, String],
     default: false
@@ -17866,8 +18702,8 @@ const props$K = {
   dashed: Boolean,
   hairline: Boolean
 };
-const { name: name$M, n: n$P, classes: classes$E } = createNamespace("divider");
-function __render__$O(_ctx, _cache) {
+const { name: name$K, n: n$N, classes: classes$D } = createNamespace("divider");
+function __render__$M(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -17903,9 +18739,9 @@ function __render__$O(_ctx, _cache) {
     /* CLASS, STYLE */
   );
 }
-const __sfc__$R = vue.defineComponent({
-  name: name$M,
-  props: props$K,
+const __sfc__$P = vue.defineComponent({
+  name: name$K,
+  props: props$J,
   setup(props2, { slots }) {
     const withText = vue.ref(false);
     const withPresetInset = vue.computed(() => {
@@ -17932,21 +18768,21 @@ const __sfc__$R = vue.defineComponent({
       withText.value = (slots.default || description != null) && !vertical;
     }
     return {
-      n: n$P,
-      classes: classes$E,
+      n: n$N,
+      classes: classes$D,
       withText,
       style,
       withPresetInset
     };
   }
 });
-__sfc__$R.render = __render__$O;
-var stdin_default$4S = __sfc__$R;
-withInstall(stdin_default$4S);
-withPropsDefaultsSetter(stdin_default$4S, props$K);
-const _DividerComponent = stdin_default$4S;
-var stdin_default$4R = stdin_default$4S;
-const props$J = {
+__sfc__$P.render = __render__$M;
+var stdin_default$4O = __sfc__$P;
+withInstall(stdin_default$4O);
+withPropsDefaultsSetter(stdin_default$4O, props$J);
+const _DividerComponent = stdin_default$4O;
+var stdin_default$4N = stdin_default$4O;
+const props$I = {
   direction: {
     type: String,
     default: "xy"
@@ -17991,8 +18827,8 @@ var __spreadValues$d = (a, b) => {
   return a;
 };
 var __spreadProps$5 = (a, b) => __defProps$5(a, __getOwnPropDescs$5(b));
-const { name: name$L, n: n$O, classes: classes$D } = createNamespace("drag");
-function __render__$N(_ctx, _cache) {
+const { name: name$J, n: n$M, classes: classes$C } = createNamespace("drag");
+function __render__$L(_ctx, _cache) {
   return vue.openBlock(), vue.createBlock(vue.Teleport, {
     to: _ctx.teleport === false ? void 0 : _ctx.teleport,
     disabled: _ctx.teleportDisabled || _ctx.teleport === false
@@ -18020,10 +18856,10 @@ function __render__$N(_ctx, _cache) {
     )
   ], 8, ["to", "disabled"]);
 }
-const __sfc__$Q = vue.defineComponent({
-  name: name$L,
+const __sfc__$O = vue.defineComponent({
+  name: name$J,
   inheritAttrs: false,
-  props: props$J,
+  props: props$I,
   setup(props2, { attrs }) {
     const drag = vue.ref(null);
     const x = vue.ref(0);
@@ -18188,8 +19024,8 @@ const __sfc__$Q = vue.defineComponent({
       enableTransition,
       dragging,
       teleportDisabled,
-      n: n$O,
-      classes: classes$D,
+      n: n$M,
+      classes: classes$C,
       getAttrs,
       handleTouchstart,
       handleTouchmove,
@@ -18200,13 +19036,13 @@ const __sfc__$Q = vue.defineComponent({
     };
   }
 });
-__sfc__$Q.render = __render__$N;
-var stdin_default$4Q = __sfc__$Q;
-withInstall(stdin_default$4Q);
-withPropsDefaultsSetter(stdin_default$4Q, props$J);
-const _DragComponent = stdin_default$4Q;
-var stdin_default$4P = stdin_default$4Q;
-const props$I = {
+__sfc__$O.render = __render__$L;
+var stdin_default$4M = __sfc__$O;
+withInstall(stdin_default$4M);
+withPropsDefaultsSetter(stdin_default$4M, props$I);
+const _DragComponent = stdin_default$4M;
+var stdin_default$4L = stdin_default$4M;
+const props$H = {
   type: {
     type: String,
     default: "default"
@@ -18254,8 +19090,8 @@ const props$I = {
   onClickOutside: defineListenerProp(),
   "onUpdate:show": defineListenerProp()
 };
-const { name: name$K, n: n$N, classes: classes$C } = createNamespace("tooltip");
-function __render__$M(_ctx, _cache) {
+const { name: name$I, n: n$L, classes: classes$B } = createNamespace("tooltip");
+function __render__$K(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     {
@@ -18326,9 +19162,9 @@ function __render__$M(_ctx, _cache) {
     /* CLASS */
   );
 }
-const __sfc__$P = vue.defineComponent({
-  name: name$K,
-  props: props$I,
+const __sfc__$N = vue.defineComponent({
+  name: name$I,
+  props: props$H,
   setup(props2) {
     const { disabled: teleportDisabled } = useTeleport();
     const {
@@ -18358,8 +19194,8 @@ const __sfc__$P = vue.defineComponent({
       zIndex,
       teleportDisabled,
       toSizeUnit,
-      n: n$N,
-      classes: classes$C,
+      n: n$L,
+      classes: classes$B,
       handlePopoverClose,
       handlePopoverMouseenter,
       handlePopoverMouseleave,
@@ -18371,13 +19207,13 @@ const __sfc__$P = vue.defineComponent({
     };
   }
 });
-__sfc__$P.render = __render__$M;
-var stdin_default$4O = __sfc__$P;
-withInstall(stdin_default$4O);
-withPropsDefaultsSetter(stdin_default$4O, props$I);
-const _TooltipComponent = stdin_default$4O;
-var stdin_default$4N = stdin_default$4O;
-const props$H = {
+__sfc__$N.render = __render__$K;
+var stdin_default$4K = __sfc__$N;
+withInstall(stdin_default$4K);
+withPropsDefaultsSetter(stdin_default$4K, props$H);
+const _TooltipComponent = stdin_default$4K;
+var stdin_default$4J = stdin_default$4K;
+const props$G = {
   expand: Boolean,
   expandTrigger: String,
   lineClamp: [Number, String],
@@ -18403,9 +19239,9 @@ var __spreadValues$c = (a, b) => {
     }
   return a;
 };
-const { name: name$J, n: n$M, classes: classes$B } = createNamespace("ellipsis");
-const _hoisted_1$p = { key: 0 };
-function __render__$L(_ctx, _cache) {
+const { name: name$H, n: n$K, classes: classes$A } = createNamespace("ellipsis");
+const _hoisted_1$n = { key: 0 };
+function __render__$J(_ctx, _cache) {
   const _component_mp_tooltip = vue.resolveComponent("mp-tooltip");
   return vue.openBlock(), vue.createBlock(_component_mp_tooltip, vue.mergeProps({
     class: _ctx.classes(_ctx.n(), [_ctx.lineClamp, _ctx.n("--clamp"), _ctx.n("--line")], [_ctx.expandTrigger, _ctx.n("--cursor")], [_ctx.expanding, _ctx.n("--expand")]),
@@ -18418,7 +19254,7 @@ function __render__$L(_ctx, _cache) {
         return [
           ((_a = _ctx.tooltipProps) == null ? void 0 : _a.content) ? (vue.openBlock(), vue.createElementBlock(
             "span",
-            _hoisted_1$p,
+            _hoisted_1$n,
             vue.toDisplayString(_ctx.tooltipProps.content),
             1
             /* TEXT */
@@ -18435,10 +19271,10 @@ function __render__$L(_ctx, _cache) {
     /* FORWARDED */
   }, 16, ["class", "style", "onClick"]);
 }
-const __sfc__$O = vue.defineComponent({
-  name: name$J,
-  components: { MpTooltip: stdin_default$4N },
-  props: props$H,
+const __sfc__$M = vue.defineComponent({
+  name: name$H,
+  components: { MpTooltip: stdin_default$4J },
+  props: props$G,
   setup(props2) {
     const expanding = useVModel(props2, "expand");
     const rootStyles = vue.computed(() => props2.lineClamp ? { "-webkit-line-clamp": props2.lineClamp } : {});
@@ -18465,19 +19301,19 @@ const __sfc__$O = vue.defineComponent({
       tooltipProps,
       expanding,
       rootStyles,
-      n: n$M,
-      classes: classes$B,
+      n: n$K,
+      classes: classes$A,
       handleClick
     };
   }
 });
-__sfc__$O.render = __render__$L;
-var stdin_default$4M = __sfc__$O;
-withInstall(stdin_default$4M);
-withPropsDefaultsSetter(stdin_default$4M, props$H);
-const _EllipsisComponent = stdin_default$4M;
-var stdin_default$4L = stdin_default$4M;
-const props$G = {
+__sfc__$M.render = __render__$J;
+var stdin_default$4I = __sfc__$M;
+withInstall(stdin_default$4I);
+withPropsDefaultsSetter(stdin_default$4I, props$G);
+const _EllipsisComponent = stdin_default$4I;
+var stdin_default$4H = stdin_default$4I;
+const props$F = {
   /** 空状态描述文字 */
   description: {
     type: String,
@@ -18505,7 +19341,7 @@ const props$G = {
   /** 点击操作回调 */
   onClick: defineListenerProp()
 };
-const { name: name$I, n: n$L, classes: classes$A } = createNamespace("empty");
+const { name: name$G, n: n$J, classes: classes$z } = createNamespace("empty");
 const IMAGE_SIZE_MAP = {
   xs: "80px",
   sm: "100px",
@@ -18513,7 +19349,7 @@ const IMAGE_SIZE_MAP = {
   lg: "140px",
   xl: "160px"
 };
-const _hoisted_1$o = ["src", "alt"];
+const _hoisted_1$m = ["src", "alt"];
 const _hoisted_2$8 = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
@@ -18524,7 +19360,7 @@ const _hoisted_2$8 = {
   "stroke-linecap": "round",
   "stroke-linejoin": "round"
 };
-function __render__$K(_ctx, _cache) {
+function __render__$I(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "div",
     vue.mergeProps({
@@ -18546,7 +19382,7 @@ function __render__$K(_ctx, _cache) {
               key: 0,
               src: _ctx.imageSrc,
               alt: _ctx.description
-            }, null, 8, _hoisted_1$o)) : (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$8, _cache[1] || (_cache[1] = [
+            }, null, 8, _hoisted_1$m)) : (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$8, _cache[1] || (_cache[1] = [
               vue.createElementVNode(
                 "path",
                 { d: "M24 5v6m7 1 4-4m-18 4-4-4m28.5 22H28s-1 3-4 3-4-3-4-3H6.5M40 41H8a2 2 0 0 1-2-2v-8.46a2 2 0 0 1 .272-1.007l6.15-10.54A2 2 0 0 1 14.148 18H33.85a2 2 0 0 1 1.728.992l6.149 10.541A2 2 0 0 1 42 30.541V39a2 2 0 0 1-2 2Z" },
@@ -18595,9 +19431,9 @@ function __render__$K(_ctx, _cache) {
     /* FULL_PROPS */
   );
 }
-const __sfc__$N = vue.defineComponent({
-  name: name$I,
-  props: props$G,
+const __sfc__$L = vue.defineComponent({
+  name: name$G,
+  props: props$F,
   setup(props2) {
     const imageStyle = vue.computed(() => {
       const { imageSize } = props2;
@@ -18615,18 +19451,18 @@ const __sfc__$N = vue.defineComponent({
     return {
       imageStyle,
       handleClick,
-      n: n$L,
-      classes: classes$A
+      n: n$J,
+      classes: classes$z
     };
   }
 });
-__sfc__$N.render = __render__$K;
-var stdin_default$4K = __sfc__$N;
-withInstall(stdin_default$4K);
-withPropsDefaultsSetter(stdin_default$4K, props$G);
-const _EmptyComponent = stdin_default$4K;
-var stdin_default$4J = stdin_default$4K;
-const props$F = {
+__sfc__$L.render = __render__$I;
+var stdin_default$4G = __sfc__$L;
+withInstall(stdin_default$4G);
+withPropsDefaultsSetter(stdin_default$4G, props$F);
+const _EmptyComponent = stdin_default$4G;
+var stdin_default$4F = stdin_default$4G;
+const props$E = {
   active: Boolean,
   show: {
     type: Boolean,
@@ -18695,14 +19531,14 @@ const props$F = {
   "onUpdate:active": defineListenerProp()
 };
 const {
-  name: name$H,
-  classes: classes$z,
-  n: n$K
+  name: name$F,
+  classes: classes$y,
+  n: n$I
 } = createNamespace("fab");
-var stdin_default$4I = vue.defineComponent({
-  name: name$H,
+var stdin_default$4E = vue.defineComponent({
+  name: name$F,
   inheritAttrs: false,
-  props: props$F,
+  props: props$E,
   setup(props2, {
     slots,
     attrs
@@ -18758,7 +19594,7 @@ var stdin_default$4I = vue.defineComponent({
       }
       return vue.withDirectives(vue.createVNode(stdin_default$5D, {
         "mp-fab-cover": true,
-        "class": n$K("trigger"),
+        "class": n$I("trigger"),
         "type": props2.type,
         "color": props2.color,
         "disabled": props2.disabled,
@@ -18767,12 +19603,12 @@ var stdin_default$4I = vue.defineComponent({
       }, {
         default: () => [vue.createVNode(stdin_default$68, {
           "mp-fab-cover": true,
-          "class": classes$z([isActive.value, n$K("trigger-active-icon"), n$K("trigger-inactive-icon")]),
+          "class": classes$y([isActive.value, n$I("trigger-active-icon"), n$I("trigger-inactive-icon")]),
           "name": isActive.value ? props2.activeIcon : props2.inactiveIcon,
           "size": isActive.value ? props2.activeIconSize : props2.inactiveIconSize,
           "namespace": isActive.value ? props2.activeIconNamespace : props2.inactiveIconNamespace,
           "transition": 200,
-          "animationClass": n$K("--trigger-icon-animation")
+          "animationClass": n$I("--trigger-icon-animation")
         }, null)]
       }), [[vue.vShow, props2.show]]);
     }
@@ -18780,9 +19616,9 @@ var stdin_default$4I = vue.defineComponent({
       var _a;
       const children = flatFragment((_a = call(slots.default)) != null ? _a : []);
       const dragProps = isBoolean(props2.drag) ? {} : props2.drag;
-      return vue.createVNode(stdin_default$4P, vue.mergeProps({
+      return vue.createVNode(stdin_default$4L, vue.mergeProps({
         "ref": dragRef,
-        "class": classes$z(n$K(`--position-${props2.position}`), [!props2.fixed, n$K("--absolute")]),
+        "class": classes$y(n$I(`--position-${props2.position}`), [!props2.fixed, n$I("--absolute")]),
         "style": {
           top: toSizeUnit(props2.top),
           bottom: toSizeUnit(props2.bottom),
@@ -18798,26 +19634,26 @@ var stdin_default$4I = vue.defineComponent({
         "onClick": (e) => handleClick(e, !isActive.value, children.length)
       }, attrs), {
         default: () => [vue.createVNode("div", {
-          "class": classes$z(n$K(), n$K(`--direction-${props2.direction}`), [props2.safeArea, n$K("--safe-area")]),
+          "class": classes$y(n$I(), n$I(`--direction-${props2.direction}`), [props2.safeArea, n$I("--safe-area")]),
           "ref": host,
           "onMouseleave": () => handleMouse(false, children.length),
           "onMouseenter": () => handleMouse(true, children.length)
         }, [vue.createVNode(vue.Transition, {
-          "name": n$K(`--active-transition`)
+          "name": n$I(`--active-transition`)
         }, {
           default: () => [renderTrigger()]
         }), vue.createVNode(vue.Transition, {
-          "name": n$K(`--actions-transition-${props2.direction}`),
+          "name": n$I(`--actions-transition-${props2.direction}`),
           "onAfterEnter": props2.onOpened,
           "onAfterLeave": props2.onClosed
         }, {
           default: () => [vue.withDirectives(vue.createVNode("div", {
-            "class": n$K("actions"),
+            "class": n$I("actions"),
             "onClick": (e) => e.stopPropagation()
           }, [children.map((child) => {
             var _a2;
             return vue.createVNode("div", {
-              "class": n$K("action"),
+              "class": n$I("action"),
               "key": (_a2 = child.key) != null ? _a2 : void 0
             }, [child]);
           })]), [[vue.vShow, props2.show && isActive.value && children.length]])]
@@ -18826,11 +19662,11 @@ var stdin_default$4I = vue.defineComponent({
     };
   }
 });
-withInstall(stdin_default$4I);
-withPropsDefaultsSetter(stdin_default$4I, props$F);
-const _FabComponent = stdin_default$4I;
-var stdin_default$4H = stdin_default$4I;
-const props$E = {
+withInstall(stdin_default$4E);
+withPropsDefaultsSetter(stdin_default$4E, props$E);
+const _FabComponent = stdin_default$4E;
+var stdin_default$4D = stdin_default$4E;
+const props$D = {
   anchor: Number,
   anchors: Array,
   contentDraggable: {
@@ -18853,10 +19689,10 @@ const props$E = {
   "onUpdate:anchor": defineListenerProp(),
   onAnchorChange: defineListenerProp()
 };
-const { name: name$G, n: n$J, classes: classes$y } = createNamespace("floating-panel");
+const { name: name$E, n: n$H, classes: classes$x } = createNamespace("floating-panel");
 const DEFAULT_START_ANCHOR = 100;
 const OVERFLOW_REDUCE_RATIO = 0.2;
-function __render__$J(_ctx, _cache) {
+function __render__$H(_ctx, _cache) {
   return vue.openBlock(), vue.createBlock(vue.Teleport, {
     to: _ctx.teleport === false ? void 0 : _ctx.teleport,
     disabled: _ctx.teleportDisabled || _ctx.teleport === false
@@ -18917,9 +19753,9 @@ function __render__$J(_ctx, _cache) {
     )
   ], 8, ["to", "disabled"]);
 }
-const __sfc__$M = vue.defineComponent({
-  name: name$G,
-  props: props$E,
+const __sfc__$K = vue.defineComponent({
+  name: name$E,
+  props: props$D,
   setup(props2) {
     const visibleHeight = vue.ref(0);
     const contentRef = vue.ref(null);
@@ -19015,8 +19851,8 @@ const __sfc__$M = vue.defineComponent({
       minAnchor,
       maxAnchor,
       visibleHeight,
-      n: n$J,
-      classes: classes$y,
+      n: n$H,
+      classes: classes$x,
       toSizeUnit,
       toNumber,
       formatElevation,
@@ -19026,13 +19862,13 @@ const __sfc__$M = vue.defineComponent({
     };
   }
 });
-__sfc__$M.render = __render__$J;
-var stdin_default$4G = __sfc__$M;
-withInstall(stdin_default$4G);
-withPropsDefaultsSetter(stdin_default$4G, props$E);
-const _FloatingPanelComponent = stdin_default$4G;
-var stdin_default$4F = stdin_default$4G;
-const props$D = {
+__sfc__$K.render = __render__$H;
+var stdin_default$4C = __sfc__$K;
+withInstall(stdin_default$4C);
+withPropsDefaultsSetter(stdin_default$4C, props$D);
+const _FloatingPanelComponent = stdin_default$4C;
+var stdin_default$4B = stdin_default$4C;
+const props$C = {
   disabled: Boolean,
   readonly: Boolean,
   scrollToError: String,
@@ -19043,7 +19879,7 @@ const props$D = {
   onSubmit: defineListenerProp(),
   onReset: defineListenerProp()
 };
-var __async$8 = (__this, __arguments, generator) => {
+var __async$7 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -19063,8 +19899,8 @@ var __async$8 = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-const { name: name$F, n: n$I } = createNamespace("form");
-function __render__$I(_ctx, _cache) {
+const { name: name$D, n: n$G } = createNamespace("form");
+function __render__$G(_ctx, _cache) {
   return vue.openBlock(), vue.createElementBlock(
     "form",
     {
@@ -19079,9 +19915,9 @@ function __render__$I(_ctx, _cache) {
     /* CLASS, NEED_HYDRATION */
   );
 }
-const __sfc__$L = vue.defineComponent({
-  name: name$F,
-  props: props$D,
+const __sfc__$J = vue.defineComponent({
+  name: name$D,
+  props: props$C,
   setup(props2) {
     const disabled = vue.computed(() => props2.disabled);
     const readonly = vue.computed(() => props2.readonly);
@@ -19103,7 +19939,7 @@ const __sfc__$L = vue.defineComponent({
       }, 300);
     }
     function handleSubmit(event) {
-      return __async$8(this, null, function* () {
+      return __async$7(this, null, function* () {
         preventDefault(event);
         const valid = yield validate();
         call(props2.onSubmit, valid);
@@ -19115,7 +19951,7 @@ const __sfc__$L = vue.defineComponent({
       call(props2.onReset);
     }
     function validate() {
-      return __async$8(this, null, function* () {
+      return __async$7(this, null, function* () {
         var _a;
         const res = yield Promise.all(formItems.map(({ validate: validate2 }) => validate2()));
         if (props2.scrollToError) {
@@ -19137,7 +19973,7 @@ const __sfc__$L = vue.defineComponent({
       return formItems.forEach(({ resetValidation: resetValidation2 }) => resetValidation2());
     }
     return {
-      n: n$I,
+      n: n$G,
       handleSubmit,
       handleReset,
       validate,
@@ -19146,15 +19982,15 @@ const __sfc__$L = vue.defineComponent({
     };
   }
 });
-__sfc__$L.render = __render__$I;
-var stdin_default$4E = __sfc__$L;
-stdin_default$4E.useValidation = useValidation;
-stdin_default$4E.useForm = useForm;
-withInstall(stdin_default$4E);
-withPropsDefaultsSetter(stdin_default$4E, props$D);
-const _FormComponent = stdin_default$4E;
-var stdin_default$4D = stdin_default$4E;
-const props$C = {
+__sfc__$J.render = __render__$G;
+var stdin_default$4A = __sfc__$J;
+stdin_default$4A.useValidation = useValidation;
+stdin_default$4A.useForm = useForm;
+withInstall(stdin_default$4A);
+withPropsDefaultsSetter(stdin_default$4A, props$C);
+const _FormComponent = stdin_default$4A;
+var stdin_default$4z = stdin_default$4A;
+const props$B = {
   highlighter: Object,
   theme: String,
   tag: {
@@ -19162,10 +19998,10 @@ const props$C = {
     default: "div"
   }
 };
-const { name: name$E, n: n$H } = createNamespace("highlighter-provider");
-const __sfc__$K = vue.defineComponent({
-  name: name$E,
-  props: props$C,
+const { name: name$C, n: n$F } = createNamespace("highlighter-provider");
+const __sfc__$I = vue.defineComponent({
+  name: name$C,
+  props: props$B,
   setup(props2, { slots }) {
     const highlighter = vue.computed(() => props2.highlighter);
     const theme = vue.computed(() => props2.theme);
@@ -19173,18 +20009,18 @@ const __sfc__$K = vue.defineComponent({
     return () => vue.h(
       props2.tag,
       {
-        class: n$H()
+        class: n$F()
       },
       call(slots.default)
     );
   }
 });
-var stdin_default$4C = __sfc__$K;
-withInstall(stdin_default$4C);
-withPropsDefaultsSetter(stdin_default$4C, props$C);
-const _HighlighterProviderComponent = stdin_default$4C;
-var stdin_default$4B = stdin_default$4C;
-const props$B = {
+var stdin_default$4y = __sfc__$I;
+withInstall(stdin_default$4y);
+withPropsDefaultsSetter(stdin_default$4y, props$B);
+const _HighlighterProviderComponent = stdin_default$4y;
+var stdin_default$4x = stdin_default$4y;
+const props$A = {
   src: String,
   fit: {
     type: String,
@@ -19215,10 +20051,10 @@ const props$B = {
   onLoad: defineListenerProp(),
   onError: defineListenerProp()
 };
-const { name: name$D, n: n$G, classes: classes$x } = createNamespace("image");
-const _hoisted_1$n = ["alt", "title", "referrerpolicy", "lazy-loading", "lazy-error"];
+const { name: name$B, n: n$E, classes: classes$w } = createNamespace("image");
+const _hoisted_1$l = ["alt", "title", "referrerpolicy", "lazy-loading", "lazy-error"];
 const _hoisted_2$7 = ["alt", "title", "referrerpolicy", "src"];
-function __render__$H(_ctx, _cache) {
+function __render__$F(_ctx, _cache) {
   var _a;
   const _directive_lazy = vue.resolveDirective("lazy");
   const _directive_ripple = vue.resolveDirective("ripple");
@@ -19245,7 +20081,7 @@ function __render__$H(_ctx, _cache) {
         style: vue.normalizeStyle({ objectFit: _ctx.fit, objectPosition: _ctx.position }),
         onLoad: _cache[0] || (_cache[0] = (...args) => _ctx.handleLoad && _ctx.handleLoad(...args)),
         onClick: _cache[1] || (_cache[1] = (...args) => _ctx.handleClick && _ctx.handleClick(...args))
-      }, null, 46, _hoisted_1$n)), [
+      }, null, 46, _hoisted_1$l)), [
         [_directive_lazy, (_a = _ctx.src) != null ? _a : ""]
       ]) : vue.createCommentVNode("v-if", true),
       !_ctx.lazy && !_ctx.showErrorSlot ? (vue.openBlock(), vue.createElementBlock("img", {
@@ -19269,13 +20105,13 @@ function __render__$H(_ctx, _cache) {
     [_directive_ripple, { disabled: !_ctx.ripple }]
   ]);
 }
-const __sfc__$J = vue.defineComponent({
-  name: name$D,
+const __sfc__$H = vue.defineComponent({
+  name: name$B,
   directives: {
     Lazy: stdin_default$5L,
     Ripple: stdin_default$6d
   },
-  props: props$B,
+  props: props$A,
   setup(props2, { slots }) {
     const showErrorSlot = vue.ref(false);
     vue.watch(
@@ -19307,8 +20143,8 @@ const __sfc__$J = vue.defineComponent({
     }
     return {
       showErrorSlot,
-      n: n$G,
-      classes: classes$x,
+      n: n$E,
+      classes: classes$w,
       toSizeUnit,
       handleLoad,
       handleError,
@@ -19316,624 +20152,11 @@ const __sfc__$J = vue.defineComponent({
     };
   }
 });
-__sfc__$J.render = __render__$H;
-var stdin_default$4A = __sfc__$J;
-withInstall(stdin_default$4A);
-withPropsDefaultsSetter(stdin_default$4A, props$B);
-const _ImageComponent = stdin_default$4A;
-var stdin_default$4z = stdin_default$4A;
-const props$A = {
-  loop: {
-    type: Boolean,
-    default: true
-  },
-  autoplay: [String, Number],
-  duration: {
-    type: [String, Number],
-    default: 300
-  },
-  initialIndex: {
-    type: [String, Number],
-    default: 0
-  },
-  navigation: {
-    type: [Boolean, String],
-    default: false
-  },
-  indicator: {
-    type: Boolean,
-    default: true
-  },
-  indicatorColor: String,
-  vertical: Boolean,
-  touchable: {
-    type: Boolean,
-    default: true
-  },
-  onChange: defineListenerProp()
-};
-var __async$7 = (__this, __arguments, generator) => {
-  return new Promise((resolve, reject) => {
-    var fulfilled = (value) => {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    };
-    var rejected = (value) => {
-      try {
-        step(generator.throw(value));
-      } catch (e) {
-        reject(e);
-      }
-    };
-    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-    step((generator = generator.apply(__this, __arguments)).next());
-  });
-};
-const SWIPE_DELAY = 250;
-const SWIPE_OFFSET = 20;
-const { name: name$C, n: n$F, classes: classes$w } = createNamespace("swipe");
-const _hoisted_1$m = ["onClick"];
-function __render__$G(_ctx, _cache) {
-  const _component_mp_icon = vue.resolveComponent("mp-icon");
-  const _component_mp_button = vue.resolveComponent("mp-button");
-  const _directive_hover = vue.resolveDirective("hover");
-  return vue.withDirectives((vue.openBlock(), vue.createElementBlock(
-    "div",
-    {
-      ref: "swipeEl",
-      class: vue.normalizeClass(_ctx.n())
-    },
-    [
-      vue.createElementVNode(
-        "div",
-        {
-          class: vue.normalizeClass(_ctx.classes(_ctx.n("track"), [_ctx.vertical, _ctx.n("--vertical")])),
-          style: vue.normalizeStyle({
-            width: !_ctx.vertical ? _ctx.toSizeUnit(_ctx.trackSize) : void 0,
-            height: _ctx.vertical ? _ctx.toSizeUnit(_ctx.trackSize) : void 0,
-            transform: `translate${_ctx.vertical ? "Y" : "X"}(${_ctx.toSizeUnit(_ctx.trackTranslate)})`,
-            transitionDuration: _ctx.lockDuration ? "0ms" : `${_ctx.toNumber(_ctx.duration)}ms`
-          }),
-          onTouchstart: _cache[0] || (_cache[0] = (...args) => _ctx.handleTouchstart && _ctx.handleTouchstart(...args)),
-          onTouchmove: _cache[1] || (_cache[1] = (...args) => _ctx.handleTouchmove && _ctx.handleTouchmove(...args)),
-          onTouchend: _cache[2] || (_cache[2] = (...args) => _ctx.handleTouchend && _ctx.handleTouchend(...args))
-        },
-        [
-          vue.renderSlot(_ctx.$slots, "default")
-        ],
-        38
-        /* CLASS, STYLE, NEED_HYDRATION */
-      ),
-      _ctx.navigation ? vue.renderSlot(_ctx.$slots, "prev", vue.normalizeProps(vue.mergeProps({ key: 0 }, {
-        index: _ctx.index,
-        length: _ctx.length,
-        prev: _ctx.prev,
-        next: _ctx.next,
-        to: _ctx.to,
-        hovering: _ctx.hovering
-      })), () => [
-        vue.createVNode(vue.Transition, {
-          name: _ctx.getNavigationAnimation("prev")
-        }, {
-          default: vue.withCtx(() => [
-            _ctx.navigation === true || _ctx.hovering ? (vue.openBlock(), vue.createElementBlock(
-              "div",
-              {
-                key: 0,
-                class: vue.normalizeClass(_ctx.classes(_ctx.n("navigation"), _ctx.n("navigation-prev"), [_ctx.vertical, _ctx.n("--navigation-vertical-prev")]))
-              },
-              [
-                vue.createVNode(_component_mp_button, {
-                  "mp-swipe-cover": "",
-                  disabled: !_ctx.loop && _ctx.index === 0,
-                  class: vue.normalizeClass(_ctx.n("navigation-prev-button")),
-                  onClick: _cache[3] || (_cache[3] = ($event) => _ctx.prev())
-                }, {
-                  default: vue.withCtx(() => [
-                    vue.createVNode(_component_mp_icon, {
-                      "mp-swipe-cover": "",
-                      class: vue.normalizeClass(_ctx.n("navigation-prev-button-icon")),
-                      name: _ctx.vertical ? "chevron-up" : "chevron-left"
-                    }, null, 8, ["class", "name"])
-                  ]),
-                  _: 1
-                  /* STABLE */
-                }, 8, ["disabled", "class"])
-              ],
-              2
-              /* CLASS */
-            )) : vue.createCommentVNode("v-if", true)
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["name"])
-      ]) : vue.createCommentVNode("v-if", true),
-      _ctx.navigation ? vue.renderSlot(_ctx.$slots, "next", vue.normalizeProps(vue.mergeProps({ key: 1 }, {
-        index: _ctx.index,
-        length: _ctx.length,
-        hovering: _ctx.hovering,
-        prev: _ctx.prev,
-        next: _ctx.next,
-        to: _ctx.to
-      })), () => [
-        vue.createVNode(vue.Transition, {
-          name: _ctx.getNavigationAnimation("next")
-        }, {
-          default: vue.withCtx(() => [
-            _ctx.navigation === true || _ctx.hovering ? (vue.openBlock(), vue.createElementBlock(
-              "div",
-              {
-                key: 0,
-                class: vue.normalizeClass(_ctx.classes(_ctx.n("navigation"), _ctx.n("navigation-next"), [_ctx.vertical, _ctx.n("--navigation-vertical-next")]))
-              },
-              [
-                vue.createVNode(_component_mp_button, {
-                  "mp-swipe-cover": "",
-                  class: vue.normalizeClass(_ctx.n("navigation-next-button")),
-                  disabled: !_ctx.loop && _ctx.index === _ctx.length - 1,
-                  onClick: _cache[4] || (_cache[4] = ($event) => _ctx.next())
-                }, {
-                  default: vue.withCtx(() => [
-                    vue.createVNode(_component_mp_icon, {
-                      "mp-swipe-cover": "",
-                      class: vue.normalizeClass(_ctx.n("navigation-next-button-icon")),
-                      name: _ctx.vertical ? "chevron-down" : "chevron-right"
-                    }, null, 8, ["class", "name"])
-                  ]),
-                  _: 1
-                  /* STABLE */
-                }, 8, ["class", "disabled"])
-              ],
-              2
-              /* CLASS */
-            )) : vue.createCommentVNode("v-if", true)
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["name"])
-      ]) : vue.createCommentVNode("v-if", true),
-      vue.renderSlot(_ctx.$slots, "indicator", vue.normalizeProps(vue.guardReactiveProps({
-        index: _ctx.index,
-        length: _ctx.length,
-        hovering: _ctx.hovering,
-        prev: _ctx.prev,
-        next: _ctx.next,
-        to: _ctx.to
-      })), () => [
-        _ctx.indicator && _ctx.length ? (vue.openBlock(), vue.createElementBlock(
-          "div",
-          {
-            key: 0,
-            class: vue.normalizeClass(_ctx.classes(_ctx.n("indicators"), [_ctx.vertical, _ctx.n("--indicators-vertical")]))
-          },
-          [
-            (vue.openBlock(true), vue.createElementBlock(
-              vue.Fragment,
-              null,
-              vue.renderList(_ctx.length, (l, idx) => {
-                return vue.openBlock(), vue.createElementBlock("div", {
-                  key: l,
-                  class: vue.normalizeClass(
-                    _ctx.classes(_ctx.n("indicator"), [_ctx.index === idx, _ctx.n("--indicator-active")], [_ctx.vertical, _ctx.n("--indicator-vertical")])
-                  ),
-                  style: vue.normalizeStyle({ background: _ctx.indicatorColor }),
-                  onClick: ($event) => _ctx.to(idx)
-                }, null, 14, _hoisted_1$m);
-              }),
-              128
-              /* KEYED_FRAGMENT */
-            ))
-          ],
-          2
-          /* CLASS */
-        )) : vue.createCommentVNode("v-if", true)
-      ])
-    ],
-    2
-    /* CLASS */
-  )), [
-    [_directive_hover, _ctx.handleHovering]
-  ]);
-}
-const __sfc__$I = vue.defineComponent({
-  name: name$C,
-  directives: { Hover: stdin_default$6c },
-  components: { MpButton: stdin_default$5D, MpIcon: stdin_default$68 },
-  props: props$A,
-  setup(props2) {
-    const swipeEl = vue.ref(null);
-    const size = vue.ref(0);
-    const vertical = vue.computed(() => props2.vertical);
-    const trackSize = vue.ref(0);
-    const trackTranslate = vue.ref(0);
-    const lockDuration = vue.ref(false);
-    const index = vue.ref(0);
-    const hovering = vue.ref(false);
-    const { swipeItems, bindSwipeItems, length } = useSwipeItems();
-    const { swipeResizeListeners, bindSwipeResizeListeners } = useSwipeResizeListeners();
-    const { popup, bindPopup } = usePopup();
-    const {
-      deltaX,
-      deltaY,
-      moveX,
-      moveY,
-      offsetX,
-      offsetY,
-      touching,
-      direction,
-      startTime,
-      startTouch,
-      moveTouch,
-      endTouch
-    } = useTouch();
-    const isExpectDirection = vue.computed(() => direction.value === (props2.vertical ? "vertical" : "horizontal"));
-    let initializedIndex = false;
-    let timer = -1;
-    const swipeProvider = {
-      size,
-      currentIndex: index,
-      vertical
-    };
-    bindSwipeItems(swipeProvider);
-    useEventListener(() => window, "keydown", handleKeydown);
-    call(bindPopup, null);
-    call(bindSwipeResizeListeners, null);
-    vue.watch(
-      () => length.value,
-      () => __async$7(this, null, function* () {
-        yield doubleRaf();
-        initialIndex();
-        resize();
-      })
-    );
-    if (popup) {
-      vue.watch(
-        () => popup.show.value,
-        (show) => __async$7(this, null, function* () {
-          if (show) {
-            yield doubleRaf();
-            resize();
-          } else {
-            stopAutoplay();
-          }
-        })
-      );
-    }
-    vue.onActivated(resize);
-    onSmartUnmounted(stopAutoplay);
-    onWindowResize(resize);
-    function findSwipeItem(idx) {
-      return swipeItems.find(({ index: index2 }) => index2.value === idx);
-    }
-    function dispatchSwipeItems() {
-      if (!props2.loop) {
-        return;
-      }
-      if (trackTranslate.value >= 0) {
-        findSwipeItem(length.value - 1).setTranslate(-trackSize.value);
-      }
-      if (trackTranslate.value <= -(trackSize.value - size.value)) {
-        findSwipeItem(0).setTranslate(trackSize.value);
-      }
-      if (trackTranslate.value > -(trackSize.value - size.value) && trackTranslate.value < 0) {
-        findSwipeItem(length.value - 1).setTranslate(0);
-        findSwipeItem(0).setTranslate(0);
-      }
-    }
-    function getSwipeIndex(targetSwipeIndex) {
-      const swipeIndex = isNumber(targetSwipeIndex) ? targetSwipeIndex : Math.floor((trackTranslate.value - size.value / 2) / -size.value);
-      const { loop } = props2;
-      if (swipeIndex <= -1) {
-        return loop ? -1 : 0;
-      }
-      if (swipeIndex >= length.value) {
-        return loop ? length.value : length.value - 1;
-      }
-      return swipeIndex;
-    }
-    function swipeIndexToIndex(swipeIndex) {
-      const { loop } = props2;
-      if (swipeIndex === -1) {
-        return loop ? length.value - 1 : 0;
-      }
-      if (swipeIndex === length.value) {
-        return loop ? 0 : length.value - 1;
-      }
-      return swipeIndex;
-    }
-    function clampIndex(index2) {
-      if (props2.loop) {
-        if (index2 < 0) {
-          return length.value + index2;
-        }
-        if (index2 >= length.value) {
-          return index2 - length.value;
-        }
-        return index2;
-      }
-      return clamp$1(index2, 0, length.value - 1);
-    }
-    function fixPosition() {
-      return __async$7(this, null, function* () {
-        const overLeft = trackTranslate.value >= size.value;
-        const overRight = trackTranslate.value <= -trackSize.value;
-        const leftTranslate = 0;
-        const rightTranslate = -(trackSize.value - size.value);
-        lockDuration.value = true;
-        if (overLeft || overRight) {
-          lockDuration.value = true;
-          trackTranslate.value = overRight ? leftTranslate : rightTranslate;
-          findSwipeItem(0).setTranslate(0);
-          findSwipeItem(length.value - 1).setTranslate(0);
-        }
-        yield doubleRaf();
-        lockDuration.value = false;
-      });
-    }
-    function initialIndex() {
-      if (initializedIndex) {
-        return;
-      }
-      index.value = clampIndex(toNumber(props2.initialIndex));
-      initializedIndex = true;
-    }
-    function startAutoplay() {
-      const { autoplay } = props2;
-      if (!autoplay || length.value <= 1) {
-        return;
-      }
-      stopAutoplay();
-      timer = window.setTimeout(() => {
-        next();
-        startAutoplay();
-      }, toNumber(autoplay));
-    }
-    function stopAutoplay() {
-      timer && clearTimeout(timer);
-    }
-    function handleTouchstart(event) {
-      return __async$7(this, null, function* () {
-        if (length.value <= 1 || !props2.touchable) {
-          return;
-        }
-        startTouch(event);
-        stopAutoplay();
-        yield fixPosition();
-        lockDuration.value = true;
-      });
-    }
-    function handleTouchmove(event) {
-      const { touchable, vertical: vertical2 } = props2;
-      if (!touching.value || !touchable) {
-        return;
-      }
-      moveTouch(event);
-      if (!isExpectDirection.value) {
-        return;
-      }
-      preventDefault(event);
-      trackTranslate.value += vertical2 ? moveY.value : moveX.value;
-      dispatchSwipeItems();
-    }
-    function handleTouchend() {
-      if (!touching.value) {
-        return;
-      }
-      endTouch();
-      if (!isExpectDirection.value) {
-        return;
-      }
-      const { vertical: vertical2, onChange } = props2;
-      const positive = vertical2 ? deltaY.value < 0 : deltaX.value < 0;
-      const offset2 = vertical2 ? offsetY.value : offsetX.value;
-      const quickSwiping = performance.now() - startTime.value <= SWIPE_DELAY && offset2 >= SWIPE_OFFSET;
-      const swipeIndex = quickSwiping ? positive ? getSwipeIndex(index.value + 1) : getSwipeIndex(index.value - 1) : getSwipeIndex();
-      lockDuration.value = false;
-      trackTranslate.value = swipeIndex * -size.value;
-      const prevIndex = index.value;
-      index.value = swipeIndexToIndex(swipeIndex);
-      startAutoplay();
-      if (prevIndex !== index.value) {
-        call(onChange, index.value);
-      }
-    }
-    function handleHovering(value) {
-      if (props2.navigation === "hover") {
-        hovering.value = value;
-      }
-    }
-    function getNavigationAnimation(type) {
-      if (props2.navigation !== "hover") {
-        return "";
-      }
-      return n$F(`--navigation${props2.vertical ? "-vertical" : ""}-${type}-animation`);
-    }
-    function handleKeydown(event) {
-      if (!swipeItems.length) {
-        return;
-      }
-      const focusingSwipeItemIndex = swipeItems.findIndex(({ isFocusing }) => isFocusing.value);
-      if (focusingSwipeItemIndex === -1) {
-        return;
-      }
-      const { key: key3 } = event;
-      preventDefault(event);
-      if (key3 === "ArrowLeft") {
-        prev();
-      }
-      if (key3 === "ArrowRight") {
-        next();
-      }
-    }
-    function resize() {
-      if (!swipeEl.value) {
-        return;
-      }
-      lockDuration.value = true;
-      size.value = props2.vertical ? swipeEl.value.offsetHeight : swipeEl.value.offsetWidth;
-      trackSize.value = size.value * length.value;
-      trackTranslate.value = index.value * -size.value;
-      swipeItems.forEach((swipeItem) => {
-        swipeItem.setTranslate(0);
-      });
-      startAutoplay();
-      setTimeout(() => {
-        lockDuration.value = false;
-      });
-      swipeResizeListeners.forEach(({ onResize }) => {
-        onResize();
-      });
-    }
-    function next(options) {
-      return __async$7(this, null, function* () {
-        if (length.value <= 1) {
-          return;
-        }
-        initialIndex();
-        const { loop, onChange } = props2;
-        const currentIndex = index.value;
-        index.value = clampIndex(currentIndex + 1);
-        if ((options == null ? void 0 : options.event) !== false) {
-          call(onChange, index.value);
-        }
-        yield fixPosition();
-        if (currentIndex === length.value - 1 && loop) {
-          findSwipeItem(0).setTranslate(trackSize.value);
-          trackTranslate.value = length.value * -size.value;
-          return;
-        }
-        if (currentIndex !== length.value - 1) {
-          trackTranslate.value = index.value * -size.value;
-        }
-      });
-    }
-    function prev(options) {
-      return __async$7(this, null, function* () {
-        if (length.value <= 1) {
-          return;
-        }
-        initialIndex();
-        const { loop, onChange } = props2;
-        const currentIndex = index.value;
-        index.value = clampIndex(currentIndex - 1);
-        if ((options == null ? void 0 : options.event) !== false) {
-          call(onChange, index.value);
-        }
-        yield fixPosition();
-        if (currentIndex === 0 && loop) {
-          findSwipeItem(length.value - 1).setTranslate(-trackSize.value);
-          trackTranslate.value = size.value;
-          return;
-        }
-        if (currentIndex !== 0) {
-          trackTranslate.value = index.value * -size.value;
-        }
-      });
-    }
-    function to(idx, options) {
-      if (length.value <= 1 || idx === index.value) {
-        return;
-      }
-      idx = idx < 0 ? 0 : idx;
-      idx = idx >= length.value ? length.value : idx;
-      const task = idx > index.value ? next : prev;
-      const count = Math.abs(idx - index.value);
-      Array.from({ length: count }).forEach((_, index2) => {
-        task({ event: index2 === count - 1 ? options == null ? void 0 : options.event : false });
-      });
-    }
-    return {
-      length,
-      index,
-      swipeEl,
-      trackSize,
-      trackTranslate,
-      lockDuration,
-      hovering,
-      n: n$F,
-      toSizeUnit,
-      classes: classes$w,
-      handleTouchstart,
-      handleTouchmove,
-      handleTouchend,
-      next,
-      prev,
-      to,
-      resize,
-      toNumber,
-      handleHovering,
-      getNavigationAnimation
-    };
-  }
-});
-__sfc__$I.render = __render__$G;
-var stdin_default$4y = __sfc__$I;
-withInstall(stdin_default$4y);
-withPropsDefaultsSetter(stdin_default$4y, props$A);
-const _SwipeComponent = stdin_default$4y;
-var stdin_default$4x = stdin_default$4y;
-function useSwipe() {
-  const { bindParent, index, parentProvider } = useParent(SWIPE_BIND_SWIPE_ITEM_KEY);
-  assert(!!bindParent, "SwipeItem", "<mp-swipe-item/> must in <mp-swipe/>");
-  return {
-    index,
-    swipe: parentProvider,
-    bindSwipe: bindParent
-  };
-}
-const { name: name$B, n: n$E } = createNamespace("swipe-item");
-const _hoisted_1$l = ["aria-hidden"];
-function __render__$F(_ctx, _cache) {
-  return vue.openBlock(), vue.createElementBlock("div", {
-    class: vue.normalizeClass(_ctx.n()),
-    style: vue.normalizeStyle({
-      width: !_ctx.vertical ? _ctx.toSizeUnit(_ctx.size) : void 0,
-      height: _ctx.vertical ? _ctx.toSizeUnit(_ctx.size) : void 0,
-      transform: `translate${_ctx.vertical ? "Y" : "X"}(${_ctx.toSizeUnit(_ctx.translate)})`
-    }),
-    tabindex: "-1",
-    "aria-hidden": _ctx.currentIndex !== _ctx.index,
-    onFocus: _cache[0] || (_cache[0] = ($event) => _ctx.isFocusing = true),
-    onBlur: _cache[1] || (_cache[1] = ($event) => _ctx.isFocusing = false)
-  }, [
-    vue.renderSlot(_ctx.$slots, "default")
-  ], 46, _hoisted_1$l);
-}
-const __sfc__$H = vue.defineComponent({
-  name: name$B,
-  setup() {
-    const translate = vue.ref(0);
-    const isFocusing = vue.ref(false);
-    const { swipe, bindSwipe, index } = useSwipe();
-    const { size, currentIndex, vertical } = swipe;
-    const swipeItemProvider = {
-      index,
-      isFocusing: vue.computed(() => isFocusing.value),
-      setTranslate
-    };
-    bindSwipe(swipeItemProvider);
-    function setTranslate(x) {
-      translate.value = x;
-    }
-    return {
-      isFocusing,
-      size,
-      index,
-      currentIndex,
-      vertical,
-      translate,
-      n: n$E,
-      toSizeUnit
-    };
-  }
-});
 __sfc__$H.render = __render__$F;
 var stdin_default$4w = __sfc__$H;
 withInstall(stdin_default$4w);
-const _SwipeItemComponent = stdin_default$4w;
+withPropsDefaultsSetter(stdin_default$4w, props$A);
+const _ImageComponent = stdin_default$4w;
 var stdin_default$4v = stdin_default$4w;
 var __defProp$b = Object.defineProperty;
 var __getOwnPropSymbols$b = Object.getOwnPropertySymbols;
@@ -19969,7 +20192,7 @@ const props$z = __spreadValues$b(__spreadValues$b({
   closeable: Boolean,
   "onUpdate:show": defineListenerProp(),
   onLongPress: defineListenerProp()
-}, pickProps(props$A, ["loop", "indicator", "onChange"])), pickProps(props$1i, [
+}, pickProps(props$Y, ["loop", "indicator", "onChange"])), pickProps(props$1i, [
   "lockScroll",
   "teleport",
   "closeOnKeyEscape",
@@ -19991,8 +20214,8 @@ const BASE_RATIO = 1;
 const _hoisted_1$k = ["onTouchstart"];
 const _hoisted_2$6 = ["src", "alt"];
 function __render__$E(_ctx, _cache) {
-  const _component_mp_swipe_item = vue.resolveComponent("mp-swipe-item");
-  const _component_mp_swipe = vue.resolveComponent("mp-swipe");
+  const _component_mp_carousel_item = vue.resolveComponent("mp-carousel-item");
+  const _component_mp_carousel = vue.resolveComponent("mp-carousel");
   const _component_mp_icon = vue.resolveComponent("mp-icon");
   const _component_mp_popup = vue.resolveComponent("mp-popup");
   return vue.openBlock(), vue.createBlock(_component_mp_popup, {
@@ -20014,8 +20237,8 @@ function __render__$E(_ctx, _cache) {
     onRouteChange: _ctx.onRouteChange
   }, {
     default: vue.withCtx(() => [
-      vue.createVNode(_component_mp_swipe, vue.mergeProps({
-        ref: "swipeRef",
+      vue.createVNode(_component_mp_carousel, vue.mergeProps({
+        ref: "carouselRef",
         class: _ctx.n("swipe"),
         "mp-image-preview-cover": "",
         touchable: _ctx.canSwipe,
@@ -20028,7 +20251,7 @@ function __render__$E(_ctx, _cache) {
             vue.Fragment,
             null,
             vue.renderList(_ctx.images, (image, idx) => {
-              return vue.openBlock(), vue.createBlock(_component_mp_swipe_item, {
+              return vue.openBlock(), vue.createBlock(_component_mp_carousel_item, {
                 key: image,
                 class: vue.normalizeClass(_ctx.n("swipe-item")),
                 "mp-image-preview-cover": ""
@@ -20111,8 +20334,8 @@ function __render__$E(_ctx, _cache) {
 const __sfc__$G = vue.defineComponent({
   name: name$A,
   components: {
-    MpSwipe: stdin_default$4x,
-    MpSwipeItem: stdin_default$4v,
+    MpCarousel: stdin_default$5l,
+    MpCarouselItem: stdin_default$5j,
     MpPopup: stdin_default$6e,
     MpIcon: stdin_default$68
   },
@@ -20126,7 +20349,7 @@ const __sfc__$G = vue.defineComponent({
     const transitionTimingFunction = vue.ref();
     const transitionDuration = vue.ref();
     const canSwipe = vue.ref(true);
-    const swipeRef = vue.ref(null);
+    const carouselRef = vue.ref(null);
     const { moveX, moveY, distance, startTime, startTouch, moveTouch, endTouch } = useTouch();
     const isPreventDefault = vue.computed(() => {
       const { imagePreventDefault, show: show2 } = props2;
@@ -20264,21 +20487,21 @@ const __sfc__$G = vue.defineComponent({
     }
     function prev(options) {
       var _a;
-      (_a = swipeRef.value) == null ? void 0 : _a.prev(options);
+      (_a = carouselRef.value) == null ? void 0 : _a.prev(options);
     }
     function next(options) {
       var _a;
-      (_a = swipeRef.value) == null ? void 0 : _a.next(options);
+      (_a = carouselRef.value) == null ? void 0 : _a.next(options);
     }
     function to(idx, options) {
       var _a;
-      (_a = swipeRef.value) == null ? void 0 : _a.to(idx, options);
+      (_a = carouselRef.value) == null ? void 0 : _a.to(idx, options);
     }
     function zoom(ratio) {
       ratio <= BASE_RATIO ? zoomOut() : zoomIn(ratio);
     }
     return {
-      swipeRef,
+      carouselRef,
       isPreventDefault,
       show,
       scale,
@@ -20440,7 +20663,7 @@ function __render__$D(_ctx, _cache) {
 }
 const __sfc__$F = vue.defineComponent({
   name: name$z,
-  components: { MpSticky: stdin_default$4Y },
+  components: { MpSticky: stdin_default$4U },
   inheritAttrs: false,
   props: props$y,
   setup(props2) {
@@ -24639,7 +24862,7 @@ const __sfc__$j = vue.defineComponent({
   components: {
     MpIcon: stdin_default$68,
     MpMenu: stdin_default$5R,
-    MpChip: stdin_default$5h,
+    MpChip: stdin_default$5d,
     MpOption: stdin_default$4f,
     MpFieldDecorator: stdin_default$5Z,
     MpFormDetails: stdin_default$5$,
@@ -27121,8 +27344,8 @@ const props$6 = {
 };
 const { name: name$6, n: n$7, classes: classes$6 } = createNamespace("tab-item");
 function __render__$8(_ctx, _cache) {
-  const _component_mp_swipe_item = vue.resolveComponent("mp-swipe-item");
-  return vue.openBlock(), vue.createBlock(_component_mp_swipe_item, {
+  const _component_mp_carousel_item = vue.resolveComponent("mp-carousel-item");
+  return vue.openBlock(), vue.createBlock(_component_mp_carousel_item, {
     class: vue.normalizeClass(_ctx.classes(_ctx.n(), [!_ctx.current, _ctx.n("--inactive")])),
     "mp-tab-item-cover": ""
   }, {
@@ -27135,7 +27358,7 @@ function __render__$8(_ctx, _cache) {
 }
 const __sfc__$8 = vue.defineComponent({
   name: name$6,
-  components: { MpSwipeItem: stdin_default$4v },
+  components: { MpCarouselItem: stdin_default$5j },
   props: props$6,
   setup(props2) {
     const current = vue.ref(false);
@@ -27287,9 +27510,9 @@ const props$4 = {
   },
   safeArea: Boolean,
   sticky: Boolean,
-  stickyCssMode: pickProps(props$M, "cssMode"),
-  stickyZIndex: pickProps(props$M, "zIndex"),
-  offsetTop: pickProps(props$M, "offsetTop"),
+  stickyCssMode: pickProps(props$L, "cssMode"),
+  stickyZIndex: pickProps(props$L, "zIndex"),
+  offsetTop: pickProps(props$L, "offsetTop"),
   onClick: defineListenerProp(),
   onChange: defineListenerProp(),
   "onUpdate:active": defineListenerProp()
@@ -27395,7 +27618,7 @@ function __render__$6(_ctx, _cache) {
 }
 const __sfc__$6 = vue.defineComponent({
   name: name$4,
-  components: { MpSticky: stdin_default$4Y },
+  components: { MpSticky: stdin_default$4U },
   inheritAttrs: false,
   props: props$4,
   setup(props2) {
@@ -27579,15 +27802,15 @@ var __async$2 = (__this, __arguments, generator) => {
 };
 const { name: name$3, n: n$4 } = createNamespace("tabs-items");
 function __render__$5(_ctx, _cache) {
-  const _component_mp_swipe = vue.resolveComponent("mp-swipe");
-  return vue.openBlock(), vue.createBlock(_component_mp_swipe, {
-    ref: "swipe",
+  const _component_mp_carousel = vue.resolveComponent("mp-carousel");
+  return vue.openBlock(), vue.createBlock(_component_mp_carousel, {
+    ref: "carouselRef",
     class: vue.normalizeClass(_ctx.n()),
     loop: _ctx.loop,
     duration: _ctx.animated ? void 0 : 0,
     touchable: _ctx.canSwipe,
     indicator: false,
-    onChange: _ctx.handleSwipeChange
+    onChange: _ctx.handleCarouselChange
   }, {
     default: vue.withCtx(() => [
       vue.renderSlot(_ctx.$slots, "default")
@@ -27598,10 +27821,10 @@ function __render__$5(_ctx, _cache) {
 }
 const __sfc__$5 = vue.defineComponent({
   name: name$3,
-  components: { MpSwipe: stdin_default$4x },
+  components: { MpCarousel: stdin_default$5l },
   props: props$3,
   setup(props2) {
-    const swipe = vue.ref(null);
+    const carouselRef = vue.ref(null);
     const { tabItemList, bindTabItem, length } = useTabItem$1();
     bindTabItem({});
     vue.watch(() => props2.active, handleActiveChange);
@@ -27629,22 +27852,22 @@ const __sfc__$5 = vue.defineComponent({
       }
       tabItemList.forEach(({ setCurrent }) => setCurrent(false));
       newActiveTabItemProvider.setCurrent(true);
-      (_a = swipe.value) == null ? void 0 : _a.to(newActiveTabItemProvider.index.value);
+      (_a = carouselRef.value) == null ? void 0 : _a.to(newActiveTabItemProvider.index.value);
     }
-    function handleSwipeChange(currentIndex) {
+    function handleCarouselChange(currentIndex) {
       var _a;
       const tabItem = tabItemList.find(({ index }) => index.value === currentIndex);
       const active = (_a = tabItem.name.value) != null ? _a : tabItem.index.value;
       call(props2["onUpdate:active"], active);
     }
-    function getSwipe() {
-      return swipe.value;
+    function getCarousel() {
+      return carouselRef.value;
     }
     return {
-      swipe,
+      carouselRef,
       n: n$4,
-      handleSwipeChange,
-      getSwipe
+      handleCarouselChange,
+      getCarousel
     };
   }
 });
@@ -28732,18 +28955,18 @@ var stdin_default$2p = {
   "--mp-step-vertical-min-height": "50px"
 };
 var stdin_default$2o = {
-  "--mp-swipe-indicator-color": "#fff",
-  "--mp-swipe-indicators-offset": "10px",
-  "--mp-swipe-indicator-offset": "4px",
-  "--mp-swipe-navigation-z-index": "9",
-  "--mp-swipe-navigation-button-width": "36px",
-  "--mp-swipe-navigation-button-height": "36px",
-  "--mp-swipe-navigation-button-border-radius": "50%",
-  "--mp-swipe-navigation-icon-size": "20px",
-  "--mp-swipe-navigation-prev-left": "8px",
-  "--mp-swipe-navigation-next-right": "8px",
-  "--mp-swipe-navigation-prev-top": "8px",
-  "--mp-swipe-navigation-next-bottom": "8px"
+  "--mp-carousel-indicator-color": "#fff",
+  "--mp-carousel-indicators-offset": "10px",
+  "--mp-carousel-indicator-offset": "4px",
+  "--mp-carousel-navigation-z-index": "9",
+  "--mp-carousel-navigation-button-width": "36px",
+  "--mp-carousel-navigation-button-height": "36px",
+  "--mp-carousel-navigation-button-border-radius": "50%",
+  "--mp-carousel-navigation-icon-size": "20px",
+  "--mp-carousel-navigation-prev-left": "8px",
+  "--mp-carousel-navigation-next-right": "8px",
+  "--mp-carousel-navigation-prev-top": "8px",
+  "--mp-carousel-navigation-next-bottom": "8px"
 };
 var stdin_default$2n = {
   "--mp-switch-track-background": "#727272",
@@ -29839,18 +30062,18 @@ var stdin_default$1m = {
   "--mp-step-vertical-min-height": "50px"
 };
 var stdin_default$1l = {
-  "--mp-swipe-indicator-color": "#fff",
-  "--mp-swipe-indicators-offset": "10px",
-  "--mp-swipe-indicator-offset": "4px",
-  "--mp-swipe-navigation-z-index": "9",
-  "--mp-swipe-navigation-button-width": "36px",
-  "--mp-swipe-navigation-button-height": "36px",
-  "--mp-swipe-navigation-button-border-radius": "50%",
-  "--mp-swipe-navigation-icon-size": "20px",
-  "--mp-swipe-navigation-prev-left": "8px",
-  "--mp-swipe-navigation-next-right": "8px",
-  "--mp-swipe-navigation-prev-top": "8px",
-  "--mp-swipe-navigation-next-bottom": "8px"
+  "--mp-carousel-indicator-color": "#fff",
+  "--mp-carousel-indicators-offset": "10px",
+  "--mp-carousel-indicator-offset": "4px",
+  "--mp-carousel-navigation-z-index": "9",
+  "--mp-carousel-navigation-button-width": "36px",
+  "--mp-carousel-navigation-button-height": "36px",
+  "--mp-carousel-navigation-button-border-radius": "50%",
+  "--mp-carousel-navigation-icon-size": "20px",
+  "--mp-carousel-navigation-prev-left": "8px",
+  "--mp-carousel-navigation-next-right": "8px",
+  "--mp-carousel-navigation-prev-top": "8px",
+  "--mp-carousel-navigation-next-bottom": "8px"
 };
 var stdin_default$1k = {
   "--mp-switch-track-background": "#727272",
@@ -30929,18 +31152,18 @@ var stdin_default$j = {
   "--mp-step-vertical-min-height": "50px"
 };
 var stdin_default$i = {
-  "--mp-swipe-indicator-color": "#fff",
-  "--mp-swipe-indicators-offset": "10px",
-  "--mp-swipe-indicator-offset": "4px",
-  "--mp-swipe-navigation-z-index": "9",
-  "--mp-swipe-navigation-button-width": "36px",
-  "--mp-swipe-navigation-button-height": "36px",
-  "--mp-swipe-navigation-button-border-radius": "50%",
-  "--mp-swipe-navigation-icon-size": "20px",
-  "--mp-swipe-navigation-prev-left": "8px",
-  "--mp-swipe-navigation-next-right": "8px",
-  "--mp-swipe-navigation-prev-top": "8px",
-  "--mp-swipe-navigation-next-bottom": "8px"
+  "--mp-carousel-indicator-color": "#fff",
+  "--mp-carousel-indicators-offset": "10px",
+  "--mp-carousel-indicator-offset": "4px",
+  "--mp-carousel-navigation-z-index": "9",
+  "--mp-carousel-navigation-button-width": "36px",
+  "--mp-carousel-navigation-button-height": "36px",
+  "--mp-carousel-navigation-button-border-radius": "50%",
+  "--mp-carousel-navigation-icon-size": "20px",
+  "--mp-carousel-navigation-prev-left": "8px",
+  "--mp-carousel-navigation-next-right": "8px",
+  "--mp-carousel-navigation-prev-top": "8px",
+  "--mp-carousel-navigation-next-bottom": "8px"
 };
 var stdin_default$h = {
   "--mp-switch-track-background": "var(--mp-color-surface-container-low)",
@@ -33051,34 +33274,36 @@ function install(app) {
   stdin_default$5p.install && app.use(stdin_default$5p);
   stdin_default$5n.install && app.use(stdin_default$5n);
   stdin_default$5l.install && app.use(stdin_default$5l);
-  stdin_default$5V.install && app.use(stdin_default$5V);
   stdin_default$5j.install && app.use(stdin_default$5j);
   stdin_default$5h.install && app.use(stdin_default$5h);
+  stdin_default$5V.install && app.use(stdin_default$5V);
   stdin_default$5f.install && app.use(stdin_default$5f);
   stdin_default$5d.install && app.use(stdin_default$5d);
   stdin_default$5b.install && app.use(stdin_default$5b);
   stdin_default$59.install && app.use(stdin_default$59);
   stdin_default$57.install && app.use(stdin_default$57);
-  stdin_default$6g.install && app.use(stdin_default$6g);
   stdin_default$55.install && app.use(stdin_default$55);
   stdin_default$53.install && app.use(stdin_default$53);
+  stdin_default$6g.install && app.use(stdin_default$6g);
   stdin_default$51.install && app.use(stdin_default$51);
-  stdin_default$4V.install && app.use(stdin_default$4V);
-  stdin_default$4T.install && app.use(stdin_default$4T);
+  stdin_default$4$.install && app.use(stdin_default$4$);
+  stdin_default$4Z.install && app.use(stdin_default$4Z);
   stdin_default$4R.install && app.use(stdin_default$4R);
   stdin_default$4P.install && app.use(stdin_default$4P);
+  stdin_default$4N.install && app.use(stdin_default$4N);
   stdin_default$4L.install && app.use(stdin_default$4L);
-  stdin_default$4J.install && app.use(stdin_default$4J);
   stdin_default$4H.install && app.use(stdin_default$4H);
-  stdin_default$5Z.install && app.use(stdin_default$5Z);
   stdin_default$4F.install && app.use(stdin_default$4F);
   stdin_default$4D.install && app.use(stdin_default$4D);
-  stdin_default$5$.install && app.use(stdin_default$5$);
+  stdin_default$5Z.install && app.use(stdin_default$5Z);
   stdin_default$4B.install && app.use(stdin_default$4B);
+  stdin_default$4z.install && app.use(stdin_default$4z);
+  stdin_default$5$.install && app.use(stdin_default$5$);
+  stdin_default$4x.install && app.use(stdin_default$4x);
   stdin_default$6c.install && app.use(stdin_default$6c);
   stdin_default$6a.install && app.use(stdin_default$6a);
   stdin_default$68.install && app.use(stdin_default$68);
-  stdin_default$4z.install && app.use(stdin_default$4z);
+  stdin_default$4v.install && app.use(stdin_default$4v);
   stdin_default$4t.install && app.use(stdin_default$4t);
   stdin_default$4r.install && app.use(stdin_default$4r);
   stdin_default$4p.install && app.use(stdin_default$4p);
@@ -33115,10 +33340,8 @@ function install(app) {
   stdin_default$3C.install && app.use(stdin_default$3C);
   stdin_default$3A.install && app.use(stdin_default$3A);
   stdin_default$3y.install && app.use(stdin_default$3y);
-  stdin_default$4Y.install && app.use(stdin_default$4Y);
+  stdin_default$4U.install && app.use(stdin_default$4U);
   stdin_default$3w.install && app.use(stdin_default$3w);
-  stdin_default$4x.install && app.use(stdin_default$4x);
-  stdin_default$4v.install && app.use(stdin_default$4v);
   stdin_default$3u.install && app.use(stdin_default$3u);
   stdin_default$3s.install && app.use(stdin_default$3s);
   stdin_default$3q.install && app.use(stdin_default$3q);
@@ -33128,7 +33351,7 @@ function install(app) {
   stdin_default$3i.install && app.use(stdin_default$3i);
   stdin_default$7.install && app.use(stdin_default$7);
   stdin_default$4.install && app.use(stdin_default$4);
-  stdin_default$4N.install && app.use(stdin_default$4N);
+  stdin_default$4J.install && app.use(stdin_default$4J);
   stdin_default$2.install && app.use(stdin_default$2);
   stdin_default.install && app.use(stdin_default);
 }
@@ -33150,35 +33373,37 @@ const index_bundle = {
   Button: stdin_default$5D,
   ButtonGroup: stdin_default$5p,
   Card: stdin_default$5n,
-  Cell: stdin_default$5l,
+  Carousel: stdin_default$5l,
+  CarouselItem: stdin_default$5j,
+  Cell: stdin_default$5h,
   Checkbox: stdin_default$5V,
-  CheckboxGroup: stdin_default$5j,
-  Chip: stdin_default$5h,
-  Code: stdin_default$5f,
-  Col: stdin_default$5d,
-  Collapse: stdin_default$5b,
-  CollapseItem: stdin_default$59,
-  CollapseTransition: stdin_default$57,
+  CheckboxGroup: stdin_default$5f,
+  Chip: stdin_default$5d,
+  Code: stdin_default$5b,
+  Col: stdin_default$59,
+  Collapse: stdin_default$57,
+  CollapseItem: stdin_default$55,
+  CollapseTransition: stdin_default$53,
   Context: stdin_default$6g,
-  CountTo: stdin_default$55,
-  Countdown: stdin_default$53,
-  Counter: stdin_default$51,
-  DatePicker: stdin_default$4V,
-  Dialog: stdin_default$4T,
-  Divider: stdin_default$4R,
-  Drag: stdin_default$4P,
-  Ellipsis: stdin_default$4L,
-  Empty: stdin_default$4J,
-  Fab: stdin_default$4H,
+  CountTo: stdin_default$51,
+  Countdown: stdin_default$4$,
+  Counter: stdin_default$4Z,
+  DatePicker: stdin_default$4R,
+  Dialog: stdin_default$4P,
+  Divider: stdin_default$4N,
+  Drag: stdin_default$4L,
+  Ellipsis: stdin_default$4H,
+  Empty: stdin_default$4F,
+  Fab: stdin_default$4D,
   FieldDecorator: stdin_default$5Z,
-  FloatingPanel: stdin_default$4F,
-  Form: stdin_default$4D,
+  FloatingPanel: stdin_default$4B,
+  Form: stdin_default$4z,
   FormDetails: stdin_default$5$,
-  HighlighterProvider: stdin_default$4B,
+  HighlighterProvider: stdin_default$4x,
   Hover: stdin_default$6c,
   HoverOverlay: stdin_default$6a,
   Icon: stdin_default$68,
-  Image: stdin_default$4z,
+  Image: stdin_default$4v,
   ImagePreview: stdin_default$4t,
   IndexAnchor: stdin_default$4r,
   IndexBar: stdin_default$4p,
@@ -33215,10 +33440,8 @@ const index_bundle = {
   Space: stdin_default$3C,
   Step: stdin_default$3A,
   Steps: stdin_default$3y,
-  Sticky: stdin_default$4Y,
+  Sticky: stdin_default$4U,
   StyleProvider: stdin_default$3w,
-  Swipe: stdin_default$4x,
-  SwipeItem: stdin_default$4v,
   Switch: stdin_default$3u,
   Tab: stdin_default$3s,
   TabItem: stdin_default$3q,
@@ -33228,7 +33451,7 @@ const index_bundle = {
   Tag: stdin_default$3i,
   Themes: stdin_default$7,
   TimePicker: stdin_default$4,
-  Tooltip: stdin_default$4N,
+  Tooltip: stdin_default$4J,
   Uploader: stdin_default$2,
   Watermark: stdin_default
 };
@@ -33247,35 +33470,37 @@ exports.BreadcrumbItem = stdin_default$5r;
 exports.Button = stdin_default$5D;
 exports.ButtonGroup = stdin_default$5p;
 exports.Card = stdin_default$5n;
-exports.Cell = stdin_default$5l;
+exports.Carousel = stdin_default$5l;
+exports.CarouselItem = stdin_default$5j;
+exports.Cell = stdin_default$5h;
 exports.Checkbox = stdin_default$5V;
-exports.CheckboxGroup = stdin_default$5j;
-exports.Chip = stdin_default$5h;
-exports.Code = stdin_default$5f;
-exports.Col = stdin_default$5d;
-exports.Collapse = stdin_default$5b;
-exports.CollapseItem = stdin_default$59;
-exports.CollapseTransition = stdin_default$57;
+exports.CheckboxGroup = stdin_default$5f;
+exports.Chip = stdin_default$5d;
+exports.Code = stdin_default$5b;
+exports.Col = stdin_default$59;
+exports.Collapse = stdin_default$57;
+exports.CollapseItem = stdin_default$55;
+exports.CollapseTransition = stdin_default$53;
 exports.Context = stdin_default$6g;
-exports.CountTo = stdin_default$55;
-exports.Countdown = stdin_default$53;
-exports.Counter = stdin_default$51;
-exports.DatePicker = stdin_default$4V;
-exports.Dialog = stdin_default$4T;
-exports.Divider = stdin_default$4R;
-exports.Drag = stdin_default$4P;
-exports.Ellipsis = stdin_default$4L;
-exports.Empty = stdin_default$4J;
-exports.Fab = stdin_default$4H;
+exports.CountTo = stdin_default$51;
+exports.Countdown = stdin_default$4$;
+exports.Counter = stdin_default$4Z;
+exports.DatePicker = stdin_default$4R;
+exports.Dialog = stdin_default$4P;
+exports.Divider = stdin_default$4N;
+exports.Drag = stdin_default$4L;
+exports.Ellipsis = stdin_default$4H;
+exports.Empty = stdin_default$4F;
+exports.Fab = stdin_default$4D;
 exports.FieldDecorator = stdin_default$5Z;
-exports.FloatingPanel = stdin_default$4F;
-exports.Form = stdin_default$4D;
+exports.FloatingPanel = stdin_default$4B;
+exports.Form = stdin_default$4z;
 exports.FormDetails = stdin_default$5$;
-exports.HighlighterProvider = stdin_default$4B;
+exports.HighlighterProvider = stdin_default$4x;
 exports.Hover = stdin_default$6c;
 exports.HoverOverlay = stdin_default$6a;
 exports.Icon = stdin_default$68;
-exports.Image = stdin_default$4z;
+exports.Image = stdin_default$4v;
 exports.ImagePreview = stdin_default$4t;
 exports.IndexAnchor = stdin_default$4r;
 exports.IndexBar = stdin_default$4p;
@@ -33314,10 +33539,8 @@ exports.Snackbar = stdin_default$3E;
 exports.Space = stdin_default$3C;
 exports.Step = stdin_default$3A;
 exports.Steps = stdin_default$3y;
-exports.Sticky = stdin_default$4Y;
+exports.Sticky = stdin_default$4U;
 exports.StyleProvider = stdin_default$3w;
-exports.Swipe = stdin_default$4x;
-exports.SwipeItem = stdin_default$4v;
 exports.Switch = stdin_default$3u;
 exports.Tab = stdin_default$3s;
 exports.TabItem = stdin_default$3q;
@@ -33327,7 +33550,7 @@ exports.TabsItems = stdin_default$3k;
 exports.Tag = stdin_default$3i;
 exports.Themes = stdin_default$7;
 exports.TimePicker = stdin_default$4;
-exports.Tooltip = stdin_default$4N;
+exports.Tooltip = stdin_default$4J;
 exports.Uploader = stdin_default$2;
 exports.Watermark = stdin_default;
 exports._ActionSheetComponent = _ActionSheetComponent;
@@ -33345,6 +33568,8 @@ exports._BreadcrumbItemComponent = _BreadcrumbItemComponent;
 exports._ButtonComponent = _ButtonComponent;
 exports._ButtonGroupComponent = _ButtonGroupComponent;
 exports._CardComponent = _CardComponent;
+exports._CarouselComponent = _CarouselComponent;
+exports._CarouselItemComponent = _CarouselItemComponent;
 exports._CellComponent = _CellComponent;
 exports._CheckboxComponent = _CheckboxComponent;
 exports._CheckboxGroupComponent = _CheckboxGroupComponent;
@@ -33412,8 +33637,6 @@ exports._StepComponent = _StepComponent;
 exports._StepsComponent = _StepsComponent;
 exports._StickyComponent = _StickyComponent;
 exports._StyleProviderComponent = _StyleProviderComponent;
-exports._SwipeComponent = _SwipeComponent;
-exports._SwipeItemComponent = _SwipeItemComponent;
 exports._SwitchComponent = _SwitchComponent;
 exports._TabComponent = _TabComponent;
 exports._TabItemComponent = _TabItemComponent;
@@ -33441,38 +33664,39 @@ exports.breadcrumbProps = props$$;
 exports.buttonGroupProps = buttonGroupProps;
 exports.buttonProps = buttonProps;
 exports.cardProps = props$Z;
-exports.cellProps = props$Y;
-exports.checkboxGroupProps = props$X;
+exports.carouselProps = props$Y;
+exports.cellProps = props$X;
+exports.checkboxGroupProps = props$W;
 exports.checkboxProps = props$1a;
-exports.chipProps = props$W;
-exports.codeProps = props$V;
-exports.colProps = props$U;
-exports.collapseItemProps = props$S;
-exports.collapseProps = props$T;
-exports.collapseTransitionProps = props$R;
-exports.countToProps = props$Q;
-exports.countdownProps = props$P;
-exports.counterProps = props$O;
+exports.chipProps = props$V;
+exports.codeProps = props$U;
+exports.colProps = props$T;
+exports.collapseItemProps = props$R;
+exports.collapseProps = props$S;
+exports.collapseTransitionProps = props$Q;
+exports.countToProps = props$P;
+exports.countdownProps = props$O;
+exports.counterProps = props$N;
 exports.currentMessage = currentMessage;
-exports.datePickerProps = props$N;
+exports.datePickerProps = props$M;
 exports.default = index_bundle;
 exports.defaultLazyOptions = defaultLazyOptions;
-exports.dialogProps = props$L;
-exports.dividerProps = props$K;
-exports.dragProps = props$J;
-exports.ellipsisProps = props$H;
-exports.emptyProps = props$G;
+exports.dialogProps = props$K;
+exports.dividerProps = props$J;
+exports.dragProps = props$I;
+exports.ellipsisProps = props$G;
+exports.emptyProps = props$F;
 exports.enUS = stdin_default$6n;
 exports.faIR = stdin_default$6m;
-exports.fabProps = props$F;
+exports.fabProps = props$E;
 exports.fieldDecoratorProps = props$1c;
 exports.formDetailsProps = props$1d;
-exports.formProps = props$D;
+exports.formProps = props$C;
 exports.hoverOverlayProps = props$1h;
 exports.iconProps = props$1g;
 exports.imageCache = imageCache;
 exports.imagePreviewProps = props$z;
-exports.imageProps = props$B;
+exports.imageProps = props$A;
 exports.indexAnchorProps = props$y;
 exports.indexBarProps = props$x;
 exports.inputProps = props$1b;
@@ -33507,9 +33731,8 @@ exports.snackbarProps = props$c;
 exports.spaceProps = spaceProps;
 exports.stepProps = props$b;
 exports.stepsProps = props$a;
-exports.stickyProps = props$M;
+exports.stickyProps = props$L;
 exports.styleProviderProps = props$9;
-exports.swipeProps = props$A;
 exports.switchProps = props$8;
 exports.t = t;
 exports.tabItemProps = props$6;
@@ -33519,7 +33742,7 @@ exports.tabsItemsProps = props$3;
 exports.tabsProps = props$4;
 exports.tagProps = tagProps;
 exports.timePickerProps = props$2;
-exports.tooltipProps = props$I;
+exports.tooltipProps = props$H;
 exports.uploaderProps = props$1;
 exports.use = use;
 exports.useHoverOverlay = useHoverOverlay;

@@ -1594,6 +1594,12 @@
           ]
         },
         {
+          "name": "mp-carousel",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-cell",
           "attributes": [
             {
@@ -7798,127 +7804,6 @@
           "attributes": [],
           "events": [],
           "slots": []
-        },
-        {
-          "name": "mp-swipe",
-          "attributes": [
-            {
-              "name": "loop",
-              "description": "是否开启循环轮播",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autoplay",
-              "description": "自动播放间隔时间 (ms)",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "duration",
-              "description": "切换过渡时间 (ms)",
-              "default": "300",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "initial-index",
-              "description": "初始化显示的索引",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator",
-              "description": "是否显示指示器",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-color",
-              "description": "指示器颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "vertical",
-              "description": "是否开启垂直轮播",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "touchable",
-              "description": "是否可以拖动",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "navigation",
-              "description": "是否显示导航箭头。设置为 `hover` 时，指针悬浮会显示导航按钮",
-              "default": "false",
-              "value": {
-                "type": "boolean | string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "切换轮播时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "轮播内容"
-            },
-            {
-              "name": "prev",
-              "description": "上一页按钮"
-            },
-            {
-              "name": "next",
-              "description": "下一页按钮"
-            },
-            {
-              "name": "indicator",
-              "description": "指示器内容"
-            }
-          ]
-        },
-        {
-          "name": "mp-swipe-item",
-          "attributes": [],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "轮播项内容"
-            }
-          ]
         },
         {
           "name": "mp-switch",

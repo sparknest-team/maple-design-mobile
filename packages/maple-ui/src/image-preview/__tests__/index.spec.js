@@ -46,7 +46,7 @@ test('image preview onChange callback', async () => {
   })
   await delay(200)
 
-  const track = document.querySelector('.mp-swipe__track')
+  const track = document.querySelector('.mp-carousel__track')
   await triggerDrag(track, -100, 0)
   expect(onChange).toHaveBeenLastCalledWith(1)
 

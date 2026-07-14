@@ -1,21 +1,21 @@
 <template>
-  <mp-swipe
-    ref="swipe"
+  <mp-carousel
+    ref="carouselRef"
     :class="n()"
     :loop="loop"
     :duration="animated ? undefined : 0"
     :touchable="canSwipe"
     :indicator="false"
-    @change="handleSwipeChange"
+    @change="handleCarouselChange"
   >
     <slot />
-  </mp-swipe>
+  </mp-carousel>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import { call, doubleRaf } from '@maplejs/maple-shared'
-import MpSwipe from '../swipe'
+import MpCarousel from '../carousel'
 import { type TabItemProvider } from '../tab-item/provide'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
@@ -25,10 +25,10 @@ const { name, n } = createNamespace('tabs-items')
 
 export default defineComponent({
   name,
-  components: { MpSwipe },
+  components: { MpCarousel },
   props,
   setup(props) {
-    const swipe = ref<null | typeof MpSwipe>(null)
+    const carouselRef = ref<null | typeof MpCarousel>(null)
     const { tabItemList, bindTabItem, length } = useTabItem()
 
     bindTabItem({})
@@ -63,10 +63,10 @@ export default defineComponent({
 
       tabItemList.forEach(({ setCurrent }) => setCurrent(false))
       newActiveTabItemProvider.setCurrent(true)
-      swipe.value?.to(newActiveTabItemProvider.index.value)
+      carouselRef.value?.to(newActiveTabItemProvider.index.value)
     }
 
-    function handleSwipeChange(currentIndex: number) {
+    function handleCarouselChange(currentIndex: number) {
       const tabItem = tabItemList.find(({ index }) => index.value === currentIndex) as TabItemProvider
       const active = tabItem.name.value ?? tabItem.index.value
 
@@ -74,15 +74,15 @@ export default defineComponent({
     }
 
     // expose
-    function getSwipe() {
-      return swipe.value
+    function getCarousel() {
+      return carouselRef.value
     }
 
     return {
-      swipe,
+      carouselRef,
       n,
-      handleSwipeChange,
-      getSwipe,
+      handleCarouselChange,
+      getCarousel,
     }
   },
 })
@@ -90,5 +90,5 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
-@import '../swipe/swipe';
+@import '../carousel/carousel';
 </style>

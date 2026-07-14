@@ -1,0 +1,263 @@
+:root {
+  --mp-carousel-indicator-color: #fff;
+  --mp-carousel-indicators-offset: 10px;
+  --mp-carousel-indicator-offset: 4px;
+  --mp-carousel-navigation-z-index: 9;
+  --mp-carousel-navigation-button-width: 36px;
+  --mp-carousel-navigation-button-height: 36px;
+  --mp-carousel-navigation-button-border-radius: 50%;
+  --mp-carousel-navigation-icon-size: 20px;
+  --mp-carousel-navigation-prev-left: 8px;
+  --mp-carousel-navigation-next-right: 8px;
+  --mp-carousel-navigation-prev-top: 8px;
+  --mp-carousel-navigation-next-bottom: 8px;
+}
+
+.mp-carousel {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+
+  &--custom-height {
+    height: auto;
+  }
+
+  &__track {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition-property: transform;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  // Fade effect
+  &--fade {
+    .mp-carousel__fade-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      .mp-carousel-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity var(--mp-carousel-fade-duration, 300ms) ease;
+        pointer-events: none;
+
+        &--active {
+          opacity: 1;
+          pointer-events: auto;
+        }
+      }
+    }
+  }
+
+  // Card effect
+  &--card {
+    .mp-carousel__track {
+      perspective: 1000px;
+    }
+
+    .mp-carousel-item {
+      transition: transform var(--mp-carousel-card-duration, 300ms) ease, opacity var(--mp-carousel-card-duration, 300ms) ease;
+      transform: scale(0.85) translateX(0);
+      opacity: 0.6;
+
+      &--active {
+        transform: scale(1) translateX(0);
+        opacity: 1;
+      }
+
+      &--prev {
+        transform: scale(0.85) translateX(-10%);
+        opacity: 0.6;
+      }
+
+      &--next {
+        transform: scale(0.85) translateX(10%);
+        opacity: 0.6;
+      }
+    }
+  }
+
+  // Navigation
+  &__navigation {
+    position: absolute;
+    top: 50%;
+    z-index: var(--mp-carousel-navigation-z-index);
+
+    &-prev {
+      left: 0;
+      transform: translate(var(--mp-carousel-navigation-prev-left), -50%);
+
+      &-button[mp-carousel-cover] {
+        width: var(--mp-carousel-navigation-button-width);
+        height: var(--mp-carousel-navigation-button-height);
+        border-radius: var(--mp-carousel-navigation-button-border-radius);
+      }
+
+      &-button-icon[mp-carousel-cover] {
+        font-size: var(--mp-carousel-navigation-icon-size);
+      }
+    }
+
+    &-next {
+      right: 0;
+      transform: translate(calc(-1 * var(--mp-carousel-navigation-next-right)), -50%);
+
+      &-button[mp-carousel-cover] {
+        width: var(--mp-carousel-navigation-button-width);
+        height: var(--mp-carousel-navigation-button-height);
+        border-radius: var(--mp-carousel-navigation-button-border-radius);
+      }
+
+      &-button-icon[mp-carousel-cover] {
+        font-size: var(--mp-carousel-navigation-icon-size);
+      }
+    }
+  }
+
+  // Indicators
+  &__indicators {
+    position: absolute;
+    display: flex;
+    bottom: var(--mp-carousel-indicators-offset);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+
+    &--top {
+      top: var(--mp-carousel-indicators-offset);
+      bottom: unset;
+    }
+
+    &--outer {
+      bottom: calc(-1 * var(--mp-carousel-indicators-offset) - 16px);
+    }
+
+    &-vertical {
+      flex-direction: column;
+    }
+
+    &--left {
+      flex-direction: column;
+      left: var(--mp-carousel-indicators-offset);
+      bottom: 50%;
+      transform: translateY(50%);
+    }
+
+    &--right {
+      flex-direction: column;
+      right: var(--mp-carousel-indicators-offset);
+      left: unset;
+      bottom: 50%;
+      transform: translateY(50%);
+    }
+
+    &--outer&-vertical {
+      left: unset;
+      right: calc(-1 * var(--mp-carousel-indicators-offset) - 16px);
+      bottom: 50%;
+      transform: translateY(50%);
+    }
+  }
+
+  &__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--mp-carousel-indicator-color);
+    opacity: 0.3;
+    margin: 0 var(--mp-carousel-indicator-offset);
+    transition: opacity 0.3s, width 0.3s;
+    cursor: pointer;
+
+    &--line {
+      width: 12px;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    &-vertical {
+      margin: var(--mp-carousel-indicator-offset) 0;
+    }
+  }
+
+  &--indicator-active {
+    opacity: 1;
+  }
+
+  // Navigation vertical
+  &--navigation-vertical {
+    &-prev {
+      top: 0;
+      left: 50%;
+      right: unset;
+      transform: translate(-50%, var(--mp-carousel-navigation-prev-top));
+    }
+
+    &-next {
+      bottom: 0;
+      left: 50%;
+      right: unset;
+      top: unset;
+      transform: translate(-50%, calc(-1 * var(--mp-carousel-navigation-next-bottom)));
+    }
+  }
+
+  // Navigation animations
+  &--navigation-prev-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(-100%, -50%);
+    }
+  }
+
+  &--navigation-next-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(100%, -50%);
+    }
+  }
+
+  &--navigation-vertical-prev-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(-50%, -100%);
+    }
+  }
+
+  &--navigation-vertical-next-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(-50%, 100%);
+    }
+  }
+}

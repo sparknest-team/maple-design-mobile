@@ -1,6 +1,6 @@
 import { type PropType } from 'vue'
 import { popupProps } from '../popup'
-import { swipeProps } from '../swipe'
+import { carouselProps } from '../carousel'
 import { defineListenerProp, pickProps } from '../utils/components'
 
 export const props = {
@@ -21,7 +21,7 @@ export const props = {
   closeable: Boolean,
   'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   onLongPress: defineListenerProp<(index: number) => void>(),
-  ...pickProps(swipeProps, ['loop', 'indicator', 'onChange']),
+  ...pickProps(carouselProps, ['loop', 'indicator', 'onChange']),
   ...pickProps(popupProps, [
     'lockScroll',
     'teleport',

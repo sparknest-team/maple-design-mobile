@@ -16,8 +16,8 @@
     @key-escape="onKeyEscape"
     @route-change="onRouteChange"
   >
-    <mp-swipe
-      ref="swipeRef"
+    <mp-carousel
+      ref="carouselRef"
       :class="n('swipe')"
       mp-image-preview-cover
       :touchable="canSwipe"
@@ -28,7 +28,7 @@
       @change="onChange"
     >
       <template #default>
-        <mp-swipe-item v-for="(image, idx) in images" :key="image" :class="n('swipe-item')" mp-image-preview-cover>
+        <mp-carousel-item v-for="(image, idx) in images" :key="image" :class="n('swipe-item')" mp-image-preview-cover>
           <div
             :class="n('zoom-container')"
             :style="{
@@ -48,7 +48,7 @@
               :alt="image"
             />
           </div>
-        </mp-swipe-item>
+        </mp-carousel-item>
       </template>
 
       <template #indicator="{ index, length }">
@@ -56,7 +56,7 @@
           <div v-if="indicator && images.length > 1" :class="n('indicators')">{{ index + 1 }} / {{ length }}</div>
         </slot>
       </template>
-    </mp-swipe>
+    </mp-carousel>
 
     <slot name="close-icon">
       <mp-icon v-if="closeable" :class="n('close-icon')" name="close-circle" mp-image-preview-cover @click="close" />
@@ -74,9 +74,9 @@ import { call, clamp, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { useEventListener, useTouch, useVModel } from '@maplejs/maple-use'
 import MpIcon from '../icon'
 import MpPopup from '../popup'
-import MpSwipe from '../swipe'
-import MpSwipeItem from '../swipe-item'
-import { type SwipeToOptions } from '../swipe/props'
+import MpCarousel from '../carousel'
+import MpCarouselItem from '../carousel-item'
+import { type CarouselToOptions } from '../carousel/props'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 
@@ -92,8 +92,8 @@ const BASE_RATIO = 1
 export default defineComponent({
   name,
   components: {
-    MpSwipe,
-    MpSwipeItem,
+    MpCarousel,
+    MpCarouselItem,
     MpPopup,
     MpIcon,
   },
@@ -107,7 +107,7 @@ export default defineComponent({
     const transitionTimingFunction = ref<string | undefined>()
     const transitionDuration = ref<string | undefined>()
     const canSwipe = ref(true)
-    const swipeRef = ref<InstanceType<typeof MpSwipe> | null>(null)
+    const carouselRef = ref<InstanceType<typeof MpCarousel> | null>(null)
     const { moveX, moveY, distance, startTime, startTouch, moveTouch, endTouch } = useTouch()
     const isPreventDefault = computed(() => {
       const { imagePreventDefault, show } = props
@@ -294,18 +294,18 @@ export default defineComponent({
     }
 
     // expose
-    function prev(options?: SwipeToOptions) {
-      swipeRef.value?.prev(options)
+    function prev(options?: CarouselToOptions) {
+      carouselRef.value?.prev(options)
     }
 
     // expose
-    function next(options?: SwipeToOptions) {
-      swipeRef.value?.next(options)
+    function next(options?: CarouselToOptions) {
+      carouselRef.value?.next(options)
     }
 
     // expose
-    function to(idx: number, options?: SwipeToOptions) {
-      swipeRef.value?.to(idx, options)
+    function to(idx: number, options?: CarouselToOptions) {
+      carouselRef.value?.to(idx, options)
     }
 
     // expose
@@ -314,7 +314,7 @@ export default defineComponent({
     }
 
     return {
-      swipeRef,
+      carouselRef,
       isPreventDefault,
       show,
       scale,
@@ -343,8 +343,8 @@ export default defineComponent({
 <style lang="less">
 @import '../styles/common';
 @import '../icon/icon';
-@import '../swipe/swipe';
-@import '../swipe-item/swipeItem';
+@import '../carousel/carousel';
+@import '../carousel-item/carouselItem';
 @import '../popup/popup';
 @import './imagePreview';
 </style>

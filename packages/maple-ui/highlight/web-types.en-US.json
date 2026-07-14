@@ -1612,6 +1612,12 @@
           ]
         },
         {
+          "name": "mp-carousel",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-cell",
           "attributes": [
             {
@@ -7649,127 +7655,6 @@
           "attributes": [],
           "events": [],
           "slots": []
-        },
-        {
-          "name": "mp-swipe",
-          "attributes": [
-            {
-              "name": "loop",
-              "description": "Whether to swipe the loop",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autoplay",
-              "description": "Auto play interval time (ms)",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "duration",
-              "description": "Transition time (ms)",
-              "default": "300",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "initial-index",
-              "description": "Initializes the index displayed",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator",
-              "description": "Whether to display the indicator",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-color",
-              "description": "Indicator color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "vertical",
-              "description": "Whether to enable vertical swipe",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "touchable",
-              "description": "Whether to enable touch",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "navigation",
-              "description": "Whether to show navigation arrows. When set to `hover`, navigation buttons will be displayed when the pointer is hovering",
-              "default": "false",
-              "value": {
-                "type": "boolean | string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Triggered when change swipe"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Swipe content"
-            },
-            {
-              "name": "prev",
-              "description": "Preview page button"
-            },
-            {
-              "name": "next",
-              "description": "Next page button"
-            },
-            {
-              "name": "indicator",
-              "description": "Swipe indicator content"
-            }
-          ]
-        },
-        {
-          "name": "mp-swipe-item",
-          "attributes": [],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Swipe item content"
-            }
-          ]
         },
         {
           "name": "mp-switch",

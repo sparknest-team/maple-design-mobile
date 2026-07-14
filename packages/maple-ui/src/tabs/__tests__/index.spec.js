@@ -243,7 +243,7 @@ describe('test tabs component props', () => {
   })
 })
 
-test('tabs items getSwipe method', async () => {
+test('tabs items getCarousel method', async () => {
   const onUpdateActive = vi.fn((active) => {
     wrapper.setProps({ active })
   })
@@ -262,8 +262,8 @@ test('tabs items getSwipe method', async () => {
   })
 
   await delay(0)
-  expect(wrapper.vm.getSwipe()).toBeTruthy()
-  wrapper.vm.getSwipe().next()
+  expect(wrapper.vm.getCarousel()).toBeTruthy()
+  wrapper.vm.getCarousel().next()
   expect(onUpdateActive).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()

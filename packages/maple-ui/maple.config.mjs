@@ -346,10 +346,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Swipe 轮播',
-          'en-US': 'Swipe',
+          'zh-CN': 'Carousel 轮播',
+          'en-US': 'Carousel',
         },
-        doc: 'swipe',
+        doc: 'carousel',
         type: 2,
       },
       {

@@ -1,12 +1,12 @@
 <template>
-  <mp-swipe-item :class="classes(n(), [!current, n('--inactive')])" mp-tab-item-cover>
+  <mp-carousel-item :class="classes(n(), [!current, n('--inactive')])" mp-tab-item-cover>
     <slot />
-  </mp-swipe-item>
+  </mp-carousel-item>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import MpSwipeItem from '../swipe-item'
+import MpCarouselItem from '../carousel-item'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 import { useLists, useTabsItems, type TabItemProvider } from './provide'
@@ -15,7 +15,7 @@ const { name, n, classes } = createNamespace('tab-item')
 
 export default defineComponent({
   name,
-  components: { MpSwipeItem },
+  components: { MpCarouselItem },
   props,
   setup(props) {
     const current = ref(false)
@@ -48,6 +48,6 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
-@import '../swipe-item/swipeItem';
+@import '../carousel-item/carouselItem';
 @import './tabItem';
 </style>

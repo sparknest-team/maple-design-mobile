@@ -13,6 +13,8 @@ import BreadcrumbItem from '../src/breadcrumb-item/index'
 import Button from '../src/button/index'
 import ButtonGroup from '../src/button-group/index'
 import Card from '../src/card/index'
+import Carousel from '../src/carousel/index'
+import CarouselItem from '../src/carousel-item/index'
 import Cell from '../src/cell/index'
 import Checkbox from '../src/checkbox/index'
 import CheckboxGroup from '../src/checkbox-group/index'
@@ -80,8 +82,6 @@ import Step from '../src/step/index'
 import Steps from '../src/steps/index'
 import Sticky from '../src/sticky/index'
 import StyleProvider from '../src/style-provider/index'
-import Swipe from '../src/swipe/index'
-import SwipeItem from '../src/swipe-item/index'
 import Switch from '../src/switch/index'
 import Tab from '../src/tab/index'
 import TabItem from '../src/tab-item/index'
@@ -110,6 +110,8 @@ export * from '../src/breadcrumb-item/index'
 export * from '../src/button/index'
 export * from '../src/button-group/index'
 export * from '../src/card/index'
+export * from '../src/carousel/index'
+export * from '../src/carousel-item/index'
 export * from '../src/cell/index'
 export * from '../src/checkbox/index'
 export * from '../src/checkbox-group/index'
@@ -177,8 +179,6 @@ export * from '../src/step/index'
 export * from '../src/steps/index'
 export * from '../src/sticky/index'
 export * from '../src/style-provider/index'
-export * from '../src/swipe/index'
-export * from '../src/swipe-item/index'
 export * from '../src/switch/index'
 export * from '../src/tab/index'
 export * from '../src/tab-item/index'
@@ -210,6 +210,8 @@ function install(app) {
   Button.install && app.use(Button)
   ButtonGroup.install && app.use(ButtonGroup)
   Card.install && app.use(Card)
+  Carousel.install && app.use(Carousel)
+  CarouselItem.install && app.use(CarouselItem)
   Cell.install && app.use(Cell)
   Checkbox.install && app.use(Checkbox)
   CheckboxGroup.install && app.use(CheckboxGroup)
@@ -277,8 +279,6 @@ function install(app) {
   Steps.install && app.use(Steps)
   Sticky.install && app.use(Sticky)
   StyleProvider.install && app.use(StyleProvider)
-  Swipe.install && app.use(Swipe)
-  SwipeItem.install && app.use(SwipeItem)
   Switch.install && app.use(Switch)
   Tab.install && app.use(Tab)
   TabItem.install && app.use(TabItem)
@@ -311,6 +311,8 @@ export {
   Button,
   ButtonGroup,
   Card,
+  Carousel,
+  CarouselItem,
   Cell,
   Checkbox,
   CheckboxGroup,
@@ -378,8 +380,6 @@ export {
   Steps,
   Sticky,
   StyleProvider,
-  Swipe,
-  SwipeItem,
   Switch,
   Tab,
   TabItem,
@@ -412,6 +412,8 @@ export default {
   Button,
   ButtonGroup,
   Card,
+  Carousel,
+  CarouselItem,
   Cell,
   Checkbox,
   CheckboxGroup,
@@ -479,8 +481,6 @@ export default {
   Steps,
   Sticky,
   StyleProvider,
-  Swipe,
-  SwipeItem,
   Switch,
   Tab,
   TabItem,

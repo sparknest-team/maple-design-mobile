@@ -56,7 +56,7 @@ import slider from './slider'
 import snackbar from './snackbar'
 import space from './space'
 import step from './step'
-import swipe from './swipe'
+import carousel from './carousel'
 import switchThemes from './switch'
 import tab from './tab'
 import table from './table'
@@ -206,7 +206,7 @@ export default {
   ...slider,
   ...snackbar,
   ...space,
-  ...swipe,
+  ...carousel,
   ...tooltip,
   ...select,
   ...code,

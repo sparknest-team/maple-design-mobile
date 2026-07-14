@@ -498,8 +498,8 @@ export default defineComponent({
 @import '../form-details/formDetails';
 @import '../icon/icon';
 @import '../popup/popup';
-@import '../swipe/swipe';
-@import '../swipe-item/swipeItem';
+@import '../carousel/carousel';
+@import '../carousel-item/carouselItem';
 @import '../image-preview/imagePreview';
 @import './uploader';
 </style>

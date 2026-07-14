@@ -605,18 +605,6 @@ interface BaseStyleVars {
   '--step-line-gap'?: string
   '--step-vertical-tag-margin'?: string
   '--step-vertical-min-height'?: string
-  '--swipe-indicator-color'?: string
-  '--swipe-indicators-offset'?: string
-  '--swipe-indicator-offset'?: string
-  '--swipe-navigation-z-index'?: string
-  '--swipe-navigation-button-width'?: string
-  '--swipe-navigation-button-height'?: string
-  '--swipe-navigation-button-border-radius'?: string
-  '--swipe-navigation-icon-size'?: string
-  '--swipe-navigation-prev-left'?: string
-  '--swipe-navigation-next-right'?: string
-  '--swipe-navigation-prev-top'?: string
-  '--swipe-navigation-next-bottom'?: string
   '--switch-track-background'?: string
   '--switch-track-active-background'?: string
   '--switch-track-error-background'?: string

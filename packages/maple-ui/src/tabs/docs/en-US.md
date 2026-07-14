@@ -377,7 +377,7 @@ const active = ref(0)
 
 | Method     | Description                        | Arguments | Return |
 | ---------- | ---------------------------------- | --------- | ------ |
-| `getSwipe` | Get the `swipe` component instance | `-`       | `-`    |
+| `getCarousel` | Get the `carousel` component instance | `-`       | `-`    |
 
 ### Events
 

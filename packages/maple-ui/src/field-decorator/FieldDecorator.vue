@@ -115,7 +115,7 @@ import { call, doubleRaf, getStyle, isEmpty } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize } from '@maplejs/maple-use'
 import MpIcon from '../icon'
 import { usePopup } from '../popup/provide'
-import { useSwipeResizeDispatcher } from '../swipe/provide'
+import { useCarouselResizeDispatcher } from '../carousel/provide'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 
@@ -135,7 +135,7 @@ export default defineComponent({
     const transitionDisabled = ref(true)
     const isFloating = computed(() => props.hint && (!isEmpty(props.value) || props.isFocusing))
     const { popup, bindPopup } = usePopup()
-    const { bindSwipeResizeDispatcher } = useSwipeResizeDispatcher()
+    const { bindCarouselResizeDispatcher } = useCarouselResizeDispatcher()
 
     const color = computed<string | undefined>(() =>
       !props.isError ? (props.isFocusing ? props.focusColor : props.blurColor) : undefined,
@@ -154,7 +154,7 @@ export default defineComponent({
     onUpdated(resize)
 
     call(bindPopup, null)
-    call(bindSwipeResizeDispatcher, {
+    call(bindCarouselResizeDispatcher, {
       onResize() {
         nextTick().then(resize)
       },
