@@ -8,7 +8,8 @@ export interface StickyProps extends BasicAttributes {
   zIndex?: string | number
   cssMode?: boolean
   disabled?: boolean
-  onScroll?: ListenerProp<(offsetTop: number, isFixed: boolean) => void>
+  target?: string | HTMLElement | Window
+  onChange?: ListenerProp<(fixed: boolean, offsetTop: number) => void>
 }
 
 export class Sticky extends VarComponent {

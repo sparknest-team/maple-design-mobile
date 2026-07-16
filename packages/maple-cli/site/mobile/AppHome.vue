@@ -9,8 +9,9 @@
 
   <div
     class="maple-home__cell"
+    :class="{ 'maple-home__cell--child': component.parent }"
     v-for="component in components"
-    :key="component.text"
+    :key="component.doc"
     v-ripple
     @click="toComponent(component)"
   >
@@ -128,6 +129,12 @@ export default {
 
   &:hover {
     color: var(--site-config-color-mobile-cell-hover);
+  }
+
+  &--child {
+    padding-left: 28px;
+    font-size: 14px;
+    color: var(--site-config-color-sub-text);
   }
 }
 </style>

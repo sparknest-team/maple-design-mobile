@@ -143,6 +143,10 @@
 </template>
 ```
 
+### 预览相关
+
+`preview`、`preview-src`、`v-model:preview-visible`、`preview-props` 等预览能力请查看 [ImagePreview 文档](#/zh-CN/image-preview)。
+
 ### 使用本地路径
 
 在 `.vue` 文件中，`Vue组件` 不会如同原生 img 一样被构建工具自动处理模块请求，所以需要手动导入图片资源。
@@ -207,9 +211,9 @@ import logo from '../../assets/logo.png'
 |-----------|-------------------------------------------------| --- | --- |
 | `src`     | 图片地址                                            | _string_ | `-` |
 | `fit`     | 填充模式, 可选值为 `fill contain cover none scale-down` | _string_ | `fill` |
-| `position` ***3.2.3***  | 可替换元素的内容在其内容框中的位置，等同于 [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position)    | _string_ | `50% 50%` |
-| `alt`     | 替代文本，和 `img` 标签原生属性一致                           | _string_ | `-` |
-| `title`   | 图片描述性文字，和 `img` 标签原生属性一致             | _string_ | `-` |
+| `position` | 图片内容位置，等同 CSS `object-position` | _string_ | `50% 50%` |
+| `alt`     | 替代文本                                            | _string_ | `-` |
+| `title`   | 图片描述，透传给 `img` 的 `title` 属性              | _string_ | `-` |
 | `referrerpolicy`   | 指示在获取资源时使用的来源地址。该属性需注意浏览器兼容性，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)            | _string_ | `-` |
 | `width`   | 图片宽度                                            | _string \| number_ | `-` |
 | `height`  | 图片高度                                            | _string \| number_ | `-` |
@@ -219,6 +223,10 @@ import logo from '../../assets/logo.png'
 | `error`   | 当开启懒加载时, 加载失败显示的图片                              | _string_ | `-` |
 | `ripple`  | 是否开启水波                                          | _boolean_ | `false` |
 | `block`   | 是否是块级元素                                         | _boolean_ | `true` |
+| `preview` | 是否开启点击预览（详见 ImagePreview 文档） | _boolean_ | `true` |
+| `preview-src` | 预览大图地址，默认与 `src` 相同 | _string_ | `-` |
+| `v-model:preview-visible` | 受控预览状态 | _boolean_ | `-` |
+| `preview-props` | 透传给 `ImagePreview` 的配置 | _object_ | `-` |
 
 ### 事件
 
@@ -227,6 +235,7 @@ import logo from '../../assets/logo.png'
 | `click` | 点击图片时触发 | `event: Event` |
 | `load` | 图片成功加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在成功加载时触发) | `event: Event` |
 | `error` | 图片失败加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在尝试次数结束时触发) | `event: Event` |
+| `preview-visible-change` | 预览打开/关闭时触发 | `visible: boolean` |
 
 ### 插槽
 

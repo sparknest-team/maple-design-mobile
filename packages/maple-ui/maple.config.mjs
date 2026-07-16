@@ -202,6 +202,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'ImagePreview 图片预览',
+          'en-US': 'ImagePreview',
+        },
+        doc: 'image-preview',
+        type: 2,
+      },
+      {
+        text: {
           'zh-CN': 'Avatar 头像',
           'en-US': 'Avatar',
         },
@@ -358,14 +366,6 @@ export default defineConfig({
           'en-US': 'Steps',
         },
         doc: 'steps',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'ImagePreview 图片预览',
-          'en-US': 'ImagePreview',
-        },
-        doc: 'image-preview',
         type: 2,
       },
       {

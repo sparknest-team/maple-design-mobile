@@ -1,10 +1,16 @@
 import { type PropType } from 'vue'
 import { defineListenerProp } from '../utils/components'
 
-export type CollapseModelValue = undefined | string | number | Array<string | number | undefined>
+export type CollapseActiveNames = Array<string | number>
+
+export type CollapseExpandIconPosition = 'left' | 'right'
 
 export const props = {
-  modelValue: [Array, String, Number] as PropType<CollapseModelValue>,
+  activeNames: Array as PropType<CollapseActiveNames>,
+  defaultActiveNames: {
+    type: Array as PropType<CollapseActiveNames>,
+    default: () => [],
+  },
   accordion: Boolean,
   offset: {
     type: Boolean,
@@ -18,6 +24,15 @@ export const props = {
     type: [Boolean, String, Number],
     default: true,
   },
-  onChange: defineListenerProp<(value: CollapseModelValue) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: CollapseModelValue) => void>(),
+  expandIconPosition: {
+    type: String as PropType<CollapseExpandIconPosition>,
+    default: 'right',
+  },
+  showExpandIcon: {
+    type: Boolean,
+    default: undefined,
+  },
+  destroyOnHide: Boolean,
+  onChange: defineListenerProp<(value: CollapseActiveNames) => void>(),
+  'onUpdate:activeNames': defineListenerProp<(value: CollapseActiveNames) => void>(),
 }

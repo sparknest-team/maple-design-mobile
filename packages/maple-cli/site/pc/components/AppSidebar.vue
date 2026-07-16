@@ -14,6 +14,7 @@
           'maple-site-sidebar__item--active': item.doc === menuName,
           'maple-site-sidebar__cell': item.type !== menuTypes.TITLE,
           'maple-site-sidebar__title': item.type === menuTypes.TITLE,
+          'maple-site-sidebar__cell--child': item.parent,
         }"
         v-ripple="{
           disabled: item.type === menuTypes.TITLE,
@@ -125,6 +126,11 @@ const changeRoute = (item: Menu) => {
 
     &:hover {
       color: var(--site-config-color-side-bar) !important;
+    }
+
+    &--child {
+      padding-left: 44px !important;
+      font-size: 13px !important;
     }
   }
 

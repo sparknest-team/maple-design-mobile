@@ -28,14 +28,20 @@ If necessary, you can switch to the `css sticky` layout mode to improve performa
 ```html
 <template>
   <div class="sticky-example">
-    <div class="sticky-example-scroller">
-      <mp-sticky>
+    <div ref="scrollerRef" class="sticky-example-scroller">
+      <mp-sticky :target="scrollerRef">
         <mp-button type="success">Local Sticky</mp-button>
       </mp-sticky>
       <div class="sticky-example-block"></div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const scrollerRef = ref(null)
+</script>
 
 <style>
 .sticky-example {
@@ -57,6 +63,29 @@ If necessary, you can switch to the `css sticky` layout mode to improve performa
 </style>
 ```
 
+### Fixed State Change
+
+```html
+<template>
+  <div class="sticky-example">
+    <mp-sticky :offset-top="54" @change="handleChange">
+      <mp-button type="warning">Fixed State Change</mp-button>
+    </mp-sticky>
+    <div>Fixed: {{ fixed }}</div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const fixed = ref(false)
+
+const handleChange = (value) => {
+  fixed.value = value
+}
+</script>
+```
+
 ## API
 
 ### Props
@@ -67,18 +96,19 @@ If necessary, you can switch to the `css sticky` layout mode to improve performa
 | `z-index` | Sticky z-index | _string \| number_ | `10` |
 | `css-mode` | Enable native `css sticky` mode | _boolean_ | `false` |
 | `disabled` | Disable sticky, when set to `true`, the element will return to the document flow | _boolean_ | `false` |
+| `target` | Scroll container, defaults to the nearest scrollable parent | _string \| HTMLElement \| Window_ | `-` |
 
 ### Methods
 
 | Method | Description | Arguments | Return          |
 |----------|----------|------|-----------------|
-| `resize` | Triggered when sticky layout redraw | `-`  | `Promise<void>` |
+| `resize` | Trigger sticky layout redraw | `-`  | `Promise<void>` |
 
 ### Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `scroll` | Triggered when the scroll container rolls | `offsetTop: number` <br> `isFixed: boolean` |
+| `change` | Emitted when the fixed state changes | `fixed: boolean`<br>`offsetTop: number` |
 
 ### Slots
 

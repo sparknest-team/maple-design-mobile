@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import { expect, test, vi } from 'vitest'
+import ImagePreview from '../../image/ImagePreview.vue'
 import { delay, trigger, triggerDrag } from '../../utils/test'
-import VarImagePreview from '../ImagePreview.vue'
-import ImagePreview from '../index'
+import { previewImage } from '../index'
 
 test('image preview plugin', () => {
-  const app = createApp({}).use(ImagePreview)
-  expect(app.component(VarImagePreview.name)).toBeTruthy()
+  const app = createApp({}).use(previewImage)
+  expect(app.component(ImagePreview.name)).toBeTruthy()
 })
 
 test('image preview functional show & close', async () => {
@@ -15,7 +15,7 @@ test('image preview functional show & close', async () => {
   const onClose = vi.fn()
   const onClosed = vi.fn()
 
-  ImagePreview({
+  previewImage({
     onOpen,
     onOpened,
     onClose,
@@ -28,7 +28,7 @@ test('image preview functional show & close', async () => {
   expect(onOpened).toHaveBeenCalledTimes(1)
   expect(document.querySelector('.mp-popup').style.display).toBe('')
 
-  ImagePreview.close()
+  previewImage.close()
 
   await delay(20)
   expect(onClose).toHaveBeenCalledTimes(1)
@@ -40,7 +40,7 @@ test('image preview functional show & close', async () => {
 test('image preview onChange callback', async () => {
   const onChange = vi.fn()
 
-  ImagePreview({
+  previewImage({
     images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
     onChange,
   })
@@ -53,13 +53,13 @@ test('image preview onChange callback', async () => {
   await triggerDrag(track, 100, 0)
   expect(onChange).toHaveBeenLastCalledWith(0)
 
-  ImagePreview.close()
+  previewImage.close()
   await delay(16)
 })
 
-test('image preview closeable', async () => {
-  ImagePreview({
-    closeable: true,
+test('image preview closable', async () => {
+  previewImage({
+    closable: true,
   })
   await delay(200)
   await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
@@ -68,24 +68,24 @@ test('image preview closeable', async () => {
 })
 
 test('image preview setDefaultOptions and resetDefaultOptions', async () => {
-  ImagePreview.setDefaultOptions({ closeable: true })
+  previewImage.setDefaultOptions({ closable: true })
   await delay(16)
-  ImagePreview()
+  previewImage('https://maplejs.org/varlet/cat.jpg')
   await delay(200)
   await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
   await delay(300)
   expect(document.querySelector('.mp-popup')).toBeFalsy()
 
-  ImagePreview.resetDefaultOptions()
+  previewImage.resetDefaultOptions()
   await delay(16)
-  ImagePreview()
+  previewImage('https://maplejs.org/varlet/cat.jpg')
   await delay(200)
   expect(document.querySelector('.mp-image-preview__close-icon')).toBeFalsy()
-  ImagePreview.close()
+  previewImage.close()
 })
 
 test('image preview imagePreventDefault', async () => {
-  ImagePreview({
+  previewImage({
     images: ['https://maplejs.org/varlet/cat.jpg'],
     imagePreventDefault: true,
   })
@@ -93,13 +93,13 @@ test('image preview imagePreventDefault', async () => {
   await delay(200)
   expect(document.querySelector('.mp-image-preview--prevent')).toBeTruthy()
 
-  ImagePreview.close()
+  previewImage.close()
 })
 
 test('image preview onLongPress callback', async () => {
   const onLongPress = vi.fn()
 
-  ImagePreview({
+  previewImage({
     images: ['https://maplejs.org/varlet/cat.jpg'],
     onLongPress,
   })
@@ -111,17 +111,17 @@ test('image preview onLongPress callback', async () => {
   expect(onLongPress).toBeCalledTimes(1)
   expect(onLongPress).toHaveBeenCalledWith(0)
 
-  ImagePreview.close()
+  previewImage.close()
 })
 
-test('image preview initialIndex', async () => {
-  ImagePreview({
+test('image preview current', async () => {
+  previewImage({
     images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-    initialIndex: 1,
+    current: 1,
   })
 
   await delay(200)
   expect(document.querySelector('.mp-image-preview__indicators').textContent).toBe('2 / 2')
 
-  ImagePreview.close()
+  previewImage.close()
 })

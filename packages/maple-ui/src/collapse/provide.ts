@@ -1,12 +1,17 @@
-import { type ComputedRef } from 'vue'
+import { type ComputedRef, type Slots } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
 import { CollapseItemProvider } from '../collapse-item/provide'
+import type { CollapseExpandIconPosition } from './props'
 
 export interface CollapseProvider {
   offset: ComputedRef<boolean>
   divider: ComputedRef<boolean>
   accordion: ComputedRef<boolean>
   elevation: ComputedRef<boolean | number | string>
+  expandIconPosition: ComputedRef<CollapseExpandIconPosition>
+  showExpandIcon: ComputedRef<boolean | undefined>
+  destroyOnHide: ComputedRef<boolean>
+  slots: Slots
   updateItem: (value: number | string, isExpand: boolean) => void
 }
 

@@ -6,4 +6,9 @@ export const props = {
     default: 'chevron-down',
   },
   disabled: Boolean,
+  showExpandIcon: {
+    type: Boolean,
+    default: true,
+  },
+  destroyOnHide: Boolean,
 }

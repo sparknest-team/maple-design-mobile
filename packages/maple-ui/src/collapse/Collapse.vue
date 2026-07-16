@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, watch } from 'vue'
+import { computed, defineComponent, nextTick, ref, useSlots, watch } from 'vue'
 import { call, normalizeToArray, removeArrayBlank } from '@maplejs/maple-shared'
 import { type CollapseItemProvider } from '../collapse-item/provide'
 import { createNamespace } from '../utils/components'
-import { props, type CollapseModelValue } from './props'
+import { props, type CollapseActiveNames } from './props'
 import { useCollapseItem, type CollapseProvider } from './provide'
 
 const { name, n } = createNamespace('collapse')
@@ -20,11 +20,16 @@ export default defineComponent({
   name,
   props,
   setup(props) {
+    const slots = useSlots()
     const offset = computed(() => props.offset)
     const divider = computed(() => props.divider)
     const elevation = computed(() => props.elevation)
     const accordion = computed(() => props.accordion)
-    const normalizeValues = computed(() => normalizeToArray(props.modelValue))
+    const expandIconPosition = computed(() => props.expandIconPosition)
+    const showExpandIcon = computed(() => props.showExpandIcon)
+    const destroyOnHide = computed(() => props.destroyOnHide)
+    const innerActiveNames = ref<CollapseActiveNames>([...(props.defaultActiveNames ?? [])])
+    const normalizeValues = computed(() => props.activeNames ?? innerActiveNames.value)
     const { length, collapseItems, bindCollapseItems } = useCollapseItem()
 
     const collapseProvider: CollapseProvider = {
@@ -32,6 +37,10 @@ export default defineComponent({
       divider,
       elevation,
       accordion,
+      expandIconPosition,
+      showExpandIcon,
+      destroyOnHide,
+      slots,
       updateItem,
     }
 
@@ -41,28 +50,30 @@ export default defineComponent({
     )
 
     watch(
-      () => props.modelValue,
+      () => props.activeNames,
       () => nextTick().then(resize),
     )
+
+    watch(innerActiveNames, () => nextTick().then(resize))
 
     bindCollapseItems(collapseProvider)
 
     function updateItem(itemValue: number | string, targetExpand: boolean) {
       if (props.accordion) {
-        const modelValue = targetExpand ? itemValue : undefined
-        updateModelValue(modelValue)
+        updateActiveNames(targetExpand ? [itemValue] : [])
         return
       }
 
-      const modelValue = targetExpand
+      const nextNames = targetExpand
         ? [...normalizeValues.value, itemValue]
         : normalizeValues.value.filter((value) => value !== itemValue)
-      updateModelValue(modelValue)
+      updateActiveNames(nextNames)
     }
 
-    function updateModelValue(modelValue: CollapseModelValue) {
-      call(props['onUpdate:modelValue'], modelValue)
-      call(props.onChange, modelValue)
+    function updateActiveNames(activeNames: CollapseActiveNames) {
+      innerActiveNames.value = activeNames
+      call(props['onUpdate:activeNames'], activeNames)
+      call(props.onChange, activeNames)
     }
 
     function matchItems(): Array<CollapseItemProvider> | CollapseItemProvider | undefined {
@@ -119,8 +130,8 @@ export default defineComponent({
         return options.expand
       })
 
-      const modelValue = matchedItems.map((item) => item.name.value ?? item.index.value)
-      updateModelValue(modelValue)
+      const activeNames = matchedItems.map((item) => item.name.value ?? item.index.value)
+      updateActiveNames(activeNames)
     }
 
     return {

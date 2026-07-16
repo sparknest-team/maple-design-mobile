@@ -1,4 +1,5 @@
-import { VNode } from 'vue'
+import { VNode, VNodeChild } from 'vue'
+import { CollapseExpandIconSlotProps } from './collapse'
 import { BasicAttributes, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const collapseItemProps: Record<keyof CollapseItemProps, any>
@@ -8,6 +9,8 @@ export interface CollapseItemProps extends BasicAttributes {
   title?: string
   icon?: string
   disabled?: boolean
+  showExpandIcon?: boolean
+  destroyOnHide?: boolean
 }
 
 export class CollapseItem extends VarComponent {
@@ -18,7 +21,8 @@ export class CollapseItem extends VarComponent {
   $slots: {
     default(): VNode[]
     title(): VNode[]
-    icon(): VNode[]
+    extra(): VNode[]
+    'expand-icon'(props: CollapseExpandIconSlotProps): VNodeChild
   }
 }
 

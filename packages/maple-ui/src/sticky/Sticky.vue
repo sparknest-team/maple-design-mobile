@@ -31,15 +31,10 @@ import { computed, defineComponent, ref, watch } from 'vue'
 import { call, doubleRaf, getRect, raf, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted, onSmartUnmounted, onWindowResize, useEventListener } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
-import { getParentScroller, toPxNum } from '../utils/elements'
+import { getParentScroller, getTarget, toPxNum } from '../utils/elements'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('sticky')
-
-export interface StickyFixedParams {
-  offsetTop: number
-  isFixed: boolean
-}
 
 export default defineComponent({
   name,
@@ -59,8 +54,9 @@ export default defineComponent({
     const offsetTop = computed(() => toPxNum(props.offsetTop))
 
     let scroller: HTMLElement | Window
+    let lastFixed = false
 
-    watch(() => props.disabled, resize)
+    watch(() => [props.disabled, props.cssMode, props.target, props.offsetTop], resize)
 
     onSmartMounted(async () => {
       await doubleRaf()
@@ -74,10 +70,21 @@ export default defineComponent({
 
     useEventListener(() => window, 'scroll', handleScroll)
 
-    function computeFixedParams(): StickyFixedParams | undefined {
+    function emitChange(fixed: boolean, currentOffsetTop: number) {
+      if (fixed === lastFixed) {
+        return
+      }
+
+      lastFixed = fixed
+      call(props.onChange, fixed, currentOffsetTop)
+    }
+
+    function computeFixedParams() {
       const { cssMode, disabled } = props
 
       if (disabled) {
+        isFixed.value = false
+        emitChange(false, 0)
         return
       }
 
@@ -104,22 +111,23 @@ export default defineComponent({
           isFixed.value = true
         }
 
-        return {
-          offsetTop: offsetTop.value,
-          isFixed: true,
-        }
+        emitChange(true, offsetTop.value)
+        return
       }
 
       isFixed.value = false
-
-      return {
-        offsetTop: currentOffsetTop,
-        isFixed: false,
-      }
+      emitChange(false, currentOffsetTop)
     }
 
     function setupScroller() {
-      scroller = getParentScroller(stickyEl.value as HTMLElement)
+      removeScrollListener()
+
+      if (props.target) {
+        scroller =
+          props.target === window ? window : (getTarget(props.target as string | HTMLElement, 'Sticky') ?? window)
+      } else {
+        scroller = getParentScroller(stickyEl.value as HTMLElement)
+      }
 
       if (scroller !== window) {
         scroller.addEventListener('scroll', handleScroll)
@@ -127,27 +135,22 @@ export default defineComponent({
     }
 
     function handleScroll() {
-      // returns undefined when disabled = true
-      const fixedParams = computeFixedParams()
-
-      if (fixedParams) {
-        call(props.onScroll, fixedParams.offsetTop, fixedParams.isFixed)
-      }
+      computeFixedParams()
     }
 
     function removeScrollListener() {
       if (!scroller || scroller === window) {
-        // may be null in nuxt
         return
       }
 
       scroller.removeEventListener('scroll', handleScroll)
     }
 
-    // expose
     async function resize() {
       isFixed.value = false
+      lastFixed = false
       await raf()
+      setupScroller()
       computeFixedParams()
     }
 

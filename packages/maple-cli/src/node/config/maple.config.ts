@@ -35,6 +35,7 @@ export interface MapleConfigPcMenu {
   text: Record<string, string>
   type: number
   doc?: string
+  parent?: string
 }
 
 export interface MapleConfigPcHeader {

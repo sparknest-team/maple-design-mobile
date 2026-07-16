@@ -1,12 +1,12 @@
 <template>
   <mp-popup
-    v-model:show="show"
+    v-model:show="mergedVisible"
     mp-image-preview-cover
     :class="n('popup')"
     :transition="n('$-fade')"
     :overlay="false"
-    :close-on-click-overlay="false"
-    :close-on-key-escape="closeOnKeyEscape"
+    :close-on-click-overlay="mergedMaskClosable"
+    :close-on-key-escape="mergedEscToClose"
     :lock-scroll="lockScroll"
     :teleport="teleport"
     @open="onOpen"
@@ -21,14 +21,19 @@
       :class="n('swipe')"
       mp-image-preview-cover
       :touchable="canSwipe"
-      :indicator="indicator && images.length > 1"
-      :initial-index="toNumber(initialIndex)"
-      :loop="loop"
+      :indicator="indicator && mergedImages.length > 1"
+      :initial-index="mergedCurrent"
+      :loop="mergedLoop"
       v-bind="$attrs"
       @change="onChange"
     >
       <template #default>
-        <mp-carousel-item v-for="(image, idx) in images" :key="image" :class="n('swipe-item')" mp-image-preview-cover>
+        <mp-carousel-item
+          v-for="(image, idx) in mergedImages"
+          :key="`${image}-${idx}`"
+          :class="n('swipe-item')"
+          mp-image-preview-cover
+        >
           <div
             :class="n('zoom-container')"
             :style="{
@@ -53,13 +58,19 @@
 
       <template #indicator="{ index, length }">
         <slot name="indicator" :index="index" :length="length">
-          <div v-if="indicator && images.length > 1" :class="n('indicators')">{{ index + 1 }} / {{ length }}</div>
+          <div v-if="indicator && mergedImages.length > 1" :class="n('indicators')">{{ index + 1 }} / {{ length }}</div>
         </slot>
       </template>
     </mp-carousel>
 
     <slot name="close-icon">
-      <mp-icon v-if="closeable" :class="n('close-icon')" name="close-circle" mp-image-preview-cover @click="close" />
+      <mp-icon
+        v-if="mergedCloseable"
+        :class="n('close-icon')"
+        name="close-circle"
+        mp-image-preview-cover
+        @click="close"
+      />
     </slot>
 
     <div v-if="$slots.extra" :class="n('extra')">
@@ -69,16 +80,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { call, clamp, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { useEventListener, useTouch, useVModel } from '@maplejs/maple-use'
-import MpIcon from '../icon'
-import MpPopup from '../popup'
+import { useEventListener, useTouch } from '@maplejs/maple-use'
 import MpCarousel from '../carousel'
 import MpCarouselItem from '../carousel-item'
 import { type CarouselToOptions } from '../carousel/props'
+import MpIcon from '../icon'
+import MpPopup from '../popup'
 import { createNamespace } from '../utils/components'
-import { props } from './props'
+import { imagePlatformConfig } from './platform.config'
+import { props } from './previewProps'
+import { getPreviewCurrent, getPreviewImages } from './utils/previewUtils'
 
 const { name, n, classes } = createNamespace('image-preview')
 
@@ -99,8 +112,27 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  setup(props) {
-    const show = useVModel(props, 'show')
+  emits: ['update:visible', 'update:current', 'preview-visible-change', 'close'],
+  setup(props, { emit }) {
+    const mergedVisible = computed({
+      get() {
+        return props.visible ?? false
+      },
+      set(value: boolean) {
+        call(props['onUpdate:visible'], value)
+        call(props.onPreviewVisibleChange, value)
+        emit('update:visible', value)
+        emit('preview-visible-change', value)
+      },
+    })
+
+    const mergedImages = computed(() => getPreviewImages(props))
+    const mergedCurrent = computed(() => getPreviewCurrent(props.current))
+    const mergedCloseable = computed(() => props.closable ?? imagePlatformConfig.defaultClosable)
+    const mergedMaskClosable = computed(() => props.maskClosable ?? imagePlatformConfig.defaultMaskClosable)
+    const mergedEscToClose = computed(() => props.closeOnKeyEscape ?? true)
+    const mergedLoop = computed(() => props.loop ?? imagePlatformConfig.defaultLoop)
+
     const scale = ref(1)
     const translateX = ref(0)
     const translateY = ref(0)
@@ -110,8 +142,8 @@ export default defineComponent({
     const carouselRef = ref<InstanceType<typeof MpCarousel> | null>(null)
     const { moveX, moveY, distance, startTime, startTouch, moveTouch, endTouch } = useTouch()
     const isPreventDefault = computed(() => {
-      const { imagePreventDefault, show } = props
-      return show && imagePreventDefault
+      const { imagePreventDefault } = props
+      return mergedVisible.value && imagePreventDefault
     })
 
     let closeRunner: number | null = null
@@ -121,6 +153,10 @@ export default defineComponent({
       start: null,
       prev: null,
     }
+
+    watch(mergedCurrent, (index) => {
+      carouselRef.value?.to(index)
+    })
 
     useEventListener(() => document, 'contextmenu', preventImageDefault)
 
@@ -182,7 +218,6 @@ export default defineComponent({
 
       window.clearTimeout(longPressRunner as number)
 
-      // avoid triggering tap event sometimes
       if (isLongPress) {
         isLongPress = false
         return
@@ -280,11 +315,15 @@ export default defineComponent({
     function close() {
       if (scale.value > BASE_RATIO) {
         zoomOut()
-        setTimeout(() => call(props['onUpdate:show'], false), ANIMATION_DURATION)
+        setTimeout(() => {
+          mergedVisible.value = false
+        }, ANIMATION_DURATION)
         return
       }
 
-      call(props['onUpdate:show'], false)
+      mergedVisible.value = false
+      call(props.onClose)
+      emit('close')
     }
 
     function preventImageDefault(event: Event) {
@@ -293,22 +332,24 @@ export default defineComponent({
       }
     }
 
-    // expose
+    function onChange(index: number) {
+      call(props['onUpdate:current'], index)
+      emit('update:current', index)
+      call(props.onChange, index)
+    }
+
     function prev(options?: CarouselToOptions) {
       carouselRef.value?.prev(options)
     }
 
-    // expose
     function next(options?: CarouselToOptions) {
       carouselRef.value?.next(options)
     }
 
-    // expose
     function to(idx: number, options?: CarouselToOptions) {
       carouselRef.value?.to(idx, options)
     }
 
-    // expose
     function zoom(ratio: number) {
       ratio <= BASE_RATIO ? zoomOut() : zoomIn(ratio)
     }
@@ -316,7 +357,13 @@ export default defineComponent({
     return {
       carouselRef,
       isPreventDefault,
-      show,
+      mergedVisible,
+      mergedImages,
+      mergedCurrent,
+      mergedCloseable,
+      mergedMaskClosable,
+      mergedEscToClose,
+      mergedLoop,
       scale,
       translateX,
       translateY,
@@ -331,6 +378,7 @@ export default defineComponent({
       handleTouchend,
       handleTouchcancel,
       close,
+      onChange,
       prev,
       next,
       to,

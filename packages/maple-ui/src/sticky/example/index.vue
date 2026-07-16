@@ -1,9 +1,17 @@
 <script setup>
+import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 watchLang(use)
 onThemeChange()
+
+const scrollerRef = ref(null)
+const fixed = ref(false)
+
+const handleChange = (value) => {
+  fixed.value = value
+}
 </script>
 
 <template>
@@ -14,12 +22,18 @@ onThemeChange()
     </mp-sticky>
 
     <app-type>{{ t('localSticky') }}</app-type>
-    <div class="scroller">
-      <mp-sticky>
+    <div ref="scrollerRef" class="scroller">
+      <mp-sticky :target="scrollerRef">
         <mp-button type="success">{{ t('localSticky') }}</mp-button>
       </mp-sticky>
       <div class="block"></div>
     </div>
+
+    <app-type>{{ t('changeEvent') }}</app-type>
+    <mp-sticky :offset-top="54" @change="handleChange">
+      <mp-button type="warning">{{ t('changeEvent') }}</mp-button>
+    </mp-sticky>
+    <div class="change-status">{{ t('fixedStatus') }}: {{ fixed }}</div>
   </div>
 </template>
 
@@ -39,6 +53,11 @@ onThemeChange()
       background: var(--mp-site-config-color-type);
       opacity: 0.5;
     }
+  }
+
+  .change-status {
+    margin-top: 12px;
+    color: var(--mp-site-config-color-text);
   }
 }
 </style>

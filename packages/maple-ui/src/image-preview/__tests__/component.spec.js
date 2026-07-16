@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
+import VarImagePreview from '../../image/ImagePreview.vue'
 import { delay, mockImageNaturalSize, mockOffset, trigger, triggerDrag } from '../../utils/test'
-import VarImagePreview from '../ImagePreview.vue'
-import ImagePreview from '../index'
+import { previewImage } from '../index'
 
 mockImageNaturalSize(1440, 1080)
 mockOffset({ offsetWidth: 375, offsetHeight: 815 })
@@ -28,24 +28,24 @@ const expectTap = async (element, wrapper) => {
 }
 
 test('image preview component plugin', () => {
-  const app = createApp({}).use(ImagePreview.Component)
-  expect(app.component(ImagePreview.Component.name)).toBeTruthy()
+  const app = createApp({}).use(previewImage)
+  expect(app.component(previewImage.Component.name)).toBeTruthy()
 })
 
 describe('test image preview component props', () => {
-  test('image preview show', async () => {
-    const onUpdateShow = vi.fn((value) => wrapper.setProps({ show: value }))
+  test('image preview visible', async () => {
+    const onUpdateVisible = vi.fn((value) => wrapper.setProps({ visible: value }))
     const wrapper = mount(VarImagePreview, {
       props: {
         teleport: null,
-        'onUpdate:show': onUpdateShow,
+        'onUpdate:visible': onUpdateVisible,
       },
     })
 
     expect(wrapper.html()).toMatchSnapshot()
 
     await wrapper.setProps({
-      show: true,
+      visible: true,
     })
     expect(wrapper.html()).toMatchSnapshot()
 
@@ -57,7 +57,7 @@ describe('test image preview component props', () => {
       props: {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg'],
-        show: true,
+        visible: true,
       },
     })
 
@@ -77,7 +77,7 @@ describe('test image preview component props', () => {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg'],
         imagePreventDefault: true,
-        show: true,
+        visible: true,
       },
     })
 
@@ -88,13 +88,13 @@ describe('test image preview component props', () => {
     wrapper.unmount()
   })
 
-  test('image preview initialIndex', async () => {
+  test('image preview current', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        initialIndex: 1,
-        show: true,
+        current: 1,
+        visible: true,
       },
     })
 
@@ -105,19 +105,19 @@ describe('test image preview component props', () => {
     wrapper.unmount()
   })
 
-  test('image preview closeable', async () => {
+  test('image preview closable', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        show: true,
+        visible: true,
       },
     })
 
     expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(false)
 
     await wrapper.setProps({
-      closeable: true,
+      closable: true,
     })
     expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(true)
 
@@ -125,13 +125,13 @@ describe('test image preview component props', () => {
   })
 
   test('image preview zoom', async () => {
-    const onUpdateShow = vi.fn((value) => wrapper.setProps({ show: value }))
+    const onUpdateVisible = vi.fn((value) => wrapper.setProps({ visible: value }))
     const wrapper = mount(VarImagePreview, {
       props: {
         teleport: null,
-        show: true,
+        visible: true,
         images: ['https://maplejs.org/varlet/cat.jpg'],
-        'onUpdate:show': onUpdateShow,
+        'onUpdate:visible': onUpdateVisible,
       },
     })
 
@@ -159,7 +159,7 @@ describe('test image preview component props', () => {
     const wrapper = mount(VarImagePreview, {
       props: {
         teleport: null,
-        show: true,
+        visible: true,
         images: ['https://maplejs.org/varlet/cat.jpg'],
       },
     })
@@ -190,13 +190,13 @@ describe('test image preview component props', () => {
 
 describe('test image preview component events', () => {
   test('image preview tap', async () => {
-    const onUpdateShow = vi.fn((value) => wrapper.setProps({ show: value }))
+    const onUpdateVisible = vi.fn((value) => wrapper.setProps({ visible: value }))
     const wrapper = mount(VarImagePreview, {
       props: {
         teleport: null,
-        show: true,
+        visible: true,
         images: ['https://maplejs.org/varlet/cat.jpg'],
-        'onUpdate:show': onUpdateShow,
+        'onUpdate:visible': onUpdateVisible,
       },
     })
 
@@ -213,7 +213,7 @@ describe('test image preview component events', () => {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg'],
         onLongPress,
-        show: true,
+        visible: true,
       },
     })
 
@@ -243,7 +243,7 @@ describe('test image preview component methods', () => {
       props: {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        show: true,
+        visible: true,
       },
     })
 
@@ -285,7 +285,7 @@ describe('test image preview component methods', () => {
       props: {
         teleport: null,
         images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        show: true,
+        visible: true,
       },
     })
     const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')

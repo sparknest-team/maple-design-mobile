@@ -2,7 +2,7 @@
 
 ### 介绍
 
-图片放大预览，支持双击倍数放大，支持函数调用和组件调用两种方式。
+图片放大预览，支持双击倍数放大，支持 `previewImage` 函数调用和 `ImagePreview` 组件调用两种方式。
 
 ## 函数调用
 
@@ -10,10 +10,10 @@
 
 ```html
 <script setup>
-import { ImagePreview } from '@maplejs/maple-ui'
+import { previewImage } from '@maplejs/maple-ui'
 
 function preview() {
-  ImagePreview('https://maplejs.org/cat.jpg')
+  previewImage('https://maplejs.org/cat.jpg')
 }
 </script>
 
@@ -26,10 +26,10 @@ function preview() {
 
 ```html
 <script setup>
-import { ImagePreview, Snackbar } from '@maplejs/maple-ui'
+import { previewImage, Snackbar } from '@maplejs/maple-ui'
 
 function preview() {
-  ImagePreview({
+  previewImage({
     images: [
       'https://maplejs.org/cat.jpg',
       'https://maplejs.org/cat2.jpg'
@@ -49,13 +49,49 @@ function preview() {
 
 ## 组件调用
 
+### 预览组
+
+#### 包裹 Image 列表
+
+```html
+<template>
+  <mp-image-preview-group>
+    <mp-space :size="[12, 12]">
+      <mp-image width="85px" height="85px" fit="cover" src="https://maplejs.org/cat.jpg" />
+      <mp-image width="85px" height="85px" fit="cover" src="https://maplejs.org/cat2.jpg" />
+    </mp-space>
+  </mp-image-preview-group>
+</template>
+```
+
+#### 数据驱动
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const visible = ref(false)
+const current = ref(0)
+const images = ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg']
+</script>
+
+<template>
+  <mp-button type="primary" block @click="visible = true">打开预览</mp-button>
+  <mp-image-preview-group
+    v-model:visible="visible"
+    v-model:current="current"
+    :images="images"
+  />
+</template>
+```
+
 ### 基本使用
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const show = ref(false)
+const visible = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -66,20 +102,27 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="show = true"
+    @click="visible = true"
   >
     基本使用
   </mp-button>
-  <mp-image-preview :images="images" v-model:show="show" />
+  <mp-image-preview :images="images" v-model:visible="visible" />
 </template>
 ```
+
+### 单图 src
+
+```html
+<mp-image-preview v-model:visible="visible" src="https://maplejs.org/cat.jpg" />
+```
+
 ### 指定初始位置
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const show = ref(false)
+const visible = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -90,14 +133,14 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="show = true"
+    @click="visible = true"
   >
     指定初始位置
   </mp-button>
   <mp-image-preview
-    :initial-index="1"
+    :current="1"
     :images="images"
-    v-model:show="show"
+    v-model:visible="visible"
   />
 </template>
 ```
@@ -108,7 +151,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const show = ref(false)
+const visible = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -119,14 +162,14 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="show = true"
+    @click="visible = true"
   >
     展示关闭按钮
   </mp-button>
   <mp-image-preview
-    closeable
+    closable
     :images="images"
-    v-model:show="show"
+    v-model:visible="visible"
   />
 </template>
 ```
@@ -138,7 +181,7 @@ const images = ref([
 import { ref } from 'vue'
 import { Snackbar } from '@maplejs/maple-ui'
 
-const show = ref(false)
+const visible = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -149,13 +192,13 @@ const images = ref([
   <mp-button
     block
     type="warning"
-    @click="show = true"
+    @click="visible = true"
   >
     监听关闭事件
   </mp-button>
   <mp-image-preview
     :images="images"
-    v-model:show="show"
+    v-model:visible="visible"
     @close="Snackbar('触发了关闭事件。')"
   />
 </template>
@@ -170,7 +213,7 @@ const images = ref([
 import { ref } from 'vue'
 import { Snackbar } from '@maplejs/maple-ui'
 
-const show = ref(false)
+const visible = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -181,14 +224,14 @@ const images = ref([
   <mp-button
     block
     type="warning"
-    @click="show = true"
+    @click="visible = true"
   >
     监听长按事件
   </mp-button>
   <mp-image-preview
     image-prevent-default
     :images="images"
-    v-model:show="show"
+    v-model:visible="visible"
     @long-press="Snackbar('触发了长按事件')"
   />
 </template>
@@ -200,7 +243,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const show = ref(false)
+const visible = ref(false)
 const menuShow = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
@@ -222,11 +265,11 @@ const actions = [
   <mp-button
     block
     type="warning" 
-    @click="show = true"
+    @click="visible = true"
   >
     展示额外插槽
   </mp-button>
-  <mp-image-preview :images="images" v-model:show="show">
+  <mp-image-preview :images="images" v-model:visible="visible">
     <template #extra>
       <mp-icon
         name="menu"
@@ -239,23 +282,59 @@ const actions = [
   </mp-image-preview>
 </template>
 ```
+
+### 关闭循环播放
+
+```html
+<mp-image-preview v-model:visible="visible" :images="images" :loop="false" />
+```
+
+### 隐藏指示器
+
+```html
+<mp-image-preview v-model:visible="visible" :images="images" :indicator="false" />
+```
+
+### 设置缩放倍数
+
+```html
+<mp-image-preview v-model:visible="visible" :images="images" :zoom="3" />
+```
+
+### 自定义指示器 / 关闭按钮
+
+通过 `#indicator`、`#close-icon` 插槽自定义分页与关闭按钮。
+
 ## API
 
 ### 属性
 
 | 参数         | 说明   | 类型  | 默认值  |
 | ------------ | ------------ | ------------------ | ------------ |
-| `v-model:show` | 是否显示     | _boolean_ | `false` |
+| `v-model:visible` | 是否显示 | _boolean_ | `false` |
 | `images`     | 需要预览的图片 URL 数组 | _string[]_ | `[]` |
-| `initial-index` | 图片预览起始的索引 | _string \| number_ | `0` |
+| `src` | 单图预览地址 | _string_ | `-` |
+| `current` | 当前图片索引 | _number_ | `0` |
 | `zoom`       | 双击放大倍数 | _string \| number_ | `2` |
-| `closeable`  | 是否显示关闭按钮 | _boolean_ | `false` |
-| `close-on-key-escape` | 是否支持键盘 ESC 图片预览 | _boolean_ | `true`  |
+| `closable`  | 是否显示关闭按钮 | _boolean_ | `false` |
 | `loop`       | 是否开启循环播放 | _boolean_ | `true` |
 | `indicator`  | 是否显示分页 | _boolean_ | `true` |
 | `lock-scroll` | 锁定滚动 | _boolean_ | `true` |
+| `close-on-key-escape` | 是否支持键盘 ESC 关闭 | _boolean_ | `true`  |
 | `teleport`   | 弹出层挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
 | `image-prevent-default` | 是否禁止图片默认行为 |  _boolean_ | `false` |
+
+### ImagePreviewGroup 属性
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `images` | 图片 URL 列表（设置后不再收集子 Image） | _string[]_ | `[]` |
+| `v-model:visible` | 是否显示预览 | _boolean_ | `false` |
+| `v-model:current` | 当前图片索引 | _number_ | `0` |
+| `loop` | 是否循环切换 | _boolean_ | `true` |
+| `closable` | 是否显示关闭按钮 | _boolean_ | `false` |
+| `mask-closable` | 点击遮罩是否关闭 | _boolean_ | `false` |
+| `teleport` | 弹出层挂载位置 | _string \| Element \| false_ | `-` |
 
 ### 事件
 
@@ -273,10 +352,10 @@ const actions = [
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
-| `ImagePreview` | 显示 image-preview | _options \| string \| string[]_ | `-` |
-| `ImagePreview.close` | 关闭 image-preview | _-_ | `-` |
-| `ImagePreview.setDefaultOptions` | 设置默认的选项配置 | _options_ | `-` |
-| `ImagePreview.resetDefaultOptions` | 重置默认的选项配置 | _-_ | `-` |
+| `previewImage` | 显示 image-preview | _options \| string \| string[]_ | `-` |
+| `previewImage.close` | 关闭 image-preview | _-_ | `-` |
+| `previewImage.setDefaultOptions` | 设置默认的选项配置 | _options_ | `-` |
+| `previewImage.resetDefaultOptions` | 重置默认的选项配置 | _-_ | `-` |
 | `prev` | 上一页 | `options?: CarouselToOptions` | `-` |
 | `next` | 下一页 | `options?: CarouselToOptions` | `-` |
 | `to` | 跳转到指定下标 | `index: number, options?: CarouselToOptions` | `-` |
@@ -295,9 +374,9 @@ const actions = [
 | 参数   | 说明  |  类型  | 默认值 |
 | ------ | ----------- | ------ | -------- |
 | `images`     | 需要预览的图片 URL 数组或者单个图片的 URL  | _string[] \| string_ | `[]` |
-| `initialIndex` | 图片预览起始的索引 | _string \| number_ | `0` |
+| `current` | 图片预览起始的索引 | _number_ | `0` |
 | `zoom`       | 双击放大倍数  | _string \| number_ | `2` |
-| `closeable`  | 是否显示关闭按钮 | _boolean_ | `false` |
+| `closable`  | 是否显示关闭按钮 | _boolean_ | `false` |
 | `closeOnKeyEscape` | 是否支持键盘 ESC 关闭图片预览 | _boolean_ | `true` |
 | `loop`       | 是否开启循环播放 | _boolean_ | `true` |
 | `indicator`  | 是否显示分页 | _boolean_ | `true` |

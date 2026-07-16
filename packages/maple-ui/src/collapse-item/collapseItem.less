@@ -44,16 +44,23 @@
     align-items: center;
     display: flex;
     font-size: var(--mp-collapse-header-font-size);
+    gap: 8px;
     outline: none;
     padding: var(--mp-collapse-header-padding);
-    justify-content: space-between;
     position: relative;
 
     &-title {
+      flex: 1;
+      min-width: 0;
       transition: color 0.25s;
     }
 
+    &-extra {
+      flex-shrink: 0;
+    }
+
     &-icon {
+      flex-shrink: 0;
       transform: rotate(0deg);
       opacity: 1;
     }
@@ -68,6 +75,12 @@
 
     &--cursor-pointer {
       cursor: pointer;
+    }
+
+    &--icon-left {
+      .mp-collapse-item__header-icon {
+        margin-right: 0;
+      }
     }
   }
 

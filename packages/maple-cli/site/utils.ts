@@ -3,6 +3,7 @@ export interface Menu {
   text: Record<string, string>
   type: MenuTypes
   useMobile?: boolean
+  parent?: string
 }
 
 export enum MenuTypes {

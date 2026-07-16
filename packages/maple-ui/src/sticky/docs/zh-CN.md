@@ -27,14 +27,20 @@
 ```html
 <template>
   <div class="sticky-example">
-    <div class="sticky-example-scroller">
-      <mp-sticky>
+    <div ref="scrollerRef" class="sticky-example-scroller">
+      <mp-sticky :target="scrollerRef">
         <mp-button type="success">局部吸顶</mp-button>
       </mp-sticky>
       <div class="sticky-example-block"></div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const scrollerRef = ref(null)
+</script>
 
 <style>
 .sticky-example {
@@ -56,6 +62,29 @@
 </style>
 ```
 
+### 固定状态改变
+
+```html
+<template>
+  <div class="sticky-example">
+    <mp-sticky :offset-top="54" @change="handleChange">
+      <mp-button type="warning">固定状态改变</mp-button>
+    </mp-sticky>
+    <div>是否吸顶: {{ fixed }}</div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const fixed = ref(false)
+
+const handleChange = (value) => {
+  fixed.value = value
+}
+</script>
+```
+
 ## API
 
 ### 属性
@@ -66,6 +95,7 @@
 | `z-index` | 吸顶时的层级 | _string \| number_ | `10` |
 | `css-mode` | 开启原生 `css sticky` 模式 | _boolean_ | `false` |
 | `disabled` | 禁用吸顶, 设置为 `true` 时, 元素会回到文档流中 | _boolean_ | `false` |
+| `target` | 滚动容器，默认自动查找最近可滚动父元素 | _string \| HTMLElement \| Window_ | `-` |
 
 ### 方法
 
@@ -75,9 +105,9 @@
 
 ### 事件
 
-| 事件名 | 说明 | 参数                                                          |
-| --- | --- |-------------------------------------------------------------|
-| `scroll` | 当滚动容器滚动时触发 | `offsetTop: number` 距离顶部的 px 值 <br> `isFixed: boolean` 是否吸顶 |
+| 事件名 | 说明 | 参数 |
+| --- | --- | --- |
+| `change` | 固定状态发生改变时触发 | `fixed: boolean`<br>`offsetTop: number` |
 
 ### 插槽
 

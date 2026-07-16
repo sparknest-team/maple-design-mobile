@@ -1,20 +1,32 @@
-import { VNode } from 'vue'
+import { VNode, VNodeChild } from 'vue'
 import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const collapseProps: Record<keyof CollapseProps, any>
 
-export type CollapseModelValue = undefined | string | number | Array<string | number | undefined>
+export type CollapseActiveNames = Array<string | number>
+
+export type CollapseExpandIconPosition = 'left' | 'right'
 
 export type CollapseToggleAllOptions = { expand: boolean | 'inverse'; skipDisabled?: boolean }
 
+export interface CollapseExpandIconSlotProps {
+  active: boolean
+  disabled: boolean
+  position: CollapseExpandIconPosition
+}
+
 export interface CollapseProps extends BasicAttributes {
-  modelValue?: CollapseModelValue
+  activeNames?: CollapseActiveNames
+  defaultActiveNames?: CollapseActiveNames
   accordion?: boolean
   offset?: boolean
   divider?: boolean
   elevation?: boolean | string | number
-  onChange?: ListenerProp<(value: CollapseModelValue) => void>
-  'onUpdate:modelValue'?: ListenerProp<(value: CollapseModelValue) => void>
+  expandIconPosition?: CollapseExpandIconPosition
+  showExpandIcon?: boolean
+  destroyOnHide?: boolean
+  onChange?: ListenerProp<(value: CollapseActiveNames) => void>
+  'onUpdate:activeNames'?: ListenerProp<(value: CollapseActiveNames) => void>
 }
 
 export class Collapse extends VarComponent {
@@ -24,6 +36,7 @@ export class Collapse extends VarComponent {
 
   $slots: {
     default(): VNode[]
+    'expand-icon'(props: CollapseExpandIconSlotProps): VNodeChild
   }
 
   toggleAll(options: CollapseToggleAllOptions): void

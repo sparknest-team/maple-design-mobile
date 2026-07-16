@@ -118,7 +118,7 @@ import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
 import MpIcon from '../icon'
-import ImagePreview from '../image-preview'
+import { previewImage } from '../image/preview'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation, useValidation } from '../utils/components'
@@ -251,7 +251,7 @@ export default defineComponent({
       const { url } = varFile
 
       if (isHTMLSupportImage(url)) {
-        ImagePreview(url)
+        previewImage(url)
         return
       }
 
@@ -431,7 +431,7 @@ export default defineComponent({
     function closePreview() {
       currentPreview.value = null
       showPreview.value = false
-      ImagePreview.close()
+      previewImage.close()
     }
 
     function validateWithTrigger(trigger: UploaderValidateTrigger) {

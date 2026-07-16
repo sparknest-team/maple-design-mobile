@@ -38,29 +38,69 @@
     />
 
     <slot v-if="showErrorSlot" name="error" />
+
+    <mp-image-preview
+      v-if="showStandalonePreview"
+      v-model:visible="previewVisibleState"
+      :images="[previewUrl]"
+      v-bind="previewProps"
+      @close="handlePreviewClose"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch, watchEffect } from 'vue'
 import { call } from '@maplejs/maple-shared'
 import Lazy, { type LazyHTMLElement } from '../lazy'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { PreviewGroupInjectionKey } from './context'
+import MpImagePreview from './ImagePreview.vue'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('image')
 
+let imageId = 0
+
 export default defineComponent({
   name,
+  components: {
+    MpImagePreview,
+  },
   directives: {
     Lazy,
     Ripple,
   },
   props,
-  setup(props, { slots }) {
+  emits: ['update:previewVisible', 'preview-visible-change'],
+  setup(props, { slots, emit }) {
     const showErrorSlot = ref(false)
+    const groupContext = inject(PreviewGroupInjectionKey, undefined)
+    const localPreviewVisible = ref(props.defaultPreviewVisible)
+    const currentImageId = imageId++
+
+    const previewVisibleState = computed({
+      get() {
+        return props.previewVisible ?? localPreviewVisible.value
+      },
+      set(value: boolean) {
+        if (props.previewVisible !== undefined) {
+          call(props['onUpdate:previewVisible'], value)
+          emit('update:previewVisible', value)
+        } else {
+          localPreviewVisible.value = value
+        }
+
+        call(props.onPreviewVisibleChange, value)
+        emit('preview-visible-change', value)
+      },
+    })
+
+    const previewUrl = computed(() => props.previewSrc || props.src || '')
+
+    const showStandalonePreview = computed(() => props.preview && !groupContext && !!previewUrl.value)
 
     watch(
       () => props.src,
@@ -69,8 +109,19 @@ export default defineComponent({
       },
     )
 
+    watchEffect((onInvalidate) => {
+      if (!groupContext) {
+        return
+      }
+
+      const unregister = groupContext.registerImageUrl(currentImageId, previewUrl.value, props.preview)
+
+      onInvalidate(() => {
+        unregister?.()
+      })
+    })
+
     function handleError(e: Event) {
-      // the value of showErrorSlot depends on whether there is an error slot
       showErrorSlot.value = !!slots.error
       call(props.onError, e)
     }
@@ -94,16 +145,36 @@ export default defineComponent({
 
     function handleClick(e: Event) {
       call(props.onClick, e)
+
+      if (!props.preview || showErrorSlot.value) {
+        return
+      }
+
+      if (groupContext?.preview) {
+        groupContext.preview(currentImageId)
+        return
+      }
+
+      previewVisibleState.value = true
+    }
+
+    function handlePreviewClose() {
+      previewVisibleState.value = false
     }
 
     return {
       showErrorSlot,
+      showStandalonePreview,
+      previewVisibleState,
+      previewUrl,
+      previewProps: computed(() => props.previewProps),
       n,
       classes,
       toSizeUnit,
       handleLoad,
       handleError,
       handleClick,
+      handlePreviewClose,
     }
   },
 })
