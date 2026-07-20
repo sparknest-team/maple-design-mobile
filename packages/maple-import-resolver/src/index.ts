@@ -25,7 +25,7 @@ export interface MapleImportResolverOptions {
 
 const varFunctions = [
   'ImagePreview',
-  'Snackbar',
+  'Message',
   'Picker',
   'ActionSheet',
   'Dialog',

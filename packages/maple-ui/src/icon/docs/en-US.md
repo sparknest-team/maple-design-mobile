@@ -38,14 +38,14 @@ When the name passed in is a URL the `img` tag is displayed in `cover` mode.
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
   <mp-icon 
     name="checkbox-marked-circle"
     color="var(--color-primary)"
-    @click="Snackbar.success('Click success')"
+    @click="Message.success('Click success')"
   />
 </template>
 ```

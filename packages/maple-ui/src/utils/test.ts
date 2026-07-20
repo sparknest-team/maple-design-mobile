@@ -7,6 +7,13 @@ export const delay = (time: number) =>
     setTimeout(resolve, time)
   })
 
+export const flushRaf = () =>
+  new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve())
+    })
+  })
+
 export function getTouch(el: Element | Window, x: number, y: number) {
   return {
     identifier: Date.now(),

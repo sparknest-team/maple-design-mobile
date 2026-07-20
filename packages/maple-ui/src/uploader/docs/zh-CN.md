@@ -168,13 +168,13 @@ const files = ref([])
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const files = ref([])
 </script>
 
 <template>
-  <mp-uploader v-model="files" :maxsize="1024" @oversize="Snackbar.warning('文件大小超出限制')" />
+  <mp-uploader v-model="files" :maxsize="1024" @oversize="Message.warning('文件大小超出限制')" />
 </template>
 ```
 
@@ -206,16 +206,16 @@ function handleBeforeFilter(files) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const files = ref([])
 
 function handleBeforeRead(file) {
   if (file.file.size <= 1 * 1024 * 1024) {
-    Snackbar.success('文件小于1M，上传成功')
+    Message.success('文件小于1M，上传成功')
     return true
   } else {
-    Snackbar.warning('文件大于1M，不能上传')
+    Message.warning('文件大于1M，不能上传')
     return false
   }
 }
@@ -233,15 +233,15 @@ function handleBeforeRead(file) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const files = ref([])
 
 function handleClickAction(chooseFile) {
-  Snackbar.loading('delay 1s')
+  Message.loading('delay 1s')
 
   window.setTimeout(() => {
-    Snackbar.clear()
+    Message.clear()
     chooseFile()
   }, 1000)
 }

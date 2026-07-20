@@ -12,7 +12,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function createBasic() {
   const action = await ActionSheet({ 
@@ -32,7 +32,7 @@ async function createBasic() {
     ] 
   })
   
-  action !== 'close' && Snackbar(`Your selected is:${action.name}`)
+  action !== 'close' && Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -45,7 +45,7 @@ async function createBasic() {
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -66,7 +66,7 @@ async function handleSelect() {
     title: 'Choose whichever you like'
   })
   
-  action !== 'close' && Snackbar(`Your selected is:${action.name}`)
+  action !== 'close' && Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -81,7 +81,7 @@ The option is passed `disabled` to leave the action in the disabled state.
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({
@@ -102,7 +102,7 @@ async function handleSelect() {
     ]
   })
   
-  action !== 'close' && Snackbar(`Your selected is:${action.name}`)
+  action !== 'close' && Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -117,7 +117,7 @@ Passing in `CloseOnClickAction` disallows the action of `ActionSheet` closing au
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   await ActionSheet({ 
@@ -136,7 +136,7 @@ async function handleSelect() {
       },
     ], 
     closeOnClickAction: false,
-    onSelect: action => Snackbar(`Your selected is:${action.name}`), 
+    onSelect: action => Message(`Your selected is:${action.name}`), 
   })
 }
 </script>
@@ -152,7 +152,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -175,7 +175,7 @@ async function handleSelect() {
     ]
   })
   
-  action !== 'close' && Snackbar(`Your selected is:${action.name}`)
+  action !== 'close' && Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -191,7 +191,7 @@ async function handleSelect() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -210,7 +210,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`Your selected is:${action.name}`)
+  Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -229,7 +229,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -248,7 +248,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`Your selected is:${action.name}`)
+  Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -268,7 +268,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -288,7 +288,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`Your selected is:${action.name}`)
+  Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -307,7 +307,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -326,7 +326,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`Your selected is:${action.name}`)
+  Message(`Your selected is:${action.name}`)
 }
 </script>
 
@@ -346,7 +346,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -368,7 +368,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`Your selected is:${action.name}`)
+  Message(`Your selected is:${action.name}`)
 }
 </script>
 

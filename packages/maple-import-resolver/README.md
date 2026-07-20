@@ -119,12 +119,12 @@ import '@maplejs/maple-ui/es/button/style/index'
 
 ```html
 <script setup>
-import { Button as VarButton, Snackbar } from '@maplejs/maple-ui'
+import { Button as VarButton, Message } from '@maplejs/maple-ui'
 import '@maplejs/maple-ui/es/button/style/index'
-import '@maplejs/maple-ui/es/snackbar/style/index'
+import '@maplejs/maple-ui/es/message/style/index'
 
 function handleClick() {
-  Snackbar('Hello!')
+  Message('Hello!')
 }
 </script>
 
@@ -138,7 +138,7 @@ function handleClick() {
 ```html
 <script setup>
 function handleClick() {
-  Snackbar('Hello!')
+  Message('Hello!')
 }
 </script>
 

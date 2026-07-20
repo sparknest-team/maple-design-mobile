@@ -2,14 +2,14 @@ import { type PropType, type TeleportProps } from 'vue'
 import type { SlotType } from '.'
 import { loadingProps } from '../loading'
 import { defineListenerProp, pickProps } from '../utils/components'
-import { SnackbarType } from './index'
+import type { MessagePosition, MessageType } from './index'
 
-export type SnackbarPosition = 'top' | 'center' | 'bottom'
+export type { MessagePosition }
 
 export const props = {
-  type: String as PropType<SnackbarType>,
+  type: String as PropType<MessageType>,
   position: {
-    type: String as PropType<SnackbarPosition>,
+    type: String as PropType<MessagePosition>,
     default: 'top',
   },
   content: [String, Function, Object] as PropType<SlotType>,
@@ -37,9 +37,14 @@ export const props = {
     default: 'body',
   },
   forbidClick: Boolean,
+  showIcon: {
+    type: Boolean,
+    default: true,
+  },
+  closable: Boolean,
   onOpen: defineListenerProp<() => void>(),
   onOpened: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<() => void>(),
+  onClose: defineListenerProp<(id?: string | number) => void>(),
   onClosed: defineListenerProp<() => void>(),
   'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   _update: String,

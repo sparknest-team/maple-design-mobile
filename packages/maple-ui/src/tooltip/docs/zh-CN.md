@@ -144,16 +144,16 @@ const placementOptions = [
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
   <mp-tooltip
     content="Tooltip"
-    @open="Snackbar.info('open')"
-    @opened="Snackbar.success('opened')"
-    @close="Snackbar.warning('close')"
-    @closed="Snackbar.error('closed')"
+    @open="Message.info('open')"
+    @opened="Message.success('opened')"
+    @close="Message.warning('close')"
+    @closed="Message.error('closed')"
   >
     <mp-button type="primary">注册事件</mp-button>
   </mp-tooltip>

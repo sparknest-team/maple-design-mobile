@@ -89,12 +89,12 @@ const active = ref(0)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const active = ref(0)
 
 function handleChange(active) {
-  Snackbar.info(`changed to ${active}`)
+  Message.info(`changed to ${active}`)
 }
 </script>
 
@@ -113,12 +113,12 @@ function handleChange(active) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const active = ref(0)
 
 function handleClick(active) {
-  Snackbar.success(`clicked ${active}`)
+  Message.success(`clicked ${active}`)
 }
 </script>
 

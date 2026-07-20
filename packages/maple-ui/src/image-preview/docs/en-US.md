@@ -25,7 +25,7 @@ function preview() {
 #### Call Back
 ```html
 <script setup>
-import { previewImage, Snackbar } from '@maplejs/maple-ui'
+import { previewImage, Message } from '@maplejs/maple-ui'
 
 function preview() {
   previewImage({
@@ -34,7 +34,7 @@ function preview() {
       'https://maplejs.org/cat2.jpg'
     ],
     onChange(index) {
-      Snackbar(String(index))
+      Message(String(index))
     }
   })
 }
@@ -172,7 +172,7 @@ const images = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const visible = ref(false)
 const images = ref([
@@ -192,7 +192,7 @@ const images = ref([
   <mp-image-preview 
     :images="images"
     v-model:visible="visible"
-    @close="Snackbar('The shutdown event was triggered.')" 
+    @close="Message('The shutdown event was triggered.')" 
   />
 </template>
 ```
@@ -204,7 +204,7 @@ The `image-prevent-default` attribute prohibits the default behavior of images, 
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const visible = ref(false)
 const images = ref([
@@ -225,7 +225,7 @@ const images = ref([
     image-prevent-default
     :images="images"
     v-model:visible="visible"
-    @long-press="Snackbar('Long press event is triggered')"
+    @long-press="Message('Long press event is triggered')"
   />
 </template>
 ```

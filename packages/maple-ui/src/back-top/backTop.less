@@ -10,8 +10,11 @@
   z-index: 100;
   right: var(--mp-back-top-right);
   bottom: var(--mp-back-top-bottom);
+  opacity: 0;
   transform: scale(0);
-  transition: 0.3s var(--mp-cubic-bezier);
+  transition:
+    opacity 0.3s var(--mp-cubic-bezier),
+    transform 0.3s var(--mp-cubic-bezier);
   -webkit-tap-highlight-color: transparent;
 
   .mp-button[mp-back-top-cover] {
@@ -21,6 +24,11 @@
   }
 
   &--active {
+    opacity: 1;
     transform: scale(1);
+  }
+
+  &--inline {
+    position: absolute;
   }
 }

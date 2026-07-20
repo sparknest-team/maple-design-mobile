@@ -3,7 +3,7 @@ import { kebabCase } from '@maplejs/maple-shared'
 
 var varFunctions = [
   'ImagePreview',
-  'Snackbar',
+  'Message',
   'Picker',
   'ActionSheet',
   'Dialog',

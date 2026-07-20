@@ -116,14 +116,14 @@ Button component for triggering actions.
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 function handleClick() {
-  Snackbar.success('Click Success')
+  Message.success('Click Success')
 }
 
 function handleTouchstart() {
-  Snackbar.success('Touchstart Success')
+  Message.success('Touchstart Success')
 }
 
 function handleAutoLoadingClick() {

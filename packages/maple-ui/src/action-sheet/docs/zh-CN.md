@@ -12,7 +12,7 @@
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function createBasic() {
   const action = await ActionSheet({ 
@@ -32,7 +32,7 @@ async function createBasic() {
     ] 
   })
   
-  action !== 'close' && Snackbar(`您选择的是:${action.name}`)
+  action !== 'close' && Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -45,7 +45,7 @@ async function createBasic() {
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect(){
   const action = await ActionSheet({ 
@@ -66,7 +66,7 @@ async function handleSelect(){
     title: '选择一个你喜欢的吧' 
   })
   
-  action !== 'close' && Snackbar(`您选择的是:${action.name}`)
+  action !== 'close' && Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -81,7 +81,7 @@ async function handleSelect(){
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -102,7 +102,7 @@ async function handleSelect() {
     ] 
   })
   
-  action !== 'close' && Snackbar(`您选择的是:${action.name}`)
+  action !== 'close' && Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -118,7 +118,7 @@ async function handleSelect() {
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect(){
   await ActionSheet({ 
@@ -137,7 +137,7 @@ async function handleSelect(){
       },
     ], 
     closeOnClickAction: false,
-    onSelect: action => Snackbar(`您选择的是:${action.name}`), 
+    onSelect: action => Message(`您选择的是:${action.name}`), 
   })
 }
 </script>
@@ -153,7 +153,7 @@ async function handleSelect(){
 
 ```html
 <script setup>
-import { Snackbar, ActionSheet } from '@maplejs/maple-ui'
+import { Message, ActionSheet } from '@maplejs/maple-ui'
 
 async function handleSelect() {
   const action = await ActionSheet({ 
@@ -176,7 +176,7 @@ async function handleSelect() {
     ] 
   })
   
-  action !== 'close' && Snackbar(`您选择的是:${action.name}`)
+  action !== 'close' && Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -192,7 +192,7 @@ async function handleSelect() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -211,7 +211,7 @@ const actions = ref([
 ])
 
 function handleSelect(action){
-  Snackbar(`您选择的是:${action.name}`)
+  Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -230,7 +230,7 @@ function handleSelect(action){
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -249,7 +249,7 @@ const actions = ref([
 ])
 
 function handleSelect(action){
-  Snackbar(`您选择的是:${action.name}`)
+  Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -269,7 +269,7 @@ function handleSelect(action){
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -289,7 +289,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`您选择的是:${action.name}`)
+  Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -308,7 +308,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -327,7 +327,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`您选择的是:${action.name}`)
+  Message(`您选择的是:${action.name}`)
 }
 </script>
 
@@ -347,7 +347,7 @@ function handleSelect(action) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 const actions = ref([
@@ -369,7 +369,7 @@ const actions = ref([
 ])
 
 function handleSelect(action) {
-  Snackbar(`您选择的是:${action.name}`)
+  Message(`您选择的是:${action.name}`)
 }
 </script>
 

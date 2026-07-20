@@ -55,7 +55,7 @@ const show = ref(false)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const show = ref(false)
 </script>
@@ -64,7 +64,7 @@ const show = ref(false)
   <mp-button type="primary" block @click="show = true">Click Overlay</mp-button>
   <mp-overlay
     v-model:show="show"
-    @click="Snackbar.success('click')"
+    @click="Message.success('click')"
   />
 </template>
 ```

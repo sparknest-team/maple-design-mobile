@@ -30,10 +30,10 @@ const value = ref()
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 function handleSelect(value) {
-  Snackbar(`Select: ${value}`)
+  Message(`Select: ${value}`)
 }
 </script>
 

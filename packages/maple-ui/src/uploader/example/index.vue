@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, reactive } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Dialog, Snackbar } from '@maplejs/maple-ui'
+import { Dialog, Message } from '@maplejs/maple-ui'
 import { z } from 'zod'
 import { t, use } from './locale'
 
@@ -112,15 +112,15 @@ function handleAfterRead3(file) {
 }
 
 function handleOversize() {
-  Snackbar.warning(t('fileSizeExceedsLimit'))
+  Message.warning(t('fileSizeExceedsLimit'))
 }
 
 function handleBeforeRead(file) {
   if (file.file.size <= 1 * 1024 * 1024) {
-    Snackbar.success(t('fileLessThen'))
+    Message.success(t('fileLessThen'))
     return true
   }
-  Snackbar.warning(t('fileLargeThen'))
+  Message.warning(t('fileLargeThen'))
   return false
 }
 
@@ -145,10 +145,10 @@ function handlePreview(file) {
 }
 
 function handleActionClick(chooseFile) {
-  Snackbar.loading('delay 1s')
+  Message.loading('delay 1s')
 
   setTimeout(() => {
-    Snackbar.clear()
+    Message.clear()
     chooseFile()
   }, 1000)
 }

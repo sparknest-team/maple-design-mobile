@@ -408,7 +408,7 @@ describe('test dialog component slots', () => {
     wrapper.unmount()
   })
 
-  test('dialog actions slot', async () => {
+  test('dialog footer slot', async () => {
     const wrapper = mount({
       components: {
         [VarDialog.name]: VarDialog,
@@ -418,7 +418,7 @@ describe('test dialog component slots', () => {
         show: true,
       }),
       template: `<mp-dialog v-model:show="show" :teleport="null">
-        <template #actions="{slotClass, cancel, confirm}">
+        <template #footer="{slotClass, cancel, confirm}">
           <div :class="slotClass">
             <mp-button class="cancel" @click="cancel">cancel</mp-button>
             <mp-button class="confirm" @click="confirm">confirm</mp-button>
@@ -440,6 +440,88 @@ describe('test dialog component slots', () => {
     await wrapper.find('.confirm').trigger('click')
     await delay(300)
     expect(wrapper.vm.show).toBe(false)
+
+    wrapper.unmount()
+  })
+
+  test('dialog component type icon', () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        show: true,
+        type: 'warning',
+        title: 'warning title',
+      },
+    })
+
+    expect(wrapper.find('.mp-dialog__title-icon').exists()).toBe(true)
+    expect(wrapper.find('.mp-icon-warning').exists()).toBe(true)
+    expect(wrapper.find('.mp-dialog--type-warning').exists()).toBe(true)
+
+    wrapper.unmount()
+  })
+
+  test('dialog component footer', () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        show: true,
+        footer: false,
+      },
+    })
+
+    expect(wrapper.find('.mp-dialog__actions').exists()).toBe(false)
+
+    wrapper.unmount()
+  })
+
+  test('dialog component hideTitle', () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        show: true,
+        hideTitle: true,
+      },
+    })
+
+    expect(wrapper.find('.mp-dialog__title').exists()).toBe(false)
+
+    wrapper.unmount()
+  })
+
+  test('dialog component bodyClass and bodyStyle', () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        show: true,
+        bodyClass: 'custom-body',
+        bodyStyle: { padding: '8px' },
+      },
+    })
+
+    const message = wrapper.find('.mp-dialog__message')
+    expect(message.classes()).toContain('custom-body')
+    expect(message.attributes('style')).toContain('padding: 8px')
+
+    wrapper.unmount()
+  })
+
+  test('dialog component unmountOnClose', async () => {
+    const wrapper = mount(VarDialog, {
+      props: {
+        show: true,
+        unmountOnClose: true,
+        teleport: null,
+      },
+      global: {
+        stubs: {
+          transition: false,
+        },
+      },
+    })
+
+    expect(wrapper.find('.mp-dialog').exists()).toBe(true)
+
+    await wrapper.setProps({ show: false })
+    await delay(300)
+
+    expect(wrapper.find('.mp-dialog').exists()).toBe(false)
 
     wrapper.unmount()
   })

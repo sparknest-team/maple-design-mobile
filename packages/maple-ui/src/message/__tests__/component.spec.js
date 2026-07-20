@@ -1,35 +1,35 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
-import Snackbar from '..'
+import Message from '..'
 import { delay, mockStubs } from '../../utils/test'
-import VarSnackbar from '../Snackbar'
+import VarMessage from '../Message'
 
-test('snackbar component plugin', () => {
-  const app = createApp({}).use(Snackbar.Component)
-  expect(app.component(Snackbar.Component.name)).toBeTruthy()
+test('message component plugin', () => {
+  const app = createApp({}).use(Message.Component)
+  expect(app.component(Message.Component.name)).toBeTruthy()
 })
 
-test('snackbar style', async () => {
+test('message style', async () => {
   const template = `
-     <mp-snackbar
+     <mp-message
       v-model:show="show"
       type="error"
       position="center"
-      content-class="test-snackbar"
+      content-class="test-message"
       vertical
       :elevation="5"
       :duration="500"
       loading-type="wave"
       loading-size="large"
-      content="test snackbar"
+      content="test message"
       forbid-click
       lock-scroll
     />
    `
   const wrapper = mount({
     components: {
-      [VarSnackbar.name]: VarSnackbar,
+      [VarMessage.name]: VarMessage,
     },
     data() {
       return {
@@ -43,12 +43,12 @@ test('snackbar style', async () => {
   expect(document.body.innerHTML).toMatchSnapshot()
 
   await delay(500)
-  expect(document.querySelector('.mp-snackbar').style.display).toBe('none')
+  expect(document.querySelector('.mp-message').style.display).toBe('none')
 
   wrapper.unmount()
 })
 
-test('snackbar event', async () => {
+test('message event', async () => {
   const open = vi.fn()
   const opened = vi.fn()
   const close = vi.fn()
@@ -56,13 +56,13 @@ test('snackbar event', async () => {
   const { mockRestore } = mockStubs()
 
   const template = `
-    <mp-snackbar v-model:show="show" @open="open" @opened="opened" @close="close" @closed="closed">
-      Snackbar
-    </mp-snackbar>`
+    <mp-message v-model:show="show" @open="open" @opened="opened" @close="close" @closed="closed">
+      Message
+    </mp-message>`
 
   const wrapper = mount({
     components: {
-      [VarSnackbar.name]: VarSnackbar,
+      [VarMessage.name]: VarMessage,
     },
     data() {
       return {

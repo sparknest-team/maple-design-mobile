@@ -12,7 +12,7 @@
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Picker, Message } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, values, indexes, options } = await Picker({ 
@@ -26,7 +26,7 @@ async function picker() {
       ]
     ],
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -41,7 +41,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Picker, Message } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, values, indexes, options } = await Picker({ 
@@ -69,7 +69,7 @@ async function picker() {
       ]
     ],
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -86,7 +86,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Picker, Message } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, texts, indexes } = await Picker({
@@ -126,7 +126,7 @@ async function picker() {
       },
     ],
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -143,7 +143,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Picker, Message } from '@maplejs/maple-ui'
 import columns from '@maplejs/maple-ui/json/area.json'
 
 async function picker() {
@@ -151,7 +151,7 @@ async function picker() {
     cascade: true,
     columns,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -168,7 +168,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Picker, Message } from '@maplejs/maple-ui'
 import columns from '@maplejs/maple-ui/json/area.json'
 
 async function picker() {
@@ -177,7 +177,7 @@ async function picker() {
     columns,
     columnsCount: 2,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -192,7 +192,7 @@ async function picker() {
 
 ```html
 <script setup>
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Picker, Message } from '@maplejs/maple-ui'
 
 async function picker() {
   const { state, values, indexes, options } = await Picker({ 
@@ -217,7 +217,7 @@ async function picker() {
       ],
     ],
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -235,7 +235,7 @@ async function picker() {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const columns = ref([
   [
@@ -248,7 +248,7 @@ const columns = ref([
 ])
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 
@@ -262,7 +262,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const columns = ref([
   [
@@ -289,7 +289,7 @@ const columns = ref([
 ])
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 
@@ -303,7 +303,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const columns = ref([
   {
@@ -341,7 +341,7 @@ const columns = ref([
 ])
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 
@@ -355,13 +355,13 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import area from '@maplejs/maple-ui/json/area.json'
 
 const columns = ref(area)
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 
@@ -375,13 +375,13 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import area from '@maplejs/maple-ui/json/area.json'
 
 const columns = ref(area)
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 
@@ -395,7 +395,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const columns = ref([
   [
@@ -419,7 +419,7 @@ const columns = ref([
 ])
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 
@@ -433,7 +433,7 @@ function handleChange(values, indexes) {
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const values = ref(['A', 'B', 'C'])
 const columns = ref([
@@ -465,7 +465,7 @@ function resetValues() {
 }
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 

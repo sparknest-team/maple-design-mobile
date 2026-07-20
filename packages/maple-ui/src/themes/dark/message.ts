@@ -1,0 +1,17 @@
+export default {
+  '--mp-message-width': '256px',
+  '--mp-message-color': 'rgba(255, 255, 255, 0.87)',
+  '--mp-message-border-radius': '4px',
+  '--mp-message-background': '#333',
+  '--mp-message-font-size': 'var(--mp-font-size-md)',
+  '--mp-message-margin': '6px 24px',
+  '--mp-message-border-color': 'currentColor',
+  '--mp-message-success-background': 'var(--mp-color-success)',
+  '--mp-message-info-background': 'var(--mp-color-info)',
+  '--mp-message-error-background': 'var(--mp-color-danger)',
+  '--mp-message-warning-background': 'var(--mp-color-warning)',
+  '--mp-message-content-padding': '14px 16px',
+  '--mp-message-action-margin': '0 8px',
+  '--mp-message-vertical-action-margin': '0 8px 8px 0',
+  '--mp-message-icon-margin': '0 8px',
+}

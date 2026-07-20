@@ -153,7 +153,7 @@ const overlayStyle = ref(false)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const event = ref(false)
 </script>
@@ -165,10 +165,10 @@ const event = ref(false)
 
   <mp-popup
     v-model:show="event"
-    @open="Snackbar.info('open')"
-    @opened="Snackbar.success('opened')"
-    @close="Snackbar.warning('close')"
-    @closed="Snackbar.error('closed')"
+    @open="Message.info('open')"
+    @opened="Message.success('opened')"
+    @close="Message.warning('close')"
+    @closed="Message.error('closed')"
   >
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,

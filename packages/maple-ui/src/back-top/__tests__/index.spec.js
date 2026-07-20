@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import BackTop from '..'
-import { delay, mockScrollTo } from '../../utils/test'
+import { delay, flushRaf, mockScrollTo } from '../../utils/test'
 import VarBackTop from '../BackTop'
 
 mockScrollTo()
@@ -44,6 +44,7 @@ describe('test backTop props', () => {
 
     wrapper.element.scrollTop = 600
     await wrapper.trigger('scroll')
+    await flushRaf()
     expect(backTopEl.classList.contains('mp-back-top--active')).toBe(true)
 
     wrapper.unmount()
@@ -74,6 +75,7 @@ describe('test backTop events', () => {
 
     wrapper.element.scrollTop = 600
     await wrapper.trigger('scroll')
+    await flushRaf()
     await backTopEl.click()
     await delay(500)
 

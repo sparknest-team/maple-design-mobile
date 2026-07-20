@@ -824,10 +824,19 @@
           "attributes": [
             {
               "name": "target",
-              "description": "触发滚动的对象，如果为 `undefined` 会监听距离最近的一个可滚动的祖先节点",
+              "description": "触发滚动的对象，未设置时会监听最近的可滚动祖先",
               "default": "-",
               "value": {
                 "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "teleport",
+              "description": "是否挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative`",
+              "default": "true",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -842,7 +851,7 @@
             },
             {
               "name": "bottom",
-              "description": "`BackTop` 距离页面底部的距离",
+              "description": "距离视口底部的距离",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -851,7 +860,7 @@
             },
             {
               "name": "right",
-              "description": "`BackTop` 距离页面右侧的距离",
+              "description": "距离视口右侧的距离",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -1595,9 +1604,261 @@
         },
         {
           "name": "mp-carousel",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "current(v-model)",
+              "description": "当前展示索引（受控模式）",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-current",
+              "description": "当前展示索引（默认值）",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loop",
+              "description": "是否循环轮播",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autoplay",
+              "description": "自动播放间隔(ms)，传入对象 `{ interval, hoverToPause }` 可开启悬停暂停",
+              "default": "-",
+              "value": {
+                "type": "string | number | CarouselAutoPlayConfig",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "duration",
+              "description": "切换动画时长(ms)",
+              "default": "300",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "initial-index",
+              "description": "初始展示项的索引",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "navigation",
+              "description": "是否显示切换箭头，`'hover'` 时鼠标悬浮才显示",
+              "default": "false",
+              "value": {
+                "type": "boolean | 'hover' | 'always' | 'never'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator",
+              "description": "是否显示指示器",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-color",
+              "description": "指示器颜色",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-class",
+              "description": "指示器自定义 class",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-type",
+              "description": "指示器类型，可选值 `dot` `line` `slider`",
+              "default": "dot",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-position",
+              "description": "指示器位置，可选值 `bottom` `top` `left` `right` `outer`",
+              "default": "bottom",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-class",
+              "description": "切换箭头自定义 class",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "vertical",
+              "description": "是否为垂直轮播",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "touchable",
+              "description": "是否允许触摸滑动",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "draggable",
+              "description": "是否允许鼠标拖拽切换",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "effect",
+              "description": "切换动画类型，可选值 `slide` `fade` `card`",
+              "default": "slide",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "slides-per-view",
+              "description": "每屏显示的 slide 数量，`'auto'` 时由 slide 自身宽度决定",
+              "default": "1",
+              "value": {
+                "type": "number | 'auto'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "space-between",
+              "description": "slide 之间的间距",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "centered-slides",
+              "description": "居中当前 slide（需配合 `slides-per-view` 使用）",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "height",
+              "description": "轮播容器高度",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "transition-timing-function",
+              "description": "动画过渡曲线",
+              "default": "cubic-bezier(0.25, 0.8, 0.5, 1)",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "指示器的触发方式，可选值 `click` `hover`",
+              "default": "click",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mousewheel",
+              "description": "是否允许鼠标滚轮切换",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "keyboard",
+              "description": "是否允许键盘方向键切换",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:current",
+              "description": "`current` 值更新时触发"
+            },
+            {
+              "name": "change",
+              "description": "切换时触发"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "轮播项内容，放置 `CarouselItem`"
+            },
+            {
+              "name": "prev",
+              "description": "自定义上一页按钮"
+            },
+            {
+              "name": "next",
+              "description": "自定义下一页按钮"
+            },
+            {
+              "name": "indicator",
+              "description": "自定义指示器"
+            }
+          ]
         },
         {
           "name": "mp-cell",
@@ -2226,11 +2487,20 @@
           "name": "mp-collapse",
           "attributes": [
             {
-              "name": "v-model",
+              "name": "active-names **(v-model)**",
               "description": "当前展开面板的 name",
               "default": "-",
               "value": {
-                "type": "手风琴模式： string | number<br> 非手风琴模式：string[] | number[]",
+                "type": "(string | number)[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-active-names",
+              "description": "默认展开面板的 name（非受控）",
+              "default": "[]",
+              "value": {
+                "type": "(string | number)[]",
                 "kind": "expression"
               }
             },
@@ -2269,6 +2539,33 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "expand-icon-position",
+              "description": "展开图标位置",
+              "default": "right",
+              "value": {
+                "type": "'left' | 'right'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-expand-icon",
+              "description": "是否显示展开图标",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "destroy-on-hide",
+              "description": "是否在隐藏时销毁内容",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
@@ -2281,6 +2578,10 @@
             {
               "name": "default",
               "description": "折叠面板的内容"
+            },
+            {
+              "name": "expand-icon",
+              "description": "展开图标"
             }
           ]
         },
@@ -2900,8 +3201,17 @@
               }
             },
             {
+              "name": "type",
+              "description": "对话框类型，可选 `info` `success` `warning` `error`（标题前显示对应图标）",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "title",
-              "description": "对话框标题",
+              "description": "标题",
               "default": "提示",
               "value": {
                 "type": "string",
@@ -2910,7 +3220,7 @@
             },
             {
               "name": "width",
-              "description": "对话框宽度",
+              "description": "宽度",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -2919,7 +3229,7 @@
             },
             {
               "name": "message",
-              "description": "对话框内容",
+              "description": "内容（也可使用 default 插槽）",
               "default": "-",
               "value": {
                 "type": "string",
@@ -2928,10 +3238,55 @@
             },
             {
               "name": "message-align",
-              "description": "对话框内容文字对齐方式，可选值 `center` `left` `right`",
+              "description": "内容对齐，可选 `left` `center` `right`",
               "default": "left",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "footer",
+              "description": "是否展示 footer 区域",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-title",
+              "description": "隐藏标题",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "body-class",
+              "description": "内容区 class",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "body-style",
+              "description": "内容区 style",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "关闭后卸载",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -2991,7 +3346,7 @@
             },
             {
               "name": "confirm-button-color",
-              "description": "确认按钮背景颜色",
+              "description": "确认按钮颜色",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3000,7 +3355,7 @@
             },
             {
               "name": "cancel-button-color",
-              "description": "取消按钮背景颜色",
+              "description": "取消按钮颜色",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3008,8 +3363,62 @@
               }
             },
             {
+              "name": "confirm-button-loading",
+              "description": "确认按钮 loading",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-loading",
+              "description": "取消按钮 loading",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-disabled",
+              "description": "确认按钮 disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-disabled",
+              "description": "取消按钮 disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-props",
+              "description": "确认按钮 props",
+              "default": "-",
+              "value": {
+                "type": "ButtonProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-props",
+              "description": "取消按钮 props",
+              "default": "-",
+              "value": {
+                "type": "ButtonProps",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "dialog-class",
-              "description": "对话框主体区域的 class",
+              "description": "对话框 class",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3018,7 +3427,7 @@
             },
             {
               "name": "dialog-style",
-              "description": "对话框主体区域的 style",
+              "description": "对话框 style",
               "default": "-",
               "value": {
                 "type": "object",
@@ -3027,7 +3436,7 @@
             },
             {
               "name": "overlay",
-              "description": "是否显示遮罩层",
+              "description": "是否显示遮罩",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3036,7 +3445,7 @@
             },
             {
               "name": "overlay-class",
-              "description": "自定义遮罩层的 class",
+              "description": "遮罩 class",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3045,7 +3454,7 @@
             },
             {
               "name": "overlay-style",
-              "description": "自定义遮罩层的 style",
+              "description": "遮罩 style",
               "default": "-",
               "value": {
                 "type": "object",
@@ -3054,7 +3463,7 @@
             },
             {
               "name": "lock-scroll",
-              "description": "是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动",
+              "description": "是否锁定滚动",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3063,7 +3472,7 @@
             },
             {
               "name": "close-on-click-overlay",
-              "description": "是否点击遮罩层关闭弹出层",
+              "description": "点击遮罩关闭",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3072,7 +3481,7 @@
             },
             {
               "name": "close-on-key-escape",
-              "description": "是否支持键盘 ESC 关闭弹窗",
+              "description": "ESC 关闭",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3081,7 +3490,7 @@
             },
             {
               "name": "teleport",
-              "description": "弹出层挂载的位置",
+              "description": "挂载位置",
               "default": "body",
               "value": {
                 "type": "TeleportProps['to'] | false",
@@ -3092,53 +3501,53 @@
           "events": [
             {
               "name": "open",
-              "description": "打开对话框时触发"
+              "description": "打开时触发"
             },
             {
               "name": "opened",
-              "description": "打开对话框动画结束时触发"
-            },
-            {
-              "name": "before-close",
-              "description": "对话框关闭前触发，会阻止关闭"
+              "description": "打开动画结束"
             },
             {
               "name": "close",
-              "description": "关闭对话框时触发"
+              "description": "关闭时触发"
             },
             {
               "name": "closed",
-              "description": "关闭对话框动画结束时触发"
+              "description": "关闭动画结束"
+            },
+            {
+              "name": "before-close",
+              "description": "关闭前拦截"
             },
             {
               "name": "confirm",
-              "description": "确认时触发"
+              "description": "点击确认"
             },
             {
               "name": "cancel",
-              "description": "取消时触发"
+              "description": "点击取消"
             },
             {
               "name": "click-overlay",
-              "description": "点击遮罩层时触发"
+              "description": "点击遮罩"
             },
             {
               "name": "key-escape",
-              "description": "点击键盘 ESC 时触发"
+              "description": "按下 ESC"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "对话框主要内容"
+              "description": "内容"
             },
             {
               "name": "title",
-              "description": "对话框标题"
+              "description": "标题"
             },
             {
-              "name": "actions",
-              "description": "对话框底部操作区域"
+              "name": "footer",
+              "description": "底部操作区"
             }
           ]
         },
@@ -3963,7 +4372,7 @@
             },
             {
               "name": "position",
-              "description": "可替换元素的内容在其内容框中的位置，等同于 [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position)",
+              "description": "图片内容位置，等同 CSS `object-position`",
               "default": "50% 50%",
               "value": {
                 "type": "string",
@@ -3972,7 +4381,7 @@
             },
             {
               "name": "alt",
-              "description": "替代文本，和 `img` 标签原生属性一致",
+              "description": "替代文本",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3981,7 +4390,7 @@
             },
             {
               "name": "title",
-              "description": "图片描述性文字，和 `img` 标签原生属性一致",
+              "description": "图片描述，透传给 `img` 的 `title` 属性",
               "default": "-",
               "value": {
                 "type": "string",
@@ -4068,6 +4477,42 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "preview",
+              "description": "是否开启点击预览（详见 ImagePreview 文档）",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "preview-src",
+              "description": "预览大图地址，默认与 `src` 相同",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:preview-visible",
+              "description": "受控预览状态",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "preview-props",
+              "description": "透传给 `ImagePreview` 的配置",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
@@ -4082,6 +4527,10 @@
             {
               "name": "error",
               "description": "图片失败加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在尝试次数结束时触发)"
+            },
+            {
+              "name": "preview-visible-change",
+              "description": "预览打开/关闭时触发"
             }
           ],
           "slots": [
@@ -4095,7 +4544,7 @@
           "name": "mp-image-preview",
           "attributes": [
             {
-              "name": "v-model:show",
+              "name": "v-model:visible",
               "description": "是否显示",
               "default": "false",
               "value": {
@@ -4113,11 +4562,20 @@
               }
             },
             {
-              "name": "initial-index",
-              "description": "图片预览起始的索引",
+              "name": "src",
+              "description": "单图预览地址",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "current",
+              "description": "当前图片索引",
               "default": "0",
               "value": {
-                "type": "string | number",
+                "type": "number",
                 "kind": "expression"
               }
             },
@@ -4131,18 +4589,9 @@
               }
             },
             {
-              "name": "closeable",
+              "name": "closable",
               "description": "是否显示关闭按钮",
               "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-key-escape",
-              "description": "是否支持键盘 ESC 图片预览",
-              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -4169,6 +4618,15 @@
             {
               "name": "lock-scroll",
               "description": "锁定滚动",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-key-escape",
+              "description": "是否支持键盘 ESC 关闭",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -5415,6 +5873,160 @@
             {
               "name": "options",
               "description": "菜单选项内容"
+            }
+          ]
+        },
+        {
+          "name": "mp-message",
+          "attributes": [
+            {
+              "name": "v-model:show",
+              "description": "是否显示",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "类型：`success` `warning` `info` `error` `loading` `normal`",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "position",
+              "description": "位置：`top` `center` `bottom`",
+              "default": "top",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content",
+              "description": "内容",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-class",
+              "description": "内容 class",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "duration",
+              "description": "显示时长（ms），`0` 不自动关闭",
+              "default": "3000",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "海拔",
+              "default": "true",
+              "value": {
+                "type": "boolean | string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "vertical",
+              "description": "垂直布局",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-icon",
+              "description": "是否显示图标",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "closable",
+              "description": "是否显示关闭按钮",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "forbid-click",
+              "description": "禁止穿透点击",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "lock-scroll",
+              "description": "锁定滚动",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "teleport",
+              "description": "挂载位置",
+              "default": "body",
+              "value": {
+                "type": "TeleportProps['to'] | false",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "description": "打开时触发"
+            },
+            {
+              "name": "opened",
+              "description": "打开动画结束"
+            },
+            {
+              "name": "close",
+              "description": "关闭时触发"
+            },
+            {
+              "name": "closed",
+              "description": "关闭动画结束"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "内容"
+            },
+            {
+              "name": "icon",
+              "description": "图标"
+            },
+            {
+              "name": "action",
+              "description": "右侧操作区"
             }
           ]
         },
@@ -7356,178 +7968,6 @@
           ]
         },
         {
-          "name": "mp-snackbar",
-          "attributes": [
-            {
-              "name": "v-model:show",
-              "description": "是否显示 `Snackbar`",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "type",
-              "description": "`Snackbar` 类型，可选值为 `success warning info error loading`",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "position",
-              "description": "`Snackbar`  位置，可选值为 `top center bottom`",
-              "default": "top",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "duration",
-              "description": "显示时长",
-              "default": "3000",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "content",
-              "description": "自定义内容",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "content-class",
-              "description": "自定义内容的类名",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "vertical",
-              "description": "是否启用竖直排列方式",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-type",
-              "description": "Loading类型(见 `Loading` 组件)",
-              "default": "circle",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-size",
-              "description": "Loading大小(见 `Loading` 组件)",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-color",
-              "description": "loading颜色(见 `loading`组件)",
-              "default": "currentColor",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-radius",
-              "description": "Loading半径大小(见 `Loading` 组件)",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lock-scroll",
-              "description": "是否禁止滚动穿透",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "forbid-click",
-              "description": "是否禁止穿透点击",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "teleport",
-              "description": "弹出层挂载的位置",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "打开 `Snackbar` 时触发"
-            },
-            {
-              "name": "opened",
-              "description": "打开 `Snackbar` 动画结束时触发"
-            },
-            {
-              "name": "close",
-              "description": "关闭 `Snackbar` 时触发"
-            },
-            {
-              "name": "closed",
-              "description": "关闭 `Snackbar` 动画结束时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "`Snackbar` 内容"
-            },
-            {
-              "name": "icon",
-              "description": "`Snackbar` 图标"
-            },
-            {
-              "name": "action",
-              "description": "`Snackbar` 右边动作区"
-            }
-          ]
-        },
-        {
           "name": "mp-space",
           "attributes": [
             {
@@ -7754,12 +8194,21 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "target",
+              "description": "滚动容器，默认自动查找最近可滚动父元素",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | Window",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
             {
-              "name": "scroll",
-              "description": "当滚动容器滚动时触发"
+              "name": "change",
+              "description": "固定状态发生改变时触发"
             }
           ],
           "slots": [

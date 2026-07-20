@@ -70,14 +70,14 @@
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
   <mp-breadcrumb>
-    <mp-breadcrumb-item @click="Snackbar('首页')">首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item @click="Snackbar('一级')">一级</mp-breadcrumb-item>
-    <mp-breadcrumb-item @click="Snackbar('二级')">二级</mp-breadcrumb-item>
+    <mp-breadcrumb-item @click="Message('首页')">首页</mp-breadcrumb-item>
+    <mp-breadcrumb-item @click="Message('一级')">一级</mp-breadcrumb-item>
+    <mp-breadcrumb-item @click="Message('二级')">二级</mp-breadcrumb-item>
   </mp-breadcrumb>
 </template>
 ```

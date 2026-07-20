@@ -27,7 +27,7 @@ module.exports = __toCommonJS(src_exports);
 var import_maple_shared = require("@maplejs/maple-shared");
 var varFunctions = [
   "ImagePreview",
-  "Snackbar",
+  "Message",
   "Picker",
   "ActionSheet",
   "Dialog",

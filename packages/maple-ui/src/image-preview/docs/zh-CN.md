@@ -26,7 +26,7 @@ function preview() {
 
 ```html
 <script setup>
-import { previewImage, Snackbar } from '@maplejs/maple-ui'
+import { previewImage, Message } from '@maplejs/maple-ui'
 
 function preview() {
   previewImage({
@@ -35,7 +35,7 @@ function preview() {
       'https://maplejs.org/cat2.jpg'
     ],
     onChange(index) {
-      Snackbar(String(index))
+      Message(String(index))
     }
   })
 }
@@ -179,7 +179,7 @@ const images = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const visible = ref(false)
 const images = ref([
@@ -199,7 +199,7 @@ const images = ref([
   <mp-image-preview
     :images="images"
     v-model:visible="visible"
-    @close="Snackbar('触发了关闭事件。')"
+    @close="Message('触发了关闭事件。')"
   />
 </template>
 ```
@@ -211,7 +211,7 @@ const images = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const visible = ref(false)
 const images = ref([
@@ -232,7 +232,7 @@ const images = ref([
     image-prevent-default
     :images="images"
     v-model:visible="visible"
-    @long-press="Snackbar('触发了长按事件')"
+    @long-press="Message('触发了长按事件')"
   />
 </template>
 ```

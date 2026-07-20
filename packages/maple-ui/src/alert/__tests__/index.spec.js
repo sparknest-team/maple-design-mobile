@@ -26,9 +26,17 @@ describe('alert props', () => {
     })
   })
 
-  test('default type renders fallback information icon', () => {
+  test('default type hides built-in icon', () => {
     const wrapper = mount(VarAlert, { props: { type: 'default' } })
-    expect(wrapper.find('.mp-alert__icon').exists()).toBe(true)
+    expect(wrapper.find('.mp-alert__icon').exists()).toBe(false)
+  })
+
+  test('default type shows custom icon slot', () => {
+    const wrapper = mount(VarAlert, {
+      props: { type: 'default' },
+      slots: { icon: '<i class="custom-icon" />' },
+    })
+    expect(wrapper.find('.mp-alert__icon .custom-icon').exists()).toBe(true)
   })
 
   test('showIcon=false hides icon', () => {

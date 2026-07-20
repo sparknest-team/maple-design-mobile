@@ -22,6 +22,8 @@ Alerts display brief messages for the user without interrupting their use.
 
 ### Type 
 
+`type`: `info` / `success` / `warning` / `danger` / `default`. `default` has no built-in icon; use `#icon` to customize.
+
 ```html
 <template>
   <mp-space direction="column" size="large">
@@ -43,6 +45,11 @@ Alerts display brief messages for the user without interrupting their use.
       title="Pride And Prejudice" 
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
       type="danger"
+    />
+    <mp-alert 
+      title="Pride And Prejudice" 
+      message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
+      type="default"
     />
   </mp-space>
 </template>
@@ -97,13 +104,34 @@ const show = ref(true)
 
 <template>
   <mp-alert 
+    v-if="show"
     title="Pride And Prejudice" 
     message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
-    closeable
+    closable
     @close="show = false"
-  >
-    <template #icon>
-      <mp-icon name="heart" />
+  />
+</template>
+```
+
+### Custom Close Icon
+
+```html
+<template>
+  <mp-alert title="Pride And Prejudice" message="…" closable>
+    <template #close-icon>
+      <mp-icon name="window-close" />
+    </template>
+  </mp-alert>
+</template>
+```
+
+### Action
+
+```html
+<template>
+  <mp-alert title="Pride And Prejudice" message="…">
+    <template #action>
+      <mp-button size="mini" type="primary">Detail</mp-button>
     </template>
   </mp-alert>
 </template>
@@ -116,7 +144,7 @@ const show = ref(true)
 
 | Prop | Description | Type | Default |
 | ---- | ---- | ---- | ---- |
-| `type` | Type, optional values are `info`, `success`, `warning`, `danger` | _string_ | `info` | 
+| `type` | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _string_ | `info` | 
 | `variant`   | Variant, optional values are `standard` `outlined` `tonal` | _string_ | `standard` |
 | `color` | Background color | string | `-` | 
 | `title` | Title | string | `-` | 

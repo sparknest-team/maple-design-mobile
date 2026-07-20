@@ -240,8 +240,8 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     closeSelf: true,
     characterDelta: -3,
   },
-  snackbar: {
-    path: '/snackbar',
+  message: {
+    path: '/message',
     attrs: ['type=""'],
     characterDelta: -2,
   },

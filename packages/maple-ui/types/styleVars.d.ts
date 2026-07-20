@@ -1,12 +1,9 @@
 type RemoveTwoDashes<T extends string> = T extends `--${infer Rest}` ? Rest : T
 
-type CamelCase<S extends string> =
-  S extends `${infer P1}-${infer P2}`
-    ? `${P1}${CamelCase<Capitalize<P2>>}`
-    : S
+type CamelCase<S extends string> = S extends `${infer P1}-${infer P2}` ? `${P1}${CamelCase<Capitalize<P2>>}` : S
 
 type FormatStyleVars<T> = {
-  [K in keyof T as  CamelCase<RemoveTwoDashes<K & string>>]?: T[K];
+  [K in keyof T as CamelCase<RemoveTwoDashes<K & string>>]?: T[K]
 } & T
 
 interface BaseStyleVars {
@@ -157,6 +154,18 @@ interface BaseStyleVars {
   '--card-close-button-primary-color'?: string
   '--card-close-button-text-color'?: string
   '--card-close-button-border-radius'?: string
+  '--carousel-indicator-color'?: string
+  '--carousel-indicators-offset'?: string
+  '--carousel-indicator-offset'?: string
+  '--carousel-navigation-z-index'?: string
+  '--carousel-navigation-button-width'?: string
+  '--carousel-navigation-button-height'?: string
+  '--carousel-navigation-button-border-radius'?: string
+  '--carousel-navigation-icon-size'?: string
+  '--carousel-navigation-prev-left'?: string
+  '--carousel-navigation-next-right'?: string
+  '--carousel-navigation-prev-top'?: string
+  '--carousel-navigation-next-bottom'?: string
   '--cell-color'?: string
   '--cell-font-size'?: string
   '--cell-description-font-size'?: string
@@ -428,6 +437,20 @@ interface BaseStyleVars {
   '--menu-option-selected-background'?: string
   '--menu-option-text-color'?: string
   '--menu-option-disabled-color'?: string
+  '--message-width'?: string
+  '--message-color'?: string
+  '--message-border-radius'?: string
+  '--message-background'?: string
+  '--message-font-size'?: string
+  '--message-margin'?: string
+  '--message-success-background'?: string
+  '--message-info-background'?: string
+  '--message-error-background'?: string
+  '--message-warning-background'?: string
+  '--message-content-padding'?: string
+  '--message-action-margin'?: string
+  '--message-icon-margin'?: string
+  '--message-vertical-action-margin'?: string
   '--overlay-background-color'?: string
   '--pagination-text-color'?: string
   '--pagination-font-size'?: string
@@ -566,21 +589,6 @@ interface BaseStyleVars {
   '--slider-thumb-label-text-color'?: string
   '--slider-thumb-size'?: string
   '--slider-disabled-opacity'?: string
-  '--snackbar-width'?: string
-  '--snackbar-color'?: string
-  '--snackbar-border-radius'?: string
-  '--snackbar-background'?: string
-  '--snackbar-font-size'?: string
-  '--snackbar-margin'?: string
-  '--snackbar-border-color'?: string
-  '--snackbar-success-background'?: string
-  '--snackbar-info-background'?: string
-  '--snackbar-error-background'?: string
-  '--snackbar-warning-background'?: string
-  '--snackbar-content-padding'?: string
-  '--snackbar-action-margin'?: string
-  '--snackbar-icon-margin'?: string
-  '--snackbar-vertical-action-margin'?: string
   '--mp-space-size-xs-row-gap'?: string
   '--mp-space-size-xs-column-gap'?: string
   '--mp-space-size-sm-row-gap'?: string

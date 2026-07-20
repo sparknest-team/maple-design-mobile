@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale/index'
 
 const trigger = ref('click')
@@ -96,10 +96,10 @@ onThemeChange()
   <app-type>{{ t('events') }}</app-type>
   <mp-tooltip
     content="Tooltip"
-    @open="Snackbar.info('open')"
-    @opened="Snackbar.success('opened')"
-    @close="Snackbar.warning('close')"
-    @closed="Snackbar.error('closed')"
+    @open="Message.info('open')"
+    @opened="Message.success('opened')"
+    @close="Message.warning('close')"
+    @closed="Message.error('closed')"
   >
     <mp-button type="primary">{{ t('events') }}</mp-button>
   </mp-tooltip>

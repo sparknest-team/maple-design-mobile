@@ -793,10 +793,19 @@
           "attributes": [
             {
               "name": "target",
-              "description": "The target to trigger scroll. If it is `undefined`, back top will listen to the nearest scrollable parent.",
+              "description": "The target to trigger scroll. When unset, the nearest scrollable ancestor is detected automatically.",
               "default": "-",
               "value": {
                 "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "teleport",
+              "description": "Whether to mount to body. When `false`, the button is positioned relative to its parent, which should have `position: relative`.",
+              "default": "true",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -811,7 +820,7 @@
             },
             {
               "name": "bottom",
-              "description": "Distance between `BackTop` and page bottom",
+              "description": "Distance from the bottom of the viewport",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -820,7 +829,7 @@
             },
             {
               "name": "right",
-              "description": "Distance between `BackTop` and page right",
+              "description": "Distance from the right of the viewport",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -1613,9 +1622,261 @@
         },
         {
           "name": "mp-carousel",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "current(v-model)",
+              "description": "Current slide index (controlled mode)",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-current",
+              "description": "Default current slide index",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loop",
+              "description": "Whether to loop infinitely",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autoplay",
+              "description": "Autoplay interval(ms). Object `{ interval, hoverToPause }` to enable hover pause",
+              "default": "-",
+              "value": {
+                "type": "string | number | CarouselAutoPlayConfig",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "duration",
+              "description": "Transition duration(ms)",
+              "default": "300",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "initial-index",
+              "description": "Index of initial slide",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "navigation",
+              "description": "Show navigation arrows. `'hover'` shows on hover",
+              "default": "false",
+              "value": {
+                "type": "boolean | 'hover' | 'always' | 'never'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator",
+              "description": "Whether to show indicator dots",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-color",
+              "description": "Color of indicator dots",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-class",
+              "description": "Custom class for indicator",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-type",
+              "description": "Indicator type, options: `dot` `line` `slider`",
+              "default": "dot",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-position",
+              "description": "Indicator position, options: `bottom` `top` `left` `right` `outer`",
+              "default": "bottom",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-class",
+              "description": "Custom class for navigation arrows",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "vertical",
+              "description": "Whether to enable vertical carousel",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "touchable",
+              "description": "Whether to enable touch swiping",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "draggable",
+              "description": "Whether to enable mouse dragging",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "effect",
+              "description": "Transition effect, options: `slide` `fade` `card`",
+              "default": "slide",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "slides-per-view",
+              "description": "Number of slides visible per view. `'auto'` uses slide's own width",
+              "default": "1",
+              "value": {
+                "type": "number | 'auto'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "space-between",
+              "description": "Gap between slides",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "centered-slides",
+              "description": "Center the active slide (works with `slides-per-view`)",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "height",
+              "description": "Carousel container height",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "transition-timing-function",
+              "description": "CSS transition timing function",
+              "default": "cubic-bezier(0.25, 0.8, 0.5, 1)",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "Indicator trigger method, options: `click` `hover`",
+              "default": "click",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mousewheel",
+              "description": "Whether to enable mousewheel navigation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "keyboard",
+              "description": "Whether to enable keyboard arrow navigation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:current",
+              "description": "Emitted when `current` value updates"
+            },
+            {
+              "name": "change",
+              "description": "Emitted when the active slide changes"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Carousel items, place `CarouselItem` here"
+            },
+            {
+              "name": "prev",
+              "description": "Custom previous button"
+            },
+            {
+              "name": "next",
+              "description": "Custom next button"
+            },
+            {
+              "name": "indicator",
+              "description": "Custom indicator"
+            }
+          ]
         },
         {
           "name": "mp-cell",
@@ -2244,11 +2505,20 @@
           "name": "mp-collapse",
           "attributes": [
             {
-              "name": "v-model",
+              "name": "active-names **(v-model)**",
               "description": "Names of current active panels",
               "default": "-",
               "value": {
-                "type": "accordion mode： string | number <br> non-accordion mode：string[] | number[]",
+                "type": "(string | number)[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-active-names",
+              "description": "Default active panel names (uncontrolled)",
+              "default": "[]",
+              "value": {
+                "type": "(string | number)[]",
                 "kind": "expression"
               }
             },
@@ -2287,18 +2557,49 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "expand-icon-position",
+              "description": "Expand icon position",
+              "default": "right",
+              "value": {
+                "type": "'left' | 'right'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-expand-icon",
+              "description": "Whether to show expand icon",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "destroy-on-hide",
+              "description": "Whether to destroy content when hidden",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
             {
               "name": "change",
-              "description": "Emitted when active index changed"
+              "description": "Emitted when active names changed"
             }
           ],
           "slots": [
             {
               "name": "default",
               "description": "Content of collapse"
+            },
+            {
+              "name": "expand-icon",
+              "description": "Expand icon"
             }
           ]
         },
@@ -2910,7 +3211,7 @@
           "attributes": [
             {
               "name": "v-model:show",
-              "description": "Whether to display a Dialog",
+              "description": "Whether to display the dialog",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -2918,8 +3219,17 @@
               }
             },
             {
+              "name": "type",
+              "description": "Dialog type: `info` `success` `warning` `error` (shows icon in title)",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "title",
-              "description": "Dialog title",
+              "description": "Title",
               "default": "Hint",
               "value": {
                 "type": "string",
@@ -2928,7 +3238,7 @@
             },
             {
               "name": "width",
-              "description": "Dialog width",
+              "description": "Width",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -2937,7 +3247,7 @@
             },
             {
               "name": "message",
-              "description": "Dialog message content",
+              "description": "Message (or use default slot)",
               "default": "-",
               "value": {
                 "type": "string",
@@ -2946,7 +3256,7 @@
             },
             {
               "name": "message-align",
-              "description": "Dialog message content text alignment, optional values `center`, `left`, `right`",
+              "description": "Message alignment: `left` `center` `right`",
               "default": "left",
               "value": {
                 "type": "string",
@@ -2954,8 +3264,53 @@
               }
             },
             {
+              "name": "footer",
+              "description": "Show footer area",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-title",
+              "description": "Hide title",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "body-class",
+              "description": "Body class",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "body-style",
+              "description": "Body style",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "Unmount after close",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "confirm-button",
-              "description": "Whether to display the confirm button",
+              "description": "Show confirm button",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -2964,7 +3319,7 @@
             },
             {
               "name": "cancel-button",
-              "description": "Whether to display the cancel button",
+              "description": "Show cancel button",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3009,7 +3364,7 @@
             },
             {
               "name": "confirm-button-color",
-              "description": "Confirm button background color",
+              "description": "Confirm button color",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3018,7 +3373,7 @@
             },
             {
               "name": "cancel-button-color",
-              "description": "Cancel button background color",
+              "description": "Cancel button color",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3026,8 +3381,62 @@
               }
             },
             {
+              "name": "confirm-button-loading",
+              "description": "Confirm button loading",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-loading",
+              "description": "Cancel button loading",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-disabled",
+              "description": "Confirm button disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-disabled",
+              "description": "Cancel button disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-props",
+              "description": "Confirm button props",
+              "default": "-",
+              "value": {
+                "type": "ButtonProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-props",
+              "description": "Cancel button props",
+              "default": "-",
+              "value": {
+                "type": "ButtonProps",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "dialog-class",
-              "description": "Dialog body class",
+              "description": "Dialog class",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3036,7 +3445,7 @@
             },
             {
               "name": "dialog-style",
-              "description": "Dialog body style",
+              "description": "Dialog style",
               "default": "-",
               "value": {
                 "type": "object",
@@ -3045,7 +3454,7 @@
             },
             {
               "name": "overlay",
-              "description": "Whether to display the overlay",
+              "description": "Show overlay",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3054,7 +3463,7 @@
             },
             {
               "name": "overlay-class",
-              "description": "Custom overlay class",
+              "description": "Overlay class",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3063,16 +3472,16 @@
             },
             {
               "name": "overlay-style",
-              "description": "Custom overlay style",
+              "description": "Overlay style",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "object",
                 "kind": "expression"
               }
             },
             {
               "name": "lock-scroll",
-              "description": "Whether to disable scrolling penetration, scrolling the Dialog when disabled will not cause the body to scroll",
+              "description": "Lock body scroll",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3081,7 +3490,7 @@
             },
             {
               "name": "close-on-click-overlay",
-              "description": "Whether to click the overlay to close the Dialog",
+              "description": "Close on overlay click",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3090,7 +3499,7 @@
             },
             {
               "name": "close-on-key-escape",
-              "description": "Whether to support keyboard ESC to close the dialog",
+              "description": "Close on ESC",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3099,7 +3508,7 @@
             },
             {
               "name": "teleport",
-              "description": "The location of the Dialog to mount",
+              "description": "Teleport target",
               "default": "body",
               "value": {
                 "type": "TeleportProps['to'] | false",
@@ -3110,53 +3519,53 @@
           "events": [
             {
               "name": "open",
-              "description": "Triggered when the Dialog is open"
+              "description": "Emitted when opening"
             },
             {
               "name": "opened",
-              "description": "Triggered when the Dialog open-animation ends"
-            },
-            {
-              "name": "before-close",
-              "description": "Triggering before the Dialog closes prevents closure"
+              "description": "Emitted after open animation"
             },
             {
               "name": "close",
-              "description": "Triggered when the Dialog is close"
+              "description": "Emitted when closing"
             },
             {
               "name": "closed",
-              "description": "Triggered when the Dialog close-animation ends"
+              "description": "Emitted after close animation"
+            },
+            {
+              "name": "before-close",
+              "description": "Before close (can prevent)"
             },
             {
               "name": "confirm",
-              "description": "Triggered on confirm"
+              "description": "On confirm"
             },
             {
               "name": "cancel",
-              "description": "Triggered on cancel"
+              "description": "On cancel"
             },
             {
               "name": "click-overlay",
-              "description": "Triggered when clicking on overlay"
+              "description": "On overlay click"
             },
             {
               "name": "key-escape",
-              "description": "Triggered when click keyboard ESC"
+              "description": "On ESC"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Dialog content message"
+              "description": "Content"
             },
             {
               "name": "title",
-              "description": "Dialog title"
+              "description": "Title"
             },
             {
-              "name": "actions",
-              "description": "Dialog actions"
+              "name": "footer",
+              "description": "Footer actions"
             }
           ]
         },
@@ -4086,6 +4495,42 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "preview",
+              "description": "Whether to enable click preview",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "preview-src",
+              "description": "Preview image URL, defaults to `src`",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:preview-visible",
+              "description": "Controlled preview visibility",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "preview-props",
+              "description": "Props passed to `ImagePreview`",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
@@ -4100,6 +4545,10 @@
             {
               "name": "error",
               "description": "Triggered when an image fails to load (when an image fails in lazy loading mode, it will only be triggered when the number of attempts ends)"
+            },
+            {
+              "name": "preview-visible-change",
+              "description": "Triggered when preview opens or closes"
             }
           ],
           "slots": [
@@ -4113,7 +4562,7 @@
           "name": "mp-image-preview",
           "attributes": [
             {
-              "name": "v-model:show",
+              "name": "v-model:visible",
               "description": "Whether or display",
               "default": "false",
               "value": {
@@ -4131,11 +4580,20 @@
               }
             },
             {
-              "name": "initial-index",
+              "name": "src",
+              "description": "Single image URL",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "current",
               "description": "Index from which the image preview starts",
               "default": "0",
               "value": {
-                "type": "string | number",
+                "type": "number",
                 "kind": "expression"
               }
             },
@@ -4149,7 +4607,7 @@
               }
             },
             {
-              "name": "closeable",
+              "name": "closable",
               "description": "Whether to show the close button",
               "default": "false",
               "value": {
@@ -5444,6 +5902,121 @@
               "description": "Menu select options"
             }
           ]
+        },
+        {
+          "name": "mp-message",
+          "attributes": [
+            {
+              "name": "v-model:show",
+              "description": "Whether to show",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "`success` `warning` `info` `error` `loading` `normal`",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "position",
+              "description": "`top` `center` `bottom`",
+              "default": "top",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content",
+              "description": "Content",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "duration",
+              "description": "Duration ms; `0` means no auto close",
+              "default": "3000",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-icon",
+              "description": "Show icon",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "closable",
+              "description": "Show close button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "vertical",
+              "description": "Vertical layout",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "forbid-click",
+              "description": "Block click through",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "lock-scroll",
+              "description": "Lock scroll",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Elevation",
+              "default": "true",
+              "value": {
+                "type": "boolean | string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "teleport",
+              "description": "Teleport target",
+              "default": "body",
+              "value": {
+                "type": "TeleportProps['to'] | false",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-option",
@@ -7211,178 +7784,6 @@
           ]
         },
         {
-          "name": "mp-snackbar",
-          "attributes": [
-            {
-              "name": "v-model:show",
-              "description": "Whether to show `Snackbar`",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "type",
-              "description": "`Snackbar` type, Optional value is one of `success, warning, info, error, loading`",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "position",
-              "description": "`Snackbar` position, Optional value is one of `top, center, bottom`",
-              "default": "top",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "duration",
-              "description": "Display duration",
-              "default": "3000",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "content",
-              "description": "Custom content",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "content-class",
-              "description": "Class of custom content",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "vertical",
-              "description": "Whether to use multi-line",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-type",
-              "description": "Loading type (see `Loading` component)",
-              "default": "circle",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-size",
-              "description": "Loading size (see `Loading` component)",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-color",
-              "description": "Loading color (see `Loading` component)",
-              "default": "currentColor",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-radius",
-              "description": "Loading radius (see `Loading` component)",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lock-scroll",
-              "description": "Whether to disable rolling penetration",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "forbid-click",
-              "description": "Whether to penetrating clicks are forbidden",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "teleport",
-              "description": "The location of the Snackbar to mount",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "Triggered when the `Snackbar` is open"
-            },
-            {
-              "name": "opened",
-              "description": "Triggered when the `Snackbar` open-animation ends"
-            },
-            {
-              "name": "close",
-              "description": "Triggered when the `Snackbar` is close"
-            },
-            {
-              "name": "closed",
-              "description": "Triggered when the `Snackbar` close-animation ends"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "`Snackbar` content message"
-            },
-            {
-              "name": "icon",
-              "description": "`Snackbar` icon"
-            },
-            {
-              "name": "action",
-              "description": "`Snackbar` action of right"
-            }
-          ]
-        },
-        {
           "name": "mp-space",
           "attributes": [
             {
@@ -7605,12 +8006,21 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "target",
+              "description": "Scroll container, defaults to the nearest scrollable parent",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | Window",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
             {
-              "name": "scroll",
-              "description": "Triggered when the scroll container rolls"
+              "name": "change",
+              "description": "Emitted when the fixed state changes"
             }
           ],
           "slots": [

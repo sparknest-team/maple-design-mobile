@@ -17,5 +17,9 @@ export const props = {
   },
   bottom: [Number, String],
   target: [String, Object] as PropType<string | HTMLElement>,
+  teleport: {
+    type: Boolean,
+    default: true,
+  },
   onClick: defineListenerProp<(event: Event) => void>(),
 }

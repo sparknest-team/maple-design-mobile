@@ -1,321 +1,105 @@
 # Dialog
 
-### Intro
+### Description
 
-A dialog pops up to display the content and handle the user interaction.
-`Dialog` have provided functional and component usage, and there is no essential difference between the two usage effects and parameters.
+Display a dialog for user interaction. `Dialog` supports both **component** and **function** usage with the same API.
+
+- Simple confirm: pass `message` with default buttons
+- Custom content: use `default` / `title` / `footer` slots
+- No separate Modal component — everything is `Dialog`
 
 ## Function Call
 
-### Basic Usage
+See the Chinese documentation for examples. API tables below match the component implementation.
 
-```html
-<script setup>
-import { Dialog } from '@maplejs/maple-ui'
-</script>
+### Type Icon
 
-<template>
-  <mp-button type="primary" block @click="Dialog('Don\'t Wanna See No Blood, Don\'t Be A Macho Man')">Basic Use</mp-button>
-</template>
-```
+Set `type` to `info` / `success` / `warning` / `error` to show the corresponding icon before the title.
 
-### Modify Title
+### Confirm Box
 
-```html
-<script setup>
-import { Dialog } from '@maplejs/maple-ui'
-
-function modifyTitle() {
-  Dialog({
-    title: 'Beat It',
-    message: 'Don\'t Wanna See No Blood, Don\'t Be A Macho Man',
-  })
-}
-</script>
-
-<template>
-  <mp-button type="primary" block @click="modifyTitle">Modify Title</mp-button>
-</template>
-```
-
-### Hide Button
-
-```html
-<script setup>
-import { Dialog } from '@maplejs/maple-ui'
-
-function hideButton() {
-  Dialog({
-    message: 'Don\'t Wanna See No Blood, Don\'t Be A Macho Man',
-    confirmButton: false,
-    cancelButton: false,
-  })
-}
-</script>
-
-<template>
-  <mp-button type="primary" block @click="hideButton">Hide Button</mp-button>
-</template>
-```
-
-### Handler User Behavior
-
-You can get user behavior from the method's return value, which is a `Promise`.
-Includes `confirm`, `cancel`, and `close(click the overlay to trigger closure)`.
-
-```html
-<script setup>
-import { Dialog, Snackbar } from '@maplejs/maple-ui'
-
-const actions = {
-  confirm: () => Snackbar.success('confirm'),
-  cancel: () => Snackbar.error('cancel'),
-  close: () => Snackbar.info('close'),
-}
-
-async function createAction() {
-  actions[await Dialog('Don\'t Wanna See No Blood, Don\'t Be A Macho Man')]()
-}
-</script>
-
-<template>
-  <mp-button type="primary" block @click="createAction">Handling user behavior</mp-button>
-</template>
-```
-
-### Asynchronous Closing
-
-You can use `onBeforeClose` to intercept before closing, and you can get the user behavior from the parameters, and the callback function that triggers the shutdown.
-
-```html
-<script setup>
-import { Dialog, Snackbar } from '@maplejs/maple-ui'
-
-const actions = {
-  confirm: () => Snackbar.success('confirm'),
-  cancel: () => Snackbar.error('cancel'),
-  close: () => Snackbar.info('close'),
-}
-
-function onBeforeClose(action, done) {
-  Snackbar.loading('Asynchronous shutdown in progress')
-
-  setTimeout(() => {
-    actions[action]()
-    done()
-  }, 1000)
-}
-
-function createAction() {
-  Dialog({
-    message: 'Don\'t Wanna See No Blood, Don\'t Be A Macho Man',
-    onBeforeClose
-  })
-}
-</script>
-
-<template>
-  <mp-button type="primary" block @click="createAction">Asynchronous closing</mp-button>
-</template>
-```
-
-## Component Call
-
-### Basic Usage
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
-   
-const show = ref(false)
-</script>
-
-<template>
-  <mp-button type="warning" block @click="show = true">Basic Use</mp-button>
-  <mp-dialog
-    title="Beat It"
-    message="Don't Wanna See No Blood, Don't Be A Macho Man"
-    v-model:show="show"
-    @confirm="Snackbar.success('confirm')"
-    @cancel="Snackbar.error('cancel')"
-    @closed="Snackbar.info('closed')"
-  />
-</template>
-```
-
-### Asynchronous Closing
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
-
-const show = ref(false)
-
-const actions = {
-  confirm: () => Snackbar.success('confirm'),
-  cancel: () => Snackbar.error('cancel'),
-  close: () => Snackbar.info('close'),
-}
-
-function onBeforeClose(action, done) {
-  Snackbar.loading('Asynchronous shutdown in progress')
-
-  setTimeout(() => {
-    actions[action]()
-    done()
-   }, 1000)
-}
-</script>
-
-<template>
-  <mp-button type="warning" block @click="show = true">Asynchronous closing</mp-button>
-  <mp-dialog
-    title="Beat It"
-    message="Don't Wanna See No Blood, Don't Be A Macho Man"
-    v-model:show="show"
-    @before-close="onBeforeClose"
-  />
-</template>
-```
-
-### Custom Slots
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const show = ref(false)
-</script>
-
-<template>
-  <mp-button type="warning" block @click="show = true">Custom Slots</mp-button>
-  <mp-dialog v-model:show="show">
-    <template #title>
-      <mp-icon name="information" color="#2979ff" />
-    </template>
-
-    <mp-cell>Don't Wanna See No Blood, Don't Be A Macho Man</mp-cell>
-    <mp-cell>Don't Wanna See No Blood, Don't Be A Macho Man</mp-cell>
-    <mp-cell>Don't Wanna See No Blood, Don't Be A Macho Man</mp-cell>
-  </mp-dialog>
-</template>
-```
+`Dialog.confirm()` defaults to `type: warning` and shows a warning icon in the title.
 
 ## API
 
 ### Props
 
-| Prop                        | Description                                                                                                    | Type                  | Default   |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------- | --------- |
-| `v-model:show`              | Whether to display a Dialog                                                                                    | _boolean_             | `false`   |
-| `title`                     | Dialog title                                                                                                   | _string_              | `Hint`    |
-| `width`                     | Dialog width                                                                                                   | _string \| number_    | `-`  |
-| `message`                   | Dialog message content                                                                                         | _string_              | `-`       |
-| `message-align`             | Dialog message content text alignment, optional values `center`, `left`, `right`                               | _string_              | `left`    |
-| `confirm-button`            | Whether to display the confirm button                                                                          | _boolean_             | `true`    |
-| `cancel-button`             | Whether to display the cancel button                                                                           | _boolean_             | `true`    |
-| `confirm-button-text`       | Confirm button text                                                                                            | _string_              | `Confirm` |
-| `cancel-button-text`        | Cancel button text                                                                                             | _string_              | `Cancel`  |
-| `confirm-button-text-color` | Confirm button text color                                                                                      | _string_              | `-`       |
-| `cancel-button-text-color`  | Cancel button text color                                                                                       | _string_              | `-`       |
-| `confirm-button-color`      | Confirm button background color                                                                                | _string_              | `-`       |
-| `cancel-button-color`       | Cancel button background color                                                                                 | _string_              | `-`       |
-| `dialog-class`              | Dialog body class                                                                                              | _string_              | `-`       |
-| `dialog-style`              | Dialog body style                                                                                              | _object_              | `-`       |
-| `overlay`                   | Whether to display the overlay                                                                                 | _boolean_             | `true`    |
-| `overlay-class`             | Custom overlay class                                                                                           | _string_              | `-`       |
-| `overlay-style`             | Custom overlay style                                                                                           | _string_              | `-`       |
-| `lock-scroll`               | Whether to disable scrolling penetration, scrolling the Dialog when disabled will not cause the body to scroll | _boolean_             | `true`    |
-| `close-on-click-overlay`    | Whether to click the overlay to close the Dialog                                                               | _boolean_             | `true`    |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the dialog | _boolean_ | `true`  |
-| `teleport`                  | The location of the Dialog to mount                                                                            | _TeleportProps['to'] \| false_ | `body`       |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `v-model:show` | Whether to display the dialog | _boolean_ | `false` |
+| `type` | Dialog type: `info` `success` `warning` `error` (shows icon in title) | _string_ | `-` |
+| `title` | Title | _string_ | `Hint` |
+| `width` | Width | _string \| number_ | `-` |
+| `message` | Message (or use default slot) | _string_ | `-` |
+| `message-align` | Message alignment: `left` `center` `right` | _string_ | `left` |
+| `footer` | Show footer area | _boolean_ | `true` |
+| `hide-title` | Hide title | _boolean_ | `false` |
+| `body-class` | Body class | _string_ | `-` |
+| `body-style` | Body style | _object_ | `-` |
+| `unmount-on-close` | Unmount after close | _boolean_ | `false` |
+| `confirm-button` | Show confirm button | _boolean_ | `true` |
+| `cancel-button` | Show cancel button | _boolean_ | `true` |
+| `confirm-button-text` | Confirm button text | _string_ | `Confirm` |
+| `cancel-button-text` | Cancel button text | _string_ | `Cancel` |
+| `confirm-button-text-color` | Confirm button text color | _string_ | `-` |
+| `cancel-button-text-color` | Cancel button text color | _string_ | `-` |
+| `confirm-button-color` | Confirm button color | _string_ | `-` |
+| `cancel-button-color` | Cancel button color | _string_ | `-` |
+| `confirm-button-loading` | Confirm button loading | _boolean_ | `false` |
+| `cancel-button-loading` | Cancel button loading | _boolean_ | `false` |
+| `confirm-button-disabled` | Confirm button disabled | _boolean_ | `false` |
+| `cancel-button-disabled` | Cancel button disabled | _boolean_ | `false` |
+| `confirm-button-props` | Confirm button props | _ButtonProps_ | `-` |
+| `cancel-button-props` | Cancel button props | _ButtonProps_ | `-` |
+| `dialog-class` | Dialog class | _string_ | `-` |
+| `dialog-style` | Dialog style | _object_ | `-` |
+| `overlay` | Show overlay | _boolean_ | `true` |
+| `overlay-class` | Overlay class | _string_ | `-` |
+| `overlay-style` | Overlay style | _object_ | `-` |
+| `lock-scroll` | Lock body scroll | _boolean_ | `true` |
+| `close-on-click-overlay` | Close on overlay click | _boolean_ | `true` |
+| `close-on-key-escape` | Close on ESC | _boolean_ | `true` |
+| `teleport` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
 
 ### Events
 
-| Event           | Description                                          | Arguments                                                  |
-| --------------- | ---------------------------------------------------- | ---------------------------------------------------------- |
-| `open`          | Triggered when the Dialog is open                    | `-`                                                        |
-| `opened`        | Triggered when the Dialog open-animation ends        | `-`                                                        |
-| `before-close`  | Triggering before the Dialog closes prevents closure | `action: confirm \| cancel \| close` <br> `done: Function` |
-| `close`         | Triggered when the Dialog is close                   | `-`                                                        |
-| `closed`        | Triggered when the Dialog close-animation ends       | `-`                                                        |
-| `confirm`       | Triggered on confirm                                   | `-`                                                        |
-| `cancel`        | Triggered on cancel                                    | `-`                                                        |
-| `click-overlay` | Triggered when clicking on overlay                  | `-`                                                        |
-| `key-escape` | Triggered when click keyboard ESC  | `-` |
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `open` | Emitted when opening | `-` |
+| `opened` | Emitted after open animation | `-` |
+| `close` | Emitted when closing | `-` |
+| `closed` | Emitted after close animation | `-` |
+| `before-close` | Before close (can prevent) | `action`, `done`, `refs` |
+| `confirm` | On confirm | `-` |
+| `cancel` | On cancel | `-` |
+| `click-overlay` | On overlay click | `-` |
+| `key-escape` | On ESC | `-` |
 
 ### Methods
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `Dialog` | Show dialog | _options \| string_ | `-` |
-| `Dialog.close` | Close dialog | _-_ | `-` |
-| `Dialog.setDefaultOptions` | Set default option configuration | _options_ | `-` |
-| `Dialog.resetDefaultOptions` | Reset default option configuration | _-_ | `-` |
-
-### Dialog Options
-
-#### Options passed in for a functional call
-
-| Option                     | Description                                                                                                    | Type                                                           | Default |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------- |
-| `title`                  | Dialog title                                                                                                   | _string_                                                       | `Hint`  |
-| `width`                  | Dialog width                                                                                                   | _string \| number_                                             | `-`  |
-| `message`                | Dialog message content                                                                                         | _string_                                                       | `-`     |
-| `messageAlign`           | Dialog message content text alignment, optional values `center` `left` `right`                                 | _string_                                                       | `left`  |
-| `confirmButton`          | Whether to display the confirm button                                                                          | _boolean_                                                      | `true`  |
-| `cancelButton`           | Whether to display the cancel button                                                                           | _boolean_                                                      | `true`  |
-| `confirmButtonText`      | Confirm button text                                                                                            | _string_                                                       | `确认`  |
-| `cancelButtonText`       | Cancel button text                                                                                             | _string_                                                       | `取消`  |
-| `confirmButtonTextColor` | Confirm button text color                                                                                      | _string_                                                       | `-`     |
-| `cancelButtonTextColor`  | Cancel button text color                                                                                       | _string_                                                       | `-`     |
-| `confirmButtonColor`     | Confirm button background color                                                                                | _string_                                                       | `-`     |
-| `cancelButtonColor`      | Cancel button background color                                                                                 | _string_                                                       | `-`     |
-| `dialogClass`            | Dialog body class                                                                                              | _string_                                                       | `-`     |
-| `dialogStyle`            | Dialog body style                                                                                              | _object_                                                       | `-`     |
-| `overlay`                | Whether to display the overlay                                                                                 | _boolean_                                                      | `true`  |
-| `overlayClass`           | Custom overlay class                                                                                           | _string_                                                       | `-`     |
-| `overlayStyle`           | Custom overlay style                                                                                           | _string_                                                       | `-`     |
-| `lockScroll`             | Whether to disable scrolling penetration, scrolling the Dialog when disabled will not cause the body to scroll | _boolean_                                                      | `true`  |
-| `closeOnClickOverlay`    | Whether to click the overlay to close the Dialog  | _boolean_  | `true`  |
-| `closeOnKeyEscape` |  Whether to support keyboard ESC to close the dialog | _boolean_ | `true` |
-| `onOpen`                 | Dialog open callback                                                                                           | _() => void_                                                   | `-`     |
-| `onOpened`               | Dialog open-animation ends callback                                                                            | _() => void_                                                   | `-`     |
-| `onBeforeClose`          | Callbacks prevent closure before the Dialog closes                                                             | _(action: confirm \| cancel \| close, done: Function) => void_ | `-`     |
-| `onClose`                | Dialog close callback                                                                                          | _() => void_                                                   | `-`     |
-| `onClosed`               | Dialog close-animation ends callback                                                                           | _() => void_                                                   | `-`     |
-| `onConfirm`              | Confirm callback                                                                                               | _() => void_                                                   | `-`     |
-| `onCancel`               | Cancel callback                                                                                                | _() => void_                                                   | `-`     |
-| `onClickOverlay`         | Click overlay callback                                                                                         | _() => void_                                                   | `-`     |
-| `onKeyEscape`            | Triggered when click keyboard ESC | _() => void_ | `-` |
+| `Dialog` | Show dialog | _options \| string_ | `Promise<DialogAction> & DialogReturn` |
+| `Dialog.open` | Open dialog | _options_ | `Promise<DialogAction> & DialogReturn` |
+| `Dialog.confirm` | Confirm dialog (`type: warning`) | _options_ | `Promise<DialogAction> & DialogReturn` |
+| `Dialog.alert` | Alert dialog (no cancel) | _options_ | `Promise<DialogAction> & DialogReturn` |
+| `Dialog.close` | Close function dialog | `-` | `-` |
+| `Dialog.setDefaultOptions` | Set default options | _options_ | `-` |
+| `Dialog.resetDefaultOptions` | Reset default options | `-` | `-` |
 
 ### Slots
 
 | Name | Description | SlotProps |
-| --------- | ---------------------- | --------- |
-| `default` | Dialog content message | `-`       |
-| `title`   | Dialog title           | `-`       |
-| `actions` ***3.3.3***  | Dialog actions | `slotClass: string` the class of actions container <br> `cancel: () => void` cancel callback function <br> `confirm: () => void` confirm callback function |
+| --- | --- | --- |
+| `default` | Content | `-` |
+| `title` | Title | `-` |
+| `footer` | Footer actions | `slotClass`, `cancel`, `confirm` |
 
-### Style Variables
+### Types
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+```ts
+type DialogAction = 'confirm' | 'cancel' | 'close'
+type DialogType = 'info' | 'success' | 'warning' | 'error'
+```
 
-| Variable                        | Default                |
-| ------------------------------- | ---------------------- |
-| `--dialog-width`                | `280px`                |
-| `--dialog-background`           | `var(--color-surface-container-low)`                 |
-| `--dialog-border-radius`        | `3px`                  |
-| `--dialog-title-padding`        | `20px 20px 0`          |
-| `--dialog-title-font-size`      | `var(--font-size-lg)`  |
-| `--dialog-message-color`        | `#888`                 |
-| `--dialog-message-padding`      | `12px 20px`            |
-| `--dialog-message-line-height`  | `24px`                 |
-| `--dialog-message-font-size`    | `var(--font-size-md)`  |
-| `--dialog-actions-padding`      | `0 12px 12px`          |
-| `--dialog-button-margin-left`   | `6px`                  |
-| `--dialog-title-color`          | `#555`                 |
-| `--dialog-confirm-button-color` | `var(--color-primary)` |
-| `--dialog-cancel-button-color`  | `var(--color-primary)` |
+See Chinese docs for full Dialog Options table and style variables.

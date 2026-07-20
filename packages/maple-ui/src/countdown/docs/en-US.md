@@ -97,12 +97,12 @@ Use `ref` to get countdown instance, you can call the `start`, `pause`, and `res
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const countdown = ref(null)
 
 function end() {
-  Snackbar.info('end!')
+  Message.info('end!')
 }
 
 function change() {

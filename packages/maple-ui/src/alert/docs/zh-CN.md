@@ -106,6 +106,18 @@
 </template>
 ```
 
+### 自定义关闭图标
+
+```html
+<template>
+  <mp-alert title="…" message="…" closable>
+    <template #close-icon>
+      <mp-icon name="window-close" />
+    </template>
+  </mp-alert>
+</template>
+```
+
 ## API
 
 ### 属性

@@ -158,14 +158,14 @@
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 function handleClick() {
-  Snackbar.success('点击成功')
+  Message.success('点击成功')
 }
 
 function handleTouchstart() {
-  Snackbar.success('触摸成功')
+  Message.success('触摸成功')
 }
 
 function handleAutoLoadingClick() {   

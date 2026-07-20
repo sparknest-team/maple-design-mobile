@@ -1,8 +1,8 @@
 <template>
-  <teleport to="body" :disabled="disabled">
+  <teleport to="body" :disabled="!teleport || disabled">
     <div
       ref="backTopEl"
-      :class="classes(n(), [show, n('--active')])"
+      :class="classes(n(), [show, n('--active')], [!teleport, n('--inline')])"
       :style="{
         right: toSizeUnit(right),
         bottom: toSizeUnit(bottom),
@@ -20,14 +20,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onActivated, onMounted, ref, type TeleportProps } from 'vue'
-import { call, getScrollLeft, getScrollTop, throttle } from '@maplejs/maple-shared'
+import { computed, defineComponent, onActivated, onMounted, ref, type TeleportProps } from 'vue'
+import { call, getScrollLeft, getScrollTop } from '@maplejs/maple-shared'
 import { onSmartUnmounted } from '@maplejs/maple-use'
 import MpButton from '../button'
 import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTarget, scrollTo, toPxNum, toSizeUnit } from '../utils/elements'
 import { easeInOutCubic } from '../utils/shared'
+import { throttleByRaf } from '../utils/throttle-by-raf'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('back-top')
@@ -47,15 +48,19 @@ export default defineComponent({
 
     let scroller: HTMLElement | Window
 
-    const handleScroll = throttle(() => {
+    const teleport = computed(() => props.teleport)
+
+    const handleScroll = throttleByRaf(() => {
       setBackTopVisibility()
-    }, 200)
+    })
 
     onMounted(() => {
       setScroller()
       addScrollerEventListener()
       setBackTopVisibility()
-      disabled.value = false
+      if (props.teleport) {
+        disabled.value = false
+      }
     })
 
     onActivated(addScrollerEventListener)
@@ -91,10 +96,12 @@ export default defineComponent({
         return
       }
 
+      handleScroll.cancel()
       scroller.removeEventListener('scroll', handleScroll)
     }
 
     return {
+      teleport,
       disabled,
       show,
       backTopEl,

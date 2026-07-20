@@ -19,7 +19,7 @@
     >
       <div v-if="showIconNode" :class="n('icon')">
         <slot name="icon">
-          <mp-icon :name="iconTypeMap[type] || 'information'" />
+          <mp-icon v-if="type !== 'default'" :name="iconTypeMap[type]" />
         </slot>
       </div>
 
@@ -36,12 +36,7 @@
         <slot name="action" />
       </div>
 
-      <div
-        v-if="closable"
-        role="button"
-        :class="n('close-icon')"
-        @click="handleClose"
-      >
+      <div v-if="closable" tabindex="-1" role="button" aria-label="Close" :class="n('close-icon')" @click="handleClose">
         <slot name="close-icon">
           <mp-icon name="close" />
         </slot>
@@ -77,8 +72,13 @@ const visible = ref(true)
 const hasTitle = computed(() => Boolean(props.title || slots.title))
 
 const showIconNode = computed(() => {
-  if (!props.showIcon) return false
-  return true
+  if (!props.showIcon) {
+    return false
+  }
+  if (slots.icon) {
+    return true
+  }
+  return props.type !== 'default'
 })
 
 const rootStyle = computed<CSSProperties>(() => {

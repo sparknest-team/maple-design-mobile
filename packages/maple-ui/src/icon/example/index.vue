@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import icons from '@maplejs/maple-icons'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import Clipboard from 'clipboard'
 import { t, use } from './locale'
 
@@ -19,7 +19,7 @@ onMounted(() => {
   })
 
   clipboard.on('success', (e) => {
-    Snackbar.success(`${t('copySuccess')} ${e.text}!`)
+    Message.success(`${t('copySuccess')} ${e.text}!`)
   })
 })
 
@@ -48,7 +48,7 @@ function toggle() {
     class="icon-example__animation-icon"
     name="checkbox-marked-circle"
     color="var(--mp-color-primary)"
-    @click="Snackbar.success(t('clickSuccess'))"
+    @click="Message.success(t('clickSuccess'))"
   />
 
   <app-type>{{ t('iconAnimation') }}</app-type>

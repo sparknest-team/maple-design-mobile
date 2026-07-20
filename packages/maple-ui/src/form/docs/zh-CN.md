@@ -150,7 +150,7 @@ const emailSuggestions = computed(() =>
 ```html
 <script setup>
 import { reactive } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const formData = reactive({
   username: '',
@@ -158,11 +158,11 @@ const formData = reactive({
 })
 
 function handleSubmit(valid) {
-  Snackbar(`onSubmit: ${valid}`)
+  Message(`onSubmit: ${valid}`)
 }
 
 function handleReset() {
-  Snackbar('onReset')
+  Message('onReset')
 }
 </script>
 

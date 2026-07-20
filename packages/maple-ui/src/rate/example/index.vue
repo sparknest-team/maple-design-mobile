@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { z } from 'zod'
 import { t, use } from './locale'
 
@@ -23,7 +23,7 @@ const scores = reactive({
 })
 
 function handleChange(score) {
-  Snackbar({
+  Message({
     content: `click ${score}`,
     position: 'top',
   })

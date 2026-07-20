@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const countdown = ref(null)
@@ -11,7 +11,7 @@ watchLang(use)
 onThemeChange()
 
 function end() {
-  Snackbar.info('end!')
+  Message.info('end!')
 }
 
 function change() {

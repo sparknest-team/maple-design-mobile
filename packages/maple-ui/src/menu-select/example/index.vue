@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const value = ref()
@@ -104,7 +104,7 @@ watchLang((lang) => {
 onThemeChange()
 
 function handleSelect(value) {
-  Snackbar(`Select: ${value}`)
+  Message(`Select: ${value}`)
 }
 </script>
 

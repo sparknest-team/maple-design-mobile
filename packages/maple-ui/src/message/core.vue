@@ -7,15 +7,13 @@
           n(`wrapper-${position}`),
           formatElevation(elevation, 4),
           [vertical, n('vertical')],
-          [type && SNACKBAR_TYPE.includes(type), n(`wrapper-${type}`)],
+          [type && MESSAGE_TYPE.includes(type), n(`wrapper-${type}`)],
+          [closable, n('wrapper--closable')],
         )
       "
       :style="{ zIndex }"
     >
-      <div :class="[n('content'), contentClass]">
-        <slot>{{ content }}</slot>
-      </div>
-      <div v-if="iconName || type === 'loading' || $slots.icon" :class="n('icon')">
+      <div v-if="showIconSlot" :class="n('icon')">
         <mp-icon v-if="iconName" :name="iconName" />
         <mp-loading
           v-if="type === 'loading'"
@@ -26,43 +24,53 @@
         />
         <slot name="icon" />
       </div>
-      <div v-if="$slots.action" :class="n('action')">
+      <div :class="[n('content'), contentClass]">
+        <slot>{{ content }}</slot>
+      </div>
+      <div v-if="$slots.action || closable" :class="n('action')">
         <slot name="action" />
+        <mp-button v-if="closable" :class="n('close')" text round :elevation="false" size="small" @click="handleClose">
+          <mp-icon name="close" :size="18" />
+        </mp-button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch, type ComputedRef, type Ref } from 'vue'
+import { computed, defineComponent, ref, useSlots, watch, type ComputedRef, type Ref } from 'vue'
 import { call } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
+import MpButton from '../button'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'
 import MpIcon from '../icon'
 import MpLoading from '../loading'
 import { createNamespace, formatElevation } from '../utils/components'
-import { SNACKBAR_TYPE, type SnackbarType } from './index'
+import { MESSAGE_TYPE, type MessageType } from './index'
 import { props } from './props'
 
-const { n, classes } = createNamespace('snackbar')
+const { n, classes } = createNamespace('message')
 
-const ICON_TYPE_DICT: Record<SnackbarType, string> = {
+const ICON_TYPE_DICT: Partial<Record<MessageType, string>> = {
   success: 'checkbox-marked-circle',
   warning: 'warning',
   info: 'information',
   error: 'error',
   loading: '',
+  normal: '',
 }
 
 export default defineComponent({
-  name: 'MpSnackbarCore',
+  name: 'MpMessageCore',
   components: {
     MpLoading,
     MpIcon,
+    MpButton,
   },
   props,
   setup(props) {
+    const slots = useSlots()
     const timer: Ref = ref(null)
     const { zIndex } = useZIndex(() => props.show, 1)
 
@@ -76,13 +84,39 @@ export default defineComponent({
       return type === 'loading' || forbidClick
     })
 
-    const iconName: ComputedRef<string> = computed(() => (!props.type ? '' : ICON_TYPE_DICT[props.type]))
+    const iconName: ComputedRef<string> = computed(() => {
+      if (!props.type || !props.showIcon) {
+        return ''
+      }
+
+      return ICON_TYPE_DICT[props.type] ?? ''
+    })
+
+    const showIconSlot = computed(() => {
+      if (!props.showIcon) {
+        return false
+      }
+
+      if (props.type === 'normal' && !slots.icon) {
+        return false
+      }
+
+      return Boolean(iconName.value || props.type === 'loading' || slots.icon)
+    })
+
+    function handleClose() {
+      call(props['onUpdate:show'], false)
+    }
 
     function updateAfterDuration() {
+      clearTimeout(timer.value)
+
+      if (!(props.duration > 0)) {
+        return
+      }
+
       timer.value = setTimeout(() => {
-        if (props.type !== 'loading') {
-          call(props['onUpdate:show'], false)
-        }
+        call(props['onUpdate:show'], false)
       }, props.duration)
     }
 
@@ -115,10 +149,12 @@ export default defineComponent({
     })
 
     return {
-      SNACKBAR_TYPE,
+      MESSAGE_TYPE,
       zIndex,
       iconName,
+      showIconSlot,
       isForbidClick,
+      handleClose,
       n,
       classes,
       formatElevation,
@@ -132,5 +168,6 @@ export default defineComponent({
 @import '../styles/elevation';
 @import '../loading/loading';
 @import '../icon/icon';
-@import './snackbar';
+@import '../button/button';
+@import './message';
 </style>

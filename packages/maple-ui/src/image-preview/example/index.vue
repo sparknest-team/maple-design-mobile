@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { previewImage, Snackbar } from '@maplejs/maple-ui'
+import { Message, previewImage } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const images = ['cat.jpg', 'cat2.jpg']
@@ -43,21 +43,21 @@ function previewWithCallback() {
   previewImage({
     images,
     onChange: (index) => {
-      Snackbar(`${t('switchedTo')} ${index + 1}`)
+      Message(`${t('switchedTo')} ${index + 1}`)
     },
   })
 }
 
 function handleCloseEvent() {
-  Snackbar({ content: t('shutdownEvent'), duration: 1000 })
+  Message({ content: t('shutdownEvent'), duration: 1000 })
 }
 
 function handleLongPressEvent() {
-  Snackbar({ content: t('preventDefaultEvent'), duration: 1000 })
+  Message({ content: t('preventDefaultEvent'), duration: 1000 })
 }
 
 function handleLifecycle(type) {
-  Snackbar({ content: `${t('lifecycleEvent')}: ${type}`, duration: 800 })
+  Message({ content: `${t('lifecycleEvent')}: ${type}`, duration: 800 })
 }
 
 function openDataGroup() {

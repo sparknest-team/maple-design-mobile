@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const basicUsage = ref(0)
@@ -22,11 +22,11 @@ watchLang(use)
 onThemeChange()
 
 function handleChange(active) {
-  Snackbar.info(`changed to ${active}`)
+  Message.info(`changed to ${active}`)
 }
 
 function handleClick(active) {
-  Snackbar.success(`clicked ${active}`)
+  Message.success(`clicked ${active}`)
 }
 </script>
 

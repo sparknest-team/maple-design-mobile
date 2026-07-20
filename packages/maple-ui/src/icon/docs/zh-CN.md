@@ -37,14 +37,14 @@
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
   <mp-icon 
     name="checkbox-marked-circle"
     color="var(--color-primary)"
-    @click="Snackbar.success('点击成功')"
+    @click="Message.success('点击成功')"
   />
 </template>
 ```

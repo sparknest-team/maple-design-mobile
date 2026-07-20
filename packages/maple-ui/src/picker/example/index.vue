@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Picker, Snackbar } from '@maplejs/maple-ui'
+import { Message, Picker } from '@maplejs/maple-ui'
 import area from '../../../json/area.json'
 import { t, use } from './locale'
 
@@ -78,7 +78,7 @@ async function picker() {
   await Picker({
     columns: columns.value,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -87,7 +87,7 @@ async function picker2() {
   await Picker({
     columns: columns2.value,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -97,7 +97,7 @@ async function picker3() {
     cascade: true,
     columns: columns3.value,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -107,7 +107,7 @@ async function picker4() {
     columns: columns4.value,
     cascade: true,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -116,7 +116,7 @@ async function picker5() {
   await Picker({
     columns: columns5.value,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
@@ -127,13 +127,13 @@ async function picker6() {
     cascade: true,
     columnsCount: 2,
     onChange(values, indexes) {
-      Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
     },
   })
 }
 
 function handleChange(values, indexes) {
-  Snackbar(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
+  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
 }
 </script>
 

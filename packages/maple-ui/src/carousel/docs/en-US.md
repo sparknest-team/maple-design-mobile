@@ -601,11 +601,11 @@ Navigation buttons can be enabled by setting `navigation`, when `navigation` is 
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
-  <mp-carousel class="carousel-example" @change="(index) => Snackbar(String(index))">
+  <mp-carousel class="carousel-example" @change="(index) => Message(String(index))">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>

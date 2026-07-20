@@ -70,14 +70,14 @@ Register the click event of the breadcrumb through `@click`, the last breadcrumb
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
   <mp-breadcrumb>
-    <mp-breadcrumb-item @click="Snackbar('Home')">Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item @click="Snackbar('Link 1')">Link 1</mp-breadcrumb-item>
-    <mp-breadcrumb-item @click="Snackbar('Link 2')">Link 2</mp-breadcrumb-item>
+    <mp-breadcrumb-item @click="Message('Home')">Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item @click="Message('Link 1')">Link 1</mp-breadcrumb-item>
+    <mp-breadcrumb-item @click="Message('Link 2')">Link 2</mp-breadcrumb-item>
   </mp-breadcrumb>
 </template>
 ```

@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { ActionSheet, Snackbar } from '@maplejs/maple-ui'
+import { ActionSheet, Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const rawActions = [
@@ -65,7 +65,7 @@ onThemeChange()
 async function createBasic() {
   const action = await ActionSheet({ actions: rawActions })
 
-  action !== 'close' && Snackbar(`${t('yourSelected')}${action.name}`)
+  action !== 'close' && Message(`${t('yourSelected')}${action.name}`)
 }
 
 async function modifyTitle() {
@@ -73,7 +73,7 @@ async function modifyTitle() {
     actions: rawActions,
     title: t('customTitle'),
   })
-  action !== 'close' && Snackbar(`${t('yourSelected')}${action.name}`)
+  action !== 'close' && Message(`${t('yourSelected')}${action.name}`)
 }
 
 async function disableAction() {
@@ -81,7 +81,7 @@ async function disableAction() {
     actions: rawDisabledActions,
   })
 
-  action !== 'close' && Snackbar(`${t('yourSelected')}${action.name}`)
+  action !== 'close' && Message(`${t('yourSelected')}${action.name}`)
 }
 
 async function customActionStyles() {
@@ -89,7 +89,7 @@ async function customActionStyles() {
     actions: rawCustomStyleActions,
   })
 
-  action !== 'close' && Snackbar(`${t('yourSelected')}${action.name}`)
+  action !== 'close' && Message(`${t('yourSelected')}${action.name}`)
 }
 
 function disableCloseOnClickAction() {
@@ -109,12 +109,12 @@ function disableCloseOnClickAction() {
       },
     ],
     closeOnClickAction: false,
-    onSelect: (action) => Snackbar(`${t('yourSelected')}${action.name}`),
+    onSelect: (action) => Message(`${t('yourSelected')}${action.name}`),
   })
 }
 
 function handleSelect(action) {
-  Snackbar(`${t('yourSelected')}${action.name}`)
+  Message(`${t('yourSelected')}${action.name}`)
 }
 </script>
 

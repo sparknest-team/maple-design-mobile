@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue'
-import { Snackbar, StyleProvider, Themes } from '@maplejs/maple-ui'
+import { Message, StyleProvider, Themes } from '@maplejs/maple-ui'
 import { downloadProject } from './download/download'
 import Close from './icons/Close.vue'
 import Download from './icons/Download.vue'
@@ -62,7 +62,7 @@ watch(() => currentMapleVersion.value, setMapleVersion)
 
 async function copyLink() {
   await navigator.clipboard.writeText(location.href)
-  Snackbar('Sharable URL has been copied to clipboard')
+  Message('Sharable URL has been copied to clipboard')
 }
 
 function openGithub() {

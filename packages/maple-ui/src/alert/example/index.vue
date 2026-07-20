@@ -6,6 +6,7 @@ import { t, use } from './locale'
 
 const options = ['info', 'success', 'warning', 'danger', 'default'].map((value) => ({ label: value, value }))
 const show = ref(true)
+const showCloseIcon = ref(true)
 const type = ref('info')
 
 watchLang(use)
@@ -52,6 +53,26 @@ onThemeChange()
     </template>
   </mp-alert>
 
+  <app-type>{{ t('action') }}</app-type>
+  <mp-alert :title="t('alertTitle')" :message="t('alertText')">
+    <template #action>
+      <mp-button size="mini" type="primary">{{ t('detail') }}</mp-button>
+    </template>
+  </mp-alert>
+
   <app-type>{{ t('allowToClose') }}</app-type>
   <mp-alert v-if="show" :title="t('alertTitle')" :message="t('alertText')" closable @close="show = false" />
+
+  <app-type>{{ t('customCloseIcon') }}</app-type>
+  <mp-alert
+    v-if="showCloseIcon"
+    :title="t('alertTitle')"
+    :message="t('alertText')"
+    closable
+    @close="showCloseIcon = false"
+  >
+    <template #close-icon>
+      <mp-icon name="window-close" />
+    </template>
+  </mp-alert>
 </template>

@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import config from '@config'
-import Maple, { Snackbar } from '@maplejs/maple-ui'
+import Maple from '@maplejs/maple-ui'
 import routes from '@pc-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
@@ -11,8 +11,6 @@ import '@maplejs/maple-touch-emulator'
 const defaultLanguage = config?.defaultLanguage
 const redirect = config?.pc?.redirect
 const mobileRedirect = config?.mobile?.redirect
-
-Snackbar.allowMultiple(true)
 
 redirect &&
   routes.push({

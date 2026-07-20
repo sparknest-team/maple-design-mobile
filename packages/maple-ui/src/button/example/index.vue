@@ -1,17 +1,17 @@
 <script setup>
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 watchLang(use)
 onThemeChange()
 
 function handleClick() {
-  Snackbar.success(t('clickSuccess'))
+  Message.success(t('clickSuccess'))
 }
 
 function handleTouchstart() {
-  Snackbar.success(t('touchstartSuccess'))
+  Message.success(t('touchstartSuccess'))
 }
 
 function handleAutoLoadingClick() {

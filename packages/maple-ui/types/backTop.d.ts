@@ -7,6 +7,7 @@ export interface BackTopProps extends BasicAttributes {
   visibilityHeight?: number | string
   duration?: number
   target?: string | HTMLElement
+  teleport?: boolean
   right?: number | string
   elevation?: boolean | number | string
   bottom?: number | string

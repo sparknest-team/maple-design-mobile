@@ -143,15 +143,15 @@ the optional values are `click` and `hover`
 
 ```html
 <script setup>
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
   <mp-menu
-    @open="Snackbar.info('open')"
-    @opened="Snackbar.success('opened')"
-    @close="Snackbar.warning('close')"
-    @closed="Snackbar.error('closed')"
+    @open="Message.info('open')"
+    @opened="Message.success('opened')"
+    @close="Message.warning('close')"
+    @closed="Message.error('closed')"
   >
     <mp-button type="primary">Events</mp-button>
     

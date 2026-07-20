@@ -44,7 +44,7 @@ import { defineComponent, nextTick, onMounted, ref, type Ref } from 'vue'
 import config from '@config'
 import { getBrowserTheme, getPCLocationInfo } from '@maplejs/maple-cli/client'
 import { doubleRaf } from '@maplejs/maple-shared'
-import { Context, Snackbar } from '@maplejs/maple-ui'
+import { Context, Message } from '@maplejs/maple-ui'
 import Clipboard from 'clipboard'
 import { type SiteContext } from '../../../types'
 import { utoa } from '../../../utils'
@@ -110,7 +110,7 @@ export default defineComponent({
       const trigger = new Clipboard(`#clip-trigger-${cid.value}`)
 
       trigger.on('success', () => {
-        Snackbar.success(clipboard.value[getPCLocationInfo().language])
+        Message.success(clipboard.value[getPCLocationInfo().language])
       })
 
       const { offsetHeight } = code.value as HTMLElement

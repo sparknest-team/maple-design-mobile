@@ -1,5 +1,5 @@
 import { reactive, watchEffect } from 'vue'
-import { Dialog, Snackbar } from '@maplejs/maple-ui'
+import { Dialog, Message } from '@maplejs/maple-ui'
 import { compileFile, File } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreOptions, StoreState } from '@vue/repl'
 import * as defaultCompiler from 'vue/compiler-sfc'
@@ -269,7 +269,7 @@ export class ReplStore implements Store {
 
   deleteFile(filename: string) {
     if (filename === mapleReplPlugin || filename === appWrapperFile) {
-      Snackbar.warning('You cannot delete this file because the varlet depends on it')
+      Message.warning('You cannot delete this file because the varlet depends on it')
       return
     }
 

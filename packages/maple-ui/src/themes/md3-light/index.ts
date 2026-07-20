@@ -11,6 +11,7 @@ import bottomNavigationItem from './bottomNavigationItem'
 import breadcrumbItem from './breadcrumb-item'
 import button from './button'
 import card from './card'
+import carousel from './carousel'
 import cell from './cell'
 import checkbox from './checkbox'
 import chip from './chip'
@@ -37,6 +38,7 @@ import loadingBar from './loadingBar'
 import menu from './menu'
 import menuOption from './menuOption'
 import menuSelect from './menuSelect'
+import message from './message'
 import option from './option'
 import overlay from './overlay'
 import pagination from './pagination'
@@ -53,10 +55,8 @@ import select from './select'
 import signature from './signature'
 import skeleton from './skeleton'
 import slider from './slider'
-import snackbar from './snackbar'
 import space from './space'
 import step from './step'
-import carousel from './carousel'
 import switchThemes from './switch'
 import tab from './tab'
 import table from './table'
@@ -172,7 +172,7 @@ export default {
   ...result,
   ...bottomNavigation,
   ...bottomNavigationItem,
-  ...snackbar,
+  ...message,
   ...actionSheet,
   ...dialog,
   ...pullRefresh,

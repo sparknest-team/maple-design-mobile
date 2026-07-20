@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const values = reactive({
@@ -38,7 +38,7 @@ onThemeChange()
       {{ t('text') }}
     </div>
   </mp-overlay>
-  <mp-overlay v-model:show="clickOverlay" @click="Snackbar.success('click')" />
+  <mp-overlay v-model:show="clickOverlay" @click="Message.success('click')" />
 </template>
 
 <style lang="less" scoped>

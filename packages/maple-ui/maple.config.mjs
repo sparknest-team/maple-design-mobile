@@ -511,10 +511,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Snackbar 消息条',
-          'en-US': 'Snackbar',
+          'zh-CN': 'Message 全局提示',
+          'en-US': 'Message',
         },
-        doc: 'snackbar',
+        doc: 'message',
         type: 2,
       },
       {

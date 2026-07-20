@@ -169,13 +169,13 @@ If the limit is exceeded, the file will be blocked. You can get the file by list
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const files = ref([])
 </script>
 
 <template>
-  <mp-uploader v-model="files" :maxsize="1024" @oversize="Snackbar.warning('file size exceeds limit')" />
+  <mp-uploader v-model="files" :maxsize="1024" @oversize="Message.warning('file size exceeds limit')" />
 </template>
 ```
 
@@ -207,16 +207,16 @@ Operate on a file by registering a `before-read` event that returns a false valu
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const files = ref([])
 
 function handleBeforeRead(file) {
   if (file.file.size <= 1 * 1024 * 1024) {
-    Snackbar.success('the file is less than 1M, the upload is successful')
+    Message.success('the file is less than 1M, the upload is successful')
     return true
   } else {
-    Snackbar.warning('the file is larger than 1M and cannot be uploaded')
+    Message.warning('the file is larger than 1M and cannot be uploaded')
     return false
   }
 }
@@ -234,15 +234,15 @@ By listen the `click-action` event, you can intercept the click behavior of the 
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const files = ref([])
 
 function handleClickAction(chooseFile) {
-  Snackbar.loading('delay 1s')
+  Message.loading('delay 1s')
 
   window.setTimeout(() => {
-    Snackbar.clear()
+    Message.clear()
     chooseFile()
   }, 1000)
 }

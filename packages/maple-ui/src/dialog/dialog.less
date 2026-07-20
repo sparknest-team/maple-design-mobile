@@ -26,10 +26,33 @@
   }
 
   &__title {
+    display: flex;
+    align-items: center;
     font-size: var(--mp-dialog-title-font-size);
     font-weight: 400;
     padding: var(--mp-dialog-title-padding);
     color: var(--mp-dialog-title-color);
+  }
+
+  &__title-icon {
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
+
+  &--type-info &__title-icon {
+    color: var(--mp-color-info);
+  }
+
+  &--type-success &__title-icon {
+    color: var(--mp-color-success);
+  }
+
+  &--type-warning &__title-icon {
+    color: var(--mp-color-warning);
+  }
+
+  &--type-error &__title-icon {
+    color: var(--mp-color-danger);
   }
 
   &__message {

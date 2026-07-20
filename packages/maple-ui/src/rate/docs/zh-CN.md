@@ -141,12 +141,12 @@ const score = ref(3.5)
 ```html
 <script setup>
 import { ref } from 'vue'
-import { Snackbar } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 
 const score = ref(3)
 
 function handleChange(score) {
-  Snackbar({
+  Message({
     content: `click ${score}`,
     position: 'top'
   })
