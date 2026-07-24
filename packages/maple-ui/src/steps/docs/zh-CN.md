@@ -2,25 +2,23 @@
 
 ### 介绍
 
-引导用户按照流程完成任务的导航条。
+引导用户按照流程完成任务的导航条。进度由 `current` 控制，**从 1 起计**（与 Pagination / PC 端一致）。
 
 ### 基本使用
-
-通过 `active` 属性控制当前步骤条的进度，值为当前 `step` 的索引，从 `0` 起计。
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(0)
+const current = ref(1)
 
 function next() {
-  active.value = (active.value + 1) % 4
+  current.value = current.value >= 4 ? 1 : current.value + 1
 }
 </script>
 
 <template>
-  <mp-steps :active="active">
+  <mp-steps :current="current">
     <mp-step>步骤1</mp-step>
     <mp-step>步骤2</mp-step>
     <mp-step>步骤3</mp-step>
@@ -30,33 +28,71 @@ function next() {
 </template>
 ```
 
-### 自定义样式
+### 错误状态
+
+通过 `status="error"` 展示当前步骤的错误态。
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(0)
+const current = ref(2)
 </script>
 
 <template>
-  <mp-steps
-    :active="active"
-    active-color="var(--color-danger)" 
-    inactive-color="var(--color-warning)"
-  >
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
+  <mp-steps :current="current" status="error">
+    <mp-step>步骤1</mp-step>
+    <mp-step>步骤2</mp-step>
+    <mp-step>步骤3</mp-step>
+  </mp-steps>
+</template>
+```
+
+### 自定义图标
+
+通过 `#icon` 插槽自定义节点图标。颜色通过 `--mp-step-*` CSS 变量 / StyleProvider 定制。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const current = ref(2)
+</script>
+
+<template>
+  <mp-steps :current="current">
+    <mp-step>
       步骤1
+      <template #icon="{ status }">
+        <mp-icon v-if="status === 'finish'" name="heart" />
+        <span v-else>1</span>
+      </template>
     </mp-step>
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
+    <mp-step>
       步骤2
+      <template #icon="{ step }">{{ step }}</template>
     </mp-step>
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
-      步骤3
-    </mp-step>
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
-      步骤4
-    </mp-step>
+    <mp-step>步骤3</mp-step>
+  </mp-steps>
+</template>
+```
+
+### 可切换
+
+设置 `changeable` 开启点击切换步骤。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const current = ref(1)
+</script>
+
+<template>
+  <mp-steps v-model:current="current" changeable>
+    <mp-step description="说明文案">步骤1</mp-step>
+    <mp-step description="说明文案">步骤2</mp-step>
+    <mp-step description="说明文案">步骤3</mp-step>
   </mp-steps>
 </template>
 ```
@@ -69,11 +105,11 @@ const active = ref(0)
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(0)
+const current = ref(1)
 </script>
 
 <template>
-  <mp-steps direction="vertical" :active="active">
+  <mp-steps direction="vertical" :current="current">
     <mp-step>步骤1</mp-step>
     <mp-step>步骤2</mp-step>
     <mp-step>步骤3</mp-step>
@@ -90,21 +126,20 @@ const active = ref(0)
 
 | 参数 | 说明 | 类型 | 默认值 |
 | ----- | -------------- | -------- | ---------- |
-| `active` | 当前步骤 | _string \| number_ | `0` |
+| `current` | 当前步骤（受控，从 1 起计） | _number_ | `-` |
+| `default-current` | 默认当前步骤（非受控） | _number_ | `1` |
 | `direction` | 显示方向，可选值为 `vertical` | _string_ | `horizontal` |
-| `active-color` | 激活状态颜色 | _string_ | `-` |
-| `inactive-color` | 未激活状态颜色 | _string_ | `-` |
+| `status` | 当前步骤状态 | _'wait' \| 'process' \| 'finish' \| 'error'_ | `process` |
+| `changeable` | 是否可点击切换步骤 | _boolean_ | `false` |
 
 #### Step Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | ----- | -------------- | -------- | ---------- |
-| `active-icon` | 激活状态图标  | _string_ | `check` |
-| `current-icon` | 当前步骤时的图标 | _string_ | `-` |
-| `inactive-icon` | 未激活状态图标 | _string_ | `-` |
-| `active-icon-namespace` | 激活状态图标命名空间  | _string_ | `mp-icon` |
-| `current-icon-namespace` | 当前步骤时的图标命名空间 | _string_ | `mp-icon` |
-| `inactive-icon-namespace` | 未激活状态图标命名空间 | _string_ | `mp-icon` |
+| `title` | 步骤标题 | _string_ | `-` |
+| `description` | 步骤描述 | _string_ | `-` |
+| `status` | 步骤状态（覆盖自动推导） | _'wait' \| 'process' \| 'finish' \| 'error'_ | `-` |
+| `disabled` | 是否禁用 | _boolean_ | `false` |
 
 ### 事件
 
@@ -112,7 +147,8 @@ const active = ref(0)
 
 | 事件名 | 说明 | 回调参数 |
 | ----- | -------------- | -------- |
-| `click-step` | 点击步骤的标题或图标时触发| `index: number` |
+| `change` | 步骤切换时触发（需开启 `changeable`） | `step: number, ev: Event` |
+| `update:current` | `v-model:current` 同步 | `step: number` |
 
 ### 插槽
 
@@ -126,7 +162,9 @@ const active = ref(0)
 
 | 名称 | 说明 | 参数 |
 | ----- | -------------- | -------- |
-| `default` | step 的内容 | `-` |
+| `default` | 步骤标题（优先于 `title`） | `-` |
+| `icon` | 自定义节点图标 | `{ step: number, status: string }` |
+| `description` | 步骤描述 | `-` |
 
 ### 样式变量
 
@@ -139,6 +177,7 @@ const active = ref(0)
 | `--step-tag-font-size` | `var(--font-size-md)` |
 | `--step-tag-color` | `var(--color-on-primary)` |
 | `--step-tag-active-color` | `var(--color-primary)` |
+| `--step-tag-error-color` | `var(--color-danger)` |
 | `--step-tag-margin` | `4px 0` |
 | `--step-tag-icon-size` | `var(--font-size-lg)` |
 | `--step-content-font-size` | `var(--font-size-md)` |

@@ -1,0 +1,16 @@
+export default {
+  basicUsage: '基本使用',
+  type: '选择类型',
+  multiple: '多选',
+  dateTime: '日期时间',
+  disabled: '禁用',
+  withFormItem: '搭配 FormItem',
+  placeholder: '请选择日期',
+  year: '选择年',
+  month: '选择月',
+  date: '选择日',
+  multiplePlaceholder: '多选日期',
+  dateTimePlaceholder: '请选择日期时间',
+  birthday: '生日',
+  formPlaceholder: '请选择',
+}

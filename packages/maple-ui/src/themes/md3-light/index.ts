@@ -12,9 +12,9 @@ import breadcrumbItem from './breadcrumb-item'
 import button from './button'
 import card from './card'
 import carousel from './carousel'
+import cascader from './cascader'
 import cell from './cell'
 import checkbox from './checkbox'
-import chip from './chip'
 import code from './code'
 import collapse from './collapse'
 import countdown from './countdown'
@@ -81,7 +81,7 @@ export default {
   '--mp-color-body': 'hsla(var(--mp-hsl-body), 1)',
   '--mp-hsl-text': '0, 0%, 0%',
   '--mp-color-text': 'hsla(var(--mp-hsl-text), 1)',
-  '--mp-hsl-primary': '256, 34%, 48%',
+  '--mp-hsl-primary': '180, 100%, 37%',
   '--mp-color-primary': 'hsla(var(--mp-hsl-primary), 1)',
   '--mp-hsl-info': '259, 11%, 40%',
   '--mp-color-info': 'hsla(var(--mp-hsl-info), 1)',
@@ -101,7 +101,7 @@ export default {
   '--mp-color-on-warning': 'hsla(var(--mp-hsl-on-warning), 1)',
   '--mp-hsl-on-danger': '0, 0%, 100%',
   '--mp-color-on-danger': 'hsla(var(--mp-hsl-on-danger), 1)',
-  '--mp-hsl-primary-container': '263, 100%, 93%',
+  '--mp-hsl-primary-container': '180, 55%, 90%',
   '--mp-color-primary-container': 'hsla(var(--mp-hsl-primary-container), 1)',
   '--mp-hsl-info-container': '263, 65%, 92%',
   '--mp-color-info-container': 'hsla(var(--mp-hsl-info-container), 1)',
@@ -111,7 +111,7 @@ export default {
   '--mp-color-warning-container': 'hsla(var(--mp-hsl-warning-container), 1)',
   '--mp-hsl-danger-container': '4, 71%, 92%',
   '--mp-color-danger-container': 'hsla(var(--mp-hsl-danger-container), 1)',
-  '--mp-hsl-on-primary-container': '261, 100%, 18%',
+  '--mp-hsl-on-primary-container': '180, 100%, 18%',
   '--mp-color-on-primary-container': 'hsla(var(--mp-hsl-on-primary-container), 1)',
   '--mp-hsl-on-info-container': '253, 26%, 13%',
   '--mp-color-on-info-container': 'hsla(var(--mp-hsl-on-info-container), 1)',
@@ -162,7 +162,7 @@ export default {
   ...checkbox,
   ...radio,
   ...card,
-  ...chip,
+  ...cascader,
   ...tooltip,
   ...tabs,
   ...tab,

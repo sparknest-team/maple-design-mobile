@@ -12,9 +12,6 @@ exports[`radio group label is VNode 1`] = `
           <h1>eat</h1>
         </div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -25,9 +22,6 @@ exports[`radio group label is VNode 1`] = `
           <h2>sleep</h2>
         </div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -38,14 +32,8 @@ exports[`radio group label is VNode 1`] = `
           <h3>game</h3>
         </div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -59,9 +47,6 @@ exports[`radio group label is function 1`] = `
         </div>
         <div class="mp-radio__text"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -70,9 +55,6 @@ exports[`radio group label is function 1`] = `
         </div>
         <div class="mp-radio__text"><span>1-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -81,14 +63,8 @@ exports[`radio group label is function 1`] = `
         </div>
         <div class="mp-radio__text mp-radio--disabled"><span>2-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -102,9 +78,6 @@ exports[`radio group label is function 2`] = `
         </div>
         <div class="mp-radio__text"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="true" class="mp-radio">
@@ -113,9 +86,6 @@ exports[`radio group label is function 2`] = `
         </div>
         <div class="mp-radio__text"><span>1-true</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -124,14 +94,8 @@ exports[`radio group label is function 2`] = `
         </div>
         <div class="mp-radio__text mp-radio--disabled"><span>2-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -145,9 +109,6 @@ exports[`radio group label is function 3`] = `
         </div>
         <div class="mp-radio__text"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="true" class="mp-radio">
@@ -156,9 +117,6 @@ exports[`radio group label is function 3`] = `
         </div>
         <div class="mp-radio__text"><span>1-true</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -167,14 +125,8 @@ exports[`radio group label is function 3`] = `
         </div>
         <div class="mp-radio__text mp-radio--disabled"><span>2-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -188,9 +140,6 @@ exports[`radio group label-key 1`] = `
         </div>
         <div class="mp-radio__text"><span>eat</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -199,9 +148,6 @@ exports[`radio group label-key 1`] = `
         </div>
         <div class="mp-radio__text"><span>sleep</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -210,14 +156,8 @@ exports[`radio group label-key 1`] = `
         </div>
         <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -232,9 +172,6 @@ exports[`radio group layout direction 1`] = `
         </div>
         <!--v-if-->
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -243,14 +180,8 @@ exports[`radio group layout direction 1`] = `
         </div>
         <!--v-if-->
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -264,9 +195,6 @@ exports[`radio group options 1`] = `
         </div>
         <div class="mp-radio__text"><span>eat</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -275,9 +203,6 @@ exports[`radio group options 1`] = `
         </div>
         <div class="mp-radio__text"><span>sleep</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -286,91 +211,8 @@ exports[`radio group options 1`] = `
         </div>
         <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`radio group validation 1`] = `
-"<div class="mp-radio-group__wrap">
-  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
-    <!--v-if-->
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="false" class="mp-radio">
-        <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="-1"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="true" class="mp-radio">
-        <div class="mp-radio__action mp-radio--checked mp-radio--error" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-marked mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose the first option</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`radio group validation 2`] = `
-"<div class="mp-radio-group__wrap">
-  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
-    <!--v-if-->
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="true" class="mp-radio">
-        <div class="mp-radio__action mp-radio--checked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-marked mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="false" class="mp-radio">
-        <div class="mp-radio__action mp-radio--unchecked" tabindex="-1"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -384,9 +226,6 @@ exports[`radio group value-key 1`] = `
         </div>
         <div class="mp-radio__text"><span>eat</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -395,9 +234,6 @@ exports[`radio group value-key 1`] = `
         </div>
         <div class="mp-radio__text"><span>sleep</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-radio__wrap">
       <div role="radio" aria-checked="false" class="mp-radio">
@@ -406,168 +242,7 @@ exports[`radio group value-key 1`] = `
         </div>
         <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`radio validation 1`] = `
-"<div class="mp-radio__wrap">
-  <div role="radio" aria-checked="false" class="mp-radio">
-    <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option at least</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`radio validation 2`] = `
-"<div class="mp-radio__wrap">
-  <div role="radio" aria-checked="true" class="mp-radio">
-    <div class="mp-radio__action mp-radio--checked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-marked mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`test validation with zod > radio 1`] = `
-"<div class="mp-radio__wrap">
-  <div role="radio" aria-checked="false" class="mp-radio">
-    <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option \`1\`</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`test validation with zod > radio 2`] = `
-"<div class="mp-radio__wrap">
-  <div role="radio" aria-checked="true" class="mp-radio">
-    <div class="mp-radio__action mp-radio--checked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-marked mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`test validation with zod > radio group 1`] = `
-"<div class="mp-radio-group__wrap">
-  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
-    <!--v-if-->
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="false" class="mp-radio">
-        <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="-1"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="true" class="mp-radio">
-        <div class="mp-radio__action mp-radio--checked mp-radio--error" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-marked mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option \`1\`</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`test validation with zod > radio group 2`] = `
-"<div class="mp-radio-group__wrap">
-  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
-    <!--v-if-->
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="true" class="mp-radio">
-        <div class="mp-radio__action mp-radio--checked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-marked mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-radio__wrap">
-      <div role="radio" aria-checked="false" class="mp-radio">
-        <div class="mp-radio__action mp-radio--unchecked" tabindex="-1"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;

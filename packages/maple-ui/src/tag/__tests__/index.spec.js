@@ -38,9 +38,9 @@ describe('test tag component props', () => {
     wrapper.unmount()
   })
 
-  test('tag bordered (legacy alias of variant outline)', () => {
-    const wrapper = mount(VarTag, { props: { bordered: true } })
-    expect(wrapper.find('.mp-tag--variant-outline').exists()).toBe(true)
+  test('tag round', () => {
+    const wrapper = mount(VarTag, { props: { round: true } })
+    expect(wrapper.find('.mp-tag--round').exists()).toBe(true)
     wrapper.unmount()
   })
 
@@ -95,8 +95,18 @@ describe('test tag component props', () => {
       props: { color: '#ff0000', textColor: '#fff' },
     })
     const style = wrapper.find('.mp-tag').attributes('style') || ''
-    expect(style).toContain('background-color')
+    expect(style).toContain('background')
     expect(style).toContain('color')
+    wrapper.unmount()
+  })
+
+  test('tag custom color outline', () => {
+    const wrapper = mount(VarTag, {
+      props: { variant: 'outline', color: '#ff0000', textColor: '#ff0000' },
+    })
+    const style = wrapper.find('.mp-tag').attributes('style') || ''
+    expect(style).toContain('border-color')
+    expect(style).toContain('transparent')
     wrapper.unmount()
   })
 

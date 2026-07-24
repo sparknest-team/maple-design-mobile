@@ -1,34 +1,45 @@
 <template>
-  <div :class="n()">
+  <div :class="classes(n(), [disabled, n('--disabled')])">
     <div :class="n(direction)">
       <div
-        :class="classes(n(`${direction}-tag`), [isActive || isCurrent, n(`${direction}-tag--active`)])"
-        :style="{ backgroundColor: isActive || isCurrent ? activeColor : inactiveColor }"
+        :class="
+          classes(
+            n(`${direction}-tag`),
+            [isHighlighted, n(`${direction}-tag--active`)],
+            n(`${direction}-tag--${computedStatus}`),
+          )
+        "
         @click="click"
       >
-        <mp-icon v-if="isActive" :class="n('icon')" mp-step-cover :name="activeIcon" :namespace="activeIconNamespace" />
-        <mp-icon
-          v-else-if="isCurrent && currentIcon"
-          :class="n('icon')"
-          mp-step-cover
-          :name="currentIcon"
-          :namespace="currentIconNamespace"
-        />
-        <mp-icon
-          v-else-if="inactiveIcon"
-          :class="n('icon')"
-          mp-step-cover
-          :name="inactiveIcon"
-          :namespace="inactiveIconNamespace"
-        />
-        <span v-else>{{ index + 1 }}</span>
+        <slot name="icon" :step="stepNumber" :status="computedStatus">
+          <mp-icon
+            v-if="computedStatus === 'finish'"
+            :class="n('icon')"
+            mp-step-cover
+            name="check"
+            namespace="mp-icon"
+          />
+          <mp-icon
+            v-else-if="computedStatus === 'error'"
+            :class="n('icon')"
+            mp-step-cover
+            name="close-circle"
+            namespace="mp-icon"
+          />
+          <span v-else>{{ stepNumber }}</span>
+        </slot>
       </div>
       <div
-        v-if="$slots.default"
-        :class="classes(n(`${direction}-content`), [isActive || isCurrent, n(`${direction}-content--active`)])"
+        v-if="hasContent"
+        :class="classes(n(`${direction}-content`), [isHighlighted, n(`${direction}-content--active`)])"
         @click="click"
       >
-        <slot />
+        <div v-if="title || $slots.default" :class="n(`${direction}-title`)">
+          <slot>{{ title }}</slot>
+        </div>
+        <div v-if="description || $slots.description" :class="n(`${direction}-description`)">
+          <slot name="description">{{ description }}</slot>
+        </div>
       </div>
       <div :class="n(`${direction}-line`)"></div>
     </div>
@@ -36,9 +47,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type ComputedRef } from 'vue'
-import { toNumber } from '@maplejs/maple-shared'
+import { computed, defineComponent, useSlots, type ComputedRef } from 'vue'
 import MpIcon from '../icon'
+import type { StepStatus } from '../steps/props'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 import { useSteps, type StepProvider } from './provide'
@@ -49,27 +60,36 @@ export default defineComponent({
   name,
   components: { MpIcon },
   props,
-  setup() {
+  setup(props) {
+    const slots = useSlots()
     const { index, steps, bindSteps } = useSteps()
-    const { active, activeColor, inactiveColor, direction, clickStep } = steps
-    const isCurrent: ComputedRef<boolean> = computed(() => active.value === index.value)
-    const isActive: ComputedRef<boolean> = computed(() => index.value !== -1 && toNumber(active.value) > index.value)
+    const { direction, changeable, getStatus, clickStep } = steps
+
+    const stepNumber: ComputedRef<number> = computed(() => index.value + 1)
+    const computedStatus: ComputedRef<StepStatus> = computed(() => props.status ?? getStatus(stepNumber.value))
+    const isHighlighted = computed(() => computedStatus.value !== 'wait')
+    const hasContent = computed(() => Boolean(props.title || props.description || slots.default || slots.description))
 
     const stepProvider: StepProvider = { index }
 
     bindSteps(stepProvider)
 
-    function click() {
-      return clickStep(index.value)
+    function click(ev: Event) {
+      if (props.disabled || !changeable.value) {
+        return
+      }
+      clickStep(stepNumber.value, ev)
     }
 
     return {
-      index,
-      isActive,
-      isCurrent,
+      title: computed(() => props.title),
+      description: computed(() => props.description),
+      disabled: computed(() => props.disabled),
+      stepNumber,
+      computedStatus,
+      isHighlighted,
+      hasContent,
       direction,
-      activeColor,
-      inactiveColor,
       n,
       classes,
       click,

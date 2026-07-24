@@ -1,6 +1,7 @@
 export default {
   '--mp-tag-border-width': '1px',
   '--mp-tag-border-radius': '4px',
+  '--mp-tag-round-radius': '8px',
   '--mp-tag-padding': '0 10px',
   '--mp-tag-icon-margin': '6px',
   '--mp-tag-font-weight': '500',

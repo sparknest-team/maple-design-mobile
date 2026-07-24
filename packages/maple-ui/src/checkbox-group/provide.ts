@@ -1,11 +1,10 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
 import { CheckboxProvider } from '../checkbox/provide'
-import { Validation } from '../form/provide'
 
-export interface CheckboxGroupProvider extends Validation {
+export interface CheckboxGroupProvider {
   checkedCount: ComputedRef<number>
-  errorMessage: ComputedRef<string>
+  errorMessage: ComputedRef<boolean>
   max: ComputedRef<number | string | undefined>
   onChecked(value: any): void
   onUnchecked(value: any): void

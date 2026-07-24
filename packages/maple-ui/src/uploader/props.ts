@@ -14,8 +14,6 @@ export interface MpFile {
 
 export type UploaderResolveType = 'default' | 'file' | 'data-url'
 
-export type UploaderValidateTrigger = 'onChange' | 'onRemove'
-
 export const props = {
   modelValue: {
     type: Array as PropType<MpFile[]>,
@@ -54,11 +52,6 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  validateTrigger: {
-    type: Array as PropType<Array<UploaderValidateTrigger>>,
-    default: () => ['onChange', 'onRemove'],
-  },
-  rules: [Array, Function, Object] as PropType<any>,
   hideList: Boolean,
   preventDefaultPreview: Boolean,
   onClickAction: defineListenerProp<(chooseFile: () => void, event: Event) => void>(),

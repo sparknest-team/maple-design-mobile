@@ -1,0 +1,17 @@
+export default {
+  placeholder: '请选择地区',
+  placeholderPathMode: '非路径模式',
+  placeholderMultiple: '级联多选',
+  placeholderPicker: 'Picker 模式',
+  placeholderPickerMultiple: 'Picker 多选',
+  placeholderList: 'List 模式',
+  placeholderListMultiple: 'List 多选',
+  zhejiang: '浙江省',
+  hangzhou: '杭州市',
+  xihu: '西湖区',
+  gongshu: '拱墅区',
+  ningbo: '宁波市',
+  jiangsu: '江苏省',
+  nanjing: '南京市',
+  suzhou: '苏州市',
+}

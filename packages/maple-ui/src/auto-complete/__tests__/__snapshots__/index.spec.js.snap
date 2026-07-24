@@ -24,9 +24,6 @@ exports[`auto-complete custom color 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -54,9 +51,6 @@ exports[`auto-complete disabled 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -82,9 +76,6 @@ exports[`auto-complete hint and line 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -112,9 +103,6 @@ exports[`auto-complete modelValue 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -141,9 +129,6 @@ exports[`auto-complete placeholder 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -171,9 +156,6 @@ exports[`auto-complete readonly 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -201,9 +183,6 @@ exports[`auto-complete size 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -231,151 +210,6 @@ exports[`auto-complete slots 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`auto-complete valiation with zod 1`] = `
-"<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
-    <div class="mp-input mp--box">
-      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-        <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-          <div class="mp-field-decorator__icon"></div>
-          <div class="mp-field-decorator__middle">
-            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
-          </div>
-          <!--v-if-->
-          <div class="mp-field-decorator__icon">
-            <!--v-if-->
-          </div>
-        </div>
-        <div class="mp-field-decorator__line mp-field-decorator--line-error">
-          <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-        </div>
-      </div>
-      <!--v-if-->
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>Required</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`auto-complete valiation with zod 2`] = `
-"<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
-    <div class="mp-input mp--box">
-      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-          <div class="mp-field-decorator__icon"></div>
-          <div class="mp-field-decorator__middle">
-            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
-          </div>
-          <!--v-if-->
-          <div class="mp-field-decorator__icon">
-            <!--v-if-->
-          </div>
-        </div>
-        <div class="mp-field-decorator__line">
-          <div class="mp-field-decorator__dot"></div>
-        </div>
-      </div>
-      <!--v-if-->
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`auto-complete validation 1`] = `
-"<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
-    <div class="mp-input mp--box">
-      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-        <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-          <div class="mp-field-decorator__icon"></div>
-          <div class="mp-field-decorator__middle">
-            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
-          </div>
-          <!--v-if-->
-          <div class="mp-field-decorator__icon">
-            <!--v-if-->
-          </div>
-        </div>
-        <div class="mp-field-decorator__line mp-field-decorator--line-error">
-          <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-        </div>
-      </div>
-      <!--v-if-->
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>Required</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`auto-complete validation 2`] = `
-"<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
-    <div class="mp-input mp--box">
-      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-          <div class="mp-field-decorator__icon"></div>
-          <div class="mp-field-decorator__middle">
-            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
-          </div>
-          <!--v-if-->
-          <div class="mp-field-decorator__icon">
-            <!--v-if-->
-          </div>
-        </div>
-        <div class="mp-field-decorator__line">
-          <div class="mp-field-decorator__dot"></div>
-        </div>
-      </div>
-      <!--v-if-->
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -405,8 +239,5 @@ exports[`auto-complete variant 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;

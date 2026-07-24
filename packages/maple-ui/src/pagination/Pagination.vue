@@ -1,326 +1,310 @@
 <template>
-  <ul :class="n()">
-    <li
-      v-ripple="{ disabled: current <= 1 || disabled }"
-      :class="
-        classes(
-          n('item'),
-          n('prev'),
-          [current <= 1 || disabled, n('item--disabled')],
-          [simple, n('item--simple'), formatElevation(elevation, 2)],
-        )
-      "
-      @click="clickItem('prev')"
-    >
-      <slot name="prev">
-        <mp-icon name="chevron-left" />
+  <div v-if="!(hideOnSinglePage && pages <= 1)" :class="rootCls">
+    <span v-if="showTotal" :class="classes(n('total'), [disabled, n('item--disabled')])">
+      <slot name="total" :total="toNumber(total)">
+        {{ totalText }}
       </slot>
-    </li>
-    <li v-if="simple" :class="classes(n('simple'), [disabled, n('item--disabled')])">
-      <mp-input
-        v-model="simpleCurrentValue"
-        mp-pagination-cover
-        variant="standard"
-        :hint="false"
+    </span>
+
+    <span v-if="simple" :class="n('simple-wrap')">
+      <page-item-step
+        type="previous"
+        :current="computedCurrent"
+        :pages="pages"
         :disabled="disabled"
-        @blur="setPage('simple', simpleCurrentValue, $event)"
-        @keydown.enter="setPage('simple', simpleCurrentValue, $event)"
-      />
-      <span>
-        / {{ pageCount }}
-        <div :class="n('simple-line')"></div>
-      </span>
-    </li>
-    <li
-      v-for="(item, index) in pageList"
-      v-else
-      :key="index"
-      v-ripple="{ disabled }"
-      :item-mode="getMode(item, index)"
-      :class="
-        classes(
-          n('item'),
-          formatElevation(elevation, 2),
-          [item === current && !disabled, n('item--active')],
-          [isHideEllipsis(item, index), n('item--hide')],
-          [disabled, n('item--disabled')],
-          [item === current && disabled, n('item--disabled--active')],
-        )
-      "
-      @click="clickItem(item, index)"
-    >
-      {{ item }}
-    </li>
-    <li
-      v-ripple="{ disabled: current >= pageCount || disabled }"
-      :class="
-        classes(
-          n('item'),
-          n('next'),
-          [current >= pageCount || disabled, n('item--disabled')],
-          [simple, n('item--simple'), formatElevation(elevation, 2)],
-        )
-      "
-      @click="clickItem('next')"
-    >
-      <slot name="next">
-        <mp-icon name="chevron-right" />
-      </slot>
-    </li>
+        :elevation="elevation"
+        simple
+        @click="handleClick"
+      >
+        <template v-if="$slots['page-item-step']" #default="slotProps">
+          <slot name="page-item-step" v-bind="slotProps" />
+        </template>
+      </page-item-step>
+      <page-jumper :disabled="disabled" :current="computedCurrent" :pages="pages" simple @change="handleClick" />
+      <page-item-step
+        type="next"
+        :current="computedCurrent"
+        :pages="pages"
+        :disabled="disabled"
+        :elevation="elevation"
+        simple
+        @click="handleClick"
+      >
+        <template v-if="$slots['page-item-step']" #default="slotProps">
+          <slot name="page-item-step" v-bind="slotProps" />
+        </template>
+      </page-item-step>
+    </span>
 
-    <mp-menu-select v-if="showSizeChanger" v-model="size" placement="cover-top" :disabled="disabled">
-      <li :class="classes(n('size'), [disabled, n('item--disabled')])">
-        <div :class="classes(n('size--open'), [current <= 1 || disabled, n('size--open--disabled')])">
-          <span>{{ size }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}</span>
-          <mp-icon :class="n('size--open-icon')" mp-pagination-cover name="menu-down" />
-        </div>
-      </li>
+    <ul v-else :class="n('list')">
+      <page-item-step
+        type="previous"
+        :current="computedCurrent"
+        :pages="pages"
+        :disabled="disabled"
+        :elevation="elevation"
+        @click="handleClick"
+      >
+        <template v-if="$slots['page-item-step']" #default="slotProps">
+          <slot name="page-item-step" v-bind="slotProps" />
+        </template>
+      </page-item-step>
 
-      <template #options>
-        <mp-menu-option v-for="(option, index) in sizeOption" :key="index" :value="option" @click="clickSize">
-          {{ option }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}
-        </mp-menu-option>
+      <template v-for="item in pageList" :key="item.key">
+        <page-item-ellipsis
+          v-if="item.type === 'more'"
+          :current="computedCurrent"
+          :pages="pages"
+          :step="item.step"
+          :disabled="disabled"
+          :elevation="elevation"
+          @click="handleClick"
+        >
+          <slot v-if="$slots['page-item-ellipsis']" name="page-item-ellipsis" />
+        </page-item-ellipsis>
+        <page-item
+          v-else
+          :page-number="item.pageNumber"
+          :current="computedCurrent"
+          :disabled="disabled"
+          :style="pageItemStyle"
+          :active-style="activePageItemStyle"
+          :elevation="elevation"
+          @click="handleClick"
+        >
+          <template v-if="$slots['page-item']" #default="slotProps">
+            <slot name="page-item" v-bind="slotProps" />
+          </template>
+        </page-item>
       </template>
-    </mp-menu-select>
 
-    <li v-if="showQuickJumper && !simple" :class="classes(n('quickly'), [disabled, n('item--disabled')])">
-      {{ (pt ? pt : t)('paginationJump') }}
-      <mp-input
-        v-model="quickJumperValue"
+      <page-item-ellipsis
+        v-if="showMore"
+        key="more"
+        :current="computedCurrent"
+        :pages="pages"
+        :step="bufferSize * 2 + 1"
         :disabled="disabled"
-        :hint="false"
-        variant="standard"
-        mp-pagination-cover
-        @blur="setPage('quick', quickJumperValue, $event)"
-        @keydown.enter="setPage('quick', quickJumperValue, $event)"
-      />
-    </li>
+        :elevation="elevation"
+        @click="handleClick"
+      >
+        <slot v-if="$slots['page-item-ellipsis']" name="page-item-ellipsis" />
+      </page-item-ellipsis>
 
-    <li v-if="totalText" :class="classes(n('total'), [disabled, n('item--disabled')])">
-      {{ totalText }}
-    </li>
-  </ul>
+      <page-item-step
+        type="next"
+        :current="computedCurrent"
+        :pages="pages"
+        :disabled="disabled"
+        :elevation="elevation"
+        @click="handleClick"
+      >
+        <template v-if="$slots['page-item-step']" #default="slotProps">
+          <slot name="page-item-step" v-bind="slotProps" />
+        </template>
+      </page-item-step>
+    </ul>
+
+    <page-options
+      v-if="showPageSize"
+      :disabled="disabled"
+      :size-options="pageSizeOptions"
+      :page-size="computedPageSize"
+      :select-props="pageSizeProps"
+      @change="handlePageSizeChange"
+    />
+
+    <page-jumper
+      v-if="!simple && showJumper"
+      :disabled="disabled"
+      :current="computedCurrent"
+      :pages="pages"
+      @change="handleClick"
+    >
+      <template v-if="$slots['jumper-prepend']" #jumper-prepend>
+        <slot name="jumper-prepend" />
+      </template>
+      <template v-if="$slots['jumper-append']" #jumper-append>
+        <slot name="jumper-append" />
+      </template>
+    </page-jumper>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, toRefs, watch } from 'vue'
 import { call, isNumber, toNumber } from '@maplejs/maple-shared'
-import MpIcon from '../icon'
-import MpInput from '../input'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
-import MpMenuOption from '../menu-option'
-import MpMenuSelect from '../menu-select'
-import Ripple from '../ripple'
-import { createNamespace, formatElevation } from '../utils/components'
-import { props, type Range } from './props'
+import { createNamespace } from '../utils/components'
+import PageItemEllipsis from './page-item-ellipsis.vue'
+import PageItemStep from './page-item-step.vue'
+import PageItem from './page-item.vue'
+import PageJumper from './page-jumper.vue'
+import PageOptions from './page-options.vue'
+import { props } from './props'
 
 const { name, n, classes } = createNamespace('pagination')
+
+type PageListItem = { type: 'page'; key: number; pageNumber: number } | { type: 'more'; key: string; step: number }
 
 export default defineComponent({
   name,
   components: {
-    MpMenuSelect,
-    MpMenuOption,
-    MpIcon,
-    MpInput,
+    PageItem,
+    PageItemStep,
+    PageItemEllipsis,
+    PageJumper,
+    PageOptions,
   },
-  directives: { Ripple },
   props,
   setup(props) {
-    const quickJumperValue = ref('')
-    const simpleCurrentValue = ref('1')
-    const isHideEllipsisHead = ref(false)
-    const isHideEllipsisTail = ref(false)
-    const current = ref(toNumber(props.current) || 1)
-    const size = ref(toNumber(props.size) || 10)
-    const pageList = ref<(string | number)[]>([])
-    const activePosition = computed(() => Math.ceil(props.maxPagerCount / 2))
-    const pageCount = computed(() => Math.ceil(toNumber(props.total) / toNumber(size.value)))
-    const range = computed<Range>(() => {
-      const start = size.value * (current.value - 1) + 1
-      const end = Math.min(size.value * current.value, toNumber(props.total))
-
-      return [start, end]
-    })
-    const totalText = computed(() => {
-      if (!props.showTotal) {
-        return ''
-      }
-
-      return props.showTotal(toNumber(props.total), range.value)
-    })
-
     const { t: pt } = injectLocaleProvider()
+    const {
+      disabled,
+      pageItemStyle,
+      activePageItemStyle,
+      elevation,
+      hideOnSinglePage,
+      simple,
+      showTotal,
+      showMore,
+      showJumper,
+      showPageSize,
+      pageSizeOptions,
+      pageSizeProps,
+      bufferSize,
+      total,
+    } = toRefs(props)
 
-    watch([() => props.current, () => props.size], ([newCurrent, newSize]) => {
-      current.value = toNumber(newCurrent) || 1
-      size.value = toNumber(newSize || 10)
+    const _current = ref(props.defaultCurrent)
+    const _pageSize = ref(props.defaultPageSize)
+
+    const computedCurrent = computed(() => toNumber(props.current ?? _current.value) || 1)
+    const computedPageSize = computed(() => toNumber(props.pageSize ?? _pageSize.value) || 10)
+    const pages = computed(() => Math.ceil(toNumber(props.total) / computedPageSize.value) || 0)
+    const totalText = computed(() => {
+      const template = String((pt || t)('paginationTotal') ?? 'Total: {0}')
+      return template.replace('{0}', String(toNumber(props.total)))
     })
 
-    watch(
-      [current, size, pageCount],
-      ([newCurrent, newSize, newCount], [oldCurrent, oldSize]) => {
-        let list = []
-        const { maxPagerCount, total, onChange } = props
-        const oldCount = Math.ceil(toNumber(total) / toNumber(oldSize))
-        const rEllipseSign = newCount - (maxPagerCount - activePosition.value) - 1
-        simpleCurrentValue.value = `${newCurrent}`
+    const handleClick = (page: number) => {
+      if (page !== computedCurrent.value && isNumber(page) && !props.disabled) {
+        _current.value = page
+        call(props['onUpdate:current'], page)
+        call(props.onChange, page)
+      }
+    }
 
-        if (newCount - 2 > maxPagerCount) {
-          if (oldCurrent === undefined || newCount !== oldCount) {
-            for (let i = 2; i < maxPagerCount + 2; i++) {
-              list.push(i)
-            }
-          }
+    const handlePageSizeChange = (pageSize: number) => {
+      _pageSize.value = pageSize
+      call(props['onUpdate:pageSize'], pageSize)
+      call(props.onPageSizeChange, pageSize)
+    }
 
-          if (newCurrent <= maxPagerCount && newCurrent < rEllipseSign) {
-            list = []
+    const pageList = computed(() => {
+      const list: PageListItem[] = []
 
-            for (let i = 1; i < maxPagerCount + 1; i++) {
-              list.push(i + 1)
-            }
+      if (pages.value < props.baseSize + props.bufferSize * 2) {
+        for (let i = 1; i <= pages.value; i++) {
+          list.push({ type: 'page', key: i, pageNumber: i })
+        }
+      } else {
+        let left = 1
+        let right = pages.value
+        let hasLeftEllipsis = false
+        let hasRightEllipsis = false
 
-            isHideEllipsisHead.value = true
-            isHideEllipsisTail.value = false
-          }
-
-          if (newCurrent > maxPagerCount && newCurrent < rEllipseSign) {
-            list = []
-
-            for (let i = 1; i < maxPagerCount + 1; i++) {
-              list.push(newCurrent + i - activePosition.value)
-            }
-
-            isHideEllipsisHead.value = newCurrent === 2 && maxPagerCount === 1
-            isHideEllipsisTail.value = false
-          }
-
-          if (newCurrent >= rEllipseSign) {
-            list = []
-
-            for (let i = 1; i < maxPagerCount + 1; i++) {
-              list.push(newCount - (maxPagerCount - i) - 1)
-            }
-
-            isHideEllipsisHead.value = false
-            isHideEllipsisTail.value = true
-          }
-
-          list = [1, '...', ...list, '...', newCount]
-        } else {
-          for (let i = 1; i <= newCount; i++) {
-            list.push(i)
-          }
+        if (computedCurrent.value > 2 + props.bufferSize) {
+          hasLeftEllipsis = true
+          left = Math.min(computedCurrent.value - props.bufferSize, pages.value - 2 * props.bufferSize)
+        }
+        if (computedCurrent.value < pages.value - (props.bufferSize + 1)) {
+          hasRightEllipsis = true
+          right = Math.max(computedCurrent.value + props.bufferSize, 2 * props.bufferSize + 1)
         }
 
-        pageList.value = list
-
-        if (oldCurrent != null && newCount > 0) {
-          call(onChange, newCurrent, newSize)
+        if (hasLeftEllipsis) {
+          list.push({ type: 'page', key: 1, pageNumber: 1 })
+          list.push({
+            type: 'more',
+            key: 'left-ellipsis-pager',
+            step: -(props.bufferSize * 2 + 1),
+          })
         }
 
+        for (let i = left; i <= right; i++) {
+          list.push({ type: 'page', key: i, pageNumber: i })
+        }
+
+        if (hasRightEllipsis) {
+          list.push({
+            type: 'more',
+            key: 'right-ellipsis-pager',
+            step: props.bufferSize * 2 + 1,
+          })
+          list.push({
+            type: 'page',
+            key: pages.value,
+            pageNumber: pages.value,
+          })
+        }
+      }
+
+      return list
+    })
+
+    watch(computedPageSize, (curPageSize, prePageSize) => {
+      if (props.autoAdjust && curPageSize !== prePageSize && computedCurrent.value > 1) {
+        const index = prePageSize * (computedCurrent.value - 1) + 1
+        const newPage = Math.ceil(index / curPageSize)
+        if (newPage !== computedCurrent.value) {
+          _current.value = newPage
+          call(props['onUpdate:current'], newPage)
+          call(props.onChange, newPage)
+        }
+      }
+    })
+
+    watch(pages, (curPages, prePages) => {
+      if (props.autoAdjust && curPages !== prePages && computedCurrent.value > 1 && computedCurrent.value > curPages) {
+        const newCurrent = Math.max(curPages, 1)
+        _current.value = newCurrent
         call(props['onUpdate:current'], newCurrent)
-        call(props['onUpdate:size'], newSize)
-      },
-      {
-        immediate: true,
-      },
-    )
-
-    function isHideEllipsis(item: string | number, index: number): boolean {
-      if (isNumber(item)) {
-        return false
+        call(props.onChange, newCurrent)
       }
+    })
 
-      return index === 1 ? isHideEllipsisHead.value : isHideEllipsisTail.value
-    }
-
-    function getMode(item: string | number, index: number) {
-      if (isNumber(item)) {
-        return 'basic'
-      }
-
-      return index === 1 ? 'head' : 'tail'
-    }
-
-    function clickItem(item: string | number, index?: number) {
-      if (item === current.value || props.disabled) {
-        return
-      }
-
-      if (item === '...') {
-        current.value =
-          index === 1
-            ? Math.max(current.value - props.maxPagerCount, 1)
-            : Math.min(current.value + props.maxPagerCount, pageCount.value)
-        return
-      }
-
-      if (item === 'prev') {
-        current.value = ensureCurrentBoundary(current.value - 1)
-        return
-      }
-
-      if (item === 'next') {
-        current.value = ensureCurrentBoundary(current.value + 1)
-        return
-      }
-
-      if (isNumber(item)) {
-        current.value = item
-      }
-    }
-
-    function clickSize() {
-      const targetCurrent = ensureCurrentBoundary(current.value)
-      simpleCurrentValue.value = String(targetCurrent)
-      current.value = targetCurrent
-    }
-
-    function ensureCurrentBoundary(targetCurrent: number) {
-      if (targetCurrent > pageCount.value) {
-        return pageCount.value
-      }
-
-      if (targetCurrent < 1) {
-        return 1
-      }
-
-      return targetCurrent
-    }
-
-    function setPage(type: 'simple' | 'quick', page: string, event: KeyboardEvent | FocusEvent) {
-      ;(event.target as HTMLInputElement).blur()
-
-      const targetCurrent = ensureCurrentBoundary(toNumber(page))
-      simpleCurrentValue.value = String(targetCurrent)
-      current.value = targetCurrent
-
-      if (type === 'quick') {
-        quickJumperValue.value = ''
-      }
-    }
+    const rootCls = computed(() => classes(n(), [props.simple, n('--simple')], [props.disabled, n('--disabled')]))
 
     return {
-      current,
-      size,
-      pageCount,
-      pageList,
-      quickJumperValue,
-      simpleCurrentValue,
-      totalText,
-      pt,
-      t,
       n,
       classes,
-      getMode,
-      isHideEllipsis,
-      clickItem,
-      clickSize,
-      setPage,
+      t,
+      pt,
       toNumber,
-      formatElevation,
+      rootCls,
+      computedCurrent,
+      computedPageSize,
+      pages,
+      pageList,
+      disabled,
+      pageItemStyle,
+      activePageItemStyle,
+      elevation,
+      hideOnSinglePage,
+      simple,
+      showTotal,
+      showMore,
+      showJumper,
+      showPageSize,
+      pageSizeOptions,
+      pageSizeProps,
+      bufferSize,
+      total,
+      totalText,
+      handleClick,
+      handlePageSizeChange,
     }
   },
 })

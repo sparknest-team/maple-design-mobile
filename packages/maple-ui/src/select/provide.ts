@@ -1,11 +1,10 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { type Validation } from '../form/provide'
 import { type OptionProvider } from '../option/provide'
 
 export const SELECT_BIND_OPTION_KEY = Symbol('SELECT_BIND_OPTION_KEY')
 
-export interface SelectProvider extends Validation {
+export interface SelectProvider {
   multiple: ComputedRef<boolean>
   focusColor: ComputedRef<string | undefined>
   computeLabel(): void

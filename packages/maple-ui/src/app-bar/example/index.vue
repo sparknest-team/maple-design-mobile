@@ -49,6 +49,12 @@ onThemeChange()
     </template>
   </mp-app-bar>
 
+  <app-type>{{ t('border') }}</app-type>
+  <mp-app-bar :title="t('border')" :elevation="false" border />
+
+  <app-type>{{ t('elevation') }}</app-type>
+  <mp-app-bar :title="t('elevation')" :elevation="false" />
+
   <app-type>{{ t('custom') }}</app-type>
   <mp-app-bar
     round

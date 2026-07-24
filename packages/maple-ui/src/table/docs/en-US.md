@@ -82,7 +82,8 @@ function get(current, size) {
           :simple="false"
           :current="1"
           :total="100"
-          :size-option="[5, 10]"
+          :page-size-options="[5, 10]"
+          show-page-size
           @change="get"
         />
       </div>
@@ -149,7 +150,8 @@ function get(current, size) {
           :simple="false"
           :current="1"
           :total="100"
-          :size-option="[5, 10]"
+          :page-size-options="[5, 10]"
+          show-page-size
           @change="get"
         />
       </div>

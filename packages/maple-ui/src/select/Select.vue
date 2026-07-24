@@ -7,13 +7,14 @@
     @blur="handleRootBlur"
   >
     <mp-menu
-      v-model:show="showMenu"
+      v-if="presentation === 'menu'"
+      v-model:show="show"
       mp-select-cover
       same-width
       close-on-click-reference
       :close-on-key-escape="false"
       :class="n('menu')"
-      :popover-class="variant === 'standard' && hint ? n('--standard-menu-margin') : undefined"
+      :popover-class="variant === 'standard' && mergedHint ? n('--standard-menu-margin') : undefined"
       :offset-y="offsetY"
       :disabled="formReadonly || readonly || formDisabled || disabled"
       :placement="placement"
@@ -27,12 +28,12 @@
           variant,
           placeholder,
           line,
-          hint,
+          hint: mergedHint,
           textColor,
           focusColor,
           blurColor,
           isFocusing,
-          isError: !!errorMessage,
+          isError: mergedError,
           formDisabled,
           disabled,
           clearable,
@@ -46,7 +47,7 @@
         </template>
 
         <div
-          :class="classes(n('select'), [errorMessage, n('--error')], [formDisabled || disabled, n('--disabled')])"
+          :class="classes(n('select'), [mergedError, n('--error')], [formDisabled || disabled, n('--disabled')])"
           :style="{
             textAlign,
             color: textColor,
@@ -55,29 +56,30 @@
           <div :class="n('label')">
             <slot v-if="!isEmptyModelValue" name="selected">
               <template v-if="multiple">
-                <div v-if="chip" :class="n('chips')">
-                  <mp-chip
-                    v-for="l in labels"
+                <div v-if="tag" :class="n('tags')">
+                  <mp-tag
+                    v-for="l in displayLabels"
                     :key="l"
-                    :class="n('chip')"
+                    round
+                    :class="n('tag')"
                     mp-select-cover
-                    closeable
-                    size="small"
-                    :type="errorMessage ? 'danger' : undefined"
+                    closable
+                    size="sm"
+                    :status="mergedError ? 'danger' : 'default'"
                     @click.stop
                     @close="() => handleClose(l)"
                   >
                     <maybe-v-node :is="l" />
-                  </mp-chip>
+                  </mp-tag>
                 </div>
                 <div v-else :class="n('values')">
-                  <template v-for="(l, labelIndex) in labels" :key="l">
-                    <maybe-v-node :is="l" />{{ labelIndex !== labels.length - 1 ? separator : '' }}
+                  <template v-for="(l, labelIndex) in displayLabels" :key="l">
+                    <maybe-v-node :is="l" />{{ labelIndex !== displayLabels.length - 1 ? separator : '' }}
                   </template>
                 </div>
               </template>
 
-              <maybe-v-node :is="label" v-else />
+              <maybe-v-node :is="displayLabel" v-else />
             </slot>
           </div>
 
@@ -91,9 +93,9 @@
             {{ placeholder }}
           </span>
 
-          <slot name="arrow-icon" :focus="isFocusing" :menu-open="showMenu">
+          <slot name="arrow-icon" :focus="isFocusing" :menu-open="show">
             <mp-icon
-              :class="classes(n('arrow'), [showMenu, n('--arrow-rotate')])"
+              :class="classes(n('arrow'), [show, n('--arrow-rotate')])"
               mp-select-cover
               name="menu-down"
               :transition="300"
@@ -128,25 +130,318 @@
       </template>
     </mp-menu>
 
-    <mp-form-details :error-message="errorMessage" @click.stop />
+    <div v-else-if="presentation === 'picker'" :class="n('picker')">
+      <mp-field-decorator
+        v-bind="{
+          value: modelValue,
+          size,
+          variant,
+          placeholder,
+          line,
+          hint: mergedHint,
+          textColor,
+          focusColor,
+          blurColor,
+          isFocusing,
+          isError: mergedError,
+          formDisabled,
+          disabled,
+          clearable,
+          cursor,
+          onClick: handleClick,
+          onClear: handleClear,
+        }"
+      >
+        <template v-if="$slots['prepend-icon']" #prepend-icon>
+          <slot name="prepend-icon" />
+        </template>
+
+        <div
+          :class="classes(n('select'), [mergedError, n('--error')], [formDisabled || disabled, n('--disabled')])"
+          :style="{
+            textAlign,
+            color: textColor,
+          }"
+        >
+          <div :class="n('label')">
+            <slot v-if="!isEmptyModelValue" name="selected">
+              <template v-if="multiple">
+                <div v-if="tag" :class="n('tags')">
+                  <mp-tag
+                    v-for="l in displayLabels"
+                    :key="l"
+                    round
+                    :class="n('tag')"
+                    mp-select-cover
+                    closable
+                    size="sm"
+                    :status="mergedError ? 'danger' : 'default'"
+                    @click.stop
+                    @close="() => handleClose(l)"
+                  >
+                    <maybe-v-node :is="l" />
+                  </mp-tag>
+                </div>
+                <div v-else :class="n('values')">
+                  <template v-for="(l, labelIndex) in displayLabels" :key="l">
+                    <maybe-v-node :is="l" />{{ labelIndex !== displayLabels.length - 1 ? separator : '' }}
+                  </template>
+                </div>
+              </template>
+
+              <maybe-v-node :is="displayLabel" v-else />
+            </slot>
+          </div>
+
+          <span
+            v-if="enableCustomPlaceholder"
+            :class="classes(n('placeholder'), n('$--ellipsis'))"
+            :style="{
+              color: placeholderColor,
+            }"
+          >
+            {{ placeholder }}
+          </span>
+
+          <slot name="arrow-icon" :focus="isFocusing" :menu-open="show">
+            <mp-icon
+              :class="classes(n('arrow'), [show, n('--arrow-rotate')])"
+              mp-select-cover
+              name="menu-down"
+              :transition="300"
+            />
+          </slot>
+        </div>
+
+        <template #clear-icon="{ clear }">
+          <slot name="clear-icon" :clear="clear" />
+        </template>
+
+        <template #append-icon>
+          <slot name="append-icon" />
+        </template>
+      </mp-field-decorator>
+
+      <mp-popup v-model:show="show" position="bottom" v-bind="popupBindingProps">
+        <div v-if="multiple" :class="n('picker-panel')">
+          <div :class="n('picker-toolbar')">
+            <mp-button :class="n('picker-cancel-button')" mp-select-cover text @click="handlePickerMultipleCancel">
+              {{ pickerCancelText }}
+            </mp-button>
+            <div :class="n('picker-title')">{{ pickerTitleText }}</div>
+            <mp-button :class="n('picker-done-button')" mp-select-cover text @click="handlePickerMultipleDone">
+              {{ pickerDoneText }}
+            </mp-button>
+          </div>
+
+          <div v-if="pickerDraftLabels.length" :class="n('picker-draft')">
+            <mp-tag
+              v-for="(l, i) in pickerDraftLabels"
+              :key="i"
+              round
+              :class="n('picker-draft-tag')"
+              mp-select-cover
+              closable
+              size="sm"
+              @close="() => handlePickerDraftClose(i)"
+            >
+              {{ l }}
+            </mp-tag>
+          </div>
+
+          <mp-picker
+            ref="pickerRef"
+            v-bind="pickerBindingProps"
+            :toolbar="false"
+            :columns="pickerColumns"
+            :model-value="pickerWheelValue"
+            :selected-values="pickerSelectedValues"
+            @update:model-value="handlePickerWheelUpdate"
+            @confirm="handlePickerConfirm"
+          />
+
+          <div :class="n('picker-add')">
+            <mp-button
+              :class="n('picker-add-button')"
+              mp-select-cover
+              type="primary"
+              block
+              @click="handlePickerMultipleAdd"
+            >
+              {{ pickerAddText }}
+            </mp-button>
+          </div>
+        </div>
+
+        <mp-picker
+          v-else
+          v-bind="pickerBindingProps"
+          :columns="pickerColumns"
+          :model-value="pickerValue"
+          :selected-values="pickerSelectedValues"
+          @confirm="handlePickerConfirm"
+          @cancel="handlePickerCancel"
+        />
+      </mp-popup>
+    </div>
+
+    <div v-else :class="n('list')">
+      <mp-field-decorator
+        v-bind="{
+          value: modelValue,
+          size,
+          variant,
+          placeholder,
+          line,
+          hint: mergedHint,
+          textColor,
+          focusColor,
+          blurColor,
+          isFocusing,
+          isError: mergedError,
+          formDisabled,
+          disabled,
+          clearable,
+          cursor,
+          onClick: handleClick,
+          onClear: handleClear,
+        }"
+      >
+        <template v-if="$slots['prepend-icon']" #prepend-icon>
+          <slot name="prepend-icon" />
+        </template>
+
+        <div
+          :class="classes(n('select'), [mergedError, n('--error')], [formDisabled || disabled, n('--disabled')])"
+          :style="{
+            textAlign,
+            color: textColor,
+          }"
+        >
+          <div :class="n('label')">
+            <slot v-if="!isEmptyModelValue" name="selected">
+              <template v-if="multiple">
+                <div v-if="tag" :class="n('tags')">
+                  <mp-tag
+                    v-for="l in displayLabels"
+                    :key="l"
+                    round
+                    :class="n('tag')"
+                    mp-select-cover
+                    closable
+                    size="sm"
+                    :status="mergedError ? 'danger' : 'default'"
+                    @click.stop
+                    @close="() => handleClose(l)"
+                  >
+                    <maybe-v-node :is="l" />
+                  </mp-tag>
+                </div>
+                <div v-else :class="n('values')">
+                  <template v-for="(l, labelIndex) in displayLabels" :key="l">
+                    <maybe-v-node :is="l" />{{ labelIndex !== displayLabels.length - 1 ? separator : '' }}
+                  </template>
+                </div>
+              </template>
+
+              <maybe-v-node :is="displayLabel" v-else />
+            </slot>
+          </div>
+
+          <span
+            v-if="enableCustomPlaceholder"
+            :class="classes(n('placeholder'), n('$--ellipsis'))"
+            :style="{
+              color: placeholderColor,
+            }"
+          >
+            {{ placeholder }}
+          </span>
+
+          <slot name="arrow-icon" :focus="isFocusing" :menu-open="show">
+            <mp-icon
+              :class="classes(n('arrow'), [show, n('--arrow-rotate')])"
+              mp-select-cover
+              name="menu-down"
+              :transition="300"
+            />
+          </slot>
+        </div>
+
+        <template #clear-icon="{ clear }">
+          <slot name="clear-icon" :clear="clear" />
+        </template>
+
+        <template #append-icon>
+          <slot name="append-icon" />
+        </template>
+      </mp-field-decorator>
+
+      <mp-popup v-model:show="show" position="bottom" v-bind="popupBindingProps">
+        <div :class="n('list-panel')">
+          <div v-if="multiple" :class="n('picker-toolbar')">
+            <mp-button :class="n('picker-cancel-button')" mp-select-cover text @click="handlePickerMultipleCancel">
+              {{ pickerCancelText }}
+            </mp-button>
+            <div :class="n('picker-title')">{{ listTitleText }}</div>
+            <mp-button :class="n('picker-done-button')" mp-select-cover text @click="handlePickerMultipleDone">
+              {{ pickerDoneText }}
+            </mp-button>
+          </div>
+          <div v-else :class="n('list-header')">
+            <div :class="n('list-title')">{{ listTitleText }}</div>
+            <mp-icon :class="n('list-close')" mp-select-cover name="window-close" @click="handleListClose" />
+          </div>
+
+          <div :class="n('list-options')">
+            <div
+              v-for="option in listSourceOptions"
+              :key="option[valueKey]"
+              :class="
+                classes(
+                  n('list-option'),
+                  [isListOptionChecked(option), n('list-option--checked')],
+                  [option.disabled || option[disabledKey], n('list-option--disabled')],
+                )
+              "
+              @click="handleListOptionClick(option)"
+            >
+              <span :class="n('list-option-label')">{{ option[labelKey] }}</span>
+              <mp-icon
+                v-if="isListOptionChecked(option)"
+                :class="n('list-option-check')"
+                mp-select-cover
+                name="check"
+              />
+            </div>
+          </div>
+        </div>
+      </mp-popup>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { assert, call, doubleRaf, isArray, isEmpty, isFunction, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener } from '@maplejs/maple-use'
-import MpChip from '../chip'
+import { useEventListener, useVModel } from '@maplejs/maple-use'
+import MpButton from '../button'
 import MpFieldDecorator from '../field-decorator'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import MpMenu from '../menu'
 import MpOption from '../option'
 import { type OptionProvider } from '../option/provide'
-import { createNamespace, MaybeVNode, useValidation } from '../utils/components'
+import { _PickerComponent as MpPicker } from '../picker'
+import MpPopup from '../popup'
+import MpTag from '../tag'
+import { createNamespace, MaybeVNode } from '../utils/components'
 import { focusChildElementByKey, toPxNum } from '../utils/elements'
-import { props, type SelectValidateTrigger } from './props'
+import { normalizeSelectOptionsToPickerColumns, useFieldNames } from '../utils/options'
+import { props, type SelectOption } from './props'
 import { useOptions, type SelectProvider } from './provide'
 import { useSelectController } from './useSelectController'
 
@@ -157,47 +452,95 @@ export default defineComponent({
   components: {
     MpIcon,
     MpMenu,
-    MpChip,
+    MpPopup,
+    MpPicker,
+    MpButton,
+    MpTag,
     MpOption,
     MpFieldDecorator,
-    MpFormDetails,
     MaybeVNode,
   },
   props,
   setup(props) {
+    const { t: pt } = injectLocaleProvider()
+    const translate = (key: string) => (pt ? pt : t)(key as any)
     const isFocusing = ref(false)
-    const showMenu = ref(false)
+    const show = useVModel(props, 'show', { defaultValue: false })
     const root = ref<HTMLElement | null>(null)
+    const pickerRef = ref<InstanceType<typeof MpPicker> | null>(null)
+    const pickerDraft = ref<any[]>([])
+    const pickerWheelValue = ref<(string | number)[]>([])
     const multiple = computed(() => props.multiple)
     const focusColor = computed(() => props.focusColor)
     const isEmptyModelValue = computed(() => isEmpty(props.modelValue))
     const cursor = computed(() => (props.disabled || props.readonly ? '' : 'pointer'))
     const offsetY = ref(0)
-    const { bindForm, form } = useForm()
+    const { form } = useForm()
+    const { mergedError, eventHandlers, hasOuterLabel } = useFormItem()
     const { length, options, bindOptions } = useOptions()
+    const fieldNames = useFieldNames(props)
     const { label, labels, computeLabel, getSelectedValue } = useSelectController({
       modelValue: () => props.modelValue,
       multiple: () => props.multiple,
       optionProviders: () => options,
       optionProvidersLength: () => length.value,
     })
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
+    const pickerColumns = computed(() => [normalizeSelectOptionsToPickerColumns(props.options, fieldNames.value)])
+    const pickerValue = computed(() => (props.modelValue == null ? [] : [props.modelValue]))
+    const isPopupPresentation = computed(() => props.presentation === 'picker' || props.presentation === 'list')
+    const valueKey = computed(() => fieldNames.value.value)
+    const labelKey = computed(() => fieldNames.value.label)
+    const disabledKey = computed(() => fieldNames.value.disabled)
+    const listSourceOptions = computed(() => props.options)
+    const pickerLabel = computed(() => {
+      if (!isPopupPresentation.value || props.multiple) {
+        return ''
+      }
+      return findOptionLabel(props.modelValue)
+    })
+    const pickerDraftLabels = computed(() => pickerDraft.value.map((value) => findOptionLabel(value)))
+    const pickerSelectedValues = computed(() => {
+      if (props.multiple) {
+        return pickerDraft.value
+      }
+      return props.modelValue == null ? [] : [props.modelValue]
+    })
+    const displayLabel = computed(() => (isPopupPresentation.value ? pickerLabel.value : label.value))
+    const displayLabels = computed(() => {
+      if (isPopupPresentation.value) {
+        if (!props.multiple) {
+          return []
+        }
+        const values = isArray(props.modelValue) ? props.modelValue : []
+        return values.map((value) => findOptionLabel(value))
+      }
+      return labels.value
+    })
+    const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
+    const popupBindingProps = computed(() => ({ ...props.popupProps }))
+    const pickerTitleText = computed(() => props.pickerProps?.title ?? translate('pickerTitle'))
+    const pickerCancelText = computed(() => props.pickerProps?.cancelButtonText ?? translate('pickerCancelButtonText'))
+    const pickerAddText = computed(() => translate('cascaderPickerAddButtonText'))
+    const pickerDoneText = computed(() => translate('cascaderPickerDoneButtonText'))
+    const listTitleText = computed(() => props.pickerProps?.title ?? translate('pickerTitle'))
+    const presentation = computed(() => props.presentation)
     const menuEl = ref<HTMLElement | null>(null)
     const placement = computed(() => (props.variant === 'outlined' ? 'bottom' : 'cover-top'))
-    const placeholderColor = computed(() => {
-      const { hint, blurColor, focusColor } = props
+    const mergedHint = computed(() => {
+      if (hasOuterLabel.value) {
+        return false
+      }
 
-      if (hint) {
+      return props.hint
+    })
+    const placeholderColor = computed(() => {
+      const { blurColor, focusColor } = props
+
+      if (mergedHint.value) {
         return undefined
       }
 
-      if (errorMessage.value) {
+      if (mergedError.value) {
         return 'var(--mp-field-decorator-error-color)'
       }
 
@@ -207,16 +550,13 @@ export default defineComponent({
 
       return blurColor || 'var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color))'
     })
-    const enableCustomPlaceholder = computed(() => !props.hint && isEmpty(props.modelValue))
+    const enableCustomPlaceholder = computed(() => !mergedHint.value && isEmpty(props.modelValue))
 
     const selectProvider: SelectProvider = {
       multiple,
       focusColor,
       computeLabel,
       onSelect,
-      reset,
-      validate,
-      resetValidation,
     }
 
     watch(
@@ -230,12 +570,16 @@ export default defineComponent({
       },
     )
 
+    watch(show, (visible) => {
+      if (visible && isPopupPresentation.value && props.multiple) {
+        initPickerMultipleDraft()
+      }
+    })
+
     bindOptions(selectProvider)
 
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)
-
-    call(bindForm, selectProvider)
 
     function handleKeydown(event: KeyboardEvent) {
       const { disabled, readonly } = props
@@ -246,57 +590,50 @@ export default defineComponent({
 
       const { key } = event
 
-      if (key === ' ' && !showMenu.value) {
+      if (key === ' ' && !show.value) {
         preventDefault(event)
         return
       }
 
-      if (key === 'Escape' && showMenu.value) {
+      if (key === 'Escape' && show.value) {
         root.value!.focus()
         preventDefault(event)
-        showMenu.value = false
+        show.value = false
         return
       }
 
-      if (key === 'Tab' && showMenu.value) {
+      if (key === 'Tab' && show.value) {
         root.value!.focus()
         preventDefault(event)
         handleBlur()
         return
       }
 
-      if (key === 'Enter' && !showMenu.value) {
+      if (key === 'Enter' && !show.value) {
         preventDefault(event)
-        showMenu.value = true
+        show.value = true
         return
       }
 
-      if ((key === 'ArrowDown' || key === 'ArrowUp') && showMenu.value) {
+      if ((key === 'ArrowDown' || key === 'ArrowUp') && show.value && props.presentation === 'menu' && menuEl.value) {
         preventDefault(event)
-        focusChildElementByKey(root.value!, menuEl.value!, key)
+        focusChildElementByKey(root.value!, menuEl.value, key)
       }
     }
 
     function handleKeyup(event: KeyboardEvent) {
       const { disabled, readonly } = props
 
-      if (form?.disabled.value || form?.readonly.value || disabled || readonly || showMenu.value || !isFocusing.value) {
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly || show.value || !isFocusing.value) {
         return
       }
 
       const { key } = event
 
-      if (key === ' ' && !showMenu.value) {
+      if (key === ' ' && !show.value) {
         preventDefault(event)
-        showMenu.value = true
+        show.value = true
       }
-    }
-
-    function validateWithTrigger(trigger: SelectValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
     }
 
     function handleFocus() {
@@ -310,7 +647,7 @@ export default defineComponent({
 
       focus()
       call(onFocus)
-      validateWithTrigger('onFocus')
+      eventHandlers.value.onFocus?.()
     }
 
     function handleBlur() {
@@ -321,11 +658,11 @@ export default defineComponent({
 
       blur()
       call(onBlur)
-      validateWithTrigger('onBlur')
+      eventHandlers.value.onBlur?.()
     }
 
     function handleRootBlur() {
-      if (showMenu.value) {
+      if (show.value) {
         return
       }
 
@@ -340,6 +677,161 @@ export default defineComponent({
       handleBlur()
     }
 
+    function findOptionLabel(targetValue: any) {
+      const option = props.options.find((item) => item[fieldNames.value.value] === targetValue)
+      return option?.[fieldNames.value.label] ?? targetValue ?? ''
+    }
+
+    function findOptionByValue(targetValue: any) {
+      return props.options.find((item) => item[fieldNames.value.value] === targetValue)
+    }
+
+    function handlePickerConfirm(values: (string | number)[], indexes: number[], pickerOptions: any[]) {
+      const { disabled, readonly, onChange, onClose } = props
+
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
+        return
+      }
+
+      // Multiple picker: confirm means "add to draft cart", not commit
+      if (props.multiple) {
+        addPickerDraftValue(pickerOptions[0]?._raw?.[fieldNames.value.value] ?? values[0])
+        return
+      }
+
+      const pickedOption = pickerOptions[0]?._raw
+      const selectedValue = pickedOption?.[fieldNames.value.value] ?? values[0]
+
+      call(props['onUpdate:modelValue'], selectedValue)
+      call(onChange, selectedValue)
+      eventHandlers.value.onChange?.()
+      call(onClose, selectedValue)
+      show.value = false
+    }
+
+    function handlePickerCancel(values: (string | number)[], indexes: number[], pickerOptions: any[]) {
+      const { disabled, readonly, onClose } = props
+
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
+        return
+      }
+
+      const pickedOption = pickerOptions[0]?._raw
+      call(onClose, pickedOption?.[fieldNames.value.value] ?? values[0])
+      show.value = false
+    }
+
+    function handlePickerWheelUpdate(values: (string | number)[]) {
+      pickerWheelValue.value = values
+    }
+
+    function initPickerMultipleDraft() {
+      const values = isArray(props.modelValue) ? props.modelValue : []
+      pickerDraft.value = [...values]
+      const last = values[values.length - 1]
+      pickerWheelValue.value = last == null ? [] : [last]
+    }
+
+    function addPickerDraftValue(value: string | number | undefined) {
+      if (value == null || value === '') {
+        return
+      }
+      const option = findOptionByValue(value)
+      if (!option || option.disabled || option[fieldNames.value.disabled]) {
+        return
+      }
+      if (pickerDraft.value.includes(value)) {
+        return
+      }
+      pickerDraft.value.push(value)
+    }
+
+    function handlePickerMultipleAdd() {
+      const { disabled, readonly } = props
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
+        return
+      }
+      pickerRef.value?.confirm()
+    }
+
+    function handlePickerMultipleDone() {
+      const { disabled, readonly, onChange, onClose } = props
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
+        return
+      }
+      const value = [...pickerDraft.value]
+      call(props['onUpdate:modelValue'], value)
+      call(onChange, value)
+      eventHandlers.value.onChange?.()
+      call(onClose, value)
+      show.value = false
+    }
+
+    function handlePickerMultipleCancel() {
+      const { disabled, readonly, onClose } = props
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
+        return
+      }
+      call(onClose, props.modelValue)
+      show.value = false
+    }
+
+    function handlePickerDraftClose(index: number) {
+      pickerDraft.value.splice(index, 1)
+    }
+
+    function isListOptionChecked(option: SelectOption) {
+      const value = option[fieldNames.value.value]
+      if (props.multiple) {
+        return pickerDraft.value.includes(value)
+      }
+      return props.modelValue === value
+    }
+
+    function handleListOptionClick(option: SelectOption) {
+      const { disabled, readonly, onChange, onClose } = props
+
+      if (
+        form?.disabled.value ||
+        form?.readonly.value ||
+        disabled ||
+        readonly ||
+        option.disabled ||
+        option[fieldNames.value.disabled]
+      ) {
+        return
+      }
+
+      const value = option[fieldNames.value.value]
+
+      if (props.multiple) {
+        const index = pickerDraft.value.indexOf(value)
+        if (index >= 0) {
+          pickerDraft.value.splice(index, 1)
+        } else {
+          pickerDraft.value.push(value)
+        }
+        return
+      }
+
+      call(props['onUpdate:modelValue'], value)
+      call(onChange, value)
+      eventHandlers.value.onChange?.()
+      call(onClose, value)
+      show.value = false
+    }
+
+    function handleListClose() {
+      const { disabled, readonly, onClose } = props
+
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
+        return
+      }
+
+      call(onClose, props.modelValue)
+      show.value = false
+    }
+
     function onSelect(option: OptionProvider) {
       const { disabled, readonly, multiple, onChange } = props
 
@@ -350,12 +842,12 @@ export default defineComponent({
       const selectedValue = getSelectedValue(option)
       call(props['onUpdate:modelValue'], selectedValue)
       call(onChange, selectedValue)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
 
       if (!multiple) {
         root.value!.focus()
         doubleRaf().then(() => {
-          showMenu.value = false
+          show.value = false
         })
       }
     }
@@ -370,20 +862,27 @@ export default defineComponent({
       const changedModelValue = multiple ? [] : undefined
       call(props['onUpdate:modelValue'], changedModelValue)
       call(onClear, changedModelValue)
-      validateWithTrigger('onClear')
+      eventHandlers.value.onClear?.()
       call(onChange, changedModelValue)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
     }
 
     function handleClick(e: Event) {
-      const { disabled, onClick } = props
+      const { disabled, onClick, readonly } = props
 
       if (form?.disabled.value || disabled) {
         return
       }
 
       call(onClick, e)
-      validateWithTrigger('onClick')
+
+      if (form?.readonly.value || readonly) {
+        return
+      }
+
+      if (isPopupPresentation.value) {
+        show.value = true
+      }
     }
 
     function handleClose(text: any) {
@@ -393,16 +892,22 @@ export default defineComponent({
         return
       }
 
-      const option = options.find(({ label }) => label.value === text)
-      const changedModelValue = (modelValue as unknown as any[]).filter(
-        (value) => value !== (option!.value.value ?? option!.label.value),
-      )
+      let changedModelValue: any[]
+      if (isPopupPresentation.value) {
+        const option = props.options.find((item) => item[fieldNames.value.label] === text)
+        const optionValue = option?.[fieldNames.value.value]
+        changedModelValue = (modelValue as unknown as any[]).filter((value) => value !== optionValue)
+      } else {
+        const option = options.find(({ label }) => label.value === text)
+        changedModelValue = (modelValue as unknown as any[]).filter(
+          (value) => value !== (option!.value.value ?? option!.label.value),
+        )
+      }
 
       call(props['onUpdate:modelValue'], changedModelValue)
       call(onClose, changedModelValue)
-      validateWithTrigger('onClose')
       call(onChange, changedModelValue)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
     }
 
     // expose
@@ -414,39 +919,49 @@ export default defineComponent({
     // expose
     function blur() {
       isFocusing.value = false
-      showMenu.value = false
-    }
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    // expose
-    function reset() {
-      call(props['onUpdate:modelValue'], props.multiple ? [] : undefined)
-      resetValidation()
+      show.value = false
     }
 
     return {
       root,
       offsetY,
       isFocusing,
-      showMenu,
-      errorMessage,
+      show,
+      mergedError,
+      mergedHint,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
       label,
       labels,
+      displayLabel,
+      displayLabels,
+      pickerColumns,
+      pickerValue,
+      pickerWheelValue,
+      pickerDraftLabels,
+      pickerSelectedValues,
+      pickerRef,
+      pickerBindingProps,
+      popupBindingProps,
+      pickerTitleText,
+      pickerCancelText,
+      pickerAddText,
+      pickerDoneText,
+      listTitleText,
+      listSourceOptions,
+      valueKey,
+      labelKey,
+      disabledKey,
       isEmptyModelValue,
       menuEl,
       placement,
       cursor,
       placeholderColor,
       enableCustomPlaceholder,
-      isFunction,
+      presentation,
       n,
       classes,
+      isListOptionChecked,
       handleFocus,
       handleBlur,
       handleClickOutside,
@@ -454,9 +969,15 @@ export default defineComponent({
       handleClick,
       handleClose,
       handleRootBlur,
-      reset,
-      validate,
-      resetValidation,
+      handlePickerConfirm,
+      handlePickerCancel,
+      handlePickerWheelUpdate,
+      handlePickerMultipleAdd,
+      handlePickerMultipleDone,
+      handlePickerMultipleCancel,
+      handlePickerDraftClose,
+      handleListOptionClick,
+      handleListClose,
       focus,
       blur,
     }
@@ -468,10 +989,12 @@ export default defineComponent({
 @import '../styles/common';
 @import '../styles/elevation';
 @import '../icon/icon';
+@import '../button/button';
 @import '../menu/menu';
 @import '../field-decorator/fieldDecorator';
-@import '../form-details/formDetails';
-@import '../chip/chip';
+@import '../tag/tag';
 @import '../option/option';
+@import '../popup/popup';
+@import '../picker/picker';
 @import './select';
 </style>

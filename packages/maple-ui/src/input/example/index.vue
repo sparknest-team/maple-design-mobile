@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const standardValue = ref('')
@@ -9,7 +8,6 @@ const standardValue2 = ref('')
 const standardValue3 = ref('')
 const standardValue4 = ref('')
 const standardValue5 = ref('')
-const standardValue6 = ref('')
 const standardValue7 = ref('')
 const standardValue8 = ref('')
 const standardValue9 = ref('')
@@ -17,14 +15,12 @@ const standardValue10 = ref('')
 const standardValue11 = ref('')
 const standardValue12 = ref('')
 const standardValue13 = ref('')
-const standardValue14 = ref('')
 
 const outlinedValue = ref('')
 const outlinedValue2 = ref('')
 const outlinedValue3 = ref('')
 const outlinedValue4 = ref('')
 const outlinedValue5 = ref('')
-const outlinedValue6 = ref('')
 const outlinedValue7 = ref('')
 const outlinedValue8 = ref('')
 const outlinedValue9 = ref('')
@@ -32,7 +28,6 @@ const outlinedValue10 = ref('')
 const outlinedValue11 = ref('')
 const outlinedValue12 = ref('')
 const outlinedValue13 = ref('')
-const outlinedValue14 = ref('')
 
 watchLang(use)
 onThemeChange()
@@ -51,12 +46,6 @@ onThemeChange()
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-input>
-    <mp-input v-model="standardValue6" :placeholder="t('validate')" :rules="(v) => v.length > 6 || t('maxMessage')" />
-    <mp-input
-      v-model="standardValue14"
-      :placeholder="t('validateWithZod')"
-      :rules="z.string().min(7, t('maxMessage'))"
-    />
     <mp-input v-model="standardValue7" :placeholder="t('displayIcon')">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -92,18 +81,6 @@ onThemeChange()
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-input>
-    <mp-input
-      v-model="outlinedValue6"
-      variant="outlined"
-      :placeholder="t('validate')"
-      :rules="(v) => v.length > 6 || t('maxMessage')"
-    />
-    <mp-input
-      v-model="outlinedValue14"
-      variant="outlined"
-      :placeholder="t('validateWithZod')"
-      :rules="z.string().min(7, t('maxMessage'))"
-    />
     <mp-input v-model="outlinedValue7" variant="outlined" :placeholder="t('displayIcon')">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />

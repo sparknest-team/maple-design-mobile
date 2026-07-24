@@ -9,7 +9,6 @@
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref()
 const value2 = ref()
@@ -21,14 +20,10 @@ const value7 = ref()
 const value8 = ref()
 const value9 = ref([])
 const value10 = ref([])
-const value11 = ref()
-const value12 = ref([])
 const value13 = ref()
 const value14 = ref()
 const value15 = ref([])
 const value16 = ref()
-const value17 = ref()
-const value18 = ref([])
 
 const options = ref([
   {
@@ -152,47 +147,7 @@ const keyOptions = ref([
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select placeholder="纸片风格的多选" chip multiple v-model="value10">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select
-      placeholder="单选值校验"
-      :rules="[(v) => v === '摸鱼' || '您一定得选择摸鱼']"
-      v-model="value11"
-    >
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="摸鱼" />
-    </mp-select>
-    <mp-select
-      placeholder="使用 Zod 校验单选值"
-      :rules="z.string().refine(v => v === '摸鱼', '您一定得选择摸鱼')"
-      v-model="value17"
-    >
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="摸鱼" />
-    </mp-select>
-    <mp-select
-      multiple
-      placeholder="多选值校验"
-      :rules="[(v) => v.length >= 2 || '您至少选择两个选项']"
-      v-model="value12"
-    >
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select
-      multiple
-      placeholder="使用 Zod 校验多选值"
-      :rules="z.array(z.string()).min(2, '您至少选择两个选项')"
-      v-model="value18"
-    >
+    <mp-select placeholder="标签风格的多选" tag multiple v-model="value10">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />
@@ -232,7 +187,6 @@ const keyOptions = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref()
 const value2 = ref()
@@ -244,14 +198,10 @@ const value7 = ref()
 const value8 = ref()
 const value9 = ref([])
 const value10 = ref([])
-const value11 = ref()
-const value12 = ref([])
 const value13 = ref()
 const value14 = ref()
 const value15 = ref([])
 const value16 = ref()
-const value17 = ref()
-const value18 = ref([])
 
 const options = ref([
   {
@@ -374,51 +324,7 @@ const keyOptions = ref([
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="纸片风格的多选" chip multiple v-model="value10">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      placeholder="单选值校验"
-      :rules="[(v) => v === '摸鱼' || '您一定得选择摸鱼']"
-      v-model="value11"
-    >
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="摸鱼" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      placeholder="使用 Zod 校验单选值"
-      :rules="z.string().refine(v => v === '摸鱼', '您一定得选择摸鱼')"
-      v-model="value17"
-    >
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="摸鱼" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      multiple
-      placeholder="多选值校验"
-      :rules="v => v.length >= 2 || '您至少选择两个选项'"
-      v-model="value12"
-    >
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      multiple
-      placeholder="使用 Zod 校验多选值"
-      :rules="z.array(z.string()).min(2, '您至少选择两个选项')"
-      v-model="value18"
-    >
+    <mp-select variant="outlined" placeholder="标签风格的多选" tag multiple v-model="value10">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />
@@ -453,6 +359,109 @@ const keyOptions = ref([
 </style>
 ```
 
+### Picker 模式
+
+将 `presentation` 设置为 `picker` 即可使用底部弹窗的滚轮选择器。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const pickerValue = ref()
+const pickerOptions = ref([
+  { label: '吃饭', value: 1 },
+  { label: '睡觉', value: 2 },
+  { label: '打游戏', value: 3, disabled: true },
+])
+</script>
+
+<template>
+  <mp-space direction="column" size="large">
+    <mp-select
+      presentation="picker"
+      placeholder="请选择一个选项"
+      v-model="pickerValue"
+      :options="pickerOptions"
+    />
+  </mp-space>
+</template>
+```
+
+> Picker 模式仅支持 `options` 属性方式传入选项，插槽方式传入的 `<mp-option>` 暂不支持。
+
+### Picker 多选
+
+与 Cascader 一致：弹层内用「添加」把当前项放入草稿，点「完成」才写回 `v-model`；「取消」丢弃草稿。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const pickerMultiple = ref([])
+const pickerOptions = ref([
+  { label: '吃饭', value: 1 },
+  { label: '睡觉', value: 2 },
+  { label: '打游戏', value: 3 },
+  { label: '写文档', value: 4 },
+])
+</script>
+
+<template>
+  <mp-select
+    presentation="picker"
+    multiple
+    tag
+    clearable
+    placeholder="请选择多个选项"
+    v-model="pickerMultiple"
+    :options="pickerOptions"
+  />
+</template>
+```
+
+### List 模式
+
+将 `presentation` 设置为 `list`，底部弹窗以列表展示选项，选中项右侧显示对号。
+
+单选：点击即选中并关闭。多选：点击切换勾选（草稿），点「完成」提交，「取消」丢弃。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const listValue = ref()
+const listMultiple = ref([])
+const listOptions = ref([
+  { label: '吃饭', value: 1 },
+  { label: '睡觉', value: 2 },
+  { label: '打游戏', value: 3, disabled: true },
+  { label: '写代码', value: 4 },
+])
+</script>
+
+<template>
+  <mp-space direction="column" size="large">
+    <mp-select
+      presentation="list"
+      placeholder="请选择一个选项"
+      v-model="listValue"
+      :options="listOptions"
+    />
+    <mp-select
+      presentation="list"
+      multiple
+      tag
+      clearable
+      placeholder="请选择多个选项"
+      v-model="listMultiple"
+      :options="listOptions"
+    />
+  </mp-space>
+</template>
+```
+
+> List 模式仅支持 `options` 属性方式传入选项，插槽方式传入的 `<mp-option>` 暂不支持。
+
 ## API
 
 ### 属性
@@ -464,10 +473,12 @@ const keyOptions = ref([
 | `v-model` | 绑定的值 | _any \| any[]_ | `-` |
 | `size` | 选择框尺寸，可选值 `normal` `small`   | _string_ | `normal` |
 | `variant` | 选择框风格, 可选值为 `standard` `outlined` | _string_ | `standard` |
+| `presentation` ***3.18.0*** | 展示模式，可选值为 `menu` `picker` `list` | _string_ | `menu` |
+| `show` ***3.18.0*** | 显隐受控 | _boolean_ | `undefined` |
 | `placeholder` | 占位符 | _string_ | `-` |
 | `multiple` | 是否开启多选 | _boolean_ | `false` |
 | `offset-y` | 下拉菜单的垂直偏移量 | _string \| number_ | `0` |
-| `chip` | 是否使用纸片风格(仅限多选) | _boolean_ | `false` |
+| `tag` | 是否使用标签风格（仅限多选） | _boolean_ | `false` |
 | `line` | 是否显示分割线 | _boolean_ | `true` |
 | `hint` | 是否使用占位符作为提示 | _boolean_ | `true` |
 | `text-color` | 文字颜色 | _string_ | `-` |
@@ -479,8 +490,11 @@ const keyOptions = ref([
 | `options` ***3.3.4*** | 指定可选项 | _SelectOption[]_ | `[]` |
 | `label-key` ***3.3.4*** | 作为 label 唯一标识的键名 | _string_ | `label` |
 | `value-key` ***3.3.4*** | 作为 value 唯一标识的键名 | _string_ | `value` |
-| `validate-trigger` | 触发验证的时机，可选值为 `onFocus` `onBlur` `onChange` `onClick` `onClear` `onClose` | _SelectValidateTrigger[]_ | `['onChange', 'onClear', 'onClose']` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: any) => any) \| ZodType \| Array<((v: any) => any) \| ZodType>_ | `-` |
+| `field-names` ***3.18.0*** | 自定义字段映射，优先级高于 `labelKey` / `valueKey` | _{ label?, value?, children?, disabled? }_ | `-` |
+| `picker-props` ***3.18.0*** | picker 模式透传给 `mp-picker` 的属性 | _Partial\<PickerProps\>_ | `{}` |
+| `popup-props` ***3.18.0*** | 透传给弹窗的属性 | _Partial\<PopupProps\>_ | `{}` |
+
+校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
 #### SelectOption
 
@@ -507,9 +521,6 @@ const keyOptions = ref([
 | --- | --- | --- | --- |
 | `focus` | 聚焦 | `-` | `-` |
 | `blur` | 失焦 | `-` | `-` |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(单选设置为 `undefined`，多选设置为 `[]`)和校验信息 | `-` | `-` |
 
 ### 事件
 
@@ -589,9 +600,9 @@ const keyOptions = ref([
 | `--select-scroller-max-height` | `278px` |
 | `--select-scroller-border-radius` | `2px` |
 | `--select-label-font-size` | `16px` |
-| `--select-chips-margin` | `-5px 0 0 0` |
-| `--select-chips-padding` | `2px 0` |
-| `--select-chip-margin` | `5px 5px 0 0` |
+| `--select-tags-margin` | `-5px 0 0 0` |
+| `--select-tags-padding` | `2px 0` |
+| `--select-tag-margin` | `5px 5px 0 0` |
 | `--select-arrow-size` | `20px` |
 | `--select-standard-menu-margin` | `calc(var(--field-decorator-placeholder-size) * 0.75 + 14px) 0 0 0` |
 

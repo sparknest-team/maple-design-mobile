@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const standardValue = ref()
@@ -14,14 +13,10 @@ const standardValue7 = ref()
 const standardValue8 = ref()
 const standardValue9 = ref([])
 const standardValue10 = ref([])
-const standardValue11 = ref()
-const standardValue12 = ref([])
 const standardValue13 = ref()
 const standardValue14 = ref()
 const standardValue15 = ref([])
 const standardValue16 = ref()
-const standardValue17 = ref()
-const standardValue18 = ref([])
 
 const outlinedValue = ref()
 const outlinedValue2 = ref()
@@ -33,14 +28,16 @@ const outlinedValue7 = ref()
 const outlinedValue8 = ref()
 const outlinedValue9 = ref([])
 const outlinedValue10 = ref([])
-const outlinedValue11 = ref()
-const outlinedValue12 = ref([])
 const outlinedValue13 = ref()
 const outlinedValue14 = ref()
 const outlinedValue15 = ref([])
 const outlinedValue16 = ref()
-const outlinedValue17 = ref()
-const outlinedValue18 = ref([])
+
+const pickerValue = ref()
+const pickerValue2 = ref()
+const pickerMultiple = ref([])
+const listValue = ref()
+const listMultiple = ref([])
 const options = computed(() => [
   {
     label: t('eat'),
@@ -84,14 +81,10 @@ watchLang((lang) => {
   standardValue8.value = undefined
   standardValue9.value = []
   standardValue10.value = []
-  standardValue11.value = undefined
-  standardValue12.value = []
   standardValue13.value = undefined
   standardValue14.value = undefined
   standardValue15.value = []
   standardValue16.value = undefined
-  standardValue17.value = undefined
-  standardValue18.value = []
 
   outlinedValue.value = undefined
   outlinedValue2.value = undefined
@@ -103,14 +96,16 @@ watchLang((lang) => {
   outlinedValue8.value = undefined
   outlinedValue9.value = []
   outlinedValue10.value = []
-  outlinedValue11.value = undefined
-  outlinedValue12.value = []
   outlinedValue13.value = undefined
   outlinedValue14.value = undefined
   outlinedValue15.value = []
   outlinedValue16.value = undefined
-  outlinedValue17.value = undefined
-  outlinedValue18.value = []
+
+  pickerValue.value = undefined
+  pickerValue2.value = undefined
+  pickerMultiple.value = []
+  listValue.value = undefined
+  listMultiple.value = []
 
   use(lang)
 })
@@ -207,47 +202,7 @@ watchLang((lang) => {
       <mp-option :label="t('play')" />
       <mp-option :label="t('coding')" />
     </mp-select>
-    <mp-select v-model="standardValue10" :placeholder="t('chipMultiple')" chip multiple>
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('play')" />
-      <mp-option :label="t('coding')" />
-    </mp-select>
-    <mp-select
-      v-model="standardValue11"
-      :placeholder="t('validate')"
-      :rules="[(v) => v === t('rest') || t('mustSelectRest')]"
-    >
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('rest')" />
-    </mp-select>
-    <mp-select
-      v-model="standardValue17"
-      :placeholder="t('validateWithZod')"
-      :rules="z.string().refine((v) => v === t('rest'), { message: t('mustSelectRest') })"
-    >
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('rest')" />
-    </mp-select>
-    <mp-select
-      v-model="standardValue12"
-      multiple
-      :placeholder="t('multipleValidate')"
-      :rules="[(v) => v.length >= 2 || t('mustSelectMoreThan')]"
-    >
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('play')" />
-      <mp-option :label="t('coding')" />
-    </mp-select>
-    <mp-select
-      v-model="standardValue18"
-      multiple
-      :placeholder="t('multipleValidateWithZod')"
-      :rules="z.array(z.string()).min(2, { message: t('mustSelectMoreThan') })"
-    >
+    <mp-select v-model="standardValue10" :placeholder="t('tagMultiple')" tag multiple>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <mp-option :label="t('play')" />
@@ -358,51 +313,7 @@ watchLang((lang) => {
       <mp-option :label="t('play')" />
       <mp-option :label="t('coding')" />
     </mp-select>
-    <mp-select v-model="outlinedValue10" variant="outlined" :placeholder="t('chipMultiple')" chip multiple>
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('play')" />
-      <mp-option :label="t('coding')" />
-    </mp-select>
-    <mp-select
-      v-model="outlinedValue11"
-      variant="outlined"
-      :placeholder="t('validate')"
-      :rules="[(v) => v === t('rest') || t('mustSelectRest')]"
-    >
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('rest')" />
-    </mp-select>
-    <mp-select
-      v-model="outlinedValue17"
-      variant="outlined"
-      :placeholder="t('validateWithZod')"
-      :rules="z.string().refine((v) => v === t('rest'), { message: t('mustSelectRest') })"
-    >
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('rest')" />
-    </mp-select>
-    <mp-select
-      v-model="outlinedValue12"
-      multiple
-      variant="outlined"
-      :placeholder="t('multipleValidate')"
-      :rules="[(v) => v.length >= 2 || t('mustSelectMoreThan')]"
-    >
-      <mp-option :label="t('eat')" />
-      <mp-option :label="t('sleep')" />
-      <mp-option :label="t('play')" />
-      <mp-option :label="t('coding')" />
-    </mp-select>
-    <mp-select
-      v-model="outlinedValue18"
-      multiple
-      variant="outlined"
-      :placeholder="t('multipleValidateWithZod')"
-      :rules="z.array(z.string()).min(2, { message: t('mustSelectMoreThan') })"
-    >
+    <mp-select v-model="outlinedValue10" variant="outlined" :placeholder="t('tagMultiple')" tag multiple>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <mp-option :label="t('play')" />
@@ -427,6 +338,42 @@ watchLang((lang) => {
       :options="keyOptions"
       label-key="name"
       value-key="id"
+    />
+  </mp-space>
+
+  <app-type style="margin-top: 10vmin">{{ t('picker') }}</app-type>
+  <mp-space direction="column" :size="['3vmin', 0]">
+    <mp-select v-model="pickerValue" presentation="picker" :placeholder="t('pickerPlaceholder')" :options="options" />
+    <mp-select
+      v-model="pickerValue2"
+      presentation="picker"
+      :placeholder="t('pickerCustomFields')"
+      :options="keyOptions"
+      label-key="name"
+      value-key="id"
+    />
+    <mp-select
+      v-model="pickerMultiple"
+      presentation="picker"
+      multiple
+      tag
+      clearable
+      :placeholder="t('pickerMultiple')"
+      :options="options"
+    />
+  </mp-space>
+
+  <app-type style="margin-top: 10vmin">{{ t('list') }}</app-type>
+  <mp-space direction="column" :size="['3vmin', 0]">
+    <mp-select v-model="listValue" presentation="list" :placeholder="t('listPlaceholder')" :options="options" />
+    <mp-select
+      v-model="listMultiple"
+      presentation="list"
+      multiple
+      tag
+      clearable
+      :placeholder="t('listMultiple')"
+      :options="options"
     />
   </mp-space>
 

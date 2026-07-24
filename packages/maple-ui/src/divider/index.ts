@@ -6,6 +6,14 @@ withInstall(Divider)
 withPropsDefaultsSetter(Divider, dividerProps)
 
 export { dividerProps }
+export type {
+  DividerProps,
+  DividerOrientation,
+  DividerTextAlign,
+  DividerType,
+  DividerSize,
+  DividerSizePreset,
+} from './props'
 
 export const _DividerComponent = Divider
 

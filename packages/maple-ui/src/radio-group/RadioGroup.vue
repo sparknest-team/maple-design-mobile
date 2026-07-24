@@ -15,54 +15,39 @@
       </template>
       <slot />
     </div>
-
-    <mp-form-details :error-message="errorMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { call, isFunction, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
-import { useForm } from '../form/provide'
+import { useFormItem } from '../form-item'
 import MpRadio from '../radio'
-import { createNamespace, MaybeVNode, useValidation } from '../utils/components'
-import { props, type RadioGroupValidateTrigger } from './props'
+import { createNamespace, MaybeVNode } from '../utils/components'
+import { props } from './props'
 import { useRadios, type RadioGroupProvider } from './provide'
 
 const { name, n, classes } = createNamespace('radio-group')
 
 export default defineComponent({
   name,
-  components: { MpFormDetails, MpRadio, MaybeVNode },
+  components: { MpRadio, MaybeVNode },
   props,
   setup(props) {
     const { length, radios, bindRadios } = useRadios()
-    const { bindForm } = useForm()
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
-    const radioGroupErrorMessage = computed(() => errorMessage.value)
+    const { mergedError, eventHandlers } = useFormItem()
     const hasChecked = ref(false)
 
     const radioGroupProvider: RadioGroupProvider = {
       onToggle,
-      validate,
-      reset,
-      resetValidation,
       hasChecked: computed(() => hasChecked.value),
-      errorMessage: radioGroupErrorMessage,
+      errorMessage: mergedError,
     }
 
     watch(() => props.modelValue, syncRadios)
     watch(() => length.value, syncRadios)
 
-    call(bindForm, radioGroupProvider)
     bindRadios(radioGroupProvider)
 
     useEventListener(() => window, 'keydown', handleKeydown)
@@ -118,13 +103,6 @@ export default defineComponent({
       }
     }
 
-    function validateWithTrigger(trigger: RadioGroupValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
-    }
-
     function syncRadios() {
       radios.forEach(({ sync }) => {
         if (sync(props.modelValue)) {
@@ -136,27 +114,13 @@ export default defineComponent({
     function onToggle(changedValue: any) {
       call(props['onUpdate:modelValue'], changedValue)
       call(props.onChange, changedValue)
-      validateWithTrigger('onChange')
-    }
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    // expose
-    function reset() {
-      call(props['onUpdate:modelValue'], undefined)
-      resetValidation()
+      eventHandlers.value.onChange?.()
     }
 
     return {
-      errorMessage,
+      mergedError,
       n,
       classes,
-      reset,
-      validate,
-      resetValidation,
       isFunction,
     }
   },
@@ -165,7 +129,6 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
-@import '../form-details/formDetails';
 @import '../ripple/ripple';
 @import '../hover-overlay/hoverOverlay';
 @import '../icon/icon';

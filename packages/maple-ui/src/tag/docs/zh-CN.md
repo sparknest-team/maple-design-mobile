@@ -2,13 +2,11 @@
 
 ### 介绍
 
-标签组件用于标记和分类。本组件 API 与 Cedar Design Web (PC) 的 Tag 组件保持一致。
-
-> 与 [Chip 纸片](#/zh-CN/chip) 的关系：Chip 是早期的标签组件实现（type/normal-mini-small-large/plain/elevation），Tag 是 PC 对齐后的新一代标签组件，提供更完整的 status/size/checkable/loading/closable/bordered 能力。**新场景推荐使用 Tag**，旧 Chip 暂保留以兼容存量代码。
+标签用于标记、分类与筛选。API 与 Cedar Design Web (PC) 的 Tag 对齐，并吸收移动端常见能力（圆角、自定义文字色）。
 
 ### 主题色标签
 
-通过 `status` 属性设置标签的主题色，可选值与 Button 一致：`default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`。
+通过 `status` 设置主题色，可选值与 Button 一致：`default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`。
 
 ```html
 <template>
@@ -19,13 +17,15 @@
     <mp-tag status="success">成功</mp-tag>
     <mp-tag status="warning">警告</mp-tag>
     <mp-tag status="danger">危险</mp-tag>
+    <mp-tag status="secondary">次要</mp-tag>
+    <mp-tag status="contrast">对比</mp-tag>
   </mp-space>
 </template>
 ```
 
-### 描边标签（variant=outline）
+### 描边标签
 
-通过 `variant="outline"` 属性切换为描边风格。`bordered` 是其旧别名，已废弃。
+通过 `variant="outline"` 切换为描边风格。
 
 ```html
 <template>
@@ -38,9 +38,22 @@
 </template>
 ```
 
+### 圆角标签
+
+通过 `round` 开启胶囊圆角。
+
+```html
+<template>
+  <mp-space>
+    <mp-tag round status="primary">圆角</mp-tag>
+    <mp-tag round variant="outline" status="success">描边圆角</mp-tag>
+  </mp-space>
+</template>
+```
+
 ### 标签尺寸
 
-通过 `size` 属性设置标签尺寸，可选值 `xs` `sm` `md` `lg` `xl`。
+通过 `size` 设置尺寸，可选值 `xs` `sm` `md` `lg` `xl`。
 
 ```html
 <template>
@@ -56,23 +69,33 @@
 
 ### 可关闭标签
 
-通过 `closable` 属性显示关闭按钮，配合 `v-model:visible` 控制显示。
+通过 `closable` 显示关闭按钮，配合 `v-model:visible` 或自行维护列表。
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
 const visible = ref(true)
+const tags = ref(['标签 1', '标签 2', '标签 3'])
+
+function removeTag(tag) {
+  tags.value = tags.value.filter((item) => item !== tag)
+}
 </script>
 
 <template>
-  <mp-tag v-model:visible="visible" closable status="primary">标签</mp-tag>
+  <mp-space>
+    <mp-tag v-model:visible="visible" closable status="primary">标签</mp-tag>
+    <mp-tag v-for="tag in tags" :key="tag" closable round @close="removeTag(tag)">
+      {{ tag }}
+    </mp-tag>
+  </mp-space>
 </template>
 ```
 
 ### 加载中标签
 
-通过 `loading` 属性显示加载状态。
+通过 `loading` 显示加载状态。
 
 ```html
 <template>
@@ -82,7 +105,7 @@ const visible = ref(true)
 
 ### 可选中标签
 
-通过 `checkable` 属性使标签可点击切换选中状态，配合 `v-model:checked` 双向绑定。
+通过 `checkable` 使标签可点击切换选中，配合 `v-model:checked`。
 
 ```html
 <script setup>
@@ -98,7 +121,7 @@ const checked = ref(true)
 
 ### 带图标
 
-通过 `icon` 插槽自定义图标。
+通过 `icon` 插槽自定义前置图标，`close-icon` 自定义关闭图标。
 
 ```html
 <template>
@@ -111,12 +134,13 @@ const checked = ref(true)
 
 ### 自定义颜色
 
-通过 `color` 与 `text-color` 设置自定义颜色（覆盖 status）。
+通过 `color` 与 `text-color` 设置自定义颜色（覆盖 status）。`variant="outline"` 时 `color` 作为边框色。
 
 ```html
 <template>
   <mp-space>
     <mp-tag color="#66bb6a" text-color="#fff">自定义</mp-tag>
+    <mp-tag variant="outline" color="#6750A4">描边自定义</mp-tag>
     <mp-tag color="linear-gradient(to right bottom, #6750A4, #D0BCFF)" text-color="#fff">渐变</mp-tag>
   </mp-space>
 </template>
@@ -131,18 +155,18 @@ const checked = ref(true)
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `status` | 主题色，可选值 `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast` | _string_ | `default` |
-| `variant` | 标签变体，可选 `default`（实心） / `outline`（描边） | _string_ | `default` |
+| `variant` | 变体，可选 `default`（实心） / `outline`（描边） | _string_ | `default` |
 | `size` | 尺寸，可选值 `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
-| `bordered` | _已废弃_，等价 `variant="outline"`，请改用 `variant` | _boolean_ | `false` |
+| `round` | 是否为圆角胶囊形 | _boolean_ | `false` |
 | `visible` | 是否可见（v-model） | _boolean_ | `true` |
 | `default-visible` | 默认是否可见 | _boolean_ | `true` |
 | `loading` | 是否为加载中状态 | _boolean_ | `false` |
-| `closable` | 是否可关闭（显示关闭按钮） | _boolean_ | `false` |
+| `closable` | 是否可关闭 | _boolean_ | `false` |
 | `checkable` | 是否可点击选中 | _boolean_ | `false` |
 | `checked` | 选中状态（checkable 时有效，v-model） | _boolean_ | `true` |
 | `default-checked` | 默认选中状态（checkable 时有效） | _boolean_ | `true` |
 | `nowrap` | 内容是否不换行（超出省略） | _boolean_ | `false` |
-| `color` | 自定义背景色 | _string_ | `-` |
+| `color` | 自定义背景色（outline 时为边框色） | _string_ | `-` |
 | `text-color` | 自定义文字色 | _string_ | `-` |
 
 ### 事件
@@ -171,6 +195,7 @@ const checked = ref(true)
 ```ts
 type TagStatus = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'secondary' | 'contrast' | 'default'
 type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type TagVariant = 'default' | 'outline'
 ```
 
 ### 样式变量
@@ -181,15 +206,16 @@ type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 | --- | --- |
 | `--mp-tag-border-width` | `1px` |
 | `--mp-tag-border-radius` | `4px` |
-| `--mp-tag-padding` | `0 8px` |
-| `--mp-tag-icon-margin` | `4px` |
+| `--mp-tag-round-radius` | `100px` |
+| `--mp-tag-padding` | `0 10px` |
+| `--mp-tag-icon-margin` | `6px` |
 | `--mp-tag-font-weight` | `500` |
-| `--mp-tag-size-xs-height` | `20px` |
-| `--mp-tag-size-sm-height` | `22px` |
-| `--mp-tag-size-md-height` | `24px` |
-| `--mp-tag-size-lg-height` | `28px` |
-| `--mp-tag-size-xl-height` | `32px` |
-| `--mp-tag-size-{size}-font-size` | `12px` ~ `14px` |
+| `--mp-tag-size-xs-height` | `24px` |
+| `--mp-tag-size-sm-height` | `28px` |
+| `--mp-tag-size-md-height` | `32px` |
+| `--mp-tag-size-lg-height` | `36px` |
+| `--mp-tag-size-xl-height` | `40px` |
+| `--mp-tag-size-{size}-font-size` | `12px` ~ `16px` |
 | `--mp-tag-status-{status}-color` | 各状态背景色 |
 | `--mp-tag-status-{status}-text-color` | 各状态文字色 |
-| `--mp-tag-status-{status}-border-color` | 各状态边框色（bordered 时生效） |
+| `--mp-tag-status-{status}-border-color` | 各状态边框色（outline 时生效） |

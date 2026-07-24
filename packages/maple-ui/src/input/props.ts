@@ -4,8 +4,6 @@ import { defineListenerProp, pickProps } from '../utils/components'
 
 export type InputType = 'text' | 'password' | 'number' | 'tel' | 'email'
 
-export type InputValidateTrigger = 'onFocus' | 'onBlur' | 'onChange' | 'onClick' | 'onClear' | 'onInput'
-
 export const props = {
   modelValue: String,
   modelModifiers: {
@@ -26,11 +24,6 @@ export const props = {
   readonly: Boolean,
   resize: Boolean,
   autofocus: Boolean,
-  validateTrigger: {
-    type: Array as PropType<InputValidateTrigger[]>,
-    default: () => ['onInput', 'onClear'],
-  },
-  rules: [Array, Function, Object] as PropType<any>,
   enterkeyhint: String as PropType<InputHTMLAttributes['enterKeyHint']>,
   onFocus: defineListenerProp<(e: FocusEvent) => void>(),
   onBlur: defineListenerProp<(e: FocusEvent) => void>(),
@@ -60,10 +53,6 @@ export const props = {
   isForceErrorEffect: {
     type: Boolean,
     default: undefined,
-  },
-  isShowFormDetails: {
-    type: Boolean,
-    default: true,
   },
   // internal end
 }

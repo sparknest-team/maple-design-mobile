@@ -1,8 +1,11 @@
-import { VNode, VNodeChild, type PropType } from 'vue'
+import { VNode, VNodeChild, type ExtractPropTypes, type PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
+import { pickerProps } from '../picker'
+import { popupProps } from '../popup'
 import { defineListenerProp, pickProps } from '../utils/components'
+import { type FieldNames } from '../utils/options'
 
-export type SelectValidateTrigger = 'onFocus' | 'onBlur' | 'onChange' | 'onClick' | 'onClear' | 'onClose'
+export type SelectPresentation = 'menu' | 'picker' | 'list'
 
 export type SelectTextAlign = 'left' | 'right' | 'center'
 
@@ -35,12 +38,32 @@ export const props = {
     type: String,
     default: 'value',
   },
+  fieldNames: {
+    type: Object as PropType<FieldNames>,
+    default: undefined,
+  },
+  presentation: {
+    type: String as PropType<SelectPresentation>,
+    default: 'menu',
+  },
+  show: {
+    type: Boolean,
+    default: undefined,
+  },
+  pickerProps: {
+    type: Object as PropType<Partial<ExtractPropTypes<typeof pickerProps>>>,
+    default: () => ({}),
+  },
+  popupProps: {
+    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>>>,
+    default: () => ({}),
+  },
   multiple: Boolean,
   offsetY: {
     type: [String, Number],
     default: 0,
   },
-  chip: Boolean,
+  tag: Boolean,
   readonly: Boolean,
   separator: {
     type: String,
@@ -50,17 +73,13 @@ export const props = {
     type: String as PropType<SelectTextAlign>,
     default: 'left',
   },
-  validateTrigger: {
-    type: Array as PropType<Array<SelectValidateTrigger>>,
-    default: () => ['onChange', 'onClear', 'onClose'],
-  },
-  rules: [Array, Function, Object] as PropType<any>,
   onFocus: defineListenerProp<() => void>(),
   onBlur: defineListenerProp<() => void>(),
   onClose: defineListenerProp<(value: any) => void>(),
   onChange: defineListenerProp<(value: any) => void>(),
   onClear: defineListenerProp<(value: any) => void>(),
   'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
+  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',

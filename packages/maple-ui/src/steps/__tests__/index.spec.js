@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Steps from '..'
@@ -7,25 +7,6 @@ import VarStep from '../../step/Step'
 import { delay } from '../../utils/test'
 import VarSteps from '../Steps'
 
-const clickStep = vi.fn()
-const Wrapper = {
-  components: {
-    [VarSteps.name]: VarSteps,
-    [VarStep.name]: VarStep,
-  },
-  template: `
-    <mp-steps @clickStep="clickStep">
-      <mp-step>step 1</mp-step>
-      <mp-step>step 2</mp-step>
-      <mp-step active-icon="check-circle-outline" current-icon="radio-blank" inactive-icon="minus-circle-outline">step 3</mp-step>
-      <mp-step>step 4</mp-step>
-    </mp-steps>
-  `,
-  methods: {
-    clickStep,
-  },
-}
-
 test('steps and step use', () => {
   const app = createApp({}).use(Steps).use(Step)
 
@@ -33,101 +14,143 @@ test('steps and step use', () => {
   expect(app.component(Step.name)).toBeTruthy()
 })
 
-test('steps component event', async () => {
-  const wrapper = mount(Wrapper)
-  await wrapper.find('.mp-step__horizontal-tag').trigger('click')
-  expect(clickStep).toHaveBeenCalledTimes(1)
-  wrapper.unmount()
-})
-
 describe('test steps and step components props', () => {
-  test('steps active', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        active: 1,
+  test('steps current status derivation', async () => {
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
       },
+      template: `
+        <mp-steps :current="2">
+          <mp-step>step 1</mp-step>
+          <mp-step>step 2</mp-step>
+          <mp-step>step 3</mp-step>
+        </mp-steps>
+      `,
     })
 
     await delay(50)
-    wrapper.findAll('.mp-step__horizontal-main').forEach((item, index) => {
-      expect(item.find('.mp-step__horizontal-tag--active').exists()).toBe(index < 2)
-      expect(item.find('.mp-step__horizontal-content--active').exists()).toBe(index < 2)
-    })
+    const tags = wrapper.findAll('.mp-step__horizontal-tag')
+    expect(tags[0].classes()).toContain('mp-step__horizontal-tag--active')
+    expect(tags[0].find('.mp-icon-check').exists()).toBe(true)
+    expect(tags[1].classes()).toContain('mp-step__horizontal-tag--active')
+    expect(tags[1].text()).toBe('2')
+    expect(tags[2].classes()).not.toContain('mp-step__horizontal-tag--active')
+    expect(tags[2].text()).toBe('3')
     wrapper.unmount()
   })
 
   test('steps direction', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        direction: 'vertical',
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
       },
+      template: `
+        <mp-steps direction="vertical" :current="1">
+          <mp-step>step 1</mp-step>
+          <mp-step>step 2</mp-step>
+        </mp-steps>
+      `,
     })
 
     expect(wrapper.find('.mp-steps').attributes('style')).toContain('flex-direction: column;')
-    await wrapper.setProps({ direction: 'horizontal' })
-    expect(wrapper.find('.mp-steps').attributes('style')).toContain('flex-direction: row;')
+    await wrapper.setProps({})
     wrapper.unmount()
   })
 
-  test('steps active-color', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        activeColor: 'red',
+  test('steps status error', async () => {
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
       },
+      template: `
+        <mp-steps :current="2" status="error">
+          <mp-step>step 1</mp-step>
+          <mp-step>step 2</mp-step>
+        </mp-steps>
+      `,
     })
 
     await delay(50)
-    expect(wrapper.find('.mp-step__horizontal-tag--active').attributes('style')).toContain('background-color: red;')
+    expect(wrapper.findAll('.mp-step__horizontal-tag')[1].classes()).toContain('mp-step__horizontal-tag--error')
     wrapper.unmount()
   })
 
-  test('steps inactive-color', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        inactiveColor: 'red',
+  test('steps changeable triggers onChange', async () => {
+    const onChange = vi.fn()
+    const current = ref(1)
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
       },
+      setup() {
+        return { current, onChange }
+      },
+      template: `
+        <mp-steps :current="current" changeable @change="onChange" @update:current="(v) => (current = v)">
+          <mp-step>step 1</mp-step>
+          <mp-step>step 2</mp-step>
+        </mp-steps>
+      `,
     })
 
     await delay(50)
-    wrapper.findAll('.mp-step__horizontal-tag').forEach((item, index) => {
-      expect(item.attributes('style')).toContain(index > 0 ? 'background-color: red;' : '')
-    })
+    await wrapper.findAll('.mp-step__horizontal-tag')[1].trigger('click')
+    expect(onChange).toHaveBeenCalled()
+    expect(onChange.mock.calls[0][0]).toBe(2)
     wrapper.unmount()
   })
 
-  test('steps current-icon', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        active: 3,
+  test('steps not changeable does not emit change', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
       },
+      setup() {
+        return { onChange }
+      },
+      template: `
+        <mp-steps :current="1" @change="onChange">
+          <mp-step>step 1</mp-step>
+          <mp-step>step 2</mp-step>
+        </mp-steps>
+      `,
     })
 
     await delay(50)
-    expect(wrapper.findAll('.mp-step')[2].find('.mp-icon-check-circle-outline').exists()).toBe(true)
+    await wrapper.findAll('.mp-step__horizontal-tag')[1].trigger('click')
+    expect(onChange).not.toHaveBeenCalled()
     wrapper.unmount()
   })
 
-  test('steps active-icon', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        active: 2,
+  test('step disabled', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
       },
+      setup() {
+        return { onChange }
+      },
+      template: `
+        <mp-steps :current="1" changeable @change="onChange">
+          <mp-step>step 1</mp-step>
+          <mp-step disabled>step 2</mp-step>
+        </mp-steps>
+      `,
     })
 
     await delay(50)
-    expect(wrapper.findAll('.mp-step')[2].find('.mp-icon-radio-blank').exists()).toBe(true)
-    wrapper.unmount()
-  })
-
-  test('steps inactive-icon', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        active: 1,
-      },
-    })
-
-    await delay(50)
-    expect(wrapper.findAll('.mp-step')[2].find('.mp-icon-minus-circle-outline').exists()).toBe(true)
+    expect(wrapper.findAll('.mp-step')[1].classes()).toContain('mp-step--disabled')
+    await wrapper.findAll('.mp-step__horizontal-tag')[1].trigger('click')
+    expect(onChange).not.toHaveBeenCalled()
     wrapper.unmount()
   })
 })

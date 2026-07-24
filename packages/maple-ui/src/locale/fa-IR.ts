@@ -15,6 +15,9 @@ export default {
   pickerTitle: 'انتخاب کنید',
   pickerConfirmButtonText: 'تایید',
   pickerCancelButtonText: 'لغو',
+  // Cascader
+  cascaderPickerAddButtonText: 'افزودن',
+  cascaderPickerDoneButtonText: 'تمام',
   // date-picker
   datePickerMonthDict: {
     '01': {
@@ -98,10 +101,21 @@ export default {
   },
   datePickerSelected: ' انتخاب شده',
   datePickerHint: 'انتخاب تاریخ',
+  datePickerColumnYear: 'سال',
+  datePickerColumnMonth: 'ماه',
+  datePickerColumnDay: 'روز',
+  datePickerColumnHour: 'ساعت',
+  datePickerColumnMinute: 'دقیقه',
+  datePickerColumnSecond: 'ثانیه',
   // pagination
   paginationItem: '',
   paginationPage: 'صفحه',
   paginationJump: 'برو به',
+  paginationTotal: 'Total: {0}',
   // time-picker
   timePickerHint: 'انتخاب زمان',
+  // time-range
+  timeRangeStart: 'شروع',
+  timeRangeEnd: 'پایان',
+  timeRangeNextDay: 'روز بعد',
 } satisfies Message

@@ -15,6 +15,9 @@ export default {
   pickerTitle: 'Pick it',
   pickerConfirmButtonText: 'Confirm',
   pickerCancelButtonText: 'Cancel',
+  // Cascader
+  cascaderPickerAddButtonText: 'Add',
+  cascaderPickerDoneButtonText: 'Done',
   // date-picker
   datePickerMonthDict: {
     '01': {
@@ -98,10 +101,21 @@ export default {
   },
   datePickerSelected: ' selected',
   datePickerHint: 'SELECT DATE',
+  datePickerColumnYear: 'Y',
+  datePickerColumnMonth: 'M',
+  datePickerColumnDay: 'D',
+  datePickerColumnHour: 'H',
+  datePickerColumnMinute: 'M',
+  datePickerColumnSecond: 'S',
   // pagination
   paginationItem: '',
   paginationPage: 'page',
   paginationJump: 'Go to',
+  paginationTotal: 'Total: {0}',
   // time-picker
   timePickerHint: 'SELECT TIME',
+  // time-range
+  timeRangeStart: 'Start',
+  timeRangeEnd: 'End',
+  timeRangeNextDay: 'Next day',
 } satisfies Message

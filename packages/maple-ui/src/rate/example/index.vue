@@ -2,24 +2,18 @@
 import { reactive } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { Message } from '@maplejs/maple-ui'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const scores = reactive({
   score: 3,
   score1: 3,
-  score2: 3,
   score3: 3,
   score4: 3,
-  score5: 3,
   score6: 3.5,
   score7: 3,
   score8: 3,
-  score9: 3,
   score10: 3,
-  score11: 3,
   score12: 3.5,
-  score13: 3,
 })
 
 function handleChange(score) {
@@ -75,10 +69,4 @@ watchLang(use)
 
   <app-type>{{ t('listenEvent') }}</app-type>
   <mp-rate v-model="scores.score10" @change="handleChange" />
-
-  <app-type>{{ t('validate') }}</app-type>
-  <mp-rate v-model="scores.score11" :rules="[(v) => v >= 3 || t('errorMessage')]" />
-
-  <app-type>{{ t('validateWithZod') }}</app-type>
-  <mp-rate v-model="scores.score13" :rules="z.number().min(3, t('errorMessage'))" />
 </template>

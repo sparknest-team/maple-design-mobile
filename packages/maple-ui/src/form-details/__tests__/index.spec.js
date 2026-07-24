@@ -53,7 +53,7 @@ describe('test form details component props', () => {
 })
 
 describe('test form details component slots', () => {
-  test('chip extraMessage slots', () => {
+  test('tag extraMessage slots', () => {
     const wrapper = mount(FormDetails, {
       slots: {
         'extra-message': () => 'This is extra message slot',

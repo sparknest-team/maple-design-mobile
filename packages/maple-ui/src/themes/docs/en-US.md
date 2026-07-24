@@ -87,7 +87,7 @@ The following are the common style variables of the component library. For style
 | `--color-body`                  | `hsla(var(--hsl-body), 1)`                       |
 | `--hsl-text`                    | `0, 0%, 20%`                                     |
 | `--color-text`                  | `hsla(var(--hsl-text), 1)`                       |
-| `--hsl-primary`                 | `220, 99%, 61%`                                  |
+| `--hsl-primary`                 | `180, 100%, 37%`                                 |
 | `--color-primary`               | `hsla(var(--hsl-primary), 1)`                    |
 | `--hsl-info`                    | `196, 100%, 47%`                                 |
 | `--color-info`                  | `hsla(var(--hsl-info), 1)`                       |
@@ -111,7 +111,7 @@ The following are the common style variables of the component library. For style
 | `--color-on-warning`            | `hsla(var(--hsl-on-warning), 1)`                 |
 | `--hsl-on-danger`               | `0, 0%, 100%`                                    |
 | `--color-on-danger`             | `hsla(var(--hsl-on-danger), 1)`                  |
-| `--hsl-primary-container`       | `220, 99%, 61%`                                  |
+| `--hsl-primary-container`       | `180, 100%, 37%`                                 |
 | `--color-primary-container`     | `hsla(var(--hsl-primary-container), 1)`          |
 | `--hsl-info-container`          | `196, 100%, 47%`                                 |
 | `--color-info-container`        | `hsla(var(--hsl-info-container), 1)`             |

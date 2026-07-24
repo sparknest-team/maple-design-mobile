@@ -1,7 +1,6 @@
 <script setup>
 import { computed, reactive, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const values = reactive({
@@ -11,29 +10,11 @@ const values = reactive({
   value4: false,
   value5: false,
   value6: 0,
-  value7: false,
-  value8: 0,
   value9: 0,
-  value10: false,
-  value11: undefined,
   optionValue: 0,
   fieldValue: 0,
 })
-const {
-  value,
-  value2,
-  value3,
-  value4,
-  value5,
-  value6,
-  value7,
-  value8,
-  value9,
-  value10,
-  value11,
-  optionValue,
-  fieldValue,
-} = toRefs(values)
+const { value, value2, value3, value4, value5, value6, value9, optionValue, fieldValue } = toRefs(values)
 
 const options = computed(() => [
   { label: t('eat'), value: 0 },
@@ -96,30 +77,6 @@ onThemeChange()
     <mp-radio :checked-value="1">{{ t('sleep') }}</mp-radio>
   </mp-radio-group>
   <div class="relation">{{ t('currentValue') }} {{ value9 }}</div>
-
-  <app-type>{{ t('radioValidate') }}</app-type>
-  <mp-radio v-model="value7" :rules="[(v) => v || t('radioValidateMessage')]">
-    {{ t('currentValue') }} {{ value7 }}
-  </mp-radio>
-
-  <app-type>{{ t('radioValidateWithZod') }}</app-type>
-  <mp-radio v-model="value10" :rules="z.boolean().refine((v) => v, t('radioValidateMessage'))">
-    {{ t('currentValue') }} {{ value10 }}
-  </mp-radio>
-
-  <app-type>{{ t('radioGroupValidate') }}</app-type>
-  <mp-radio-group v-model="value8" :rules="[(v) => v === 0 || t('radioGroupValidateMessage')]">
-    <mp-radio :checked-value="0">{{ t('eat') }}</mp-radio>
-    <mp-radio :checked-value="1">{{ t('sleep') }}</mp-radio>
-  </mp-radio-group>
-  <div class="relation">{{ t('currentValue') }} {{ value8 }}</div>
-
-  <app-type>{{ t('radioGroupValidateWithZod') }}</app-type>
-  <mp-radio-group v-model="value11" :rules="z.number().refine((v) => v === 0, t('radioGroupValidateMessage'))">
-    <mp-radio :checked-value="0">{{ t('eat') }}</mp-radio>
-    <mp-radio :checked-value="1">{{ t('sleep') }}</mp-radio>
-  </mp-radio-group>
-  <div class="relation">{{ t('currentValue') }} {{ value11 }}</div>
 
   <div class="space"></div>
 </template>

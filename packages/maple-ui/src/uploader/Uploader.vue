@@ -81,11 +81,7 @@
       </div>
     </div>
 
-    <mp-form-details :error-message="errorMessage" :extra-message="maxlengthText">
-      <template v-if="$slots['extra-message']" #extra-message>
-        <slot name="extra-message" />
-      </template>
-    </mp-form-details>
+    <div v-if="maxlengthText" :class="n('length')">{{ maxlengthText }}</div>
 
     <mp-popup
       v-model:show="showPreview"
@@ -110,10 +106,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, reactive, ref, watch } from 'vue'
+import { computed, defineComponent, reactive, ref } from 'vue'
 import { call, isNumber, normalizeToArray, toDataURL, toNumber } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
@@ -121,25 +117,16 @@ import MpIcon from '../icon'
 import { previewImage } from '../image/preview'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
-import { createNamespace, formatElevation, useValidation } from '../utils/components'
+import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { isHTMLSupportImage, isHTMLSupportVideo } from '../utils/shared'
-import { props, type MpFile, type UploaderValidateTrigger } from './props'
-import { type UploaderProvider } from './provide'
+import { props, type MpFile } from './props'
 
 const { name, n, classes } = createNamespace('uploader')
 
 interface ValidationMpFile {
   valid: boolean
   varFile: MpFile
-}
-
-interface MpFileUtils {
-  getLoading(): MpFile[]
-
-  getSuccess(): MpFile[]
-
-  getError(): MpFile[]
 }
 
 let fid = 0
@@ -150,7 +137,6 @@ export default defineComponent({
   components: {
     MpIcon,
     MpPopup,
-    MpFormDetails,
     MpHoverOverlay,
   },
   props,
@@ -168,14 +154,8 @@ export default defineComponent({
 
       return isNumber(maxlength) ? `${length} / ${maxlength}` : ''
     })
-    const { form, bindForm } = useForm()
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
+    const { form } = useForm()
+    const { eventHandlers } = useFormItem()
     const { hovering, handleHovering } = useHoverOverlay()
     const files = computed(() => {
       const { modelValue, hideList } = props
@@ -186,31 +166,8 @@ export default defineComponent({
       return modelValue
     })
 
-    let callReset = false
-    const varFileUtils: MpFileUtils = {
-      getSuccess,
-      getError,
-      getLoading,
-    }
-    const uploaderProvider: UploaderProvider = {
-      validate,
-      resetValidation,
-      reset,
-    }
-
-    call(bindForm, uploaderProvider)
-
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)
-
-    watch(
-      () => props.modelValue,
-      () => {
-        !callReset && validateWithTrigger('onChange')
-        callReset = false
-      },
-      { deep: true },
-    )
 
     function handleKeydown(event: KeyboardEvent) {
       if (!isFocusing.value) {
@@ -372,6 +329,7 @@ export default defineComponent({
       call(props['onUpdate:modelValue'], [...modelValue, ...validMpFiles])
       ;(event.target as HTMLInputElement).value = ''
       validMpFiles.forEach((varFile) => call(onAfterRead, reactive(varFile)))
+      eventHandlers.value.onChange?.()
     }
 
     async function handleRemove(removedMpFile: MpFile) {
@@ -390,8 +348,8 @@ export default defineComponent({
 
       const expectedFiles: MpFile[] = modelValue.filter((varFile) => varFile !== removedMpFile)
       call(onRemove, reactive(removedMpFile))
-      validateWithTrigger('onRemove')
       call(props['onUpdate:modelValue'], expectedFiles)
+      eventHandlers.value.onChange?.()
     }
 
     function handleActionClick(event: Event) {
@@ -434,32 +392,12 @@ export default defineComponent({
       previewImage.close()
     }
 
-    function validateWithTrigger(trigger: UploaderValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue, varFileUtils)
-      })
-    }
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue, varFileUtils)
-    }
-
-    // expose
-    function reset() {
-      callReset = true
-      call(props['onUpdate:modelValue'], [])
-      resetValidation()
-    }
-
     return {
       input,
       actionRef,
       files,
       showPreview,
       currentPreview,
-      errorMessage,
       maxlengthText,
       hovering,
       isFocusing,
@@ -478,9 +416,6 @@ export default defineComponent({
       getSuccess,
       getError,
       getLoading,
-      validate,
-      resetValidation,
-      reset,
       chooseFile,
       closePreview,
       handleActionClick,
@@ -495,7 +430,6 @@ export default defineComponent({
 @import '../styles/elevation';
 @import '../hover-overlay/hoverOverlay';
 @import '../ripple/ripple';
-@import '../form-details/formDetails';
 @import '../icon/icon';
 @import '../popup/popup';
 @import '../carousel/carousel';

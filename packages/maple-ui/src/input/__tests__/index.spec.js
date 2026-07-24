@@ -1,7 +1,6 @@
 import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import { z } from 'zod'
 import Input from '..'
 import { delay } from '../../utils/test'
 import VarInput from '../Input'
@@ -183,7 +182,7 @@ test('input maxlength', () => {
     },
   })
 
-  expect(wrapper.find('.mp-form-details__extra-message').text()).toBe('4/100')
+  expect(wrapper.find('.mp-input__length').text()).toBe('4/100')
   expect(wrapper.html()).toMatchSnapshot()
 
   wrapper.unmount()
@@ -294,68 +293,6 @@ test('input readonly', async () => {
   wrapper.unmount()
 })
 
-test('input validation', async () => {
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-
-  const wrapper = mount(VarInput, {
-    props: {
-      modelValue: '',
-      rules: [(v) => v.length > 3 || 'The length of value must be more than three'],
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
-  })
-
-  await wrapper.find('.mp-input__input').setValue('1')
-  await wrapper.find('.mp-input__input').trigger('input')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('The length of value must be more than three')
-  expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.vm.reset()
-  await delay(16)
-  expect(wrapper.props('modelValue')).toBe('')
-  expect(wrapper.html()).toMatchSnapshot()
-
-  await wrapper.find('.mp-input__input').setValue('1234')
-  await wrapper.find('.mp-input__input').trigger('input')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-  expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.unmount()
-})
-
-test('input validation with zod', async () => {
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-
-  const wrapper = mount(VarInput, {
-    props: {
-      modelValue: '',
-      rules: z.string().min(4, 'The length of value must be more than three'),
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
-  })
-
-  await wrapper.find('.mp-input__input').setValue('1')
-  await wrapper.find('.mp-input__input').trigger('input')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('The length of value must be more than three')
-  expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.vm.reset()
-  await delay(16)
-  expect(wrapper.props('modelValue')).toBe('')
-  expect(wrapper.html()).toMatchSnapshot()
-
-  await wrapper.find('.mp-input__input').setValue('1234')
-  await wrapper.find('.mp-input__input').trigger('input')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-  expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.unmount()
-})
-
 test('input trim', async () => {
   const onUpdateModelValue = vi.fn()
 
@@ -397,19 +334,6 @@ test('input focus on mousedown', async () => {
 })
 
 describe('test input component slots', () => {
-  test('input extra slot', async () => {
-    const wrapper = mount(VarInput, {
-      slots: {
-        'extra-message': () => 'There are ten characters that you can input',
-      },
-    })
-
-    await delay(100)
-    expect(wrapper.find('.mp-form-details__extra-message').text()).toBe('There are ten characters that you can input')
-
-    wrapper.unmount()
-  })
-
   test('input append-icon slot', () => {
     const wrapper = mount(VarInput, {
       slots: {

@@ -45,6 +45,7 @@
             :class="n('confirm-button')"
             text
             mp-picker-cover
+            :disabled="confirmDisabled"
             :text-color="confirmButtonTextColor"
             @click="confirm"
           >
@@ -74,11 +75,24 @@
             <div
               v-for="(option, index) in c.column"
               :key="getValue(option)"
-              :class="classes(n('option'), option.className)"
+              :class="
+                classes(
+                  n('option'),
+                  option.className,
+                  [isOptionSelected(option), n('option--selected')],
+                  [isOptionDisabled(option), n('option--disabled')],
+                )
+              "
               :style="{ height: `${optionHeight}px` }"
               @click="handleClick(c, index)"
             >
               <div :class="classes(n('text'), option.textClassName)">{{ option[getOptionKey('text')] }}</div>
+              <mp-icon
+                v-if="isOptionSelected(option) && !isOptionDisabled(option)"
+                :class="n('option-check')"
+                mp-picker-cover
+                name="check"
+              />
             </div>
           </div>
         </div>
@@ -100,6 +114,7 @@ import { computed, defineComponent, ref, Transition, watch, type ComponentPublic
 import { call, clamp, clampArrayRange, toNumber } from '@maplejs/maple-shared'
 import { useTouch, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
+import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
@@ -133,6 +148,7 @@ export default defineComponent({
   name,
   components: {
     MpButton,
+    MpIcon,
     MpPopup,
   },
   inheritAttrs: false,
@@ -169,6 +185,19 @@ export default defineComponent({
     function getValue(option: PickerColumnOption): string | number {
       return option[getOptionKey('value')] ?? option[getOptionKey('text')]
     }
+
+    function isOptionSelected(option: PickerColumnOption) {
+      const value = getValue(option)
+      return props.selectedValues.some((item) => item === value)
+    }
+
+    function isOptionDisabled(option?: PickerColumnOption) {
+      return Boolean(option?.disabled)
+    }
+
+    const confirmDisabled = computed(() =>
+      scrollColumns.value.some(({ column, index }) => isOptionDisabled(column[index])),
+    )
 
     function setPrevIndexes(indexes: number[]) {
       prevIndexes = [...indexes]
@@ -432,6 +461,10 @@ export default defineComponent({
     function confirm() {
       stopScroll()
 
+      if (confirmDisabled.value) {
+        return
+      }
+
       const { values, indexes, options } = getPicked()
       setPrevIndexes(indexes)
       call(props.onConfirm, values, indexes, options)
@@ -452,11 +485,14 @@ export default defineComponent({
       scrollColumns,
       columnHeight,
       center,
+      confirmDisabled,
       Transition,
       pt,
       t,
       n,
       classes,
+      isOptionSelected,
+      isOptionDisabled,
       setScrollEl,
       getOptionKey,
       getValue,
@@ -476,6 +512,7 @@ export default defineComponent({
 <style lang="less">
 @import '../styles/common';
 @import '../button/button';
+@import '../icon/icon';
 @import '../popup/popup';
 @import './picker';
 </style>

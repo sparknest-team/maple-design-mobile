@@ -1,7 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const values = reactive({
@@ -13,8 +12,6 @@ const values = reactive({
   value6: 0,
   value7: 0,
   value8: 0,
-  value9: 0,
-  value10: 0,
 })
 
 watchLang(use)
@@ -51,12 +48,6 @@ function handleBeforeChange(value, change) {
 
   <app-type>{{ t('lazyChange') }}</app-type>
   <mp-counter v-model="values.value8" lazy-change @before-change="handleBeforeChange" />
-
-  <app-type>{{ t('validate') }}</app-type>
-  <mp-counter v-model="values.value9" :rules="[(v) => v > 5 || t('validateMessage')]" />
-
-  <app-type>{{ t('validateWithZod') }}</app-type>
-  <mp-counter v-model="values.value10" :rules="z.number().min(6, t('validateMessage'))" />
 
   <div class="space"></div>
 </template>

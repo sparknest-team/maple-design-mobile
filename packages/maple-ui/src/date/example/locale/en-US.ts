@@ -1,0 +1,16 @@
+export default {
+  basicUsage: 'Basic Usage',
+  type: 'Type',
+  multiple: 'Multiple',
+  dateTime: 'Date Time',
+  disabled: 'Disabled',
+  withFormItem: 'With FormItem',
+  placeholder: 'Please select a date',
+  year: 'Select year',
+  month: 'Select month',
+  date: 'Select date',
+  multiplePlaceholder: 'Multiple dates',
+  dateTimePlaceholder: 'Please select date time',
+  birthday: 'Birthday',
+  formPlaceholder: 'Please select',
+}

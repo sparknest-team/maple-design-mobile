@@ -7,16 +7,23 @@ export interface FormValidation {
   validate(): Promise<boolean>
   resetValidation(): void
   reset(): void
+  field?: string
 }
 
 export type FormScrollToError = 'start' | 'end'
 
+export type FormLayout = 'horizontal' | 'vertical'
+
 export interface FormProvider {
   disabled: ComputedRef<boolean>
   readonly: ComputedRef<boolean>
+  model: ComputedRef<Record<string, any> | undefined>
+  layout: ComputedRef<FormLayout>
 }
 
 export interface FormProps extends BasicAttributes {
+  model?: Record<string, any>
+  layout?: FormLayout
   disabled?: boolean
   readonly?: boolean
   scrollToError?: FormScrollToError
@@ -44,17 +51,23 @@ export class Form extends VarComponent {
     validateWithTrigger<T>(validateTrigger: T[], trigger: T, rules: any, value: any, apis?: any): Promise<void>
   }
 
+  static useFormItem: (typeof import('./formItem'))['FormItem']['useFormItem']
+
   $props: FormProps
 
   $slots: {
     default(): VNode[]
   }
 
-  validate(): Promise<boolean>
+  validate(field?: string | string[]): Promise<boolean>
 
-  resetValidation(): void
+  validateField(field: string | string[]): Promise<boolean>
 
-  reset(): void
+  resetFields(field?: string | string[]): void
+
+  clearValidate(field?: string | string[]): void
+
+  scrollToField(field: string): void
 }
 
 export class _FormComponent extends Form {}

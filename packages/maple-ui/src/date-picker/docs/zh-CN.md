@@ -2,7 +2,7 @@
 
 ### 介绍
 
-用于选择日期或日期范围。
+日期选择**面板**，可单独嵌入页面使用。日期范围面板请使用 [`DateRangePicker`](/zh-CN/date-range-picker)；表单字段请使用 [`Date`](/zh-CN/date) / [`DateRange`](/zh-CN/date-range)。
 
 ### 基本使用
 
@@ -89,15 +89,44 @@ const allowedDates = val => parseInt(val.split('-')[2], 10) % 2 === 1
 </template>
 ```
 
+### 日期时间
+
+通过 `show-time` 开启日期+时间。`presentation` 决定形态：
+
+- `calendarClock`（`show-time` 且未指定时，`calendar` 也会解析为此）：**顶部切日期，底部切时间**；日历 + 时钟
+- `calendarPicker`：顶部切日期，底部切时间；日历 + 时/分（秒）列
+- `picker`：年/月/日/时/分整列滚轮
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const clock = ref('2025-01-15 10:29')
+const calendarPicker = ref('2025-01-15 10:29')
+const picker = ref('2025-01-15 10:29')
+</script>
+
+<template>
+  <mp-date-picker v-model="clock" show-time presentation="calendarClock" />
+  <mp-date-picker v-model="calendarPicker" show-time presentation="calendarPicker" />
+  <mp-date-picker v-model="picker" show-time presentation="picker" />
+</template>
+```
+
 ## API
 
 ### 属性
 
 | 参数                  | 说明                                           | 类型 | 默认值 |
 |---------------------|----------------------------------------------| -------- | ---------- |
-| `v-model`           | 被选择的日期（ISO 8601 格式，`YYYY-MM-DD` 或 `YYYY-MM`） | _string[] \| string_ | `undefined` |
+| `v-model`           | 被选择的日期；`show-time` 时为日期时间字符串 | _string[] \| string_ | `undefined` |
 | `type`              | 选择器类型，可选值为 `date month year`                      | _string_ | `date` |
+| `presentation`      | 面板形态：`calendar` `picker` `calendarClock` `calendarPicker` | _string_ | `calendar` |
+| `show-time`         | 是否选择时间 | _boolean_ | `false` |
+| `use-seconds`       | `show-time` 时是否显示秒 | _boolean_ | `false` |
 | `allowed-dates`     | 限制可以选择的日期                                    | _function_ | `-` |
+| `allowed-time`      | `show-time` 时限制可选择的时间 | _AllowedTime_ | `-` |
+| `time-picker-props` | 透传给 `mp-time-picker`（`calendarClock`） | _Partial\<TimePickerProps\>_ | `{}` |
 | `color`             | 选择器的颜色                                       | _string_ | `-` |
 | `title-color`       | 标题背景色。如果未指定，将使用 `color` 属性或默认颜色。              | _string_ | `-` |
 | `hint`              | 选择器提示语                                  | _string_ | `选择日期` |

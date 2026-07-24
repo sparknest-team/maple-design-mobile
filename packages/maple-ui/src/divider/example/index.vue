@@ -5,36 +5,44 @@ import { t, use } from './locale'
 watchLang(use)
 onThemeChange()
 </script>
+
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-divider />
 
-  <app-type>{{ t('dashed') }}</app-type>
-  <mp-divider dashed />
+  <app-type>{{ t('type') }}</app-type>
+  <mp-divider />
+  <mp-divider type="dashed" />
+  <mp-divider type="dotted" />
+  <mp-divider type="double" :thickness="3" />
 
-  <app-type>{{ t('inset') }}</app-type>
-  <mp-divider inset />
-  <mp-divider :inset="36" margin="36px 0" />
-  <mp-divider inset="-36px" />
+  <app-type>{{ t('size') }}</app-type>
+  <mp-divider size-x="md" />
+  <mp-divider :size-x="36" size-y="lg" />
+  <mp-divider :size-x="[24, 0]" />
 
   <app-type>{{ t('vertical') }}</app-type>
   <div class="divider-example-vertical-container">
     <span>{{ t('text') }}</span>
-    <mp-divider vertical />
+    <mp-divider orientation="vertical" />
     <span>{{ t('text') }}</span>
-    <mp-divider vertical />
+    <mp-divider orientation="vertical" type="dashed" />
     <span>{{ t('text') }}</span>
   </div>
 
   <app-type>{{ t('withDesc') }}</app-type>
   <mp-divider :description="t('withDescText')" />
+  <mp-divider :description="t('alignStart')" text-align="start" />
+  <mp-divider :description="t('alignEnd')" text-align="end" />
 
   <app-type>{{ t('custom') }}</app-type>
-  <mp-divider>
+  <mp-divider type="dashed">
     <mp-icon name="heart-outline" style="margin: 0 16px; color: var(--mp-color-danger)" />
   </mp-divider>
 
-  <app-type>{{ t('hairline') }}</app-type>
+  <app-type>{{ t('color') }}</app-type>
+  <mp-divider color="var(--mp-color-primary)" />
+  <mp-divider :thickness="3" color="#6750A4" :opacity="0.5" />
   <mp-divider hairline />
 </template>
 

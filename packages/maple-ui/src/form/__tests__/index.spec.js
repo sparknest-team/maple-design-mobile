@@ -5,6 +5,7 @@ import Form from '..'
 import VarAutoComplete from '../../auto-complete/AutoComplete.vue'
 import VarCheckbox from '../../checkbox/Checkbox'
 import VarCounter from '../../counter/Counter'
+import VarFormItem from '../../form-item/FormItem'
 import VarInput from '../../input/Input'
 import VarOption from '../../option/Option'
 import VarRadio from '../../radio/Radio'
@@ -31,7 +32,7 @@ const expectValidate = async (form, wrapper, message) => {
 }
 
 const expectReset = async (form, wrapper) => {
-  form.reset()
+  form.resetFields()
   await delay(16)
   expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
   expect(wrapper.html()).toMatchSnapshot()
@@ -40,6 +41,7 @@ const expectReset = async (form, wrapper) => {
 const Wrapper = {
   components: {
     [VarForm.name]: VarForm,
+    [VarFormItem.name]: VarFormItem,
     [VarInput.name]: VarInput,
     [VarSelect.name]: VarSelect,
     [VarOption.name]: VarOption,
@@ -64,7 +66,7 @@ test('form with input', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: undefined,
+      model: { value: undefined },
     }),
     methods: {
       onClick,
@@ -72,15 +74,16 @@ test('form with input', async () => {
       onChange,
     },
     template: `
-      <mp-form ref="form" scroll-to-error="start" :disabled="disabled" :readonly="readonly">
-        <mp-input
-          clearable
-          :rules="[v => !!v || 'It can not be not empty']"
-          v-model="value"
-          @click="onClick"
-          @input="onInput"
-          @change="onChange"
-        />
+      <mp-form ref="form" scroll-to-error="start" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => !!v || 'It can not be not empty']">
+          <mp-input
+            clearable
+            v-model="model.value"
+            @click="onClick"
+            @input="onInput"
+            @change="onChange"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -123,7 +126,7 @@ test('form with select', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: ['option1'],
+      model: { value: ['option1'] },
     }),
     methods: {
       onClear,
@@ -131,20 +134,21 @@ test('form with select', async () => {
       onClose,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-select
-          clearable
-          chip
-          multiple
-          :rules="[v => v.length > 1 || 'You must choose one option at least']"
-          v-model="value"
-          @click="onClick"
-          @clear="onClear"
-          @close="onClose"
-        >
-          <mp-option label="option1"/>
-          <mp-option label="option2"/>
-        </mp-select>
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => v.length > 1 || 'You must choose one option at least']">
+          <mp-select
+            clearable
+            tag
+            multiple
+            v-model="model.value"
+            @click="onClick"
+            @clear="onClear"
+            @close="onClose"
+          >
+            <mp-option label="option1"/>
+            <mp-option label="option2"/>
+          </mp-select>
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -153,7 +157,7 @@ test('form with select', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   const triggerEvents = async () => {
-    await wrapper.find('.mp-chip--close').trigger('click')
+    await wrapper.find('.mp-tag__close-btn').trigger('click')
     await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
     await wrapper.find('.mp-field-decorator').trigger('click')
   }
@@ -187,27 +191,28 @@ test('form with radio', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: false,
+      model: { value: false },
     }),
     methods: {
       onChange,
       onClick,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-radio
-          :rules="[v => !!v || 'You must choose one option']"
-          v-model="value"
-          @change="onChange"
-          @click="onClick"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => !!v || 'You must choose one option']">
+          <mp-radio
+            v-model="model.value"
+            @change="onChange"
+            @click="onClick"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-radio').trigger('click')
-  expect(wrapper.vm.value).toBe(false)
+  expect(wrapper.vm.model.value).toBe(false)
   expect(onClick).toHaveBeenCalledTimes(0)
   expect(onChange).toHaveBeenCalledTimes(0)
 
@@ -215,7 +220,7 @@ test('form with radio', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-radio').trigger('click')
-  expect(wrapper.vm.value).toBe(false)
+  expect(wrapper.vm.model.value).toBe(false)
   expect(onClick).toHaveBeenCalledTimes(1)
   expect(onChange).toHaveBeenCalledTimes(0)
 
@@ -235,20 +240,21 @@ test('form with checkbox', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: false,
+      model: { value: false },
     }),
     methods: {
       onChange,
       onClick,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-checkbox
-          :rules="[v => !!v || 'You must choose one option']"
-          v-model="value"
-          @change="onChange"
-          @click="onClick"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => !!v || 'You must choose one option']">
+          <mp-checkbox
+            v-model="model.value"
+            @change="onChange"
+            @click="onClick"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -256,7 +262,7 @@ test('form with checkbox', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-checkbox').trigger('click')
-  expect(wrapper.vm.value).toBe(false)
+  expect(wrapper.vm.model.value).toBe(false)
   expect(onClick).toHaveBeenCalledTimes(0)
   expect(onChange).toHaveBeenCalledTimes(0)
 
@@ -264,7 +270,7 @@ test('form with checkbox', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-checkbox').trigger('click')
-  expect(wrapper.vm.value).toBe(false)
+  expect(wrapper.vm.model.value).toBe(false)
   expect(onClick).toHaveBeenCalledTimes(1)
   expect(onChange).toHaveBeenCalledTimes(0)
 
@@ -285,7 +291,7 @@ test('form with counter', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: 0,
+      model: { value: 0 },
     }),
     methods: {
       onIncrement,
@@ -293,15 +299,16 @@ test('form with counter', async () => {
       onChange,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-counter
-          ref="counter"
-          :rules="[v => v > 0 || 'The value must be more than zero']"
-          v-model="value"
-          @change="onChange"
-          @increment="onIncrement"
-          @decrement="onDecrement"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => v > 0 || 'The value must be more than zero']">
+          <mp-counter
+            ref="counter"
+            v-model="model.value"
+            @change="onChange"
+            @increment="onIncrement"
+            @decrement="onDecrement"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -341,18 +348,19 @@ test('form with rate', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: 0,
+      model: { value: 0 },
     }),
     methods: {
       onChange,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-rate
-          :rules="[v => v > 0 || 'The value must be more than zero']"
-          v-model="value"
-          @change="onChange"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => v > 0 || 'The value must be more than zero']">
+          <mp-rate
+            v-model="model.value"
+            @change="onChange"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -360,13 +368,13 @@ test('form with rate', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-rate__content').trigger('click')
-  expect(wrapper.vm.value).toBe(0)
+  expect(wrapper.vm.model.value).toBe(0)
   expect(onChange).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ disabled: false, readonly: true })
 
   await wrapper.find('.mp-rate__content').trigger('click')
-  expect(wrapper.vm.value).toBe(0)
+  expect(wrapper.vm.model.value).toBe(0)
   expect(onChange).toHaveBeenCalledTimes(0)
 
   const { form } = wrapper.vm.$refs
@@ -390,19 +398,20 @@ test('form with uploader', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: [],
+      model: { value: [] },
     }),
     methods: {
       onAfterRead,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-uploader
-          ref="uploader"
-          :rules="[v => v.length > 0 || 'You must upload one file at least']"
-          v-model="value"
-          @after-read="onAfterRead"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => v.length > 0 || 'You must upload one file at least']">
+          <mp-uploader
+            ref="uploader"
+            v-model="model.value"
+            @after-read="onAfterRead"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -433,18 +442,19 @@ test('form with switch', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: false,
+      model: { value: false },
     }),
     methods: {
       onChange,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-switch
-          :rules="[v => v === true || 'It should be truthy']"
-          v-model="value"
-          @change="onChange"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => v === true || 'It should be truthy']">
+          <mp-switch
+            v-model="model.value"
+            @change="onChange"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -452,13 +462,13 @@ test('form with switch', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-switch__block').trigger('click')
-  expect(wrapper.vm.value).toBe(false)
+  expect(wrapper.vm.model.value).toBe(false)
   expect(onChange).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ disabled: false, readonly: true })
 
   await wrapper.find('.mp-switch__block').trigger('click')
-  expect(wrapper.vm.value).toBe(false)
+  expect(wrapper.vm.model.value).toBe(false)
   expect(onChange).toHaveBeenCalledTimes(0)
 
   const { form } = wrapper.vm.$refs
@@ -468,7 +478,7 @@ test('form with switch', async () => {
   await wrapper.setData({ disabled: false, readonly: false })
 
   await wrapper.find('.mp-switch__block').trigger('click')
-  expect(wrapper.vm.value).toBe(true)
+  expect(wrapper.vm.model.value).toBe(true)
   expect(onChange).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
@@ -484,7 +494,7 @@ test('form with slider', async () => {
     data: () => ({
       disabled: true,
       readonly: false,
-      value: 5,
+      model: { value: 5 },
     }),
     methods: {
       onChange,
@@ -492,14 +502,15 @@ test('form with slider', async () => {
       onEnd,
     },
     template: `
-      <mp-form ref="form" :disabled="disabled" :readonly="readonly">
-        <mp-slider
-          v-model="value"
-          :rules="[(v) => v > 10 || 'It must be more than ten']"
-          @change="onChange"
-          @start="onStart"
-          @end="onEnd"
-        />
+      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[(v) => v > 10 || 'It must be more than ten']">
+          <mp-slider
+            v-model="model.value"
+            @change="onChange"
+            @start="onStart"
+            @end="onEnd"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -510,13 +521,13 @@ test('form with slider', async () => {
   await trigger(el, 'touchstart', 0, 0)
   await trigger(document, 'touchmove', 20, 0)
   await trigger(document, 'touchend', 40, 0)
-  expect(wrapper.vm.value).toBe(5)
+  expect(wrapper.vm.model.value).toBe(5)
 
   await wrapper.setData({ disabled: false, readonly: true })
   await trigger(el, 'touchstart', 20, 0)
   await trigger(document, 'touchmove', 10, 0)
   await trigger(document, 'touchend', 70, 0)
-  expect(wrapper.vm.value).toBe(5)
+  expect(wrapper.vm.model.value).toBe(5)
 
   expect(onChange).toHaveBeenCalledTimes(0)
   expect(onStart).toHaveBeenCalledTimes(0)
@@ -530,7 +541,7 @@ test('form with slider', async () => {
   await trigger(el, 'touchstart', 20, 0)
   await trigger(document, 'touchmove', 10, 0)
   await trigger(document, 'touchend', 70, 0)
-  expect(wrapper.vm.value).not.toBe(5)
+  expect(wrapper.vm.model.value).not.toBe(5)
 
   expect(onChange).toHaveBeenCalled()
   expect(onStart).toHaveBeenCalledTimes(1)
@@ -546,19 +557,20 @@ test('form events', async () => {
   const wrapper = mount({
     ...Wrapper,
     data: () => ({
-      value: undefined,
+      model: { value: undefined },
     }),
     methods: {
       onSubmit,
       onReset,
     },
     template: `
-      <mp-form @submit="onSubmit" @reset="onReset">
-        <mp-input
-          clearable
-          :rules="[v => !!v || 'It can not be not empty']"
-          v-model="value"
-        />
+      <mp-form :model="model" @submit="onSubmit" @reset="onReset">
+        <mp-form-item field="value" :rules="[v => !!v || 'It can not be not empty']">
+          <mp-input
+            clearable
+            v-model="model.value"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })
@@ -585,14 +597,15 @@ test('form with auto-complete', async () => {
     data: () => ({
       disabled: false,
       readonly: false,
-      value: '',
+      model: { value: '' },
     }),
     template: `
-      <mp-form ref="form" scroll-to-error="start" :disabled="disabled" :readonly="readonly">
-        <mp-auto-complete
-          :rules="[v => !!v || '不能为空']"
-          v-model="value"
-        />
+      <mp-form ref="form" scroll-to-error="start" :model="model" :disabled="disabled" :readonly="readonly">
+        <mp-form-item field="value" :rules="[v => !!v || '不能为空']">
+          <mp-auto-complete
+            v-model="model.value"
+          />
+        </mp-form-item>
       </mp-form>
     `,
   })

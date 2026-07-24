@@ -64,6 +64,19 @@ test('breadcrumb parent and child separator', async () => {
   wrapper.unmount()
 })
 
+test('breadcrumb parent separator slot', async () => {
+  const wrapper = mount(VarBreadcrumb, {
+    slots: {
+      default: () => renderBasicUsage(),
+      separator: () => h('span', { class: 'custom-sep' }, '>'),
+    },
+  })
+
+  await delay(0)
+  expect(wrapper.findAll('.custom-sep').length).toBe(2)
+  wrapper.unmount()
+})
+
 test('breadcrumb events', async () => {
   const onClick = vi.fn()
 
@@ -101,5 +114,69 @@ test('breadcrumb slots', async () => {
 
   await delay(0)
   expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('breadcrumb routes', async () => {
+  const wrapper = mount(VarBreadcrumb, {
+    props: {
+      routes: [
+        { path: '/', label: 'Home' },
+        { path: '/a', label: 'A' },
+        { path: '/b', label: 'B' },
+      ],
+    },
+  })
+
+  await delay(0)
+  const items = wrapper.findAll('.mp-breadcrumb-item')
+  expect(items.length).toBe(3)
+  expect(wrapper.find('a').attributes('href')).toBe('#/')
+  expect(wrapper.findAll('a').length).toBe(2)
+  wrapper.unmount()
+})
+
+test('breadcrumb max-count', async () => {
+  const wrapper = mount(VarBreadcrumb, {
+    props: {
+      maxCount: 3,
+    },
+    slots: {
+      default: () =>
+        h(
+          Fragment,
+          ['A', 'B', 'C', 'D', 'E', 'F'].map((text) =>
+            h(VarBreadcrumbItem, null, {
+              default: () => text,
+            }),
+          ),
+        ),
+    },
+  })
+
+  await delay(0)
+  expect(wrapper.findAll('.mp-breadcrumb-item').length).toBe(4)
+  expect(wrapper.find('.mp-breadcrumb-item--more').exists()).toBe(true)
+  expect(wrapper.find('.mp-breadcrumb-item__more-icon').text()).toBe('...')
+  wrapper.unmount()
+})
+
+test('breadcrumb item href', async () => {
+  const wrapper = mount(VarBreadcrumb, {
+    slots: {
+      default: () =>
+        h(Fragment, [
+          h(VarBreadcrumbItem, { href: '#/home' }, { default: () => 'Home' }),
+          h(VarBreadcrumbItem, { href: '#/list' }, { default: () => 'List' }),
+          h(VarBreadcrumbItem, null, { default: () => 'Detail' }),
+        ]),
+    },
+  })
+
+  await delay(0)
+  const links = wrapper.findAll('a.mp-breadcrumb-item__content')
+  expect(links.length).toBe(2)
+  expect(links[0].attributes('href')).toBe('#/home')
+  expect(wrapper.findAll('.mp-breadcrumb-item__content')[2].element.tagName).toBe('DIV')
   wrapper.unmount()
 })

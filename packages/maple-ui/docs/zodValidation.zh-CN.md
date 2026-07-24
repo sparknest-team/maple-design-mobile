@@ -21,15 +21,16 @@ pnpm add zod
 
 ### 基本使用
 
-每个表单组件的 `rules` 属性支持传入一个或多个 `Zod Schema`。
+`FormItem` 的 `rules` 属性支持传入一个或多个 `Zod Schema`。
 组件将使用该 `Schema` 的规则进行验证，验证失败时将使用其定义的错误信息作为用户提示。
 
 ```html
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { z } from 'zod'
 
-const user = ref({
+const form = ref(null)
+const user = reactive({
   name: '',
   email: '',
   password: '',
@@ -42,89 +43,23 @@ function handleSubmit(valid) {
 </script>
 
 <template>
-  <mp-form @submit="handleSubmit">
+  <mp-form ref="form" :model="user" @submit="handleSubmit">
     <mp-space direction="column" size="large">
-      <mp-input 
-        placeholder="名称" 
-        :rules="z.string().min(1, '名称不能为空')" 
-        v-model="user.name"
-       />
-      <mp-input 
-        placeholder="邮箱" 
-        :rules="z.string().email('邮箱格式有误')" 
-        v-model="user.email" 
-      />
-      <mp-input 
-        type="password"
-        placeholder="密码" 
-        :rules="z.string().min(6, '密码最少6位')"
-        v-model="user.password" 
-      />
-      <mp-input 
-        type="password" 
-        placeholder="确认密码"
-        :rules="[z.string().min(6, '密码最少6位'), v => v === user.password || '与密码不一致']" 
-        v-model="user.repeatPassword" 
-      />
-      <mp-button type="primary" native-type="submit">提交</mp-button>
-    </mp-space>
-  </mp-form>
-</template>
-```
-
-### 结合 Typescript 使用
-
-如果您使用 `Typescript`，定义一个 `Zod Schema` 可以同时得到 Typescript 类型和表单 rules。
-
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const UserSchema = z.object({
-  name: z.string().min(1, '名称不能为空'),
-  email: z.string().email('邮箱格式有误'),
-  password: z.string().min(6, '密码最少6位'),
-  repeatPassword: z.string().min(6, '确认密码最少6位'),
-})
-
-const user = ref<z.infer<typeof UserSchema>>({
-  name: '',
-  email: '',
-  password: '',
-  repeatPassword: ''
-})
-
-function handleSubmit(valid) {
-  console.log(valid)
-}
-</script>
-
-<template>
-  <mp-form @submit="handleSubmit">
-    <mp-space direction="column" size="large">
-      <mp-input 
-        placeholder="名称" 
-        :rules="UserSchema.shape.name" 
-        v-model="user.name"
-       />
-      <mp-input 
-        placeholder="邮箱" 
-        :rules="UserSchema.shape.email" 
-        v-model="user.email" 
-      />
-      <mp-input 
-        type="password"
-        placeholder="密码" 
-        :rules="UserSchema.shape.password"
-        v-model="user.password" 
-      />
-      <mp-input 
-        type="password" 
-        placeholder="确认密码"
-        :rules="[UserSchema.shape.repeatPassword, v => v === user.password || '与密码不一致']" 
-        v-model="user.repeatPassword" 
-      />
+      <mp-form-item field="name" :rules="z.string().min(1, '名称不能为空')">
+        <mp-input placeholder="名称" v-model="user.name" />
+      </mp-form-item>
+      <mp-form-item field="email" :rules="z.string().email('邮箱格式有误')">
+        <mp-input placeholder="邮箱" v-model="user.email" />
+      </mp-form-item>
+      <mp-form-item field="password" :rules="z.string().min(6, '密码最少6位')">
+        <mp-input type="password" placeholder="密码" v-model="user.password" />
+      </mp-form-item>
+      <mp-form-item
+        field="repeatPassword"
+        :rules="[z.string().min(6, '密码最少6位'), (v) => v === user.password || '与密码不一致']"
+      >
+        <mp-input type="password" placeholder="确认密码" v-model="user.repeatPassword" />
+      </mp-form-item>
       <mp-button type="primary" native-type="submit">提交</mp-button>
     </mp-space>
   </mp-form>

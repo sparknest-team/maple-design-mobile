@@ -35,7 +35,7 @@ const suggestions = computed(() =>
 
 watchLang((lang) => {
   use(lang)
-  form.value?.reset()
+  form.value?.resetFields()
 })
 
 onThemeChange()
@@ -46,79 +46,82 @@ onThemeChange()
 
   <mp-form
     ref="form"
+    :model="formData"
     :disabled="disabled"
     :readonly="readonly"
     scroll-to-error="start"
     scroll-to-error-offset-y="14.4vmin"
   >
     <mp-space direction="column" :size="['4vmin', 0]">
-      <mp-input
-        v-model="formData.username"
-        :placeholder="t('username')"
-        :rules="[(v) => !!v || t('usernameMessage')]"
-      />
-      <mp-input
-        v-model="formData.password"
-        type="password"
-        :placeholder="t('password')"
+      <mp-form-item field="username" :rules="[(v) => !!v || t('usernameMessage')]">
+        <mp-input v-model="formData.username" :placeholder="t('username')" />
+      </mp-form-item>
+      <mp-form-item
+        field="password"
         :rules="[(v) => !!v || t('passwordMessage'), (v) => v.length >= 8 || t('passwordMinLengthMessage')]"
-      />
-      <mp-auto-complete
-        v-model="formData.email"
-        :placeholder="t('email')"
-        :rules="[(v) => !!v || t('emailMessage')]"
-        :options="suggestions"
-      />
-      <mp-select
-        v-model="formData.department"
-        :placeholder="t('department')"
-        :rules="[(v) => !!v || t('departmentMessage')]"
       >
-        <mp-option :label="`${t('eat')}${t('departmentUnit')}`" />
-        <mp-option :label="`${t('sleep')}${t('departmentUnit')}`" />
-        <mp-option :label="`${t('play')}${t('departmentUnit')}`" />
-      </mp-select>
-      <mp-select
-        v-model="formData.group"
-        multiple
-        :placeholder="t('group')"
-        :rules="[(v) => v.length >= 1 || t('groupMessage')]"
-      >
-        <mp-option :label="`${t('eat')}${t('groupUnit')}`" />
-        <mp-option :label="`${t('sleep')}${t('groupUnit')}`" />
-        <mp-option :label="`${t('play')}${t('groupUnit')}`" />
-      </mp-select>
-      <mp-radio-group v-model="formData.gender" :rules="[(v) => !!v || t('genderMessage')]">
-        <mp-radio :checked-value="1">{{ t('male') }}</mp-radio>
-        <mp-radio :checked-value="2">{{ t('female') }}</mp-radio>
-      </mp-radio-group>
-      <mp-checkbox-group v-model="formData.like" :rules="[(v) => v.length > 0 || t('likeMessage')]">
-        <mp-checkbox :checked-value="1">{{ t('eat') }}</mp-checkbox>
-        <mp-checkbox :checked-value="2">{{ t('sleep') }}</mp-checkbox>
-        <mp-checkbox :checked-value="3">{{ t('play') }}</mp-checkbox>
-      </mp-checkbox-group>
-      <mp-rate v-model="formData.score" :rules="[(v) => v >= 3 || t('rateMessage')]" />
-      <mp-switch v-model="formData.license" variant :rules="[(v) => !!v || t('licenseMessage')]" />
-      <mp-counter v-model="formData.count" :rules="[(v) => v > 10 || t('countMessage')]" />
-      <mp-slider v-model="formData.range" :rules="[(v) => v > 10 || t('rangeMessage')]" />
-      <mp-uploader v-model="formData.files" :rules="[(v) => v.length >= 1 || t('filesMessage')]" />
+        <mp-input v-model="formData.password" type="password" :placeholder="t('password')" />
+      </mp-form-item>
+      <mp-form-item field="email" :rules="[(v) => !!v || t('emailMessage')]">
+        <mp-auto-complete v-model="formData.email" :placeholder="t('email')" :options="suggestions" />
+      </mp-form-item>
+      <mp-form-item field="department" :rules="[(v) => !!v || t('departmentMessage')]">
+        <mp-select v-model="formData.department" :placeholder="t('department')">
+          <mp-option :label="`${t('eat')}${t('departmentUnit')}`" />
+          <mp-option :label="`${t('sleep')}${t('departmentUnit')}`" />
+          <mp-option :label="`${t('play')}${t('departmentUnit')}`" />
+        </mp-select>
+      </mp-form-item>
+      <mp-form-item field="group" :rules="[(v) => v.length >= 1 || t('groupMessage')]">
+        <mp-select v-model="formData.group" multiple :placeholder="t('group')">
+          <mp-option :label="`${t('eat')}${t('groupUnit')}`" />
+          <mp-option :label="`${t('sleep')}${t('groupUnit')}`" />
+          <mp-option :label="`${t('play')}${t('groupUnit')}`" />
+        </mp-select>
+      </mp-form-item>
+      <mp-form-item field="gender" :rules="[(v) => !!v || t('genderMessage')]">
+        <mp-radio-group v-model="formData.gender">
+          <mp-radio :checked-value="1">{{ t('male') }}</mp-radio>
+          <mp-radio :checked-value="2">{{ t('female') }}</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+      <mp-form-item field="like" :rules="[(v) => v.length > 0 || t('likeMessage')]">
+        <mp-checkbox-group v-model="formData.like">
+          <mp-checkbox :checked-value="1">{{ t('eat') }}</mp-checkbox>
+          <mp-checkbox :checked-value="2">{{ t('sleep') }}</mp-checkbox>
+          <mp-checkbox :checked-value="3">{{ t('play') }}</mp-checkbox>
+        </mp-checkbox-group>
+      </mp-form-item>
+      <mp-form-item field="score" :rules="[(v) => v >= 3 || t('rateMessage')]">
+        <mp-rate v-model="formData.score" />
+      </mp-form-item>
+      <mp-form-item field="license" :rules="[(v) => !!v || t('licenseMessage')]">
+        <mp-switch v-model="formData.license" variant />
+      </mp-form-item>
+      <mp-form-item field="count" :rules="[(v) => v > 10 || t('countMessage')]">
+        <mp-counter v-model="formData.count" />
+      </mp-form-item>
+      <mp-form-item field="range" :rules="[(v) => v > 10 || t('rangeMessage')]">
+        <mp-slider v-model="formData.range" />
+      </mp-form-item>
+      <mp-form-item field="files" :rules="[(v) => v.length >= 1 || t('filesMessage')]">
+        <mp-uploader v-model="formData.files" />
+      </mp-form-item>
     </mp-space>
 
     <app-type>{{ t('customFormComponent') }}</app-type>
-    <mp-custom-form-component
-      v-model="formData.custom"
-      :extra-message="t('customExtraMessage')"
-      :rules="[(v) => !!v || t('customErrorMessage')]"
-    >
-      {{ t('customLabel') }}
-    </mp-custom-form-component>
+    <mp-form-item field="custom" :rules="[(v) => !!v || t('customErrorMessage')]" :help="t('customExtraMessage')">
+      <mp-custom-form-component v-model="formData.custom">
+        {{ t('customLabel') }}
+      </mp-custom-form-component>
+    </mp-form-item>
   </mp-form>
 
   <app-type>{{ t('controller') }}</app-type>
 
   <mp-space direction="column" :size="['4vmin', 0]">
-    <mp-button block type="danger" @click="form.reset()">{{ t('reset') }}</mp-button>
-    <mp-button block type="warning" @click="form.resetValidation()">{{ t('resetValidation') }}</mp-button>
+    <mp-button block type="danger" @click="form.resetFields()">{{ t('reset') }}</mp-button>
+    <mp-button block type="warning" @click="form.clearValidate()">{{ t('resetValidation') }}</mp-button>
     <mp-button block type="success" @click="form.validate()">{{ t('validate') }}</mp-button>
     <mp-button block type="info" @click="disabled = !disabled">{{ t('disabled') }}</mp-button>
     <mp-button block type="primary" @click="readonly = !readonly">{{ t('readonly') }}</mp-button>

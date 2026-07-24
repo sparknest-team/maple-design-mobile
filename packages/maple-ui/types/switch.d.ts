@@ -1,8 +1,6 @@
-import { BasicAttributes, ListenerProp, SetPropsDefaults, Rules as SwitchRules, VarComponent } from './varComponent'
+import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const switchProps: Record<keyof SwitchProps, any>
-
-export type SwitchValidateTrigger = 'onChange' | 'onLazyChange'
 
 export interface SwitchProps extends BasicAttributes {
   modelValue?: any
@@ -18,9 +16,7 @@ export interface SwitchProps extends BasicAttributes {
   closeColor?: string
   size?: string | number
   lazyChange?: boolean
-  validateTrigger?: Array<SwitchValidateTrigger>
   variant?: boolean
-  rules?: SwitchRules
   onClick?: ListenerProp<(event: Event) => void>
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>

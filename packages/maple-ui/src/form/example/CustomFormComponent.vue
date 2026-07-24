@@ -1,49 +1,18 @@
 <script setup>
-import { nextTick } from 'vue'
 import Form from '..'
-import MpFormDetails from '../../form-details'
 import MpIcon from '../../icon'
 
 const props = defineProps({
   modelValue: Boolean,
   disabled: Boolean,
   readonly: Boolean,
-  rules: {
-    type: Array,
-  },
-  validateTrigger: {
-    type: Array,
-    default: () => ['onToggle'],
-  },
-  extraMessage: {
-    type: String,
-  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const { useForm, useValidation } = Form
-const {
-  errorMessage,
-  validateWithTrigger: _validateWithTrigger,
-  validate: _validate,
-  resetValidation,
-} = useValidation()
-const { bindForm, form } = useForm()
-
-const validate = () => _validate(props.rules, props.modelValue)
-
-function reset() {
-  emit('update:modelValue', false)
-  resetValidation()
-}
-
-function validateWithTrigger(trigger) {
-  nextTick(() => {
-    const { validateTrigger, rules, modelValue } = props
-    _validateWithTrigger(validateTrigger, trigger, rules, modelValue)
-  })
-}
+const { useForm, useFormItem } = Form
+const { form } = useForm()
+const { mergedError, eventHandlers } = useFormItem()
 
 function handleClick() {
   if (props.readonly || props.disabled || form?.readonly.value || form?.disabled.value) {
@@ -51,17 +20,8 @@ function handleClick() {
   }
 
   emit('update:modelValue', !props.modelValue)
-  validateWithTrigger('onToggle')
+  eventHandlers.value.onChange?.()
 }
-
-const apis = {
-  reset,
-  validate,
-  resetValidation,
-}
-
-defineExpose(apis)
-bindForm?.(apis)
 </script>
 
 <template>
@@ -69,7 +29,7 @@ bindForm?.(apis)
     class="mp-custom-form-component"
     :class="{
       'mp-custom-form-component--disabled': disabled || form?.disabled.value,
-      'mp-custom-form-component--error': errorMessage,
+      'mp-custom-form-component--error': mergedError,
     }"
   >
     <div class="mp-custom-form-component__container" @click="handleClick">
@@ -80,7 +40,6 @@ bindForm?.(apis)
       />
       <slot />
     </div>
-    <mp-form-details :error-message="errorMessage" :extra-message="extraMessage" />
   </div>
 </template>
 

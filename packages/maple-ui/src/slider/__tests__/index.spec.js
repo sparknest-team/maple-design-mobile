@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
-import { z } from 'zod'
 import Slider from '..'
 import { delay, mockConsole, trigger } from '../../utils/test'
 import VarSlider from '../Slider'
@@ -359,34 +358,6 @@ describe('test slider props', () => {
 
     mockRestore()
   })
-
-  test('slider rules prop', async () => {
-    const wrapper = mount({
-      components: {
-        [VarSlider.name]: VarSlider,
-      },
-      data: () => ({
-        value: 0,
-      }),
-      template: `<mp-slider v-model="value" :rules="[(v) => v > 10 || 'error message']" />`,
-    })
-
-    const el = wrapper.find('.mp-slider__horizontal-thumb')
-
-    await trigger(el, 'touchstart', 0, 0)
-    await trigger(document, 'touchmove', 5, 0)
-    await trigger(document, 'touchend', 5, 0)
-    await delay(100)
-    expect(wrapper.find('.mp-slider__horizontal--error').exists()).toBeTruthy()
-
-    await trigger(el, 'touchstart', 0, 0)
-    await trigger(document, 'touchmove', 200, 0)
-    await trigger(document, 'touchend', 200, 0)
-    await delay(100)
-    expect(wrapper.find('.mp-slider__horizontal--error').exists()).toBeFalsy()
-
-    wrapper.unmount()
-  })
 })
 
 test('slider events', async () => {
@@ -451,27 +422,4 @@ test('slider events', async () => {
   expect(wrapper.vm.value).not.toEqual([20, 30])
 
   wrapper.unmount()
-})
-
-test('slider validation with zod', async () => {
-  const wrapper = mount({
-    components: {
-      [VarSlider.name]: VarSlider,
-    },
-    data: () => ({
-      value: 0,
-      rules: z.number().min(10, 'slider value must be greater than 10'),
-    }),
-    template: `<mp-slider v-model="value" :rules="rules" />`,
-  })
-
-  const el = wrapper.find('.mp-slider__horizontal-thumb')
-
-  await trigger(el, 'touchstart', 0, 0)
-  await trigger(document, 'touchmove', 5, 0)
-  await trigger(document, 'touchend', 5, 0)
-  await delay(100)
-
-  expect(wrapper.find('.mp-slider__horizontal--error').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('slider value must be greater than 10')
 })

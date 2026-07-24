@@ -131,18 +131,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '基础组件',
-          'en-US': 'Basic Components',
+          'zh-CN': '通用组件',
+          'en-US': 'General',
         },
         type: 1,
-      },
-      {
-        text: {
-          'zh-CN': 'StyleProvider 样式定制',
-          'en-US': 'StyleProvider',
-        },
-        doc: 'style-provider',
-        type: 2,
       },
       {
         text: {
@@ -162,26 +154,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Breadcrumb 面包屑',
-          'en-US': 'Breadcrumb',
-        },
-        doc: 'breadcrumb',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Link 链接',
           'en-US': 'Link',
         },
         doc: 'link',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Cell 单元格',
-          'en-US': 'Cell',
-        },
-        doc: 'cell',
         type: 2,
       },
       {
@@ -194,127 +170,22 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Image 图片',
-          'en-US': 'Image',
+          'zh-CN': 'Cell 单元格',
+          'en-US': 'Cell',
         },
-        doc: 'image',
+        doc: 'cell',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'ImagePreview 图片预览',
-          'en-US': 'ImagePreview',
-        },
-        doc: 'image-preview',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Avatar 头像',
-          'en-US': 'Avatar',
-        },
-        doc: 'avatar',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Loading 加载',
-          'en-US': 'Loading',
-        },
-        doc: 'loading',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Chip 纸片',
-          'en-US': 'Chip',
-        },
-        doc: 'chip',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Tag 标签',
-          'en-US': 'Tag',
-        },
-        doc: 'tag',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Badge 徽标',
-          'en-US': 'Badge',
-        },
-        doc: 'badge',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Ellipsis 文本省略',
-          'en-US': 'Ellipsis',
-        },
-        doc: 'ellipsis',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Paper 纸张',
-          'en-US': 'Paper',
-        },
-        doc: 'paper',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Elevation 海拔效果',
-          'en-US': 'Elevation',
-        },
-        doc: 'styles',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': '展示组件',
-          'en-US': 'Display Components',
+          'zh-CN': '布局',
+          'en-US': 'Layout',
         },
         type: 1,
       },
-
       {
         text: {
-          'zh-CN': 'Empty 空状态',
-          'en-US': 'Empty',
-        },
-        doc: 'empty',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Skeleton 骨架屏',
-          'en-US': 'Skeleton',
-        },
-        doc: 'skeleton',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Collapse 折叠面板',
-          'en-US': 'Collapse',
-        },
-        doc: 'collapse',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'CollapseTransition 折叠动效',
-          'en-US': 'CollapseTransition',
-        },
-        doc: 'collapse-transition',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Space 间隔',
+          'zh-CN': 'Space 间距',
           'en-US': 'Space',
         },
         doc: 'space',
@@ -338,54 +209,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Progress 进度条',
-          'en-US': 'Progress',
-        },
-        doc: 'progress',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'List 无限滚动列表',
-          'en-US': 'List',
-        },
-        doc: 'list',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Carousel 轮播',
-          'en-US': 'Carousel',
-        },
-        doc: 'carousel',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Steps 步骤条',
-          'en-US': 'Steps',
-        },
-        doc: 'steps',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Card 卡片',
-          'en-US': 'Card',
-        },
-        doc: 'card',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Result 结果',
-          'en-US': 'Result',
-        },
-        doc: 'result',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Divider 分割线',
           'en-US': 'Divider',
         },
@@ -394,183 +217,25 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Table 表格',
-          'en-US': 'Table',
+          'zh-CN': 'Paper 纸张',
+          'en-US': 'Paper',
         },
-        doc: 'table',
+        doc: 'paper',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'Watermark 水印',
-          'en-US': 'Watermark',
-        },
-        doc: 'watermark',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Code 代码块',
-          'en-US': 'Code',
-        },
-        doc: 'code',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': '导航组件',
-          'en-US': 'Navigation Components',
+          'zh-CN': '导航',
+          'en-US': 'Navigation',
         },
         type: 1,
       },
       {
         text: {
-          'zh-CN': 'Tabs 选项卡',
-          'en-US': 'Tabs',
+          'zh-CN': 'Breadcrumb 面包屑',
+          'en-US': 'Breadcrumb',
         },
-        doc: 'tabs',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'IndexBar 索引栏',
-          'en-US': 'IndexBar',
-        },
-        doc: 'index-bar',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'AppBar 导航栏',
-          'en-US': 'AppBar',
-        },
-        doc: 'app-bar',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'BottomNavigation 底部导航栏',
-          'en-US': 'BottomNavigation',
-        },
-        doc: 'bottom-navigation',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': '功能指令',
-          'en-US': 'Functional Directives',
-        },
-        type: 1,
-      },
-      {
-        text: {
-          'zh-CN': 'Ripple 水波指令',
-          'en-US': 'Ripple',
-        },
-        doc: 'ripple',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Lazy 懒加载',
-          'en-US': 'Lazy',
-        },
-        doc: 'lazy',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Hover 悬停指令',
-          'en-US': 'Hover',
-        },
-        doc: 'hover',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': '反馈组件',
-          'en-US': 'Action Components',
-        },
-        type: 1,
-      },
-      {
-        text: {
-          'zh-CN': 'Alert 警告信息',
-          'en-US': 'Alert',
-        },
-        doc: 'alert',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Drag 拖拽',
-          'en-US': 'Drag',
-        },
-        doc: 'drag',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Message 全局提示',
-          'en-US': 'Message',
-        },
-        doc: 'message',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'ActionSheet 动作面板',
-          'en-US': 'ActionSheet',
-        },
-        doc: 'action-sheet',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'FloatingPanel 浮动面板',
-          'en-US': 'FloatingPanel',
-        },
-        doc: 'floating-panel',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Dialog 对话框',
-          'en-US': 'Dialog',
-        },
-        doc: 'dialog',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'PullRefresh 下拉刷新',
-          'en-US': 'PullRefresh',
-        },
-        doc: 'pull-refresh',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Overlay 遮罩层',
-          'en-US': 'Overlay',
-        },
-        doc: 'overlay',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Popup 弹出层',
-          'en-US': 'Popup',
-        },
-        doc: 'popup',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Pagination 分页',
-          'en-US': 'Pagination',
-        },
-        doc: 'pagination',
+        doc: 'breadcrumb',
         type: 2,
       },
       {
@@ -591,80 +256,48 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Tooltip 提示',
-          'en-US': 'Tooltip',
+          'zh-CN': 'Pagination 分页',
+          'en-US': 'Pagination',
         },
-        doc: 'tooltip',
+        doc: 'pagination',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'BackTop 回到顶部',
-          'en-US': 'BackTop',
+          'zh-CN': 'Steps 步骤条',
+          'en-US': 'Steps',
         },
-        doc: 'back-top',
+        doc: 'steps',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'LoadingBar 加载条',
-          'en-US': 'LoadingBar',
+          'zh-CN': 'AppBar 导航栏',
+          'en-US': 'AppBar',
         },
-        doc: 'loading-bar',
+        doc: 'app-bar',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'CountTo 数字动画',
-          'en-US': 'CountTo',
+          'zh-CN': 'BottomNavigation 底部导航栏',
+          'en-US': 'BottomNavigation',
         },
-        doc: 'count-to',
+        doc: 'bottom-navigation',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'Countdown 倒计时',
-          'en-US': 'Countdown',
+          'zh-CN': 'IndexBar 索引栏',
+          'en-US': 'IndexBar',
         },
-        doc: 'countdown',
+        doc: 'index-bar',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'Picker 多列选择器',
-          'en-US': 'Picker',
-        },
-        doc: 'picker',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'DatePicker 日期选择器',
-          'en-US': 'DatePicker',
-        },
-        doc: 'date-picker',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'TimePicker 时间选择器',
-          'en-US': 'TimePicker',
-        },
-        doc: 'time-picker',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Signature 签名',
-          'en-US': 'Signature',
-        },
-        doc: 'signature',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': '表单组件',
-          'en-US': 'Form Components',
+          'zh-CN': '数据输入',
+          'en-US': 'Data Entry',
         },
         type: 1,
       },
@@ -674,6 +307,14 @@ export default defineConfig({
           'en-US': 'Form',
         },
         doc: 'form',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'FormItem 表单项',
+          'en-US': 'FormItem',
+        },
+        doc: 'form-item',
         type: 2,
       },
       {
@@ -698,6 +339,86 @@ export default defineConfig({
           'en-US': 'Select',
         },
         doc: 'select',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Cascader 级联选择器',
+          'en-US': 'Cascader',
+        },
+        doc: 'cascader',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Picker 多列选择器',
+          'en-US': 'Picker',
+        },
+        doc: 'picker',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Date 日期字段',
+          'en-US': 'Date',
+        },
+        doc: 'date',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'DateRange 日期范围字段',
+          'en-US': 'DateRange',
+        },
+        doc: 'date-range',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'DatePicker 日期面板',
+          'en-US': 'DatePicker',
+        },
+        doc: 'date-picker',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'DateRangePicker 日期范围面板',
+          'en-US': 'DateRangePicker',
+        },
+        doc: 'date-range-picker',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Time 时间字段',
+          'en-US': 'Time',
+        },
+        doc: 'time',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'TimeRange 时间范围字段',
+          'en-US': 'TimeRange',
+        },
+        doc: 'time-range',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'TimePicker 时间面板',
+          'en-US': 'TimePicker',
+        },
+        doc: 'time-picker',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'TimeRangePicker 时间范围面板',
+          'en-US': 'TimeRangePicker',
+        },
+        doc: 'time-range-picker',
         type: 2,
       },
       {
@@ -754,6 +475,347 @@ export default defineConfig({
           'en-US': 'Uploader',
         },
         doc: 'uploader',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Signature 签名',
+          'en-US': 'Signature',
+        },
+        doc: 'signature',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '数据展示',
+          'en-US': 'Data Display',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'Avatar 头像',
+          'en-US': 'Avatar',
+        },
+        doc: 'avatar',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Badge 徽标',
+          'en-US': 'Badge',
+        },
+        doc: 'badge',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Tag 标签',
+          'en-US': 'Tag',
+        },
+        doc: 'tag',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Ellipsis 文本省略',
+          'en-US': 'Ellipsis',
+        },
+        doc: 'ellipsis',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Empty 空状态',
+          'en-US': 'Empty',
+        },
+        doc: 'empty',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Image 图片',
+          'en-US': 'Image',
+        },
+        doc: 'image',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'ImagePreview 图片预览',
+          'en-US': 'ImagePreview',
+        },
+        doc: 'image-preview',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Tabs 选项卡',
+          'en-US': 'Tabs',
+        },
+        doc: 'tabs',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Collapse 折叠面板',
+          'en-US': 'Collapse',
+        },
+        doc: 'collapse',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'CollapseTransition 折叠动效',
+          'en-US': 'CollapseTransition',
+        },
+        doc: 'collapse-transition',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'List 无限滚动列表',
+          'en-US': 'List',
+        },
+        doc: 'list',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Carousel 轮播',
+          'en-US': 'Carousel',
+        },
+        doc: 'carousel',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Card 卡片',
+          'en-US': 'Card',
+        },
+        doc: 'card',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Table 表格',
+          'en-US': 'Table',
+        },
+        doc: 'table',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Code 代码块',
+          'en-US': 'Code',
+        },
+        doc: 'code',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'CountTo 数字动画',
+          'en-US': 'CountTo',
+        },
+        doc: 'count-to',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Countdown 倒计时',
+          'en-US': 'Countdown',
+        },
+        doc: 'countdown',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Tooltip 文字提示',
+          'en-US': 'Tooltip',
+        },
+        doc: 'tooltip',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '反馈',
+          'en-US': 'Feedback',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'Alert 警告信息',
+          'en-US': 'Alert',
+        },
+        doc: 'alert',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Message 全局提示',
+          'en-US': 'Message',
+        },
+        doc: 'message',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Dialog 对话框',
+          'en-US': 'Dialog',
+        },
+        doc: 'dialog',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'ActionSheet 动作面板',
+          'en-US': 'ActionSheet',
+        },
+        doc: 'action-sheet',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'FloatingPanel 浮动面板',
+          'en-US': 'FloatingPanel',
+        },
+        doc: 'floating-panel',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Popup 弹出层',
+          'en-US': 'Popup',
+        },
+        doc: 'popup',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Overlay 遮罩层',
+          'en-US': 'Overlay',
+        },
+        doc: 'overlay',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'PullRefresh 下拉刷新',
+          'en-US': 'PullRefresh',
+        },
+        doc: 'pull-refresh',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Loading 加载',
+          'en-US': 'Loading',
+        },
+        doc: 'loading',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'LoadingBar 加载条',
+          'en-US': 'LoadingBar',
+        },
+        doc: 'loading-bar',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Skeleton 骨架屏',
+          'en-US': 'Skeleton',
+        },
+        doc: 'skeleton',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Progress 进度条',
+          'en-US': 'Progress',
+        },
+        doc: 'progress',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Result 结果',
+          'en-US': 'Result',
+        },
+        doc: 'result',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Drag 拖拽',
+          'en-US': 'Drag',
+        },
+        doc: 'drag',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '其他',
+          'en-US': 'Others',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'StyleProvider 样式定制',
+          'en-US': 'StyleProvider',
+        },
+        doc: 'style-provider',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Elevation 海拔效果',
+          'en-US': 'Elevation',
+        },
+        doc: 'styles',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'BackTop 回到顶部',
+          'en-US': 'BackTop',
+        },
+        doc: 'back-top',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Watermark 水印',
+          'en-US': 'Watermark',
+        },
+        doc: 'watermark',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Ripple 水波指令',
+          'en-US': 'Ripple',
+        },
+        doc: 'ripple',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Lazy 懒加载',
+          'en-US': 'Lazy',
+        },
+        doc: 'lazy',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Hover 悬停指令',
+          'en-US': 'Hover',
+        },
+        doc: 'hover',
         type: 2,
       },
     ],

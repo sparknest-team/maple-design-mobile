@@ -1,7 +1,6 @@
 import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import { z } from 'zod'
 import Select from '..'
 import Option from '../../option'
 import VarOption from '../../option/Option'
@@ -373,7 +372,7 @@ test('select multiple value', async () => {
   document.body.innerHTML = ''
 })
 
-test('select multiple value in chips', async () => {
+test('select multiple value in tags', async () => {
   const onClose = vi.fn()
   const onChange = vi.fn()
   const wrapper = mount(
@@ -387,7 +386,7 @@ test('select multiple value in chips', async () => {
         onChange,
       },
       template: `
-      <mp-select multiple chip v-model="value" @close="onClose" @change="onChange">
+      <mp-select multiple tag v-model="value" @close="onClose" @change="onChange">
         <mp-option label="eat" />
         <mp-option label="sleep" />
       </mp-select>
@@ -403,7 +402,7 @@ test('select multiple value in chips', async () => {
   expect(onChange).toHaveBeenCalledTimes(2)
   await delay(16)
 
-  await wrapper.find('.mp-chip--close').trigger('click')
+  await wrapper.find('.mp-tag__close-btn').trigger('click')
   expect(wrapper.vm.value).toStrictEqual(['sleep'])
 
   expect(onClose).toHaveBeenCalledTimes(1)
@@ -411,42 +410,6 @@ test('select multiple value in chips', async () => {
 
   wrapper.unmount()
   document.body.innerHTML = ''
-})
-
-test('select validation', async () => {
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: '',
-      }),
-      template: `
-      <mp-select ref="select" :rules="[v => !!v || 'You must choose one option']" v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  const { select } = wrapper.vm.$refs
-
-  select.validate()
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('You must choose one option')
-  expect(wrapper.html()).toMatchSnapshot()
-
-  await wrapper.trigger('click')
-  await trigger(document.querySelector('.mp-option'), 'click')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-
-  select.reset()
-  expect(wrapper.vm.value).toBe(undefined)
-
-  wrapper.unmount()
-  document.innerHTML = ''
 })
 
 test('select focus & blur methods', async () => {
@@ -765,39 +728,6 @@ describe('test select component slots', () => {
       },
     })
 
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.unmount()
-  })
-})
-
-describe('test select validation with zod', () => {
-  test('string', async () => {
-    const zs = z.string().refine((d) => d === 'maple', { message: 'Invalid option. expect to be `maple`' })
-    const wrapper = mount({
-      ...Wrapper,
-      data: () => ({
-        value: '',
-        options: [
-          { label: 'maple', value: 'maple' },
-          { label: 'maple-ui', value: 'maple-ui' },
-        ],
-        rules: [zs],
-      }),
-      template: `
-      <mp-select v-model="value" :options="options" value-key="id" :rules="rules">
-      </mp-select>
-    `,
-    })
-
-    await wrapper.trigger('click')
-    const options = document.querySelectorAll('.mp-option')
-    await trigger(options[0], 'click')
-    expect(wrapper.vm.value).toBe('maple')
-
-    await trigger(options[1], 'click')
-    await delay(16)
-    expect(wrapper.find('.mp-form-details__error-message').text()).toBe('Invalid option. expect to be `maple`')
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.unmount()

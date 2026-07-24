@@ -1,0 +1,18 @@
+export default {
+  basicUsage: 'Basic Usage',
+  pickerMode: 'Picker Mode',
+  pickerSeconds: 'Picker With Seconds',
+  hour24: '24hr And Seconds',
+  separator: 'Custom Separator',
+  nextDay: 'Next Day Label',
+  disabled: 'Disabled',
+  withFormItem: 'With FormItem',
+  placeholder: 'Please select a time range',
+  pickerPlaceholder: 'Column picker range',
+  pickerSecondsPlaceholder: 'Picker with seconds',
+  secondsPlaceholder: 'With seconds',
+  separatorPlaceholder: 'Custom separator',
+  nextDayPlaceholder: 'Overnight range',
+  period: 'Period',
+  formPlaceholder: 'Please select',
+}

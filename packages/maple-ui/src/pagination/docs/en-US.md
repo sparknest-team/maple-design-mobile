@@ -2,44 +2,71 @@
 
 ### Intro
 
-You may need it when you need to process large amounts of data.
+Pagination is used when you need to handle a large amount of data.
 
-## Simple Mode
+The API is aligned with Cedar Pagination. `simple` is enabled by default on mobile.
 
-### Intro
+## Demo
 
-A default display mode, recommended for small-screen devices.
-
-### Basic Use
+### Basic Usage
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="20" />
+  <mp-pagination :current="1" :total="50" />
 </template>
 ```
 
-### Hide Size Changer
+### More Pages
 
-Use `show-size-changer` to control the display and hiding of the `size` controller.
+When there are many pages, an ellipsis style is used.
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="20" :show-size-changer="false" />
+  <mp-pagination :simple="false" :current="1" :total="200" />
+</template>
+```
+
+### Page Size
+
+Use `show-page-size` to show the page size selector.
+
+```html
+<template>
+  <mp-pagination :simple="false" :current="1" :total="50" show-page-size />
+</template>
+```
+
+### Page Jumper
+
+Use `show-jumper` to show the page jumper input.
+
+```html
+<template>
+  <mp-pagination :simple="false" :current="1" :total="50" show-jumper />
+</template>
+```
+
+### Simple Mode
+
+Simple mode is enabled by default and recommended for small screens. Disable it with `simple`.
+
+```html
+<template>
+  <mp-pagination :current="1" :total="50" />
 </template>
 ```
 
 ### Show Total
 
-Use the `showTotal` prop to customize the total display.
+Use `show-total` to display the total. Customize the text with the `#total` slot.
 
 ```html
 <template>
-  <mp-pagination
-    :current="1"
-    :total="20"
-    :show-size-changer="false"
-    :show-total="total => `${total} items`"
-  />
+  <mp-pagination :current="1" :total="50" show-total />
+
+  <mp-pagination :current="1" :total="50" show-total>
+    <template #total="{ total }">Total {{ total }} items</template>
+  </mp-pagination>
 </template>
 ```
 
@@ -47,71 +74,38 @@ Use the `showTotal` prop to customize the total display.
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="20" disabled />
+  <mp-pagination :current="1" :total="50" disabled />
 </template>
 ```
 
-## Basic Mode
-
-### Intro
-
-When the `simple` property is `false`, we can enable the paging style designed specifically for wide screens.
-
-### Basic Use
-
-```html
-<template>
-  <mp-pagination :simple="false" :current="1" :total="20" />
-</template>
-```
-
-### Hide Size Changer
-
-Use `show-size-changer` to control the display and hiding of the `size` controller.
-
-```html
-<template>
-  <mp-pagination :current="1" :total="20" :simple="false" :show-size-changer="false" />
-</template>
-```
-
-### Show Total
-
-Use the `showTotal` prop to customize the total display.
+### All Options
 
 ```html
 <template>
   <mp-pagination
-    :current="1"
-    :total="20"
     :simple="false"
-    :show-size-changer="false"
-    :show-total="total => `${total} items`"
+    :current="1"
+    :total="50"
+    show-total
+    show-jumper
+    show-page-size
   />
 </template>
 ```
 
-### Disabled
+### Custom Page Buttons
+
+Customize page button content with slots.
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="20" disabled />
-</template>
-```
-
-### Quick Jumper
-
-Use the `show-quick-jumper` property to enable quick page jumps.
-
-```html
-<template>
-  <mp-pagination 
-    :simple="false" 
-    :current="1" 
-    :total="20" 
-    :show-size-changer="false" 
-    show-quick-jumper
-  />
+  <mp-pagination :simple="false" :current="1" :total="50">
+    <template #page-item="{ page }">{{ page }}</template>
+    <template #page-item-step="{ type }">
+      {{ type === 'previous' ? 'Prev' : 'Next' }}
+    </template>
+    <template #page-item-ellipsis>···</template>
+  </mp-pagination>
 </template>
 ```
 
@@ -119,36 +113,48 @@ Use the `show-quick-jumper` property to enable quick page jumps.
 
 ### Props
 
-| Prop                | Description                                                                     | Type | Default |
-|---------------------|---------------------------------------------------------------------------------| -------- | ---------- |
-| `v-model:current`  | Current page number                                                             | _string \| number_ | `1` |
-| `v-model:size`     | Number of data items per page                                                   | _string \| number_ | `10` |
-| `total`             | Total number of data items                                                      | _string \| number_ | `0` |
-| `simple`            | Whether to use simple mode                                                      | _boolean_ | `true` |
-| `elevation`         | Elevation level, options `true` `false` and level of `0-24`, not in simple mode | _string \| number \| boolean_|   `true`    |
-| `disabled`          | Disable pagination                                                              | _boolean_ | `false` |
-| `show-size-changer` | Whether to show `size` select                                                   | _boolean_ | `true` |
-| `show-quick-jumper` | Whether you can jump to pages directly	                                         | _boolean_ | `false` |
-| `max-pager-count`   | Number of buttons displayed between ellipses	                                   | _number_ | `3` |
-| `size-option`       | Specify the sizeChanger options	                                                | _number[]_ | `[10, 20, 50, 100]` |
-| `show-total`        | Show page item's title	                                                         | _function(total, range)_ | `-` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `total` | Total number of data items | _number \| string_ | `0` |
+| `v-model:current` | Current page | _number \| string_ | `-` |
+| `default-current` | Default current page | _number_ | `1` |
+| `v-model:page-size` | Number of items per page | _number \| string_ | `-` |
+| `default-page-size` | Default page size (uncontrolled) | _number_ | `10` |
+| `disabled` | Whether to disable pagination | _boolean_ | `false` |
+| `hide-on-single-page` | Whether to hide pagination when there is only one page | _boolean_ | `false` |
+| `simple` | Whether to use simple mode (enabled by default on mobile) | _boolean_ | `true` |
+| `show-total` | Whether to show total | _boolean_ | `false` |
+| `show-more` | Whether to show the more button | _boolean_ | `false` |
+| `show-jumper` | Whether to show the jumper input | _boolean_ | `false` |
+| `show-page-size` | Whether to show the page size selector | _boolean_ | `false` |
+| `page-size-options` | Options for the page size selector | _number[]_ | `[10, 20, 30, 40, 50]` |
+| `page-size-props` | Props passed to the page size selector | _object_ | `-` |
+| `page-item-style` | Style of page items | _CSSProperties_ | `-` |
+| `active-page-item-style` | Style of the active page item | _CSSProperties_ | `-` |
+| `base-size` | Base count for ellipsis calculation: `baseSize + 2 * bufferSize` | _number_ | `6` |
+| `buffer-size` | Number of pages shown on each side of the current page when ellipsis is shown | _number_ | `2` |
+| `auto-adjust` | Whether to auto-adjust the current page when page size changes | _boolean_ | `true` |
+| `elevation` | Elevation level: `true`, `false`, or `0-24` | _boolean \| string \| number_ | `true` |
 
 ### Events
 
-| Event | Description | arguments |
-| ----- | -------------- | -------- |
-| `change` | Callback after `current` or `size` changes | `current: number` <br>`size: number`  |
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `change` | Emitted when the page changes | `current: number` |
+| `page-size-change` | Emitted when the page size changes | `pageSize: number` |
 
 ### Slots
 
-| Name | Description | SlotProps |
+| Slot | Description | Arguments |
 | --- | --- | --- |
-| `prev` | Content of previous button | `-` |
-| `next` | Content of next button | `-` |
+| `total` | Total text | `total: number` |
+| `page-item` | Page item | `page: number` |
+| `page-item-step` | Step item | `type: 'previous' \| 'next'` |
+| `page-item-ellipsis` | Ellipsis item | `-` |
+| `jumper-prepend` | Jumper prefix | `-` |
+| `jumper-append` | Jumper suffix | `-` |
 
 ### Style Variables
-
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
 
 | Variable | Default |
 | --- | --- |
@@ -164,7 +170,6 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--pagination-item-margin` | `0 6px` |
 | `--pagination-item-border-radius` | `4px` |
 | `--pagination-item-background` | `#fff` |
-| `--pagination-item-border-radius` | `4px` |
 | `--pagination-item-simple-border-radius` | `50%` |
 | `--pagination-input-width` | `32px` |
 | `--pagination-disabled-color` | `var(--color-text-disabled)` |

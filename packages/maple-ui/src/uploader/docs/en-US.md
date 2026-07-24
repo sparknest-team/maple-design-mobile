@@ -328,58 +328,7 @@ const files = ref()
 </template>
 ```
 
-### Validate
-
-The values are validated by passing in an array of validator, If the validator returns `true`, the validation passes.
-Other values are converted to text as a user prompt.
-The second argument is a collection of utility functions that can quickly get a collection of files that match the state.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    url: 'https://maplejs.org/cat.jpg',
-    cover: 'https://maplejs.org/cat.jpg',
-    state: 'error',
-  },
-])
-</script>
-
-<template>
-  <mp-uploader
-    :rules="(v, u) => u.getError().length === 0 || 'There is a file that failed to upload'"
-    v-model="files"
-  />
-</template>
-```
-
-### Validate with Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const files = ref([
-  {
-    url: 'https://maplejs.org/cat.jpg',
-    cover: 'https://maplejs.org/cat.jpg',
-    state: 'error',
-  },
-])
-</script>
-
-<template>
-  <mp-uploader
-    :rules="
-      z.array(z.any()).refine(v => v.filter(file => file.state === 'error').length === 0, 'There is a file that failed to upload')
-    "
-    v-model="files"
-  />
-</template>
-```
+> For form validation of the uploader, please use the [FormItem component](#/en-US/form-item).
 
 ### Custom Render File List
 
@@ -494,8 +443,6 @@ const files = ref([
 | `ripple`    | Whether to open ripple | _boolean_ | `true` |
 | `hide-list` | Whether to hide the file list | _boolean_ | `false` |
 | `resolve-type` | The file preprocessing type, can be set to `default` `file` `data-url` (`default`, the image type contains dataURL and File object, other types contain only File object. `file`, which contains only File object. `data-url`, all file types contain dataURL and File object) | _string_ | `default` |
-| `validate-trigger` | Timing to trigger validation. The optional value is `onChange` `onRemove` | _UploaderValidateTrigger[]_ | `['onChange', 'onRemove']` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: MpFile[]) => any) \| ZodType \| Array<((v: MpFile[]) => any) \| ZodType>_ | `-` |
 
 ### MpFile
 
@@ -509,14 +456,6 @@ const files = ref([
 | `state` | File upload state, Optional value is `loading` `success` `error` | _string_ | `-` |
 | `state` | File upload progress, range [0, 100] | _number_ | `-` |
 
-### MpFileUtils
-
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `getLoading` | Gets a collection of files for `state` is `loading` | `-` | `MpFile[]` |
-| `getSuccess` | Gets a collection of files for `state` is `success` | `-` | `MpFile[]` |
-| `getError` | Gets a collection of files for `state` is `error` | `-` | `MpFile[]` |
-
 ### Methods
 
 | Method | Description | Arguments | Return |
@@ -526,9 +465,6 @@ const files = ref([
 | `getLoading` | Gets a collection of files for `state` is `loading` | `-` | `MpFile[]` |
 | `getSuccess` | Gets a collection of files for `state` is `success` | `-` | `MpFile[]` |
 | `getError` |  Gets a collection of files for `state` is `error` | `-` | `MpFile[]` |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clearing validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding(set to `[]`)and validate messages | `-` | `-` |
 
 ### Events
 
@@ -548,7 +484,6 @@ const files = ref([
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Upload action content | `-` |
-| `extra-message` | Extra message | `-` |
 | `remove-button` ***3.8.0*** | Remove button | `remove: () => void` |
 
 ### Style Variables

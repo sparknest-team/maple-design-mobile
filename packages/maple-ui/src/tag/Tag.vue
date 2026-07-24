@@ -1,11 +1,6 @@
 <template>
   <transition :name="n('$-fade')">
-    <span
-      v-show="computedVisible"
-      :class="rootClass"
-      :style="rootStyle"
-      @click="handleClick"
-    >
+    <span v-show="computedVisible" :class="rootClass" :style="rootStyle" @click="handleClick">
       <span v-if="$slots.icon" :class="n('icon')">
         <slot name="icon" />
       </span>
@@ -14,13 +9,7 @@
       </span>
       <slot v-else />
       <span v-if="loading" :class="n('loading-icon')" aria-hidden="true" />
-      <span
-        v-else-if="closable"
-        role="button"
-        aria-label="Close"
-        :class="n('close-btn')"
-        @click.stop="handleClose"
-      >
+      <span v-else-if="closable" role="button" aria-label="Close" :class="n('close-btn')" @click.stop="handleClose">
         <slot name="close-icon">
           <mp-icon name="close-circle" />
         </slot>
@@ -53,24 +42,20 @@ const innerVisible = ref(props.defaultVisible)
 const innerChecked = ref(props.defaultChecked)
 
 const computedVisible = computed(() => props.visible ?? innerVisible.value)
-const computedChecked = computed(() =>
-  props.checkable ? (props.checked ?? innerChecked.value) : true,
-)
-
-// bordered 兼容：bordered=true 时等价 variant=outline
-const computedVariant = computed(() => (props.bordered ? 'outline' : props.variant))
+const computedChecked = computed(() => (props.checkable ? (props.checked ?? innerChecked.value) : true))
 
 const rootClass = computed(() =>
   classes(
     n(),
     n(`--size-${props.size}`),
     n(`--status-${props.status}`),
-    n(`--variant-${computedVariant.value}`),
+    n(`--variant-${props.variant}`),
     [props.loading, n('--loading')],
     [props.closable, n('--closable')],
     [props.checkable, n('--checkable')],
     [computedChecked.value, n('--checked')],
     [props.nowrap, n('--nowrap')],
+    [props.round, n('--round')],
   ),
 )
 
@@ -78,8 +63,17 @@ const rootStyle = computed<CSSProperties | undefined>(() => {
   if (!props.color && !props.textColor) {
     return undefined
   }
+
+  if (props.variant === 'outline') {
+    return {
+      color: props.textColor || props.color,
+      borderColor: props.color,
+      backgroundColor: 'transparent',
+    }
+  }
+
   return {
-    backgroundColor: props.color,
+    background: props.color,
     color: props.textColor,
     borderColor: props.color,
   }

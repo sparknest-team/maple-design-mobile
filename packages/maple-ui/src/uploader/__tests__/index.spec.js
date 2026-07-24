@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
-import { z } from 'zod'
 import Uploader from '..'
 import { delay, mockFileReader, mockStubs, triggerKeyboard } from '../../utils/test'
 import VarUploader from '../Uploader'
@@ -240,37 +239,6 @@ test('uploader onBeforeRemove', async () => {
   mockRestore()
 })
 
-test('uploader validation', async () => {
-  const { mockRestore } = mockFileReader('data:image/png;base64,')
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-
-  const wrapper = mount(VarUploader, {
-    props: {
-      modelValue: [],
-      rules: [(v) => v.length >= 1 || 'You must upload one file at least'],
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
-  })
-
-  wrapper.vm.validate()
-  await delay(16)
-  expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('You must upload one file at least')
-
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  await delay(16)
-  expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
-  expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-
-  wrapper.vm.reset()
-  await delay(16)
-  expect(wrapper.vm.modelValue).toStrictEqual([])
-
-  wrapper.unmount()
-  mockRestore()
-})
-
 test('uploader disabled', async () => {
   const { mockRestore } = mockFileReader('data:image/png;base64,')
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
@@ -403,19 +371,6 @@ test('uploader progress', () => {
   })
 
   expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.unmount()
-})
-
-test('uploader extra slot', async () => {
-  const wrapper = mount(VarUploader, {
-    slots: {
-      'extra-message': () => 'There are three files rest to upload',
-    },
-  })
-
-  await delay(100)
-  expect(wrapper.find('.mp-form-details__extra-message').text()).toBe('There are three files rest to upload')
 
   wrapper.unmount()
 })
@@ -613,37 +568,6 @@ test('uploader keyboard space for chooseFile', async () => {
 
   HTMLInputElement.prototype.click = origin
   wrapper.unmount()
-})
-
-test('uploader validation with zod', async () => {
-  const { mockRestore } = mockFileReader('data:image/png;base64,')
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-
-  const wrapper = mount(VarUploader, {
-    props: {
-      modelValue: [],
-      rules: z.array(z.any()).min(1, 'You must upload one file at least'),
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
-  })
-
-  wrapper.vm.validate()
-  await delay(16)
-  expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('You must upload one file at least')
-
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  await delay(16)
-  expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
-  expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-
-  wrapper.vm.reset()
-  await delay(16)
-  expect(wrapper.vm.modelValue).toStrictEqual([])
-
-  wrapper.unmount()
-  mockRestore()
 })
 
 test('uploader remove button slot', () => {

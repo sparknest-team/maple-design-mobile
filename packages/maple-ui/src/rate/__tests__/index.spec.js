@@ -242,30 +242,6 @@ describe('test rate component props', () => {
     wrapper.unmount()
   })
 
-  test('rate rules', async () => {
-    const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-
-    const wrapper = mount(VarRate, {
-      props: {
-        modelValue: 0,
-        rules: [(v) => v >= 1 || 'The lowest score is one'],
-        'onUpdate:modelValue': onUpdateModelValue,
-      },
-    })
-
-    wrapper.vm.validate()
-    await delay(16)
-    expect(wrapper.find('.mp-form-details__error-message').text()).toBe('The lowest score is one')
-    await wrapper.find('.mp-rate__content').trigger('click')
-    await delay(16)
-    expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-    wrapper.vm.reset()
-    await delay(16)
-    expect(wrapper.props('modelValue')).toBe(0)
-
-    wrapper.unmount()
-  })
-
   test('rate clearable', async () => {
     const onChange = vi.fn()
     const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))

@@ -56,8 +56,10 @@ describe('test space component props', () => {
     })
 
     expect(wrapper.find('.mp-space').attributes('style')).toContain('flex-direction: row;')
+    expect(wrapper.find('.mp-space').attributes('style')).toContain('align-items: center')
     await wrapper.setProps({ direction: 'column' })
     expect(wrapper.find('.mp-space').attributes('style')).toContain('flex-direction: column;')
+    expect(wrapper.find('.mp-space').attributes('style')).toContain('align-items: stretch')
     wrapper.unmount()
   })
 
@@ -88,7 +90,9 @@ describe('test space component props', () => {
 
   test('space gap with internal size', () => {
     const wrapper = mount(VarSpace, { props: { size: 'md' } })
-    expect(wrapper.find('.mp-space').attributes('style')).toContain('gap: var(--mp-space-size-md-row-gap) var(--mp-space-size-md-column-gap)')
+    expect(wrapper.find('.mp-space').attributes('style')).toContain(
+      'gap: var(--mp-space-size-md-row-gap) var(--mp-space-size-md-column-gap)',
+    )
     wrapper.unmount()
   })
 

@@ -2,7 +2,6 @@
 import { onUnmounted, reactive } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { Dialog, Message } from '@maplejs/maple-ui'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const values = reactive({
@@ -40,13 +39,6 @@ const values = reactive({
   files7: [],
   files8: [],
   files9: [],
-  files10: [
-    {
-      url: 'cat.jpg',
-      cover: 'cat.jpg',
-      state: 'error',
-    },
-  ],
   files11: [
     {
       url: 'cat.jpg',
@@ -73,7 +65,6 @@ const values = reactive({
   files13: [],
   files14: [],
   files15: [],
-  files16: [],
 })
 
 let timer
@@ -198,17 +189,6 @@ function handleActionClick(chooseFile) {
   <mp-uploader v-model="values.files6">
     <mp-button type="primary">{{ t('upload') }}</mp-button>
   </mp-uploader>
-
-  <app-type>{{ t('validate') }}</app-type>
-  <mp-uploader v-model="values.files10" :rules="[(v, u) => u.getError().length === 0 || t('validateMessage')]" />
-
-  <app-type>{{ t('validateWithZod') }}</app-type>
-  <mp-uploader
-    v-model="values.files16"
-    :rules="
-      z.array(z.any()).refine((v) => v.filter((file) => file.state === 'error').length === 0, t('validateMessage'))
-    "
-  />
 
   <app-type>{{ t('customRender') }}</app-type>
   <mp-space>

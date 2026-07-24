@@ -1,5 +1,7 @@
 export default {
   basicUsage: 'Basic Usage',
+  errorStatus: 'Error Status',
+  changeable: 'Changeable',
   customStyle: 'Custom Style',
   dynamicSteps: 'Dynamic Steps',
   vertical: 'Vertical Mode',
@@ -9,6 +11,7 @@ export default {
   third: 'Step3',
   fourth: 'Step4',
   fifth: 'Step5',
+  description: 'This is a description',
   placeholder: 'Change the number of steps',
   step: 'Step',
   text: 'do something...',

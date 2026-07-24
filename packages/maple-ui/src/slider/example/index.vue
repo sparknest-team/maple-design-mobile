@@ -1,7 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const values = reactive({
@@ -13,13 +12,11 @@ const values = reactive({
   value5: 20,
   value6: 70,
   value7: 50,
-  value8: 20,
   value9: [5, 38],
   value10: [7, 64],
   value11: 0,
   value12: 50,
   value13: [7, 64],
-  value14: 20,
 })
 
 watchLang(use)
@@ -73,12 +70,6 @@ function handleChange(v) {
   <mp-slider v-model="values.value5" label-visible="never" />
   <mp-slider v-model="values.value6" />
   <mp-slider v-model="values.value7" label-visible="always" />
-
-  <app-type>{{ t('validateValue') }}</app-type>
-  <mp-slider v-model="values.value8" :rules="[(v) => v > 35 || t('errMsg')]" />
-
-  <app-type>{{ t('validateWithZod') }}</app-type>
-  <mp-slider v-model="values.value14" :rules="z.number().min(36, t('errMsg'))" />
 
   <app-type>{{ t('vertical') }}</app-type>
   <mp-space justify="space-around">

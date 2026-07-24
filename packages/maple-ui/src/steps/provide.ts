@@ -1,13 +1,15 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
 import { type StepProvider } from '../step/provide'
+import type { StepStatus } from './props'
 
 export interface StepsProvider {
-  active: ComputedRef<number | string>
-  activeColor: ComputedRef<string | undefined>
-  inactiveColor: ComputedRef<string | undefined>
+  current: ComputedRef<number>
   direction: ComputedRef<string>
-  clickStep: (index: number) => void
+  status: ComputedRef<StepStatus>
+  changeable: ComputedRef<boolean>
+  getStatus: (step: number) => StepStatus
+  clickStep: (step: number, ev: Event) => void
 }
 
 export const STEPS_BIND_STEP_KEY = Symbol('STEPS_BIND_STEP_KEY')

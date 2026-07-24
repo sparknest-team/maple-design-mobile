@@ -17,9 +17,7 @@ exports[`input aria-label 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -38,9 +36,7 @@ exports[`input clear 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -61,9 +57,7 @@ exports[`input hint to be false 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -84,20 +78,7 @@ exports[`input maxlength 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>4/100</div>
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
+  <div class="mp-input__length">4/100</div>
 </div>"
 `;
 
@@ -118,9 +99,7 @@ exports[`input size 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -141,9 +120,7 @@ exports[`input type 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -162,9 +139,7 @@ exports[`input type 2`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -185,9 +160,7 @@ exports[`input type 3`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -208,9 +181,7 @@ exports[`input type 4`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -231,169 +202,7 @@ exports[`input type 5`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`input validation 1`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="new-password" type="text" value="1">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line mp-field-decorator--line-error">
-      <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>The length of value must be more than three</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`input validation 2`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" value="">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`input validation 3`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" value="1234">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`input validation with zod 1`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="new-password" type="text" value="1">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line mp-field-decorator--line-error">
-      <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>The length of value must be more than three</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`input validation with zod 2`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" value="">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`input validation with zod 3`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" value="1234">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -414,9 +223,7 @@ exports[`input variant 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -439,9 +246,7 @@ exports[`input variant 2`] = `
       </legend>
     </fieldset>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -462,9 +267,7 @@ exports[`test input component slots > input append-icon slot 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -483,9 +286,7 @@ exports[`test input component slots > input clear-icon slot 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -506,9 +307,7 @@ exports[`test input component slots > input prepend-icon slot 1`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -529,9 +328,7 @@ exports[`test input events > input focus & blur 1`] = `
       <div class="mp-field-decorator__dot mp-field-decorator--line-focus"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -552,9 +349,7 @@ exports[`test input events > input focus & blur 2`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -575,9 +370,7 @@ exports[`test input events > input focus & blur 3`] = `
       <div class="mp-field-decorator__dot mp-field-decorator--line-focus"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;
 
@@ -598,8 +391,6 @@ exports[`test input events > input focus & blur 4`] = `
       <div class="mp-field-decorator__dot"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
 </div>"
 `;

@@ -15,13 +15,11 @@ const { value: value2, options: options2 } = useAutoComplete()
 const { value: value3, options: options3 } = useAutoComplete()
 const { value: value4, options: options4 } = useAutoComplete()
 const { value: value5, options: options5 } = useAutoComplete()
-const { value: value6, options: options6 } = useAutoComplete()
 const { value: value7, options: options7 } = useAutoComplete()
 const { value: value8, options: options8 } = useAutoComplete()
 const { value: value9, options: options9 } = useAutoComplete()
 const { value: value10, options: options10 } = useAutoComplete()
 const { value: value11, options: options11 } = useAutoComplete()
-const { value: value12, options: options12 } = useAutoComplete()
 
 function useAutoComplete() {
   const value = ref('')
@@ -53,18 +51,6 @@ function useAutoComplete() {
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete
-      placeholder="Validate"
-      :options="options6"
-      :rules="v => v.length > 6 || 'Text length must be greater than 6'"
-      v-model="value6"
-    />
-    <mp-auto-complete
-      placeholder="validate With Zod"
-      :options="options12"
-      :rules="z.string().min(7, 'Text length must be greater than 6')"
-      v-model="value12"
-    />
     <mp-auto-complete placeholder="Display Icon" :options="options7" v-model="value7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -124,13 +110,11 @@ const { value: value2, options: options2 } = useAutoComplete()
 const { value: value3, options: options3 } = useAutoComplete()
 const { value: value4, options: options4 } = useAutoComplete()
 const { value: value5, options: options5 } = useAutoComplete()
-const { value: value6, options: options6 } = useAutoComplete()
 const { value: value7, options: options7 } = useAutoComplete()
 const { value: value8, options: options8 } = useAutoComplete()
 const { value: value9, options: options9 } = useAutoComplete()
 const { value: value10, options: options10 } = useAutoComplete()
 const { value: value11, options: options11 } = useAutoComplete()
-const { value: value12, options: options12 } = useAutoComplete()
 
 function useAutoComplete() {
   const value = ref('')
@@ -162,20 +146,6 @@ function useAutoComplete() {
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete
-      variant="outlined"
-      placeholder="Validate"
-      :options="options6"
-      :rules="v => v.length > 6 || 'Text length must be greater than 6'"
-      v-model="value6"
-    />
-    <mp-auto-complete
-      variant="outlined"
-      placeholder="validate With Zod"
-      :options="options12"
-      :rules="z.string().min(7, 'Text length must be greater than 6')"
-      v-model="value12"
-    />
     <mp-auto-complete variant="outlined" placeholder="Display Icon" :options="options7" v-model="value7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -245,8 +215,6 @@ function useAutoComplete() {
 | `maxlength` | Maxlength               | _string \| number_ | `-` |
 | `readonly` | Whether the readonly          | _boolean_ | `false` |
 | `disabled` | Whether the disabled             | _boolean_ | `false` |
-| `validate-trigger` | Timing to trigger validation, The optional value is `onFocus` `onBlur` `onChange` `onClick` `onClear` `onInput`                        | _AutoCompleteValidateTrigger[]_ | `['onInput', 'onClear', 'onChange']` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: string) => any) \| ZodType \| Array<((v: string) => any) \| ZodType>_ | `-` |
 | `enterkeyhint` | Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_ | `-` |
 | `clearable` | Whether the clearable       | _boolean_ | `false` |
 | `line` | Whether to display a dividing line     | _boolean_ | `true` |
@@ -255,6 +223,8 @@ function useAutoComplete() {
 | `focus-color` | The primary color in focus  | _string_ | `-` |
 | `blur-color` | The primary color in blur      | _string_ | `-` |
 | `get-show` | Determine whether the menu is displayed according to the input value | _(v: string) => boolean_ | `-` |
+
+Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 
 #### AutoCompleteOption
 
@@ -270,9 +240,6 @@ function useAutoComplete() {
 | --- | --- | --- | --- |
 | `focus` | Focus | `-` | `-` |
 | `blur` | Blur | `-` | `-` |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clear validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding and validate messages | `-` | `-` |
 
 ### Events
 
@@ -292,7 +259,6 @@ function useAutoComplete() {
 | `prepend-icon` | Prepend Icon | `-` |
 | `append-icon` | Append Icon | `-` |
 | `clear-icon` | Clear Icon | `clear: (e: Event) => void` clear function (can be used to clear input box contents when using slots) |
-| `extra-message` | Extra message | `-` |
 
 ### Style Variables
 

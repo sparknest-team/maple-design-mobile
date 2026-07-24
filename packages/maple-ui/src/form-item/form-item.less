@@ -1,0 +1,85 @@
+:root {
+  --mp-form-item-label-color: var(--mp-color-text);
+  --mp-form-item-label-font-size: 14px;
+  --mp-form-item-label-margin-bottom: 8px;
+  --mp-form-item-label-width: 88px;
+  --mp-form-item-label-gap: 12px;
+  --mp-form-item-asterisk-color: var(--mp-color-danger);
+  --mp-form-item-asterisk-margin: 4px;
+  --mp-form-item-help-color: #888;
+  --mp-form-item-help-font-size: 12px;
+  --mp-form-item-help-margin-top: 6px;
+  --mp-form-item-margin-bottom: 16px;
+}
+
+.mp-form-item {
+  width: 100%;
+  margin-bottom: var(--mp-form-item-margin-bottom);
+
+  &--no-style {
+    margin-bottom: 0;
+  }
+
+  &--vertical {
+    .mp-form-item__label {
+      margin-bottom: var(--mp-form-item-label-margin-bottom);
+    }
+  }
+
+  &--horizontal {
+    display: flex;
+    align-items: flex-start;
+
+    .mp-form-item__label {
+      flex: 0 0 var(--mp-form-item-label-width);
+      width: var(--mp-form-item-label-width);
+      margin-right: var(--mp-form-item-label-gap);
+      margin-bottom: 0;
+      min-height: 24px;
+      padding-top: 4px;
+      box-sizing: border-box;
+    }
+
+    .mp-form-item__wrapper {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    color: var(--mp-form-item-label-color);
+    font-size: var(--mp-form-item-label-font-size);
+    line-height: 1.4;
+    word-break: break-all;
+  }
+
+  &__wrapper {
+    width: 100%;
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  &__asterisk {
+    color: var(--mp-form-item-asterisk-color);
+    flex-shrink: 0;
+
+    &--start {
+      margin-right: var(--mp-form-item-asterisk-margin);
+    }
+
+    &--end {
+      margin-left: var(--mp-form-item-asterisk-margin);
+    }
+  }
+
+  &__help {
+    color: var(--mp-form-item-help-color);
+    font-size: var(--mp-form-item-help-font-size);
+    margin-top: var(--mp-form-item-help-margin-top);
+    line-height: 1.4;
+  }
+}

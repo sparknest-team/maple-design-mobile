@@ -1,9 +1,12 @@
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Slots } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
 
 export interface BreadcrumbProvider {
   length: ComputedRef<number>
-  separator: ComputedRef<string>
+  maxCount: ComputedRef<number>
+  separator: ComputedRef<string | number>
+  needHide: ComputedRef<boolean>
+  slots: Slots
 }
 
 export const BREADCRUMB_BIND_BREADCRUMB_ITEM_KEY = Symbol('BREADCRUMB_BIND_BREADCRUMB_ITEM_KEY')

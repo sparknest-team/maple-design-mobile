@@ -31,62 +31,62 @@ onThemeChange()
 
     <app-type>{{ t('dotBadge') }}</app-type>
     <mp-badge dot status="danger">
-      <mp-chip>{{ t('badge') }}</mp-chip>
+      <mp-tag>{{ t('badge') }}</mp-tag>
     </mp-badge>
 
     <app-type>{{ t('customContentBadge') }}</app-type>
     <mp-space :size="['2.666vmin', '4vmin']">
       <mp-badge status="danger" content="badge">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" content="hot">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" :content="66">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
     </mp-space>
 
     <app-type>{{ t('maximum') }}</app-type>
     <mp-space :size="['2.666vmin', '4vmin']">
       <mp-badge status="danger" :content="value" :max="max">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" :content="value1" :max="max">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
     </mp-space>
 
     <app-type>{{ t('differentPositioningBadges') }}</app-type>
     <mp-space :size="['2.666vmin', '6vmin']">
       <mp-badge status="danger" dot>
-        <mp-chip>{{ t('upperRight') }}</mp-chip>
+        <mp-tag>{{ t('upperRight') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" dot position="bottom-right">
-        <mp-chip>{{ t('lowerRight') }}</mp-chip>
+        <mp-tag>{{ t('lowerRight') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" dot position="top-left">
-        <mp-chip>{{ t('upperLeft') }}</mp-chip>
+        <mp-tag>{{ t('upperLeft') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" dot position="bottom-left">
-        <mp-chip>{{ t('lowerLeft') }}</mp-chip>
+        <mp-tag>{{ t('lowerLeft') }}</mp-tag>
       </mp-badge>
     </mp-space>
 
     <app-type>{{ t('offset') }}</app-type>
     <mp-space :size="['2.666vmin', '6vmin']">
       <mp-badge status="danger" dot :offset-x="offset" :offset-y="offset">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
       <mp-badge status="danger" dot position="bottom-right" :offset-x="offset" :offset-y="offset">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
     </mp-space>
 
     <app-type>{{ t('hidden') }}</app-type>
     <mp-space :size="['2.666vmin', '6vmin']">
       <mp-badge status="danger" dot :show="show">
-        <mp-chip>{{ t('badge') }}</mp-chip>
+        <mp-tag>{{ t('badge') }}</mp-tag>
       </mp-badge>
 
       <mp-button type="success" @click="handleChange">
@@ -96,12 +96,12 @@ onThemeChange()
 
     <app-type>{{ t('customBadgeColor') }}</app-type>
     <mp-badge dot color="#6200ea">
-      <mp-chip>{{ t('badge') }}</mp-chip>
+      <mp-tag>{{ t('badge') }}</mp-tag>
     </mp-badge>
 
     <app-type>{{ t('customBadgeValue') }}</app-type>
     <mp-badge>
-      <mp-chip>{{ t('badge') }}</mp-chip>
+      <mp-tag>{{ t('badge') }}</mp-tag>
 
       <template #content>
         <mp-ellipsis style="max-width: 40px" :tooltip="{ sameWidth: false }">100000000</mp-ellipsis>

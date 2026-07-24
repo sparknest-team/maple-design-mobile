@@ -1,6 +1,12 @@
 import { defineConfig } from '@configurajs/eslint'
 
 export default defineConfig({
+  rules: {
+    'no-unused-vars': 'off',
+    'require-await': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/unified-signatures': 'off',
+  },
   ignores: [
     'packages/maple-cli/lib/**',
     'packages/maple-cli/site/**',

@@ -1,21 +1,24 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import { readFile, writeFile } from 'node:fs/promises'
+import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { confirm, input, select } from '@inquirer/prompts'
+import { program } from 'commander'
 import conventionalChangelog from 'conventional-changelog'
 import fse from 'fs-extra'
-import { glob } from 'glob'
-import { confirm, input, select } from '@inquirer/prompts'
+import glob from 'glob'
 import { createSpinner } from 'nanospinner'
-import { program } from 'commander'
-import { bold, cyan, dim, green, red, yellow } from 'picocolors'
+import pc from 'picocolors'
 import semver from 'semver'
+
+const { green, red, yellow } = pc
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // ── Commit Message Regex ──────────────────────────────────────────
 // Conventional Commits: type(scope): description
-export const COMMIT_MESSAGE_RE = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|release|wip)(\(.+\))?:.{1,}/
+export const COMMIT_MESSAGE_RE =
+  /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|release|wip)(\(.+\))?:.{1,}/
 
 // ── Helpers ───────────────────────────────────────────────────────
 
@@ -40,7 +43,7 @@ export interface CommitLintOptions {
 export function commitLint(options: CommitLintOptions) {
   const {
     commitMessagePath,
-    commitMessageRe = String(COMMIT_MESSAGE_RE),
+    commitMessageRe = COMMIT_MESSAGE_RE.source,
     errorMessage = 'Git commit message format error, please use the conventional commit format (feat/fix/docs/etc.)',
     warningMessage = '',
   } = options
@@ -81,9 +84,7 @@ export async function changelog(options: ChangelogOptions) {
   const content = await generateChangelog({ releaseCount: count })
 
   // Prepend to existing changelog or create new
-  const existing = fse.existsSync(changelogPath)
-    ? await fse.readFile(changelogPath, 'utf-8')
-    : ''
+  const existing = fse.existsSync(changelogPath) ? await fse.readFile(changelogPath, 'utf-8') : ''
 
   const header = '# Changelog\n\n'
   const newContent = content + '\n' + existing.replace(/^# Changelog\n\n/, '')
@@ -162,17 +163,14 @@ export async function release(options: ReleaseOptions) {
 
   // 6. Git commit, tag, push
   const gitSpinner = createSpinner('Committing and pushing to git...').start()
-  try
-  {
+  try {
     const { exec } = await import('tinyexec')
     await exec('git', ['add', '.'])
     await exec('git', ['commit', '-m', `chore(release): ${version}`])
     await exec('git', ['tag', `v${version}`])
     await exec('git', ['push', remote, '--follow-tags'])
     gitSpinner.success({ text: `Released v${version} to ${remote}` })
-  }
-  catch (err)
-  {
+  } catch (err) {
     gitSpinner.error({ text: 'Git operations failed' })
     throw err
   }

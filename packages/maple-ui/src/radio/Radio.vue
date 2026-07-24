@@ -9,7 +9,7 @@
           classes(
             n('action'),
             [checked, n('--checked'), n('--unchecked')],
-            [errorMessage || radioGroupErrorMessage, n('--error')],
+            [mergedError || radioGroupErrorMessage, n('--error')],
             [formDisabled || disabled, n('--disabled')],
           )
         "
@@ -34,7 +34,7 @@
         :class="
           classes(
             n('text'),
-            [errorMessage || radioGroupErrorMessage, n('--error')],
+            [mergedError || radioGroupErrorMessage, n('--error')],
             [formDisabled || disabled, n('--disabled')],
           )
         "
@@ -43,23 +43,21 @@
         <slot :checked="checked" />
       </div>
     </div>
-
-    <mp-form-details :error-message="errorMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
-import { createNamespace, useValidation } from '../utils/components'
-import { props, type RadioValidateTrigger } from './props'
+import { createNamespace } from '../utils/components'
+import { props } from './props'
 import { useRadioGroup, type RadioProvider } from './provide'
 
 const { name, n, classes } = createNamespace('radio')
@@ -69,7 +67,6 @@ export default defineComponent({
   directives: { Ripple, Hover },
   components: {
     MpIcon,
-    MpFormDetails,
     MpHoverOverlay,
   },
   inheritAttrs: false,
@@ -81,7 +78,8 @@ export default defineComponent({
     const checked = computed(() => value.value === props.checkedValue)
     const { radioGroup, bindRadioGroup } = useRadioGroup()
     const { hovering, handleHovering } = useHoverOverlay()
-    const { form, bindForm } = useForm()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
 
     const tabIndex = computed(() => {
       const disabled = form?.disabled.value || props.disabled
@@ -99,19 +97,8 @@ export default defineComponent({
       return '0'
     })
 
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
-
     const radioProvider: RadioProvider = {
       sync,
-      validate,
-      resetValidation,
-      reset,
       isFocusing: computed(() => isFocusing.value),
       // keyboard arrow move
       move() {
@@ -124,7 +111,6 @@ export default defineComponent({
     }
 
     call(bindRadioGroup, radioProvider)
-    call(bindForm, radioProvider)
 
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)
@@ -156,13 +142,6 @@ export default defineComponent({
       }
     }
 
-    function validateWithTrigger(trigger: RadioValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
-    }
-
     function change(changedValue: any) {
       const { checkedValue, onChange } = props
 
@@ -174,7 +153,7 @@ export default defineComponent({
 
       call(onChange, value.value)
       radioGroup?.onToggle(checkedValue)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
     }
 
     function handleClick(e: Event) {
@@ -205,17 +184,6 @@ export default defineComponent({
     }
 
     // expose
-    function reset() {
-      value.value = props.uncheckedValue
-      resetValidation()
-    }
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    // expose
     function toggle(changedValue?: any) {
       const { uncheckedValue, checkedValue } = props
 
@@ -231,7 +199,7 @@ export default defineComponent({
       action,
       isFocusing,
       checked,
-      errorMessage,
+      mergedError,
       radioGroupErrorMessage: radioGroup?.errorMessage,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
@@ -243,9 +211,6 @@ export default defineComponent({
       handleClick,
       handleTextClick,
       toggle,
-      reset,
-      validate,
-      resetValidation,
     }
   },
 })
@@ -255,7 +220,6 @@ export default defineComponent({
 @import '../styles/common';
 @import '../ripple/ripple';
 @import '../icon/icon';
-@import '../form-details/formDetails';
 @import '../hover-overlay/hoverOverlay';
 @import './radio';
 </style>

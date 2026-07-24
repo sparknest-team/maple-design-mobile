@@ -26,7 +26,7 @@ function handleChange(value) {
       <mp-index-anchor
         :index="item"
         class="index-bar-example-anchor"
-        :style="{ background: 'var(--mp-chip-primary-color)', color: 'var(--mp-chip-primary-text-color)' }"
+        :style="{ background: 'var(--mp-tag-status-primary-color)', color: 'var(--mp-tag-status-primary-text-color)' }"
       >
         {{ t('title') }} {{ item }}
       </mp-index-anchor>

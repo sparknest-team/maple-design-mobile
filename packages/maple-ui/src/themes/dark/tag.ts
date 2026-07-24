@@ -1,0 +1,61 @@
+export default {
+  '--mp-tag-border-width': '1px',
+  '--mp-tag-border-radius': '4px',
+  '--mp-tag-round-radius': '100px',
+  '--mp-tag-padding': '0 10px',
+  '--mp-tag-icon-margin': '6px',
+  '--mp-tag-font-weight': '500',
+
+  '--mp-tag-size-xs-height': '24px',
+  '--mp-tag-size-sm-height': '28px',
+  '--mp-tag-size-md-height': '32px',
+  '--mp-tag-size-lg-height': '36px',
+  '--mp-tag-size-xl-height': '40px',
+  '--mp-tag-size-xs-padding': '0 6px',
+  '--mp-tag-size-sm-padding': '0 8px',
+  '--mp-tag-size-md-padding': '0 10px',
+  '--mp-tag-size-lg-padding': '0 12px',
+  '--mp-tag-size-xl-padding': '0 14px',
+  '--mp-tag-size-xs-icon-margin': '4px',
+  '--mp-tag-size-sm-icon-margin': '5px',
+  '--mp-tag-size-md-icon-margin': '6px',
+  '--mp-tag-size-lg-icon-margin': '6px',
+  '--mp-tag-size-xl-icon-margin': '8px',
+  '--mp-tag-size-xs-font-size': '12px',
+  '--mp-tag-size-sm-font-size': '12px',
+  '--mp-tag-size-md-font-size': '14px',
+  '--mp-tag-size-lg-font-size': '14px',
+  '--mp-tag-size-xl-font-size': '16px',
+
+  '--mp-tag-status-default-color': '#555',
+  '--mp-tag-status-default-text-color': '#fff',
+  '--mp-tag-status-default-border-color': '#d9d9d9',
+
+  '--mp-tag-status-primary-color': 'var(--mp-color-primary)',
+  '--mp-tag-status-primary-text-color': 'var(--mp-color-on-primary)',
+  '--mp-tag-status-primary-border-color': 'var(--mp-color-primary)',
+
+  '--mp-tag-status-info-color': 'var(--mp-color-info)',
+  '--mp-tag-status-info-text-color': 'var(--mp-color-on-info)',
+  '--mp-tag-status-info-border-color': 'var(--mp-color-info)',
+
+  '--mp-tag-status-success-color': 'var(--mp-color-success)',
+  '--mp-tag-status-success-text-color': 'var(--mp-color-on-success)',
+  '--mp-tag-status-success-border-color': 'var(--mp-color-success)',
+
+  '--mp-tag-status-warning-color': 'var(--mp-color-warning)',
+  '--mp-tag-status-warning-text-color': 'var(--mp-color-on-warning)',
+  '--mp-tag-status-warning-border-color': 'var(--mp-color-warning)',
+
+  '--mp-tag-status-danger-color': 'var(--mp-color-danger)',
+  '--mp-tag-status-danger-text-color': 'var(--mp-color-on-danger)',
+  '--mp-tag-status-danger-border-color': 'var(--mp-color-danger)',
+
+  '--mp-tag-status-secondary-color': 'var(--mp-color-secondary, #757575)',
+  '--mp-tag-status-secondary-text-color': 'var(--mp-color-on-secondary, #fff)',
+  '--mp-tag-status-secondary-border-color': 'var(--mp-color-secondary, #757575)',
+
+  '--mp-tag-status-contrast-color': '#f5f5f5',
+  '--mp-tag-status-contrast-text-color': '#1d1b20',
+  '--mp-tag-status-contrast-border-color': '#f5f5f5',
+}

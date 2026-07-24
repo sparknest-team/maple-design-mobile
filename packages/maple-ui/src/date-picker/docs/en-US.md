@@ -1,7 +1,8 @@
 # DatePicker
 
 ### Intro
-Used to select a date or date range.
+
+Date selection **panel**. For date range panel use [`DateRangePicker`](/en-US/date-range-picker). Form fields: [`Date`](/en-US/date) / [`DateRange`](/en-US/date-range).
 
 ### Basic Usage
 
@@ -86,15 +87,44 @@ const allowedDates = val => parseInt(val.split('-')[2], 10) % 2 === 1
 </template>
 ```
 
+### Date Time
+
+Enable `show-time` for date+time. `presentation` controls the UI:
+
+- `calendarClock` (also what `calendar` resolves to when `show-time`): **top for date, bottom for time**; calendar + clock
+- `calendarPicker`: top for date, bottom for time; calendar + hour/minute(/second) columns
+- `picker`: full Y/M/D/H/M columns
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const clock = ref('2025-01-15 10:29')
+const calendarPicker = ref('2025-01-15 10:29')
+const picker = ref('2025-01-15 10:29')
+</script>
+
+<template>
+  <mp-date-picker v-model="clock" show-time presentation="calendarClock" />
+  <mp-date-picker v-model="calendarPicker" show-time presentation="calendarPicker" />
+  <mp-date-picker v-model="picker" show-time presentation="picker" />
+</template>
+```
+
 ## API
 
 ### Props
 
 | Prop | Description                                                                                                       | Type | Default |
 | ----- |-------------------------------------------------------------------------------------------------------------------| -------- | ---------- |
-| `v-model` | Selected date（ISO 8601 format, `YYYY-MM-DD` or `YYYY-MM`）                                                         | _string[] \| string_ | `undefined` |
+| `v-model` | Selected date; date-time string when `show-time`                                                         | _string[] \| string_ | `undefined` |
 | `type` | Picker type, optional values `date` `month` `year`                                                                         | _string_ | `date` |
+| `presentation` | Panel mode: `calendar` `picker` `calendarClock` `calendarPicker` | _string_ | `calendar` |
+| `show-time` | Enable time selection | _boolean_ | `false` |
+| `use-seconds` | Show seconds when `show-time` | _boolean_ | `false` |
 | `allowed-dates` | Restricts which dates can be selected                                                                             | _function_ | `-` |
+| `allowed-time` | Restricts selectable time when `show-time` | _AllowedTime_ | `-` |
+| `time-picker-props` | Props for `mp-time-picker` (`calendarClock`) | _Partial\<TimePickerProps\>_ | `{}` |
 | `color` | Picker color                                                                                                      | _string_ | `-` |
 | `title-color` | Color of picker title. If not specified it will use `color` prop or the default picker color. | _string_ | `-` |
 | `hint`              | Picker hint                                  | _string_ | `SELECT DATE` |

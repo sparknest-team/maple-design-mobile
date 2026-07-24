@@ -1,4 +1,4 @@
-import { Comment, Fragment, computed, defineComponent, toRefs, type VNode } from 'vue'
+import { Comment, computed, defineComponent, Fragment, toRefs, type VNode } from 'vue'
 import { isArray, isNumeric } from '@maplejs/maple-shared'
 import { createNamespace, flatFragment } from '../utils/components'
 import { padStartFlex, toSizeUnit } from '../utils/elements'
@@ -51,7 +51,7 @@ export default defineComponent({
                   ? 'center'
                   : align.value
                 : !align.value
-                  ? 'flex-start'
+                  ? 'stretch'
                   : align.value,
             ),
             flexWrap: wrap.value ? 'wrap' : 'nowrap',

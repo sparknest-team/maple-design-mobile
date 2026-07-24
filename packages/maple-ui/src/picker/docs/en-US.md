@@ -490,6 +490,7 @@ function handleChange(values, indexes) {
 | `value-key` | Value key | _string_ | `value` |
 | `children-key` | Children key | _string_ | `children` |
 | `toolbar` | Whether to display the upper toolbar | _boolean_ | `true` |
+| `selected-values` | Selected option values; shows a check mark on the right | _(string \| number)[]_ | `[]` |
 | `cascade` | Whether to enable cascade mode | _boolean_ | `true` |
 | `option-height` | The height of the option | _string \| number_ | `44` |
 | `option-count` | Number of visible columns | _string \| number_ | `6` |
@@ -510,6 +511,7 @@ function handleChange(values, indexes) {
 | `valueKey`               | Value key | _string_ | `value` |
 | `childrenKey`            | Children key | _string_ | `children` |
 | `toolbar`                | Whether to display the upper toolbar | _boolean_ | `true` |
+| `selectedValues`         | Selected option values; shows a check mark on the right | _(string \| number)[]_ | `[]` |
 | `cascade`                | Whether to enable cascade mode | _boolean_ | `true` |
 | `optionHeight`           | The height of the option | _string \| number_ | `44` |
 | `optionCount`            | Number of visible options | _string \| number_ | `6` |
@@ -537,6 +539,7 @@ function handleChange(values, indexes) {
 | --- | --- | --- | --- |
 | `text` | Text | _string \| number_ | `-` |
 | `value` | Value | _string \| number_ | `-` |
+| `disabled` | Whether disabled | _boolean_ | `false` |
 | `children` | Children list | _PickerColumnOption[]_ | `-` |
 | `className` | Class name | _string_ | `-` |
 | `textClassName` | Text Class Name | _string_ | `-` |
@@ -579,6 +582,8 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--picker-title-font-size` | `var(--font-size-lg)` |
 | `--picker-title-text-color` | `#555` |
 | `--picker-option-font-size` | `var(--font-size-lg)` |
+| `--picker-option-disabled-text-color` | `var(--color-text-disabled, #c8c9cc)` |
+| `--picker-option-check-color` | `var(--color-primary)` |
 | `--picker-option-text-color` | `#555` |
 | `--picker-toolbar-padding` | `0 4px` |
 | `--picker-mask-background-image` | `linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4))` |

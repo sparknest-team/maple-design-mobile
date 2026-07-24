@@ -2,17 +2,9 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 import { defineListenerProp } from '../utils/components'
 
 /**
- * 标签主题色（与 Cedar Design Web 的 Status 集合对齐）
+ * 标签主题色（与 Button / Cedar Tag 的 Status 集合对齐）
  */
-export type TagStatus =
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
-  | 'secondary'
-  | 'contrast'
-  | 'default'
+export type TagStatus = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'secondary' | 'contrast' | 'default'
 
 /**
  * 标签尺寸
@@ -46,10 +38,6 @@ export const tagProps = {
     type: String as PropType<TagVariant>,
     default: 'default',
   },
-  /**
-   * @deprecated 请使用 `variant="outline"`
-   */
-  bordered: Boolean,
   /**
    * 标签是否可见（v-model）
    */
@@ -95,7 +83,11 @@ export const tagProps = {
    */
   nowrap: Boolean,
   /**
-   * 自定义背景色
+   * 是否为圆角胶囊形
+   */
+  round: Boolean,
+  /**
+   * 自定义背景色（outline 时为边框色）
    */
   color: String,
   /**
@@ -109,8 +101,3 @@ export const tagProps = {
 }
 
 export type TagProps = ExtractPropTypes<typeof tagProps>
-
-/**
- * @deprecated 兼容旧 `import { props } from './props'` 调用
- */
-export const props = tagProps

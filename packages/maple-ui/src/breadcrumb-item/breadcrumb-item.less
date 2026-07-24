@@ -10,9 +10,20 @@
   align-items: center;
   color: var(--mp-breadcrumb-item-inactive-color);
 
+  &__content {
+    text-decoration: none;
+    color: inherit;
+  }
+
   &__separator {
     margin: var(--mp-breadcrumb-item-separator-margin);
     font-size: var(--mp-breadcrumb-item-separator-font-size);
+  }
+
+  &__more-icon {
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: 1px;
   }
 
   &--active {

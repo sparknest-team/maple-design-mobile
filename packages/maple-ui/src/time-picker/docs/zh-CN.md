@@ -1,8 +1,10 @@
-# 时间选择器
+# TimePicker 时间面板
 
 ### 介绍
 
-用于选择时间。
+时间选择**面板**（时钟），可单独嵌入页面使用。
+
+表单字段请使用 [`Time`](/zh-CN/time)；时间范围字段请使用 [`TimeRange`](/zh-CN/time-range)；时间范围面板请使用 [`TimeRangePicker`](/zh-CN/time-range-picker)。
 
 ### 基本使用
 
@@ -37,6 +39,8 @@ const date = ref('15:20')
 ### 显示秒
 
 使用 `use-seconds` 属性显示秒。
+
+时钟模式下，选择完时 / 分 / 秒会自动进入下一项。若要改回某一项，点击标题栏对应的数字即可切换。
 
 ```html
 <script setup>
@@ -171,10 +175,10 @@ const date = ref('17:36:22')
 | `--time-picker-title-inactive-opacity` | `0.6` |
 | `--time-picker-title-time-font-size` | `50px` |
 | `--time-picker-title-time-margin` | `0 5px` |
-| `--time-picker-title-time-border-radius` | `0` |
-| `--time-picker-title-time-padding` | `0` |
-| `--time-picker-title-time-background` | `transparent` |
-| `--time-picker-title-time-active-background` | `transparent` |
+| `--time-picker-title-time-border-radius` | `4px` |
+| `--time-picker-title-time-padding` | `4px 6px` |
+| `--time-picker-title-time-background` | `rgba(255, 255, 255, 0.12)` |
+| `--time-picker-title-time-active-background` | `rgba(255, 255, 255, 0.28)` |
 | `--time-picker-title-time-container-justify-content` | `flex-end` |
 | `--time-picker-title-ampm-button-active-background` | `transparent` |
 | `--time-picker-title-ampm-margin-left` | `10px` |

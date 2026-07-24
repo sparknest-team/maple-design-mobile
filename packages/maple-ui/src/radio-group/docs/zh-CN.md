@@ -175,85 +175,7 @@ const value = ref(0)
 </template>
 ```
 
-### 单选框字段校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio
-    v-model="value"
-    :rules="[v => v || '请勾选']"
-  >
-    当前的值: {{ value }}
-  </mp-radio>
-</template>
-```
-
-### 使用 Zod 对单选框字段校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio
-    v-model="value"
-    :rules="z.boolean().refine((v) => v, '请勾选')"
-  >
-    当前的值: {{ value }}
-  </mp-radio>
-</template>
-```
-
-### 单选框组字段校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio-group
-    v-model="value"
-    :rules="v => v === 0 || '必须选择吃饭'"
-  >
-    <mp-radio :checked-value="0">吃饭</mp-radio>
-    <mp-radio :checked-value="1">睡觉</mp-radio>
-  </mp-radio-group>
-</template>
-```
-
-### 使用 Zod 对单选框组字段校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio-group
-    v-model="value"
-    :rules="z.number().refine((v => v === 0, '必须选择吃饭'))"
-  >
-    <mp-radio :checked-value="0">吃饭</mp-radio>
-    <mp-radio :checked-value="1">睡觉</mp-radio>
-  </mp-radio-group>
-</template>
-```
+> 单选框及单选框组的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ## API
 
@@ -268,7 +190,6 @@ const value = ref(false)
 | `options` ***3.2.14*** | 指定可选项 | _RadioGroupOption[]_ | `[]` |
 | `label-key` ***3.2.14*** | 作为 label 唯一标识的键名 | _string_ | `label` |
 | `value-key` ***3.2.14*** | 作为 value 唯一标识的键名 | _string_ | `value` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: any) => any) \| ZodType \| Array<((v: any) => any) \| ZodType>_ | `-` |
 | `aria-label` ***3.8.5*** | 单选框组的标签 | _string_ | `-` |
 
 #### RadioGroupOption
@@ -292,25 +213,13 @@ const value = ref(false)
 | `disabled` | 是否禁用 | _boolean_ | `false` |
 | `readonly` | 是否只读 | _boolean_ | `false` |
 | `ripple` | 是否开启水波纹 | _boolean_ | `true` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _(v: string) => any \| ZodType \| Array<(v: string) => any \| ZodType>_ | `-` |
 
 ### 方法
-
-#### RadioGroup Methods
-
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(设置为 `undefined`)和校验信息 | `-` | `-` |
 
 #### Radio Methods
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(设置为 `unchecked-value`)和校验信息 | `-` | `-` |
 | `toggle` | 切换选中状态，传 `checked-value` 为选中，`unchecked-value` 为取消选中，不传或其他情况为取反 | `value: any` | `-` |
 
 ### 事件

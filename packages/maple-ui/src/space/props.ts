@@ -4,13 +4,7 @@ export type SpaceAlign = 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'st
 
 export type SpaceDirection = 'row' | 'column'
 
-export type SpaceJustify =
-  | 'flex-start'
-  | 'flex-end'
-  | 'center'
-  | 'space-around'
-  | 'space-between'
-  | 'space-evenly'
+export type SpaceJustify = 'flex-start' | 'flex-end' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
 
 export type SpaceInternalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -46,7 +40,7 @@ export const spaceProps = {
     default: 'flex-start',
   },
   /**
-   * 交叉轴排列方式，未传入时根据 `direction` 推断（`row` → `center`，`column` → `flex-start`）
+   * 交叉轴排列方式，未传入时根据 `direction` 推断（`row` → `center`，`column` → `stretch`）
    */
   align: {
     type: String as PropType<SpaceAlign>,

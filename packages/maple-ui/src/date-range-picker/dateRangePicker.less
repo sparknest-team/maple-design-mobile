@@ -1,0 +1,158 @@
+:root {
+  --mp-date-range-picker-values-height: 56px;
+  --mp-date-range-picker-values-font-size: 18px;
+  --mp-date-range-picker-values-font-weight: 500;
+  --mp-date-range-picker-value-color: var(--mp-color-on-surface-variant);
+  --mp-date-range-picker-value-active-color: var(--mp-color-primary);
+  --mp-date-range-picker-value-arrow-color: var(--mp-color-outline);
+  --mp-date-range-picker-value-arrow-size: 18px;
+  --mp-date-range-picker-value-date-font-size: 13px;
+  --mp-date-range-picker-value-time-font-size: 22px;
+  --mp-date-range-picker-column-label-height: 36px;
+  --mp-date-range-picker-column-label-font-size: 13px;
+  --mp-date-range-picker-column-label-color: var(--mp-color-on-surface-variant);
+  --mp-date-range-picker-border-radius: var(--mp-date-picker-border-radius, 4px);
+  --mp-date-range-picker-background: var(--mp-color-surface-container-high);
+}
+
+.mp-date-range-picker {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--mp-date-range-picker-border-radius);
+  background: var(--mp-date-range-picker-background);
+
+  &--with-time {
+    --mp-date-range-picker-values-height: 56px;
+  }
+
+  &--calendar-time {
+    .mp-date-picker__title {
+      display: none;
+    }
+
+    .mp-date-range-picker__value {
+      font-size: 16px;
+    }
+  }
+
+  &__values {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: var(--mp-date-range-picker-values-height);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--mp-color-outline);
+  }
+
+  &__values--active {
+    .mp-date-range-picker__value {
+      color: var(--mp-date-range-picker-value-active-color);
+    }
+  }
+
+  &__value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+    font-size: var(--mp-date-range-picker-values-font-size);
+    font-weight: var(--mp-date-range-picker-values-font-weight);
+    color: var(--mp-date-range-picker-value-color);
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+  }
+
+  &__value--active {
+    color: var(--mp-date-range-picker-value-active-color);
+  }
+
+  &__value-date {
+    font-size: var(--mp-date-range-picker-value-date-font-size);
+    font-weight: 400;
+    line-height: 1.2;
+    color: inherit;
+  }
+
+  &__value-time {
+    font-size: var(--mp-date-range-picker-value-time-font-size);
+    font-weight: var(--mp-date-range-picker-values-font-weight);
+    line-height: 1.2;
+    color: inherit;
+  }
+
+  &__value-part--active {
+    color: var(--mp-date-range-picker-value-active-color);
+  }
+
+  &__view-tabs {
+    display: flex;
+    border-top: 1px solid var(--mp-color-outline);
+  }
+
+  &__view-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 8px 12px;
+    color: var(--mp-color-on-surface-variant);
+    cursor: pointer;
+    user-select: none;
+    transition:
+      color 0.2s,
+      background 0.2s;
+  }
+
+  &__view-tab--active {
+    color: var(--mp-date-range-picker-value-active-color);
+    background: color-mix(in srgb, var(--mp-date-range-picker-value-active-color) 8%, transparent);
+  }
+
+  &__view-tab-text {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  &__value-arrow[mp-date-range-picker-cover] {
+    flex-shrink: 0;
+    font-size: var(--mp-date-range-picker-value-arrow-size);
+    color: var(--mp-date-range-picker-value-arrow-color);
+  }
+
+  &__column-labels {
+    display: flex;
+    align-items: center;
+    height: var(--mp-date-range-picker-column-label-height);
+    padding: 0 8px;
+  }
+
+  &__column-label {
+    flex: 1;
+    text-align: center;
+    font-size: var(--mp-date-range-picker-column-label-font-size);
+    color: var(--mp-date-range-picker-column-label-color);
+  }
+
+  &__datetime-clock {
+    .mp-time-picker__title-hint {
+      display: none;
+    }
+
+    .mp-time-picker__title {
+      min-height: auto;
+      padding: 8px 16px 12px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--mp-date-picker-actions-padding, 0 8px 12px);
+  }
+}

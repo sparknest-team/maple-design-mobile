@@ -1,7 +1,6 @@
 <script setup>
 import { computed, reactive, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const values = reactive({
@@ -11,13 +10,9 @@ const values = reactive({
   value4: false,
   value5: false,
   value6: [],
-  value7: false,
-  value8: [],
   value9: [],
   value10: false,
   value11: [],
-  value12: false,
-  value13: [],
   group: null,
   indeterminate: true,
   optionsValue: [],
@@ -31,14 +26,10 @@ const {
   value4,
   value5,
   value6,
-  value7,
-  value8,
   value9,
   group,
   value10,
   value11,
-  value12,
-  value13,
   indeterminate,
   optionsValue,
   fieldValue,
@@ -100,7 +91,7 @@ onThemeChange()
     <mp-checkbox :checked-value="1">{{ t('sleep') }}</mp-checkbox>
   </mp-checkbox-group>
   <div class="relation">{{ t('currentValue') }} {{ value6 }}</div>
-  <mp-divider margin="14px 0" />
+  <mp-divider size-y="14px" />
   <mp-space :size="[0, 10]">
     <mp-button type="primary" @click="$refs.group.checkAll()">{{ t('checkAll') }}</mp-button>
     <mp-button type="primary" @click="$refs.group.inverseAll()">{{ t('inverseAll') }}</mp-button>
@@ -126,33 +117,6 @@ onThemeChange()
     <mp-checkbox :checked-value="0">{{ t('eat') }}</mp-checkbox>
     <mp-checkbox :checked-value="1">{{ t('sleep') }}</mp-checkbox>
   </mp-checkbox-group>
-
-  <app-type>{{ t('checkboxValidate') }}</app-type>
-  <mp-checkbox v-model="value7" :rules="[(v) => v || t('checkboxValidateMessage')]">
-    {{ t('currentValue') }} {{ value7 }}
-  </mp-checkbox>
-
-  <app-type>{{ t('checkboxValidateWithZod') }}</app-type>
-  <mp-checkbox v-model="value12" :rules="z.boolean().refine((v) => v, { message: t('checkboxValidateMessage') })">
-    {{ t('currentValue') }} {{ value12 }}
-  </mp-checkbox>
-
-  <app-type>{{ t('checkboxGroupValidate') }}</app-type>
-  <mp-checkbox-group v-model="value8" :rules="[(v) => v.length === 2 || t('checkboxGroupValidateMessage')]">
-    <mp-checkbox :checked-value="0">{{ t('eat') }}</mp-checkbox>
-    <mp-checkbox :checked-value="1">{{ t('sleep') }}</mp-checkbox>
-  </mp-checkbox-group>
-  <div class="relation">{{ t('currentValue') }} {{ value8 }}</div>
-
-  <app-type>{{ t('checkboxGroupValidateWithZod') }}</app-type>
-  <mp-checkbox-group
-    v-model="value13"
-    :rules="z.array(z.number()).length(2, { message: t('checkboxGroupValidateMessage') })"
-  >
-    <mp-checkbox :checked-value="0">{{ t('eat') }}</mp-checkbox>
-    <mp-checkbox :checked-value="1">{{ t('sleep') }}</mp-checkbox>
-  </mp-checkbox-group>
-  <div class="relation">{{ t('currentValue') }} {{ value13 }}</div>
 
   <div class="space"></div>
 </template>

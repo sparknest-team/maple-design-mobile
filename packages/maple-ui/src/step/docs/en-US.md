@@ -4,15 +4,15 @@
 
 | Prop | Description | Type | Default |
 | ----- | -------------- | -------- | ---------- |
-| `active-icon` | Active icon name  | _string_ | `check` |
-| `current-icon` | Current icon name	 | _string_ | `-`|
-| `inactive-icon` | Inactive icon name	 | _string_ | `-`|
-| `active-icon-namespace` | Active icon namespace  | _string_ | `mp-icon` |
-| `current-icon-namespace` | Current icon namespace | _string_ |`mp-icon` |
-| `inactive-icon-namespace` | Inactive icon namespace | _string_ | `mp-icon` |
+| `title` | Step title | _string_ | `-` |
+| `description` | Step description | _string_ | `-` |
+| `status` | Step status (overrides auto derivation) | _'wait' \| 'process' \| 'finish' \| 'error'_ | `-` |
+| `disabled` | Whether disabled | _boolean_ | `false` |
 
 ### Slots
 
-| Name | Description | SlotProps |
+| Name | Description | Arguments |
 | ----- | -------------- | -------- |
-| `default` | Content of step | `-`|
+| `default` | Step title (takes precedence over `title`) | `-` |
+| `icon` | Custom node icon | `{ step: number, status: string }` |
+| `description` | Step description | `-` |

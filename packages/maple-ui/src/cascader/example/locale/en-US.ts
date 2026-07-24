@@ -1,0 +1,17 @@
+export default {
+  placeholder: 'Please select a region',
+  placeholderPathMode: 'Non-path mode',
+  placeholderMultiple: 'Multiple cascade',
+  placeholderPicker: 'Picker mode',
+  placeholderPickerMultiple: 'Picker multiple',
+  placeholderList: 'List mode',
+  placeholderListMultiple: 'List multiple',
+  zhejiang: 'Zhejiang',
+  hangzhou: 'Hangzhou',
+  xihu: 'Xihu',
+  gongshu: 'Gongshu',
+  ningbo: 'Ningbo',
+  jiangsu: 'Jiangsu',
+  nanjing: 'Nanjing',
+  suzhou: 'Suzhou',
+}

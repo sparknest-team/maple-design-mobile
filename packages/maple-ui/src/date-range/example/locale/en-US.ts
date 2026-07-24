@@ -1,0 +1,17 @@
+export default {
+  basicUsage: 'Basic Usage',
+  pickerMode: 'Picker Mode',
+  dateTime: 'Date Time',
+  type: 'Type',
+  separator: 'Custom Separator',
+  disabled: 'Disabled',
+  withFormItem: 'With FormItem',
+  placeholder: 'Please select a date range',
+  pickerPlaceholder: 'Column picker range',
+  dateTimePlaceholder: 'Please select a date-time range',
+  year: 'Select year range',
+  month: 'Select month range',
+  separatorPlaceholder: 'Custom separator',
+  period: 'Period',
+  formPlaceholder: 'Please select',
+}

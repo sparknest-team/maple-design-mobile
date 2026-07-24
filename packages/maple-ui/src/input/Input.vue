@@ -9,12 +9,12 @@
         placeholder,
         ariaLabel,
         line,
-        hint,
+        hint: mergedHint,
         textColor,
         focusColor,
         blurColor,
         isFocusing: isForceFocusingEffect != null ? isForceFocusingEffect : isFocusing,
-        isError: isForceErrorEffect != null ? isForceErrorEffect : !!errorMessage,
+        isError: isForceErrorEffect != null ? isForceErrorEffect : mergedError,
         formDisabled,
         disabled,
         clearable,
@@ -34,7 +34,7 @@
         tabindex="-1"
         :aria-label="ariaLabel"
         :class="n('autocomplete')"
-        :placeholder="!hint ? placeholder : undefined"
+        :placeholder="!mergedHint ? placeholder : undefined"
         :style="{
           '--mp-input-placeholder-color': placeholderColor,
         }"
@@ -50,8 +50,8 @@
             n('input'),
             n('--textarea'),
             [formDisabled || disabled, n('--disabled')],
-            [errorMessage, n('--error')],
-            [errorMessage, n('--caret-error')],
+            [mergedError, n('--error')],
+            [mergedError, n('--caret-error')],
           )
         "
         :autocomplete="autocomplete ? autocomplete : 'new-password'"
@@ -59,14 +59,14 @@
         :readonly="formReadonly || readonly"
         :type="normalizedType"
         :value="modelValue"
-        :placeholder="!hint ? placeholder : undefined"
+        :placeholder="!mergedHint ? placeholder : undefined"
         :maxlength="maxlength"
         :rows="rows"
         :enterkeyhint="enterkeyhint"
         :inputmode="type === 'number' ? 'decimal' : undefined"
         :style="{
-          color: !errorMessage ? textColor : undefined,
-          caretColor: !errorMessage ? focusColor : undefined,
+          color: !mergedError ? textColor : undefined,
+          caretColor: !mergedError ? focusColor : undefined,
           resize: resize ? 'vertical' : 'none',
           '--mp-input-placeholder-color': placeholderColor,
         }"
@@ -86,8 +86,8 @@
           classes(
             n('input'),
             [formDisabled || disabled, n('--disabled')],
-            [errorMessage, n('--error')],
-            [errorMessage, n('--caret-error')],
+            [mergedError, n('--error')],
+            [mergedError, n('--caret-error')],
           )
         "
         :autocomplete="autocomplete ? autocomplete : 'new-password'"
@@ -95,13 +95,13 @@
         :readonly="formReadonly || readonly"
         :type="normalizedType"
         :value="modelValue"
-        :placeholder="!hint ? placeholder : undefined"
+        :placeholder="!mergedHint ? placeholder : undefined"
         :maxlength="maxlength"
         :enterkeyhint="enterkeyhint"
         :inputmode="type === 'number' ? 'decimal' : undefined"
         :style="{
-          color: !errorMessage ? textColor : undefined,
-          caretColor: !errorMessage ? focusColor : undefined,
+          color: !mergedError ? textColor : undefined,
+          caretColor: !mergedError ? focusColor : undefined,
           '--mp-input-placeholder-color': placeholderColor,
         }"
         @focus="handleFocus"
@@ -121,31 +121,25 @@
       </template>
     </mp-field-decorator>
 
-    <mp-form-details v-if="isShowFormDetails" :error-message="errorMessage" :extra-message="maxlengthText">
-      <template v-if="$slots['extra-message']" #extra-message>
-        <slot name="extra-message" />
-      </template>
-    </mp-form-details>
+    <div v-if="maxlengthText" :class="n('length')">{{ maxlengthText }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { call, isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted, useClientId } from '@maplejs/maple-use'
 import MpFieldDecorator from '../field-decorator'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
-import { createNamespace, useValidation } from '../utils/components'
-import { props, type InputType, type InputValidateTrigger } from './props'
-import { type InputProvider } from './provide'
+import { createNamespace } from '../utils/components'
+import { props, type InputType } from './props'
 
 const { name, n, classes } = createNamespace('input')
 
 export default defineComponent({
   name,
   components: {
-    MpFormDetails,
     MpFieldDecorator,
   },
   props,
@@ -154,15 +148,16 @@ export default defineComponent({
     const el = ref<HTMLInputElement | null>(null)
     const isFocusing = ref(false)
     const isComposing = ref(false)
-    const { bindForm, form } = useForm()
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
+    const { form } = useForm()
+    const { mergedError, eventHandlers, hasOuterLabel } = useFormItem()
     const cursor = computed(() => (props.disabled || props.readonly ? '' : 'text'))
+    const mergedHint = computed(() => {
+      if (hasOuterLabel.value) {
+        return false
+      }
+
+      return props.hint
+    })
     const normalizedType = computed<InputType>(() => {
       if (props.type === 'number') {
         return 'text'
@@ -184,13 +179,13 @@ export default defineComponent({
       return `${String(modelValue).length}/${maxlength}`
     })
     const placeholderColor = computed(() => {
-      const { hint, blurColor, focusColor } = props
+      const { blurColor, focusColor } = props
 
-      if (hint) {
+      if (mergedHint.value) {
         return undefined
       }
 
-      if (errorMessage.value) {
+      if (mergedError.value) {
         return 'var(--mp-field-decorator-error-color)'
       }
 
@@ -201,39 +196,24 @@ export default defineComponent({
       return blurColor || 'var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color))'
     })
 
-    const inputProvider: InputProvider = {
-      reset,
-      validate,
-      resetValidation,
-    }
-
-    call(bindForm, inputProvider)
-
     onSmartMounted(() => {
       if (props.autofocus) {
         focus()
       }
     })
 
-    function validateWithTrigger(trigger: InputValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
-    }
-
     function handleFocus(e: FocusEvent) {
       isFocusing.value = true
 
       call(props.onFocus, e)
-      validateWithTrigger('onFocus')
+      eventHandlers.value.onFocus?.()
     }
 
     function handleBlur(e: FocusEvent) {
       isFocusing.value = false
 
       call(props.onBlur, e)
-      validateWithTrigger('onBlur')
+      eventHandlers.value.onBlur?.()
     }
 
     function updateValue(e: Event) {
@@ -276,7 +256,7 @@ export default defineComponent({
 
       call(props['onUpdate:modelValue'], value)
       call(props.onInput, value, e)
-      validateWithTrigger('onInput')
+      eventHandlers.value.onInput?.()
     }
 
     function handleChange(e: Event) {
@@ -287,7 +267,7 @@ export default defineComponent({
       }
 
       call(props.onChange, value, e)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
     }
 
     function handleClear() {
@@ -299,7 +279,7 @@ export default defineComponent({
 
       call(props['onUpdate:modelValue'], '')
       call(onClear, '')
-      validateWithTrigger('onClear')
+      eventHandlers.value.onClear?.()
     }
 
     function handleClick(e: Event) {
@@ -310,7 +290,6 @@ export default defineComponent({
       }
 
       call(onClick, e)
-      validateWithTrigger('onClick')
     }
 
     function formatNumber(value: string) {
@@ -348,17 +327,6 @@ export default defineComponent({
     }
 
     // expose
-    function reset() {
-      call(props['onUpdate:modelValue'], '')
-      resetValidation()
-    }
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    // expose
     function focus() {
       ;(el.value as HTMLInputElement)?.focus()
     }
@@ -373,7 +341,8 @@ export default defineComponent({
       id,
       isFocusing,
       isComposing,
-      errorMessage,
+      mergedError,
+      mergedHint,
       placeholderColor,
       normalizedType,
       cursor,
@@ -392,9 +361,6 @@ export default defineComponent({
       handleCompositionStart,
       handleCompositionEnd,
       handleMousedown,
-      validate,
-      resetValidation,
-      reset,
       focus,
       blur,
     }
@@ -406,6 +372,5 @@ export default defineComponent({
 @import '../styles/common';
 @import '../icon/icon';
 @import '../field-decorator/fieldDecorator';
-@import '../form-details/formDetails';
 @import './input';
 </style>

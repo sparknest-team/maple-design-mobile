@@ -1,5 +1,5 @@
 import { InputHTMLAttributes, VNode } from 'vue'
-import { BasicAttributes, ListenerProp, SetPropsDefaults, Rules as UploaderRules, VarComponent } from './varComponent'
+import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const uploaderProps: Record<keyof UploaderProps, any>
 
@@ -19,8 +19,6 @@ export interface MpFile {
 }
 
 export type UploaderResolveType = 'default' | 'file' | 'data-url'
-
-export type UploaderValidateTrigger = 'onChange' | 'onRemove'
 
 export type UploaderMpFileUtils = {
   getLoading(): MpFile[]
@@ -46,8 +44,6 @@ export interface UploaderProps extends BasicAttributes {
   ripple?: boolean
   preventDefaultPreview?: boolean
   resolveType?: UploaderResolveType
-  validateTrigger?: Array<UploaderValidateTrigger>
-  rules?: UploaderRules
   onClickAction?: ListenerProp<(chooseFile: () => void, event: Event) => void>
   onBeforeFilter?: ListenerProp<(files: MpFile[]) => Promise<MpFile[]> | MpFile[]>
   onBeforeRead?: ListenerProp<(file: MpFile) => Promise<any> | any>
@@ -66,7 +62,6 @@ export class Uploader extends VarComponent {
 
   $slots: {
     default(): VNode[]
-    'extra-message'(): VNode[]
     'remove-button'(remove: () => void): VNode[]
   }
 
@@ -75,12 +70,6 @@ export class Uploader extends VarComponent {
   getSuccess(): MpFile[]
 
   getError(): MpFile[]
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 
   chooseFile(): void
 

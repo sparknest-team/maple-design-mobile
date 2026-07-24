@@ -1,7 +1,10 @@
 # TimePicker
 
 ### Intro
-Used to select time.
+
+Time selection **panel** (clock). Use alone when you only need the panel.
+
+Form field: [`Time`](/en-US/time). Time range field: [`TimeRange`](/en-US/time-range). Time range panel: [`TimeRangePicker`](/en-US/time-range-picker).
 
 ### Basic Usage
 
@@ -35,7 +38,9 @@ const date = ref('15:20')
 
 ### Show Seconds
 
-use `use-seconds` prop to show seconds.
+Use `use-seconds` to show seconds.
+
+In clock mode, selecting hour / minute / second advances to the next unit. Tap the corresponding digit in the title to switch back.
 
 ```html
 <script setup>
@@ -170,10 +175,10 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--time-picker-title-inactive-opacity` | `0.6` |
 | `--time-picker-title-time-font-size` | `50px` |
 | `--time-picker-title-time-margin` | `0 5px` |
-| `--time-picker-title-time-border-radius` | `0` |
-| `--time-picker-title-time-padding` | `0` |
-| `--time-picker-title-time-background` | `transparent` |
-| `--time-picker-title-time-active-background` | `transparent` |
+| `--time-picker-title-time-border-radius` | `4px` |
+| `--time-picker-title-time-padding` | `4px 6px` |
+| `--time-picker-title-time-background` | `rgba(255, 255, 255, 0.12)` |
+| `--time-picker-title-time-active-background` | `rgba(255, 255, 255, 0.28)` |
 | `--time-picker-title-time-container-justify-content` | `flex-end` |
 | `--time-picker-title-ampm-button-active-background` | `transparent` |
 | `--time-picker-title-ampm-margin-left` | `10px` |

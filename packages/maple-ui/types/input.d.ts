@@ -1,16 +1,7 @@
 import { InputHTMLAttributes, VNode } from 'vue'
-import {
-  BasicAttributes,
-  Rules as InputRules,
-  Variant as InputVariant,
-  ListenerProp,
-  SetPropsDefaults,
-  VarComponent,
-} from './varComponent'
+import { BasicAttributes, Variant as InputVariant, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const inputProps: Record<keyof InputProps, any>
-
-export type InputValidateTrigger = 'onFocus' | 'onBlur' | 'onChange' | 'onClick' | 'onClear' | 'onInput'
 
 export type InputType = 'text' | 'password' | 'number' | 'tel' | 'email'
 
@@ -36,8 +27,6 @@ export interface InputProps extends BasicAttributes {
   clearable?: boolean
   resize?: boolean
   autofocus?: boolean
-  validateTrigger?: InputValidateTrigger[]
-  rules?: InputRules
   enterkeyhint?: InputHTMLAttributes['enterKeyHint']
   onFocus?: ListenerProp<(e: Event) => void>
   onBlur?: ListenerProp<(e: Event) => void>
@@ -61,18 +50,11 @@ export class Input extends VarComponent {
     'prepend-icon'(): VNode[]
     'append-icon'(): VNode[]
     'clear-icon'(data: InputClearIconData): VNode[]
-    'extra-message'(): VNode[]
   }
 
   focus(): void
 
   blur(): void
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 }
 
 export class _InputComponent extends Input {}

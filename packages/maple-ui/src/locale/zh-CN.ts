@@ -15,6 +15,9 @@ export default {
   pickerTitle: '请选择',
   pickerConfirmButtonText: '确认',
   pickerCancelButtonText: '取消',
+  // Cascader
+  cascaderPickerAddButtonText: '添加',
+  cascaderPickerDoneButtonText: '完成',
   // date-picker
   datePickerMonthDict: {
     '01': {
@@ -98,10 +101,21 @@ export default {
   },
   datePickerSelected: '个被选择',
   datePickerHint: '选择日期',
+  datePickerColumnYear: '年',
+  datePickerColumnMonth: '月',
+  datePickerColumnDay: '日',
+  datePickerColumnHour: '时',
+  datePickerColumnMinute: '分',
+  datePickerColumnSecond: '秒',
   // pagination
   paginationItem: '条',
   paginationPage: '页',
   paginationJump: '前往',
+  paginationTotal: '共 {0} 条',
   // time-picker
   timePickerHint: '选择时间',
+  // time-range
+  timeRangeStart: '开始时间',
+  timeRangeEnd: '结束时间',
+  timeRangeNextDay: '次日',
 } satisfies Message

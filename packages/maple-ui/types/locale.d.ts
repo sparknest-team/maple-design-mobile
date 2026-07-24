@@ -28,6 +28,7 @@ export type Message = {
   paginationItem: string
   paginationPage: string
   paginationJump: string
+  paginationTotal: string
   // time-picker
   timePickerHint: string
 

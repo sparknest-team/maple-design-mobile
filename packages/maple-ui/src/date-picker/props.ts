@@ -1,9 +1,13 @@
-import { type PropType } from 'vue'
+import { type ExtractPropTypes, type PropType } from 'vue'
+import { timePickerProps as timePickerPropsSource } from '../time-picker'
+import type { AllowedTime } from '../time-picker/props'
 import { defineListenerProp } from '../utils/components'
 
 type AllowedDates = (val: string) => boolean
 
 type DatePickerType = 'year' | 'date' | 'month'
+
+export type DatePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
 
 export type TouchDirection = 'x' | 'y'
 
@@ -56,8 +60,19 @@ export const props = {
     type: String as PropType<DatePickerType>,
     default: 'date',
   },
+  presentation: {
+    type: String as PropType<DatePickerPresentation>,
+    default: 'calendar',
+  },
+  showTime: Boolean,
+  useSeconds: Boolean,
   hint: String,
   allowedDates: Function as PropType<AllowedDates>,
+  allowedTime: Object as PropType<AllowedTime>,
+  timePickerProps: {
+    type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
+    default: () => ({}),
+  },
   color: String,
   titleColor: String,
   elevation: {

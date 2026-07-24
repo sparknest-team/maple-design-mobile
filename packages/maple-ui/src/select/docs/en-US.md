@@ -9,7 +9,6 @@ Display and select the content through the drop-down menu.
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref()
 const value2 = ref()
@@ -21,14 +20,10 @@ const value7 = ref()
 const value8 = ref()
 const value9 = ref([])
 const value10 = ref([])
-const value11 = ref()
-const value12 = ref([])
 const value13 = ref()
 const value14 = ref()
 const value15 = ref([])
 const value16 = ref()
-const value17 = ref()
-const value18 = ref([])
 
 const options = ref([
   {
@@ -151,47 +146,7 @@ const keyOptions = ref([
       <mp-option label="Play game" />
       <mp-option label="Coding" />
     </mp-select>
-    <mp-select placeholder="Multiple choice of paper style" chip multiple v-model="value10">
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Play game" />
-      <mp-option label="Coding" />
-    </mp-select>
-    <mp-select
-      placeholder="Validate"
-      :rules="v => v === 'Rest' || 'You must choose to rest'"
-      v-model="value11"
-    >
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Rest" />
-    </mp-select>
-    <mp-select
-      placeholder="Validate With Zod"
-      :rules="z.string().refine(v => v === 'Rest', 'You must choose to rest')"
-      v-model="value17"
-    >
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Rest" />
-    </mp-select>
-    <mp-select
-      multiple
-      placeholder="Multiple Validate"
-      :rules="v => v.length >= 2 || 'You select at least two options'"
-      v-model="value12"
-    >
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Play game" />
-      <mp-option label="Coding" />
-    </mp-select>
-    <mp-select
-      multiple
-      placeholder="Multiple Validate With Zod"
-      :rules="z.array(z.string()).min(2, 'You select at least two options')"
-      v-model="value18"
-    >
+    <mp-select placeholder="Multiple choice with tag style" tag multiple v-model="value10">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <mp-option label="Play game" />
@@ -231,7 +186,6 @@ const keyOptions = ref([
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref()
 const value2 = ref()
@@ -243,14 +197,10 @@ const value7 = ref()
 const value8 = ref()
 const value9 = ref([])
 const value10 = ref([])
-const value11 = ref()
-const value12 = ref([])
 const value13 = ref()
 const value14 = ref()
 const value15 = ref([])
 const value16 = ref()
-const value17 = ref()
-const value18 = ref([])
 
 const options = ref([
   {
@@ -373,51 +323,7 @@ const keyOptions = ref([
       <mp-option label="Play game" />
       <mp-option label="Coding" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Multiple choice of paper style" chip multiple v-model="value10">
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Play game" />
-      <mp-option label="Coding" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      placeholder="Validate"
-      :rules="v => v === 'Rest' || 'You must choose to rest'"
-      v-model="value11"
-    >
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Rest" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      placeholder="Validate With Zod"
-      :rules="z.string().refine(v => v === 'Rest', 'You must choose to rest')"
-      v-model="value17"
-    >
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Rest" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      multiple
-      placeholder="Multiple Validate"
-      :rules="v => v.length >= 2 || 'You select at least two options'"
-      v-model="value12"
-    >
-      <mp-option label="Eat" />
-      <mp-option label="Sleep" />
-      <mp-option label="Play game" />
-      <mp-option label="Coding" />
-    </mp-select>
-    <mp-select
-      variant="outlined"
-      multiple
-      placeholder="Multiple Validate With Zod"
-      :rules="z.array(z.string()).min(2, 'You select at least two options')"
-      v-model="value18"
-    >
+    <mp-select variant="outlined" placeholder="Multiple choice with tag style" tag multiple v-model="value10">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <mp-option label="Play game" />
@@ -452,6 +358,109 @@ const keyOptions = ref([
 </style>
 ```
 
+### Picker Mode
+
+Set `presentation` to `picker` to use a bottom-sheet wheel picker.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const pickerValue = ref()
+const pickerOptions = ref([
+  { label: 'Eat', value: 1 },
+  { label: 'Sleep', value: 2 },
+  { label: 'Play game', value: 3, disabled: true },
+])
+</script>
+
+<template>
+  <mp-space direction="column" size="large">
+    <mp-select
+      presentation="picker"
+      placeholder="Please select an option"
+      v-model="pickerValue"
+      :options="pickerOptions"
+    />
+  </mp-space>
+</template>
+```
+
+> Picker mode only supports the `options` prop. Slot-based `<mp-option>` is not supported in picker mode.
+
+### Picker Multiple
+
+Same cart flow as Cascader: tap **Add** to push the current wheel value into a draft, **Done** commits to `v-model`, **Cancel** discards the draft.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const pickerMultiple = ref([])
+const pickerOptions = ref([
+  { label: 'Eat', value: 1 },
+  { label: 'Sleep', value: 2 },
+  { label: 'Play game', value: 3 },
+  { label: 'Write documentation', value: 4 },
+])
+</script>
+
+<template>
+  <mp-select
+    presentation="picker"
+    multiple
+    tag
+    clearable
+    placeholder="Please select multiple options"
+    v-model="pickerMultiple"
+    :options="pickerOptions"
+  />
+</template>
+```
+
+### List Mode
+
+Set `presentation` to `list` to show options in a bottom-sheet list. Selected items show a checkmark on the right.
+
+Single: tap to select and close. Multiple: tap to toggle draft selection, **Done** commits, **Cancel** discards.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const listValue = ref()
+const listMultiple = ref([])
+const listOptions = ref([
+  { label: 'Eat', value: 1 },
+  { label: 'Sleep', value: 2 },
+  { label: 'Play game', value: 3, disabled: true },
+  { label: 'Coding', value: 4 },
+])
+</script>
+
+<template>
+  <mp-space direction="column" size="large">
+    <mp-select
+      presentation="list"
+      placeholder="Please select an option"
+      v-model="listValue"
+      :options="listOptions"
+    />
+    <mp-select
+      presentation="list"
+      multiple
+      tag
+      clearable
+      placeholder="Please select multiple options"
+      v-model="listMultiple"
+      :options="listOptions"
+    />
+  </mp-space>
+</template>
+```
+
+> List mode only supports the `options` prop. Slot-based `<mp-option>` is not supported in list mode.
+
 ## API
 
 ### Props
@@ -463,10 +472,12 @@ const keyOptions = ref([
 | `v-model` | The value of the binding | _any \| any[]_ | `-` |
 | `size` | Select size, The optional value is `normal` `small`                | _string_ | `normal` |
 | `variant` | Select variant, The optional value is `standard` `outlined` | _string_ | `standard` |
+| `presentation` ***3.18.0*** | Display mode, optional values `menu` `picker` `list` | _string_ | `menu` |
+| `show` ***3.18.0*** | Visibility control | _boolean_ | `undefined` |
 | `placeholder` | placeholder | _string_ | `-` |
 | `multiple` | Whether to enable multiple selection | _boolean_ | `false` |
 | `offset-y` | The vertical offset of the drop-down menu | _string \| number_ | `0` |
-| `chip` | Whether to use chip style (multiple choices only) | _boolean_ | `false` |
+| `tag` | Whether to use tag style (multiple choices only) | _boolean_ | `false` |
 | `line` | Whether to display a dividing line | _boolean_ | `true` |
 | `hint` | Whether to use placeholders as prompts | _boolean_ | `true` |
 | `text-color` | Text color | _string_ | `-` |
@@ -478,8 +489,12 @@ const keyOptions = ref([
 | `options` ***3.3.4*** | Specifies options | _SelectOption[]_ | `[]` |
 | `label-key` ***3.3.4*** | As the key that uniquely identifies label | _string_ | `label` |
 | `value-key` ***3.3.4*** | As the key that uniquely identifies value | _string_ | `value` |
-| `validate-trigger` | Timing to trigger validation, optional value is `onFocus` `onBlur` `onChange` `onClick` `onClear` `onClose` | _SelectValidateTrigger[]_ | `['onChange', 'onClear', 'onClose']` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: any) => any) \| ZodType \| Array<((v: any) => any) \| ZodType>_ | `-` |
+| `field-names` ***3.18.0*** | Custom field mapping, takes precedence over `labelKey` / `valueKey` | _{ label?, value?, children?, disabled? }_ | `-` |
+| `picker-props` ***3.18.0*** | Props passed to `mp-picker` in picker mode | _Partial\<PickerProps\>_ | `{}` |
+| `popup-props` ***3.18.0*** | Props passed to popup | _Partial\<PopupProps\>_ | `{}` |
+| `value-key` ***3.3.4*** | As the key that uniquely identifies value | _string_ | `value` |
+
+Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 
 #### SelectOption
 
@@ -506,9 +521,6 @@ const keyOptions = ref([
 | --- | --- | --- | --- |
 | `focus` | Focus | `-` | `-` |
 | `blur` | Blur | `-` | `-` |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clear validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding (single set to 'undefined', multiple set to '[]') and the validation messages | `-` | `-` |
 
 ### Events
 
@@ -588,9 +600,9 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--select-scroller-max-height` | `278px` |
 | `--select-scroller-border-radius` | `2px` |
 | `--select-label-font-size` | `16px` |
-| `--select-chips-margin` | `-5px 0 0 0` |
-| `--select-chips-padding` | `2px 0` |
-| `--select-chip-margin` | `5px 5px 0 0` |
+| `--select-tags-margin` | `-5px 0 0 0` |
+| `--select-tags-padding` | `2px 0` |
+| `--select-tag-margin` | `5px 5px 0 0` |
 | `--select-arrow-size` | `20px` |
 | `--select-standard-menu-margin` | `calc(var(--field-decorator-placeholder-size) * 0.75 + 14px) 0 0 0` |
 

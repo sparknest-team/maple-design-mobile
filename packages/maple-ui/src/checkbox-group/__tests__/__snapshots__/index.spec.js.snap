@@ -14,9 +14,6 @@ exports[`checkbox group label is VNode 1`] = `
           <h1>eat</h1>
         </div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -29,9 +26,6 @@ exports[`checkbox group label is VNode 1`] = `
           <h2>sleep</h2>
         </div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -44,14 +38,8 @@ exports[`checkbox group label is VNode 1`] = `
           <h3>game</h3>
         </div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -67,9 +55,6 @@ exports[`checkbox group label is function 1`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -80,9 +65,6 @@ exports[`checkbox group label is function 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>1-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -93,14 +75,8 @@ exports[`checkbox group label is function 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>2-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -116,9 +92,6 @@ exports[`checkbox group label is function 2`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -129,9 +102,6 @@ exports[`checkbox group label is function 2`] = `
         </div>
         <div class="mp-checkbox__text"><span>1-true</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -142,14 +112,8 @@ exports[`checkbox group label is function 2`] = `
         </div>
         <div class="mp-checkbox__text"><span>2-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -165,9 +129,6 @@ exports[`checkbox group label is function 3`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -178,9 +139,6 @@ exports[`checkbox group label is function 3`] = `
         </div>
         <div class="mp-checkbox__text"><span>1-true</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -191,14 +149,8 @@ exports[`checkbox group label is function 3`] = `
         </div>
         <div class="mp-checkbox__text"><span>2-true</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -214,9 +166,6 @@ exports[`checkbox group label is function 4`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -227,9 +176,6 @@ exports[`checkbox group label is function 4`] = `
         </div>
         <div class="mp-checkbox__text"><span>1-true</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -240,14 +186,8 @@ exports[`checkbox group label is function 4`] = `
         </div>
         <div class="mp-checkbox__text"><span>2-false</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -263,9 +203,6 @@ exports[`checkbox group label-key 1`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -276,9 +213,6 @@ exports[`checkbox group label-key 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>sleep</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -289,14 +223,8 @@ exports[`checkbox group label-key 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>game</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -313,9 +241,6 @@ exports[`checkbox group layout direction 1`] = `
         </div>
         <!--v-if-->
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -326,14 +251,8 @@ exports[`checkbox group layout direction 1`] = `
         </div>
         <!--v-if-->
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -349,9 +268,6 @@ exports[`checkbox group options 1`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -362,9 +278,6 @@ exports[`checkbox group options 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>sleep</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -375,99 +288,8 @@ exports[`checkbox group options 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>game</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`checkbox group validation 1`] = `
-"<div class="mp-checkbox-group__wrap">
-  <div class="mp-checkbox-group mp-checkbox-group--horizontal">
-    <!--v-if-->
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-          <!--v-if-->
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-          <!--v-if-->
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option at least</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`checkbox group validation 2`] = `
-"<div class="mp-checkbox-group__wrap">
-  <div class="mp-checkbox-group mp-checkbox-group--horizontal">
-    <!--v-if-->
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-marked mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <!--v-if-->
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
-          <!--v-if-->
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -483,9 +305,6 @@ exports[`checkbox group value-key 1`] = `
         </div>
         <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -496,9 +315,6 @@ exports[`checkbox group value-key 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>sleep</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
@@ -509,14 +325,8 @@ exports[`checkbox group value-key 1`] = `
         </div>
         <div class="mp-checkbox__text"><span>game</span></div>
       </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -530,179 +340,5 @@ exports[`checkbox indeterminate 1`] = `
     </div>
     <!--v-if-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`checkbox validation 1`] = `
-"<div class="mp-checkbox__wrap">
-  <div class="mp-checkbox">
-    <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-      <!--v-if-->
-      <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`checkbox validation 2`] = `
-"<div class="mp-checkbox__wrap">
-  <div class="mp-checkbox">
-    <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-      <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-marked mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-      <!--v-if-->
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`validation with zod > checkbox 1`] = `
-"<div class="mp-checkbox__wrap">
-  <div class="mp-checkbox">
-    <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-      <!--v-if-->
-      <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`validation with zod > checkbox 2`] = `
-"<div class="mp-checkbox__wrap">
-  <div class="mp-checkbox">
-    <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-      <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-marked mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-      <!--v-if-->
-      <div class="mp-hover-overlay"></div>
-    </div>
-    <!--v-if-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`validation with zod > checkbox group 1`] = `
-"<div class="mp-checkbox-group__wrap">
-  <div class="mp-checkbox-group mp-checkbox-group--horizontal">
-    <!--v-if-->
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-          <!--v-if-->
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-          <!--v-if-->
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option at least</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-</div>"
-`;
-
-exports[`validation with zod > checkbox group 2`] = `
-"<div class="mp-checkbox-group__wrap">
-  <div class="mp-checkbox-group mp-checkbox-group--horizontal">
-    <!--v-if-->
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-marked mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <!--v-if-->
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-    <div class="mp-checkbox__wrap">
-      <div class="mp-checkbox">
-        <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
-          <!--v-if-->
-          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
-          <div class="mp-hover-overlay"></div>
-        </div>
-        <!--v-if-->
-      </div>
-      <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-        <!--v-if-->
-      </transition-stub>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;

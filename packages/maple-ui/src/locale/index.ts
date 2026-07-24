@@ -23,17 +23,31 @@ export type Message = {
   pickerTitle: string
   pickerConfirmButtonText: string
   pickerCancelButtonText: string
+  // Cascader
+  cascaderPickerAddButtonText: string
+  cascaderPickerDoneButtonText: string
   // date-picker
   datePickerMonthDict: Record<Month, { name: string; abbr: string }>
   datePickerWeekDict: Record<Week, { name: string; abbr: string }>
   datePickerSelected: string
   datePickerHint: string
+  datePickerColumnYear: string
+  datePickerColumnMonth: string
+  datePickerColumnDay: string
+  datePickerColumnHour: string
+  datePickerColumnMinute: string
+  datePickerColumnSecond: string
   // pagination
   paginationItem: string
   paginationPage: string
   paginationJump: string
+  paginationTotal: string
   // time-picker
   timePickerHint: string
+  // time-range
+  timeRangeStart: string
+  timeRangeEnd: string
+  timeRangeNextDay: string
   // internal
   lang?: string
   [key: PropertyKey]: any

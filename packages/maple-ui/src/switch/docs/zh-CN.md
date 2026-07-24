@@ -82,35 +82,7 @@ const value = ref(true)
 
 ### 值的校验
 
-通过传入一个校验器数组可以对值进行校验，校验器返回 `true` 则为校验通过。
-以外的值将转换为文本作为用户提示。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(true)
-</script>
-
-<template>
-  <mp-switch v-model="value" :rules="v => v === true || '错误!'"/>
-</template>
-```
-
-### 使用 Zod 校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(true)
-</script>
-
-<template>
-  <mp-switch v-model="value" :rules="z.boolean().refine(v => v === true, '错误!')" />
-</template>
-```
+校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
 ### 异步变更
 
@@ -170,9 +142,7 @@ const value = ref(true)
 | `loading-color`  | 加载图标的颜色 | _string_ | `-` |
 | `close-color`    | 关闭状态下的颜色 | _string_ | `-` |
 | `size`           | switch 的大小 | _string \| number_ | `-` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: any) => any) \| ZodType \| Array<((v: any) => any) \| ZodType>_ | `-` |
 | `lazy-change`    | 是否允许触发 `before-change` 事件 | _boolean_  | `false` |
-| `validate-trigger` | 触发验证的时机，可选值为 `onChange` `onLazyChange` | _SwitchValidateTrigger[]_ | `['onChange', 'onLazyChange']` |
 | `variant` ***3.2.3*** | 变体模式 | _boolean_ | `false` |
 
 ### 事件

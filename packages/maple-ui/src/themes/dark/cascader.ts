@@ -1,0 +1,17 @@
+export default {
+  '--mp-cascader-panel-background': '#272727',
+  '--mp-cascader-panel-padding': '6px 0',
+  '--mp-cascader-panel-max-height': '278px',
+  '--mp-cascader-panel-border-radius': '2px',
+  '--mp-cascader-column-width': '140px',
+  '--mp-cascader-option-height': '38px',
+  '--mp-cascader-option-padding': '0 12px',
+  '--mp-cascader-option-font-size': '16px',
+  '--mp-cascader-option-selected-color': 'var(--mp-color-primary)',
+  '--mp-cascader-option-selected-background': 'var(--mp-color-primary)',
+  '--mp-cascader-option-text-color': '#fff',
+  '--mp-cascader-option-disabled-color': 'var(--mp-color-text-disabled)',
+  '--mp-cascader-option-arrow-size': '18px',
+  '--mp-cascader-label-font-size': '16px',
+  '--mp-cascader-arrow-size': '20px',
+}

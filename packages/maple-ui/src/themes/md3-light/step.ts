@@ -4,6 +4,7 @@ export default {
   '--mp-step-tag-font-size': 'var(--mp-font-size-md)',
   '--mp-step-tag-color': 'var(--mp-color-on-primary)',
   '--mp-step-tag-active-color': 'var(--mp-color-primary)',
+  '--mp-step-tag-error-color': 'var(--mp-color-danger)',
   '--mp-step-tag-margin': '4px 0',
   '--mp-step-tag-icon-size': 'var(--mp-font-size-lg)',
   '--mp-step-content-font-size': 'var(--mp-font-size-md)',

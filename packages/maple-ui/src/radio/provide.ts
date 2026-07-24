@@ -1,9 +1,8 @@
 import { type ComputedRef } from 'vue'
 import { useParent } from '@maplejs/maple-use'
-import { Validation } from '../form/provide'
 import { RADIO_GROUP_BIND_RADIO_KEY, RadioGroupProvider } from '../radio-group/provide'
 
-export interface RadioProvider extends Validation {
+export interface RadioProvider {
   isFocusing: ComputedRef<boolean>
   sync(value: any): boolean
   move(): void

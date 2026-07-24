@@ -9,14 +9,12 @@ The behavior of the input box is consistent with the basic content, and the user
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref('')
 const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
 const value5 = ref('')
-const value6 = ref('')
 const value7 = ref('')
 const value8 = ref('')
 const value9 = ref('')
@@ -24,7 +22,6 @@ const value10 = ref('')
 const value11 = ref('')
 const value12 = ref('')
 const value13 = ref('')
-const value14 = ref('')
 </script>
 
 <template>
@@ -39,16 +36,6 @@ const value14 = ref('')
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-input>
-    <mp-input
-      placeholder="Validate"
-      :rules="(v) => v.length > 6 || 'Text length must be greater than 6'"
-      v-model="value6"
-    />
-    <mp-input
-      placeholder="Validate With Zod"
-      :rules="z.string().min(7, 'Text length must be greater than 6')"
-      v-model="value14"
-    />
     <mp-input placeholder="Display Icon" v-model="value7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -88,14 +75,12 @@ const value14 = ref('')
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref('')
 const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
 const value5 = ref('')
-const value6 = ref('')
 const value7 = ref('')
 const value8 = ref('')
 const value9 = ref('')
@@ -103,7 +88,6 @@ const value10 = ref('')
 const value11 = ref('')
 const value12 = ref('')
 const value13 = ref('')
-const value14 = ref('')
 </script>
 
 <template>
@@ -118,18 +102,6 @@ const value14 = ref('')
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-input>
-    <mp-input
-      variant="outlined"
-      placeholder="Validate"
-      :rules="(v) => v.length > 6 || 'Text length must be greater than 6'"
-      v-model="value6"
-    />
-    <mp-input
-      variant="outlined"
-      placeholder="validate With Zod"
-      :rules="z.string().min(7, 'Text length must be greater than 6')"
-      v-model="value14"
-    />
     <mp-input variant="outlined" placeholder="Display Icon" v-model="value7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -192,10 +164,10 @@ const value14 = ref('')
 | `clearable` | Whether the clearable                                                                                                                  | _boolean_ | `false` |
 | `resize` | Whether textarea can be dragged to resize                                                                                              | _boolean_ | `false` |
 | `autofocus` | Whether the autofocus                                                                                                                  | _boolean_ | `false` |
-| `validate-trigger` | Timing to trigger validation, The optional value is `onFocus` `onBlur` `onChange` `onClick` `onClear` `onInput`                        | _InputValidateTrigger[]_ | `['onInput', 'onClear']` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: string) => any) \| ZodType \| Array<((v: string) => any) \| ZodType>_ | `-` |
 | `enterkeyhint` | Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_ | `-` |
 | `aria-label` ***3.8.4*** | See [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA/Attributes/aria-label) | _string_ | `-` |
+
+Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 
 ### Methods
 
@@ -203,9 +175,6 @@ const value14 = ref('')
 | --- | --- | --- | --- |
 | `focus` | Focus | `-` | `-` |
 | `blur` | Blur | `-` | `-` |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clear validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding and validate messages | `-` | `-` |
 
 ### Events
 
@@ -225,7 +194,6 @@ const value14 = ref('')
 | `prepend-icon` | Prepend Icon | `-` |
 | `append-icon` | Append Icon | `-` |
 | `clear-icon` | Clear Icon | `clear: (e: Event) => void` clear function (can be used to clear input box contents when using slots) |
-| `extra-message` | Extra message | `-` |
 
 ### Style Variables
 

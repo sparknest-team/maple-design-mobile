@@ -18,6 +18,11 @@
   "type": "module",
   "main": "./lib/node/index.js",
   "module": "./lib/node/index.js",
+  "exports": {
+    ".": "./lib/node/index.js",
+    "./release": "./lib/node/release/index.js",
+    "./client": "./client.js"
+  },
   "bin": {
     "maple-cli": "./lib/node/bin.js"
   },

@@ -9,14 +9,12 @@
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref('')
 const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
 const value5 = ref('')
-const value6 = ref('')
 const value7 = ref('')
 const value8 = ref('')
 const value9 = ref('')
@@ -24,7 +22,6 @@ const value10 = ref('')
 const value11 = ref('')
 const value12 = ref('')
 const value13 = ref('')
-const value14 = ref('')
 </script>
 
 <template>
@@ -39,16 +36,6 @@ const value14 = ref('')
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-input>
-    <mp-input
-      placeholder="字段校验"
-      :rules="(v) => v.length > 6 || '文本长度必须大于6'"
-      v-model="value6"
-    />
-    <mp-input
-      placeholder="使用 Zod 进行校验"
-      :rules="z.string().min(7, '文本长度必须大于6')"
-      v-model="value14"
-    />
     <mp-input placeholder="显示图标" v-model="value7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -88,14 +75,12 @@ const value14 = ref('')
 ```html
 <script setup>
 import { ref } from 'vue'
-import { z } from 'zod'
 
 const value = ref('')
 const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
 const value5 = ref('')
-const value6 = ref('')
 const value7 = ref('')
 const value8 = ref('')
 const value9 = ref('')
@@ -103,7 +88,6 @@ const value10 = ref('')
 const value11 = ref('')
 const value12 = ref('')
 const value13 = ref('')
-const value14 = ref('')
 </script>
 
 <template>
@@ -118,18 +102,6 @@ const value14 = ref('')
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-input>
-    <mp-input
-      variant="outlined"
-      placeholder="字段校验"
-      :rules="(v) => v.length > 6 || '文本长度必须大于6'"
-      v-model="value6"
-    />
-    <mp-input
-      variant="outlined"
-      placeholder="使用 Zod 进行校验"
-      :rules="z.string().min(7, '文本长度必须大于6')"
-      v-model="value14"
-    />
     <mp-input variant="outlined" placeholder="显示图标" v-model="value7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -192,10 +164,10 @@ const value14 = ref('')
 | `clearable` | 是否可清除                                                                    | _boolean_ | `false` |
 | `resize` | 文本域是否可以拖动调整尺寸                                                            | _boolean_ | `false` |
 | `autofocus` | 是否自动聚焦                                                                   | _boolean_ | `false` |
-| `validate-trigger` | 触发验证的时机，可选值为 `onFocus` `onBlur` `onChange` `onClick` `onClear` `onInput` | _InputValidateTrigger[]_ | `['onInput', 'onClear']` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: string) => any) \| ZodType \| Array<((v: string) => any) \| ZodType>_ | `-` |
 | `enterkeyhint` | 定制回车键样式，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_ | `-` |
 | `aria-label` ***3.8.4*** | 参见 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA/Attributes/aria-label) | _string_ | `-` |
+
+校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
 ### 方法
 
@@ -203,9 +175,6 @@ const value14 = ref('')
 | --- | --- | --- | --- |
 | `focus` | 聚焦 | `-` | `-` |
 | `blur` | 失焦 | `-` | `-` |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值和校验信息 | `-` | `-` |
 
 ### 事件
 
@@ -225,7 +194,6 @@ const value14 = ref('')
 | `prepend-icon` | 前置图标 | `-` |
 | `append-icon` | 后置图标 | `-` |
 | `clear-icon` | 清除图标 | `clear: (e: Event) => void` 清除函数(在使用插槽时, 可用于清除输入框内容) |
-| `extra-message` | 附加信息 | `-` |
 
 ### 样式变量
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。

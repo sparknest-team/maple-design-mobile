@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
-import { z } from 'zod'
 import Counter from '..'
 import { delay, trigger } from '../../utils/test'
 import VarCounter from '../Counter'
@@ -140,31 +139,6 @@ test('counter readonly', async () => {
   expect(wrapper.vm.value).toBe(0)
 
   await wrapper.find('.mp-counter__decrement-button').trigger('click')
-  expect(wrapper.vm.value).toBe(0)
-
-  wrapper.unmount()
-})
-
-test('counter validation', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    template: `<mp-counter ref="counter" :rules="[v => v > 0 || 'The value must be more than zero']" v-model="value" />`,
-  })
-
-  const { counter } = wrapper.vm.$refs
-
-  counter.validate()
-  await delay(16)
-
-  expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('The value must be more than zero')
-
-  await wrapper.find('.mp-counter__increment-button').trigger('click')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-
-  counter.reset()
-  await delay(16)
   expect(wrapper.vm.value).toBe(0)
 
   wrapper.unmount()
@@ -436,34 +410,6 @@ test('counter onIncrement & onDecrement', async () => {
   await delay(100)
   await wrapper.find('.mp-counter__decrement-button').trigger('click')
   expect(onDecrement).toBeCalledTimes(2)
-
-  wrapper.unmount()
-})
-test('counter validation with zod', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: 0,
-      rules: z.number().min(1, 'The value must be more than zero'),
-    }),
-    template: `<mp-counter ref="counter" :rules="[v => v > 0 || 'The value must be more than zero']" v-model="value" />`,
-  })
-
-  const { counter } = wrapper.vm.$refs
-
-  counter.validate()
-  await delay(16)
-
-  expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('The value must be more than zero')
-
-  await wrapper.find('.mp-counter__increment-button').trigger('click')
-  await delay(16)
-  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
-
-  counter.reset()
-  await delay(16)
-  expect(wrapper.vm.value).toBe(0)
 
   wrapper.unmount()
 })

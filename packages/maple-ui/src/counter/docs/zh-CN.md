@@ -133,43 +133,7 @@ function handleBeforeChange(value, change) {
 </template>
 ```
 
-### 字段校验
-
-通过传入一个校验器数组可以对值进行校验，校验器返回 `true` 则为校验通过。
-以外的值将转换为文本作为用户提示。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter
-    :rules="v => v > 5 || '请选择大于5的值'"
-    v-model="value"
-  />
-</template>
-```
-
-### 使用 Zod 校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter
-    :rules="z.number().min(6, '请选择大于5的值')"
-    v-model="value"
-  />
-</template>
-```
+> 计数器的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ## API
 
@@ -197,16 +161,6 @@ const value = ref(0)
 | `press` | 是否开启按钮长按 | _boolean_ | `true` |
 | `ripple` | 是否开启水波纹 | _boolean_ | `true` |
 | `lazy-change` | 是否阻止组件本身的绑定值更新操作 | _boolean_ | `false` |
-| `validate-trigger` | 触发验证的时机，可选值为 `onInputChange` `onLazyChange` `onIncrement` `onDecrement` | _CounterValidateTrigger[]_ | `['onIncrement', 'onDecrement', 'onInputChange', 'onLazyChange']` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: number) => any) \| ZodType \| Array<((v: number) => any) \| ZodType>_ | `-` |
-
-### 方法
-
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(设置为 `min \|\| 0`)和校验信息 | `-` | `-` |
 
 ### 事件
 

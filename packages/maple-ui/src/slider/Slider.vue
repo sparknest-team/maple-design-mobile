@@ -2,7 +2,7 @@
   <div :class="classes(n(direction), n('$--box'))">
     <div
       ref="sliderEl"
-      :class="classes(n(`${direction}-block`), [isDisabled, n('--disabled')], [errorMessage, n(`${direction}--error`)])"
+      :class="classes(n(`${direction}-block`), [isDisabled, n('--disabled')], [mergedError, n(`${direction}--error`)])"
       @click="handleClick"
     >
       <div :class="n(`${direction}-track`)">
@@ -70,12 +70,11 @@
         </slot>
       </div>
     </div>
-    <mp-form-details :error-message="errorMessage" :class="n('form')" mp-slider-cover />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onBeforeUnmount, reactive, ref, watch, type CSSProperties } from 'vue'
+import { computed, defineComponent, onBeforeUnmount, reactive, ref, watch, type CSSProperties } from 'vue'
 import {
   call,
   clamp,
@@ -86,24 +85,22 @@ import {
   isNumber,
   preventDefault,
   toNumber,
+  warn,
 } from '@maplejs/maple-shared'
-import { warn } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize, useEventListener } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
-import { createNamespace, useValidation } from '../utils/components'
+import { createNamespace } from '../utils/components'
 import { getLeft, toSizeUnit } from '../utils/elements'
 import { props, Thumbs, type ThumbProps, type ThumbsListProps, type ThumbsProps } from './props'
-import { type SliderProvider } from './provide'
 
 const { name, n, classes } = createNamespace('slider')
 
 export default defineComponent({
   name,
   components: {
-    MpFormDetails,
     MpHoverOverlay,
   },
   directives: { Hover },
@@ -119,8 +116,8 @@ export default defineComponent({
     const isVertical = computed(() => props.direction === 'vertical')
     const focusingFirst = ref(false)
     const focusingSecond = ref(false)
-    const { bindForm, form } = useForm()
-    const { errorMessage, validateWithTrigger: vt, validate: v, resetValidation } = useValidation()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
     const { hovering: hoveringFirst, handleHovering: handleHoveringFirst } = useHoverOverlay()
     const { hovering: hoveringSecond, handleHovering: handleHoveringSecond } = useHoverOverlay()
 
@@ -204,14 +201,6 @@ export default defineComponent({
 
     let activeThumb: Thumbs
 
-    const sliderProvider: SliderProvider = {
-      reset,
-      validate,
-      resetValidation,
-    }
-
-    call(bindForm, sliderProvider)
-
     watch([() => props.modelValue, () => props.step], ([modelValue, step]) => {
       if (!stepValidator() || !valueValidator() || isScroll.value) {
         return
@@ -238,10 +227,6 @@ export default defineComponent({
       maxDistance.value = (sliderEl.value as HTMLElement)[isVertical.value ? 'offsetHeight' : 'offsetWidth']
     }
 
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
     function getThumbProps(): ThumbProps {
       return {
         startPosition: 0,
@@ -249,10 +234,6 @@ export default defineComponent({
         active: false,
         percentValue: 0,
       }
-    }
-
-    function validateWithTrigger() {
-      nextTick(() => vt(['onChange'], 'onChange', props.rules, props.modelValue))
     }
 
     function getOffset(e: MouseEvent) {
@@ -326,7 +307,7 @@ export default defineComponent({
     function emitChange(value: number | number[]) {
       call(props.onChange, value)
       call(props['onUpdate:modelValue'], value)
-      validateWithTrigger()
+      eventHandlers.value.onChange?.()
     }
 
     function setPercent(moveDistance: number, type: keyof ThumbsProps) {
@@ -513,12 +494,6 @@ export default defineComponent({
       }
     }
 
-    function reset() {
-      const resetValue = props.range ? [0, 0] : 0
-      call(props['onUpdate:modelValue'], resetValue)
-      resetValidation()
-    }
-
     function moveFocusingThumb(offset: 1 | -1, value: number | number[]) {
       const stepValue = toNumber(props.step)
 
@@ -578,7 +553,7 @@ export default defineComponent({
       getFillStyle,
       isDisabled,
       isVertical,
-      errorMessage,
+      mergedError,
       thumbsProps,
       thumbList,
       handleFocus,
@@ -601,7 +576,6 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
-@import '../form-details/formDetails';
 @import '../hover-overlay/hoverOverlay';
 @import './slider';
 </style>

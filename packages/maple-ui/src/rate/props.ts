@@ -1,4 +1,3 @@
-import { type PropType } from 'vue'
 import { iconProps } from '../icon'
 import { defineListenerProp, pickProps } from '../utils/components'
 
@@ -39,7 +38,6 @@ export const props = {
     default: true,
   },
   clearable: Boolean,
-  rules: Array as PropType<Array<(value: number) => any>>,
   onChange: defineListenerProp<(score: number) => void>(),
   'onUpdate:modelValue': defineListenerProp<(score: number) => void>(),
 }

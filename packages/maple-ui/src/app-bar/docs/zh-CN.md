@@ -2,7 +2,9 @@
 
 ### 介绍
 
-为页面提供导航功能，常用于页面顶部。
+为页面提供顶部导航能力，常用于移动端页面顶栏（App Chrome）。
+
+> 与 Cedar 桌面端 **PageHeader** 不同：AppBar 是应用顶栏（可固定、带阴影/背景图），PageHeader 是内容区内的页头标题结构（面包屑、主/副标题、返回、右侧操作）。两者职责分离，命名刻意保持不同。
 
 ### 基本使用
 
@@ -29,8 +31,8 @@
 ```html
 <template>
   <mp-app-bar
-    title="标题" 
-    title-position="center" 
+    title="标题"
+    title-position="center"
     color="linear-gradient(90deg, rgba(72,176,221,1) 0%, rgba(0,208,161,1) 100%)"
   />
 </template>
@@ -45,6 +47,8 @@
 ```
 
 ### 添加左右插槽
+
+返回、菜单等操作放在 `left` / `right` 插槽。
 
 ```html
 <template>
@@ -79,6 +83,26 @@
       </mp-menu>
     </template>
   </mp-app-bar>
+</template>
+```
+
+### 底部边框
+
+关闭海拔阴影并开启底部分割线，适合浅色顶栏。
+
+```html
+<template>
+  <mp-app-bar title="底部边框" :elevation="false" border />
+</template>
+```
+
+### 固定顶部
+
+`fixed` 固定到视口顶部，配合 `placeholder` 生成等高占位，避免内容被遮挡。
+
+```html
+<template>
+  <mp-app-bar title="固定顶部" fixed placeholder safe-area-top />
 </template>
 ```
 

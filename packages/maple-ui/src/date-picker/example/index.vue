@@ -10,6 +10,9 @@ const dates = reactive({
   date3: ['2021-02-01', '2021-02-15'],
   date4: '2020-11-11',
   date5: '2021-05',
+  dateTimeClock: '2025-01-15 10:29',
+  dateTimeCalendarPicker: '2025-01-15 10:29',
+  dateTimePicker: '2025-01-15 10:29',
 })
 
 watchLang(use)
@@ -30,6 +33,15 @@ const allowedDates = (date) => parseInt(date.split('-')[2], 10) % 2 === 1
 
   <app-type>{{ t('range') }}</app-type>
   <mp-date-picker v-model="dates.date3" type="date" range />
+
+  <app-type>{{ t('dateTimeClock') }}</app-type>
+  <mp-date-picker v-model="dates.dateTimeClock" show-time presentation="calendarClock" />
+
+  <app-type>{{ t('dateTimeCalendarPicker') }}</app-type>
+  <mp-date-picker v-model="dates.dateTimeCalendarPicker" show-time presentation="calendarPicker" />
+
+  <app-type>{{ t('dateTimePicker') }}</app-type>
+  <mp-date-picker v-model="dates.dateTimePicker" show-time presentation="picker" />
 
   <app-type>{{ t('dateLimit') }}</app-type>
   <mp-date-picker v-model="dates.date4" type="date" min="2020-10-15" max="2021-01-15" :allowed-dates="allowedDates" />

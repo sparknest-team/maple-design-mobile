@@ -1,0 +1,73 @@
+:root {
+  --mp-time-range-picker-values-height: 56px;
+  --mp-time-range-picker-values-font-size: 20px;
+  --mp-time-range-picker-values-font-weight: 500;
+  --mp-time-range-picker-value-color: var(--mp-color-on-surface-variant);
+  --mp-time-range-picker-value-active-color: var(--mp-color-primary);
+  --mp-time-range-picker-value-arrow-color: var(--mp-color-outline);
+  --mp-time-range-picker-value-arrow-size: 18px;
+  --mp-time-range-picker-border-radius: var(--mp-time-picker-border-radius, 4px);
+  --mp-time-range-picker-background: var(--mp-color-surface-container-high);
+}
+
+.mp-time-range-picker {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--mp-time-range-picker-border-radius);
+  background: var(--mp-time-range-picker-background);
+
+  // 保留时/分/秒切换按钮，仅隐藏提示文案（否则 clock 选秒后无法切回分钟）
+  .mp-time-picker__title-hint {
+    display: none;
+  }
+
+  .mp-time-picker__title {
+    min-height: auto;
+    padding: 8px 16px 12px;
+  }
+
+  &__values {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: var(--mp-time-range-picker-values-height);
+    padding: 0 16px;
+    border-bottom: 1px solid var(--mp-color-outline);
+  }
+
+  &__value {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: var(--mp-time-range-picker-values-font-size);
+    font-weight: var(--mp-time-range-picker-values-font-weight);
+    color: var(--mp-time-range-picker-value-color);
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+  }
+
+  &__value--active {
+    color: var(--mp-time-range-picker-value-active-color);
+  }
+
+  &__next-day {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--mp-time-range-picker-next-day-color, var(--mp-color-outline));
+  }
+
+  &__value-arrow[mp-time-range-picker-cover] {
+    flex-shrink: 0;
+    font-size: var(--mp-time-range-picker-value-arrow-size);
+    color: var(--mp-time-range-picker-value-arrow-color);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--mp-time-picker-actions-padding, 0 8px 12px);
+  }
+}

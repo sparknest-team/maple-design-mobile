@@ -450,3 +450,68 @@ test('datePicker rerender date panel when max or min changes', async () => {
 
   wrapper.unmount()
 })
+
+test('datePicker show-time calendarClock', async () => {
+  const wrapper = mount(VarDatePicker, {
+    props: {
+      modelValue: '2025-01-15 10:29',
+      showTime: true,
+      presentation: 'calendarClock',
+    },
+  })
+
+  await delay(0)
+
+  expect(wrapper.find('.mp-date-picker__datetime-title').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-date-picker__datetime-date').text()).toBe('2025-01-15')
+  expect(wrapper.find('.mp-date-picker__view-tabs').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-date-picker__view-tab-text').text()).toBe('10:29')
+  expect(wrapper.find('.mp-date-picker__body').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-picker').exists()).toBeFalsy()
+  expect(wrapper.find('.mp-time-picker').exists()).toBeFalsy()
+
+  await wrapper.find('.mp-date-picker__view-tab').trigger('click')
+  expect(wrapper.find('.mp-time-picker').exists()).toBeTruthy()
+
+  wrapper.unmount()
+})
+
+test('datePicker show-time calendarPicker', async () => {
+  const wrapper = mount(VarDatePicker, {
+    props: {
+      modelValue: '2025-01-15 10:29',
+      showTime: true,
+      presentation: 'calendarPicker',
+    },
+  })
+
+  await delay(0)
+
+  await wrapper.find('.mp-date-picker__view-tab').trigger('click')
+  expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
+  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(2)
+  expect(wrapper.find('.mp-time-picker').exists()).toBeFalsy()
+
+  wrapper.unmount()
+})
+
+test('datePicker show-time picker', async () => {
+  const wrapper = mount(VarDatePicker, {
+    props: {
+      modelValue: '2025-01-15 10:29',
+      showTime: true,
+      presentation: 'picker',
+    },
+  })
+
+  await delay(0)
+
+  expect(wrapper.find('.mp-date-picker__datetime-title').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-date-picker__datetime-date').text()).toBe('2025-01-15')
+  expect(wrapper.find('.mp-date-picker__datetime-time').text()).toBe('10:29')
+  expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
+  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(5)
+  expect(wrapper.find('.mp-date-picker__view-tabs').exists()).toBeFalsy()
+
+  wrapper.unmount()
+})

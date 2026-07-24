@@ -82,35 +82,7 @@ const value = ref(true)
 
 ### Validate Value
 
-The values are validated by passing in an array of validators. If the validator returns `true`, the validation passes.
-Other values are converted to text as a user prompt.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(true)
-</script>
-
-<template>
-  <mp-switch v-model="value" :rules="v => v === true || 'Error!'"/>
-</template>
-```
-
-### Validate With Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(true)
-</script>
-
-<template>
-  <mp-switch v-model="value" :rules="z.boolean().refine(v => v === true, 'Error!')" />
-</template>
-```
+Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 
 ### Asynchronous Change
 
@@ -170,9 +142,7 @@ const value = ref(true)
 | `close-color`    | Background color when close | _string_ | `-` |
 | `loading-color`  | Color of loading icon | _string_ | `-` |
 | `size`           | Size of switch | _string \| number_ | `-` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: any) => any) \| ZodType \| Array<((v: any) => any) \| ZodType>_ | `-` |
 | `lazy-change`    | Whether to allow the `before-change` event to be triggered | _boolean_  | `false` |
-| `validate-trigger` | Timing to trigger verification, optional values are `onChange` `onLazyChange` | _SwitchValidateTrigger[]_ | `['onChange', 'onLazyChange']` |
 | `variant` ***3.2.3*** | Variant mode | _boolean_ | `false` |
 
 ### Events

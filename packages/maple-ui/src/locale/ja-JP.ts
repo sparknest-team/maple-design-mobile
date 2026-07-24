@@ -15,6 +15,9 @@ export default {
   pickerTitle: '選択してください',
   pickerConfirmButtonText: '確認',
   pickerCancelButtonText: 'キャンセル',
+  // Cascader
+  cascaderPickerAddButtonText: '追加',
+  cascaderPickerDoneButtonText: '完了',
   // date-picker
   datePickerMonthDict: {
     '01': {
@@ -98,10 +101,21 @@ export default {
   },
   datePickerSelected: '件選択済み',
   datePickerHint: '日付を選択',
+  datePickerColumnYear: '年',
+  datePickerColumnMonth: '月',
+  datePickerColumnDay: '日',
+  datePickerColumnHour: '時',
+  datePickerColumnMinute: '分',
+  datePickerColumnSecond: '秒',
   // pagination
   paginationItem: '件',
   paginationPage: 'ページ',
   paginationJump: 'ジャンプ',
+  paginationTotal: '全 {0} 件',
   // time-picker
   timePickerHint: '時間を選択',
+  // time-range
+  timeRangeStart: '開始時刻',
+  timeRangeEnd: '終了時刻',
+  timeRangeNextDay: '翌日',
 } satisfies Message

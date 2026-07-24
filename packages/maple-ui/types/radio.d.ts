@@ -1,9 +1,7 @@
 import { VNode } from 'vue'
-import { BasicAttributes, ListenerProp, Rules as RadioRules, SetPropsDefaults, VarComponent } from './varComponent'
+import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const radioProps: Record<keyof RadioProps, any>
-
-export type RadioValidateTrigger = 'onChange'
 
 export interface RadioProps extends BasicAttributes {
   modelValue?: any
@@ -15,8 +13,6 @@ export interface RadioProps extends BasicAttributes {
   readonly?: boolean
   iconSize?: string | number
   ripple?: boolean
-  validateTrigger?: Array<RadioValidateTrigger>
-  rules?: RadioRules
   onClick?: ListenerProp<(e: Event) => void>
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
@@ -36,12 +32,6 @@ export class Radio extends VarComponent {
     'checked-icon'(): VNode[]
     'unchecked-icon'(): VNode[]
   }
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 
   toggle(value: any): void
 }

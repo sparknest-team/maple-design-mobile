@@ -23,24 +23,21 @@
         <mp-hover-overlay :hovering="hovering && value === currentHoveringValue && !disabled && !formDisabled" />
       </div>
     </div>
-
-    <mp-form-details :error-message="errorMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { call, toNumber } from '@maplejs/maple-shared'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
-import { createNamespace, useValidation } from '../utils/components'
+import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
-import { type RateProvider } from './provide'
 
 const { name, n } = createNamespace('rate')
 
@@ -48,26 +45,17 @@ export default defineComponent({
   name,
   components: {
     MpIcon,
-    MpFormDetails,
     MpHoverOverlay,
   },
   directives: { Ripple, Hover },
   props,
   setup(props) {
     const currentHoveringValue = ref<number>(-1)
-    const { form, bindForm } = useForm()
-    const { errorMessage, validateWithTrigger: vt, validate: v, resetValidation } = useValidation()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
     const { hovering } = useHoverOverlay()
 
     let lastScore = toNumber(props.modelValue)
-
-    const rateProvider: RateProvider = {
-      reset,
-      validate,
-      resetValidation,
-    }
-
-    call(bindForm, rateProvider)
 
     function getStyle(val: number) {
       const { count, gap } = props
@@ -84,7 +72,7 @@ export default defineComponent({
       return {
         [n('content')]: true,
         [n('--disabled')]: form?.disabled.value || props.disabled,
-        [n('--error')]: errorMessage.value,
+        [n('--error')]: mergedError.value,
         [n('--primary')]: name !== props.emptyIcon && !color,
       }
     }
@@ -147,14 +135,6 @@ export default defineComponent({
       lastScore = score
     }
 
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    function validateWithTrigger() {
-      nextTick(() => vt(['onChange'], 'onChange', props.rules, props.modelValue))
-    }
-
     function handleClick(score: number, event: MouseEvent) {
       const { readonly, disabled } = props
 
@@ -163,7 +143,7 @@ export default defineComponent({
       }
 
       changeValue(score, event)
-      validateWithTrigger()
+      eventHandlers.value.onChange?.()
     }
 
     function createHoverHandler(value: number) {
@@ -173,13 +153,8 @@ export default defineComponent({
       }
     }
 
-    function reset() {
-      call(props['onUpdate:modelValue'], 0)
-      resetValidation()
-    }
-
     return {
-      errorMessage,
+      mergedError,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
       hovering,
@@ -189,9 +164,6 @@ export default defineComponent({
       getCurrentState,
       handleClick,
       createHoverHandler,
-      reset,
-      validate,
-      resetValidation,
       toSizeUnit,
       toNumber,
       n,
@@ -204,7 +176,6 @@ export default defineComponent({
 @import '../styles/common';
 @import '../ripple/ripple';
 @import '../icon/icon';
-@import '../form-details/formDetails';
 @import '../hover-overlay/hoverOverlay';
 @import './rate';
 </style>

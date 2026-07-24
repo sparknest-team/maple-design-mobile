@@ -1,0 +1,18 @@
+export default {
+  basicUsage: '基本使用',
+  pickerMode: '列滚轮模式',
+  pickerSeconds: '列滚轮含秒',
+  hour24: '24 小时制与秒',
+  separator: '自定义分隔符',
+  nextDay: '次日标记',
+  disabled: '禁用',
+  withFormItem: '搭配 FormItem',
+  placeholder: '请选择时间范围',
+  pickerPlaceholder: '列滚轮时间范围',
+  pickerSecondsPlaceholder: '列滚轮含秒',
+  secondsPlaceholder: '含秒的时间范围',
+  separatorPlaceholder: '自定义分隔符',
+  nextDayPlaceholder: '跨天时段',
+  period: '时段',
+  formPlaceholder: '请选择',
+}

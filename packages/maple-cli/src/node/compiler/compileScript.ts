@@ -1,5 +1,5 @@
 import { dirname, extname, relative, resolve } from 'path'
-import { transformAsync } from '@babel/core'
+import babel from '@babel/core'
 import type { BabelFileResult } from '@babel/core'
 import { pascalCase } from '@maplejs/maple-shared'
 import jsx from '@vue/babel-plugin-jsx'
@@ -9,6 +9,8 @@ import { getMapleConfig, MapleConfig } from '../config/maple.config.js'
 import { ES_DIR } from '../shared/constant.js'
 import { getVersion, isDir, isJsx, isTsx, replaceExt } from '../shared/fsUtils.js'
 import { extractStyleDependencies, IMPORT_CSS_RE, IMPORT_LESS_RE, IMPORT_SCSS_RE } from './compileStyle.js'
+
+const { transformAsync } = babel
 
 const { writeFileSync, readdirSync, readFileSync, removeSync, writeFile, pathExistsSync } = fse
 

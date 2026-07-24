@@ -1,14 +1,22 @@
 import { VNode } from 'vue'
+import { AllowedTime } from './timePicker'
 import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const datePickerProps: Record<keyof DatePickerProps, any>
 
 export type DatePickerType = 'year' | 'date' | 'month'
 
+export type DatePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
+
 export interface DatePickerProps extends BasicAttributes {
   modelValue: string | Array<string>
   type?: DatePickerType
+  presentation?: DatePickerPresentation
+  showTime?: boolean
+  useSeconds?: boolean
   allowedDates?: (val: string) => boolean
+  allowedTime?: AllowedTime
+  timePickerProps?: Record<string, any>
   color?: string
   hint?: string
   titleColor?: string

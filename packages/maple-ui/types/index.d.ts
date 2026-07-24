@@ -14,14 +14,14 @@ export * from './badge'
 export * from './bottomNavigation'
 export * from './bottomNavigationItem'
 export * from './breadcrumb'
-export * from './breadcrumbs'
+export * from './breadcrumbItem'
 export * from './button'
 export * from './buttonGroup'
 export * from './card'
+export * from './cascader'
 export * from './cell'
 export * from './checkbox'
 export * from './checkboxGroup'
-export * from './chip'
 export * from './code'
 export * from './col'
 export * from './collapse'
@@ -31,7 +31,10 @@ export * from './context'
 export * from './countTo'
 export * from './countdown'
 export * from './counter'
+export * from './date'
 export * from './datePicker'
+export * from './dateRange'
+export * from './dateRangePicker'
 export * from './dialog'
 export * from './divider'
 export * from './drag'
@@ -40,6 +43,7 @@ export * from './fab'
 export * from './floatingPanel'
 export * from './form'
 export * from './formDetails'
+export * from './formItem'
 export * from './highlighterProvider'
 export * from './hover'
 export * from './hoverOverlay'
@@ -92,8 +96,12 @@ export * from './tabItem'
 export * from './table'
 export * from './tabs'
 export * from './tabsItems'
+export * from './tag'
 export * from './themes'
+export * from './time'
 export * from './timePicker'
+export * from './timeRange'
+export * from './timeRangePicker'
 export * from './tooltip'
 export * from './uploader'
 export * from './varComponent'
@@ -113,14 +121,14 @@ declare module 'vue' {
     MpBottomNavigation: (typeof import('@maplejs/maple-ui'))['_BottomNavigationComponent']
     MpBottomNavigationItem: (typeof import('@maplejs/maple-ui'))['_BottomNavigationItemComponent']
     MpBreadcrumb: (typeof import('@maplejs/maple-ui'))['_BreadcrumbComponent']
-    MpBreadcrumbs: (typeof import('@maplejs/maple-ui'))['_BreadcrumbsComponent']
+    MpBreadcrumbItem: (typeof import('@maplejs/maple-ui'))['_BreadcrumbItemComponent']
     MpButton: (typeof import('@maplejs/maple-ui'))['_ButtonComponent']
     MpButtonGroup: (typeof import('@maplejs/maple-ui'))['_ButtonGroupComponent']
     MpCard: (typeof import('@maplejs/maple-ui'))['_CardComponent']
+    MpCascader: (typeof import('@maplejs/maple-ui'))['_CascaderComponent']
     MpCell: (typeof import('@maplejs/maple-ui'))['_CellComponent']
     MpCheckbox: (typeof import('@maplejs/maple-ui'))['_CheckboxComponent']
     MpCheckboxGroup: (typeof import('@maplejs/maple-ui'))['_CheckboxGroupComponent']
-    MpChip: (typeof import('@maplejs/maple-ui'))['_ChipComponent']
     MpCode: (typeof import('@maplejs/maple-ui'))['_CodeComponent']
     MpCol: (typeof import('@maplejs/maple-ui'))['_ColComponent']
     MpCollapse: (typeof import('@maplejs/maple-ui'))['_CollapseComponent']
@@ -130,7 +138,10 @@ declare module 'vue' {
     MpCountTo: (typeof import('@maplejs/maple-ui'))['_CountToComponent']
     MpCountdown: (typeof import('@maplejs/maple-ui'))['_CountdownComponent']
     MpCounter: (typeof import('@maplejs/maple-ui'))['_CounterComponent']
+    MpDate: (typeof import('@maplejs/maple-ui'))['_DateComponent']
     MpDatePicker: (typeof import('@maplejs/maple-ui'))['_DatePickerComponent']
+    MpDateRange: (typeof import('@maplejs/maple-ui'))['_DateRangeComponent']
+    MpDateRangePicker: (typeof import('@maplejs/maple-ui'))['_DateRangePickerComponent']
     MpDialog: (typeof import('@maplejs/maple-ui'))['_DialogComponent']
     MpDivider: (typeof import('@maplejs/maple-ui'))['_DividerComponent']
     MpDrag: (typeof import('@maplejs/maple-ui'))['_DragComponent']
@@ -139,6 +150,7 @@ declare module 'vue' {
     MpFloatingPanel: (typeof import('@maplejs/maple-ui'))['_FloatingPanelComponent']
     MpForm: (typeof import('@maplejs/maple-ui'))['_FormComponent']
     MpFormDetails: (typeof import('@maplejs/maple-ui'))['_FormDetailsComponent']
+    MpFormItem: (typeof import('@maplejs/maple-ui'))['_FormItemComponent']
     MpHighlighterProvider: (typeof import('@maplejs/maple-ui'))['_HighlighterProviderComponent']
     MpHoverOverlay: (typeof import('@maplejs/maple-ui'))['_HoverOverlayComponent']
     MpIcon: (typeof import('@maplejs/maple-ui'))['_IconComponent']
@@ -188,8 +200,12 @@ declare module 'vue' {
     MpTable: (typeof import('@maplejs/maple-ui'))['_TableComponent']
     MpTabs: (typeof import('@maplejs/maple-ui'))['_TabsComponent']
     MpTabsItems: (typeof import('@maplejs/maple-ui'))['_TabsItemsComponent']
+    MpTag: (typeof import('@maplejs/maple-ui'))['_TagComponent']
     MpThemes: (typeof import('@maplejs/maple-ui'))['_ThemesComponent']
+    MpTime: (typeof import('@maplejs/maple-ui'))['_TimeComponent']
     MpTimePicker: (typeof import('@maplejs/maple-ui'))['_TimePickerComponent']
+    MpTimeRange: (typeof import('@maplejs/maple-ui'))['_TimeRangeComponent']
+    MpTimeRangePicker: (typeof import('@maplejs/maple-ui'))['_TimeRangePickerComponent']
     MpTooltip: (typeof import('@maplejs/maple-ui'))['_TooltipComponent']
     MpUploader: (typeof import('@maplejs/maple-ui'))['_UploaderComponent']
     MpVarComponent: (typeof import('@maplejs/maple-ui'))['_VarComponentComponent']

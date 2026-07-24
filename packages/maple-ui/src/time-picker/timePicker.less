@@ -13,10 +13,10 @@
   --mp-time-picker-title-inactive-opacity: 0.6;
   --mp-time-picker-title-time-font-size: 50px;
   --mp-time-picker-title-time-margin: 0 5px;
-  --mp-time-picker-title-time-border-radius: 0;
-  --mp-time-picker-title-time-padding: 0;
-  --mp-time-picker-title-time-background: transparent;
-  --mp-time-picker-title-time-active-background: transparent;
+  --mp-time-picker-title-time-border-radius: 4px;
+  --mp-time-picker-title-time-padding: 4px 6px;
+  --mp-time-picker-title-time-background: rgba(255, 255, 255, 0.12);
+  --mp-time-picker-title-time-active-background: rgba(255, 255, 255, 0.28);
   --mp-time-picker-title-time-container-justify-content: flex-end;
   --mp-time-picker-title-ampm-button-active-background: transparent;
   --mp-time-picker-title-ampm-margin-left: 10px;
@@ -78,6 +78,10 @@
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
 
+  &--with-seconds &__title-time {
+    font-size: calc(var(--mp-time-picker-title-time-font-size) * 0.72);
+  }
+
   &__title {
     min-height: var(--mp-time-picker-title-height);
     padding: var(--mp-time-picker-title-padding);
@@ -113,6 +117,7 @@
       padding: var(--mp-time-picker-title-time-padding);
       border-radius: var(--mp-time-picker-title-time-border-radius);
       opacity: var(--mp-time-picker-title-inactive-opacity);
+      user-select: none;
 
       &--active {
         background: var(--mp-time-picker-title-time-active-background);
@@ -128,6 +133,8 @@
       .mp-time-picker__title-btn {
         align-items: center;
         margin: var(--mp-time-picker-title-time-margin);
+        min-width: 1.2em;
+        text-align: center;
       }
     }
 

@@ -158,38 +158,7 @@ function handleChange(score) {
 </template>
 ```
 
-### 字段校验
-
-通过传入一个校验器数组可以对值进行校验，校验器返回 `true` 则为校验通过。
-以外的值将转换为文本作为用户提示。
-
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate :rules="v => v > 2 || '必须大于2'" v-model='score'/>
-</template>
-```
-
-### 使用 Zod 校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate :rules="z.number().min(3, '必须大于2')" v-model='score'/>
-</template>
-```
+> 评分组件的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ## API
 
@@ -215,7 +184,6 @@ const score = ref(3)
 | `readonly`       | 是否为只读状态，只读状态下无法修改评分 | _boolean_ | `false` |
 | `clearable`      | 是否允许清空 | _boolean_ | `false` |
 | `ripple`         | 是否使用水波纹 | _boolean_ | `true` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: number) => any) \| ZodType \| Array<((v: number) => any) \| ZodType>_ | `-` |
 
 ### 事件
 

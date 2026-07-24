@@ -38,6 +38,10 @@ export const props = {
     type: Boolean,
     default: true,
   },
+  selectedValues: {
+    type: Array as PropType<(string | number)[]>,
+    default: () => [],
+  },
   cascade: Boolean,
   optionHeight: {
     type: [Number, String],

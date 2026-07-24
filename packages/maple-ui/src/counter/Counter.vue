@@ -6,7 +6,7 @@
           n('controller'),
           formatElevation(elevation, 2),
           [disabled || formDisabled, n('--disabled')],
-          [errorMessage, n('--error')],
+          [mergedError, n('--error')],
         )
       "
       :style="{ background: color }"
@@ -89,24 +89,21 @@
         <mp-icon name="plus" />
       </mp-button>
     </div>
-
-    <mp-form-details :error-message="errorMessage"></mp-form-details>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch, type ComputedRef } from 'vue'
+import { computed, defineComponent, ref, watch, type ComputedRef } from 'vue'
 import { call, toNumber } from '@maplejs/maple-shared'
 import { Decimal } from 'decimal.js'
 import MpButton from '../button'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
-import { createNamespace, formatElevation, useValidation } from '../utils/components'
+import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { props, type CounterValidateTrigger } from './props'
-import { type CounterProvider } from './provide'
+import { props } from './props'
 
 const SPEED = 100
 const DELAY = 600
@@ -118,21 +115,14 @@ export default defineComponent({
   components: {
     MpButton,
     MpIcon,
-    MpFormDetails,
   },
   directives: { Ripple },
   inheritAttrs: false,
   props,
   setup(props) {
     const inputValue = ref<string | number>('')
-    const { bindForm, form } = useForm()
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
     const { readonly: formReadonly, disabled: formDisabled } = form ?? {}
     const isMax: ComputedRef<boolean> = computed(() => {
       const { max, modelValue } = props
@@ -147,13 +137,6 @@ export default defineComponent({
     let decrementTimer: number
     let incrementDelayTimer: number
     let decrementDelayTimer: number
-    const counterProvider: CounterProvider = {
-      reset,
-      validate,
-      resetValidation,
-    }
-
-    call(bindForm, counterProvider)
 
     watch(
       () => props.modelValue,
@@ -164,26 +147,6 @@ export default defineComponent({
     )
 
     setNormalizedValue(normalizeValue(String(props.modelValue)))
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    function validateWithTrigger(trigger: CounterValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
-    }
-
-    // expose
-    function reset() {
-      const { min } = props
-
-      call(props['onUpdate:modelValue'], min != null ? toNumber(min) : 0)
-      resetValidation()
-    }
 
     function normalizeValue(value: string) {
       const { decimalLength, max, min } = props
@@ -213,7 +176,7 @@ export default defineComponent({
 
       lazyChange ? call(onBeforeChange, toNumber(normalizedValue), change) : setNormalizedValue(normalizedValue)
 
-      validateWithTrigger('onInputChange')
+      eventHandlers.value.onChange?.()
     }
 
     function decrement() {
@@ -247,7 +210,7 @@ export default defineComponent({
         call(onBeforeChange, normalizedValueNum, change)
       } else {
         setNormalizedValue(normalizedValue)
-        validateWithTrigger('onDecrement')
+        eventHandlers.value.onChange?.()
       }
     }
 
@@ -282,7 +245,7 @@ export default defineComponent({
         call(onBeforeChange, normalizedValueNum, change)
       } else {
         setNormalizedValue(normalizedValue)
-        validateWithTrigger('onIncrement')
+        eventHandlers.value.onChange?.()
       }
     }
 
@@ -344,12 +307,12 @@ export default defineComponent({
 
     function change(value: number) {
       setNormalizedValue(normalizeValue(String(value)))
-      validateWithTrigger('onLazyChange')
+      eventHandlers.value.onChange?.()
     }
 
     return {
       inputValue,
-      errorMessage,
+      mergedError,
       formDisabled,
       formReadonly,
       isMax,
@@ -357,9 +320,6 @@ export default defineComponent({
       n,
       classes,
       formatElevation,
-      validate,
-      reset,
-      resetValidation,
       handleChange,
       decrement,
       increment,
@@ -380,7 +340,6 @@ export default defineComponent({
 @import '../icon/icon';
 @import '../loading/loading';
 @import '../button/button';
-@import '../form-details/formDetails';
 @import '../ripple/ripple';
 @import './counter';
 </style>

@@ -35,7 +35,7 @@
 
 ```html
 <mp-badge dot status="danger">
-  <mp-chip>徽标</mp-chip>
+  <mp-tag>徽标</mp-tag>
 </mp-badge>
 ```
 
@@ -43,10 +43,10 @@
 
 ```html
 <mp-badge status="danger" content="hot">
-  <mp-chip>徽标</mp-chip>
+  <mp-tag>徽标</mp-tag>
 </mp-badge>
 <mp-badge status="danger" :content="66">
-  <mp-chip>徽标</mp-chip>
+  <mp-tag>徽标</mp-tag>
 </mp-badge>
 ```
 
@@ -56,7 +56,7 @@
 
 ```html
 <mp-badge status="danger" :content="188" :max="99">
-  <mp-chip>徽标</mp-chip>
+  <mp-tag>徽标</mp-tag>
 </mp-badge>
 ```
 
@@ -73,7 +73,7 @@
 
 ```html
 <mp-badge status="danger" dot :offset-x="6" :offset-y="6">
-  <mp-chip>徽标</mp-chip>
+  <mp-tag>徽标</mp-tag>
 </mp-badge>
 ```
 
@@ -81,7 +81,7 @@
 
 ```html
 <mp-badge status="danger" dot :show="false">
-  <mp-chip>徽标</mp-chip>
+  <mp-tag>徽标</mp-tag>
 </mp-badge>
 ```
 

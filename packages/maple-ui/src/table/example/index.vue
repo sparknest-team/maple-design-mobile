@@ -74,7 +74,7 @@ onThemeChange()
 
     <template #footer>
       <div class="footer">
-        <mp-pagination :current="1" :total="100" :size-option="[5, 10]" @change="get" />
+        <mp-pagination :current="1" :total="100" :page-size-options="[5, 10]" show-page-size @change="get" />
       </div>
     </template>
   </mp-table>
@@ -98,7 +98,7 @@ onThemeChange()
 
     <template #footer>
       <div class="footer">
-        <mp-pagination :current="1" :total="100" :size-option="[5, 10]" @change="get2" />
+        <mp-pagination :current="1" :total="100" :page-size-options="[5, 10]" show-page-size @change="get2" />
       </div>
     </template>
   </mp-table>

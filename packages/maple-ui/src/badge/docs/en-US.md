@@ -64,16 +64,16 @@ Set the position of the badge through the `position` property.
 <template>
   <mp-space :size="[8, 20]">
     <mp-badge type="danger">
-      <mp-chip>The Upper Right</mp-chip>
+      <mp-tag>The Upper Right</mp-tag>
     </mp-badge>
     <mp-badge type="danger" position="right-bottom">
-      <mp-chip>The Lower Right</mp-chip>
+      <mp-tag>The Lower Right</mp-tag>
     </mp-badge>
     <mp-badge type="danger" position="left-top">
-      <mp-chip>The Upper Left</mp-chip>
+      <mp-tag>The Upper Left</mp-tag>
     </mp-badge>
     <mp-badge type="danger" position="left-bottom">
-      <mp-chip>The Lower Left</mp-chip>
+      <mp-tag>The Lower Left</mp-tag>
     </mp-badge>
   </mp-space>
 </template>
@@ -87,16 +87,16 @@ Set the horizontal and vertical offset of the logo via the `offset-x` and `offse
 <template>
   <mp-space :size="[8, 20]">
     <mp-badge type="danger" :offset-x="6" :offset-y="6">
-      <mp-chip>Badge</mp-chip>
+      <mp-tag>Badge</mp-tag>
     </mp-badge>
     <mp-badge type="danger" position="right-bottom" :offset-x="6" :offset-y="6">
-      <mp-chip>Badge</mp-chip>
+      <mp-tag>Badge</mp-tag>
     </mp-badge>
     <mp-badge type="danger" position="left-top" :offset-x="6" :offset-y="6">
-      <mp-chip>Badge</mp-chip>
+      <mp-tag>Badge</mp-tag>
     </mp-badge>
     <mp-badge type="danger" position="left-bottom" :offset-x="6" :offset-y="6">
-      <mp-chip>Badge</mp-chip>
+      <mp-tag>Badge</mp-tag>
     </mp-badge>
   </mp-space>
 </template>
@@ -120,7 +120,7 @@ function handleChange() {
 <template>
   <mp-space>
     <mp-badge type="danger" :hidden="hidden">
-      <mp-chip>Badge</mp-chip>
+      <mp-tag>Badge</mp-tag>
     </mp-badge>
 
     <mp-button type="success" @click="handleChange">Click To Change The State</mp-button>
@@ -135,7 +135,7 @@ Set the color of the badge through the `color` property.
 ```html
 <template>
   <mp-badge type="primary" color="#6200ea">
-    <mp-chip>Badge</mp-chip>
+    <mp-tag>Badge</mp-tag>
   </mp-badge>
 </template>
 ```
@@ -147,7 +147,7 @@ Set Badge Icon through `icon` property.
 ```html
 <template>
   <mp-badge icon="notebook">
-    <mp-chip>Badge</mp-chip>
+    <mp-tag>Badge</mp-tag>
   </mp-badge>
 </template>
 ```
@@ -157,7 +157,7 @@ Set Badge Icon through `icon` property.
 ```html
 <template>
   <mp-badge>
-    <mp-chip>Badge</mp-chip>
+    <mp-tag>Badge</mp-tag>
 
     <template #value>
       <mp-ellipsis style="max-width: 40px" :tooltip="{ sameWidth: false }">100000000</mp-ellipsis>

@@ -1,43 +1,63 @@
 <template>
-  <div :class="n()" :style="{ flexDirection: direction === 'horizontal' ? 'row' : 'column' }">
+  <div
+    :class="classes(n(), [changeable, n('--changeable')])"
+    :style="{ flexDirection: direction === 'horizontal' ? 'row' : 'column' }"
+  >
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { call } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
-import { props } from './props'
+import { props, type StepStatus } from './props'
 import { useStep, type StepsProvider } from './provide'
 
-const { name, n } = createNamespace('steps')
+const { name, n, classes } = createNamespace('steps')
 
 export default defineComponent({
   name,
   props,
   setup(props) {
-    const active = computed(() => props.active)
-    const activeColor = computed(() => props.activeColor)
-    const inactiveColor = computed(() => props.inactiveColor)
+    const _current = ref(props.defaultCurrent)
+    const current = computed(() => props.current ?? _current.value)
     const direction = computed(() => props.direction)
+    const status = computed(() => props.status)
+    const changeable = computed(() => props.changeable)
     const { bindStep } = useStep()
 
+    function getStatus(step: number): StepStatus {
+      if (step < current.value) {
+        return 'finish'
+      }
+      if (step > current.value) {
+        return 'wait'
+      }
+      return props.status
+    }
+
+    function clickStep(step: number, e: Event) {
+      if (!props.changeable) {
+        return
+      }
+      _current.value = step
+      call(props['onUpdate:current'], step)
+      call(props.onChange, step, e)
+    }
+
     const stepsProvider: StepsProvider = {
-      active,
+      current,
       direction,
-      activeColor,
-      inactiveColor,
+      status,
+      changeable,
+      getStatus,
       clickStep,
     }
 
     bindStep(stepsProvider)
 
-    function clickStep(index: number) {
-      call(props.onClickStep, index)
-    }
-
-    return { n }
+    return { n, classes, direction, changeable }
   },
 })
 </script>

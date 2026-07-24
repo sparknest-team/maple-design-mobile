@@ -1,10 +1,9 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { Validation } from '../form/provide'
 import { RadioProvider } from '../radio/provide'
 
-export interface RadioGroupProvider extends Validation {
-  errorMessage: ComputedRef<string>
+export interface RadioGroupProvider {
+  errorMessage: ComputedRef<boolean>
   hasChecked: ComputedRef<boolean>
   onToggle(value: any): void
 }

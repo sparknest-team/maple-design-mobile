@@ -67,7 +67,6 @@ export const props = {
     type: String as PropType<SliderDirection>,
     default: 'horizontal',
   },
-  rules: [Array, Function, Object] as PropType<any>,
   onChange: defineListenerProp<(value: number | Array<number>) => void>(),
   onStart: defineListenerProp<() => void>(),
   onEnd: defineListenerProp<(value: number | Array<number>) => void>(),

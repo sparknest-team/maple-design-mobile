@@ -175,85 +175,7 @@ const value = ref(0)
 </template>
 ```
 
-### Radio Validation
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio
-    v-model="value"
-    :rules="[v => v || 'Please check your choice']"
-  >
-    Current value: {{ value }}
-  </mp-radio>
-</template>
-```
-
-### Radio Validate With Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio
-    v-model="value"
-    :rules="z.boolean().refine((v) => v, 'Please check your choice')"
-  >
-    Current value: {{ value }}
-  </mp-radio>
-</template>
-```
-
-### RadioGroup Validate
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio-group
-    v-model="value"
-    :rules="v => v === 0 || 'Please check eat'"
-  >
-    <mp-radio :checked-value="0">Eat</mp-radio>
-    <mp-radio :checked-value="1">Sleep</mp-radio>
-  </mp-radio-group>
-</template>
-```
-
-### RadioGroup Validate With Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio-group
-    v-model="value"
-    :rules="z.number().refine((v => v === 0, 'Please check eat'))"
-  >
-    <mp-radio :checked-value="0">Eat</mp-radio>
-    <mp-radio :checked-value="1">Sleep</mp-radio>
-  </mp-radio-group>
-</template>
-```
+> For form validation of radio and radio group, please use the [FormItem component](#/en-US/form-item).
 
 ## API
 
@@ -268,7 +190,6 @@ const value = ref(false)
 | `options` ***3.2.14*** | Specifies options | _RadioGroupOption[]_ | `[]` |
 | `label-key` ***3.2.14*** | As the key that uniquely identifies label | _string_ | `label` |
 | `value-key` ***3.2.14*** | As the key that uniquely identifies value | _string_ | `value` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _(v: any) => any \| ZodType \| Array<(v: any) => any \| ZodType>_ | `-` |
 | `aria-label` ***3.8.5*** | The label of the radio group | _string_ | `-` |
 
 #### RadioGroupOption
@@ -292,25 +213,13 @@ const value = ref(false)
 | `readonly` | Whether the readonly | _boolean_ | `false` |
 | `disabled` | Whether the disabled | _boolean_ | `false` |
 | `ripple` | Whether to open ripple | _boolean_ | `true` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: string) => any) \| ZodType \| Array<((v: string) => any) \| ZodType>_ | `-` |
 
 ### Methods
-
-#### RadioGroup Methods
-
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clear validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding(set to `undefined`) and validate messages | `-` | `-` |
 
 #### Radio Methods
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clear validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding(set to `unchecked-value`) and validate messages | `-` | `-` |
 | `toggle` | Toggle the checked state, pass `checked-value` to check, `unchecked-value` to uncheck, do not pass or other cases to reverse | `value: any` | `-` |
 
 ### Events

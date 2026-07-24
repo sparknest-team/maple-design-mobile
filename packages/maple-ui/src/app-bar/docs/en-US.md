@@ -2,7 +2,9 @@
 
 ### Intro
 
-Provide navigation function for the page, often used at the top of the page.
+Provide top navigation for the page, commonly used as the mobile app chrome bar.
+
+> Unlike Cedar's desktop **PageHeader**: AppBar is the application top bar (fixed, elevation, background image). PageHeader is an in-page title block (breadcrumb, title/subtitle, back, extra actions). Keep the names separate by design.
 
 ### Basic Usage
 
@@ -79,6 +81,26 @@ Turn on rounded border with the `round` prop.
       </mp-menu>
     </template>
   </mp-app-bar>
+</template>
+```
+
+### Bottom Border
+
+Disable elevation and enable the bottom border for light top bars.
+
+```html
+<template>
+  <mp-app-bar title="Bottom Border" :elevation="false" border />
+</template>
+```
+
+### Fixed To Top
+
+Use `fixed` with `placeholder` to pin the bar and reserve space for content.
+
+```html
+<template>
+  <mp-app-bar title="Fixed" fixed placeholder safe-area-top />
 </template>
 ```
 

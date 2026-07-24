@@ -1,18 +1,18 @@
 import { VNode } from 'vue'
-import {
-  BasicAttributes,
-  ListenerProp,
-  Rules as SelectRules,
-  Variant as SelectVariant,
-  SetPropsDefaults,
-  VarComponent,
-} from './varComponent'
+import { BasicAttributes, ListenerProp, Variant as SelectVariant, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const selectProps: Record<keyof SelectProps, any>
 
-export type SelectValidateTrigger = 'onFocus' | 'onBlur' | 'onChange' | 'onClick' | 'onClear' | 'onClose'
+export type SelectPresentation = 'menu' | 'picker'
 
 export type SelectTextAlign = 'left' | 'right' | 'center'
+
+export type SelectFieldNames = {
+  label?: string
+  value?: string
+  children?: string
+  disabled?: string
+}
 
 export type SelectSize = 'small' | 'normal'
 
@@ -33,12 +33,17 @@ export interface SelectProps extends BasicAttributes {
   options?: SelectOption[]
   labelKey?: string
   valueKey?: string
+  presentation?: SelectPresentation
+  show?: boolean
+  fieldNames?: SelectFieldNames
+  pickerProps?: Record<string, any>
+  popupProps?: Record<string, any>
   variant?: SelectVariant
   size?: SelectSize
   placeholder?: string
   multiple?: boolean
   offsetY?: number | string
-  chip?: boolean
+  tag?: boolean
   line?: boolean
   hint?: boolean
   textColor?: string
@@ -49,8 +54,6 @@ export interface SelectProps extends BasicAttributes {
   clearable?: boolean
   separator?: string
   textAlign?: SelectTextAlign
-  validateTrigger?: Array<SelectValidateTrigger>
-  rules?: SelectRules
   onFocus?: ListenerProp<(e: Event) => void>
   onBlur?: ListenerProp<(e: Event) => void>
   onClick?: ListenerProp<(e: Event) => void>
@@ -58,6 +61,7 @@ export interface SelectProps extends BasicAttributes {
   onClose?: ListenerProp<(value: any) => void>
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
+  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
 }
 
 export interface SelectArrowIconData {
@@ -75,7 +79,7 @@ export class Select extends VarComponent {
   $props: SelectProps
 
   $slots: {
-    'selected'(): VNode[]
+    selected(): VNode[]
     'prepend-icon'(): VNode[]
     'clear-icon'(data: SelectClearIconData): VNode[]
     'append-icon'(): VNode[]
@@ -85,12 +89,6 @@ export class Select extends VarComponent {
   focus(): void
 
   blur(): void
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 }
 
 export class _SelectComponent extends Select {}

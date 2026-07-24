@@ -3,75 +3,103 @@
     :class="
       classes(
         n(),
-        n('$--box'),
-        [vertical, n('--vertical')],
+        n(`--orientation-${orientation}`),
+        n(`--text-align-${textAlign}`),
+        n(`--type-${type}`),
         [withText, n('--with-text')],
-        [withPresetInset, n('--inset')],
-        [dashed, n('--dashed')],
+        [withPresetSizeX, n(`--size-x-${sizeX}`)],
+        [withPresetSizeY, n(`--size-y-${sizeY}`)],
         [hairline, n('--hairline')],
       )
     "
-    :style="style"
+    :style="rootStyle"
     role="separator"
+    :aria-orientation="orientation"
   >
-    <slot v-if="!vertical">
+    <slot>
       <span v-if="description" :class="n('text')">{{ description }}</span>
     </slot>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onUpdated, ref } from 'vue'
-import { isBoolean, toNumber } from '@maplejs/maple-shared'
-import { onSmartMounted } from '@maplejs/maple-use'
+import { computed, defineComponent, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { props } from './props'
+import { dividerProps } from './props'
 
 const { name, n, classes } = createNamespace('divider')
 
+const SIZE_PRESETS = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'] as const
+
 export default defineComponent({
   name,
-  props,
+  props: dividerProps,
   setup(props, { slots }) {
-    const withText = ref(false)
-    const withPresetInset = computed(() => {
-      // the inset is only effective in horizontal mode
-      const { vertical, inset } = props
-      return !vertical && inset === true
-    })
-    const style = computed(() => {
-      const { inset, vertical, margin } = props
+    const withText = computed(() => Boolean(slots.default || props.description))
 
-      if (isBoolean(inset) || vertical) {
-        return { margin }
+    const withPresetSizeX = computed(() => SIZE_PRESETS.includes(props.sizeX as (typeof SIZE_PRESETS)[number]))
+    const withPresetSizeY = computed(() => SIZE_PRESETS.includes(props.sizeY as (typeof SIZE_PRESETS)[number]))
+
+    const rootStyle = computed(() => {
+      const { sizeX, sizeY, orientation, hairline } = props
+      const styles: CSSProperties = {}
+
+      if (props.thickness && !hairline) {
+        styles['--mp-divider-border-width' as keyof CSSProperties] = toSizeUnit(props.thickness) as string
+      }
+      if (props.color) {
+        styles['--mp-divider-color' as keyof CSSProperties] = props.color
+      }
+      if (props.opacity != null) {
+        styles['--mp-divider-opacity' as keyof CSSProperties] = String(props.opacity)
+        styles.opacity = props.opacity
       }
 
-      const _inset = toNumber(inset)
-      const absInsetWithUnit = Math.abs(_inset) + (inset + '').replace(_inset + '', '')
-
-      return {
-        margin,
-        width: `calc(100% - ${toSizeUnit(absInsetWithUnit)})`,
-        left: _inset > 0 ? toSizeUnit(absInsetWithUnit) : toSizeUnit(0),
+      if (!withPresetSizeX.value && sizeX != null) {
+        const [start, end] = resolveSizePair(sizeX)
+        if (orientation === 'horizontal') {
+          styles.maxWidth = `calc(100% - ${start} - ${end})`
+          styles.marginInlineStart = start
+          styles.marginInlineEnd = end
+        } else {
+          styles.marginBlockStart = start
+          styles.marginBlockEnd = end
+        }
       }
+
+      if (!withPresetSizeY.value && sizeY != null) {
+        const [start, end] = resolveSizePair(sizeY)
+        if (orientation === 'horizontal') {
+          styles.marginBlockStart = start
+          styles.marginBlockEnd = end
+        } else {
+          styles.maxHeight = `calc(100% - ${start} - ${end})`
+          styles.marginInlineStart = start
+          styles.marginInlineEnd = end
+        }
+      }
+
+      return styles
     })
 
-    onSmartMounted(checkHasText)
-    onUpdated(checkHasText)
-
-    function checkHasText() {
-      // the default slot or description is only effective in horizontal mode
-      const { description, vertical } = props
-      withText.value = (slots.default || description != null) && !vertical
+    function resolveSizePair(size: number | string | Array<number | string>) {
+      if (Array.isArray(size)) {
+        const start = toSizeUnit(size[0]) as string
+        const end = toSizeUnit(size.length > 1 ? size[1] : size[0]) as string
+        return [start, end] as const
+      }
+      const value = toSizeUnit(size) as string
+      return [value, value] as const
     }
 
     return {
       n,
       classes,
       withText,
-      style,
-      withPresetInset,
+      withPresetSizeX,
+      withPresetSizeY,
+      rootStyle,
     }
   },
 })

@@ -4,42 +4,69 @@
 
 当你需要处理大量数据的时候，可能需要用到它。
 
-## 简约模式
+API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
-### 介绍
+## 案例
 
-默认的一种显示模式，推荐在小屏设备上使用。
-
-### 基本使用
+### 基础用法
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="20" />
+  <mp-pagination :current="1" :total="50" />
 </template>
 ```
 
-### 隐藏 size 控制器
+### 更多页码
 
-使用 `show-size-changer` 可以控制 `size` 控制器的显示和隐藏。
+当页码较大时，会使用省略号分页样式。
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="20" :show-size-changer="false" />
+  <mp-pagination :simple="false" :current="1" :total="200" />
 </template>
 ```
 
-### 显示总数
+### 每页条数
 
-使用 `showTotal` 属性自定义总数显示。
+通过设置 `show-page-size`，展示每页条数选择器。
 
 ```html
 <template>
-  <mp-pagination
-    :current="1"
-    :total="20"
-    :show-size-changer="false"
-    :show-total="total => `共 ${total} 条`"
-  />
+  <mp-pagination :simple="false" :current="1" :total="50" show-page-size />
+</template>
+```
+
+### 页码跳转
+
+通过设置 `show-jumper`，展示页码跳转输入框。
+
+```html
+<template>
+  <mp-pagination :simple="false" :current="1" :total="50" show-jumper />
+</template>
+```
+
+### 简洁模式
+
+默认开启简洁模式，适合小屏设备；可通过 `simple` 关闭。
+
+```html
+<template>
+  <mp-pagination :current="1" :total="50" />
+</template>
+```
+
+### 展示总数
+
+通过设置 `show-total`，展示总数。可用 `#total` 插槽自定义文案。
+
+```html
+<template>
+  <mp-pagination :current="1" :total="50" show-total />
+
+  <mp-pagination :current="1" :total="50" show-total>
+    <template #total="{ total }">共 {{ total }} 条</template>
+  </mp-pagination>
 </template>
 ```
 
@@ -47,72 +74,38 @@
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="20" disabled />
+  <mp-pagination :current="1" :total="50" disabled />
 </template>
 ```
 
-## 普通模式
-
-### 介绍
-
-`simple` 属性为 `false` 时，可以开启我们专门为宽屏设计的分页风格
-
-### 基本使用
-
-```html
-<template>
-  <mp-pagination :simple="false" :current="1" :total="20" />
-</template>
-```
-
-### 隐藏 size 控制器
-
-使用 `show-size-changer` 可以控制 `size` 控制器的显示和隐藏。
-
-```html
-<template>
-  <mp-pagination :current="1" :total="20" :simple="false" :show-size-changer="false" />
-</template>
-```
-
-
-### 显示总数
-
-使用 `showTotal` 属性自定义总数显示。
+### 全部展示
 
 ```html
 <template>
   <mp-pagination
-    :current="1"
-    :total="20"
     :simple="false"
-    :show-size-changer="false"
-    :show-total="total => `共 ${total} 条`"
+    :current="1"
+    :total="50"
+    show-total
+    show-jumper
+    show-page-size
   />
 </template>
 ```
 
-### 禁用
+### 自定义分页按钮
+
+可以通过插槽自定义分页按钮内容。
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="20" disabled />
-</template>
-```
-
-### 开启页码快速跳转
-
-使用 `show-quick-jumper` 属性开启页面快速跳转。
-
-```html
-<template>
-  <mp-pagination 
-    :simple="false" 
-    :current="1" 
-    :total="20" 
-    :show-size-changer="false" 
-    show-quick-jumper
-  />
+  <mp-pagination :simple="false" :current="1" :total="50">
+    <template #page-item="{ page }">{{ page }}</template>
+    <template #page-item-step="{ type }">
+      {{ type === 'previous' ? '上一页' : '下一页' }}
+    </template>
+    <template #page-item-ellipsis>···</template>
+  </mp-pagination>
 </template>
 ```
 
@@ -120,36 +113,48 @@
 
 ### 属性
 
-| 参数                  | 说明                                              | 类型 | 默认值 |
-|---------------------|-------------------------------------------------| -------- | ---------- |
-| `v-model:current`  | 当前页数                                            | _string \| number_ | `1` |
-| `v-model:size`     | 每页条数                                            | _string \| number_ | `10` |
-| `total`             | 总条数                                             | _string \| number_ | `0` |
-| `simple`            | 是否为简单模式                                         | _boolean_ | `true` |
-| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效 | _string \| number \| boolean_|   `true`    |
-| `disabled`          | 禁用分页                                            | _boolean_ | `false` |
-| `show-size-changer` | 是否显示 `size` 切换器                                 | _boolean_ | `true` |
-| `show-quick-jumper` | 是否可以快速跳转至某页	                                    | _boolean_ | `false` |
-| `max-pager-count`   | 省略号间显示的按钮数量	                                    | _number_ | `3` |
-| `size-option`       | 指定每页可以显示多少条	                                    | _number[]_ | `[10, 20, 50, 100]` |
-| `show-total`        | 用于显示数据总量和当前数据顺序	                                | _function(total, range)_ | `-` |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `total` | 数据总数 | _number \| string_ | `0` |
+| `v-model:current` | 当前页数 | _number \| string_ | `-` |
+| `default-current` | 默认当前页数 | _number_ | `1` |
+| `v-model:page-size` | 每页条数 | _number \| string_ | `-` |
+| `default-page-size` | 默认每页条数（非受控） | _number_ | `10` |
+| `disabled` | 禁用分页 | _boolean_ | `false` |
+| `hide-on-single-page` | 只有一页时是否隐藏分页 | _boolean_ | `false` |
+| `simple` | 是否使用简洁模式（移动端默认开启） | _boolean_ | `true` |
+| `show-total` | 是否展示总数 | _boolean_ | `false` |
+| `show-more` | 是否展示更多按钮 | _boolean_ | `false` |
+| `show-jumper` | 是否展示跳转输入框 | _boolean_ | `false` |
+| `show-page-size` | 是否展示每页条数选择器 | _boolean_ | `false` |
+| `page-size-options` | 每页条数选择器选项 | _number[]_ | `[10, 20, 30, 40, 50]` |
+| `page-size-props` | 透传给条数选择器的属性 | _object_ | `-` |
+| `page-item-style` | 分页按钮样式 | _CSSProperties_ | `-` |
+| `active-page-item-style` | 当前分页按钮样式 | _CSSProperties_ | `-` |
+| `base-size` | 计算显示省略的基础个数，显示省略的个数为 `baseSize + 2 * bufferSize` | _number_ | `6` |
+| `buffer-size` | 显示省略号时，当前页码左右显示的页码个数 | _number_ | `2` |
+| `auto-adjust` | 是否在改变数据条数时自动调整页码 | _boolean_ | `true` |
+| `elevation` | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _boolean \| string \| number_ | `true` |
 
 ### 事件
 
 | 事件名 | 说明 | 回调参数 |
-| ----- | -------------- | -------- |
-| `change` | `current` 或 `size` 改变后的回调 | `current: number` <br>`size: number`  |
+| --- | --- | --- |
+| `change` | 页码改变时触发 | `current: number` |
+| `page-size-change` | 每页条数改变时触发 | `pageSize: number` |
 
 ### 插槽
 
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
-| `prev` | 上一页按钮内容 | `-` |
-| `next` | 下一页按钮内容 | `-` |
+| `total` | 总数 | `total: number` |
+| `page-item` | 分页按钮 | `page: number` |
+| `page-item-step` | 分页按钮（步） | `type: 'previous' \| 'next'` |
+| `page-item-ellipsis` | 分页按钮（省略） | `-` |
+| `jumper-prepend` | 跳转前缀 | `-` |
+| `jumper-append` | 跳转后缀 | `-` |
 
 ### 样式变量
-
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
 
 | 变量名 | 默认值 |
 | --- | --- |
@@ -165,7 +170,6 @@
 | `--pagination-item-margin` | `0 6px` |
 | `--pagination-item-border-radius` | `4px` |
 | `--pagination-item-background` | `#fff` |
-| `--pagination-item-border-radius` | `4px` |
 | `--pagination-item-simple-border-radius` | `50%` |
 | `--pagination-input-width` | `32px` |
 | `--pagination-disabled-color` | `var(--color-text-disabled)` |

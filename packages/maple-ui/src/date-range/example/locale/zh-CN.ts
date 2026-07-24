@@ -1,0 +1,17 @@
+export default {
+  basicUsage: '基本使用',
+  pickerMode: '列滚轮模式',
+  dateTime: '日期时间',
+  type: '选择类型',
+  separator: '自定义分隔符',
+  disabled: '禁用',
+  withFormItem: '搭配 FormItem',
+  placeholder: '请选择日期范围',
+  pickerPlaceholder: '列滚轮日期范围',
+  dateTimePlaceholder: '请选择日期时间范围',
+  year: '选择年范围',
+  month: '选择月范围',
+  separatorPlaceholder: '自定义分隔符',
+  period: '时间段',
+  formPlaceholder: '请选择',
+}

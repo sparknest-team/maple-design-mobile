@@ -189,37 +189,7 @@ const value2 = ref(50)
 </template>
 ```
 
-### 值的校验
-
-通过 `rules` 属性对值进行校验。
-`rules` 是一个可以接受 `function`、`boolean` 和 `string` 的数组。 函数传递输入值作为参数，必须返回 `true` / `false` 或包含错误消息的 `string`，如果函数返回 (或数组包含的任何值) `false` 或 `string`，输入字段将输入错误状态。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(20)
-</script>
-
-<template>
-  <mp-slider v-model="value" :rules="[v => v > 35 || '错误信息']" />
-</template>
-```
-
-### 使用 Zod 校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(20)
-</script>
-
-<template>
-  <mp-slider v-model="value" :rules="z.number().min(36, '错误信息')" />
-</template>
-```
+> 滑块的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ### 垂直方向
 
@@ -268,7 +238,6 @@ const value2 = ref([7, 64])
 | `disabled`         | 是否禁用                              | _boolean_ | `false`           |
 | `readonly`         | 是否只读                              | _boolean_ | `false`           |
 | `direction`        | 显示方向，可选值为 `vertical horizontal`        | _string_ | `horizontal` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: number \| [number, number]) => any) \| ZodType \| Array<((v: number \| [number, number]) => any) \| ZodType>_ | `-` |
 
 ### 事件
 

@@ -1,15 +1,14 @@
-import { VNode } from 'vue'
+import { VNode, VNodeChild } from 'vue'
+import type { StepStatus } from './steps'
 import { BasicAttributes, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const stepProps: Record<keyof StepProps, any>
 
 export interface StepProps extends BasicAttributes {
-  activeIcon?: string
-  currentIcon?: string
-  inactiveIcon?: string
-  activeIconNamespace?: string
-  currentIconNamespace?: string
-  inactiveIconNamespace?: string
+  title?: string
+  description?: string
+  status?: StepStatus
+  disabled?: boolean
 }
 
 export class Step extends VarComponent {
@@ -19,6 +18,8 @@ export class Step extends VarComponent {
 
   $slots: {
     default(): VNode[]
+    icon(data: { step: number; status: StepStatus }): VNodeChild
+    description(): VNode[]
   }
 }
 

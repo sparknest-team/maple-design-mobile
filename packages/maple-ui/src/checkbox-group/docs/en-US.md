@@ -229,86 +229,7 @@ const value = ref([])
 </template>
 ```
 
-### Checkbox Validation
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox
-    v-model="value"
-    :rules="v => v || 'Please check your choices'"
-  >
-    Current value: {{ value }}
-  </mp-checkbox>
-</template>
-```
-
-### Checkbox Validation With Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox
-    v-model="value"
-    :rules="z.boolean().refine(v => v, 'Please check your choices')"
-  >
-    Current value: {{ value }}
-  </mp-checkbox>
-</template>
-```
-
-### CheckboxGroup Validate
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group
-    v-model="value"
-    :rules="v => v.length === 2 || 'Please check all'"
-  >
-    <mp-checkbox :checked-value="0">Eat</mp-checkbox>
-    <mp-checkbox :checked-value="1">Sleep</mp-checkbox>
-  </mp-checkbox-group>
-</template>
-```
-
-### CheckboxGroup Validate with Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group
-    v-model="value"
-    :rules="z.array(z.number()).length(2, 'Please check all')"
-  >
-    <mp-checkbox :checked-value="0">Eat</mp-checkbox>
-    <mp-checkbox :checked-value="1">Sleep</mp-checkbox>
-  </mp-checkbox-group>
-</template>
-```
-
+> For form validation of checkbox and checkbox group, please use the [FormItem component](#/en-US/form-item).
 
 ## API
 
@@ -324,7 +245,6 @@ const value = ref([])
 | `options` ***3.2.11*** | Specifies options | _CheckboxGroupOption[]_ | `[]` |
 | `label-key` ***3.2.12*** | As the key that uniquely identifies label | _string_ | `label` |
 | `value-key` ***3.2.12*** | As the key that uniquely identifies value | _string_ | `value` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: any[]) => any) \| ZodType \| Array<((v: any[]) => any) \| ZodType>_ | `-` |
 
 #### CheckboxGroupOption 
 
@@ -348,7 +268,6 @@ const value = ref([])
 | `readonly` | Whether the readonly | _boolean_ | `false` |
 | `indeterminate` | Whether indeterminate status(style has the highest priority) | _boolean_ | `false` |
 | `ripple` | Whether to open ripple | _boolean_ | `true` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _(v: string) => any \| ZodType \| Array<(v: string) => any \| ZodType>_ | `-` |
 
 ### Methods
 
@@ -356,9 +275,6 @@ const value = ref([])
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clearing validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding(set to `[]`) and validate messages | `-` | `-` |
 | `checkAll` | Check all | `-` | `value: any[]` |
 | `inverseAll` | Inverse all | `-` | `value: any[]` |
 
@@ -366,9 +282,6 @@ const value = ref([])
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clearing validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding(set to `unchecked-value`) and validate messages | `-` | `-` |
 | `toggle` | Toggle the checked state, pass `checked-value` to check, `unchecked-value` to uncheck, do not pass or other cases to reverse | `value?: any` | `-` |
 
 ### Events

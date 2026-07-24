@@ -35,6 +35,15 @@
   padding: 0;
   color: var(--mp-pagination-text-color);
 
+  &__list,
+  &__simple-wrap {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   &__item {
     display: inline-flex;
     min-width: var(--mp-pagination-item-width);
@@ -117,6 +126,7 @@
     }
   }
 
+  &__jumper,
   &__quickly,
   &__simple {
     .mp-pagination-flex-nowrap();
@@ -139,6 +149,14 @@
       height: 1px;
       background: transparent;
     }
+  }
+
+  &__jumper-prepend {
+    margin-right: 6px;
+  }
+
+  &__jumper-append {
+    margin-left: 6px;
   }
 
   &__quickly {

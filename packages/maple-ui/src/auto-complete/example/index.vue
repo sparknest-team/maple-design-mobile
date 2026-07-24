@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, watchLang } from '@maplejs/maple-cli/client'
-import { z } from 'zod'
 import { t, use } from './locale'
 
 const { value: standardValue, options: standardOptions } = useAutoComplete()
@@ -9,26 +8,22 @@ const { value: standardValue2, options: standardOptions2 } = useAutoComplete()
 const { value: standardValue3, options: standardOptions3 } = useAutoComplete()
 const { value: standardValue4, options: standardOptions4 } = useAutoComplete()
 const { value: standardValue5, options: standardOptions5 } = useAutoComplete()
-const { value: standardValue6, options: standardOptions6 } = useAutoComplete()
 const { value: standardValue7, options: standardOptions7 } = useAutoComplete()
 const { value: standardValue8, options: standardOptions8 } = useAutoComplete()
 const { value: standardValue9, options: standardOptions9 } = useAutoComplete()
 const { value: standardValue10, options: standardOptions10 } = useAutoComplete()
 const { value: standardValue11, options: standardOptions11 } = useAutoComplete()
-const { value: standardValue12, options: standardOptions12 } = useAutoComplete()
 
 const { value: outlinedValue, options: outlinedOptions } = useAutoComplete()
 const { value: outlinedValue2, options: outlinedOptions2 } = useAutoComplete()
 const { value: outlinedValue3, options: outlinedOptions3 } = useAutoComplete()
 const { value: outlinedValue4, options: outlinedOptions4 } = useAutoComplete()
 const { value: outlinedValue5, options: outlinedOptions5 } = useAutoComplete()
-const { value: outlinedValue6, options: outlinedOptions6 } = useAutoComplete()
 const { value: outlinedValue7, options: outlinedOptions7 } = useAutoComplete()
 const { value: outlinedValue8, options: outlinedOptions8 } = useAutoComplete()
 const { value: outlinedValue9, options: outlinedOptions9 } = useAutoComplete()
 const { value: outlinedValue10, options: outlinedOptions10 } = useAutoComplete()
 const { value: outlinedValue11, options: outlinedOptions11 } = useAutoComplete()
-const { value: outlinedValue12, options: outlinedOptions12 } = useAutoComplete()
 
 watchLang(use)
 
@@ -63,18 +58,6 @@ function useAutoComplete() {
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete
-      v-model="standardValue6"
-      :placeholder="t('validate')"
-      :options="standardOptions6"
-      :rules="[(v) => v.length > 6 || t('maxMessage')]"
-    />
-    <mp-auto-complete
-      v-model="standardValue12"
-      :placeholder="t('validateWithZod')"
-      :options="standardOptions12"
-      :rules="z.string().min(7, { message: t('maxMessage') })"
-    />
     <mp-auto-complete v-model="standardValue7" :placeholder="t('displayIcon')" :options="standardOptions7">
       <template #prepend-icon>
         <mp-icon class="prepend-icon" name="github" />
@@ -151,20 +134,6 @@ function useAutoComplete() {
         <mp-icon name="error" @click="clear" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete
-      v-model="outlinedValue6"
-      variant="outlined"
-      :placeholder="t('validate')"
-      :options="outlinedOptions6"
-      :rules="[(v) => v.length > 6 || t('maxMessage')]"
-    />
-    <mp-auto-complete
-      v-model="outlinedValue12"
-      variant="outlined"
-      :placeholder="t('validateWithZod')"
-      :options="outlinedOptions12"
-      :rules="z.string().min(7, { message: t('maxMessage') })"
-    />
     <mp-auto-complete
       v-model="outlinedValue7"
       variant="outlined"

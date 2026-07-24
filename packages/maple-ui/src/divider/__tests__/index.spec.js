@@ -10,81 +10,85 @@ test('divider plugin', () => {
 })
 
 describe('test divider components props', () => {
-  test('divider inset', async () => {
+  test('divider orientation', async () => {
     const wrapper = mount(VarDivider, {
-      props: {
-        inset: true,
-      },
+      props: { orientation: 'vertical' },
     })
-
-    expect(wrapper.find('.mp-divider--inset').exists()).toBe(true)
-    await wrapper.setProps({ inset: false })
-    expect(wrapper.find('.mp-divider--inset').exists()).toBe(false)
-    await wrapper.setProps({ inset: 36 })
-    expect(wrapper.find('.mp-divider').attributes('style')).toContain('left: 36px;')
+    expect(wrapper.find('.mp-divider--orientation-vertical').exists()).toBe(true)
+    await wrapper.setProps({ orientation: 'horizontal' })
+    expect(wrapper.find('.mp-divider--orientation-horizontal').exists()).toBe(true)
     wrapper.unmount()
   })
 
-  test('divider vertical', async () => {
-    const wrapper = mount(VarDivider, {
-      props: {
-        vertical: true,
-        inset: 30,
-      },
+  test('divider type', async () => {
+    ;['solid', 'dashed', 'dotted', 'double'].forEach((type) => {
+      const wrapper = mount(VarDivider, { props: { type } })
+      expect(wrapper.find(`.mp-divider--type-${type}`).exists()).toBe(true)
+      wrapper.unmount()
     })
+  })
 
-    expect(wrapper.find('.mp-divider--vertical').exists()).toBe(true)
-    await wrapper.setProps({ vertical: false })
-    expect(wrapper.find('.mp-divider--vertical').exists()).toBe(false)
+  test('divider textAlign', () => {
+    const wrapper = mount(VarDivider, {
+      props: { description: 'text', textAlign: 'start' },
+    })
+    expect(wrapper.find('.mp-divider--text-align-start').exists()).toBe(true)
+    expect(wrapper.find('.mp-divider--with-text').exists()).toBe(true)
     wrapper.unmount()
   })
 
-  test('divider dashed', async () => {
+  test('divider sizeX custom', () => {
     const wrapper = mount(VarDivider, {
-      props: {
-        dashed: true,
-      },
+      props: { sizeX: 36 },
     })
+    const style = wrapper.find('.mp-divider').attributes('style') || ''
+    expect(style).toContain('margin-inline-start')
+    expect(style).toContain('36px')
+    wrapper.unmount()
+  })
 
-    expect(wrapper.find('.mp-divider--dashed').exists()).toBe(true)
-    await wrapper.setProps({ dashed: false })
-    expect(wrapper.find('.mp-divider--dashed').exists()).toBe(false)
+  test('divider sizeY preset', () => {
+    const wrapper = mount(VarDivider, {
+      props: { sizeY: 'lg' },
+    })
+    expect(wrapper.find('.mp-divider--size-y-lg').exists()).toBe(true)
     wrapper.unmount()
   })
 
   test('divider description', () => {
     const wrapper = mount(VarDivider, {
-      props: {
-        description: 'This is description',
-        vertical: false,
-      },
+      props: { description: 'This is description' },
     })
-
     expect(wrapper.find('.mp-divider__text').element.textContent).toBe('This is description')
     wrapper.unmount()
   })
 
-  test('divider margin', () => {
+  test('divider thickness and color', () => {
     const wrapper = mount(VarDivider, {
-      props: {
-        margin: '20px',
-      },
+      props: { thickness: 3, color: '#ff0000' },
     })
-
-    expect(wrapper.find('.mp-divider').attributes('style')).toContain('margin: 20px;')
+    const style = wrapper.find('.mp-divider').attributes('style') || ''
+    expect(style).toContain('--mp-divider-border-width')
+    expect(style).toContain('--mp-divider-color')
     wrapper.unmount()
   })
 
   test('divider hairline', async () => {
     const wrapper = mount(VarDivider, {
-      props: {
-        hairline: true,
-      },
+      props: { hairline: true },
     })
-
     expect(wrapper.find('.mp-divider--hairline').exists()).toBe(true)
     await wrapper.setProps({ hairline: false })
     expect(wrapper.find('.mp-divider--hairline').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  test('divider default slot', () => {
+    const wrapper = mount(VarDivider, {
+      slots: { default: () => 'slot content' },
+    })
+    expect(wrapper.find('.mp-divider--with-text').exists()).toBe(true)
+    expect(wrapper.text()).toContain('slot content')
     wrapper.unmount()
   })
 })

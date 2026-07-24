@@ -1,0 +1,94 @@
+:root {
+  --mp-date-range-label-font-size: 16px;
+  --mp-date-range-arrow-size: 20px;
+  --mp-date-range-toolbar-height: var(--mp-picker-toolbar-height, 44px);
+  --mp-date-range-toolbar-padding: var(--mp-picker-toolbar-padding, 0 4px);
+  --mp-date-range-title-text-color: var(--mp-picker-title-text-color, #555);
+  --mp-date-range-title-font-size: var(--mp-picker-title-font-size, 16px);
+  --mp-date-range-cancel-button-text-color: var(--mp-picker-cancel-button-text-color, #888);
+  --mp-date-range-confirm-button-text-color: var(--mp-picker-confirm-button-text-color, var(--mp-color-primary));
+}
+
+.mp-date-range {
+  width: 100%;
+  text-align: left;
+  outline: none;
+
+  &__select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 24px;
+    outline: none;
+    border: none;
+    font-size: inherit;
+    color: var(--mp-field-decorator-text-color);
+    word-break: break-all;
+    overflow: hidden;
+    transition: color 0.25s;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    font-size: var(--mp-date-range-label-font-size);
+  }
+
+  &__placeholder {
+    max-width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: var(--mp-field-decorator-placeholder-size);
+    line-height: 1.5em;
+    color: var(--mp-field-decorator-blur-color);
+    pointer-events: none;
+    cursor: inherit;
+  }
+
+  &__arrow[mp-date-range-cover] {
+    flex-shrink: 0;
+    font-size: var(--mp-date-range-arrow-size);
+  }
+
+  &--arrow-rotate {
+    transform: rotate(180deg);
+  }
+
+  &--disabled {
+    color: var(--mp-field-decorator-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--error {
+    color: var(--mp-field-decorator-error-color);
+  }
+
+  &__panel {
+    background: var(--mp-color-surface-container-high);
+  }
+
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: var(--mp-date-range-toolbar-height);
+    padding: var(--mp-date-range-toolbar-padding);
+  }
+
+  &__title {
+    color: var(--mp-date-range-title-text-color);
+    font-size: var(--mp-date-range-title-font-size);
+  }
+
+  &__cancel-button[mp-date-range-cover] {
+    color: var(--mp-date-range-cancel-button-text-color);
+  }
+
+  &__confirm-button[mp-date-range-cover] {
+    color: var(--mp-date-range-confirm-button-text-color);
+  }
+}

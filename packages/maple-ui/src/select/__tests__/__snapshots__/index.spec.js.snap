@@ -26,9 +26,6 @@ exports[`select focus & blur methods 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -58,9 +55,6 @@ exports[`select focus & blur methods 2`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -88,9 +82,6 @@ exports[`select hint to be false 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -120,52 +111,6 @@ exports[`select size 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`select validation 1`] = `
-"<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
-    <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-      <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: pointer; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-        <div class="mp-field-decorator__icon"></div>
-        <div class="mp-field-decorator__middle">
-          <div class="mp-select__select mp-select--error" style="text-align: left;">
-            <div class="mp-select__label">
-              <!--v-if-->
-            </div>
-            <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
-          </div>
-        </div>
-        <!--v-if-->
-        <div class="mp-field-decorator__icon">
-          <!--v-if-->
-        </div>
-      </div>
-      <div class="mp-field-decorator__line mp-field-decorator--line-error">
-        <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-      </div>
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must choose one option</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
 </div>"
 `;
 
@@ -195,9 +140,6 @@ exports[`select variant 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -229,9 +171,6 @@ exports[`select variant 2`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -257,9 +196,6 @@ exports[`test select component slots > select append icon slot 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -285,9 +221,6 @@ exports[`test select component slots > select clear icon slot 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
 </div>"
 `;
 
@@ -313,49 +246,5 @@ exports[`test select component slots > select prepend icon slot 1`] = `
     <!--teleport start-->
     <!--teleport end-->
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-</div>"
-`;
-
-exports[`test select validation with zod > string 1`] = `
-"<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
-    <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-      <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-        <div class="mp-field-decorator__icon"></div>
-        <div class="mp-field-decorator__middle">
-          <div class="mp-select__select mp-select--error" style="text-align: left;">
-            <div class="mp-select__label"><span>maple-ui</span></div>
-            <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
-          </div>
-        </div>
-        <!--v-if-->
-        <div class="mp-field-decorator__icon">
-          <!--v-if-->
-        </div>
-      </div>
-      <div class="mp-field-decorator__line mp-field-decorator--line-error">
-        <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-      </div>
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>Invalid option. expect to be \`maple\`</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
 </div>"
 `;

@@ -13,7 +13,7 @@
     >
       <div
         :style="styleComputed.track"
-        :class="classes(n('track'), [isActive, n('track--active')], [errorMessage && !variant, n('track--error')])"
+        :class="classes(n('track'), [isActive, n('track--active')], [mergedError && !variant, n('track--error')])"
       ></div>
       <div
         v-ripple="{
@@ -32,7 +32,7 @@
               n('handle'),
               formatElevation(buttonElevation, 2),
               [isActive, n('handle--active')],
-              [errorMessage && !variant, n('handle--error')],
+              [mergedError && !variant, n('handle--error')],
               [hovering, n('handle--hover')],
             )
           "
@@ -57,23 +57,21 @@
         />
       </div>
     </div>
-    <mp-form-details :error-message="errorMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
 import Ripple from '../ripple'
-import { createNamespace, formatElevation, useValidation } from '../utils/components'
+import { createNamespace, formatElevation } from '../utils/components'
 import { multiplySizeUnit } from '../utils/elements'
-import { props, type SwitchValidateTrigger } from './props'
-import { type SwitchProvider } from './provide'
+import { props } from './props'
 
 const { name, n, classes } = createNamespace('switch')
 
@@ -89,7 +87,6 @@ type StyleProps = {
 export default defineComponent({
   name,
   components: {
-    MpFormDetails,
     MpHoverOverlay,
   },
   directives: { Ripple, Hover },
@@ -97,8 +94,8 @@ export default defineComponent({
   setup(props) {
     const switchRef = ref<HTMLElement | null>(null)
     const isFocusing = ref(false)
-    const { bindForm, form } = useForm()
-    const { errorMessage, validateWithTrigger: vt, validate: v, resetValidation } = useValidation()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
     const { hovering, handleHovering } = useHoverOverlay()
 
     const isActive = computed(() => props.modelValue === props.activeValue)
@@ -123,7 +120,7 @@ export default defineComponent({
           width: multiplySizeUnit(size, variant ? 13 / 6 : 1.9),
           height: multiplySizeUnit(size, variant ? 4 / 3 : 0.72),
           borderRadius: multiplySizeUnit(size, 2 / 3),
-          filter: isActive.value || errorMessage?.value ? undefined : `brightness(${variant ? 1 : 0.6})`,
+          filter: isActive.value || mergedError.value ? undefined : `brightness(${variant ? 1 : 0.6})`,
           backgroundColor: isActive.value ? color : closeColor,
           borderWidth: variant && !isActive.value ? multiplySizeUnit(size, 1 / 12) : undefined,
         },
@@ -135,14 +132,6 @@ export default defineComponent({
     })
 
     const radius = computed(() => multiplySizeUnit(props.size, 0.8))
-
-    const switchProvider: SwitchProvider = {
-      reset,
-      validate,
-      resetValidation,
-    }
-
-    call(bindForm, switchProvider)
 
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)
@@ -168,17 +157,6 @@ export default defineComponent({
 
       preventDefault(event)
       switchRef.value!.click()
-    }
-
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
-    function validateWithTrigger(trigger: SwitchValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
     }
 
     function switchActive(event: Event) {
@@ -210,12 +188,12 @@ export default defineComponent({
       if (lazyChange) {
         call(onBeforeChange, newValue, (value) => {
           call(updateModelValue, value)
-          validateWithTrigger('onLazyChange')
+          eventHandlers.value.onChange?.()
         })
       } else {
         call(onChange, newValue)
         call(updateModelValue, newValue)
-        validateWithTrigger('onChange')
+        eventHandlers.value.onChange?.()
       }
     }
 
@@ -227,11 +205,6 @@ export default defineComponent({
       handleHovering(value)
     }
 
-    function reset() {
-      call(props['onUpdate:modelValue'], props.inactiveValue)
-      resetValidation()
-    }
-
     return {
       isActive,
       switchRef,
@@ -239,7 +212,7 @@ export default defineComponent({
       isFocusing,
       radius,
       styleComputed,
-      errorMessage,
+      mergedError,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
       n,
@@ -258,7 +231,6 @@ export default defineComponent({
 @import '../styles/elevation';
 @import '../ripple/ripple';
 @import '../loading/loading';
-@import '../form-details/formDetails';
 @import '../hover-overlay/hoverOverlay';
 @import './switch';
 </style>

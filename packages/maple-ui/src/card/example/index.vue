@@ -51,7 +51,7 @@ onThemeChange()
     </template>
 
     <template #floating-content>
-      <mp-divider dashed margin="32px 0"></mp-divider>
+      <mp-divider type="dashed" size-y="32px"></mp-divider>
       <div class="card-example-text">
         {{ t('description') }}
       </div>

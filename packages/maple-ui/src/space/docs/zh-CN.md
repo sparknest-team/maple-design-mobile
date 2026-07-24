@@ -111,7 +111,7 @@
 |-------------|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------|------------|
 | `direction` | 布局方向 可选值为 `row` `column`                                                                            | _string_                                                 | `row`      |
 | `justify`   | 主轴排列方式 可选值为 `flex-start` `flex-end` `center` `space-around` `space-between` `space-evenly`           | _string_                                                 | `flex-start` |
-| `align`     | 交叉轴排列方式 可选值为 `stretch` `center` `flex-start` `flex-end` `baseline`，未传时根据 `direction` 推断              | _string_                                                 | `-`        |
+| `align`     | 交叉轴排列方式 可选值为 `stretch` `center` `flex-start` `flex-end` `baseline`，未传时根据 `direction` 推断（`row` → `center`，`column` → `stretch`） | _string_                                                 | `-`        |
 | `size`      | 间距，可选值为 `xs` `sm` `md` `lg` `xl` 或 `[行间距, 列间距]` (支持长度单位)                                            | _string \| number \| [string \| number, string \| number]_ | `md`       |
 | `wrap`      | 是否超出换行                                                                                              | _boolean_                                                | `true`     |
 | `block`     | 是否撑满父容器宽度                                                                                           | _boolean_                                                | `true`     |

@@ -3,14 +3,11 @@ import {
   BasicAttributes,
   ListenerProp,
   Direction as RadioGroupDirection,
-  Rules as RadioGroupRules,
   SetPropsDefaults,
   VarComponent,
 } from './varComponent'
 
 export declare const radioGroupProps: Record<keyof RadioGroupProps, any>
-
-export type RadioGroupValidateTrigger = 'onChange'
 
 export type RadioGroupOptionLabelRender = (option: RadioGroupOption, checked: boolean) => VNodeChild
 
@@ -31,8 +28,6 @@ export interface RadioGroupProps extends BasicAttributes {
   ariaLabel?: string
   labelKey?: string
   valueKey?: string
-  validateTrigger?: RadioGroupValidateTrigger[]
-  rules?: RadioGroupRules
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
 }
@@ -45,12 +40,6 @@ export class RadioGroup extends VarComponent {
   $slots: {
     default(): VNode[]
   }
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 }
 
 export class _RadioGroupComponent extends RadioGroup {}

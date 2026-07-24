@@ -158,38 +158,7 @@ function handleChange(score) {
 </template>
 ```
 
-### Validate
-
-The values are validated by passing in an array of validators. If the validator returns `true`, the validation passes.
-Other values are converted to text as a user prompt.
-
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate :rules="v => v > 2 || 'It has to be greater than 2'" v-model="score"/>
-</template>
-```
-
-### Validate With Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate :rules="z.number().min(3, 'It has to be greater than 2')" v-model='score'/>
-</template>
-```
+> For form validation of the rate, please use the [FormItem component](#/en-US/form-item).
 
 ## API
 
@@ -215,7 +184,6 @@ const score = ref(3)
 | `readonly`       | Whether it is in readonly status. The rating cannot be modified in readonly status. | _boolean_ | `false` |
 | `clearable`      | whether to allow to clear | _boolean_ | `false` |
 | `ripple`         | Whether to use water ripple | _boolean_ | `true` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: number) => any) \| ZodType \| Array<((v: number) => any) \| ZodType>_ | `-` |
 
 ### Events
 

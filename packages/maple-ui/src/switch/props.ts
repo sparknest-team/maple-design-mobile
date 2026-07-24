@@ -1,7 +1,4 @@
-import { type PropType } from 'vue'
 import { defineListenerProp } from '../utils/components'
-
-export type SwitchValidateTrigger = 'onChange' | 'onLazyChange'
 
 export const props = {
   modelValue: {
@@ -22,7 +19,6 @@ export const props = {
   closeColor: String,
   size: [String, Number],
   variant: Boolean,
-  rules: [Array, Function, Object] as PropType<any>,
   ripple: {
     type: Boolean,
     default: true,
@@ -30,10 +26,6 @@ export const props = {
   buttonElevation: {
     type: [Boolean, String, Number],
     default: true,
-  },
-  validateTrigger: {
-    type: Array as PropType<Array<SwitchValidateTrigger>>,
-    default: () => ['onChange', 'onLazyChange'],
   },
   onClick: defineListenerProp<(event: Event) => void>(),
   onBeforeChange: defineListenerProp<(value: any, change: (value: any) => void) => void>(),

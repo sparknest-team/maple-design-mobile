@@ -7,43 +7,36 @@ onThemeChange()
 </script>
 
 <template>
+  <app-type>{{ t('basicUsage') }}</app-type>
+  <mp-pagination :current="1" :total="50" />
+
+  <app-type>{{ t('morePages') }}</app-type>
+  <mp-pagination :simple="false" :current="5" :total="200" />
+
+  <app-type>{{ t('showPageSize') }}</app-type>
+  <mp-pagination :simple="false" :current="1" :total="50" show-page-size />
+
+  <app-type>{{ t('showJumper') }}</app-type>
+  <mp-pagination :simple="false" :current="1" :total="50" show-jumper />
+
   <app-type>{{ t('simple') }}</app-type>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-pagination :current="1" :total="20" />
-
-  <app-type>{{ t('hideSize') }}</app-type>
-  <mp-pagination :current="1" :total="20" :show-size-changer="false" />
+  <mp-pagination :current="1" :total="50" />
 
   <app-type>{{ t('showTotal') }}</app-type>
-  <mp-pagination
-    :current="1"
-    :total="20"
-    :show-size-changer="false"
-    :show-total="(total) => `${t('total')} ${total} ${t('item')}`"
-  />
+  <mp-pagination :current="1" :total="50" show-total>
+    <template #total="{ total }">{{ t('total') }} {{ total }} {{ t('item') }}</template>
+  </mp-pagination>
 
   <app-type>{{ t('disabled') }}</app-type>
-  <mp-pagination :current="1" :total="20" disabled />
+  <mp-pagination :current="1" :total="50" disabled />
 
-  <app-type style="margin-top: 20px">{{ t('basic') }}</app-type>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-pagination :simple="false" :current="1" :total="20" />
+  <app-type>{{ t('all') }}</app-type>
+  <mp-pagination :simple="false" :current="1" :total="50" show-total show-jumper show-page-size />
 
-  <app-type>{{ t('hideSize') }}</app-type>
-  <mp-pagination :current="1" :total="20" :simple="false" :show-size-changer="false" />
-
-  <app-type>{{ t('showTotal') }}</app-type>
-  <mp-pagination
-    :current="1"
-    :total="20"
-    :simple="false"
-    :show-size-changer="false"
-    :show-total="(total) => `${t('total')} ${total} ${t('item')}`"
-  />
-
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-pagination :simple="false" :current="1" :total="20" disabled />
-
-  <app-type>{{ t('quickJumper') }}</app-type>
-  <mp-pagination :simple="false" :current="1" :total="20" :show-size-changer="false" show-quick-jumper />
+  <app-type>{{ t('customButton') }}</app-type>
+  <mp-pagination :simple="false" :current="1" :total="50">
+    <template #page-item-step="{ type }">
+      {{ type === 'previous' ? t('prev') : t('next') }}
+    </template>
+  </mp-pagination>
 </template>

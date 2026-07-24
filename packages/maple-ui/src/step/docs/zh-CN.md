@@ -4,15 +4,15 @@
 
 | 参数 | 说明 | 类型 | 默认值 |
 | ----- | -------------- | -------- | ---------- |
-| `active-icon` | 激活状态图标  | _string_ | `check` |
-| `current-icon` | 当前步骤时的图标 | _string_ | `-` |
-| `inactive-icon` | 未激活状态图标 | _string_ | `-` |
-| `active-icon-namespace` | 激活状态图标命名空间  | _string_ | `mp-icon` |
-| `current-icon-namespace` | 当前步骤时的图标命名空间 | _string_ | `mp-icon` |
-| `inactive-icon-namespace` | 未激活状态图标命名空间 | _string_ | `mp-icon` |
+| `title` | 步骤标题 | _string_ | `-` |
+| `description` | 步骤描述 | _string_ | `-` |
+| `status` | 步骤状态（覆盖自动推导） | _'wait' \| 'process' \| 'finish' \| 'error'_ | `-` |
+| `disabled` | 是否禁用 | _boolean_ | `false` |
 
 ### 插槽
 
 | 名称 | 说明 | 参数 |
 | ----- | -------------- | -------- |
-| `default` | step 的内容 | - |
+| `default` | 步骤标题（优先于 `title`） | `-` |
+| `icon` | 自定义节点图标 | `{ step: number, status: string }` |
+| `description` | 步骤描述 | `-` |

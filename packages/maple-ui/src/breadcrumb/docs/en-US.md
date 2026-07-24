@@ -2,71 +2,81 @@
 
 ### Intro
 
-Used to display information hierarchically.
+Identify the page location in a hierarchy and navigate upward when needed. The API aligns with Cedar Design Web core features (`routes` / `max-count` / separator slots). Sticky positioning is not included for mobile.
 
 ### Basic Usage
 
 ```html
 <template>
-   <mp-breadcrumb>
-     <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-     <mp-breadcrumb-item>Link 1</mp-breadcrumb-item>
-     <mp-breadcrumb-item>Link 2</mp-breadcrumb-item>
-   </mp-breadcrumb>
+  <mp-breadcrumb>
+    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Level 1</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Level 2</mp-breadcrumb-item>
+  </mp-breadcrumb>
 </template>
 ```
 
 ### Separator
 
-```html
-<template>
-   <mp-breadcrumb separator="\">
-     <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-     <mp-breadcrumb-item>Link 1</mp-breadcrumb-item>
-     <mp-breadcrumb-item>Link 2</mp-breadcrumb-item>
-   </mp-breadcrumb>
-</template>
-```
-
-### Child Separator
+Customize separator via parent/child `separator` prop or `#separator` slot. Child takes precedence.
 
 ```html
 <template>
-   <mp-breadcrumb>
-     <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-     <mp-breadcrumb-item separator="~">Link 1</mp-breadcrumb-item>
-     <mp-breadcrumb-item>Link 2</mp-breadcrumb-item>
-   </mp-breadcrumb>
-</template>
-```
+  <mp-breadcrumb separator="\">
+    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Level 2</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Level 3</mp-breadcrumb-item>
+  </mp-breadcrumb>
 
-### Separator Slot
-
-Custom content can be used as separator by setting slot.
-
-```html
-<template>
   <mp-breadcrumb>
-    <mp-breadcrumb-item>
-      Home
-      <template #separator>
-        <mp-icon name="menu-right" style="margin: 1px 4px 0" />
-      </template>
-    </mp-breadcrumb-item>
-    <mp-breadcrumb-item>
-      Link 1
-      <template #separator>
-        <mp-icon name="menu-right" style="margin: 1px 4px 0" />
-      </template>
-    </mp-breadcrumb-item>
-    <mp-breadcrumb-item>Link 2</mp-breadcrumb-item>
+    <template #separator>
+      <mp-icon name="menu-right" style="margin: 1px 4px 0" />
+    </template>
+    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Level 1</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Level 2</mp-breadcrumb-item>
   </mp-breadcrumb>
 </template>
 ```
 
-### Click Event
+### Routes
 
-Register the click event of the breadcrumb through `@click`, the last breadcrumb will not trigger the click event.
+Pass breadcrumb data via `routes`. Default rendering uses `a[href]`. Customize with `#item-render` or `custom-url`.
+
+```html
+<script setup>
+const routes = [
+  { path: '/', label: 'Home' },
+  { path: '/channel', label: 'Channel' },
+  { path: '/news', label: 'News' },
+]
+</script>
+
+<template>
+  <mp-breadcrumb :routes="routes" />
+</template>
+```
+
+### Max Count
+
+Limit visible items with `max-count`. Overflow is collapsed into an ellipsis. Customize with `#more-icon`.
+
+```html
+<template>
+  <mp-breadcrumb :max-count="3">
+    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Sub Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item>All Channel</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Channel</mp-breadcrumb-item>
+    <mp-breadcrumb-item>News</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Post</mp-breadcrumb-item>
+  </mp-breadcrumb>
+</template>
+```
+
+### Link & Click
+
+Use `href` to render a link. `@click` fires for non-last items.
 
 ```html
 <script setup>
@@ -75,9 +85,9 @@ import { Message } from '@maplejs/maple-ui'
 
 <template>
   <mp-breadcrumb>
-    <mp-breadcrumb-item @click="Message('Home')">Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item @click="Message('Link 1')">Link 1</mp-breadcrumb-item>
-    <mp-breadcrumb-item @click="Message('Link 2')">Link 2</mp-breadcrumb-item>
+    <mp-breadcrumb-item href="#/home" @click="Message('Home')">Home</mp-breadcrumb-item>
+    <mp-breadcrumb-item href="#/list" @click="Message('List')">List</mp-breadcrumb-item>
+    <mp-breadcrumb-item>Detail</mp-breadcrumb-item>
   </mp-breadcrumb>
 </template>
 ```
@@ -88,47 +98,65 @@ import { Message } from '@maplejs/maple-ui'
 
 #### Breadcrumb Props
 
-| Prop               | Description          | Type               | Default      |
-| ----------- | ------ | -------- | ------ |
-| `separator` | Separator | _string_ | `/` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `separator` | Separator | _string \| number_ | `/` |
+| `max-count` | Max visible count, `0` means unlimited | _number_ | `0` |
+| `routes` | Route data (used when default slot is empty) | _BreadcrumbRoute[]_ | `-` |
+| `custom-url` | Custom link builder in routes mode | _(paths: string[]) => string_ | `-` |
 
 #### BreadcrumbItem Props
 
-| Prop       | Description            | Type               | Default |
-| ----------- | -------------- | ----------------------------- |-----|
-| `separator` | Separator | _string_ | `-` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `separator` | Separator (overrides parent) | _string \| number_ | `-` |
+| `href` | Link URL (not applied on the last item) | _string_ | `-` |
 
 ### Events
 
 #### BreadcrumbItem Events
 
-| Event    | Description   | Arguments                 |
-| ------- |-----------------------------------------| ---------------------- |
-| `click` | Triggered when a breadcrumb is clicked | `event: Event` |
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `click` | Fired on click (not for last / ellipsis item) | `event: Event` |
 
 ### Slots
 
-#### Breadcrumb Slots
+#### BreadcrumbSlots
 
-| Name | Description | SlotProps |
-| --------- | -------------- | ---- |
-| `default` | Customize the default content | `-` |
+| Slot | Description | Arguments |
+| --- | --- | --- |
+| `default` | Breadcrumb items | `-` |
+| `separator` | Custom separator | `-` |
+| `item-render` | Custom render in routes mode | `route` `routes` `paths` |
+| `more-icon` | Custom ellipsis icon | `-` |
 
 #### BreadcrumbItem Slots
 
-| Name | Description | SlotProps |
-| ----------- |------------------------------| ---- |
-| `default` | Customize the default content | `-` |
-| `separator` | Customize separator content  | `-` |
+| Slot | Description | Arguments |
+| --- | --- | --- |
+| `default` | Item content | `-` |
+| `separator` | Custom separator (priority over parent) | `-` |
+
+### Type Definitions
+
+```ts
+interface BreadcrumbRoute {
+  label: string
+  path: string
+  children?: { label: string; path: string }[]
+}
+```
 
 ### Style Variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+Customize via [StyleProvider](#/en-US/style-provider).
+
 #### BreadcrumbItem Variables
 
-| Variable                        | Default                |
-| -------------------------------------- | ---------------------- |
-| `--breadcrumb-item-active-color` | `var(--color-primary)` |
-| `--breadcrumb-item-inactive-color` | `#888` |
-| `--breadcrumb-item-separator-margin` | `0 10px` |
-| `--breadcrumb-item-separator-font-size` | `14px` |
+| Variable | Default |
+| --- | --- |
+| `--mp-breadcrumb-item-active-color` | `var(--mp-color-primary)` |
+| `--mp-breadcrumb-item-inactive-color` | `#888` |
+| `--mp-breadcrumb-item-separator-margin` | `0 10px` |
+| `--mp-breadcrumb-item-separator-font-size` | `14px` |

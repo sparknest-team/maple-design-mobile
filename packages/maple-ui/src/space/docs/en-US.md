@@ -97,7 +97,7 @@ so that you can do flex layout more efficiently.
 |-------------|---------------------------------------------------------------------------------------------------------|----------|---------|
 | `direction` | Layout direction, can be set to `row` `column`                                                          | _string_ | `row`   |
 | `justify`   | Main axis arrangement, Can be set to `flex-start` `flex-end` `center` `space-around` `space-between`             | _string_ | `flex-start` |
-| `align`     | Cross axis arrangement, Can be set to `stretch` `center` `flex-start` `flex-end` `baseline`                         | _string_ | `-`     |
+| `align`     | Cross axis arrangement, Can be set to `stretch` `center` `flex-start` `flex-end` `baseline`. Inferred when omitted (`row` → `center`, `column` → `stretch`) | _string_ | `-`     |
 | `size`      | Spacing, can be set to `mini` `small` `normal` `large` or `[Vertical, Horizontal]`(Support length unit) | _string \| number \| [string \| number, string \| number]_ |`normal`|
 | `wrap`      | Whether to exceed the line break                                                                        | _boolean_ | `true`  |
 | `inline`    | Is it an inline element                                                                                 | _boolean_ | `false` |

@@ -13,6 +13,15 @@ This section mainly introduces the considerations for migrating from `2.x` to `3
 - Progress component removed compatibility with `ripple` property
 - IndexBar component removes compatibility with `cssMode` property
 - LoadingBar component removed compatibility with `mergeConfig` method
+- Pagination API aligned with Cedar:
+  - `v-model:size` → `v-model:page-size`
+  - `show-size-changer` → `show-page-size` (default changed to `false`)
+  - `show-quick-jumper` → `show-jumper`
+  - `size-option` → `page-size-options`
+  - `max-pager-count` → `base-size` + `buffer-size`
+  - `show-total` changed from a function to `boolean`; use the `#total` slot for custom text
+  - `change(current, size)` → `change(current)` + `page-size-change(pageSize)`
+  - `#prev` / `#next` → `#page-item-step`
 
 ### Component style variable changes
 

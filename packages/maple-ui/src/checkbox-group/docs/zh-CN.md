@@ -228,86 +228,7 @@ const value = ref([])
 </template>
 ```
 
-### 复选框字段校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox
-    v-model="value"
-    :rules="v => v || '请勾选'"
-  >
-    当前的值: {{ value }}
-  </mp-checkbox>
-</template>
-```
-
-### 使用 Zod 校验复选框字段
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox
-    v-model="value"
-    :rules="z.boolean().refine(v => v, '请勾选')"
-  >
-    当前的值: {{ value }}
-  </mp-checkbox>
-</template>
-```
-
-### 复选框组字段校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group
-    v-model="value"
-    :rules="v => v.length === 2 || '请全选'"
-  >
-    <mp-checkbox :checked-value="0">吃饭</mp-checkbox>
-    <mp-checkbox :checked-value="1">睡觉</mp-checkbox>
-  </mp-checkbox-group>
-</template>
-```
-
-### 使用 Zod 校验复选框组字段
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group
-    v-model="value"
-    :rules="z.array(z.number()).length(2, '请全选')"
-  >
-    <mp-checkbox :checked-value="0">吃饭</mp-checkbox>
-    <mp-checkbox :checked-value="1">睡觉</mp-checkbox>
-  </mp-checkbox-group>
-</template>
-```
-
+> 复选框及复选框组的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ## API
 
@@ -323,7 +244,6 @@ const value = ref([])
 | `options` ***3.2.11*** | 指定可选项 | _CheckboxGroupOption[]_ | `[]` |
 | `label-key` ***3.2.12*** | 作为 label 唯一标识的键名 | _string_ | `label` |
 | `value-key` ***3.2.12*** | 作为 value 唯一标识的键名 | _string_ | `value` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: any[]) => any) \| ZodType \| Array<((v: any[]) => any) \| ZodType>_ | `-` |
 
 #### CheckboxGroupOption 
 
@@ -347,7 +267,6 @@ const value = ref([])
 | `readonly` | 是否只读 | _boolean_ | `false` |
 | `indeterminate` | 是否为不确定状态（样式优先级最高） | _boolean_ | `false` |
 | `ripple` | 是否开启水波纹 | _boolean_ | `true` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _(v: string) => any \| ZodType \| Array<(v: string) => any \| ZodType>_ | `-` |
 
 ### 方法
 
@@ -355,9 +274,6 @@ const value = ref([])
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(设置为 `[]`)和校验信息 | `-` | `-` |
 | `checkAll` | 全选 | `-` | `value: any[]` |
 | `inverseAll` | 反选 | `-` | `value: any[]` |
 
@@ -365,9 +281,6 @@ const value = ref([])
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(设置为 `unchecked-value`)和校验信息 | `-` | `-` |
 | `toggle` | 切换选中状态，传 `checked-value` 为选中， `unchecked-value` 为取消选中，不传或其他情况为取反 | `value?: any` | `-` |
 
 ### 事件

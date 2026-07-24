@@ -39,8 +39,7 @@
         v-model="value"
         autocomplete="off"
         :is-force-focusing-effect="isFocusing"
-        :is-force-error-effect="!!errorMessage"
-        :is-show-form-details="false"
+        :is-force-error-effect="mergedError"
         @input="handleInput"
         @blur="handleBlur"
         @clear="handleClear"
@@ -57,10 +56,6 @@
         <template v-if="$slots['clear-icon']" #clear-icon="{ clear }">
           <slot name="clear-icon" :clear="clear" />
         </template>
-
-        <template v-if="$slots['extra-message']" #extra-message>
-          <slot name="extra-message" />
-        </template>
       </mp-input>
 
       <template #options>
@@ -76,23 +71,20 @@
         </div>
       </template>
     </mp-menu-select>
-
-    <mp-form-details :error-message="errorMessage" :extra-message="maxlengthText" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
-import { call, isEmpty, preventDefault, raf, toNumber } from '@maplejs/maple-shared'
+import { defineComponent, ref, watch } from 'vue'
+import { call, preventDefault, raf, toNumber } from '@maplejs/maple-shared'
 import { useClickOutside, useEventListener, useVModel } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import MpInput from '../input'
 import MpMenuOption from '../menu-option'
 import MpMenuSelect from '../menu-select'
-import { createNamespace, useValidation } from '../utils/components'
-import { props, type AutoCompleteOption, type AutoCompleteValidateTrigger } from './props'
-import { AutoCompleteProvider } from './provide'
+import { createNamespace } from '../utils/components'
+import { props, type AutoCompleteOption } from './props'
 
 const { name, n } = createNamespace('auto-complete')
 
@@ -102,7 +94,6 @@ export default defineComponent({
     MpInput,
     MpMenuSelect,
     MpMenuOption,
-    MpFormDetails,
   },
   props,
   setup(props) {
@@ -114,37 +105,10 @@ export default defineComponent({
     const viewOptions = ref<AutoCompleteOption[]>([])
     const isShowMenuSelect = ref(false)
 
-    const maxlengthText = computed(() => {
-      const { maxlength } = props
-
-      if (!maxlength) {
-        return ''
-      }
-
-      if (isEmpty(value.value)) {
-        return `0 / ${maxlength}`
-      }
-
-      return `${String(value.value).length}/${maxlength}`
-    })
-
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
-
-    const { bindForm, form } = useForm()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
 
     let clearing = false
-
-    const autoCompleteProvider: AutoCompleteProvider = {
-      reset,
-      resetValidation,
-      validate,
-    }
 
     useClickOutside(
       () => root.value!,
@@ -163,20 +127,7 @@ export default defineComponent({
 
     watch(() => [props.options, isFocusing.value], changeMenuState)
 
-    call(bindForm, autoCompleteProvider)
-
     useEventListener(() => window, 'keydown', handleKeydown)
-
-    // expose
-    function reset() {
-      call(props['onUpdate:modelValue'], '')
-      resetValidation()
-    }
-
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
 
     // expose
     function focus() {
@@ -187,7 +138,7 @@ export default defineComponent({
       isFocusing.value = true
       input.value!.focus()
       call(props.onFocus)
-      validateWithTrigger('onFocus')
+      eventHandlers.value.onFocus?.()
     }
 
     // expose
@@ -200,7 +151,7 @@ export default defineComponent({
       isShowMenuSelect.value = false
       input.value!.blur()
       call(props.onBlur)
-      validateWithTrigger('onBlur')
+      eventHandlers.value.onBlur?.()
     }
 
     function handleBlur() {
@@ -209,13 +160,6 @@ export default defineComponent({
       }
 
       blur()
-    }
-
-    function validateWithTrigger(trigger: AutoCompleteValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
     }
 
     async function handleKeydown(event: KeyboardEvent) {
@@ -264,14 +208,14 @@ export default defineComponent({
     function handleInput(newValue: string, event: Event) {
       changeMenuState()
       call(props.onInput, newValue, event)
-      validateWithTrigger('onInput')
+      eventHandlers.value.onInput?.()
     }
 
     function handleClear() {
       clearing = true
       changeMenuState()
       call(props.onClear, value.value!)
-      validateWithTrigger('onClear')
+      eventHandlers.value.onClear?.()
     }
 
     function handleClick(event: Event) {
@@ -280,12 +224,11 @@ export default defineComponent({
       }
 
       call(props.onClick, event)
-      validateWithTrigger('onClick')
     }
 
     function handleChange(newValue: string) {
       call(props.onChange, newValue)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
     }
 
     async function handleAutoComplete(newValue: string) {
@@ -296,7 +239,7 @@ export default defineComponent({
       if (newValue !== value.value) {
         value.value = newValue
         call(props.onChange, newValue)
-        validateWithTrigger('onChange')
+        eventHandlers.value.onChange?.()
       }
 
       await raf()
@@ -324,8 +267,7 @@ export default defineComponent({
       isFocusing,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
-      errorMessage,
-      maxlengthText,
+      mergedError,
       n,
       handleInput,
       handleClear,
@@ -334,9 +276,6 @@ export default defineComponent({
       handleBlur,
       handleKeyEscape,
       handleAutoComplete,
-      reset,
-      validate,
-      resetValidation,
       blur,
       focus,
     }
@@ -349,7 +288,6 @@ export default defineComponent({
 @import '../styles/elevation';
 @import '../icon/icon';
 @import '../field-decorator/fieldDecorator';
-@import '../form-details/formDetails';
 @import '../input/input';
 @import '../menu/menu';
 @import '../menu-option/menuOption';

@@ -12,9 +12,9 @@ import breadcrumbItem from './breadcrumb-item'
 import button from './button'
 import card from './card'
 import carousel from './carousel'
+import cascader from './cascader'
 import cell from './cell'
 import checkbox from './checkbox'
-import chip from './chip'
 import code from './code'
 import collapse from './collapse'
 import countdown from './countdown'
@@ -61,6 +61,7 @@ import switchThemes from './switch'
 import tab from './tab'
 import table from './table'
 import tabs from './tabs'
+import tag from './tag'
 import timePicker from './timePicker'
 import tooltip from './tooltip'
 import uploader from './uploader'
@@ -80,7 +81,7 @@ export default {
   '--mp-color-body': 'hsla(var(--mp-hsl-body), 1)',
   '--mp-hsl-text': '0, 0%, 100%',
   '--mp-color-text': 'hsla(var(--mp-hsl-text), 1)',
-  '--mp-hsl-primary': '258, 100%, 87%',
+  '--mp-hsl-primary': '180, 70%, 70%',
   '--mp-color-primary': 'hsla(var(--mp-hsl-primary), 1)',
   '--mp-hsl-info': '263, 27%, 81%',
   '--mp-color-info': 'hsla(var(--mp-hsl-info), 1)',
@@ -90,7 +91,7 @@ export default {
   '--mp-color-warning': 'hsla(var(--mp-hsl-warning), 1)',
   '--mp-hsl-danger': '3, 70%, 83%',
   '--mp-color-danger': 'hsla(var(--mp-hsl-danger), 1)',
-  '--mp-hsl-on-primary': '259, 58%, 28%',
+  '--mp-hsl-on-primary': '180, 100%, 15%',
   '--mp-color-on-primary': 'hsla(var(--mp-hsl-on-primary), 1)',
   '--mp-hsl-on-info': '258, 18%, 22%',
   '--mp-color-on-info': 'hsla(var(--mp-hsl-on-info), 1)',
@@ -100,7 +101,7 @@ export default {
   '--mp-color-on-warning': 'hsla(var(--mp-hsl-on-warning), 1)',
   '--mp-hsl-on-danger': '3, 71%, 22%',
   '--mp-color-on-danger': 'hsla(var(--mp-hsl-on-danger), 1)',
-  '--mp-hsl-primary-container': '257, 37%, 42%',
+  '--mp-hsl-primary-container': '180, 40%, 25%',
   '--mp-color-primary-container': 'hsla(var(--mp-hsl-primary-container), 1)',
   '--mp-hsl-info-container': '260, 12%, 35%',
   '--mp-color-info-container': 'hsla(var(--mp-hsl-info-container), 1)',
@@ -110,7 +111,7 @@ export default {
   '--mp-color-warning-container': 'hsla(var(--mp-hsl-warning-container), 1)',
   '--mp-hsl-danger-container': '2, 48%, 42%',
   '--mp-color-danger-container': 'hsla(var(--mp-hsl-danger-container), 1)',
-  '--mp-hsl-on-primary-container': '263, 100%, 93%',
+  '--mp-hsl-on-primary-container': '180, 55%, 90%',
   '--mp-color-on-primary-container': 'hsla(var(--mp-hsl-on-primary-container), 1)',
   '--mp-hsl-on-info-container': '263, 65%, 92%',
   '--mp-color-on-info-container': 'hsla(var(--mp-hsl-on-info-container), 1)',
@@ -161,7 +162,7 @@ export default {
   ...checkbox,
   ...radio,
   ...card,
-  ...chip,
+  ...cascader,
   ...badge,
   ...tooltip,
   ...progress,
@@ -170,6 +171,7 @@ export default {
   ...step,
   ...divider,
   ...table,
+  ...tag,
   ...pagination,
   ...watermark,
   ...collapse,

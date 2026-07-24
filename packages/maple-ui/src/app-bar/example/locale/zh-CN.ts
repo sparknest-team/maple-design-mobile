@@ -8,4 +8,6 @@ export default {
   search: '搜索',
   round: '开启圆角',
   custom: '扩展内容',
+  border: '底部边框',
+  elevation: '关闭海拔阴影',
 }

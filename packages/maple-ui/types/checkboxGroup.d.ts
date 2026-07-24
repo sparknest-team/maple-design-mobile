@@ -2,15 +2,12 @@ import { VNode, VNodeChild } from 'vue'
 import {
   BasicAttributes,
   Direction as CheckboxGroupDirection,
-  Rules as CheckboxGroupRules,
   ListenerProp,
   SetPropsDefaults,
   VarComponent,
 } from './varComponent'
 
 export declare const checkboxGroupProps: Record<keyof CheckboxGroupProps, any>
-
-export type CheckboxGroupValidateTrigger = 'onChange'
 
 export type CheckboxGroupOptionLabelRender = (option: CheckboxGroupOption, checked: boolean) => VNodeChild
 
@@ -31,8 +28,6 @@ export interface CheckboxGroupProps extends BasicAttributes {
   valueKey?: string
   options?: CheckboxGroupOption[]
   direction?: CheckboxGroupDirection
-  validateTrigger?: CheckboxGroupValidateTrigger[]
-  rules?: CheckboxGroupRules
   onChange?: ListenerProp<(value: Array<any>) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: Array<any>) => void>
 }
@@ -45,12 +40,6 @@ export class CheckboxGroup extends VarComponent {
   $slots: {
     default(): VNode[]
   }
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 
   checkAll(): any[]
 

@@ -327,58 +327,7 @@ const files = ref()
 </template>
 ```
 
-### 字段校验
-
-通过传入一个校验器数组可以对值进行校验，校验器返回 `true` 则为校验通过。
-以外的值将转换为文本作为用户提示。
-第二个参数是一个工具函数集合，可以快速获取符合状态的文件集合。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    url: 'https://maplejs.org/cat.jpg',
-    cover: 'https://maplejs.org/cat.jpg',
-    state: 'error',
-  },
-])
-</script>
-
-<template>
-  <mp-uploader
-    :rules="(v, u) => u.getError().length === 0 || '存在上传失败的文件'"
-    v-model="files"
-  />
-</template>
-```
-
-### 使用 Zod 进行校验
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const files = ref([
-  {
-    url: 'https://maplejs.org/cat.jpg',
-    cover: 'https://maplejs.org/cat.jpg',
-    state: 'error',
-  },
-])
-</script>
-
-<template>
-  <mp-uploader
-    :rules="
-      z.array(z.any()).refine(v => v.filter(file => file.state === 'error').length === 0, '存在上传失败的文件')
-    "
-    v-model="files"
-  />
-</template>
-```
+> 上传组件的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ### 自定义渲染
 
@@ -493,8 +442,6 @@ const files = ref([
 | `ripple` | 是否开启水波纹 | _boolean_ | `true` |
 | `hide-list` | 是否隐藏文件列表 | _boolean_ | `false` |
 | `resolve-type` | 文件预处理类型，可选值为 `default` `file` `data-url`（`default`，图片文件包含 dataURL 编码和 File 对象，其他类型仅包含 File 对象。`file`，仅包含 File 对象。`data-url`，所有文件类型都包含 dataURL 编码和 File 对象） | _string_ | `default` |
-| `validate-trigger` | 触发验证的时机， 可选值为 `onChange` `onRemove` | _UploaderValidateTrigger[]_ | `['onChange', 'onRemove']` |
-| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: MpFile[]) => any) \| ZodType \| Array<((v: MpFile[]) => any) \| ZodType>_ | `-` |
 
 ### MpFile
 
@@ -508,14 +455,6 @@ const files = ref([
 | `state` | 文件上传状态，可选值为 `loading` `success` `error` | _string_ | `-` |
 | `progress` | 文件上传进度，范围 [0, 100] | _number_ | `-` |
 
-### MpFileUtils
-
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `getLoading` | 获取 `state` 等于 `loading` 的文件集合| `-` | `MpFile[]` |
-| `getSuccess` | 获取 `state` 等于 `success` 的文件集合| `-` | `MpFile[]` |
-| `getError` |  获取 `state` 等于 `error` 的文件集合 | `-` | `MpFile[]` |
-
 ### 方法
 
 | 方法名 | 说明 | 参数 | 返回值 |
@@ -525,9 +464,6 @@ const files = ref([
 | `getLoading` | 获取 `state` 等于 `loading` 的文件集合| `-` | `MpFile[]` |
 | `getSuccess` | 获取 `state` 等于 `success` 的文件集合| `-` | `MpFile[]` |
 | `getError` |  获取 `state` 等于 `error` 的文件集合 | `-` | `MpFile[]` |
-| `validate` | 触发校验 | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | 清空校验信息 | `-` | `-` |
-| `reset` | 清空绑定的值(设置为 `[]`)和校验信息 | `-` | `-` |
 
 ### 事件
 
@@ -547,7 +483,6 @@ const files = ref([
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | 上传按钮内容 | `-` |
-| `extra-message` | 附加信息 | `-` |
 | `remove-button` ***3.8.0*** | 删除按钮 | `remove: () => void` |
 
 ### 样式变量

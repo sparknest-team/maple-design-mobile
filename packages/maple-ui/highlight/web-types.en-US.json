@@ -164,7 +164,7 @@
           "attributes": [
             {
               "name": "type",
-              "description": "Type, optional values are `info`, `success`, `warning`, `danger`",
+              "description": "Type, optional values are `info`, `success`, `warning`, `danger`, `default`",
               "default": "info",
               "value": {
                 "type": "string",
@@ -490,24 +490,6 @@
               }
             },
             {
-              "name": "validate-trigger",
-              "description": "Timing to trigger validation, The optional value is `onFocus` `onBlur` `onChange` `onClick` `onClear` `onInput`",
-              "default": "['onInput', 'onClear', 'onChange']",
-              "value": {
-                "type": "AutoCompleteValidateTrigger[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: string) => any) | ZodType | Array<((v: string) => any) | ZodType>",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "enterkeyhint",
               "description": "Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)",
               "default": "-",
@@ -618,10 +600,6 @@
             {
               "name": "clear-icon",
               "description": "Clear Icon"
-            },
-            {
-              "name": "extra-message",
-              "description": "Extra message"
             }
           ]
         },
@@ -1116,7 +1094,34 @@
               "description": "Separator",
               "default": "/",
               "value": {
-                "type": "string",
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-count",
+              "description": "Max visible count, `0` means unlimited",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "routes",
+              "description": "Route data (used when default slot is empty)",
+              "default": "-",
+              "value": {
+                "type": "BreadcrumbRoute[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "custom-url",
+              "description": "Custom link builder in routes mode",
+              "default": "-",
+              "value": {
+                "type": "(paths: string[]) => string",
                 "kind": "expression"
               }
             }
@@ -1124,13 +1129,25 @@
           "events": [
             {
               "name": "click",
-              "description": "Triggered when a breadcrumb is clicked"
+              "description": "Fired on click (not for last / ellipsis item)"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Customize the default content"
+              "description": "Breadcrumb items"
+            },
+            {
+              "name": "separator",
+              "description": "Custom separator"
+            },
+            {
+              "name": "item-render",
+              "description": "Custom render in routes mode"
+            },
+            {
+              "name": "more-icon",
+              "description": "Custom ellipsis icon"
             }
           ]
         },
@@ -1139,7 +1156,16 @@
           "attributes": [
             {
               "name": "separator",
-              "description": "Separator",
+              "description": "Separator (overrides parent)",
+              "default": "-",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "href",
+              "description": "Link URL (not applied on the last item)",
               "default": "-",
               "value": {
                 "type": "string",
@@ -1150,17 +1176,17 @@
           "events": [
             {
               "name": "click",
-              "description": "Triggered when a breadcrumb is clicked"
+              "description": "Fired on click (not for last / ellipsis item)"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Customize the default content"
+              "description": "Item content"
             },
             {
               "name": "separator",
-              "description": "Customize separator content"
+              "description": "Custom separator"
             }
           ]
         },
@@ -1879,6 +1905,279 @@
           ]
         },
         {
+          "name": "mp-cascader",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Binding value",
+              "default": "-",
+              "value": {
+                "type": "any | any[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "Cascading option data",
+              "default": "[]",
+              "value": {
+                "type": "CascaderOption[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "presentation",
+              "description": "Display style, optional `menu` `picker` `list`",
+              "default": "menu",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Visibility control",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label-key",
+              "description": "Key name for label",
+              "default": "label",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value-key",
+              "description": "Key name for value",
+              "default": "value",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "children-key",
+              "description": "Key name for children",
+              "default": "children",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "Custom field mapping, takes precedence over `labelKey`/`valueKey`/`childrenKey`",
+              "default": "-",
+              "value": {
+                "type": "FieldNames",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "Enable multi-select (menu: checkbox panel; picker: temporary cart with Add / Done / Cancel; list: tap to toggle + Done / Cancel)",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "check-strictly",
+              "description": "Allow selecting non-leaf nodes",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "path-mode",
+              "description": "Return full path array vs leaf value",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filterable",
+              "description": "Enable search",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Allow clear",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder text",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Readonly state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Loading state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Size, optional `normal` `small`",
+              "default": "normal",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Variant, optional `standard` `outlined`",
+              "default": "standard",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag",
+              "description": "Tag style (multi-select only)",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Multi-select separator",
+              "default": ",",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-select",
+              "description": "Auto close on select (menu single-select only; multiple never auto-closes)",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "picker-props",
+              "description": "Props passed to `mp-picker` in picker mode",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Props passed to popup",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "focus",
+              "description": "Triggered on focus"
+            },
+            {
+              "name": "blur",
+              "description": "Triggered on blur"
+            },
+            {
+              "name": "click",
+              "description": "Triggered on click"
+            },
+            {
+              "name": "clear",
+              "description": "Triggered on clear"
+            },
+            {
+              "name": "close",
+              "description": "Triggered on close"
+            },
+            {
+              "name": "change",
+              "description": "Triggered on change"
+            }
+          ],
+          "slots": [
+            {
+              "name": "selected",
+              "description": "Selected content"
+            },
+            {
+              "name": "option",
+              "description": "Custom option content"
+            },
+            {
+              "name": "prepend-icon",
+              "description": "Prepend icon"
+            },
+            {
+              "name": "clear-icon",
+              "description": "Clear icon"
+            },
+            {
+              "name": "append-icon",
+              "description": "Append icon"
+            },
+            {
+              "name": "arrow-icon",
+              "description": "Arrow icon"
+            }
+          ]
+        },
+        {
           "name": "mp-cell",
           "attributes": [
             {
@@ -2098,15 +2397,6 @@
                 "type": "boolean",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: any) => any) | ZodType | Array<((v: any) => any) | ZodType>",
-                "kind": "expression"
-              }
             }
           ],
           "events": [
@@ -2194,15 +2484,6 @@
                 "type": "string",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: any[]) => any) | ZodType | Array<((v: any[]) => any) | ZodType>",
-                "kind": "expression"
-              }
             }
           ],
           "events": [
@@ -2215,130 +2496,6 @@
             {
               "name": "default",
               "description": "Checkbox Group content"
-            }
-          ]
-        },
-        {
-          "name": "mp-chip",
-          "attributes": [
-            {
-              "name": "type",
-              "description": "Chip type, can be set to `default` `primary` `info` `success` `warning` `danger`",
-              "default": "default",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Chip size, can be set to `normal` `mini` `small` `large`",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "plain",
-              "description": "Whether to be hollow label",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "round",
-              "description": "Whether to be round label",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "block",
-              "description": "Whether to be block label",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "false",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "closeable",
-              "description": "Whether to be closed label",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "icon-name",
-              "description": "Custom closeable icon must be used when `Closeable` is `true`",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "namespace",
-              "description": "Closeable icon namespace",
-              "default": "mp-icon",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "The label color",
-              "default": "_",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "The text color takes precedence over the `color` attribute",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "close",
-              "description": "Triggered when the Close button is clicked and can only be used when the Close button is displayed"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Chip content"
-            },
-            {
-              "name": "left",
-              "description": "The content inserted to the left of the chip"
-            },
-            {
-              "name": "right",
-              "description": "The content inserted to the right of the label"
             }
           ]
         },
@@ -2981,24 +3138,6 @@
                 "type": "boolean",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "validate-trigger",
-              "description": "Timing to trigger validation，Optional value is `onInputChange` `onLazyChange` `onIncrement` `onDecrement`",
-              "default": "['onIncrement', 'onDecrement', 'onInputChange', 'onLazyChange']",
-              "value": {
-                "type": "CounterValidateTrigger[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: number) => any) | ZodType | Array<((v: number) => any) | ZodType>",
-                "kind": "expression"
-              }
             }
           ],
           "events": [
@@ -3022,11 +3161,235 @@
           "slots": []
         },
         {
+          "name": "mp-date",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Bound value; date-time string when `show-time`",
+              "default": "-",
+              "value": {
+                "type": "string | string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Controlled popup visibility",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "Picker type: `year` `month` `date`",
+              "default": "date",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-time",
+              "description": "Enable time selection",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Show seconds when `show-time`",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "Enable multiple select",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Minimum date",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Maximum date",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-dates",
+              "description": "Allowed dates filter",
+              "default": "-",
+              "value": {
+                "type": "(val: string) => boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Restricts selectable time when `show-time`",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Display separator for multiple",
+              "default": ", ",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "date-picker-props",
+              "description": "Props passed to `mp-date-picker`",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<DatePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Props passed to popup",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Show clear button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Size: `normal` `small`",
+              "default": "normal",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Variant: `standard` `outlined`",
+              "default": "standard",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "focus",
+              "description": "Emitted on focus"
+            },
+            {
+              "name": "blur",
+              "description": "Emitted on blur"
+            },
+            {
+              "name": "click",
+              "description": "Emitted on click"
+            },
+            {
+              "name": "clear",
+              "description": "Emitted on clear"
+            },
+            {
+              "name": "close",
+              "description": "Emitted when popup closes"
+            },
+            {
+              "name": "change",
+              "description": "Emitted after confirm"
+            }
+          ],
+          "slots": [
+            {
+              "name": "selected",
+              "description": "Selected content"
+            },
+            {
+              "name": "prepend-icon",
+              "description": "Prepend icon"
+            },
+            {
+              "name": "clear-icon",
+              "description": "Clear icon"
+            },
+            {
+              "name": "append-icon",
+              "description": "Append icon"
+            },
+            {
+              "name": "arrow-icon",
+              "description": "Arrow icon"
+            }
+          ]
+        },
+        {
           "name": "mp-date-picker",
           "attributes": [
             {
               "name": "v-model",
-              "description": "Selected date（ISO 8601 format, `YYYY-MM-DD` or `YYYY-MM`）",
+              "description": "Selected date; date-time string when `show-time`",
               "default": "undefined",
               "value": {
                 "type": "string[] | string",
@@ -3043,11 +3406,56 @@
               }
             },
             {
+              "name": "presentation",
+              "description": "Panel mode: `calendar` `picker` `calendarClock` `calendarPicker`",
+              "default": "calendar",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-time",
+              "description": "Enable time selection",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Show seconds when `show-time`",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "allowed-dates",
               "description": "Restricts which dates can be selected",
               "default": "-",
               "value": {
                 "type": "function",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Restricts selectable time when `show-time`",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "time-picker-props",
+              "description": "Props for `mp-time-picker` (`calendarClock`)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<TimePickerProps\\>",
                 "kind": "expression"
               }
             },
@@ -3203,6 +3611,370 @@
             {
               "name": "actions",
               "description": "Custom the views in the action panel"
+            }
+          ]
+        },
+        {
+          "name": "mp-date-range",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Bound value; date-time strings when `show-time`",
+              "default": "[]",
+              "value": {
+                "type": "string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Controlled popup visibility",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "presentation",
+              "description": "Panel mode: `calendar` `picker`",
+              "default": "calendar",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "Picker type: `year` `month` `date`",
+              "default": "date",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-time",
+              "description": "Enable time selection",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Show seconds when `show-time`",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Minimum date",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Maximum date",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-dates",
+              "description": "Allowed dates filter",
+              "default": "-",
+              "value": {
+                "type": "(val: string) => boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Restricts selectable time when `show-time`",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Display separator",
+              "default": " ~ ",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "date-picker-props",
+              "description": "Props for `mp-date-picker` (calendar)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<DatePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "picker-props",
+              "description": "Props for `mp-picker` (picker)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "date-range-picker-props",
+              "description": "Props for `mp-date-range-picker`",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<DateRangePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Props passed to popup",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Show clear button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Size: `normal` `small`",
+              "default": "normal",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Variant: `standard` `outlined`",
+              "default": "standard",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "focus",
+              "description": "Emitted on focus"
+            },
+            {
+              "name": "blur",
+              "description": "Emitted on blur"
+            },
+            {
+              "name": "click",
+              "description": "Emitted on click"
+            },
+            {
+              "name": "clear",
+              "description": "Emitted on clear"
+            },
+            {
+              "name": "close",
+              "description": "Emitted when popup closes"
+            },
+            {
+              "name": "change",
+              "description": "Emitted after confirm"
+            }
+          ],
+          "slots": []
+        },
+        {
+          "name": "mp-date-range-picker",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Binding value; date-time strings when `show-time`",
+              "default": "[]",
+              "value": {
+                "type": "string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "presentation",
+              "description": "Panel mode: `calendar` `picker` `calendarClock` `calendarPicker`",
+              "default": "calendar",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "Selection type: `date` `month` `year`",
+              "default": "date",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-time",
+              "description": "Enable time selection",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Show seconds when `show-time`",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Minimum date",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Maximum date",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-dates",
+              "description": "Allowed dates filter",
+              "default": "-",
+              "value": {
+                "type": "(val: string) => boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Restricts selectable time when `show-time`",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "date-picker-props",
+              "description": "Props for `mp-date-picker` (calendar)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<DatePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "picker-props",
+              "description": "Props for `mp-picker` (picker)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "time-picker-props",
+              "description": "Props for `mp-time-picker` (calendar + show-time)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<TimePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Whether readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Elevation",
+              "default": "false",
+              "value": {
+                "type": "string | number | boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "description": "Emitted when the range changes"
+            }
+          ],
+          "slots": [
+            {
+              "name": "actions",
+              "description": "Custom actions panel"
             }
           ]
         },
@@ -3573,44 +4345,35 @@
           "name": "mp-divider",
           "attributes": [
             {
-              "name": "inset",
-              "description": "Set the indentation distance, and the number plus or minus sign controls the direction of indentation. The default indentation is `72px` when `true` is passed (horizontal mode only)",
-              "default": "false",
+              "name": "orientation",
+              "description": "Direction: `horizontal` `vertical`",
+              "default": "horizontal",
               "value": {
-                "type": "boolean | number | string",
+                "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "vertical",
-              "description": "Whether to set divider to display vertically",
-              "default": "false",
+              "name": "type",
+              "description": "Line style: `solid` `dashed` `dotted` `double`",
+              "default": "solid",
               "value": {
-                "type": "boolean",
+                "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "dashed",
-              "description": "Whether divider is dashed",
-              "default": "false",
+              "name": "text-align",
+              "description": "Text align: `start` `center` `end`",
+              "default": "center",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hairline",
-              "description": "Whether divider is `0.5px`",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "string",
                 "kind": "expression"
               }
             },
             {
               "name": "description",
-              "description": "The text description of divider (horizontal mode only)",
+              "description": "Description text",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3618,11 +4381,56 @@
               }
             },
             {
-              "name": "margin",
-              "description": "Set `margin` of divider",
+              "name": "size-x",
+              "description": "Horizontal inset / vertical block spacing",
+              "default": "-",
+              "value": {
+                "type": "number | string | array",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size-y",
+              "description": "Horizontal block spacing / vertical inline spacing",
+              "default": "md",
+              "value": {
+                "type": "number | string | array",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "thickness",
+              "description": "Line width (mutually exclusive with `hairline`)",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hairline",
+              "description": "Whether to use a 0.5px line",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Divider color",
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "opacity",
+              "description": "Opacity",
+              "default": "-",
+              "value": {
+                "type": "number",
                 "kind": "expression"
               }
             }
@@ -3631,7 +4439,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Custom content of divider (horizontal mode only)"
+              "description": "Custom content in the middle"
             }
           ]
         },
@@ -4173,6 +4981,24 @@
           "name": "mp-form",
           "attributes": [
             {
+              "name": "model",
+              "description": "The form data object, `FormItem` reads and writes to it using `field`",
+              "default": "-",
+              "value": {
+                "type": "Record<string, any>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "layout",
+              "description": "Form item layout, `vertical` or `horizontal`; can be overridden by `FormItem.layout`",
+              "default": "'vertical'",
+              "value": {
+                "type": "'vertical' | 'horizontal'",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "readonly",
               "description": "Whether the readonly",
               "default": "false",
@@ -4253,6 +5079,152 @@
             {
               "name": "extra-message",
               "description": "Extra message"
+            }
+          ]
+        },
+        {
+          "name": "mp-form-item",
+          "attributes": [
+            {
+              "name": "field",
+              "description": "Field path in `Form.model`, supports `a.b`",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label",
+              "description": "Label text; when set, renders outer label and disables floating hint",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "layout",
+              "description": "Layout, `vertical` or `horizontal`; inherits `Form.layout` when omitted",
+              "default": "-",
+              "value": {
+                "type": "'vertical' | 'horizontal'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "required",
+              "description": "Required (asterisk + auto required rule)",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-label",
+              "description": "Hide label",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-asterisk",
+              "description": "Hide required asterisk",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "asterisk-position",
+              "description": "Asterisk position",
+              "default": "'start'",
+              "value": {
+                "type": "'start' | 'end'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "help",
+              "description": "Help text (shown when no error)",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "extra",
+              "description": "Extra text",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "no-style",
+              "description": "Remove label/error UI, keep validation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rules",
+              "description": "Validation rules (function / Zod / array)",
+              "default": "-",
+              "value": {
+                "type": "any",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "validate-trigger",
+              "description": "Triggers for validation",
+              "default": "'change'",
+              "value": {
+                "type": "FormItemValidateTrigger | FormItemValidateTrigger[]",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "validate",
+              "description": "Emitted after validation"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Form control"
+            },
+            {
+              "name": "label",
+              "description": "Custom label"
+            },
+            {
+              "name": "help",
+              "description": "Custom help"
+            },
+            {
+              "name": "extra",
+              "description": "Custom extra"
             }
           ]
         },
@@ -4986,24 +5958,6 @@
               }
             },
             {
-              "name": "validate-trigger",
-              "description": "Timing to trigger validation, The optional value is `onFocus` `onBlur` `onChange` `onClick` `onClear` `onInput`",
-              "default": "['onInput', 'onClear']",
-              "value": {
-                "type": "InputValidateTrigger[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: string) => any) | ZodType | Array<((v: string) => any) | ZodType>",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "enterkeyhint",
               "description": "Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)",
               "default": "-",
@@ -5060,10 +6014,6 @@
             {
               "name": "clear-icon",
               "description": "Clear Icon"
-            },
-            {
-              "name": "extra-message",
-              "description": "Extra message"
             }
           ]
         },
@@ -6127,35 +7077,170 @@
           "name": "mp-pagination",
           "attributes": [
             {
-              "name": "v-model:current",
-              "description": "Current page number",
-              "default": "1",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:size",
-              "description": "Number of data items per page",
-              "default": "10",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "total",
               "description": "Total number of data items",
               "default": "0",
               "value": {
-                "type": "string | number",
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:current",
+              "description": "Current page",
+              "default": "-",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-current",
+              "description": "Default current page",
+              "default": "1",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:page-size",
+              "description": "Number of items per page",
+              "default": "-",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-page-size",
+              "description": "Default page size (uncontrolled)",
+              "default": "10",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether to disable pagination",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-single-page",
+              "description": "Whether to hide pagination when there is only one page",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "simple",
-              "description": "Whether to use simple mode",
+              "description": "Whether to use simple mode (enabled by default on mobile)",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-total",
+              "description": "Whether to show total",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-more",
+              "description": "Whether to show the more button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-jumper",
+              "description": "Whether to show the jumper input",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-page-size",
+              "description": "Whether to show the page size selector",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "page-size-options",
+              "description": "Options for the page size selector",
+              "default": "[10, 20, 30, 40, 50]",
+              "value": {
+                "type": "number[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "page-size-props",
+              "description": "Props passed to the page size selector",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "page-item-style",
+              "description": "Style of page items",
+              "default": "-",
+              "value": {
+                "type": "CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "active-page-item-style",
+              "description": "Style of the active page item",
+              "default": "-",
+              "value": {
+                "type": "CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "base-size",
+              "description": "Base count for ellipsis calculation: `baseSize + 2 * bufferSize`",
+              "default": "6",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "buffer-size",
+              "description": "Number of pages shown on each side of the current page when ellipsis is shown",
+              "default": "2",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-adjust",
+              "description": "Whether to auto-adjust the current page when page size changes",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -6164,64 +7249,10 @@
             },
             {
               "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`, not in simple mode",
+              "description": "Elevation level: `true`, `false`, or `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Disable pagination",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-size-changer",
-              "description": "Whether to show `size` select",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-quick-jumper",
-              "description": "Whether you can jump to pages directly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max-pager-count",
-              "description": "Number of buttons displayed between ellipses",
-              "default": "3",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size-option",
-              "description": "Specify the sizeChanger options",
-              "default": "[10, 20, 50, 100]",
-              "value": {
-                "type": "number[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-total",
-              "description": "Show page item's title",
-              "default": "-",
-              "value": {
-                "type": "function(total, range)",
+                "type": "boolean | string | number",
                 "kind": "expression"
               }
             }
@@ -6229,17 +7260,37 @@
           "events": [
             {
               "name": "change",
-              "description": "Callback after `current` or `size` changes"
+              "description": "Emitted when the page changes"
+            },
+            {
+              "name": "page-size-change",
+              "description": "Emitted when the page size changes"
             }
           ],
           "slots": [
             {
-              "name": "prev",
-              "description": "Content of previous button"
+              "name": "total",
+              "description": "Total text"
             },
             {
-              "name": "next",
-              "description": "Content of next button"
+              "name": "page-item",
+              "description": "Page item"
+            },
+            {
+              "name": "page-item-step",
+              "description": "Step item"
+            },
+            {
+              "name": "page-item-ellipsis",
+              "description": "Ellipsis item"
+            },
+            {
+              "name": "jumper-prepend",
+              "description": "Jumper prefix"
+            },
+            {
+              "name": "jumper-append",
+              "description": "Jumper suffix"
             }
           ]
         },
@@ -6386,6 +7437,15 @@
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "selected-values",
+              "description": "Selected option values; shows a check mark on the right",
+              "default": "[]",
+              "value": {
+                "type": "(string | number)[]",
                 "kind": "expression"
               }
             },
@@ -6968,15 +8028,6 @@
                 "type": "boolean",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: any) => any) | ZodType | Array<((v: any) => any) | ZodType>",
-                "kind": "expression"
-              }
             }
           ],
           "events": [
@@ -7049,15 +8100,6 @@
               "default": "value",
               "value": {
                 "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "(v: any) => any | ZodType | Array<(v: any) => any | ZodType>",
                 "kind": "expression"
               }
             },
@@ -7245,6 +8287,24 @@
               }
             },
             {
+              "name": "presentation",
+              "description": "Display mode, optional values `menu` `picker` `list`",
+              "default": "menu",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Visibility control",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "placeholder",
               "description": "placeholder",
               "default": "-",
@@ -7272,8 +8332,8 @@
               }
             },
             {
-              "name": "chip",
-              "description": "Whether to use chip style (multiple choices only)",
+              "name": "tag",
+              "description": "Whether to use tag style (multiple choices only)",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -7380,20 +8440,38 @@
               }
             },
             {
-              "name": "validate-trigger",
-              "description": "Timing to trigger validation, optional value is `onFocus` `onBlur` `onChange` `onClick` `onClear` `onClose`",
-              "default": "['onChange', 'onClear', 'onClose']",
+              "name": "field-names",
+              "description": "Custom field mapping, takes precedence over `labelKey` / `valueKey`",
+              "default": "-",
               "value": {
-                "type": "SelectValidateTrigger[]",
+                "type": "{ label?, value?, children?, disabled? }",
                 "kind": "expression"
               }
             },
             {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
+              "name": "picker-props",
+              "description": "Props passed to `mp-picker` in picker mode",
+              "default": "{}",
               "value": {
-                "type": "((v: any) => any) | ZodType | Array<((v: any) => any) | ZodType>",
+                "type": "Partial\\<PickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Props passed to popup",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value-key",
+              "description": "As the key that uniquely identifies value",
+              "default": "value",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             }
@@ -7751,15 +8829,6 @@
                 "type": "string",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: number | [number, number]) => any) | ZodType | Array<((v: number | [number, number]) => any) | ZodType>",
-                "kind": "expression"
-              }
             }
           ],
           "events": [
@@ -7806,7 +8875,7 @@
             },
             {
               "name": "align",
-              "description": "Cross axis arrangement, Can be set to `stretch` `center` `flex-start` `flex-end` `baseline`",
+              "description": "Cross axis arrangement, Can be set to `stretch` `center` `flex-start` `flex-end` `baseline`. Inferred when omitted (`row` → `center`, `column` → `stretch`)",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7853,17 +8922,8 @@
           "name": "mp-step",
           "attributes": [
             {
-              "name": "active-icon",
-              "description": "Active icon name",
-              "default": "check",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "current-icon",
-              "description": "Current icon name",
+              "name": "title",
+              "description": "Step title",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7871,8 +8931,8 @@
               }
             },
             {
-              "name": "inactive-icon",
-              "description": "Inactive icon name",
+              "name": "description",
+              "description": "Step description",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7880,29 +8940,20 @@
               }
             },
             {
-              "name": "active-icon-namespace",
-              "description": "Active icon namespace",
-              "default": "mp-icon",
+              "name": "status",
+              "description": "Step status (overrides auto derivation)",
+              "default": "-",
               "value": {
-                "type": "string",
+                "type": "'wait' | 'process' | 'finish' | 'error'",
                 "kind": "expression"
               }
             },
             {
-              "name": "current-icon-namespace",
-              "description": "Current icon namespace",
-              "default": "mp-icon",
+              "name": "disabled",
+              "description": "Whether disabled",
+              "default": "false",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inactive-icon-namespace",
-              "description": "Inactive icon namespace",
-              "default": "mp-icon",
-              "value": {
-                "type": "string",
+                "type": "boolean",
                 "kind": "expression"
               }
             }
@@ -7911,7 +8962,15 @@
           "slots": [
             {
               "name": "default",
-              "description": "Content of step"
+              "description": "Step title (takes precedence over `title`)"
+            },
+            {
+              "name": "icon",
+              "description": "Custom node icon"
+            },
+            {
+              "name": "description",
+              "description": "Step description"
             }
           ]
         },
@@ -7919,17 +8978,26 @@
           "name": "mp-steps",
           "attributes": [
             {
-              "name": "active",
-              "description": "Active step",
-              "default": "0",
+              "name": "current",
+              "description": "Current step (controlled, 1-based)",
+              "default": "-",
               "value": {
-                "type": "string | number",
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-current",
+              "description": "Default current step (uncontrolled)",
+              "default": "1",
+              "value": {
+                "type": "number",
                 "kind": "expression"
               }
             },
             {
               "name": "direction",
-              "description": "Mode of steps, can be set to `horizontal` `vertical`",
+              "description": "Direction, can be `vertical`",
               "default": "horizontal",
               "value": {
                 "type": "string",
@@ -7937,34 +9005,38 @@
               }
             },
             {
-              "name": "active-color",
-              "description": "Active step color",
-              "default": "-",
+              "name": "status",
+              "description": "Status of the current step",
+              "default": "process",
               "value": {
-                "type": "string",
+                "type": "'wait' | 'process' | 'finish' | 'error'",
                 "kind": "expression"
               }
             },
             {
-              "name": "inactive-color",
-              "description": "Inactive step color",
-              "default": "-",
+              "name": "changeable",
+              "description": "Whether steps can be switched by click",
+              "default": "false",
               "value": {
-                "type": "string",
+                "type": "boolean",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
-              "name": "click-step",
-              "description": "Emitted after click step"
+              "name": "change",
+              "description": "Triggered when step changes (`changeable` required)"
+            },
+            {
+              "name": "update:current",
+              "description": "`v-model:current` sync"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Content of steps"
+              "description": "Steps content"
             }
           ]
         },
@@ -8178,29 +9250,11 @@
               }
             },
             {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: any) => any) | ZodType | Array<((v: any) => any) | ZodType>",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "lazy-change",
               "description": "Whether to allow the `before-change` event to be triggered",
               "default": "false",
               "value": {
                 "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "validate-trigger",
-              "description": "Timing to trigger verification, optional values are `onChange` `onLazyChange`",
-              "default": "['onChange', 'onLazyChange']",
-              "value": {
-                "type": "SwitchValidateTrigger[]",
                 "kind": "expression"
               }
             },
@@ -8570,10 +9624,361 @@
           ]
         },
         {
+          "name": "mp-tag",
+          "attributes": [
+            {
+              "name": "status",
+              "description": "Theme color: `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`",
+              "default": "default",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Variant: `default` (filled) / `outline`",
+              "default": "default",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Size: `xs` `sm` `md` `lg` `xl`",
+              "default": "md",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "round",
+              "description": "Whether to use a pill shape",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "visible",
+              "description": "Visibility (v-model)",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-visible",
+              "description": "Default visibility",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Loading state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "closable",
+              "description": "Whether closable",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "checkable",
+              "description": "Whether checkable",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "checked",
+              "description": "Checked state when checkable (v-model)",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-checked",
+              "description": "Default checked state when checkable",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "nowrap",
+              "description": "Whether content is nowrap with ellipsis",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Custom background (border color when outline)",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "Custom text color",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:visible",
+              "description": "Visibility changed"
+            },
+            {
+              "name": "update:checked",
+              "description": "Checked state changed (checkable)"
+            },
+            {
+              "name": "close",
+              "description": "Close button clicked"
+            },
+            {
+              "name": "check",
+              "description": "Checked state toggled (checkable)"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Tag content"
+            },
+            {
+              "name": "icon",
+              "description": "Leading icon"
+            },
+            {
+              "name": "close-icon",
+              "description": "Custom close icon"
+            }
+          ]
+        },
+        {
           "name": "mp-themes",
           "attributes": [],
           "events": [],
           "slots": []
+        },
+        {
+          "name": "mp-time",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Bound value (`HH:mm` or `HH:mm:ss`)",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Controlled popup visibility",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format",
+              "description": "Display format: `ampm` `24hr`",
+              "default": "ampm",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Enable seconds",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Minimum time",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Maximum time",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Allowed time filter",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "time-picker-props",
+              "description": "Props passed to `mp-time-picker`",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<TimePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Props passed to popup",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Show clear button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Size: `normal` `small`",
+              "default": "normal",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Variant: `standard` `outlined`",
+              "default": "standard",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "focus",
+              "description": "Emitted on focus"
+            },
+            {
+              "name": "blur",
+              "description": "Emitted on blur"
+            },
+            {
+              "name": "click",
+              "description": "Emitted on click"
+            },
+            {
+              "name": "clear",
+              "description": "Emitted on clear"
+            },
+            {
+              "name": "close",
+              "description": "Emitted when popup closes"
+            },
+            {
+              "name": "change",
+              "description": "Emitted after confirm"
+            }
+          ],
+          "slots": [
+            {
+              "name": "selected",
+              "description": "Selected content"
+            },
+            {
+              "name": "prepend-icon",
+              "description": "Prepend icon"
+            },
+            {
+              "name": "clear-icon",
+              "description": "Clear icon"
+            },
+            {
+              "name": "append-icon",
+              "description": "Append icon"
+            },
+            {
+              "name": "arrow-icon",
+              "description": "Arrow icon"
+            }
+          ]
         },
         {
           "name": "mp-time-picker",
@@ -8685,6 +10090,339 @@
             }
           ],
           "slots": []
+        },
+        {
+          "name": "mp-time-range",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Bound value",
+              "default": "[]",
+              "value": {
+                "type": "string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Controlled popup visibility",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "presentation",
+              "description": "Panel mode: `clock` | `picker`",
+              "default": "clock",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format",
+              "description": "Format: `ampm` | `24hr` (mainly for clock)",
+              "default": "ampm",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Enable seconds",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Min time",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Max time",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Allowed time filter",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Display separator",
+              "default": " ~ ",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-next-day",
+              "description": "Show next-day marker when end is earlier than start; skips swap on confirm. Without it, times are ordered on confirm only",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "time-picker-props",
+              "description": "Props for `mp-time-picker` (clock)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<TimePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "picker-props",
+              "description": "Props for `mp-picker` (picker)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "time-range-picker-props",
+              "description": "Props for `mp-time-range-picker`",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<TimeRangePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Props for popup",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Clearable",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "`normal` | `small`",
+              "default": "normal",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "`standard` | `outlined`",
+              "default": "standard",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "focus",
+              "description": "Focused"
+            },
+            {
+              "name": "blur",
+              "description": "Blurred"
+            },
+            {
+              "name": "change",
+              "description": "Confirmed value change"
+            },
+            {
+              "name": "clear",
+              "description": "Cleared"
+            },
+            {
+              "name": "close",
+              "description": "Popup closed"
+            }
+          ],
+          "slots": []
+        },
+        {
+          "name": "mp-time-range-picker",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Binding value",
+              "default": "[]",
+              "value": {
+                "type": "string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "presentation",
+              "description": "Panel mode: `clock` `picker`",
+              "default": "clock",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format",
+              "description": "Format: `ampm` `24hr` (mainly for clock)",
+              "default": "ampm",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "use-seconds",
+              "description": "Whether to select seconds",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Minimum allowed time",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Maximum allowed time",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allowed-time",
+              "description": "Allowed times",
+              "default": "-",
+              "value": {
+                "type": "AllowedTime",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-next-day",
+              "description": "Show next-day marker on the end side when end is earlier than start. Panel selection does not swap; swap happens on `TimeRange` confirm when this prop is off",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "time-picker-props",
+              "description": "Props passed to `mp-time-picker` (clock)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<TimePickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "picker-props",
+              "description": "Props passed to `mp-picker` (picker)",
+              "default": "{}",
+              "value": {
+                "type": "Partial\\<PickerProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Whether readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Elevation: `true` `false` or `0-24`",
+              "default": "false",
+              "value": {
+                "type": "string | number | boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "description": "Emitted when the range changes"
+            }
+          ],
+          "slots": [
+            {
+              "name": "actions",
+              "description": "Custom actions panel"
+            }
+          ]
         },
         {
           "name": "mp-tooltip",
@@ -9008,24 +10746,6 @@
                 "type": "string",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "validate-trigger",
-              "description": "Timing to trigger validation. The optional value is `onChange` `onRemove`",
-              "default": "['onChange', 'onRemove']",
-              "value": {
-                "type": "UploaderValidateTrigger[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0`",
-              "default": "-",
-              "value": {
-                "type": "((v: MpFile[]) => any) | ZodType | Array<((v: MpFile[]) => any) | ZodType>",
-                "kind": "expression"
-              }
             }
           ],
           "events": [
@@ -9066,10 +10786,6 @@
             {
               "name": "default",
               "description": "Upload action content"
-            },
-            {
-              "name": "extra-message",
-              "description": "Extra message"
             },
             {
               "name": "remove-button",

@@ -8,4 +8,6 @@ export default {
   search: 'search',
   round: 'Use Border Radius',
   custom: 'Custom Content',
+  border: 'Bottom Border',
+  elevation: 'Disable Elevation',
 }

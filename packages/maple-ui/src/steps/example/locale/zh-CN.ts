@@ -1,5 +1,7 @@
 export default {
   basicUsage: '基本使用',
+  errorStatus: '错误状态',
+  changeable: '可切换',
   customStyle: '自定义样式',
   dynamicSteps: '动态步骤',
   vertical: '垂直模式',
@@ -9,6 +11,7 @@ export default {
   third: '步骤3',
   fourth: '步骤4',
   fifth: '步骤5',
+  description: '这是描述信息',
   placeholder: '改变step的数量',
   step: '步骤',
   text: '接下来...',

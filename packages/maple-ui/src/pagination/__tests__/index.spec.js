@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Pagination from '..'
@@ -15,9 +15,7 @@ describe('simple mode', () => {
     const wrapper = mount(VarPagination, {
       props: {
         total: '123',
-        showTotal(total, range) {
-          return `${range[0]}-${range[1]} of ${total} items`
-        },
+        showTotal: true,
       },
     })
 
@@ -43,10 +41,8 @@ describe('basic mode', () => {
       props: {
         total: '123',
         simple: false,
-        showQuickJumper: true,
-        showTotal(total, range) {
-          return `${range[0]}-${range[1]} of ${total} items`
-        },
+        showJumper: true,
+        showTotal: true,
       },
     })
 
@@ -68,38 +64,38 @@ describe('basic mode', () => {
 
   test('click ellipsis', async () => {
     const change = vi.fn()
-    const template = `
-      <mp-pagination
-        current="10"
-        :size="20"
-        total="325"
-        :max-pager-count="4"
-        :simple="false"
-        @change="change"
-      />
-    `
+    const current = ref(10)
     const wrapper = mount({
       components: {
         [VarPagination.name]: VarPagination,
       },
-
-      methods: {
-        change,
+      setup() {
+        return {
+          current,
+          change,
+        }
       },
-      template,
+      template: `
+        <mp-pagination
+          v-model:current="current"
+          :page-size="20"
+          total="325"
+          :buffer-size="2"
+          :simple="false"
+          @change="change"
+        />
+      `,
     })
 
     await delay(0)
 
-    const prev = wrapper.find('.mp-pagination__item[item-mode="head"]')
-    const next = wrapper.find('.mp-pagination__item[item-mode="tail"]')
-
+    const ellipsisItems = wrapper.findAll('.mp-pagination__item-ellipsis')
     expect(wrapper.find('.mp-pagination__item--active').text()).toBe('10')
 
-    await next.trigger('click')
-    expect(wrapper.find('.mp-pagination__item--active').text()).toBe('14')
+    await ellipsisItems[1].trigger('click')
+    expect(wrapper.find('.mp-pagination__item--active').text()).toBe('15')
 
-    await prev.trigger('click')
+    await ellipsisItems[0].trigger('click')
     expect(wrapper.find('.mp-pagination__item--active').text()).toBe('10')
 
     expect(change).toBeCalledTimes(2)
@@ -107,8 +103,8 @@ describe('basic mode', () => {
   })
 })
 
-test('Size related props', async () => {
-  const template = `<mp-pagination total="115" size="20" :show-size-changer="sizeChange" :size-option="sizeOption"/>`
+test('page size related props', async () => {
+  const template = `<mp-pagination total="115" :page-size="20" :show-page-size="showPageSize" :page-size-options="pageSizeOptions" :simple="false"/>`
 
   const wrapper = mount({
     components: {
@@ -116,8 +112,8 @@ test('Size related props', async () => {
     },
     data() {
       return {
-        sizeChange: true,
-        sizeOption: [10, 20, 30, 40],
+        showPageSize: true,
+        pageSizeOptions: [10, 20, 30, 40],
       }
     },
     template,
@@ -127,18 +123,19 @@ test('Size related props', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.setData({ sizeChange: false })
+  await wrapper.setData({ showPageSize: false })
 
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
 })
 
-test('change current and size', async () => {
+test('change current and pageSize', async () => {
   const wrapper = mount(VarPagination, {
     props: {
       current: 4,
-      size: 10,
+      pageSize: 10,
       total: 300,
+      showPageSize: true,
     },
   })
 
@@ -150,7 +147,7 @@ test('change current and size', async () => {
 
   await wrapper.setProps({
     current: 5,
-    size: 20,
+    pageSize: 20,
   })
 
   expect(input.element.value).toBe('5')
@@ -161,16 +158,18 @@ test('change current and size', async () => {
 
 test('change event', async () => {
   const change = vi.fn()
-  const template = `<mp-pagination current="2" :size="20" total="325" @change="change" />`
-
+  const current = ref(2)
   const wrapper = mount({
     components: {
       [VarPagination.name]: VarPagination,
     },
-    methods: {
-      change,
+    setup() {
+      return {
+        current,
+        change,
+      }
     },
-    template,
+    template: `<mp-pagination v-model:current="current" :page-size="20" total="325" @change="change" />`,
   })
 
   await delay(0)

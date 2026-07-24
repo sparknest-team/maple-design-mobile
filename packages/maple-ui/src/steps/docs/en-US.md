@@ -2,25 +2,23 @@
 
 ### Intro
 
-Steps is a navigation bar that guides users through the steps of a task.
+Steps is a navigation bar that guides users through the steps of a task. Progress is controlled by `current`, counted from **1** (aligned with Pagination / PC).
 
 ### Basic Usage
-
-Use `active` prop to control the progress of step, value is index of step and is counted from `0`.
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(0)
+const current = ref(1)
 
 function next() {
-  active.value = (active.value + 1) % 4
+  current.value = current.value >= 4 ? 1 : current.value + 1
 }
 </script>
 
 <template>
-  <mp-steps :active="active">
+  <mp-steps :current="current">
     <mp-step>Step1</mp-step>
     <mp-step>Step2</mp-step>
     <mp-step>Step3</mp-step>
@@ -30,51 +28,88 @@ function next() {
 </template>
 ```
 
+### Error Status
 
-### Custom Style
+Use `status="error"` to show an error state on the current step.
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(0)
+const current = ref(2)
 </script>
 
 <template>
-  <mp-steps
-    :active="active"
-    active-color="var(--color-danger)" 
-    inactive-color="var(--color-warning)"
-  >
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
-      Step1
-    </mp-step>
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
-      Step2
-    </mp-step>
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
-      Step3
-    </mp-step>
-    <mp-step active-icon="heart" current-icon="fire" inactive-icon="heart-half-full">
-      Step4
-    </mp-step>
+  <mp-steps :current="current" status="error">
+    <mp-step>Step1</mp-step>
+    <mp-step>Step2</mp-step>
+    <mp-step>Step3</mp-step>
   </mp-steps>
 </template>
 ```
 
-### Vertical Mode
+### Custom Icon
 
-Change the display direction of the step bar through the `direction` attribute.
+Customize the node icon via the `#icon` slot. Colors are customized with `--mp-step-*` CSS variables / StyleProvider.
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(0)
+const current = ref(2)
 </script>
 
 <template>
-  <mp-steps direction="vertical" :active="active">
+  <mp-steps :current="current">
+    <mp-step>
+      Step1
+      <template #icon="{ status }">
+        <mp-icon v-if="status === 'finish'" name="heart" />
+        <span v-else>1</span>
+      </template>
+    </mp-step>
+    <mp-step>
+      Step2
+      <template #icon="{ step }">{{ step }}</template>
+    </mp-step>
+    <mp-step>Step3</mp-step>
+  </mp-steps>
+</template>
+```
+
+### Changeable
+
+Set `changeable` to enable clicking to switch steps.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const current = ref(1)
+</script>
+
+<template>
+  <mp-steps v-model:current="current" changeable>
+    <mp-step description="Description">Step1</mp-step>
+    <mp-step description="Description">Step2</mp-step>
+    <mp-step description="Description">Step3</mp-step>
+  </mp-steps>
+</template>
+```
+
+### Vertical
+
+Change the display direction via the `direction` attribute.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const current = ref(1)
+</script>
+
+<template>
+  <mp-steps direction="vertical" :current="current">
     <mp-step>Step1</mp-step>
     <mp-step>Step2</mp-step>
     <mp-step>Step3</mp-step>
@@ -91,47 +126,47 @@ const active = ref(0)
 
 | Prop | Description | Type | Default |
 | ----- | -------------- | -------- | ---------- |
-| `active` | Active step | _string \| number_ | `0` |
-| `direction` | Mode of steps, can be set to `horizontal` `vertical` | _string_ | `horizontal` |
-| `active-color` | Active step color | _string_ | `-` |
-| `inactive-color` | Inactive step color | _string_ | `-` |
+| `current` | Current step (controlled, 1-based) | _number_ | `-` |
+| `default-current` | Default current step (uncontrolled) | _number_ | `1` |
+| `direction` | Direction, can be `vertical` | _string_ | `horizontal` |
+| `status` | Status of the current step | _'wait' \| 'process' \| 'finish' \| 'error'_ | `process` |
+| `changeable` | Whether steps can be switched by click | _boolean_ | `false` |
 
 #### Step Props
 
 | Prop | Description | Type | Default |
 | ----- | -------------- | -------- | ---------- |
-| `active-icon` | Active icon name  | _string_ | `check` |
-| `current-icon` | Icon name of current ste	 | _string_ | `-`|
-| `inactive-icon` | Inactive icon name	 | _string_ | `-`|
-| `active-icon-namespace` | Active icon namespace  | _string_ | `mp-icon` |
-| `current-icon-namespace` | Current icon namespace | _string_ |`mp-icon` |
-| `inactive-icon-namespace` | Inactive icon namespace | _string_ | `mp-icon` |
+| `title` | Step title | _string_ | `-` |
+| `description` | Step description | _string_ | `-` |
+| `status` | Step status (overrides auto derivation) | _'wait' \| 'process' \| 'finish' \| 'error'_ | `-` |
+| `disabled` | Whether disabled | _boolean_ | `false` |
 
 ### Events
 
 #### Steps Events
 
-| Event | Description | arguments |
+| Event | Description | Arguments |
 | ----- | -------------- | -------- |
-| `click-step` | Emitted after click step | `index: number` |
+| `change` | Triggered when step changes (`changeable` required) | `step: number, ev: Event` |
+| `update:current` | `v-model:current` sync | `step: number` |
 
 ### Slots
 
 #### Steps Slots
 
-| Name | Description      | SlotProps |
-| ----- |------------------| -------- |
-| `default` | Content of steps | `-`|
+| Name | Description | Arguments |
+| ----- |-----------| -------- |
+| `default` | Steps content | `-` |
 
 #### Step Slots
 
-| Name | Description | SlotProps |
+| Name | Description | Arguments |
 | ----- | -------------- | -------- |
-| `default` | Content of step | `-`|
+| `default` | Step title (takes precedence over `title`) | `-` |
+| `icon` | Custom node icon | `{ step: number, status: string }` |
+| `description` | Step description | `-` |
 
-### Style Variables
-
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+### CSS Variables
 
 | Variable | Default |
 | --- | --- |
@@ -140,6 +175,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--step-tag-font-size` | `var(--font-size-md)` |
 | `--step-tag-color` | `var(--color-on-primary)` |
 | `--step-tag-active-color` | `var(--color-primary)` |
+| `--step-tag-error-color` | `var(--color-danger)` |
 | `--step-tag-margin` | `4px 0` |
 | `--step-tag-icon-size` | `var(--font-size-lg)` |
 | `--step-content-font-size` | `var(--font-size-md)` |

@@ -1,7 +1,7 @@
 export default {
   '--mp-divider-text-color': '#aaa',
   '--mp-divider-color': 'var(--mp-color-outline)',
-  '--mp-divider-text-margin': '8px 0',
-  '--mp-divider-text-padding': '0 8px',
-  '--mp-divider-inset': '72px',
+  '--mp-divider-border-width': '1px',
+  '--mp-divider-text-padding': '8px',
+  '--mp-divider-text-align-inset': '24px',
 }

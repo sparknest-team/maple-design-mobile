@@ -1,6 +1,5 @@
 import { VNode, VNodeChild, type InputHTMLAttributes } from 'vue'
 import {
-  Rules as AutoCompleteRules,
   Variant as AutoCompleteVariant,
   BasicAttributes,
   ListenerProp,
@@ -13,8 +12,6 @@ export declare const autoComponentProps: Record<keyof AutoCompleteProps, any>
 export type AutoCompleteOptionLabelRender = (option: AutoCompleteOption, checked: boolean) => VNodeChild
 
 export type AutoCompleteOptionLabel = string | VNode | AutoCompleteOptionLabelRender
-
-export type AutoCompleteValidateTrigger = 'onFocus' | 'onBlur' | 'onChange' | 'onClick' | 'onClear' | 'onInput'
 
 export type AutoCompleteSize = 'small' | 'normal'
 
@@ -43,9 +40,7 @@ export interface AutoCompleteProps extends BasicAttributes {
   disabled?: boolean
   readonly?: boolean
   clearable?: boolean
-  validateTrigger?: AutoCompleteValidateTrigger[]
   getShow?: (v: string) => boolean
-  rules?: AutoCompleteRules
   enterkeyhint?: InputHTMLAttributes['enterKeyHint']
   onFocus?: ListenerProp<() => void>
   onBlur?: ListenerProp<() => void>
@@ -68,18 +63,11 @@ export class AutoComplete extends VarComponent {
     'prepend-icon'(): VNode[]
     'append-icon'(): VNode[]
     'clear-icon'(data: AutoCompleteClearIconData): VNode[]
-    'extra-message'(): VNode[]
   }
 
   focus(): void
 
   blur(): void
-
-  validate(): Promise<boolean>
-
-  resetValidation(): void
-
-  reset(): void
 }
 
 export class _AutoCompleteComponent extends AutoComplete {}

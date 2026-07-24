@@ -68,10 +68,10 @@ interface BaseStyleVars {
   '--bottom-navigation-item-variant-icon-container-max-width'?: string
   '--bottom-navigation-item-variant-active-background-color'?: string
   '--bottom-navigation-item-variant-active-color'?: string
-  '--breadcrumb-item-active-color'?: string
-  '--breadcrumb-item-inactive-color'?: string
-  '--breadcrumb-item-separator-margin'?: string
-  '--breadcrumb-item-separator-font-size'?: string
+  '--mp-breadcrumb-item-active-color'?: string
+  '--mp-breadcrumb-item-inactive-color'?: string
+  '--mp-breadcrumb-item-separator-margin'?: string
+  '--mp-breadcrumb-item-separator-font-size'?: string
   '--button-default-text-color'?: string
   '--button-primary-text-color'?: string
   '--button-danger-text-color'?: string
@@ -166,6 +166,21 @@ interface BaseStyleVars {
   '--carousel-navigation-next-right'?: string
   '--carousel-navigation-prev-top'?: string
   '--carousel-navigation-next-bottom'?: string
+  '--mp-cascader-panel-background'?: string
+  '--mp-cascader-panel-padding'?: string
+  '--mp-cascader-panel-max-height'?: string
+  '--mp-cascader-panel-border-radius'?: string
+  '--mp-cascader-column-width'?: string
+  '--mp-cascader-option-height'?: string
+  '--mp-cascader-option-padding'?: string
+  '--mp-cascader-option-font-size'?: string
+  '--mp-cascader-option-selected-color'?: string
+  '--mp-cascader-option-selected-background'?: string
+  '--mp-cascader-option-text-color'?: string
+  '--mp-cascader-option-disabled-color'?: string
+  '--mp-cascader-option-arrow-size'?: string
+  '--mp-cascader-label-font-size'?: string
+  '--mp-cascader-arrow-size'?: string
   '--cell-color'?: string
   '--cell-font-size'?: string
   '--cell-description-font-size'?: string
@@ -184,41 +199,6 @@ interface BaseStyleVars {
   '--checkbox-action-padding'?: string
   '--checkbox-text-color'?: string
   '--checkbox-icon-size'?: string
-  '--chip-default-text-color'?: string
-  '--chip-primary-text-color'?: string
-  '--chip-danger-text-color'?: string
-  '--chip-success-text-color'?: string
-  '--chip-warning-text-color'?: string
-  '--chip-info-text-color'?: string
-  '--chip-default-color'?: string
-  '--chip-primary-color'?: string
-  '--chip-danger-color'?: string
-  '--chip-success-color'?: string
-  '--chip-warning-color'?: string
-  '--chip-info-color'?: string
-  '--chip-primary-plain-color'?: string
-  '--chip-danger-plain-color'?: string
-  '--chip-success-plain-color'?: string
-  '--chip-warning-plain-color'?: string
-  '--chip-info-plain-color'?: string
-  '--chip-border-radius'?: string
-  '--chip-normal-height'?: string
-  '--chip-large-height'?: string
-  '--chip-small-height'?: string
-  '--chip-mini-height'?: string
-  '--chip-round-radius'?: string
-  '--chip-normal-padding'?: string
-  '--chip-large-padding'?: string
-  '--chip-small-padding'?: string
-  '--chip-mini-padding'?: string
-  '--chip-text-normal-margin'?: string
-  '--chip-text-large-margin'?: string
-  '--chip-text-small-margin'?: string
-  '--chip-text-mini-margin'?: string
-  '--chip-mini-font-size'?: string
-  '--chip-small-font-size'?: string
-  '--chip-normal-font-size'?: string
-  '--chip-large-font-size'?: string
   '--code-line-height'?: string
   '--code-font-size'?: string
   '--collapse-background'?: string
@@ -290,6 +270,20 @@ interface BaseStyleVars {
   '--day-picker-head-item-color'?: string
   '--day-picker-head-item-padding'?: string
   '--day-picker-head-item-font-weight'?: string
+  '--date-range-picker-values-height'?: string
+  '--date-range-picker-values-font-size'?: string
+  '--date-range-picker-values-font-weight'?: string
+  '--date-range-picker-value-color'?: string
+  '--date-range-picker-value-active-color'?: string
+  '--date-range-picker-value-arrow-color'?: string
+  '--date-range-picker-value-arrow-size'?: string
+  '--date-range-picker-value-date-font-size'?: string
+  '--date-range-picker-value-time-font-size'?: string
+  '--date-range-picker-column-label-height'?: string
+  '--date-range-picker-column-label-font-size'?: string
+  '--date-range-picker-column-label-color'?: string
+  '--date-range-picker-border-radius'?: string
+  '--date-range-picker-background'?: string
   '--dialog-width'?: string
   '--dialog-background'?: string
   '--dialog-border-radius'?: string
@@ -304,11 +298,11 @@ interface BaseStyleVars {
   '--dialog-title-color'?: string
   '--dialog-confirm-button-color'?: string
   '--dialog-cancel-button-color'?: string
-  '--divider-color'?: string
-  '--divider-text-color'?: string
-  '--divider-text-margin'?: string
-  '--divider-text-padding'?: string
-  '--divider-inset'?: string
+  '--mp-divider-color'?: string
+  '--mp-divider-text-color'?: string
+  '--mp-divider-border-width'?: string
+  '--mp-divider-text-padding'?: string
+  '--mp-divider-text-align-inset'?: string
   '--fab-top'?: string
   '--fab-bottom'?: string
   '--fab-left'?: string
@@ -332,11 +326,8 @@ interface BaseStyleVars {
   '--floating-panel-toolbar-border-radius'?: string
   '--floating-panel-toolbar-background'?: string
   '--floating-panel-transition-timing-function'?: string
-  '--form-details-error-message-color'?: string
-  '--form-details-extra-message-color'?: string
-  '--form-details-margin-top'?: string
-  '--form-details-font-size'?: string
-  '--form-details-message-margin-right'?: string
+  '--mp-form-item-label-width'?: string
+  '--mp-form-item-label-gap'?: string
   '--icon-size'?: string
   '--image-preview-swipe-indicators-text-color'?: string
   '--image-preview-swipe-indicators-padding'?: string
@@ -481,6 +472,8 @@ interface BaseStyleVars {
   '--picker-title-font-size'?: string
   '--picker-title-text-color'?: string
   '--picker-option-font-size'?: string
+  '--picker-option-disabled-text-color'?: string
+  '--picker-option-check-color'?: string
   '--picker-option-text-color'?: string
   '--picker-toolbar-padding'?: string
   '--picker-mask-background-image'?: string
@@ -546,9 +539,9 @@ interface BaseStyleVars {
   '--select-scroller-max-height'?: string
   '--select-scroller-border-radius'?: string
   '--select-label-font-size'?: string
-  '--select-chips-margin'?: string
-  '--select-chips-padding'?: string
-  '--select-chip-margin'?: string
+  '--select-tags-margin'?: string
+  '--select-tags-padding'?: string
+  '--select-tag-margin'?: string
   '--select-arrow-size'?: string
   '--select-standard-menu-margin'?: string
   '--option-height'?: string
@@ -604,6 +597,7 @@ interface BaseStyleVars {
   '--step-tag-font-size'?: string
   '--step-tag-color'?: string
   '--step-tag-active-color'?: string
+  '--step-tag-error-color'?: string
   '--step-tag-margin'?: string
   '--step-tag-icon-size'?: string
   '--step-content-font-size'?: string
@@ -680,6 +674,7 @@ interface BaseStyleVars {
   '--tab-active-font-weight'?: string
   '--mp-tag-border-width'?: string
   '--mp-tag-border-radius'?: string
+  '--mp-tag-round-radius'?: string
   '--mp-tag-padding'?: string
   '--mp-tag-icon-margin'?: string
   '--mp-tag-font-weight'?: string
@@ -821,6 +816,24 @@ interface BaseStyleVars {
   '--time-picker-body-background'?: string
   '--time-picker-body-height'?: string
   '--time-picker-actions-padding'?: string
+  '--time-range-label-font-size'?: string
+  '--time-range-arrow-size'?: string
+  '--time-range-toolbar-height'?: string
+  '--time-range-toolbar-padding'?: string
+  '--time-range-title-text-color'?: string
+  '--time-range-title-font-size'?: string
+  '--time-range-cancel-button-text-color'?: string
+  '--time-range-confirm-button-text-color'?: string
+  '--time-range-picker-values-height'?: string
+  '--time-range-picker-values-font-size'?: string
+  '--time-range-picker-values-font-weight'?: string
+  '--time-range-picker-value-color'?: string
+  '--time-range-picker-value-active-color'?: string
+  '--time-range-picker-value-arrow-color'?: string
+  '--time-range-picker-value-arrow-size'?: string
+  '--time-range-picker-next-day-color'?: string
+  '--time-range-picker-border-radius'?: string
+  '--time-range-picker-background'?: string
   '--tooltip-opacity'?: string
   '--tooltip-border-radius'?: string
   '--tooltip-font-size'?: string

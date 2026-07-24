@@ -7,9 +7,7 @@ exports[`uploader disabled 1`] = `
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
@@ -29,9 +27,7 @@ exports[`uploader disabled 2`] = `
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
@@ -44,9 +40,7 @@ exports[`uploader hideList 1`] = `
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
@@ -59,20 +53,7 @@ exports[`uploader length over maxlength in multiple mode 1`] = `
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>0 / 1</div>
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
+  <div class="mp-uploader__length">0 / 1</div>
   <!--teleport start-->
   <!--teleport end-->
 </div>"
@@ -93,9 +74,7 @@ exports[`uploader progress 1`] = `
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
+  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
@@ -115,102 +94,6 @@ exports[`uploader remove button slot 1`] = `
     </div>
   </div>
   <!--v-if-->
-  <!--teleport start-->
-  <!--teleport end-->
-</div>"
-`;
-
-exports[`uploader validation 1`] = `
-"<div class="mp-uploader mp--box">
-  <div class="mp-uploader__file-list">
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must upload one file at least</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-  <!--teleport start-->
-  <!--teleport end-->
-</div>"
-`;
-
-exports[`uploader validation 2`] = `
-"<div class="mp-uploader mp--box">
-  <div class="mp-uploader__file-list">
-    <div class="mp-uploader__file mp-elevation--2">
-      <div class="mp-uploader__file-name">cat.png</div>
-      <div class="mp-uploader__file-close"><i class="mp-icon mp-icon--set mp-icon-delete mp-uploader__file-close-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i></div><img role="img" class="mp-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
-      <div class="mp-uploader__file-indicator">
-        <div class="mp-uploader__progress" style="width: 0%;"></div>
-      </div>
-    </div>
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
-  <!--teleport start-->
-  <!--teleport end-->
-</div>"
-`;
-
-exports[`uploader validation with zod 1`] = `
-"<div class="mp-uploader mp--box">
-  <div class="mp-uploader__file-list">
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <div class="mp-form-details">
-      <div class="mp-form-details__error-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <div>You must upload one file at least</div>
-        </transition-stub>
-      </div>
-      <div class="mp-form-details__extra-message">
-        <transition-stub name="mp-form-details__message" appear="false" persisted="false" css="true">
-          <!--v-if-->
-        </transition-stub>
-      </div>
-    </div>
-  </transition-stub>
-  <!--teleport start-->
-  <!--teleport end-->
-</div>"
-`;
-
-exports[`uploader validation with zod 2`] = `
-"<div class="mp-uploader mp--box">
-  <div class="mp-uploader__file-list">
-    <div class="mp-uploader__file mp-elevation--2">
-      <div class="mp-uploader__file-name">cat.png</div>
-      <div class="mp-uploader__file-close"><i class="mp-icon mp-icon--set mp-icon-delete mp-uploader__file-close-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i></div><img role="img" class="mp-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
-      <div class="mp-uploader__file-indicator">
-        <div class="mp-uploader__progress" style="width: 0%;"></div>
-      </div>
-    </div>
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
-      <div class="mp-hover-overlay"></div>
-    </div>
-  </div>
-  <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
-    <!--v-if-->
-  </transition-stub>
   <!--teleport start-->
   <!--teleport end-->
 </div>"

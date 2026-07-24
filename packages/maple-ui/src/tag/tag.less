@@ -1,11 +1,12 @@
 :root {
   --mp-tag-border-width: 1px;
   --mp-tag-border-radius: 4px;
+  --mp-tag-round-radius: 100px;
   --mp-tag-padding: 0 10px;
   --mp-tag-icon-margin: 6px;
   --mp-tag-font-weight: 500;
 
-  // size（移动端整体比 PC 高一档，贴近 Chip 手感）
+  // size（移动端触控高度略高于 PC）
   --mp-tag-size-xs-height: 24px;
   --mp-tag-size-sm-height: 28px;
   --mp-tag-size-md-height: 32px;
@@ -154,6 +155,10 @@
   &--loading {
     cursor: default;
     opacity: 0.8;
+  }
+
+  &--round {
+    border-radius: var(--mp-tag-round-radius);
   }
 
   &--nowrap {

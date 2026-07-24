@@ -6,6 +6,7 @@ withInstall(Breadcrumb)
 withPropsDefaultsSetter(Breadcrumb, breadcrumbProps)
 
 export { breadcrumbProps }
+export type { BreadcrumbProps, BreadcrumbRoute } from './props'
 
 export const _BreadcrumbComponent = Breadcrumb
 

@@ -9,7 +9,7 @@
           classes(
             n('action'),
             [checked || isIndeterminate, n('--checked'), n('--unchecked')],
-            [errorMessage || checkboxGroupErrorMessage, n('--error')],
+            [mergedError || checkboxGroupErrorMessage, n('--error')],
             [formDisabled || disabled, n('--disabled')],
           )
         "
@@ -38,7 +38,7 @@
         :class="
           classes(
             n('text'),
-            [errorMessage || checkboxGroupErrorMessage, n('--error')],
+            [mergedError || checkboxGroupErrorMessage, n('--error')],
             [formDisabled || disabled, n('--disabled')],
           )
         "
@@ -47,23 +47,21 @@
         <slot :checked="checked" />
       </div>
     </div>
-
-    <mp-form-details :error-message="errorMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
-import MpFormDetails from '../form-details'
+import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
-import { createNamespace, useValidation } from '../utils/components'
-import { props, type CheckboxValidateTrigger } from './props'
+import { createNamespace } from '../utils/components'
+import { props } from './props'
 import { useCheckboxGroup, type CheckboxProvider } from './provide'
 
 const { name, n, classes } = createNamespace('checkbox')
@@ -73,7 +71,6 @@ export default defineComponent({
   directives: { Ripple, Hover },
   components: {
     MpIcon,
-    MpFormDetails,
     MpHoverOverlay,
   },
   props,
@@ -86,43 +83,26 @@ export default defineComponent({
     const checkedValue = computed(() => props.checkedValue)
     const { checkboxGroup, bindCheckboxGroup } = useCheckboxGroup()
     const { hovering, handleHovering } = useHoverOverlay()
-    const { form, bindForm } = useForm()
-    const {
-      errorMessage,
-      validateWithTrigger: vt,
-      validate: v,
-      // expose
-      resetValidation,
-    } = useValidation()
+    const { form } = useForm()
+    const { mergedError, eventHandlers } = useFormItem()
 
     const checkboxProvider: CheckboxProvider = {
       checkedValue,
       checked,
       sync,
-      validate,
-      resetValidation,
-      reset,
     }
 
     call(bindCheckboxGroup, checkboxProvider)
-    call(bindForm, checkboxProvider)
 
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)
-
-    function validateWithTrigger(trigger: CheckboxValidateTrigger) {
-      nextTick(() => {
-        const { validateTrigger, rules, modelValue } = props
-        vt(validateTrigger, trigger, rules, modelValue)
-      })
-    }
 
     function change(changedValue: any) {
       const { checkedValue, onChange } = props
 
       value.value = changedValue
       call(onChange, value.value, isIndeterminate.value)
-      validateWithTrigger('onChange')
+      eventHandlers.value.onChange?.()
       changedValue === checkedValue ? checkboxGroup?.onChecked(checkedValue) : checkboxGroup?.onUnchecked(checkedValue)
     }
 
@@ -142,7 +122,7 @@ export default defineComponent({
       if (isIndeterminate.value === true) {
         isIndeterminate.value = false
         call(props.onChange, value.value, isIndeterminate.value)
-        validateWithTrigger('onChange')
+        eventHandlers.value.onChange?.()
         return
       }
 
@@ -162,12 +142,6 @@ export default defineComponent({
     function sync(values: Array<any>) {
       const { checkedValue, uncheckedValue } = props
       value.value = values.includes(checkedValue) ? checkedValue : uncheckedValue
-    }
-
-    // expose
-    function reset() {
-      value.value = props.uncheckedValue
-      resetValidation()
     }
 
     // expose
@@ -209,17 +183,12 @@ export default defineComponent({
       }
     }
 
-    // expose
-    function validate() {
-      return v(props.rules, props.modelValue)
-    }
-
     return {
       action,
       isFocusing,
       isIndeterminate,
       checked,
-      errorMessage,
+      mergedError,
       checkboxGroupErrorMessage: checkboxGroup?.errorMessage,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
@@ -230,9 +199,6 @@ export default defineComponent({
       handleClick,
       handleTextClick,
       toggle,
-      reset,
-      validate,
-      resetValidation,
     }
   },
 })
@@ -241,7 +207,6 @@ export default defineComponent({
 <style lang="less">
 @import '../styles/common';
 @import '../ripple/ripple';
-@import '../form-details/formDetails';
 @import '../icon/icon';
 @import '../hover-overlay/hoverOverlay';
 @import './checkbox';

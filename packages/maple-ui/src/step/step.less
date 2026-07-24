@@ -4,6 +4,7 @@
   --mp-step-tag-font-size: var(--mp-font-size-md);
   --mp-step-tag-color: var(--mp-color-on-primary);
   --mp-step-tag-active-color: var(--mp-color-primary);
+  --mp-step-tag-error-color: var(--mp-color-danger);
   --mp-step-tag-margin: 4px 0;
   --mp-step-tag-icon-size: var(--mp-font-size-lg);
   --mp-step-content-font-size: var(--mp-font-size-md);
@@ -26,7 +27,7 @@
   justify-content: center;
   border-radius: 50%;
   color: var(--mp-step-tag-color);
-  cursor: pointer;
+  cursor: default;
   -webkit-tap-highlight-color: transparent;
   transition: 0.3s var(--mp-cubic-bezier);
 }
@@ -35,15 +36,39 @@
 .mp-step-content {
   font-size: var(--mp-step-content-font-size);
   color: var(--mp-step-content-color);
-  cursor: pointer;
+  cursor: default;
   -webkit-tap-highlight-color: transparent;
   transition: 0.3s var(--mp-cubic-bezier);
+}
+
+.mp-steps--changeable {
+  .mp-step-tag,
+  .mp-step-content,
+  .mp-step__horizontal-tag,
+  .mp-step__horizontal-content,
+  .mp-step__vertical-tag,
+  .mp-step__vertical-content {
+    cursor: pointer;
+  }
+
+  .mp-step--disabled {
+    .mp-step__horizontal-tag,
+    .mp-step__horizontal-content,
+    .mp-step__vertical-tag,
+    .mp-step__vertical-content {
+      cursor: not-allowed;
+    }
+  }
 }
 
 .mp-step {
   position: relative;
   flex: 1;
   -webkit-tap-highlight-color: transparent;
+
+  &--disabled {
+    opacity: 0.5;
+  }
 
   &:last-child {
     .mp-step__horizontal-line {
@@ -67,14 +92,29 @@
       &--active {
         background: var(--mp-step-tag-active-color);
       }
+
+      &--error {
+        background: var(--mp-step-tag-error-color);
+      }
     }
 
     &-content {
       .mp-step-content();
+      text-align: center;
 
       &--active {
         color: var(--mp-step-content-active-color);
       }
+    }
+
+    &-title {
+      font-size: var(--mp-step-content-font-size);
+    }
+
+    &-description {
+      margin-top: 4px;
+      font-size: calc(var(--mp-step-content-font-size) - 2px);
+      opacity: 0.7;
     }
 
     &-line {
@@ -101,6 +141,10 @@
       &--active {
         background: var(--mp-step-tag-active-color);
       }
+
+      &--error {
+        background: var(--mp-step-tag-error-color);
+      }
     }
 
     &-content {
@@ -109,6 +153,16 @@
       &--active {
         color: var(--mp-step-content-active-color);
       }
+    }
+
+    &-title {
+      font-size: var(--mp-step-content-font-size);
+    }
+
+    &-description {
+      margin-top: 4px;
+      font-size: calc(var(--mp-step-content-font-size) - 2px);
+      opacity: 0.7;
     }
 
     &-line {

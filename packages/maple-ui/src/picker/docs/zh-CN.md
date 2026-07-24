@@ -490,6 +490,7 @@ function handleChange(values, indexes) {
 | `value-key` | 值的属性 key | _string_ | `value` |
 | `children-key` | 级联子列表 key | _string_ | `children` |
 | `toolbar` | 是否显示上方工具栏 | _boolean_ | `true` |
+| `selected-values` | 已选中的选项值，选项右侧显示对号 | _(string \| number)[]_ | `[]` |
 | `cascade` | 是否开启级联模式 | _boolean_ | `true` |
 | `option-height` | 选项的高度(px rem) | _string \| number_ | `44` |
 | `option-count` | 可见的选项个数 | _string \| number_ | `6` |
@@ -510,6 +511,7 @@ function handleChange(values, indexes) {
 | `valueKey`               | 值的属性 key | _string_ | `value` |
 | `childrenKey`            | 级联子列表 key | _string_ | `children` |
 | `toolbar`                | 是否显示上方工具栏 | _boolean_ | `true` |
+| `selectedValues`         | 已选中的选项值，选项右侧显示对号 | _(string \| number)[]_ | `[]` |
 | `cascade`                | 是否开启级联模式 | _boolean_ | `true` |
 | `optionHeight`           | 选项的高度 | _string \| number_ | `44` |
 | `optionCount`            | 可见的选项个数 | _string \| number_ | `6` |
@@ -537,6 +539,7 @@ function handleChange(values, indexes) {
 | --- | --- | --- | --- |
 | `text` | 文本 | _string \| number_ | `-` |
 | `value` | 值 | _string \| number_ | `-` |
+| `disabled` | 是否禁用 | _boolean_ | `false` |
 | `children` | 子列表 | _PickerColumnOption[]_ | `-` |
 | `className` | 附加的类名 | _string_ | `-` |
 | `textClassName` | 文本附加的类名 | _string_ | `-` |
@@ -579,6 +582,8 @@ function handleChange(values, indexes) {
 | `--picker-title-font-size` | `var(--font-size-lg)` |
 | `--picker-title-text-color` | `#555` |
 | `--picker-option-font-size` | `var(--font-size-lg)` |
+| `--picker-option-disabled-text-color` | `var(--color-text-disabled, #c8c9cc)` |
+| `--picker-option-check-color` | `var(--color-primary)` |
 | `--picker-option-text-color` | `#555` |
 | `--picker-toolbar-padding` | `0 4px` |
 | `--picker-mask-background-image` | `linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4))` |

@@ -9,14 +9,18 @@ import {
 
 export { StepsDirection }
 
+export type StepStatus = 'wait' | 'process' | 'finish' | 'error'
+
 export declare const stepsProps: Record<keyof StepsProps, any>
 
 export interface StepsProps extends BasicAttributes {
-  active?: string | number
+  current?: number
+  defaultCurrent?: number
   direction?: StepsDirection
-  activeColor?: string
-  inactiveColor?: string
-  onClickStep?: ListenerProp<(index: number) => void>
+  status?: StepStatus
+  changeable?: boolean
+  onChange?: ListenerProp<(step: number, ev: Event) => void>
+  'onUpdate:current'?: ListenerProp<(step: number) => void>
 }
 
 export class Steps extends VarComponent {

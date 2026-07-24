@@ -133,43 +133,7 @@ function handleBeforeChange(value, change) {
 </template>
 ```
 
-### Validate
-
-The values are validated by passing in an array of validators. If the validator returns `true`, the validation passes.
-Other values are converted to text as a user prompt.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter
-    :rules="v => v > 5 || 'Please select a value greater than 5'"
-    v-model="value"
-  />
-</template>
-```
-
-### Validate with Zod
-
-```html
-<script setup>
-import { ref } from 'vue'
-import { z } from 'zod'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter
-    :rules="z.number().min(6, 'Please select a value greater than 5')"
-    v-model="value"
-  />
-</template>
-```
+> For form validation of the counter, please use the [FormItem component](#/en-US/form-item).
 
 ## API
 
@@ -197,16 +161,6 @@ const value = ref(0)
 | `press` | Long press the open button | _boolean_ | `true` |
 | `ripple` | Whether to open ripple | _boolean_ | `true` |
 | `lazy-change` | Whether to prevent the component itself from updating the bound value | _boolean_ | `false` |
-| `validate-trigger` | Timing to trigger validation，Optional value is `onInputChange` `onLazyChange` `onIncrement` `onDecrement` | _CounterValidateTrigger[]_ | `['onIncrement', 'onDecrement', 'onInputChange', 'onLazyChange']` |
-| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: number) => any) \| ZodType \| Array<((v: number) => any) \| ZodType>_ | `-` |
-
-### Methods
-
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
-| `resetValidation` | Clear validate messages | `-` | `-` |
-| `reset` | Clear the value of the binding(set to `min \|\| 0`)and validate messages | `-` | `-` |
 
 ### Events
 

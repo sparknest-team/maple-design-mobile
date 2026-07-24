@@ -13,6 +13,15 @@
 - Progress 组件移除了对 `ripple` 属性的兼容
 - IndexBar 组件移除了对 `cssMode` 属性的兼容
 - LoadingBar 组件移除了对 `mergeConfig` 方法的兼容
+- Pagination 组件 API 对齐 Cedar：
+  - `v-model:size` → `v-model:page-size`
+  - `show-size-changer` → `show-page-size`（默认改为 `false`）
+  - `show-quick-jumper` → `show-jumper`
+  - `size-option` → `page-size-options`
+  - `max-pager-count` → `base-size` + `buffer-size`
+  - `show-total` 由函数改为 `boolean`，自定义文案使用 `#total` 插槽
+  - `change(current, size)` → `change(current)` + `page-size-change(pageSize)`
+  - `#prev` / `#next` → `#page-item-step`
 
 ### 组件样式变量变更
 
