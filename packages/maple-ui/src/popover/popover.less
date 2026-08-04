@@ -1,0 +1,29 @@
+:root {
+  --mp-popover-background-color: var(--mp-color-surface-container-high);
+  --mp-popover-border-radius: 2px;
+}
+
+.mp-popover {
+  display: inline-flex;
+  outline: none;
+
+  &__content {
+    border-radius: var(--mp-popover-border-radius);
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition-property: opacity, transform;
+    transition-duration: 0.2s;
+  }
+
+  &--background-color {
+    background: var(--mp-popover-background-color);
+  }
+}

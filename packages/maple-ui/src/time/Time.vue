@@ -27,8 +27,8 @@
         onClear: handleClear,
       }"
     >
-      <template v-if="$slots['prepend-icon']" #prepend-icon>
-        <slot name="prepend-icon" />
+      <template v-if="$slots['prefix']" #prefix>
+        <slot name="prefix" />
       </template>
 
       <div
@@ -63,8 +63,8 @@
         <slot name="clear-icon" :clear="clear" />
       </template>
 
-      <template #append-icon>
-        <slot name="append-icon" />
+      <template #suffix>
+        <slot name="suffix" />
       </template>
     </mp-field-decorator>
 

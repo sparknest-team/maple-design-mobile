@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { usePopover } from '../menu/usePopover'
+import { usePopover } from '../popover/usePopover'
 import { createNamespace, useTeleport } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'

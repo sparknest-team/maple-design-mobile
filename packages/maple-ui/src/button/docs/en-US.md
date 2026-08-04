@@ -187,7 +187,7 @@ function handleAutoLoadingClick() {
 
 ```html
 <template>
-  <mp-menu placement="bottom" same-width :offset-y="6">
+  <mp-popover placement="bottom" same-width :offset-y="6">
     <mp-button-group type="primary">
       <mp-button @click.stop>Split Button</mp-button>
       <mp-button style="padding: 0 6px;">
@@ -195,12 +195,12 @@ function handleAutoLoadingClick() {
       </mp-button>
     </mp-button-group>
 
-    <template #menu>
+    <template #content>
       <mp-cell ripple>Split Button</mp-cell>
       <mp-cell ripple>Split Button</mp-cell>
       <mp-cell ripple>Split Button</mp-cell>
     </template>
-  </mp-menu>
+  </mp-popover>
 </template>
 ```
 

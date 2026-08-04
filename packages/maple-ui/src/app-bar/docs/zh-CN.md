@@ -65,7 +65,7 @@
     </template>
 
     <template #right>
-      <mp-menu>
+      <mp-popover>
         <mp-button
           color="transparent"
           text-color="#fff"
@@ -75,12 +75,12 @@
           <mp-icon name="menu" :size="24" />
         </mp-button>
 
-        <template #menu>
+        <template #content>
           <mp-cell ripple>选项卡</mp-cell>
           <mp-cell ripple>选项卡</mp-cell>
           <mp-cell ripple>选项卡</mp-cell>
         </template>
-      </mp-menu>
+      </mp-popover>
     </template>
   </mp-app-bar>
 </template>

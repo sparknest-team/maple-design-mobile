@@ -80,7 +80,7 @@ function toggle() {
     :placeholder="t('searchIcon')"
     clearable
   >
-    <template #append-icon>
+    <template #suffix>
       <mp-icon class="search-icon" name="magnify" />
     </template>
   </mp-input>

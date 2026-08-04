@@ -1,5 +1,5 @@
 import { PropType } from 'vue'
-import { MenuSelectOption } from '../menu-select/props'
+import { MenuOption } from '../menu/props'
 import { defineListenerProp } from '../utils/components'
 
 export type MenuOptionKeyArrowX = 'ArrowLeft' | 'ArrowRight'
@@ -13,7 +13,7 @@ export const props = {
     default: true,
   },
   // internal start
-  option: Object as PropType<MenuSelectOption>,
+  option: Object as PropType<MenuOption>,
   childrenTrigger: Boolean,
   highlight: Boolean,
   onKeyArrowX: defineListenerProp<(key: MenuOptionKeyArrowX) => void>(),

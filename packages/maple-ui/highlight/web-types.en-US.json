@@ -590,12 +590,12 @@
           ],
           "slots": [
             {
-              "name": "prepend-icon",
-              "description": "Prepend Icon"
+              "name": "prefix",
+              "description": "Prefix"
             },
             {
-              "name": "append-icon",
-              "description": "Append Icon"
+              "name": "suffix",
+              "description": "Suffix"
             },
             {
               "name": "clear-icon",
@@ -2160,16 +2160,16 @@
               "description": "Custom option content"
             },
             {
-              "name": "prepend-icon",
-              "description": "Prepend icon"
+              "name": "prefix",
+              "description": "Prefix"
             },
             {
               "name": "clear-icon",
               "description": "Clear icon"
             },
             {
-              "name": "append-icon",
-              "description": "Append icon"
+              "name": "suffix",
+              "description": "Suffix"
             },
             {
               "name": "arrow-icon",
@@ -3367,16 +3367,16 @@
               "description": "Selected content"
             },
             {
-              "name": "prepend-icon",
-              "description": "Prepend icon"
+              "name": "prefix",
+              "description": "Prefix"
             },
             {
               "name": "clear-icon",
               "description": "Clear icon"
             },
             {
-              "name": "append-icon",
-              "description": "Append icon"
+              "name": "suffix",
+              "description": "Suffix"
             },
             {
               "name": "arrow-icon",
@@ -5967,7 +5967,7 @@
               }
             },
             {
-              "name": "aria-label",
+              "name": "aria-label _**3.8.4**_",
               "description": "See [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA/Attributes/aria-label)",
               "default": "-",
               "value": {
@@ -6004,18 +6004,216 @@
           ],
           "slots": [
             {
-              "name": "prepend-icon",
-              "description": "Prepend Icon"
+              "name": "prefix",
+              "description": "Prefix"
             },
             {
-              "name": "append-icon",
-              "description": "Append Icon"
+              "name": "suffix",
+              "description": "Suffix"
             },
             {
               "name": "clear-icon",
               "description": "Clear Icon"
             }
           ]
+        },
+        {
+          "name": "mp-input-number",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Current value",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Default value for uncontrolled usage",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "control-type",
+              "description": "Controls layout: `stacked` `split`",
+              "default": "stacked",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "precision",
+              "description": "Number precision",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "step",
+              "description": "Step value",
+              "default": "1",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether to disable input number",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Whether to show error state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Max value",
+              "default": "Infinity",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "Min value",
+              "default": "-Infinity",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "formatter",
+              "description": "Format display value",
+              "default": "-",
+              "value": {
+                "type": "(value: string) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "parser",
+              "description": "Parse input value",
+              "default": "-",
+              "value": {
+                "type": "(value: string) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Input placeholder",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "controls",
+              "description": "Whether to show controls",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Input size: `xs` `sm` `md` `lg`",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Whether the input can be cleared",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-event",
+              "description": "Event that updates `v-model`: `change` `input`",
+              "default": "change",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Whether to be readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "Native input attributes",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "Emitted when value changes"
+            },
+            {
+              "name": "change",
+              "description": "Emitted after value changes"
+            },
+            {
+              "name": "input",
+              "description": "Emitted on input"
+            },
+            {
+              "name": "focus",
+              "description": "Emitted when input is focused"
+            },
+            {
+              "name": "blur",
+              "description": "Emitted when input is blurred"
+            },
+            {
+              "name": "clear",
+              "description": "Emitted when clear is clicked"
+            },
+            {
+              "name": "keydown",
+              "description": "Emitted on keydown"
+            }
+          ],
+          "slots": []
         },
         {
           "name": "mp-lazy",
@@ -6389,235 +6587,6 @@
           "name": "mp-menu",
           "attributes": [
             {
-              "name": "v-model:show",
-              "description": "Whether to show the menu",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placement",
-              "description": "Menu popup placement",
-              "default": "cover-top-start",
-              "value": {
-                "type": "Placement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "strategy",
-              "description": "Menu position strategy, optional value is `absolute` `fixed`",
-              "default": "absolute",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "The x-axis offset, relative to the menu-aligned position",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "The y-axis offset, relative to the menu-aligned position",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "teleport",
-              "description": "The location of the menu mount",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable the menu",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "Menu trigger method, optional value is `click` `hover` `manual`",
-              "default": "click",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "The associated trigger element selector is used to specify specific child elements as trigger elements",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "The trigger element associated with the menu, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "same-width",
-              "description": "Whether to same width as trigger element",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-style",
-              "description": "Whether to enable default styles",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popover-class",
-              "description": "Class of the popover",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "Whether to close the menu when clicking the reference element",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-key-escape",
-              "description": "Whether to support keyboard ESC to close the menu",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "Triggered when the menu is opened"
-            },
-            {
-              "name": "opened",
-              "description": "Triggered when the open menu animation ends"
-            },
-            {
-              "name": "close",
-              "description": "Triggered when the menu is closed"
-            },
-            {
-              "name": "closed",
-              "description": "Triggered when the closing menu animation ends"
-            },
-            {
-              "name": "click-outside",
-              "description": "Triggered when clicking outside the menu"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Menu trigger element"
-            },
-            {
-              "name": "menu",
-              "description": "Menu content"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu-option",
-          "attributes": [
-            {
-              "name": "label",
-              "description": "The text that the option displays",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "value",
-              "description": "The value of the option binding",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to enable ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Options to display the content"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu-select",
-          "attributes": [
-            {
               "name": "v-model",
               "description": "The value of the binding",
               "default": "-",
@@ -6627,8 +6596,17 @@
               }
             },
             {
-              "name": "v-model:show",
-              "description": "Whether to show the menu",
+              "name": "v-model:popup-visible",
+              "description": "Whether the menu is visible, aligned with Cedar Menu",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-popup-visible",
+              "description": "Initial visibility in uncontrolled mode",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6664,10 +6642,28 @@
             },
             {
               "name": "close-on-select",
-              "description": "Whether to close the menu when selected (selected options in multi-select mode never close the menu)",
+              "description": "Whether to close the menu when a menu item is selected (the menu never closes from selection in multi-select mode)",
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-select",
+              "description": "Whether to hide after a menu item is selected (takes precedence over `close-on-select`)",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "position",
+              "description": "Cedar-style position: `top` `tl` `tr` `bottom` `bl` `br`",
+              "default": "-",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             },
@@ -6713,6 +6709,15 @@
               "default": "body",
               "value": {
                 "type": "TeleportProps['to'] | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Popup mount container (takes precedence over `teleport`)",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | false",
                 "kind": "expression"
               }
             },
@@ -6780,16 +6785,16 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.3.7**_",
               "description": "Specifies options",
               "default": "[]",
               "value": {
-                "type": "MenuSelectOption[]",
+                "type": "MenuOption[]",
                 "kind": "expression"
               }
             },
             {
-              "name": "label-key",
+              "name": "label-key _**3.3.7**_",
               "description": "As the key that uniquely identifies label",
               "default": "label",
               "value": {
@@ -6798,7 +6803,7 @@
               }
             },
             {
-              "name": "value-key",
+              "name": "value-key _**3.3.7**_",
               "description": "As the key that uniquely identifies value",
               "default": "value",
               "value": {
@@ -6807,7 +6812,7 @@
               }
             },
             {
-              "name": "children-key",
+              "name": "children-key _**3.8.0**_",
               "description": "As the key that uniquely identifies children",
               "default": "children",
               "value": {
@@ -6838,8 +6843,12 @@
               "description": "Triggered when clicking outside the menu"
             },
             {
-              "name": "select",
-              "description": "Triggered when selecting a option"
+              "name": "select _**3.8.0**_",
+              "description": "Triggered when the user selects a menu item. In controlled mode, whether the selected state changes depends on whether `v-model` is updated."
+            },
+            {
+              "name": "popup-visible-change",
+              "description": "Triggered when popup visibility changes"
             }
           ],
           "slots": [
@@ -6848,8 +6857,60 @@
               "description": "Menu select trigger element"
             },
             {
+              "name": "content",
+              "description": "Menu options, aligned with Cedar Menu"
+            },
+            {
               "name": "options",
-              "description": "Menu select options"
+              "description": "Menu options (legacy alias)"
+            }
+          ]
+        },
+        {
+          "name": "mp-menu-option",
+          "attributes": [
+            {
+              "name": "label",
+              "description": "The text that the option displays",
+              "default": "-",
+              "value": {
+                "type": "any",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value",
+              "description": "The value of the option binding",
+              "default": "-",
+              "value": {
+                "type": "any",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether to disable",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "ripple _**3.3.0**_",
+              "description": "Whether to enable ripple",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Options to display the content"
             }
           ]
         },
@@ -7565,6 +7626,178 @@
           ]
         },
         {
+          "name": "mp-popover",
+          "attributes": [
+            {
+              "name": "v-model:show",
+              "description": "Whether to show the popover",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "Popover popup placement",
+              "default": "cover-top-start",
+              "value": {
+                "type": "Placement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "Popover position strategy, optional value is `absolute` `fixed`",
+              "default": "absolute",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "The x-axis offset, relative to the popover-aligned position",
+              "default": "0",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "The y-axis offset, relative to the popover-aligned position",
+              "default": "0",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "teleport",
+              "description": "The location of the popover mount",
+              "default": "body",
+              "value": {
+                "type": "TeleportProps['to'] | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether to disable the popover",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "Popover trigger method, optional value is `click` `hover` `manual`",
+              "default": "click",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "reference",
+              "description": "The trigger element associated with the popover, the `string` type is the descendant element selector of the popover component, the `HTMLElement` type is any specified element node",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Elevation level, options `true` `false` and level of `0-24`",
+              "default": "true",
+              "value": {
+                "type": "string | number | boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "same-width",
+              "description": "Whether to same width as trigger element",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-style",
+              "description": "Whether to enable default styles",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popover-class",
+              "description": "Class of the popover",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-click-reference",
+              "description": "Whether to close the popover when clicking the reference element",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-key-escape",
+              "description": "Whether to support keyboard ESC to close the popover",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "description": "Triggered when the popover is opened"
+            },
+            {
+              "name": "opened",
+              "description": "Triggered when the open popover animation ends"
+            },
+            {
+              "name": "close",
+              "description": "Triggered when the popover is closed"
+            },
+            {
+              "name": "closed",
+              "description": "Triggered when the closing popover animation ends"
+            },
+            {
+              "name": "click-outside",
+              "description": "Triggered when clicking outside the popover"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Popover trigger element"
+            },
+            {
+              "name": "content",
+              "description": "Popover content"
+            }
+          ]
+        },
+        {
           "name": "mp-popup",
           "attributes": [
             {
@@ -8257,6 +8490,259 @@
           ]
         },
         {
+          "name": "mp-search",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Search keyword",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:model-field",
+              "description": "Current search field",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:search-text",
+              "description": "Search keyword, compatible field-search name",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:search-field",
+              "description": "Current search field, compatible field-search name",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:model",
+              "description": "Form model object, written by field in field mode",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Default search keyword",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-field",
+              "description": "Default search field",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fields",
+              "description": "Search field options",
+              "default": "[]",
+              "value": {
+                "type": "SearchField[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "recent-searches",
+              "description": "Search history list shown fully",
+              "default": "[]",
+              "value": {
+                "type": "string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-search-history-count",
+              "description": "Max items kept when generating next history",
+              "default": "5",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "history-popup",
+              "description": "Whether history is shown in a full-screen Popup; when `false`, a same-width Menu is used",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label",
+              "description": "Left label",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "shape",
+              "description": "Inner search field shape, can be `round` `square`",
+              "default": "round",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "background",
+              "description": "Outer background color",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-background",
+              "description": "Inner search field background color",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-action",
+              "description": "Whether to show the action button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "action-text",
+              "description": "Action button text",
+              "default": "取消",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "action-type",
+              "description": "Action button type, can be `cancel` `search`",
+              "default": "cancel",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-icon",
+              "description": "Search icon name",
+              "default": "magnify",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Whether to show clear icon",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether to disable search",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Whether to be readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "maxlength",
+              "description": "Max length",
+              "default": "-",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "Custom enter key hint",
+              "default": "search",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "search",
+              "description": "Emitted when clicking the search icon, action search button, or pressing enter"
+            },
+            {
+              "name": "cancel",
+              "description": "Emitted when clicking the cancel button"
+            },
+            {
+              "name": "input",
+              "description": "Emitted while typing"
+            },
+            {
+              "name": "change",
+              "description": "Emitted when search field or keyword changes"
+            },
+            {
+              "name": "clear",
+              "description": "Emitted when clearing"
+            }
+          ],
+          "slots": []
+        },
+        {
           "name": "mp-select",
           "attributes": [
             {
@@ -8287,7 +8773,7 @@
               }
             },
             {
-              "name": "presentation",
+              "name": "presentation _**3.18.0**_",
               "description": "Display mode, optional values `menu` `picker` `list`",
               "default": "menu",
               "value": {
@@ -8296,7 +8782,7 @@
               }
             },
             {
-              "name": "show",
+              "name": "show _**3.18.0**_",
               "description": "Visibility control",
               "default": "undefined",
               "value": {
@@ -8413,7 +8899,7 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.3.4**_",
               "description": "Specifies options",
               "default": "[]",
               "value": {
@@ -8422,7 +8908,7 @@
               }
             },
             {
-              "name": "label-key",
+              "name": "label-key _**3.3.4**_",
               "description": "As the key that uniquely identifies label",
               "default": "label",
               "value": {
@@ -8431,7 +8917,7 @@
               }
             },
             {
-              "name": "value-key",
+              "name": "value-key _**3.3.4**_",
               "description": "As the key that uniquely identifies value",
               "default": "value",
               "value": {
@@ -8440,7 +8926,7 @@
               }
             },
             {
-              "name": "field-names",
+              "name": "field-names _**3.18.0**_",
               "description": "Custom field mapping, takes precedence over `labelKey` / `valueKey`",
               "default": "-",
               "value": {
@@ -8449,7 +8935,7 @@
               }
             },
             {
-              "name": "picker-props",
+              "name": "picker-props _**3.18.0**_",
               "description": "Props passed to `mp-picker` in picker mode",
               "default": "{}",
               "value": {
@@ -8458,7 +8944,7 @@
               }
             },
             {
-              "name": "popup-props",
+              "name": "popup-props _**3.18.0**_",
               "description": "Props passed to popup",
               "default": "{}",
               "value": {
@@ -8467,7 +8953,7 @@
               }
             },
             {
-              "name": "value-key",
+              "name": "value-key _**3.3.4**_",
               "description": "As the key that uniquely identifies value",
               "default": "value",
               "value": {
@@ -8508,16 +8994,16 @@
               "description": "Select the contents of the area"
             },
             {
-              "name": "prepend-icon",
-              "description": "Prepend icon"
+              "name": "prefix",
+              "description": "Prefix"
             },
             {
               "name": "clear-icon",
               "description": "Clear Icon"
             },
             {
-              "name": "append-icon",
-              "description": "Append icon"
+              "name": "suffix",
+              "description": "Suffix"
             },
             {
               "name": "arrow-icon",
@@ -9963,16 +10449,16 @@
               "description": "Selected content"
             },
             {
-              "name": "prepend-icon",
-              "description": "Prepend icon"
+              "name": "prefix",
+              "description": "Prefix"
             },
             {
               "name": "clear-icon",
               "description": "Clear icon"
             },
             {
-              "name": "append-icon",
-              "description": "Append icon"
+              "name": "suffix",
+              "description": "Suffix"
             },
             {
               "name": "arrow-icon",

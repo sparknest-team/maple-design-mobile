@@ -6,15 +6,15 @@
     @focusin="focus"
     @click="handleClick"
   >
-    <mp-menu-select
-      v-model:show="isShowMenuSelect"
+    <mp-menu
+      v-model:show="isShowMenu"
       same-width
       auto-complete-cover
       scrollable
       trigger="manual"
       placement="bottom"
       :disabled="disabled || formDisabled || readonly || formReadonly"
-      :class="n('menu-select')"
+      :class="n('menu')"
       :popover-class="variant === 'standard' ? n('--standard-menu-margin') : undefined"
       @update:model-value="handleAutoComplete"
       @key-escape="handleKeyEscape"
@@ -45,12 +45,12 @@
         @clear="handleClear"
         @change="handleChange"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
-        <template v-if="$slots['append-icon']" #append-icon>
-          <slot name="append-icon" />
+        <template v-if="$slots['suffix']" #suffix>
+          <slot name="suffix" />
         </template>
 
         <template v-if="$slots['clear-icon']" #clear-icon="{ clear }">
@@ -70,7 +70,7 @@
           />
         </div>
       </template>
-    </mp-menu-select>
+    </mp-menu>
   </div>
 </template>
 
@@ -81,8 +81,8 @@ import { useClickOutside, useEventListener, useVModel } from '@maplejs/maple-use
 import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import MpInput from '../input'
+import MpMenu from '../menu'
 import MpMenuOption from '../menu-option'
-import MpMenuSelect from '../menu-select'
 import { createNamespace } from '../utils/components'
 import { props, type AutoCompleteOption } from './props'
 
@@ -92,7 +92,7 @@ export default defineComponent({
   name,
   components: {
     MpInput,
-    MpMenuSelect,
+    MpMenu,
     MpMenuOption,
   },
   props,
@@ -103,7 +103,7 @@ export default defineComponent({
     const isFocusing = ref(false)
     const value = useVModel(props, 'modelValue')
     const viewOptions = ref<AutoCompleteOption[]>([])
-    const isShowMenuSelect = ref(false)
+    const isShowMenu = ref(false)
 
     const { form } = useForm()
     const { mergedError, eventHandlers } = useFormItem()
@@ -148,14 +148,14 @@ export default defineComponent({
       }
 
       isFocusing.value = false
-      isShowMenuSelect.value = false
+      isShowMenu.value = false
       input.value!.blur()
       call(props.onBlur)
       eventHandlers.value.onBlur?.()
     }
 
     function handleBlur() {
-      if (isShowMenuSelect.value) {
+      if (isShowMenu.value) {
         return
       }
 
@@ -169,7 +169,7 @@ export default defineComponent({
         props.disabled ||
         props.readonly ||
         !isFocusing.value ||
-        !isShowMenuSelect.value
+        !isShowMenu.value
       ) {
         return
       }
@@ -179,7 +179,7 @@ export default defineComponent({
       if (key === 'Tab') {
         preventDefault(event)
         root.value!.focus()
-        isShowMenuSelect.value = false
+        isShowMenu.value = false
         return
       }
 
@@ -196,11 +196,11 @@ export default defineComponent({
 
     function changeMenuState() {
       if (isFocusing.value) {
-        isShowMenuSelect.value = getShowMenuSelect(value.value!)
+        isShowMenu.value = getShowMenu(value.value!)
       }
 
       // when the menu is closed, the options are not updated, avoiding the flicker of the menu
-      if (isShowMenuSelect.value) {
+      if (isShowMenu.value) {
         viewOptions.value = props.options
       }
     }
@@ -250,7 +250,7 @@ export default defineComponent({
       input.value!.focus()
     }
 
-    function getShowMenuSelect(newValue: string) {
+    function getShowMenu(newValue: string) {
       if (props.disabled || props.readonly || form?.disabled.value || form?.readonly.value) {
         return false
       }
@@ -262,7 +262,7 @@ export default defineComponent({
       root,
       input,
       value,
-      isShowMenuSelect,
+      isShowMenu,
       viewOptions,
       isFocusing,
       formDisabled: form?.disabled,
@@ -289,8 +289,8 @@ export default defineComponent({
 @import '../icon/icon';
 @import '../field-decorator/fieldDecorator';
 @import '../input/input';
-@import '../menu/menu';
+@import '../popover/popover';
 @import '../menu-option/menuOption';
-@import '../menu-select/menuSelect';
+@import '../menu/menu';
 @import './autoComplete';
 </style>

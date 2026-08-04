@@ -1,29 +1,24 @@
 :root {
-  --mp-menu-background-color: var(--mp-color-surface-container-high);
-  --mp-menu-border-radius: 2px;
+  --mp-menu-menu-max-height: 278px;
+  --mp-menu-menu-padding: 0;
+  --mp-menu-menu-border-radius: 2px;
+  --mp-menu-menu-background-color: var(--mp-color-surface-container-high);
 }
 
 .mp-menu {
-  display: inline-flex;
-  outline: none;
-
   &__menu {
-    border-radius: var(--mp-menu-border-radius);
+    padding: var(--mp-menu-menu-padding);
+    border-radius: var(--mp-menu-menu-border-radius);
+    background-color: var(--mp-menu-menu-background-color);
   }
 
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-    transform: scale(0.8);
+  &--scrollable {
+    overflow-y: auto;
+    max-height: var(--mp-menu-menu-max-height);
   }
+}
 
-  &-enter-active,
-  &-leave-active {
-    transition-property: opacity, transform;
-    transition-duration: 0.2s;
-  }
-
-  &--menu-background-color {
-    background: var(--mp-menu-background-color);
-  }
+.mp-menu-children[mp-menu-children-cover] {
+  width: 100%;
+  display: block;
 }

@@ -2,7 +2,7 @@
 
 exports[`select focus & blur methods 1`] = `
 "<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard">
       <div class="mp-field-decorator__controller mp-field-decorator--focus" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon"></div>
@@ -19,6 +19,7 @@ exports[`select focus & blur methods 1`] = `
           <!--v-if-->
         </div>
       </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot mp-field-decorator--line-focus"></div>
       </div>
@@ -31,7 +32,7 @@ exports[`select focus & blur methods 1`] = `
 
 exports[`select focus & blur methods 2`] = `
 "<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon"></div>
@@ -48,6 +49,7 @@ exports[`select focus & blur methods 2`] = `
           <!--v-if-->
         </div>
       </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot"></div>
       </div>
@@ -60,7 +62,7 @@ exports[`select focus & blur methods 2`] = `
 
 exports[`select hint to be false 1`] = `
 "<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
@@ -75,6 +77,7 @@ exports[`select hint to be false 1`] = `
           <!--v-if-->
         </div>
       </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot"></div>
       </div>
@@ -87,7 +90,7 @@ exports[`select hint to be false 1`] = `
 
 exports[`select size 1`] = `
 "<div class="mp-select" tabindex="0" value="">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard mp-field-decorator--small">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon"></div>
@@ -104,6 +107,7 @@ exports[`select size 1`] = `
           <!--v-if-->
         </div>
       </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot"></div>
       </div>
@@ -116,7 +120,7 @@ exports[`select size 1`] = `
 
 exports[`select variant 1`] = `
 "<div class="mp-select" tabindex="0" value="">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon"></div>
@@ -133,6 +137,7 @@ exports[`select variant 1`] = `
           <!--v-if-->
         </div>
       </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot"></div>
       </div>
@@ -145,7 +150,7 @@ exports[`select variant 1`] = `
 
 exports[`select variant 2`] = `
 "<div class="mp-select" tabindex="0" value="">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--outlined">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon"></div>
@@ -167,31 +172,9 @@ exports[`select variant 2`] = `
           <!--v-if-->
         </legend>
       </fieldset>
-    </div>
-    <!--teleport start-->
-    <!--teleport end-->
-  </div>
-</div>"
-`;
-
-exports[`test select component slots > select append icon slot 1`] = `
-"<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
-    <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-      <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-        <div class="mp-field-decorator__icon"></div>
-        <div class="mp-field-decorator__middle">
-          <div class="mp-select__select" style="text-align: left;">
-            <div class="mp-select__label"><span></span></div>
-            <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
-          </div>
-        </div>
-        <!--v-if-->
-        <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i>append-icon</div>
-      </div>
-      <div class="mp-field-decorator__line">
-        <div class="mp-field-decorator__dot"></div>
-      </div>
+      <fieldset class="mp-field-decorator__state-line">
+        <legend class="mp-field-decorator__line-legend"></legend>
+      </fieldset>
     </div>
     <!--teleport start-->
     <!--teleport end-->
@@ -201,7 +184,7 @@ exports[`test select component slots > select append icon slot 1`] = `
 
 exports[`test select component slots > select clear icon slot 1`] = `
 "<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
         <div class="mp-field-decorator__icon"></div>
@@ -214,6 +197,7 @@ exports[`test select component slots > select clear icon slot 1`] = `
         <!--v-if-->
         <div class="mp-field-decorator__icon"><button class="custom-clear-icon">Clear</button></div>
       </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot"></div>
       </div>
@@ -224,12 +208,12 @@ exports[`test select component slots > select clear icon slot 1`] = `
 </div>"
 `;
 
-exports[`test select component slots > select prepend icon slot 1`] = `
+exports[`test select component slots > select prefix slot 1`] = `
 "<div class="mp-select" tabindex="0">
-  <div class="mp-menu mp--box mp-select__menu" mp-select-cover="">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
     <div class="mp-field-decorator mp--box mp-field-decorator--standard">
       <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-        <div class="mp-field-decorator__icon">prepend-icon</div>
+        <div class="mp-field-decorator__icon">prefix</div>
         <div class="mp-field-decorator__middle">
           <div class="mp-select__select" style="text-align: left;">
             <div class="mp-select__label"><span></span></div>
@@ -239,6 +223,33 @@ exports[`test select component slots > select prepend icon slot 1`] = `
         <!--v-if-->
         <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
       </div>
+      <!--v-if-->
+      <div class="mp-field-decorator__line">
+        <div class="mp-field-decorator__dot"></div>
+      </div>
+    </div>
+    <!--teleport start-->
+    <!--teleport end-->
+  </div>
+</div>"
+`;
+
+exports[`test select component slots > select suffix slot 1`] = `
+"<div class="mp-select" tabindex="0">
+  <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
+    <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+      <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+        <div class="mp-field-decorator__icon"></div>
+        <div class="mp-field-decorator__middle">
+          <div class="mp-select__select" style="text-align: left;">
+            <div class="mp-select__label"><span></span></div>
+            <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
+          </div>
+        </div>
+        <!--v-if-->
+        <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i>suffix</div>
+      </div>
+      <!--v-if-->
       <div class="mp-field-decorator__line">
         <div class="mp-field-decorator__dot"></div>
       </div>

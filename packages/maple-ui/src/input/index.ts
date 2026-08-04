@@ -6,6 +6,8 @@ withInstall(Input)
 withPropsDefaultsSetter(Input, inputProps)
 
 export { inputProps }
+export type InputInstance = InstanceType<typeof Input>
+export type { InputProps, InputType } from './props'
 
 export const _InputComponent = Input
 

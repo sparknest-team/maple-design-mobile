@@ -16,7 +16,7 @@
         :class="
           classes(
             n('decrement-button'),
-            [!decrementButton, n('--hidden')],
+            [!showDecrementButton, n('--hidden')],
             [disabled || formDisabled, n('--not-allowed')],
           )
         "
@@ -28,7 +28,7 @@
         mp-counter-cover
         :ripple="
           ripple &&
-          decrementButton &&
+          showDecrementButton &&
           !disabled &&
           !formDisabled &&
           !readonly &&
@@ -51,17 +51,23 @@
           width: toSizeUnit(inputWidth),
           fontSize: toSizeUnit(inputTextSize),
         }"
-        :inputmode="toNumber(decimalLength) === 0 ? 'numeric' : 'decimal'"
+        :inputmode="toNumber(mergedDecimalLength) === 0 ? 'numeric' : 'decimal'"
+        :placeholder="placeholder"
         :readonly="readonly || formReadonly"
         :disabled="disabled || formDisabled || disableInput"
+        v-bind="inputAttrs"
+        @input="handleInput"
         @change="handleChange"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @keydown="handleKeydown"
       />
 
       <mp-button
         :class="
           classes(
             n('increment-button'),
-            [!incrementButton, n('--hidden')],
+            [!showIncrementButton, n('--hidden')],
             [disabled || formDisabled, n('--not-allowed')],
           )
         "
@@ -73,7 +79,7 @@
         mp-counter-cover
         :ripple="
           ripple &&
-          incrementButton &&
+          showIncrementButton &&
           !disabled &&
           !formDisabled &&
           !readonly &&
@@ -122,8 +128,12 @@ export default defineComponent({
   setup(props) {
     const inputValue = ref<string | number>('')
     const { form } = useForm()
-    const { mergedError, eventHandlers } = useFormItem()
+    const { mergedError: formMergedError, eventHandlers } = useFormItem()
     const { readonly: formReadonly, disabled: formDisabled } = form ?? {}
+    const mergedError = computed(() => props.error || formMergedError.value)
+    const mergedDecimalLength = computed(() => props.precision ?? props.decimalLength)
+    const showIncrementButton = computed(() => props.controls && props.incrementButton)
+    const showDecrementButton = computed(() => props.controls && props.decrementButton)
     const isMax: ComputedRef<boolean> = computed(() => {
       const { max, modelValue } = props
       return max != null && toNumber(modelValue) >= toNumber(max)
@@ -149,7 +159,7 @@ export default defineComponent({
     setNormalizedValue(normalizeValue(String(props.modelValue)))
 
     function normalizeValue(value: string) {
-      const { decimalLength, max, min } = props
+      const { max, min } = props
       let num: number = toNumber(value)
 
       if (max != null && num > toNumber(max)) {
@@ -162,37 +172,68 @@ export default defineComponent({
 
       value = String(num)
 
-      if (decimalLength != null) {
-        value = num.toFixed(toNumber(decimalLength))
+      if (mergedDecimalLength.value != null) {
+        value = num.toFixed(toNumber(mergedDecimalLength.value))
       }
 
       return value
     }
 
+    function formatValue(value: string) {
+      return props.formatter ? String(props.formatter(toNumber(value))) : value
+    }
+
+    function parseValue(value: string) {
+      return props.parser ? String(props.parser(value)) : value
+    }
+
+    function handleInput(event: Event) {
+      const { value } = event.target as HTMLInputElement
+      const parsedValue = parseValue(value)
+      const normalizedValue = normalizeValue(parsedValue)
+
+      call(props.onInput, toNumber(normalizedValue), value, event)
+
+      if (props.modelEvent === 'input') {
+        setNormalizedValue(normalizedValue)
+      }
+    }
+
     function handleChange(event: Event) {
       const { lazyChange, onBeforeChange } = props
       const { value } = event.target as HTMLInputElement
-      const normalizedValue = normalizeValue(value)
+      const normalizedValue = normalizeValue(parseValue(value))
 
       lazyChange ? call(onBeforeChange, toNumber(normalizedValue), change) : setNormalizedValue(normalizedValue)
 
       eventHandlers.value.onChange?.()
     }
 
-    function decrement() {
-      const {
-        disabled,
-        readonly,
-        disableDecrement,
-        decrementButton,
-        lazyChange,
-        step,
-        modelValue,
-        onDecrement,
-        onBeforeChange,
-      } = props
+    function handleFocus(event: FocusEvent) {
+      call(props.onFocus, event)
+      eventHandlers.value.onFocus?.()
+    }
 
-      if (formDisabled?.value || formReadonly?.value || disabled || readonly || disableDecrement || !decrementButton) {
+    function handleBlur(event: FocusEvent) {
+      call(props.onBlur, event)
+      eventHandlers.value.onBlur?.()
+    }
+
+    function handleKeydown(event: KeyboardEvent) {
+      call(props.onKeydown, event)
+    }
+
+    function decrement() {
+      const { disabled, readonly, disableDecrement, lazyChange, step, modelValue, onDecrement, onBeforeChange } = props
+
+      if (
+        formDisabled?.value ||
+        formReadonly?.value ||
+        disabled ||
+        readonly ||
+        disableDecrement ||
+        !showDecrementButton.value
+      ) {
         return
       }
 
@@ -215,19 +256,16 @@ export default defineComponent({
     }
 
     function increment() {
-      const {
-        disabled,
-        readonly,
-        disableIncrement,
-        incrementButton,
-        lazyChange,
-        step,
-        modelValue,
-        onIncrement,
-        onBeforeChange,
-      } = props
+      const { disabled, readonly, disableIncrement, lazyChange, step, modelValue, onIncrement, onBeforeChange } = props
 
-      if (formDisabled?.value || formReadonly?.value || disabled || readonly || disableIncrement || !incrementButton) {
+      if (
+        formDisabled?.value ||
+        formReadonly?.value ||
+        disabled ||
+        readonly ||
+        disableIncrement ||
+        !showIncrementButton.value
+      ) {
         return
       }
 
@@ -298,7 +336,7 @@ export default defineComponent({
     }
 
     function setNormalizedValue(normalizedValue: string) {
-      inputValue.value = normalizedValue
+      inputValue.value = formatValue(normalizedValue)
 
       const normalizedValueNum = toNumber(normalizedValue)
 
@@ -313,6 +351,9 @@ export default defineComponent({
     return {
       inputValue,
       mergedError,
+      mergedDecimalLength,
+      showIncrementButton,
+      showDecrementButton,
       formDisabled,
       formReadonly,
       isMax,
@@ -320,7 +361,11 @@ export default defineComponent({
       n,
       classes,
       formatElevation,
+      handleInput,
       handleChange,
+      handleFocus,
+      handleBlur,
+      handleKeydown,
       decrement,
       increment,
       pressDecrement,

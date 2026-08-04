@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`search render 1`] = `
+"<div class="mp-search mp--box mp-search--round">
+  <!--v-if-->
+  <div class="mp-search__field">
+    <div class="mp-search__label">地址</div>
+    <div class="mp-input mp--box mp-search__input">
+      <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+        <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"><i class="mp-icon mp-icon--set mp-icon-magnify mp-search__search-icon" style="transition-duration: 0ms;"></i></div>
+          <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
+            <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" placeholder="Search" enterkeyhint="search" style="--mp-input-placeholder-color: var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color));" value="keyword">
+          </div>
+          <!--v-if-->
+          <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-search__clear-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
+        </div>
+        <!--v-if-->
+      </div>
+      <!--v-if-->
+    </div>
+  </div><button class="mp-search__action" type="button">搜索</button>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;

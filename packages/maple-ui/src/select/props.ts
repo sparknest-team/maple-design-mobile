@@ -1,6 +1,7 @@
 import { VNode, VNodeChild, type ExtractPropTypes, type PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps } from '../picker'
+import { type Placement } from '../popover/usePopover'
 import { popupProps } from '../popup'
 import { defineListenerProp, pickProps } from '../utils/components'
 import { type FieldNames } from '../utils/options'
@@ -63,6 +64,7 @@ export const props = {
     type: [String, Number],
     default: 0,
   },
+  placement: String as PropType<Placement>,
   tag: Boolean,
   readonly: Boolean,
   separator: {

@@ -1,6 +1,6 @@
 import { type PropType, type TeleportProps } from 'vue'
 import type { PositioningStrategy } from '@popperjs/core'
-import type { NeededPopperPlacement, Reference, Trigger } from '../menu/usePopover'
+import type { NeededPopperPlacement, Reference, Trigger } from '../popover/usePopover'
 import { defineListenerProp } from '../utils/components'
 
 export type Placement = NeededPopperPlacement

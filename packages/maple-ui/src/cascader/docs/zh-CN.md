@@ -297,9 +297,9 @@ const options = ref([
 | --- | --- | --- |
 | `selected` | 选择区域的内容 | `-` |
 | `option` | 自定义选项内容 | `option: CascaderOption, active: boolean` |
-| `prepend-icon` | 前置图标 | `-` |
+| `prefix` | 前缀 | `-` |
 | `clear-icon` | 清除图标 | `clear: (e: Event) => void` |
-| `append-icon` | 后置图标 | `-` |
+| `suffix` | 后缀 | `-` |
 | `arrow-icon` | 箭头图标 | `focus: boolean, menu-open: boolean` |
 
 ### 样式变量

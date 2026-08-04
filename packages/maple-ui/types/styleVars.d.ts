@@ -384,7 +384,11 @@ interface BaseStyleVars {
   '--field-decorator-outlined-small-icon-margin-bottom'?: string
   '--input-input-height'?: string
   '--input-input-font-size'?: string
-  '--input-textarea-height'?: string
+  '--textarea-height'?: string
+  '--textarea-min-height'?: string
+  '--textarea-font-size'?: string
+  '--textarea-length-margin-top'?: string
+  '--textarea-length-font-size'?: string
   '--link-default-color'?: string
   '--link-primary-color'?: string
   '--link-danger-color'?: string
@@ -410,12 +414,10 @@ interface BaseStyleVars {
   '--loading-bar-color'?: string
   '--loading-bar-error-color'?: string
   '--loading-bar-height'?: string
-  '--menu-background-color'?: string
-  '--menu-border-radius'?: string
-  '--menu-select-menu-max-height'?: string
-  '--menu-select-menu-padding'?: string
-  '--menu-select-menu-border-radius'?: string
-  '--menu-select-menu-background-color'?: string
+  '--menu-menu-max-height'?: string
+  '--menu-menu-padding'?: string
+  '--menu-menu-border-radius'?: string
+  '--menu-menu-background-color'?: string
   '--menu-option-normal-height'?: string
   '--menu-option-small-height'?: string
   '--menu-option-mini-height'?: string
@@ -477,6 +479,8 @@ interface BaseStyleVars {
   '--picker-option-text-color'?: string
   '--picker-toolbar-padding'?: string
   '--picker-mask-background-image'?: string
+  '--popover-background-color'?: string
+  '--popover-border-radius'?: string
   '--popup-overlay-background-color'?: string
   '--popup-content-background-color'?: string
   '--progress-font-size'?: string

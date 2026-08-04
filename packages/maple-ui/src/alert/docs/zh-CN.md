@@ -141,7 +141,7 @@
 | --- | --- |
 | `default` | 内容 |
 | `title` | 标题 |
-| `icon` | 前置图标 |
+| `icon` | 前缀 |
 | `action` | 右侧操作区 |
 | `close-icon` | 关闭图标 |
 

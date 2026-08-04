@@ -1,0 +1,50 @@
+:root {
+  --mp-textarea-height: auto;
+  --mp-textarea-min-height: 96px;
+  --mp-textarea-font-size: 16px;
+  --mp-textarea-length-margin-top: 4px;
+  --mp-textarea-length-font-size: 12px;
+}
+
+.mp-textarea {
+  text-align: left;
+
+  &__inner {
+    width: 100%;
+    height: var(--mp-textarea-height);
+    min-height: var(--mp-textarea-min-height);
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--mp-field-decorator-text-color);
+    caret-color: var(--mp-field-decorator-focus-color);
+    font: inherit;
+    font-size: var(--mp-textarea-font-size);
+    transition: color 0.25s;
+
+    &::placeholder {
+      color: var(--mp-textarea-placeholder-color);
+    }
+  }
+
+  &--disabled {
+    color: var(--mp-field-decorator-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--error {
+    color: var(--mp-field-decorator-error-color);
+  }
+
+  &--caret-error {
+    caret-color: var(--mp-field-decorator-error-color);
+  }
+
+  &__length {
+    margin-top: var(--mp-textarea-length-margin-top);
+    color: var(--mp-field-decorator-blur-color);
+    font-size: var(--mp-textarea-length-font-size);
+    text-align: right;
+  }
+}

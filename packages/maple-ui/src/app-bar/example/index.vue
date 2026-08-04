@@ -35,17 +35,17 @@ onThemeChange()
     </template>
 
     <template #right>
-      <mp-menu>
+      <mp-popover>
         <mp-button round text color="transparent" text-color="#ffffff">
           <mp-icon name="menu" :size="24" />
         </mp-button>
 
-        <template #menu>
+        <template #content>
           <mp-cell ripple>{{ t('option') }}</mp-cell>
           <mp-cell ripple>{{ t('option') }}</mp-cell>
           <mp-cell ripple>{{ t('option') }}</mp-cell>
         </template>
-      </mp-menu>
+      </mp-popover>
     </template>
   </mp-app-bar>
 

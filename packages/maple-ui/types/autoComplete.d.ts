@@ -60,8 +60,8 @@ export class AutoComplete extends VarComponent {
   $props: AutoCompleteProps
 
   $slots: {
-    'prepend-icon'(): VNode[]
-    'append-icon'(): VNode[]
+    prefix(): VNode[]
+    suffix(): VNode[]
     'clear-icon'(data: AutoCompleteClearIconData): VNode[]
   }
 

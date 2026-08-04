@@ -312,8 +312,8 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
+@import '../popover/popover';
 @import '../menu/menu';
-@import '../menu-select/menuSelect';
 @import '../menu-option/menuOption';
 @import '../cell/cell';
 @import '../ripple/ripple';

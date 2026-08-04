@@ -157,11 +157,11 @@ watchLang((lang) => {
         <mp-icon class="selected-icon" :name="standardValue7 === t('eat') ? 'cake-variant' : 'weather-night'" />
         <span>{{ standardValue7 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -186,11 +186,11 @@ watchLang((lang) => {
         />
         <span>{{ standardValue8 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" size="8vmin" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" size="8vmin" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" size="12vmin" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" size="12vmin" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -268,11 +268,11 @@ watchLang((lang) => {
         <mp-icon class="selected-icon" :name="outlinedValue7 === t('eat') ? 'cake-variant' : 'weather-night'" />
         <span>{{ outlinedValue7 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -297,11 +297,11 @@ watchLang((lang) => {
         />
         <span>{{ outlinedValue8 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" size="8vmin" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" size="8vmin" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" size="12vmin" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" size="12vmin" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -389,11 +389,11 @@ watchLang((lang) => {
   margin-right: 6px;
 }
 
-.prepend-icon {
+.prefix {
   margin-right: 6px;
 }
 
-.append-icon {
+.suffix {
   margin-left: 6px;
 }
 

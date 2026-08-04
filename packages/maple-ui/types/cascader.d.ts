@@ -85,9 +85,9 @@ export class Cascader extends VarComponent {
   $slots: {
     selected(): import('vue').VNode[]
     option(data: { option: CascaderOption; active: boolean }): import('vue').VNode[]
-    'prepend-icon'(): import('vue').VNode[]
+    prefix(): import('vue').VNode[]
     'clear-icon'(data: CascaderClearIconData): import('vue').VNode[]
-    'append-icon'(): import('vue').VNode[]
+    suffix(): import('vue').VNode[]
     'arrow-icon'(data: CascaderArrowIconData): import('vue').VNode[]
   }
 

@@ -6,7 +6,7 @@
     @focus="handleFocus"
     @blur="handleRootBlur"
   >
-    <mp-menu
+    <mp-popover
       v-if="presentation === 'menu'"
       v-model:show="show"
       mp-select-cover
@@ -42,8 +42,8 @@
           onClear: handleClear,
         }"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
         <div
@@ -107,12 +107,12 @@
           <slot name="clear-icon" :clear="clear" />
         </template>
 
-        <template #append-icon>
-          <slot name="append-icon" />
+        <template #suffix>
+          <slot name="suffix" />
         </template>
       </mp-field-decorator>
 
-      <template #menu>
+      <template #content>
         <div ref="menuEl" :class="classes(n('scroller'), n('$-elevation--3'))">
           <template v-if="options.length">
             <mp-option
@@ -128,7 +128,7 @@
           <slot />
         </div>
       </template>
-    </mp-menu>
+    </mp-popover>
 
     <div v-else-if="presentation === 'picker'" :class="n('picker')">
       <mp-field-decorator
@@ -152,8 +152,8 @@
           onClear: handleClear,
         }"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
         <div
@@ -217,8 +217,8 @@
           <slot name="clear-icon" :clear="clear" />
         </template>
 
-        <template #append-icon>
-          <slot name="append-icon" />
+        <template #suffix>
+          <slot name="suffix" />
         </template>
       </mp-field-decorator>
 
@@ -307,8 +307,8 @@
           onClear: handleClear,
         }"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
         <div
@@ -372,8 +372,8 @@
           <slot name="clear-icon" :clear="clear" />
         </template>
 
-        <template #append-icon>
-          <slot name="append-icon" />
+        <template #suffix>
+          <slot name="suffix" />
         </template>
       </mp-field-decorator>
 
@@ -432,10 +432,10 @@ import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
-import MpMenu from '../menu'
 import MpOption from '../option'
 import { type OptionProvider } from '../option/provide'
 import { _PickerComponent as MpPicker } from '../picker'
+import MpPopover from '../popover'
 import MpPopup from '../popup'
 import MpTag from '../tag'
 import { createNamespace, MaybeVNode } from '../utils/components'
@@ -451,7 +451,7 @@ export default defineComponent({
   name,
   components: {
     MpIcon,
-    MpMenu,
+    MpPopover,
     MpPopup,
     MpPicker,
     MpButton,
@@ -525,7 +525,7 @@ export default defineComponent({
     const listTitleText = computed(() => props.pickerProps?.title ?? translate('pickerTitle'))
     const presentation = computed(() => props.presentation)
     const menuEl = ref<HTMLElement | null>(null)
-    const placement = computed(() => (props.variant === 'outlined' ? 'bottom' : 'cover-top'))
+    const placement = computed(() => props.placement ?? (props.variant === 'outlined' ? 'bottom' : 'cover-top'))
     const mergedHint = computed(() => {
       if (hasOuterLabel.value) {
         return false
@@ -990,7 +990,7 @@ export default defineComponent({
 @import '../styles/elevation';
 @import '../icon/icon';
 @import '../button/button';
-@import '../menu/menu';
+@import '../popover/popover';
 @import '../field-decorator/fieldDecorator';
 @import '../tag/tag';
 @import '../option/option';

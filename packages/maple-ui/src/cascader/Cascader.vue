@@ -6,7 +6,7 @@
     @focus="handleFocus"
     @blur="handleRootBlur"
   >
-    <mp-menu
+    <mp-popover
       v-if="presentation === 'menu'"
       v-model:show="show"
       mp-cascader-cover
@@ -40,8 +40,8 @@
           onClear: handleClear,
         }"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
         <div
@@ -100,12 +100,12 @@
           <slot name="clear-icon" :clear="clear" />
         </template>
 
-        <template #append-icon>
-          <slot name="append-icon" />
+        <template #suffix>
+          <slot name="suffix" />
         </template>
       </mp-field-decorator>
 
-      <template #menu>
+      <template #content>
         <div ref="menuEl" :class="classes(n('panel'), n('$-elevation--3'))">
           <div v-for="(column, columnIndex) in menuColumns" :key="columnIndex" :class="n('column')">
             <div
@@ -151,7 +151,7 @@
           </div>
         </div>
       </template>
-    </mp-menu>
+    </mp-popover>
 
     <div v-else-if="presentation === 'picker'" :class="n('picker')">
       <mp-field-decorator
@@ -175,8 +175,8 @@
           onClear: handleClear,
         }"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
         <div
@@ -235,8 +235,8 @@
           <slot name="clear-icon" :clear="clear" />
         </template>
 
-        <template #append-icon>
-          <slot name="append-icon" />
+        <template #suffix>
+          <slot name="suffix" />
         </template>
       </mp-field-decorator>
 
@@ -333,8 +333,8 @@
           onClear: handleClear,
         }"
       >
-        <template v-if="$slots['prepend-icon']" #prepend-icon>
-          <slot name="prepend-icon" />
+        <template v-if="$slots['prefix']" #prefix>
+          <slot name="prefix" />
         </template>
 
         <div
@@ -393,8 +393,8 @@
           <slot name="clear-icon" :clear="clear" />
         </template>
 
-        <template #append-icon>
-          <slot name="append-icon" />
+        <template #suffix>
+          <slot name="suffix" />
         </template>
       </mp-field-decorator>
 
@@ -481,8 +481,8 @@ import MpHoverOverlay from '../hover-overlay'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
-import MpMenu from '../menu'
 import { _PickerComponent as MpPicker } from '../picker'
+import MpPopover from '../popover'
 import MpPopup from '../popup'
 import MpTag from '../tag'
 import { createNamespace, MaybeVNode } from '../utils/components'
@@ -496,7 +496,7 @@ export default defineComponent({
   name,
   components: {
     MpIcon,
-    MpMenu,
+    MpPopover,
     MpPopup,
     MpPicker,
     MpButton,
@@ -816,7 +816,7 @@ export default defineComponent({
       return columnIndex === selectedIndex && selectedPath[columnIndex] === option[fieldNames.value.value]
     }
 
-    // Ancestors on the selected path (indirect), same as MenuSelect highlight
+    // Ancestors on the selected path (indirect), same as Menu highlight
     function isOptionHighlighted(option: CascaderOption, columnIndex: number) {
       if (props.multiple || props.presentation === 'picker' || props.presentation === 'list') {
         return false
@@ -1413,7 +1413,7 @@ export default defineComponent({
 @import '../styles/common';
 @import '../styles/elevation';
 @import '../icon/icon';
-@import '../menu/menu';
+@import '../popover/popover';
 @import '../field-decorator/fieldDecorator';
 @import '../button/button';
 @import '../tag/tag';

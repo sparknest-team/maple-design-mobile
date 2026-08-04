@@ -104,9 +104,9 @@ const formData = reactive({
 | Slot | Description | Arguments |
 | --- | --- | --- |
 | `selected` | Selected content | `-` |
-| `prepend-icon` | Prepend icon | `-` |
+| `prefix` | Prefix | `-` |
 | `clear-icon` | Clear icon | `clear: (e: Event) => void` |
-| `append-icon` | Append icon | `-` |
+| `suffix` | Suffix | `-` |
 | `arrow-icon` | Arrow icon | `focus: boolean, popupOpen: boolean` |
 
 ### Type Definitions

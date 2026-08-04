@@ -2,7 +2,7 @@
 
 exports[`auto-complete custom color 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard">
         <div class="mp-field-decorator__controller" style="color: green; cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -15,6 +15,7 @@ exports[`auto-complete custom color 1`] = `
             <!--v-if-->
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line" style="background: green;">
           <div class="mp-field-decorator__dot" style="background: blue;"></div>
         </div>
@@ -29,7 +30,7 @@ exports[`auto-complete custom color 1`] = `
 
 exports[`auto-complete disabled 1`] = `
 "<div class="mp-auto-complete">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard mp-field-decorator--disabled">
         <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -42,6 +43,7 @@ exports[`auto-complete disabled 1`] = `
             <!--v-if-->
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line mp-field-decorator--line-disabled">
           <div class="mp-field-decorator__dot mp-field-decorator--line-disabled"></div>
         </div>
@@ -56,7 +58,7 @@ exports[`auto-complete disabled 1`] = `
 
 exports[`auto-complete hint and line 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard">
         <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -81,7 +83,7 @@ exports[`auto-complete hint and line 1`] = `
 
 exports[`auto-complete modelValue 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard">
         <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -94,6 +96,7 @@ exports[`auto-complete modelValue 1`] = `
             <!--v-if-->
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line">
           <div class="mp-field-decorator__dot"></div>
         </div>
@@ -108,7 +111,7 @@ exports[`auto-complete modelValue 1`] = `
 
 exports[`auto-complete placeholder 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard">
         <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -120,6 +123,7 @@ exports[`auto-complete placeholder 1`] = `
             <!--v-if-->
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line">
           <div class="mp-field-decorator__dot"></div>
         </div>
@@ -134,7 +138,7 @@ exports[`auto-complete placeholder 1`] = `
 
 exports[`auto-complete readonly 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard">
         <div class="mp-field-decorator__controller" style="overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -147,6 +151,7 @@ exports[`auto-complete readonly 1`] = `
             <!--v-if-->
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line">
           <div class="mp-field-decorator__dot"></div>
         </div>
@@ -161,7 +166,7 @@ exports[`auto-complete readonly 1`] = `
 
 exports[`auto-complete size 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard mp-field-decorator--small">
         <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -174,6 +179,7 @@ exports[`auto-complete size 1`] = `
             <!--v-if-->
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line">
           <div class="mp-field-decorator__dot"></div>
         </div>
@@ -188,19 +194,20 @@ exports[`auto-complete size 1`] = `
 
 exports[`auto-complete slots 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--standard">
         <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-          <div class="mp-field-decorator__icon">prepend-icon</div>
+          <div class="mp-field-decorator__icon">prefix</div>
           <div class="mp-field-decorator__middle">
             <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text">
           </div>
           <!--v-if-->
           <div class="mp-field-decorator__icon">
-            <!--v-if-->append-icon
+            <!--v-if-->suffix
           </div>
         </div>
+        <!--v-if-->
         <div class="mp-field-decorator__line">
           <div class="mp-field-decorator__dot"></div>
         </div>
@@ -215,7 +222,7 @@ exports[`auto-complete slots 1`] = `
 
 exports[`auto-complete variant 1`] = `
 "<div class="mp-auto-complete" tabindex="0">
-  <div class="mp-menu mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+  <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
     <div class="mp-input mp--box">
       <div class="mp-field-decorator mp--box mp-field-decorator--outlined">
         <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
@@ -232,6 +239,9 @@ exports[`auto-complete variant 1`] = `
           <legend class="mp-field-decorator__line-legend">
             <!--v-if-->
           </legend>
+        </fieldset>
+        <fieldset class="mp-field-decorator__state-line">
+          <legend class="mp-field-decorator__line-legend"></legend>
         </fieldset>
       </div>
       <!--v-if-->

@@ -37,13 +37,13 @@ import loading from './loading'
 import loadingBar from './loadingBar'
 import menu from './menu'
 import menuOption from './menuOption'
-import menuSelect from './menuSelect'
 import message from './message'
 import option from './option'
 import overlay from './overlay'
 import pagination from './pagination'
 import paper from './paper'
 import picker from './picker'
+import popover from './popover'
 import popup from './popup'
 import progress from './progress'
 import pullRefresh from './pullRefresh'
@@ -62,6 +62,7 @@ import tab from './tab'
 import table from './table'
 import tabs from './tabs'
 import tag from './tag'
+import textarea from './textarea'
 import timePicker from './timePicker'
 import tooltip from './tooltip'
 import uploader from './uploader'
@@ -168,6 +169,7 @@ export default {
   ...pagination,
   ...table,
   ...tag,
+  ...textarea,
   ...fieldDecorator,
   ...radio,
   ...checkbox,
@@ -175,7 +177,7 @@ export default {
   ...picker,
   ...appBar,
   ...bottomNavigationItem,
-  ...menu,
+  ...popover,
   ...result,
   ...breadcrumbItem,
   ...avatar,
@@ -183,7 +185,7 @@ export default {
   ...progress,
   ...option,
   ...watermark,
-  ...menuSelect,
+  ...menu,
   ...menuOption,
   ...avatarGroup,
   ...backTop,

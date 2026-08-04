@@ -137,7 +137,7 @@ function handleAutoLoadingClick() {
   </mp-space>
 
   <app-type>{{ t('splitButton') }}</app-type>
-  <mp-menu placement="bottom" same-width :offset-y="6">
+  <mp-popover placement="bottom" same-width :offset-y="6">
     <mp-button-group status="primary">
       <mp-button @click.stop>{{ t('splitButton') }}</mp-button>
       <mp-button style="padding: 0 6px">
@@ -145,12 +145,12 @@ function handleAutoLoadingClick() {
       </mp-button>
     </mp-button-group>
 
-    <template #menu>
+    <template #content>
       <mp-cell ripple>{{ t('splitButton') }}</mp-cell>
       <mp-cell ripple>{{ t('splitButton') }}</mp-cell>
       <mp-cell ripple>{{ t('splitButton') }}</mp-cell>
     </template>
-  </mp-menu>
+  </mp-popover>
 
   <app-type>{{ t('modeButtonGroup') }}</app-type>
   <mp-space direction="column" :size="['3.666vmin', '3.666vmin']">

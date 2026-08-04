@@ -175,14 +175,14 @@ async function setMapleVersion(v: string) {
         <mp-option v-for="v in vueVersions" :key="v" :label="`v${v}`" :value="v" />
       </mp-select>
 
-      <mp-menu-select v-model="currentTheme" placement="bottom" :offset-y="10">
+      <mp-menu v-model="currentTheme" placement="bottom" :offset-y="10">
         <mp-button class="link-button" text round>
           <Palette />
         </mp-button>
         <template #options>
           <mp-menu-option v-for="t in themeOptions" :key="t.value" :label="t['en-US']" :value="t.value" />
         </template>
-      </mp-menu-select>
+      </mp-menu>
 
       <mp-tooltip content="Copy Link">
         <mp-button class="link-button" text round @click="copyLink">

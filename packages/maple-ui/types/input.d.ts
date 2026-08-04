@@ -12,9 +12,7 @@ export interface InputProps extends BasicAttributes {
   type?: InputType
   size?: InputSize
   variant?: InputVariant
-  textarea?: boolean
   ariaLabel?: string
-  rows?: string | number
   placeholder?: string
   hint?: boolean
   line?: boolean
@@ -25,7 +23,6 @@ export interface InputProps extends BasicAttributes {
   disabled?: boolean
   readonly?: boolean
   clearable?: boolean
-  resize?: boolean
   autofocus?: boolean
   enterkeyhint?: InputHTMLAttributes['enterKeyHint']
   onFocus?: ListenerProp<(e: Event) => void>
@@ -47,8 +44,8 @@ export class Input extends VarComponent {
   $props: InputProps
 
   $slots: {
-    'prepend-icon'(): VNode[]
-    'append-icon'(): VNode[]
+    prefix(): VNode[]
+    suffix(): VNode[]
     'clear-icon'(data: InputClearIconData): VNode[]
   }
 

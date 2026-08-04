@@ -514,9 +514,9 @@ test('select keyboard close menu by escape', async () => {
 
   await wrapper.trigger('focus')
   await triggerKeyboard(window, 'keydown', { key: 'Enter' })
-  expect(document.querySelector('.mp-menu__menu').style.display).toBe('')
+  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
   await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-  expect(document.querySelector('.mp-menu__menu').style.display).toBe('none')
+  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
 
   wrapper.unmount()
   document.body.innerHTML = ''
@@ -549,7 +549,7 @@ test('select offset-y', async () => {
   select.focus()
   await delay(1000)
 
-  const menu = wrapper.findComponent({ name: 'mp-menu' })
+  const menu = wrapper.findComponent({ name: 'mp-popover' })
 
   expect(menu.vm.offsetY).toBe(40)
 
@@ -701,14 +701,14 @@ describe('test select component slots', () => {
     wrapper.unmount()
   })
 
-  test('select append icon slot', () => {
+  test('select suffix slot', () => {
     const wrapper = mount(VarSelect, {
       props: {
         clearable: true,
         modelValue: 'value',
       },
       slots: {
-        'append-icon': () => 'append-icon',
+        suffix: () => 'suffix',
       },
     })
 
@@ -717,14 +717,14 @@ describe('test select component slots', () => {
     wrapper.unmount()
   })
 
-  test('select prepend icon slot', () => {
+  test('select prefix slot', () => {
     const wrapper = mount(VarSelect, {
       props: {
         clearable: true,
         modelValue: 'value',
       },
       slots: {
-        'prepend-icon': () => 'prepend-icon',
+        prefix: () => 'prefix',
       },
     })
 

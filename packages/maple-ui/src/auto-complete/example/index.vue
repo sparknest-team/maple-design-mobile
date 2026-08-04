@@ -59,19 +59,19 @@ function useAutoComplete() {
       </template>
     </mp-auto-complete>
     <mp-auto-complete v-model="standardValue7" :placeholder="t('displayIcon')" :options="standardOptions7">
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete v-model="standardValue8" :placeholder="t('customIconSize')" :options="standardOptions8">
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" size="8vmin" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" size="8vmin" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" size="12vmin" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" size="12vmin" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
@@ -140,11 +140,11 @@ function useAutoComplete() {
       :placeholder="t('displayIcon')"
       :options="outlinedOptions7"
     >
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
@@ -153,11 +153,11 @@ function useAutoComplete() {
       :placeholder="t('customIconSize')"
       :options="outlinedOptions8"
     >
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" size="8vmin" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" size="8vmin" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" size="12vmin" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" size="12vmin" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
@@ -185,11 +185,11 @@ function useAutoComplete() {
 </template>
 
 <style scoped lang="less">
-.prepend-icon {
+.prefix {
   margin-right: 6px;
 }
 
-.append-icon {
+.suffix {
   margin-left: 6px;
 }
 </style>

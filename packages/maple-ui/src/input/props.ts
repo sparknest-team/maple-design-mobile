@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, type PropType } from 'vue'
+import type { ExtractPropTypes, InputHTMLAttributes, PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
 import { defineListenerProp, pickProps } from '../utils/components'
 
@@ -14,21 +14,17 @@ export const props = {
     type: String as PropType<InputType>,
     default: 'text',
   },
-  textarea: Boolean,
   ariaLabel: String,
-  rows: {
-    type: [String, Number],
-    default: 8,
-  },
   maxlength: [String, Number],
   readonly: Boolean,
-  resize: Boolean,
   autofocus: Boolean,
   enterkeyhint: String as PropType<InputHTMLAttributes['enterKeyHint']>,
+  inputAttrs: Object as PropType<Record<string, any>>,
   onFocus: defineListenerProp<(e: FocusEvent) => void>(),
   onBlur: defineListenerProp<(e: FocusEvent) => void>(),
   onInput: defineListenerProp<(value: string, e: Event) => void>(),
   onChange: defineListenerProp<(value: string, e: Event) => void>(),
+  onKeydown: defineListenerProp<(e: KeyboardEvent) => void>(),
   onClear: defineListenerProp<(value: string) => void>(),
   'onUpdate:modelValue': defineListenerProp<(value: string) => void>(),
   ...pickProps(fieldDecoratorProps, [
@@ -56,3 +52,5 @@ export const props = {
   },
   // internal end
 }
+
+export type InputProps = ExtractPropTypes<typeof props>

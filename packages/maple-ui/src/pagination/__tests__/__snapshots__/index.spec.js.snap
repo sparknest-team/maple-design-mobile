@@ -65,7 +65,7 @@ exports[`page size related props 1`] = `
     <!--v-if-->
     <li class="mp-pagination__item mp-pagination__next mp-elevation--2"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></li>
   </ul>
-  <div class="mp-menu mp--box mp-menu-select" tabindex="-1">
+  <div class="mp-popover mp--box mp-menu-select" tabindex="-1">
     <li class="mp-pagination__size">
       <div class="mp-pagination__size--open"><span>20条 / 页</span><i class="mp-icon mp-icon--set mp-icon-menu-down mp-pagination__size--open-icon" style="transition-duration: 0ms;" mp-pagination-cover=""></i></div>
     </li>

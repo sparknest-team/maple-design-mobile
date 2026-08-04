@@ -1,5 +1,5 @@
 <template>
-  <mp-menu-select
+  <mp-menu
     :model-value="pageSize"
     placement="cover-top"
     :disabled="disabled"
@@ -18,7 +18,7 @@
         {{ option }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}
       </mp-menu-option>
     </template>
-  </mp-menu-select>
+  </mp-menu>
 </template>
 
 <script lang="ts">
@@ -26,8 +26,8 @@ import { defineComponent, PropType } from 'vue'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import MpMenu from '../menu'
 import MpMenuOption from '../menu-option'
-import MpMenuSelect from '../menu-select'
 import { createNamespace } from '../utils/components'
 
 const { n, classes } = createNamespace('pagination')
@@ -35,7 +35,7 @@ const { n, classes } = createNamespace('pagination')
 export default defineComponent({
   name: 'MpPaginationOptions',
   components: {
-    MpMenuSelect,
+    MpMenu,
     MpMenuOption,
     MpIcon,
   },

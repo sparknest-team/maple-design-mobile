@@ -4,9 +4,11 @@ export declare const counterProps: Record<keyof CounterProps, any>
 
 export interface CounterProps extends BasicAttributes {
   modelValue?: number
+  defaultValue?: number
   min?: string | number
   max?: string | number
   step?: string | number
+  precision?: string | number
   color?: string
   inputWidth?: string | number
   inputTextSize?: string | number
@@ -14,7 +16,14 @@ export interface CounterProps extends BasicAttributes {
   elevation?: boolean | string | number
   decimalLength?: string | number
   disabled?: boolean
+  error?: boolean
   readonly?: boolean
+  placeholder?: string
+  formatter?: (value: number) => string | number
+  parser?: (value: string) => string | number
+  inputAttrs?: Record<string, any>
+  controls?: boolean
+  modelEvent?: 'change' | 'input'
   disableIncrement?: boolean
   disableDecrement?: boolean
   disableInput?: boolean
@@ -24,7 +33,12 @@ export interface CounterProps extends BasicAttributes {
   press?: boolean
   ripple?: boolean
   onBeforeChange?: ListenerProp<(value: number, change: (value: number) => void) => void>
-  onChange?: ListenerProp<(value: number) => void>
+  onChange?: ListenerProp<(value: number, event?: Event) => void>
+  onInput?: ListenerProp<(value: number, inputValue: string, event: Event) => void>
+  onFocus?: ListenerProp<(event: FocusEvent) => void>
+  onBlur?: ListenerProp<(event: FocusEvent) => void>
+  onClear?: ListenerProp<(event: Event) => void>
+  onKeydown?: ListenerProp<(event: KeyboardEvent) => void>
   onIncrement?: ListenerProp<(value: number) => void>
   onDecrement?: ListenerProp<(value: number) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: number) => void>

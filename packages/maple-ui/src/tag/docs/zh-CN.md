@@ -121,7 +121,7 @@ const checked = ref(true)
 
 ### 带图标
 
-通过 `icon` 插槽自定义前置图标，`close-icon` 自定义关闭图标。
+通过 `icon` 插槽自定义前缀，`close-icon` 自定义关闭图标。
 
 ```html
 <template>
@@ -187,7 +187,7 @@ const checked = ref(true)
 | 插槽名 | 说明 |
 | --- | --- |
 | `default` | 标签内容 |
-| `icon` | 前置图标 |
+| `icon` | 前缀 |
 | `close-icon` | 自定义关闭按钮图标 |
 
 ### 类型定义

@@ -63,7 +63,7 @@ Turn on rounded border with the `round` prop.
     </template>
 
     <template #right>
-      <mp-menu>
+      <mp-popover>
         <mp-button
           color="transparent"
           text-color="#fff"
@@ -73,12 +73,12 @@ Turn on rounded border with the `round` prop.
           <mp-icon name="menu" :size="24" />
         </mp-button>
 
-        <template #menu>
+        <template #content>
           <mp-cell ripple>OPTION</mp-cell>
           <mp-cell ripple>OPTION</mp-cell>
           <mp-cell ripple>OPTION</mp-cell>
         </template>
-      </mp-menu>
+      </mp-popover>
     </template>
   </mp-app-bar>
 </template>

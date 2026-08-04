@@ -22,7 +22,7 @@
       }"
     >
       <div :class="classes(n('icon'), [!hint, n('--icon-non-hint')])">
-        <slot name="prepend-icon" />
+        <slot name="prefix" />
       </div>
 
       <div ref="middleEl" :class="classes(n('middle'), [!hint, n('--middle-non-hint')])">
@@ -55,22 +55,14 @@
         <slot v-if="clearable && !isEmpty(value)" name="clear-icon" :clear="handleClear">
           <mp-icon :class="n('clear-icon')" mp-field-decorator-cover name="close-circle" @click="handleClear" />
         </slot>
-        <slot name="append-icon" />
+        <slot name="suffix" />
       </div>
     </div>
 
     <template v-if="line">
       <fieldset
         v-if="variant === 'outlined'"
-        :class="
-          classes(
-            n('line'),
-            [isFocusing, n('--line-focus')],
-            [isError, n('--line-error')],
-            [formDisabled || disabled, n('--line-disabled')],
-          )
-        "
-        :style="{ borderColor: color }"
+        :class="classes(n('line'), [isError, n('--line-error')], [formDisabled || disabled, n('--line-disabled')])"
       >
         <legend
           :class="classes(n('line-legend'), [isFloating, n('line-legend--hint')])"
@@ -86,6 +78,23 @@
             >
           </teleport>
         </legend>
+      </fieldset>
+      <fieldset
+        v-if="variant === 'outlined'"
+        :class="
+          classes(
+            n('state-line'),
+            [isFocusing, n('--state-line-focus')],
+            [isError, n('--state-line-error')],
+            [formDisabled || disabled, n('--state-line-disabled')],
+          )
+        "
+        :style="{ borderColor: color }"
+      >
+        <legend
+          :class="classes(n('line-legend'), [isFloating, n('line-legend--hint')])"
+          :style="{ width: legendWidth }"
+        />
       </fieldset>
 
       <div
@@ -113,9 +122,9 @@
 import { computed, defineComponent, nextTick, onUpdated, ref, watch } from 'vue'
 import { call, doubleRaf, getStyle, isEmpty } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize } from '@maplejs/maple-use'
+import { useCarouselResizeDispatcher } from '../carousel/provide'
 import MpIcon from '../icon'
 import { usePopup } from '../popup/provide'
-import { useCarouselResizeDispatcher } from '../carousel/provide'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 

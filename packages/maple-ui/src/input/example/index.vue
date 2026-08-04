@@ -11,7 +11,6 @@ const standardValue5 = ref('')
 const standardValue7 = ref('')
 const standardValue8 = ref('')
 const standardValue9 = ref('')
-const standardValue10 = ref('')
 const standardValue11 = ref('')
 const standardValue12 = ref('')
 const standardValue13 = ref('')
@@ -24,7 +23,6 @@ const outlinedValue5 = ref('')
 const outlinedValue7 = ref('')
 const outlinedValue8 = ref('')
 const outlinedValue9 = ref('')
-const outlinedValue10 = ref('')
 const outlinedValue11 = ref('')
 const outlinedValue12 = ref('')
 const outlinedValue13 = ref('')
@@ -47,24 +45,23 @@ onThemeChange()
       </template>
     </mp-input>
     <mp-input v-model="standardValue7" :placeholder="t('displayIcon')">
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
     </mp-input>
 
     <mp-input v-model="standardValue8" :placeholder="t('customIconSize')">
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" size="8vmin" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" size="8vmin" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" size="12vmin" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" size="12vmin" />
       </template>
     </mp-input>
     <mp-input v-model="standardValue9" :placeholder="t('maxlength')" :maxlength="10" />
-    <mp-input v-model="standardValue10" :placeholder="t('textarea')" textarea />
     <mp-input v-model="standardValue11" :placeholder="t('smallSize')" size="small" />
     <mp-input v-model.trim="standardValue12" :placeholder="t('trim')" />
   </mp-space>
@@ -82,23 +79,22 @@ onThemeChange()
       </template>
     </mp-input>
     <mp-input v-model="outlinedValue7" variant="outlined" :placeholder="t('displayIcon')">
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
     </mp-input>
     <mp-input v-model="outlinedValue8" variant="outlined" :placeholder="t('customIconSize')">
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" size="8vmin" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" size="8vmin" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" size="12vmin" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" size="12vmin" />
       </template>
     </mp-input>
     <mp-input v-model="outlinedValue9" variant="outlined" :placeholder="t('maxlength')" :maxlength="10" />
-    <mp-input v-model="outlinedValue10" variant="outlined" :placeholder="t('textarea')" textarea />
     <mp-input v-model="outlinedValue11" variant="outlined" :placeholder="t('smallSize')" size="small" />
     <mp-input v-model.trim="outlinedValue12" variant="outlined" :placeholder="t('trim')" />
   </mp-space>
@@ -107,11 +103,11 @@ onThemeChange()
 </template>
 
 <style scoped lang="less">
-.prepend-icon {
+.prefix {
   margin-right: 6px;
 }
 
-.append-icon {
+.suffix {
   margin-left: 6px;
 }
 </style>

@@ -3,7 +3,6 @@ export default {
   outlined: 'Outlined Variant',
   smallSize: 'Small Size',
   plainMode: 'Plain Mode',
-  textarea: 'Textarea',
   maxlength: 'Maxlength',
   disabled: 'Disabled',
   trim: 'Removes whitespace from both ends of this string',

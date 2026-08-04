@@ -240,18 +240,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Menu 菜单',
+          'zh-CN': 'Menu 菜单选择器',
           'en-US': 'Menu',
         },
         doc: 'menu',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'MenuSelect 菜单选择器',
-          'en-US': 'MenuSelect',
-        },
-        doc: 'menu-select',
         type: 2,
       },
       {
@@ -323,6 +315,22 @@ export default defineConfig({
           'en-US': 'Input',
         },
         doc: 'input',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Textarea 文本域',
+          'en-US': 'Textarea',
+        },
+        doc: 'textarea',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Search 搜索',
+          'en-US': 'Search',
+        },
+        doc: 'search',
         type: 2,
       },
       {
@@ -439,10 +447,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Counter 计数器',
-          'en-US': 'Counter',
+          'zh-CN': 'InputNumber 数字输入框',
+          'en-US': 'InputNumber',
         },
-        doc: 'counter',
+        doc: 'input-number',
         type: 2,
       },
       {
@@ -634,6 +642,14 @@ export default defineConfig({
           'en-US': 'Tooltip',
         },
         doc: 'tooltip',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Popover 气泡卡片',
+          'en-US': 'Popover',
+        },
+        doc: 'popover',
         type: 2,
       },
       {

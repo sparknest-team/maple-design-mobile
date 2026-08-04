@@ -1,0 +1,164 @@
+:root {
+  --mp-input-number-border-radius: var(--mp-field-decorator-line-border-radius);
+  --mp-input-number-step-layer-border-radius: 1px;
+  --mp-input-number-step-button-width: 28px;
+  --mp-input-number-step-button-color: var(--mp-field-decorator-text-color);
+  --mp-input-number-step-button-disabled-color: var(--mp-field-decorator-disabled-color);
+  --mp-input-number-step-button-border-color: var(--mp-color-outline);
+  --mp-input-number-step-button-background: rgba(0, 0, 0, 0.04);
+  --mp-input-number-step-button-hover-background: rgba(0, 0, 0, 0.08);
+  --mp-input-number-step-button-active-background: rgba(0, 0, 0, 0.12);
+}
+
+.mp-input-number {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: var(--mp-input-number-border-radius);
+
+  &__step-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--mp-input-number-step-button-width);
+    height: 100%;
+    padding: 0;
+    border: 0 none;
+    background-color: var(--mp-input-number-step-button-background);
+    color: var(--mp-input-number-step-button-color);
+    cursor: pointer;
+    user-select: none;
+    transition:
+      color 0.25s,
+      background-color 0.25s;
+
+    &:hover {
+      background-color: var(--mp-input-number-step-button-hover-background);
+    }
+
+    &:active {
+      background-color: var(--mp-input-number-step-button-active-background);
+    }
+
+    .mp-icon {
+      font-size: 14px;
+    }
+  }
+
+  &__step-button--disabled,
+  &__step-button:disabled {
+    color: var(--mp-input-number-step-button-disabled-color);
+    cursor: not-allowed;
+
+    &:hover,
+    &:active {
+      background-color: var(--mp-input-number-step-button-background);
+    }
+  }
+
+  &__prefix,
+  &__suffix {
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.25s;
+  }
+
+  .mp-input {
+    width: 100%;
+  }
+
+  .mp-input__input {
+    text-align: left;
+  }
+
+  &--control-type-stacked {
+    .mp-input-number__step {
+      position: relative;
+      width: var(--mp-input-number-step-button-width);
+      height: 100%;
+      margin-right: calc(-1 * var(--mp-field-decorator-outlined-normal-padding-right));
+      border-radius: var(--mp-input-number-step-layer-border-radius);
+      overflow: hidden;
+    }
+
+    .mp-input-number__step-divider-vertical {
+      position: absolute;
+      top: 0;
+      left: -1px;
+      width: 1px;
+      height: 100%;
+      background-color: var(--mp-input-number-step-button-border-color);
+    }
+
+    .mp-input-number__step-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .mp-input-number__step-button {
+      width: 100%;
+      height: calc(50% - 0.5px);
+      line-height: 1;
+    }
+
+    .mp-input-number__step-divider-horizontal {
+      width: 100%;
+      height: 1px;
+      background-color: var(--mp-input-number-step-button-border-color);
+    }
+  }
+
+  &--control-type-split {
+    .mp-field-decorator__controller {
+      padding-right: var(--mp-field-decorator-outlined-normal-padding-right);
+      padding-left: var(--mp-field-decorator-outlined-normal-padding-left);
+    }
+
+    .mp-field-decorator__icon {
+      align-self: stretch;
+    }
+
+    .mp-field-decorator__icon:first-child {
+      margin-left: calc(-1 * var(--mp-field-decorator-outlined-normal-padding-left));
+    }
+
+    .mp-field-decorator__icon:last-child {
+      margin-right: calc(-1 * var(--mp-field-decorator-outlined-normal-padding-right));
+    }
+
+    .mp-input-number__step-button:first-child {
+      border-right: 1px solid var(--mp-input-number-step-button-border-color);
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .mp-input-number__step-button:last-child {
+      border-left: 1px solid var(--mp-input-number-step-button-border-color);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  &--readonly {
+    .mp-input-number__step-button {
+      color: var(--mp-input-number-step-button-disabled-color);
+      pointer-events: none;
+    }
+  }
+
+  &--size-xs {
+    --mp-input-number-step-button-width: 24px;
+  }
+
+  &--size-sm {
+    --mp-input-number-step-button-width: 26px;
+  }
+
+  &--size-lg {
+    --mp-input-number-step-button-width: 32px;
+  }
+}

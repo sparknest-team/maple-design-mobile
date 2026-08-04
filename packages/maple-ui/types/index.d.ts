@@ -53,6 +53,7 @@ export * from './imagePreview'
 export * from './indexAnchor'
 export * from './indexBar'
 export * from './input'
+export * from './inputNumber'
 export * from './lazy'
 export * from './link'
 export * from './list'
@@ -62,13 +63,13 @@ export * from './locale'
 export * from './localeProvider'
 export * from './menu'
 export * from './menuOption'
-export * from './menuSelect'
 export * from './message'
 export * from './option'
 export * from './overlay'
 export * from './pagination'
 export * from './paper'
 export * from './picker'
+export * from './popover'
 export * from './popup'
 export * from './progress'
 export * from './pullRefresh'
@@ -78,6 +79,7 @@ export * from './rate'
 export * from './result'
 export * from './ripple'
 export * from './row'
+export * from './search'
 export * from './select'
 export * from './signature'
 export * from './skeleton'
@@ -97,6 +99,7 @@ export * from './table'
 export * from './tabs'
 export * from './tabsItems'
 export * from './tag'
+export * from './textarea'
 export * from './themes'
 export * from './time'
 export * from './timePicker'
@@ -159,6 +162,7 @@ declare module 'vue' {
     MpIndexAnchor: (typeof import('@maplejs/maple-ui'))['_IndexAnchorComponent']
     MpIndexBar: (typeof import('@maplejs/maple-ui'))['_IndexBarComponent']
     MpInput: (typeof import('@maplejs/maple-ui'))['_InputComponent']
+    MpInputNumber: (typeof import('@maplejs/maple-ui'))['_InputNumberComponent']
     MpLink: (typeof import('@maplejs/maple-ui'))['_LinkComponent']
     MpList: (typeof import('@maplejs/maple-ui'))['_ListComponent']
     MpLoading: (typeof import('@maplejs/maple-ui'))['_LoadingComponent']
@@ -167,13 +171,13 @@ declare module 'vue' {
     MpLocaleProvider: (typeof import('@maplejs/maple-ui'))['_LocaleProviderComponent']
     MpMenu: (typeof import('@maplejs/maple-ui'))['_MenuComponent']
     MpMenuOption: (typeof import('@maplejs/maple-ui'))['_MenuOptionComponent']
-    MpMenuSelect: (typeof import('@maplejs/maple-ui'))['_MenuSelectComponent']
     MpMessage: (typeof import('@maplejs/maple-ui'))['_MessageComponent']
     MpOption: (typeof import('@maplejs/maple-ui'))['_OptionComponent']
     MpOverlay: (typeof import('@maplejs/maple-ui'))['_OverlayComponent']
     MpPagination: (typeof import('@maplejs/maple-ui'))['_PaginationComponent']
     MpPaper: (typeof import('@maplejs/maple-ui'))['_PaperComponent']
     MpPicker: (typeof import('@maplejs/maple-ui'))['_PickerComponent']
+    MpPopover: (typeof import('@maplejs/maple-ui'))['_PopoverComponent']
     MpPopup: (typeof import('@maplejs/maple-ui'))['_PopupComponent']
     MpProgress: (typeof import('@maplejs/maple-ui'))['_ProgressComponent']
     MpPullRefresh: (typeof import('@maplejs/maple-ui'))['_PullRefreshComponent']
@@ -182,6 +186,7 @@ declare module 'vue' {
     MpRate: (typeof import('@maplejs/maple-ui'))['_RateComponent']
     MpResult: (typeof import('@maplejs/maple-ui'))['_ResultComponent']
     MpRow: (typeof import('@maplejs/maple-ui'))['_RowComponent']
+    MpSearch: (typeof import('@maplejs/maple-ui'))['_SearchComponent']
     MpSelect: (typeof import('@maplejs/maple-ui'))['_SelectComponent']
     MpSignature: (typeof import('@maplejs/maple-ui'))['_SignatureComponent']
     MpSkeleton: (typeof import('@maplejs/maple-ui'))['_SkeletonComponent']
@@ -201,6 +206,7 @@ declare module 'vue' {
     MpTabs: (typeof import('@maplejs/maple-ui'))['_TabsComponent']
     MpTabsItems: (typeof import('@maplejs/maple-ui'))['_TabsItemsComponent']
     MpTag: (typeof import('@maplejs/maple-ui'))['_TagComponent']
+    MpTextarea: (typeof import('@maplejs/maple-ui'))['_TextareaComponent']
     MpThemes: (typeof import('@maplejs/maple-ui'))['_ThemesComponent']
     MpTime: (typeof import('@maplejs/maple-ui'))['_TimeComponent']
     MpTimePicker: (typeof import('@maplejs/maple-ui'))['_TimePickerComponent']

@@ -70,9 +70,9 @@ export class TimeRange extends VarComponent {
 
   $slots: {
     selected(): VNode[]
-    'prepend-icon'(): VNode[]
+    prefix(): VNode[]
     'clear-icon'(data: TimeRangeClearIconData): VNode[]
-    'append-icon'(): VNode[]
+    suffix(): VNode[]
     'arrow-icon'(data: TimeRangeArrowIconData): VNode[]
   }
 

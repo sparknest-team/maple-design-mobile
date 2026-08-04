@@ -13,6 +13,7 @@ exports[`input aria-label 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -32,6 +33,7 @@ exports[`input clear 1`] = `
       <!--v-if-->
       <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -53,6 +55,7 @@ exports[`input hint to be false 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -74,6 +77,7 @@ exports[`input maxlength 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -95,6 +99,7 @@ exports[`input size 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -116,6 +121,7 @@ exports[`input type 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -135,6 +141,7 @@ exports[`input type 2`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -156,6 +163,7 @@ exports[`input type 3`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -177,6 +185,7 @@ exports[`input type 4`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -198,6 +207,7 @@ exports[`input type 5`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -219,6 +229,7 @@ exports[`input variant 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -245,27 +256,9 @@ exports[`input variant 2`] = `
         <!--v-if-->
       </legend>
     </fieldset>
-  </div>
-  <!--v-if-->
-</div>"
-`;
-
-exports[`test input component slots > input append-icon slot 1`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->append-icon
-      </div>
-    </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -282,6 +275,7 @@ exports[`test input component slots > input clear-icon slot 1`] = `
       <!--v-if-->
       <div class="mp-field-decorator__icon"><button class="custom-clear-icon">Clear</button></div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -290,11 +284,11 @@ exports[`test input component slots > input clear-icon slot 1`] = `
 </div>"
 `;
 
-exports[`test input component slots > input prepend-icon slot 1`] = `
+exports[`test input component slots > input prefix slot 1`] = `
 "<div class="mp-input mp--box">
   <div class="mp-field-decorator mp--box mp-field-decorator--standard">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon">prepend-icon</div>
+      <div class="mp-field-decorator__icon">prefix</div>
       <div class="mp-field-decorator__middle">
         <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text">
       </div>
@@ -303,6 +297,29 @@ exports[`test input component slots > input prepend-icon slot 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
+    <div class="mp-field-decorator__line">
+      <div class="mp-field-decorator__dot"></div>
+    </div>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`test input component slots > input suffix slot 1`] = `
+"<div class="mp-input mp--box">
+  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+    <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+      <div class="mp-field-decorator__icon"></div>
+      <div class="mp-field-decorator__middle">
+        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text">
+      </div>
+      <!--v-if-->
+      <div class="mp-field-decorator__icon">
+        <!--v-if-->suffix
+      </div>
+    </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>
@@ -324,6 +341,7 @@ exports[`test input events > input focus & blur 1`] = `
         <!--v-if-->
       </div>
     </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot mp-field-decorator--line-focus"></div>
     </div>
@@ -345,48 +363,7 @@ exports[`test input events > input focus & blur 2`] = `
         <!--v-if-->
       </div>
     </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
-  </div>
-  <!--v-if-->
-</div>"
-`;
-
-exports[`test input events > input focus & blur 3`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller mp-field-decorator--focus" style="cursor: text; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><textarea id="mp-input-mock-id" class="mp-input__input mp-input--textarea" autocomplete="new-password" type="text" rows="8" style="resize: none;"></textarea>
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot mp-field-decorator--line-focus"></div>
-    </div>
-  </div>
-  <!--v-if-->
-</div>"
-`;
-
-exports[`test input events > input focus & blur 4`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><textarea id="mp-input-mock-id" class="mp-input__input mp-input--textarea" autocomplete="new-password" type="text" rows="8" style="resize: none;"></textarea>
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
+    <!--v-if-->
     <div class="mp-field-decorator__line">
       <div class="mp-field-decorator__dot"></div>
     </div>

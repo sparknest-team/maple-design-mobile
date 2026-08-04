@@ -3,7 +3,6 @@ export default {
   outlined: '外边框外观',
   smallSize: '小尺寸',
   plainMode: '朴素模式',
-  textarea: '文本域',
   maxlength: '最大长度',
   disabled: '禁用',
   trim: '移除空白字符',

@@ -165,12 +165,10 @@ describe('test input events', () => {
 
   test('input focus & blur', async () => {
     await expectFocusAndBlur()
-    await expectFocusAndBlur({ textarea: true })
   })
 
   test('input onInput & onChange & onClick', async () => {
     await expectInputAndChangeAndClick()
-    await expectInputAndChangeAndClick({ textarea: true })
   })
 })
 
@@ -334,10 +332,10 @@ test('input focus on mousedown', async () => {
 })
 
 describe('test input component slots', () => {
-  test('input append-icon slot', () => {
+  test('input suffix slot', () => {
     const wrapper = mount(VarInput, {
       slots: {
-        'append-icon': () => 'append-icon',
+        suffix: () => 'suffix',
       },
     })
 
@@ -346,10 +344,10 @@ describe('test input component slots', () => {
     wrapper.unmount()
   })
 
-  test('input prepend-icon slot', () => {
+  test('input prefix slot', () => {
     const wrapper = mount(VarInput, {
       slots: {
-        'prepend-icon': () => 'prepend-icon',
+        prefix: () => 'prefix',
       },
     })
 

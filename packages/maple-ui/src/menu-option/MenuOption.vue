@@ -55,7 +55,7 @@ import MpIcon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace, MaybeVNode } from '../utils/components'
 import { props } from './props'
-import { useMenuSelect, type MenuOptionProvider } from './provide'
+import { useMenu, type MenuOptionProvider } from './provide'
 
 const { name, n, classes } = createNamespace('menu-option')
 
@@ -80,8 +80,8 @@ export default defineComponent({
     const value = computed<any>(() => props.value)
     const disabled = computed(() => props.disabled)
     const ripple = computed(() => props.ripple)
-    const { menuSelect, bindMenuSelect } = useMenuSelect()
-    const { size, multiple, onSelect, computeLabel } = menuSelect
+    const { menu, bindMenu } = useMenu()
+    const { size, multiple, onSelect, computeLabel } = menu
     const { hovering, handleHovering } = useHoverOverlay()
 
     const labelVNode = computed(() =>
@@ -110,7 +110,7 @@ export default defineComponent({
 
     watch([() => props.label, () => props.value], computeLabel)
 
-    bindMenuSelect(menuOptionProvider)
+    bindMenu(menuOptionProvider)
 
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)

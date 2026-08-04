@@ -274,7 +274,7 @@
             },
             {
               "name": "icon",
-              "description": "前置图标"
+              "description": "前缀"
             },
             {
               "name": "action",
@@ -621,12 +621,12 @@
           ],
           "slots": [
             {
-              "name": "prepend-icon",
-              "description": "前置图标"
+              "name": "prefix",
+              "description": "前缀"
             },
             {
-              "name": "append-icon",
-              "description": "后置图标"
+              "name": "suffix",
+              "description": "后缀"
             },
             {
               "name": "clear-icon",
@@ -2142,16 +2142,16 @@
               "description": "自定义选项内容"
             },
             {
-              "name": "prepend-icon",
-              "description": "前置图标"
+              "name": "prefix",
+              "description": "前缀"
             },
             {
               "name": "clear-icon",
               "description": "清除图标"
             },
             {
-              "name": "append-icon",
-              "description": "后置图标"
+              "name": "suffix",
+              "description": "后缀"
             },
             {
               "name": "arrow-icon",
@@ -3349,16 +3349,16 @@
               "description": "选择区域内容"
             },
             {
-              "name": "prepend-icon",
-              "description": "前置图标"
+              "name": "prefix",
+              "description": "前缀"
             },
             {
               "name": "clear-icon",
               "description": "清除图标"
             },
             {
-              "name": "append-icon",
-              "description": "后置图标"
+              "name": "suffix",
+              "description": "后缀"
             },
             {
               "name": "arrow-icon",
@@ -5949,7 +5949,7 @@
               }
             },
             {
-              "name": "aria-label",
+              "name": "aria-label _**3.8.4**_",
               "description": "参见 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA/Attributes/aria-label)",
               "default": "-",
               "value": {
@@ -5986,18 +5986,216 @@
           ],
           "slots": [
             {
-              "name": "prepend-icon",
-              "description": "前置图标"
+              "name": "prefix",
+              "description": "前缀"
             },
             {
-              "name": "append-icon",
-              "description": "后置图标"
+              "name": "suffix",
+              "description": "后缀"
             },
             {
               "name": "clear-icon",
               "description": "清除图标"
             }
           ]
+        },
+        {
+          "name": "mp-input-number",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "绑定值",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "默认值，非受控时生效",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "control-type",
+              "description": "控制按钮布局，可选值为 `stacked` `split`",
+              "default": "stacked",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "precision",
+              "description": "数值精度",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "step",
+              "description": "步长",
+              "default": "1",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "是否展示错误状态",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "最大值",
+              "default": "Infinity",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min",
+              "description": "最小值",
+              "default": "-Infinity",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "formatter",
+              "description": "格式化展示值",
+              "default": "-",
+              "value": {
+                "type": "(value: string) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "parser",
+              "description": "解析输入值",
+              "default": "-",
+              "value": {
+                "type": "(value: string) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "输入框占位文本",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "controls",
+              "description": "是否展示增减按钮",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "尺寸，可选值为 `xs` `sm` `md` `lg`",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "是否可清空",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-event",
+              "description": "触发 `v-model` 更新的事件，可选值为 `change` `input`",
+              "default": "change",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "是否只读",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "传给原生 input 的属性",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "绑定值变化时触发"
+            },
+            {
+              "name": "change",
+              "description": "值变化后触发"
+            },
+            {
+              "name": "input",
+              "description": "输入时触发"
+            },
+            {
+              "name": "focus",
+              "description": "输入框聚焦时触发"
+            },
+            {
+              "name": "blur",
+              "description": "输入框失焦时触发"
+            },
+            {
+              "name": "clear",
+              "description": "点击清除按钮时触发"
+            },
+            {
+              "name": "keydown",
+              "description": "键盘按下时触发"
+            }
+          ],
+          "slots": []
         },
         {
           "name": "mp-lazy",
@@ -6371,226 +6569,6 @@
           "name": "mp-menu",
           "attributes": [
             {
-              "name": "v-model:show",
-              "description": "是否显示菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placement",
-              "description": "菜单弹出位置",
-              "default": "cover-top-start",
-              "value": {
-                "type": "Placement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "strategy",
-              "description": "菜单定位方式，可选值为 `absolute` `fixed`",
-              "default": "absolute",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "x 轴偏移量， 相对于菜单对齐后的位置",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "y 轴偏移量， 相对于菜单对齐后的位置",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "teleport",
-              "description": "菜单挂载的位置",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "菜单触发方式，可选值为 `click` `hover` `manual`",
-              "default": "click",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "same-width",
-              "description": "是否与触发元素同宽",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-style",
-              "description": "是否启用默认样式",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popover-class",
-              "description": "弹出层的 class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "是否在点击菜单触发元素后关闭菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-key-escape",
-              "description": "是否支持键盘 ESC 菜单",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "打开菜单时触发"
-            },
-            {
-              "name": "opened",
-              "description": "打开菜单动画结束时触发"
-            },
-            {
-              "name": "close",
-              "description": "关闭菜单时触发"
-            },
-            {
-              "name": "closed",
-              "description": "关闭菜单动画结束时触发"
-            },
-            {
-              "name": "click-outside",
-              "description": "点击菜单外部时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "菜单关联的触发元素"
-            },
-            {
-              "name": "menu",
-              "description": "菜单内容"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu-option",
-          "attributes": [
-            {
-              "name": "label",
-              "description": "选项显示的文本",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "value",
-              "description": "选项绑定的值",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "是否启用水波效果",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "选项显示的内容"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu-select",
-          "attributes": [
-            {
               "name": "v-model",
               "description": "绑定的值",
               "default": "-",
@@ -6600,8 +6578,17 @@
               }
             },
             {
-              "name": "v-model:show",
-              "description": "是否显示菜单",
+              "name": "v-model:popup-visible",
+              "description": "是否显示菜单，与 Cedar Menu 对齐",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-popup-visible",
+              "description": "非受控模式下菜单默认是否显示",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6637,10 +6624,28 @@
             },
             {
               "name": "close-on-select",
-              "description": "选中时是否关闭菜单(多选模式下选中选项始终不关闭菜单)",
+              "description": "选择菜单项时是否关闭菜单（多选模式下始终不关闭菜单）",
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-select",
+              "description": "选择菜单项时是否关闭菜单（优先于 `close-on-select`）",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "position",
+              "description": "Cedar 风格弹出位置：`top` `tl` `tr` `bottom` `bl` `br`",
+              "default": "-",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             },
@@ -6686,6 +6691,15 @@
               "default": "body",
               "value": {
                 "type": "TeleportProps['to'] | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "菜单挂载容器（优先于 `teleport`）",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | false",
                 "kind": "expression"
               }
             },
@@ -6753,16 +6767,16 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.3.7**_",
               "description": "指定可选项",
               "default": "[]",
               "value": {
-                "type": "MenuSelectOption[]",
+                "type": "MenuOption[]",
                 "kind": "expression"
               }
             },
             {
-              "name": "label-key",
+              "name": "label-key _**3.3.7**_",
               "description": "作为 label 唯一标识的键名",
               "default": "label",
               "value": {
@@ -6771,7 +6785,7 @@
               }
             },
             {
-              "name": "value-key",
+              "name": "value-key _**3.3.7**_",
               "description": "作为 value 唯一标识的键名",
               "default": "value",
               "value": {
@@ -6780,7 +6794,7 @@
               }
             },
             {
-              "name": "children-key",
+              "name": "children-key _**3.8.0**_",
               "description": "作为 children 唯一标识的键名",
               "default": "children",
               "value": {
@@ -6811,8 +6825,12 @@
               "description": "点击菜单外部时触发"
             },
             {
-              "name": "select",
-              "description": "选择某个选项时触发"
+              "name": "select _**3.8.0**_",
+              "description": "用户选择菜单项时触发；受控模式下是否产生选中态取决于 `v-model` 是否更新"
+            },
+            {
+              "name": "popup-visible-change",
+              "description": "菜单显示状态变化时触发"
             }
           ],
           "slots": [
@@ -6821,8 +6839,60 @@
               "description": "菜单关联的触发元素"
             },
             {
+              "name": "content",
+              "description": "菜单选项内容，与 Cedar Menu 对齐"
+            },
+            {
               "name": "options",
-              "description": "菜单选项内容"
+              "description": "菜单选项内容（兼容旧插槽）"
+            }
+          ]
+        },
+        {
+          "name": "mp-menu-option",
+          "attributes": [
+            {
+              "name": "label",
+              "description": "选项显示的文本",
+              "default": "-",
+              "value": {
+                "type": "any",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value",
+              "description": "选项绑定的值",
+              "default": "-",
+              "value": {
+                "type": "any",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "ripple _**3.3.0**_",
+              "description": "是否启用水波效果",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "选项显示的内容"
             }
           ]
         },
@@ -7573,6 +7643,178 @@
             {
               "name": "confirm",
               "description": "确认按钮内容"
+            }
+          ]
+        },
+        {
+          "name": "mp-popover",
+          "attributes": [
+            {
+              "name": "v-model:show",
+              "description": "是否显示气泡卡片",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "气泡卡片弹出位置",
+              "default": "cover-top-start",
+              "value": {
+                "type": "Placement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "气泡卡片定位方式，可选值为 `absolute` `fixed`",
+              "default": "absolute",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "x 轴偏移量， 相对于气泡卡片对齐后的位置",
+              "default": "0",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "y 轴偏移量， 相对于气泡卡片对齐后的位置",
+              "default": "0",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "teleport",
+              "description": "气泡卡片挂载的位置",
+              "default": "body",
+              "value": {
+                "type": "TeleportProps['to'] | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用气泡卡片",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "气泡卡片触发方式，可选值为 `click` `hover` `manual`",
+              "default": "click",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "reference",
+              "description": "气泡卡片关联的触发元素，`string` 类型为组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
+              "default": "true",
+              "value": {
+                "type": "string | number | boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "same-width",
+              "description": "是否与触发元素同宽",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-style",
+              "description": "是否启用默认样式",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popover-class",
+              "description": "弹出层的 class",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-click-reference",
+              "description": "是否在点击触发元素后关闭气泡卡片",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-key-escape",
+              "description": "是否支持键盘 ESC 关闭气泡卡片",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "description": "打开气泡卡片时触发"
+            },
+            {
+              "name": "opened",
+              "description": "打开气泡卡片动画结束时触发"
+            },
+            {
+              "name": "close",
+              "description": "关闭气泡卡片时触发"
+            },
+            {
+              "name": "closed",
+              "description": "关闭气泡卡片动画结束时触发"
+            },
+            {
+              "name": "click-outside",
+              "description": "点击气泡卡片外部时触发"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "气泡卡片关联的触发元素"
+            },
+            {
+              "name": "content",
+              "description": "气泡卡片内容"
             }
           ]
         },
@@ -8432,6 +8674,259 @@
           ]
         },
         {
+          "name": "mp-search",
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "搜索关键词",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:model-field",
+              "description": "当前搜索字段",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:search-text",
+              "description": "搜索关键词，兼容字段搜索命名",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:search-field",
+              "description": "当前搜索字段，兼容字段搜索命名",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:model",
+              "description": "表单数据对象，字段搜索模式下会按字段写入关键词",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "默认搜索关键词",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-field",
+              "description": "默认搜索字段",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fields",
+              "description": "搜索字段可选项",
+              "default": "[]",
+              "value": {
+                "type": "SearchField[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "recent-searches",
+              "description": "搜索历史列表，点击输入框时会完整展示",
+              "default": "[]",
+              "value": {
+                "type": "string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-search-history-count",
+              "description": "生成下一份搜索历史时保留的最大数量",
+              "default": "5",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "history-popup",
+              "description": "是否通过全屏 Popup 展示历史，设为 `false` 时使用同宽 Menu",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "占位符",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label",
+              "description": "搜索框左侧文本",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "shape",
+              "description": "内层搜索框形状，可选值为 `round` `square`",
+              "default": "round",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "background",
+              "description": "外层背景色",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-background",
+              "description": "内层搜索框背景色",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-action",
+              "description": "是否显示右侧操作按钮",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "action-text",
+              "description": "右侧操作按钮文本",
+              "default": "取消",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "action-type",
+              "description": "右侧操作按钮类型，可选值为 `cancel` `search`",
+              "default": "cancel",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-icon",
+              "description": "搜索图标名称",
+              "default": "magnify",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "是否可清除",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "是否只读",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "maxlength",
+              "description": "最大长度",
+              "default": "-",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "定制回车键样式",
+              "default": "search",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "search",
+              "description": "点击搜索图标、右侧搜索按钮或键盘搜索键时触发"
+            },
+            {
+              "name": "cancel",
+              "description": "点击取消按钮时触发"
+            },
+            {
+              "name": "input",
+              "description": "输入时触发"
+            },
+            {
+              "name": "change",
+              "description": "搜索字段或关键词变化时触发"
+            },
+            {
+              "name": "clear",
+              "description": "清除时触发"
+            }
+          ],
+          "slots": []
+        },
+        {
           "name": "mp-select",
           "attributes": [
             {
@@ -8462,7 +8957,7 @@
               }
             },
             {
-              "name": "presentation",
+              "name": "presentation _**3.18.0**_",
               "description": "展示模式，可选值为 `menu` `picker` `list`",
               "default": "menu",
               "value": {
@@ -8471,7 +8966,7 @@
               }
             },
             {
-              "name": "show",
+              "name": "show _**3.18.0**_",
               "description": "显隐受控",
               "default": "undefined",
               "value": {
@@ -8588,7 +9083,7 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.3.4**_",
               "description": "指定可选项",
               "default": "[]",
               "value": {
@@ -8597,7 +9092,7 @@
               }
             },
             {
-              "name": "label-key",
+              "name": "label-key _**3.3.4**_",
               "description": "作为 label 唯一标识的键名",
               "default": "label",
               "value": {
@@ -8606,7 +9101,7 @@
               }
             },
             {
-              "name": "value-key",
+              "name": "value-key _**3.3.4**_",
               "description": "作为 value 唯一标识的键名",
               "default": "value",
               "value": {
@@ -8615,7 +9110,7 @@
               }
             },
             {
-              "name": "field-names",
+              "name": "field-names _**3.18.0**_",
               "description": "自定义字段映射，优先级高于 `labelKey` / `valueKey`",
               "default": "-",
               "value": {
@@ -8624,7 +9119,7 @@
               }
             },
             {
-              "name": "picker-props",
+              "name": "picker-props _**3.18.0**_",
               "description": "picker 模式透传给 `mp-picker` 的属性",
               "default": "{}",
               "value": {
@@ -8633,7 +9128,7 @@
               }
             },
             {
-              "name": "popup-props",
+              "name": "popup-props _**3.18.0**_",
               "description": "透传给弹窗的属性",
               "default": "{}",
               "value": {
@@ -8674,16 +9169,16 @@
               "description": "选择区域的内容"
             },
             {
-              "name": "prepend-icon",
-              "description": "前置图标"
+              "name": "prefix",
+              "description": "前缀"
             },
             {
               "name": "clear-icon",
               "description": "清除图标"
             },
             {
-              "name": "append-icon",
-              "description": "后置图标"
+              "name": "suffix",
+              "description": "后缀"
             },
             {
               "name": "arrow-icon",
@@ -9948,7 +10443,7 @@
             },
             {
               "name": "icon",
-              "description": "前置图标"
+              "description": "前缀"
             },
             {
               "name": "close-icon",

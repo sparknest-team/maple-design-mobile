@@ -8,54 +8,54 @@
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const value = ref()
-const value2 = ref()
-const value3 = ref()
-const value4 = ref()
-const value5 = ref()
-const value6 = ref()
-const value7 = ref()
-const value8 = ref()
-const value9 = ref([])
-const value10 = ref([])
-const value13 = ref()
-const value14 = ref()
-const value15 = ref([])
-const value16 = ref()
+  const value = ref()
+  const value2 = ref()
+  const value3 = ref()
+  const value4 = ref()
+  const value5 = ref()
+  const value6 = ref()
+  const value7 = ref()
+  const value8 = ref()
+  const value9 = ref([])
+  const value10 = ref([])
+  const value13 = ref()
+  const value14 = ref()
+  const value15 = ref([])
+  const value16 = ref()
 
-const options = ref([
-  {
-    label: '吃饭',
-    value: 1,
-  },
-  {
-    label: '睡觉',
-    value: 2,
-  },
-  {
-    label: '打游戏',
-    value: 3,
-    disabled: true,
-  },
-])
+  const options = ref([
+    {
+      label: '吃饭',
+      value: 1,
+    },
+    {
+      label: '睡觉',
+      value: 2,
+    },
+    {
+      label: '打游戏',
+      value: 3,
+      disabled: true,
+    },
+  ])
 
-const keyOptions = ref([
-   {
-    name: '吃饭',
-    id: 1,
-  },
-  {
-    name: '睡觉',
-    id: 2,
-  },
-  {
-    name: '打游戏',
-    id: 3,
-    disabled: true,
-  },
-])
+  const keyOptions = ref([
+    {
+      name: '吃饭',
+      id: 1,
+    },
+    {
+      name: '睡觉',
+      id: 2,
+    },
+    {
+      name: '打游戏',
+      id: 3,
+      disabled: true,
+    },
+  ])
 </script>
 
 <template>
@@ -104,11 +104,11 @@ const keyOptions = ref([
         <mp-icon class="selected-icon" :name="value7 === '吃饭' ? 'cake-variant' : 'weather-night'" />
         <span>{{ value7 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -130,11 +130,11 @@ const keyOptions = ref([
         <mp-icon class="selected-icon" :size="28" :name="value8 === '吃饭' ? 'cake-variant' : 'weather-night'" />
         <span>{{ value8 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" :size="28" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" :size="28" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" :size="42" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" :size="42" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -164,21 +164,21 @@ const keyOptions = ref([
 </template>
 
 <style>
-.selected-icon {
-  margin-right: 6px;
-}
+  .selected-icon {
+    margin-right: 6px;
+  }
 
-.prepend-icon {
-  margin-right: 6px;
-}
+  .prefix {
+    margin-right: 6px;
+  }
 
-.append-icon {
-  margin-left: 6px;
-}
+  .suffix {
+    margin-left: 6px;
+  }
 
-.arrow-icon-rotate {
-  transform: rotate(180deg);
-}
+  .arrow-icon-rotate {
+    transform: rotate(180deg);
+  }
 </style>
 ```
 
@@ -186,54 +186,54 @@ const keyOptions = ref([
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const value = ref()
-const value2 = ref()
-const value3 = ref()
-const value4 = ref()
-const value5 = ref()
-const value6 = ref()
-const value7 = ref()
-const value8 = ref()
-const value9 = ref([])
-const value10 = ref([])
-const value13 = ref()
-const value14 = ref()
-const value15 = ref([])
-const value16 = ref()
+  const value = ref()
+  const value2 = ref()
+  const value3 = ref()
+  const value4 = ref()
+  const value5 = ref()
+  const value6 = ref()
+  const value7 = ref()
+  const value8 = ref()
+  const value9 = ref([])
+  const value10 = ref([])
+  const value13 = ref()
+  const value14 = ref()
+  const value15 = ref([])
+  const value16 = ref()
 
-const options = ref([
-  {
-    label: '吃饭',
-    value: 1,
-  },
-  {
-    label: '睡觉',
-    value: 2,
-  },
-  {
-    label: '打游戏',
-    value: 3,
-    disabled: true,
-  },
-])
+  const options = ref([
+    {
+      label: '吃饭',
+      value: 1,
+    },
+    {
+      label: '睡觉',
+      value: 2,
+    },
+    {
+      label: '打游戏',
+      value: 3,
+      disabled: true,
+    },
+  ])
 
-const keyOptions = ref([
-   {
-    name: '吃饭',
-    id: 1,
-  },
-  {
-    name: '睡觉',
-    id: 2,
-  },
-  {
-    name: '打游戏',
-    id: 3,
-    disabled: true,
-  },
-])
+  const keyOptions = ref([
+    {
+      name: '吃饭',
+      id: 1,
+    },
+    {
+      name: '睡觉',
+      id: 2,
+    },
+    {
+      name: '打游戏',
+      id: 3,
+      disabled: true,
+    },
+  ])
 </script>
 
 <template>
@@ -282,11 +282,11 @@ const keyOptions = ref([
         <mp-icon class="selected-icon" :name="value7 === '吃饭' ? 'cake-variant' : 'weather-night'" />
         <span>{{ value7 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -307,11 +307,11 @@ const keyOptions = ref([
         <mp-icon class="selected-icon" :size="28" :name="value8 === '吃饭' ? 'cake-variant' : 'weather-night'" />
         <span>{{ value8 }}</span>
       </template>
-      <template #prepend-icon>
-        <mp-icon class="prepend-icon" name="github" :size="28" />
+      <template #prefix>
+        <mp-icon class="prefix" name="github" :size="28" />
       </template>
-      <template #append-icon>
-        <mp-icon class="append-icon" name="github" :size="42" />
+      <template #suffix>
+        <mp-icon class="suffix" name="github" :size="42" />
       </template>
       <template #arrow-icon="{ focus }">
         <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
@@ -336,26 +336,33 @@ const keyOptions = ref([
     </mp-select>
     <mp-select variant="outlined" placeholder="选项式 API" v-model="value14" :options="options" />
     <mp-select variant="outlined" placeholder="选项式 API（多选）" v-model="value15" :options="options" multiple />
-    <mp-select variant="outlined" placeholder="自定义字段" v-model="value16" :options="keyOptions" label-key="name" value-key="id" />
+    <mp-select
+      variant="outlined"
+      placeholder="自定义字段"
+      v-model="value16"
+      :options="keyOptions"
+      label-key="name"
+      value-key="id"
+    />
   </mp-space>
 </template>
 
 <style>
-.selected-icon {
-  margin-right: 6px;
-}
+  .selected-icon {
+    margin-right: 6px;
+  }
 
-.prepend-icon {
-  margin-right: 6px;
-}
+  .prefix {
+    margin-right: 6px;
+  }
 
-.append-icon {
-  margin-left: 6px;
-}
+  .suffix {
+    margin-left: 6px;
+  }
 
-.arrow-icon-rotate {
-  transform: rotate(180deg);
-}
+  .arrow-icon-rotate {
+    transform: rotate(180deg);
+  }
 </style>
 ```
 
@@ -365,24 +372,19 @@ const keyOptions = ref([
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const pickerValue = ref()
-const pickerOptions = ref([
-  { label: '吃饭', value: 1 },
-  { label: '睡觉', value: 2 },
-  { label: '打游戏', value: 3, disabled: true },
-])
+  const pickerValue = ref()
+  const pickerOptions = ref([
+    { label: '吃饭', value: 1 },
+    { label: '睡觉', value: 2 },
+    { label: '打游戏', value: 3, disabled: true },
+  ])
 </script>
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-select
-      presentation="picker"
-      placeholder="请选择一个选项"
-      v-model="pickerValue"
-      :options="pickerOptions"
-    />
+    <mp-select presentation="picker" placeholder="请选择一个选项" v-model="pickerValue" :options="pickerOptions" />
   </mp-space>
 </template>
 ```
@@ -395,15 +397,15 @@ const pickerOptions = ref([
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const pickerMultiple = ref([])
-const pickerOptions = ref([
-  { label: '吃饭', value: 1 },
-  { label: '睡觉', value: 2 },
-  { label: '打游戏', value: 3 },
-  { label: '写文档', value: 4 },
-])
+  const pickerMultiple = ref([])
+  const pickerOptions = ref([
+    { label: '吃饭', value: 1 },
+    { label: '睡觉', value: 2 },
+    { label: '打游戏', value: 3 },
+    { label: '写文档', value: 4 },
+  ])
 </script>
 
 <template>
@@ -427,26 +429,21 @@ const pickerOptions = ref([
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const listValue = ref()
-const listMultiple = ref([])
-const listOptions = ref([
-  { label: '吃饭', value: 1 },
-  { label: '睡觉', value: 2 },
-  { label: '打游戏', value: 3, disabled: true },
-  { label: '写代码', value: 4 },
-])
+  const listValue = ref()
+  const listMultiple = ref([])
+  const listOptions = ref([
+    { label: '吃饭', value: 1 },
+    { label: '睡觉', value: 2 },
+    { label: '打游戏', value: 3, disabled: true },
+    { label: '写代码', value: 4 },
+  ])
 </script>
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-select
-      presentation="list"
-      placeholder="请选择一个选项"
-      v-model="listValue"
-      :options="listOptions"
-    />
+    <mp-select presentation="list" placeholder="请选择一个选项" v-model="listValue" :options="listOptions" />
     <mp-select
       presentation="list"
       multiple
@@ -468,89 +465,89 @@ const listOptions = ref([
 
 #### Select Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `v-model` | 绑定的值 | _any \| any[]_ | `-` |
-| `size` | 选择框尺寸，可选值 `normal` `small`   | _string_ | `normal` |
-| `variant` | 选择框风格, 可选值为 `standard` `outlined` | _string_ | `standard` |
-| `presentation` ***3.18.0*** | 展示模式，可选值为 `menu` `picker` `list` | _string_ | `menu` |
-| `show` ***3.18.0*** | 显隐受控 | _boolean_ | `undefined` |
-| `placeholder` | 占位符 | _string_ | `-` |
-| `multiple` | 是否开启多选 | _boolean_ | `false` |
-| `offset-y` | 下拉菜单的垂直偏移量 | _string \| number_ | `0` |
-| `tag` | 是否使用标签风格（仅限多选） | _boolean_ | `false` |
-| `line` | 是否显示分割线 | _boolean_ | `true` |
-| `hint` | 是否使用占位符作为提示 | _boolean_ | `true` |
-| `text-color` | 文字颜色 | _string_ | `-` |
-| `focus-color` | 聚焦时的主要颜色 | _string_ | `-` |
-| `blur-color` | 失焦时的主要颜色 | _string_ | `-` |
-| `readonly` | 是否只读 | _boolean_ | `false` |
-| `disabled` | 是否禁用 | _boolean_ | `false` |
-| `clearable` | 是否可清除 | _boolean_ | `false` |
-| `options` ***3.3.4*** | 指定可选项 | _SelectOption[]_ | `[]` |
-| `label-key` ***3.3.4*** | 作为 label 唯一标识的键名 | _string_ | `label` |
-| `value-key` ***3.3.4*** | 作为 value 唯一标识的键名 | _string_ | `value` |
-| `field-names` ***3.18.0*** | 自定义字段映射，优先级高于 `labelKey` / `valueKey` | _{ label?, value?, children?, disabled? }_ | `-` |
-| `picker-props` ***3.18.0*** | picker 模式透传给 `mp-picker` 的属性 | _Partial\<PickerProps\>_ | `{}` |
-| `popup-props` ***3.18.0*** | 透传给弹窗的属性 | _Partial\<PopupProps\>_ | `{}` |
+| 参数                        | 说明                                               | 类型                                       | 默认值      |
+| --------------------------- | -------------------------------------------------- | ------------------------------------------ | ----------- |
+| `v-model`                   | 绑定的值                                           | _any \| any[]_                             | `-`         |
+| `size`                      | 选择框尺寸，可选值 `normal` `small`                | _string_                                   | `normal`    |
+| `variant`                   | 选择框风格, 可选值为 `standard` `outlined`         | _string_                                   | `standard`  |
+| `presentation` _**3.18.0**_ | 展示模式，可选值为 `menu` `picker` `list`          | _string_                                   | `menu`      |
+| `show` _**3.18.0**_         | 显隐受控                                           | _boolean_                                  | `undefined` |
+| `placeholder`               | 占位符                                             | _string_                                   | `-`         |
+| `multiple`                  | 是否开启多选                                       | _boolean_                                  | `false`     |
+| `offset-y`                  | 下拉菜单的垂直偏移量                               | _string \| number_                         | `0`         |
+| `tag`                       | 是否使用标签风格（仅限多选）                       | _boolean_                                  | `false`     |
+| `line`                      | 是否显示分割线                                     | _boolean_                                  | `true`      |
+| `hint`                      | 是否使用占位符作为提示                             | _boolean_                                  | `true`      |
+| `text-color`                | 文字颜色                                           | _string_                                   | `-`         |
+| `focus-color`               | 聚焦时的主要颜色                                   | _string_                                   | `-`         |
+| `blur-color`                | 失焦时的主要颜色                                   | _string_                                   | `-`         |
+| `readonly`                  | 是否只读                                           | _boolean_                                  | `false`     |
+| `disabled`                  | 是否禁用                                           | _boolean_                                  | `false`     |
+| `clearable`                 | 是否可清除                                         | _boolean_                                  | `false`     |
+| `options` _**3.3.4**_       | 指定可选项                                         | _SelectOption[]_                           | `[]`        |
+| `label-key` _**3.3.4**_     | 作为 label 唯一标识的键名                          | _string_                                   | `label`     |
+| `value-key` _**3.3.4**_     | 作为 value 唯一标识的键名                          | _string_                                   | `value`     |
+| `field-names` _**3.18.0**_  | 自定义字段映射，优先级高于 `labelKey` / `valueKey` | _{ label?, value?, children?, disabled? }_ | `-`         |
+| `picker-props` _**3.18.0**_ | picker 模式透传给 `mp-picker` 的属性               | _Partial\<PickerProps\>_                   | `{}`        |
+| `popup-props` _**3.18.0**_  | 透传给弹窗的属性                                   | _Partial\<PopupProps\>_                    | `{}`        |
 
 校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
 #### SelectOption
 
-| 参数 | 说明 | 类型             | 默认值       |
-| ------- | --- |----------------|-----------|
-| `label`    |    选项的标签    | _string \| VNode \| (option: SelectOption, selected: boolean) => VNodeChild_      | `-`   |
-| `value`  |    选项的值    | _any_      | `-`   |
-| `disabled`    |    是否禁用   | _boolean_      | `-`   |
+| 参数       | 说明       | 类型                                                                         | 默认值 |
+| ---------- | ---------- | ---------------------------------------------------------------------------- | ------ |
+| `label`    | 选项的标签 | _string \| VNode \| (option: SelectOption, selected: boolean) => VNodeChild_ | `-`    |
+| `value`    | 选项的值   | _any_                                                                        | `-`    |
+| `disabled` | 是否禁用   | _boolean_                                                                    | `-`    |
 
 #### Option Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `label` | 选项显示的文本 | _any_ | `-` |
-| `value` | 选项绑定的值 | _any_ | `-` |
-| `disabled` | 是否禁用 | _boolean_ | `false` |
-| `ripple` ***3.8.0***  | 是否启用水波效果 | _boolean_ | `true` |
+| 参数                 | 说明             | 类型      | 默认值  |
+| -------------------- | ---------------- | --------- | ------- |
+| `label`              | 选项显示的文本   | _any_     | `-`     |
+| `value`              | 选项绑定的值     | _any_     | `-`     |
+| `disabled`           | 是否禁用         | _boolean_ | `false` |
+| `ripple` _**3.8.0**_ | 是否启用水波效果 | _boolean_ | `true`  |
 
 ### 方法
 
 #### Select Methods
 
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `focus` | 聚焦 | `-` | `-` |
-| `blur` | 失焦 | `-` | `-` |
+| 方法名  | 说明 | 参数 | 返回值 |
+| ------- | ---- | ---- | ------ |
+| `focus` | 聚焦 | `-`  | `-`    |
+| `blur`  | 失焦 | `-`  | `-`    |
 
 ### 事件
 
 #### Select Events
 
-| 事件名 | 说明    | 参数 |
-| --- |-------| --- |
-| `focus` | 聚焦时触发 | `event: Event` |
-| `blur` | 失焦时触发 | `event: Event` |
-| `click` | 点击时触发 | `event: Event` |
-| `clear` | 清除时触发 | `value: any \| any[]` |
-| `close` | 关闭时触发 | `value: any[]` |
+| 事件名   | 说明       | 参数                  |
+| -------- | ---------- | --------------------- |
+| `focus`  | 聚焦时触发 | `event: Event`        |
+| `blur`   | 失焦时触发 | `event: Event`        |
+| `click`  | 点击时触发 | `event: Event`        |
+| `clear`  | 清除时触发 | `value: any \| any[]` |
+| `close`  | 关闭时触发 | `value: any[]`        |
 | `change` | 更新时触发 | `value: any \| any[]` |
 
 ### 插槽
 
 #### Select Slots
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `selected` | 选择区域的内容 | `-` |
-| `prepend-icon` | 前置图标 | `-` |
-| `clear-icon` | 清除图标 | `clear: (e: Event) => void` 清除函数(在使用插槽时, 可用于清除选择框内容) |
-| `append-icon` | 后置图标 | `-` |
-| `arrow-icon` | 箭头图标 | `focus: boolean` 是否处于聚焦状态, `menu-open: boolean` 是否菜单被打开 |
+| 插槽名       | 说明           | 参数                                                                     |
+| ------------ | -------------- | ------------------------------------------------------------------------ |
+| `selected`   | 选择区域的内容 | `-`                                                                      |
+| `prefix`     | 前缀           | `-`                                                                      |
+| `clear-icon` | 清除图标       | `clear: (e: Event) => void` 清除函数(在使用插槽时, 可用于清除选择框内容) |
+| `suffix`     | 后缀           | `-`                                                                      |
+| `arrow-icon` | 箭头图标       | `focus: boolean` 是否处于聚焦状态, `menu-open: boolean` 是否菜单被打开   |
 
 #### Option Slots
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
+| 插槽名    | 说明           | 参数                         |
+| --------- | -------------- | ---------------------------- |
 | `default` | 选项显示的内容 | `selected: boolean` 是否选中 |
 
 ### 样式变量
@@ -559,59 +556,59 @@ const listOptions = ref([
 
 #### Select Variables
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--field-decorator-text-color` | `#555` |
-| `--field-decorator-error-color` | `var(--color-danger)` |
-| `--field-decorator-blur-color` | `#888` |
-| `--field-decorator-focus-color` | `var(--color-primary)` |
-| `--field-decorator-placeholder-size` | `16px` |
-| `--field-decorator-icon-size` | `20px` |
-| `--field-decorator-line-size` | `1px` |
-| `--field-decorator-line-focus-size` | `2px` |
-| `--field-decorator-line-border-radius` | `4px` |
-| `--field-decorator-disabled-color` | `var(--color-text-disabled)` |
-| `--field-decorator-standard-normal-margin-top` | `22px` |
-| `--field-decorator-standard-normal-margin-bottom` | `4px` |
-| `--field-decorator-standard-normal-icon-margin-top` | `22px` |
-| `--field-decorator-standard-normal-icon-margin-bottom` | `4px` |
-| `--field-decorator-standard-normal-non-hint-margin-top` | `4px` |
-| `--field-decorator-standard-small-margin-top` | `18px` |
-| `--field-decorator-standard-small-margin-bottom` | `4px` |
-| `--field-decorator-standard-small-icon-margin-top` | `18px` |
-| `--field-decorator-standard-small-icon-margin-bottom` | `4px` |
-| `--field-decorator-standard-small-non-hint-margin-top` | `2px` |
-| `--field-decorator-outlined-normal-margin-top` | `16px` |
-| `--field-decorator-outlined-normal-margin-bottom` | `16px` |
-| `--field-decorator-outlined-normal-padding-left` | `16px` |
-| `--field-decorator-outlined-normal-padding-right` | `16px` |
-| `--field-decorator-outlined-normal-placeholder-space` | `4px` |
-| `--field-decorator-outlined-normal-icon-margin-top` | `16px` |
-| `--field-decorator-outlined-normal-icon-margin-bottom` | `16px` |
-| `--field-decorator-outlined-small-margin-top` | `8px` |
-| `--field-decorator-outlined-small-margin-bottom` | `8px` |
-| `--field-decorator-outlined-small-padding-left` | `12px` |
-| `--field-decorator-outlined-small-padding-right` | `12px` |
-| `--field-decorator-outlined-small-placeholder-space` | `2px` |
-| `--field-decorator-outlined-small-icon-margin-top` | `8px` |
-| `--field-decorator-outlined-small-icon-margin-bottom` | `8px` |
-| `--select-scroller-background` | `var(--color-surface-container-high)` |
-| `--select-scroller-padding` | `6px 0` |
-| `--select-scroller-max-height` | `278px` |
-| `--select-scroller-border-radius` | `2px` |
-| `--select-label-font-size` | `16px` |
-| `--select-tags-margin` | `-5px 0 0 0` |
-| `--select-tags-padding` | `2px 0` |
-| `--select-tag-margin` | `5px 5px 0 0` |
-| `--select-arrow-size` | `20px` |
-| `--select-standard-menu-margin` | `calc(var(--field-decorator-placeholder-size) * 0.75 + 14px) 0 0 0` |
+| 变量名                                                  | 默认值                                                              |
+| ------------------------------------------------------- | ------------------------------------------------------------------- |
+| `--field-decorator-text-color`                          | `#555`                                                              |
+| `--field-decorator-error-color`                         | `var(--color-danger)`                                               |
+| `--field-decorator-blur-color`                          | `#888`                                                              |
+| `--field-decorator-focus-color`                         | `var(--color-primary)`                                              |
+| `--field-decorator-placeholder-size`                    | `16px`                                                              |
+| `--field-decorator-icon-size`                           | `20px`                                                              |
+| `--field-decorator-line-size`                           | `1px`                                                               |
+| `--field-decorator-line-focus-size`                     | `2px`                                                               |
+| `--field-decorator-line-border-radius`                  | `4px`                                                               |
+| `--field-decorator-disabled-color`                      | `var(--color-text-disabled)`                                        |
+| `--field-decorator-standard-normal-margin-top`          | `22px`                                                              |
+| `--field-decorator-standard-normal-margin-bottom`       | `4px`                                                               |
+| `--field-decorator-standard-normal-icon-margin-top`     | `22px`                                                              |
+| `--field-decorator-standard-normal-icon-margin-bottom`  | `4px`                                                               |
+| `--field-decorator-standard-normal-non-hint-margin-top` | `4px`                                                               |
+| `--field-decorator-standard-small-margin-top`           | `18px`                                                              |
+| `--field-decorator-standard-small-margin-bottom`        | `4px`                                                               |
+| `--field-decorator-standard-small-icon-margin-top`      | `18px`                                                              |
+| `--field-decorator-standard-small-icon-margin-bottom`   | `4px`                                                               |
+| `--field-decorator-standard-small-non-hint-margin-top`  | `2px`                                                               |
+| `--field-decorator-outlined-normal-margin-top`          | `16px`                                                              |
+| `--field-decorator-outlined-normal-margin-bottom`       | `16px`                                                              |
+| `--field-decorator-outlined-normal-padding-left`        | `16px`                                                              |
+| `--field-decorator-outlined-normal-padding-right`       | `16px`                                                              |
+| `--field-decorator-outlined-normal-placeholder-space`   | `4px`                                                               |
+| `--field-decorator-outlined-normal-icon-margin-top`     | `16px`                                                              |
+| `--field-decorator-outlined-normal-icon-margin-bottom`  | `16px`                                                              |
+| `--field-decorator-outlined-small-margin-top`           | `8px`                                                               |
+| `--field-decorator-outlined-small-margin-bottom`        | `8px`                                                               |
+| `--field-decorator-outlined-small-padding-left`         | `12px`                                                              |
+| `--field-decorator-outlined-small-padding-right`        | `12px`                                                              |
+| `--field-decorator-outlined-small-placeholder-space`    | `2px`                                                               |
+| `--field-decorator-outlined-small-icon-margin-top`      | `8px`                                                               |
+| `--field-decorator-outlined-small-icon-margin-bottom`   | `8px`                                                               |
+| `--select-scroller-background`                          | `var(--color-surface-container-high)`                               |
+| `--select-scroller-padding`                             | `6px 0`                                                             |
+| `--select-scroller-max-height`                          | `278px`                                                             |
+| `--select-scroller-border-radius`                       | `2px`                                                               |
+| `--select-label-font-size`                              | `16px`                                                              |
+| `--select-tags-margin`                                  | `-5px 0 0 0`                                                        |
+| `--select-tags-padding`                                 | `2px 0`                                                             |
+| `--select-tag-margin`                                   | `5px 5px 0 0`                                                       |
+| `--select-arrow-size`                                   | `20px`                                                              |
+| `--select-standard-menu-margin`                         | `calc(var(--field-decorator-placeholder-size) * 0.75 + 14px) 0 0 0` |
 
 #### Option Variables
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--option-height` | `38px` |
-| `--option-padding` | `0 12px` |
-| `--option-font-size` | `16px` |
+| 变量名                         | 默认值                               |
+| ------------------------------ | ------------------------------------ |
+| `--option-height`              | `38px`                               |
+| `--option-padding`             | `0 12px`                             |
+| `--option-font-size`           | `16px`                               |
 | `--option-selected-background` | `var(--input-decorator-focus-color)` |
-| `--option-text-color` | `#555` |
+| `--option-text-color`          | `#555`                               |

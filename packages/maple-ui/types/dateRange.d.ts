@@ -72,9 +72,9 @@ export class DateRange extends VarComponent {
 
   $slots: {
     selected(): VNode[]
-    'prepend-icon'(): VNode[]
+    prefix(): VNode[]
     'clear-icon'(data: DateRangeClearIconData): VNode[]
-    'append-icon'(): VNode[]
+    suffix(): VNode[]
     'arrow-icon'(data: DateRangeArrowIconData): VNode[]
   }
 

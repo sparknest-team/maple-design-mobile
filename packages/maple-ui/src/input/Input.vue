@@ -20,13 +20,13 @@
         clearable,
         cursor,
         composing: isComposing,
-        hintCenter: !textarea,
+        hintCenter: true,
         onClick: handleClick,
         onClear: handleClear,
       }"
     >
-      <template v-if="$slots['prepend-icon']" #prepend-icon>
-        <slot name="prepend-icon" />
+      <template v-if="$slots['prefix']" #prefix>
+        <slot name="prefix" />
       </template>
 
       <input
@@ -40,45 +40,7 @@
         }"
         :enterkeyhint="enterkeyhint"
       />
-      <textarea
-        v-if="textarea"
-        :id="id"
-        ref="el"
-        :aria-label="ariaLabel"
-        :class="
-          classes(
-            n('input'),
-            n('--textarea'),
-            [formDisabled || disabled, n('--disabled')],
-            [mergedError, n('--error')],
-            [mergedError, n('--caret-error')],
-          )
-        "
-        :autocomplete="autocomplete ? autocomplete : 'new-password'"
-        :disabled="formDisabled || disabled"
-        :readonly="formReadonly || readonly"
-        :type="normalizedType"
-        :value="modelValue"
-        :placeholder="!mergedHint ? placeholder : undefined"
-        :maxlength="maxlength"
-        :rows="rows"
-        :enterkeyhint="enterkeyhint"
-        :inputmode="type === 'number' ? 'decimal' : undefined"
-        :style="{
-          color: !mergedError ? textColor : undefined,
-          caretColor: !mergedError ? focusColor : undefined,
-          resize: resize ? 'vertical' : 'none',
-          '--mp-input-placeholder-color': placeholderColor,
-        }"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @input="handleInput"
-        @change="handleChange"
-        @compositionstart="handleCompositionStart"
-        @compositionend="handleCompositionEnd"
-      />
       <input
-        v-else
         :id="id"
         ref="el"
         :aria-label="ariaLabel"
@@ -104,10 +66,12 @@
           caretColor: !mergedError ? focusColor : undefined,
           '--mp-input-placeholder-color': placeholderColor,
         }"
+        v-bind="inputAttrs"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
         @change="handleChange"
+        @keydown="handleKeydown"
         @compositionstart="handleCompositionStart"
         @compositionend="handleCompositionEnd"
       />
@@ -116,8 +80,8 @@
         <slot name="clear-icon" :clear="clear" />
       </template>
 
-      <template #append-icon>
-        <slot name="append-icon" />
+      <template #suffix>
+        <slot name="suffix" />
       </template>
     </mp-field-decorator>
 
@@ -270,6 +234,10 @@ export default defineComponent({
       eventHandlers.value.onChange?.()
     }
 
+    function handleKeydown(e: KeyboardEvent) {
+      call(props.onKeydown, e)
+    }
+
     function handleClear() {
       const { disabled, readonly, clearable, onClear } = props
 
@@ -356,6 +324,7 @@ export default defineComponent({
       handleBlur,
       handleInput,
       handleChange,
+      handleKeydown,
       handleClear,
       handleClick,
       handleCompositionStart,

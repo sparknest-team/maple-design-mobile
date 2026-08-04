@@ -80,9 +80,9 @@ export class Select extends VarComponent {
 
   $slots: {
     selected(): VNode[]
-    'prepend-icon'(): VNode[]
+    prefix(): VNode[]
     'clear-icon'(data: SelectClearIconData): VNode[]
-    'append-icon'(): VNode[]
+    suffix(): VNode[]
     'arrow-icon'(data: SelectArrowIconData): VNode[]
   }
 

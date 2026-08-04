@@ -1,59 +1,99 @@
-import { type PropType, type TeleportProps } from 'vue'
-import { type PositioningStrategy } from '@popperjs/core'
-import { defineListenerProp } from '../utils/components'
-import { type Placement, type Reference, type Trigger } from './usePopover'
+import { VNode, VNodeChild, type PropType } from 'vue'
+import { popoverProps } from '../popover'
+import { defineListenerProp, pickProps } from '../utils/components'
+
+export type MenuSize = 'normal' | 'mini' | 'small' | 'large'
+export type MenuPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br'
+
+export type MenuOptionLabelRender = (option: MenuOption, checked: boolean) => VNodeChild
+
+export type MenuOptionLabel = string | VNode | MenuOptionLabelRender
+
+export interface MenuOption {
+  label?: MenuOptionLabel
+  value?: any
+  children?: MenuOption[]
+  disabled?: boolean
+  ripple?: boolean
+  [key: PropertyKey]: any
+
+  _parent?: MenuOption
+  _children?: MenuOption[]
+  _rawOption?: MenuOption
+}
 
 export const props = {
-  show: Boolean,
-  disabled: Boolean,
-  trigger: {
-    type: String as PropType<Trigger>,
-    default: 'click',
+  modelValue: {
+    type: [String, Number, Boolean, Array] as PropType<any>,
+    default: undefined,
   },
-  reference: [String, Object] as PropType<Reference>,
-  placement: {
-    type: String as PropType<Placement>,
-    default: 'cover-top-start',
+  options: {
+    type: Array as PropType<MenuOption[]>,
+    default: () => [],
   },
-  strategy: {
-    type: String as PropType<PositioningStrategy>,
-    default: 'absolute',
+  labelKey: {
+    type: String,
+    default: 'label',
   },
-  offsetX: {
-    type: [Number, String],
-    default: 0,
+  valueKey: {
+    type: String,
+    default: 'value',
   },
-  offsetY: {
-    type: [Number, String],
-    default: 0,
+  childrenKey: {
+    type: String,
+    default: 'children',
   },
-  teleport: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
+  size: {
+    type: String as PropType<MenuSize>,
+    default: 'normal',
   },
-  sameWidth: Boolean,
-  elevation: {
-    type: [Boolean, String, Number],
-    default: true,
-  },
-  defaultStyle: {
+  multiple: Boolean,
+  scrollable: Boolean,
+  closeOnSelect: {
     type: Boolean,
     default: true,
   },
-  popoverClass: String,
-  closeOnClickReference: Boolean,
-  closeOnKeyEscape: {
+  popupVisible: {
     type: Boolean,
-    default: true,
+    default: undefined,
   },
-  onOpen: defineListenerProp<() => void>(),
-  onOpened: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<() => void>(),
-  onClosed: defineListenerProp<() => void>(),
-  onClickOutside: defineListenerProp<(event: Event) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
+  defaultPopupVisible: Boolean,
+  position: String as PropType<MenuPosition>,
+  popupContainer: {
+    type: [String, Object, Boolean] as PropType<import('vue').TeleportProps['to'] | false>,
+    default: undefined,
+  },
+  hideOnSelect: {
+    type: Boolean,
+    default: undefined,
+  },
+  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
+  'onUpdate:popupVisible': defineListenerProp<(visible: boolean) => void>(),
+  onPopupVisibleChange: defineListenerProp<(visible: boolean) => void>(),
+  onSelect: defineListenerProp<(value: any, option: MenuOption) => void>(),
+  ...pickProps(popoverProps, [
+    'show',
+    'disabled',
+    'trigger',
+    'reference',
+    'placement',
+    'strategy',
+    'offsetX',
+    'offsetY',
+    'teleport',
+    'sameWidth',
+    'elevation',
+    'popoverClass',
+    'closeOnClickReference',
+    'onOpen',
+    'onOpened',
+    'onClose',
+    'onClosed',
+    'onClickOutside',
+    'onUpdate:show',
+  ]),
 
   // internal start
-  cascadeOptimization: Boolean,
+  onKeyEscape: defineListenerProp<() => void>(),
   // internal end
 }

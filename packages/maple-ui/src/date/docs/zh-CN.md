@@ -140,7 +140,7 @@ const formData = reactive({
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `selected` | 选择区域内容 | `-` |
-| `prepend-icon` | 前置图标 | `-` |
+| `prefix` | 前缀 | `-` |
 | `clear-icon` | 清除图标 | `clear: (e: Event) => void` |
-| `append-icon` | 后置图标 | `-` |
+| `suffix` | 后缀 | `-` |
 | `arrow-icon` | 箭头图标 | `focus: boolean, popupOpen: boolean` |
