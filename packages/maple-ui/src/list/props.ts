@@ -1,5 +1,3 @@
-import { defineListenerProp } from '../utils/components'
-
 export const props = {
   loading: Boolean,
   immediateCheck: {
@@ -15,7 +13,4 @@ export const props = {
   loadingText: String,
   finishedText: String,
   errorText: String,
-  onLoad: defineListenerProp<() => void>(),
-  'onUpdate:loading': defineListenerProp<(loading: boolean) => void>(),
-  'onUpdate:error': defineListenerProp<(error: boolean) => void>(),
 }

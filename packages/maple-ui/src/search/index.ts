@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Search, searchProps)
 
 export { searchProps }
 
+export type SearchInstance = InstanceType<typeof Search>
 export const _SearchComponent = Search
 
 export default Search

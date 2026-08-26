@@ -1,7 +1,7 @@
 import { type PropType, type TeleportProps } from 'vue'
 import type { SlotType } from '.'
 import { loadingProps } from '../loading'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 import type { MessagePosition, MessageType } from './index'
 
 export type { MessagePosition }
@@ -31,8 +31,8 @@ export const props = {
     default: 'currentColor',
   },
   lockScroll: Boolean,
-  show: Boolean,
-  teleport: {
+  open: Boolean,
+  popupContainer: {
     type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
     default: 'body',
   },
@@ -42,10 +42,5 @@ export const props = {
     default: true,
   },
   closable: Boolean,
-  onOpen: defineListenerProp<() => void>(),
-  onOpened: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(id?: string | number) => void>(),
-  onClosed: defineListenerProp<() => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   _update: String,
 }

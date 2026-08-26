@@ -1,21 +1,14 @@
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue'
 import config from '@config'
-import {
-  getBrowserTheme,
-  getPCLocationInfo,
-  onThemeChange,
-  setTheme,
-  watchTheme,
-  type Theme,
-} from '@maplejs/maple-cli/client'
+import { IconGithub as MIconGithub, IconTwitter as MIconTwitter } from '@maplejs/icons-vue'
+import { getPCLocationInfo, onThemeChange } from '@maplejs/maple-cli/client'
 import { useRoute, useRouter } from 'vue-router'
 import AppAd from '../../components/AppAd.vue'
 import AppHeader from '../../components/AppHeader.vue'
 
 const route = useRoute()
 const router = useRouter()
-const currentTheme = ref(getBrowserTheme())
 const github = config?.pc?.header?.github
 const title: Ref<string> = ref(config?.title)
 const language: Ref<string> = ref(config?.defaultLanguage)
@@ -27,14 +20,6 @@ const getStar = () => {
 
 const toGithub = () => {
   window.open(github)
-}
-
-const getThemeMessage = () => ({ action: 'theme-change', from: 'pc', data: currentTheme.value })
-
-const setCurrentTheme = (theme: Theme) => {
-  currentTheme.value = theme
-  setTheme(currentTheme.value)
-  window.localStorage.setItem(config?.themeKey, currentTheme.value)
 }
 
 const setLocale = () => {
@@ -49,15 +34,7 @@ const to = (url: string) => {
   window.open(url)
 }
 
-setTheme(currentTheme.value)
-
-window.postMessage(getThemeMessage(), '*')
-
-watchTheme((theme, from) => {
-  from === 'mobile' && setCurrentTheme(theme)
-})
-
-onThemeChange()
+onThemeChange(undefined, 'site')
 
 watch(
   () => route.path,
@@ -113,18 +90,18 @@ watch(
             <div class="maple-doc-index__team-member-social">
               <mp-icon
                 class="maple-doc-index__team-member-social-icon"
-                name="github"
                 :size="24"
                 @click="to(member.github)"
                 v-if="member.github"
-              />
+                ><MIconGithub
+              /></mp-icon>
               <mp-icon
                 class="maple-doc-index__team-member-social-icon"
-                name="twitter"
                 :size="24"
                 @click="to(member.twitter)"
                 v-if="member.twitter"
-              />
+                ><MIconTwitter
+              /></mp-icon>
             </div>
           </div>
         </div>

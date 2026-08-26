@@ -59,7 +59,7 @@ const { n, classes } = createNamespace('year-picker')
 const { n: nDate } = createNamespace('date-picker')
 
 export default defineComponent({
-  name: 'YearPickerPanel',
+  name: createNamespace('year-picker-panel').name,
   components: {
     MpButton,
     MpSticky,
@@ -146,7 +146,7 @@ export default defineComponent({
     const buttonProps = (year: string) => {
       const {
         choose: { chooseYear },
-        componentProps: { allowedDates, color, multiple, range },
+        componentProps: { disabledDate, color, multiple, range },
       }: { choose: Choose; componentProps: ComponentProps } = props
 
       const yearExist = (): boolean => {
@@ -161,11 +161,11 @@ export default defineComponent({
         if (!inRange(year)) {
           return true
         }
-        if (!allowedDates) {
+        if (!disabledDate) {
           return false
         }
 
-        return !allowedDates(year)
+        return !!disabledDate(year)
       }
       const disabled = computeDisabled()
 
@@ -235,7 +235,8 @@ export default defineComponent({
 
     const scrollToView = () => {
       const activeEl =
-        panel.value!.querySelector('.mp-button--status-primary') ?? panel.value!.querySelector('.mp-button--variant-outline')
+        panel.value!.querySelector('.mp-button--status-primary') ??
+        panel.value!.querySelector('.mp-button--variant-outline')
 
       activeEl?.scrollIntoView({
         block: 'center',

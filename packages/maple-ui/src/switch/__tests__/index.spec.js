@@ -23,12 +23,12 @@ describe('test switch component props', () => {
     wrapper.unmount()
   })
 
-  test('switch activeValue and inactiveValue', async () => {
+  test('switch checkedValue and uncheckedValue', async () => {
     const wrapper = mount(VarSwitch, {
       props: {
         modelValue: 1,
-        activeValue: 1,
-        inactiveValue: 2,
+        checkedValue: 1,
+        uncheckedValue: 2,
       },
     })
 
@@ -79,14 +79,14 @@ describe('test switch component props', () => {
     wrapper.unmount()
   })
 
-  test('switch color, loadingColor, closeColor', async () => {
+  test('switch checkedColor, loadingColor, uncheckedColor', async () => {
     const wrapper = mount(VarSwitch, {
       props: {
         loading: true,
         modelValue: true,
-        color: 'red',
+        checkedColor: 'red',
         loadingColor: 'yellow',
-        closeColor: 'blue',
+        uncheckedColor: 'blue',
       },
     })
 
@@ -225,7 +225,7 @@ describe('test switch events', () => {
           change(value)
         },
       },
-      template: `<mp-switch lazy-change v-model="value" @before-change="onBeforeChange" />`,
+      template: `<mp-switch lazy-change v-model="value" :before-change="onBeforeChange" />`,
     })
 
     await wrapper.find('.mp-switch__block').trigger('click')

@@ -17,12 +17,10 @@ export interface WatermarkProps extends BasicAttributes {
   content?: string
   image?: string
   rotate?: number
-  offsetX?: number
-  offsetY?: number
-  gapX?: number
-  gapY?: number
+  offset?: [number, number]
+  gap?: [number, number]
   zIndex?: number | string
-  opacity?: number | string
+  alpha?: number | string
   fullscreen?: boolean
   font?: WatermarkFont
 }

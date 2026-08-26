@@ -61,7 +61,7 @@
   <mp-divider description="靠左" text-align="start" />
   <mp-divider description="靠右" text-align="end" />
   <mp-divider>
-    <mp-icon name="heart-outline" style="margin: 0 16px; color: var(--mp-color-danger)" />
+    <m-icon-heart-outline style="margin: 0 16px; color: var(--mp-color-danger)" />
   </mp-divider>
 </template>
 ```
@@ -103,7 +103,7 @@
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--mp-divider-color` | `var(--mp-color-outline)` |
+| `--mp-divider-color` | `var(--mp-color-border-2)` |
 | `--mp-divider-text-color` | `#888` |
 | `--mp-divider-border-width` | `1px` |
 | `--mp-divider-text-padding` | `8px` |

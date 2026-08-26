@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@maplejs/maple-cli": "workspace:*",
-    "@maplejs/maple-icons": "workspace:*",
+    "@maplejs/icons-vue": "workspace:*",
     "@maplejs/maple-touch-emulator": "workspace:*",
     "@maplejs/maple-shared": "workspace:*",
     "@maplejs/maple-ui": "workspace:*",

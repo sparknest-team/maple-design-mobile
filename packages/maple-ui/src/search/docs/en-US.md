@@ -140,7 +140,7 @@ Clicking the input opens a full-screen Popup search panel with the complete hist
 | `clearable`                | Whether to show clear icon                                                               | _boolean_          | `true`    |
 | `disabled`                 | Whether to disable search                                                                | _boolean_          | `false`   |
 | `readonly`                 | Whether to be readonly                                                                   | _boolean_          | `false`   |
-| `maxlength`                | Max length                                                                               | _string \| number_ | `-`       |
+| `maxLength`                | Max length                                                                               | _string \| number_ | `-`       |
 | `enterkeyhint`             | Custom enter key hint                                                                    | _string_           | `search`  |
 
 ### Events

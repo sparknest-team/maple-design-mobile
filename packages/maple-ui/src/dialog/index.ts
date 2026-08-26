@@ -1,6 +1,6 @@
 import { nextTick, reactive, type Ref, type TeleportProps } from 'vue'
 import { call, inBrowser, isString } from '@maplejs/maple-shared'
-import { props as buttonProps } from '../button/props'
+import { buttonProps } from '../button/props'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
 import type { ExtractPublicPropTypes } from '../utils/components'
 import MpDialog from './Dialog.vue'
@@ -18,7 +18,7 @@ export interface DialogBeforeCloseRefs {
 }
 
 export interface DialogOptions {
-  show?: boolean
+  open?: boolean
   width?: string | number
   title?: string
   message?: string
@@ -45,29 +45,29 @@ export interface DialogOptions {
   bodyClass?: string
   bodyStyle?: Record<string, any>
   unmountOnClose?: boolean
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   lockScroll?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
+  maskClosable?: boolean
+  escToClose?: boolean
   onOpen?: () => void
   onOpened?: () => void
-  onBeforeClose?: (action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void
+  beforeClose?: (action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void
   onClose?: () => void
   onClosed?: () => void
   onConfirm?: () => void
   onCancel?: () => void
   onClickOverlay?: () => void
   onKeyEscape?: () => void
-  teleport?: TeleportProps['to']
+  popupContainer?: TeleportProps['to']
 }
 
 export type DialogUpdateOptions = Omit<
   DialogOptions,
   | 'onConfirm'
   | 'onCancel'
-  | 'onBeforeClose'
+  | 'beforeClose'
   | 'onOpen'
   | 'onOpened'
   | 'onClose'
@@ -112,7 +112,7 @@ function createDialogMethod(defaultConfig: Partial<DialogOptions> = {}) {
       ...normalizeOptions(options),
     }
     const reactiveDialogOptions: DialogOptions = reactive(dialogOptions)
-    reactiveDialogOptions.teleport = 'body'
+    reactiveDialogOptions.popupContainer = 'body'
     singletonOptions = reactiveDialogOptions
 
     let updateHandler: ((options: DialogUpdateOptions) => void) | null = null
@@ -139,8 +139,8 @@ function createDialogMethod(defaultConfig: Partial<DialogOptions> = {}) {
         unmountInstance()
         singletonOptions === reactiveDialogOptions && (singletonOptions = null)
       },
-      'onUpdate:show': (value: boolean) => {
-        reactiveDialogOptions.show = value
+      'onUpdate:open': (value: boolean) => {
+        reactiveDialogOptions.open = value
       },
     })
 
@@ -148,7 +148,7 @@ function createDialogMethod(defaultConfig: Partial<DialogOptions> = {}) {
       Object.assign(reactiveDialogOptions, updateOptions)
     }
 
-    reactiveDialogOptions.show = true
+    reactiveDialogOptions.open = true
 
     return Object.assign(promise, {
       close: Dialog.close,
@@ -163,7 +163,7 @@ function Dialog(options?: UserDialogOptions): DialogReturn & Promise<DialogActio
 
 Dialog.open = createDialogMethod()
 Dialog.confirm = createDialogMethod({ type: 'warning' })
-Dialog.alert = createDialogMethod({ cancelButton: false, closeOnClickOverlay: false, closeOnKeyEscape: false })
+Dialog.alert = createDialogMethod({ cancelButton: false, maskClosable: false, escToClose: false })
 
 Dialog.setDefaultOptions = function (options: DialogOptions) {
   defaultOptions = options
@@ -179,7 +179,7 @@ Dialog.close = function () {
     singletonOptions = null
 
     nextTick().then(() => {
-      prevSingletonOptions.show = false
+      prevSingletonOptions.open = false
     })
   }
 }
@@ -191,6 +191,7 @@ withPropsDefaultsSetter(Dialog, dialogProps)
 
 export { dialogProps }
 
+export type DialogInstance = InstanceType<typeof MpDialog>
 export const _DialogComponent = MpDialog
 
 export default Dialog

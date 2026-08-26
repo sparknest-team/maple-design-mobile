@@ -56,18 +56,18 @@ describe('test tag component props', () => {
     wrapper.unmount()
   })
 
-  test('tag visible v-model', async () => {
+  test('tag show v-model', async () => {
     const wrapper = mount(VarTag, {
       props: {
-        visible: true,
+        show: true,
         closable: true,
-        'onUpdate:visible': (val) => wrapper.setProps({ visible: val }),
+        'onUpdate:show': (val) => wrapper.setProps({ show: val }),
       },
     })
     expect(wrapper.find('.mp-tag').exists()).toBe(true)
     await wrapper.find('.mp-tag__close-btn').trigger('click')
     await nextTick()
-    expect(wrapper.props('visible')).toBe(false)
+    expect(wrapper.props('show')).toBe(false)
     wrapper.unmount()
   })
 

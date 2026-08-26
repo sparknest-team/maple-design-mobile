@@ -48,33 +48,33 @@ Autocomplete function of input field.
     <mp-auto-complete clearable placeholder="Clearable" :options="options4" v-model="value4" />
     <mp-auto-complete clearable placeholder="Use the clear icon slot" :options="options5" v-model="value5">
       <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
+        <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete placeholder="Display Icon" :options="options7" v-model="value7">
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete placeholder="Custom Icon Size" :options="options8" v-model="value8">
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete placeholder="Maxlength" :maxlength="10" :options="options9" v-model="value9" />
+    <mp-auto-complete placeholder="Maxlength" :max-length="10" :options="options9" v-model="value9" />
     <mp-auto-complete
       placeholder="Custom Menu Show Timing"
       :get-show="(value) => value.length > 3"
       :options="options10"
       v-model="value10"
     />
-    <mp-auto-complete size="small" placeholder="Small Size" :options="options11" v-model="value11" />
+    <mp-auto-complete size="sm" placeholder="Small Size" :options="options11" v-model="value11" />
   </mp-space>
 </template>
 
@@ -139,26 +139,32 @@ Autocomplete function of input field.
       v-model="value5"
     >
       <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
+        <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete variant="outlined" placeholder="Display Icon" :options="options7" v-model="value7">
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete variant="outlined" placeholder="Custom Icon Size" :options="options8" v-model="value8">
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="Maxlength" :maxlength="10" :options="options9" v-model="value9" />
+    <mp-auto-complete
+      variant="outlined"
+      placeholder="Maxlength"
+      :max-length="10"
+      :options="options9"
+      v-model="value9"
+    />
     <mp-auto-complete
       variant="outlined"
       placeholder="Custom Menu Show Timing"
@@ -166,7 +172,7 @@ Autocomplete function of input field.
       :options="options10"
       v-model="value10"
     />
-    <mp-auto-complete variant="outlined" size="small" placeholder="Small Size" :options="options11" v-model="value11" />
+    <mp-auto-complete variant="outlined" size="sm" placeholder="Small Size" :options="options11" v-model="value11" />
   </mp-space>
 </template>
 
@@ -187,26 +193,25 @@ Autocomplete function of input field.
 
 #### AutoComplete Props
 
-| Prop           | Description                                                                                                                | Type                     | Default    |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------ | ---------- |
-| `v-model`      | The value of the binding                                                                                                   | _string_                 | `-`        |
-| `variant`      | Input variants, The optional value is `standard` `outlined`                                                                | _string_                 | `standard` |
-| `size`         | Input size, The optional value is `normal` `small`                                                                         | _string_                 | `normal`   |
-| `placeholder`  | placeholder                                                                                                                | _string_                 | `-`        |
-| `options`      | Specifies options                                                                                                          | _AutoCompleteOption[]_   | `[]`       |
-| `label-key`    | As the key that uniquely identifies label                                                                                  | _string_                 | `label`    |
-| `value-key`    | As the key that uniquely identifies value                                                                                  | _string_                 | `value`    |
-| `maxlength`    | Maxlength                                                                                                                  | _string \| number_       | `-`        |
-| `readonly`     | Whether the readonly                                                                                                       | _boolean_                | `false`    |
-| `disabled`     | Whether the disabled                                                                                                       | _boolean_                | `false`    |
-| `enterkeyhint` | Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                 | `-`        |
-| `clearable`    | Whether the clearable                                                                                                      | _boolean_                | `false`    |
-| `line`         | Whether to display a dividing line                                                                                         | _boolean_                | `true`     |
-| `hint`         | Whether to use placeholder as hint                                                                                         | _boolean_                | `true`     |
-| `text-color`   | Text color                                                                                                                 | _string_                 | `-`        |
-| `focus-color`  | The primary color in focus                                                                                                 | _string_                 | `-`        |
-| `blur-color`   | The primary color in blur                                                                                                  | _string_                 | `-`        |
-| `get-show`     | Determine whether the menu is displayed according to the input value                                                       | _(v: string) => boolean_ | `-`        |
+| Prop           | Description                                                                                                                | Type                                       | Default    |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ---------- |
+| `v-model`      | The value of the binding                                                                                                   | _string_                                   | `-`        |
+| `variant`      | Input variants, The optional value is `filled` `standard` `outlined`                                                       | _string_                                   | `standard` |
+| `size`         | Input size: `xs` `sm` `md` `lg` `xl`                                                                                       | _ComponentSize_                            | `md`       |
+| `placeholder`  | placeholder                                                                                                                | _string_                                   | `-`        |
+| `options`      | Specifies options                                                                                                          | _AutoCompleteOption[]_                     | `[]`       |
+| `field-names`  | Custom field mapping for `options`                                                                                         | _{ label?, value?, children?, disabled? }_ | `-`        |
+| `maxLength`    | Maxlength                                                                                                                  | _string \| number_                         | `-`        |
+| `readonly`     | Whether the readonly                                                                                                       | _boolean_                                  | `false`    |
+| `disabled`     | Whether the disabled                                                                                                       | _boolean_                                  | `false`    |
+| `enterkeyhint` | Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                                   | `-`        |
+| `clearable`    | Whether the clearable                                                                                                      | _boolean_                                  | `false`    |
+| `line`         | Whether to display a dividing line                                                                                         | _boolean_                                  | `true`     |
+| `hint`         | Whether to use placeholder as hint                                                                                         | _boolean_                                  | `true`     |
+| `text-color`   | Text color                                                                                                                 | _string_                                   | `-`        |
+| `focus-color`  | The primary color in focus                                                                                                 | _string_                                   | `-`        |
+| `blur-color`   | The primary color in blur                                                                                                  | _string_                                   | `-`        |
+| `get-show`     | Determine whether the menu is displayed according to the input value                                                       | _(v: string) => boolean_                   | `-`        |
 
 Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 

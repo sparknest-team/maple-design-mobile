@@ -6,7 +6,7 @@ withInstall(_Tag)
 withPropsDefaultsSetter(_Tag, tagProps)
 
 export type TagInstance = InstanceType<typeof _Tag>
-export type { TagProps, TagStatus, TagSize, TagVariant } from './props'
+export type { TagProps, TagVariant } from './props'
 export { tagProps }
 
 export const _TagComponent = _Tag

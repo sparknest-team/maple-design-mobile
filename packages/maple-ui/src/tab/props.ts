@@ -1,5 +1,3 @@
-import { defineListenerProp } from '../utils/components'
-
 export const props = {
   name: [String, Number],
   title: String,
@@ -8,5 +6,4 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  onClick: defineListenerProp<(active: string | number, e: Event) => void>(),
 }

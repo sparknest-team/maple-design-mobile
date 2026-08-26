@@ -43,7 +43,8 @@ export default defineComponent({
   directives: { Ripple },
   components: { MpLoading },
   props,
-  setup(props) {
+  emits: ['update:error', 'update:loading', 'load'],
+  setup(props, { emit }) {
     const listEl = ref<HTMLElement | null>(null)
     const detectorEl = ref<HTMLElement | null>(null)
     const { tabItem, bindTabItem } = useTabItem()
@@ -71,9 +72,9 @@ export default defineComponent({
     onSmartUnmounted(removeScrollerListener)
 
     function load() {
-      call(props['onUpdate:error'], false)
-      call(props['onUpdate:loading'], true)
-      call(props.onLoad)
+      emit('update:error', false)
+      emit('update:loading', true)
+      emit('load')
     }
 
     function isReachBottom() {

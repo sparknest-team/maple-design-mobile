@@ -13,7 +13,7 @@ test('drag direction', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Drag, {
     props: {
-      teleport: container,
+      popupContainer: container,
     },
   })
 
@@ -35,7 +35,7 @@ test('drag attraction', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Drag, {
     props: {
-      teleport: container,
+      popupContainer: container,
       attraction: 'x',
     },
   })
@@ -58,7 +58,7 @@ test('drag disabled', async () => {
   const wrapper = mount(Drag, {
     props: {
       disabled: true,
-      teleport: container,
+      popupContainer: container,
     },
   })
 
@@ -72,7 +72,7 @@ test('drag boundary', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Drag, {
     props: {
-      teleport: container,
+      popupContainer: container,
       boundary: {
         top: 10,
         left: 10,
@@ -93,7 +93,7 @@ test('drag reset', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Drag, {
     props: {
-      teleport: container,
+      popupContainer: container,
     },
   })
 
@@ -113,7 +113,7 @@ test('drag click method', async () => {
 
   const wrapper = mount(Drag, {
     props: {
-      teleport: container,
+      popupContainer: container,
       onClick,
     },
   })

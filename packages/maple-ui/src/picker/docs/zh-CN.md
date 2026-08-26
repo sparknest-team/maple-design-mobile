@@ -486,9 +486,7 @@ function handleChange(values, indexes) {
 | `v-model` | 绑定的值 | _(string \| number)[]_ | `[]` |
 | `columns` | 列内容 | _PickerColumnOption[] \| PickerColumnOption[][]_ | `[]` |
 | `title` | 标题 | _string_ | `请选择` |
-| `text-key` | 文本的属性 key | _string_ | `text` |
-| `value-key` | 值的属性 key | _string_ | `value` |
-| `children-key` | 级联子列表 key | _string_ | `children` |
+| `field-names` | 自定义列字段映射（`label` 对应文本，默认 `text`） | _{ label?, value?, children? }_ | `-` |
 | `toolbar` | 是否显示上方工具栏 | _boolean_ | `true` |
 | `selected-values` | 已选中的选项值，选项右侧显示对号 | _(string \| number)[]_ | `[]` |
 | `cascade` | 是否开启级联模式 | _boolean_ | `true` |
@@ -499,7 +497,7 @@ function handleChange(values, indexes) {
 | `cancel-button-text` | 取消按钮文字 | _string_ | `取消` |
 | `confirm-button-text-color` | 确认按钮文字颜色 | _string_ | `-` |
 | `cancel-button-text-color` | 取消按钮文字颜色 | _string_ | `-` |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭选择器 | _boolean_ | `true` |
+| `esc-to-close` | 是否支持键盘 ESC 关闭选择器 | _boolean_ | `true` |
 
 ### Picker Options
 
@@ -507,9 +505,7 @@ function handleChange(values, indexes) {
 |--------------------------| --- | --- | --- |
 | `columns`                | 列内容 | _PickerColumnOption[] \| PickerColumnOption[][]_ | `[]` |
 | `title`                  | 标题 | _string_ | `请选择` |
-| `textKey`                | 文本的属性 key | _string_ | `text` |
-| `valueKey`               | 值的属性 key | _string_ | `value` |
-| `childrenKey`            | 级联子列表 key | _string_ | `children` |
+| `fieldNames`             | 自定义列字段映射（`label` 对应文本，默认 `text`） | _{ label?, value?, children? }_ | `-` |
 | `toolbar`                | 是否显示上方工具栏 | _boolean_ | `true` |
 | `selectedValues`         | 已选中的选项值，选项右侧显示对号 | _(string \| number)[]_ | `[]` |
 | `cascade`                | 是否开启级联模式 | _boolean_ | `true` |
@@ -520,8 +516,8 @@ function handleChange(values, indexes) {
 | `cancelButtonText`       | 取消按钮文字 | _string_ | `取消` |
 | `confirmButtonTextColor` | 确认按钮文字颜色 | _string_ | `-` |
 | `cancelButtonTextColor`  | 取消按钮文字颜色 | _string_ | `-` |
-| `closeOnClickOverlay`    | 是否点击遮罩层关闭弹出层 | _boolean_ | `true` |
-| `closeOnKeyEscape`       | 是否支持键盘 ESC 关闭选择器 | _boolean_ | `true` |
+| `maskClosable`    | 是否点击遮罩层关闭弹出层 | _boolean_ | `true` |
+| `escToClose`       | 是否支持键盘 ESC 关闭选择器 | _boolean_ | `true` |
 | `safeArea`               | 是否开启底部安全区适配      | _boolean_             | `false`  |
 | `onClickOverlay`         | 遮罩层点击回调 | _() => void_ | `-` |
 | `onOpen`                 | 弹出层开启回调 | _() => void_ | `-` |
@@ -578,7 +574,7 @@ function handleChange(values, indexes) {
 | `--picker-toolbar-height` | `44px` |
 | `--picker-confirm-button-text-color` | `var(--color-primary)` |
 | `--picker-cancel-button-text-color` | `#888` |
-| `--picker-picked-border` | `1px solid var(--color-outline)` |
+| `--picker-picked-border` | `1px solid var(--color-border-2)` |
 | `--picker-title-font-size` | `var(--font-size-lg)` |
 | `--picker-title-text-color` | `#555` |
 | `--picker-option-font-size` | `var(--font-size-lg)` |

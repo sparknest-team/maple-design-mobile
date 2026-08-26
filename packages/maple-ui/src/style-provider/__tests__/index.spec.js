@@ -24,6 +24,28 @@ test('styleProvider functional', async () => {
   expect(getComputedStyle(document.documentElement).getPropertyValue('--mp-cell-font-size')).toBe('30px')
 })
 
+test('styleProvider functional omits unchanged vars', async () => {
+  const baseline = document.createElement('style')
+  baseline.textContent = ':root { --mp-diff-same: 1px; --mp-diff-other: 2px; }'
+  document.head.appendChild(baseline)
+
+  StyleProvider({
+    '--mp-diff-same': '1px',
+    '--mp-diff-changed': '3px',
+  })
+
+  await delay(0)
+
+  const injected = document.head.querySelector('#maple-style-vars')
+  expect(injected).toBeTruthy()
+  expect(injected.textContent).not.toContain('--mp-diff-same')
+  expect(injected.textContent).toContain('--mp-diff-changed:3px')
+  expect(getComputedStyle(document.documentElement).getPropertyValue('--mp-diff-changed').trim()).toBe('3px')
+
+  StyleProvider(null)
+  baseline.remove()
+})
+
 test('styleProvider component', async () => {
   const wrapper = mount(VarStyleProvider)
 

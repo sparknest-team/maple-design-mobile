@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Sticky, stickyProps)
 
 export { stickyProps }
 
+export type StickyInstance = InstanceType<typeof Sticky>
 export const _StickyComponent = Sticky
 
 export default Sticky

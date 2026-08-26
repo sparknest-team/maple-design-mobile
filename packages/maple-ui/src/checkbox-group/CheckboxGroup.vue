@@ -5,7 +5,7 @@
         <mp-checkbox
           v-for="option in options"
           :key="option[valueKey]"
-          :checked-value="option[valueKey]"
+          :value="option[valueKey]"
           :disabled="option.disabled"
         >
           <template #default="{ checked }">
@@ -24,6 +24,7 @@ import { call, isFunction, uniq } from '@maplejs/maple-shared'
 import MpCheckbox from '../checkbox'
 import { useFormItem } from '../form-item'
 import { createNamespace, MaybeVNode } from '../utils/components'
+import { useFieldNames } from '../utils/options'
 import { props } from './props'
 import { useCheckboxes, type CheckboxGroupProvider } from './provide'
 
@@ -33,11 +34,15 @@ export default defineComponent({
   name,
   components: { MpCheckbox, MaybeVNode },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue'],
+  setup(props, { emit }) {
     const max = computed(() => props.max)
     const checkedCount = computed(() => props.modelValue.length)
     const { length, checkboxes, bindCheckboxes } = useCheckboxes()
     const { mergedError, eventHandlers } = useFormItem()
+    const fieldNames = useFieldNames(props)
+    const labelKey = computed(() => fieldNames.value.label)
+    const valueKey = computed(() => fieldNames.value.value)
 
     const checkboxGroupProvider: CheckboxGroupProvider = {
       max,
@@ -54,8 +59,8 @@ export default defineComponent({
     bindCheckboxes(checkboxGroupProvider)
 
     function change(changedModelValue: any) {
-      call(props['onUpdate:modelValue'], changedModelValue)
-      call(props.onChange, changedModelValue)
+      emit('update:modelValue', changedModelValue)
+      emit('change', changedModelValue)
       eventHandlers.value.onChange?.()
     }
 
@@ -83,28 +88,28 @@ export default defineComponent({
 
     // expose
     function checkAll() {
-      const checkedValues: any[] = checkboxes.map(({ checkedValue }) => checkedValue.value)
-      const changedModelValue: any[] = uniq(checkedValues)
+      const values: any[] = checkboxes.map(({ value }) => value.value)
+      const changedModelValue: any[] = uniq(values)
 
-      call(props['onUpdate:modelValue'], changedModelValue)
+      emit('update:modelValue', changedModelValue)
 
       return changedModelValue
     }
 
     // expose
     function inverseAll() {
-      const checkedValues: any[] = checkboxes
-        .filter(({ checked }) => !checked.value)
-        .map(({ checkedValue }) => checkedValue.value)
-      const changedModelValue: any[] = uniq(checkedValues)
+      const values: any[] = checkboxes.filter(({ checked }) => !checked.value).map(({ value }) => value.value)
+      const changedModelValue: any[] = uniq(values)
 
-      call(props['onUpdate:modelValue'], changedModelValue)
+      emit('update:modelValue', changedModelValue)
 
       return changedModelValue
     }
 
     return {
       mergedError,
+      labelKey,
+      valueKey,
       n,
       classes,
       checkAll,

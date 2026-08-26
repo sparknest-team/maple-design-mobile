@@ -56,8 +56,8 @@ const active = ref(0)
   <mp-tabs
     elevation
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>选项1</mp-tab>
@@ -80,8 +80,8 @@ const active = ref(0)
   <mp-tabs
     elevation
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     disabled-color="#aaa"
     v-model:active="active"
   >
@@ -107,8 +107,8 @@ const active = ref(0)
   <mp-tabs
     elevation
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>选项1</mp-tab>
@@ -137,20 +137,20 @@ const active = ref(0)
     elevation
     item-vertical
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>
-      <mp-icon class="tabs-example-icon" name="information" />
+      <m-icon-information class="tabs-example-icon" />
       <div>选项1</div>
     </mp-tab>
     <mp-tab>
-      <mp-icon class="tabs-example-icon" name="warning" />
+      <m-icon-warning class="tabs-example-icon" />
       <div>选项2</div>
     </mp-tab>
     <mp-tab>
-      <mp-icon class="tabs-example-icon" name="error" />
+      <m-icon-error class="tabs-example-icon" />
       <div>选项3</div>
     </mp-tab>
   </mp-tabs>
@@ -178,8 +178,8 @@ const active = ref(0)
     elevation
     vertical
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>选项1</mp-tab>
@@ -209,8 +209,8 @@ const active = ref(0)
   <mp-tabs
     elevation
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>选项1</mp-tab>
@@ -249,8 +249,8 @@ const active = ref(0)
       sticky
       elevation
       color="var(--color-primary)"
-      active-color="var(--color-on-primary)"
-      inactive-color="var(--color-on-info)"
+      active-color="var(--color-white)"
+      inactive-color="var(--color-white)"
       v-model:active="active"
     >
       <mp-tab>选项1</mp-tab>
@@ -281,8 +281,8 @@ const active = ref(0)
     elevation
     indicator-position="reverse"
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>选项1</mp-tab>
@@ -296,8 +296,8 @@ const active = ref(0)
     indicator-position="reverse"
     vertical
     color="var(--color-primary)"
-    active-color="var(--color-on-primary)"
-    inactive-color="var(--color-on-info)"
+    active-color="var(--color-white)"
+    inactive-color="var(--color-white)"
     v-model:active="active"
   >
     <mp-tab>选项1</mp-tab>

@@ -15,7 +15,7 @@
             {{ startValue }}
           </template>
         </div>
-        <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover name="chevron-right" />
+        <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover><MIconChevronRight /></mp-icon>
         <div :class="classes(n('value'), [activeTab === 'end', n('value--active')])" @click="activeTab = 'end'">
           <template v-if="showTime">
             <div :class="n('value-date')">{{ endDisplay.date }}</div>
@@ -46,7 +46,7 @@
     <template v-else-if="isCalendarTime">
       <div :class="classes(n('values'), [focusKind === 'date', n('values--active')])" @click="focusKind = 'date'">
         <div :class="n('value')">{{ startDisplay.date }}</div>
-        <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover name="chevron-right" />
+        <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover><MIconChevronRight /></mp-icon>
         <div :class="n('value')">{{ endDisplay.date }}</div>
       </div>
 
@@ -58,7 +58,7 @@
         :type="type"
         :min="min"
         :max="max"
-        :allowed-dates="allowedDates"
+        :disabled-date="disabledDate"
         :readonly="readonly"
         :elevation="false"
         @update:model-value="handleCalendarDateUpdate"
@@ -71,7 +71,7 @@
           v-bind="timePickerBindingProps"
           format="24hr"
           :use-seconds="useSeconds"
-          :allowed-time="allowedTime"
+          :disabled-time="disabledTime"
           :readonly="readonly"
           :elevation="false"
           @update:model-value="handleActiveTimeUpdate"
@@ -118,7 +118,7 @@
       :type="type"
       :min="min"
       :max="max"
-      :allowed-dates="allowedDates"
+      :disabled-date="disabledDate"
       :readonly="readonly"
       :elevation="false"
       @update:model-value="handleCalendarUpdate"
@@ -132,6 +132,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import { call, isArray } from '@maplejs/maple-shared'
 import MpDatePicker from '../date-picker'
 import {
@@ -163,13 +164,15 @@ const { name, n, classes } = createNamespace('date-range-picker')
 export default defineComponent({
   name,
   components: {
+    MIconChevronRight,
     MpIcon,
     MpPicker,
     MpDatePicker,
     MpTimePicker,
   },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue'],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const translate = (key: string) => (pt ? pt : t)(key as any)
     const activeTab = ref<'start' | 'end'>('start')
@@ -246,13 +249,13 @@ export default defineComponent({
         useSeconds: props.useSeconds,
         min: props.min,
         max: props.max,
-        allowedDates: props.allowedDates,
-        allowedTime: props.allowedTime,
+        disabledDate: props.disabledDate,
+        disabledTime: props.disabledTime,
         current,
       })
     })
 
-    const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.allowedTime))
+    const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.disabledTime))
 
     const pickerValue = computed(() => {
       const current = activeTab.value === 'start' ? startValue.value : endValue.value
@@ -265,8 +268,8 @@ export default defineComponent({
     const timeOnlyPickerValue = computed(() => parseTimeParts(activeDisplay.value.time, props.useSeconds))
 
     function emitValue(next: string[]) {
-      call(props['onUpdate:modelValue'], next)
-      call(props.onChange, next)
+      emit('update:modelValue', next)
+      emit('change', next)
     }
 
     function updateSide(side: 'start' | 'end', date: string) {

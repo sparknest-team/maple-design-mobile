@@ -1,5 +1,5 @@
 export default {
-  '--mp-tab-inactive-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-tab-inactive-color': 'var(--mp-color-text-3)',
   '--mp-tab-padding': '12px',
   '--mp-tab-active-color': 'var(--mp-color-primary)',
   '--mp-tab-disabled-color': 'var(--mp-color-text-disabled)',

@@ -42,7 +42,7 @@
         :readonly="formReadonly || readonly"
         :value="modelValue"
         :placeholder="!mergedHint ? placeholder : undefined"
-        :maxlength="maxlength"
+        :max-length="maxLength"
         :rows="rows"
         :autofocus="autofocus"
         :enterkeyhint="enterkeyhint"
@@ -90,7 +90,8 @@ export default defineComponent({
   name,
   components: { MpFieldDecorator },
   props: textareaProps,
-  setup(props) {
+  emits: ['focus', 'blur', 'input', 'change', 'keydown', 'clear', 'click', 'update:modelValue'],
+  setup(props, { emit }) {
     const id = useClientId()
     const el = ref<HTMLTextAreaElement | null>(null)
     const isFocusing = ref(false)
@@ -100,25 +101,25 @@ export default defineComponent({
     const cursor = computed(() => (props.disabled || props.readonly ? '' : 'text'))
     const mergedHint = computed(() => (hasOuterLabel.value ? false : props.hint))
     const maxlengthText = computed(() => {
-      if (!props.maxlength) {
+      if (!props.maxLength) {
         return ''
       }
       if (isEmpty(props.modelValue)) {
-        return `0 / ${props.maxlength}`
+        return `0 / ${props.maxLength}`
       }
-      return `${String(props.modelValue).length}/${props.maxlength}`
+      return `${String(props.modelValue).length}/${props.maxLength}`
     })
     const placeholderColor = computed(() => {
       if (mergedHint.value) {
         return undefined
       }
       if (mergedError.value) {
-        return 'var(--mp-field-decorator-error-color)'
+        return 'var(--mp-field-color-error)'
       }
       if (isFocusing.value) {
-        return props.focusColor || 'var(--mp-field-decorator-focus-color)'
+        return props.focusColor || 'var(--mp-field-color-focus)'
       }
-      return props.blurColor || 'var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color))'
+      return props.blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
     })
 
     onSmartMounted(() => {
@@ -129,19 +130,19 @@ export default defineComponent({
 
     function handleFocus(e: FocusEvent) {
       isFocusing.value = true
-      call(props.onFocus, e)
+      emit('focus', e)
       eventHandlers.value.onFocus?.()
     }
 
     function handleBlur(e: FocusEvent) {
       isFocusing.value = false
-      call(props.onBlur, e)
+      emit('blur', e)
       eventHandlers.value.onBlur?.()
     }
 
     function updateValue(e: Event) {
       const target = e.target as HTMLTextAreaElement
-      const value = props.maxlength ? target.value.slice(0, toNumber(props.maxlength)) : target.value
+      const value = props.maxLength ? target.value.slice(0, toNumber(props.maxLength)) : target.value
       if (value === props.modelValue) {
         target.value = value
       }
@@ -165,30 +166,30 @@ export default defineComponent({
         return
       }
       const value = updateValue(e)
-      call(props['onUpdate:modelValue'], value)
-      call(props.onInput, value, e)
+      emit('update:modelValue', value)
+      emit('input', value, e)
       eventHandlers.value.onInput?.()
     }
 
     function handleChange(e: Event) {
       const value = props.modelModifiers.trim ? updateValue(e).trim() : updateValue(e)
       if (props.modelModifiers.trim) {
-        call(props['onUpdate:modelValue'], value)
+        emit('update:modelValue', value)
       }
-      call(props.onChange, value, e)
+      emit('change', value, e)
       eventHandlers.value.onChange?.()
     }
 
     function handleKeydown(e: KeyboardEvent) {
-      call(props.onKeydown, e)
+      emit('keydown', e)
     }
 
     function handleClear() {
       if (form?.disabled.value || form?.readonly.value || props.disabled || props.readonly || !props.clearable) {
         return
       }
-      call(props['onUpdate:modelValue'], '')
-      call(props.onClear, '')
+      emit('update:modelValue', '')
+      emit('clear', '')
       eventHandlers.value.onClear?.()
     }
 
@@ -196,7 +197,7 @@ export default defineComponent({
       if (form?.disabled.value || props.disabled) {
         return
       }
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     function handleMousedown(e: MouseEvent) {

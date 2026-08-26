@@ -30,9 +30,9 @@ import { codeToHtml } from 'shiki'
 <template>
   <mp-highlighter-provider :highlighter="{ codeToHtml }" theme="vitesse-light">
     <mp-space direction="column" size="large">
-      <mp-code code="console.log('Hello Varlet UI')" language="javascript" />
-      <mp-code code="print('Hello Varlet UI')" language="python" />
-      <mp-code code="console.log('Hello Varlet UI')" language="javascript" theme="github-light" />
+      <mp-code code="console.log('Hello Maple UI')" language="javascript" />
+      <mp-code code="print('Hello Maple UI')" language="python" />
+      <mp-code code="console.log('Hello Maple UI')" language="javascript" theme="github-light" />
     </mp-space>
   </mp-highlighter-provider>
 </template>
@@ -49,7 +49,7 @@ import { codeToHtml } from 'shiki'
 
 <template>
   <mp-highlighter-provider :highlighter="{ codeToHtml }" theme="vitesse-light">
-    <mp-code code="console.log('Hello Varlet UI');console.log('Hello Varlet UI');" language="javascript" word-wrap />
+    <mp-code code="console.log('Hello Maple UI');console.log('Hello Maple UI');" language="javascript" word-wrap />
   </mp-highlighter-provider>
 </template>
 ```

@@ -4,297 +4,181 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
-const value = ref()
-const valueNormal = ref()
-const valueSmall = ref()
-const valueMini = ref()
-const valueLarge = ref()
-const valueOptionDisabled = ref()
-const valueMapping = ref()
-const valueScrollable = ref()
-const valueCloseOnSelect = ref()
-const valueMultiple = ref([])
-const valueSelectOptions = ref()
-const valueKeyedSelectOptions = ref()
-const options = ref(Array.from({ length: 30 }, (_, index) => ({ label: `Option ${index + 1}`, value: index })))
-const selectOptions = computed(() => [
-  {
-    label: t('eat'),
-    value: 1,
-  },
-  {
-    label: t('sleep'),
-    value: 2,
-  },
-  {
-    label: t('play'),
-    value: 3,
-    disabled: true,
-  },
-])
-const keyedSelectOptions = computed(() => [
-  {
-    name: t('eat'),
-    id: 1,
-  },
-  {
-    name: t('sleep'),
-    id: 2,
-  },
-  {
-    name: t('play'),
-    id: 3,
-    disabled: true,
-  },
-])
-
+const selected = ref()
+const open = ref(false)
+const multipleValue = ref([])
+const optionsValue = ref()
 const cascadeValue = ref()
-const cascadeMultipleValue = ref([])
-const cascadeOptions = ref([
+const longOptions = Array.from({ length: 10 }, (_, index) => ({ label: `Option ${index + 1}`, value: index + 1 }))
+const options = computed(() => [
+  { label: t('eat'), value: 'eat' },
+  { label: t('sleep'), value: 'sleep' },
+  { label: t('play'), value: 'play', disabled: true },
+])
+const cascadeOptions = computed(() => [
+  { label: t('home'), value: 'home' },
   {
-    label: '1',
-    value: 1,
-  },
-  {
-    label: '2',
-    value: 2,
+    label: t('product'),
+    value: 'product',
     children: [
+      { label: t('overview'), value: 'overview' },
       {
-        label: '2-1',
-        value: 21,
+        label: t('solution'),
+        value: 'solution',
         children: [
-          {
-            label: '2-1-1',
-            value: 211,
-          },
-          {
-            label: '2-1-2',
-            value: 212,
-          },
+          { label: t('enterprise'), value: 'enterprise' },
+          { label: t('team'), value: 'team' },
         ],
       },
-      {
-        label: '2-2',
-        value: 22,
-      },
     ],
-  },
-  {
-    label: '3',
-    value: 3,
   },
 ])
 
 watchLang((lang) => {
   use(lang)
-  value.value = undefined
-  valueNormal.value = undefined
-  valueSmall.value = undefined
-  valueLarge.value = undefined
-  valueMini.value = undefined
-  valueOptionDisabled.value = undefined
-  valueMapping.value = undefined
-  valueScrollable.value = undefined
-  valueCloseOnSelect.value = undefined
-  valueMultiple.value = []
+  selected.value = undefined
+  multipleValue.value = []
+  optionsValue.value = undefined
   cascadeValue.value = undefined
-  cascadeMultipleValue.value = []
 })
-
 onThemeChange()
 
-function handleSelect(value) {
-  Message(`Select: ${value}`)
-}
-
-function handleButtonClick() {
-  Message(t('publish'))
-}
+const handleSelect = (_value, option) => Message(String(option.label))
 </script>
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option :label="t('eat')" />
-      <mp-menu-option :label="t('sleep')" />
-      <mp-menu-option :label="t('play')" />
+  <mp-menu>
+    <mp-button status="primary">{{ t('openMenu') }}</mp-button>
+    <template #content>
+      <mp-menu-option :label="t('create')" />
+      <mp-menu-option :label="t('copy')" />
+      <mp-menu-option :label="t('move')" />
     </template>
   </mp-menu>
 
-  <app-type>{{ t('onSelect') }}</app-type>
-  <mp-menu @select="handleSelect">
-    <mp-button type="primary">{{ t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option :label="t('eat')" />
-      <mp-menu-option :label="t('sleep')" />
-      <mp-menu-option :label="t('play')" />
+  <app-type>{{ t('selection') }}</app-type>
+  <mp-menu v-model="selected" @select="handleSelect">
+    <mp-button status="primary">{{ selected || t('please') }}</mp-button>
+    <template #content>
+      <mp-menu-option :label="t('edit')" value="edit" />
+      <mp-menu-option :label="t('copy')" value="copy" />
+      <mp-menu-option :label="t('delete')" value="delete" />
     </template>
   </mp-menu>
 
-  <app-type>{{ t('buttonDropdown') }}</app-type>
-  <mp-space align="center" :size="[20, 20]">
-    <mp-menu position="br" @select="handleSelect">
-      <mp-button-group status="primary">
-        <mp-button @click.stop="handleButtonClick">{{ t('publish') }}</mp-button>
-        <mp-button style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
-      <template #options>
-        <mp-menu-option :label="t('saveNow')" />
-        <mp-menu-option :label="t('saveAndPublish')" />
-      </template>
-    </mp-menu>
-
-    <mp-menu disabled position="br">
-      <mp-button-group status="primary">
-        <mp-button disabled>{{ t('disabled') }}</mp-button>
-        <mp-button disabled style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
-      <template #options>
-        <mp-menu-option :label="t('saveNow')" />
-        <mp-menu-option :label="t('saveAndPublish')" />
-      </template>
-    </mp-menu>
-
-    <mp-menu position="br" @select="handleSelect">
-      <mp-button-group status="primary">
-        <mp-button @click.stop="handleButtonClick">{{ t('publish') }}</mp-button>
-        <mp-button style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
-      <template #options>
-        <mp-menu-option :label="t('saveNow')" />
-        <mp-menu-option :label="t('saveAndPublish')" />
-      </template>
-    </mp-menu>
+  <app-type>{{ t('trigger') }}</app-type>
+  <mp-space :size="[12, 12]">
+    <mp-menu trigger="click"
+      ><mp-button>{{ t('click') }}</mp-button
+      ><template #content><mp-menu-option label="Option 1" /><mp-menu-option label="Option 2" /></template
+    ></mp-menu>
+    <mp-menu trigger="hover"
+      ><mp-button>{{ t('hover') }}</mp-button
+      ><template #content><mp-menu-option label="Option 1" /><mp-menu-option label="Option 2" /></template
+    ></mp-menu>
   </mp-space>
 
-  <app-type>{{ t('size') }}</app-type>
-  <mp-space align="center" :size="[20, 60]">
-    <mp-menu v-model="valueNormal">
-      <mp-button type="primary">{{ valueNormal ? valueNormal : t('normal') }}</mp-button>
-
-      <template #options>
-        <mp-menu-option :label="t('eat')" />
-        <mp-menu-option :label="t('sleep')" />
-        <mp-menu-option :label="t('play')" />
-      </template>
-    </mp-menu>
-
-    <mp-menu v-model="valueSmall" size="small">
-      <mp-button type="primary">{{ valueSmall ? valueSmall : t('small') }}</mp-button>
-
-      <template #options>
-        <mp-menu-option :label="t('eat')" />
-        <mp-menu-option :label="t('sleep')" />
-        <mp-menu-option :label="t('play')" />
-      </template>
-    </mp-menu>
-
-    <mp-menu v-model="valueMini" size="mini">
-      <mp-button type="primary">{{ valueMini ? valueMini : t('mini') }}</mp-button>
-
-      <template #options>
-        <mp-menu-option :label="t('eat')" />
-        <mp-menu-option :label="t('sleep')" />
-        <mp-menu-option :label="t('play')" />
-      </template>
-    </mp-menu>
-
-    <mp-menu v-model="valueLarge" size="large">
-      <mp-button type="primary">{{ valueLarge ? valueLarge : t('large') }}</mp-button>
-
-      <template #options>
-        <mp-menu-option :label="t('eat')" />
-        <mp-menu-option :label="t('sleep')" />
-        <mp-menu-option :label="t('play')" />
-      </template>
-    </mp-menu>
+  <app-type>{{ t('disabledState') }}</app-type>
+  <mp-space :size="[12, 12]">
+    <mp-menu disabled
+      ><mp-button disabled>{{ t('menuDisabled') }}</mp-button
+      ><template #content><mp-menu-option label="Option 1" /></template
+    ></mp-menu>
+    <mp-menu
+      ><mp-button>{{ t('optionDisabled') }}</mp-button
+      ><template #content
+        ><mp-menu-option :label="t('edit')" /><mp-menu-option :label="t('delete')" disabled /></template
+    ></mp-menu>
   </mp-space>
 
-  <app-type>{{ t('valueMapping') }}</app-type>
-  <mp-menu v-model="valueMapping">
-    <mp-button type="primary">{{ valueMapping ? `value: ${valueMapping}` : t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option :label="t('eat')" :value="1" />
-      <mp-menu-option :label="t('sleep')" :value="2" />
-      <mp-menu-option :label="t('play')" :value="3" />
+  <app-type>{{ t('group') }}</app-type>
+  <mp-menu>
+    <mp-button>{{ t('group') }}</mp-button>
+    <template #content>
+      <mp-menu-group :title="t('fileActions')"
+        ><mp-menu-option :label="t('create')" /><mp-menu-option :label="t('open')"
+      /></mp-menu-group>
+      <mp-menu-group :title="t('editActions')"
+        ><mp-menu-option :label="t('copy')" /><mp-menu-option :label="t('paste')"
+      /></mp-menu-group>
     </template>
   </mp-menu>
 
-  <app-type>{{ t('scrollable') }}</app-type>
-  <mp-menu v-model="valueScrollable" scrollable>
-    <mp-button type="primary">{{ valueScrollable ? valueScrollable : t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option v-for="option in options" :key="option.value" :label="option.label" />
-    </template>
-  </mp-menu>
-
-  <app-type>{{ t('optionDisabled') }}</app-type>
-  <mp-menu v-model="valueOptionDisabled">
-    <mp-button type="primary">{{ valueOptionDisabled ? valueOptionDisabled : t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option :label="t('eat')" />
-      <mp-menu-option :label="t('sleep')" />
-      <mp-menu-option :label="t('play')" disabled />
-    </template>
-  </mp-menu>
-
-  <app-type>{{ t('multiple') }}</app-type>
-  <mp-menu v-model="valueMultiple" multiple>
-    <mp-button type="primary">{{ valueMultiple.length ? valueMultiple : t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option :label="t('eat')" />
-      <mp-menu-option :label="t('sleep')" />
-      <mp-menu-option :label="t('play')" />
-      <mp-menu-option :label="t('coding')" />
-      <mp-menu-option :label="t('rest')" />
-    </template>
-  </mp-menu>
-
-  <app-type>{{ t('closeOnSelect') }}</app-type>
-  <mp-menu v-model="valueCloseOnSelect" :close-on-select="false">
-    <mp-button type="primary">{{ valueCloseOnSelect ? valueCloseOnSelect : t('please') }}</mp-button>
-
-    <template #options>
-      <mp-menu-option :label="t('eat')" />
-      <mp-menu-option :label="t('sleep')" />
-      <mp-menu-option :label="t('play')" />
-    </template>
-  </mp-menu>
-
-  <app-type>{{ t('selectOptions') }}</app-type>
-  <mp-menu v-model="valueSelectOptions" :options="selectOptions">
-    <mp-button type="primary">{{ valueSelectOptions ? valueSelectOptions : t('please') }}</mp-button>
-  </mp-menu>
-
-  <app-type>{{ t('cascade') }}</app-type>
+  <app-type>{{ t('submenu') }}</app-type>
   <mp-menu v-model="cascadeValue" :options="cascadeOptions">
-    <mp-button type="primary">{{ cascadeValue ? cascadeValue : t('please') }}</mp-button>
+    <mp-button>{{ cascadeValue || t('submenu') }}</mp-button>
   </mp-menu>
 
-  <app-type>{{ t('multipleCascade') }}</app-type>
-  <mp-menu v-model="cascadeMultipleValue" multiple :options="cascadeOptions">
-    <mp-button type="primary">{{ cascadeMultipleValue.length ? cascadeMultipleValue : t('please') }}</mp-button>
+  <app-type>{{ t('optionContent') }}</app-type>
+  <mp-menu>
+    <mp-button>{{ t('optionContent') }}</mp-button>
+    <template #content>
+      <mp-menu-option><template #icon>✏️</template>{{ t('edit') }}<template #suffix>⌘ E</template></mp-menu-option>
+      <mp-menu-option><template #icon>📄</template>{{ t('copy') }}<template #suffix>⌘ C</template></mp-menu-option>
+    </template>
   </mp-menu>
 
-  <app-type>{{ t('selectOptionsWithCustomizedKey') }}</app-type>
-  <mp-menu v-model="valueKeyedSelectOptions" :options="keyedSelectOptions" label-key="name" value-key="id">
-    <mp-button type="primary">{{ valueKeyedSelectOptions ? valueKeyedSelectOptions : t('please') }}</mp-button>
+  <app-type>{{ t('popupMaxHeight') }}</app-type>
+  <mp-space :size="[12, 12]">
+    <mp-menu :popup-max-height="120" :options="longOptions"><mp-button>120px</mp-button></mp-menu>
+    <mp-menu :popup-max-height="false" :options="longOptions"
+      ><mp-button>{{ t('unlimited') }}</mp-button></mp-menu
+    >
+  </mp-space>
+
+  <app-type>{{ t('controlled') }}</app-type>
+  <mp-space :size="[12, 12]">
+    <mp-button @mousedown.stop @click.stop="open = !open">{{ open ? t('closeMenu') : t('openMenu') }}</mp-button>
+    <mp-menu v-model:open="open"
+      ><mp-button>{{ t('menuTrigger') }}</mp-button
+      ><template #content><mp-menu-option label="Option 1" /><mp-menu-option label="Option 2" /></template
+    ></mp-menu>
+  </mp-space>
+
+  <app-type>{{ t('footer') }}</app-type>
+  <mp-menu
+    ><mp-button>{{ t('footer') }}</mp-button
+    ><template #content><mp-menu-option label="Option 1" /><mp-menu-option label="Option 2" /></template
+    ><template #footer
+      ><div style="padding: 8px 12px">{{ t('customFooter') }}</div></template
+    ></mp-menu
+  >
+
+  <app-type>{{ t('placement') }}</app-type>
+  <mp-space :size="[12, 12]">
+    <mp-menu
+      v-for="item in ['bottom-start', 'bottom', 'bottom-end', 'top-start', 'top', 'top-end']"
+      :key="item"
+      :placement="item"
+      ><mp-button>{{ item }}</mp-button
+      ><template #content><mp-menu-option label="Option 1" /><mp-menu-option label="Option 2" /></template
+    ></mp-menu>
+  </mp-space>
+
+  <app-type>{{ t('contextMenu') }}</app-type>
+  <mp-menu trigger="contextMenu" align-point>
+    <div
+      style="
+        display: flex;
+        height: 160px;
+        align-items: center;
+        justify-content: center;
+        background: var(--mp-color-fill-2);
+      "
+    >
+      {{ t('contextMenuTip') }}
+    </div>
+    <template #content><mp-menu-option label="Option 1" /><mp-menu-option label="Option 2" /></template>
   </mp-menu>
+
+  <app-type>{{ t('extended') }}</app-type>
+  <mp-space direction="column" :size="[12, 12]">
+    <mp-menu v-model="multipleValue" multiple :options="options"
+      ><mp-button>{{ t('multiple') }}：{{ multipleValue.length }}</mp-button></mp-menu
+    >
+    <mp-menu v-model="optionsValue" :options="options"
+      ><mp-button>{{ t('selectOptions') }}</mp-button></mp-menu
+    >
+  </mp-space>
 </template>

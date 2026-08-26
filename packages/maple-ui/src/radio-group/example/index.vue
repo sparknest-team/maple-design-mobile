@@ -5,7 +5,7 @@ import { t, use } from './locale'
 
 const values = reactive({
   value: false,
-  value2: 0,
+  value2: false,
   value3: false,
   value4: false,
   value5: false,
@@ -37,15 +37,15 @@ onThemeChange()
   <mp-radio v-model="value">{{ t('currentValue') }} {{ value }}</mp-radio>
 
   <app-type>{{ t('setState') }}</app-type>
-  <mp-radio v-model="value2" :unchecked-value="0" :checked-value="1"> {{ t('currentValue') }} {{ value2 }} </mp-radio>
+  <mp-radio v-model="value2" :value="1"> {{ t('currentValue') }} {{ value2 }} </mp-radio>
 
   <app-type>{{ t('setStyle') }}</app-type>
   <mp-radio v-model="value3" unchecked-color="var(--mp-color-warning)" checked-color="var(--mp-color-danger)">
     <template #unchecked-icon>
-      <mp-icon name="heart-half-full" size="24px" />
+      <m-icon-heart-half-full size="24px" />
     </template>
     <template #checked-icon>
-      <mp-icon name="heart" size="24px" />
+      <m-icon-heart size="24px" />
     </template>
     <template #default> {{ t('currentValue') }} {{ value3 }} </template>
   </mp-radio>
@@ -58,8 +58,8 @@ onThemeChange()
 
   <app-type>{{ t('radioGroup') }}</app-type>
   <mp-radio-group v-model="value6">
-    <mp-radio :checked-value="0">{{ t('eat') }}</mp-radio>
-    <mp-radio :checked-value="1">{{ t('sleep') }}</mp-radio>
+    <mp-radio :value="0">{{ t('eat') }}</mp-radio>
+    <mp-radio :value="1">{{ t('sleep') }}</mp-radio>
   </mp-radio-group>
   <div class="relation">{{ t('currentValue') }} {{ value6 }}</div>
 
@@ -68,13 +68,13 @@ onThemeChange()
   <div class="relation">{{ t('currentValue') }} {{ optionValue }}</div>
 
   <app-type>{{ t('customFields') }}</app-type>
-  <mp-radio-group v-model="fieldValue" :options="fieldOptions" label-key="name" value-key="id" />
+  <mp-radio-group v-model="fieldValue" :options="fieldOptions" :field-names="{ label: 'name', value: 'id' }" />
   <div class="relation">{{ t('currentValue') }} {{ fieldValue }}</div>
 
   <app-type>{{ t('vertical') }}</app-type>
   <mp-radio-group v-model="value9" direction="vertical">
-    <mp-radio :checked-value="0">{{ t('eat') }}</mp-radio>
-    <mp-radio :checked-value="1">{{ t('sleep') }}</mp-radio>
+    <mp-radio :value="0">{{ t('eat') }}</mp-radio>
+    <mp-radio :value="1">{{ t('sleep') }}</mp-radio>
   </mp-radio-group>
   <div class="relation">{{ t('currentValue') }} {{ value9 }}</div>
 

@@ -1,22 +1,22 @@
 <template>
   <mp-popup
-    v-if="!unmountOnClose || popupShow || mounted"
+    v-if="!unmountOnClose || popupOpen || mounted"
     :class="n('popup')"
     mp-dialog-cover
-    :show="popupShow"
-    :overlay="overlay"
-    :overlay-class="overlayClass"
-    :overlay-style="overlayStyle"
+    :open="popupOpen"
+    :mask="mask"
+    :mask-class="maskClass"
+    :mask-style="maskStyle"
     :lock-scroll="lockScroll"
-    :close-on-click-overlay="popupCloseOnClickOverlay"
-    :close-on-key-escape="false"
-    :teleport="teleport"
-    @open="onOpen"
-    @close="onClose"
+    :mask-closable="popupCloseOnClickOverlay"
+    :esc-to-close="false"
+    :popup-container="popupContainer"
+    @open="$emit('open')"
+    @close="$emit('close')"
     @closed="handleClosed"
-    @opened="onOpened"
+    @opened="$emit('opened')"
     @key-escape="handleKeyEscape"
-    @route-change="onRouteChange"
+    @route-change="$emit('route-change')"
     @click-overlay="handleClickOverlay"
   >
     <div
@@ -25,7 +25,12 @@
       v-bind="$attrs"
     >
       <div v-if="!hideTitle" :class="n('title')">
-        <mp-icon v-if="typeIcon" :class="n('title-icon')" :name="typeIcon" :size="20" />
+        <mp-icon v-if="type" :class="n('title-icon')" :size="20">
+          <MIconInformation v-if="type === 'info'" />
+          <MIconCheckboxMarkedCircle v-else-if="type === 'success'" />
+          <MIconWarning v-else-if="type === 'warning'" />
+          <MIconError v-else />
+        </mp-icon>
         <slot name="title">{{ title ?? (pt ? pt : t)('dialogTitle') }}</slot>
       </div>
       <div :class="classes(n('message'), bodyClass)" :style="mergedBodyStyle">
@@ -62,6 +67,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, useSlots, watch } from 'vue'
+import {
+  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconError as MIconError,
+  IconInformation as MIconInformation,
+  IconWarning as MIconWarning,
+} from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import { useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
@@ -71,32 +82,46 @@ import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { DIALOG_TYPE_ICON, props } from './props'
+import { props } from './props'
 
 const { name, n, classes } = createNamespace('dialog')
 
 export default defineComponent({
   name,
   components: {
+    MIconInformation,
+    MIconCheckboxMarkedCircle,
+    MIconWarning,
+    MIconError,
     MpPopup,
     MpButton,
     MpIcon,
   },
   inheritAttrs: false,
   props,
-  setup(props) {
+  emits: [
+    'update:open',
+    'open',
+    'opened',
+    'close',
+    'closed',
+    'route-change',
+    'key-escape',
+    'confirm',
+    'cancel',
+    'click-overlay',
+  ],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const slots = useSlots()
 
-    const popupShow = ref(false)
-    const mounted = ref(Boolean(props.show))
+    const popupOpen = ref(false)
+    const mounted = ref(Boolean(props.open))
     const popupCloseOnClickOverlay = ref(false)
     const confirmButtonLoading = useVModel(props, 'confirmButtonLoading')
     const cancelButtonLoading = useVModel(props, 'cancelButtonLoading')
     const confirmButtonDisabled = useVModel(props, 'confirmButtonDisabled')
     const cancelButtonDisabled = useVModel(props, 'cancelButtonDisabled')
-
-    const typeIcon = computed(() => (props.type ? DIALOG_TYPE_ICON[props.type] : undefined))
 
     const mergedBodyStyle = computed(() => ({
       textAlign: props.messageAlign,
@@ -137,9 +162,9 @@ export default defineComponent({
     }
 
     watch(
-      () => props.show,
+      () => props.open,
       (newValue) => {
-        popupShow.value = newValue
+        popupOpen.value = newValue
 
         if (newValue) {
           mounted.value = true
@@ -149,9 +174,9 @@ export default defineComponent({
     )
 
     watch(
-      () => props.closeOnClickOverlay,
+      () => props.maskClosable,
       (newValue) => {
-        if (props.onBeforeClose != null) {
+        if (props.beforeClose != null) {
           popupCloseOnClickOverlay.value = false
           return
         }
@@ -162,64 +187,64 @@ export default defineComponent({
     )
 
     function done() {
-      return call(props['onUpdate:show'], false)
+      return emit('update:open', false)
     }
 
     function handleClosed() {
-      if (props.unmountOnClose && !props.show) {
+      if (props.unmountOnClose && !props.open) {
         mounted.value = false
       }
 
-      call(props.onClosed)
+      emit('closed')
     }
 
     function handleClickOverlay() {
-      const { closeOnClickOverlay, onClickOverlay, onBeforeClose } = props
+      const { maskClosable, beforeClose } = props
 
-      call(onClickOverlay)
+      emit('click-overlay')
 
-      if (!closeOnClickOverlay) {
+      if (!maskClosable) {
         return
       }
 
-      if (onBeforeClose != null) {
-        call(onBeforeClose, 'close', done, exposedRefs)
+      if (beforeClose != null) {
+        call(beforeClose, 'close', done, exposedRefs)
         return
       }
 
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     function confirm() {
-      const { onBeforeClose, onConfirm } = props
+      const { beforeClose } = props
 
-      call(onConfirm)
+      emit('confirm')
 
-      if (onBeforeClose != null) {
-        call(onBeforeClose, 'confirm', done, exposedRefs)
+      if (beforeClose != null) {
+        call(beforeClose, 'confirm', done, exposedRefs)
         return
       }
 
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     function cancel() {
-      const { onBeforeClose, onCancel } = props
+      const { beforeClose } = props
 
-      call(onCancel)
+      emit('cancel')
 
-      if (onBeforeClose != null) {
-        call(onBeforeClose, 'cancel', done, exposedRefs)
+      if (beforeClose != null) {
+        call(beforeClose, 'cancel', done, exposedRefs)
         return
       }
 
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     function handleKeyEscape() {
-      call(props.onKeyEscape)
+      emit('key-escape')
 
-      if (!props.closeOnKeyEscape) {
+      if (!props.escToClose) {
         return
       }
 
@@ -227,14 +252,13 @@ export default defineComponent({
     }
 
     return {
-      popupShow,
+      popupOpen,
       mounted,
       popupCloseOnClickOverlay,
       confirmButtonLoading,
       cancelButtonLoading,
       confirmButtonDisabled,
       cancelButtonDisabled,
-      typeIcon,
       mergedBodyStyle,
       showFooter,
       confirmButtonNormalizedProps,

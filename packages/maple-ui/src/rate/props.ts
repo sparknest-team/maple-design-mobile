@@ -1,6 +1,3 @@
-import { iconProps } from '../icon'
-import { defineListenerProp, pickProps } from '../utils/components'
-
 export const props = {
   modelValue: {
     type: Number,
@@ -23,13 +20,10 @@ export const props = {
     type: String,
     default: 'star-half-full',
   },
-  namespace: pickProps(iconProps, 'namespace'),
-  emptyIconNamespace: pickProps(iconProps, 'namespace'),
-  halfIconNamespace: pickProps(iconProps, 'namespace'),
   emptyColor: String,
   size: [String, Number],
   gap: [String, Number],
-  half: Boolean,
+  allowHalf: Boolean,
   disabled: Boolean,
   disabledColor: String,
   readonly: Boolean,
@@ -38,6 +32,4 @@ export const props = {
     default: true,
   },
   clearable: Boolean,
-  onChange: defineListenerProp<(score: number) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(score: number) => void>(),
 }

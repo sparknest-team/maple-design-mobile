@@ -44,7 +44,7 @@ const value = ref(true)
 </script>
 
 <template>
-  <mp-switch v-model="value" color="var(--color-warning)" close-color="var(--color-info)" />
+  <mp-switch v-model="value" checked-color="var(--color-warning)" unchecked-color="var(--color-info)" />
 </template>
 ```
 
@@ -105,7 +105,7 @@ function handleBeforeChange(value, change) {
   <mp-switch 
     lazy-change
     v-model="value"
-    @before-change="handleBeforeChange"
+    :before-change="handleBeforeChange"
   />
 </template>
 ```
@@ -131,16 +131,16 @@ const value = ref(true)
 | 参数               | 说明 | 类型 | 默认值 |
 |------------------| -------------- | -------- | ---------- |
 | `v-model`        | 开关选中状态	| _any_ | `false` |
-| `active-value`   | 开关打开时的值	| _any_ | `true` |
-| `inactive-value` | 开关关闭时的值	| _any_ | `false` |
+| `checked-value`   | 开关打开时的值	| _any_ | `true` |
+| `unchecked-value` | 开关关闭时的值	| _any_ | `false` |
 | `disabled`       | 是否禁用| _boolean_ | `false` |
 | `readonly`       | 是否只读 | _boolean_ | `false` |
 | `loading`        | 是否为加载状态 | _boolean_ | `false` |
 | `ripple`         | 是否启用水波纹 | _boolean_ | `true` |
-| `button-elevation` ***3.2.7*** | 控制按钮的海拔效果 | _boolean_ | `true` |
-| `color`          | 打开状态下的颜色 | _string_ | `-` |
+| `handle-elevation` | 控制按钮的海拔效果 | _boolean_ | `true` |
+| `checked-color`  | 打开状态下的颜色 | _string_ | `-` |
 | `loading-color`  | 加载图标的颜色 | _string_ | `-` |
-| `close-color`    | 关闭状态下的颜色 | _string_ | `-` |
+| `unchecked-color` | 关闭状态下的颜色 | _string_ | `-` |
 | `size`           | switch 的大小 | _string \| number_ | `-` |
 | `lazy-change`    | 是否允许触发 `before-change` 事件 | _boolean_  | `false` |
 | `variant` ***3.2.3*** | 变体模式 | _boolean_ | `false` |

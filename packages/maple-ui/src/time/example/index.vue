@@ -6,6 +6,7 @@ import { t, use } from './locale'
 const time = ref()
 const time24 = ref()
 const timeWithSeconds = ref()
+const clockTime = ref()
 const disabledTime = ref('09:30')
 const readonlyTime = ref('09:30')
 const form = ref(null)
@@ -28,6 +29,9 @@ onThemeChange()
 
     <app-type>{{ t('showSecond') }}</app-type>
     <mp-time v-model="timeWithSeconds" format="24hr" use-seconds :placeholder="t('secondsPlaceholder')" clearable />
+
+    <app-type>{{ t('clockPresentation') }}</app-type>
+    <mp-time v-model="clockTime" format="24hr" presentation="clock" :placeholder="t('clockPlaceholder')" clearable />
 
     <app-type>{{ t('disabled') }}</app-type>
     <mp-time v-model="disabledTime" format="24hr" disabled />

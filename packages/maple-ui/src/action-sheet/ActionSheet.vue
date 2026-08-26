@@ -1,22 +1,22 @@
 <template>
   <mp-popup
-    v-model:show="show"
+    v-model:open="open"
     position="bottom"
     :class="n('popup-radius')"
-    :overlay="overlay"
-    :overlay-class="overlayClass"
-    :overlay-style="overlayStyle"
+    :mask="mask"
+    :mask-class="maskClass"
+    :mask-style="maskStyle"
     :lock-scroll="lockScroll"
-    :close-on-click-overlay="closeOnClickOverlay"
-    :close-on-key-escape="closeOnKeyEscape"
-    :teleport="teleport"
+    :mask-closable="maskClosable"
+    :esc-to-close="escToClose"
+    :popup-container="popupContainer"
     :safe-area="safeArea"
-    @open="onOpen"
-    @close="onClose"
-    @closed="onClosed"
-    @opened="onOpened"
-    @route-change="onRouteChange"
-    @key-escape="onKeyEscape"
+    @open="$emit('open')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
+    @route-change="$emit('route-change')"
+    @key-escape="$emit('key-escape')"
   >
     <div :class="classes(n(), n('$--box'))" v-bind="$attrs">
       <slot name="title">
@@ -64,8 +64,9 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  setup(props) {
-    const show = useVModel(props, 'show')
+  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'route-change', 'key-escape'],
+  setup(props, { emit }) {
+    const open = useVModel(props, 'open', { emit, eventName: 'update:open' })
     const { t: pt } = injectLocaleProvider()
 
     function handleSelect(action: ActionItem) {
@@ -73,16 +74,16 @@ export default defineComponent({
         return
       }
 
-      const { closeOnClickAction, onSelect } = props
-      call(onSelect, action)
+      const { closeOnClickAction } = props
+      emit('select', action)
 
       if (closeOnClickAction) {
-        show.value = false
+        open.value = false
       }
     }
 
     return {
-      show,
+      open,
       pt,
       t,
       n,

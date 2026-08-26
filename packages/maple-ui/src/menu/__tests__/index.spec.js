@@ -14,13 +14,13 @@ test('menu plugin', () => {
 
 test('menu cedar-compatible api', async () => {
   const root = document.createElement('div')
-  const onPopupVisibleChange = vi.fn()
+  const onOpenChange = vi.fn()
   const wrapper = mount(VarMenu, {
     props: {
-      defaultPopupVisible: true,
-      position: 'br',
+      open: true,
+      placement: 'bottom-end',
       popupContainer: root,
-      onPopupVisibleChange,
+      onOpenChange,
     },
     slots: {
       default: () => h('button', 'trigger'),
@@ -31,7 +31,7 @@ test('menu cedar-compatible api', async () => {
   expect(root.querySelector('.mp-menu-option')).toBeTruthy()
   wrapper.vm.close()
   await delay(0)
-  expect(onPopupVisibleChange).toHaveBeenCalledWith(false)
+  expect(onOpenChange).toHaveBeenCalledWith(false)
   wrapper.unmount()
 })
 
@@ -45,13 +45,13 @@ test('menu size', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarMenu, {
       props: {
-        show: true,
+        open: true,
         size,
-        teleport: root,
+        popupContainer: root,
       },
       slots: {
         default: () => h('div', 'trigger'),
-        options: () => h(VarMenuOption, { label: 'Option' }),
+        content: () => h(VarMenuOption, { label: 'Option' }),
       },
     })
 
@@ -61,21 +61,21 @@ test('menu size', () => {
   })
 })
 
-test('menu scrollable', () => {
+test('menu popupMaxHeight', () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
-      scrollable: true,
-      teleport: root,
+      open: true,
+      popupMaxHeight: true,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option' }),
+      content: () => h(VarMenuOption, { label: 'Option' }),
     },
   })
   expect(root.innerHTML).toMatchSnapshot()
-  expect(root.querySelector('.mp-menu--scrollable')).toBeTruthy()
+  expect(root.querySelector('.mp-menu--max-height')).toBeTruthy()
   wrapper.unmount()
 })
 
@@ -88,11 +88,11 @@ test('menu modelValue', async () => {
     props: {
       modelValue: undefined,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(Fragment, [h(VarMenuOption, { label: 'Option 1' }), h(VarMenuOption, { label: 'Option 2' })]),
+      content: () => h(Fragment, [h(VarMenuOption, { label: 'Option 1' }), h(VarMenuOption, { label: 'Option 2' })]),
     },
   })
 
@@ -110,13 +110,13 @@ test('menu multiple', async () => {
     props: {
       modelValue: [],
       multiple: true,
-      show: true,
+      open: true,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(Fragment, [h(VarMenuOption, { label: 'Option 1' }), h(VarMenuOption, { label: 'Option 2' })]),
+      content: () => h(Fragment, [h(VarMenuOption, { label: 'Option 1' }), h(VarMenuOption, { label: 'Option 2' })]),
     },
   })
 
@@ -126,18 +126,18 @@ test('menu multiple', async () => {
   wrapper.unmount()
 })
 
-test('menu closeOnSelect', async () => {
+test('menu hideOnSelect', async () => {
   const onUpdateShow = vi.fn()
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
-      'onUpdate:show': onUpdateShow,
-      teleport: root,
+      open: true,
+      'onUpdate:open': onUpdateShow,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1' }),
+      content: () => h(VarMenuOption, { label: 'Option 1' }),
     },
   })
 
@@ -147,7 +147,7 @@ test('menu closeOnSelect', async () => {
 
   onUpdateShow.mockClear()
 
-  await wrapper.setProps({ closeOnSelect: false })
+  await wrapper.setProps({ hideOnSelect: false })
   await trigger(root.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateShow).toBeCalledTimes(0)
 
@@ -159,13 +159,13 @@ test('menu-option disabled', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
-      teleport: root,
+      open: true,
+      popupContainer: root,
       'onUpdate:modelValue': onUpdateModelValue,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1', disabled: true }),
+      content: () => h(VarMenuOption, { label: 'Option 1', disabled: true }),
     },
   })
 
@@ -180,13 +180,13 @@ test('menu value mapping', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
-      teleport: root,
+      open: true,
+      popupContainer: root,
       'onUpdate:modelValue': onUpdateModelValue,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
+      content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
 
@@ -201,12 +201,12 @@ test('menu-option default slot', () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
-      teleport: root,
+      open: true,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1' }, { default: () => h('div', 'option slot') }),
+      content: () => h(VarMenuOption, { label: 'Option 1' }, { default: () => h('div', 'option slot') }),
     },
   })
 
@@ -219,11 +219,11 @@ test('menu methods', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      teleport: root,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1' }),
+      content: () => h(VarMenuOption, { label: 'Option 1' }),
     },
   })
   await delay(0)
@@ -244,13 +244,13 @@ test('menu keyboard ArrowDown and Enter', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
+      open: true,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
+      content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
 
@@ -270,13 +270,13 @@ test('menu keyboard ArrowUp and Enter', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
+      open: true,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
+      content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
 
@@ -296,13 +296,13 @@ test('menu keyboard Escape', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
-      show: true,
-      'onUpdate:show': onUpdateShow,
-      teleport: root,
+      open: true,
+      'onUpdate:open': onUpdateShow,
+      popupContainer: root,
     },
     slots: {
       default: () => h('div', 'trigger'),
-      options: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
+      content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
 
@@ -323,7 +323,7 @@ test('menu options api', async () => {
     props: {
       modelValue: undefined,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       options: [
         {
           label: 'Option 1',
@@ -355,7 +355,7 @@ test('menu multiple options api', async () => {
     props: {
       modelValue: [],
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       options: [
         {
           label: 'Option 1',
@@ -383,7 +383,7 @@ test('menu multiple options api', async () => {
   wrapper.unmount()
 })
 
-test('menu label-key', async () => {
+test('menu field-names label', async () => {
   const onUpdateModelValue = vi.fn((value) => {
     wrapper.setProps({ modelValue: value })
   })
@@ -392,7 +392,7 @@ test('menu label-key', async () => {
     props: {
       modelValue: undefined,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       options: [
         {
           name: 'Option 1',
@@ -404,7 +404,7 @@ test('menu label-key', async () => {
           name: 'Option 3',
         },
       ],
-      labelKey: 'name',
+      fieldNames: { label: 'name' },
     },
     slots: {
       default: () => h('div', 'trigger'),
@@ -417,7 +417,7 @@ test('menu label-key', async () => {
   wrapper.unmount()
 })
 
-test('menu value-key', async () => {
+test('menu field-names value', async () => {
   const onUpdateModelValue = vi.fn((value) => {
     wrapper.setProps({ modelValue: value })
   })
@@ -426,7 +426,7 @@ test('menu value-key', async () => {
     props: {
       modelValue: undefined,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       options: [
         {
           label: 'Option 1',
@@ -441,7 +441,7 @@ test('menu value-key', async () => {
           id: 3,
         },
       ],
-      valueKey: 'id',
+      fieldNames: { value: 'id' },
     },
     slots: {
       default: () => h('div', 'trigger'),
@@ -465,7 +465,7 @@ test('menu cascade', async () => {
     props: {
       modelValue: undefined,
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       options: [
         {
           label: 'Option 1',
@@ -522,7 +522,7 @@ test('menu cascade multiple mode', async () => {
     props: {
       modelValue: [],
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       multiple: true,
       options: [
         {
@@ -609,7 +609,7 @@ test('menu cascade menu open and close', async () => {
     props: {
       modelValue: [],
       'onUpdate:modelValue': onUpdateModelValue,
-      teleport: root,
+      popupContainer: root,
       multiple: true,
       options: [
         {
@@ -659,7 +659,7 @@ test('menu cascade menu open and close', async () => {
   await button.trigger('click')
 
   const options = root.querySelectorAll('.mp-menu-option')
-  const menus = root.querySelectorAll('.mp-popover__content')
+  const menus = root.querySelectorAll('.mp-trigger__popup')
   const option1 = options[0]
   const option2 = options[1]
   const option21 = options[2]
@@ -679,4 +679,141 @@ test('menu cascade menu open and close', async () => {
   expect(option2Menu.style.display).not.toBe('none')
   await trigger(option1, 'mouseenter')
   expect(option2Menu.style.display).toBe('none')
+})
+
+test('menu cascade fieldNames', async () => {
+  const onUpdateModelValue = vi.fn((value) => {
+    wrapper.setProps({ modelValue: value })
+  })
+  const root = document.createElement('div')
+  const wrapper = mount(VarMenu, {
+    props: {
+      modelValue: undefined,
+      'onUpdate:modelValue': onUpdateModelValue,
+      popupContainer: root,
+      fieldNames: { label: 'name', value: 'id', children: 'items', disabled: 'off' },
+      options: [
+        {
+          name: 'Option 1',
+          id: 1,
+        },
+        {
+          name: 'Option 2',
+          id: 2,
+          items: [
+            {
+              name: 'Option 2-1',
+              id: 21,
+            },
+            {
+              name: 'Option 2-2',
+              id: 22,
+              off: true,
+            },
+          ],
+        },
+      ],
+    },
+    slots: {
+      default: () => h('button', { class: 'trigger' }, 'trigger'),
+    },
+  })
+
+  await delay(0)
+  const button = wrapper.find('.trigger')
+  await button.trigger('click')
+  const options = root.querySelectorAll('.mp-menu-option')
+  await trigger(options[1], 'mouseenter')
+  await trigger(options[2], 'click')
+  expect(wrapper.vm.modelValue).toBe(21)
+  await trigger(options[3], 'click')
+  expect(wrapper.vm.modelValue).toBe(21)
+  wrapper.unmount()
+})
+
+test('menu controlled open false closes menu', async () => {
+  const root = document.createElement('div')
+  const wrapper = mount(VarMenu, {
+    props: {
+      open: true,
+      popupContainer: root,
+    },
+    slots: {
+      default: () => h('button', { class: 'trigger' }, 'trigger'),
+      content: () => h(VarMenuOption, { label: 'Option 1' }),
+    },
+  })
+
+  await delay(0)
+  expect(wrapper.vm.computedOpen).toBe(true)
+  await wrapper.setProps({ open: false })
+  await delay(0)
+  expect(wrapper.vm.computedOpen).toBe(false)
+  wrapper.unmount()
+})
+
+test('menu select emits value option event', async () => {
+  const onSelect = vi.fn()
+  const root = document.createElement('div')
+  const wrapper = mount(VarMenu, {
+    props: {
+      open: true,
+      popupContainer: root,
+      onSelect,
+    },
+    slots: {
+      default: () => h('div', 'trigger'),
+      content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
+    },
+  })
+
+  await trigger(root.querySelector('.mp-menu-option'), 'click')
+  expect(onSelect).toBeCalledTimes(1)
+  expect(onSelect.mock.calls[0][0]).toBe(1)
+  expect(onSelect.mock.calls[0][1]).toMatchObject({ label: 'Option 1', value: 1 })
+  expect(onSelect.mock.calls[0][2]).toBeInstanceOf(Event)
+  wrapper.unmount()
+})
+
+test('menu default placement is bottom', async () => {
+  const { mockRestore } = mockStubs()
+  const root = document.createElement('div')
+  const wrapper = mount(VarMenu, {
+    props: {
+      open: true,
+      popupContainer: root,
+    },
+    slots: {
+      default: () => h('button', 'trigger'),
+      content: () => h(VarMenuOption, { label: 'Option' }),
+    },
+  })
+
+  await delay(300)
+  expect(root.querySelector('[data-popper-placement]')?.getAttribute('data-popper-placement')).toBe('bottom')
+  wrapper.unmount()
+  mockRestore()
+})
+
+test('menu contextMenu trigger', async () => {
+  const { mockRestore } = mockStubs()
+  const root = document.createElement('div')
+  const wrapper = mount(VarMenu, {
+    attachTo: document.body,
+    props: {
+      trigger: 'contextMenu',
+      alignPoint: true,
+      popupContainer: root,
+    },
+    slots: {
+      default: () => h('div', { class: 'area' }, 'area'),
+      content: () => h(VarMenuOption, { label: 'Option' }),
+    },
+  })
+
+  await wrapper.trigger('contextmenu')
+  await delay(300)
+  expect(root.querySelector('.mp-menu-option')).toBeTruthy()
+  wrapper.unmount()
+  mockRestore()
 })

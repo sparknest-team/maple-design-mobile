@@ -149,16 +149,16 @@ describe('test card component props', () => {
   test('card src', async () => {
     const wrapper = mount(VarCard, {
       props: {
-        src: 'https://maplejs.org/varlet/cat.jpg',
+        src: 'https://maplejs.org/cat.jpg',
       },
     })
 
-    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/varlet/cat.jpg')
+    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/cat.jpg')
 
     await wrapper.setProps({
-      src: 'https://maplejs.org/varlet/cat2.jpg',
+      src: 'https://maplejs.org/cat2.jpg',
     })
-    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/varlet/cat2.jpg')
+    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/cat2.jpg')
 
     wrapper.unmount()
   })
@@ -168,7 +168,7 @@ describe('test card component props', () => {
       const wrapper = mount(VarCard, {
         props: {
           fit,
-          src: 'https://maplejs.org/varlet/cat.jpg',
+          src: 'https://maplejs.org/cat.jpg',
         },
       })
 
@@ -181,7 +181,7 @@ describe('test card component props', () => {
     const wrapper = mount(VarCard, {
       props: {
         alt: 'This is alt',
-        src: 'https://maplejs.org/varlet/cat.jpg',
+        src: 'https://maplejs.org/cat.jpg',
       },
     })
 
@@ -199,7 +199,7 @@ describe('test card component props', () => {
     const wrapper = mount(VarCard, {
       props: {
         imageHeight: 100,
-        src: 'https://maplejs.org/varlet/cat.jpg',
+        src: 'https://maplejs.org/cat.jpg',
       },
     })
 
@@ -217,7 +217,7 @@ describe('test card component props', () => {
     const wrapper = mount(VarCard, {
       props: {
         imageWidth: 100,
-        src: 'https://maplejs.org/varlet/cat.jpg',
+        src: 'https://maplejs.org/cat.jpg',
       },
     })
 
@@ -265,7 +265,7 @@ describe('test card component slots', () => {
   test('card image slot', () => {
     const wrapper = mount(VarCard, {
       slots: {
-        image: '<img src="https://maplejs.org/varlet/cat.jpg" alt="cat" />',
+        image: '<img src="https://maplejs.org/cat.jpg" alt="cat" />',
       },
     })
 

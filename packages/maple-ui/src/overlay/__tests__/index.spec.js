@@ -16,10 +16,10 @@ const Wrapper = {
   },
   props: ['onClick'],
   data: () => ({
-    show: false,
+    open: false,
   }),
   template: `
-    <mp-overlay v-model:show="show" v-bind="$props">
+    <mp-overlay v-model:open="open" v-bind="$props">
       default slot content
     </mp-overlay>
   `,
@@ -29,11 +29,11 @@ test('overlay show', async () => {
   const wrapper = mount(Wrapper)
   expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
 
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ open: true })
   expect(wrapper.find('.mp-overlay').isVisible()).toBeTruthy()
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.setData({ show: false })
+  await wrapper.setData({ open: false })
   expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
 
   wrapper.unmount()
@@ -48,13 +48,13 @@ test('overlay click on clickOverlay', async () => {
     },
   })
 
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ open: true })
 
   await wrapper.find('.mp-overlay__overlay').trigger('click')
   expect(onClick).toHaveBeenCalledTimes(1)
 
-  await wrapper.setData({ show: true })
-  await wrapper.setProps({ closeOnClickOverlay: false })
+  await wrapper.setData({ open: true })
+  await wrapper.setProps({ maskClosable: false })
   await wrapper.find('.mp-overlay__overlay').trigger('click')
   expect(onClick).toHaveBeenCalledTimes(2)
 
@@ -67,9 +67,9 @@ test('overlay keyboard escape', async () => {
 
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
+      open: true,
       onKeyEscape,
-      'onUpdate:show': onUpdateShow,
+      'onUpdate:open': onUpdateShow,
     },
   })
 
@@ -80,16 +80,16 @@ test('overlay keyboard escape', async () => {
   wrapper.unmount()
 })
 
-test('overlay keyboard escape and closeOnKeyEscape', async () => {
+test('overlay keyboard escape and escToClose', async () => {
   const onKeyEscape = vi.fn()
   const onUpdateShow = vi.fn()
 
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
-      closeOnKeyEscape: false,
+      open: true,
+      escToClose: false,
       onKeyEscape,
-      'onUpdate:show': onUpdateShow,
+      'onUpdate:open': onUpdateShow,
     },
   })
 

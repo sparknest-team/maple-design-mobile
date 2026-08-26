@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Paper, paperProps)
 
 export { paperProps }
 
+export type PaperInstance = InstanceType<typeof Paper>
 export const _PaperComponent = Paper
 
 export default Paper

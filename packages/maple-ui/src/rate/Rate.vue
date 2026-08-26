@@ -10,15 +10,14 @@
         :class="getClass(value)"
         @click="handleClick(value, $event)"
       >
-        <mp-icon
+        <mp-registered-icon
           :class="n('content-icon')"
           mp-rate-cover
           :transition="0"
-          :namespace="getCurrentState(value).namespace"
           :name="getCurrentState(value).name"
+          :fallback="getDefaultIcon(getCurrentState(value).name)"
           :style="{ fontSize: toSizeUnit(size) }"
-        >
-        </mp-icon>
+        />
 
         <mp-hover-overlay :hovering="hovering && value === currentHoveringValue && !disabled && !formDisabled" />
       </div>
@@ -28,12 +27,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { IconStar, IconStarHalfFull, IconStarOutline } from '@maplejs/icons-vue'
 import { call, toNumber } from '@maplejs/maple-shared'
 import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
-import MpIcon from '../icon'
+import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
@@ -44,18 +44,32 @@ const { name, n } = createNamespace('rate')
 export default defineComponent({
   name,
   components: {
-    MpIcon,
+    MpRegisteredIcon,
     MpHoverOverlay,
   },
   directives: { Ripple, Hover },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue'],
+  setup(props, { emit }) {
     const currentHoveringValue = ref<number>(-1)
     const { form } = useForm()
     const { mergedError, eventHandlers } = useFormItem()
     const { hovering } = useHoverOverlay()
 
     let lastScore = toNumber(props.modelValue)
+
+    function getDefaultIcon(name?: string) {
+      if (name === 'star') {
+        return IconStar
+      }
+      if (name === 'star-half-full') {
+        return IconStarHalfFull
+      }
+      if (name === 'star-outline') {
+        return IconStarOutline
+      }
+      return undefined
+    }
 
     function getStyle(val: number) {
       const { count, gap } = props
@@ -78,20 +92,7 @@ export default defineComponent({
     }
 
     function getCurrentState(index: number) {
-      const {
-        modelValue,
-        disabled,
-        disabledColor,
-        color,
-        half,
-        emptyColor,
-        icon,
-        halfIcon,
-        emptyIcon,
-        namespace,
-        halfIconNamespace,
-        emptyIconNamespace,
-      } = props
+      const { modelValue, disabled, disabledColor, color, allowHalf, emptyColor, icon, halfIcon, emptyIcon } = props
       let iconColor = color
 
       if (disabled || form?.disabled.value) {
@@ -99,25 +100,24 @@ export default defineComponent({
       }
 
       if (index <= modelValue) {
-        return { color: iconColor, name: icon, namespace }
+        return { color: iconColor, name: icon }
       }
 
-      if (half && index <= modelValue + 0.5) {
-        return { color: iconColor, name: halfIcon, namespace: halfIconNamespace }
+      if (allowHalf && index <= modelValue + 0.5) {
+        return { color: iconColor, name: halfIcon }
       }
 
       return {
         color: disabled || form?.disabled.value ? disabledColor : emptyColor,
         name: emptyIcon,
-        namespace: emptyIconNamespace,
       }
     }
 
     function changeValue(score: number, event: MouseEvent) {
-      const { half, clearable } = props
+      const { allowHalf, clearable } = props
       const { offsetWidth } = event.target as HTMLElement
 
-      if (half && event.offsetX <= Math.floor(offsetWidth / 2)) {
+      if (allowHalf && event.offsetX <= Math.floor(offsetWidth / 2)) {
         score -= 0.5
       }
 
@@ -127,8 +127,8 @@ export default defineComponent({
       }
 
       if (lastScore !== score) {
-        call(props['onUpdate:modelValue'], score)
-        call(props.onChange, score)
+        emit('update:modelValue', score)
+        emit('change', score)
       }
 
       // update last score
@@ -158,6 +158,7 @@ export default defineComponent({
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
       hovering,
+      getDefaultIcon,
       currentHoveringValue,
       getStyle,
       getClass,

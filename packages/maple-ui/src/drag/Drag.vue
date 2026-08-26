@@ -1,5 +1,8 @@
 <template>
-  <Teleport :to="teleport === false ? undefined : teleport" :disabled="teleportDisabled || teleport === false">
+  <Teleport
+    :to="popupContainer === false ? undefined : popupContainer"
+    :disabled="teleportDisabled || popupContainer === false"
+  >
     <div
       ref="drag"
       :class="classes(n(), n('$--box'), [enableTransition, n('--transition')])"
@@ -32,7 +35,8 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  setup(props, { attrs }) {
+  emits: ['click'],
+  setup(props, { attrs, emit }) {
     const drag = ref<HTMLElement | null>(null)
     const x = ref(0)
     const y = ref(0)
@@ -101,7 +105,7 @@ export default defineComponent({
         return
       }
 
-      call(props.onClick, event)
+      emit('click', event)
     }
 
     function saveXY() {

@@ -15,7 +15,7 @@ import { createNamespace, formatElevation } from '../utils/components'
 const { n, classes } = createNamespace('pagination')
 
 export default defineComponent({
-  name: 'MpPaginationItem',
+  name: createNamespace('pagination-item').name,
   directives: { Ripple },
   props: {
     pageNumber: Number,

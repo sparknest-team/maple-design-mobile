@@ -1,28 +1,32 @@
 :root {
   --mp-button-default-text-color: #555;
-  --mp-button-primary-text-color: var(--mp-color-on-primary);
-  --mp-button-danger-text-color: var(--mp-color-on-danger);
-  --mp-button-success-text-color: var(--mp-color-on-success);
-  --mp-button-warning-text-color: var(--mp-color-on-warning);
-  --mp-button-info-text-color: var(--mp-color-on-info);
+  --mp-button-primary-text-color: var(--mp-color-white);
+  --mp-button-danger-text-color: var(--mp-color-white);
+  --mp-button-success-text-color: var(--mp-color-white);
+  --mp-button-warning-text-color: var(--mp-color-white);
+  --mp-button-info-text-color: var(--mp-color-white);
   --mp-button-default-color: #f5f5f5;
   --mp-button-primary-color: var(--mp-color-primary);
   --mp-button-danger-color: var(--mp-color-danger);
   --mp-button-success-color: var(--mp-color-success);
   --mp-button-warning-color: var(--mp-color-warning);
   --mp-button-info-color: var(--mp-color-info);
+  --mp-button-secondary-color: rgb(var(--mp-gray-6));
+  --mp-button-secondary-text-color: var(--mp-color-white);
+  --mp-button-tertiary-color: rgb(var(--mp-gray-7));
+  --mp-button-tertiary-text-color: var(--mp-color-white);
   --mp-button-default-icon-color: #555;
-  --mp-button-primary-icon-color: var(--mp-color-on-primary-container);
-  --mp-button-danger-icon-color: var(--mp-color-on-danger-container);
-  --mp-button-success-icon-color: var(--mp-color-on-success-container);
-  --mp-button-warning-icon-color: var(--mp-color-on-warning-container);
-  --mp-button-info-icon-color: var(--mp-color-on-info-container);
+  --mp-button-primary-icon-color: var(--mp-color-white);
+  --mp-button-danger-icon-color: var(--mp-color-white);
+  --mp-button-success-icon-color: var(--mp-color-white);
+  --mp-button-warning-icon-color: var(--mp-color-white);
+  --mp-button-info-icon-color: var(--mp-color-white);
   --mp-button-default-icon-container-color: #f5f5f5;
-  --mp-button-primary-icon-container-color: var(--mp-color-primary-container);
-  --mp-button-danger-icon-container-color: var(--mp-color-danger-container);
-  --mp-button-success-icon-container-color: var(--mp-color-success-container);
-  --mp-button-warning-icon-container-color: var(--mp-color-warning-container);
-  --mp-button-info-icon-container-color: var(--mp-color-info-container);
+  --mp-button-primary-icon-container-color: var(--mp-color-primary);
+  --mp-button-danger-icon-container-color: var(--mp-color-danger);
+  --mp-button-success-icon-container-color: var(--mp-color-success);
+  --mp-button-warning-icon-container-color: var(--mp-color-warning);
+  --mp-button-info-icon-container-color: var(--mp-color-info);
   --mp-button-disabled-color: var(--mp-color-disabled);
   --mp-button-disabled-text-color: var(--mp-color-text-disabled);
   --mp-button-border-radius: 4px;
@@ -30,15 +34,18 @@
   --mp-button-small-padding: 0 12px;
   --mp-button-normal-padding: 0 16px;
   --mp-button-large-padding: 0 22px;
+  --mp-button-xl-padding: 0 28px;
   --mp-button-round-padding: 6px;
   --mp-button-mini-height: 20px;
   --mp-button-small-height: 28px;
   --mp-button-normal-height: 36px;
   --mp-button-large-height: 44px;
+  --mp-button-xl-height: 52px;
   --mp-button-mini-font-size: var(--mp-font-size-xs);
   --mp-button-small-font-size: var(--mp-font-size-sm);
   --mp-button-normal-font-size: var(--mp-font-size-md);
   --mp-button-large-font-size: var(--mp-font-size-lg);
+  --mp-button-xl-font-size: var(--mp-font-size-xl, 18px);
 }
 
 .mp-button {
@@ -112,13 +119,13 @@
     }
 
     &.mp-button--status-secondary {
-      color: var(--mp-button-default-text-color);
-      background-color: var(--mp-button-default-color);
+      color: var(--mp-button-secondary-text-color);
+      background-color: var(--mp-button-secondary-color);
     }
 
-    &.mp-button--status-contrast {
-      color: #fff;
-      background-color: #000;
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-text-color);
+      background-color: var(--mp-button-tertiary-color);
     }
   }
 
@@ -149,10 +156,10 @@
       color: var(--mp-button-danger-color);
     }
     &.mp-button--status-secondary {
-      color: var(--mp-button-default-text-color);
+      color: var(--mp-button-secondary-color);
     }
-    &.mp-button--status-contrast {
-      color: #000;
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
     }
   }
 
@@ -180,10 +187,10 @@
       color: var(--mp-button-danger-color);
     }
     &.mp-button--status-secondary {
-      color: var(--mp-button-default-text-color);
+      color: var(--mp-button-secondary-color);
     }
-    &.mp-button--status-contrast {
-      color: #000;
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
     }
   }
 
@@ -214,6 +221,12 @@
     &.mp-button--status-danger {
       color: var(--mp-button-danger-color);
     }
+    &.mp-button--status-secondary {
+      color: var(--mp-button-secondary-color);
+    }
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
+    }
   }
 
   // === variant=tonal: 浅色填充 ===
@@ -241,6 +254,14 @@
     &.mp-button--status-danger {
       color: var(--mp-button-danger-icon-color);
       background-color: var(--mp-button-danger-icon-container-color);
+    }
+    &.mp-button--status-secondary {
+      color: var(--mp-button-secondary-color);
+      background-color: color-mix(in srgb, var(--mp-button-secondary-color) 16%, transparent);
+    }
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
+      background-color: color-mix(in srgb, var(--mp-button-tertiary-color) 16%, transparent);
     }
   }
 
@@ -290,6 +311,11 @@
     height: var(--mp-button-mini-height);
     padding: var(--mp-button-mini-padding);
     font-size: var(--mp-button-mini-font-size);
+  }
+  &--size-xl {
+    height: var(--mp-button-xl-height);
+    padding: var(--mp-button-xl-padding);
+    font-size: var(--mp-button-xl-font-size);
   }
 
   &--round {

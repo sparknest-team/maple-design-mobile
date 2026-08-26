@@ -23,7 +23,7 @@ and changes the display position of the tooltip by controlling the placement and
     <mp-button type="primary">Content Slot</mp-button>
     
     <template #content>
-      <mp-icon name="star" />
+      <m-icon-star />
     </template>
   </mp-tooltip>
 </template>
@@ -64,7 +64,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placement">
       <mp-button type="primary">
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
     </mp-tooltip>
   </div>
@@ -179,7 +179,7 @@ In the `disabled` state, the tooltip will not be opened.
 
 | Prop              | Description                                                 | Type              | Default   |
 | ------- |-------------------------------------------------------------|----------------------|-----------|
-| `v-model:show` | Whether to show the tooltip                                    | _boolean_             | `false`   |
+| `v-model:open` | Whether to show the tooltip                                    | _boolean_             | `false`   |
 | `content` | Display content | _string_              | `-`       |
 | `color`          | Tooltip background color                                                            | _string_  | `-`       |
 | `text-color`  ***3.5.0***   | Tooltip text color                                                                  | _string_  | `-`       |
@@ -188,13 +188,13 @@ In the `disabled` state, the tooltip will not be opened.
 | `strategy`       | Tooltip position strategy, optional value is `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x` | The x-axis offset, relative to the tooltip-aligned position    | _number \| string_   | `0` |
 | `offset-y` | The y-axis offset, relative to the tooltip-aligned position    | _number \| string_   | `0` |
-| `teleport` | The location of the tooltip mount                                                     | _TeleportProps['to'] \| false_ | `body`    |
+| `popupContainer` | The location of the tooltip mount                                                     | _TeleportProps['to'] \| false_ | `body`    |
 | `same-width`    | Whether to same width as trigger element                   | _boolean_ | `false`           |
 | `disabled` | Whether to disable the tooltip                                                      | _boolean_            | `false`   |
 | `trigger` | Tooltip trigger method, optional value is `click` `hover` `manual` | _string_  | `hover`   |
 | `reference` | The trigger element associated with the tooltip, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_ | `-` |
 | `close-on-click-reference` | Whether to close the menu when clicking the reference element | _boolean_ | `false` |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the tooltip | _boolean_ | `true`  |
+| `esc-to-close` | Whether to support keyboard ESC to close the tooltip | _boolean_ | `true`  |
 
 ### Placement
 
@@ -258,8 +258,8 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--tooltip-warning-color` | `var(--color-warning)` |
 | `--tooltip-danger-color` | `var(--color-danger)` |
 | `--tooltip-default-text-color` | `#fff` |
-| `--tooltip-primary-text-color` | `var(--color-on-primary)` |
-| `--tooltip-info-text-color` | `var(--color-on-info)` |
-| `--tooltip-success-text-color` | `var(--color-on-success)` |
-| `--tooltip-warning-text-color` | `var(--color-on-warning)` |
-| `--tooltip-danger-text-color` | `var(--color-on-danger)` |
+| `--tooltip-primary-text-color` | `var(--color-white)` |
+| `--tooltip-info-text-color` | `var(--color-white)` |
+| `--tooltip-success-text-color` | `var(--color-white)` |
+| `--tooltip-warning-text-color` | `var(--color-white)` |
+| `--tooltip-danger-text-color` | `var(--color-white)` |

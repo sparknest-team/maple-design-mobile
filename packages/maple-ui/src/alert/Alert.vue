@@ -19,7 +19,12 @@
     >
       <div v-if="showIconNode" :class="n('icon')">
         <slot name="icon">
-          <mp-icon v-if="type !== 'default'" :name="iconTypeMap[type]" />
+          <mp-icon v-if="type !== 'default'">
+            <MIconInformation v-if="type === 'info'" />
+            <MIconCheckboxMarkedCircle v-else-if="type === 'success'" />
+            <MIconWarning v-else-if="type === 'warning'" />
+            <MIconError v-else />
+          </mp-icon>
         </slot>
       </div>
 
@@ -38,7 +43,7 @@
 
       <div v-if="closable" tabindex="-1" role="button" aria-label="Close" :class="n('close-icon')" @click="handleClose">
         <slot name="close-icon">
-          <mp-icon name="close" />
+          <mp-icon><MIconWindowClose /></mp-icon>
         </slot>
       </div>
     </div>
@@ -47,10 +52,17 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots, type CSSProperties } from 'vue'
+import {
+  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconError as MIconError,
+  IconInformation as MIconInformation,
+  IconWarning as MIconWarning,
+  IconWindowClose as MIconWindowClose,
+} from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpIcon from '../icon'
 import { createNamespace, formatElevation } from '../utils/components'
-import { alertProps, type AlertType } from './props'
+import { alertProps } from './props'
 
 defineOptions({
   name: createNamespace('alert').name,
@@ -58,14 +70,8 @@ defineOptions({
 
 const { n, classes } = createNamespace('alert')
 const props = defineProps(alertProps)
+const emit = defineEmits(['close', 'after-close'])
 const slots = useSlots()
-
-const iconTypeMap: Record<Exclude<AlertType, 'default'>, string> = {
-  info: 'information',
-  success: 'checkbox-marked-circle',
-  warning: 'warning',
-  danger: 'error',
-}
 
 const visible = ref(true)
 
@@ -87,11 +93,11 @@ const rootStyle = computed<CSSProperties>(() => {
 
 function handleClose(e: Event) {
   visible.value = false
-  call(props.onClose, e)
+  emit('close', e)
 }
 
 function handleAfterLeave() {
-  call(props.onAfterClose)
+  emit('after-close')
 }
 </script>
 

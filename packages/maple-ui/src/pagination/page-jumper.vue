@@ -36,7 +36,7 @@ import { getLegalPage } from './utils'
 const { n, classes } = createNamespace('pagination')
 
 export default defineComponent({
-  name: 'MpPaginationJumper',
+  name: createNamespace('pagination-jumper').name,
   components: { MpInput },
   props: {
     current: {

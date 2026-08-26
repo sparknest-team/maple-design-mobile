@@ -3,17 +3,19 @@ import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from '.
 
 export declare const avatarProps: Record<keyof AvatarProps, any>
 
-export type AvatarFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+export type AvatarObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+
+export type AvatarShape = 'circle' | 'square'
 
 export type AvatarSize = 'mini' | 'small' | 'normal' | 'large' | number | string
 
 export interface AvatarProps extends BasicAttributes {
-  round?: boolean
+  shape?: AvatarShape
   size?: AvatarSize
   color?: string
-  src?: string
+  imageUrl?: string
   alt?: string
-  fit?: AvatarFit
+  objectFit?: AvatarObjectFit
   bordered?: boolean
   borderColor?: string
   loading?: string

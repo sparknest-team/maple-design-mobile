@@ -6,7 +6,7 @@
 
 ### 组件式调用
 
-局部的定制组件样式，需要注意的是使用 `teleport` 传送到  `StyleProvider` 外的元素将不会生效。
+局部的定制组件样式，需要注意的是使用 `popupContainer` 传送到  `StyleProvider` 外的元素将不会生效。
 
 ```html
 <script setup>

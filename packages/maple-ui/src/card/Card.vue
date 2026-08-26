@@ -87,7 +87,7 @@
       >
         <slot name="close-button">
           <mp-button mp-card-cover :class="classes(n('close-button'), n('$-elevation--6'))" @click.stop="close">
-            <mp-icon mp-card-cover name="window-close" :class="n('close-button-icon')" />
+            <mp-icon mp-card-cover :class="n('close-button-icon')"><MIconWindowClose /></mp-icon>
           </mp-button>
         </slot>
       </div>
@@ -105,6 +105,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { IconWindowClose as MIconWindowClose } from '@maplejs/icons-vue'
 import { call, doubleRaf, getRect } from '@maplejs/maple-shared'
 import MpButton from '../button'
 import { useLock } from '../context/lock'
@@ -123,11 +124,13 @@ export default defineComponent({
   name,
   directives: { Ripple },
   components: {
+    MIconWindowClose,
     MpIcon,
     MpButton,
   },
   props,
-  setup(props) {
+  emits: ['click', 'update:floating'],
+  setup(props, { emit }) {
     const card = ref<null | HTMLElement>(null)
     const cardFloater = ref<null | HTMLElement>(null)
     const holderWidth = ref('auto')
@@ -233,11 +236,11 @@ export default defineComponent({
     }
 
     function close() {
-      call(props['onUpdate:floating'], false)
+      emit('update:floating', false)
     }
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {

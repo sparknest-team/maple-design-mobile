@@ -10,11 +10,13 @@ Link component for hyperlink to web pages.
 <template>
   <mp-space :size="[10, 10]">
     <mp-link>Default Link</mp-link>
-    <mp-link type="primary">Primary Link</mp-link>
-    <mp-link type="info">Info Link</mp-link>
-    <mp-link type="success">Success Link</mp-link>
-    <mp-link type="warning">Warning Link</mp-link>
-    <mp-link type="danger">Danger Link</mp-link>
+    <mp-link status="primary">Primary Link</mp-link>
+    <mp-link status="secondary">Secondary Link</mp-link>
+    <mp-link status="tertiary">Tertiary Link</mp-link>
+    <mp-link status="info">Info Link</mp-link>
+    <mp-link status="success">Success Link</mp-link>
+    <mp-link status="warning">Warning Link</mp-link>
+    <mp-link status="danger">Danger Link</mp-link>
   </mp-space>
 </template>
 ```
@@ -24,14 +26,13 @@ Link component for hyperlink to web pages.
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-link 
-      type="primary"
+    <mp-link
+      status="primary"
       href="https://maplejs.org/#/en-US/home"
       target="_blank"
     >
       Href
     </mp-link>
-    <mp-link type="primary" to="/button">Router Link</mp-link>
   </mp-space>
 </template>
 ```
@@ -41,9 +42,9 @@ Link component for hyperlink to web pages.
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-link type="primary">Underline</mp-link>
-    <mp-link type="primary" underline="hover">Hover</mp-link>
-    <mp-link type="primary" underline="none">Never</mp-link>
+    <mp-link status="primary" underline="always">Underline</mp-link>
+    <mp-link status="primary" underline="hover">Hover</mp-link>
+    <mp-link status="primary" underline="none">Never</mp-link>
   </mp-space>
 </template>
 ```
@@ -53,17 +54,6 @@ Link component for hyperlink to web pages.
 ```html
 <template>
   <mp-link disabled>Disabled Status</mp-link>
-</template>
-```
-
-### Custom Color
-
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link text-color="#009688">Link</mp-link>
-    <mp-link text-color="#ab47bc">Link</mp-link>
-  </mp-space>
 </template>
 ```
 
@@ -87,16 +77,14 @@ Link component for hyperlink to web pages.
 
 | Prop         | Description                                                                       | Type     | Default  |
 |--------------|-----------------------------------------------------------------------------------|----------|----------|
-| `type`       | Link type, can be set to  `default` `primary` `info` `success` `warning` `danger` | _string_ | `default` |
-| `underline`  | Underline, Can be set to `always` `hover` `none`                                  | _string_ | `always` |
+| `status`       | Semantic status: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
+| `underline`  | Underline, Can be set to `always` `hover` `none`                                  | _string_ | `none` |
 | `disabled`   | Whether to disable link                                                           | _boolean_ | `false`  |
-| `text-color` | Link text color                                                                   | _string_ | `-`      |
-| `text-size`  | Link font size                                                                    | _string \| number_  | `-`            |
+| `loading`    | Loading state; navigation and click are disabled                                  | _boolean_ | `false`  |
+| `icon`       | Whether to show the default link icon                                              | _boolean_ | `false`  |
 | `href`       | Same as native hyperlink's `href`, Have higher priority than `to`                 | _string_ | `-`      |
 | `rel`        | Same as the native `rel` attribute                                            | _string_ | `-`      |
 | `target`     | Same as the native `target` attribute                                             | _string_ | `-`      |
-| `to`         | `router-link` `to`, will render as `<router-link />`                              | _string \| object_  | `-`        |
-| `replace`    | `router-link` `replace`                                                           | _boolean_ | `false`  |
 
 ### Events
 
@@ -109,6 +97,7 @@ Link component for hyperlink to web pages.
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Link content | `-` |
+| `icon` | Custom link icon | `-` |
 
 ### Style Variables
 

@@ -15,6 +15,6 @@ export const props = {
     default: 'normal',
   },
   color: String,
-  description: String,
+  tip: String,
   loading: Boolean,
 }

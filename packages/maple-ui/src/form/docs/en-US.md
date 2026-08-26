@@ -224,11 +224,8 @@ function handleClick() {
     }"
   >
     <div class="mp-custom-form-component__container" @click="handleClick">
-      <mp-icon
-        class="mp-custom-form-component__icon"
-        :name="modelValue ? 'checkbox-marked-circle' : 'close-circle'"
-        :transition="250"
-      />
+      <m-icon-checkbox-marked-circle v-if="modelValue" class="mp-custom-form-component__icon" />
+      <m-icon-close-circle v-else class="mp-custom-form-component__icon" />
       <slot />
     </div>
   </div>

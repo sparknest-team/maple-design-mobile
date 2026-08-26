@@ -1,6 +1,7 @@
 import { type PropType, type VNode, type VNodeChild } from 'vue'
 import { inputProps } from '../input'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
+import { type FieldNames } from '../utils/options'
 
 export type AutoCompleteOptionLabelRender = (option: AutoCompleteOption, checked: boolean) => VNodeChild
 
@@ -20,25 +21,14 @@ export const props = {
     type: Array as PropType<Array<AutoCompleteOption>>,
     default: () => [],
   },
-  labelKey: {
-    type: String,
-    default: 'label',
+  fieldNames: {
+    type: Object as PropType<FieldNames>,
+    default: undefined,
   },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  maxlength: [String, Number],
+  maxLength: [String, Number],
   readonly: Boolean,
   disabled: Boolean,
   getShow: Function as PropType<(v: string) => boolean>,
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onInput: defineListenerProp<(value: string, e: Event) => void>(),
-  onChange: defineListenerProp<(value: string) => void>(),
-  onClear: defineListenerProp<(value: string) => void>(),
-  onClick: defineListenerProp<(e: Event) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string) => void>(),
   ...pickProps(inputProps, [
     'size',
     'variant',

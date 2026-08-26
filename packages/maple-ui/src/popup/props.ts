@@ -1,30 +1,29 @@
 import { type PropType, type TeleportProps } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export type PopupPosition = 'top' | 'bottom' | 'right' | 'left' | 'center'
 
 export const props = {
-  show: Boolean,
+  open: Boolean,
   position: {
     type: String as PropType<PopupPosition>,
     default: 'center',
   },
   transition: String,
-  overlay: {
+  mask: {
     type: Boolean,
     default: true,
   },
-  overlayClass: String,
-  overlayStyle: Object,
+  maskClass: String,
+  maskStyle: Object,
   lockScroll: {
     type: Boolean,
     default: true,
   },
-  closeOnClickOverlay: {
+  maskClosable: {
     type: Boolean,
     default: true,
   },
-  closeOnKeyEscape: {
+  escToClose: {
     type: Boolean,
     default: true,
   },
@@ -35,17 +34,9 @@ export const props = {
   zIndex: Number,
   safeArea: Boolean,
   safeAreaTop: Boolean,
-  teleport: {
+  popupContainer: {
     type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
     default: 'body',
   },
-  onOpen: defineListenerProp<() => void>(),
-  onOpened: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<() => void>(),
-  onClosed: defineListenerProp<() => void>(),
-  onKeyEscape: defineListenerProp<() => void>(),
-  onClickOverlay: defineListenerProp<() => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   // internal for Dialog
-  onRouteChange: defineListenerProp<() => void>(),
 }

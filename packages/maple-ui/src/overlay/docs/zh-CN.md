@@ -18,7 +18,7 @@ const show = ref(false)
 
 <template>
   <mp-button type="primary" block @click="show = true">显示遮罩层</mp-button>
-  <mp-overlay v-model:show="show" />
+  <mp-overlay v-model:open="open" />
 </template>
 ```
 
@@ -33,7 +33,7 @@ const show = ref(false)
 
 <template>
   <mp-button type="primary" block @click="show = true">嵌入内容</mp-button>
-  <mp-overlay v-model:show="show">
+  <mp-overlay v-model:open="open">
     <div class="overlay-content">
       素胚勾勒出青花笔锋浓转淡, 
       瓶身描绘的牡丹一如你初妆, 
@@ -64,7 +64,7 @@ const show = ref(false)
 <template>
   <mp-button type="primary" block @click="show = true">点击遮罩层</mp-button>
   <mp-overlay
-    v-model:show="show"
+    v-model:open="open"
     @click="Message.success('click')"
   />
 </template>
@@ -76,10 +76,10 @@ const show = ref(false)
 
 | 参数             | 说明                            | 类型                    | 默认值     |
 |----------------|-------------------------------|-----------------------|---------|
-| `v-model:show` | 是否显示遮罩层                       | _boolean_             | `false` |
+| `v-model:open` | 是否显示遮罩层                       | _boolean_             | `false` |
 | `lock-scroll`  | 是否禁止滚动穿透，禁止时滚动遮罩层不会引发 body 的滚动 | _boolean_             | `true`  |
-| `teleport`     | 遮罩层挂载的位置                      | _TeleportProps['to'] \| false_ | `-`     |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭遮罩层 | _boolean_ | `true`  |
+| `popupContainer`     | 遮罩层挂载的位置                      | _TeleportProps['to'] \| false_ | `-`     |
+| `esc-to-close` | 是否支持键盘 ESC 关闭遮罩层 | _boolean_ | `true`  |
 
 ### 事件
 

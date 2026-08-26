@@ -1,13 +1,13 @@
 <template>
   <div
     v-ripple="{ disabled: !ripple }"
-    :class="classes(n(), [border, n('--border')], [onClick, n('--cursor')])"
+    :class="classes(n(), [border, n('--border')], [n('--cursor')])"
     :style="borderOffsetStyles"
     @click="handleClick"
   >
     <slot name="icon">
       <div v-if="icon" :class="classes(n('icon'), iconClass)">
-        <mp-icon :name="icon" :namespace="namespace" />
+        <mp-registered-icon :name="icon" />
       </div>
     </slot>
 
@@ -34,7 +34,7 @@
 <script lang="ts">
 import { computed, CSSProperties, defineComponent } from 'vue'
 import { call } from '@maplejs/maple-shared'
-import MpIcon from '../icon'
+import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
@@ -44,10 +44,11 @@ const { name, n, classes } = createNamespace('cell')
 
 export default defineComponent({
   name,
-  components: { MpIcon },
+  components: { MpRegisteredIcon },
   directives: { Ripple },
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
     const borderOffsetStyles = computed<CSSProperties>(() => {
       if (props.borderOffset == null) {
         return {}
@@ -60,7 +61,7 @@ export default defineComponent({
     })
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {

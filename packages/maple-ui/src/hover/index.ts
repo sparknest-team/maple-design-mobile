@@ -177,6 +177,7 @@ const Hover: Directive & Plugin = {
   },
 }
 
+export type HoverInstance = InstanceType<typeof Hover>
 export const _HoverComponent = Hover
 
 export default Hover

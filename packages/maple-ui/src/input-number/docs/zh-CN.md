@@ -30,10 +30,10 @@
 <mp-input-number v-model="value" :step="0.1" :precision="1" />
 ```
 
-### 隐藏控制按钮
+### 纯输入模式
 
 ```html
-<mp-input-number v-model="value" :controls="false" />
+<mp-input-number v-model="value" mode="input" />
 ```
 
 ### 格式化显示
@@ -50,7 +50,7 @@
 | --------------- | ---------------------------------------------------- | --------------------------- | ----------- |
 | `v-model`       | 绑定值                                               | _number_                    | `-`         |
 | `default-value` | 默认值，非受控时生效                                 | _number_                    | `-`         |
-| `control-type`  | 控制按钮布局，可选值为 `stacked` `split`             | _string_                    | `stacked`   |
+| `mode`          | 模式，可选值为 `embed` `button` `input`              | _string_                    | `embed`     |
 | `precision`     | 数值精度                                             | _number_                    | `-`         |
 | `step`          | 步长                                                 | _number_                    | `1`         |
 | `disabled`      | 是否禁用                                             | _boolean_                   | `false`     |
@@ -60,8 +60,7 @@
 | `formatter`     | 格式化展示值                                         | _(value: string) => string_ | `-`         |
 | `parser`        | 解析输入值                                           | _(value: string) => string_ | `-`         |
 | `placeholder`   | 输入框占位文本                                       | _string_                    | `-`         |
-| `controls`      | 是否展示增减按钮                                     | _boolean_                   | `true`      |
-| `size`          | 尺寸，可选值为 `xs` `sm` `md` `lg`                   | _string_                    | `-`         |
+| `size`          | 尺寸，可选值为 `xs` `sm` `md` `lg` `xl`              | _ComponentSize_             | `md`        |
 | `clearable`     | 是否可清空                                           | _boolean_                   | `false`     |
 | `model-event`   | 触发 `v-model` 更新的事件，可选值为 `change` `input` | _string_                    | `change`    |
 | `readonly`      | 是否只读                                             | _boolean_                   | `false`     |

@@ -10,11 +10,11 @@
 <script setup>
 import { ref } from 'vue'
 
-const type = ref('primary')
+const status = ref('primary')
 </script>
 
 <template>
-  <mp-select v-model="type">
+  <mp-select v-model="status">
     <mp-option label="默认" value="default"/>
     <mp-option label="主要" value="primary"/>
     <mp-option label="信息" value="info"/>
@@ -23,7 +23,7 @@ const type = ref('primary')
     <mp-option label="危险" value="danger"/>
   </mp-select>
 
-  <mp-fab :type="type" />
+  <mp-fab :status="status" />
 </template>
 ```
 
@@ -38,10 +38,10 @@ const position = ref('right-bottom')
 
 <template>
   <mp-radio-group v-model="position">
-    <mp-radio checked-value="left-top">left-top</mp-radio>
-    <mp-radio checked-value="right-top">right-top</mp-radio>
-    <mp-radio checked-value="left-bottom">left-bottom</mp-radio>
-    <mp-radio checked-value="right-bottom">right-bottom</mp-radio>
+    <mp-radio value="left-top">left-top</mp-radio>
+    <mp-radio value="right-top">right-top</mp-radio>
+    <mp-radio value="left-bottom">left-bottom</mp-radio>
+    <mp-radio value="right-bottom">right-bottom</mp-radio>
   </mp-radio-group>
 
   <mp-fab :position="position" />
@@ -59,22 +59,22 @@ const trigger = ref('click')
 
 <template>
   <mp-radio-group v-model="trigger">
-    <mp-radio checked-value="click">click</mp-radio>
-    <mp-radio checked-value="hover">hover</mp-radio>
+    <mp-radio value="click">click</mp-radio>
+    <mp-radio value="hover">hover</mp-radio>
   </mp-radio-group>
 
-  <mp-fab type="primary" :trigger="trigger">
-    <mp-button type="info" icon-container>
-      <mp-icon name="account-circle" />
+  <mp-fab status="primary" :trigger="trigger">
+    <mp-button status="info" icon-container>
+      <m-icon-account-circle />
     </mp-button>
-    <mp-button type="success" icon-container>
-      <mp-icon name="checkbox-marked-circle" />
+    <mp-button status="success" icon-container>
+      <m-icon-checkbox-marked-circle />
     </mp-button>
-    <mp-button type="warning" icon-container>
-      <mp-icon name="bell" />
+    <mp-button status="warning" icon-container>
+      <m-icon-bell />
     </mp-button>
-    <mp-button type="danger" icon-container>
-      <mp-icon name="delete" />
+    <mp-button status="danger" icon-container>
+      <m-icon-delete />
     </mp-button>
   </mp-fab>
 </template>
@@ -91,24 +91,24 @@ const direction = ref('top')
 
 <template>
   <mp-radio-group v-model="direction">
-    <mp-radio checked-value="top">top</mp-radio>
-    <mp-radio checked-value="right">right</mp-radio>
-    <mp-radio checked-value="bottom">bottom</mp-radio>
-    <mp-radio checked-value="left">left</mp-radio>
+    <mp-radio value="top">top</mp-radio>
+    <mp-radio value="right">right</mp-radio>
+    <mp-radio value="bottom">bottom</mp-radio>
+    <mp-radio value="left">left</mp-radio>
   </mp-radio-group>
 
-  <mp-fab type="primary" :direction="direction">
-    <mp-button type="info" icon-container>
-      <mp-icon name="account-circle" />
+  <mp-fab status="primary" :direction="direction">
+    <mp-button status="info" icon-container>
+      <m-icon-account-circle />
     </mp-button>
-    <mp-button type="success" icon-container>
-      <mp-icon name="checkbox-marked-circle" />
+    <mp-button status="success" icon-container>
+      <m-icon-checkbox-marked-circle />
     </mp-button>
-    <mp-button type="warning" icon-container>
-      <mp-icon name="bell" />
+    <mp-button status="warning" icon-container>
+      <m-icon-bell />
     </mp-button>
-    <mp-button type="danger" icon-container>
-      <mp-icon name="delete" />
+    <mp-button status="danger" icon-container>
+      <m-icon-delete />
     </mp-button>
   </mp-fab>
 </template>
@@ -152,17 +152,17 @@ const disabled = ref(false)
 <script setup>
 import { ref } from 'vue'
 
-const show = ref(true)
+const open = ref(true)
 
 function toggle() {
-  show.value = !show.value
+  open.value = !open.value
 }
 </script>
 
 <template>
-  <mp-button type="primary" @click.stop="toggle">切换</mp-button>
+  <mp-button status="primary" @click.stop="toggle">切换</mp-button>
 
-  <mp-fab :show="show" />
+  <mp-fab :open="open" />
 </template>
 ```
 
@@ -180,20 +180,20 @@ function toggle() {
 </script>
 
 <template>
-  <mp-button type="primary" @click.stop="toggle">切换</mp-button>
+  <mp-button status="primary" @click.stop="toggle">切换</mp-button>
 
-  <mp-fab v-model:active="active" type="primary">
-    <mp-button type="info" icon-container>
-      <mp-icon name="account-circle" />
+  <mp-fab v-model:active="active" status="primary">
+    <mp-button status="info" icon-container>
+      <m-icon-account-circle />
     </mp-button>
-    <mp-button type="success" icon-container>
-      <mp-icon name="checkbox-marked-circle" />
+    <mp-button status="success" icon-container>
+      <m-icon-checkbox-marked-circle />
     </mp-button>
-    <mp-button type="warning" icon-container>
-      <mp-icon name="bell" />
+    <mp-button status="warning" icon-container>
+      <m-icon-bell />
     </mp-button>
-    <mp-button type="danger" icon-container>
-      <mp-icon name="delete" />
+    <mp-button status="danger" icon-container>
+      <m-icon-delete />
     </mp-button>
   </mp-fab>
 </template>
@@ -204,22 +204,23 @@ function toggle() {
 ```html
 <template>
   <mp-fab>
-    <mp-button type="info" icon-container>
-      <mp-icon name="account-circle" :size="24" />
+    <mp-button status="info" icon-container>
+      <m-icon-account-circle :size="24" />
     </mp-button>
-    <mp-button type="success" icon-container>
-      <mp-icon name="checkbox-marked-circle" :size="24" />
+    <mp-button status="success" icon-container>
+      <m-icon-checkbox-marked-circle :size="24" />
     </mp-button>
-    <mp-button type="warning" icon-container>
-      <mp-icon name="bell" :size="24" />
+    <mp-button status="warning" icon-container>
+      <m-icon-bell :size="24" />
     </mp-button>
-    <mp-button type="danger" icon-container>
-      <mp-icon name="delete" :size="24" />
+    <mp-button status="danger" icon-container>
+      <m-icon-delete :size="24" />
     </mp-button>
 
     <template #trigger="{ active }">
-      <mp-button class="trigger" type="primary" round>
-        <mp-icon :name="active ? 'heart' : 'heart-half-full'" animation-class="fade" :transition="300" :size="24" />
+      <mp-button class="trigger" status="primary" round>
+        <m-icon-heart v-if="active" :size="24" />
+        <m-icon-heart-half-full v-else :size="24" />
       </mp-button>
     </template>
   </mp-fab>
@@ -247,9 +248,9 @@ function toggle() {
 | 参数              | 说明                                                             | 类型     | 默认值        |
 |------------------|----------------------------------------------------------------- |----------|----------------|
 | `v-model:active` | 是否激活动作菜单                                                    | _boolean_ | `false`       |
-| `show`           | 是否显示触发器 | _boolean_ | `true`    |
+| `open`           | 是否显示触发器 | _boolean_ | `true`    |
 | `drag`      | Drag 组件配置，用于深度定制（支持 `direction` `attraction` `boundary`） | _boolean \| DragProps_  | `false`    |
-| `type`           | 类型，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary`    |
+| `status`         | 状态，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary`    |
 | `position` | 触发器位置，可选值为 `left-top` `right-top` `left-bottom` `right-bottom` | _string_ | `right-bottom`    |
 | `direction` | 动作菜单弹出方向，可选值为 `top` `bottom` `left` `right` | _string_ | `top`    |
 | `trigger` | 触发方式 `click` `hover` | _string_ | `click`    |
@@ -268,7 +269,7 @@ function toggle() {
 | `left` | 同 css left，用于自定义触发器位置 | _string \| number_ | `-` |
 | `right` | 同 css right，用于自定义触发器位置 | _string \| number_ | `-` |
 | `safe-area` | 是否开启底部安全区适配	 | _boolean_ | `false` |
-| `teleport` | 组件挂载的元素 | _TeleportProps['to'] \| false_ | `body` |
+| `popupContainer` | 组件挂载的元素 | _TeleportProps['to'] \| false_ | `body` |
 | `elevation`      | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级 | _string \| number \| boolean_ | `true`            |
 
 ### 事件

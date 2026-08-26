@@ -1,5 +1,4 @@
 import type { PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export type EmptySize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -15,7 +14,7 @@ export const props = {
     default: 'md',
   },
   /** 自定义图片 URL，会覆盖默认图标 */
-  imageSrc: {
+  imageUrl: {
     type: String,
   },
   /** 是否显示图标 */
@@ -29,5 +28,4 @@ export const props = {
     default: true,
   },
   /** 点击操作回调 */
-  onClick: defineListenerProp<(event: Event) => void>(),
 }

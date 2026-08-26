@@ -1,7 +1,7 @@
 export default {
-  '--mp-action-sheet-background': 'var(--mp-color-surface-container-high)',
-  '--mp-action-sheet-title-color': 'var(--mp-color-on-surface-variant)',
-  '--mp-action-sheet-action-item-color': 'var(--mp-color-inverse-surface)',
+  '--mp-action-sheet-background': 'var(--mp-color-bg-3)',
+  '--mp-action-sheet-title-color': 'var(--mp-color-text-3)',
+  '--mp-action-sheet-action-item-color': 'var(--mp-color-text-1)',
   '--mp-action-sheet-border-radius': '0px',
   '--mp-action-sheet-border-top': 'none',
   '--mp-action-sheet-title-padding': '10px 16px',

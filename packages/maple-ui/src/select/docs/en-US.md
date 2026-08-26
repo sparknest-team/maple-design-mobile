@@ -85,58 +85,60 @@ Display and select the content through the drop-down menu.
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <template #clear-icon="{ clear }">
-        <mp-icon class="clear-icon" name="github" @click="clear" />
+        <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
 
     <mp-select placeholder="Custom Icon" v-model="value7">
       <template #default>
         <mp-option label="Eat">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>Eat</span>
         </mp-option>
         <mp-option label="Sleep">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>Sleep</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :name="value7 === 'Eat' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value7 === 'Eat'" class="selected-icon" />
+        <m-icon-weather-night v-else class="selected-icon" />
         <span>{{ value7 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select placeholder="Custom Icon Size" v-model="value8">
       <template #default>
         <mp-option label="Eat">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>Eat</span>
         </mp-option>
         <mp-option label="Sleep">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>Sleep</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :size="28" :name="value8 === 'Eat' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value8 === 'Eat'" class="selected-icon" :size="28" />
+        <m-icon-weather-night v-else class="selected-icon" :size="28" />
         <span>{{ value8 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
 
@@ -152,13 +154,18 @@ Display and select the content through the drop-down menu.
       <mp-option label="Play game" />
       <mp-option label="Coding" />
     </mp-select>
-    <mp-select size="small" placeholder="Small Size" v-model="value13">
+    <mp-select size="sm" placeholder="Small Size" v-model="value13">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
     <mp-select placeholder="Options API" v-model="value14" :options="options" />
     <mp-select placeholder="Options API" v-model="value15" :options="options" multiple />
-    <mp-select placeholder="Custom Fields" v-model="value16" :options="keyOptions" label-key="name" value-key="id" />
+    <mp-select
+      placeholder="Custom Fields"
+      v-model="value16"
+      :options="keyOptions"
+      :field-names="{ label: 'name', value: 'id' }"
+    />
   </mp-space>
 </template>
 
@@ -262,58 +269,60 @@ Display and select the content through the drop-down menu.
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <template #clear-icon="{ clear }">
-        <mp-icon class="clear-icon" name="github" @click="clear" />
+        <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
 
     <mp-select variant="outlined" placeholder="Custom Icon" v-model="value7">
       <template #default>
         <mp-option label="Eat">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>Eat</span>
         </mp-option>
         <mp-option label="Sleep">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>Sleep</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :name="value7 === 'Eat' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value7 === 'Eat'" class="selected-icon" />
+        <m-icon-weather-night v-else class="selected-icon" />
         <span>{{ value7 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select variant="outlined" placeholder="Custom Icon Size" v-model="value8">
       <template #default>
         <mp-option label="Eat">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>Eat</span>
         </mp-option>
         <mp-option label="Sleep">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>Sleep</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :size="28" :name="value8 === 'Eat' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value8 === 'Eat'" class="selected-icon" :size="28" />
+        <m-icon-weather-night v-else class="selected-icon" :size="28" />
         <span>{{ value8 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
 
@@ -329,7 +338,7 @@ Display and select the content through the drop-down menu.
       <mp-option label="Play game" />
       <mp-option label="Coding" />
     </mp-select>
-    <mp-select variant="outlined" size="small" placeholder="Small Size" v-model="value13">
+    <mp-select variant="outlined" size="sm" placeholder="Small Size" v-model="value13">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
@@ -340,8 +349,7 @@ Display and select the content through the drop-down menu.
       placeholder="Custom Fields"
       v-model="value16"
       :options="keyOptions"
-      label-key="name"
-      value-key="id"
+      :field-names="{ label: 'name', value: 'id' }"
     />
   </mp-space>
 </template>
@@ -469,32 +477,29 @@ Single: tap to select and close. Multiple: tap to toggle draft selection, **Done
 
 #### Select Props
 
-| Prop                        | Description                                                         | Type                                       | Default     |
-| --------------------------- | ------------------------------------------------------------------- | ------------------------------------------ | ----------- |
-| `v-model`                   | The value of the binding                                            | _any \| any[]_                             | `-`         |
-| `size`                      | Select size, The optional value is `normal` `small`                 | _string_                                   | `normal`    |
-| `variant`                   | Select variant, The optional value is `standard` `outlined`         | _string_                                   | `standard`  |
-| `presentation` _**3.18.0**_ | Display mode, optional values `menu` `picker` `list`                | _string_                                   | `menu`      |
-| `show` _**3.18.0**_         | Visibility control                                                  | _boolean_                                  | `undefined` |
-| `placeholder`               | placeholder                                                         | _string_                                   | `-`         |
-| `multiple`                  | Whether to enable multiple selection                                | _boolean_                                  | `false`     |
-| `offset-y`                  | The vertical offset of the drop-down menu                           | _string \| number_                         | `0`         |
-| `tag`                       | Whether to use tag style (multiple choices only)                    | _boolean_                                  | `false`     |
-| `line`                      | Whether to display a dividing line                                  | _boolean_                                  | `true`      |
-| `hint`                      | Whether to use placeholders as prompts                              | _boolean_                                  | `true`      |
-| `text-color`                | Text color                                                          | _string_                                   | `-`         |
-| `focus-color`               | The primary color in focus                                          | _string_                                   | `-`         |
-| `blur-color`                | The primary color in blur                                           | _string_                                   | `-`         |
-| `readonly`                  | Whether the readonly                                                | _boolean_                                  | `false`     |
-| `disabled`                  | Whether the disabled                                                | _boolean_                                  | `false`     |
-| `clearable`                 | Whether the clearable                                               | _boolean_                                  | `false`     |
-| `options` _**3.3.4**_       | Specifies options                                                   | _SelectOption[]_                           | `[]`        |
-| `label-key` _**3.3.4**_     | As the key that uniquely identifies label                           | _string_                                   | `label`     |
-| `value-key` _**3.3.4**_     | As the key that uniquely identifies value                           | _string_                                   | `value`     |
-| `field-names` _**3.18.0**_  | Custom field mapping, takes precedence over `labelKey` / `valueKey` | _{ label?, value?, children?, disabled? }_ | `-`         |
-| `picker-props` _**3.18.0**_ | Props passed to `mp-picker` in picker mode                          | _Partial\<PickerProps\>_                   | `{}`        |
-| `popup-props` _**3.18.0**_  | Props passed to popup                                               | _Partial\<PopupProps\>_                    | `{}`        |
-| `value-key` _**3.3.4**_     | As the key that uniquely identifies value                           | _string_                                   | `value`     |
+| Prop                        | Description                                                          | Type                                       | Default     |
+| --------------------------- | -------------------------------------------------------------------- | ------------------------------------------ | ----------- |
+| `v-model`                   | The value of the binding                                             | _any \| any[]_                             | `-`         |
+| `size`                      | Select size: `xs` `sm` `md` `lg` `xl`                                | _ComponentSize_                            | `md`        |
+| `variant`                   | Select variant, The optional value is `filled` `outlined` `standard` | _string_                                   | `standard`  |
+| `presentation` _**3.18.0**_ | Display mode, optional values `menu` `picker` `list`                 | _string_                                   | `menu`      |
+| `show` _**3.18.0**_         | Visibility control                                                   | _boolean_                                  | `undefined` |
+| `placeholder`               | placeholder                                                          | _string_                                   | `-`         |
+| `multiple`                  | Whether to enable multiple selection                                 | _boolean_                                  | `false`     |
+| `offset-y`                  | The vertical offset of the drop-down menu                            | _string \| number_                         | `0`         |
+| `tag`                       | Whether to use tag style (multiple choices only)                     | _boolean_                                  | `false`     |
+| `line`                      | Whether to display a dividing line                                   | _boolean_                                  | `true`      |
+| `hint`                      | Whether to use placeholders as prompts                               | _boolean_                                  | `true`      |
+| `text-color`                | Text color                                                           | _string_                                   | `-`         |
+| `focus-color`               | The primary color in focus                                           | _string_                                   | `-`         |
+| `blur-color`                | The primary color in blur                                            | _string_                                   | `-`         |
+| `readonly`                  | Whether the readonly                                                 | _boolean_                                  | `false`     |
+| `disabled`                  | Whether the disabled                                                 | _boolean_                                  | `false`     |
+| `clearable`                 | Whether the clearable                                                | _boolean_                                  | `false`     |
+| `options` _**3.3.4**_       | Specifies options                                                    | _SelectOption[]_                           | `[]`        |
+| `field-names`               | Custom field mapping for `options`                                   | _{ label?, value?, children?, disabled? }_ | `-`         |
+| `picker-props` _**3.18.0**_ | Props passed to `mp-picker` in picker mode                           | _Partial\<PickerProps\>_                   | `{}`        |
+| `popup-props` _**3.18.0**_  | Props passed to popup                                                | _Partial\<PopupProps\>_                    | `{}`        |
 
 Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 
@@ -561,52 +566,35 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 #### Select Variables
 
-| Variable                                                | Default                                                             |
-| ------------------------------------------------------- | ------------------------------------------------------------------- |
-| `--field-decorator-text-color`                          | `#555`                                                              |
-| `--field-decorator-error-color`                         | `var(--color-danger)`                                               |
-| `--field-decorator-blur-color`                          | `#888`                                                              |
-| `--field-decorator-focus-color`                         | `var(--color-primary)`                                              |
-| `--field-decorator-placeholder-size`                    | `16px`                                                              |
-| `--field-decorator-icon-size`                           | `20px`                                                              |
-| `--field-decorator-line-size`                           | `1px`                                                               |
-| `--field-decorator-line-focus-size`                     | `2px`                                                               |
-| `--field-decorator-line-border-radius`                  | `4px`                                                               |
-| `--field-decorator-disabled-color`                      | `var(--color-text-disabled)`                                        |
-| `--field-decorator-standard-normal-margin-top`          | `22px`                                                              |
-| `--field-decorator-standard-normal-margin-bottom`       | `4px`                                                               |
-| `--field-decorator-standard-normal-icon-margin-top`     | `22px`                                                              |
-| `--field-decorator-standard-normal-icon-margin-bottom`  | `4px`                                                               |
-| `--field-decorator-standard-normal-non-hint-margin-top` | `4px`                                                               |
-| `--field-decorator-standard-small-margin-top`           | `18px`                                                              |
-| `--field-decorator-standard-small-margin-bottom`        | `4px`                                                               |
-| `--field-decorator-standard-small-icon-margin-top`      | `18px`                                                              |
-| `--field-decorator-standard-small-icon-margin-bottom`   | `4px`                                                               |
-| `--field-decorator-standard-small-non-hint-margin-top`  | `2px`                                                               |
-| `--field-decorator-outlined-normal-margin-top`          | `16px`                                                              |
-| `--field-decorator-outlined-normal-margin-bottom`       | `16px`                                                              |
-| `--field-decorator-outlined-normal-padding-left`        | `16px`                                                              |
-| `--field-decorator-outlined-normal-padding-right`       | `16px`                                                              |
-| `--field-decorator-outlined-normal-placeholder-space`   | `4px`                                                               |
-| `--field-decorator-outlined-normal-icon-margin-top`     | `16px`                                                              |
-| `--field-decorator-outlined-normal-icon-margin-bottom`  | `16px`                                                              |
-| `--field-decorator-outlined-small-margin-top`           | `8px`                                                               |
-| `--field-decorator-outlined-small-margin-bottom`        | `8px`                                                               |
-| `--field-decorator-outlined-small-padding-left`         | `12px`                                                              |
-| `--field-decorator-outlined-small-padding-right`        | `12px`                                                              |
-| `--field-decorator-outlined-small-placeholder-space`    | `2px`                                                               |
-| `--field-decorator-outlined-small-icon-margin-top`      | `8px`                                                               |
-| `--field-decorator-outlined-small-icon-margin-bottom`   | `8px`                                                               |
-| `--select-scroller-background`                          | `var(--color-surface-container-high)`                               |
-| `--select-scroller-padding`                             | `6px 0`                                                             |
-| `--select-scroller-max-height`                          | `278px`                                                             |
-| `--select-scroller-border-radius`                       | `2px`                                                               |
-| `--select-label-font-size`                              | `16px`                                                              |
-| `--select-tags-margin`                                  | `-5px 0 0 0`                                                        |
-| `--select-tags-padding`                                 | `2px 0`                                                             |
-| `--select-tag-margin`                                   | `5px 5px 0 0`                                                       |
-| `--select-arrow-size`                                   | `20px`                                                              |
-| `--select-standard-menu-margin`                         | `calc(var(--field-decorator-placeholder-size) * 0.75 + 14px) 0 0 0` |
+| Variable                                      | Default                                                      |
+| --------------------------------------------- | ------------------------------------------------------------ |
+| `--mp-field-color-text`                       | `#555`                                                       |
+| `--mp-field-color-error`                      | `var(--mp-color-danger)`                                     |
+| `--mp-field-color-blur`                       | `#888`                                                       |
+| `--mp-field-color-focus`                      | `var(--mp-color-primary)`                                    |
+| `--mp-field-color-placeholder-text`           | `var(--mp-field-color-blur)`                                 |
+| `--mp-field-color-text-disabled`              | `var(--mp-color-text-disabled)`                              |
+| `--mp-field-size-placeholder`                 | `16px`                                                       |
+| `--mp-field-size-icon`                        | `20px`                                                       |
+| `--mp-field-border-radius`                    | `4px`                                                        |
+| `--mp-field-variant-standard-line-size`       | `1px`                                                        |
+| `--mp-field-variant-standard-line-size-focus` | `2px`                                                        |
+| `--mp-field-variant-filled-bg`                | `var(--mp-color-fill-2)`                                     |
+| `--mp-field-size-xs-height`                   | `32px`                                                       |
+| `--mp-field-size-sm-height`                   | `40px`                                                       |
+| `--mp-field-size-md-height`                   | `48px`                                                       |
+| `--mp-field-size-lg-height`                   | `56px`                                                       |
+| `--mp-field-size-xl-height`                   | `64px`                                                       |
+| `--select-scroller-background`                | `var(--color-fill-2)`                                        |
+| `--select-scroller-padding`                   | `6px 0`                                                      |
+| `--select-scroller-max-height`                | `278px`                                                      |
+| `--select-scroller-border-radius`             | `2px`                                                        |
+| `--select-label-font-size`                    | `16px`                                                       |
+| `--select-tags-margin`                        | `-5px 0 0 0`                                                 |
+| `--select-tags-padding`                       | `2px 0`                                                      |
+| `--select-tag-margin`                         | `5px 5px 0 0`                                                |
+| `--select-arrow-size`                         | `20px`                                                       |
+| `--select-standard-menu-margin`               | `calc(var(--mp-field-size-placeholder) * 0.75 + 14px) 0 0 0` |
 
 #### Option Variables
 

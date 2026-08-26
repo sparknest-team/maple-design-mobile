@@ -72,10 +72,10 @@ Display content and actions about a single subject.
   >
     <template #extra>
       <mp-button text round>
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
       <mp-button round text>
-        <mp-icon name="heart" />
+        <m-icon-heart />
       </mp-button>
     </template>
   </mp-card>
@@ -207,11 +207,11 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable                            | Default               |
 |-------------------------------------|-----------------------|
-| `--card-background`                 | `var(--color-surface-container-highest)`                |
+| `--card-background`                 | `var(--color-fill-3)`                |
 | `--card-filled-background`          | `hsla(0, 0%, 93%, 1)` |
 | `--card-padding`                    | `0px 0 15px 0`        |
 | `--card-border-radius`              | `4px`                 |
-| `--card-outline-color`              | `var(--color-outline)` |
+| `--card-outline-color`              | `var(--color-border-2)` |
 | `--card-image-width`                | `100%`                |
 | `--card-row-image-width`            | `140px`               |
 | `--card-image-height`               | `200px`               |
@@ -223,7 +223,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--card-title-row-margin`           | `12px 0`              |
 | `--card-content-padding`            | `0 16px`             |
 | `--card-content-margin`             | `16px 0 0 0`         |
-| `--card-content-color`              | `var(--color-on-surface-variant)`|
+| `--card-content-color`              | `var(--color-text-3)`|
 | `--card-content-font-size`          | `14px`               |
 | `--card-content-row-margin`         | `16px 0 0 0`         |
 | `--card-subtitle-color`             | `rgba(0, 0, 0, 0.6)`  |

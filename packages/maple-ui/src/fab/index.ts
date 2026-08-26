@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Fab, fabProps)
 
 export { fabProps }
 
+export type FabInstance = InstanceType<typeof Fab>
 export const _FabComponent = Fab
 
 export default Fab

@@ -47,7 +47,7 @@ function handleBeforeChange(value, change) {
   <mp-counter v-model="values.value7" readonly />
 
   <app-type>{{ t('lazyChange') }}</app-type>
-  <mp-counter v-model="values.value8" lazy-change @before-change="handleBeforeChange" />
+  <mp-counter v-model="values.value8" lazy-change :before-change="handleBeforeChange" />
 
   <div class="space"></div>
 </template>

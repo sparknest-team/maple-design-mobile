@@ -1,9 +1,5 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
-
-/**
- * 徽标状态色
- */
-export type BadgeStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary'
+import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
 /**
  * 徽标变体
@@ -11,25 +7,23 @@ export type BadgeStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' 
 export type BadgeVariant = 'default' | 'outline'
 
 /**
- * 徽标布局类型
+ * 徽标布局模式
  */
-export type BadgeType = 'floating' | 'inline'
+export type BadgeMode = 'floating' | 'inline'
 
 /**
- * 徽标定位（type=floating 时有效）
+ * 徽标定位（mode=floating 时有效）
  */
 export type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
 /**
- * 内联模式定位（type=inline 时有效）
+ * 内联模式定位（mode=inline 时有效）
  */
 export type BadgeInlinePosition = 'start' | 'end'
 
 /**
  * 徽标尺寸
  */
-export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
 export const badgeProps = {
   /**
    * 徽标的描述文本
@@ -58,7 +52,7 @@ export const badgeProps = {
    */
   showZero: Boolean,
   /**
-   * 横向偏移量（type=floating 时有效）
+   * 横向偏移量（mode=floating 时有效）
    */
   offsetX: {
     type: Number,
@@ -84,21 +78,21 @@ export const badgeProps = {
    */
   textColor: String,
   /**
-   * 徽标布局类型，可选 `floating` | `inline`
+   * 徽标布局模式，可选 `floating` | `inline`
    */
-  type: {
-    type: String as PropType<BadgeType>,
+  mode: {
+    type: String as PropType<BadgeMode>,
     default: 'floating',
   },
   /**
-   * 徽标定位（type=floating 时有效）
+   * 徽标定位（mode=floating 时有效）
    */
   position: {
     type: String as PropType<BadgePosition>,
     default: 'top-right',
   },
   /**
-   * 内联模式定位（type=inline 时有效）
+   * 内联模式定位（mode=inline 时有效）
    */
   inlinePosition: {
     type: String as PropType<BadgeInlinePosition>,
@@ -108,14 +102,14 @@ export const badgeProps = {
    * 徽标尺寸
    */
   size: {
-    type: String as PropType<BadgeSize>,
+    type: String as PropType<ComponentSize>,
     default: 'md',
   },
   /**
    * 徽标状态色
    */
   status: {
-    type: String as PropType<BadgeStatus>,
+    type: String as PropType<SemanticStatus>,
     default: 'default',
   },
   /**
@@ -128,8 +122,3 @@ export const badgeProps = {
 }
 
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>
-
-/**
- * @deprecated 兼容旧 `import { props } from './props'` 调用
- */
-export const props = badgeProps

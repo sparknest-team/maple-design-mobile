@@ -4,7 +4,7 @@ import { useChildren, useParent } from '@maplejs/maple-use'
 export const POPUP_BIND_POPUP_ITEM_KEY = Symbol('POPUP_BIND_POPUP_ITEM_KEY')
 
 export interface PopupProvider {
-  show: ComputedRef<boolean>
+  open: ComputedRef<boolean>
 }
 
 export function usePopup() {

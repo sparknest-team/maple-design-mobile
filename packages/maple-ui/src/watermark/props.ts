@@ -23,27 +23,19 @@ export const props = {
     type: Number,
     default: -22,
   },
-  offsetX: {
-    type: Number,
-    default: 0,
+  offset: {
+    type: Array as unknown as PropType<[number, number]>,
+    default: () => [0, 0],
   },
-  offsetY: {
-    type: Number,
-    default: 0,
-  },
-  gapX: {
-    type: Number,
-    default: 0,
-  },
-  gapY: {
-    type: Number,
-    default: 0,
+  gap: {
+    type: Array as unknown as PropType<[number, number]>,
+    default: () => [0, 0],
   },
   zIndex: {
     type: [Number, String],
     default: 10,
   },
-  opacity: {
+  alpha: {
     type: [Number, String],
     default: 0.5,
   },

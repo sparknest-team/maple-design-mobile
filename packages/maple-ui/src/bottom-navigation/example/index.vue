@@ -82,7 +82,7 @@ function handleClick(active) {
   <app-type>{{ t('fab') }}</app-type>
   <mp-bottom-navigation v-model:active="fab" style="margin-top: 10px" @fab-click="isEven = !isEven">
     <template #fab>
-      <mp-icon name="heart" />
+      <m-icon-heart />
     </template>
     <mp-bottom-navigation-item :label="t('label')" icon="home" />
     <mp-bottom-navigation-item :label="t('label')" icon="magnify" />

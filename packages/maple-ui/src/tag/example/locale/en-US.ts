@@ -7,7 +7,7 @@ export default {
   warningTag: 'Warning',
   dangerTag: 'Danger',
   secondaryTag: 'Secondary',
-  contrastTag: 'Contrast',
+  tertiaryTag: 'Tertiary',
   outlineTag: 'Outline Tag',
   roundTag: 'Round Tag',
   outlineRoundTag: 'Outline Round',

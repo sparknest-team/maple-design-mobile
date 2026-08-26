@@ -14,19 +14,19 @@
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
-            :viewBox="`0 0 ${width + gapX} ${height + gapY}`"
-            :width="`${width + gapX}`"
-            :height="`${height + gapY}`"
+            :viewBox="`0 0 ${width + gap[0]} ${height + gap[1]}`"
+            :width="`${width + gap[0]}`"
+            :height="`${height + gap[1]}`"
             :style="{
-              padding: `0 ${gapX}px ${gapY}px 0`,
-              opacity,
+              padding: `0 ${gap[0]}px ${gap[1]}px 0`,
+              opacity: alpha,
             }"
           >
             <foreignObject v-if="showContent()" x="0" y="0" :width="width" :height="height">
               <div
                 xmlns="http://www.w3.org/1999/xhtml"
                 :style="{
-                  transform: `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`,
+                  transform: `translate(${offset[0]}px, ${offset[1]}px) rotate(${rotate}deg)`,
                   transformOrigin: 'center',
                 }"
               >
@@ -39,8 +39,8 @@
               v-if="!$slots.content && image"
               :href="imageUrl"
               :xlink:href="imageUrl"
-              :x="offsetX"
-              :y="offsetY"
+              :x="offset[0]"
+              :y="offset[1]"
               :width="width"
               :height="height"
               :style="{
@@ -81,11 +81,9 @@ export default defineComponent({
         props.height,
         props.width,
         props.rotate,
-        props.gapX,
-        props.gapY,
-        props.offsetX,
-        props.offsetY,
-        props.opacity,
+        props.gap,
+        props.offset,
+        props.alpha,
       ],
       resize,
       {

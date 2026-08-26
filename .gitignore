@@ -4,6 +4,9 @@
 dist
 es
 lib
+# docs site build output (static assets live in public/)
+packages/maple-ui/site
+packages/maple-ui-playground/site
 node_modules/
 storybook-static/
 **/.DS_Store

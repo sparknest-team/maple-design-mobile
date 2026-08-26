@@ -6,16 +6,16 @@
 
 弹层内使用 [`TimeRangePicker`](/zh-CN/time-range-picker) 作为选择面板。顶部展示开始 / 结束时间，点击可切换当前编辑项。
 
-- `presentation="clock"`（默认）：时钟面板
-- `presentation="picker"`：列滚轮面板（时 / 分 / 秒）
+- 默认使用列滚轮面板（时 / 分 / 秒）
+- `presentation="clock"`：时钟面板
 
 ### 基本使用
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref([])
+  const range = ref([])
 </script>
 
 <template>
@@ -23,23 +23,17 @@ const range = ref([])
 </template>
 ```
 
-### 列滚轮模式
+### 时钟模式
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref(['09:00', '18:00'])
+  const range = ref(['09:00', '18:00'])
 </script>
 
 <template>
-  <mp-time-range
-    v-model="range"
-    presentation="picker"
-    format="24hr"
-    placeholder="列滚轮时间范围"
-    clearable
-  />
+  <mp-time-range v-model="range" presentation="clock" format="24hr" placeholder="时钟时间范围" clearable />
 </template>
 ```
 
@@ -47,20 +41,13 @@ const range = ref(['09:00', '18:00'])
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref(['09:00:00', '18:00:00'])
+  const range = ref(['09:00:00', '18:00:00'])
 </script>
 
 <template>
-  <mp-time-range
-    v-model="range"
-    presentation="picker"
-    format="24hr"
-    use-seconds
-    placeholder="列滚轮含秒"
-    clearable
-  />
+  <mp-time-range v-model="range" format="24hr" use-seconds placeholder="列滚轮含秒" clearable />
 </template>
 ```
 
@@ -68,9 +55,9 @@ const range = ref(['09:00:00', '18:00:00'])
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref([])
+  const range = ref([])
 </script>
 
 <template>
@@ -82,9 +69,9 @@ const range = ref([])
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref(['09:00', '18:00'])
+  const range = ref(['09:00', '18:00'])
 </script>
 
 <template>
@@ -98,19 +85,13 @@ const range = ref(['09:00', '18:00'])
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref(['22:00', '06:00'])
+  const range = ref(['22:00', '06:00'])
 </script>
 
 <template>
-  <mp-time-range
-    v-model="range"
-    show-next-day
-    format="24hr"
-    placeholder="跨天时段"
-    clearable
-  />
+  <mp-time-range v-model="range" show-next-day format="24hr" placeholder="跨天时段" clearable />
 </template>
 ```
 
@@ -118,9 +99,9 @@ const range = ref(['22:00', '06:00'])
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const range = ref(['09:00', '18:00'])
+  const range = ref(['09:00', '18:00'])
 </script>
 
 <template>
@@ -132,12 +113,12 @@ const range = ref(['09:00', '18:00'])
 
 ```html
 <script setup>
-import { reactive, ref } from 'vue'
+  import { reactive, ref } from 'vue'
 
-const form = ref(null)
-const formData = reactive({
-  period: [],
-})
+  const form = ref(null)
+  const formData = reactive({
+    period: [],
+  })
 </script>
 
 <template>
@@ -153,50 +134,50 @@ const formData = reactive({
 
 ### 属性
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `v-model` | 绑定值 | _string[]_ | `[]` |
-| `show` | 弹层显隐受控 | _boolean_ | `-` |
-| `presentation` | 面板模式，可选值 `clock` `picker` | _string_ | `clock` |
-| `format` | 展示格式，可选值 `ampm` `24hr`（主要用于 clock） | _string_ | `ampm` |
-| `use-seconds` | 是否选择秒 | _boolean_ | `false` |
-| `min` | 可选最小时间 | _string_ | `-` |
-| `max` | 可选最大时间 | _string_ | `-` |
-| `allowed-time` | 允许选择的时间 | _AllowedTime_ | `-` |
-| `separator` | 展示分隔符 | _string_ | ` ~ ` |
-| `show-next-day` | 结束早于开始时，在字段与面板结束侧显示「次日」；开启后确认时不交换起止。未开启时在确认时按时间先后交换 | _boolean_ | `false` |
-| `time-picker-props` | 透传给 `mp-time-picker`（clock 模式） | _Partial\<TimePickerProps\>_ | `{}` |
-| `picker-props` | 透传给 `mp-picker`（picker 模式） | _Partial\<PickerProps\>_ | `{}` |
-| `time-range-picker-props` | 透传给 `mp-time-range-picker` | _Partial\<TimeRangePickerProps\>_ | `{}` |
-| `popup-props` | 透传给弹窗的属性 | _Partial\<PopupProps\>_ | `{}` |
-| `placeholder` | 占位符 | _string_ | `-` |
-| `clearable` | 是否可清除 | _boolean_ | `false` |
-| `disabled` | 是否禁用 | _boolean_ | `false` |
-| `readonly` | 是否只读 | _boolean_ | `false` |
-| `size` | 尺寸，可选值 `normal` `small` | _string_ | `normal` |
-| `variant` | 风格，可选值 `standard` `outlined` | _string_ | `standard` |
+| 参数                      | 说明                                                                                                   | 类型                              | 默认值     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------- | ---------- |
+| `v-model`                 | 绑定值                                                                                                 | _string[]_                        | `[]`       |
+| `open`                    | 弹层显隐受控                                                                                           | _boolean_                         | `-`        |
+| `presentation`            | 面板模式，可选值 `clock` `picker`                                                                      | _string_                          | `picker`   |
+| `format`                  | 展示格式，可选值 `ampm` `24hr`（主要用于 clock）                                                       | _string_                          | `ampm`     |
+| `use-seconds`             | 是否选择秒                                                                                             | _boolean_                         | `false`    |
+| `min`                     | 可选最小时间                                                                                           | _string_                          | `-`        |
+| `max`                     | 可选最大时间                                                                                           | _string_                          | `-`        |
+| `disabled-time`           | 禁用的时间（回调返回 true 表示禁用）                                                                   | _DisabledTime_                    | `-`        |
+| `separator`               | 展示分隔符                                                                                             | _string_                          | `~`        |
+| `show-next-day`           | 结束早于开始时，在字段与面板结束侧显示「次日」；开启后确认时不交换起止。未开启时在确认时按时间先后交换 | _boolean_                         | `false`    |
+| `time-picker-props`       | 透传给 `mp-time-picker`（clock 模式）                                                                  | _Partial\<TimePickerProps\>_      | `{}`       |
+| `picker-props`            | 透传给 `mp-picker`（picker 模式）                                                                      | _Partial\<PickerProps\>_          | `{}`       |
+| `time-range-picker-props` | 透传给 `mp-time-range-picker`                                                                          | _Partial\<TimeRangePickerProps\>_ | `{}`       |
+| `popup-props`             | 透传给弹窗的属性                                                                                       | _Partial\<PopupProps\>_           | `{}`       |
+| `placeholder`             | 占位符                                                                                                 | _string_                          | `-`        |
+| `clearable`               | 是否可清除                                                                                             | _boolean_                         | `false`    |
+| `disabled`                | 是否禁用                                                                                               | _boolean_                         | `false`    |
+| `readonly`                | 是否只读                                                                                               | _boolean_                         | `false`    |
+| `size`                    | 尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                  | _ComponentSize_                   | `md`       |
+| `variant`                 | 风格，可选值 `filled` `standard` `outlined`                                                            | _string_                          | `standard` |
 
 ### 事件
 
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `focus` | 获得焦点 | `-` |
-| `blur` | 失去焦点 | `-` |
+| 事件名   | 说明         | 参数              |
+| -------- | ------------ | ----------------- |
+| `focus`  | 获得焦点     | `-`               |
+| `blur`   | 失去焦点     | `-`               |
 | `change` | 确认后值变化 | _value: string[]_ |
-| `clear` | 清除 | _value: string[]_ |
-| `close` | 弹层关闭 | _value: string[]_ |
+| `clear`  | 清除         | _value: string[]_ |
+| `close`  | 弹层关闭     | _value: string[]_ |
 
 ### 样式变量
 
-| 变量 | 默认值 |
-| --- | --- |
-| `--time-range-label-font-size` | `16px` |
-| `--time-range-arrow-size` | `20px` |
-| `--time-range-toolbar-height` | `var(--picker-toolbar-height, 44px)` |
-| `--time-range-toolbar-padding` | `var(--picker-toolbar-padding, 0 4px)` |
-| `--time-range-title-text-color` | `var(--picker-title-text-color, #555)` |
-| `--time-range-title-font-size` | `var(--picker-title-font-size, 16px)` |
-| `--time-range-cancel-button-text-color` | `var(--picker-cancel-button-text-color, #888)` |
+| 变量                                     | 默认值                                                          |
+| ---------------------------------------- | --------------------------------------------------------------- |
+| `--time-range-label-font-size`           | `16px`                                                          |
+| `--time-range-arrow-size`                | `20px`                                                          |
+| `--time-range-toolbar-height`            | `var(--picker-toolbar-height, 44px)`                            |
+| `--time-range-toolbar-padding`           | `var(--picker-toolbar-padding, 0 4px)`                          |
+| `--time-range-title-text-color`          | `var(--picker-title-text-color, #555)`                          |
+| `--time-range-title-font-size`           | `var(--picker-title-font-size, 16px)`                           |
+| `--time-range-cancel-button-text-color`  | `var(--picker-cancel-button-text-color, #888)`                  |
 | `--time-range-confirm-button-text-color` | `var(--picker-confirm-button-text-color, var(--color-primary))` |
 
 面板样式变量见 [`TimeRangePicker`](/zh-CN/time-range-picker)。

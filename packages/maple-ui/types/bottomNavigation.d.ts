@@ -16,7 +16,7 @@ export interface BottomNavigationProps extends BasicAttributes {
   fabProps?: Partial<ButtonProps>
   variant?: boolean
   onChange?: ListenerProp<(active: string | number) => void>
-  onBeforeChange?: ListenerProp<(active: string | number) => any | Promise<any>>
+  beforeChange?: ListenerProp<(active: string | number) => any | Promise<any>>
   onFabClick?: ListenerProp<() => void>
   'onUpdate:active'?: ListenerProp<(active: string | number) => void>
 }

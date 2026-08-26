@@ -4,10 +4,10 @@ import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from '.
 export declare const backTopProps: Record<keyof BackTopProps, any>
 
 export interface BackTopProps extends BasicAttributes {
-  visibilityHeight?: number | string
+  visibleHeight?: number | string
   duration?: number
-  target?: string | HTMLElement
-  teleport?: boolean
+  targetContainer?: string | HTMLElement
+  popupContainer?: boolean
   right?: number | string
   elevation?: boolean | number | string
   bottom?: number | string

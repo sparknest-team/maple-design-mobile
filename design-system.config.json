@@ -1,0 +1,28 @@
+{
+  "name": "maple",
+  "repositoryRoot": ".",
+  "componentRoot": "packages/maple-ui/src",
+  "componentPrefix": "Mp",
+  "classPrefix": "mp",
+  "tokenPrefix": "--mp-",
+  "docs": "docs/zh-CN.md",
+  "testGlobs": ["__tests__/*.test.*", "__tests__/*.spec.*"],
+  "styleGlobs": ["*.less"],
+  "ignoreComponents": ["atomic-css", "context", "lazy", "locale", "styles", "themes", "utilities", "utils"],
+  "subcomponents": [
+    "avatar-group",
+    "bottom-navigation-item",
+    "breadcrumb-item",
+    "button-group",
+    "carousel-item",
+    "collapse-item",
+    "image-preview-group",
+    "index-anchor",
+    "menu-option",
+    "option",
+    "step",
+    "tab",
+    "tab-item",
+    "tabs-items"
+  ]
+}

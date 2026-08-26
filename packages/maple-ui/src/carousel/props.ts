@@ -1,5 +1,4 @@
 import { PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export interface CarouselToOptions {
   event?: boolean
@@ -12,7 +11,8 @@ export interface CarouselChangeData {
   isManual: boolean
 }
 
-export type CarouselNavigation = 'hover' | 'always' | 'never'
+export type CarouselShowArrow = 'hover' | 'always' | 'never'
+export type CarouselDirection = 'horizontal' | 'vertical'
 export type CarouselEffect = 'slide' | 'fade' | 'card'
 export type CarouselIndicatorType = 'dot' | 'line' | 'slider'
 export type CarouselIndicatorPosition = 'top' | 'bottom' | 'left' | 'right' | 'outer'
@@ -28,20 +28,16 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  autoplay: [Boolean, String, Number, Object] as PropType<
+  autoPlay: [Boolean, String, Number, Object] as PropType<
     boolean | string | number | { interval?: number; hoverToPause?: boolean }
   >,
-  duration: {
+  moveSpeed: {
     type: [String, Number],
     default: 300,
   },
-  initialIndex: {
-    type: [String, Number],
-    default: 0,
-  },
-  navigation: {
-    type: [Boolean, String] as PropType<boolean | CarouselNavigation>,
-    default: false,
+  showArrow: {
+    type: String as PropType<CarouselShowArrow>,
+    default: 'never',
   },
   indicator: {
     type: Boolean,
@@ -58,7 +54,10 @@ export const props = {
     type: String as PropType<CarouselIndicatorPosition>,
     default: 'bottom',
   },
-  vertical: Boolean,
+  direction: {
+    type: String as PropType<CarouselDirection>,
+    default: 'horizontal',
+  },
   touchable: {
     type: Boolean,
     default: true,
@@ -100,6 +99,4 @@ export const props = {
     type: Boolean,
     default: false,
   },
-  'onUpdate:current': defineListenerProp<(index: number) => void>(),
-  onChange: defineListenerProp<(index: number, prevIndex: number, isManual: boolean) => void>(),
 }

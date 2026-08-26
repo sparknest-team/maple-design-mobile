@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Avatar, avatarProps)
 
 export { avatarProps }
 
+export type AvatarInstance = InstanceType<typeof Avatar>
 export const _AvatarComponent = Avatar
 
 export default Avatar

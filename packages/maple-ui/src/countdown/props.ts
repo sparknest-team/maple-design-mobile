@@ -1,5 +1,3 @@
-import { defineListenerProp } from '../utils/components'
-
 export type TimeData = {
   days: number
   hours: number
@@ -21,6 +19,4 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  onEnd: defineListenerProp<() => void>(),
-  onChange: defineListenerProp<(value: TimeData) => void>(),
 }

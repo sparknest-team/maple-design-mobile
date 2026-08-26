@@ -6,8 +6,9 @@ withInstall(Breadcrumb)
 withPropsDefaultsSetter(Breadcrumb, breadcrumbProps)
 
 export { breadcrumbProps }
-export type { BreadcrumbProps, BreadcrumbRoute } from './props'
+export type { BreadcrumbProps, BreadcrumbRoute, BreadcrumbMoreIconSlotData } from './props'
 
+export type BreadcrumbInstance = InstanceType<typeof Breadcrumb>
 export const _BreadcrumbComponent = Breadcrumb
 
 export default Breadcrumb

@@ -16,7 +16,7 @@ export interface RateProps extends BasicAttributes {
   halfIconNamespace?: string
   size?: string | number
   gap?: string | number
-  half?: boolean
+  allowHalf?: boolean
   disabled?: boolean
   readonly?: boolean
   clearable?: boolean

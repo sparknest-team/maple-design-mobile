@@ -19,7 +19,7 @@
           "
         >
           <div :class="n('file-close')" @click.stop="handleRemove(f)">
-            <mp-icon :class="n('file-close-icon')" mp-uploader-cover name="delete" />
+            <mp-icon :class="n('file-close-icon')" mp-uploader-cover><MIconDelete /></mp-icon>
           </div>
         </slot>
         <img
@@ -41,7 +41,7 @@
       </div>
 
       <div
-        v-if="!maxlength || modelValue.length < toNumber(maxlength)"
+        v-if="!maxFiles || modelValue.length < toNumber(maxFiles)"
         ref="actionRef"
         v-ripple="{
           disabled: disabled || formDisabled || readonly || formReadonly || !ripple || Boolean($slots.default),
@@ -62,6 +62,7 @@
         <input
           ref="input"
           type="file"
+          autocomplete="off"
           :class="n('action-input')"
           :multiple="multiple"
           :accept="accept"
@@ -72,7 +73,7 @@
         />
 
         <slot>
-          <mp-icon :class="n('action-icon')" mp-uploader-cover name="plus" />
+          <mp-icon :class="n('action-icon')" mp-uploader-cover><MIconPlus /></mp-icon>
           <mp-hover-overlay
             :hovering="hovering && !disabled && !formDisabled && !readonly && !formReadonly"
             :focusing="isFocusing && !disabled && !formDisabled && !readonly && !formReadonly"
@@ -81,10 +82,10 @@
       </div>
     </div>
 
-    <div v-if="maxlengthText" :class="n('length')">{{ maxlengthText }}</div>
+    <div v-if="maxFilesText" :class="n('length')">{{ maxFilesText }}</div>
 
     <mp-popup
-      v-model:show="showPreview"
+      v-model:open="showPreview"
       :class="n('preview')"
       mp-uploader-cover
       position="center"
@@ -107,6 +108,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue'
+import { IconDelete as MIconDelete, IconPlus as MIconPlus } from '@maplejs/icons-vue'
 import { call, isNumber, normalizeToArray, toDataURL, toNumber } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
 import { useFormItem } from '../form-item'
@@ -135,24 +137,27 @@ export default defineComponent({
   name,
   directives: { Ripple, Hover },
   components: {
+    MIconDelete,
+    MIconPlus,
     MpIcon,
     MpPopup,
     MpHoverOverlay,
   },
   props,
-  setup(props) {
+  emits: ['click-action', 'update:modelValue', 'after-read', 'remove', 'oversize', 'preview'],
+  setup(props, { emit }) {
     const isFocusing = ref(false)
     const actionRef = ref<null | HTMLElement>(null)
     const input = ref<null | HTMLElement>(null)
     const showPreview = ref(false)
     const currentPreview = ref<null | MpFile>(null)
-    const maxlengthText = computed(() => {
+    const maxFilesText = computed(() => {
       const {
-        maxlength,
+        maxFiles,
         modelValue: { length },
       } = props
 
-      return isNumber(maxlength) ? `${length} / ${maxlength}` : ''
+      return isNumber(maxFiles) ? `${length} / ${maxFiles}` : ''
     })
     const { form } = useForm()
     const { eventHandlers } = useFormItem()
@@ -193,13 +198,13 @@ export default defineComponent({
     }
 
     function preview(varFile: MpFile) {
-      const { disabled, previewed, preventDefaultPreview, onPreview } = props
+      const { disabled, previewed, preventDefaultPreview } = props
 
       if (form?.disabled.value || disabled || !previewed) {
         return
       }
 
-      call(onPreview, reactive(varFile))
+      emit('preview', reactive(varFile))
 
       if (preventDefaultPreview) {
         return
@@ -254,19 +259,19 @@ export default defineComponent({
     }
 
     function getBeforeReaders(varFiles: MpFile[]): Promise<ValidationMpFile>[] {
-      const { onBeforeRead } = props
+      const { beforeRead } = props
 
       return varFiles.map(
         (varFile) =>
           new Promise((resolve) => {
-            if (!onBeforeRead) {
+            if (!beforeRead) {
               resolve({
                 valid: true,
                 varFile,
               })
             }
 
-            const results = normalizeToArray(call(onBeforeRead, reactive(varFile)))
+            const results = normalizeToArray(call(beforeRead, reactive(varFile)))
             Promise.all(results).then((values) => {
               resolve({
                 valid: values.every(Boolean),
@@ -278,7 +283,7 @@ export default defineComponent({
     }
 
     async function handleChange(event: Event) {
-      const { maxsize, maxlength, modelValue, onOversize, onAfterRead, onBeforeFilter, readonly, disabled } = props
+      const { maxFileSize, maxFiles, modelValue, beforeAdd, readonly, disabled } = props
 
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
@@ -286,8 +291,8 @@ export default defineComponent({
 
       const getValidSizeMpFile = (varFiles: MpFile[]): MpFile[] =>
         varFiles.filter((varFile) => {
-          if (varFile.file!.size > toNumber(maxsize)) {
-            call(onOversize, reactive(varFile))
+          if (varFile.file!.size > toNumber(maxFileSize)) {
+            emit('oversize', reactive(varFile))
             return false
           }
 
@@ -295,16 +300,16 @@ export default defineComponent({
         })
 
       const getValidLengthMpFiles = (varFiles: MpFile[]): MpFile[] => {
-        const limit = Math.min(varFiles.length, toNumber(maxlength) - modelValue.length)
+        const limit = Math.min(varFiles.length, toNumber(maxFiles) - modelValue.length)
         return varFiles.slice(0, limit)
       }
 
       const getFilterMpFiles = async (varFiles: MpFile[]): Promise<MpFile[]> => {
-        if (!onBeforeFilter) {
+        if (!beforeAdd) {
           return varFiles
         }
 
-        const events = normalizeToArray(onBeforeFilter)
+        const events = normalizeToArray(beforeAdd)
 
         for (const event of events) {
           varFiles = await event(varFiles)
@@ -318,37 +323,37 @@ export default defineComponent({
       let varFiles: MpFile[] = files.map(createMpFile)
 
       varFiles = await getFilterMpFiles(varFiles)
-      varFiles = maxsize != null ? getValidSizeMpFile(varFiles) : varFiles
-      varFiles = maxlength != null ? getValidLengthMpFiles(varFiles) : varFiles
+      varFiles = maxFileSize != null ? getValidSizeMpFile(varFiles) : varFiles
+      varFiles = maxFiles != null ? getValidLengthMpFiles(varFiles) : varFiles
 
       // pre resolve
       const resolvedMpFiles: MpFile[] = await Promise.all(getResolvers(varFiles))
       const validationMpFiles: ValidationMpFile[] = await Promise.all(getBeforeReaders(resolvedMpFiles))
       const validMpFiles: MpFile[] = validationMpFiles.filter(({ valid }) => valid).map(({ varFile }) => varFile)
 
-      call(props['onUpdate:modelValue'], [...modelValue, ...validMpFiles])
+      emit('update:modelValue', [...modelValue, ...validMpFiles])
       ;(event.target as HTMLInputElement).value = ''
-      validMpFiles.forEach((varFile) => call(onAfterRead, reactive(varFile)))
+      validMpFiles.forEach((varFile) => emit('after-read', reactive(varFile)))
       eventHandlers.value.onChange?.()
     }
 
     async function handleRemove(removedMpFile: MpFile) {
-      const { disabled, readonly, modelValue, onBeforeRemove, onRemove } = props
+      const { disabled, readonly, modelValue, beforeRemove } = props
 
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
 
-      if (onBeforeRemove) {
-        const results = normalizeToArray(call(onBeforeRemove, reactive(removedMpFile)))
+      if (beforeRemove) {
+        const results = normalizeToArray(call(beforeRemove, reactive(removedMpFile)))
         if ((await Promise.all(results)).some((result) => !result)) {
           return
         }
       }
 
       const expectedFiles: MpFile[] = modelValue.filter((varFile) => varFile !== removedMpFile)
-      call(onRemove, reactive(removedMpFile))
-      call(props['onUpdate:modelValue'], expectedFiles)
+      emit('remove', reactive(removedMpFile))
+      emit('update:modelValue', expectedFiles)
       eventHandlers.value.onChange?.()
     }
 
@@ -398,7 +403,7 @@ export default defineComponent({
       files,
       showPreview,
       currentPreview,
-      maxlengthText,
+      maxFilesText,
       hovering,
       isFocusing,
       formDisabled: form?.disabled,

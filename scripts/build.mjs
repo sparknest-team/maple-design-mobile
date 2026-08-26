@@ -30,11 +30,11 @@ export const buildShared = createTask(resolve(CWD, './packages/maple-shared'))
 
 export const buildPresetTailwindcss = createTask(resolve(CWD, './packages/maple-preset-tailwindcss'))
 
-export const buildImportResolver = createTask(resolve(CWD, './packages/maple-import-resolver'))
+export const buildResolver = createTask(resolve(CWD, './packages/maple-resolver'))
 
 export const buildUse = createTask(resolve(CWD, './packages/maple-use'))
 
-export const buildIcons = createTask(resolve(CWD, './packages/maple-icons'))
+export const buildIcons = createTask(resolve(CWD, './packages/maple-icons-vue'))
 
 export const buildToucheEmulator = createTask(resolve(CWD, './packages/maple-touch-emulator'))
 
@@ -44,8 +44,8 @@ export async function runTaskQueue() {
   const start = performance.now()
 
   await runTask('shared & touch-emulator', () => Promise.all([buildShared(), buildToucheEmulator()]))
-  await runTask('preset-unocss & preset-tailwindcss & import-resolver & use & vite-plugins', () =>
-    Promise.all([buildPresetUnocss(), buildPresetTailwindcss(), buildImportResolver(), buildUse(), buildVitePlugins()]),
+  await runTask('preset-unocss & preset-tailwindcss & resolver & use & vite-plugins', () =>
+    Promise.all([buildPresetUnocss(), buildPresetTailwindcss(), buildResolver(), buildUse(), buildVitePlugins()]),
   )
   await runTask('cli', buildCli)
   await runTask('icons', buildIcons)

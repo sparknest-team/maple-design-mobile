@@ -5,6 +5,8 @@ import { props as highlighterProviderProps } from './props'
 withInstall(HighlighterProvider)
 withPropsDefaultsSetter(HighlighterProvider, highlighterProviderProps)
 
+export type HighlighterProviderInstance = InstanceType<typeof HighlighterProvider>
+export { highlighterProviderProps }
 export const _HighlighterProviderComponent = HighlighterProvider
 
 export default HighlighterProvider

@@ -5,6 +5,12 @@ import { expect, test, vi } from 'vitest'
 import VarTooltip from '..'
 import { delay, mockStubs, trigger } from '../../utils/test'
 
+const mountTooltip = (options = {}) =>
+  mount(VarTooltip, {
+    ...options,
+    slots: { default: '<button class="reference">reference</button>', ...options.slots },
+  })
+
 test('tooltip plugin', () => {
   const app = createApp({}).use(VarTooltip)
   expect(app.component(VarTooltip.name)).toBeTruthy()
@@ -28,10 +34,10 @@ test('tooltip placement', () => {
     const { mockRestore } = mockStubs()
     const root = document.createElement('div')
 
-    const wrapper = mount(VarTooltip, {
+    const wrapper = mountTooltip({
       props: {
         placement,
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -45,14 +51,14 @@ test('tooltip placement', () => {
 test('tooltip click trigger', async () => {
   const { mockRestore } = mockStubs()
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     attachTo: document.body,
     props: {
       trigger: 'click',
     },
   })
 
-  await wrapper.trigger('click')
+  await wrapper.get('.reference').trigger('click')
   await delay(300)
   expect(document.body.innerHTML).toMatchSnapshot()
 
@@ -76,16 +82,16 @@ test('tooltip hover trigger and events', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     props: {
-      teleport: root,
+      popupContainer: root,
       onOpen,
       onOpened,
       onClose,
       onClosed,
     },
   })
-  await wrapper.trigger('mouseenter')
+  await wrapper.get('.reference').trigger('mouseenter')
   expect(onOpen).toHaveBeenCalledTimes(1)
 
   await delay(300)
@@ -93,7 +99,7 @@ test('tooltip hover trigger and events', async () => {
   expect(onOpened).toHaveBeenCalledTimes(1)
   expect(root.innerHTML).toMatchSnapshot()
 
-  await wrapper.trigger('mouseleave')
+  await wrapper.get('.reference').trigger('mouseleave')
 
   await doubleRaf()
   await delay(0)
@@ -112,10 +118,10 @@ test('tooltip type', () => {
     const { mockRestore } = mockStubs()
     const root = document.createElement('div')
 
-    const wrapper = mount(VarTooltip, {
+    const wrapper = mountTooltip({
       props: {
         type,
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -131,10 +137,10 @@ test('tooltip content', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     props: {
       content: 'test tooltip',
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -151,10 +157,10 @@ test('tooltip color', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     props: {
       color: '#000',
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -171,10 +177,10 @@ test('tooltip text-color', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     props: {
       textColor: '#fff',
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -191,11 +197,11 @@ test('tooltip offset', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     props: {
       offsetX: 100,
       offsetY: 100,
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -212,11 +218,11 @@ test('tooltip hover the tooltip list', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarTooltip, {
+  const wrapper = mountTooltip({
     props: {
-      show: true,
+      open: true,
       trigger: 'hover',
-      teleport: root,
+      popupContainer: root,
     },
   })
 

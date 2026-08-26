@@ -58,10 +58,10 @@ const loading = ref(false)
   <mp-button @click="loading = !loading" style="margin-bottom: 8px">
     {{ loading ? '关闭' : '打开' }}
   </mp-button>
-  <mp-loading description="LOADING" :loading="loading">
+  <mp-loading tip="LOADING" :loading="loading">
     <mp-card 
       title="介绍" 
-      description="Varlet 是一个基于Vue3开发的 Material 风格移动端组件库，全面拥抱Vue3生态，由社区的小伙伴开发和维护。" 
+      description="Maple 是一个基于Vue3开发的 Material 风格移动端组件库，全面拥抱Vue3生态，由社区的小伙伴开发和维护。" 
     />
   </mp-loading>
 </template>
@@ -76,7 +76,7 @@ const loading = ref(false)
 | `color`  | loading 的颜色                                                | _string_ | `-`      |
 | `type`   | loading 的类型，可选值为 `circle` `wave` `cube` `rect` `disappear` | _string_ | `circle` |
 | `size`   | loading 的大小，可选值为 `large` `normal` `small` `mini`           | _string_ | `normal` |
-| `description`   | loading 的描述文字                                              | _string_ | `-`      |
+| `tip`   | loading 的提示文字                                              | _string_ | `-`      |
 | `loading`| 存在内容时 loading 是否显示                                         | _boolean_ | `false`  |
 | `radius` | loading 的类型为 `circle` 时，可设置其半径大小                           | _string \| number_  | `-` |
 
@@ -85,7 +85,7 @@ const loading = ref(false)
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | `loading` 包裹着的内容 | `-` |
-| `description`    | `loading` 的描述文字 | `-` |
+| `tip`    | `loading` 的提示文字 | `-` |
 
 ### 样式变量
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。

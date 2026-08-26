@@ -9,6 +9,7 @@
 | 旧 API | 新 API |
 | --- | --- |
 | `type="primary"` 等 | `status="primary"` 等 |
+| `type="floating\|inline"`（布局） | `mode="floating\|inline"` |
 | `value` | `content` |
 | `max-value` | `max` |
 | `hidden` | `show`（取反） |
@@ -87,27 +88,27 @@
 
 ### Inline 模式
 
-`type="inline"` 配合 `description` 显示行内徽标。
+`mode="inline"` 配合 `description` 显示行内徽标。
 
 ```html
-<mp-badge type="inline" status="success" dot description="在线" />
-<mp-badge type="inline" status="warning" dot description="离开" />
+<mp-badge mode="inline" status="success" dot description="在线" />
+<mp-badge mode="inline" status="warning" dot description="离开" />
 ```
 
 ### 尺寸
 
 ```html
-<mp-badge type="inline" status="primary" :content="6" size="xs" description="xs" />
-<mp-badge type="inline" status="primary" :content="6" size="sm" description="sm" />
-<mp-badge type="inline" status="primary" :content="6" size="md" description="md" />
-<mp-badge type="inline" status="primary" :content="6" size="lg" description="lg" />
-<mp-badge type="inline" status="primary" :content="6" size="xl" description="xl" />
+<mp-badge mode="inline" status="primary" :content="6" size="xs" description="xs" />
+<mp-badge mode="inline" status="primary" :content="6" size="sm" description="sm" />
+<mp-badge mode="inline" status="primary" :content="6" size="md" description="md" />
+<mp-badge mode="inline" status="primary" :content="6" size="lg" description="lg" />
+<mp-badge mode="inline" status="primary" :content="6" size="xl" description="xl" />
 ```
 
 ### 描边变体
 
 ```html
-<mp-badge type="inline" variant="outline" status="primary" :content="6" description="primary" />
+<mp-badge mode="inline" variant="outline" status="primary" :content="6" description="primary" />
 ```
 
 ## API
@@ -116,7 +117,7 @@
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `description` | 徽标的描述文本（`type=inline` 时显示在内容旁，`floating` 时通过 default slot） | `string` | `-` |
+| `description` | 徽标的描述文本（`mode=inline` 时显示在内容旁，`floating` 时通过 default slot） | `string` | `-` |
 | `dot` | 是否显示为小红点 | `boolean` | `false` |
 | `max` | 最大显示数值，超出时显示为 `${max}+`，`content` 为数字时有效 | `number` | `99` |
 | `show` | 是否显示徽标 | `boolean` | `true` |
@@ -126,7 +127,7 @@
 | `color` | 自定义背景色 | `string` | `-` |
 | `text-color` | 自定义文字色 | `string` | `-` |
 | `content` | 徽标显示的内容 | `string \| number` | `-` |
-| `type` | 布局类型：`floating`（浮在 default slot 角上）/ `inline`（与 description 行内排列） | `BadgeType` | `'floating'` |
+| `mode` | 布局类型：`floating`（浮在 default slot 角上）/ `inline`（与 description 行内排列） | `BadgeMode` | `'floating'` |
 | `position` | floating 模式定位 | `BadgePosition` | `'top-right'` |
 | `inline-position` | inline 模式定位 | `BadgeInlinePosition` | `'end'` |
 | `size` | 尺寸 | `BadgeSize` | `'md'` |
@@ -137,7 +138,7 @@
 
 | 名称 | 说明 |
 | --- | --- |
-| `default` | 被徽标包裹的内容（`type=floating` 时） |
+| `default` | 被徽标包裹的内容（`mode=floating` 时） |
 | `content` | 自定义徽标内容（替代 `content` prop） |
 
 ## 类型定义
@@ -145,7 +146,7 @@
 ```ts
 type BadgeStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary'
 type BadgeVariant = 'default' | 'outline'
-type BadgeType = 'floating' | 'inline'
+type BadgeMode = 'floating' | 'inline'
 type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 type BadgeInlinePosition = 'start' | 'end'
 type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -162,7 +163,7 @@ type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 | `--mp-badge-font-weight` | `500` |
 | `--mp-badge-bg-color` | `#ef4444` |
 | `--mp-badge-text-color` | `#ffffff` |
-| `--mp-badge-description-text-color` | `var(--mp-color-on-surface)` |
+| `--mp-badge-description-text-color` | `var(--mp-color-text-1)` |
 
 ### 尺寸（`xs / sm / md / lg / xl`）
 

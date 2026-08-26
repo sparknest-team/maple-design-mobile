@@ -10,9 +10,17 @@ test('timePicker plugin', () => {
   expect(app.component(TimePicker.name)).toBeTruthy()
 })
 
+test('timePicker defaults to picker presentation', () => {
+  const wrapper = mount(VarTimePicker, { props: { modelValue: '11:20' } })
+  expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-time-picker__clock-container').exists()).toBeFalsy()
+  wrapper.unmount()
+})
+
 test('timePicker style and format', async () => {
   const template = `
     <mp-time-picker
+      presentation="clock"
       :format="format"
       v-model="time"
       elevation
@@ -45,6 +53,7 @@ test('timePicker hint', async () => {
   const wrapper = mount(VarTimePicker, {
     props: {
       hint: 'choose clock-in time',
+      presentation: 'clock',
     },
   })
 
@@ -58,7 +67,7 @@ test('timePicker hint', async () => {
 })
 
 test('timePicker max and min', async () => {
-  const template = `<mp-time-picker v-model="time" :max="max" :min="min" />`
+  const template = `<mp-time-picker v-model="time" presentation="clock" :max="max" :min="min" />`
   const wrapper = mount({
     components: {
       [VarTimePicker.name]: VarTimePicker,
@@ -102,6 +111,7 @@ test('timePicker useSeconds', () => {
   const wrapper = mount(VarTimePicker, {
     props: {
       modelValue: '11:11',
+      presentation: 'clock',
       useSeconds: true,
     },
   })
@@ -111,7 +121,7 @@ test('timePicker useSeconds', () => {
 })
 
 test('timePicker readonly', async () => {
-  const template = `<mp-time-picker v-model="time" readonly />`
+  const template = `<mp-time-picker v-model="time" presentation="clock" readonly />`
   const wrapper = mount({
     components: {
       [VarTimePicker.name]: VarTimePicker,
@@ -145,7 +155,7 @@ test('timePicker readonly', async () => {
 test('timePicker v-model and onChange event', async () => {
   const change = vi.fn()
 
-  const template = `<mp-time-picker v-model="time" use-seconds format="24hr" @change="change" />`
+  const template = `<mp-time-picker v-model="time" presentation="clock" use-seconds format="24hr" @change="change" />`
   const wrapper = mount({
     components: {
       [VarTimePicker.name]: VarTimePicker,
@@ -194,7 +204,7 @@ test('timePicker v-model and onChange event', async () => {
 })
 
 test('timePicker switch ampm', async () => {
-  const template = `<mp-time-picker v-model="time" use-seconds :min="min" max="19:40:22" />`
+  const template = `<mp-time-picker v-model="time" presentation="clock" use-seconds :min="min" max="19:40:22" />`
   const wrapper = mount({
     components: {
       [VarTimePicker.name]: VarTimePicker,
@@ -223,6 +233,7 @@ test('timePicker titleColor', async () => {
   const wrapper = mount(VarTimePicker, {
     props: {
       titleColor: 'green',
+      presentation: 'clock',
     },
   })
 
@@ -245,7 +256,7 @@ test('timePicker reset when modelValue is undefined or an empty string', async (
         time: '10:22',
       }
     },
-    template: `<mp-time-picker v-model="time" />`,
+    template: `<mp-time-picker v-model="time" presentation="clock" />`,
   })
 
   expect(wrapper.html()).toMatchSnapshot()

@@ -44,8 +44,7 @@ test('radio check value with custom value', async () => {
   const wrapper = mount(VarRadio, {
     props: {
       modelValue: 0,
-      uncheckedValue: 0,
-      checkedValue: 1,
+      value: 1,
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })
@@ -156,8 +155,8 @@ test('radio with radio group', async () => {
     }),
     template: `
       <mp-radio-group v-model="value">
-        <mp-radio :checked-value="1" />
-        <mp-radio :checked-value="2" />
+        <mp-radio :value="1" />
+        <mp-radio :value="2" />
       </mp-radio-group>
     `,
   })
@@ -194,8 +193,8 @@ test('radio group layout direction', () => {
     }),
     template: `
       <mp-radio-group direction="vertical" v-model="value">
-        <mp-radio :checked-value="1" />
-        <mp-radio :checked-value="2" />
+        <mp-radio :value="1" />
+        <mp-radio :value="2" />
       </mp-radio-group>
     `,
   })
@@ -275,7 +274,7 @@ test('radio accessibility', async () => {
   wrapper.unmount()
 })
 
-test('radio group label-key', async () => {
+test('radio group field-names label', async () => {
   const wrapper = mount({
     components: {
       [VarRadioGroup.name]: VarRadioGroup,
@@ -288,10 +287,10 @@ test('radio group label-key', async () => {
         { name: 'sleep', value: 1 },
         { name: 'game', value: 2, disabled: true },
       ],
-      labelKey: 'name',
+      fieldNames: { label: 'name' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :label-key="labelKey">
+      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -314,7 +313,7 @@ test('radio group label-key', async () => {
   wrapper.unmount()
 })
 
-test('radio group value-key', async () => {
+test('radio group field-names value', async () => {
   const wrapper = mount({
     components: {
       [VarRadioGroup.name]: VarRadioGroup,
@@ -327,10 +326,10 @@ test('radio group value-key', async () => {
         { label: 'sleep', id: 1 },
         { label: 'game', id: 2, disabled: true },
       ],
-      valueKey: 'id',
+      fieldNames: { value: 'id' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :value-key="valueKey">
+      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -366,11 +365,10 @@ test('radio group label is VNode', async () => {
         { name: h('h2', 'sleep'), id: 1 },
         { name: h('h3', 'game'), id: 2, disabled: true },
       ],
-      valueKey: 'id',
-      labelKey: 'name',
+      fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :label-key="labelKey" :value-key="valueKey">
+      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -407,11 +405,10 @@ test('radio group label is function', async () => {
         { name: formatLabel, id: 1 },
         { name: formatLabel, id: 2, disabled: true },
       ],
-      valueKey: 'id',
-      labelKey: 'name',
+      fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :label-key="labelKey" :value-key="valueKey">
+      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -447,8 +444,8 @@ test('radio keyboard Enter', async () => {
     }),
     template: `
           <mp-radio-group v-model="value">
-            <mp-radio :checked-value="1" >eat</mp-radio>
-            <mp-radio :checked-value="2" >sleep</mp-radio>
+            <mp-radio :value="1" >eat</mp-radio>
+            <mp-radio :value="2" >sleep</mp-radio>
           </mp-radio-group>
         `,
   })
@@ -476,8 +473,8 @@ test('radio group keyboard Arrow', async () => {
     }),
     template: `
           <mp-radio-group v-model="value">
-            <mp-radio :checked-value="1" >est</mp-radio>
-            <mp-radio :checked-value="2" >sleep</mp-radio>
+            <mp-radio :value="1" >est</mp-radio>
+            <mp-radio :value="2" >sleep</mp-radio>
           </mp-radio-group>
         `,
   })

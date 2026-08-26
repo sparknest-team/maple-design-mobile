@@ -13,25 +13,12 @@
     <mp-input-number v-model="rangeDisabledValue" :min="2" :max="10" clearable disabled placeholder="disabled" />
   </div>
 
-  <app-type>{{ pack.controlType }}</app-type>
+  <app-type>{{ pack.mode }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="stackedValue" clearable placeholder="stacked" />
-    <mp-input-number v-model="splitValue" clearable control-type="split" placeholder="split" />
-    <mp-input-number
-      v-model="splitRangeValue"
-      :min="2"
-      :max="10"
-      clearable
-      control-type="split"
-      placeholder="split range"
-    />
-    <mp-input-number
-      v-model="splitDisabledValue"
-      clearable
-      control-type="split"
-      disabled
-      placeholder="split disabled"
-    />
+    <mp-input-number v-model="splitValue" clearable mode="button" placeholder="button" />
+    <mp-input-number v-model="splitRangeValue" :min="2" :max="10" clearable mode="button" placeholder="button range" />
+    <mp-input-number v-model="splitDisabledValue" clearable mode="button" disabled placeholder="button disabled" />
   </div>
 
   <app-type>{{ pack.size }}</app-type>
@@ -40,10 +27,10 @@
     <mp-input-number size="sm" placeholder="sm" />
     <mp-input-number size="md" placeholder="md" />
     <mp-input-number size="lg" placeholder="lg" />
-    <mp-input-number size="xs" control-type="split" placeholder="xs split" />
-    <mp-input-number size="sm" control-type="split" placeholder="sm split" />
-    <mp-input-number size="md" control-type="split" placeholder="md split" />
-    <mp-input-number size="lg" control-type="split" placeholder="lg split" />
+    <mp-input-number size="xs" mode="button" placeholder="xs button" />
+    <mp-input-number size="sm" mode="button" placeholder="sm button" />
+    <mp-input-number size="md" mode="button" placeholder="md button" />
+    <mp-input-number size="lg" mode="button" placeholder="lg button" />
   </div>
 
   <app-type>{{ pack.stepAndPrecision }}</app-type>
@@ -65,9 +52,9 @@
       <template #prefix>+86</template>
       <template #suffix><span>RMB</span></template>
     </mp-input-number>
-    <mp-input-number v-model="prefixSplitValue" clearable control-type="split" placeholder="请输入">
+    <mp-input-number v-model="prefixSplitValue" clearable mode="button" placeholder="请输入">
       <template #prefix>
-        <mp-icon name="refresh" />
+        <m-icon-refresh />
       </template>
       <template #suffix><span>RMB</span></template>
     </mp-input-number>
@@ -77,10 +64,10 @@
   <div class="input-number-example">
     <mp-input-number v-model="customIconValue" clearable placeholder="Please enter something">
       <template #plus>
-        <mp-icon name="plus" />
+        <m-icon-plus />
       </template>
       <template #minus>
-        <mp-icon name="minus" />
+        <m-icon-minus />
       </template>
     </mp-input-number>
   </div>
@@ -99,7 +86,7 @@
 
   <app-type>{{ pack.hideControls }}</app-type>
   <div class="input-number-example">
-    <mp-input-number v-model="inputOnlyValue" :controls="false" clearable placeholder="请输入数量" />
+    <mp-input-number v-model="inputOnlyValue" mode="input" clearable placeholder="请输入数量" />
   </div>
 
   <app-type>{{ pack.modelEvent }}</app-type>
@@ -156,7 +143,7 @@ function parser(value) {
   }
 
   &__value {
-    color: var(--mp-field-decorator-text-color);
+    color: var(--mp-field-color-text);
     font-size: 14px;
   }
 }

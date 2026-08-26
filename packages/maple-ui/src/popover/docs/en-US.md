@@ -63,7 +63,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-popover :placement="placement">
       <mp-button type="primary">
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
       <template #content>
         <mp-cell>Option</mp-cell>
@@ -123,7 +123,7 @@ Use `same-width` to make the popover and trigger the same width.
 ### Trigger
 
 Use `trigger` to change the trigger method of popover display, 
-the optional values are `click` and `hover`
+the optional values are `click` `hover` `manual` `contextMenu`
 
 ```html
 <template>
@@ -184,7 +184,7 @@ In the `disabled` state, the popover will no longer be opened.
 
 ### Two-way Binding
 
-Two-way binding control popover show and hide via `v-model:show`.
+Two-way binding control popover show and hide via `v-model:open`.
 
 ```html
 <script setup>
@@ -198,7 +198,7 @@ function closeMenu() {
 </script>
 
 <template>
-  <mp-popover v-model:show="show">
+  <mp-popover v-model:open="open">
     <mp-button type="primary">Two-way binding</mp-button>
 
     <template #content>
@@ -222,21 +222,22 @@ it is recommended to wrap a `block` element.
 
 | Prop            | Description                                                                                                                  | Type              | Default           |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------|----------------------|-------------------|
-| `v-model:show`  | Whether to show the popover                                                                                                     | _boolean_             | `false`         |
+| `v-model:open`  | Whether to show the popover                                                                                                     | _boolean_             | `false`         |
 | `placement`     | Popover popup placement                                                                                                         | _Placement_          | `cover-top-start` |
 | `strategy`       | Popover position strategy, optional value is `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x`      | The x-axis offset, relative to the popover-aligned position                                                                     | _number \| string_           | `0` |
 | `offset-y`      | The y-axis offset, relative to the popover-aligned position                                                                     | _number \| string_           | `0` |
-| `teleport`      | The location of the popover mount                                                                                               | _TeleportProps['to'] \| false_ | `body`            |
+| `popupContainer`      | The location of the popover mount                                                                                               | _TeleportProps['to'] \| false_ | `body`            |
 | `disabled`      | Whether to disable the popover                                                                                                  | _boolean_            | `false`           |
-| `trigger`       | Popover trigger method, optional value is `click` `hover` `manual`  | _string_  | `click`           |
+| `trigger`       | Popover trigger method, optional value is `click` `hover` `manual` `contextMenu`  | _string_  | `click`           |
 | `reference` | The trigger element associated with the popover, the `string` type is the descendant element selector of the popover component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_ | `-` |
 | `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
 | `same-width`    | Whether to same width as trigger element                                                                                     | _boolean_ | `false`           |
 | `default-style` | Whether to enable default styles                                                                                             | _boolean_ | `true`            |
 | `popover-class` | Class of the popover                                                    | _string_             | `-`            |
 | `close-on-click-reference` | Whether to close the popover when clicking the reference element | _boolean_ | `false` |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the popover | _boolean_ | `true`  |
+| `esc-to-close` | Whether to support keyboard ESC to close the popover | _boolean_ | `true`  |
+| `align-point` | Whether the popup follows the mouse (used with `contextMenu`) | _boolean_ | `false` |
 
 ### Placement
 
@@ -295,5 +296,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | --- | --- |
-| `--popover-background-color` | `var(--color-surface-container-high)` |
+| `--popover-background-color` | `var(--color-fill-2)` |
 | `--popover-border-radius` | `2px` |

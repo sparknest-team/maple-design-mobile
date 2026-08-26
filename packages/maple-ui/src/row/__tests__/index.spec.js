@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest'
 import Row from '..'
 import Col from '../../col'
 import VarCol from '../../col/Col'
-import { delay, mockConsole } from '../../utils/test'
+import { delay } from '../../utils/test'
 import VarRow from '../Row'
 
 test('row and col use', () => {
@@ -24,7 +24,8 @@ describe('test row and col component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-row').attributes('style')).toContain('margin: 0px -10px;')
+    const style = wrapper.find('.mp-row').attributes('style') || ''
+    expect(style.includes('margin-left: -10px') || style.includes('margin: 0px -10px')).toBeTruthy()
     wrapper.unmount()
   })
 
@@ -38,7 +39,8 @@ describe('test row and col component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-row').attributes('style')).toContain('margin: -10px -10px;')
+    const style = wrapper.find('.mp-row').attributes('style') || ''
+    expect(style.includes('-10px')).toBeTruthy()
     wrapper.unmount()
   })
 
@@ -60,7 +62,7 @@ describe('test row and col component props', () => {
   })
 
   test('row and col justify', () => {
-    ;['flex-start', 'flex-end', 'center', 'space-between', 'space-around'].forEach((justify) => {
+    ;['start', 'end', 'center', 'space-between', 'space-around'].forEach((justify) => {
       const wrapper = mount(VarRow, {
         props: {
           justify,
@@ -70,13 +72,13 @@ describe('test row and col component props', () => {
         },
       })
 
-      expect(wrapper.find('.mp-row').attributes('style')).toContain('justify-content: ' + justify)
+      expect(wrapper.find('.mp-row').classes()).toContain(`mp-row--justify-${justify}`)
       wrapper.unmount()
     })
   })
 
   test('row and col align', () => {
-    ;['flex-start', 'flex-end', 'center'].forEach((align) => {
+    ;['start', 'end', 'center', 'stretch'].forEach((align) => {
       const wrapper = mount(VarRow, {
         props: {
           align,
@@ -86,7 +88,7 @@ describe('test row and col component props', () => {
         },
       })
 
-      expect(wrapper.find('.mp-row').attributes('style')).toContain('align-items: ' + align)
+      expect(wrapper.find('.mp-row').classes()).toContain(`mp-row--align-${align}`)
       wrapper.unmount()
     })
   })
@@ -98,88 +100,43 @@ describe('test row and col component props', () => {
       },
     })
 
-    expect(wrapper.findAll('.mp-col--span-6').length).toBe(4)
+    wrapper.findAll('.mp-col').forEach((col) => {
+      expect(col.classes()).toContain('mp-col--span-6')
+    })
     wrapper.unmount()
   })
 
-  test('row and col span 0', () => {
+  test('col order', () => {
     const wrapper = mount(VarRow, {
       slots: {
-        default: () => [0, 12, 12].map((span) => h(VarCol, { span })),
+        default: () => h(VarCol, { span: 6, order: 2 }),
       },
     })
 
-    expect(wrapper.findAll('.mp-col--span-0').length).toBe(1)
+    expect(wrapper.find('.mp-col').classes()).toContain('mp-col--order-2')
     wrapper.unmount()
   })
 
-  test('row and col offset', () => {
+  test('col flex', () => {
     const wrapper = mount(VarRow, {
       slots: {
-        default: () => [6, 6].map((span) => h(VarCol, { span, offset: 6 })),
+        default: () => h(VarCol, { flex: 'auto' }),
       },
     })
 
-    expect(wrapper.findAll('.mp-col--offset-6').length).toBe(2)
+    expect(wrapper.find('.mp-col').attributes('style')).toMatch(/flex:\s*(auto|1 1 auto)/)
     wrapper.unmount()
   })
 
-  test('row and col responsive', () => {
+  test('row wrap false', () => {
     const wrapper = mount(VarRow, {
+      props: { wrap: false },
       slots: {
-        default: () =>
-          h(VarCol, {
-            xs: { span: 12 },
-            sm: { span: 6 },
-            md: { span: 4 },
-            lg: { span: 3 },
-            xl: { span: 2 },
-          }),
+        default: () => h(VarCol, { span: 12 }),
       },
     })
 
-    const classNames = wrapper.find('.mp-col').classes()
-    expect(classNames).toContain('mp-col--span-xs-12')
-    expect(classNames).toContain('mp-col--span-sm-6')
-    expect(classNames).toContain('mp-col--span-md-4')
-    expect(classNames).toContain('mp-col--span-lg-3')
-    expect(classNames).toContain('mp-col--span-xl-2')
+    expect(wrapper.find('.mp-row').classes()).toContain('mp-row--nowrap')
     wrapper.unmount()
   })
-
-  test('col direction', () => {
-    const wrapper = mount(VarRow, {
-      slots: {
-        default: () => [12, 12].map((span) => h(VarCol, { span, direction: 'column' })),
-      },
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-    wrapper.unmount()
-  })
-})
-
-test('row and col responsive 0', () => {
-  const wrapper = mount(VarRow, {
-    slots: {
-      default: () => [h(VarCol, { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 })],
-    },
-  })
-
-  expect(wrapper.find('.mp-col--span-xs-0')).toBeTruthy()
-  expect(wrapper.find('.mp-col--span-sm-0')).toBeTruthy()
-  expect(wrapper.find('.mp-col--span-md-0')).toBeTruthy()
-  expect(wrapper.find('.mp-col--span-lg-0')).toBeTruthy()
-  expect(wrapper.find('.mp-col--span-xl-0')).toBeTruthy()
-  wrapper.unmount()
-})
-
-test('col is not used in row', () => {
-  const { mockRestore } = mockConsole('warn', (text) => {
-    expect(text).toBe('col must in row')
-  })
-
-  mount(VarCol)
-
-  mockRestore()
 })

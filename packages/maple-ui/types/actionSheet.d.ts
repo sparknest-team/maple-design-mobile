@@ -5,17 +5,17 @@ export declare const actionSheetProps: Record<keyof ActionSheetProps, any>
 
 export interface ActionSheetProps extends BasicAttributes {
   actions?: ActionItem[]
-  show?: boolean
+  open?: boolean
   title?: string
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   lockScroll?: boolean
   closeOnClickAction?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
+  maskClosable?: boolean
+  escToClose?: boolean
   safeArea?: boolean
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   onOpen?: ListenerProp<() => void>
   onOpened?: ListenerProp<() => void>
   onClose?: ListenerProp<() => void>
@@ -23,7 +23,7 @@ export interface ActionSheetProps extends BasicAttributes {
   onSelect?: ListenerProp<(action: ActionItem) => void>
   onClickOverlay?: ListenerProp<() => void>
   onKeyEscape?: ListenerProp<() => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface ActionItem {
@@ -39,13 +39,13 @@ export interface ActionItem {
 export interface ActionSheetOptions {
   actions?: ActionItem[]
   title?: string
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   lockScroll?: boolean
   closeOnClickAction?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
+  maskClosable?: boolean
+  escToClose?: boolean
   safeArea?: boolean
   onOpen?: () => void
   onOpened?: () => void

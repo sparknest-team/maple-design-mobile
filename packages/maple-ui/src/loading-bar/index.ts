@@ -151,6 +151,7 @@ const LoadingBar: LoadingBar = {
 
 export { loadingBarProps }
 
+export type LoadingBarInstance = InstanceType<typeof LoadingBar>
 export const _LoadingBarComponent = LoadingBar
 
 export default LoadingBar

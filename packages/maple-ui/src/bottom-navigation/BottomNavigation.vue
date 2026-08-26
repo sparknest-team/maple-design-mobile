@@ -55,7 +55,8 @@ export default defineComponent({
   name,
   components: { MpButton },
   props,
-  setup(props, { slots }) {
+  emits: ['change', 'update:active', 'fab-click'],
+  setup(props, { slots, emit }) {
     const bottomNavigationDom = ref<HTMLElement | null>(null)
     const active = computed<number | string | undefined>(() => props.active)
     const activeColor = computed<string | undefined>(() => props.activeColor)
@@ -129,9 +130,9 @@ export default defineComponent({
       }
 
       if (active.value < 0) {
-        call(props['onUpdate:active'], 0)
+        emit('update:active', 0)
       } else if (active.value > length.value - 1) {
-        call(props['onUpdate:active'], length.value - 1)
+        emit('update:active', length.value - 1)
       }
     }
 
@@ -140,11 +141,11 @@ export default defineComponent({
         return
       }
 
-      props.onBeforeChange ? handleBeforeChange(changedValue) : handleChange(changedValue)
+      props.beforeChange ? handleBeforeChange(changedValue) : handleChange(changedValue)
     }
 
     function handleBeforeChange(changedValue: number | string) {
-      const results = normalizeToArray(call(props.onBeforeChange, changedValue))
+      const results = normalizeToArray(call(props.beforeChange, changedValue))
 
       Promise.all(results).then((results) => {
         if (results.every(Boolean)) {
@@ -154,8 +155,8 @@ export default defineComponent({
     }
 
     function handleChange(changedValue: number | string) {
-      call(props['onUpdate:active'], changedValue)
-      call(props.onChange, changedValue)
+      emit('update:active', changedValue)
+      emit('change', changedValue)
     }
 
     function removeMarginClass() {
@@ -196,7 +197,7 @@ export default defineComponent({
     }
 
     function handleFabClick() {
-      call(props.onFabClick)
+      emit('fab-click')
     }
 
     function resizePlaceholder() {

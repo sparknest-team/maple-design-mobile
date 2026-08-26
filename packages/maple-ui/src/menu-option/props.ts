@@ -1,12 +1,16 @@
-import { PropType } from 'vue'
+import { type ExtractPropTypes, type PropType } from 'vue'
 import { MenuOption } from '../menu/props'
-import { defineListenerProp } from '../utils/components'
 
 export type MenuOptionKeyArrowX = 'ArrowLeft' | 'ArrowRight'
 
 export const props = {
-  label: {},
-  value: {},
+  label: {
+    type: [String, Number, Function, Object] as PropType<any>,
+  },
+  value: {
+    type: [String, Number, Object] as PropType<any>,
+    default: undefined,
+  },
   disabled: Boolean,
   ripple: {
     type: Boolean,
@@ -16,6 +20,7 @@ export const props = {
   option: Object as PropType<MenuOption>,
   childrenTrigger: Boolean,
   highlight: Boolean,
-  onKeyArrowX: defineListenerProp<(key: MenuOptionKeyArrowX) => void>(),
   // internal end
 }
+
+export type MenuOptionProps = ExtractPropTypes<typeof props>

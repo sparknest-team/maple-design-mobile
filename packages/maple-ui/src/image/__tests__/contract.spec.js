@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { imagePlatformConfig } from '../platform.config'
 import { props as imageProps } from '../props'
-import { normalizePreviewOptions } from '../utils/normalizeOptions'
+import { normalizePreviewOptions } from '../utils/previewUtils'
 
 describe('image api contract', () => {
   it('preview defaults to true on Image', () => {

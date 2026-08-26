@@ -1,8 +1,9 @@
 # Elevation
 
 ### Intro
-The component library provides a shadow elevation effect based on the `Material`
-specification to represent the dimensionality of an element.
+
+Shadow elevation levels (`mp-elevation--0` … `mp-elevation--24`) for dimensional surfaces, imported separately.  
+Cedar counterpart: `c-elevation--0` … `--24` (ships with box-shadow tools).
 
 ### Import Style
 

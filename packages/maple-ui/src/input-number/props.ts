@@ -1,16 +1,16 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import type { ComponentSize } from '../utils/constants'
 
-export type InputNumberControlType = 'stacked' | 'split'
+export type InputNumberMode = 'embed' | 'button' | 'input'
 export type InputNumberModelEvent = 'change' | 'input'
-export type InputNumberSize = 'xs' | 'sm' | 'md' | 'lg'
+export type InputNumberSize = ComponentSize
 
 export const props = {
   modelValue: Number,
   defaultValue: Number,
-  controlType: {
-    type: String as PropType<InputNumberControlType>,
-    default: 'stacked',
+  mode: {
+    type: String as PropType<InputNumberMode>,
+    default: 'embed',
   },
   precision: Number,
   step: {
@@ -30,11 +30,10 @@ export const props = {
   formatter: Function as PropType<(value: string) => string>,
   parser: Function as PropType<(value: string) => string>,
   placeholder: String,
-  controls: {
-    type: Boolean,
-    default: true,
+  size: {
+    type: String as PropType<InputNumberSize>,
+    default: 'md',
   },
-  size: String as PropType<InputNumberSize>,
   clearable: Boolean,
   modelEvent: {
     type: String as PropType<InputNumberModelEvent>,
@@ -42,11 +41,4 @@ export const props = {
   },
   readonly: Boolean,
   inputAttrs: Object as PropType<Record<string, any>>,
-  onChange: defineListenerProp<(value: number | undefined, event: Event) => void>(),
-  onFocus: defineListenerProp<(event: FocusEvent) => void>(),
-  onBlur: defineListenerProp<(event: FocusEvent) => void>(),
-  onClear: defineListenerProp<(event: Event) => void>(),
-  onInput: defineListenerProp<(value: number | undefined, inputValue: string, event: Event) => void>(),
-  onKeydown: defineListenerProp<(event: KeyboardEvent) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: number | undefined) => void>(),
 }

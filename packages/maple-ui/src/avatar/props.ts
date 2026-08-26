@@ -1,14 +1,15 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export type AvatarSize = 'mini' | 'small' | 'normal' | 'large' | number | string
 
-export type AvatarFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+export type AvatarShape = 'circle' | 'square'
+
+export type AvatarObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 
 export const props = {
-  round: {
-    type: Boolean,
-    default: true,
+  shape: {
+    type: String as PropType<AvatarShape>,
+    default: 'circle',
   },
   size: {
     type: [String, Number] as PropType<AvatarSize>,
@@ -16,9 +17,9 @@ export const props = {
   },
   alt: String,
   color: String,
-  src: String,
-  fit: {
-    type: String as PropType<AvatarFit>,
+  imageUrl: String,
+  objectFit: {
+    type: String as PropType<AvatarObjectFit>,
     default: 'cover',
   },
   bordered: Boolean,
@@ -27,7 +28,4 @@ export const props = {
   error: String,
   lazy: Boolean,
   hoverable: Boolean,
-  onClick: defineListenerProp<(e: Event) => void>(),
-  onLoad: defineListenerProp<(e: Event) => void>(),
-  onError: defineListenerProp<(e: Event) => void>(),
 }

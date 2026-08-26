@@ -1,18 +1,13 @@
 import type { PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export const props = {
   modelValue: {
     type: [String, Number, Boolean, Object, Array] as PropType<any>,
     default: false,
   },
-  checkedValue: {
+  value: {
     type: [String, Number, Boolean, Object, Array] as PropType<any>,
     default: true,
-  },
-  uncheckedValue: {
-    type: [String, Number, Boolean, Object, Array] as PropType<any>,
-    default: false,
   },
   checkedColor: String,
   uncheckedColor: String,
@@ -24,8 +19,4 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  onClick: defineListenerProp<(e: Event) => void>(),
-  onChange: defineListenerProp<(value: any, indeterminate: boolean) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
-  'onUpdate:indeterminate': defineListenerProp<(value: boolean) => void>(),
 }

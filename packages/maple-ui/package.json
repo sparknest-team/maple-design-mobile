@@ -31,7 +31,23 @@
   "unpkg": "umd/maple.js",
   "module": "es/index.mjs",
   "typings": "types/index.d.ts",
-  "style": "umd/style.css",
+  "style": "es/maple.css",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./es/index.mjs",
+      "require": "./lib/maple.cjs.js"
+    },
+    "./style": "./es/maple.css",
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./types/*.d.ts",
+      "import": "./es/*/index.mjs"
+    },
+    "./*/style": {
+      "import": "./es/*/style/index.mjs"
+    }
+  },
   "files": [
     "json",
     "lib",
@@ -55,7 +71,7 @@
     "@maplejs/maple-shared": "workspace:*",
     "@maplejs/maple-use": "workspace:*",
     "@popperjs/core": "^2.11.8",
-    "@maplejs/maple-icons": "workspace:*",
+    "@maplejs/icons-vue": "workspace:*",
     "dayjs": "^1.11.13",
     "decimal.js": "^10.6.0"
   },

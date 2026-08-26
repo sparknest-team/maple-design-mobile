@@ -2,7 +2,8 @@ import { ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
 
 export interface RowProvider {
-  average: ComputedRef<number[]>
+  gutter: ComputedRef<[number, number]>
+  div: ComputedRef<boolean>
 }
 
 export const ROW_BIND_COL_KEY = Symbol('ROW_BIND_COL_KEY')

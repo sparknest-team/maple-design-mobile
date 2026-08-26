@@ -41,7 +41,7 @@ onThemeChange()
   <mp-button style="margin-bottom: 8px" @click="loading = !loading">
     {{ loading ? t('close') : t('open') }}
   </mp-button>
-  <mp-loading description="LOADING" :loading="loading">
+  <mp-loading tip="LOADING" :loading="loading">
     <mp-card :title="t('cardTitle')" :description="t('cardDesc')" />
   </mp-loading>
 </template>

@@ -69,15 +69,15 @@ function preview() {
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const current = ref(0)
 const images = ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg']
 </script>
 
 <template>
-  <mp-button type="primary" block @click="visible = true">Open Preview</mp-button>
+  <mp-button type="primary" block @click="open = true">Open Preview</mp-button>
   <mp-image-preview-group
-    v-model:visible="visible"
+    v-model:open="open"
     v-model:current="current"
     :images="images"
   />
@@ -90,7 +90,7 @@ const images = ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg']
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -101,11 +101,11 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="visible = true"
+    @click="open = true"
   >
     Basic Use
   </mp-button>
-  <mp-image-preview :images="images" v-model:visible="visible" />
+  <mp-image-preview :images="images" v-model:open="open" />
 </template>
 ```
 
@@ -115,7 +115,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -126,14 +126,14 @@ const images = ref([
  <mp-button 
     type="warning" 
     block
-    @click="visible = true"
+    @click="open = true"
   >
     Specify initial position
   </mp-button>
   <mp-image-preview
     :current="1"
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
   />
 </template>
 ```
@@ -144,7 +144,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -155,14 +155,14 @@ const images = ref([
    <mp-button 
     type="warning" 
     block 
-    @click="visible = true"
+    @click="open = true"
   >
     Display the close button
   </mp-button>
   <mp-image-preview
     closable
     :images="images"
-    v-model:visible="visible" 
+    v-model:open="open" 
   />
 </template>
 ```
@@ -174,7 +174,7 @@ const images = ref([
 import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -185,13 +185,13 @@ const images = ref([
   <mp-button
     block
     type="warning"
-    @click="visible = true"
+    @click="open = true"
   >
     Listen for close event
   </mp-button>
   <mp-image-preview 
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
     @close="Message('The shutdown event was triggered.')" 
   />
 </template>
@@ -206,7 +206,7 @@ The `image-prevent-default` attribute prohibits the default behavior of images, 
 import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -217,14 +217,14 @@ const images = ref([
   <mp-button
     block
     type="warning"
-    @click="visible = true"
+    @click="open = true"
   >
     Listen for long press event
   </mp-button>
   <mp-image-preview
     image-prevent-default
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
     @long-press="Message('Long press event is triggered')"
   />
 </template>
@@ -236,7 +236,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const menuShow = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
@@ -258,19 +258,19 @@ const actions = [
    <mp-button
      block
      type="warning"
-     @click="visible = true"
+     @click="open = true"
   >
     Show extra slots
   </mp-button>
-  <mp-image-preview :images="images" v-model:visible="visible">
+  <mp-image-preview :images="images" v-model:open="open">
     <template #extra>
-      <mp-icon
-        name="menu"
+      <m-icon-menu
+       
         :size="22"
         color="#fff"
         @click="menuShow = true"
       />
-      <mp-action-sheet :actions="actions" v-model:show="menuShow" />
+      <mp-action-sheet :actions="actions" v-model:open="menuShow" />
     </template>
   </mp-image-preview>
 </template>
@@ -282,17 +282,17 @@ const actions = [
 
 | Prop         | Description   | Type  | Default  |
 | ------------ | ------------ | ------------------ | ------------ |
-| `v-model:visible` | Whether or display | _boolean_ | `false` |
+| `v-model:open` | Whether to display | _boolean_ | `false` |
 | `images`     | Need to preview the image URL | _string[]_ | `[]` |
 | `src` | Single image URL | _string_ | `-` |
 | `current`   | Index from which the image preview starts | _number_ | `0`     |
 | `zoom`       | Double-click to zoom in | _string \| number_ | `2` |
 | `closable`  | Whether to show the close button | _boolean_ | `false` |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the image-preview | _boolean_ | `true`  |
+| `esc-to-close` | Whether to support keyboard ESC to close the image-preview | _boolean_ | `true`  |
 | `loop`       | Whether to open loop playback | _boolean_ | `true` |
 | `indicator`  | Whether to show paging | _boolean_ | `true` |
 | `lock-scroll` | Lock scroll | _boolean_ | `true` |
-| `teleport`   | The location of the pop-up layer to mount | _TeleportProps['to'] \| false_ | `body` |
+| `popupContainer`   | The location of the pop-up layer to mount | _TeleportProps['to'] \| false_ | `body` |
 | `image-prevent-default` | Whether to disable the default behavior of images |  _boolean_ | `false` |
 
 ### ImagePreviewGroup Props
@@ -300,12 +300,13 @@ const actions = [
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `images` | Image URL list (skips collecting child Image when set) | _string[]_ | `[]` |
-| `v-model:visible` | Whether preview is visible | _boolean_ | `false` |
+| `v-model:open` | Whether preview is open | _boolean_ | `false` |
+| `default-open` | Default open in uncontrolled mode | _boolean_ | `false` |
 | `v-model:current` | Current image index | _number_ | `0` |
 | `loop` | Whether to loop | _boolean_ | `true` |
 | `closable` | Whether to show close button | _boolean_ | `false` |
 | `mask-closable` | Close when mask is clicked | _boolean_ | `false` |
-| `teleport` | Mount point for preview popup | _string \| Element \| false_ | `-` |
+| `popupContainer` | Mount point for preview popup | _string \| Element \| false_ | `-` |
 
 ### Events
 
@@ -314,6 +315,7 @@ const actions = [
 | `change` | The callback function when switching images, the callback parameter is the current index | `index: number` Image indexing |
 | `open`   | Triggered when Image-Preview is turned on | `-`  |
 | `opened` | Triggered at the end of the open image-preview animation | `-` |
+| `open-change` | Triggered when open state changes | `open: boolean` |
 | `close`  | Triggered when Image-Preview is off | `-` |
 | `closed` | Triggered when the animation that closes the image-preview ends | `-` |
 | `long-press` | The callback function when long pressing an image, the callback parameter is the current index | `index: number` Image indexing | 
@@ -348,7 +350,7 @@ const actions = [
 | `current`   | Index from which the image preview starts | _number_ | `0`     |
 | `zoom`       | Double-click to zoom in | _string \| number_ | `2` |
 | `closable`  | Whether to show the close button | _boolean_ | `false` |
-| `closeOnKeyEscape` | Whether to support keyboard ESC to close the image-preview | _boolean_ | `true` |
+| `escToClose` | Whether to support keyboard ESC to close the image-preview | _boolean_ | `true` |
 | `loop`       | Whether to open loop playback | _boolean_ | `true` |
 | `indicator`  | Whether to show paging | _boolean_ | `true` |
 | `lockScroll` | Lock scroll | _boolean_ | `true` |

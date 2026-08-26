@@ -16,7 +16,7 @@ onThemeChange()
 <template>
   <app-type>{{ t('styleBinding') }}</app-type>
   <mp-paper
-    v-hover="{ color: 'var(--mp-color-on-primary)', background: ' var(--mp-color-primary)' }"
+    v-hover="{ color: 'var(--mp-color-white)', background: ' var(--mp-color-primary)' }"
     class="paper"
     :elevation="2"
     :width="100"
@@ -58,7 +58,7 @@ onThemeChange()
   width: 100%;
   height: 100%;
   transition: all 0.3s;
-  color: var(--mp-color-on-primary);
+  color: var(--mp-color-white);
   background-color: var(--mp-color-primary);
   font-size: 50px;
 }

@@ -16,18 +16,20 @@
     @click="toComponent(component)"
   >
     <span>{{ component.text[lang] }}</span>
-    <mp-icon name="chevron-right" size="14" />
+    <mp-icon size="14"><MIconChevronRight /></mp-icon>
   </div>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue'
 import config from '@config'
+import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import { watchLang, watchPlatform } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
 import { inIframe, isPhone } from '../utils'
 
 export default {
+  components: { MIconChevronRight },
   name: 'AppHome',
   setup() {
     const title = ref(config?.title ?? '')

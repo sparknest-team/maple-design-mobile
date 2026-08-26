@@ -32,6 +32,7 @@
       <input
         v-if="normalizedType === 'password'"
         tabindex="-1"
+        autocomplete="off"
         :aria-label="ariaLabel"
         :class="n('autocomplete')"
         :placeholder="!mergedHint ? placeholder : undefined"
@@ -52,13 +53,13 @@
             [mergedError, n('--caret-error')],
           )
         "
-        :autocomplete="autocomplete ? autocomplete : 'new-password'"
+        :autocomplete="autocomplete"
         :disabled="formDisabled || disabled"
         :readonly="formReadonly || readonly"
         :type="normalizedType"
         :value="modelValue"
         :placeholder="!mergedHint ? placeholder : undefined"
-        :maxlength="maxlength"
+        :max-length="maxLength"
         :enterkeyhint="enterkeyhint"
         :inputmode="type === 'number' ? 'decimal' : undefined"
         :style="{
@@ -107,7 +108,8 @@ export default defineComponent({
     MpFieldDecorator,
   },
   props,
-  setup(props) {
+  emits: ['focus', 'blur', 'input', 'change', 'keydown', 'update:modelValue', 'clear', 'click'],
+  setup(props, { emit }) {
     const id = useClientId()
     const el = ref<HTMLInputElement | null>(null)
     const isFocusing = ref(false)
@@ -130,17 +132,17 @@ export default defineComponent({
       return props.type
     })
     const maxlengthText = computed(() => {
-      const { maxlength, modelValue } = props
+      const { maxLength, modelValue } = props
 
-      if (!maxlength) {
+      if (!maxLength) {
         return ''
       }
 
       if (isEmpty(modelValue)) {
-        return `0 / ${maxlength}`
+        return `0 / ${maxLength}`
       }
 
-      return `${String(modelValue).length}/${maxlength}`
+      return `${String(modelValue).length}/${maxLength}`
     })
     const placeholderColor = computed(() => {
       const { blurColor, focusColor } = props
@@ -150,14 +152,14 @@ export default defineComponent({
       }
 
       if (mergedError.value) {
-        return 'var(--mp-field-decorator-error-color)'
+        return 'var(--mp-field-color-error)'
       }
 
       if (isFocusing.value) {
-        return focusColor || 'var(--mp-field-decorator-focus-color)'
+        return focusColor || 'var(--mp-field-color-focus)'
       }
 
-      return blurColor || 'var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color))'
+      return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
     })
 
     onSmartMounted(() => {
@@ -169,14 +171,14 @@ export default defineComponent({
     function handleFocus(e: FocusEvent) {
       isFocusing.value = true
 
-      call(props.onFocus, e)
+      emit('focus', e)
       eventHandlers.value.onFocus?.()
     }
 
     function handleBlur(e: FocusEvent) {
       isFocusing.value = false
 
-      call(props.onBlur, e)
+      emit('blur', e)
       eventHandlers.value.onBlur?.()
     }
 
@@ -218,8 +220,8 @@ export default defineComponent({
 
       const value = updateValue(e)
 
-      call(props['onUpdate:modelValue'], value)
-      call(props.onInput, value, e)
+      emit('update:modelValue', value)
+      emit('input', value, e)
       eventHandlers.value.onInput?.()
     }
 
@@ -227,26 +229,26 @@ export default defineComponent({
       const value = withTrim(updateValue(e))
 
       if (props.modelModifiers.trim) {
-        call(props['onUpdate:modelValue'], value)
+        emit('update:modelValue', value)
       }
 
-      call(props.onChange, value, e)
+      emit('change', value, e)
       eventHandlers.value.onChange?.()
     }
 
     function handleKeydown(e: KeyboardEvent) {
-      call(props.onKeydown, e)
+      emit('keydown', e)
     }
 
     function handleClear() {
-      const { disabled, readonly, clearable, onClear } = props
+      const { disabled, readonly, clearable } = props
 
       if (form?.disabled.value || form?.readonly.value || disabled || readonly || !clearable) {
         return
       }
 
-      call(props['onUpdate:modelValue'], '')
-      call(onClear, '')
+      emit('update:modelValue', '')
+      emit('clear', '')
       eventHandlers.value.onClear?.()
     }
 
@@ -257,7 +259,7 @@ export default defineComponent({
         return
       }
 
-      call(onClick, e)
+      emit('click', e)
     }
 
     function formatNumber(value: string) {
@@ -280,7 +282,7 @@ export default defineComponent({
     }
 
     function withMaxlength(value: string) {
-      return props.maxlength ? value.slice(0, toNumber(props.maxlength)) : value
+      return props.maxLength ? value.slice(0, toNumber(props.maxLength)) : value
     }
 
     function handleMousedown(e: MouseEvent) {

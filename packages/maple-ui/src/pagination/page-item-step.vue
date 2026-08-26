@@ -1,13 +1,17 @@
 <template>
   <component :is="simple ? 'span' : 'li'" v-ripple="{ disabled: mergedDisabled }" :class="cls" @click="handleClick">
     <slot :type="isNext ? 'next' : 'previous'">
-      <mp-icon :name="isNext ? 'chevron-right' : 'chevron-left'" />
+      <mp-icon>
+        <MIconChevronRight v-if="isNext" />
+        <MIconChevronLeft v-else />
+      </mp-icon>
     </slot>
   </component>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { IconChevronLeft as MIconChevronLeft, IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
@@ -16,8 +20,12 @@ import { getLegalPage } from './utils'
 const { n, classes } = createNamespace('pagination')
 
 export default defineComponent({
-  name: 'MpPaginationItemStep',
-  components: { MpIcon },
+  name: createNamespace('pagination-item-step').name,
+  components: {
+    MIconChevronRight,
+    MIconChevronLeft,
+    MpIcon,
+  },
   directives: { Ripple },
   props: {
     pages: {

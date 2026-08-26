@@ -85,59 +85,61 @@
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <template #clear-icon="{ clear }">
-        <mp-icon class="clear-icon" name="github" @click="clear" />
+        <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
 
     <mp-select placeholder="自定义图标" v-model="value7">
       <template #default>
         <mp-option label="吃饭">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>吃饭</span>
         </mp-option>
         <mp-option label="睡觉">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>睡觉</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :name="value7 === '吃饭' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value7 === '吃饭'" class="selected-icon" />
+        <m-icon-weather-night v-else class="selected-icon" />
         <span>{{ value7 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
 
     <mp-select placeholder="自定义图标尺寸" v-model="value8">
       <template #default>
         <mp-option label="吃饭">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>吃饭</span>
         </mp-option>
         <mp-option label="睡觉">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>睡觉</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :size="28" :name="value8 === '吃饭' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value8 === '吃饭'" class="selected-icon" :size="28" />
+        <m-icon-weather-night v-else class="selected-icon" :size="28" />
         <span>{{ value8 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
 
@@ -159,7 +161,12 @@
     </mp-select>
     <mp-select placeholder="选项式 API" v-model="value14" :options="options" />
     <mp-select placeholder="选项式 API（多选）" v-model="value15" :options="options" multiple />
-    <mp-select placeholder="自定义字段" v-model="value16" :options="keyOptions" label-key="name" value-key="id" />
+    <mp-select
+      placeholder="自定义字段"
+      v-model="value16"
+      :options="keyOptions"
+      :field-names="{ label: 'name', value: 'id' }"
+    />
   </mp-space>
 </template>
 
@@ -263,58 +270,60 @@
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <template #clear-icon="{ clear }">
-        <mp-icon class="clear-icon" name="github" @click="clear" />
+        <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
 
     <mp-select variant="outlined" placeholder="自定义图标" v-model="value7">
       <template #default>
         <mp-option label="吃饭">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>吃饭</span>
         </mp-option>
         <mp-option label="睡觉">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>睡觉</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :name="value7 === '吃饭' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value7 === '吃饭'" class="selected-icon" />
+        <m-icon-weather-night v-else class="selected-icon" />
         <span>{{ value7 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select variant="outlined" placeholder="自定义图标尺寸" v-model="value8">
       <template #default>
         <mp-option label="吃饭">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>吃饭</span>
         </mp-option>
         <mp-option label="睡觉">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>睡觉</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :size="28" :name="value8 === '吃饭' ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="value8 === '吃饭'" class="selected-icon" :size="28" />
+        <m-icon-weather-night v-else class="selected-icon" :size="28" />
         <span>{{ value8 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
 
@@ -330,7 +339,7 @@
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select variant="outlined" size="small" placeholder="小尺寸" v-model="value13">
+    <mp-select variant="outlined" size="sm" placeholder="小尺寸" v-model="value13">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
@@ -341,8 +350,7 @@
       placeholder="自定义字段"
       v-model="value16"
       :options="keyOptions"
-      label-key="name"
-      value-key="id"
+      :field-names="{ label: 'name', value: 'id' }"
     />
   </mp-space>
 </template>
@@ -465,31 +473,29 @@
 
 #### Select Props
 
-| 参数                        | 说明                                               | 类型                                       | 默认值      |
-| --------------------------- | -------------------------------------------------- | ------------------------------------------ | ----------- |
-| `v-model`                   | 绑定的值                                           | _any \| any[]_                             | `-`         |
-| `size`                      | 选择框尺寸，可选值 `normal` `small`                | _string_                                   | `normal`    |
-| `variant`                   | 选择框风格, 可选值为 `standard` `outlined`         | _string_                                   | `standard`  |
-| `presentation` _**3.18.0**_ | 展示模式，可选值为 `menu` `picker` `list`          | _string_                                   | `menu`      |
-| `show` _**3.18.0**_         | 显隐受控                                           | _boolean_                                  | `undefined` |
-| `placeholder`               | 占位符                                             | _string_                                   | `-`         |
-| `multiple`                  | 是否开启多选                                       | _boolean_                                  | `false`     |
-| `offset-y`                  | 下拉菜单的垂直偏移量                               | _string \| number_                         | `0`         |
-| `tag`                       | 是否使用标签风格（仅限多选）                       | _boolean_                                  | `false`     |
-| `line`                      | 是否显示分割线                                     | _boolean_                                  | `true`      |
-| `hint`                      | 是否使用占位符作为提示                             | _boolean_                                  | `true`      |
-| `text-color`                | 文字颜色                                           | _string_                                   | `-`         |
-| `focus-color`               | 聚焦时的主要颜色                                   | _string_                                   | `-`         |
-| `blur-color`                | 失焦时的主要颜色                                   | _string_                                   | `-`         |
-| `readonly`                  | 是否只读                                           | _boolean_                                  | `false`     |
-| `disabled`                  | 是否禁用                                           | _boolean_                                  | `false`     |
-| `clearable`                 | 是否可清除                                         | _boolean_                                  | `false`     |
-| `options` _**3.3.4**_       | 指定可选项                                         | _SelectOption[]_                           | `[]`        |
-| `label-key` _**3.3.4**_     | 作为 label 唯一标识的键名                          | _string_                                   | `label`     |
-| `value-key` _**3.3.4**_     | 作为 value 唯一标识的键名                          | _string_                                   | `value`     |
-| `field-names` _**3.18.0**_  | 自定义字段映射，优先级高于 `labelKey` / `valueKey` | _{ label?, value?, children?, disabled? }_ | `-`         |
-| `picker-props` _**3.18.0**_ | picker 模式透传给 `mp-picker` 的属性               | _Partial\<PickerProps\>_                   | `{}`        |
-| `popup-props` _**3.18.0**_  | 透传给弹窗的属性                                   | _Partial\<PopupProps\>_                    | `{}`        |
+| 参数                        | 说明                                                | 类型                                       | 默认值      |
+| --------------------------- | --------------------------------------------------- | ------------------------------------------ | ----------- |
+| `v-model`                   | 绑定的值                                            | _any \| any[]_                             | `-`         |
+| `size`                      | 选择框尺寸，可选值 `xs` `sm` `md` `lg` `xl`         | _ComponentSize_                            | `md`        |
+| `variant`                   | 选择框风格, 可选值为 `filled` `outlined` `standard` | _string_                                   | `standard`  |
+| `presentation` _**3.18.0**_ | 展示模式，可选值为 `menu` `picker` `list`           | _string_                                   | `menu`      |
+| `show` _**3.18.0**_         | 显隐受控                                            | _boolean_                                  | `undefined` |
+| `placeholder`               | 占位符                                              | _string_                                   | `-`         |
+| `multiple`                  | 是否开启多选                                        | _boolean_                                  | `false`     |
+| `offset-y`                  | 下拉菜单的垂直偏移量                                | _string \| number_                         | `0`         |
+| `tag`                       | 是否使用标签风格（仅限多选）                        | _boolean_                                  | `false`     |
+| `line`                      | 是否显示分割线                                      | _boolean_                                  | `true`      |
+| `hint`                      | 是否使用占位符作为提示                              | _boolean_                                  | `true`      |
+| `text-color`                | 文字颜色                                            | _string_                                   | `-`         |
+| `focus-color`               | 聚焦时的主要颜色                                    | _string_                                   | `-`         |
+| `blur-color`                | 失焦时的主要颜色                                    | _string_                                   | `-`         |
+| `readonly`                  | 是否只读                                            | _boolean_                                  | `false`     |
+| `disabled`                  | 是否禁用                                            | _boolean_                                  | `false`     |
+| `clearable`                 | 是否可清除                                          | _boolean_                                  | `false`     |
+| `options` _**3.3.4**_       | 指定可选项                                          | _SelectOption[]_                           | `[]`        |
+| `field-names`               | 自定义 `options` 字段映射                           | _{ label?, value?, children?, disabled? }_ | `-`         |
+| `picker-props` _**3.18.0**_ | picker 模式透传给 `mp-picker` 的属性                | _Partial\<PickerProps\>_                   | `{}`        |
+| `popup-props` _**3.18.0**_  | 透传给弹窗的属性                                    | _Partial\<PopupProps\>_                    | `{}`        |
 
 校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
@@ -556,52 +562,35 @@
 
 #### Select Variables
 
-| 变量名                                                  | 默认值                                                              |
-| ------------------------------------------------------- | ------------------------------------------------------------------- |
-| `--field-decorator-text-color`                          | `#555`                                                              |
-| `--field-decorator-error-color`                         | `var(--color-danger)`                                               |
-| `--field-decorator-blur-color`                          | `#888`                                                              |
-| `--field-decorator-focus-color`                         | `var(--color-primary)`                                              |
-| `--field-decorator-placeholder-size`                    | `16px`                                                              |
-| `--field-decorator-icon-size`                           | `20px`                                                              |
-| `--field-decorator-line-size`                           | `1px`                                                               |
-| `--field-decorator-line-focus-size`                     | `2px`                                                               |
-| `--field-decorator-line-border-radius`                  | `4px`                                                               |
-| `--field-decorator-disabled-color`                      | `var(--color-text-disabled)`                                        |
-| `--field-decorator-standard-normal-margin-top`          | `22px`                                                              |
-| `--field-decorator-standard-normal-margin-bottom`       | `4px`                                                               |
-| `--field-decorator-standard-normal-icon-margin-top`     | `22px`                                                              |
-| `--field-decorator-standard-normal-icon-margin-bottom`  | `4px`                                                               |
-| `--field-decorator-standard-normal-non-hint-margin-top` | `4px`                                                               |
-| `--field-decorator-standard-small-margin-top`           | `18px`                                                              |
-| `--field-decorator-standard-small-margin-bottom`        | `4px`                                                               |
-| `--field-decorator-standard-small-icon-margin-top`      | `18px`                                                              |
-| `--field-decorator-standard-small-icon-margin-bottom`   | `4px`                                                               |
-| `--field-decorator-standard-small-non-hint-margin-top`  | `2px`                                                               |
-| `--field-decorator-outlined-normal-margin-top`          | `16px`                                                              |
-| `--field-decorator-outlined-normal-margin-bottom`       | `16px`                                                              |
-| `--field-decorator-outlined-normal-padding-left`        | `16px`                                                              |
-| `--field-decorator-outlined-normal-padding-right`       | `16px`                                                              |
-| `--field-decorator-outlined-normal-placeholder-space`   | `4px`                                                               |
-| `--field-decorator-outlined-normal-icon-margin-top`     | `16px`                                                              |
-| `--field-decorator-outlined-normal-icon-margin-bottom`  | `16px`                                                              |
-| `--field-decorator-outlined-small-margin-top`           | `8px`                                                               |
-| `--field-decorator-outlined-small-margin-bottom`        | `8px`                                                               |
-| `--field-decorator-outlined-small-padding-left`         | `12px`                                                              |
-| `--field-decorator-outlined-small-padding-right`        | `12px`                                                              |
-| `--field-decorator-outlined-small-placeholder-space`    | `2px`                                                               |
-| `--field-decorator-outlined-small-icon-margin-top`      | `8px`                                                               |
-| `--field-decorator-outlined-small-icon-margin-bottom`   | `8px`                                                               |
-| `--select-scroller-background`                          | `var(--color-surface-container-high)`                               |
-| `--select-scroller-padding`                             | `6px 0`                                                             |
-| `--select-scroller-max-height`                          | `278px`                                                             |
-| `--select-scroller-border-radius`                       | `2px`                                                               |
-| `--select-label-font-size`                              | `16px`                                                              |
-| `--select-tags-margin`                                  | `-5px 0 0 0`                                                        |
-| `--select-tags-padding`                                 | `2px 0`                                                             |
-| `--select-tag-margin`                                   | `5px 5px 0 0`                                                       |
-| `--select-arrow-size`                                   | `20px`                                                              |
-| `--select-standard-menu-margin`                         | `calc(var(--field-decorator-placeholder-size) * 0.75 + 14px) 0 0 0` |
+| 变量名                                        | 默认值                                                       |
+| --------------------------------------------- | ------------------------------------------------------------ |
+| `--mp-field-color-text`                       | `#555`                                                       |
+| `--mp-field-color-error`                      | `var(--mp-color-danger)`                                     |
+| `--mp-field-color-blur`                       | `#888`                                                       |
+| `--mp-field-color-focus`                      | `var(--mp-color-primary)`                                    |
+| `--mp-field-color-placeholder-text`           | `var(--mp-field-color-blur)`                                 |
+| `--mp-field-color-text-disabled`              | `var(--mp-color-text-disabled)`                              |
+| `--mp-field-size-placeholder`                 | `16px`                                                       |
+| `--mp-field-size-icon`                        | `20px`                                                       |
+| `--mp-field-border-radius`                    | `4px`                                                        |
+| `--mp-field-variant-standard-line-size`       | `1px`                                                        |
+| `--mp-field-variant-standard-line-size-focus` | `2px`                                                        |
+| `--mp-field-variant-filled-bg`                | `var(--mp-color-fill-2)`                                     |
+| `--mp-field-size-xs-height`                   | `32px`                                                       |
+| `--mp-field-size-sm-height`                   | `40px`                                                       |
+| `--mp-field-size-md-height`                   | `48px`                                                       |
+| `--mp-field-size-lg-height`                   | `56px`                                                       |
+| `--mp-field-size-xl-height`                   | `64px`                                                       |
+| `--select-scroller-background`                | `var(--color-fill-2)`                                        |
+| `--select-scroller-padding`                   | `6px 0`                                                      |
+| `--select-scroller-max-height`                | `278px`                                                      |
+| `--select-scroller-border-radius`             | `2px`                                                        |
+| `--select-label-font-size`                    | `16px`                                                       |
+| `--select-tags-margin`                        | `-5px 0 0 0`                                                 |
+| `--select-tags-padding`                       | `2px 0`                                                      |
+| `--select-tag-margin`                         | `5px 5px 0 0`                                                |
+| `--select-arrow-size`                         | `20px`                                                       |
+| `--select-standard-menu-margin`               | `calc(var(--mp-field-size-placeholder) * 0.75 + 14px) 0 0 0` |
 
 #### Option Variables
 

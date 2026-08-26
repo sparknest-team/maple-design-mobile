@@ -1,19 +1,20 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
-import type { ButtonStatus, ButtonVariant, ButtonSize } from '../button/props'
+import type { ButtonVariant } from '../button/props'
+import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
 export const buttonGroupProps = {
   /**
    * 按钮组主题色
    */
   status: {
-    type: String as PropType<ButtonStatus>,
+    type: String as PropType<SemanticStatus>,
     default: 'default',
   },
   /**
    * 按钮组尺寸
    */
   size: {
-    type: String as PropType<ButtonSize>,
+    type: String as PropType<ComponentSize>,
     default: 'md',
   },
   /**
@@ -53,8 +54,3 @@ export const buttonGroupProps = {
 }
 
 export type ButtonGroupProps = ExtractPropTypes<typeof buttonGroupProps>
-
-/**
- * @deprecated 兼容旧 `import { props } from './props'`
- */
-export const props = buttonGroupProps

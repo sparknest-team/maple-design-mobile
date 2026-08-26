@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Rate, rateProps)
 
 export { rateProps }
 
+export type RateInstance = InstanceType<typeof Rate>
 export const _RateComponent = Rate
 
 export default Rate

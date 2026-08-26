@@ -7,6 +7,7 @@ withPropsDefaultsSetter(PullRefresh, pullRefreshProps)
 
 export { pullRefreshProps }
 
+export type PullRefreshInstance = InstanceType<typeof PullRefresh>
 export const _PullRefreshComponent = PullRefresh
 
 export default PullRefresh

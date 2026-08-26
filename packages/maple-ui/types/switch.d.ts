@@ -4,23 +4,23 @@ export declare const switchProps: Record<keyof SwitchProps, any>
 
 export interface SwitchProps extends BasicAttributes {
   modelValue?: any
-  activeValue?: any
-  inactiveValue?: any
+  checkedValue?: any
+  uncheckedValue?: any
   disabled?: boolean
   readonly?: boolean
   loading?: boolean
   ripple?: boolean
-  buttonElevation?: boolean
-  color?: string
+  handleElevation?: boolean | string | number
+  checkedColor?: string
   loadingColor?: string
-  closeColor?: string
+  uncheckedColor?: string
   size?: string | number
   lazyChange?: boolean
-  variant?: boolean
+  variant?: 'standard' | 'md3'
   onClick?: ListenerProp<(event: Event) => void>
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
-  onBeforeChange?: ListenerProp<(value: any, change: (value: any) => void) => void>
+  beforeChange?: ListenerProp<(value: any, change: (value: any) => void) => void>
 }
 
 export class Switch extends VarComponent {

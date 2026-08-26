@@ -42,7 +42,8 @@ const { name, n, classes } = createNamespace('index-bar')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['change', 'click'],
+  setup(props, { emit }) {
     const clickedName = ref<string | number>('')
     const barEl = ref<HTMLElement | null>(null)
     const anchorNameList = ref<(number | string)[]>([])
@@ -104,7 +105,7 @@ export default defineComponent({
 
       active.value = anchorName
       if (options?.event !== false) {
-        call(props.onChange, anchorName)
+        emit('change', anchorName)
       }
     }
 
@@ -140,7 +141,7 @@ export default defineComponent({
 
     async function anchorClick({ anchorName, manualCall = false, options }: ClickOptions) {
       if (manualCall) {
-        call(props.onClick, anchorName)
+        emit('click', anchorName)
       }
 
       if (anchorName === active.value && !isDeactivated) {

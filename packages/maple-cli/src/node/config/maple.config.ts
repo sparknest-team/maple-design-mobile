@@ -1,7 +1,6 @@
 import { pathToFileURL } from 'url'
 import { isArray, mergeWith } from '@maplejs/maple-shared'
 import { type CopyOptions } from '@maplejs/maple-vite-plugins'
-import { type VIConfig } from '@varlet/icon-builder'
 import fse from 'fs-extra'
 import { Plugin, ProxyOptions } from 'vite'
 import { MAPLE_CONFIG, SITE_CONFIG } from '../shared/constant.js'
@@ -9,12 +8,11 @@ import { outputFileSyncOnChange } from '../shared/fsUtils.js'
 
 const { pathExistsSync, statSync } = fse
 
-export interface MapleConfigIcons extends VIConfig {
-  /**
-   * @default true
-   * Whether to generate png
-   */
-  genPng?: boolean
+export interface MapleConfigIcons {
+  /** SVG source directory owned by the product icon package. */
+  entry?: string
+  /** Generated Vue source directory. */
+  output?: string
 }
 
 export interface MapleConfigEsbuild {
@@ -153,6 +151,8 @@ export interface MapleConfig {
   title?: string
   logo?: string
   themeKey?: string
+  /** Mobile demo theme storage key. Defaults to `${themeKey}_DEMO`. */
+  demoThemeKey?: string
   seo?: {
     title?: string
     description?: string
@@ -202,7 +202,9 @@ export function defineConfig(config: MapleConfig) {
 }
 
 export function mergeStrategy(_: any, srcValue: any, key: any) {
-  const keys = ['features', 'members', 'versions', 'themes', '_cf']
+  // Arrays merged by index would pollute items across reloads when length/order changes
+  // (e.g. menu titles picking up the next component's `doc`).
+  const keys = ['features', 'members', 'versions', 'themes', '_cf', 'menu']
 
   if (keys.includes(key) && isArray(srcValue)) {
     return srcValue
@@ -214,7 +216,8 @@ export async function getMapleConfig(emit = false): Promise<Required<MapleConfig
   const config: any = pathExistsSync(MAPLE_CONFIG)
     ? (await import(`${pathToFileURL(MAPLE_CONFIG).href}?_t=${statSync(MAPLE_CONFIG).mtimeMs}`)).default
     : {}
-  const mergedConfig = mergeWith(defaultConfig, config, mergeStrategy)
+  // Clone first: mergeWith mutates the destination; the default export is module-cached.
+  const mergedConfig = mergeWith(structuredClone(defaultConfig), config, mergeStrategy)
 
   if (emit) {
     const source = JSON.stringify(mergedConfig, null, 2)

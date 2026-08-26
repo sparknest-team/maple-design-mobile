@@ -1,5 +1,4 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 /** Alert 类型，对齐 Status 状态色 + default 中性色 */
 export type AlertType = 'info' | 'success' | 'warning' | 'danger' | 'default'
@@ -41,9 +40,7 @@ export const alertProps = {
     default: false,
   },
   /** 关闭点击回调 */
-  onClose: defineListenerProp<(e: Event) => void>(),
   /** 关闭动画结束后回调 */
-  onAfterClose: defineListenerProp<() => void>(),
 }
 
 export type AlertProps = ExtractPropTypes<typeof alertProps>

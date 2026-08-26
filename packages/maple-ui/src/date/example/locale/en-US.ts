@@ -1,11 +1,13 @@
 export default {
   basicUsage: 'Basic Usage',
+  calendarMode: 'Calendar Mode',
   type: 'Type',
   multiple: 'Multiple',
   dateTime: 'Date Time',
   disabled: 'Disabled',
   withFormItem: 'With FormItem',
   placeholder: 'Please select a date',
+  calendarPlaceholder: 'Select a date from calendar',
   year: 'Select year',
   month: 'Select month',
   date: 'Select date',

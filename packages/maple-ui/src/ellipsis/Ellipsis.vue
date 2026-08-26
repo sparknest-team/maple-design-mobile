@@ -34,8 +34,9 @@ export default defineComponent({
   name,
   components: { MpTooltip },
   props,
-  setup(props) {
-    const expanding = useVModel(props, 'expand')
+  emits: ['update:expand'],
+  setup(props, { emit }) {
+    const expanding = useVModel(props, 'expand', { emit, eventName: 'update:expand' })
     const rootStyles = computed<CSSProperties>(() => (props.lineClamp ? { '-webkit-line-clamp': props.lineClamp } : {}))
     const tooltipProps = computed<ExtractPublicPropTypes<typeof _tooltipProps>>(() => {
       if (props.tooltip === false) {

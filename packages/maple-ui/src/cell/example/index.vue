@@ -37,19 +37,19 @@ onThemeChange()
   <app-type>{{ t('showIcon') }}</app-type>
   <mp-cell icon="fire" :title="t('content')">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
   <mp-cell icon="fire" :title="t('content')">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
 
   <app-type>{{ t('showDesc') }}</app-type>
   <mp-cell icon="fire" :title="t('content')" :description="t('description')">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
   <mp-cell :title="t('content')" :description="t('description')" />

@@ -30,12 +30,8 @@
           ></div>
         </div>
       </template>
-      <div
-        v-if="$slots.description || description"
-        :class="classes(n('description'), n(`description--${size}`))"
-        :style="{ color }"
-      >
-        <slot name="description">{{ description }}</slot>
+      <div v-if="$slots.tip || tip" :class="classes(n('tip'), n(`tip--${size}`))" :style="{ color }">
+        <slot name="tip">{{ tip }}</slot>
       </div>
     </div>
   </div>

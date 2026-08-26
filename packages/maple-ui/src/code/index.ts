@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Code, codeProps)
 
 export { codeProps }
 
+export type CodeInstance = InstanceType<typeof Code>
 export const _CodeComponent = Code
 
 export default Code

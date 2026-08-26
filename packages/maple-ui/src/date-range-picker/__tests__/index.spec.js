@@ -14,6 +14,7 @@ test('date-range-picker calendar presentation', async () => {
   const wrapper = mount(VarDateRangePicker, {
     props: {
       modelValue: ['2024-01-01', '2024-01-15'],
+      presentation: 'calendar',
     },
   })
 
@@ -30,7 +31,6 @@ test('date-range-picker picker presentation', async () => {
   const wrapper = mount(VarDateRangePicker, {
     props: {
       modelValue: ['2024-01-01', '2024-12-31'],
-      presentation: 'picker',
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })

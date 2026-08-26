@@ -1,6 +1,6 @@
 <template>
   <transition :name="n('$-fade')">
-    <span v-show="computedVisible" :class="rootClass" :style="rootStyle" @click="handleClick">
+    <span v-show="computedShow" :class="rootClass" :style="rootStyle" @click="handleClick">
       <span v-if="$slots.icon" :class="n('icon')">
         <slot name="icon" />
       </span>
@@ -11,7 +11,7 @@
       <span v-if="loading" :class="n('loading-icon')" aria-hidden="true" />
       <span v-else-if="closable" role="button" aria-label="Close" :class="n('close-btn')" @click.stop="handleClose">
         <slot name="close-icon">
-          <mp-icon name="close-circle" />
+          <mp-icon><MIconCloseCircle /></mp-icon>
         </slot>
       </span>
     </span>
@@ -20,6 +20,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, type CSSProperties } from 'vue'
+import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { tagProps } from './props'
@@ -32,16 +33,16 @@ const { n, classes } = createNamespace('tag')
 
 const props = defineProps(tagProps)
 const emit = defineEmits<{
-  (e: 'update:visible', visible: boolean): void
+  (e: 'update:show', show: boolean): void
   (e: 'update:checked', checked: boolean): void
   (e: 'close', ev: MouseEvent): void
   (e: 'check', checked: boolean, ev: MouseEvent): void
 }>()
 
-const innerVisible = ref(props.defaultVisible)
+const innerShow = ref(props.defaultShow)
 const innerChecked = ref(props.defaultChecked)
 
-const computedVisible = computed(() => props.visible ?? innerVisible.value)
+const computedShow = computed(() => props.show ?? innerShow.value)
 const computedChecked = computed(() => (props.checkable ? (props.checked ?? innerChecked.value) : true))
 
 const rootClass = computed(() =>
@@ -83,8 +84,8 @@ function handleClose(e: MouseEvent) {
   if (props.loading) {
     return
   }
-  innerVisible.value = false
-  emit('update:visible', false)
+  innerShow.value = false
+  emit('update:show', false)
   emit('close', e)
 }
 

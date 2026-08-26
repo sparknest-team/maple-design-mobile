@@ -1,189 +1,105 @@
-# 布局
+# Row / Col 栅格
 
 ### 介绍
 
-组件库提供了 `<mp-row/>` 和 `<mp-col/>` 两个辅助布局的组件，使您更有效率的进行布局。
+24 栏 Flex 栅格布局。API 与 Cedar Design Web (PC) 对齐。
 
-### 栅格系统
+> 原「Layout 布局」菜单已废弃，请使用本页。CSS Grid 布局见 [Grid 栅格](#/zh-CN/grid)。
 
-`<mp-row/>` 组件把一行平均划分为 24列 栅格( 24份 )，`<mp-col/>` 提供 `span` 属性设置一列所占的份数，`offset` 属性设置一列偏移的份数，
-`gutter` 属性设置列间距。
+断点与 PC 端对齐：
 
-```html
-<template>
-  <mp-row :gutter="[10, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-</template>
+| 断点 | 媒体查询 |
+| --- | --- |
+| `xs` | `< 576px` |
+| `sm` | `≥ 576px` |
+| `md` | `≥ 768px` |
+| `lg` | `≥ 992px` |
+| `xl` | `≥ 1200px` |
+| `xxl` | `≥ 1600px` |
 
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
-```
+### 基础用法
 
-### 偏移
+`<mp-row/>` 将一行划分为 24 栏，`<mp-col/>` 通过 `span` 设置占位，`gutter` 设置间距。
 
 ```html
 <template>
   <mp-row :gutter="[10, 10]">
-    <mp-col :span="16" :offset="8">
-      <div class="item">offset: 8 span: 16</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
-### 对齐
-
-布局组件默认使用 `flex` 布局，通过  `<mp-row/>`的 `justify` 和 `align` 属性设置主轴和交叉轴的对齐方式。
+### 栅格偏移
 
 ```html
 <template>
-  <mp-row :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
+  <mp-row :gutter="[10, 10]">
+    <mp-col :span="16" :offset="8"><div class="item">offset: 8 span: 16</div></mp-col>
   </mp-row>
+</template>
+```
+
+### 水平布局
+
+通过 `justify` 设置水平对齐：`start` `center` `end` `space-around` `space-between`。
+
+```html
+<template>
   <mp-row justify="center" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="flex-end" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="space-around" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="space-between" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
   </mp-row>
 </template>
+```
 
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
+### 垂直布局
+
+通过 `align` 设置垂直对齐：`start` `center` `end` `stretch`。
+
+```html
+<template>
+  <mp-row align="center" :gutter="10">
+    <mp-col :span="6"><div class="item" style="height: 48px">48</div></mp-col>
+    <mp-col :span="6"><div class="item" style="height: 72px">72</div></mp-col>
+  </mp-row>
+</template>
+```
+
+### 排序
+
+通过 `order` 调整列顺序。
+
+```html
+<template>
+  <mp-row>
+    <mp-col :span="6" :order="4"><div class="item">1 order-4</div></mp-col>
+    <mp-col :span="6" :order="3"><div class="item">2 order-3</div></mp-col>
+    <mp-col :span="6" :order="2"><div class="item">3 order-2</div></mp-col>
+    <mp-col :span="6" :order="1"><div class="item">4 order-1</div></mp-col>
+  </mp-row>
+</template>
 ```
 
 ### 响应式布局
 
-#### 基本使用
-
-```vue
-import BasicExample from '../example/Responsive.vue'
-```
-
 ```html
 <template>
   <mp-row :gutter="10">
-    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1">
+    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="2" :xxl="1">
       <div class="item">1</div>
     </mp-col>
-    <mp-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
+    <mp-col :xs="4" :sm="6" :md="8" :lg="9" :xl="10" :xxl="11">
       <div class="item">2</div>
-    </mp-col>
-    <mp-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
-      <div class="item">3</div>
-    </mp-col>
-    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1">
-      <div class="item">4</div>
     </mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
-#### 属性对象
+### 属性内嵌响应式
 
-```vue
-import ObjectExample from '../example/ResponsiveObject.vue'
-```
+`span`、`offset`、`order` 可写在断点对象中。
 
 ```html
 <template>
@@ -194,103 +110,76 @@ import ObjectExample from '../example/ResponsiveObject.vue'
       :md="{ span: 4, offset: 4 }"
       :lg="{ span: 3, offset: 3 }"
       :xl="{ span: 2, offset: 2 }"
+      :xxl="{ span: 1, offset: 1 }"
     >
       <div class="item">1</div>
     </mp-col>
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">2</div>
-    </mp-col>
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">3</div>
-    </mp-col>
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">4</div>
-    </mp-col>
   </mp-row>
 </template>
+```
 
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
+### Flex 用法
+
+```html
+<template>
+  <mp-row>
+    <mp-col flex="100px"><div class="item">100px</div></mp-col>
+    <mp-col flex="auto"><div class="item">auto</div></mp-col>
+  </mp-row>
+  <mp-row>
+    <mp-col :flex="3"><div class="item">3 / 12</div></mp-col>
+    <mp-col :flex="4"><div class="item">4 / 12</div></mp-col>
+    <mp-col :flex="5"><div class="item">5 / 12</div></mp-col>
+  </mp-row>
+</template>
 ```
 
 ## API
 
-### 属性
-
-#### Row Props
+### Row Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `gutter` | 列间距，默认为水平间距。可设置为 [垂直间距, 水平间距] (支持长度单位) | _string \| number \| [string \| number, string \| number]_ | `0` |
-| `justify` | 主轴对齐方式, 可选值为 `flex-start` `flex-end` `center` `space-between` `space-around` | _string_ | `flex-start` |
-| `align` | 交叉轴对齐方式, 可选值为 `flex-start` `flex-end` `center` | _string_ | `flex-start` |
+| `gutter` | 栅格间隔（px）。支持响应式对象，或 `[水平, 垂直]` | `number \| ResponsiveValue \| [number \| ResponsiveValue, number \| ResponsiveValue]` | `0` |
+| `justify` | 水平对齐 | `'start' \| 'center' \| 'end' \| 'space-around' \| 'space-between'` | `'start'` |
+| `align` | 竖直对齐 | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` |
+| `wrap` | Col 是否换行 | `boolean` | `true` |
+| `div` | 仅作为普通 div，不附带栅格样式 | `boolean` | `false` |
 
-#### Col Props
+### Col Props
 
-| 参数       | 说明                       | 类型       | 默认值     |
-|----------|--------------------------|----------|---------|
-| `span`   | 列占据的栅格数                  | _string \| number_ | `24` |
-| `offset` | 列偏移的栅格数                  | _string \| number_ | `0` |
-| `direction` | 布局方向，可选值为 `row` `column`     |  _string_ | `row` |
-| `justify`   | 主轴排列方式 可选值为 `flex-start` `flex-end` `center` `space-around` `space-between` | _string_ | `-` |
-| `align`     | 交叉轴排列方式 可选值为 `stretch` `center` `flex-start` `flex-end` `baseline`           | _string_ | `-`     |
-| `xs`     | `<768px` 响应式栅格数或者栅格属性对象  | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-` |
-| `sm`     | `≥768px` 响应式栅格数或者栅格属性对象  | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-` |
-| `md`     | `≥992px` 响应式栅格数或者栅格属性对象  | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-` |
-| `lg`     | `≥1200px` 响应式栅格数或者栅格属性对象 | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-` |
-| `xl`     | `≥1920px` 响应式栅格数或者栅格属性对象 | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-` |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `span` | 栅格占位格数 | `number` | `24` |
+| `offset` | 左侧间隔格数 | `number` | `-` |
+| `order` | 排序 | `number` | `-` |
+| `xs` | `< 576px` | `number \| { span?, offset?, order? }` | `-` |
+| `sm` | `≥ 576px` | 同上 | `-` |
+| `md` | `≥ 768px` | 同上 | `-` |
+| `lg` | `≥ 992px` | 同上 | `-` |
+| `xl` | `≥ 1200px` | 同上 | `-` |
+| `xxl` | `≥ 1600px` | 同上 | `-` |
+| `flex` | flex 布局属性 | `number \| string \| 'initial' \| 'auto' \| 'none'` | `-` |
 
-### 事件
-
-#### Row Events
-
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `click` | 点击 Row 时触发 | `event: Event` |
-
-#### Col Events
+### Row Events
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `click` | 点击 Col 时触发 | `event: Event` |
+| `click` | 点击时触发 | `event: Event` |
 
-### 插槽
+### Col Events
 
-#### Row Slots
-
-| 插槽名 | 说明 | 参数 |
+| 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `default` | Row 内容 | `-` |
+| `click` | 点击时触发 | `event: Event` |
 
-#### Col Slots
+### ResponsiveValue
 
-| 插槽名 | 说明 | 参数 |
+| 参数 | 说明 | 类型 |
 | --- | --- | --- |
-| `default` | Col 内容 | `-` |
+| `xxl` | ≥ 1600px | `number` |
+| `xl` | ≥ 1200px | `number` |
+| `lg` | ≥ 992px | `number` |
+| `md` | ≥ 768px | `number` |
+| `sm` | ≥ 576px | `number` |
+| `xs` | < 576px | `number` |

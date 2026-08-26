@@ -1,11 +1,12 @@
 import type { ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import type { ButtonStatus, ButtonVariant, ButtonSize } from '../button/props'
+import type { ButtonVariant } from '../button/props'
+import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
 export interface ButtonGroupProvider {
   elevation: ComputedRef<string | number | boolean>
-  status: ComputedRef<ButtonStatus>
-  size: ComputedRef<ButtonSize>
+  status: ComputedRef<SemanticStatus>
+  size: ComputedRef<ComponentSize>
   variant: ComputedRef<ButtonVariant>
   color: ComputedRef<string | undefined>
   textColor: ComputedRef<string | undefined>

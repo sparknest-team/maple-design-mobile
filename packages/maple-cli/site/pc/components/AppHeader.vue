@@ -13,7 +13,7 @@
         v-if="isShowVersion"
       >
         <span style="font-size: 16px">{{ currentVersion }}</span>
-        <mp-icon name="chevron-down" />
+        <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
             class="maple-site-header__animation-list maple-site-header__animation-versions mp-elevation--5"
@@ -51,13 +51,13 @@
         v-ripple
         v-if="changelog"
       >
-        <mp-icon name="history" :size="28" />
+        <mp-icon :size="28"><MIconHistory /></mp-icon>
       </a>
       <a class="maple-site-header__link" target="_blank" :href="playground" v-ripple v-if="playground">
-        <mp-icon name="code-json" :size="24" />
+        <mp-icon :size="24"><MIconCodeJson /></mp-icon>
       </a>
       <a class="maple-site-header__link" target="_blank" :href="github" v-ripple v-if="github">
-        <mp-icon name="github" :size="28" />
+        <mp-icon :size="28"><MIconGithub /></mp-icon>
       </a>
       <div
         class="maple-site-header__theme"
@@ -65,8 +65,8 @@
         @mouseleave="isOpenThemeMenu = false"
         v-if="themes.length > 1"
       >
-        <mp-icon name="palette" :size="28" />
-        <mp-icon name="chevron-down" />
+        <mp-icon :size="28"><MIconPalette /></mp-icon>
+        <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
             class="maple-site-header__animation-list mp-elevation--5"
@@ -90,8 +90,8 @@
         @mouseleave="isOpenLanguageMenu = false"
         v-if="languages"
       >
-        <mp-icon name="translate" :size="26" />
-        <mp-icon name="chevron-down" />
+        <mp-icon :size="26"><MIconTranslate /></mp-icon>
+        <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
             class="maple-site-header__animation-list mp-elevation--5"
@@ -117,11 +117,20 @@
 import { computed, defineComponent, ref } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import config from '@config'
-import { getBrowserTheme, getPCLocationInfo, setTheme, Theme, watchTheme } from '@maplejs/maple-cli/client'
+import {
+  IconChevronDown as MIconChevronDown,
+  IconCodeJson as MIconCodeJson,
+  IconGithub as MIconGithub,
+  IconHistory as MIconHistory,
+  IconPalette as MIconPalette,
+  IconTranslate as MIconTranslate,
+} from '@maplejs/icons-vue'
+import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
 import { removeEmpty } from '../../utils'
 
 export default defineComponent({
+  components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPalette, MIconTranslate },
   name: 'AppHeader',
   props: {
     language: {
@@ -145,7 +154,7 @@ export default defineComponent({
     const ai: Ref<string> = ref(config?.pc?.header?.ai)
     const redirect = config?.pc?.redirect ?? ''
     const darkMode: Ref<boolean> = ref(config?.pc?.header?.darkMode ?? false)
-    const currentTheme = ref(getBrowserTheme())
+    const currentTheme = ref(getBrowserTheme('site'))
 
     const isOpenLanguageMenu: Ref<boolean> = ref(false)
     const isOpenThemeMenu: Ref<boolean> = ref(false)
@@ -166,47 +175,20 @@ export default defineComponent({
 
     const setCurrentTheme = (theme: Theme) => {
       currentTheme.value = theme
-      setTheme(currentTheme.value)
-      window.localStorage.setItem(config?.themeKey, currentTheme.value)
+      setTheme(theme)
+      persistTheme(theme, 'site')
     }
-
-    const getThemeMessage = () => ({ action: 'theme-change', from: 'pc', data: currentTheme.value })
 
     const toggleTheme = (value: Theme) => {
       setCurrentTheme(value)
-
-      window.postMessage(getThemeMessage(), '*')
-      notifyThemeChange('mobile')
       isOpenThemeMenu.value = false
-    }
-
-    const notifyThemeChange = (target: 'mobile' | 'window') => {
-      const contentWindow =
-        target === 'window' ? window : (document.getElementById(target) as HTMLIFrameElement | undefined)?.contentWindow
-      if (!contentWindow) {
-        return
-      }
-
-      contentWindow.postMessage(getThemeMessage(), '*')
     }
 
     const open = (value: string) => {
       window.location.href = value
     }
 
-    watchTheme((theme, from) => {
-      if (from === 'mobile') {
-        setCurrentTheme(theme)
-      }
-
-      if (from === 'playground') {
-        setCurrentTheme(theme)
-        notifyThemeChange('mobile')
-      }
-    })
-
     setTheme(currentTheme.value)
-    notifyThemeChange('window')
 
     return {
       logo,

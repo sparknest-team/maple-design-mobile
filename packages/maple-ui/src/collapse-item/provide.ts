@@ -1,13 +1,13 @@
 import { type ComputedRef } from 'vue'
-import { useParent } from '@maplejs/maple-use'
 import { assert } from '@maplejs/maple-shared'
+import { useParent } from '@maplejs/maple-use'
 import { COLLAPSE_BIND_COLLAPSE_ITEM_KEY, CollapseProvider } from '../collapse/provide'
 
 export interface CollapseItemProvider {
   index: ComputedRef<number>
   name: ComputedRef<string | number | undefined>
   disabled: ComputedRef<boolean>
-  init(show: boolean): void
+  init(open: boolean): void
 }
 
 export function useCollapse() {

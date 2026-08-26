@@ -13,8 +13,8 @@ export interface TagProps extends BasicAttributes {
   status?: TagStatus
   size?: TagSize
   variant?: TagVariant
-  visible?: boolean
-  defaultVisible?: boolean
+  show?: boolean
+  defaultShow?: boolean
   loading?: boolean
   closable?: boolean
   checkable?: boolean
@@ -26,7 +26,7 @@ export interface TagProps extends BasicAttributes {
   textColor?: string
   onClose?: ListenerProp<(e: MouseEvent) => void>
   onCheck?: ListenerProp<(checked: boolean, e: MouseEvent) => void>
-  'onUpdate:visible'?: ListenerProp<(visible: boolean) => void>
+  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
   'onUpdate:checked'?: ListenerProp<(checked: boolean) => void>
 }
 

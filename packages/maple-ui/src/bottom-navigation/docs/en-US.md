@@ -155,7 +155,7 @@ const isEven = ref(true)
     <mp-bottom-navigation-item v-if="!isEven" label="label" icon="account-circle" />
 
     <template #fab>
-      <mp-icon name="heart" />
+      <m-icon-heart />
     </template>
   </mp-bottom-navigation>
 </template>
@@ -258,8 +258,8 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--bottom-navigation-height` | `50px` |
 | `--bottom-navigation-variant-height` | `66px` |
 | `--bottom-navigation-z-index` | `1` |
-| `--bottom-navigation-background-color` | `var(--color-surface-container-high)` |
-| `--bottom-navigation-border-color` | `var(--color-outline)` |
+| `--bottom-navigation-background-color` | `var(--color-fill-2)` |
+| `--bottom-navigation-border-color` | `var(--color-border-2)` |
 | `--bottom-navigation-fab-offset` | `4px` |
 
 #### BottomNavigationItem Variables
@@ -269,7 +269,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--bottom-navigation-item-font-size` | `var(--font-size-sm)` |
 | `--bottom-navigation-item-inactive-color` | `#646566` |
 | `--bottom-navigation-item-active-color` | `var(--color-primary)` |
-| `--bottom-navigation-item-active-background-color` | `var(--color-surface-container-high)` |
+| `--bottom-navigation-item-active-background-color` | `var(--color-fill-2)` |
 | `--bottom-navigation-item-line-height` | `1` |
 | `--bottom-navigation-item-icon-size` | `22px` |
 | `--bottom-navigation-item-icon-margin-bottom` | `5px` |
@@ -277,5 +277,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--bottom-navigation-item-variant-icon-container-height` | `30px` |
 | `--bottom-navigation-item-variant-icon-container-border-radius` | `100px` |
 | `--bottom-navigation-item-variant-icon-container-max-width` | `58px` |
-| `--bottom-navigation-item-variant-active-background-color` | `var(--color-primary-container)` |
-| `--bottom-navigation-item-variant-active-color` | `var(--color-on-primary-container)` |
+| `--bottom-navigation-item-variant-active-background-color` | `var(--color-primary)` |
+| `--bottom-navigation-item-variant-active-color` | `var(--color-white)` |

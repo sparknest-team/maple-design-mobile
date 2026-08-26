@@ -2,7 +2,7 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps } from '../picker'
 import { popupProps } from '../popup'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 import { type FieldNames } from '../utils/options'
 
 export type CascaderPresentation = 'menu' | 'picker' | 'list'
@@ -25,18 +25,6 @@ export const props = {
     type: Array as PropType<CascaderOption[]>,
     default: () => [],
   },
-  labelKey: {
-    type: String,
-    default: 'label',
-  },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  childrenKey: {
-    type: String,
-    default: 'children',
-  },
   fieldNames: {
     type: Object as PropType<FieldNames>,
     default: undefined,
@@ -45,7 +33,7 @@ export const props = {
     type: String as PropType<CascaderPresentation>,
     default: 'menu',
   },
-  show: {
+  open: {
     type: Boolean,
     default: undefined,
   },
@@ -81,13 +69,6 @@ export const props = {
   },
   loading: Boolean,
   readonly: Boolean,
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(value: any) => void>(),
-  onChange: defineListenerProp<(value: any) => void>(),
-  onClear: defineListenerProp<(value: any) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -97,7 +78,6 @@ export const props = {
     'focusColor',
     'blurColor',
     'disabled',
-    'onClick',
   ]),
 }
 

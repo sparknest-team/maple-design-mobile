@@ -66,7 +66,7 @@ async function copyLink() {
 }
 
 function openGithub() {
-  window.open('https://github.com/varletjs/varlet', '_blank')
+  window.open('https://github.com/loca-spirit/maple-design-mobile', '_blank')
 }
 
 function notifyEmulatorThemeChange() {
@@ -124,7 +124,7 @@ async function fetchVueVersions() {
 }
 
 async function fetchMapleVersions() {
-  const res = await fetch('https://api.github.com/repos/varletjs/varlet/releases?per_page=100')
+  const res = await fetch('https://api.github.com/repos/loca-spirit/maple-design-mobile/releases?per_page=100')
   const releases: any[] = await res.json()
   const versions = releases
     .map((r) => (/^v/.test(r.tag_name) ? r.tag_name.slice(1) : r.tag_name))
@@ -179,7 +179,7 @@ async function setMapleVersion(v: string) {
         <mp-button class="link-button" text round>
           <Palette />
         </mp-button>
-        <template #options>
+        <template #content>
           <mp-menu-option v-for="t in themeOptions" :key="t.value" :label="t['en-US']" :value="t.value" />
         </template>
       </mp-menu>

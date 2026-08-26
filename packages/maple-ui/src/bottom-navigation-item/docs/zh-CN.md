@@ -7,7 +7,6 @@
 | `name` | 标签名称，作为匹配的标识符 | _string_ | `-` |
 | `icon` | 图标名称，等同于 Icon 组件的 [name 属性](/#/zh-CN/icon) | _string_ | `-` |
 | `label` | 标签文字内容 | _string_ | - |
-| `namespace` | 图标的命名空间, 可扩展自定义图标库，等同于 Icon 组件的 [namespace 属性](/#/zh-CN/icon) | _string_ | `mp-icon` |
 | `badge` | 图标右上角徽标 | _boolean \| BadgeProps_ | `false` |
 
 ### 事件

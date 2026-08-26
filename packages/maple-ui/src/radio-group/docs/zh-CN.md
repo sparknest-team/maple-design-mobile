@@ -29,8 +29,7 @@ const value = ref(0)
 
 <template>
   <mp-radio
-    :unchecked-value="0"
-    :checked-value="1"
+    :value="1"
     v-model="value"
   >
     当前的值: {{ value }}
@@ -54,10 +53,10 @@ const value = ref(false)
     v-model="value"
   >
     <template #unchecked-icon>
-      <mp-icon name="heart-half-full" size="24px"/>
+      <m-icon-heart-half-full size="24px"/>
     </template>
     <template #checked-icon>
-      <mp-icon name="heart" size="24px"/>
+      <m-icon-heart size="24px"/>
     </template>
     <template #default>
       当前的值: {{ value }}
@@ -96,7 +95,7 @@ const value = ref(false)
 
 ### 单选框组
 
-在单选框组中，需要给 `radio` 设置 `checked-value` 用来标识，
+在单选框组中，需要给 `radio` 设置 `value` 用来标识，
 单选框组会绑定选择的标识。
 
 ```html
@@ -108,8 +107,8 @@ const value = ref(0)
 
 <template>
   <mp-radio-group v-model="value">
-    <mp-radio :checked-value="0">吃饭</mp-radio>
-    <mp-radio :checked-value="1">睡觉</mp-radio>
+    <mp-radio :value="0">吃饭</mp-radio>
+    <mp-radio :value="1">睡觉</mp-radio>
   </mp-radio-group>
 </template>
 ```
@@ -138,7 +137,7 @@ const options = ref([
 
 ### 自定义字段
 
-通过 `label-key` 和 `value-key` 属性自定义 `options` 中数据的格式。
+通过 `field-names` 属性自定义 `options` 中数据的格式。
 
 ```html
 <script setup>
@@ -153,7 +152,8 @@ const options = ref([
 </script>
 
 <template>
-  <mp-radio-group v-model="value" :options="options" label-key="name" value-key="id" />
+  <mp-radio-group v-model="value" :options="options"
+      :field-names="{ label: 'name', value: 'id' }" />
   <div>当前的值: {{ value }}</div>
 </template>
 ```
@@ -169,8 +169,8 @@ const value = ref(0)
 
 <template>
   <mp-radio-group v-model="value" direction="vertical">
-    <mp-radio :checked-value="0">吃饭</mp-radio>
-    <mp-radio :checked-value="1">睡觉</mp-radio>
+    <mp-radio :value="0">吃饭</mp-radio>
+    <mp-radio :value="1">睡觉</mp-radio>
   </mp-radio-group>
 </template>
 ```
@@ -188,8 +188,7 @@ const value = ref(0)
 | `v-model` | 绑定的值 | _any_ | `-` |
 | `direction` | 布局方向，可选值为 `horizontal` `vertical` | _string_ | `horizontal` |
 | `options` ***3.2.14*** | 指定可选项 | _RadioGroupOption[]_ | `[]` |
-| `label-key` ***3.2.14*** | 作为 label 唯一标识的键名 | _string_ | `label` |
-| `value-key` ***3.2.14*** | 作为 value 唯一标识的键名 | _string_ | `value` |
+| `field-names` | 自定义 `options` 字段映射 | _{ label?, value?, children?, disabled? }_ | `-` |
 | `aria-label` ***3.8.5*** | 单选框组的标签 | _string_ | `-` |
 
 #### RadioGroupOption
@@ -205,8 +204,7 @@ const value = ref(0)
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `v-model` | 绑定的值 | _any_ | `false` |
-| `checked-value` | 选中状态的值 | _any_ | `true` |
-| `unchecked-value` | 未选中状态的值 | _any_ | `false` |
+| `value` | 选项值 | _any_ | `true` |
 | `checked-color` | 选中状态的颜色 | _string_ | `-` |
 | `unchecked-color` | 未选中状态的颜色 | _string_ | `-` |
 | `icon-size` | 图标尺寸 | _string \| number_ | `-` |
@@ -220,7 +218,7 @@ const value = ref(0)
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
-| `toggle` | 切换选中状态，传 `checked-value` 为选中，`unchecked-value` 为取消选中，不传或其他情况为取反 | `value: any` | `-` |
+| `toggle` | 切换选中状态，传 `value` 为选中，`false` 为取消选中，不传或其他情况为取反 | `value: any` | `-` |
 
 ### 事件
 

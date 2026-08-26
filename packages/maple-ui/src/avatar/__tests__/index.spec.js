@@ -16,15 +16,15 @@ test('avatar group plugin', () => {
   expect(app.component(AvatarGroup.name)).toBeTruthy()
 })
 
-test('avatar round', async () => {
+test('avatar shape', async () => {
   const wrapper = mount(VarAvatar, {
-    props: { round: true },
+    props: { shape: 'circle' },
   })
 
   expect(wrapper.find(`.mp-avatar--round`).exists()).toBeTruthy()
 
   await wrapper.setProps({
-    round: false,
+    shape: 'square',
   })
 
   expect(wrapper.find(`.mp-avatar--round`).exists()).toBeFalsy()
@@ -97,28 +97,28 @@ test('avatar borderColor', () => {
   wrapper.unmount()
 })
 
-test('avatar src', () => {
+test('avatar imageUrl', () => {
   const wrapper = mount(VarAvatar, {
-    props: { src: 'https://1.png' },
+    props: { imageUrl: 'https://1.png' },
   })
 
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
 })
 
-test('avatar src and alt', () => {
+test('avatar imageUrl and alt', () => {
   const wrapper = mount(VarAvatar, {
-    props: { src: 'https://1.png', alt: '1.png' },
+    props: { imageUrl: 'https://1.png', alt: '1.png' },
   })
 
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
 })
 
-test('avatar src and fit', () => {
-  ;['fill', 'contain', 'cover', 'none', 'scale-down'].forEach((fit) => {
+test('avatar imageUrl and objectFit', () => {
+  ;['fill', 'contain', 'cover', 'none', 'scale-down'].forEach((objectFit) => {
     const wrapper = mount(VarAvatar, {
-      props: { src: 'https://1.png', fit },
+      props: { imageUrl: 'https://1.png', objectFit },
     })
 
     expect(wrapper.html()).toMatchSnapshot()
@@ -137,7 +137,7 @@ test('avatar onClick', async () => {
 
 test('avatar onLoad', async () => {
   const onLoad = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { src: 'https://1.png', onLoad } })
+  const wrapper = mount(VarAvatar, { props: { imageUrl: 'https://1.png', onLoad } })
 
   await wrapper.find('img').trigger('load')
   expect(onLoad).toBeCalledTimes(1)
@@ -146,7 +146,7 @@ test('avatar onLoad', async () => {
 
 test('avatar onError', async () => {
   const onError = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { src: 'https://1.png', onError } })
+  const wrapper = mount(VarAvatar, { props: { imageUrl: 'https://1.png', onError } })
 
   await wrapper.find('img').trigger('error')
   expect(onError).toBeCalledTimes(1)
@@ -155,7 +155,7 @@ test('avatar onError', async () => {
 
 test('avatar lazy onLoad', async () => {
   const onLoad = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { src: 'https://1.png', lazy: true, onLoad } })
+  const wrapper = mount(VarAvatar, { props: { imageUrl: 'https://1.png', lazy: true, onLoad } })
   wrapper.find('img').element._lazy.state = 'success'
 
   await wrapper.find('img').trigger('load')

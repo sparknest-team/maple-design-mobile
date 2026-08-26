@@ -12,5 +12,5 @@ export default {
   '--mp-dialog-button-margin-left': '6px',
   '--mp-dialog-confirm-button-color': 'var(--mp-color-primary)',
   '--mp-dialog-cancel-button-color': 'var(--mp-color-primary)',
-  '--mp-dialog-background': 'var(--mp-color-surface-container-low)',
+  '--mp-dialog-background': 'var(--mp-color-bg-1)',
 }

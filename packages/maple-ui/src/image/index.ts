@@ -18,7 +18,7 @@ withInstall(ImagePreview, previewImage)
 withPropsDefaultsSetter(ImageWithPreview, imageProps)
 withPropsDefaultsSetter(previewImage, imagePreviewProps)
 
-export { imageProps, imagePreviewProps, ImagePreview, ImagePreviewGroup, previewImage }
+export { imageProps, imagePreviewProps, previewImage }
 
 export type {
   ImageProps,
@@ -28,8 +28,6 @@ export type {
   UserImagePreviewOptions,
 } from './types'
 
+export type ImageInstance = InstanceType<typeof ImageWithPreview>
 export const _ImageComponent = ImageWithPreview
-export const _ImagePreviewComponent = ImagePreview
-export const _ImagePreviewGroupComponent = ImagePreviewGroup
-
 export default ImageWithPreview

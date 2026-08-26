@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Option, optionProps)
 
 export { optionProps }
 
+export type OptionInstance = InstanceType<typeof Option>
 export const _OptionComponent = Option
 
 export default Option

@@ -145,7 +145,7 @@
 
 ### 预览相关
 
-`preview`、`preview-src`、`v-model:preview-visible`、`preview-props` 等预览能力请查看 [ImagePreview 文档](#/zh-CN/image-preview)。
+`preview`、`preview-src`、`v-model:preview-open`、`preview-props` 等预览能力请查看 [ImagePreview 文档](#/zh-CN/image-preview)。
 
 ### 使用本地路径
 
@@ -225,7 +225,7 @@ import logo from '../../assets/logo.png'
 | `block`   | 是否是块级元素                                         | _boolean_ | `true` |
 | `preview` | 是否开启点击预览（详见 ImagePreview 文档） | _boolean_ | `true` |
 | `preview-src` | 预览大图地址，默认与 `src` 相同 | _string_ | `-` |
-| `v-model:preview-visible` | 受控预览状态 | _boolean_ | `-` |
+| `v-model:preview-open` | 受控预览状态 | _boolean_ | `-` |
 | `preview-props` | 透传给 `ImagePreview` 的配置 | _object_ | `-` |
 
 ### 事件
@@ -235,7 +235,7 @@ import logo from '../../assets/logo.png'
 | `click` | 点击图片时触发 | `event: Event` |
 | `load` | 图片成功加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在成功加载时触发) | `event: Event` |
 | `error` | 图片失败加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在尝试次数结束时触发) | `event: Event` |
-| `preview-visible-change` | 预览打开/关闭时触发 | `visible: boolean` |
+| `preview-open-change` | 预览打开/关闭时触发 | `open: boolean` |
 
 ### 插槽
 

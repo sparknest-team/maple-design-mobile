@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Popup, popupProps)
 
 export { popupProps }
 
+export type PopupInstance = InstanceType<typeof Popup>
 export const _PopupComponent = Popup
 
 export default Popup

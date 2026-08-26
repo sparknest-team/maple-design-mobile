@@ -146,7 +146,7 @@ Supports `Lazy load`, `loading images`, `error images`, and default Settings for
 
 ### Preview
 
-For `preview`, `preview-src`, `v-model:preview-visible`, and `preview-props`, see [ImagePreview](#/en-US/image-preview).
+For `preview`, `preview-src`, `v-model:preview-open`, and `preview-props`, see [ImagePreview](#/en-US/image-preview).
 
 ### Use local paths
 
@@ -228,7 +228,7 @@ import logo from '../../assets/logo.png'
 | `block` | Whether it is a block element                                                  | _boolean_ | `true` |
 | `preview` | Whether to enable click preview                                              | _boolean_ | `true` |
 | `preview-src` | Preview image URL, defaults to `src`                                     | _string_ | `-` |
-| `v-model:preview-visible` | Controlled preview visibility                                    | _boolean_ | `-` |
+| `v-model:preview-open` | Controlled preview visibility                                    | _boolean_ | `-` |
 | `preview-props` | Props passed to `ImagePreview`                                         | _object_ | `-` |
 
 ### Events
@@ -238,7 +238,7 @@ import logo from '../../assets/logo.png'
 | `click` | Triggered when you click on Image | `event: Event` |
 | `load` | Triggered when the image is successfully loaded (when the image fails in lazy loading mode, it will only be triggered when the image is successfully loaded) | `event: Event` |
 | `error` | Triggered when an image fails to load (when an image fails in lazy loading mode, it will only be triggered when the number of attempts ends) | `event: Event` |
-| `preview-visible-change` | Triggered when preview opens or closes | `visible: boolean` |
+| `preview-open-change` | Triggered when preview opens or closes | `open: boolean` |
 
 ### Slots
 

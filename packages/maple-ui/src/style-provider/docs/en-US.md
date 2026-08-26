@@ -7,7 +7,7 @@ Style variables can be easily mounted through the StyleProvider component. The c
 ### Component Call
 
 Component calls can have a scope of custom component styles, Scope contamination is avoided.
-Note that some elements sent outside the StyleProvider using the `teleport` will not work.
+Note that some elements sent outside the StyleProvider using the `popupContainer` will not work.
 
 ```html
 <script setup>

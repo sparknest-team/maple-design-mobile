@@ -13,7 +13,7 @@ test('message component plugin', () => {
 test('message style', async () => {
   const template = `
      <mp-message
-      v-model:show="show"
+      v-model:open="open"
       type="error"
       position="center"
       content-class="test-message"
@@ -33,7 +33,7 @@ test('message style', async () => {
     },
     data() {
       return {
-        show: true,
+        open: true,
       }
     },
     template,
@@ -49,14 +49,14 @@ test('message style', async () => {
 })
 
 test('message event', async () => {
-  const open = vi.fn()
-  const opened = vi.fn()
-  const close = vi.fn()
-  const closed = vi.fn()
+  const onOpen = vi.fn()
+  const onOpened = vi.fn()
+  const onClose = vi.fn()
+  const onClosed = vi.fn()
   const { mockRestore } = mockStubs()
 
   const template = `
-    <mp-message v-model:show="show" @open="open" @opened="opened" @close="close" @closed="closed">
+    <mp-message v-model:open="visible" @open="onOpen" @opened="onOpened" @close="onClose" @closed="onClosed">
       Message
     </mp-message>`
 
@@ -66,28 +66,28 @@ test('message event', async () => {
     },
     data() {
       return {
-        show: false,
+        visible: false,
       }
     },
     methods: {
-      open,
-      opened,
-      close,
-      closed,
+      onOpen,
+      onOpened,
+      onClose,
+      onClosed,
     },
     template,
   })
 
   await delay(0)
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ visible: true })
   await delay(200)
-  await wrapper.setData({ show: false })
+  await wrapper.setData({ visible: false })
   await delay(200)
 
-  expect(open).toHaveBeenCalledTimes(1)
-  expect(opened).toHaveBeenCalledTimes(1)
-  expect(close).toHaveBeenCalledTimes(1)
-  expect(closed).toHaveBeenCalledTimes(1)
+  expect(onOpen).toHaveBeenCalledTimes(1)
+  expect(onOpened).toHaveBeenCalledTimes(1)
+  expect(onClose).toHaveBeenCalledTimes(1)
+  expect(onClosed).toHaveBeenCalledTimes(1)
 
   mockRestore()
   wrapper.unmount()

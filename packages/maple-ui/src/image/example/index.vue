@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
-const previewVisible = ref(false)
+const previewOpen = ref(false)
 
 watchLang(use)
 onThemeChange()
@@ -68,8 +68,8 @@ onThemeChange()
   <mp-image width="20vmin" height="20vmin" fit="cover" src="cat.jpg" preview-src="cat2.jpg" radius="8" />
 
   <app-type>{{ t('controlledPreview') }}</app-type>
-  <mp-button type="primary" block @click="previewVisible = true">{{ t('openPreview') }}</mp-button>
-  <mp-image v-model:preview-visible="previewVisible" width="28vmin" src="cat.jpg" :preview="true" />
+  <mp-button type="primary" block @click="previewOpen = true">{{ t('openPreview') }}</mp-button>
+  <mp-image v-model:preview-open="previewOpen" width="28vmin" src="cat.jpg" :preview="true" />
 
   <app-type>{{ t('previewProps') }}</app-type>
   <mp-image width="28vmin" src="cat.jpg" :preview-props="{ closable: true, zoom: 3 }" />

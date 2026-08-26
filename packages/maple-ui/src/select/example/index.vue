@@ -139,61 +139,59 @@ watchLang((lang) => {
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <template #clear-icon="{ clear }">
-        <mp-icon class="clear-icon" name="github" @click="clear" />
+        <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
     <mp-select v-model="standardValue7" :placeholder="t('customIcon')">
       <template #default>
         <mp-option :label="t('eat')">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>{{ t('eat') }}</span>
         </mp-option>
         <mp-option :label="t('sleep')">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>{{ t('sleep') }}</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :name="standardValue7 === t('eat') ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="standardValue7 === t('eat')" class="selected-icon" />
+        <m-icon-weather-night v-else class="selected-icon" />
         <span>{{ standardValue7 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select v-model="standardValue8" :placeholder="t('customIconSize')">
       <template #default>
         <mp-option :label="t('eat')">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>{{ t('eat') }}</span>
         </mp-option>
         <mp-option :label="t('sleep')">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>{{ t('sleep') }}</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon
-          class="selected-icon"
-          :name="standardValue8 === t('eat') ? 'cake-variant' : 'weather-night'"
-          size="8vmin"
-        />
+        <m-icon-cake-variant v-if="standardValue8 === t('eat')" class="selected-icon" size="8vmin" />
+        <m-icon-weather-night v-else class="selected-icon" size="8vmin" />
         <span>{{ standardValue8 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" size="8vmin" />
+        <m-icon-github class="prefix" size="8vmin" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" size="12vmin" />
+        <m-icon-github class="suffix" size="12vmin" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select v-model="standardValue9" :placeholder="t('multiple')" multiple>
@@ -218,8 +216,7 @@ watchLang((lang) => {
       v-model="standardValue16"
       :placeholder="t('customFields')"
       :options="keyOptions"
-      label-key="name"
-      value-key="id"
+      :field-names="{ label: 'name', value: 'id' }"
     />
   </mp-space>
 
@@ -250,61 +247,59 @@ watchLang((lang) => {
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <template #clear-icon="{ clear }">
-        <mp-icon class="clear-icon" name="github" @click="clear" />
+        <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
     <mp-select v-model="outlinedValue7" variant="outlined" :placeholder="t('customIcon')">
       <template #default>
         <mp-option :label="t('eat')">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>{{ t('eat') }}</span>
         </mp-option>
         <mp-option :label="t('sleep')">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>{{ t('sleep') }}</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon class="selected-icon" :name="outlinedValue7 === t('eat') ? 'cake-variant' : 'weather-night'" />
+        <m-icon-cake-variant v-if="outlinedValue7 === t('eat')" class="selected-icon" />
+        <m-icon-weather-night v-else class="selected-icon" />
         <span>{{ outlinedValue7 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select v-model="outlinedValue8" variant="outlined" :placeholder="t('customIconSize')">
       <template #default>
         <mp-option :label="t('eat')">
-          <mp-icon class="selected-icon" name="cake-variant" />
+          <m-icon-cake-variant class="selected-icon" />
           <span>{{ t('eat') }}</span>
         </mp-option>
         <mp-option :label="t('sleep')">
-          <mp-icon class="selected-icon" name="weather-night" />
+          <m-icon-weather-night class="selected-icon" />
           <span>{{ t('sleep') }}</span>
         </mp-option>
       </template>
       <template #selected>
-        <mp-icon
-          class="selected-icon"
-          :name="outlinedValue8 === t('eat') ? 'cake-variant' : 'weather-night'"
-          size="8vmin"
-        />
+        <m-icon-cake-variant v-if="outlinedValue8 === t('eat')" class="selected-icon" size="8vmin" />
+        <m-icon-weather-night v-else class="selected-icon" size="8vmin" />
         <span>{{ outlinedValue8 }}</span>
       </template>
       <template #prefix>
-        <mp-icon class="prefix" name="github" size="8vmin" />
+        <m-icon-github class="prefix" size="8vmin" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" size="12vmin" />
+        <m-icon-github class="suffix" size="12vmin" />
       </template>
       <template #arrow-icon="{ focus }">
-        <mp-icon name="chevron-down" :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
+        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
     <mp-select v-model="outlinedValue9" variant="outlined" :placeholder="t('multiple')" multiple>
@@ -319,7 +314,7 @@ watchLang((lang) => {
       <mp-option :label="t('play')" />
       <mp-option :label="t('coding')" />
     </mp-select>
-    <mp-select v-model="outlinedValue13" variant="outlined" size="small" :placeholder="t('smallSize')">
+    <mp-select v-model="outlinedValue13" variant="outlined" size="sm" :placeholder="t('smallSize')">
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
     </mp-select>
@@ -336,8 +331,7 @@ watchLang((lang) => {
       variant="outlined"
       :placeholder="t('customFields')"
       :options="keyOptions"
-      label-key="name"
-      value-key="id"
+      :field-names="{ label: 'name', value: 'id' }"
     />
   </mp-space>
 
@@ -349,8 +343,7 @@ watchLang((lang) => {
       presentation="picker"
       :placeholder="t('pickerCustomFields')"
       :options="keyOptions"
-      label-key="name"
-      value-key="id"
+      :field-names="{ label: 'name', value: 'id' }"
     />
     <mp-select
       v-model="pickerMultiple"

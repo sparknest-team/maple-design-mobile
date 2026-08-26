@@ -26,8 +26,12 @@ export interface RadioGroupProps extends BasicAttributes {
   direction?: RadioGroupDirection
   options?: RadioGroupOption[]
   ariaLabel?: string
-  labelKey?: string
-  valueKey?: string
+  fieldNames?: {
+    label?: string
+    value?: string
+    children?: string
+    disabled?: string
+  }
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
 }

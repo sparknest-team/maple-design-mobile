@@ -32,20 +32,20 @@ onThemeChange()
     {{ t('clickOverlay') }}
   </mp-button>
 
-  <mp-overlay v-model:show="baseOverlay" />
-  <mp-overlay v-model:show="contentOverlay">
+  <mp-overlay v-model:open="baseOverlay" />
+  <mp-overlay v-model:open="contentOverlay">
     <div class="overlay-content">
       {{ t('text') }}
     </div>
   </mp-overlay>
-  <mp-overlay v-model:show="clickOverlay" @click="Message.success('click')" />
+  <mp-overlay v-model:open="clickOverlay" @click="Message.success('click')" />
 </template>
 
 <style lang="less" scoped>
 .overlay-content {
   padding: 24px;
   width: 312px;
-  background: var(--mp-color-surface-container-highest);
+  background: var(--mp-color-fill-3);
   border-radius: 28px;
 }
 </style>

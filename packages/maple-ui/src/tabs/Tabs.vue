@@ -74,7 +74,8 @@ export default defineComponent({
   components: { MpSticky },
   inheritAttrs: false,
   props,
-  setup(props) {
+  emits: ['update:active', 'click', 'change'],
+  setup(props, { emit }) {
     const indicatorWidth = ref('0px')
     const indicatorHeight = ref('0px')
     const indicatorX = ref('0px')
@@ -120,11 +121,11 @@ export default defineComponent({
 
     function onTabClick(tab: TabProvider) {
       const currentActive = tab.name.value ?? tab.index.value
-      const { active, onChange, onClick } = props
+      const { active } = props
 
-      call(props['onUpdate:active'], currentActive)
-      call(onClick, currentActive)
-      currentActive !== active && call(onChange, currentActive)
+      emit('update:active', currentActive)
+      emit('click', currentActive)
+      currentActive !== active && emit('change', currentActive)
     }
 
     function matchName(): TabProvider | undefined {
@@ -144,7 +145,7 @@ export default defineComponent({
 
       if (isNumber(active)) {
         const activeIndex = clamp(active, 0, length.value - 1)
-        call(props['onUpdate:active'], activeIndex)
+        emit('update:active', activeIndex)
         return matchIndex(activeIndex)
       }
     }

@@ -3,12 +3,7 @@
     ref="carouselEl"
     v-hover="handleHovering"
     :class="
-      classes(
-        n(),
-        [effect === 'fade', n('--fade')],
-        [effect === 'card', n('--card')],
-        [height, n('--custom-height')],
-      )
+      classes(n(), [effect === 'fade', n('--fade')], [effect === 'card', n('--card')], [height, n('--custom-height')])
     "
     :style="height ? { height: toSizeUnit(height) } : undefined"
     @mouseenter="handleMouseEnter"
@@ -22,7 +17,7 @@
         width: !vertical ? toSizeUnit(trackSize) : undefined,
         height: vertical ? toSizeUnit(trackSize) : undefined,
         transform: `translate${vertical ? 'Y' : 'X'}(${toSizeUnit(trackTranslate)})`,
-        transitionDuration: lockDuration ? '0ms' : `${toNumber(duration)}ms`,
+        transitionDuration: lockDuration ? '0ms' : `${toNumber(moveSpeed)}ms`,
         transitionTimingFunction: transitionTimingFunction,
         gap: spaceBetween ? toSizeUnit(spaceBetween) : undefined,
       }"
@@ -72,11 +67,10 @@
             :class="classes(n('navigation-prev-button'), arrowClass)"
             @click="prev({ event: true, isManual: true })"
           >
-            <mp-icon
-              mp-carousel-cover
-              :class="n('navigation-prev-button-icon')"
-              :name="vertical ? 'chevron-up' : 'chevron-left'"
-            />
+            <mp-icon mp-carousel-cover :class="n('navigation-prev-button-icon')">
+              <MIconChevronUp v-if="vertical" />
+              <MIconChevronLeft v-else />
+            </mp-icon>
           </mp-button>
         </div>
       </transition>
@@ -106,11 +100,10 @@
             :class="classes(n('navigation-next-button'), arrowClass)"
             @click="next({ event: true, isManual: true })"
           >
-            <mp-icon
-              mp-carousel-cover
-              :class="n('navigation-next-button-icon')"
-              :name="vertical ? 'chevron-down' : 'chevron-right'"
-            />
+            <mp-icon mp-carousel-cover :class="n('navigation-next-button-icon')">
+              <MIconChevronDown v-if="vertical" />
+              <MIconChevronRight v-else />
+            </mp-icon>
           </mp-button>
         </div>
       </transition>
@@ -167,13 +160,19 @@
 
 <script lang="ts">
 import { computed, defineComponent, onActivated, onMounted, ref, watch } from 'vue'
+import {
+  IconChevronDown as MIconChevronDown,
+  IconChevronLeft as MIconChevronLeft,
+  IconChevronRight as MIconChevronRight,
+  IconChevronUp as MIconChevronUp,
+} from '@maplejs/icons-vue'
 import { call, clamp, doubleRaf, isNumber, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartUnmounted, onWindowResize, useEventListener, useTouch, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
+import { type CarouselItemProvider } from '../carousel-item/provide'
 import Hover from '../hover'
 import MpIcon from '../icon'
 import { usePopup } from '../popup/provide'
-import { type CarouselItemProvider } from '../carousel-item/provide'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props, type CarouselToOptions } from './props'
@@ -187,12 +186,20 @@ const { name, n, classes } = createNamespace('carousel')
 export default defineComponent({
   name,
   directives: { Hover },
-  components: { MpButton, MpIcon },
+  components: {
+    MIconChevronUp,
+    MIconChevronLeft,
+    MIconChevronDown,
+    MIconChevronRight,
+    MpButton,
+    MpIcon,
+  },
   props,
-  setup(props) {
+  emits: ['change', 'update:current'],
+  setup(props, { emit }) {
     const carouselEl = ref<HTMLElement | null>(null)
     const size = ref(0)
-    const vertical = computed(() => props.vertical)
+    const vertical = computed(() => props.direction === 'vertical')
     const trackSize = ref(0)
     const trackTranslate = ref(0)
     const lockDuration = ref(false)
@@ -219,20 +226,18 @@ export default defineComponent({
       moveTouch,
       endTouch,
     } = useTouch()
-    const isExpectDirection = computed(() => direction.value === (props.vertical ? 'vertical' : 'horizontal'))
+    const isExpectDirection = computed(() => direction.value === props.direction)
 
-    const showArrow = computed(() => {
-      if (props.navigation === false) return 'never'
-      if (props.navigation === true || props.navigation === 'always') return 'always'
-      return 'hover'
-    })
+    const showArrow = computed(() => props.showArrow)
 
     const slideSize = computed(() => {
-      if (props.slidesPerView === 'auto') return 'auto'
+      if (props.slidesPerView === 'auto') {
+        return 'auto'
+      }
       return size.value / Math.max(1, toNumber(props.slidesPerView))
     })
 
-    const currentIndexModel = useVModel(props, 'current')
+    const currentIndexModel = useVModel(props, 'current', { emit, eventName: 'update:current' })
 
     const activeIndex = computed({
       get: () => (props.current !== undefined ? currentIndexModel.value : index.value),
@@ -267,14 +272,14 @@ export default defineComponent({
       async () => {
         await doubleRaf()
 
-        initialIndex()
+        initIndex()
         resize()
       },
     )
 
     if (popup) {
       watch(
-        () => popup.show.value,
+        () => popup.open.value,
         async (show) => {
           if (show) {
             await doubleRaf()
@@ -402,28 +407,26 @@ export default defineComponent({
       lockDuration.value = false
     }
 
-    function initialIndex() {
+    function initIndex() {
       if (initializedIndex) {
         return
       }
 
-      const startIndex = props.current !== undefined
-        ? toNumber(props.current)
-        : toNumber(props.defaultCurrent ?? props.initialIndex)
+      const startIndex = props.current !== undefined ? toNumber(props.current) : toNumber(props.defaultCurrent)
       index.value = clampIndex(startIndex)
       initializedIndex = true
     }
 
     const computedAutoPlay = computed(() => {
-      const { autoplay } = props
-      if (!autoplay) return { interval: 0, hoverToPause: false }
-      if (typeof autoplay === 'object') {
-        return { interval: toNumber(autoplay.interval) || 3000, hoverToPause: autoplay.hoverToPause ?? true }
+      const { autoPlay } = props
+      if (!autoPlay) {
+        return { interval: 0, hoverToPause: false }
       }
-      const num = toNumber(autoplay)
-      return num && num > 0
-        ? { interval: num, hoverToPause: false }
-        : { interval: 3000, hoverToPause: true }
+      if (typeof autoPlay === 'object') {
+        return { interval: toNumber(autoPlay.interval) || 3000, hoverToPause: autoPlay.hoverToPause ?? true }
+      }
+      const num = toNumber(autoPlay)
+      return num && num > 0 ? { interval: num, hoverToPause: false } : { interval: 3000, hoverToPause: true }
     })
 
     function startAutoplay() {
@@ -535,8 +538,8 @@ export default defineComponent({
       startAutoplay()
 
       if (prevIdx !== index.value) {
-        call(props['onUpdate:current'], index.value)
-        call(onChange, index.value, prevIdx, true)
+        emit('update:current', index.value)
+        emit('change', index.value, prevIdx, true)
       }
     }
 
@@ -552,7 +555,9 @@ export default defineComponent({
       stopAutoplay()
 
       const handleMousemove = (e: MouseEvent) => {
-        if (!isDragging.value) return
+        if (!isDragging.value) {
+          return
+        }
 
         const diff = vertical.value ? e.clientY - dragStartY.value : e.clientX - dragStartX.value
         trackTranslate.value = dragTranslate.value + diff
@@ -560,7 +565,9 @@ export default defineComponent({
       }
 
       const handleMouseup = () => {
-        if (!isDragging.value) return
+        if (!isDragging.value) {
+          return
+        }
 
         isDragging.value = false
         const diff = vertical.value
@@ -595,8 +602,8 @@ export default defineComponent({
         startAutoplay()
 
         if (prevIdx !== index.value) {
-          call(props['onUpdate:current'], index.value)
-          call(onChange, index.value, prevIdx, true)
+          emit('update:current', index.value)
+          emit('change', index.value, prevIdx, true)
         }
       }
 
@@ -635,7 +642,7 @@ export default defineComponent({
         return ''
       }
 
-      return n(`--navigation${props.vertical ? '-vertical' : ''}-${type}-animation`)
+      return n(`--navigation${vertical.value ? '-vertical' : ''}-${type}-animation`)
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -669,7 +676,7 @@ export default defineComponent({
 
       lockDuration.value = true
 
-      size.value = props.vertical ? carouselEl.value.offsetHeight : carouselEl.value.offsetWidth
+      size.value = vertical.value ? carouselEl.value.offsetHeight : carouselEl.value.offsetWidth
       const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
       const sp = toNumber(props.spaceBetween)
       trackSize.value = length.value * (sv + sp) - sp
@@ -696,7 +703,7 @@ export default defineComponent({
         return
       }
 
-      initialIndex()
+      initIndex()
 
       const { loop } = props
       const currentIndex = index.value
@@ -705,8 +712,8 @@ export default defineComponent({
       const sp = toNumber(props.spaceBetween)
 
       if (options?.event !== false) {
-        call(props['onUpdate:current'], index.value)
-        call(props.onChange, index.value, currentIndex, options?.isManual ?? false)
+        emit('update:current', index.value)
+        emit('change', index.value, currentIndex, options?.isManual ?? false)
       }
 
       await fixPosition()
@@ -728,7 +735,7 @@ export default defineComponent({
         return
       }
 
-      initialIndex()
+      initIndex()
 
       const { loop } = props
       const currentIndex = index.value
@@ -737,8 +744,8 @@ export default defineComponent({
       const sp = toNumber(props.spaceBetween)
 
       if (options?.event !== false) {
-        call(props['onUpdate:current'], index.value)
-        call(props.onChange, index.value, currentIndex, options?.isManual ?? false)
+        emit('update:current', index.value)
+        emit('change', index.value, currentIndex, options?.isManual ?? false)
       }
 
       await fixPosition()

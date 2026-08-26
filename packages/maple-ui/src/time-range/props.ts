@@ -3,9 +3,9 @@ import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
 import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import { type AllowedTime, type Format } from '../time-picker/props'
+import { type DisabledTime, type Format } from '../time-picker/props'
 import { props as timeRangePickerPropsSource } from '../time-range-picker/props'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 
 export type TimeRangePresentation = 'clock' | 'picker'
 
@@ -14,13 +14,13 @@ export const props = {
     type: Array as PropType<string[]>,
     default: () => [],
   },
-  show: {
+  open: {
     type: Boolean,
     default: undefined,
   },
   presentation: {
     type: String as PropType<TimeRangePresentation>,
-    default: 'clock',
+    default: 'picker',
   },
   format: {
     type: String as PropType<Format>,
@@ -29,7 +29,7 @@ export const props = {
   useSeconds: Boolean,
   min: String,
   max: String,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledTime: Object as PropType<DisabledTime>,
   separator: {
     type: String,
     default: ' ~ ',
@@ -52,13 +52,6 @@ export const props = {
     default: () => ({}),
   },
   readonly: Boolean,
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(value: string[]) => void>(),
-  onChange: defineListenerProp<(value: string[]) => void>(),
-  onClear: defineListenerProp<(value: string[]) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string[]) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -70,7 +63,6 @@ export const props = {
     'blurColor',
     'disabled',
     'clearable',
-    'onClick',
   ]),
 }
 

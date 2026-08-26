@@ -2,8 +2,8 @@
 
 ### Reference
 
-[@maplejs/maple-cli 中文文档](https://github.com/varletjs/varlet/blob/dev/packages/maple-cli/README.md)
-[@maplejs/maple-cli documentation](https://github.com/varletjs/varlet/blob/dev/packages/maple-cli/README.en-US.md)
+[@maplejs/maple-cli 中文文档](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-cli/README.md)
+[@maplejs/maple-cli documentation](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-cli/README.md)
 
 ### Quickstart
 

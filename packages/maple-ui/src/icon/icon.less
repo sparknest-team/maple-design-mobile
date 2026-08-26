@@ -1,5 +1,3 @@
-@import '@maplejs/maple-icons/dist/css/maple-icons.less';
-
 :root {
   --mp-icon-size: 20px;
 }
@@ -13,25 +11,19 @@
   color: inherit;
   font-size: var(--mp-icon-size);
 
-  &::before {
-    position: relative;
-    display: inline-block;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    font-weight: normal;
-    font-style: normal;
-    line-height: 1;
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+
+  &.mp-svg-icon {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
   }
 
   &--shrinking {
     transform: scale(0);
     transition-property: transform;
-  }
-
-  &__image {
-    width: var(--mp-icon-size);
-    height: var(--mp-icon-size);
-    object-fit: cover;
   }
 }

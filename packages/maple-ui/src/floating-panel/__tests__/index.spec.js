@@ -18,7 +18,7 @@ describe('test floating-panel components props', () => {
       props: {
         anchor: 100,
         anchors: [100, 200],
-        teleport: root,
+        popupContainer: root,
         'onUpdate:anchor': onUpdateAnchor,
       },
     })
@@ -53,7 +53,7 @@ describe('test floating-panel components props', () => {
       props: {
         anchor: 100,
         anchors: [100, 200],
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -76,7 +76,7 @@ describe('test floating-panel components props', () => {
         anchor: 100,
         anchors: [100, 200],
         contentDraggable: true,
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -101,7 +101,7 @@ describe('test floating-panel components props', () => {
     const wrapper = mount(VarFloatingPanel, {
       props: {
         safeArea: true,
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -118,7 +118,7 @@ describe('test floating-panel components props', () => {
     const wrapper = mount(VarFloatingPanel, {
       props: {
         elevation: true,
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -137,7 +137,7 @@ describe('test floating-panel components props', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        teleport: root,
+        popupContainer: root,
         duration: 0.4,
       },
     })
@@ -153,9 +153,9 @@ describe('test floating-panel component slots', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        teleport: root,
+        popupContainer: root,
       },
-      slots: { default: () => 'Hello Varlet!' },
+      slots: { default: () => 'Hello Maple!' },
     })
 
     expect(root.innerHTML).toMatchSnapshot()
@@ -167,9 +167,9 @@ describe('test floating-panel component slots', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        teleport: root,
+        popupContainer: root,
       },
-      slots: { header: () => 'Hello Varlet!' },
+      slots: { header: () => 'Hello Maple!' },
     })
 
     expect(root.innerHTML).toMatchSnapshot()
@@ -186,7 +186,7 @@ describe('test floating-panel component events', () => {
       props: {
         anchor: 100,
         anchors: [100, 200],
-        teleport: root,
+        popupContainer: root,
         onAnchorChange,
       },
     })

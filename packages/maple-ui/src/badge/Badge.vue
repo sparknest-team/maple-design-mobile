@@ -12,7 +12,7 @@ const { n, classes } = createNamespace('badge')
 const props = defineProps(badgeProps)
 const slots = useSlots()
 
-const computedType = computed(() => (!slots.default && !props.description ? 'inline' : props.type))
+const computedMode = computed(() => (!slots.default && !props.description ? 'inline' : props.mode))
 
 const dotComputed = computed(() => (typeof props.content === 'undefined' ? props.dot : props.dot))
 
@@ -32,9 +32,9 @@ const showValue = computed(() => {
 const wrapperClass = computed(() =>
   classes(
     n(),
-    n(`--type-${computedType.value}`),
-    [computedType.value === 'floating', n(`--position-${props.position}`)],
-    [computedType.value === 'inline', n(`--inline-position-${props.inlinePosition}`)],
+    n(`--mode-${computedMode.value}`),
+    [computedMode.value === 'floating', n(`--position-${props.position}`)],
+    [computedMode.value === 'inline', n(`--inline-position-${props.inlinePosition}`)],
     [dotComputed.value, n('--dot')],
     n(`--size-${props.size}`),
     n(`--status-${props.status}`),
@@ -44,7 +44,7 @@ const wrapperClass = computed(() =>
 
 const contentWrapperStyle = computed<CSSProperties>(() => {
   const style: CSSProperties = {}
-  if (computedType.value === 'floating') {
+  if (computedMode.value === 'floating') {
     const pos = props.position
     if (props.offsetX) {
       if (pos === 'top-left' || pos === 'bottom-left') {

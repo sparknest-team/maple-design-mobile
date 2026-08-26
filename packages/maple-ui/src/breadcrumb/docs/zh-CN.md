@@ -36,7 +36,7 @@
 
   <mp-breadcrumb>
     <template #separator>
-      <mp-icon name="menu-right" style="margin: 1px 4px 0" />
+      <m-icon-menu-right style="margin: 1px 4px 0" />
     </template>
     <mp-breadcrumb-item>首页</mp-breadcrumb-item>
     <mp-breadcrumb-item>一级</mp-breadcrumb-item>
@@ -47,7 +47,7 @@
 
 ### 参数化配置
 
-通过 `routes` 传递面包屑数据。默认使用 `a` 标签的 `href`；可用 `#item-render` 自定义渲染，或通过 `custom-url` 自定义链接。
+通过 `routes` 传递面包屑数据。默认将每一项的 `path` 作为 `a` 标签的 `href`；可用 `#item-render` 自定义渲染。
 
 ```html
 <script setup>
@@ -74,6 +74,17 @@ const routes = [
 通过 `max-count` 限制展示数量，超出部分折叠为省略号；可用 `#more-icon` 自定义省略图标。
 
 ```html
+<script setup>
+const maxRoutes = [
+  { path: '/', label: '首页' },
+  { path: '/sub-home', label: '二级首页' },
+  { path: '/all-channel', label: '全部频道' },
+  { path: '/channel', label: '频道' },
+  { path: '/news', label: '资讯' },
+  { path: '/post', label: '详情' },
+]
+</script>
+
 <template>
   <mp-breadcrumb :max-count="3">
     <mp-breadcrumb-item>首页</mp-breadcrumb-item>
@@ -83,12 +94,20 @@ const routes = [
     <mp-breadcrumb-item>资讯</mp-breadcrumb-item>
     <mp-breadcrumb-item>详情</mp-breadcrumb-item>
   </mp-breadcrumb>
+
+  <mp-breadcrumb :routes="maxRoutes" :max-count="3">
+    <template #more-icon="{ omittedItems }">
+      <mp-tooltip :content="omittedItems.map((item) => item.label).join(' / ')">
+        <m-icon-more />
+      </mp-tooltip>
+    </template>
+  </mp-breadcrumb>
 </template>
 ```
 
 ### 链接与点击
 
-子项可通过 `href` 渲染为链接；`@click` 在非最后一项触发。
+子项可通过 `href` 渲染为链接；`@click` 不会在省略项触发。
 
 ```html
 <script setup>
@@ -113,16 +132,17 @@ import { Message } from '@maplejs/maple-ui'
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `separator` | 分隔符 | _string \| number_ | `/` |
-| `max-count` | 最多展示数量，`0` 表示不限制 | _number_ | `0` |
+| `max-count` | 最多展示的正常面包屑项数量，不包含 more；`0` 表示不限制 | _number_ | `0` |
 | `routes` | 路径数据（无默认插槽时生效） | _BreadcrumbRoute[]_ | `-` |
-| `custom-url` | 自定义 routes 模式下的链接 | _(paths: string[]) => string_ | `-` |
 
 #### BreadcrumbItem Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
-| `href` | 跳转链接（最后一项不会渲染为链接） | _string_ | `-` |
+| `href` | 跳转链接 | _string_ | `-` |
+| `droplist` | 下拉菜单内容 | _BreadcrumbRoute['children']_ | `-` |
+| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
 
 ### 事件
 
@@ -130,7 +150,8 @@ import { Message } from '@maplejs/maple-ui'
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `click` | 点击时触发（最后一项 / 省略项不触发） | `event: Event` |
+| `click` | 点击时触发（省略项不触发） | `event: MouseEvent` |
+| `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute` |
 
 ### 插槽
 
@@ -141,7 +162,7 @@ import { Message } from '@maplejs/maple-ui'
 | `default` | 面包屑子项 | `-` |
 | `separator` | 自定义分隔符 | `-` |
 | `item-render` | `routes` 模式下自定义渲染 | `route` `routes` `paths` |
-| `more-icon` | 自定义省略图标 | `-` |
+| `more-icon` | 自定义省略图标 | `omittedItems` `count` `start` `end` |
 
 #### BreadcrumbItem Slots
 
@@ -149,6 +170,7 @@ import { Message } from '@maplejs/maple-ui'
 | --- | --- | --- |
 | `default` | 面包屑内容 | `-` |
 | `separator` | 自定义分隔符（优先于父级） | `-` |
+| `droplist` | 自定义下拉菜单 | `-` |
 
 ### 类型定义
 
@@ -156,7 +178,7 @@ import { Message } from '@maplejs/maple-ui'
 interface BreadcrumbRoute {
   label: string
   path: string
-  children?: { label: string; path: string }[]
+  children?: BreadcrumbRoute[]
 }
 ```
 

@@ -1,7 +1,7 @@
 import { toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import type { PickerColumnOption } from '../picker/props'
-import type { AllowedTime } from '../time-picker/props'
+import type { DisabledTime } from '../time-picker/props'
 import { padStart } from '../utils/shared'
 
 export function pad(value: number) {
@@ -124,14 +124,14 @@ type BuildColumnsOptions = {
   useSeconds?: boolean
   min?: string
   max?: string
-  allowedDates?: (val: string) => boolean
-  allowedTime?: AllowedTime
+  disabledDate?: (val: string) => boolean
+  disabledTime?: DisabledTime
   current: string
 }
 
-function buildTimeColumns(useSeconds: boolean, allowedTime?: AllowedTime): PickerColumnOption[][] {
+function buildTimeColumns(useSeconds: boolean, disabledTime?: DisabledTime): PickerColumnOption[][] {
   const hours: PickerColumnOption[] = Array.from({ length: 24 }, (_, index) => {
-    if (allowedTime?.hours && !allowedTime.hours(index)) {
+    if (disabledTime?.hours && disabledTime.hours(index)) {
       return null
     }
     const text = pad(index)
@@ -139,7 +139,7 @@ function buildTimeColumns(useSeconds: boolean, allowedTime?: AllowedTime): Picke
   }).filter(Boolean) as PickerColumnOption[]
 
   const minutes: PickerColumnOption[] = Array.from({ length: 60 }, (_, index) => {
-    if (allowedTime?.minutes && !allowedTime.minutes(index)) {
+    if (disabledTime?.minutes && disabledTime.minutes(index)) {
       return null
     }
     const text = pad(index)
@@ -151,7 +151,7 @@ function buildTimeColumns(useSeconds: boolean, allowedTime?: AllowedTime): Picke
   }
 
   const seconds: PickerColumnOption[] = Array.from({ length: 60 }, (_, index) => {
-    if (allowedTime?.seconds && !allowedTime.seconds(index)) {
+    if (disabledTime?.seconds && disabledTime.seconds(index)) {
       return null
     }
     const text = pad(index)
@@ -161,8 +161,8 @@ function buildTimeColumns(useSeconds: boolean, allowedTime?: AllowedTime): Picke
   return [hours, minutes, seconds]
 }
 
-export function buildTimeOnlyColumns(useSeconds: boolean, allowedTime?: AllowedTime) {
-  return buildTimeColumns(useSeconds, allowedTime)
+export function buildTimeOnlyColumns(useSeconds: boolean, disabledTime?: DisabledTime) {
+  return buildTimeColumns(useSeconds, disabledTime)
 }
 
 export type DateTimePresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
@@ -207,7 +207,7 @@ export function joinTimeParts(values: (string | number)[], useSeconds: boolean) 
 }
 
 export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): PickerColumnOption[][] {
-  const { type = 'date', showTime = false, useSeconds = false, min, max, allowedDates, allowedTime, current } = options
+  const { type = 'date', showTime = false, useSeconds = false, min, max, disabledDate, disabledTime, current } = options
 
   if (showTime) {
     const parts = parseDateTimeParts(current, useSeconds)
@@ -229,7 +229,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
     const days: PickerColumnOption[] = Array.from({ length: daysInMonth }, (_, index) => {
       const dayValue = pad(index + 1)
       const dateValue = `${year}-${pad(month)}-${dayValue}`
-      if (allowedDates && !allowedDates(dateValue)) {
+      if (disabledDate && disabledDate(dateValue)) {
         return null
       }
       if (min && dayjs(dateValue).isBefore(dayjs(min), 'day')) {
@@ -241,7 +241,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
       return { text: dayValue, value: dayValue }
     }).filter(Boolean) as PickerColumnOption[]
 
-    return [years, months, days, ...buildTimeColumns(useSeconds, allowedTime)]
+    return [years, months, days, ...buildTimeColumns(useSeconds, disabledTime)]
   }
 
   const parts = parseDateParts(current, type)
@@ -252,7 +252,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
   const years: PickerColumnOption[] = []
   for (let y = minYear; y <= maxYear; y++) {
     const text = `${y}`
-    if (type === 'year' && allowedDates && !allowedDates(text)) {
+    if (type === 'year' && disabledDate && disabledDate(text)) {
       continue
     }
     years.push({ text, value: text })
@@ -265,7 +265,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
   const months: PickerColumnOption[] = Array.from({ length: 12 }, (_, index) => {
     const monthValue = pad(index + 1)
     const dateValue = `${year}-${monthValue}`
-    if (allowedDates && type === 'month' && !allowedDates(dateValue)) {
+    if (disabledDate && type === 'month' && disabledDate(dateValue)) {
       return null
     }
     if (min && dayjs(dateValue).isBefore(dayjs(min), 'month')) {
@@ -285,7 +285,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
   const days: PickerColumnOption[] = Array.from({ length: daysInMonth }, (_, index) => {
     const dayValue = pad(index + 1)
     const dateValue = `${year}-${pad(month)}-${dayValue}`
-    if (allowedDates && !allowedDates(dateValue)) {
+    if (disabledDate && disabledDate(dateValue)) {
       return null
     }
     if (min && dayjs(dateValue).isBefore(dayjs(min), 'day')) {

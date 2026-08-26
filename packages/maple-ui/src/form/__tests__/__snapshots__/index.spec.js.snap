@@ -8,7 +8,7 @@ exports[`form events 1`] = `
       <div class="mp-form-item__content">
         <div class="mp-input mp--box">
           <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-            <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+            <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
                 <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="new-password" type="text">
@@ -18,6 +18,7 @@ exports[`form events 1`] = `
                 <!--v-if-->
               </div>
             </div>
+            <!--v-if-->
             <div class="mp-field-decorator__line mp-field-decorator--line-error">
               <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
             </div>
@@ -53,7 +54,7 @@ exports[`form events 2`] = `
       <div class="mp-form-item__content">
         <div class="mp-input mp--box">
           <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-            <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+            <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
                 <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text">
@@ -63,6 +64,7 @@ exports[`form events 2`] = `
                 <!--v-if-->
               </div>
             </div>
+            <!--v-if-->
             <div class="mp-field-decorator__line">
               <div class="mp-field-decorator__dot"></div>
             </div>
@@ -86,10 +88,10 @@ exports[`form with auto-complete 1`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-auto-complete" tabindex="0">
-          <div class="mp-popover mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+          <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
             <div class="mp-input mp--box">
               <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-                <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+                <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
                   <div class="mp-field-decorator__icon"></div>
                   <div class="mp-field-decorator__middle">
                     <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="off" type="text" value="">
@@ -99,6 +101,7 @@ exports[`form with auto-complete 1`] = `
                     <!--v-if-->
                   </div>
                 </div>
+                <!--v-if-->
                 <div class="mp-field-decorator__line mp-field-decorator--line-error">
                   <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
                 </div>
@@ -137,10 +140,10 @@ exports[`form with auto-complete 2`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-auto-complete" tabindex="0">
-          <div class="mp-popover mp--box mp-menu-select mp-auto-complete__menu-select" tabindex="-1" auto-complete-cover="">
+          <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
             <div class="mp-input mp--box">
               <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-                <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+                <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
                   <div class="mp-field-decorator__icon"></div>
                   <div class="mp-field-decorator__middle">
                     <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
@@ -150,6 +153,7 @@ exports[`form with auto-complete 2`] = `
                     <!--v-if-->
                   </div>
                 </div>
+                <!--v-if-->
                 <div class="mp-field-decorator__line">
                   <div class="mp-field-decorator__dot"></div>
                 </div>
@@ -412,7 +416,7 @@ exports[`form with input 1`] = `
       <div class="mp-form-item__content">
         <div class="mp-input mp--box">
           <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-            <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+            <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
                 <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--disabled" autocomplete="new-password" disabled="" type="text">
@@ -422,6 +426,7 @@ exports[`form with input 1`] = `
                 <!--v-if-->
               </div>
             </div>
+            <!--v-if-->
             <div class="mp-field-decorator__line mp-field-decorator--line-disabled">
               <div class="mp-field-decorator__dot mp-field-decorator--line-disabled"></div>
             </div>
@@ -446,7 +451,7 @@ exports[`form with input 2`] = `
       <div class="mp-form-item__content">
         <div class="mp-input mp--box">
           <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-            <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+            <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
                 <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" readonly="">
@@ -456,6 +461,7 @@ exports[`form with input 2`] = `
                 <!--v-if-->
               </div>
             </div>
+            <!--v-if-->
             <div class="mp-field-decorator__line">
               <div class="mp-field-decorator__dot"></div>
             </div>
@@ -480,7 +486,7 @@ exports[`form with input 3`] = `
       <div class="mp-form-item__content">
         <div class="mp-input mp--box">
           <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-            <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+            <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
                 <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="new-password" type="text" readonly="" value="">
@@ -490,6 +496,7 @@ exports[`form with input 3`] = `
                 <!--v-if-->
               </div>
             </div>
+            <!--v-if-->
             <div class="mp-field-decorator__line mp-field-decorator--line-error">
               <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
             </div>
@@ -525,7 +532,7 @@ exports[`form with input 4`] = `
       <div class="mp-form-item__content">
         <div class="mp-input mp--box">
           <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-            <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+            <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
                 <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" readonly="">
@@ -535,6 +542,7 @@ exports[`form with input 4`] = `
                 <!--v-if-->
               </div>
             </div>
+            <!--v-if-->
             <div class="mp-field-decorator__line">
               <div class="mp-field-decorator__dot"></div>
             </div>
@@ -783,7 +791,7 @@ exports[`form with select 1`] = `
         <div class="mp-select">
           <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
             <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
                 <div class="mp-field-decorator__icon"></div>
                 <div class="mp-field-decorator__middle">
                   <div class="mp-select__select mp-select--disabled" style="text-align: left;">
@@ -798,6 +806,7 @@ exports[`form with select 1`] = `
                 <!--v-if-->
                 <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
+              <!--v-if-->
               <div class="mp-field-decorator__line mp-field-decorator--line-disabled">
                 <div class="mp-field-decorator__dot mp-field-decorator--line-disabled"></div>
               </div>
@@ -825,7 +834,7 @@ exports[`form with select 2`] = `
         <div class="mp-select" tabindex="0">
           <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
             <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
                 <div class="mp-field-decorator__icon"></div>
                 <div class="mp-field-decorator__middle">
                   <div class="mp-select__select" style="text-align: left;">
@@ -840,6 +849,7 @@ exports[`form with select 2`] = `
                 <!--v-if-->
                 <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
+              <!--v-if-->
               <div class="mp-field-decorator__line">
                 <div class="mp-field-decorator__dot"></div>
               </div>
@@ -867,7 +877,7 @@ exports[`form with select 3`] = `
         <div class="mp-select" tabindex="0">
           <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
             <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
                 <div class="mp-field-decorator__icon"></div>
                 <div class="mp-field-decorator__middle">
                   <div class="mp-select__select mp-select--error" style="text-align: left;">
@@ -882,6 +892,7 @@ exports[`form with select 3`] = `
                 <!--v-if-->
                 <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
+              <!--v-if-->
               <div class="mp-field-decorator__line mp-field-decorator--line-error">
                 <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
               </div>
@@ -920,7 +931,7 @@ exports[`form with select 4`] = `
         <div class="mp-select" tabindex="0">
           <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
             <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-decorator-middle-offset-left: 0px; --mp-field-decorator-middle-offset-width: 0px; --mp-field-decorator-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
                 <div class="mp-field-decorator__icon"></div>
                 <div class="mp-field-decorator__middle">
                   <div class="mp-select__select" style="text-align: left;">
@@ -935,6 +946,7 @@ exports[`form with select 4`] = `
                 <!--v-if-->
                 <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
+              <!--v-if-->
               <div class="mp-field-decorator__line">
                 <div class="mp-field-decorator__dot"></div>
               </div>
@@ -1063,8 +1075,8 @@ exports[`form with switch 1`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
-        <div class="mp-switch" role="switch" aria-checked="false">
-          <div class="mp-switch__block mp-switch--disabled">
+        <div class="mp-switch mp-switch--variant-standard">
+          <div class="mp-switch__block mp-switch--disabled" role="switch" aria-checked="false" aria-disabled="true" tabindex="-1">
             <div style="filter: brightness(0.6);" class="mp-switch__track"></div>
             <div class="mp-switch__ripple" style="color: currentcolor;">
               <div class="mp-switch__handle mp-elevation--2">
@@ -1090,10 +1102,10 @@ exports[`form with switch 2`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
-        <div class="mp-switch" role="switch" aria-checked="false">
-          <div class="mp-switch__block">
+        <div class="mp-switch mp-switch--variant-standard">
+          <div class="mp-switch__block" role="switch" aria-checked="false" tabindex="0">
             <div style="" class="mp-switch__track mp-switch__track--error"></div>
-            <div class="mp-switch__ripple" style="color: currentcolor;" tabindex="0">
+            <div class="mp-switch__ripple" style="color: currentcolor;">
               <div class="mp-switch__handle mp-elevation--2 mp-switch__handle--error">
                 <!--v-if-->
               </div>
@@ -1128,10 +1140,10 @@ exports[`form with switch 3`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
-        <div class="mp-switch" role="switch" aria-checked="false">
-          <div class="mp-switch__block">
+        <div class="mp-switch mp-switch--variant-standard">
+          <div class="mp-switch__block" role="switch" aria-checked="false" tabindex="0">
             <div style="filter: brightness(0.6);" class="mp-switch__track"></div>
-            <div class="mp-switch__ripple" style="color: currentcolor;" tabindex="0">
+            <div class="mp-switch__ripple" style="color: currentcolor;">
               <div class="mp-switch__handle mp-elevation--2">
                 <!--v-if-->
               </div>

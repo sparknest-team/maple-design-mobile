@@ -1,7 +1,7 @@
 import { VNode } from 'vue'
 import { DatePickerType } from './datePicker'
 import { DateRangePickerPresentation } from './dateRangePicker'
-import { AllowedTime } from './timePicker'
+import { DisabledTime } from './timePicker'
 import {
   BasicAttributes,
   Variant as DateRangeVariant,
@@ -20,15 +20,15 @@ export type DateRangeSize = 'small' | 'normal'
 
 export interface DateRangeProps extends BasicAttributes {
   modelValue?: string[]
-  show?: boolean
+  open?: boolean
   presentation?: DateRangePresentation
   type?: DateRangeType
   showTime?: boolean
   useSeconds?: boolean
   min?: string
   max?: string
-  allowedDates?: (val: string) => boolean
-  allowedTime?: AllowedTime
+  disabledDate?: (val: string) => boolean
+  disabledTime?: DisabledTime
   separator?: string
   datePickerProps?: Record<string, any>
   pickerProps?: Record<string, any>
@@ -53,7 +53,7 @@ export interface DateRangeProps extends BasicAttributes {
   onClose?: ListenerProp<(value: string[]) => void>
   onChange?: ListenerProp<(value: string[]) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: string[]) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface DateRangeArrowIconData {

@@ -1,5 +1,5 @@
 import { VNode, VNodeChild, type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import { type FieldNames } from '../utils/options'
 
 export type RadioGroupOptionLabelRender = (option: RadioGroupOption, checked: boolean) => VNodeChild
 
@@ -30,14 +30,8 @@ export const props = {
     type: String,
     default: '',
   },
-  labelKey: {
-    type: String,
-    default: 'label',
+  fieldNames: {
+    type: Object as PropType<FieldNames>,
+    default: undefined,
   },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  onChange: defineListenerProp<(value: any) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
 }

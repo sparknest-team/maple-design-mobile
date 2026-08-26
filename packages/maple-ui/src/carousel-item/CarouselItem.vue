@@ -15,24 +15,26 @@
 import { computed, defineComponent, ref } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { useCarousel, getClosestIndex, type CarouselItemProvider } from './provide'
+import { carouselItemProps } from './props'
+import { getClosestIndex, useCarousel, type CarouselItemProvider } from './provide'
 
 const { name, n, classes } = createNamespace('carousel-item')
 
 export default defineComponent({
   name,
+  props: carouselItemProps,
   setup() {
     const translate = ref(0)
     const isFocusing = ref(false)
     const { carousel, bindCarousel, index } = useCarousel()
     const { size, currentIndex, vertical, effect, loop, length } = carousel
 
-    const position = computed(() =>
-      getClosestIndex(index.value, currentIndex.value, length.value, loop.value),
-    )
+    const position = computed(() => getClosestIndex(index.value, currentIndex.value, length.value, loop.value))
 
     const itemClass = computed(() => {
-      if (effect.value === 'slide') return n()
+      if (effect.value === 'slide') {
+        return n()
+      }
       return classes(
         n(),
         [position.value === 'active', n('--active')],

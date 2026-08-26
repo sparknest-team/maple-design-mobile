@@ -9,7 +9,17 @@
 .mp-textarea {
   text-align: left;
 
+  .mp-field-decorator__controller {
+    height: auto;
+    min-height: var(--mp-textarea-min-height);
+  }
+
+  .mp-field-decorator__middle {
+    align-items: stretch;
+  }
+
   &__inner {
+    box-sizing: border-box;
     width: 100%;
     height: var(--mp-textarea-height);
     min-height: var(--mp-textarea-min-height);
@@ -17,10 +27,11 @@
     border: none;
     outline: none;
     background: transparent;
-    color: var(--mp-field-decorator-text-color);
-    caret-color: var(--mp-field-decorator-focus-color);
+    color: var(--mp-field-color-text);
+    caret-color: var(--mp-field-color-focus);
     font: inherit;
     font-size: var(--mp-textarea-font-size);
+    line-height: 1.5;
     transition: color 0.25s;
 
     &::placeholder {
@@ -29,21 +40,21 @@
   }
 
   &--disabled {
-    color: var(--mp-field-decorator-disabled-color);
+    color: var(--mp-field-color-text-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-decorator-error-color);
+    color: var(--mp-field-color-error);
   }
 
   &--caret-error {
-    caret-color: var(--mp-field-decorator-error-color);
+    caret-color: var(--mp-field-color-error);
   }
 
   &__length {
     margin-top: var(--mp-textarea-length-margin-top);
-    color: var(--mp-field-decorator-blur-color);
+    color: var(--mp-field-color-blur);
     font-size: var(--mp-textarea-length-font-size);
     text-align: right;
   }

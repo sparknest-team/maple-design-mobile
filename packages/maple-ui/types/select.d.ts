@@ -31,10 +31,8 @@ export interface SelectOption {
 export interface SelectProps extends BasicAttributes {
   modelValue?: any
   options?: SelectOption[]
-  labelKey?: string
-  valueKey?: string
   presentation?: SelectPresentation
-  show?: boolean
+  open?: boolean
   fieldNames?: SelectFieldNames
   pickerProps?: Record<string, any>
   popupProps?: Record<string, any>
@@ -61,7 +59,7 @@ export interface SelectProps extends BasicAttributes {
   onClose?: ListenerProp<(value: any) => void>
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface SelectArrowIconData {

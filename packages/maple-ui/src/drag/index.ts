@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Drag, dragProps)
 
 export { dragProps }
 
+export type DragInstance = InstanceType<typeof Drag>
 export const _DragComponent = Drag
 
 export default Drag

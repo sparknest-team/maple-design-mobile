@@ -5,6 +5,7 @@
         v-for="(route, index) in routes"
         :key="route.path || `${route.label}-${index}`"
         :href="$slots['item-render'] ? undefined : getHref(index)"
+        :droplist="route.children"
       >
         <slot name="item-render" :route="route" :routes="routes" :paths="getPaths(index)">
           {{ route.label }}
@@ -31,13 +32,24 @@ export default defineComponent({
     const separator = computed(() => props.separator)
     const maxCount = computed(() => props.maxCount)
     const { bindBreadcrumbItems, length } = useBreadcrumbItems()
-    const needHide = computed(() => maxCount.value > 0 && length.value > maxCount.value + 1)
+    const total = computed(() => props.routes?.length ?? length.value)
+    const needHide = computed(() => maxCount.value > 0 && total.value > maxCount.value + 1)
+    const moreSlotData = computed(() => {
+      const end = needHide.value ? total.value - maxCount.value : 0
+      return {
+        omittedItems: props.routes?.slice(1, end + 1) ?? [],
+        count: needHide.value ? end : 0,
+        start: needHide.value ? 1 : -1,
+        end: needHide.value ? end : -1,
+      }
+    })
 
     const breadcrumbProvider: BreadcrumbProvider = {
-      length,
+      length: total,
       maxCount,
       separator,
       needHide,
+      moreSlotData,
       slots,
     }
 
@@ -54,8 +66,7 @@ export default defineComponent({
       if (!props.routes?.length || index >= props.routes.length - 1) {
         return undefined
       }
-      const paths = getPaths(index)
-      return props.customUrl?.(paths) ?? `#/${paths.join('/').replace(/^\//, '')}`
+      return props.routes[index].path
     }
 
     return {

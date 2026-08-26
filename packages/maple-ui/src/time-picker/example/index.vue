@@ -5,6 +5,7 @@ import { t, use } from './locale'
 
 const dates = reactive({
   date: '11:20',
+  clock: '11:20',
   date1: '15:10',
   date2: '07:10',
   date3: '07:10:12',
@@ -13,8 +14,8 @@ const dates = reactive({
   date6: '17:36:22',
 })
 
-const allowedTime = {
-  hours: (hour) => hour % 2 === 0,
+const disabledTime = {
+  hours: (hour) => hour % 2 !== 0,
   minutes: (minute) => minute % 15 !== 0,
   seconds: (second) => second % 2 !== 0,
 }
@@ -27,27 +28,31 @@ onThemeChange()
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-time-picker v-model="dates.date" />
 
+  <app-type>{{ t('clockMode') }}</app-type>
+  <mp-time-picker v-model="dates.clock" presentation="clock" />
+
   <app-type>{{ t('hour24') }}</app-type>
-  <mp-time-picker v-model="dates.date1" format="24hr" />
+  <mp-time-picker v-model="dates.date1" presentation="clock" format="24hr" />
 
   <app-type>{{ t('showSecond') }}</app-type>
-  <mp-time-picker v-model="dates.date5" format="24hr" use-seconds />
+  <mp-time-picker v-model="dates.date5" presentation="clock" format="24hr" use-seconds />
 
   <app-type>{{ t('readonly') }}</app-type>
-  <mp-time-picker v-model="dates.date2" readonly />
+  <mp-time-picker v-model="dates.date2" presentation="clock" readonly />
 
   <app-type>{{ t('timeLimit') }}</app-type>
   <mp-time-picker
     v-model="dates.date3"
+    presentation="clock"
     format="24hr"
     use-seconds
     min="2:28:38"
     max="19:40:22"
-    :allowed-time="allowedTime"
+    :disabled-time="disabledTime"
   />
 
   <app-type>{{ t('actions') }}</app-type>
-  <mp-time-picker v-model="dates.date6">
+  <mp-time-picker v-model="dates.date6" presentation="clock">
     <template #actions>
       <mp-space size="small">
         <mp-button type="primary" text>{{ t('action') }}</mp-button>

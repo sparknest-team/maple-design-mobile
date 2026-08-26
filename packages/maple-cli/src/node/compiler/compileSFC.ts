@@ -22,7 +22,7 @@ import {
   STYLE_IMPORT_RE,
 } from './compileStyle.js'
 
-const { readFile, existsSync, readFileSync, writeFileSync } = fse
+const { readFile, existsSync, readFileSync, writeFileSync, ensureFileSync } = fse
 
 registerTS(() => ts)
 
@@ -30,6 +30,15 @@ const EXPORT = 'export default'
 const SFC = '__sfc__'
 const SFC_DECLARE = `const ${SFC} = `
 const RENDER = '__render__'
+const BASE_CSS_VARIABLES_IMPORT = `import '../../styles/theme/css-variables.css'\n`
+
+function ensureBaseCssVariablesImport(cssFile: string) {
+  ensureFileSync(cssFile)
+  const content = readFileSync(cssFile, 'utf-8')
+  if (!content.includes('styles/theme/css-variables.css')) {
+    writeFileSync(cssFile, `${BASE_CSS_VARIABLES_IMPORT}${content}`)
+  }
+}
 
 export function declareEmptySFC() {
   return `${SFC_DECLARE}{}\n`
@@ -126,6 +135,7 @@ export async function compileSFC(sfc: string) {
     const { base, dir } = parse(file)
     const dependencyPath = normalizeStyleDependency(base, STYLE_IMPORT_RE)
     const cssFile = resolve(dir, `./style/index${getScriptExtname()}`)
+    ensureBaseCssVariablesImport(cssFile)
 
     let { code } = compileStyle({
       source: style.content,

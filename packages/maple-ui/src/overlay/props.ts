@@ -1,18 +1,14 @@
 import { type PropType, type TeleportProps } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export const props = {
-  show: Boolean,
+  open: Boolean,
   lockScroll: {
     type: Boolean,
     default: true,
   },
-  teleport: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-  closeOnKeyEscape: {
+  popupContainer: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
+  escToClose: {
     type: Boolean,
     default: true,
   },
-  onClick: defineListenerProp<() => void>(),
-  onKeyEscape: defineListenerProp<() => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
 }

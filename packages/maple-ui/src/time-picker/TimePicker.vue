@@ -1,68 +1,78 @@
 <template>
   <div ref="picker" :class="classes(n(), formatElevation(elevation, 2), [useSeconds, n('--with-seconds')])">
-    <div :class="n('title')" :style="{ background: titleColor || color }">
-      <div :class="n('title-hint')">{{ hint ?? (pt ? pt : t)('timePickerHint') }}</div>
-      <div :class="n('title-time-container')">
-        <div :class="n('title-time')">
-          <div
-            :class="classes(n('title-btn'), [type === 'hour', n('title-btn--active')])"
-            role="button"
-            @click="checkPanel('hour')"
-          >
-            {{ time.hour }}
+    <mp-picker
+      v-if="presentation === 'picker'"
+      v-bind="pickerBindingProps"
+      :toolbar="false"
+      :columns="pickerColumns"
+      :model-value="pickerValue"
+      @change="handlePickerChange"
+    />
+    <template v-else>
+      <div :class="n('title')" :style="{ background: titleColor || color }">
+        <div :class="n('title-hint')">{{ hint ?? (pt ? pt : t)('timePickerHint') }}</div>
+        <div :class="n('title-time-container')">
+          <div :class="n('title-time')">
+            <div
+              :class="classes(n('title-btn'), [type === 'hour', n('title-btn--active')])"
+              role="button"
+              @click="checkPanel('hour')"
+            >
+              {{ time.hour }}
+            </div>
+            <span :class="n('title-splitter')">:</span>
+            <div
+              :class="classes(n('title-btn'), [type === 'minute', n('title-btn--active')])"
+              role="button"
+              @click="checkPanel('minute')"
+            >
+              {{ time.minute }}
+            </div>
+            <span v-if="useSeconds" :class="n('title-splitter')">:</span>
+            <div
+              v-if="useSeconds"
+              :class="classes(n('title-btn'), [type === 'second', n('title-btn--active')])"
+              role="button"
+              @click="checkPanel('second')"
+            >
+              {{ time.second }}
+            </div>
           </div>
-          <span :class="n('title-splitter')">:</span>
-          <div
-            :class="classes(n('title-btn'), [type === 'minute', n('title-btn--active')])"
-            role="button"
-            @click="checkPanel('minute')"
-          >
-            {{ time.minute }}
-          </div>
-          <span v-if="useSeconds" :class="n('title-splitter')">:</span>
-          <div
-            v-if="useSeconds"
-            :class="classes(n('title-btn'), [type === 'second', n('title-btn--active')])"
-            role="button"
-            @click="checkPanel('second')"
-          >
-            {{ time.second }}
-          </div>
-        </div>
-        <div v-if="format === 'ampm'" :class="n('title-ampm')">
-          <div :class="classes(n('title-btn'), [ampm === 'am', n('title-btn--active')])" @click="checkAmpm('am')">
-            AM
-          </div>
-          <div :class="classes(n('title-btn'), [ampm === 'pm', n('title-btn--active')])" @click="checkAmpm('pm')">
-            PM
+          <div v-if="format === 'ampm'" :class="n('title-ampm')">
+            <div :class="classes(n('title-btn'), [ampm === 'am', n('title-btn--active')])" @click="checkAmpm('am')">
+              AM
+            </div>
+            <div :class="classes(n('title-btn'), [ampm === 'pm', n('title-btn--active')])" @click="checkAmpm('pm')">
+              PM
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div :class="n('body')">
-      <div ref="container" :class="n('clock-container')" @touchstart="moveHand" @touchmove="moveHand" @touchend="end">
-        <transition :name="`${n()}-panel-fade`">
-          <clock
-            :key="type"
-            ref="inner"
-            :type="type"
-            :ampm="ampm"
-            :color="color"
-            :is-inner="isInner"
-            :format="format"
-            :allowed-time="allowedTime"
-            :rad="getRad"
-            :time="time"
-            :prevent-next-update="isPreventNextUpdate"
-            :use-seconds="useSeconds"
-            :max="max"
-            :min="min"
-            @update="update"
-            @change-prevent-update="changePreventUpdate"
-          />
-        </transition>
+      <div :class="n('body')">
+        <div ref="container" :class="n('clock-container')" @touchstart="moveHand" @touchmove="moveHand" @touchend="end">
+          <transition :name="`${n()}-panel-fade`">
+            <clock
+              :key="type"
+              ref="inner"
+              :type="type"
+              :ampm="ampm"
+              :color="color"
+              :is-inner="isInner"
+              :format="format"
+              :disabled-time="disabledTime"
+              :rad="getRad"
+              :time="time"
+              :prevent-next-update="isPreventNextUpdate"
+              :use-seconds="useSeconds"
+              :max="max"
+              :min="min"
+              @update="update"
+              @change-prevent-update="changePreventUpdate"
+            />
+          </transition>
+        </div>
       </div>
-    </div>
+    </template>
     <div v-if="$slots.actions" :class="n('actions')">
       <slot name="actions"></slot>
     </div>
@@ -75,6 +85,8 @@ import { call, getRect, preventDefault, toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { _PickerComponent as MpPicker } from '../picker'
+import type { PickerColumnOption } from '../picker/props'
 import { createNamespace, formatElevation } from '../utils/components'
 import { padStart } from '../utils/shared'
 import Clock from './clock.vue'
@@ -83,11 +95,40 @@ import { getIsDisableMinute, getIsDisableSecond, getNumberTime } from './utils'
 
 const { name, n, classes } = createNamespace('time-picker')
 
+function pad(value: number) {
+  return padStart(`${value}`, 2, '0')
+}
+
+function buildColumn(count: number, filter?: (value: number) => boolean): PickerColumnOption[] {
+  return Array.from({ length: count }, (_, index) => {
+    if (filter?.(index)) {
+      return null
+    }
+    const text = pad(index)
+    return { text, value: text }
+  }).filter(Boolean) as PickerColumnOption[]
+}
+
+function parseTimeParts(value: string | undefined, useSeconds: boolean) {
+  const [hour = '00', minute = '00', second = '00'] = (value || '').split(':')
+  const parts = [pad(toNumber(hour)), pad(toNumber(minute))]
+  if (useSeconds) {
+    parts.push(pad(toNumber(second)))
+  }
+  return parts
+}
+
+function joinTimeParts(values: (string | number)[], useSeconds: boolean) {
+  const value = `${pad(toNumber(values[0]))}:${pad(toNumber(values[1]))}`
+  return useSeconds ? `${value}:${pad(toNumber(values[2] ?? 0))}` : value
+}
+
 export default defineComponent({
   name,
-  components: { Clock },
+  components: { Clock, MpPicker },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue'],
+  setup(props, { emit }) {
     const container = ref<HTMLElement | null>(null)
     const picker = ref<HTMLElement | null>(null)
     const inner = ref<DefineComponent | null>(null)
@@ -127,6 +168,25 @@ export default defineComponent({
       return secondRad.value
     })
     const { t: pt } = injectLocaleProvider()
+    const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
+    const pickerColumns = computed(() => {
+      const columns: PickerColumnOption[][] = [
+        buildColumn(24, props.disabledTime?.hours),
+        buildColumn(60, props.disabledTime?.minutes),
+      ]
+      if (props.useSeconds) {
+        columns.push(buildColumn(60, props.disabledTime?.seconds))
+      }
+      return columns
+    })
+    const pickerValue = computed(() => parseTimeParts(props.modelValue, props.useSeconds))
+
+    function handlePickerChange(values: (string | number)[]) {
+      if (props.readonly) {
+        return
+      }
+      update(joinTimeParts(values, props.useSeconds))
+    }
 
     watch(
       () => props.modelValue,
@@ -171,8 +231,8 @@ export default defineComponent({
     }
 
     function update(newTime: string) {
-      call(props['onUpdate:modelValue'], newTime)
-      call(props.onChange, newTime)
+      emit('update:modelValue', newTime)
+      emit('change', newTime)
     }
 
     function rad2deg(rad: number): number {
@@ -292,7 +352,7 @@ export default defineComponent({
         max: props.max,
         min: props.min,
         disableHour,
-        allowedTime: props.allowedTime,
+        disabledTime: props.disabledTime,
       }
       isDisableMinute.value = getIsDisableMinute(values)
 
@@ -317,7 +377,7 @@ export default defineComponent({
         max: props.max,
         min: props.min,
         disableHour,
-        allowedTime: props.allowedTime,
+        disabledTime: props.disabledTime,
       }
 
       if (!getIsDisableSecond(values)) {
@@ -402,6 +462,10 @@ export default defineComponent({
       update,
       changePreventUpdate,
       formatElevation,
+      pickerBindingProps,
+      pickerColumns,
+      pickerValue,
+      handlePickerChange,
     }
   },
 })
@@ -410,5 +474,6 @@ export default defineComponent({
 <style lang="less">
 @import '../styles/common';
 @import '../styles/elevation';
+@import '../picker/picker';
 @import './timePicker';
 </style>

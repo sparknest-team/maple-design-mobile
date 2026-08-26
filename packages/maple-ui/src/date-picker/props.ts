@@ -1,9 +1,8 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import type { AllowedTime } from '../time-picker/props'
-import { defineListenerProp } from '../utils/components'
+import type { DisabledTime } from '../time-picker/props'
 
-type AllowedDates = (val: string) => boolean
+type DisabledDate = (val: string) => boolean
 
 type DatePickerType = 'year' | 'date' | 'month'
 
@@ -17,7 +16,7 @@ export type Week = '0' | '1' | '2' | '3' | '4' | '5' | '6'
 
 export type ComponentProps = {
   type: string
-  allowedDates: AllowedDates | undefined
+  disabledDate: DisabledDate | undefined
   color: string | undefined
   firstDayOfWeek: string | number
   max: string | undefined
@@ -62,13 +61,14 @@ export const props = {
   },
   presentation: {
     type: String as PropType<DatePickerPresentation>,
-    default: 'calendar',
+    default: 'picker',
   },
   showTime: Boolean,
   useSeconds: Boolean,
   hint: String,
-  allowedDates: Function as PropType<AllowedDates>,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledDate: Function as PropType<DisabledDate>,
+  // Maple DisabledTime is `(n)=>boolean` object shape (mobile clock); Cedar DatePicker DisabledTime is Date-based — intentional signature difference, shared name/polarity.
+  disabledTime: Object as PropType<DisabledTime>,
   timePickerProps: {
     type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
     default: () => ({}),
@@ -100,7 +100,4 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  onPreview: defineListenerProp<(year: number, month: number, day?: number) => void>(),
-  onChange: defineListenerProp<(value: string | string[]) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string | string[]) => void>(),
 }

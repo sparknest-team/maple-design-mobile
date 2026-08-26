@@ -7,6 +7,6 @@ export default {
   '--mp-select-tags-padding': '2px 0',
   '--mp-select-tag-margin': '5px 5px 0 0',
   '--mp-select-arrow-size': '20px',
-  '--mp-select-standard-menu-margin': `calc(var(--mp-field-decorator-placeholder-size) * 0.75 + 12px) 0 0 0`,
+  '--mp-select-standard-menu-margin': `calc(var(--mp-field-size-placeholder) * 0.75 + 12px) 0 0 0`,
   '--mp-select-label-font-size': '16px',
 }

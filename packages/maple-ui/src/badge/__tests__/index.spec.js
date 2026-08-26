@@ -105,11 +105,11 @@ describe('test badge component props', () => {
     })
   })
 
-  test('badge type=inline', () => {
+  test('badge mode=inline', () => {
     const wrapper = mount(VarBadge, {
-      props: { type: 'inline', description: 'hi', content: 1 },
+      props: { mode: 'inline', description: 'hi', content: 1 },
     })
-    expect(wrapper.find('.mp-badge--type-inline').exists()).toBe(true)
+    expect(wrapper.find('.mp-badge--mode-inline').exists()).toBe(true)
     expect(wrapper.find('.mp-badge--inline-position-end').exists()).toBe(true)
     wrapper.unmount()
   })
@@ -118,7 +118,7 @@ describe('test badge component props', () => {
     const wrapper = mount(VarBadge, {
       props: { content: 1 },
     })
-    expect(wrapper.find('.mp-badge--type-inline').exists()).toBe(true)
+    expect(wrapper.find('.mp-badge--mode-inline').exists()).toBe(true)
     wrapper.unmount()
   })
 

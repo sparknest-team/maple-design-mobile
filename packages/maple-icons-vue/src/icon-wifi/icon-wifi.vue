@@ -1,0 +1,34 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    :class="['mp-svg-icon', { 'mp-svg-icon--spin': props.spin }]"
+    :style="style"
+    fill="currentColor"
+    :aria-hidden="!props.title"
+    role="img"
+    @click="emit('click', $event)"
+  >
+    <title v-if="props.title">{{ props.title }}</title>
+    <path
+      d="m12 21 3.6-4.8c-1-.75-2.25-1.2-3.6-1.2s-2.6.45-3.6 1.2zm0-18C7.95 3 4.21 4.34 1.2 6.6L3 9c2.5-1.88 5.62-3 9-3s6.5 1.12 9 3l1.8-2.4C19.79 4.34 16.05 3 12 3m0 6c-2.7 0-5.19.89-7.2 2.4l1.8 2.4C8.1 12.67 9.97 12 12 12s3.9.67 5.4 1.8l1.8-2.4C17.19 9.89 14.7 9 12 9"
+    />
+  </svg>
+</template>
+
+<script setup lang="ts">
+import { computed, type CSSProperties } from 'vue'
+
+defineOptions({ name: 'MIconWifi' })
+
+const props = defineProps<{ size?: string | number; color?: string; rotate?: number; spin?: boolean; title?: string }>()
+const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const style = computed<CSSProperties>(() => ({
+  width: '1em',
+  height: '1em',
+  flexShrink: 0,
+  color: props.color,
+  fontSize: typeof props.size === 'number' ? `${props.size}px` : props.size,
+  transform: props.rotate ? `rotate(${props.rotate}deg)` : undefined,
+}))
+</script>

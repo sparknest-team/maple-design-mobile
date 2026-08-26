@@ -25,8 +25,12 @@ export interface AutoCompleteOption {
 
 export interface AutoCompleteProps extends BasicAttributes {
   modelValue?: string
-  labelKey?: string
-  valueKey?: string
+  fieldNames?: {
+    label?: string
+    value?: string
+    children?: string
+    disabled?: string
+  }
   options?: AutoCompleteOption[]
   line?: boolean
   size?: AutoCompleteSize
@@ -36,7 +40,7 @@ export interface AutoCompleteProps extends BasicAttributes {
   textColor?: string
   focusColor?: string
   blurColor?: string
-  maxlength?: string | number
+  maxLength?: string | number
   disabled?: boolean
   readonly?: boolean
   clearable?: boolean

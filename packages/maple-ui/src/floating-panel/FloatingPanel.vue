@@ -1,5 +1,8 @@
 <template>
-  <Teleport :to="teleport === false ? undefined : teleport" :disabled="teleportDisabled || teleport === false">
+  <Teleport
+    :to="popupContainer === false ? undefined : popupContainer"
+    :disabled="teleportDisabled || popupContainer === false"
+  >
     <div
       :class="classes(n(), [safeArea, n('--safe-area')], formatElevation(elevation, 3))"
       :style="{
@@ -45,12 +48,17 @@ const OVERFLOW_REDUCE_RATIO = 0.2
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['anchor-change', 'update:anchor'],
+  setup(props, { emit }) {
     const visibleHeight = ref<number>(0)
     const contentRef = ref<HTMLElement | null>(null)
     const { height: windowHeight } = useWindowSize()
     const defaultEndAnchor = computed(() => windowHeight.value * 0.6)
-    const anchor = useVModel(props, 'anchor', { defaultValue: DEFAULT_START_ANCHOR })
+    const anchor = useVModel(props, 'anchor', {
+      defaultValue: DEFAULT_START_ANCHOR,
+      emit,
+      eventName: 'update:anchor',
+    })
     const anchors = computed<number[]>(() => {
       const defaultAnchors = [DEFAULT_START_ANCHOR, defaultEndAnchor.value]
       const { anchors } = props
@@ -120,7 +128,7 @@ export default defineComponent({
       anchor.value = visibleHeight.value
 
       if (anchor.value !== oldAnchor) {
-        call(props.onAnchorChange, visibleHeight.value)
+        emit('anchor-change', visibleHeight.value)
       }
     }
 

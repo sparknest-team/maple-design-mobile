@@ -34,42 +34,35 @@ onThemeChange(() => {
   </mp-watermark>
 
   <app-type>{{ t('customGap') }}</app-type>
-  <mp-watermark ref="watermarkRef2" content="Maple" :gap-x="40" :gap-y="40">
+  <mp-watermark ref="watermarkRef2" content="Maple" :gap="[40, 40]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 
   <app-type>{{ t('customOffset') }}</app-type>
-  <mp-watermark ref="watermarkRef3" content="Maple" :offset-x="20" :offset-y="20">
+  <mp-watermark ref="watermarkRef3" content="Maple" :offset="[20, 20]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 
   <app-type>{{ t('customRotate') }}</app-type>
-  <mp-watermark ref="watermarkRef4" content="Maple" :rotate="22" :offset-y="20">
+  <mp-watermark ref="watermarkRef4" content="Maple" :rotate="22" :offset="[0, 20]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 
   <app-type>{{ t('imageWatermark') }}</app-type>
-  <mp-watermark image="./logo.svg" :width="40" :height="40" :gap-x="40" :gap-y="40" :offset-x="10" :offset-y="10">
+  <mp-watermark image="./logo.svg" :width="40" :height="40" :gap="[40, 40]" :offset="[10, 10]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 
   <app-type>{{ t('fullscreen') }}</app-type>
 
-  <mp-watermark
-    ref="watermarkRef5"
-    content="Maple UI"
-    :fullscreen="fullscreen"
-    z-index="99"
-    :offset-x="10"
-    :offset-y="10"
-  >
+  <mp-watermark ref="watermarkRef5" content="Maple UI" :fullscreen="fullscreen" z-index="99" :offset="[10, 10]">
     <div class="watermark-wrapper">
       <mp-button type="primary" @click="toggle">{{ t('toggle') }}</mp-button>
     </div>
   </mp-watermark>
 
   <app-type>{{ t('customContentSlot') }}</app-type>
-  <mp-watermark :offset-x="10" :offset-y="10">
+  <mp-watermark :offset="[10, 10]">
     <div class="watermark-wrapper"></div>
     <template #content>
       <span style="font-size: 20px; color: #7986cb">Maple UI</span>

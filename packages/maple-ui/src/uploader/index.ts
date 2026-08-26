@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Uploader, uploaderProps)
 
 export { uploaderProps }
 
+export type UploaderInstance = InstanceType<typeof Uploader>
 export const _UploaderComponent = Uploader
 
 export default Uploader

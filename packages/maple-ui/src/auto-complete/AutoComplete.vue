@@ -7,22 +7,21 @@
     @click="handleClick"
   >
     <mp-menu
-      v-model:show="isShowMenu"
-      same-width
+      v-model:open="isShowMenu"
+      :auto-fit-popup-width="true"
       auto-complete-cover
-      scrollable
       trigger="manual"
       placement="bottom"
       :disabled="disabled || formDisabled || readonly || formReadonly"
       :class="n('menu')"
-      :popover-class="variant === 'standard' ? n('--standard-menu-margin') : undefined"
+      :popup-class="variant === 'standard' ? n('--standard-menu-margin') : undefined"
       @update:model-value="handleAutoComplete"
       @key-escape="handleKeyEscape"
     >
       <mp-input
         ref="input"
         v-bind="{
-          maxlength,
+          maxLength,
           enterkeyhint,
           placeholder,
           size,
@@ -58,7 +57,7 @@
         </template>
       </mp-input>
 
-      <template #options>
+      <template #content>
         <div :class="n('options')">
           <mp-menu-option
             v-for="option in viewOptions"
@@ -75,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { call, preventDefault, raf, toNumber } from '@maplejs/maple-shared'
 import { useClickOutside, useEventListener, useVModel } from '@maplejs/maple-use'
 import { useFormItem } from '../form-item'
@@ -84,6 +83,7 @@ import MpInput from '../input'
 import MpMenu from '../menu'
 import MpMenuOption from '../menu-option'
 import { createNamespace } from '../utils/components'
+import { useFieldNames } from '../utils/options'
 import { props, type AutoCompleteOption } from './props'
 
 const { name, n } = createNamespace('auto-complete')
@@ -96,17 +96,21 @@ export default defineComponent({
     MpMenuOption,
   },
   props,
-  setup(props) {
+  emits: ['input', 'clear', 'click', 'change', 'focus', 'blur', 'update:modelValue'],
+  setup(props, { emit }) {
     const root = ref<HTMLElement>()
     const input = ref<InstanceType<typeof MpInput>>()
 
     const isFocusing = ref(false)
-    const value = useVModel(props, 'modelValue')
+    const value = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
     const viewOptions = ref<AutoCompleteOption[]>([])
     const isShowMenu = ref(false)
 
     const { form } = useForm()
     const { mergedError, eventHandlers } = useFormItem()
+    const fieldNames = useFieldNames(props)
+    const labelKey = computed(() => fieldNames.value.label)
+    const valueKey = computed(() => fieldNames.value.value)
 
     let clearing = false
 
@@ -137,7 +141,7 @@ export default defineComponent({
 
       isFocusing.value = true
       input.value!.focus()
-      call(props.onFocus)
+      emit('focus')
       eventHandlers.value.onFocus?.()
     }
 
@@ -150,7 +154,7 @@ export default defineComponent({
       isFocusing.value = false
       isShowMenu.value = false
       input.value!.blur()
-      call(props.onBlur)
+      emit('blur')
       eventHandlers.value.onBlur?.()
     }
 
@@ -207,14 +211,14 @@ export default defineComponent({
 
     function handleInput(newValue: string, event: Event) {
       changeMenuState()
-      call(props.onInput, newValue, event)
+      emit('input', newValue, event)
       eventHandlers.value.onInput?.()
     }
 
     function handleClear() {
       clearing = true
       changeMenuState()
-      call(props.onClear, value.value!)
+      emit('clear', value.value!)
       eventHandlers.value.onClear?.()
     }
 
@@ -223,22 +227,22 @@ export default defineComponent({
         return
       }
 
-      call(props.onClick, event)
+      emit('click', event)
     }
 
     function handleChange(newValue: string) {
-      call(props.onChange, newValue)
+      emit('change', newValue)
       eventHandlers.value.onChange?.()
     }
 
     async function handleAutoComplete(newValue: string) {
-      if (props.maxlength != null) {
-        newValue = newValue.slice(0, toNumber(props.maxlength))
+      if (props.maxLength != null) {
+        newValue = newValue.slice(0, toNumber(props.maxLength))
       }
 
       if (newValue !== value.value) {
         value.value = newValue
-        call(props.onChange, newValue)
+        emit('change', newValue)
         eventHandlers.value.onChange?.()
       }
 
@@ -265,6 +269,8 @@ export default defineComponent({
       isShowMenu,
       viewOptions,
       isFocusing,
+      labelKey,
+      valueKey,
       formDisabled: form?.disabled,
       formReadonly: form?.readonly,
       mergedError,
@@ -289,7 +295,6 @@ export default defineComponent({
 @import '../icon/icon';
 @import '../field-decorator/fieldDecorator';
 @import '../input/input';
-@import '../popover/popover';
 @import '../menu-option/menuOption';
 @import '../menu/menu';
 @import './autoComplete';

@@ -22,8 +22,8 @@
     outline: none;
     border: none;
     background: transparent;
-    color: var(--mp-field-decorator-text-color);
-    caret-color: var(--mp-field-decorator-focus-color);
+    color: var(--mp-field-color-text);
+    caret-color: var(--mp-field-color-focus);
     font-size: var(--mp-input-input-font-size);
     transition: color 0.25s;
 
@@ -33,21 +33,21 @@
   }
 
   &--disabled {
-    color: var(--mp-field-decorator-disabled-color);
+    color: var(--mp-field-color-text-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-decorator-error-color);
+    color: var(--mp-field-color-error);
   }
 
   &--caret-error {
-    caret-color: var(--mp-field-decorator-error-color);
+    caret-color: var(--mp-field-color-error);
   }
 
   &__length {
     margin-top: 4px;
-    color: var(--mp-field-decorator-blur-color);
+    color: var(--mp-field-color-blur);
     font-size: 12px;
     text-align: right;
   }

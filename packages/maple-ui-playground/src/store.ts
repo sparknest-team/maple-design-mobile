@@ -21,7 +21,7 @@ const welcomeCode = `\
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const msg = ref('Hello Varlet!')
+const msg = ref('Hello Maple!')
 </script>
 
 <template>
@@ -32,9 +32,9 @@ const appWrapperFile = 'src/AppWrapper.vue'
 const appWrapperCode = `\
 <script setup>
 import App from './${stripSrcPrefix(appFile)}'
-import { installVarletUI } from './${stripSrcPrefix(mapleReplPlugin)}'
+import { installMapleUI } from './${stripSrcPrefix(mapleReplPlugin)}'
 
-installVarletUI()
+installMapleUI()
 </script>
 
 <template>
@@ -59,7 +59,7 @@ const tsconfig = {
   },
 }
 
-function getmapleReplPluginCode(version: string | 'latest' | 'preview') {
+function getMapleReplPluginCode(version: string | 'latest' | 'preview') {
   let mapleCss
   let mapleTouchEmulator
 
@@ -200,7 +200,7 @@ export class ReplStore implements Store {
       setFile(
         files,
         mapleReplPlugin,
-        getmapleReplPluginCode(usePreviewVersion ? 'preview' : 'latest'),
+        getMapleReplPluginCode(usePreviewVersion ? 'preview' : 'latest'),
         !import.meta.env.DEV,
       )
     }
@@ -269,7 +269,7 @@ export class ReplStore implements Store {
 
   deleteFile(filename: string) {
     if (filename === mapleReplPlugin || filename === appWrapperFile) {
-      Message.warning('You cannot delete this file because the varlet depends on it')
+      Message.warning('You cannot delete this file because Maple depends on it')
       return
     }
 
@@ -403,7 +403,7 @@ export class ReplStore implements Store {
     this.state.files[importMapFile]!.code = JSON.stringify(map, null, 2)
   }
 
-  setVarletVersion(version: string) {
+  setMapleVersion(version: string) {
     this.mapleVersion = version
     const importMap = this.getImportMap()
     const imports = importMap.imports || (importMap.imports = {})
@@ -411,12 +411,12 @@ export class ReplStore implements Store {
       version === 'preview'
         ? `./maple.esm.js`
         : `https://cdn.jsdelivr.net/npm/@maplejs/maple-ui@${version}/es/maple.esm.js`
-    setFile(this.state.files, mapleReplPlugin, getmapleReplPluginCode(version), !import.meta.env.DEV)
+    setFile(this.state.files, mapleReplPlugin, getMapleReplPluginCode(version), !import.meta.env.DEV)
     compileFile(this, this.state.files[mapleReplPlugin]).then((errs) => this.state.errors.push(...errs))
     this.setImportMap(importMap)
     this.forceSandboxReset()
 
-    console.info(`[varlet] Now using Varlet version: ${version}`)
+    console.info(`[maple] Now using Maple version: ${version}`)
   }
 
   async setVueVersion(version: string) {

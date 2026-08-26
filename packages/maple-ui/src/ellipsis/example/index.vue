@@ -32,7 +32,7 @@ onThemeChange()
     {{ t('text') }}
 
     <template #tooltip-content>
-      <mp-icon name="github" />
+      <m-icon-github />
     </template>
   </mp-ellipsis>
 </template>

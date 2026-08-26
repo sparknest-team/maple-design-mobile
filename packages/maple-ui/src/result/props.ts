@@ -1,15 +1,15 @@
 import { type PropType } from 'vue'
 
-export type ResultType = 'info' | 'success' | 'warning' | 'error' | 'question' | 'empty'
+export type ResultStatus = 'info' | 'success' | 'warning' | 'danger' | 'question' | 'empty'
 
 export const props = {
   imageSize: [String, Number],
-  type: {
-    type: String as PropType<ResultType>,
+  status: {
+    type: String as PropType<ResultStatus>,
     default: 'success',
   },
   title: String,
-  description: String,
+  subtitle: String,
   animation: {
     type: Boolean,
     default: true,

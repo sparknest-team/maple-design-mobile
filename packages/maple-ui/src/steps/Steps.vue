@@ -19,7 +19,8 @@ const { name, n, classes } = createNamespace('steps')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['change', 'update:current'],
+  setup(props, { emit }) {
     const _current = ref(props.defaultCurrent)
     const current = computed(() => props.current ?? _current.value)
     const direction = computed(() => props.direction)
@@ -42,8 +43,8 @@ export default defineComponent({
         return
       }
       _current.value = step
-      call(props['onUpdate:current'], step)
-      call(props.onChange, step, e)
+      emit('update:current', step)
+      emit('change', step, e)
     }
 
     const stepsProvider: StepsProvider = {

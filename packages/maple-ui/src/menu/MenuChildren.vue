@@ -1,14 +1,12 @@
 <template>
-  <mp-popover
+  <mp-trigger
     ref="menu"
-    v-model:show="show"
+    v-model:open="open"
     trigger="hover"
     placement="right-start"
     cascade-optimization
-    mp-menu-children-cover
-    :class="n()"
     :disabled="disabled"
-    :teleport="false"
+    :popup-container="false"
     :close-on-click-reference="false"
   >
     <mp-menu-option
@@ -18,8 +16,8 @@
       :value="option[valueKey]"
       :option="option"
       :ripple="option.ripple"
-      :disabled="option.disabled"
-      :highlight="highlightOptions.some((_option) => _option.value === option.value)"
+      :disabled="Boolean(option[disabledKey])"
+      :highlight="highlightOptions.some((_option) => _option[valueKey] === option[valueKey])"
       @key-arrow-x="handleArrowRight"
       @mouseenter="handleMouseenter"
     />
@@ -30,11 +28,12 @@
           <mp-menu-children
             v-if="menuOption[childrenKey]"
             ref="menuChildren"
-            :parent-show="show"
+            :parent-show="open"
             :option="menuOption"
             :options="menuOption[childrenKey]"
+            :field-names="fieldNames"
             :highlight-options="highlightOptions"
-            :disabled="menuOption.disabled"
+            :disabled="Boolean(menuOption[disabledKey])"
             @key-arrow-x="handleArrowLeft"
             @key-arrow-right-open="allowChildrenClose(menuOption)"
             @mouseenter="allowChildrenClose(menuOption)"
@@ -45,32 +44,34 @@
             :value="menuOption[valueKey]"
             :option="menuOption"
             :ripple="menuOption.ripple"
-            :disabled="menuOption.disabled"
+            :disabled="Boolean(menuOption[disabledKey])"
             @key-arrow-x="handleArrowLeft"
             @mouseenter="allowChildrenClose()"
           />
         </template>
       </div>
     </template>
-  </mp-popover>
+  </mp-trigger>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, type PropType } from 'vue'
-import { call, raf } from '@maplejs/maple-shared'
+import { computed, defineComponent, ref, watch, type PropType } from 'vue'
+import { raf } from '@maplejs/maple-shared'
 import MpMenuOption from '../menu-option/MenuOption.vue'
 import { type MenuOptionKeyArrowX } from '../menu-option/props'
-import MpPopover from '../popover/Popover.vue'
-import { createNamespace, defineListenerProp, pickProps } from '../utils/components'
+import type { TriggerInstance } from '../trigger'
+import MpTrigger from '../trigger/Trigger.vue'
+import { createNamespace, pickProps } from '../utils/components'
 import { focusChildElementByKey } from '../utils/elements'
+import { useFieldNames, type FieldNames } from '../utils/options'
 import { props as menuProps, type MenuOption } from './props'
 
-const { name, n } = createNamespace('menu-children')
+const { name } = createNamespace('menu-children')
 
 export default defineComponent({
   name,
   components: {
-    MpPopover,
+    MpTrigger,
     MpMenuOption,
   },
   props: {
@@ -81,36 +82,40 @@ export default defineComponent({
       required: true,
     },
     highlightOptions: pickProps(menuProps, 'options'),
-    onKeyArrowX: defineListenerProp<(trigger: 'ArrowLeft' | 'ArrowRight') => void>(),
-    onKeyArrowRightOpen: defineListenerProp<() => void>(),
-    onMouseenter: defineListenerProp<() => void>(),
-    ...pickProps(menuProps, ['options', 'valueKey', 'labelKey', 'childrenKey']),
+    ...pickProps(menuProps, ['options']),
+    fieldNames: Object as PropType<FieldNames>,
   },
-  setup(props) {
-    const show = ref(false)
-    const menu = ref<InstanceType<typeof MpPopover>>()
+  emits: ['key-arrow-x', 'key-arrow-right-open', 'mouseenter'],
+  setup(props, { emit }) {
+    const open = ref(false)
+    const menu = ref<TriggerInstance>()
     const trigger = ref<InstanceType<typeof MpMenuOption>>()
     const menuOptions = ref<HTMLElement>()
     const menuChildren = ref<{ option: MenuOption; allowClose(): void; close(): void }[]>()
+    const fieldNames = useFieldNames(props)
+    const labelKey = computed(() => fieldNames.value.label)
+    const valueKey = computed(() => fieldNames.value.value)
+    const childrenKey = computed(() => fieldNames.value.children)
+    const disabledKey = computed(() => fieldNames.value.disabled)
 
     watch(
       () => props.parentShow,
       (value) => {
         if (!value) {
-          show.value = false
+          open.value = false
         }
       },
       { immediate: true },
     )
 
     async function handleArrowRight(key: MenuOptionKeyArrowX) {
-      call(props.onKeyArrowX, key)
+      emit('key-arrow-x', key)
 
       if (key !== 'ArrowRight') {
         return
       }
 
-      call(props.onKeyArrowRightOpen)
+      emit('key-arrow-right-open')
       menu.value?.open()
       await raf()
       focusChildElementByKey(menu.value!.$el, menuOptions.value!, 'ArrowDown')
@@ -143,7 +148,7 @@ export default defineComponent({
           return
         }
 
-        if (child.option.value === option.value) {
+        if (child.option[valueKey.value] === option[valueKey.value]) {
           // skip active option
           return
         }
@@ -153,16 +158,19 @@ export default defineComponent({
     }
 
     function handleMouseenter() {
-      call(props.onMouseenter)
+      emit('mouseenter')
     }
 
     return {
-      show,
+      open,
       menu,
       trigger,
       menuOptions,
       menuChildren,
-      n,
+      labelKey,
+      valueKey,
+      childrenKey,
+      disabledKey,
       close,
       handleArrowLeft,
       handleArrowRight,

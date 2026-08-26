@@ -7,6 +7,7 @@ withPropsDefaultsSetter(CollapseTransition, collapseTransitionProps)
 
 export { collapseTransitionProps }
 
+export type CollapseTransitionInstance = InstanceType<typeof CollapseTransition>
 export const _CollapseTransitionComponent = CollapseTransition
 
 export default CollapseTransition

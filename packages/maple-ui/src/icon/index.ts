@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Icon, iconProps)
 
 export { iconProps }
 
+export type Instance = InstanceType<typeof Icon>
 export const _IconComponent = Icon
 
 export default Icon

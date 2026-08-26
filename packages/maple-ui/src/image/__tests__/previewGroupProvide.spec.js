@@ -27,7 +27,7 @@ describe('image preview group provide/inject', () => {
         Child,
       },
       template: `
-        <mp-image-preview-group :teleport="null">
+        <mp-image-preview-group :popup-container="null">
           <child />
         </mp-image-preview-group>
       `,
@@ -36,11 +36,11 @@ describe('image preview group provide/inject', () => {
     await flushPromises()
 
     const group = wrapper.findComponent(ImagePreviewGroup)
-    expect(group.vm.mergedVisible).toBe(true)
+    expect(group.vm.mergedOpen).toBe(true)
 
     const preview = wrapper.findComponent(ImagePreview)
     expect(preview.exists()).toBe(true)
-    expect(preview.props('visible')).toBe(true)
+    expect(preview.props('open')).toBe(true)
     expect(preview.props('current')).toBe(1)
     expect(preview.props('images')).toEqual(['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'])
 

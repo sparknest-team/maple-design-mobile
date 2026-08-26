@@ -7,6 +7,7 @@ withPropsDefaultsSetter(TabItem, tabItemProps)
 
 export { tabItemProps }
 
+export type TabItemInstance = InstanceType<typeof TabItem>
 export const _TabItemComponent = TabItem
 
 export default TabItem

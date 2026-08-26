@@ -9,7 +9,7 @@ export interface MenuProvider {
   size: ComputedRef<MenuSize>
   multiple: ComputedRef<boolean>
   computeLabel(): void
-  onSelect(menuOptionProvider: MenuOptionProvider): void
+  onSelect(menuOptionProvider: MenuOptionProvider, ev?: Event): void
 }
 
 export function useMenuOptions() {

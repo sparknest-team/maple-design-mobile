@@ -5,7 +5,7 @@ import Image from '..'
 import { delay, trigger } from '../../utils/test'
 import VarImage from '../Image'
 
-const SRC = 'https://maplejs.org/varlet/cat.png'
+const SRC = 'https://maplejs.org/cat.png'
 
 test('image plugin', () => {
   const app = createApp({}).use(Image)

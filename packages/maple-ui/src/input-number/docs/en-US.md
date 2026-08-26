@@ -30,10 +30,10 @@ Input or adjust numbers in a range. `InputNumber` is the primary name aligned wi
 <mp-input-number v-model="value" :step="0.1" :precision="1" />
 ```
 
-### Hide Controls
+### Input Mode
 
 ```html
-<mp-input-number v-model="value" :controls="false" />
+<mp-input-number v-model="value" mode="input" />
 ```
 
 ## API
@@ -44,7 +44,7 @@ Input or adjust numbers in a range. `InputNumber` is the primary name aligned wi
 | --------------- | ---------------------------------------------- | --------------------------- | ----------- |
 | `v-model`       | Current value                                  | _number_                    | `-`         |
 | `default-value` | Default value for uncontrolled usage           | _number_                    | `-`         |
-| `control-type`  | Controls layout: `stacked` `split`             | _string_                    | `stacked`   |
+| `mode`          | Mode: `embed` `button` `input`                 | _string_                    | `embed`     |
 | `precision`     | Number precision                               | _number_                    | `-`         |
 | `step`          | Step value                                     | _number_                    | `1`         |
 | `disabled`      | Whether to disable input number                | _boolean_                   | `false`     |
@@ -54,8 +54,7 @@ Input or adjust numbers in a range. `InputNumber` is the primary name aligned wi
 | `formatter`     | Format display value                           | _(value: string) => string_ | `-`         |
 | `parser`        | Parse input value                              | _(value: string) => string_ | `-`         |
 | `placeholder`   | Input placeholder                              | _string_                    | `-`         |
-| `controls`      | Whether to show controls                       | _boolean_                   | `true`      |
-| `size`          | Input size: `xs` `sm` `md` `lg`                | _string_                    | `-`         |
+| `size`          | Input size: `xs` `sm` `md` `lg` `xl`           | _ComponentSize_             | `md`        |
 | `clearable`     | Whether the input can be cleared               | _boolean_                   | `false`     |
 | `model-event`   | Event that updates `v-model`: `change` `input` | _string_                    | `change`    |
 | `readonly`      | Whether to be readonly                         | _boolean_                   | `false`     |

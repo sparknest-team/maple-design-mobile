@@ -30,7 +30,7 @@ test('localeProvider locale', async () => {
     },
     slots: {
       default: () =>
-        h('div', [h(Dialog, { show: true, teleport: container }), h(DatePicker, { modelValue: '2021-04-08' })]),
+        h('div', [h(Dialog, { open: true, popupContainer: container }), h(DatePicker, { modelValue: '2021-04-08' })]),
     },
   })
   expect(container.innerHTML).toMatchSnapshot()

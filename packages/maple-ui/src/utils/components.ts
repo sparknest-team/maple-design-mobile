@@ -50,15 +50,37 @@ export function pickProps(props: any, propsKey: any): any {
 
 export type ComponentWithInstall<T> = T & Plugin
 
-export function withInstall<T = Component>(component: Component, target?: T): ComponentWithInstall<T> {
+export interface WithInstallOptions<InstallOptions = unknown> {
+  components?: Component[]
+  resolveName?: (component: Component, options?: InstallOptions) => string | undefined
+  setup?: (app: App, options?: InstallOptions) => void
+}
+
+export function withInstall<T extends Component, InstallOptions = unknown>(
+  component: T,
+  target?: undefined,
+  options?: WithInstallOptions<InstallOptions>,
+): ComponentWithInstall<T>
+export function withInstall<T, InstallOptions = unknown>(
+  component: Component,
+  target: T,
+  options?: WithInstallOptions<InstallOptions>,
+): ComponentWithInstall<T>
+export function withInstall<T = Component, InstallOptions = unknown>(
+  component: Component,
+  target?: T,
+  options: WithInstallOptions<InstallOptions> = {},
+): ComponentWithInstall<T> {
   const componentWithInstall = target ?? component
 
-  ;(componentWithInstall as ComponentWithInstall<T>).install = function (app: App) {
-    const { name } = component
-
-    if (name) {
-      app.component(name, component)
+  ;(componentWithInstall as ComponentWithInstall<T>).install = function (app: App, installOptions?: InstallOptions) {
+    for (const item of options.components ?? [component]) {
+      const name = options.resolveName?.(item, installOptions) ?? item.name
+      if (name) {
+        app.component(name, item)
+      }
     }
+    options.setup?.(app, installOptions)
   }
 
   return componentWithInstall as ComponentWithInstall<T>

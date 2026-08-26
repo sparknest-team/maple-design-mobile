@@ -2,7 +2,7 @@
 
 ### 介绍
 
-这里为您介绍在 `Nuxt` 中引入 `Varlet` 的基本方式。
+这里为您介绍在 `Nuxt` 中引入 `Maple` 的基本方式。
 
 ### 创建 Nuxt 项目
 
@@ -10,13 +10,13 @@
 
 ### Nuxt Module
 
-组件库第一方提供了 [Varlet Nuxt Module](https://nuxt.com/modules/varlet)。以支持按需引入和自动引入，执行下面的命令进行安装，安装成功后将自动完成 nuxt 相关配置。
+组件库第一方提供了 [Maple Nuxt Module](https://nuxt.com/modules/maple)。以支持按需引入和自动引入，执行下面的命令进行安装，安装成功后将自动完成 nuxt 相关配置。
 
 ```shell
 # playground-ignore
-npx nuxi@latest module add varlet
+npx nuxi@latest module add maple
 ```
 
 ### 示例仓库
 
-[maple-install-example/nuxt](https://github.com/varletjs/maple-install-example/tree/main/nuxt)
+[maple-install-example/nuxt](https://github.com/loca-spirit/maple-install-example/tree/main/nuxt)

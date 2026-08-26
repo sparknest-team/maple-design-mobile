@@ -24,8 +24,12 @@ export { CheckboxGroupDirection }
 export interface CheckboxGroupProps extends BasicAttributes {
   modelValue?: any[]
   max?: string | number
-  labelKey?: string
-  valueKey?: string
+  fieldNames?: {
+    label?: string
+    value?: string
+    children?: string
+    disabled?: string
+  }
   options?: CheckboxGroupOption[]
   direction?: CheckboxGroupDirection
   onChange?: ListenerProp<(value: Array<any>) => void>

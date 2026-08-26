@@ -18,7 +18,7 @@ Set the theme color with `status`. Options match Button: `default` `primary` `in
     <mp-tag status="warning">Warning</mp-tag>
     <mp-tag status="danger">Danger</mp-tag>
     <mp-tag status="secondary">Secondary</mp-tag>
-    <mp-tag status="contrast">Contrast</mp-tag>
+    <mp-tag status="tertiary">Contrast</mp-tag>
   </mp-space>
 </template>
 ```
@@ -69,13 +69,13 @@ Set size with `size`: `xs` `sm` `md` `lg` `xl`.
 
 ### Closable
 
-Show a close button with `closable`. Use `v-model:visible` or manage a list yourself.
+Show a close button with `closable`. Use `v-model:show` or manage a list yourself.
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(true)
+const show = ref(true)
 const tags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
 
 function removeTag(tag) {
@@ -85,7 +85,7 @@ function removeTag(tag) {
 
 <template>
   <mp-space>
-    <mp-tag v-model:visible="visible" closable status="primary">Tag</mp-tag>
+    <mp-tag v-model:show="show" closable status="primary">Tag</mp-tag>
     <mp-tag v-for="tag in tags" :key="tag" closable round @close="removeTag(tag)">
       {{ tag }}
     </mp-tag>
@@ -126,7 +126,7 @@ Customize the leading icon with the `icon` slot, and the close icon with `close-
 ```html
 <template>
   <mp-tag status="success">
-    <template #icon><mp-icon name="check" /></template>
+    <template #icon><m-icon-check /></template>
     Done
   </mp-tag>
 </template>
@@ -158,8 +158,8 @@ Override status colors with `color` and `text-color`. With `variant="outline"`, 
 | `variant` | Variant: `default` (filled) / `outline` | _string_ | `default` |
 | `size` | Size: `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
 | `round` | Whether to use a pill shape | _boolean_ | `false` |
-| `visible` | Visibility (v-model) | _boolean_ | `true` |
-| `default-visible` | Default visibility | _boolean_ | `true` |
+| `show` | Visibility (v-model) | _boolean_ | `true` |
+| `default-show` | Default visibility | _boolean_ | `true` |
 | `loading` | Loading state | _boolean_ | `false` |
 | `closable` | Whether closable | _boolean_ | `false` |
 | `checkable` | Whether checkable | _boolean_ | `false` |
@@ -175,7 +175,7 @@ Override status colors with `color` and `text-color`. With `variant="outline"`, 
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `update:visible` | Visibility changed | `(visible: boolean)` |
+| `update:show` | Visibility changed | `(show: boolean)` |
 | `update:checked` | Checked state changed (checkable) | `(checked: boolean)` |
 | `close` | Close button clicked | `(event: MouseEvent)` |
 | `check` | Checked state toggled (checkable) | `(checked: boolean, event: MouseEvent)` |

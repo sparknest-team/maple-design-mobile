@@ -1,5 +1,6 @@
 export default {
   basicUsage: 'Basic Usage',
+  calendarMode: 'Calendar Mode',
   monthPicker: 'Month Picker',
   multiple: 'Multiple',
   range: 'Range',

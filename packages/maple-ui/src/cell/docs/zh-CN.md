@@ -19,12 +19,12 @@
 <template>
   <mp-cell icon="fire" title="这是单元格">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
   <mp-cell icon="fire" title="这是单元格">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
 </template>
@@ -36,7 +36,7 @@
 <template>
   <mp-cell icon="fire" title="这是单元格" description="描述">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
   <mp-cell title="这是单元格" description="描述" />
@@ -110,7 +110,6 @@ const handleClick = (item) => {
 | ----- | -------------- | -------- | ---------- |
 | `title` | 单元格标题  | _string_ | `-` |
 | `icon` | 左侧图标名称 | _string_ | `-` |
-| `namespace` | 左侧图标命名空间 | _string_ | `mp-icon` |
 | `description` | 单元格描述 | _string_ | `-` |
 | `border` | 是否显示边框 | _boolean_ | `false` |
 | `border-offset` | 边框偏移量 | _string \| number_ | `-` |
@@ -147,7 +146,7 @@ const handleClick = (item) => {
 | `--cell-description-color` | `rgba(0, 0, 0, 0.6)` |
 | `--cell-padding` | `10px 12px` |
 | `--cell-min-height` | `40px` |
-| `--cell-border-color` | `var(--color-outline)` |
+| `--cell-border-color` | `var(--color-border-2)` |
 | `--cell-border-left` | `12px` |
 | `--cell-border-right` | `12px` |
 | `--cell-icon-right` | `8px` |

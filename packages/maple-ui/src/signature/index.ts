@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Signature, signatureProps)
 
 export { signatureProps }
 
+export type SignatureInstance = InstanceType<typeof Signature>
 export const _SignatureComponent = Signature
 
 export default Signature

@@ -1,101 +1,120 @@
 <template>
-  <div
-    :class="
-      classes(
-        n(),
-        n('$--box'),
-        [span >= 0, n(`--span-${span}`)],
-        [offset, n(`--offset-${offset}`)],
-        ...getSize('xs', xs),
-        ...getSize('sm', sm),
-        ...getSize('md', md),
-        ...getSize('lg', lg),
-        ...getSize('xl', xl),
-      )
-    "
-    :style="{
-      flexDirection: direction,
-      justifyContent: padStartFlex(justify),
-      alignItems: padStartFlex(align),
-      paddingLeft: toSizeUnit(padding.left),
-      paddingRight: toSizeUnit(padding.right),
-      paddingTop: toSizeUnit(padding.top),
-      paddingBottom: toSizeUnit(padding.bottom),
-    }"
-    @click="handleClick"
-  >
+  <div v-if="visible" :class="classNames" :style="styles" @click="handleClick">
     <slot />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { call, isPlainObject, toNumber } from '@maplejs/maple-shared'
+import { isNumber, isPlainObject, isString } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
-import { padStartFlex, toSizeUnit } from '../utils/elements'
-import { props } from './props'
-import { useRow, type ColPadding, type ColSizeDescriptor } from './provide'
+import { props, type FlexType } from './props'
+import { useParentRow } from './provide'
 
 const { name, n, classes } = createNamespace('col')
+
+function getAllowableFlexValue(flexValue: FlexType | undefined) {
+  if (
+    (isString(flexValue) && (['initial', 'auto', 'none'].includes(flexValue) || /^\d+$/.test(flexValue))) ||
+    isNumber(flexValue)
+  ) {
+    return flexValue
+  }
+  if (isString(flexValue) && /^\d+(px|em|rem|%)$/.test(flexValue)) {
+    return `0 0 ${flexValue}`
+  }
+  return undefined
+}
 
 export default defineComponent({
   name,
   props,
-  setup(props) {
-    const span = computed(() => toNumber(props.span))
-    const offset = computed(() => toNumber(props.offset))
-    const padding = computed<ColPadding>(() => {
-      const [y = 0, x = 0] = row?.average.value ?? []
-      return { left: x, right: x, top: y, bottom: y }
+  emits: ['click'],
+  setup(props, { emit }) {
+    const { row, bindCol } = useParentRow()
+    bindCol(null)
+
+    const flexValue = computed(() => getAllowableFlexValue(props.flex))
+
+    const mergeClassName = computed(() => {
+      const isDiv = row?.div.value
+      const { span, offset, order, xs, sm, md, lg, xl, xxl } = props
+      const result: Record<string, boolean | number | undefined> = {
+        [n()]: !isDiv,
+        [n(`--order-${order}`)]: !!order,
+        [n(`--span-${span}`)]: !isDiv && !xs && !sm && !md && !lg && !xl && !xxl,
+        [n(`--offset-${offset}`)]: !!(offset && offset > 0),
+      }
+
+      const screenList = { xs, sm, md, lg, xl, xxl }
+      Object.keys(screenList).forEach((screen) => {
+        const screenValue = screenList[screen as keyof typeof screenList]
+        if (isNumber(screenValue)) {
+          result[n(`--span-${screen}-${screenValue}`)] = true
+        } else if (isPlainObject(screenValue)) {
+          if (screenValue.span != null) {
+            result[n(`--span-${screen}-${screenValue.span}`)] = true
+          }
+          if (screenValue.offset != null) {
+            result[n(`--offset-${screen}-${screenValue.offset}`)] = true
+          }
+          if (screenValue.order != null) {
+            result[n(`--order-${screen}-${screenValue.order}`)] = true
+          }
+        }
+      })
+
+      return result
     })
 
-    const { row, bindRow } = useRow()
+    const classNames = computed(() => (flexValue.value ? n() : mergeClassName.value))
 
-    call(bindRow, null)
-
-    function getSize(mode: string, size: string | number | ColSizeDescriptor | undefined) {
-      const classes: string[] = []
-
-      if (size == null) {
-        return classes
-      }
-
-      if (isPlainObject(size)) {
-        const { offset, span } = size
-
-        if (Number(span) >= 0) {
-          classes.push(n(`--span-${mode}-${span}`))
+    const paddingStyles = computed(() => {
+      const result: {
+        paddingLeft?: string
+        paddingRight?: string
+        paddingTop?: string
+        paddingBottom?: string
+      } = {}
+      const gutter = row?.gutter.value
+      const isDiv = row?.div.value
+      if (Array.isArray(gutter) && !isDiv) {
+        const paddingHorizontal = (gutter[0] && gutter[0] / 2) || 0
+        const paddingVertical = (gutter[1] && gutter[1] / 2) || 0
+        if (paddingHorizontal) {
+          result.paddingLeft = `${paddingHorizontal}px`
+          result.paddingRight = `${paddingHorizontal}px`
         }
-
-        if (offset) {
-          classes.push(n(`--offset-${mode}-${offset}`))
+        if (paddingVertical) {
+          result.paddingTop = `${paddingVertical}px`
+          result.paddingBottom = `${paddingVertical}px`
         }
-
-        return classes
       }
+      return result
+    })
 
-      if (Number(size) >= 0) {
-        classes.push(n(`--span-${mode}-${size}`))
+    const flexStyles = computed(() => (flexValue.value ? { flex: flexValue.value } : {}))
+
+    const visible = computed(() => {
+      // span 0 hides; when using only responsive props, CSS handles display:none
+      if (flexValue.value) {
+        return true
       }
-
-      return classes
-    }
+      if (props.xs || props.sm || props.md || props.lg || props.xl || props.xxl) {
+        return true
+      }
+      return props.span !== 0
+    })
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {
-      span,
-      offset,
-      padding,
-      n,
-      classes,
-      toNumber,
-      toSizeUnit,
-      getSize,
+      visible,
+      classNames,
+      styles: computed(() => ({ ...paddingStyles.value, ...flexStyles.value })),
       handleClick,
-      padStartFlex,
     }
   },
 })

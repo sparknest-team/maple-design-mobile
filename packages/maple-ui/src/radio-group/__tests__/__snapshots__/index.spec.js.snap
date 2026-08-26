@@ -1,5 +1,67 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`radio group field-names label 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group field-names value 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
 exports[`radio group label is VNode 1`] = `
 "<div class="mp-radio-group__wrap">
   <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">

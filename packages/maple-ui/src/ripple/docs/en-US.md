@@ -21,7 +21,7 @@ When the element is clicked, a water wave spreading effect is generated.
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.25s;
-  background-color: var(--color-surface-container-highest)
+  background-color: var(--color-fill-3)
 }
 </style>
 ```
@@ -45,7 +45,7 @@ When the element is clicked, a water wave spreading effect is generated.
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.25s;
-  background-color: var(--color-surface-container-highest);
+  background-color: var(--color-fill-3);
 }
 </style>
 ```
@@ -69,7 +69,7 @@ When the element is clicked, a water wave spreading effect is generated.
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.25s;
-  background-color: var(--color-surface-container-highest);
+  background-color: var(--color-fill-3);
 }
 </style>
 ```

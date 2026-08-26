@@ -33,10 +33,10 @@ onThemeChange()
   <mp-card :title="t('title')" :subtitle="t('description')" layout="row" src="cat.jpg">
     <template #extra>
       <mp-button text round>
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
       <mp-button round text>
-        <mp-icon name="heart" />
+        <m-icon-heart />
       </mp-button>
     </template>
   </mp-card>

@@ -122,7 +122,7 @@ describe('test bottom-navigation events', () => {
         handleBeforeChange,
       },
       template: `
-        <mp-bottom-navigation v-model:active="active" @before-change="handleBeforeChange">
+        <mp-bottom-navigation v-model:active="active" :before-change="handleBeforeChange">
           <mp-bottom-navigation-item label="tag 1" icon="home" />
           <mp-bottom-navigation-item label="tag 2" icon="magnify" />
         </mp-bottom-navigation>

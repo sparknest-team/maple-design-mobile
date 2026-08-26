@@ -4,11 +4,11 @@ exports[`counter decimalLength 1`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -18,11 +18,11 @@ exports[`counter decimalLength 2`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="decimal"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="decimal"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -32,11 +32,11 @@ exports[`counter decrementButton 1`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -46,11 +46,11 @@ exports[`counter decrementButton 2`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button mp-counter--hidden" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -60,11 +60,11 @@ exports[`counter elevation 1`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -74,11 +74,11 @@ exports[`counter elevation 2`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -88,11 +88,11 @@ exports[`counter incrementButton 1`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"
@@ -102,11 +102,11 @@ exports[`counter incrementButton 2`] = `
 "<div class="mp-counter mp--box">
   <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
-    </button><input class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button mp-counter--hidden" type="button" mp-counter-cover="">
+    </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button mp-counter--hidden" type="button" mp-counter-cover="">
       <!--v-if-->
-      <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+      <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
       <div class="mp-hover-overlay"></div>
     </button></div>
 </div>"

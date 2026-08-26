@@ -269,6 +269,6 @@ const value2 = ref([7, 64])
 | `--slider-thumb-ripple-background` | `var(--color-primary)` |
 | `--slider-thumb-label-background` | `var(--color-primary)` |
 | `--slider-thumb-label-font-size` | `var(--font-size-sm)` |
-| `--slider-thumb-label-text-color` | `var(--color-on-primary)` |
+| `--slider-thumb-label-text-color` | `var(--color-white)` |
 | `--slider-thumb-size` | `12px` |
 | `--slider-disabled-opacity` | `var(--opacity-disabled)` |

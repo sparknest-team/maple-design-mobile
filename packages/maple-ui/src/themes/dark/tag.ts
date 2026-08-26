@@ -32,30 +32,30 @@ export default {
   '--mp-tag-status-default-border-color': '#d9d9d9',
 
   '--mp-tag-status-primary-color': 'var(--mp-color-primary)',
-  '--mp-tag-status-primary-text-color': 'var(--mp-color-on-primary)',
+  '--mp-tag-status-primary-text-color': 'var(--mp-color-white)',
   '--mp-tag-status-primary-border-color': 'var(--mp-color-primary)',
 
   '--mp-tag-status-info-color': 'var(--mp-color-info)',
-  '--mp-tag-status-info-text-color': 'var(--mp-color-on-info)',
+  '--mp-tag-status-info-text-color': 'var(--mp-color-white)',
   '--mp-tag-status-info-border-color': 'var(--mp-color-info)',
 
   '--mp-tag-status-success-color': 'var(--mp-color-success)',
-  '--mp-tag-status-success-text-color': 'var(--mp-color-on-success)',
+  '--mp-tag-status-success-text-color': 'var(--mp-color-white)',
   '--mp-tag-status-success-border-color': 'var(--mp-color-success)',
 
   '--mp-tag-status-warning-color': 'var(--mp-color-warning)',
-  '--mp-tag-status-warning-text-color': 'var(--mp-color-on-warning)',
+  '--mp-tag-status-warning-text-color': 'var(--mp-color-white)',
   '--mp-tag-status-warning-border-color': 'var(--mp-color-warning)',
 
   '--mp-tag-status-danger-color': 'var(--mp-color-danger)',
-  '--mp-tag-status-danger-text-color': 'var(--mp-color-on-danger)',
+  '--mp-tag-status-danger-text-color': 'var(--mp-color-white)',
   '--mp-tag-status-danger-border-color': 'var(--mp-color-danger)',
 
-  '--mp-tag-status-secondary-color': 'var(--mp-color-secondary, #757575)',
-  '--mp-tag-status-secondary-text-color': 'var(--mp-color-on-secondary, #fff)',
-  '--mp-tag-status-secondary-border-color': 'var(--mp-color-secondary, #757575)',
+  '--mp-tag-status-secondary-color': 'rgb(var(--mp-gray-6))',
+  '--mp-tag-status-secondary-text-color': 'var(--mp-color-white, #fff)',
+  '--mp-tag-status-secondary-border-color': 'rgb(var(--mp-gray-6))',
 
-  '--mp-tag-status-contrast-color': '#f5f5f5',
-  '--mp-tag-status-contrast-text-color': '#1d1b20',
-  '--mp-tag-status-contrast-border-color': '#f5f5f5',
+  '--mp-tag-status-tertiary-color': '#f5f5f5',
+  '--mp-tag-status-tertiary-text-color': '#1d1b20',
+  '--mp-tag-status-tertiary-border-color': '#f5f5f5',
 }

@@ -29,8 +29,7 @@ const value = ref(0)
 
 <template>
   <mp-radio
-    :unchecked-value="0"
-    :checked-value="1"
+    :value="1"
     v-model="value"
   >
     Current value: {{ value }}
@@ -54,10 +53,10 @@ const value = ref(false)
     v-model="value"
   >
     <template #unchecked-icon>
-      <mp-icon name="heart-half-full" size="24px"/>
+      <m-icon-heart-half-full size="24px"/>
     </template>
     <template #checked-icon>
-      <mp-icon name="heart" size="24px"/>
+      <m-icon-heart size="24px"/>
     </template>
     <template #default>
       Current value: {{ value }}
@@ -96,7 +95,7 @@ const value = ref(false)
 
 ### RadioGroup
 
-In the radio group, you must set the `checked-value` to identify the `radio`,
+In the radio group, you must set the `value` to identify the `radio`,
 The radio group bind group checked identifiers.
 
 ```html
@@ -108,8 +107,8 @@ const value = ref(0)
 
 <template>
   <mp-radio-group v-model="value">
-    <mp-radio :checked-value="0">Eat</mp-radio>
-    <mp-radio :checked-value="1">Sleep</mp-radio>
+    <mp-radio :value="0">Eat</mp-radio>
+    <mp-radio :value="1">Sleep</mp-radio>
   </mp-radio-group>
 </template>
 ```
@@ -138,7 +137,7 @@ const options = ref([
 
 ### Custom Fields
 
-Customize the format of the data in `options` through the `label-key` and `value-key` attributes.
+Customize the format of the data in `options` through the `field-names` attribute.
 
 ```html
 <script setup>
@@ -153,7 +152,8 @@ const options = ref([
 </script>
 
 <template>
-  <mp-radio-group v-model="value" :options="options" label-key="name" value-key="id" />
+  <mp-radio-group v-model="value" :options="options"
+      :field-names="{ label: 'name', value: 'id' }" />
   <div>Current value: {{ value }}</div>
 </template>
 ```
@@ -169,8 +169,8 @@ const value = ref(0)
 
 <template>
   <mp-radio-group v-model="value" direction="vertical">
-    <mp-radio :checked-value="0">Eat</mp-radio>
-    <mp-radio :checked-value="1">Sleep</mp-radio>
+    <mp-radio :value="0">Eat</mp-radio>
+    <mp-radio :value="1">Sleep</mp-radio>
   </mp-radio-group>
 </template>
 ```
@@ -188,8 +188,7 @@ const value = ref(0)
 | `v-model` | The value of the binding | _any_ | `-` |
 | `direction` | The layout direction, optional value is `horizontal` `vertical` | _string_ | `horizontal` |
 | `options` ***3.2.14*** | Specifies options | _RadioGroupOption[]_ | `[]` |
-| `label-key` ***3.2.14*** | As the key that uniquely identifies label | _string_ | `label` |
-| `value-key` ***3.2.14*** | As the key that uniquely identifies value | _string_ | `value` |
+| `field-names` | Custom field mapping for `options` | _{ label?, value?, children?, disabled? }_ | `-` |
 | `aria-label` ***3.8.5*** | The label of the radio group | _string_ | `-` |
 
 #### RadioGroupOption
@@ -205,8 +204,7 @@ const value = ref(0)
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `v-model` | The value of the binding | _any_ | `false` |
-| `checked-value` | Checked value | _any_ | `true` |
-| `unchecked-value` | Unchecked value | _any_ | `false` |
+| `value` | Option value | _any_ | `true` |
 | `checked-color` | Checked color | _string_ | `-` |
 | `unchecked-color` | Unchecked color | _string_ | `-` |
 | `icon-size` | Icon size | _string \| number_ | `-` |
@@ -220,7 +218,7 @@ const value = ref(0)
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `toggle` | Toggle the checked state, pass `checked-value` to check, `unchecked-value` to uncheck, do not pass or other cases to reverse | `value: any` | `-` |
+| `toggle` | Toggle the checked state, pass `value` to check, `false` to uncheck, do not pass or other cases to reverse | `value: any` | `-` |
 
 ### Events
 

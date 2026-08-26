@@ -9,7 +9,7 @@ export interface Config {
 }
 
 export function getConfig(): Config {
-  const config = workspace.getConfiguration('varlet')
+  const config = workspace.getConfiguration('maple')
 
   return {
     language: config.get('useChineseLanguage') ? 'zh-CN' : 'en-US',
@@ -24,9 +24,9 @@ export function getWebTypesTags(): HtmlTag[] {
 const defaultOrigin = 'https://maplejs.org'
 const defaultPlayground = 'https://maplejs.org/playground'
 const defaultIconsStatic = 'https://maplejs.org/icons/png'
-const vercelOrigin = 'https://maple-varletjs.vercel.app'
+const vercelOrigin = 'https://maplejs.org'
 const vercelPlayground = 'https://maple-ui-playground.vercel.app'
-const vercelIconsStatic = 'https://maple-varletjs.vercel.app/icons/png'
+const vercelIconsStatic = 'https://maplejs.org/icons/png'
 
 export function envs() {
   const { language, useVercelOrigin } = getConfig()

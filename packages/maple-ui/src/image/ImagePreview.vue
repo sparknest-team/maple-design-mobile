@@ -1,20 +1,20 @@
 <template>
   <mp-popup
-    v-model:show="mergedVisible"
+    v-model:open="mergedOpen"
     mp-image-preview-cover
     :class="n('popup')"
     :transition="n('$-fade')"
-    :overlay="false"
-    :close-on-click-overlay="mergedMaskClosable"
-    :close-on-key-escape="mergedEscToClose"
+    :mask="false"
+    :mask-closable="mergedMaskClosable"
+    :esc-to-close="mergedEscToClose"
     :lock-scroll="lockScroll"
-    :teleport="teleport"
-    @open="onOpen"
-    @close="onClose"
-    @closed="onClosed"
-    @opened="onOpened"
-    @key-escape="onKeyEscape"
-    @route-change="onRouteChange"
+    :popup-container="popupContainer"
+    @open="$emit('open')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
+    @key-escape="$emit('key-escape')"
+    @route-change="$emit('route-change')"
   >
     <mp-carousel
       ref="carouselRef"
@@ -22,7 +22,7 @@
       mp-image-preview-cover
       :touchable="canSwipe"
       :indicator="indicator && mergedImages.length > 1"
-      :initial-index="mergedCurrent"
+      :current="mergedCurrent"
       :loop="mergedLoop"
       v-bind="$attrs"
       @change="onChange"
@@ -64,13 +64,9 @@
     </mp-carousel>
 
     <slot name="close-icon">
-      <mp-icon
-        v-if="mergedCloseable"
-        :class="n('close-icon')"
-        name="close-circle"
-        mp-image-preview-cover
-        @click="close"
-      />
+      <mp-icon v-if="mergedCloseable" :class="n('close-icon')" mp-image-preview-cover @click="close"
+        ><MIconCloseCircle
+      /></mp-icon>
     </slot>
 
     <div v-if="$slots.extra" :class="n('extra')">
@@ -81,6 +77,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
+import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import { call, clamp, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { useEventListener, useTouch } from '@maplejs/maple-use'
 import MpCarousel from '../carousel'
@@ -105,6 +102,7 @@ const BASE_RATIO = 1
 export default defineComponent({
   name,
   components: {
+    MIconCloseCircle,
     MpCarousel,
     MpCarouselItem,
     MpPopup,
@@ -112,25 +110,41 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: ['update:visible', 'update:current', 'preview-visible-change', 'close'],
+  emits: [
+    'update:open',
+    'update:current',
+    'open-change',
+    'open',
+    'opened',
+    'close',
+    'closed',
+    'key-escape',
+    'route-change',
+    'long-press',
+    'change',
+  ],
   setup(props, { emit }) {
-    const mergedVisible = computed({
+    const mergedOpen = computed({
       get() {
-        return props.visible ?? false
+        return props.open ?? false
       },
       set(value: boolean) {
-        call(props['onUpdate:visible'], value)
-        call(props.onPreviewVisibleChange, value)
-        emit('update:visible', value)
-        emit('preview-visible-change', value)
+        emit('update:open', value)
+        emit('open-change', value)
       },
     })
 
     const mergedImages = computed(() => getPreviewImages(props))
-    const mergedCurrent = computed(() => getPreviewCurrent(props.current))
+    const mergedCurrent = ref(getPreviewCurrent(props.current))
+    watch(
+      () => props.current,
+      (current) => {
+        mergedCurrent.value = getPreviewCurrent(current)
+      },
+    )
     const mergedCloseable = computed(() => props.closable ?? imagePlatformConfig.defaultClosable)
     const mergedMaskClosable = computed(() => props.maskClosable ?? imagePlatformConfig.defaultMaskClosable)
-    const mergedEscToClose = computed(() => props.closeOnKeyEscape ?? true)
+    const mergedEscToClose = computed(() => props.escToClose ?? true)
     const mergedLoop = computed(() => props.loop ?? imagePlatformConfig.defaultLoop)
 
     const scale = ref(1)
@@ -143,7 +157,7 @@ export default defineComponent({
     const { moveX, moveY, distance, startTime, startTouch, moveTouch, endTouch } = useTouch()
     const isPreventDefault = computed(() => {
       const { imagePreventDefault } = props
-      return mergedVisible.value && imagePreventDefault
+      return mergedOpen.value && imagePreventDefault
     })
 
     let closeRunner: number | null = null
@@ -239,7 +253,7 @@ export default defineComponent({
 
       longPressRunner = window.setTimeout(() => {
         isLongPress = true
-        call(props.onLongPress, idx)
+        emit('long-press', idx)
       }, LONG_PRESS_DELAY)
 
       if (isDoubleTouch(target)) {
@@ -316,13 +330,12 @@ export default defineComponent({
       if (scale.value > BASE_RATIO) {
         zoomOut()
         setTimeout(() => {
-          mergedVisible.value = false
+          mergedOpen.value = false
         }, ANIMATION_DURATION)
         return
       }
 
-      mergedVisible.value = false
-      call(props.onClose)
+      mergedOpen.value = false
       emit('close')
     }
 
@@ -333,9 +346,9 @@ export default defineComponent({
     }
 
     function onChange(index: number) {
-      call(props['onUpdate:current'], index)
+      mergedCurrent.value = index
       emit('update:current', index)
-      call(props.onChange, index)
+      emit('change', index)
     }
 
     function prev(options?: CarouselToOptions) {
@@ -357,7 +370,7 @@ export default defineComponent({
     return {
       carouselRef,
       isPreventDefault,
-      mergedVisible,
+      mergedOpen,
       mergedImages,
       mergedCurrent,
       mergedCloseable,

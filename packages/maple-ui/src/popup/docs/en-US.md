@@ -1,7 +1,7 @@
 # Popup
 
 ### Intro
-Create a container that can pop up from top, bottom, left, right and center. `teleport` inserts into the end of the `body` by default.
+Create a container that can pop up from top, bottom, left, right and center. `popupContainer` inserts into the end of the `body` by default.
 
 ### Popup Position
 
@@ -35,7 +35,7 @@ const right = ref(false)
     </mp-button>
   </mp-space>
 
-  <mp-popup v-model:show="center">
+  <mp-popup v-model:open="center">
     <div class="popup-example-block">
       As he came into the window.
       It was the sound of a crescendo.
@@ -44,7 +44,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="bottom" v-model:show="bottom">
+  <mp-popup position="bottom" v-model:open="bottom">
     <div class="popup-example-block">
       As he came into the window.
       It was the sound of a crescendo.
@@ -53,7 +53,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="top" v-model:show="top">
+  <mp-popup position="top" v-model:open="top">
     <div class="popup-example-block">
       As he came into the window.
       It was the sound of a crescendo.
@@ -62,7 +62,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="left" v-model:show="left">
+  <mp-popup position="left" v-model:open="left">
     <div class="popup-example-block">
       As he came into the window.
       It was the sound of a crescendo.
@@ -71,7 +71,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="right" v-model:show="right">
+  <mp-popup position="right" v-model:open="right">
     <div class="popup-example-block">
       As he came into the window.
       It was the sound of a crescendo.
@@ -95,23 +95,23 @@ const right = ref(false)
 <script setup>
 import { ref } from 'vue'
 
-const overlayClass = ref(false)
-const overlayStyle = ref(false)
+const maskClass = ref(false)
+const maskStyle = ref(false)
 </script>
 
 <template>
   <mp-space direction="column" :size="[10, 0]">
-    <mp-button type="primary" block @click="overlayClass = true">
+    <mp-button type="primary" block @click="maskClass = true">
       Overlay Class
     </mp-button>
-    <mp-button type="primary" block @click="overlayStyle = true">
+    <mp-button type="primary" block @click="maskStyle = true">
       Overlay Style
     </mp-button>
   </mp-space>
 
   <mp-popup
-    overlay-class="popup-example-custom-overlay"
-    v-model:show="overlayClass"
+    mask-class="popup-example-custom-overlay"
+    v-model:open="maskClass"
   >
     <div class="popup-example-block">
       As he came into the window.
@@ -122,8 +122,8 @@ const overlayStyle = ref(false)
   </mp-popup>
 
   <mp-popup
-    :overlay-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}"
-    v-model:show="overlayStyle"
+    :mask-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}"
+    v-model:open="maskStyle"
   >
     <div class="popup-example-block">
       As he came into the window.
@@ -162,7 +162,7 @@ const event = ref(false)
   </mp-button>
 
   <mp-popup
-    v-model:show="event"
+    v-model:open="event"
     @open="Message.info('open')"
     @opened="Message.success('opened')"
     @close="Message.warning('close')"
@@ -191,17 +191,17 @@ const event = ref(false)
 
 | Prop | Description                                                                                                   | Type | Default |
 | --- |---------------------------------------------------------------------------------------------------------------| --- | --- |
-| `v-model:show` | Whether to display the Popup                                                                                  | _boolean_ | `false` |
+| `v-model:open` | Whether to display the Popup                                                                                  | _boolean_ | `false` |
 | `position` | Popup position with optional value of `top` `bottom` `right` `left` `center`                                  | _string_ | `center` |
-| `overlay` | Whether to display the overlay                                                                                | _boolean_ | `true` |
-| `overlay-class` | Custom overlay class                                                                                          | _string_ | `-` |
-| `overlay-style` | Custom overlay style                                                                                          | _object_ | `-` |
+| `mask` | Whether to display the overlay                                                                                | _boolean_ | `true` |
+| `mask-class` | Custom overlay class                                                                                          | _string_ | `-` |
+| `mask-style` | Custom overlay style                                                                                          | _object_ | `-` |
 | `default-style`  | Whether to enable the default style                                                                          | _boolean_ | `true` |
 | `transition` | Transition animation name                                                                                     | _string_ | `-` |
 | `lock-scroll` | Whether to disable scrolling penetration, scrolling the Popup when disabled will not cause the body to scroll | _boolean_ | `true` |
-| `close-on-click-overlay` | Whether to click the overlay to close the Popup                                                               | _boolean_ | `true` |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the popup | _boolean_ | `true`  |
-| `teleport` | The location of the Popup to mount                                                                            | _TeleportProps['to'] \| false_ | `body` |
+| `mask-closable` | Whether to click the overlay to close the Popup                                                               | _boolean_ | `true` |
+| `esc-to-close` | Whether to support keyboard ESC to close the popup | _boolean_ | `true`  |
+| `popupContainer` | The location of the Popup to mount                                                                            | _TeleportProps['to'] \| false_ | `body` |
 | `safe-area`              | Whether to enable bottom safety zone adaptation	                                                              | _boolean_             | `false`  |
 | `safe-area-top`          | Whether to enable top safety zone adaptation	                                                                 | _boolean_             | `false`  |
 | `z-index`  ***3.3.10***   | 	 The zIndex of element       | _number_             | `-`  |
@@ -229,4 +229,4 @@ Here are the CSS variables used by the component. Styles can be customized using
 | Variable | Default |
 | --- | --- |
 | `--popup-overlay-background-color` | `rgba(0, 0, 0, .6)` |
-| `--popup-content-background-color` | `var(--color-surface-container-low)` |
+| `--popup-content-background-color` | `var(--color-bg-1)` |

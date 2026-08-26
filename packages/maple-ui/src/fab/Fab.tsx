@@ -22,8 +22,9 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  setup(props, { slots, attrs }) {
-    const isActive = useVModel(props, 'active')
+  emits: ['click', 'close', 'open', 'opened', 'closed', 'update:active'],
+  setup(props, { slots, attrs, emit }) {
+    const isActive = useVModel(props, 'active', { emit, eventName: 'update:active' })
     const host = ref<null | HTMLElement>(null)
     const dragRef = ref<InstanceType<typeof Drag> | null>(null)
 
@@ -58,13 +59,13 @@ export default defineComponent({
       }
 
       if (childrenLength === 0) {
-        call(props.onClick, isActive.value, e)
+        emit('click', isActive.value, e)
         return
       }
 
       isActive.value = value
-      call(props.onClick, isActive.value, e)
-      call(isActive.value ? props.onOpen : props.onClose)
+      emit('click', isActive.value, e)
+      call(isActive.value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
     }
 
     function handleMouse(value: boolean, childrenLength: number) {
@@ -73,7 +74,7 @@ export default defineComponent({
       }
 
       isActive.value = value
-      call(isActive.value ? props.onOpen : props.onClose)
+      call(isActive.value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
     }
 
     function handleClickOutside() {
@@ -83,21 +84,21 @@ export default defineComponent({
 
       if (isActive.value !== false) {
         isActive.value = false
-        call(props.onClose)
+        emit('close')
       }
     }
 
     function renderTrigger() {
       if (slots.trigger) {
-        return props.show ? slots.trigger({ active: isActive.value }) : null
+        return props.open ? slots.trigger({ active: isActive.value }) : null
       }
 
       return (
         <Button
-          v-show={props.show}
+          v-show={props.open}
           mp-fab-cover
           class={n('trigger')}
-          type={props.type}
+          status={props.status}
           color={props.color}
           disabled={props.disabled}
           elevation={props.elevation}
@@ -108,7 +109,6 @@ export default defineComponent({
             class={classes([isActive.value, n('trigger-active-icon'), n('trigger-inactive-icon')])}
             name={isActive.value ? props.activeIcon : props.inactiveIcon}
             size={isActive.value ? props.activeIconSize : props.inactiveIconSize}
-            namespace={isActive.value ? props.activeIconNamespace : props.inactiveIconNamespace}
             transition={200}
             animationClass={n('--trigger-icon-animation')}
           />
@@ -131,7 +131,7 @@ export default defineComponent({
             right: toSizeUnit(props.right),
           }}
           zIndex={props.zIndex}
-          teleport={props.teleport}
+          popupContainer={props.popupContainer}
           disabled={props.disabled || !props.drag || !props.fixed}
           direction={dragProps.direction}
           attraction={dragProps.attraction}
@@ -149,12 +149,13 @@ export default defineComponent({
 
             <Transition
               name={n(`--actions-transition-${props.direction}`)}
-              onAfterEnter={props.onOpened}
-              onAfterLeave={props.onClosed}
+              onAfterEnter={(...args: any[]) => emit('opened', ...args)}
+              onAfterLeave={(...args: any[]) => emit('closed', ...args)}
             >
               <div
                 class={n('actions')}
-                v-show={props.show && isActive.value && children.length}
+                role="presentation"
+                v-show={props.open && isActive.value && children.length}
                 onClick={(e) => e.stopPropagation()}
               >
                 {children.map((child) => (

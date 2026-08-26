@@ -3,7 +3,7 @@ export default {
   success: 'Success',
   info: 'Info',
   warning: 'Warning',
-  error: 'Error',
+  danger: 'Danger',
   question: 'Question',
   empty: 'Empty',
   type: 'Type',

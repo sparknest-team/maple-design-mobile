@@ -7,6 +7,7 @@ withPropsDefaultsSetter(AppBar, appBarProps)
 
 export { appBarProps }
 
+export type AppBarInstance = InstanceType<typeof AppBar>
 export const _AppBarComponent = AppBar
 
 export default AppBar

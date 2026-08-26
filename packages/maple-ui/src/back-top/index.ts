@@ -7,6 +7,7 @@ withPropsDefaultsSetter(BackTop, backTopProps)
 
 export { backTopProps }
 
+export type BackTopInstance = InstanceType<typeof BackTop>
 export const _BackTopComponent = BackTop
 
 export default BackTop

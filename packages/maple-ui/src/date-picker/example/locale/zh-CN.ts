@@ -1,5 +1,6 @@
 export default {
   basicUsage: '基本使用',
+  calendarMode: '日历模式',
   monthPicker: '月份选择器',
   multiple: '多选',
   range: '选择范围',

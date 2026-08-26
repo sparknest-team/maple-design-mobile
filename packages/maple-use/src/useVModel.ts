@@ -1,20 +1,20 @@
-import { computed, nextTick, ref, watch, type Ref, type WritableComputedRef } from 'vue'
+import { computed, nextTick, ref, watch, type Ref } from 'vue'
 import { call } from '@maplejs/maple-shared'
 
 export interface UseVModelOptions<P, K extends keyof P> {
   passive?: boolean
   eventName?: string
   defaultValue?: P[K]
-  emit?: (event: string, value: P[K]) => void
+  emit?: (event: any, value: any) => void
 }
 
 export function useVModel<P extends Record<string, any>, K extends keyof P>(
   props: P,
   key: K,
   options: UseVModelOptions<P, K> = {},
-): WritableComputedRef<P[K]> | Ref<P[K]> {
+): Ref<P[K]> {
   const { passive = true, eventName, defaultValue, emit } = options
-  const event = eventName ?? `onUpdate:${key.toString()}`
+  const event = eventName ?? `${emit ? 'update' : 'onUpdate'}:${key.toString()}`
 
   const getValue = () => (props[key] ?? defaultValue)!
 
@@ -26,10 +26,12 @@ export function useVModel<P extends Record<string, any>, K extends keyof P>(
       set(value) {
         emit ? emit(event, value) : call(props[event], value)
       },
-    })
+    }) as Ref<P[K]>
   }
 
-  const proxy = ref<P[K]>(getValue())
+  // Vue's ref() unwraps generic values, which makes assignments to P[K]
+  // incorrectly resolve to the internal UnwrapRefSimple generic `S`.
+  const proxy = ref(getValue()) as Ref<P[K]>
   let shouldEmit = true
 
   watch(

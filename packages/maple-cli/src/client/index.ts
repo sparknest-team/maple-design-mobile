@@ -11,6 +11,8 @@ interface PCLocationInfo {
 
 export type Theme = 'lightTheme' | 'darkTheme' | 'md3LightTheme' | 'md3DarkTheme'
 
+export type ThemeScope = 'site' | 'demo'
+
 export type StyleVars = Record<string, string>
 
 export function getPCLocationInfo(): PCLocationInfo {
@@ -31,22 +33,49 @@ function getHashSearch() {
   return new URLSearchParams(hashSearch)
 }
 
-export function getBrowserTheme(): Theme {
-  const themeKey = config?.themeKey
+function getSiteThemeKey() {
+  return config?.themeKey as string
+}
+
+function getDemoThemeKey() {
+  return (config?.demoThemeKey as string | undefined) ?? `${getSiteThemeKey()}_DEMO`
+}
+
+function getThemeStorageKey(scope: ThemeScope) {
+  return scope === 'demo' ? getDemoThemeKey() : getSiteThemeKey()
+}
+
+function getPreferredTheme(): Theme {
   const defaultLightTheme = config?.defaultLightTheme
   const defaultDarkTheme = config?.defaultDarkTheme
-  const storageTheme = window.localStorage.getItem(themeKey) as Theme
 
-  if (!storageTheme) {
-    const preferTheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches
-      ? defaultDarkTheme
-      : defaultLightTheme
-    window.localStorage.setItem(themeKey, preferTheme)
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? defaultDarkTheme : defaultLightTheme
+}
 
-    return preferTheme
+/** Site docs chrome theme (`themeKey`) vs mobile demo theme (`demoThemeKey`). */
+export function getBrowserTheme(scope: ThemeScope = 'site'): Theme {
+  const themeKey = getThemeStorageKey(scope)
+  const storageTheme = window.localStorage.getItem(themeKey) as Theme | null
+
+  if (storageTheme) {
+    return storageTheme
   }
 
-  return storageTheme
+  // First visit for demo: seed from site theme so existing users keep the same look until they diverge.
+  if (scope === 'demo') {
+    const siteTheme = window.localStorage.getItem(getSiteThemeKey()) as Theme | null
+    const theme = siteTheme || getPreferredTheme()
+    window.localStorage.setItem(themeKey, theme)
+    return theme
+  }
+
+  const theme = getPreferredTheme()
+  window.localStorage.setItem(themeKey, theme)
+  return theme
+}
+
+export function persistTheme(theme: Theme, scope: ThemeScope = 'site') {
+  window.localStorage.setItem(getThemeStorageKey(scope), theme)
 }
 
 export function watchLang(cb: (lang: string) => void, platform: 'pc' | 'mobile' = 'mobile') {
@@ -101,11 +130,10 @@ export function setTheme(theme: Theme) {
   setColorScheme(theme)
 }
 
-export function onThemeChange(cb?: (theme: Theme) => void) {
-  watchTheme((theme) => {
-    setTheme(theme)
-    cb?.(theme)
-  })
+export function onThemeChange(cb?: (theme: Theme) => void, scope: ThemeScope = 'site') {
+  const theme = getBrowserTheme(scope)
+  setTheme(theme)
+  cb?.(theme)
 }
 
 export function getSiteStyleVars(theme: Theme) {
@@ -122,7 +150,7 @@ export function watchTheme(
 ) {
   const handleThemeChange = (event: MessageEvent) => {
     const { data } = event
-    if (data.action === 'theme-change') {
+    if (data?.action === 'theme-change') {
       cb(data.data, data.from)
     }
   }
@@ -135,7 +163,7 @@ export function watchTheme(
     })
   }
 
-  cb(getBrowserTheme(), 'default')
+  cb(getBrowserTheme('site'), 'default')
 }
 
 export function getMobileIndex() {

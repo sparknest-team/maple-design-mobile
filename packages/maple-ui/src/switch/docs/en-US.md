@@ -44,7 +44,7 @@ const value = ref(true)
 </script>
 
 <template>
-  <mp-switch v-model="value" color="var(--color-warning)" close-color="var(--color-info)" />
+  <mp-switch v-model="value" checked-color="var(--color-warning)" unchecked-color="var(--color-info)" />
 </template>
 ```
 
@@ -105,7 +105,7 @@ function handleBeforeChange(value, change) {
   <mp-switch 
     lazy-change
     v-model="value"
-    @before-change="handleBeforeChange"
+    :before-change="handleBeforeChange"
   />
 </template>
 ```
@@ -131,15 +131,15 @@ const value = ref(true)
 | Prop             | Description | Type | Default |
 |------------------| -------------- | -------- | ---------- |
 | `v-model`        | Check status of Switch	| _any_ | `false` |
-| `active-value`   | The value when the switch is turned on	| _any_ | `true` |
-| `inactive-value` | The value when the switch is turned off	| _any_ | `false` |
+| `checked-value`   | The value when the switch is turned on	| _any_ | `true` |
+| `unchecked-value` | The value when the switch is turned off	| _any_ | `false` |
 | `disabled`       | Whether to disable switch| _boolean_ | `false` |
 | `readonly`       | Whether to readonly switch | _boolean_ | `false` |
 | `loading`        | Whether to show loading icon | _boolean_ | `false` |
 | `ripple`         | Whether to open ripple | _boolean_ | `true` |
-| `button-elevation` ***3.2.7*** | The elevation of handle button | _boolean_ | `true` |
-| `color`          | Background color when open | _string_ | `-` |
-| `close-color`    | Background color when close | _string_ | `-` |
+| `handle-elevation` | The elevation of handle button | _boolean_ | `true` |
+| `checked-color`  | Background color when open | _string_ | `-` |
+| `unchecked-color` | Background color when close | _string_ | `-` |
 | `loading-color`  | Color of loading icon | _string_ | `-` |
 | `size`           | Size of switch | _string \| number_ | `-` |
 | `lazy-change`    | Whether to allow the `before-change` event to be triggered | _boolean_  | `false` |

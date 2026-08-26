@@ -1,4 +1,4 @@
-import { computed, defineComponent, Teleport, Transition, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, Teleport, Transition, watch } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useInitialized } from '@maplejs/maple-use'
 import { useLock } from '../context/lock'
@@ -16,54 +16,63 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  setup(props, { slots, attrs }) {
-    const rendered = useInitialized(() => props.show, true)
-    const { zIndex } = useZIndex(() => props.show, 3)
+  emits: ['update:open', 'open', 'close', 'opened', 'route-change', 'key-escape', 'closed', 'click-overlay'],
+  setup(props, { slots, attrs, emit }) {
+    const rendered = useInitialized(() => props.open, true)
+    const { zIndex } = useZIndex(() => props.open, 3)
     const normalizedZIndex = computed(() => props.zIndex ?? zIndex.value)
-    const { onStackTop } = useStack(() => props.show, normalizedZIndex)
+    const { onStackTop } = useStack(() => props.open, normalizedZIndex)
     const { disabled } = useTeleport()
     const { bindPopupItems } = usePopupItems()
 
     useLock(
-      () => props.show,
+      () => props.open,
       () => props.lockScroll,
     )
 
     watch(
-      () => props.show,
+      () => props.open,
       (newValue: boolean) => {
-        newValue ? call(props.onOpen) : call(props.onClose)
+        newValue ? emit('open') : emit('close')
       },
+      { immediate: props.open },
     )
 
-    bindPopupItems({ show: computed(() => props.show) })
+    onMounted(() => {
+      if (props.open) {
+        nextTick(() => emit('opened'))
+      }
+    })
+
+    bindPopupItems({ open: computed(() => props.open) })
 
     useEventListener(() => window, 'keydown', handleKeydown)
 
     // internal for Dialog
-    useRouteListener(() => call(props.onRouteChange))
+    useRouteListener(() => emit('route-change'))
 
     function hidePopup() {
-      const { closeOnClickOverlay, onClickOverlay } = props
+      const { maskClosable } = props
 
-      call(onClickOverlay)
+      emit('click-overlay')
 
-      if (!closeOnClickOverlay) {
+      if (!maskClosable) {
         return
       }
 
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     function renderOverlay() {
-      const { overlayClass = '', overlayStyle } = props
+      const { maskClass = '', maskStyle } = props
 
       return (
         <div
-          class={classes(n('overlay'), overlayClass)}
+          class={classes(n('overlay'), maskClass)}
+          role="presentation"
           style={{
             zIndex: normalizedZIndex.value - 1,
-            ...overlayStyle,
+            ...maskStyle,
           }}
           onClick={hidePopup}
         />
@@ -85,7 +94,7 @@ export default defineComponent({
           role="dialog"
           aria-modal="true"
           {...attrs}
-          v-show={props.show}
+          v-show={props.open}
         >
           {rendered.value && call(slots.default)}
         </div>
@@ -94,13 +103,17 @@ export default defineComponent({
 
     function renderPopup() {
       return (
-        <Transition name={n('$-fade')} onAfterEnter={props.onOpened} onAfterLeave={props.onClosed}>
+        <Transition
+          name={n('$-fade')}
+          onAfterEnter={(...args: any[]) => emit('opened', ...args)}
+          onAfterLeave={(...args: any[]) => emit('closed', ...args)}
+        >
           <div
-            class={classes(n('$--box'), n(), [!props.overlay, n('--pointer-events-none')])}
+            class={classes(n('$--box'), n(), [!props.mask, n('--pointer-events-none')])}
             style={{ zIndex: normalizedZIndex.value - 2 }}
-            v-show={props.show}
+            v-show={props.open}
           >
-            {props.overlay && renderOverlay()}
+            {props.mask && renderOverlay()}
             <Transition name={props.transition || n(`$-pop-${props.position}`)}>{renderContent()}</Transition>
           </div>
         </Transition>
@@ -108,26 +121,26 @@ export default defineComponent({
     }
 
     function handleKeydown(event: KeyboardEvent) {
-      if (!onStackTop() || event.key !== 'Escape' || !props.show) {
+      if (!onStackTop() || event.key !== 'Escape' || !props.open) {
         return
       }
 
-      call(props.onKeyEscape)
+      emit('key-escape')
 
-      if (!props.closeOnKeyEscape) {
+      if (!props.escToClose) {
         return
       }
 
       preventDefault(event)
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     return () => {
-      const { teleport } = props
+      const { popupContainer } = props
 
-      if (teleport) {
+      if (popupContainer) {
         return (
-          <Teleport to={teleport} disabled={disabled.value}>
+          <Teleport to={popupContainer} disabled={disabled.value}>
             {renderPopup()}
           </Teleport>
         )

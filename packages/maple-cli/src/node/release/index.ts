@@ -1,19 +1,15 @@
 import fs from 'node:fs'
-import { readFile, writeFile } from 'node:fs/promises'
+import { readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { confirm, input, select } from '@inquirer/prompts'
 import { program } from 'commander'
 import conventionalChangelog from 'conventional-changelog'
 import fse from 'fs-extra'
-import glob from 'glob'
 import { createSpinner } from 'nanospinner'
 import pc from 'picocolors'
 import semver from 'semver'
 
 const { green, red, yellow } = pc
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // ── Commit Message Regex ──────────────────────────────────────────
 // Conventional Commits: type(scope): description
@@ -184,47 +180,27 @@ interface WorkspaceInfo {
 }
 
 async function resolveWorkspaces(): Promise<WorkspaceInfo[]> {
-  // Find workspace root
-  let dir = path.resolve(__dirname, '../../../../../') // maple-cli/src/node/release -> root
-  // Try to find package.json with workspaces
+  let dir = process.cwd()
   while (dir !== path.parse(dir).root) {
-    const pkgPath = path.join(dir, 'package.json')
-    if (fse.existsSync(pkgPath)) {
-      const pkg = await fse.readJson(pkgPath)
-      if (pkg.workspaces || pkg.name === '@maplejs/maple-cli') {
-        break
-      }
+    if (fse.existsSync(path.join(dir, 'pnpm-workspace.yaml'))) {
+      break
     }
     dir = path.dirname(dir)
   }
-
-  const rootPkg = await fse.readJson(path.join(dir, 'package.json'))
-  const workspacePatterns: string[] = rootPkg.workspaces || []
-
   const results: WorkspaceInfo[] = []
-
-  for (const pattern of workspacePatterns) {
-    // Simple glob pattern resolution
-    const dirs = await glob(pattern.replace('*', '').replace(/\*\*/g, '*'), {
-      cwd: dir,
-      onlyDirectories: true,
-    })
-
-    for (const d of dirs) {
-      const pkgPath = path.join(dir, d, 'package.json')
-      if (fse.existsSync(pkgPath)) {
-        const pkg = await fse.readJson(pkgPath)
-        if (pkg.name && !pkg.private) {
-          results.push({
-            name: pkg.name,
-            version: pkg.version,
-            packageJsonPath: pkgPath,
-            packageJson: pkg,
-          })
-        }
-      }
+  const packagesDir = path.join(dir, 'packages')
+  for (const entry of await readdir(packagesDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) {
+      continue
+    }
+    const pkgPath = path.join(packagesDir, entry.name, 'package.json')
+    if (!fse.existsSync(pkgPath)) {
+      continue
+    }
+    const pkg = await fse.readJson(pkgPath)
+    if (pkg.name && !pkg.private) {
+      results.push({ name: pkg.name, version: pkg.version, packageJsonPath: pkgPath, packageJson: pkg })
     }
   }
-
   return results
 }

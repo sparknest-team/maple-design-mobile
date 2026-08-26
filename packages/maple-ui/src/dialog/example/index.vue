@@ -51,7 +51,7 @@ function hideButton() {
   })
 }
 
-function onBeforeClose(action, done, refs) {
+function beforeClose(action, done, refs) {
   Message.loading(t('asyncCloseProgress'))
 
   setTimeout(() => {
@@ -63,7 +63,7 @@ function onBeforeClose(action, done, refs) {
 function asyncClose() {
   Dialog({
     message: t('message'),
-    onBeforeClose,
+    beforeClose,
   })
 }
 
@@ -158,7 +158,7 @@ function openComponentType(type) {
   <app-type>{{ t('componentCall') }}</app-type>
   <mp-button type="warning" block @click="show = true">{{ t('basicUsage') }}</mp-button>
   <mp-dialog
-    v-model:show="show"
+    v-model:open="open"
     :title="t('title')"
     :message="t('message')"
     @confirm="Message.success('confirm')"
@@ -177,7 +177,7 @@ function openComponentType(type) {
     {{ typeText('typeLabel', type) }}
   </mp-button>
   <mp-dialog
-    v-model:show="showType"
+    v-model:open="showType"
     :type="dialogType"
     :title="typeText('typeTitle', dialogType)"
     :message="typeText('typeMessage', dialogType)"
@@ -188,7 +188,7 @@ function openComponentType(type) {
   <app-type>{{ t('confirmBox') }}</app-type>
   <mp-button type="warning" block @click="showConfirm = true">{{ t('confirmDialog') }}</mp-button>
   <mp-dialog
-    v-model:show="showConfirm"
+    v-model:open="showConfirm"
     type="warning"
     :title="t('confirmTitle')"
     :message="t('confirmMessage')"
@@ -197,15 +197,15 @@ function openComponentType(type) {
   />
 
   <mp-button type="warning" block @click="show1 = true">{{ t('asyncClose') }}</mp-button>
-  <mp-dialog v-model:show="show1" :title="t('title')" :message="t('message')" @before-close="onBeforeClose" />
+  <mp-dialog v-model:open="show1" :title="t('title')" :message="t('message')" :before-close="beforeClose" />
 
   <mp-button type="warning" block @click="show2 = true">{{ t('buttonLoading') }}</mp-button>
-  <mp-dialog v-model:show="show2" :title="t('title')" :message="t('message')" @before-close="buttonLoadingClose" />
+  <mp-dialog v-model:open="show2" :title="t('title')" :message="t('message')" :before-close="buttonLoadingClose" />
 
   <mp-button type="warning" block @click="show3 = true">{{ t('customSlots') }}</mp-button>
-  <mp-dialog v-model:show="show3">
+  <mp-dialog v-model:open="show3">
     <template #title>
-      <mp-icon name="information" color="var(--mp-color-primary)" />
+      <m-icon-information color="var(--mp-color-primary)" />
     </template>
 
     <mp-cell>{{ t('message') }}</mp-cell>
@@ -223,7 +223,7 @@ function openComponentType(type) {
   <app-type>{{ t('advancedProps') }}</app-type>
   <mp-button type="warning" block @click="show4 = true">{{ t('customWidth') }}</mp-button>
   <mp-dialog
-    v-model:show="show4"
+    v-model:open="show4"
     type="success"
     width="320"
     :title="t('title')"
@@ -233,11 +233,11 @@ function openComponentType(type) {
   />
 
   <mp-button type="warning" block @click="show5 = true">{{ t('hideFooter') }}</mp-button>
-  <mp-dialog v-model:show="show5" type="info" :footer="false" :title="t('title')" :message="t('message')" />
+  <mp-dialog v-model:open="show5" type="info" :footer="false" :title="t('title')" :message="t('message')" />
 
   <mp-button type="warning" block @click="show6 = true">{{ t('hideTitle') }}</mp-button>
   <mp-dialog
-    v-model:show="show6"
+    v-model:open="show6"
     type="warning"
     :hideTitle="true"
     :title="t('title')"
@@ -248,7 +248,7 @@ function openComponentType(type) {
 
   <mp-button type="warning" block @click="show7 = true">{{ t('customBody') }}</mp-button>
   <mp-dialog
-    v-model:show="show7"
+    v-model:open="show7"
     type="info"
     :title="t('title')"
     :message="t('message')"
@@ -265,7 +265,7 @@ function openComponentType(type) {
 
   <mp-button type="warning" block @click="show8 = true">{{ t('unmountOnClose') }}</mp-button>
   <mp-dialog
-    v-model:show="show8"
+    v-model:open="show8"
     :unmountOnClose="true"
     :title="t('title')"
     :message="t('message')"

@@ -195,16 +195,16 @@ function get(current, size) {
 | --- | --- |
 | `--table-background` | `#fff` |
 | `--table-border-radius` | `2px` |
-| `--table-thead-border-bottom` | `thin solid var(--color-outline)` |
+| `--table-thead-border-bottom` | `thin solid var(--color-border-2)` |
 | `--table-thead-th-text-color` | `rgba(0, 0, 0, 0.6)` |
 | `--table-thead-th-text-align` | `left` |
 | `--table-thead-th-font-size` | `14px` |
-| `--table-thead-tr-border-bottom` | `thin solid var(--color-outline)` |
+| `--table-thead-tr-border-bottom` | `thin solid var(--color-border-2)` |
 | `--table-tbody-tr-hover-background` | `#eee` |
-| `--table-tbody-tr-border-bottom` | `thin solid var(--color-outline)` |
+| `--table-tbody-tr-border-bottom` | `thin solid var(--color-border-2)` |
 | `--table-tbody-td-text-color` | `#555` |
 | `--table-tbody-td-font-size` | `16px` |
 | `--table-tbody-td-text-align` | `left`|
 | `--table-row-height` | `46px` |
 | `--table-row-padding` | `0 16px` |
-| `--table-footer-border-top` | `thin solid var(--color-outline)` |
+| `--table-footer-border-top` | `thin solid var(--color-border-2)` |

@@ -87,7 +87,7 @@ Alerts display brief messages for the user without interrupting their use.
     message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
   >
     <template #icon>
-      <mp-icon name="heart" />
+      <m-icon-heart />
     </template>
   </mp-alert>
 </template>
@@ -104,7 +104,7 @@ const show = ref(true)
 
 <template>
   <mp-alert 
-    v-if="show"
+    v-if="open"
     title="Pride And Prejudice" 
     message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
     closable
@@ -119,7 +119,7 @@ const show = ref(true)
 <template>
   <mp-alert title="Pride And Prejudice" message="…" closable>
     <template #close-icon>
-      <mp-icon name="window-close" />
+      <m-icon-window-close />
     </template>
   </mp-alert>
 </template>
@@ -131,7 +131,7 @@ const show = ref(true)
 <template>
   <mp-alert title="Pride And Prejudice" message="…">
     <template #action>
-      <mp-button size="mini" type="primary">Detail</mp-button>
+      <mp-button size="xs" type="primary">Detail</mp-button>
     </template>
   </mp-alert>
 </template>
@@ -180,10 +180,10 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--alert-icon-margin` | `0 12px 0 0` |
 | `--alert-close-icon-size` | `22px` |
 | `--alert-close-icon-margin` | `2px 0 0 12px` |
-| `--alert-standard-info-text-color` | `var(--color-on-info)` |
-| `--alert-standard-danger-text-color` | `var(--color-on-danger)` |
-| `--alert-standard-success-text-color` | `var(--color-on-success)` |
-| `--alert-standard-warning-text-color` | `var(--color-on-warning)` |
+| `--alert-standard-info-text-color` | `var(--color-white)` |
+| `--alert-standard-danger-text-color` | `var(--color-white)` |
+| `--alert-standard-success-text-color` | `var(--color-white)` |
+| `--alert-standard-warning-text-color` | `var(--color-white)` |
 | `--alert-danger-background` | `var(--color-danger)` |
 | `--alert-success-background` | `var(--color-success)` |
 | `--alert-warning-background` | `var(--color-warning)` |

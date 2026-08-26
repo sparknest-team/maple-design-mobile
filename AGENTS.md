@@ -29,10 +29,10 @@ packages/
       utils/                 # createNamespace / 工具
       styles/common.less     # 全局工具类（mp--box / mp--flex 等）
   maple-cli/                 # CLI / build / vitest 配置
-  maple-icons/               # 图标
+  maple-icons-vue/           # 独立 SVG Vue 图标包（不使用 iconfont）
   maple-shared/              # createNamespaceFn 等基础工具
   maple-use/                 # composables
-  maple-import-resolver/     # 按需导入 resolver
+  maple-resolver/            # 组件、图标、指令与样式 resolver
   maple-vite-plugins/        # vite 插件
   maple-vscode-extension/    # vscode 扩展
   maple-ui-playground/       # playground
@@ -49,6 +49,7 @@ packages/
 - 模板字符串里也是同理：`n(\`${direction}--error\`)` ✅，不要写成 `--mp-error`。
 - icon 字体激活类是固定字面量 `${namespace}--set`，不要改。
 - `index.ts` 必须导出：`default`、`CompInstance`、`CompProps`、`compProps`、`_CompComponent`。
+- 公共枚举统一复用 `utils/constants.ts` 的 `ComponentSize` / `SemanticStatus` / `Orientation`，禁止组件自行复制。
 
 ## 开发命令
 
@@ -74,7 +75,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
   - 已经带 `mp-` 前缀的（避免 `--mp-mp-`）
   - BEM 修饰符 `&--xxx`、`.mp-xxx--yyy` 选择器
   - 模板字符串里的 BEM 片段（`` `${ns}--xxx` ``、`` `${ns}--lock` ``）
-  - 固定字面量的功能类（如 icon 的 `--set` —— 它是 `font-family: maple-icons` 的激活类，不是 token）
+  - 固定字面量的功能类；图标由 `@maplejs/icons-vue` 的 SVG 组件渲染，不使用字体类
 - 安全做法：仅匹配 `:root { ... }` 块内、或 `var(--xxx)` 内、或 inline `style="--xxx: ..."` 内的自定义属性。
 - 踩过的坑（git log 可查）：icon `--mp-set`、slider `--mp-error`、pull-refresh `--mp-lock`、common.less `&--mp-box`。
 

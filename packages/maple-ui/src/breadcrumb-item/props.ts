@@ -1,4 +1,6 @@
-import { defineListenerProp } from '../utils/components'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type { BreadcrumbRoute } from '../breadcrumb/types'
+import type { MenuProps } from '../menu'
 
 export const props = {
   /**
@@ -6,8 +8,17 @@ export const props = {
    */
   separator: [String, Number],
   /**
-   * 跳转链接（最后一项不会渲染为链接）
+   * 跳转链接
    */
   href: String,
-  onClick: defineListenerProp<(e: Event) => void>(),
+  /**
+   * 下拉菜单内容
+   */
+  droplist: Array as PropType<BreadcrumbRoute['children']>,
+  /**
+   * 下拉菜单属性
+   */
+  dropdownProps: Object as PropType<MenuProps>,
 }
+
+export type BreadcrumbItemProps = ExtractPropTypes<typeof props>

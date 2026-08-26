@@ -23,8 +23,8 @@ const doc: Ref<HTMLElement | null> = ref(null)
 const route = useRoute()
 
 const getComponentNameByMenuName = (menuName: string) => {
-  const currentMenu = menu.value.find((menu) => menu.doc === menuName)
-  return currentMenu?.type === MenuTypes.COMPONENT ? menuName : mobileRedirect.slice(1)
+  const currentMenu = menu.value.find((item) => item.doc === menuName && item.type === MenuTypes.COMPONENT)
+  return currentMenu ? menuName : mobileRedirect.slice(1)
 }
 
 const init = () => {
@@ -32,7 +32,7 @@ const init = () => {
 
   nextTick(() => {
     const children = document.querySelector('.maple-site-sidebar')!.getElementsByClassName('mp-cell')
-    const index = menu.value.findIndex((item) => item.doc === menuName)
+    const index = menu.value.findIndex((item) => item.doc === menuName && item.type !== MenuTypes.TITLE)
 
     if (index !== -1) {
       children[index].scrollIntoView({
@@ -51,7 +51,7 @@ const handleSidebarChange = (menu: Menu) => {
 }
 
 const confirmClose = () => {
-  const key = 'VARLET_UI_PLAYGROUND_HAS_BEEN_CLOSED'
+  const key = 'MAPLE_UI_PLAYGROUND_HAS_BEEN_CLOSED'
 
   if (
     !localStorage.getItem(key) &&
@@ -88,7 +88,9 @@ watch(
     menuName.value = _menuName
     hash.value = _hash
     language.value = lang
-    useMobile.value = menu.value.find((item) => item.doc === _menuName)?.useMobile ?? config?.useMobile
+    useMobile.value =
+      menu.value.find((item) => item.doc === _menuName && item.type === MenuTypes.COMPONENT)?.useMobile ??
+      config?.useMobile
     document.title = config?.pc?.title[lang] as string
   },
   { immediate: true },

@@ -4,7 +4,7 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const range = ref([])
-const rangePicker = ref(['09:00', '18:00'])
+const rangeClock = ref(['09:00', '18:00'])
 const rangePickerSeconds = ref(['09:00:00', '18:00:00'])
 const range24 = ref([])
 const customSeparator = ref(['09:00', '18:00'])
@@ -25,19 +25,18 @@ onThemeChange()
     <app-type>{{ t('basicUsage') }}</app-type>
     <mp-time-range v-model="range" :placeholder="t('placeholder')" clearable />
 
-    <app-type>{{ t('pickerMode') }}</app-type>
+    <app-type>{{ t('clockMode') }}</app-type>
     <mp-time-range
-      v-model="rangePicker"
-      presentation="picker"
+      v-model="rangeClock"
+      presentation="clock"
       format="24hr"
-      :placeholder="t('pickerPlaceholder')"
+      :placeholder="t('clockPlaceholder')"
       clearable
     />
 
     <app-type>{{ t('pickerSeconds') }}</app-type>
     <mp-time-range
       v-model="rangePickerSeconds"
-      presentation="picker"
       format="24hr"
       use-seconds
       :placeholder="t('pickerSecondsPlaceholder')"

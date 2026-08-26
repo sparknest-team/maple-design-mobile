@@ -77,7 +77,7 @@ const score = ref(3)
 
 ### Allow Half Rating
 
-The `half` attribute is used to set the rating to semi selective, and the `half-icon` attribute is used to set the style of semi selective.
+The `allow-half` attribute is used to set the rating to semi selective, and the `half-icon` attribute is used to set the style of semi selective.
 
 ```html
 <script setup>
@@ -87,9 +87,9 @@ const score = ref(3.5)
 </script>
 
 <template>
-  <mp-rate half :count="8" v-model="score" />
+  <mp-rate allow-half :count="8" v-model="score" />
   <mp-rate
-    half
+    allow-half
     icon="heart"
     half-icon="heart-half-full"
     empty-icon="heart-outline"
@@ -130,7 +130,7 @@ const score = ref(3.5)
 </script>
 
 <template>
-  <mp-rate v-model="score" clearable half/>
+  <mp-rate v-model="score" clearable allow-half/>
 </template>
 ```
 
@@ -174,11 +174,8 @@ function handleChange(score) {
 | `empty-icon`     | Style of the icon when unchecked | _string_ | `star-outline` |
 | `size`           | Icon size, default unit is `px` | _number \| string_ | `-` |
 | `gap`            | Icon spacing, default unit is `px` | _number \| string_ | `-` |
-| `half`           | Whether half selection is allowed | _boolean_ | `false` |
-| `half-icon`      | The half-selected icon style only works if `half` is `true` | _string_ | `star-half-full` |
-| `namespace`      | Icon namespace |  _string_ | `mp-icon` |
-| `empty-icon-namespace`      | Empty icon namespace |  _string_ | `mp-icon` |
-| `half-icon-namespace`      | Half icon namespace |  _string_ | `mp-icon` |
+| `allow-half`           | Whether half selection is allowed | _boolean_ | `false` |
+| `half-icon`      | The half-selected icon style only works if `allow-half` is `true` | _string_ | `star-half-full` |
 | `disabled`       | Whether to disable rating | _boolean_ | `false` |
 | `disabled-color` | The color of the icon when disabling grading is only effective when `disabled` is `true` and has higher priority than `color` and `empty-color` | _string_ | `-` |
 | `readonly`       | Whether it is in readonly status. The rating cannot be modified in readonly status. | _boolean_ | `false` |

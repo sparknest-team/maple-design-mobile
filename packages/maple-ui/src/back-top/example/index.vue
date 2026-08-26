@@ -26,10 +26,10 @@ function handleClick() {
       <mp-cell v-for="list in lists" :key="`target-${list}`">Scroll in container {{ list }}</mp-cell>
     </div>
     <mp-back-top
-      target="#target-scroll"
-      :visibility-height="120"
+      target-container="#target-scroll"
+      :visible-height="120"
       :duration="300"
-      :teleport="false"
+      :popup-container="false"
       right="16"
       bottom="16"
     />
@@ -40,7 +40,7 @@ function handleClick() {
     <div id="position-scroll" class="back-top-section__scroll">
       <mp-cell v-for="list in lists" :key="`position-${list}`">Scroll to bottom {{ list }}</mp-cell>
     </div>
-    <mp-back-top target="#position-scroll" :duration="300" right="80" bottom="80" />
+    <mp-back-top target-container="#position-scroll" :duration="300" right="80" bottom="80" />
   </div>
 
   <app-type>{{ t('customContent') }}</app-type>
@@ -48,7 +48,7 @@ function handleClick() {
     <div id="content-scroll" class="back-top-section__scroll">
       <mp-cell v-for="list in lists" :key="`custom-${list}`">Scroll to bottom {{ list }}</mp-cell>
     </div>
-    <mp-back-top target="#content-scroll" :duration="300" @click="handleClick">
+    <mp-back-top target-container="#content-scroll" :duration="300" @click="handleClick">
       <mp-button type="primary" round>TOP</mp-button>
     </mp-back-top>
   </div>

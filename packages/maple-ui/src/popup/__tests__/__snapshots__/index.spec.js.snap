@@ -3,7 +3,7 @@
 exports[`popup show 1`] = `
 "<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
   <div class="mp--box mp-popup" style="z-index: 1998; display: none;">
-    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
       <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" role="dialog" aria-modal="true">
         <!---->
@@ -16,7 +16,7 @@ exports[`popup show 1`] = `
 exports[`popup show 2`] = `
 "<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
   <div class="mp--box mp-popup" style="z-index: 1998;">
-    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
       <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000;" role="dialog" aria-modal="true"> default slot content </div>
     </transition-stub>
@@ -27,7 +27,7 @@ exports[`popup show 2`] = `
 exports[`popup show 3`] = `
 "<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
   <div class="mp--box mp-popup" style="z-index: 1998; display: none;">
-    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
       <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" role="dialog" aria-modal="true"> default slot content </div>
     </transition-stub>

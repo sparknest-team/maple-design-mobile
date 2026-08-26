@@ -80,12 +80,12 @@ describe('test tabs component props', () => {
   test('tabs vertical', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        vertical: 'horizontal',
+        vertical: false,
       },
     })
 
     expect(wrapper.find('.mp-tabs--layout-horizontal').exists()).toBe(true)
-    await wrapper.setProps({ vertical: 'vertical' })
+    await wrapper.setProps({ vertical: true })
     expect(wrapper.find('.mp-tabs--layout-vertical').exists()).toBe(true)
     wrapper.unmount()
   })
@@ -93,12 +93,12 @@ describe('test tabs component props', () => {
   test('tabs item-vertical', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        itemVertical: 'horizontal',
+        itemVertical: false,
       },
     })
 
     expect(wrapper.find('.mp-tabs--item-horizontal').exists()).toBe(true)
-    await wrapper.setProps({ itemVertical: 'vertical' })
+    await wrapper.setProps({ itemVertical: true })
     expect(wrapper.find('.mp-tabs--item-vertical').exists()).toBe(true)
     wrapper.unmount()
   })

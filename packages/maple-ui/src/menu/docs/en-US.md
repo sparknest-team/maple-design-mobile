@@ -2,7 +2,9 @@
 
 ### Intro
 
-Menu with selector function. The popup layer is based on [Popover](#/en-US/popover), and some functions are used in the same way.
+Menu with selector function. Its floating layer is based on the style-agnostic [Trigger](#/en-US/trigger).
+
+Placement stays on the Popper set (including `cover-*`), default `bottom`. Use `auto-fit-popup-width` and `popup-max-height` for same width and max height. Use `trigger="contextMenu"` with `align-point` for a context menu.
 
 ### Basic Usage
 
@@ -17,7 +19,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
   <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="Eat" />
       <mp-menu-option label="Sleep" />
       <mp-menu-option label="Play game" />
@@ -32,7 +34,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
 <script setup>
   import { Message } from '@maplejs/maple-ui'
 
-  function handleSelect(value) {
+  function handleSelect(value, option, ev) {
     Message(`Select: ${value}`)
   }
 </script>
@@ -41,7 +43,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
   <mp-menu @select="handleSelect">
     <mp-button type="primary">Please Select</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="Eat" />
       <mp-menu-option label="Sleep" />
       <mp-menu-option label="Play game" />
@@ -50,65 +52,99 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
 </template>
 ```
 
-### Button Dropdown
+### Hover Trigger
 
 ```html
-<script setup>
-  import { Message } from '@maplejs/maple-ui'
-
-  function handleClick() {
-    Message('Publish')
-  }
-
-  function handleSelect(value) {
-    Message(`Action: ${value}`)
-  }
-</script>
-
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-menu position="br" @select="handleSelect">
-      <mp-button-group status="primary">
-        <mp-button @click.stop="handleClick">Publish</mp-button>
-        <mp-button style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
+  <mp-menu trigger="hover" @select="handleSelect">
+    <mp-button type="primary">Hover</mp-button>
 
+    <template #content>
+      <mp-menu-option label="Eat" />
+      <mp-menu-option label="Sleep" />
+      <mp-menu-option label="Play game" />
+    </template>
+  </mp-menu>
+</template>
+```
+
+### Placement
+
+Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` map to `bottom-start / bottom / bottom-end / top-start / top / top-end`.
+
+```html
+<template>
+  <mp-space>
+    <mp-menu placement="bottom-start">
+      <mp-button type="primary">Bottom Start</mp-button>
       <template #content>
-        <mp-menu-option label="Save now" />
-        <mp-menu-option label="Save and Publish" />
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
       </template>
     </mp-menu>
-
-    <mp-menu disabled position="br">
-      <mp-button-group status="primary">
-        <mp-button disabled>Disabled</mp-button>
-        <mp-button disabled style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
+    <mp-menu placement="bottom">
+      <mp-button type="primary">Bottom</mp-button>
       <template #content>
-        <mp-menu-option label="Save now" />
-        <mp-menu-option label="Save and Publish" />
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
       </template>
     </mp-menu>
-
-    <mp-menu position="br" @select="handleSelect">
-      <mp-button-group status="primary">
-        <mp-button @click.stop="handleClick">Publish</mp-button>
-        <mp-button style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
+    <mp-menu placement="bottom-end">
+      <mp-button type="primary">Bottom End</mp-button>
       <template #content>
-        <mp-menu-option label="Save now" />
-        <mp-menu-option label="Save and Publish" />
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
+      </template>
+    </mp-menu>
+    <mp-menu placement="top-start">
+      <mp-button type="primary">Top Start</mp-button>
+      <template #content>
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
+      </template>
+    </mp-menu>
+    <mp-menu placement="top">
+      <mp-button type="primary">Top</mp-button>
+      <template #content>
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
+      </template>
+    </mp-menu>
+    <mp-menu placement="top-end">
+      <mp-button type="primary">Top End</mp-button>
+      <template #content>
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
       </template>
     </mp-menu>
   </mp-space>
+</template>
+```
+
+### Context Menu
+
+Set both `trigger="contextMenu"` and `align-point`.
+
+```html
+<template>
+  <mp-menu trigger="contextMenu" align-point>
+    <div
+      style="display: flex; align-items: center; justify-content: center; height: 200px; background: var(--color-fill-2)"
+    >
+      Right click
+    </div>
+    <template #content>
+      <mp-menu-option label="Option 1" />
+      <mp-menu-option label="Option 2" />
+      <mp-menu-option label="Option 3" />
+    </template>
+  </mp-menu>
 </template>
 ```
 
@@ -129,7 +165,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
     <mp-menu v-model="valueNormal">
       <mp-button type="primary"> {{ valueNormal ? valueNormal : 'Normal Size' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="Eat" />
         <mp-menu-option label="Sleep" />
         <mp-menu-option label="Play game" />
@@ -139,7 +175,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
     <mp-menu size="small" v-model="valueSmall">
       <mp-button type="primary"> {{ valueSmall ? valueSmall : 'Small Size' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="Eat" />
         <mp-menu-option label="Sleep" />
         <mp-menu-option label="Play game" />
@@ -149,7 +185,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
     <mp-menu size="mini" v-model="valueMini">
       <mp-button type="primary"> {{ valueMini ? valueMini : 'Mini Size' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="Eat" />
         <mp-menu-option label="Sleep" />
         <mp-menu-option label="Play game" />
@@ -159,7 +195,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
     <mp-menu size="large" v-model="valueLarge">
       <mp-button type="primary"> {{ valueLarge ? valueLarge : 'Large Size' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="Eat" />
         <mp-menu-option label="Sleep" />
         <mp-menu-option label="Play game" />
@@ -182,7 +218,7 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
   <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? `value: ${value}` : 'Please Select' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="Eat" :value="1" />
       <mp-menu-option label="Sleep" :value="2" />
       <mp-menu-option label="Play game" :value="3" />
@@ -191,9 +227,9 @@ Menu with selector function. The popup layer is based on [Popover](#/en-US/popov
 </template>
 ```
 
-### Scrollable
+### Popup Max Height
 
-Make the menu scrollable by turning on `scrollable`.
+`popup-max-height` defaults to `true`. Options overflow the default max height will scroll. Pass a number for a pixel height, or `false` to disable the limit.
 
 ```html
 <script setup>
@@ -204,10 +240,10 @@ Make the menu scrollable by turning on `scrollable`.
 </script>
 
 <template>
-  <mp-menu scrollable v-model="value">
+  <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option v-for="option in options" :key="option.value" :label="option.label" />
     </template>
   </mp-menu>
@@ -224,10 +260,10 @@ Make the menu scrollable by turning on `scrollable`.
 </script>
 
 <template>
-  <mp-menu scrollable v-model="value">
+  <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="Eat" />
       <mp-menu-option label="Sleep" />
       <mp-menu-option label="Play game" disabled />
@@ -249,7 +285,7 @@ Make the menu scrollable by turning on `scrollable`.
   <mp-menu multiple v-model="value">
     <mp-button type="primary">{{ value.length ? value : 'Please Select' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="Eat" />
       <mp-menu-option label="Sleep" />
       <mp-menu-option label="Play game" />
@@ -260,9 +296,9 @@ Make the menu scrollable by turning on `scrollable`.
 </template>
 ```
 
-### Disable Close On Select
+### Keep Open On Select
 
-Close `close-on-select` disables closing the menu when selecting an option. The default behavior is to close the menu when selecting an option, which is not allowed in multi-select mode.
+Set `hide-on-select` to `false` to keep the menu open after selecting. By default the menu closes on select. In multiple mode the menu never closes from selection.
 
 ```html
 <script setup>
@@ -272,10 +308,10 @@ Close `close-on-select` disables closing the menu when selecting an option. The 
 </script>
 
 <template>
-  <mp-menu :close-on-select="false" v-model="value">
+  <mp-menu :hide-on-select="false" v-model="value">
     <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="Eat" />
       <mp-menu-option label="Sleep" />
       <mp-menu-option label="Play game" />
@@ -284,9 +320,79 @@ Close `close-on-select` disables closing the menu when selecting an option. The 
 </template>
 ```
 
+### Option Group
+
+```html
+<script setup>
+  import { Message } from '@maplejs/maple-ui'
+
+  function handleSelect(value) {
+    Message(`Select: ${value}`)
+  }
+</script>
+
+<template>
+  <mp-menu @select="handleSelect">
+    <mp-button type="primary">Option Group</mp-button>
+
+    <template #content>
+      <mp-menu-group title="Daily">
+        <mp-menu-option label="Eat" />
+        <mp-menu-option label="Sleep" />
+      </mp-menu-group>
+      <mp-menu-group title="Work">
+        <mp-menu-option label="Coding" />
+        <mp-menu-option label="Rest" />
+      </mp-menu-group>
+    </template>
+  </mp-menu>
+</template>
+```
+
+### Icon
+
+```html
+<template>
+  <mp-menu>
+    <mp-button type="primary">Icon</mp-button>
+
+    <template #content>
+      <mp-menu-option label="Eat">
+        <template #icon>
+          <m-icon-star :size="18" />
+        </template>
+      </mp-menu-option>
+      <mp-menu-option label="Sleep">
+        <template #icon>
+          <m-icon-star :size="18" />
+        </template>
+      </mp-menu-option>
+    </template>
+  </mp-menu>
+</template>
+```
+
+### Footer
+
+```html
+<template>
+  <mp-menu>
+    <mp-button type="primary">Footer</mp-button>
+
+    <template #content>
+      <mp-menu-option label="Eat" />
+      <mp-menu-option label="Sleep" />
+    </template>
+    <template #footer>
+      <div style="padding: 8px 12px">Custom footer</div>
+    </template>
+  </mp-menu>
+</template>
+```
+
 ### Options API
 
-You can pass the options as an array to the `options` property.
+Pass options as an array to the `options` prop.
 
 ```html
 <script setup>
@@ -319,7 +425,7 @@ You can pass the options as an array to the `options` property.
 
 ### Cascade
 
-An array of options may be passed to the `children` attribute of options to achieve a cascading effect.
+Pass a `children` array on an option to enable cascade.
 
 ```html
 <script setup>
@@ -371,13 +477,13 @@ An array of options may be passed to the `children` attribute of options to achi
 
 ### Multiple Cascade
 
-Cascading multiple selections can be achieved by setting the `multiple` attribute on the basis of cascading single selections.
+Add `multiple` on top of cascade.
 
 ```html
 <script setup>
   import { ref } from 'vue'
 
-  const value = ref()
+  const value = ref([])
   const options = ref([
     {
       label: '1',
@@ -416,14 +522,14 @@ Cascading multiple selections can be achieved by setting the `multiple` attribut
 
 <template>
   <mp-menu multiple v-model="value" :options="options">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button type="primary">{{ value.length ? value : 'Please Select' }}</mp-button>
   </mp-menu>
 </template>
 ```
 
-### Options API With Customized Key
+### Options API (With Customized Key)
 
-You can pass the options as an array of objects to the `options` property. Use the `label-key` and `value-key` properties to specify the fields for the label and value within the options array.
+Pass options as an array and map fields with `field-names`. Cascade selection uses the same mapping.
 
 ```html
 <script setup>
@@ -448,7 +554,7 @@ You can pass the options as an array of objects to the `options` property. Use t
 </script>
 
 <template>
-  <mp-menu v-model="value" :options="options" label-key="name" value-key="id">
+  <mp-menu v-model="value" :options="options" :field-names="{ label: 'name', value: 'id' }">
     <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
   </mp-menu>
 </template>
@@ -460,53 +566,57 @@ You can pass the options as an array of objects to the `options` property. Use t
 
 #### Menu Props
 
-| Prop                       | Description                                                                                                                                                                    | Type                             | Default           |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | ----------------- |
-| `v-model`                  | The value of the binding                                                                                                                                                       | _any \| any[]_                   | `-`               |
-| `v-model:popup-visible`    | Whether the menu is visible, aligned with Cedar Menu                                                                                                                           | _boolean_                        | `-`               |
-| `default-popup-visible`    | Initial visibility in uncontrolled mode                                                                                                                                        | _boolean_                        | `false`           |
-| `size`                     | Menu size, optional values `normal` `mini` `small` `large`                                                                                                                     | _string_                         | `normal`          |
-| `multiple`                 | Whether to select multiple                                                                                                                                                     | _boolean_                        | `false`           |
-| `scrollable`               | Whether to enable scrolling                                                                                                                                                    | _boolean_                        | `false`           |
-| `close-on-select`          | Whether to close the menu when a menu item is selected (the menu never closes from selection in multi-select mode)                                                            | _boolean_                        | `true`            |
-| `hide-on-select`           | Whether to hide after a menu item is selected (takes precedence over `close-on-select`)                                                                                        | _boolean_                        | `-`               |
-| `position`                 | Cedar-style position: `top` `tl` `tr` `bottom` `bl` `br`                                                                                                                       | _string_                         | `-`               |
-| `placement`                | Menu popup placement                                                                                                                                                           | _Placement_                      | `cover-top-start` |
-| `strategy`                 | Menu position strategy, optional value is `absolute` `fixed`                                                                                                                   | _string_                         | `absolute`        |
-| `offset-x`                 | The x-axis offset, relative to the menu-aligned position                                                                                                                       | _number \| string_               | `0`               |
-| `offset-y`                 | The y-axis offset, relative to the menu-aligned position                                                                                                                       | _number \| string_               | `0`               |
-| `teleport`                 | The location of the menu mount                                                                                                                                                 | _TeleportProps['to'] \| false_   | `body`            |
-| `popup-container`          | Popup mount container (takes precedence over `teleport`)                                                                                                                       | _string \| HTMLElement \| false_ | `-`               |
-| `disabled`                 | Whether to disable the menu                                                                                                                                                    | _boolean_                        | `false`           |
-| `trigger`                  | Menu trigger method, optional value is `click` `hover` `manual`                                                                                                                | _string_                         | `click`           |
-| `reference`                | The trigger element associated with the menu, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_          | `-`               |
-| `elevation`                | Elevation level, options `true` `false` and level of `0-24`                                                                                                                    | _string \| number \| boolean_    | `true`            |
-| `same-width`               | Whether to same width as trigger element                                                                                                                                       | _boolean_                        | `false`           |
-| `popover-class`            | Class of the popover                                                                                                                                                           | _string_                         | `-`               |
-| `close-on-click-reference` | Whether to close the menu when clicking the reference element                                                                                                                  | _boolean_                        | `false`           |
-| `options` _**3.3.7**_      | Specifies options                                                                                                                                                              | _MenuOption[]_                   | `[]`              |
-| `label-key` _**3.3.7**_    | As the key that uniquely identifies label                                                                                                                                      | _string_                         | `label`           |
-| `value-key` _**3.3.7**_    | As the key that uniquely identifies value                                                                                                                                      | _string_                         | `value`           |
-| `children-key` _**3.8.0**_ | As the key that uniquely identifies children                                                                                                                                   | _string_                         | `children`        |
+| Prop                       | Description                                                                                                                                                                    | Type                                       | Default    |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ---------- |
+| `v-model`                  | The value of the binding                                                                                                                                                       | _any \| any[]_                             | `-`        |
+| `v-model:open`             | Whether the menu is open                                                                                                                                                       | _boolean_                                  | `-`        |
+| `default-open`             | Whether the menu is open by default in uncontrolled mode                                                                                                                       | _boolean_                                  | `false`    |
+| `size`                     | Menu size, optional values `normal` `mini` `small` `large`                                                                                                                     | _string_                                   | `normal`   |
+| `multiple`                 | Whether to select multiple                                                                                                                                                     | _boolean_                                  | `false`    |
+| `popup-max-height`         | Maximum popup height. `true` uses the default height, `false` disables the limit, a `number` is a pixel value                                                                  | _boolean \| number_                        | `true`     |
+| `auto-fit-popup-width`     | Whether to same width as trigger element                                                                                                                                       | _boolean_                                  | `false`    |
+| `hide-on-select`           | Whether to hide the menu after a menu item is selected (the menu never closes from selection in multi-select mode)                                                             | _boolean_                                  | `true`     |
+| `placement`                | Menu popup placement                                                                                                                                                           | _Placement_                                | `bottom`   |
+| `strategy`                 | Menu position strategy, optional value is `absolute` `fixed`                                                                                                                   | _string_                                   | `absolute` |
+| `offset-x`                 | The x-axis offset, relative to the menu-aligned position                                                                                                                       | _number \| string_                         | `0`        |
+| `offset-y`                 | The y-axis offset, relative to the menu-aligned position                                                                                                                       | _number \| string_                         | `0`        |
+| `popup-container`          | The location of the menu mount                                                                                                                                                 | _TeleportProps['to'] \| false_             | `body`     |
+| `disabled`                 | Whether to disable the menu                                                                                                                                                    | _boolean_                                  | `false`    |
+| `trigger`                  | Menu trigger method, optional value is `click` `hover` `manual` `contextMenu`                                                                                                  | _string_                                   | `click`    |
+| `align-point`              | Whether the popup follows the mouse (used with `contextMenu`)                                                                                                                  | _boolean_                                  | `false`    |
+| `reference`                | The trigger element associated with the menu, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_                    | `-`        |
+| `elevation`                | Elevation level, options `true` `false` and level of `0-24`                                                                                                                    | _string \| number \| boolean_              | `true`     |
+| `popup-class`              | Class of the floating layer                                                                                                                                                    | _ClassName_                                | `-`        |
+| `close-on-click-reference` | Whether to close the menu when clicking the reference element                                                                                                                  | _boolean_                                  | `false`    |
+| `options`                  | Specifies options                                                                                                                                                              | _MenuOption[]_                             | `[]`       |
+| `field-names`              | Custom field mapping for `options`                                                                                                                                             | _{ label?, value?, children?, disabled? }_ | `-`        |
 
-#### MenuOption
+#### MenuOption Data Fields
 
-| Prop                   | Description                    | Type                                                                       | Default |
-| ---------------------- | ------------------------------ | -------------------------------------------------------------------------- | ------- |
-| `label`                | The text of option             | _string \| VNode \| (option: MenuOption, selected: boolean) => VNodeChild_ | `-`     |
-| `value`                | The value of option            | _any_                                                                      | `-`     |
-| `children` _**3.8.0**_ | The children options of option | _MenuOption[]_                                                             | `-`     |
-| `disabled`             | Whether to disable option      | _boolean_                                                                  | `-`     |
-| `ripple`               | Whether to enable ripple       | _boolean_                                                                  | `true`  |
+Used by items in the `options` array.
+
+| Prop       | Description                    | Type                                                                       | Default |
+| ---------- | ------------------------------ | -------------------------------------------------------------------------- | ------- |
+| `label`    | The text of option             | _string \| VNode \| (option: MenuOption, selected: boolean) => VNodeChild_ | `-`     |
+| `value`    | The value of option            | _any_                                                                      | `-`     |
+| `children` | The children options of option | _MenuOption[]_                                                             | `-`     |
+| `disabled` | Whether to disable option      | _boolean_                                                                  | `-`     |
+| `ripple`   | Whether to enable ripple       | _boolean_                                                                  | `true`  |
 
 #### MenuOption Props
 
-| Prop                 | Description                       | Type      | Default |
-| -------------------- | --------------------------------- | --------- | ------- |
-| `label`              | The text that the option displays | _any_     | `-`     |
-| `value`              | The value of the option binding   | _any_     | `-`     |
-| `disabled`           | Whether to disable                | _boolean_ | `false` |
-| `ripple` _**3.3.0**_ | Whether to enable ripple          | _boolean_ | `true`  |
+| Prop       | Description                       | Type      | Default |
+| ---------- | --------------------------------- | --------- | ------- |
+| `label`    | The text that the option displays | _any_     | `-`     |
+| `value`    | The value of the option binding   | _any_     | `-`     |
+| `disabled` | Whether to disable                | _boolean_ | `false` |
+| `ripple`   | Whether to enable ripple          | _boolean_ | `true`  |
+
+#### MenuGroup Props
+
+| Prop    | Description | Type     | Default |
+| ------- | ----------- | -------- | ------- |
+| `title` | Group title | _string_ | `-`     |
 
 ### Placement
 
@@ -519,11 +629,11 @@ You can pass the options as an array of objects to the `options` property. Use t
 | `bottom-start`       | Bottom left position                    |
 | `bottom-end`         | Bottom right position                   |
 | `right`              | Right center position                   |
-| `right-start`        | Top right position                      |
-| `right-end`          | Bottom right position                   |
+| `right-start`        | Right top position                      |
+| `right-end`          | Right bottom position                   |
 | `left`               | Left center position                    |
-| `left-start`         | Top left position                       |
-| `left-end`           | Bottom left position                    |
+| `left-start`         | Left top position                       |
+| `left-end`           | Left bottom position                    |
 | `cover-top`          | Top center position, overlay trigger    |
 | `cover-top-start`    | Top left position, overlay trigger      |
 | `cover-top-end`      | Top right position, overlay trigger     |
@@ -537,42 +647,51 @@ You can pass the options as an array of objects to the `options` property. Use t
 
 #### Menu Methods
 
-| Method                     | Description                                                                                                    | Arguments                                                             | Return |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------ |
-| `open`                     | Open Menu                                                                                                      | `-`                                                                   | `-`    |
-| `close`                    | Close Menu                                                                                                     | `-`                                                                   | `-`    |
-| `resize`                   | This method can be called to redraw when the default slot element of Menu select changes its position and size | `-`                                                                   | `-`    |
-| `setReference` _**3.7.2**_ | Set the trigger element associated with the menu                                                               | `reference: consistent with the reference of the component attribute` | `-`    |
+| Method         | Description                                                                                                    | Arguments                                                             | Return |
+| -------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------ |
+| `open`         | Open Menu                                                                                                      | `-`                                                                   | `-`    |
+| `close`        | Close Menu                                                                                                     | `-`                                                                   | `-`    |
+| `resize`       | This method can be called to redraw when the default slot element of Menu select changes its position and size | `-`                                                                   | `-`    |
+| `setReference` | Set the trigger element associated with the menu                                                               | `reference: consistent with the reference of the component attribute` | `-`    |
 
 ### Events
 
 #### Menu Events
 
-| Event                  | Description                                    | Arguments                        |
-| ---------------------- | ---------------------------------------------- | -------------------------------- |
-| `open`                 | Triggered when the menu is opened              | `-`                              |
-| `opened`               | Triggered when the open menu animation ends    | `-`                              |
-| `close`                | Triggered when the menu is closed              | `-`                              |
-| `closed`               | Triggered when the closing menu animation ends | `-`                              |
-| `click-outside`        | Triggered when clicking outside the menu       | `event: Event`                   |
-| `select` _**3.8.0**_   | Triggered when the user selects a menu item. In controlled mode, whether the selected state changes depends on whether `v-model` is updated. | `value: any, option: MenuOption` |
-| `popup-visible-change` | Triggered when popup visibility changes        | `visible: boolean`               |
+| Event           | Description                                                                                                                                  | Arguments                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| `open`          | Triggered when the menu is opened                                                                                                            | `-`                                          |
+| `opened`        | Triggered when the open menu animation ends                                                                                                  | `-`                                          |
+| `close`         | Triggered when the menu is closed                                                                                                            | `-`                                          |
+| `closed`        | Triggered when the closing menu animation ends                                                                                               | `-`                                          |
+| `click-outside` | Triggered when clicking outside the menu                                                                                                     | `event: Event`                               |
+| `select`        | Triggered when the user selects a menu item. In controlled mode, whether the selected state changes depends on whether `v-model` is updated. | `value: any, option: MenuOption, ev?: Event` |
+| `open-change`   | Triggered when open state changes                                                                                                            | `open: boolean`                              |
+| `key-escape`    | Triggered when Escape closes the menu                                                                                                        | `-`                                          |
 
 ### Slots
 
 #### Menu Slots
 
-| Name      | Description                           | SlotProps |
-| --------- | ------------------------------------- | --------- |
-| `default` | Menu select trigger element           | `-`       |
-| `content` | Menu options, aligned with Cedar Menu | `-`       |
-| `options` | Menu options (legacy alias)           | `-`       |
+| Name      | Description                 | SlotProps |
+| --------- | --------------------------- | --------- |
+| `default` | Menu select trigger element | `-`       |
+| `content` | Menu options                | `-`       |
+| `footer`  | Menu footer                 | `-`       |
 
 #### MenuOption Slots
 
 | Name      | Description                    | SlotProps |
 | --------- | ------------------------------ | --------- |
 | `default` | Options to display the content | `-`       |
+| `icon`    | Option icon                    | `-`       |
+
+#### MenuGroup Slots
+
+| Name      | Description   | SlotProps |
+| --------- | ------------- | --------- |
+| `title`   | Group title   | `-`       |
+| `default` | Group content | `-`       |
 
 ### Style Variables
 
@@ -580,12 +699,13 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 #### Menu Variables
 
-| Variable                       | Default                               |
-| ------------------------------ | ------------------------------------- |
-| `--menu-menu-max-height`       | `278px`                               |
-| `--menu-menu-padding`          | `0`                                   |
-| `--menu-menu-border-radius`    | `2px`                                 |
-| `--menu-menu-background-color` | `var(--color-surface-container-high)` |
+| Variable                  | Default               |
+| ------------------------- | --------------------- |
+| `--menu-max-height`       | `278px`               |
+| `--menu-padding`          | `4px 0`               |
+| `--menu-border-radius`    | `2px`                 |
+| `--menu-border-color`     | `var(--color-fill-3)` |
+| `--menu-background-color` | `var(--color-fill-2)` |
 
 #### MenuOption Variables
 
@@ -601,5 +721,19 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--menu-option-mini-font-size`      | `var(--font-size-xs)`        |
 | `--menu-option-large-font-size`     | `var(--font-size-lg)`        |
 | `--menu-option-selected-background` | `var(--color-primary)`       |
-| `--menu-option-text-color`          | `#555`                       |
+| `--menu-option-selected-text-color` | `var(--color-primary)`       |
+| `--menu-option-bg-hover`            | `var(--color-fill-3)`        |
+| `--menu-option-text-color`          | `var(--color-text-1)`        |
 | `--menu-option-disabled-color`      | `var(--color-text-disabled)` |
+| `--menu-option-arrow-padding`       | `0 6px 0 8px`                |
+| `--menu-option-arrow-icon-size`     | `18px`                       |
+| `--menu-option-icon-margin-right`   | `8px`                        |
+
+#### MenuGroup Variables
+
+| Variable                        | Default               |
+| ------------------------------- | --------------------- |
+| `--menu-group-title-height`     | `24px`                |
+| `--menu-group-title-padding`    | `8px 12px 4px`        |
+| `--menu-group-title-font-size`  | `var(--font-size-sm)` |
+| `--menu-group-title-text-color` | `var(--color-text-3)` |

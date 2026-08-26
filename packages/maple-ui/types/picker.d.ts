@@ -17,9 +17,11 @@ export interface PickerProps {
   modelValue?: (string | number)[]
   columns?: PickerColumnOption[] | PickerColumnOption[][]
   title?: string
-  textKey?: string
-  valueKey?: string
-  childrenKey?: string
+  fieldNames?: {
+    label?: string
+    value?: string
+    children?: string
+  }
   toolbar?: boolean
   cascade?: boolean
   optionHeight?: string | number
@@ -29,7 +31,7 @@ export interface PickerProps {
   cancelButtonText?: string
   confirmButtonTextColor?: string
   cancelButtonTextColor?: string
-  closeOnKeyEscape?: boolean
+  escToClose?: boolean
   onChange?: ListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>
   onConfirm?: ListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>
   onCancel?: ListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>
@@ -64,9 +66,11 @@ export interface PickerOptions {
   modelValue?: (string | number)[]
   columns?: PickerColumnOption[] | PickerColumnOption[][]
   title?: string
-  textKey?: string
-  valueKey?: string
-  childrenKey?: string
+  fieldNames?: {
+    label?: string
+    value?: string
+    children?: string
+  }
   toolbar?: boolean
   cascade?: boolean
   optionHeight?: number | string
@@ -77,8 +81,8 @@ export interface PickerOptions {
   confirmButtonTextColor?: string
   cancelButtonTextColor?: string
   safeArea?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
+  maskClosable?: boolean
+  escToClose?: boolean
   onClickOverlay?: () => void
   onOpen?: () => void
   onOpened?: () => void

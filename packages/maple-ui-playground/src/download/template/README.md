@@ -1,4 +1,4 @@
-# Varlet Playground Demo
+# Maple Playground Demo
 
 To start:
 

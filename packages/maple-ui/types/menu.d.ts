@@ -18,13 +18,11 @@ export type MenuPlacement =
   | 'cover-left'
   | 'cover-right'
 
-export type MenuTrigger = 'click' | 'hover' | 'manual'
+export type MenuTrigger = 'click' | 'hover' | 'manual' | 'contextMenu'
 
 export type MenuStrategy = PositioningStrategy
 
 export type MenuSize = 'normal' | 'mini' | 'small' | 'large'
-export type MenuPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br'
-
 export type MenuReference = string | HTMLElement
 
 export type MenuOptionLabelRender = (option: MenuOption, checked: boolean) => VNodeChild
@@ -44,38 +42,38 @@ export interface MenuProps extends BasicAttributes {
   options?: MenuOption[]
   size?: MenuSize
   multiple?: boolean
-  scrollable?: boolean
-  closeOnSelect?: boolean
+  popupMaxHeight?: boolean | number
   hideOnSelect?: boolean
-  show?: boolean
-  popupVisible?: boolean
-  defaultPopupVisible?: boolean
+  open?: boolean
+  defaultOpen?: boolean
   disabled?: boolean
   trigger?: MenuTrigger
   reference?: MenuReference
   placement?: MenuPlacement
-  position?: MenuPosition
   strategy?: MenuStrategy
-  labelKey?: string
-  valueKey?: string
-  childrenKey?: string
+  fieldNames?: {
+    label?: string
+    value?: string
+    children?: string
+    disabled?: string
+  }
   offsetX?: string | number
   offsetY?: string | number
-  teleport?: TeleportProps['to'] | false
   popupContainer?: TeleportProps['to'] | false
-  sameWidth?: boolean
+  autoFitPopupWidth?: boolean
   elevation?: boolean | number | string
   popoverClass?: string
   closeOnClickReference?: boolean
+  alignPoint?: boolean
   onOpen?: ListenerProp<() => void>
   onOpened?: ListenerProp<() => void>
   onClose?: ListenerProp<() => void>
   onClosed?: ListenerProp<() => void>
-  onSelect?: ListenerProp<(value: any) => void>
-  onPopupVisibleChange?: ListenerProp<(visible: boolean) => void>
+  onSelect?: ListenerProp<(value: any, option: MenuOption, ev?: Event) => void>
+  onOpenChange?: ListenerProp<(open: boolean) => void>
+  onKeyEscape?: ListenerProp<() => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
-  'onUpdate:popupVisible'?: ListenerProp<(visible: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export class Menu extends VarComponent {
@@ -86,7 +84,7 @@ export class Menu extends VarComponent {
   $slots: {
     default(): VNode[]
     content(): VNode[]
-    options(): VNode[]
+    footer(): VNode[]
   }
 
   open(): void

@@ -1,5 +1,5 @@
 export default {
-  '--mp-cascader-panel-background': 'var(--mp-color-surface-container-high)',
+  '--mp-cascader-panel-background': 'var(--mp-color-bg-3)',
   '--mp-cascader-panel-padding': '6px 0',
   '--mp-cascader-panel-max-height': '278px',
   '--mp-cascader-panel-border-radius': '2px',
@@ -9,7 +9,7 @@ export default {
   '--mp-cascader-option-font-size': '16px',
   '--mp-cascader-option-selected-color': 'var(--mp-color-primary)',
   '--mp-cascader-option-selected-background': 'var(--mp-color-primary)',
-  '--mp-cascader-option-text-color': 'var(--mp-color-on-surface)',
+  '--mp-cascader-option-text-color': 'var(--mp-color-text-1)',
   '--mp-cascader-option-disabled-color': 'var(--mp-color-text-disabled)',
   '--mp-cascader-option-arrow-size': '18px',
   '--mp-cascader-label-font-size': '16px',

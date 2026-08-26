@@ -4,26 +4,26 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="indeterminate ? undefined : mode === 'linear' ? linearProps.value : circleProps.value"
+    :aria-valuenow="indeterminate ? undefined : mode === 'line' ? lineProps.value : circleProps.value"
   >
-    <div v-if="mode === 'linear'" :class="n('linear')">
+    <div v-if="mode === 'line'" :class="n('line')">
       <div
-        :class="classes(n('linear-block'), [track, n('linear-background')])"
-        :style="{ height: toSizeUnit(lineWidth), background: trackColor }"
+        :class="classes(n('line-block'), [track, n('line-background')])"
+        :style="{ height: toSizeUnit(strokeWidth), background: trackColor }"
       >
-        <div v-if="indeterminate" :class="n('linear-indeterminate')">
-          <div :class="classes(n(`linear--${type}`))" :style="{ background: progressColor }"></div>
-          <div :class="classes(n(`linear--${type}`))" :style="{ background: progressColor }"></div>
+        <div v-if="indeterminate" :class="n('line-indeterminate')">
+          <div :class="classes(n(`line--${status}`))" :style="{ background: progressColor }"></div>
+          <div :class="classes(n(`line--${status}`))" :style="{ background: progressColor }"></div>
         </div>
         <div
           v-else
-          :class="classes(n('linear-certain'), n(`linear--${type}`))"
-          :style="{ background: progressColor, width: linearProps.width }"
+          :class="classes(n('line-certain'), n(`line--${status}`))"
+          :style="{ background: progressColor, width: lineProps.width }"
         ></div>
       </div>
-      <div v-if="label" :class="classes(n('linear-label'), [labelClass, labelClass])">
+      <div v-if="showText" :class="classes(n('line-label'), [textClass, textClass])">
         <slot>
-          {{ linearProps.roundValue }}
+          {{ lineProps.roundValue }}
         </slot>
       </div>
     </div>
@@ -56,7 +56,7 @@
           }"
         ></path>
         <path
-          :class="classes(n('circle-certain'), n(`circle--${type}`), [indeterminate, n('circle-overlay')])"
+          :class="classes(n('circle-certain'), n(`circle--${status}`), [indeterminate, n('circle-overlay')])"
           :d="circleProps.path"
           fill="transparent"
           :stroke-width="circleProps.strokeWidth"
@@ -70,7 +70,7 @@
         ></path>
       </svg>
 
-      <div v-if="label" :class="classes(n('circle-label'), labelClass)">
+      <div v-if="showText" :class="classes(n('circle-label'), textClass)">
         <slot>
           {{ circleProps.roundValue }}
         </slot>
@@ -99,10 +99,10 @@ export default defineComponent({
   props,
   setup(props) {
     const id = useClientId()
-    const linearProps = computed(() => {
-      const value = toNumber(props.value)
-      const width = clamp(value, MIN, MAX)
-      const roundValue = clamp(Math.round(value), MIN, MAX)
+    const lineProps = computed(() => {
+      const percent = toNumber(props.percent)
+      const width = clamp(percent, MIN, MAX)
+      const roundValue = clamp(Math.round(percent), MIN, MAX)
 
       return {
         width: `${width}%`,
@@ -112,13 +112,13 @@ export default defineComponent({
     })
 
     const circleProps = computed(() => {
-      const { size, lineWidth, value } = props
+      const { size, strokeWidth: strokeWidthProp, percent } = props
 
-      const diameter = (RADIUS / (1 - toPxNum(lineWidth) / toPxNum(size))) * 2
+      const diameter = (RADIUS / (1 - toPxNum(strokeWidthProp) / toPxNum(size))) * 2
       const viewBox = `0 0 ${diameter} ${diameter}`
-      const roundValue = clamp(Math.round(toNumber(value)), MIN, MAX)
+      const roundValue = clamp(Math.round(toNumber(percent)), MIN, MAX)
       const strokeOffset = `${((MAX - roundValue) / MAX) * CIRCUMFERENCE}`
-      const strokeWidth = (toPxNum(lineWidth) / toPxNum(size)) * diameter
+      const strokeWidth = (toPxNum(strokeWidthProp) / toPxNum(size)) * diameter
 
       const beginPositionX = 0
       const beginPositionY = -RADIUS
@@ -133,7 +133,7 @@ export default defineComponent({
         strokeOffset,
         roundValue: `${roundValue}%`,
         path,
-        value: clamp(toNumber(value), MIN, MAX),
+        value: clamp(toNumber(percent), MIN, MAX),
       }
     })
 
@@ -152,7 +152,7 @@ export default defineComponent({
 
     return {
       id,
-      linearProps,
+      lineProps,
       CIRCUMFERENCE,
       RADIUS,
       circleProps,

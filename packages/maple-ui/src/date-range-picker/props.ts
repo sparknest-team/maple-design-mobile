@@ -2,8 +2,7 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 import { datePickerProps as datePickerPropsSource } from '../date-picker'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import { type AllowedTime } from '../time-picker/props'
-import { defineListenerProp } from '../utils/components'
+import { type DisabledTime } from '../time-picker/props'
 
 export type DateRangePickerType = 'year' | 'month' | 'date'
 export type DateRangePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
@@ -15,7 +14,7 @@ export const props = {
   },
   presentation: {
     type: String as PropType<DateRangePickerPresentation>,
-    default: 'calendar',
+    default: 'picker',
   },
   type: {
     type: String as PropType<DateRangePickerType>,
@@ -25,8 +24,8 @@ export const props = {
   useSeconds: Boolean,
   min: String,
   max: String,
-  allowedDates: Function as PropType<(val: string) => boolean>,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledDate: Function as PropType<(val: string) => boolean>,
+  disabledTime: Object as PropType<DisabledTime>,
   datePickerProps: {
     type: Object as PropType<Partial<ExtractPropTypes<typeof datePickerPropsSource>>>,
     default: () => ({}),
@@ -44,8 +43,6 @@ export const props = {
     type: [Boolean, Number, String],
     default: false,
   },
-  onChange: defineListenerProp<(value: string[]) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string[]) => void>(),
 }
 
 export type DateRangePickerProps = ExtractPropTypes<typeof props>

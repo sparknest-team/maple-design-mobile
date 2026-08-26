@@ -7,6 +7,7 @@
     "build": "pnpm --dir ./packages/maple-ui build",
     "build:play": "pnpm --dir ./packages/maple-ui-playground build",
     "changelog": "maple-cli changelog",
+    "changeset": "changeset",
     "clean": "rimraf ./node_modules ./packages/*/node_modules",
     "compile": "pnpm --dir ./packages/maple-ui compile",
     "compile:style-vars": "pnpm --dir ./packages/maple-ui compile:style-vars",
@@ -19,13 +20,19 @@
     "postinstall": "simple-git-hooks",
     "lint": "eslint --fix .",
     "lint:cache": "eslint --fix --cache .",
+    "lint:check": "eslint . --max-warnings 0",
+    "package:check": "node scripts/quality/package-check.mjs",
     "preview": "pnpm --dir ./packages/maple-ui preview",
     "preview:play": "pnpm --dir ./packages/maple-ui-playground preview",
+    "quality": "pnpm spec:check && pnpm lint:check && pnpm typecheck && pnpm test && pnpm build && pnpm package:check",
     "release": "node scripts/release.mjs",
     "release:extension": "pnpm --dir ./packages/maple-vscode-extension release",
+    "spec:check": "node scripts/quality/spec-check.mjs",
     "test": "pnpm --dir ./packages/maple-ui test",
     "test:coverage": "pnpm --dir ./packages/maple-ui test:coverage",
-    "test:watch": "pnpm --dir ./packages/maple-ui test:watch"
+    "test:watch": "pnpm --dir ./packages/maple-ui test:watch",
+    "typecheck": "pnpm --dir ./packages/maple-ui exec vue-tsc --noEmit -p tsconfig.json",
+    "version-packages": "changeset version"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",
@@ -36,10 +43,14 @@
     "*.{ts,tsx,js,vue}": "eslint --fix"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.29.7",
     "@configurajs/eslint": "^0.1.2",
     "@configurajs/prettier": "^0.1.4",
     "@maplejs/maple-cli": "workspace:*",
-    "@maplejs/maple-icons": "workspace:*",
+    "@maplejs/icons-vue": "workspace:*",
+    "@vue/server-renderer": "catalog:",
+    "axe-core": "^4.10.3",
     "eslint": "^9.32.0",
     "nano-staged": "0.8.0",
     "nanospinner": "^1.2.2",
@@ -47,7 +58,8 @@
     "rimraf": "catalog:",
     "simple-git-hooks": "^2.13.1",
     "tinyexec": "npm:tinyexec@^0.3.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vue-tsc": "^2.1.10"
   },
   "packageManager": "pnpm@9.6.0",
   "engines": {

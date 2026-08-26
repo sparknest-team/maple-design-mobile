@@ -51,14 +51,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '主题定制',
-          'en-US': 'Theme Customization',
-        },
-        doc: 'themes',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': '国际化',
           'en-US': 'Locale',
         },
@@ -79,14 +71,6 @@ export default defineConfig({
           'en-US': 'Zod Validation',
         },
         doc: 'zodValidation',
-        type: 3,
-      },
-      {
-        text: {
-          'zh-CN': '原子化 CSS 支持',
-          'en-US': 'Atomic CSS Support',
-        },
-        doc: 'atomicCssSupport',
         type: 3,
       },
       {
@@ -127,6 +111,101 @@ export default defineConfig({
           'en-US': 'Migrate from 2.x',
         },
         doc: 'migrationGuide',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': 'Roadmap',
+          'en-US': 'Roadmap',
+        },
+        doc: 'roadmap',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '样式',
+          'en-US': 'Styles',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': '主题定制',
+          'en-US': 'Theme Customization',
+        },
+        doc: 'themes',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'StyleProvider',
+          'en-US': 'StyleProvider',
+        },
+        doc: 'style-provider',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '色板 Palette',
+          'en-US': 'Palette',
+        },
+        doc: 'palette',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '颜色 Color',
+          'en-US': 'Color',
+        },
+        doc: 'color',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '总览 Utilities',
+          'en-US': 'Utilities Overview',
+        },
+        doc: 'utilities',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '海拔 Elevation',
+          'en-US': 'Elevation',
+        },
+        doc: 'styles',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '字体排版 Typography',
+          'en-US': 'Typography',
+        },
+        doc: 'typography',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '原子化 CSS',
+          'en-US': 'Atomic CSS',
+        },
+        doc: 'atomic-css',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '常用写法',
+          'en-US': 'Common Utilities',
+        },
+        doc: 'atomic-usage',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Utility 规范',
+          'en-US': 'Utility Spec',
+        },
+        doc: 'utilitySpec',
         type: 3,
       },
       {
@@ -178,6 +257,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'SwipeCell 滑动单元格',
+          'en-US': 'SwipeCell',
+        },
+        doc: 'swipe-cell',
+        type: 2,
+      },
+      {
+        text: {
           'zh-CN': '布局',
           'en-US': 'Layout',
         },
@@ -193,10 +280,18 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Layout 布局',
-          'en-US': 'Layout',
+          'zh-CN': 'Row / Col 栅格',
+          'en-US': 'Row / Col',
         },
         doc: 'row',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Grid 栅格',
+          'en-US': 'Grid',
+        },
+        doc: 'grid',
         type: 2,
       },
       {
@@ -244,6 +339,14 @@ export default defineConfig({
           'en-US': 'Menu',
         },
         doc: 'menu',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'SplitButton 分裂按钮',
+          'en-US': 'SplitButton',
+        },
+        doc: 'split-button',
         type: 2,
       },
       {
@@ -451,6 +554,22 @@ export default defineConfig({
           'en-US': 'InputNumber',
         },
         doc: 'input-number',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'NumberKeyboard 数字键盘',
+          'en-US': 'NumberKeyboard',
+        },
+        doc: 'number-keyboard',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'VerificationCode 验证码输入',
+          'en-US': 'VerificationCode',
+        },
+        doc: 'verification-code',
         type: 2,
       },
       {
@@ -669,6 +788,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'NoticeBar 通知栏',
+          'en-US': 'NoticeBar',
+        },
+        doc: 'notice-bar',
+        type: 2,
+      },
+      {
+        text: {
           'zh-CN': 'Message 全局提示',
           'en-US': 'Message',
         },
@@ -773,26 +900,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '其他',
-          'en-US': 'Others',
+          'zh-CN': '指令与其它',
+          'en-US': 'Directives & Others',
         },
         type: 1,
-      },
-      {
-        text: {
-          'zh-CN': 'StyleProvider 样式定制',
-          'en-US': 'StyleProvider',
-        },
-        doc: 'style-provider',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Elevation 海拔效果',
-          'en-US': 'Elevation',
-        },
-        doc: 'styles',
-        type: 2,
       },
       {
         text: {
@@ -834,8 +945,8 @@ export default defineConfig({
         doc: 'hover',
         type: 2,
       },
-    ],
+],
   },
-  copy: [{ from: '../maple-icons/dist/png', to: './public/icons/png', type: 'folder' }],
+  copy: [],
   directives: ['ripple', 'lazy', 'hover'],
 })

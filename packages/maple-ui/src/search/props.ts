@@ -1,6 +1,6 @@
 import { type PropType } from 'vue'
 import { inputProps } from '../input'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 import type { SearchResult } from './result'
 
 export type SearchShape = 'square' | 'round'
@@ -61,23 +61,11 @@ export const props = {
     type: String,
     default: 'magnify',
   },
-  onSearch: defineListenerProp<(result: SearchResult, e?: Event) => void>(),
-  onCancel: defineListenerProp<() => void>(),
-  onFocus: defineListenerProp<(e: FocusEvent) => void>(),
-  onBlur: defineListenerProp<(e: FocusEvent) => void>(),
-  onInput: defineListenerProp<(value: string, e: Event) => void>(),
-  onChange: defineListenerProp<(value: string, e?: Event) => void>(),
-  onClear: defineListenerProp<(value: string) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string) => void>(),
-  'onUpdate:modelField': defineListenerProp<(value: string | undefined) => void>(),
-  'onUpdate:searchText': defineListenerProp<(value: string | undefined) => void>(),
-  'onUpdate:searchField': defineListenerProp<(value: string | undefined) => void>(),
-  'onUpdate:model': defineListenerProp<(value: any) => void>(),
   ...pickProps(inputProps, [
     'type',
     'ariaLabel',
     'placeholder',
-    'maxlength',
+    'maxLength',
     'readonly',
     'disabled',
     'autofocus',

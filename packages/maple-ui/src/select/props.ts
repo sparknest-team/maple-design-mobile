@@ -1,9 +1,9 @@
 import { VNode, VNodeChild, type ExtractPropTypes, type PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps } from '../picker'
-import { type Placement } from '../popover/usePopover'
 import { popupProps } from '../popup'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { type TriggerPlacement } from '../trigger'
+import { pickProps } from '../utils/components'
 import { type FieldNames } from '../utils/options'
 
 export type SelectPresentation = 'menu' | 'picker' | 'list'
@@ -31,14 +31,6 @@ export const props = {
     type: Array as PropType<SelectOption[]>,
     default: () => [],
   },
-  labelKey: {
-    type: String,
-    default: 'label',
-  },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
   fieldNames: {
     type: Object as PropType<FieldNames>,
     default: undefined,
@@ -47,7 +39,7 @@ export const props = {
     type: String as PropType<SelectPresentation>,
     default: 'menu',
   },
-  show: {
+  open: {
     type: Boolean,
     default: undefined,
   },
@@ -64,7 +56,7 @@ export const props = {
     type: [String, Number],
     default: 0,
   },
-  placement: String as PropType<Placement>,
+  placement: String as PropType<TriggerPlacement>,
   tag: Boolean,
   readonly: Boolean,
   separator: {
@@ -75,13 +67,6 @@ export const props = {
     type: String as PropType<SelectTextAlign>,
     default: 'left',
   },
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(value: any) => void>(),
-  onChange: defineListenerProp<(value: any) => void>(),
-  onClear: defineListenerProp<(value: any) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -93,6 +78,5 @@ export const props = {
     'blurColor',
     'disabled',
     'clearable',
-    'onClick',
   ]),
 }

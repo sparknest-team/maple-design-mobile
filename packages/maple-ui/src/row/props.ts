@@ -1,24 +1,53 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import type { ResponsiveValue } from '../utils/responsive-observe'
 
-export type RowJustify = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'start' | 'end'
+export type RowJustify = 'start' | 'center' | 'end' | 'space-around' | 'space-between'
 
-export type RowAlign = 'flex-start' | 'center' | 'flex-end' | 'start' | 'end'
+export type RowAlign = 'start' | 'center' | 'end' | 'stretch'
 
-export type RowGutter = number | string | [number | string, number | string]
+export type RowGutter = number | ResponsiveValue | [number | ResponsiveValue, number | ResponsiveValue]
+
+export type RowProps = {
+  gutter?: RowGutter
+  justify?: RowJustify
+  align?: RowAlign
+  wrap?: boolean
+  div?: boolean
+}
 
 export const props = {
+  /**
+   * 栅格间隔（px）。支持响应式对象，或 [水平, 垂直] 数组。
+   */
   gutter: {
-    type: [String, Number, Array] as PropType<RowGutter>,
+    type: [Number, Object, Array] as PropType<RowGutter>,
     default: 0,
   },
+  /**
+   * 水平对齐方式（justify-content）
+   */
   justify: {
     type: String as PropType<RowJustify>,
-    default: 'flex-start',
+    default: 'start',
   },
+  /**
+   * 竖直对齐方式（align-items）
+   */
   align: {
     type: String as PropType<RowAlign>,
-    default: 'flex-start',
+    default: 'start',
   },
-  onClick: defineListenerProp<(e: Event) => void>(),
+  /**
+   * Col 是否支持换行
+   */
+  wrap: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * 开启后 Row/Col 仅作为普通 div，不附带栅格样式
+   */
+  div: Boolean,
 }
+
+export const rowProps = props

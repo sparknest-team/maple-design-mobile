@@ -98,6 +98,6 @@ function resetSignature() {
 | 变量名 | 默认值 |
 | --- | --- |
 | `--signature-height` | `200px` |
-| `--signature-background-color` | `var(--color-surface-container-highest)` |
+| `--signature-background-color` | `var(--color-fill-3)` |
 | `--signature-stroke-color` | `#333` |
 | `--signature-border-radius` | `4px` |

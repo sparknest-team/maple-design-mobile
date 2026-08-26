@@ -8,5 +8,5 @@ export default {
   '--mp-app-bar-right-gap': '6px',
   '--mp-app-bar-border-radius': '4px',
   '--mp-app-bar-font-size': 'var(--mp-font-size-lg)',
-  '--mp-app-bar-border-bottom': 'thin solid var(--mp-color-outline)',
+  '--mp-app-bar-border-bottom': 'thin solid var(--mp-color-border-2)',
 }

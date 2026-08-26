@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Empty, emptyProps)
 
 export { emptyProps }
 
+export type EmptyInstance = InstanceType<typeof Empty>
 export const _EmptyComponent = Empty
 
 export default Empty

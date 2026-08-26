@@ -3,7 +3,7 @@ import { useParent } from '@maplejs/maple-use'
 import { CHECKBOX_GROUP_BIND_CHECKBOX_KEY, CheckboxGroupProvider } from '../checkbox-group/provide'
 
 export interface CheckboxProvider {
-  checkedValue: ComputedRef
+  value: ComputedRef
   checked: ComputedRef<boolean>
   sync(values: Array<any>): void
 }

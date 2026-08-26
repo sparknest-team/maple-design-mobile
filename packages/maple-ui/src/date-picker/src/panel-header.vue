@@ -8,7 +8,7 @@
       :disabled="disabled.left"
       @click="checkDate('prev')"
     >
-      <mp-icon name="chevron-left" />
+      <mp-icon><MIconChevronLeft /></mp-icon>
     </mp-button>
     <div :class="n('value')" @click="$emit('check-panel')">
       <transition :name="`mp-date-picker${reverse ? '-reverse' : ''}-translatex`">
@@ -23,7 +23,7 @@
       :disabled="disabled.right"
       @click="checkDate('next')"
     >
-      <mp-icon name="chevron-right" />
+      <mp-icon><MIconChevronRight /></mp-icon>
     </mp-button>
   </div>
 </template>
@@ -31,6 +31,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
 import type { ComputedRef, PropType, Ref } from 'vue'
+import { IconChevronLeft as MIconChevronLeft, IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import { toNumber } from '@maplejs/maple-shared'
 import MpButton from '../../button'
 import MpIcon from '../../icon'
@@ -42,8 +43,10 @@ import type { PanelBtnDisabled, Preview } from '../props'
 const { n } = createNamespace('date-picker-header')
 
 export default defineComponent({
-  name: 'PanelHeader',
+  name: createNamespace('panel-header').name,
   components: {
+    MIconChevronLeft,
+    MIconChevronRight,
     MpButton,
     MpIcon,
   },

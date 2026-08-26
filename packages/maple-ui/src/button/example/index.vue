@@ -80,22 +80,22 @@ function handleAutoLoadingClick() {
   <app-type>{{ t('roundButton') }}</app-type>
   <mp-space :size="['2.666vmin', '2.666vmin']">
     <mp-button round icon-container>
-      <mp-icon name="bookmark" />
+      <m-icon-bookmark />
     </mp-button>
     <mp-button status="primary" round icon-container>
-      <mp-icon name="plus" />
+      <m-icon-plus />
     </mp-button>
     <mp-button status="info" round icon-container>
-      <mp-icon name="information" />
+      <m-icon-information />
     </mp-button>
     <mp-button status="success" round icon-container>
-      <mp-icon name="check" />
+      <m-icon-check />
     </mp-button>
     <mp-button status="warning" round icon-container>
-      <mp-icon name="warning" />
+      <m-icon-warning />
     </mp-button>
     <mp-button status="danger" round icon-container>
-      <mp-icon name="window-close" />
+      <m-icon-window-close />
     </mp-button>
   </mp-space>
 
@@ -141,7 +141,7 @@ function handleAutoLoadingClick() {
     <mp-button-group status="primary">
       <mp-button @click.stop>{{ t('splitButton') }}</mp-button>
       <mp-button style="padding: 0 6px">
-        <mp-icon name="menu-down" :size="24" />
+        <m-icon-menu-down :size="24" />
       </mp-button>
     </mp-button-group>
 
@@ -168,13 +168,13 @@ function handleAutoLoadingClick() {
 
     <mp-button-group>
       <mp-button status="warning" icon-container>
-        <mp-icon name="warning" />
+        <m-icon-warning />
       </mp-button>
       <mp-button status="info" icon-container>
-        <mp-icon name="information" />
+        <m-icon-information />
       </mp-button>
       <mp-button status="success" icon-container>
-        <mp-icon name="check" />
+        <m-icon-check />
       </mp-button>
     </mp-button-group>
 
@@ -208,13 +208,13 @@ function handleAutoLoadingClick() {
 
     <mp-button-group vertical>
       <mp-button status="warning" icon-container>
-        <mp-icon name="warning" />
+        <m-icon-warning />
       </mp-button>
       <mp-button status="info" icon-container>
-        <mp-icon name="information" />
+        <m-icon-information />
       </mp-button>
       <mp-button status="success" icon-container>
-        <mp-icon name="check" />
+        <m-icon-check />
       </mp-button>
     </mp-button-group>
 

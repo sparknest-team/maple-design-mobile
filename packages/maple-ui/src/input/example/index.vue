@@ -1,113 +1,138 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
-const standardValue = ref('')
-const standardValue2 = ref('')
-const standardValue3 = ref('')
-const standardValue4 = ref('')
-const standardValue5 = ref('')
-const standardValue7 = ref('')
-const standardValue8 = ref('')
-const standardValue9 = ref('')
-const standardValue11 = ref('')
-const standardValue12 = ref('')
-const standardValue13 = ref('')
-
-const outlinedValue = ref('')
-const outlinedValue2 = ref('')
-const outlinedValue3 = ref('')
-const outlinedValue4 = ref('')
-const outlinedValue5 = ref('')
-const outlinedValue7 = ref('')
-const outlinedValue8 = ref('')
-const outlinedValue9 = ref('')
-const outlinedValue11 = ref('')
-const outlinedValue12 = ref('')
-const outlinedValue13 = ref('')
+const basicValue = ref('')
+const clearableValue = ref('Maple Design')
+const textValue = ref('')
+const numberValue = ref('')
+const telValue = ref('')
+const emailValue = ref('')
+const passwordValue = ref('')
+const maxLengthValue = ref('Maple')
+const customClearValue = ref('Clear me')
+const trimValue = ref('')
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
+const variants = ['filled', 'outlined', 'standard']
+const sizeValues = reactive(
+  Object.fromEntries(sizes.flatMap((size) => variants.map((variant) => [`${size}-${variant}`, '']))),
+)
 
 watchLang(use)
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('standard') }}</app-type>
-  <mp-space direction="column" :size="['3vmin', 0]">
-    <mp-input v-model="standardValue" :placeholder="t('placeholder')" />
-    <mp-input v-model="standardValue13" :placeholder="t('numberPlaceholder')" type="number" />
-    <mp-input v-model="standardValue2" :placeholder="t('readonly')" readonly />
-    <mp-input v-model="standardValue3" :placeholder="t('disabled')" disabled />
-    <mp-input v-model="standardValue4" :placeholder="t('clearable')" clearable />
-    <mp-input v-model="standardValue5" :placeholder="t('clearIconSlot')" clearable>
-      <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
-      </template>
-    </mp-input>
-    <mp-input v-model="standardValue7" :placeholder="t('displayIcon')">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" />
-      </template>
-    </mp-input>
-
-    <mp-input v-model="standardValue8" :placeholder="t('customIconSize')">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" size="8vmin" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" size="12vmin" />
-      </template>
-    </mp-input>
-    <mp-input v-model="standardValue9" :placeholder="t('maxlength')" :maxlength="10" />
-    <mp-input v-model="standardValue11" :placeholder="t('smallSize')" size="small" />
-    <mp-input v-model.trim="standardValue12" :placeholder="t('trim')" />
+  <app-type>{{ t('basic') }}</app-type>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input v-model="basicValue" :placeholder="t('placeholder')" />
+    <mp-input v-model="clearableValue" clearable :placeholder="t('clearable')" />
+    <div class="input-example__value">{{ t('currentValue') }}：{{ basicValue || '-' }}</div>
   </mp-space>
 
-  <app-type style="margin-top: 10vmin">{{ t('outlined') }}</app-type>
-  <mp-space direction="column" :size="['6vmin', 0]">
-    <mp-input v-model="outlinedValue" variant="outlined" :placeholder="t('placeholder')" />
-    <mp-input v-model="outlinedValue13" variant="outlined" :placeholder="t('numberPlaceholder')" type="number" />
-    <mp-input v-model="outlinedValue2" variant="outlined" :placeholder="t('readonly')" readonly />
-    <mp-input v-model="outlinedValue3" variant="outlined" :placeholder="t('disabled')" disabled />
-    <mp-input v-model="outlinedValue4" variant="outlined" :placeholder="t('clearable')" clearable />
-    <mp-input v-model="outlinedValue5" variant="outlined" :placeholder="t('clearIconSlot')" clearable>
-      <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
-      </template>
-    </mp-input>
-    <mp-input v-model="outlinedValue7" variant="outlined" :placeholder="t('displayIcon')">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" />
-      </template>
-    </mp-input>
-    <mp-input v-model="outlinedValue8" variant="outlined" :placeholder="t('customIconSize')">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" size="8vmin" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" size="12vmin" />
-      </template>
-    </mp-input>
-    <mp-input v-model="outlinedValue9" variant="outlined" :placeholder="t('maxlength')" :maxlength="10" />
-    <mp-input v-model="outlinedValue11" variant="outlined" :placeholder="t('smallSize')" size="small" />
-    <mp-input v-model.trim="outlinedValue12" variant="outlined" :placeholder="t('trim')" />
+  <app-type>{{ t('variant') }}</app-type>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input variant="filled" :placeholder="t('filled')" />
+    <mp-input variant="outlined" :placeholder="t('outlined')" />
+    <mp-input variant="standard" :placeholder="t('standard')" />
   </mp-space>
 
-  <div style="height: 40px"></div>
+  <app-type>{{ t('hint') }}</app-type>
+  <div class="input-example__caption">{{ t('hintEnabled') }}</div>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input variant="filled" :placeholder="t('username')" />
+    <mp-input variant="outlined" :placeholder="t('username')" />
+    <mp-input variant="standard" :placeholder="t('username')" />
+  </mp-space>
+  <div class="input-example__caption">{{ t('hintDisabled') }}</div>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input variant="filled" :hint="false" :placeholder="t('username')" />
+    <mp-input variant="outlined" :hint="false" :placeholder="t('username')" />
+    <mp-input variant="standard" :hint="false" :placeholder="t('username')" />
+  </mp-space>
+
+  <app-type>{{ t('type') }}</app-type>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input v-model="textValue" type="text" :placeholder="t('textPlaceholder')" />
+    <mp-input v-model="numberValue" type="number" :placeholder="t('numberPlaceholder')" />
+    <mp-input v-model="telValue" type="tel" :placeholder="t('telPlaceholder')" />
+    <mp-input v-model="emailValue" type="email" :placeholder="t('emailPlaceholder')" />
+    <mp-input v-model="passwordValue" type="password" :placeholder="t('passwordPlaceholder')" />
+  </mp-space>
+
+  <app-type>{{ t('size') }}</app-type>
+  <template v-for="size in sizes" :key="size">
+    <div class="input-example__caption">{{ size }}</div>
+    <mp-space direction="column" :size="[12, 0]">
+      <mp-input
+        v-for="variant in variants"
+        :key="variant"
+        v-model="sizeValues[`${size}-${variant}`]"
+        :size="size"
+        :variant="variant"
+        :placeholder="t(variant)"
+      />
+    </mp-space>
+  </template>
+
+  <app-type>{{ t('state') }}</app-type>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input model-value="Maple Design" readonly :placeholder="t('readonly')" />
+    <mp-input model-value="Maple Design" disabled :placeholder="t('disabled')" />
+  </mp-space>
+
+  <app-type>{{ t('prefixSuffix') }}</app-type>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input :placeholder="t('telPlaceholder')"><template #prefix>+86</template></mp-input>
+    <mp-input :placeholder="t('amountPlaceholder')"><template #suffix>RMB</template></mp-input>
+    <mp-input :placeholder="t('searchPlaceholder')">
+      <template #prefix><m-icon-magnify /></template>
+      <template #suffix><m-icon-close-circle /></template>
+    </mp-input>
+  </mp-space>
+
+  <app-type>{{ t('maxLength') }}</app-type>
+  <mp-input v-model="maxLengthValue" :max-length="10" clearable :placeholder="t('maxLengthPlaceholder')" />
+
+  <app-type>{{ t('customClearIcon') }}</app-type>
+  <mp-input v-model="customClearValue" clearable :placeholder="t('clearable')">
+    <template #clear-icon="{ clear }"><m-icon-error @click="clear" /></template>
+  </mp-input>
+
+  <app-type>{{ t('modelModifier') }}</app-type>
+  <mp-space direction="column" :size="[12, 0]">
+    <mp-input v-model.trim="trimValue" :placeholder="t('trimPlaceholder')" />
+    <div class="input-example__value">{{ t('currentValue') }}：“{{ trimValue }}”</div>
+  </mp-space>
+
+  <app-type>{{ t('nativeAttrs') }}</app-type>
+  <mp-input
+    autocomplete="email"
+    enterkeyhint="next"
+    :aria-label="t('emailPlaceholder')"
+    :input-attrs="{ name: 'email', autocapitalize: 'none' }"
+    :placeholder="t('emailPlaceholder')"
+    type="email"
+  />
+
+  <div class="input-example__bottom-space" />
 </template>
 
 <style scoped lang="less">
-.prefix {
-  margin-right: 6px;
-}
+.input-example {
+  &__caption,
+  &__value {
+    color: var(--mp-field-color-blur);
+    font-size: 12px;
+  }
 
-.suffix {
-  margin-left: 6px;
+  &__caption {
+    margin: 16px 0 8px;
+  }
+
+  &__bottom-space {
+    height: 40px;
+  }
 }
 </style>

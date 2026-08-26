@@ -147,7 +147,7 @@ function handleActionClick(chooseFile) {
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-uploader v-model="values.files" @after-read="handleAfterRead" />
+  <mp-uploader v-model="values.files" @after:before-read="handleAfterRead" />
 
   <app-type>{{ t('preview') }}</app-type>
   <mp-uploader v-model="values.files2" />
@@ -156,22 +156,22 @@ function handleActionClick(chooseFile) {
   <mp-uploader v-model="values.files11" prevent-default-preview @preview="handlePreview" />
 
   <app-type>{{ t('state') }}</app-type>
-  <mp-uploader v-model="values.files3" @after-read="handleAfterRead2" />
+  <mp-uploader v-model="values.files3" @after:before-read="handleAfterRead2" />
 
   <app-type>{{ t('useProgress') }}</app-type>
-  <mp-uploader v-model="values.files13" @after-read="handleAfterRead3" />
+  <mp-uploader v-model="values.files13" @after:before-read="handleAfterRead3" />
 
-  <app-type>{{ t('maxlength') }}</app-type>
-  <mp-uploader v-model="values.files4" :maxlength="1" />
+  <app-type>{{ t('maxFiles') }}</app-type>
+  <mp-uploader v-model="values.files4" :max-files="1" />
 
-  <app-type>{{ t('maxsize') }}</app-type>
-  <mp-uploader v-model="values.files5" :maxsize="1024" @oversize="handleOversize" />
+  <app-type>{{ t('maxFileSize') }}</app-type>
+  <mp-uploader v-model="values.files5" :max-file-size="1024" @oversize="handleOversize" />
 
-  <app-type>{{ t('beforeFilter') }}</app-type>
-  <mp-uploader v-model="values.files14" multiple @before-filter="handleBeforeFilter" />
+  <app-type>{{ t('beforeAdd') }}</app-type>
+  <mp-uploader v-model="values.files14" multiple @before:before-add="handleBeforeFilter" />
 
   <app-type>{{ t('beforeRead') }}</app-type>
-  <mp-uploader v-model="values.files7" @before-read="handleBeforeRead" />
+  <mp-uploader v-model="values.files7" @before:before-read="handleBeforeRead" />
 
   <app-type>{{ t('clickAction') }}</app-type>
   <mp-uploader v-model="values.files15" @click-action="handleActionClick" />
@@ -183,7 +183,7 @@ function handleActionClick(chooseFile) {
   <mp-uploader v-model="values.files9" readonly />
 
   <app-type>{{ t('beforeRemove') }}</app-type>
-  <mp-uploader v-model="values.files11" @before-remove="handleBeforeRemove" />
+  <mp-uploader v-model="values.files11" @before:before-remove="handleBeforeRemove" />
 
   <app-type>{{ t('style') }}</app-type>
   <mp-uploader v-model="values.files6">
@@ -195,7 +195,7 @@ function handleActionClick(chooseFile) {
     <img v-for="f in values.files12" :key="f.id" class="custom-uploader-file" :src="f.cover" />
     <mp-uploader v-model="values.files12" hide-list>
       <mp-button round type="primary">
-        <mp-icon :size="28" name="upload" />
+        <m-icon-upload :size="28" />
       </mp-button>
     </mp-uploader>
   </mp-space>
@@ -204,7 +204,7 @@ function handleActionClick(chooseFile) {
   <mp-uploader v-model="values.files2">
     <template #remove-button="{ remove }">
       <div class="custom-remove-button">
-        <mp-icon color="#fff" name="window-close" @click.stop="remove"></mp-icon>
+        <m-icon-window-close color="#fff" @click.stop="remove" />
       </div>
     </template>
   </mp-uploader>

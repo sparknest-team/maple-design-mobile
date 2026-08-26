@@ -3,6 +3,7 @@
     ref="root"
     v-ripple="{ disabled: disabled || !ripple }"
     v-hover:desktop="handleHovering"
+    role="menuitem"
     :class="
       classes(
         n(),
@@ -14,6 +15,7 @@
       )
     "
     :tabindex="disabled ? undefined : '-1'"
+    :aria-disabled="disabled || undefined"
     @click="handleClick"
     @focus="isFocusing = true"
     @blur="isFocusing = false"
@@ -30,6 +32,10 @@
       @change="handleSelect"
     />
 
+    <span v-if="$slots.icon" :class="n('icon')">
+      <slot name="icon" />
+    </span>
+
     <slot>
       <div :class="classes(n('text'))">
         <maybe-v-node :is="labelVNode" :class="n('$--ellipsis')" />
@@ -37,7 +43,7 @@
     </slot>
 
     <div v-if="childrenTrigger" :class="n('arrow')">
-      <mp-icon mp-menu-option-cover :class="n('arrow-icon')" name="chevron-right" />
+      <mp-icon mp-menu-option-cover :class="n('arrow-icon')"><MIconChevronRight /></mp-icon>
     </div>
 
     <mp-hover-overlay :hovering="(hovering || highlight) && !disabled" :focusing="isFocusing && !disabled" />
@@ -46,7 +52,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
-import { call, isBoolean, isFunction, preventDefault } from '@maplejs/maple-shared'
+import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
+import { isBoolean, isFunction, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
 import MpCheckbox from '../checkbox'
 import Hover from '../hover'
@@ -63,13 +70,15 @@ export default defineComponent({
   name,
   directives: { Ripple, Hover },
   components: {
+    MIconChevronRight,
     MpCheckbox,
     MpHoverOverlay,
     MpIcon,
     MaybeVNode,
   },
   props,
-  setup(props) {
+  emits: ['key-arrow-x'],
+  setup(props, { emit }) {
     const root = ref<HTMLElement>()
     const checkbox = ref<InstanceType<typeof MpCheckbox>>()
     const isFocusing = ref(false)
@@ -77,7 +86,9 @@ export default defineComponent({
     const optionIndeterminate = ref(false)
     const selected = computed(() => optionSelected.value)
     const indeterminate = computed(() => optionIndeterminate.value)
-    const value = computed<any>(() => props.value)
+    const value = computed<any>(() =>
+      props.value !== undefined ? props.value : isFunction(props.label) ? undefined : props.label,
+    )
     const disabled = computed(() => props.disabled)
     const ripple = computed(() => props.ripple)
     const { menu, bindMenu } = useMenu()
@@ -115,7 +126,7 @@ export default defineComponent({
     useEventListener(() => window, 'keydown', handleKeydown)
     useEventListener(() => window, 'keyup', handleKeyup)
 
-    function handleClick() {
+    function handleClick(event: MouseEvent) {
       if (props.disabled) {
         return
       }
@@ -127,7 +138,7 @@ export default defineComponent({
       if (multiple.value && optionIndeterminate.value) {
         optionIndeterminate.value = false
         optionSelected.value = false
-        onSelect(menuOptionProvider)
+        onSelect(menuOptionProvider, event)
         return
       }
 
@@ -135,7 +146,7 @@ export default defineComponent({
         optionSelected.value = !optionSelected.value
       }
 
-      onSelect(menuOptionProvider)
+      onSelect(menuOptionProvider, event)
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -145,7 +156,7 @@ export default defineComponent({
 
       if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
         preventDefault(event)
-        call(props.onKeyArrowX, event.key)
+        emit('key-arrow-x', event.key)
       }
 
       if (!isFocusing.value) {

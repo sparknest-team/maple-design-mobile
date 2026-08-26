@@ -167,7 +167,7 @@ const show = ref(false)
 
 <template>
   <mp-button type="primary" block @click="show = !show">基本使用</mp-button>
-  <mp-message v-model:show="show">这是一条消息提示</mp-message>
+  <mp-message v-model:open="open">这是一条消息提示</mp-message>
 </template>
 ```
 
@@ -181,10 +181,10 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-message v-model:show="show" :vertical="true">
+  <mp-message v-model:open="open" :vertical="true">
     这是一条消息提示
     <template #action>
-      <mp-button type="primary" :elevation="false" size="small" @click="show = false">关闭</mp-button>
+      <mp-button type="primary" :elevation="false" size="sm" @click="show = false">关闭</mp-button>
     </template>
   </mp-message>
 </template>
@@ -200,10 +200,10 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-message v-model:show="show" position="bottom">
+  <mp-message v-model:open="open" position="bottom">
     这是一条消息提示
     <template #action>
-      <mp-button type="primary" :elevation="false" size="small" @click="show = false">关闭</mp-button>
+      <mp-button type="primary" :elevation="false" size="sm" @click="show = false">关闭</mp-button>
     </template>
   </mp-message>
 </template>
@@ -219,10 +219,10 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-message v-model:show="show">
+  <mp-message v-model:open="open">
     这是一条消息提示
     <template #icon>
-      <mp-icon name="heart-outline" />
+      <m-icon-heart-outline />
     </template>
   </mp-message>
 </template>
@@ -238,7 +238,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-message v-model:show="show" :forbid-click="true">这是一条消息提示</mp-message>
+  <mp-message v-model:open="open" :forbid-click="true">这是一条消息提示</mp-message>
 </template>
 ```
 
@@ -252,7 +252,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-message v-model:show="show" closable :duration="0" type="info">这是一条消息提示</mp-message>
+  <mp-message v-model:open="open" closable :duration="0" type="info">这是一条消息提示</mp-message>
 </template>
 ```
 
@@ -262,7 +262,7 @@ const show = ref(false)
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `v-model:show` | 是否显示 | _boolean_ | `false` |
+| `v-model:open` | 是否显示 | _boolean_ | `false` |
 | `type` | 类型：`success` `warning` `info` `error` `loading` `normal` | _string_ | `-` |
 | `position` | 位置：`top` `center` `bottom` | _string_ | `top` |
 | `content` | 内容 | _string_ | `-` |
@@ -274,7 +274,7 @@ const show = ref(false)
 | `closable` | 是否显示关闭按钮 | _boolean_ | `false` |
 | `forbid-click` | 禁止穿透点击 | _boolean_ | `false` |
 | `lock-scroll` | 锁定滚动 | _boolean_ | `false` |
-| `teleport` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
+| `popupContainer` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
 
 ### 事件
 

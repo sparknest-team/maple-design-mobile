@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import config from '@config'
+import { IconChevronRight as MIconChevronRight, IconWindowClose as MIconWindowClose } from '@maplejs/icons-vue'
 
 defineProps({
   language: {
@@ -43,10 +44,10 @@ function handleClose() {
       v-if="ad?.description"
     >
       <span>{{ ad?.description?.[language] }}</span>
-      <mp-icon style="margin-left: 4px" name="chevron-right" :size="24" />
+      <mp-icon style="margin-left: 4px" :size="24"><MIconChevronRight /></mp-icon>
     </div>
     <mp-button class="maple-site-ad__close-button" text round @click.prevent="handleClose">
-      <mp-icon name="window-close" :size="20" />
+      <mp-icon :size="20"><MIconWindowClose /></mp-icon>
     </mp-button>
   </a>
 </template>

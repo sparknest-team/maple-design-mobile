@@ -1,5 +1,5 @@
 import { VNode, VNodeChild, type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import { type FieldNames } from '../utils/options'
 
 export type CheckboxGroupOptionLabelRender = (option: CheckboxGroupOption, checked: boolean) => VNodeChild
 
@@ -21,18 +21,12 @@ export const props = {
     type: Array as PropType<CheckboxGroupOption[]>,
     default: () => [],
   },
-  labelKey: {
-    type: String,
-    default: 'label',
-  },
-  valueKey: {
-    type: String,
-    default: 'value',
+  fieldNames: {
+    type: Object as PropType<FieldNames>,
+    default: undefined,
   },
   direction: {
     type: String as PropType<'horizontal' | 'vertical'>,
     default: 'horizontal',
   },
-  onChange: defineListenerProp<(value: Array<any>) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: Array<any>) => void>(),
 }

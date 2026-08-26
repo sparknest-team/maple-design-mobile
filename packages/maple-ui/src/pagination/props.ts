@@ -1,17 +1,18 @@
-import { type CSSProperties, type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import { type CSSProperties, type ExtractPropTypes, type PropType } from 'vue'
+import { componentSizes, type ComponentSize } from '../utils/constants'
 
 export const props = {
   total: {
-    type: [Number, String],
-    default: 0,
+    type: Number,
+    required: true,
+    validator: (value: number) => value >= 0,
   },
-  current: [Number, String],
+  current: Number,
   defaultCurrent: {
     type: Number,
     default: 1,
   },
-  pageSize: [Number, String],
+  pageSize: Number,
   defaultPageSize: {
     type: Number,
     default: 10,
@@ -26,7 +27,7 @@ export const props = {
   },
   simple: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   showTotal: {
     type: Boolean,
@@ -51,6 +52,11 @@ export const props = {
   pageSizeProps: {
     type: Object as PropType<Record<string, any>>,
   },
+  size: {
+    type: String as PropType<ComponentSize>,
+    default: 'md',
+    validator: (value: ComponentSize) => componentSizes.includes(value),
+  },
   pageItemStyle: {
     type: Object as PropType<CSSProperties>,
   },
@@ -73,8 +79,6 @@ export const props = {
     type: [Boolean, Number, String],
     default: true,
   },
-  onChange: defineListenerProp<(current: number) => void>(),
-  onPageSizeChange: defineListenerProp<(pageSize: number) => void>(),
-  'onUpdate:current': defineListenerProp<(current: number) => void>(),
-  'onUpdate:pageSize': defineListenerProp<(pageSize: number) => void>(),
 }
+
+export type PaginationProps = Partial<ExtractPropTypes<typeof props>>

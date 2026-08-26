@@ -36,7 +36,7 @@ onThemeChange()
   <mp-switch v-model="value1" readonly />
 
   <app-type>{{ t('customColor') }}</app-type>
-  <mp-switch v-model="value2" color="var(--mp-color-warning)" close-color="var(--mp-color-info)" />
+  <mp-switch v-model="value2" checked-color="var(--mp-color-warning)" unchecked-color="var(--mp-color-info)" />
 
   <app-type>{{ t('size') }}</app-type>
   <mp-space :size="['3vmin', '11vmin']" align="center">
@@ -60,7 +60,7 @@ onThemeChange()
 
   <app-type>{{ t('lazyChange') }}</app-type>
   <mp-space :size="['3vmin', '9vmin']">
-    <mp-switch v-model="value5" lazy-change @before-change="handleBeforeChange" />
+    <mp-switch v-model="value5" lazy-change :before-change="handleBeforeChange" />
   </mp-space>
 
   <app-type>{{ t('variant') }}</app-type>

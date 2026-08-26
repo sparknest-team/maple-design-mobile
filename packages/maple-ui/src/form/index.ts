@@ -12,6 +12,7 @@ withPropsDefaultsSetter(Form, formProps)
 
 export { formProps }
 
+export type FormInstance = InstanceType<typeof Form>
 export const _FormComponent = Form
 
 export default Form

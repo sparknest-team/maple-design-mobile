@@ -33,7 +33,7 @@ export interface SearchProps extends BasicAttributes {
   type?: 'text' | 'password' | 'number' | 'tel' | 'email'
   ariaLabel?: string
   placeholder?: string
-  maxlength?: string | number
+  maxLength?: string | number
   disabled?: boolean
   readonly?: boolean
   autofocus?: boolean

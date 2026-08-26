@@ -15,36 +15,37 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  setup(props, { slots, attrs }) {
-    const { zIndex } = useZIndex(() => props.show, 3)
-    const { onStackTop } = useStack(() => props.show, zIndex)
+  emits: ['update:open', 'key-escape', 'click'],
+  setup(props, { slots, attrs, emit }) {
+    const { zIndex } = useZIndex(() => props.open, 3)
+    const { onStackTop } = useStack(() => props.open, zIndex)
     const { disabled } = useTeleport()
 
     useLock(
-      () => props.show,
+      () => props.open,
       () => props.lockScroll,
     )
 
     useEventListener(() => window, 'keydown', handleKeydown)
 
     function handleKeydown(event: KeyboardEvent) {
-      if (!onStackTop() || event.key !== 'Escape' || !props.show) {
+      if (!onStackTop() || event.key !== 'Escape' || !props.open) {
         return
       }
 
-      call(props.onKeyEscape)
+      emit('key-escape')
 
-      if (!props.closeOnKeyEscape) {
+      if (!props.escToClose) {
         return
       }
 
       preventDefault(event)
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     function handleClickOverlay() {
-      call(props.onClick)
-      call(props['onUpdate:show'], false)
+      emit('click')
+      emit('update:open', false)
     }
 
     function renderOverlay() {
@@ -58,6 +59,7 @@ export default defineComponent({
         >
           <div
             class={n('overlay')}
+            role="presentation"
             style={{
               zIndex: zIndex.value - 1,
             }}
@@ -76,15 +78,15 @@ export default defineComponent({
     }
 
     function renderTransitionOverlay() {
-      return <Transition name={n('--fade')}>{props.show && renderOverlay()}</Transition>
+      return <Transition name={n('--fade')}>{props.open && renderOverlay()}</Transition>
     }
 
     return () => {
-      const { teleport } = props
+      const { popupContainer } = props
 
-      if (teleport) {
+      if (popupContainer) {
         return (
-          <Teleport to={teleport} disabled={disabled.value}>
+          <Teleport to={popupContainer} disabled={disabled.value}>
             {renderTransitionOverlay()}
           </Teleport>
         )

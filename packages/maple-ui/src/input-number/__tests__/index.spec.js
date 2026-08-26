@@ -47,7 +47,7 @@ test('input-number supports default-value', async () => {
   wrapper.unmount()
 })
 
-test('input-number supports precision and controls', async () => {
+test('input-number supports precision and input mode', async () => {
   const wrapper = mount({
     components: {
       [VarInputNumber.name]: VarInputNumber,
@@ -55,7 +55,7 @@ test('input-number supports precision and controls', async () => {
     data: () => ({
       value: 1,
     }),
-    template: '<mp-input-number v-model="value" :step="0.1" :precision="1" :controls="false" />',
+    template: '<mp-input-number v-model="value" :step="0.1" :precision="1" mode="input" />',
   })
 
   expect(wrapper.find('.mp-input-number__step-button').exists()).toBeFalsy()
@@ -66,7 +66,7 @@ test('input-number supports precision and controls', async () => {
   wrapper.unmount()
 })
 
-test('input-number supports split control type', async () => {
+test('input-number supports button mode', async () => {
   const wrapper = mount({
     components: {
       [VarInputNumber.name]: VarInputNumber,
@@ -74,7 +74,7 @@ test('input-number supports split control type', async () => {
     data: () => ({
       value: 1,
     }),
-    template: '<mp-input-number v-model="value" control-type="split" />',
+    template: '<mp-input-number v-model="value" mode="button" />',
   })
 
   await wrapper.findAll('.mp-input-number__step-button')[1].trigger('mousedown')

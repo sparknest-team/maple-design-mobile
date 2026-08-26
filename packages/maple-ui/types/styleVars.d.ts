@@ -30,6 +30,17 @@ interface BaseStyleVars {
   '--app-bar-border-radius'?: string
   '--app-bar-font-size'?: string
   '--app-bar-border-bottom'?: string
+  '--mp-color-body'?: string
+  '--mp-color-primary'?: string
+  '--mp-color-info'?: string
+  '--mp-color-success'?: string
+  '--mp-color-warning'?: string
+  '--mp-color-danger'?: string
+  '--mp-color-disabled'?: string
+  '--mp-font-size-xs'?: string
+  '--mp-font-size-sm'?: string
+  '--mp-font-size-md'?: string
+  '--mp-font-size-lg'?: string
   '--auto-complete-options-padding'?: string
   '--avatar-text-color'?: string
   '--avatar-border-radius'?: string
@@ -348,47 +359,8 @@ interface BaseStyleVars {
   '--index-bar-list-item-active-color'?: string
   '--index-bar-list-item-height'?: string
   '--index-bar-list-item-padding'?: string
-  '--field-decorator-text-color'?: string
-  '--field-decorator-error-color'?: string
-  '--field-decorator-blur-color'?: string
-  '--field-decorator-focus-color'?: string
-  '--field-decorator-placeholder-size'?: string
-  '--field-decorator-icon-size'?: string
-  '--field-decorator-line-size'?: string
-  '--field-decorator-line-focus-size'?: string
-  '--field-decorator-line-border-radius'?: string
-  '--field-decorator-disabled-color'?: string
-  '--field-decorator-standard-normal-margin-top'?: string
-  '--field-decorator-standard-normal-margin-bottom'?: string
-  '--field-decorator-standard-normal-icon-margin-top'?: string
-  '--field-decorator-standard-normal-icon-margin-bottom'?: string
-  '--field-decorator-standard-normal-non-hint-margin-top'?: string
-  '--field-decorator-standard-small-margin-top'?: string
-  '--field-decorator-standard-small-margin-bottom'?: string
-  '--field-decorator-standard-small-icon-margin-top'?: string
-  '--field-decorator-standard-small-icon-margin-bottom'?: string
-  '--field-decorator-standard-small-non-hint-margin-top'?: string
-  '--field-decorator-outlined-normal-margin-top'?: string
-  '--field-decorator-outlined-normal-margin-bottom'?: string
-  '--field-decorator-outlined-normal-padding-left'?: string
-  '--field-decorator-outlined-normal-padding-right'?: string
-  '--field-decorator-outlined-normal-placeholder-space'?: string
-  '--field-decorator-outlined-normal-icon-margin-top'?: string
-  '--field-decorator-outlined-normal-icon-margin-bottom'?: string
-  '--field-decorator-outlined-small-margin-top'?: string
-  '--field-decorator-outlined-small-margin-bottom'?: string
-  '--field-decorator-outlined-small-padding-left'?: string
-  '--field-decorator-outlined-small-padding-right'?: string
-  '--field-decorator-outlined-small-placeholder-space'?: string
-  '--field-decorator-outlined-small-icon-margin-top'?: string
-  '--field-decorator-outlined-small-icon-margin-bottom'?: string
   '--input-input-height'?: string
   '--input-input-font-size'?: string
-  '--textarea-height'?: string
-  '--textarea-min-height'?: string
-  '--textarea-font-size'?: string
-  '--textarea-length-margin-top'?: string
-  '--textarea-length-font-size'?: string
   '--link-default-color'?: string
   '--link-primary-color'?: string
   '--link-danger-color'?: string
@@ -397,6 +369,7 @@ interface BaseStyleVars {
   '--link-info-color'?: string
   '--link-disabled-color'?: string
   '--link-font-size'?: string
+  '--link-icon-size'?: string
   '--link-focus-opacity'?: string
   '--list-loading-height'?: string
   '--list-finished-height'?: string
@@ -414,10 +387,11 @@ interface BaseStyleVars {
   '--loading-bar-color'?: string
   '--loading-bar-error-color'?: string
   '--loading-bar-height'?: string
-  '--menu-menu-max-height'?: string
-  '--menu-menu-padding'?: string
-  '--menu-menu-border-radius'?: string
-  '--menu-menu-background-color'?: string
+  '--menu-max-height'?: string
+  '--menu-padding'?: string
+  '--menu-border-radius'?: string
+  '--menu-border-color'?: string
+  '--menu-background-color'?: string
   '--menu-option-normal-height'?: string
   '--menu-option-small-height'?: string
   '--menu-option-mini-height'?: string
@@ -428,8 +402,17 @@ interface BaseStyleVars {
   '--menu-option-mini-font-size'?: string
   '--menu-option-large-font-size'?: string
   '--menu-option-selected-background'?: string
+  '--menu-option-selected-text-color'?: string
+  '--menu-option-bg-hover'?: string
   '--menu-option-text-color'?: string
   '--menu-option-disabled-color'?: string
+  '--menu-option-arrow-padding'?: string
+  '--menu-option-arrow-icon-size'?: string
+  '--menu-option-icon-margin-right'?: string
+  '--menu-group-title-height'?: string
+  '--menu-group-title-padding'?: string
+  '--menu-group-title-font-size'?: string
+  '--menu-group-title-text-color'?: string
   '--message-width'?: string
   '--message-color'?: string
   '--message-border-radius'?: string
@@ -493,7 +476,7 @@ interface BaseStyleVars {
   '--progress-success-color'?: string
   '--progress-warning-color'?: string
   '--progress-info-color'?: string
-  '--progress-linear-border-radius'?: string
+  '--progress-line-border-radius'?: string
   '--pull-refresh-size'?: string
   '--pull-refresh-background'?: string
   '--pull-refresh-color'?: string
@@ -517,8 +500,8 @@ interface BaseStyleVars {
   '--result-info-border-color'?: string
   '--result-success-color'?: string
   '--result-success-border-color'?: string
-  '--result-error-color'?: string
-  '--result-error-border-color'?: string
+  '--result-danger-color'?: string
+  '--result-danger-border-color'?: string
   '--result-warning-color'?: string
   '--result-warning-border-color'?: string
   '--result-question-color'?: string
@@ -532,12 +515,29 @@ interface BaseStyleVars {
   '--result-title-margin'?: string
   '--result-image-size'?: string
   '--result-title-font-weight'?: string
-  '--result-description-margin'?: string
-  '--result-description-font-size'?: string
-  '--result-description-color'?: string
-  '--result-description-line-height'?: string
+  '--result-subtitle-margin'?: string
+  '--result-subtitle-font-size'?: string
+  '--result-subtitle-color'?: string
+  '--result-subtitle-line-height'?: string
   '--ripple-cubic-bezier'?: string
   '--ripple-color'?: string
+  '--mp-field-color-text'?: string
+  '--mp-field-color-error'?: string
+  '--mp-field-color-blur'?: string
+  '--mp-field-color-focus'?: string
+  '--mp-field-color-placeholder-text'?: string
+  '--mp-field-color-text-disabled'?: string
+  '--mp-field-size-placeholder'?: string
+  '--mp-field-size-icon'?: string
+  '--mp-field-border-radius'?: string
+  '--mp-field-variant-standard-line-size'?: string
+  '--mp-field-variant-standard-line-size-focus'?: string
+  '--mp-field-variant-filled-bg'?: string
+  '--mp-field-size-xs-height'?: string
+  '--mp-field-size-sm-height'?: string
+  '--mp-field-size-md-height'?: string
+  '--mp-field-size-lg-height'?: string
+  '--mp-field-size-xl-height'?: string
   '--select-scroller-background'?: string
   '--select-scroller-padding'?: string
   '--select-scroller-max-height'?: string
@@ -611,6 +611,7 @@ interface BaseStyleVars {
   '--step-line-gap'?: string
   '--step-vertical-tag-margin'?: string
   '--step-vertical-min-height'?: string
+  '--24'?: string
   '--switch-track-background'?: string
   '--switch-track-active-background'?: string
   '--switch-track-error-background'?: string
@@ -687,83 +688,23 @@ interface BaseStyleVars {
   '--mp-tag-size-md-height'?: string
   '--mp-tag-size-lg-height'?: string
   '--mp-tag-size-xl-height'?: string
-  '--font-size-xs'?: string
-  '--font-size-sm'?: string
-  '--font-size-md'?: string
-  '--font-size-lg'?: string
-  '--icon-size-xs'?: string
-  '--icon-size-sm'?: string
-  '--icon-size-md'?: string
-  '--icon-size-lg'?: string
-  '--hsl-body'?: string
-  '--color-body'?: string
-  '--hsl-text'?: string
-  '--color-text'?: string
-  '--hsl-primary'?: string
-  '--color-primary'?: string
-  '--hsl-info'?: string
-  '--color-info'?: string
-  '--hsl-success'?: string
-  '--color-success'?: string
-  '--hsl-warning'?: string
-  '--color-warning'?: string
-  '--hsl-danger'?: string
-  '--color-danger'?: string
-  '--hsl-disabled'?: string
-  '--color-disabled'?: string
-  '--hsl-text-disabled'?: string
-  '--color-text-disabled'?: string
-  '--hsl-on-primary'?: string
-  '--color-on-primary'?: string
-  '--hsl-on-info'?: string
-  '--color-on-info'?: string
-  '--hsl-on-success'?: string
-  '--color-on-success'?: string
-  '--hsl-on-warning'?: string
-  '--color-on-warning'?: string
-  '--hsl-on-danger'?: string
-  '--color-on-danger'?: string
-  '--hsl-primary-container'?: string
-  '--color-primary-container'?: string
-  '--hsl-info-container'?: string
-  '--color-info-container'?: string
-  '--hsl-success-container'?: string
-  '--color-success-container'?: string
-  '--hsl-warning-container'?: string
-  '--color-warning-container'?: string
-  '--hsl-danger-container'?: string
-  '--color-danger-container'?: string
-  '--hsl-on-primary-container'?: string
-  '--color-on-primary-container'?: string
-  '--hsl-on-info-container'?: string
-  '--color-on-info-container'?: string
-  '--hsl-on-success-container'?: string
-  '--color-on-success-container'?: string
-  '--hsl-on-warning-container'?: string
-  '--color-on-warning-container'?: string
-  '--hsl-on-danger-container'?: string
-  '--color-on-danger-container'?: string
-  '--hsl-surface-container'?: string
-  '--color-surface-container'?: string
-  '--hsl-surface-container-low'?: string
-  '--color-surface-container-low'?: string
-  '--hsl-surface-container-high'?: string
-  '--color-surface-container-high'?: string
-  '--hsl-surface-container-highest'?: string
-  '--color-surface-container-highest'?: string
-  '--hsl-inverse-surface'?: string
-  '--color-inverse-surface'?: string
-  '--hsl-outline'?: string
-  '--color-outline'?: string
-  '--hsl-on-surface-variant'?: string
-  '--color-on-surface-variant'?: string
-  '--opacity-disabled'?: string
-  '--opacity-hover'?: string
-  '--opacity-focus'?: string
-  '--cubic-bezier'?: string
-  '--shadow-key-umbra-opacity'?: string
-  '--shadow-key-penumbra-opacity'?: string
-  '--shadow-key-ambient-opacity'?: string
+  '--mp-textarea-height'?: string
+  '--mp-textarea-min-height'?: string
+  '--mp-textarea-font-size'?: string
+  '--mp-textarea-length-margin-top'?: string
+  '--mp-textarea-length-font-size'?: string
+  '--mp-color-text-1'?: string
+  '--mp-primary-1'?: string
+  '--mp-primary-10'?: string
+  '--mp-gray-1'?: string
+  '--mp-gray-10'?: string
+  '--mp-color-text-4'?: string
+  '--mp-color-bg-1'?: string
+  '--mp-color-bg-5'?: string
+  '--mp-color-fill-1'?: string
+  '--mp-color-fill-4'?: string
+  '--mp-color-border-1'?: string
+  '--mp-color-border-4'?: string
   '--time-picker-border-radius'?: string
   '--time-picker-font-size'?: string
   '--time-picker-min-width'?: string
@@ -883,6 +824,10 @@ interface BaseStyleVars {
   '--uploader-disabled-color'?: string
   '--uploader-disabled-text-color'?: string
   '--uploader-loading-background'?: string
+  '--mp-verification-code-gutter'?: string
+  '--mp-verification-code-cell-height'?: string
+  '--mp-verification-code-cell-max-width'?: string
+  '--mp-verification-code-input-font-size'?: string
   '--watermark-content-color'?: string
   [key: PropertyKey]: string
 }

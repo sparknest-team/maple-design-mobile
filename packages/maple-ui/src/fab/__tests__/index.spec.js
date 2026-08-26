@@ -15,7 +15,7 @@ test('fab drag', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       drag: false,
     },
   })
@@ -34,7 +34,7 @@ test('fab type', () => {
     const container = document.createElement('div')
     const wrapper = mount(Fab, {
       props: {
-        teleport: container,
+        popupContainer: container,
         type,
       },
     })
@@ -50,7 +50,7 @@ test('fab position', () => {
     const container = document.createElement('div')
     const wrapper = mount(Fab, {
       props: {
-        teleport: container,
+        popupContainer: container,
         position,
       },
     })
@@ -66,7 +66,7 @@ test('fab direction', () => {
     const container = document.createElement('div')
     const wrapper = mount(Fab, {
       props: {
-        teleport: container,
+        popupContainer: container,
         direction,
       },
     })
@@ -81,7 +81,7 @@ test('fab fixed equals false', () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       fixed: false,
     },
   })
@@ -95,7 +95,7 @@ test('fab zIndex and inset', () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       zIndex: 999,
       top: 10,
       bottom: 10,
@@ -113,7 +113,7 @@ test('fab color', () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       color: 'yellow',
     },
   })
@@ -127,7 +127,7 @@ test('fab trigger equals click', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
     },
     slots: {
       default: () => h('div', 'action'),
@@ -159,7 +159,7 @@ test('fab trigger equals hover', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       trigger: 'hover',
     },
     slots: {
@@ -190,7 +190,7 @@ test('fab custom icon', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       inactiveIcon: 'check',
       activeIcon: 'fire',
       inactiveIconSize: 30,
@@ -219,7 +219,7 @@ test('fab disabled with trigger equals click', async () => {
 
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       disabled: true,
       onOpen,
     },
@@ -245,7 +245,7 @@ test('fab disabled with trigger equals hover', async () => {
 
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       trigger: 'hover',
       disabled: true,
       onOpen,
@@ -277,7 +277,7 @@ test('fab events and fragment default slots and click outside close', async () =
 
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       onOpen,
       onOpened,
       onClose,
@@ -311,7 +311,7 @@ test('fab trigger and disabled change', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       active: true,
     },
     slots: {
@@ -339,7 +339,7 @@ test('fab trigger slot', () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
     },
     slots: {
       trigger: () => h('div', 'trigger'),
@@ -354,7 +354,7 @@ test('fab trigger slot', () => {
 test('fab teleport', () => {
   const wrapper = mount(Fab, {
     props: {
-      teleport: 'body',
+      popupContainer: 'body',
     },
     slots: {
       default: () => h('div', 'action'),
@@ -369,7 +369,7 @@ test('fab safeArea', () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
     props: {
-      teleport: container,
+      popupContainer: container,
       safeArea: true,
     },
   })

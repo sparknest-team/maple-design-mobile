@@ -2,7 +2,7 @@
 
 ### 介绍
 
-Varlet 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 `varletjs` 组织维护。
+Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 Maple 团队维护。
 
 ### 特性
 
@@ -14,7 +14,7 @@ Varlet 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移�
 - 🌍 &nbsp; 支持国际化
 - 💡 &nbsp; 支持 webstorm 组件属性高亮
 - 💪 &nbsp; 支持 SSR
-- 📦 &nbsp; 支持 [Nuxt Module](https://github.com/varletjs/maple-nuxt)
+- 📦 &nbsp; 支持 [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
 - 💡 &nbsp; 支持 Typescript
 - 💪 &nbsp; 确保 90% 以上单元测试覆盖率，提供稳定性保证
 - 🎨 &nbsp; 同时支持 Material Design 2 和 Material Design 3 两套设计系统
@@ -30,15 +30,15 @@ Varlet 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移�
 |------------------------------------------------------------------------------------------------------|--------------------------|
 | [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
 | [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
-| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Varlet 组件库在线编辑工具`       |
-| [@maplejs/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Varlet 按需引入`   |
-| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `varlet 的` [UnoCss](https://unocss.dev/) `预设` |
-| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `varlet 的` [tailwindcss](https://tailwindcss.com/) `预设` |
-| [maple-theme-builder](https://github.com/varletjs/maple-theme-builder) | `主题生成器，用于为 varlet material design 3 生成主题变量` | 
-| [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Varlet 组件库 VSCode 插件`   |
-| [vscode-theme-varlet](https://github.com/varletjs/vscode-theme-varlet)  | `Varlet VSCode 主题`   |
-| [maple-app-example](https://github.com/varletjs/maple-app-template)  | `Varlet 组件库移动端模板`   |
-| [maple-install-example](https://github.com/varletjs/maple-install-example)  | `Varlet 组件库与各种生态集成的案例集合`   |
+| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
+| [@maplejs/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
+| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
+| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
+| [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `主题生成器，用于为 maple material design 3 生成主题变量` | 
+| [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Maple 组件库 VSCode 插件`   |
+| [maple-vscode-theme](https://github.com/loca-spirit/maple-vscode-theme)  | `Maple VSCode 主题`   |
+| [maple-app-example](https://github.com/loca-spirit/maple-app-template)  | `Maple 组件库移动端模板`   |
+| [maple-install-example](https://github.com/loca-spirit/maple-install-example)  | `Maple 组件库与各种生态集成的案例集合`   |
 
 ### 社区生态
 
@@ -46,29 +46,29 @@ Varlet 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移�
 
 | 名称                                                             | 描述                                        |
 |----------------------------------------------------------------|-------------------------------------------|
-| [vue-h5-template](https://github.com/sunniejs/vue-h5-template) | `基于 Vue 的移动端模板脚手架，提供了 Varlet 组件库的移动端预设`   |
-| [create-vite-app](https://github.com/ErKeLost/create-vite-app) | `基于 Vue3 的桌面端模板脚手架，提供了 Varlet 组件库的桌面端预设`  |
-| [vscode-common-intellisense](https://github.com/Simon-He95/vscode-common-intellisense) | `为 Varlet 开发人员提供更好的智能感知的 VSCode 扩展` |
-| [vue3-maple-mobile](https://github.com/vue-zone/vue3-maple-mobile) | `基于 Vue 3 和 Varlet 组件库的移动模板` |
+| [vue-h5-template](https://github.com/sunniejs/vue-h5-template) | `基于 Vue 的移动端模板脚手架，提供了 Maple 组件库的移动端预设`   |
+| [create-vite-app](https://github.com/ErKeLost/create-vite-app) | `基于 Vue3 的桌面端模板脚手架，提供了 Maple 组件库的桌面端预设`  |
+| [vscode-common-intellisense](https://github.com/Simon-He95/vscode-common-intellisense) | `为 Maple 开发人员提供更好的智能感知的 VSCode 扩展` |
+| [vue3-maple-mobile](https://github.com/vue-zone/vue3-maple-mobile) | `基于 Vue 3 和 Maple 组件库的移动模板` |
 
 ### PR & Issue
-使用过程中出现的问题可以到 [github](https://github.com/varletjs/varlet) 来给我们提 [issue](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues)，
-我们会在第一时间处理问题。也可以给我们提 [PR](https://github.com/varletjs/varlet/pulls)，我们也十分欢迎小伙伴们来参与贡献。
+使用过程中出现的问题可以到 [github](https://github.com/loca-spirit/maple-design-mobile) 来给我们提 [issue](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues)，
+我们会在第一时间处理问题。也可以给我们提 [PR](https://github.com/loca-spirit/maple-design-mobile/pulls)，我们也十分欢迎小伙伴们来参与贡献。
 
 ### 开源协议
 组件库基于 `MIT` 协议。
 
 ### 贡献指南
-详情见 [Varlet 贡献指南](https://github.com/varletjs/varlet/blob/dev/.github/CONTRIBUTING.md)。
+详情见 [Maple 贡献指南](https://github.com/loca-spirit/maple-design-mobile/blob/main/.github/CONTRIBUTING.md)。
 
 ### 感谢贡献者们做出的努力
 
-<a href="https://github.com/varletjs/varlet/graphs/contributors" style="width: 100%; display: block; margin-top: 16px">
-  <img src="https://contrib.rocks/image?repo=varletjs/varlet" style="width: 100%; display: block; border-radius: 4px;" />
+<a href="https://github.com/loca-spirit/maple-design-mobile/graphs/contributors" style="width: 100%; display: mp-block; margin-top: 16px">
+  <img src="https://contrib.rocks/image?repo=loca-spirit/maple-design-mobile" style="width: 100%; display: mp-block; border-radius: 4px;" />
 </a>
 
 ### 感谢以下赞助者
 
-<a href="https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: block; margin-top: 16px">
-  <img src="https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: block; border-radius: 4px;">
+<a href="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: mp-block; margin-top: 16px">
+  <img src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: mp-block; border-radius: 4px;">
 </a>

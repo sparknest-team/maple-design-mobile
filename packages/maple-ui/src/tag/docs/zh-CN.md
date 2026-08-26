@@ -18,7 +18,7 @@
     <mp-tag status="warning">警告</mp-tag>
     <mp-tag status="danger">危险</mp-tag>
     <mp-tag status="secondary">次要</mp-tag>
-    <mp-tag status="contrast">对比</mp-tag>
+    <mp-tag status="tertiary">对比</mp-tag>
   </mp-space>
 </template>
 ```
@@ -69,13 +69,13 @@
 
 ### 可关闭标签
 
-通过 `closable` 显示关闭按钮，配合 `v-model:visible` 或自行维护列表。
+通过 `closable` 显示关闭按钮，配合 `v-model:show` 或自行维护列表。
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(true)
+const show = ref(true)
 const tags = ref(['标签 1', '标签 2', '标签 3'])
 
 function removeTag(tag) {
@@ -85,7 +85,7 @@ function removeTag(tag) {
 
 <template>
   <mp-space>
-    <mp-tag v-model:visible="visible" closable status="primary">标签</mp-tag>
+    <mp-tag v-model:show="show" closable status="primary">标签</mp-tag>
     <mp-tag v-for="tag in tags" :key="tag" closable round @close="removeTag(tag)">
       {{ tag }}
     </mp-tag>
@@ -126,7 +126,7 @@ const checked = ref(true)
 ```html
 <template>
   <mp-tag status="success">
-    <template #icon><mp-icon name="check" /></template>
+    <template #icon><m-icon-check /></template>
     完成
   </mp-tag>
 </template>
@@ -158,8 +158,8 @@ const checked = ref(true)
 | `variant` | 变体，可选 `default`（实心） / `outline`（描边） | _string_ | `default` |
 | `size` | 尺寸，可选值 `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
 | `round` | 是否为圆角胶囊形 | _boolean_ | `false` |
-| `visible` | 是否可见（v-model） | _boolean_ | `true` |
-| `default-visible` | 默认是否可见 | _boolean_ | `true` |
+| `show` | 是否可见（v-model） | _boolean_ | `true` |
+| `default-show` | 默认是否可见 | _boolean_ | `true` |
 | `loading` | 是否为加载中状态 | _boolean_ | `false` |
 | `closable` | 是否可关闭 | _boolean_ | `false` |
 | `checkable` | 是否可点击选中 | _boolean_ | `false` |
@@ -175,7 +175,7 @@ const checked = ref(true)
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `update:visible` | 可见状态变化 | `(visible: boolean)` |
+| `update:show` | 可见状态变化 | `(show: boolean)` |
 | `update:checked` | 选中状态变化（checkable 时） | `(checked: boolean)` |
 | `close` | 点击关闭按钮 | `(event: MouseEvent)` |
 | `check` | 点击切换选中状态（checkable 时） | `(checked: boolean, event: MouseEvent)` |

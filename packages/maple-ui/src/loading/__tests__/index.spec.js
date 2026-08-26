@@ -41,14 +41,14 @@ describe('test loading component props', () => {
     })
   })
 
-  test('loading description', () => {
+  test('loading tip', () => {
     const wrapper = mount(VarLoading, {
       props: {
-        description: 'This is description',
+        tip: 'This is tip',
       },
     })
 
-    expect(wrapper.find('.mp-loading__description').element.textContent).toBe('This is description')
+    expect(wrapper.find('.mp-loading__tip').element.textContent).toBe('This is tip')
     wrapper.unmount()
   })
 
@@ -99,14 +99,14 @@ describe('test loading component slots', () => {
     wrapper.unmount()
   })
 
-  test('loading description slots', () => {
+  test('loading tip slots', () => {
     const wrapper = mount(VarLoading, {
       slots: {
-        description: () => 'This is description slots',
+        tip: () => 'This is tip slots',
       },
     })
 
-    expect(wrapper.find('.mp-loading__description').element.textContent).toBe('This is description slots')
+    expect(wrapper.find('.mp-loading__tip').element.textContent).toBe('This is tip slots')
     wrapper.unmount()
   })
 })

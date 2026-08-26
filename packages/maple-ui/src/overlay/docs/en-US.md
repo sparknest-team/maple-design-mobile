@@ -16,7 +16,7 @@ const show = ref(false)
 
 <template>
   <mp-button type="primary" block @click="show = true">Show Overlay</mp-button>
-  <mp-overlay v-model:show="show" />
+  <mp-overlay v-model:open="open" />
 </template>
 ```
 
@@ -31,7 +31,7 @@ const show = ref(false)
 
 <template>
   <mp-button type="primary" block @click="show = true">Overlay Content</mp-button>
-  <mp-overlay v-model:show="show">
+  <mp-overlay v-model:open="open">
     <div class="overlay-content">
       As he came into the window.
       It was the sound of a crescendo.
@@ -63,7 +63,7 @@ const show = ref(false)
 <template>
   <mp-button type="primary" block @click="show = true">Click Overlay</mp-button>
   <mp-overlay
-    v-model:show="show"
+    v-model:open="open"
     @click="Message.success('click')"
   />
 </template>
@@ -75,10 +75,10 @@ const show = ref(false)
 
 | Prop           | Description                                                                                                     | 	Type                 | Default |
 |----------------|-----------------------------------------------------------------------------------------------------------------|-----------------------|---------|
-| `v-model:show` | Whether to display the Overlay                                                                                  | _boolean_             | `false` |
+| `v-model:open` | Whether to display the Overlay                                                                                  | _boolean_             | `false` |
 | `lock-scroll`  | Whether to disable scrolling penetration, scrolling the Overlay when disabled will not cause the body to scroll | _boolean_             | `true`  |
-| `teleport`     | The location of the Overlay to mount                                                                            | _TeleportProps['to'] \| false_ | `-`     |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the overlay | _boolean_ | `true`  |
+| `popupContainer`     | The location of the Overlay to mount                                                                            | _TeleportProps['to'] \| false_ | `-`     |
+| `esc-to-close` | Whether to support keyboard ESC to close the overlay | _boolean_ | `true`  |
 
 ### Events
 

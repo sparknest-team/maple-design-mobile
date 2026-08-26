@@ -14,7 +14,8 @@ describe('simple mode', () => {
   test('mount', () => {
     const wrapper = mount(VarPagination, {
       props: {
-        total: '123',
+        total: 123,
+        simple: true,
         showTotal: true,
       },
     })
@@ -27,6 +28,8 @@ describe('simple mode', () => {
     const wrapper = mount(VarPagination, {
       props: {
         disabled: true,
+        simple: true,
+        total: 0,
       },
     })
 
@@ -36,11 +39,22 @@ describe('simple mode', () => {
 })
 
 describe('basic mode', () => {
+  test('updates current page when uncontrolled', async () => {
+    const wrapper = mount(VarPagination, {
+      props: { total: 50 },
+    })
+
+    expect(wrapper.find('.mp-pagination__item--active').text()).toBe('1')
+    await wrapper.findAll('.mp-pagination__item')[2].trigger('click')
+    expect(wrapper.find('.mp-pagination__item--active').text()).toBe('2')
+
+    wrapper.unmount()
+  })
+
   test('mount', () => {
     const wrapper = mount(VarPagination, {
       props: {
-        total: '123',
-        simple: false,
+        total: 123,
         showJumper: true,
         showTotal: true,
       },
@@ -54,7 +68,7 @@ describe('basic mode', () => {
     const wrapper = mount(VarPagination, {
       props: {
         disabled: true,
-        simple: false,
+        total: 0,
       },
     })
 
@@ -79,7 +93,7 @@ describe('basic mode', () => {
         <mp-pagination
           v-model:current="current"
           :page-size="20"
-          total="325"
+          :total="325"
           :buffer-size="2"
           :simple="false"
           @change="change"
@@ -104,7 +118,7 @@ describe('basic mode', () => {
 })
 
 test('page size related props', async () => {
-  const template = `<mp-pagination total="115" :page-size="20" :show-page-size="showPageSize" :page-size-options="pageSizeOptions" :simple="false"/>`
+  const template = `<mp-pagination :total="115" :page-size="20" :show-page-size="showPageSize" :page-size-options="pageSizeOptions"/>`
 
   const wrapper = mount({
     components: {
@@ -136,6 +150,7 @@ test('change current and pageSize', async () => {
       pageSize: 10,
       total: 300,
       showPageSize: true,
+      simple: true,
     },
   })
 
@@ -169,7 +184,7 @@ test('change event', async () => {
         change,
       }
     },
-    template: `<mp-pagination v-model:current="current" :page-size="20" total="325" @change="change" />`,
+    template: `<mp-pagination v-model:current="current" :page-size="20" :total="325" simple @change="change" />`,
   })
 
   await delay(0)

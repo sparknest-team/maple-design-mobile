@@ -4,7 +4,7 @@
 
 当你需要处理大量数据的时候，可能需要用到它。
 
-API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
+API 与 Cedar Pagination 对齐；Maple 额外支持 `elevation`。
 
 ## 案例
 
@@ -12,7 +12,7 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="50" />
+  <mp-pagination :total="50" />
 </template>
 ```
 
@@ -22,7 +22,7 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="200" />
+  <mp-pagination :total="200" />
 </template>
 ```
 
@@ -32,7 +32,7 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="50" show-page-size />
+  <mp-pagination :total="200" show-page-size />
 </template>
 ```
 
@@ -42,17 +42,27 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="50" show-jumper />
+  <mp-pagination :total="50" show-jumper />
+</template>
+```
+
+### 分页尺寸
+
+支持 `xs`、`sm`、`md`、`lg`、`xl` 五种尺寸。
+
+```html
+<template>
+  <mp-pagination :total="50" size="sm" />
 </template>
 ```
 
 ### 简洁模式
 
-默认开启简洁模式，适合小屏设备；可通过 `simple` 关闭。
+通过设置 `simple` 开启简洁模式。
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="50" />
+  <mp-pagination :total="200" simple />
 </template>
 ```
 
@@ -62,19 +72,11 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :current="1" :total="50" show-total />
+  <mp-pagination :total="200" show-total />
 
-  <mp-pagination :current="1" :total="50" show-total>
+  <mp-pagination :total="200" show-total>
     <template #total="{ total }">共 {{ total }} 条</template>
   </mp-pagination>
-</template>
-```
-
-### 禁用
-
-```html
-<template>
-  <mp-pagination :current="1" :total="50" disabled />
 </template>
 ```
 
@@ -82,7 +84,7 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="50" show-total show-jumper show-page-size />
+  <mp-pagination :total="50" show-total show-jumper show-page-size />
 </template>
 ```
 
@@ -92,7 +94,7 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 ```html
 <template>
-  <mp-pagination :simple="false" :current="1" :total="50">
+  <mp-pagination :total="200">
     <template #page-item="{ page }">{{ page }}</template>
     <template #page-item-step="{ type }"> {{ type === 'previous' ? '上一页' : '下一页' }} </template>
     <template #page-item-ellipsis>···</template>
@@ -106,20 +108,21 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 
 | 参数                     | 说明                                                                 | 类型                          | 默认值                 |
 | ------------------------ | -------------------------------------------------------------------- | ----------------------------- | ---------------------- |
-| `total`                  | 数据总数                                                             | _number \| string_            | `0`                    |
-| `v-model:current`        | 当前页数                                                             | _number \| string_            | `-`                    |
+| `total`                  | 数据总数（必填）                                                     | _number_                      | `-`                    |
+| `v-model:current`        | 当前页数                                                             | _number_                      | `-`                    |
 | `default-current`        | 默认当前页数                                                         | _number_                      | `1`                    |
-| `v-model:page-size`      | 每页条数                                                             | _number \| string_            | `-`                    |
+| `v-model:page-size`      | 每页条数                                                             | _number_                      | `-`                    |
 | `default-page-size`      | 默认每页条数（非受控）                                               | _number_                      | `10`                   |
 | `disabled`               | 禁用分页                                                             | _boolean_                     | `false`                |
 | `hide-on-single-page`    | 只有一页时是否隐藏分页                                               | _boolean_                     | `false`                |
-| `simple`                 | 是否使用简洁模式（移动端默认开启）                                   | _boolean_                     | `true`                 |
+| `simple`                 | 是否使用简洁模式                                                     | _boolean_                     | `false`                |
 | `show-total`             | 是否展示总数                                                         | _boolean_                     | `false`                |
 | `show-more`              | 是否展示更多按钮                                                     | _boolean_                     | `false`                |
 | `show-jumper`            | 是否展示跳转输入框                                                   | _boolean_                     | `false`                |
 | `show-page-size`         | 是否展示每页条数选择器                                               | _boolean_                     | `false`                |
 | `page-size-options`      | 每页条数选择器选项                                                   | _number[]_                    | `[10, 20, 30, 40, 50]` |
 | `page-size-props`        | 透传给条数选择器的属性                                               | _object_                      | `-`                    |
+| `size`                   | 尺寸                                                                 | _ComponentSize_               | `md`                   |
 | `page-item-style`        | 分页按钮样式                                                         | _CSSProperties_               | `-`                    |
 | `active-page-item-style` | 当前分页按钮样式                                                     | _CSSProperties_               | `-`                    |
 | `base-size`              | 计算显示省略的基础个数，显示省略的个数为 `baseSize + 2 * bufferSize` | _number_                      | `6`                    |
@@ -151,7 +154,7 @@ API 与 Cedar Pagination 对齐；移动端默认开启 `simple`。
 | ---------------------------------------- | ---------------------------- |
 | `--pagination-text-color`                | `#555`                       |
 | `--pagination-font-size`                 | `var(--font-size-md)`        |
-| `--pagination-active-color`              | `var(--color-on-primary)`    |
+| `--pagination-active-color`              | `var(--color-white)`         |
 | `--pagination-active-bg-color`           | `var(--color-primary)`       |
 | `--pagination-hover-bg-color`            | `rgba(85, 85, 85, 0.15)`     |
 | `--pagination-total-margin`              | `0 10px`                     |

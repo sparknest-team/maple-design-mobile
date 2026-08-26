@@ -30,14 +30,14 @@ onThemeChange()
   <mp-app-bar :title="t('title')">
     <template #left>
       <mp-button round text color="transparent" text-color="#ffffff">
-        <mp-icon name="chevron-left" :size="24" />
+        <m-icon-chevron-left :size="24" />
       </mp-button>
     </template>
 
     <template #right>
       <mp-popover>
         <mp-button round text color="transparent" text-color="#ffffff">
-          <mp-icon name="menu" :size="24" />
+          <m-icon-menu :size="24" />
         </mp-button>
 
         <template #content>
@@ -64,19 +64,19 @@ onThemeChange()
     {{ t('title') }}
     <template #left>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="menu" :size="24" />
+        <m-icon-menu :size="24" />
       </mp-button>
     </template>
 
     <template #right>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="map-marker-radius" :size="24" />
+        <m-icon-map-marker-radius :size="24" />
       </mp-button>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="star" :size="24" />
+        <m-icon-star :size="24" />
       </mp-button>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="heart" :size="24" />
+        <m-icon-heart :size="24" />
       </mp-button>
     </template>
 

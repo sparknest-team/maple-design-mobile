@@ -1,5 +1,5 @@
 export default {
-  '--mp-action-sheet-background': 'var(--mp-color-surface-container-low)',
+  '--mp-action-sheet-background': 'var(--mp-color-bg-1)',
   '--mp-action-sheet-title-color': '#aaa',
   '--mp-action-sheet-action-item-color': '#fff',
   '--mp-action-sheet-border-radius': '2px',

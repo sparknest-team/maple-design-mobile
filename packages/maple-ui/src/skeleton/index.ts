@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Skeleton, skeletonProps)
 
 export { skeletonProps }
 
+export type SkeletonInstance = InstanceType<typeof Skeleton>
 export const _SkeletonComponent = Skeleton
 
 export default Skeleton

@@ -6,7 +6,7 @@ A button to back to top.
 
 ### Basic Usage
 
-When `target` is unset, the page scroll is listened. Once the scroll height reaches `visibility-height`, a back to top button appears in the lower right corner.
+When `target-container` is unset, the page scroll is listened. Once the scroll height reaches `visible-height`, a back to top button appears in the lower right corner.
 
 ```html
 <script setup>
@@ -23,7 +23,7 @@ const lists = [...Array(40).keys()]
 
 ### Target Container
 
-Use `target` to specify a local scroll container. Set `:teleport="false"` to keep the button inside the container; the parent needs `position: relative`.
+Use `target-container` to specify a local scroll container. Set `:popup-container="false"` to keep the button inside the container; the parent needs `position: relative`.
 
 ```html
 <template>
@@ -32,10 +32,10 @@ Use `target` to specify a local scroll container. Set `:teleport="false"` to kee
       <mp-cell v-for="list in lists" :key="list">Scroll in container {{ list }}</mp-cell>
     </div>
     <mp-back-top
-      target="#scroll-container"
-      :visibility-height="120"
+      target-container="#scroll-container"
+      :visible-height="120"
       :duration="300"
-      :teleport="false"
+      :popup-container="false"
       right="16"
       bottom="16"
     />
@@ -61,7 +61,7 @@ Adjust position with `right` and `bottom`.
 ```html
 <div id="scroll-container" class="scroll-container">
   <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-  <mp-back-top target="#scroll-container" :duration="300" right="80" bottom="80" />
+  <mp-back-top target-container="#scroll-container" :duration="300" right="80" bottom="80" />
 </div>
 ```
 
@@ -72,7 +72,7 @@ Customize the button content with the default slot and listen to clicks with `@c
 ```html
 <div id="scroll-container" class="scroll-container">
   <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-  <mp-back-top target="#scroll-container" :duration="300" @click="handleClick">
+  <mp-back-top target-container="#scroll-container" :duration="300" @click="handleClick">
     <mp-button type="primary" round>TOP</mp-button>
   </mp-back-top>
 </div>
@@ -84,9 +84,9 @@ Customize the button content with the default slot and listen to clicks with `@c
 
 | Prop | Description                                                                                             | Type   | Default |
 | ----- |---------------------------------------------------------------------------------------------------------|--------|-------|
-| `target` | The target to trigger scroll. When unset, the nearest scrollable ancestor is detected automatically. | _string \| HTMLElement_     | `-` |
-| `teleport` | Whether to mount to body. When `false`, the button is positioned relative to its parent, which should have `position: relative`. | _boolean_ | `true` |
-| `visibility-height` | The button will not show until the scroll height reaches this value                                     | _string \| number_ | `200` |
+| `target-container` | The target to trigger scroll. When unset, the nearest scrollable ancestor is detected automatically. | _string \| HTMLElement_     | `-` |
+| `popupContainer` | Whether to mount to body. When `false`, the button is positioned relative to its parent, which should have `position: relative`. | _boolean_ | `true` |
+| `visible-height` | The button will not show until the scroll height reaches this value                                     | _string \| number_ | `200` |
 | `bottom`            | Distance from the bottom of the viewport                                                              | _string \| number_ | `-` |
 | `right`            | Distance from the right of the viewport                                                               | _string \| number_ | `-` |
 | `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |

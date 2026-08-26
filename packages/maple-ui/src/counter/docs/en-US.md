@@ -128,7 +128,7 @@ function handleBeforeChange(value, change) {
   <mp-counter
     lazy-change
     v-model="value"
-    @before-change="handleBeforeChange"
+    :before-change="handleBeforeChange"
   />
 </template>
 ```

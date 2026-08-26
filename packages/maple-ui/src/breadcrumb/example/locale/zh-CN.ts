@@ -3,7 +3,9 @@ export default {
   separator: '分隔符',
   childSeparator: '子级分隔符',
   separatorSlot: '分隔符插槽',
+  customIcon: '自定义图标',
   routesMode: '参数化配置',
+  dropdown: '带有下拉菜单',
   maxCount: '显示省略',
   clickEvent: '链接与点击',
   level1: '首页',
@@ -14,4 +16,6 @@ export default {
   channel: '频道',
   news: '资讯',
   post: '详情',
+  goods: '商品',
+  wallet: '钱包',
 }

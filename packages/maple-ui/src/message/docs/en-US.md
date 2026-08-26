@@ -78,7 +78,7 @@ Declarative `mp-message` is Maple-only. See Chinese docs for full examples: basi
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `v-model:show` | Whether to show | _boolean_ | `false` |
+| `v-model:open` | Whether to show | _boolean_ | `false` |
 | `type` | `success` `warning` `info` `error` `loading` `normal` | _string_ | `-` |
 | `position` | `top` `center` `bottom` | _string_ | `top` |
 | `content` | Content | _string_ | `-` |
@@ -89,7 +89,7 @@ Declarative `mp-message` is Maple-only. See Chinese docs for full examples: basi
 | `forbid-click` | Block click through | _boolean_ | `false` |
 | `lock-scroll` | Lock scroll | _boolean_ | `false` |
 | `elevation` | Elevation | _boolean \| string \| number_ | `true` |
-| `teleport` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
+| `popupContainer` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
 
 ### Methods
 

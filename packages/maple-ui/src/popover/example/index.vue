@@ -56,7 +56,7 @@ function closeMenu() {
   <div class="placement-container">
     <mp-popover :placement="placementValue">
       <mp-button type="primary">
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
       <template #content>
         <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -91,6 +91,7 @@ function closeMenu() {
   <mp-select v-model="trigger" :hint="false">
     <mp-option label="click" />
     <mp-option label="hover" />
+    <mp-option label="contextMenu" />
   </mp-select>
   <mp-popover style="margin-top: 15px" :trigger="trigger">
     <mp-button type="primary">{{ t('trigger') }}</mp-button>
@@ -130,7 +131,7 @@ function closeMenu() {
   </mp-popover>
 
   <app-type>{{ t('twoWayBinding') }}</app-type>
-  <mp-popover v-model:show="show">
+  <mp-popover v-model:open="open">
     <mp-button type="primary">{{ t('twoWayBinding') }}</mp-button>
 
     <template #content>

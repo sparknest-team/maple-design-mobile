@@ -32,7 +32,7 @@ export interface CounterProps extends BasicAttributes {
   decrementButton?: boolean
   press?: boolean
   ripple?: boolean
-  onBeforeChange?: ListenerProp<(value: number, change: (value: number) => void) => void>
+  beforeChange?: ListenerProp<(value: number, change: (value: number) => void) => void>
   onChange?: ListenerProp<(value: number, event?: Event) => void>
   onInput?: ListenerProp<(value: number, inputValue: string, event: Event) => void>
   onFocus?: ListenerProp<(event: FocusEvent) => void>

@@ -5,17 +5,17 @@ import type { ImageUrlRecord } from '../types'
 
 export interface UseImagePreviewGroupOptions {
   images?: Ref<string[] | undefined>
-  visible?: Ref<boolean | undefined>
-  defaultVisible?: boolean
+  open?: Ref<boolean | undefined>
+  defaultOpen?: boolean
   current?: Ref<number | undefined>
   defaultCurrent?: number
-  onVisibleChange?: (visible: boolean) => void
+  onOpenChange?: (open: boolean) => void
   onCurrentChange?: (index: number) => void
 }
 
 export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) {
   const imageUrlMap = ref(new Map<number, ImageUrlRecord>())
-  const localVisible = ref(options.defaultVisible ?? false)
+  const localOpen = ref(options.defaultOpen ?? false)
   const localCurrent = ref(options.defaultCurrent ?? 0)
 
   const propImages = computed(() => options.images?.value ?? [])
@@ -31,18 +31,18 @@ export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) 
       .map(([, record]) => record.url)
   })
 
-  const mergedVisible = computed({
+  const mergedOpen = computed({
     get() {
-      return options.visible?.value ?? localVisible.value
+      return options.open?.value ?? localOpen.value
     },
     set(value: boolean) {
-      if (options.visible?.value !== undefined) {
-        options.visible.value = value
+      if (options.open?.value !== undefined) {
+        options.open.value = value
       } else {
-        localVisible.value = value
+        localOpen.value = value
       }
 
-      options.onVisibleChange?.(value)
+      options.onOpenChange?.(value)
     },
   })
 
@@ -91,22 +91,22 @@ export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) 
 
     if (index >= 0) {
       mergedCurrent.value = index
-      mergedVisible.value = true
+      mergedOpen.value = true
     }
   }
 
   function open(index = 0) {
     mergedCurrent.value = index
-    mergedVisible.value = true
+    mergedOpen.value = true
   }
 
   function close() {
-    mergedVisible.value = false
+    mergedOpen.value = false
   }
 
   return {
     previewImages,
-    mergedVisible,
+    mergedOpen,
     mergedCurrent,
     registerImageUrl,
     previewByImageId,

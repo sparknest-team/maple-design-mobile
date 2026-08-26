@@ -1,6 +1,6 @@
 export default {
-  '--mp-radio-unchecked-color': 'var(--mp-color-on-surface-variant)',
-  '--mp-radio-text-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-radio-unchecked-color': 'var(--mp-color-text-3)',
+  '--mp-radio-text-color': 'var(--mp-color-text-3)',
   '--mp-radio-checked-color': 'var(--mp-color-primary)',
   '--mp-radio-disabled-color': 'var(--mp-color-text-disabled)',
   '--mp-radio-error-color': 'var(--mp-color-danger)',

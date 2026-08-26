@@ -4,8 +4,8 @@
       classes(n(), formatElevation(elevation, 2), [showTime, n('--with-time')], [isCalendarTime, n('--calendar-time')])
     "
   >
-    <template v-if="resolvedPresentation === 'picker' && showTime">
-      <div :class="n('datetime-title')">
+    <template v-if="isPickerPresentation">
+      <div v-if="showTime" :class="n('datetime-title')">
         <div :class="n('datetime-hint')">{{ hint ?? (pt ? pt : t)('datePickerHint') }}</div>
         <div :class="n('datetime-display')">
           <div :class="n('datetime-date')">{{ displayDateTimeParts.date }}</div>
@@ -143,7 +143,7 @@
           v-bind="timePickerBindingProps"
           format="24hr"
           :use-seconds="useSeconds"
-          :allowed-time="allowedTime"
+          :disabled-time="disabledTime"
           :readonly="readonly"
           :elevation="false"
           @update:model-value="handleDateTimeClockChange"
@@ -191,10 +191,13 @@ import {
   buildDateOrDateTimeColumns,
   buildTimeOnlyColumns,
   combineDateAndTime,
+  defaultDate,
   defaultDateTime,
   isCalendarTimePresentation,
+  joinDateParts,
   joinDateTimeParts,
   joinTimeParts,
+  parseDateParts,
   parseDateTimeParts,
   parseTimeParts,
   resolveDateTimePresentation,
@@ -227,7 +230,8 @@ export default defineComponent({
     MpTimePicker,
   },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue', 'preview'],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const datetimeView = ref<'date' | 'time'>('date')
     const currentDate = dayjs().format('YYYY-MM-D')
@@ -252,7 +256,7 @@ export default defineComponent({
     const monthPanelEl = ref<RendererNode | null>(null)
     const dayPanelEl = ref<RendererNode | null>(null)
     const componentProps = computed<ComponentProps>(() => ({
-      allowedDates: props.allowedDates,
+      disabledDate: props.disabledDate,
       type: props.type,
       color: props.color,
       firstDayOfWeek: props.firstDayOfWeek,
@@ -457,8 +461,8 @@ export default defineComponent({
         const isChangeOrder = dayjs(rangeDate.value[0]).isAfter(rangeDate.value[1])
         const date = isChangeOrder ? [rangeDate.value[1], rangeDate.value[0]] : [...rangeDate.value]
 
-        call(props['onUpdate:modelValue'], date)
-        call(props.onChange, date)
+        emit('update:modelValue', date)
+        emit('change', date)
       }
     }
 
@@ -475,8 +479,8 @@ export default defineComponent({
         formatDates.splice(index, 1)
       }
 
-      call(props['onUpdate:modelValue'], formatDates)
-      call(props.onChange, formatDates)
+      emit('update:modelValue', formatDates)
+      emit('change', formatDates)
     }
 
     function getReverse(dateType: string, date: Month | number) {
@@ -499,7 +503,7 @@ export default defineComponent({
     }
 
     function getChooseDay(day: number) {
-      const { readonly, range, multiple, showTime, onChange, 'onUpdate:modelValue': updateModelValue } = props
+      const { readonly, range, multiple, showTime } = props
       if (day < 0 || readonly) {
         return
       }
@@ -511,8 +515,8 @@ export default defineComponent({
 
       if (showTime && !range && !multiple) {
         const next = combineDateAndTime(formatDate, displayDateTimeParts.value.time, props.useSeconds)
-        call(updateModelValue, next)
-        call(onChange, next)
+        emit('update:modelValue', next)
+        emit('change', next)
         return
       }
 
@@ -521,13 +525,13 @@ export default defineComponent({
       } else if (multiple) {
         updateMultiple(formatDate, 'day')
       } else {
-        call(updateModelValue, formatDate)
-        call(onChange, formatDate)
+        emit('update:modelValue', formatDate)
+        emit('change', formatDate)
       }
     }
 
     function getChooseMonth(month: Month) {
-      const { type, readonly, range, multiple, onChange, onPreview, 'onUpdate:modelValue': updateModelValue } = props
+      const { type, readonly, range, multiple } = props
       reverse.value = getReverse('month', month)
 
       if (type === 'month' && !readonly) {
@@ -538,13 +542,13 @@ export default defineComponent({
         } else if (multiple) {
           updateMultiple(date, 'month')
         } else {
-          call(updateModelValue, date)
-          call(onChange, date)
+          emit('update:modelValue', date)
+          emit('change', date)
         }
       } else {
         previewMonth.value = month
-        call(
-          onPreview,
+        emit(
+          'preview',
           toNumber(previewYear.value),
           toNumber(previewMonth.value),
           type === 'date' ? toNumber(chooseDay.value) : undefined,
@@ -555,7 +559,7 @@ export default defineComponent({
     }
 
     function getChooseYear(year: number) {
-      const { type, readonly, range, multiple, onChange, onPreview, 'onUpdate:modelValue': updateModelValue } = props
+      const { type, readonly, range, multiple } = props
       reverse.value = getReverse('year', year)
 
       if (type === 'year' && !readonly) {
@@ -564,13 +568,13 @@ export default defineComponent({
         } else if (multiple) {
           updateMultiple(`${year}`, 'year')
         } else {
-          call(updateModelValue, `${year}`)
-          call(onChange, `${year}`)
+          emit('update:modelValue', `${year}`)
+          emit('change', `${year}`)
         }
       } else {
         previewYear.value = `${year}`
-        call(
-          onPreview,
+        emit(
+          'preview',
           toNumber(previewYear.value),
           toNumber(previewMonth.value),
           type === 'date' ? toNumber(chooseDay.value) : undefined,
@@ -602,7 +606,7 @@ export default defineComponent({
       }
 
       call(
-        props.onPreview,
+        (...args: any[]) => emit('preview', ...args),
         toNumber(previewYear.value),
         toNumber(previewMonth.value),
         props.type === 'date' ? toNumber(chooseDay.value) : undefined,
@@ -701,16 +705,23 @@ export default defineComponent({
 
     const resolvedPresentation = computed(() => resolveDateTimePresentation(props.presentation, props.showTime))
     const isCalendarTime = computed(() => isCalendarTimePresentation(resolvedPresentation.value))
+    const isPickerPresentation = computed(
+      () => resolvedPresentation.value === 'picker' && !props.multiple && !props.range,
+    )
 
     const dateTimeColumnLabels = computed(() => {
       const translate = (key: string) => (pt ? pt : t)(key as any)
-      const labels = [
+      const dateLabels = [
         translate('datePickerColumnYear'),
         translate('datePickerColumnMonth'),
         translate('datePickerColumnDay'),
-        translate('datePickerColumnHour'),
-        translate('datePickerColumnMinute'),
       ]
+
+      if (!props.showTime) {
+        return dateLabels.slice(0, props.type === 'year' ? 1 : props.type === 'month' ? 2 : 3)
+      }
+
+      const labels = [...dateLabels, translate('datePickerColumnHour'), translate('datePickerColumnMinute')]
       if (props.useSeconds) {
         labels.push(translate('datePickerColumnSecond'))
       }
@@ -728,19 +739,27 @@ export default defineComponent({
 
     const dateTimeColumns = computed(() =>
       buildDateOrDateTimeColumns({
-        showTime: true,
+        type: props.type,
+        showTime: props.showTime,
         useSeconds: props.useSeconds,
         min: props.min,
         max: props.max,
-        allowedDates: props.allowedDates,
-        allowedTime: props.allowedTime,
+        disabledDate: props.disabledDate,
+        disabledTime: props.disabledTime,
         current: displayDateTime.value,
       }),
     )
 
-    const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.allowedTime))
+    const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.disabledTime))
 
-    const dateTimePickerValue = computed(() => parseDateTimeParts(displayDateTime.value, props.useSeconds))
+    const dateTimePickerValue = computed(() =>
+      props.showTime
+        ? parseDateTimeParts(displayDateTime.value, props.useSeconds)
+        : parseDateParts(
+            typeof props.modelValue === 'string' && props.modelValue ? props.modelValue : defaultDate(props.type),
+            props.type,
+          ),
+    )
     const timeOnlyPickerValue = computed(() => parseTimeParts(displayDateTimeParts.value.time, props.useSeconds))
 
     const timePickerBindingProps = computed(() => ({ ...props.timePickerProps }))
@@ -749,9 +768,9 @@ export default defineComponent({
       if (props.readonly) {
         return
       }
-      const next = joinDateTimeParts(values, props.useSeconds)
-      call(props['onUpdate:modelValue'], next)
-      call(props.onChange, next)
+      const next = props.showTime ? joinDateTimeParts(values, props.useSeconds) : joinDateParts(values, props.type)
+      emit('update:modelValue', next)
+      emit('change', next)
     }
 
     function handleTimeOnlyPickerChange(values: (string | number)[]) {
@@ -760,8 +779,8 @@ export default defineComponent({
       }
       const time = joinTimeParts(values, props.useSeconds)
       const next = combineDateAndTime(displayDateTimeParts.value.date, time, props.useSeconds)
-      call(props['onUpdate:modelValue'], next)
-      call(props.onChange, next)
+      emit('update:modelValue', next)
+      emit('change', next)
     }
 
     function handleDateTimeClockChange(time: string) {
@@ -769,8 +788,8 @@ export default defineComponent({
         return
       }
       const next = combineDateAndTime(displayDateTimeParts.value.date, time, props.useSeconds)
-      call(props['onUpdate:modelValue'], next)
-      call(props.onChange, next)
+      emit('update:modelValue', next)
+      emit('change', next)
     }
 
     return {
@@ -796,6 +815,7 @@ export default defineComponent({
       formatRange,
       datetimeView,
       resolvedPresentation,
+      isPickerPresentation,
       isCalendarTime,
       displayDateTimeParts,
       dateTimeColumnLabels,

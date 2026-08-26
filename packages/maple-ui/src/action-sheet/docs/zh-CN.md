@@ -219,7 +219,7 @@ function handleSelect(action){
   <mp-button type="warning" block @click="show = true">基本使用</mp-button>
   <mp-action-sheet 
     :actions="actions"
-    v-model:show="show"
+    v-model:open="open"
     @select="handleSelect"
   />
 </template>
@@ -258,7 +258,7 @@ function handleSelect(action){
   <mp-action-sheet 
     title="选择一个你喜欢的吧"
     :actions="actions"
-    v-model:show="show"
+    v-model:open="open"
     @select="handleSelect"
   />
 </template>
@@ -297,7 +297,7 @@ function handleSelect(action) {
   <mp-button type="warning" block @click="show = true">禁用选项</mp-button>
   <mp-action-sheet 
     :actions="actions"
-    v-model:show="show"
+    v-model:open="open"
     @select="handleSelect"
   />
 </template>
@@ -336,7 +336,7 @@ function handleSelect(action) {
   <mp-action-sheet 
     :close-on-click-action="false"
     :actions="actions" 
-    v-model:show="show" 
+    v-model:open="open" 
     @select="handleSelect"
   />
 </template>
@@ -377,7 +377,7 @@ function handleSelect(action) {
   <mp-button type="warning" block @click="show = true">自定义选项样式</mp-button>
   <mp-action-sheet 
     :actions="actions" 
-    v-model:show="show" 
+    v-model:open="open" 
     @select="handleSelect"
   />
 </template>
@@ -389,18 +389,18 @@ function handleSelect(action) {
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `v-model:show` | 是否显示动作面板 | _boolean_ | `false` |
+| `v-model:open` | 是否显示动作面板 | _boolean_ | `false` |
 | `actions` | 选项列表 | _Actions_ | `[]` |
 | `title` | 动作面板标题 | _string_ | `请选择` |
-| `overlay` | 是否显示遮罩层 | _boolean_ | `true` |
-| `overlay-class` | 自定义遮罩层的 class | _string_ | `-` |
-| `overlay-style` | 自定义遮罩层的 style | _object_ | `-` |
+| `mask` | 是否显示遮罩层 | _boolean_ | `true` |
+| `mask-class` | 自定义遮罩层的 class | _string_ | `-` |
+| `mask-style` | 自定义遮罩层的 style | _object_ | `-` |
 | `lock-scroll` | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_ | `true` |
 | `close-on-click-action` | 是否点击选项时关闭动作面板 | _boolean_ | `true` |
-| `close-on-click-overlay` | 是否点击遮罩层关闭动作面板 | _boolean_ | `true` |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭动作面板 | _boolean_ | `true` |
+| `mask-closable` | 是否点击遮罩层关闭动作面板 | _boolean_ | `true` |
+| `esc-to-close` | 是否支持键盘 ESC 关闭动作面板 | _boolean_ | `true` |
 | `safe-area`   | 是否开启底部安全区适配      | _boolean_             | `false`  |
-| `teleport` | 动作面板挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
+| `popupContainer` | 动作面板挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
 
 ### 事件
 
@@ -431,13 +431,13 @@ function handleSelect(action) {
 | --- | --- | --- | --- |
 | `actions` | 选项列表 | _Actions_ | `[]` |
 | `title` | 动作面板标题 | _string_ | `请选择` |
-| `overlay` | 是否显示遮罩层 | _boolean_ | `true` |
-| `overlayClass` | 自定义遮罩层的 class | _string_ | `-` |
-| `overlayStyle` | 自定义遮罩层的 style | _object_ | `-` |
+| `mask` | 是否显示遮罩层 | _boolean_ | `true` |
+| `maskClass` | 自定义遮罩层的 class | _string_ | `-` |
+| `maskStyle` | 自定义遮罩层的 style | _object_ | `-` |
 | `lockScroll` | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_ | `true` |
 | `closeOnClickAction` | 是否点击选项时关闭动作面板 | _boolean_ | `true` |
-| `closeOnClickOverlay` | 是否点击遮罩层关闭弹出层 | _boolean_ | `true` |
-| `closeOnKeyEscape` | 是否支持键盘 ESC 关闭动作面板 | _boolean_ | `true`
+| `maskClosable` | 是否点击遮罩层关闭弹出层 | _boolean_ | `true` |
+| `escToClose` | 是否支持键盘 ESC 关闭动作面板 | _boolean_ | `true`
 | `safe-area`              | 是否开启底部安全区适配	                                     | _boolean_             | `false`  |
 | `onOpen` | 动作面板开启回调 | _() => void_ | `-` |
 | `onOpened` | 动作面板开启动画结束回调 | _() => void_ | `-` |

@@ -7,6 +7,7 @@ withPropsDefaultsSetter(IndexAnchor, indexAnchorProps)
 
 export { indexAnchorProps }
 
+export type IndexAnchorInstance = InstanceType<typeof IndexAnchor>
 export const _IndexAnchorComponent = IndexAnchor
 
 export default IndexAnchor

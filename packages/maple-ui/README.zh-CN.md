@@ -3,19 +3,19 @@
   <a href="https://maplejs.org">
     <img src="https://maplejs.org/logo.svg" width="150">
   </a>
-  <h1>VARLET</h1>
+  <h1>Maple</h1>
   <p>一个 Vue3 组件库，基于 Material Design 2 和 3，支持移动端、桌面端。</p>
   <p>
     <a href="https://maplejs.org">文档</a> | 
-    <a href="https://github.com/varletjs/varlet/blob/dev/README.md">ENGLISH README</a>
+    <a href="https://github.com/loca-spirit/maple-design-mobile/blob/main/README.md">ENGLISH README</a>
   </p>
   <p>
     <img src="https://img.shields.io/npm/v/@maplejs/maple-ui?style=flat-square" alt="version">
-    <img src="https://img.shields.io/github/stars/varletjs/varlet" alt="stars">
+    <img src="https://img.shields.io/github/stars/loca-spirit/maple-design-mobile" alt="stars">
     <img src="https://img.shields.io/badge/vue-v3.2.0%2B-%23407fbc" alt="vue">
     <img src="https://img.shields.io/npm/l/@maplejs/maple-ui.svg" alt="licence">
-    <img src="https://img.shields.io/codecov/c/github/varletjs/varlet" alt="coverage">
-    <img src="https://github.com/varletjs/varlet/workflows/CI/badge.svg" alt="ci">
+    <img src="https://img.shields.io/codecov/c/github/loca-spirit/maple-design-mobile" alt="coverage">
+    <img src="https://github.com/loca-spirit/maple-design-mobile/workflows/CI/badge.svg" alt="ci">
   </p>
 </div>
 
@@ -23,7 +23,7 @@
 
 ### 介绍
 
-Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 `varletjs` 组织维护。
+Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 Maple 团队维护。
 
 ### 特性
 
@@ -35,7 +35,7 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 - 🌍 &nbsp; 支持国际化
 - 💡 &nbsp; 支持 webstorm 组件属性高亮
 - 💪 &nbsp; 支持 SSR
-- 📦 &nbsp; 支持 [Nuxt Module](https://github.com/varletjs/maple-nuxt)
+- 📦 &nbsp; 支持 [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
 - 💡 &nbsp; 支持 Typescript
 - 💪 &nbsp; 确保 90% 以上单元测试覆盖率，提供稳定性保证
 - 🎨 &nbsp; 同时支持 Material Design 2 和 Material Design 3 两套设计系统
@@ -46,14 +46,14 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 ### 安装
 
 ### CDN
-`varlet.js` 包含组件库的所有样式和逻辑，引入即可。
+`maple.js` 包含组件库的所有样式和逻辑，引入即可。
 
 ```html
 <div id="app"></div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
  <!-- 桌面端兼容 -->
 <script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-touch-emulator/iife.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/umd/varlet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/umd/maple.js"></script>
 <script>
   const app = Vue.createApp({
     template: '<mp-button>按钮</mp-button>'
@@ -94,14 +94,14 @@ createApp(App).use(Maple).mount('#app')
 | [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
 | [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
 | [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
-| [@maplejs/maple-import-resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-import-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
+| [@maplejs/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
 | [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
 | [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
 | [maple-theme-builder](https://github.com/maplejs/maple-theme-builder) | `主题生成器，用于为 maple material design 3 生成主题变量` | 
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Maple 组件库 VSCode 插件`   |
 | [vscode-theme-maple](https://github.com/maplejs/vscode-theme-maple)  | `Maple VSCode 主题`   |
 | [maple-app-example](https://github.com/maplejs/maple-app-template)  | `Maple 组件库移动端模板`   |
-| [maple-install-example](https://github.com/varletjs/maple-install-example)  | `Maple 组件库与各种生态集成的案例集合`   |
+| [maple-install-example](https://github.com/loca-spirit/maple-install-example)  | `Maple 组件库与各种生态集成的案例集合`   |
 
 ### 社区生态
 
@@ -120,7 +120,7 @@ createApp(App).use(Maple).mount('#app')
 
 ### 贡献
 
-请参考 [Contributing Guide](https://github.com/varletjs/varlet/blob/dev/.github/CONTRIBUTING.md)。
+请参考 [Contributing Guide](https://github.com/loca-spirit/maple-design-mobile/blob/main/.github/CONTRIBUTING.md)。
 
 ### 反馈和交流
 
@@ -128,20 +128,20 @@ createApp(App).use(Maple).mount('#app')
 
 * 微信
 
-<img style="width: 25%" src="https://cdn.jsdelivr.net/gh/varletjs/maple-static/community.png" />
+<img style="width: 25%" src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/community.png" />
 
 * 加入 [Discord](https://discord.gg/Dmb8ydBHkw) 社区交流
 
 ### 感谢贡献者们做出的努力
 
-<a href="https://github.com/varletjs/varlet/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=varletjs/varlet" />
+<a href="https://github.com/loca-spirit/maple-design-mobile/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=loca-spirit/maple-design-mobile" />
 </a>
 
 ### 感谢以下赞助者
 
-<a href="https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg">
-  <img src="https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg">
+<a href="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg">
+  <img src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg">
 </a>
 
 ### 赞助本项目
@@ -150,5 +150,5 @@ createApp(App).use(Maple).mount('#app')
 
 #### 微信 / 支付宝
 
-<img style="width: 25%" src="https://cdn.jsdelivr.net/gh/varletjs/maple-static/wechat.jpg" />
-<img style="width: 25%" src="https://cdn.jsdelivr.net/gh/varletjs/maple-static/alipay.jpg" />
+<img style="width: 25%" src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/wechat.jpg" />
+<img style="width: 25%" src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/alipay.jpg" />

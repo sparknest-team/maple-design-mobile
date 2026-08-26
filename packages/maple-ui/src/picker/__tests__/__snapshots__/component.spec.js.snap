@@ -19,9 +19,11 @@ exports[`cascade column picker columnsCount 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">四川省</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">江苏省</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -29,9 +31,11 @@ exports[`cascade column picker columnsCount 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">成都市</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">攀枝花市</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -61,9 +65,11 @@ exports[`cascade mode 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">成都市</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">无锡市</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -71,9 +77,11 @@ exports[`cascade mode 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">温江区</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">金牛区</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -103,9 +111,11 @@ exports[`column option className 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option a" style="height: 44px;">
             <div class="mp-picker__text b">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -135,6 +145,7 @@ exports[`custom key 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">无锡市</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -142,9 +153,11 @@ exports[`custom key 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">新吴区</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">惠山区</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -174,6 +187,7 @@ exports[`custom key 2`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 200ms; transition-property: transform;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">无锡市</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -181,9 +195,11 @@ exports[`custom key 2`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">新吴区</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">惠山区</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -213,12 +229,15 @@ exports[`multiple column picker columnsCount 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">C</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -226,12 +245,15 @@ exports[`multiple column picker columnsCount 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">C</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -261,12 +283,15 @@ exports[`scroll down & onCancel 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">C</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -296,12 +321,15 @@ exports[`scroll down & onCancel 2`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 200ms; transition-property: transform;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">C</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -331,12 +359,15 @@ exports[`scroll up & onConfirm 1`] = `
         <div class="mp-picker__scroller" style="transform: translateY(110px); transition-duration: 0ms; transition-property: none;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">C</div>
+            <!--v-if-->
           </div>
         </div>
       </div>
@@ -366,12 +397,15 @@ exports[`scroll up & onConfirm 2`] = `
         <div class="mp-picker__scroller" style="transform: translateY(22px); transition-duration: 200ms; transition-property: transform;">
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">A</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">B</div>
+            <!--v-if-->
           </div>
           <div class="mp-picker__option" style="height: 44px;">
             <div class="mp-picker__text">C</div>
+            <!--v-if-->
           </div>
         </div>
       </div>

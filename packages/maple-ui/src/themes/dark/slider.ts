@@ -9,7 +9,7 @@ export default {
   '--mp-slider-thumb-ripple-background': 'var(--mp-color-primary)',
   '--mp-slider-thumb-label-background': 'var(--mp-color-primary)',
   '--mp-slider-thumb-label-font-size': 'var(--mp-font-size-sm)',
-  '--mp-slider-thumb-label-text-color': 'var(--mp-color-on-primary)',
+  '--mp-slider-thumb-label-text-color': 'var(--mp-color-white)',
   '--mp-slider-thumb-size': '12px',
   '--mp-slider-disabled-opacity': 'var(--mp-opacity-disabled)',
 }

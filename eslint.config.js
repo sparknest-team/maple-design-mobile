@@ -32,7 +32,7 @@ export default defineConfig({
     'packages/maple-use/lib/**',
     'packages/maple-preset-tailwindcss/lib/**',
     'packages/maple-preset-unocss/lib/**',
-    'packages/maple-import-resolver/lib/**',
+    'packages/maple-resolver/lib/**',
     'packages/maple-touch-emulator/iife.js',
   ],
 })

@@ -1,6 +1,6 @@
 export default {
   '--mp-message-color': '#F5EFF7',
-  '--mp-message-background': 'var(--mp-color-inverse-surface)',
+  '--mp-message-background': 'var(--mp-color-text-1)',
   '--mp-message-width': '256px',
   '--mp-message-border-radius': '4px',
   '--mp-message-font-size': 'var(--mp-font-size-md)',

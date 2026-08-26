@@ -70,7 +70,7 @@
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" :autoplay="2000">
+  <mp-carousel class="carousel-example" :auto-play="2000">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -101,7 +101,7 @@
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" :autoplay="{ interval: 2000, hoverToPause: true }">
+  <mp-carousel class="carousel-example" :auto-play="{ interval: 2000, hoverToPause: true }">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -132,7 +132,7 @@
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" vertical>
+  <mp-carousel class="carousel-example" direction="vertical">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -161,11 +161,11 @@
 
 ### 导航
 
-通过设置 `navigation` 可开启导航按钮, 当 `navigation` 为 `hover` 时，可在指针悬浮时对导航按钮进行显示。
+通过设置 `show-arrow` 可开启导航按钮, 当 `show-arrow` 为 `hover` 时，可在指针悬浮时对导航按钮进行显示。
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" navigation>
+  <mp-carousel class="carousel-example" show-arrow="always">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -177,7 +177,7 @@
     </mp-carousel-item>
   </mp-carousel>
 
-  <mp-carousel class="carousel-example" navigation="hover">
+  <mp-carousel class="carousel-example" show-arrow="hover">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -643,17 +643,16 @@ import { Message } from '@maplejs/maple-ui'
 | `current`(v-model) | 当前展示索引（受控模式） | _number_ | `-` |
 | `default-current` | 当前展示索引（默认值） | _number_ | `0` |
 | `loop` | 是否循环轮播 | _boolean_ | `true` |
-| `autoplay` | 自动播放间隔(ms)，传入对象 `{ interval, hoverToPause }` 可开启悬停暂停 | _string \| number \| CarouselAutoPlayConfig_ | `-` |
-| `duration` | 切换动画时长(ms) | _string \| number_ | `300` |
-| `initial-index` | 初始展示项的索引 | _string \| number_ | `0` |
-| `navigation` | 是否显示切换箭头，`'hover'` 时鼠标悬浮才显示 | _boolean \| 'hover' \| 'always' \| 'never'_ | `false` |
+| `auto-play` | 自动播放间隔(ms)，传入对象 `{ interval, hoverToPause }` 可开启悬停暂停 | _string \| number \| CarouselAutoPlayConfig_ | `-` |
+| `move-speed` | 切换动画时长(ms) | _string \| number_ | `300` |
+| `show-arrow` | 是否显示切换箭头 | _'always' \| 'hover' \| 'never'_ | `never` |
 | `indicator` | 是否显示指示器 | _boolean_ | `true` |
 | `indicator-color` | 指示器颜色 | _string_ | `-` |
 | `indicator-class` | 指示器自定义 class | _string_ | `-` |
 | `indicator-type` | 指示器类型，可选值 `dot` `line` `slider` | _string_ | `dot` |
 | `indicator-position` | 指示器位置，可选值 `bottom` `top` `left` `right` `outer` | _string_ | `bottom` |
 | `arrow-class` | 切换箭头自定义 class | _string_ | `-` |
-| `vertical` | 是否为垂直轮播 | _boolean_ | `false` |
+| `direction` | 轮播方向，可选值 `horizontal` `vertical` | _string_ | `horizontal` |
 | `touchable` | 是否允许触摸滑动 | _boolean_ | `true` |
 | `draggable` | 是否允许鼠标拖拽切换 | _boolean_ | `false` |
 | `effect` | 切换动画类型，可选值 `slide` `fade` `card` | _string_ | `slide` |

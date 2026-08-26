@@ -35,7 +35,7 @@ onThemeChange()
   </mp-carousel>
 
   <app-type>{{ t('autoplay') }}</app-type>
-  <mp-carousel class="carousel" :autoplay="2000">
+  <mp-carousel class="carousel" :auto-play="2000">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>
@@ -48,7 +48,7 @@ onThemeChange()
   </mp-carousel>
 
   <app-type>{{ t('autoplayHoverPause') }}</app-type>
-  <mp-carousel class="carousel" :autoplay="{ interval: 2000, hoverToPause: true }">
+  <mp-carousel class="carousel" :auto-play="{ interval: 2000, hoverToPause: true }">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>
@@ -61,7 +61,7 @@ onThemeChange()
   </mp-carousel>
 
   <app-type>{{ t('vertical') }}</app-type>
-  <mp-carousel class="carousel" vertical>
+  <mp-carousel class="carousel" direction="vertical">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>
@@ -74,7 +74,7 @@ onThemeChange()
   </mp-carousel>
 
   <app-type>{{ t('navigation') }}</app-type>
-  <mp-carousel class="carousel" navigation>
+  <mp-carousel class="carousel" show-arrow="always">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>
@@ -86,7 +86,7 @@ onThemeChange()
     </mp-carousel-item>
   </mp-carousel>
 
-  <mp-carousel class="carousel" style="margin-top: 12px" navigation="hover">
+  <mp-carousel class="carousel" style="margin-top: 12px" show-arrow="hover">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>

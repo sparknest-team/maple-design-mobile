@@ -16,7 +16,8 @@ const { name, n } = createNamespace('count-to')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['end'],
+  setup(props, { emit }) {
     const {
       value: _value,
       reset: _reset,
@@ -30,7 +31,7 @@ export default defineComponent({
       duration: () => toNumber(props.duration),
       timingFunction: props.timingFunction,
       onFinished() {
-        call(props.onEnd)
+        emit('end')
       },
     })
 

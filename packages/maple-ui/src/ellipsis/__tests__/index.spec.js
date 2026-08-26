@@ -110,8 +110,8 @@ test('ellipsis tooltip equals object', async () => {
 
   await wrapper.setProps({
     tooltip: {
-      show: true,
-      teleport: container,
+      open: true,
+      popupContainer: container,
       content: 'Tooltip',
     },
   })

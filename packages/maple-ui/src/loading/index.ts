@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Loading, loadingProps)
 
 export { loadingProps }
 
+export type LoadingInstance = InstanceType<typeof Loading>
 export const _LoadingComponent = Loading
 
 export default Loading

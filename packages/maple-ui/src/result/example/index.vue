@@ -16,7 +16,7 @@ onThemeChange()
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-result :title="t('success')" :description="t('description')">
+  <mp-result :title="t('success')" :subtitle="t('description')">
     <template #footer>
       <mp-button type="success" @click="success = false">{{ t('button') }}</mp-button>
     </template>
@@ -27,7 +27,7 @@ onThemeChange()
     <mp-button type="success" block @click="success = true">{{ t('success') }}</mp-button>
     <mp-button type="warning" block @click="warning = true">{{ t('warning') }}</mp-button>
     <mp-button type="info" block @click="info = true">{{ t('info') }}</mp-button>
-    <mp-button type="danger" block @click="error = true">{{ t('error') }}</mp-button>
+    <mp-button type="danger" block @click="error = true">{{ t('danger') }}</mp-button>
     <mp-button color="var(--mp-result-question-color)" text-color="#fff" block @click="question = true">
       {{ t('question') }}
     </mp-button>
@@ -36,40 +36,40 @@ onThemeChange()
     </mp-button>
   </mp-space>
 
-  <mp-popup v-model:show="success" :default-style="false">
-    <mp-result class="result" :title="t('success')" :description="t('description')">
+  <mp-popup v-model:open="success" :default-style="false">
+    <mp-result class="result" :title="t('success')" :subtitle="t('description')">
       <template #footer>
         <mp-button type="success" @click="success = false">{{ t('button') }}</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup v-model:show="error" :default-style="false">
-    <mp-result class="result" type="error" :title="t('error')" :description="t('description')">
+  <mp-popup v-model:open="error" :default-style="false">
+    <mp-result class="result" status="danger" :title="t('danger')" :subtitle="t('description')">
       <template #footer>
         <mp-button type="danger" @click="error = false">{{ t('button') }}</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup v-model:show="warning" :default-style="false">
-    <mp-result class="result" type="warning" :title="t('warning')" :description="t('description')">
+  <mp-popup v-model:open="warning" :default-style="false">
+    <mp-result class="result" status="warning" :title="t('warning')" :subtitle="t('description')">
       <template #footer>
         <mp-button type="warning" @click="warning = false">{{ t('button') }}</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup v-model:show="info" :default-style="false">
-    <mp-result class="result" type="info" :title="t('info')" :description="t('description')">
+  <mp-popup v-model:open="info" :default-style="false">
+    <mp-result class="result" status="info" :title="t('info')" :subtitle="t('description')">
       <template #footer>
         <mp-button type="info" @click="info = false">{{ t('button') }}</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup v-model:show="question" :default-style="false">
-    <mp-result class="result" type="question" :title="t('question')" :description="t('description')">
+  <mp-popup v-model:open="question" :default-style="false">
+    <mp-result class="result" status="question" :title="t('question')" :subtitle="t('description')">
       <template #footer>
         <mp-button color="var(--mp-result-question-color)" text-color="#fff" @click="question = false"
           >{{ t('button') }}
@@ -78,8 +78,8 @@ onThemeChange()
     </mp-result>
   </mp-popup>
 
-  <mp-popup v-model:show="empty" :default-style="false">
-    <mp-result class="result" type="empty" :title="t('empty')" :description="t('description')">
+  <mp-popup v-model:open="empty" :default-style="false">
+    <mp-result class="result" status="empty" :title="t('empty')" :subtitle="t('description')">
       <template #footer>
         <mp-button color="var(--mp-result-empty-color)" text-color="#fff" @click="empty = false"
           >{{ t('button') }}

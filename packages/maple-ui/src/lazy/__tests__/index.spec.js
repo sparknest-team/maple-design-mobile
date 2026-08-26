@@ -12,11 +12,11 @@ test('lazy use', () => {
 const Wrapper = {
   directives: { Lazy },
   data: () => ({
-    src: 'https://maplejs.org/varlet/cat.jpg',
+    src: 'https://maplejs.org/cat.jpg',
   }),
   template: `
     <img
-      lazy-error="https://maplejs.org/varlet/error.jpg"
+      lazy-error="https://maplejs.org/error.jpg"
       v-lazy="src"
       lazy-loading="https://xxx.cn/loading.png"
       lazy-attempt="3"
@@ -35,7 +35,7 @@ describe('test lazy component props', () => {
 
     await trigger(wrapper.element._lazy.preloadImage, 'load')
     await delay(80)
-    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/varlet/cat.jpg')
+    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/cat.jpg')
 
     wrapper.unmount()
     imageCache.clear()
@@ -45,7 +45,7 @@ describe('test lazy component props', () => {
   test('lazy error', () => {
     const { mockRestore } = mockDoubleRaf()
     const wrapper = mount(Wrapper)
-    expect(wrapper.find('img').attributes('lazy-error')).toBe('https://maplejs.org/varlet/error.jpg')
+    expect(wrapper.find('img').attributes('lazy-error')).toBe('https://maplejs.org/error.jpg')
     wrapper.unmount()
     imageCache.clear()
     mockRestore()
@@ -82,12 +82,12 @@ describe('test lazy component props', () => {
 
     await delay(80)
     await trigger(wrapper.element._lazy.preloadImage, 'load')
-    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/varlet/cat.jpg')
+    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/cat.jpg')
 
-    await wrapper.setData({ src: 'https://maplejs.org/varlet/dog.jpg' })
+    await wrapper.setData({ src: 'https://maplejs.org/dog.jpg' })
     await delay(80)
     await trigger(wrapper.element._lazy.preloadImage, 'load')
-    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/varlet/dog.jpg')
+    expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/dog.jpg')
 
     wrapper.unmount()
     imageCache.clear()

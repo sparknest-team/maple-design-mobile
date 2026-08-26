@@ -20,8 +20,8 @@ function previewImage(options: UserImagePreviewOptions) {
   const imagePreviewOptions = normalizePreviewOptions(options, defaultOptions)
   const reactiveImagePreviewOptions = reactive({
     ...imagePreviewOptions,
-    teleport: imagePreviewOptions.teleport ?? 'body',
-    visible: true,
+    popupContainer: imagePreviewOptions.popupContainer ?? 'body',
+    open: true,
   })
 
   singletonOptions = reactiveImagePreviewOptions
@@ -37,8 +37,11 @@ function previewImage(options: UserImagePreviewOptions) {
       unmountInstance()
       singletonOptions === reactiveImagePreviewOptions && (singletonOptions = null)
     },
-    'onUpdate:visible': (value: boolean) => {
-      reactiveImagePreviewOptions.visible = value
+    'onUpdate:open': (value: boolean) => {
+      reactiveImagePreviewOptions.open = value
+    },
+    onOpenChange: (value: boolean) => {
+      call(reactiveImagePreviewOptions.onOpenChange, value)
     },
   })
 }
@@ -49,7 +52,7 @@ previewImage.close = () => {
     singletonOptions = null
 
     nextTick().then(() => {
-      prevSingletonOptions.visible = false
+      prevSingletonOptions.open = false
     })
   }
 }
@@ -72,10 +75,10 @@ withInstall(ImagePreviewGroup)
 withInstall(ImagePreview, ImagePreviewPlugin)
 withPropsDefaultsSetter(ImagePreviewPlugin, imagePreviewProps)
 
-export { imagePreviewProps, ImagePreview, ImagePreviewGroup, previewImage }
+export { imagePreviewProps, ImagePreview, previewImage }
 export type { ImagePreviewOptions, UserImagePreviewOptions }
 
 export const _ImagePreviewComponent = ImagePreview
-export const _ImagePreviewGroupComponent = ImagePreviewGroup
+export type ImagePreviewInstance = InstanceType<typeof ImagePreview>
 
 export default ImagePreviewPlugin

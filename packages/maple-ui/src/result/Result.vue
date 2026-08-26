@@ -1,24 +1,24 @@
 <template>
   <div :class="classes(n(), n('$--box'))">
     <slot name="image">
-      <div v-if="type" :class="n('image-container')">
+      <div v-if="status" :class="n('image-container')">
         <div
-          :class="classes(n('image'), n(type))"
+          :class="classes(n('image'), n(status))"
           :style="{
             width: circleSize,
             height: circleSize,
             borderWidth: borderSize,
           }"
         >
-          <component :is="type" :border-size="borderSize" :animation="animation" />
+          <component :is="status" :border-size="borderSize" :animation="animation" />
         </div>
       </div>
     </slot>
     <slot name="title">
       <div v-if="title" :class="n('title')">{{ title }}</div>
     </slot>
-    <slot name="description">
-      <div v-if="description" :class="n('description')">{{ description }}</div>
+    <slot name="subtitle">
+      <div v-if="subtitle" :class="n('subtitle')">{{ subtitle }}</div>
     </slot>
     <div v-if="$slots.footer" :class="n('footer')">
       <slot name="footer" />
@@ -30,8 +30,8 @@
 import { computed, defineComponent } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import Danger from './Danger.vue'
 import Empty from './Empty.vue'
-import Error from './Error.vue'
 import Info from './Info.vue'
 import { props } from './props'
 import Question from './Question.vue'
@@ -46,7 +46,7 @@ export default defineComponent({
     Info,
     Success,
     Warning,
-    Error,
+    Danger,
     Question,
     Empty,
   },

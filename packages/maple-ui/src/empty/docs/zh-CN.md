@@ -32,7 +32,7 @@ import { ref } from 'vue'
 
 ```html
 <template>
-  <mp-empty description="自定义图片" image-src="https://cdn.example.com/empty.svg" />
+  <mp-empty description="自定义图片" image-url="https://cdn.example.com/empty.svg" />
 </template>
 ```
 
@@ -42,7 +42,7 @@ import { ref } from 'vue'
 <template>
   <mp-empty description="自定义图标">
     <template #image>
-      <mp-icon name="search" />
+      <m-icon-search />
     </template>
   </mp-empty>
 </template>
@@ -68,7 +68,7 @@ import { ref } from 'vue'
 | --- | --- | --- | --- |
 | `description` | 描述文字 | _string_ | `-` |
 | `image-size` | 图标尺寸，可选值为 `xs` `sm` `md` `lg` `xl`，或具体数值 | _string \| number_ | `md` |
-| `image-src` | 自定义图片地址（会覆盖默认图标） | _string_ | `-` |
+| `image-url` | 自定义图片地址（会覆盖默认图标） | _string_ | `-` |
 | `show-icon` | 是否显示图标 | _boolean_ | `true` |
 | `show-description` | 是否显示描述 | _boolean_ | `true` |
 | `on-click` | 点击回调 | _(event: Event) => void_ | `-` |

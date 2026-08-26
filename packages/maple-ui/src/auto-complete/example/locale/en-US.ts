@@ -2,7 +2,7 @@ export default {
   standard: 'Standard Variant',
   outlined: 'Outlined Variant',
   smallSize: 'Small Size',
-  maxlength: 'Maxlength',
+  maxLength: 'Maxlength',
   disabled: 'Disabled',
   readonly: 'Readonly',
   clearable: 'Clearable',

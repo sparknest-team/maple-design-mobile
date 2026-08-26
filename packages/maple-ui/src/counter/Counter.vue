@@ -41,11 +41,12 @@
         @touchend="releaseDecrement"
         @touchcancel="releaseDecrement"
       >
-        <mp-icon name="minus" />
+        <mp-icon><MIconMinus /></mp-icon>
       </mp-button>
 
       <input
         v-model="inputValue"
+        autocomplete="off"
         :class="classes(n('input'), [disabled || formDisabled, n('--not-allowed')])"
         :style="{
           width: toSizeUnit(inputWidth),
@@ -92,7 +93,7 @@
         @touchend="releaseIncrement"
         @touchcancel="releaseIncrement"
       >
-        <mp-icon name="plus" />
+        <mp-icon><MIconPlus /></mp-icon>
       </mp-button>
     </div>
   </div>
@@ -100,6 +101,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch, type ComputedRef } from 'vue'
+import { IconMinus as MIconMinus, IconPlus as MIconPlus } from '@maplejs/icons-vue'
 import { call, toNumber } from '@maplejs/maple-shared'
 import { Decimal } from 'decimal.js'
 import MpButton from '../button'
@@ -119,13 +121,16 @@ const { name, n, classes } = createNamespace('counter')
 export default defineComponent({
   name,
   components: {
+    MIconMinus,
+    MIconPlus,
     MpButton,
     MpIcon,
   },
   directives: { Ripple },
   inheritAttrs: false,
   props,
-  setup(props) {
+  emits: ['change', 'input', 'focus', 'blur', 'keydown', 'update:modelValue', 'increment', 'decrement'],
+  setup(props, { emit }) {
     const inputValue = ref<string | number>('')
     const { form } = useForm()
     const { mergedError: formMergedError, eventHandlers } = useFormItem()
@@ -152,7 +157,7 @@ export default defineComponent({
       () => props.modelValue,
       (newValue) => {
         setNormalizedValue(normalizeValue(String(newValue)))
-        call(props.onChange, toNumber(newValue))
+        emit('change', toNumber(newValue))
       },
     )
 
@@ -192,7 +197,7 @@ export default defineComponent({
       const parsedValue = parseValue(value)
       const normalizedValue = normalizeValue(parsedValue)
 
-      call(props.onInput, toNumber(normalizedValue), value, event)
+      emit('input', toNumber(normalizedValue), value, event)
 
       if (props.modelEvent === 'input') {
         setNormalizedValue(normalizedValue)
@@ -200,31 +205,31 @@ export default defineComponent({
     }
 
     function handleChange(event: Event) {
-      const { lazyChange, onBeforeChange } = props
+      const { lazyChange, beforeChange } = props
       const { value } = event.target as HTMLInputElement
       const normalizedValue = normalizeValue(parseValue(value))
 
-      lazyChange ? call(onBeforeChange, toNumber(normalizedValue), change) : setNormalizedValue(normalizedValue)
+      lazyChange ? call(beforeChange, toNumber(normalizedValue), change) : setNormalizedValue(normalizedValue)
 
       eventHandlers.value.onChange?.()
     }
 
     function handleFocus(event: FocusEvent) {
-      call(props.onFocus, event)
+      emit('focus', event)
       eventHandlers.value.onFocus?.()
     }
 
     function handleBlur(event: FocusEvent) {
-      call(props.onBlur, event)
+      emit('blur', event)
       eventHandlers.value.onBlur?.()
     }
 
     function handleKeydown(event: KeyboardEvent) {
-      call(props.onKeydown, event)
+      emit('keydown', event)
     }
 
     function decrement() {
-      const { disabled, readonly, disableDecrement, lazyChange, step, modelValue, onDecrement, onBeforeChange } = props
+      const { disabled, readonly, disableDecrement, lazyChange, step, modelValue, beforeChange } = props
 
       if (
         formDisabled?.value ||
@@ -245,10 +250,10 @@ export default defineComponent({
       const normalizedValue = normalizeValue(value)
       const normalizedValueNum = toNumber(normalizedValue)
 
-      call(onDecrement, normalizedValueNum)
+      emit('decrement', normalizedValueNum)
 
       if (lazyChange) {
-        call(onBeforeChange, normalizedValueNum, change)
+        call(beforeChange, normalizedValueNum, change)
       } else {
         setNormalizedValue(normalizedValue)
         eventHandlers.value.onChange?.()
@@ -256,7 +261,7 @@ export default defineComponent({
     }
 
     function increment() {
-      const { disabled, readonly, disableIncrement, lazyChange, step, modelValue, onIncrement, onBeforeChange } = props
+      const { disabled, readonly, disableIncrement, lazyChange, step, modelValue, beforeChange } = props
 
       if (
         formDisabled?.value ||
@@ -277,10 +282,10 @@ export default defineComponent({
       const normalizedValue = normalizeValue(value)
       const normalizedValueNum = toNumber(normalizedValue)
 
-      call(onIncrement, normalizedValueNum)
+      emit('increment', normalizedValueNum)
 
       if (lazyChange) {
-        call(onBeforeChange, normalizedValueNum, change)
+        call(beforeChange, normalizedValueNum, change)
       } else {
         setNormalizedValue(normalizedValue)
         eventHandlers.value.onChange?.()
@@ -340,7 +345,7 @@ export default defineComponent({
 
       const normalizedValueNum = toNumber(normalizedValue)
 
-      call(props['onUpdate:modelValue'], normalizedValueNum)
+      emit('update:modelValue', normalizedValueNum)
     }
 
     function change(value: number) {

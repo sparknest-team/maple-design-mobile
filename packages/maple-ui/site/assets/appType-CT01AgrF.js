@@ -1,1 +1,0 @@
-import{d as a,a5 as n}from"./index-CLBN0B2q.js";const m=a({name:"AppType",setup(r,{slots:p}){return()=>{var e;return n("div",{class:"app-type"},[(e=p.default)==null?void 0:e.call(p)])}}});export{m as A};

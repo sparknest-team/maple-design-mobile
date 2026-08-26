@@ -1,7 +1,6 @@
 import { type PropType, type TeleportProps } from 'vue'
 import type { PositioningStrategy } from '@popperjs/core'
-import type { NeededPopperPlacement, Reference, Trigger } from '../popover/usePopover'
-import { defineListenerProp } from '../utils/components'
+import type { NeededPopperPlacement, Reference, TriggerEvent } from '../trigger'
 
 export type Placement = NeededPopperPlacement
 
@@ -15,10 +14,10 @@ export const props = {
   color: String,
   textColor: String,
   content: String,
-  show: Boolean,
+  open: Boolean,
   disabled: Boolean,
   trigger: {
-    type: String as PropType<Trigger>,
+    type: String as PropType<TriggerEvent>,
     default: 'hover',
   },
   reference: [String, Object] as PropType<Reference>,
@@ -38,20 +37,14 @@ export const props = {
     type: [Number, String],
     default: 0,
   },
-  teleport: {
+  popupContainer: {
     type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
     default: 'body',
   },
   sameWidth: Boolean,
   closeOnClickReference: Boolean,
-  closeOnKeyEscape: {
+  escToClose: {
     type: Boolean,
     default: true,
   },
-  onOpen: defineListenerProp<() => void>(),
-  onOpened: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<() => void>(),
-  onClosed: defineListenerProp<() => void>(),
-  onClickOutside: defineListenerProp<(event: Event) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
 }

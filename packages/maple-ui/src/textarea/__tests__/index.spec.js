@@ -39,8 +39,8 @@ describe('textarea events', () => {
   })
 })
 
-test('textarea maxlength', () => {
-  const wrapper = mount(VarTextarea, { props: { modelValue: 'text', maxlength: 100 } })
+test('textarea maxLength', () => {
+  const wrapper = mount(VarTextarea, { props: { modelValue: 'text', maxLength: 100 } })
   expect(wrapper.find('.mp-textarea__length').text()).toBe('4/100')
 })
 

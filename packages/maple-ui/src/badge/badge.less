@@ -7,7 +7,7 @@
   --mp-badge-description-size-md-font-size: 14px;
   --mp-badge-description-size-lg-font-size: 16px;
   --mp-badge-description-size-xl-font-size: 18px;
-  --mp-badge-description-text-color: var(--mp-color-on-surface, #1d1b20);
+  --mp-badge-description-text-color: var(--mp-color-text-1);
 
   // size: font-size
   --mp-badge-size-xs-font-size: 12px;
@@ -63,15 +63,19 @@
   --mp-badge-status-default-bg-color: #e0e0e0;
   --mp-badge-status-default-text-color: #1d1b20;
   --mp-badge-status-info-bg-color: var(--mp-color-info);
-  --mp-badge-status-info-text-color: var(--mp-color-on-info);
+  --mp-badge-status-info-text-color: var(--mp-color-white);
   --mp-badge-status-success-bg-color: var(--mp-color-success);
-  --mp-badge-status-success-text-color: var(--mp-color-on-success);
+  --mp-badge-status-success-text-color: var(--mp-color-white);
   --mp-badge-status-warning-bg-color: var(--mp-color-warning);
-  --mp-badge-status-warning-text-color: var(--mp-color-on-warning);
+  --mp-badge-status-warning-text-color: var(--mp-color-white);
   --mp-badge-status-danger-bg-color: var(--mp-color-danger);
-  --mp-badge-status-danger-text-color: var(--mp-color-on-danger);
+  --mp-badge-status-danger-text-color: var(--mp-color-white);
   --mp-badge-status-primary-bg-color: var(--mp-color-primary);
-  --mp-badge-status-primary-text-color: var(--mp-color-on-primary);
+  --mp-badge-status-primary-text-color: var(--mp-color-white);
+  --mp-badge-status-secondary-bg-color: rgb(var(--mp-gray-6));
+  --mp-badge-status-secondary-text-color: var(--mp-color-white);
+  --mp-badge-status-tertiary-bg-color: rgb(var(--mp-gray-7));
+  --mp-badge-status-tertiary-text-color: var(--mp-color-white);
 
   // variant=outline
   --mp-badge-variant-outline-bg-color: transparent;
@@ -82,6 +86,11 @@
   --mp-badge-variant-outline-status-danger-text-color: var(--mp-color-danger);
   --mp-badge-variant-outline-status-primary-text-color: var(--mp-color-primary);
   --mp-badge-variant-outline-status-default-text-color: #1d1b20;
+  --mp-badge-variant-outline-status-secondary-text-color: rgb(var(--mp-gray-6));
+  --mp-badge-variant-outline-status-tertiary-text-color: rgb(var(--mp-gray-7));
+  --mp-badge-border-color: var(--mp-color-bg-2);
+  --mp-badge-offset: 2px;
+  --mp-badge-ring-width: 2px;
 }
 
 .mp-badge {
@@ -90,7 +99,7 @@
   line-height: 1;
 
   // floating layout
-  &--type-floating &__content-wrapper {
+  &--mode-floating &__content-wrapper {
     position: absolute;
     z-index: 2;
     box-sizing: border-box;
@@ -102,33 +111,33 @@
   &--position-top-right &__content-wrapper {
     transform: translate(50%, -50%);
     transform-origin: 100% 0%;
-    top: 2px;
-    right: 2px;
+    top: var(--mp-badge-offset);
+    right: var(--mp-badge-offset);
   }
 
   &--position-top-left &__content-wrapper {
     transform: translate(-50%, -50%);
     transform-origin: 0% 0%;
-    top: 2px;
-    left: 2px;
+    top: var(--mp-badge-offset);
+    left: var(--mp-badge-offset);
   }
 
   &--position-bottom-right &__content-wrapper {
     transform: translate(50%, 50%);
     transform-origin: 100% 100%;
-    bottom: 2px;
-    right: 2px;
+    bottom: var(--mp-badge-offset);
+    right: var(--mp-badge-offset);
   }
 
   &--position-bottom-left &__content-wrapper {
     transform: translate(-50%, 50%);
     transform-origin: 0% 100%;
-    bottom: 2px;
-    left: 2px;
+    bottom: var(--mp-badge-offset);
+    left: var(--mp-badge-offset);
   }
 
   &__custom-dot {
-    background-color: var(--mp-color-surface, #fff);
+    background-color: var(--mp-badge-border-color);
   }
 
   &__content {
@@ -137,13 +146,13 @@
     background-color: var(--mp-badge-bg-color);
     color: var(--mp-badge-text-color);
     font-weight: var(--mp-badge-font-weight);
-    box-shadow: 0 0 0 2px var(--mp-color-surface, #fff);
+    box-shadow: 0 0 0 var(--mp-badge-ring-width) var(--mp-badge-border-color);
   }
 
   &__dot-content {
     background-color: var(--mp-badge-bg-color);
     border-radius: 50%;
-    box-shadow: 0 0 0 2px var(--mp-color-surface, #fff);
+    box-shadow: 0 0 0 var(--mp-badge-ring-width) var(--mp-badge-border-color);
   }
 
   &__wrapper {
@@ -151,7 +160,7 @@
     align-items: center;
   }
 
-  &--type-inline &__wrapper {
+  &--mode-inline &__wrapper {
     display: inline-flex;
   }
 
@@ -159,8 +168,8 @@
     flex-direction: row-reverse;
   }
 
-  &--type-inline &__description-wrapper,
-  &--type-inline &__content-wrapper {
+  &--mode-inline &__description-wrapper,
+  &--mode-inline &__content-wrapper {
     display: inline-flex;
     align-items: center;
   }
@@ -193,9 +202,11 @@
   .status(warning);
   .status(danger);
   .status(primary);
+  .status(secondary);
+  .status(tertiary);
 
   // description
-  &--type-inline &__description-wrapper {
+  &--mode-inline &__description-wrapper {
     color: var(--mp-badge-description-text-color);
     line-height: 1.5;
   }
@@ -219,7 +230,7 @@
         line-height: var(~'--mp-badge-size-@{size}-height');
       }
       &.mp-badge--variant-outline .mp-badge__content {
-        line-height: calc(var(~'--mp-badge-size-@{size}-height') - 2px);
+        line-height: calc(var(~'--mp-badge-size-@{size}-height') - var(--mp-badge-ring-width));
       }
       &.mp-badge--dot .mp-badge__content-wrapper {
         border-radius: 50%;
@@ -228,7 +239,7 @@
         width: var(~'--mp-badge-size-@{size}-dot-width');
         height: var(~'--mp-badge-size-@{size}-dot-height');
       }
-      &.mp-badge--type-inline .mp-badge__description-wrapper {
+      &.mp-badge--mode-inline .mp-badge__description-wrapper {
         margin-inline: var(~'--mp-badge-size-@{size}-space') 0;
       }
       &.mp-badge--inline-position-end .mp-badge__description-wrapper {

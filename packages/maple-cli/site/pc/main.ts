@@ -1,12 +1,11 @@
 import { createApp } from 'vue'
 import config from '@config'
-import Maple from '@maplejs/maple-ui'
 import routes from '@pc-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import CodeExample from './components/code-example'
-import '@maplejs/maple-ui/es/style'
 import '@maplejs/maple-touch-emulator'
+import '@maple-theme'
 
 const defaultLanguage = config?.defaultLanguage
 const redirect = config?.pc?.redirect
@@ -70,7 +69,6 @@ Object.defineProperty(window, 'scrollToMenu', {
 })
 
 createApp(App)
-  .use(Maple)
   .use(router)
   // @ts-ignore
   .use(CodeExample)

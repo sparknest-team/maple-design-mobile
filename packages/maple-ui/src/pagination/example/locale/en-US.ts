@@ -3,6 +3,7 @@ export default {
   morePages: 'More Pages',
   showPageSize: 'Page Size',
   showJumper: 'Page Jumper',
+  size: 'Pagination Size',
   showTotal: 'Show Total',
   total: 'Total',
   item: 'items',

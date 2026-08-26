@@ -1,4 +1,4 @@
-# Varlet VSCode Extension
+# Maple VSCode Extension
 English | [中文](README.zh-CN.md)
 ### Intro
 

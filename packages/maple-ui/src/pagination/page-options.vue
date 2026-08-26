@@ -9,11 +9,11 @@
     <li :class="classes(n('size'), [disabled, n('item--disabled')])">
       <div :class="classes(n('size--open'), [disabled, n('size--open--disabled')])">
         <span>{{ pageSize }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}</span>
-        <mp-icon :class="n('size--open-icon')" mp-pagination-cover name="menu-down" />
+        <mp-icon :class="n('size--open-icon')" mp-pagination-cover><MIconMenuDown /></mp-icon>
       </div>
     </li>
 
-    <template #options>
+    <template #content>
       <mp-menu-option v-for="(option, index) in sizeOptions" :key="index" :value="option">
         {{ option }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}
       </mp-menu-option>
@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
@@ -33,8 +34,9 @@ import { createNamespace } from '../utils/components'
 const { n, classes } = createNamespace('pagination')
 
 export default defineComponent({
-  name: 'MpPaginationOptions',
+  name: createNamespace('pagination-options').name,
   components: {
+    MIconMenuDown,
     MpMenu,
     MpMenuOption,
     MpIcon,

@@ -1,5 +1,79 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`checkbox group field-names label 1`] = `
+"<div class="mp-checkbox-group__wrap">
+  <div class="mp-checkbox-group mp-checkbox-group--horizontal">
+    <div class="mp-checkbox__wrap">
+      <div class="mp-checkbox">
+        <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
+          <!--v-if-->
+          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-checkbox__wrap">
+      <div class="mp-checkbox">
+        <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
+          <!--v-if-->
+          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-checkbox__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-checkbox__wrap">
+      <div class="mp-checkbox">
+        <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
+          <!--v-if-->
+          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-checkbox__text"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`checkbox group field-names value 1`] = `
+"<div class="mp-checkbox-group__wrap">
+  <div class="mp-checkbox-group mp-checkbox-group--horizontal">
+    <div class="mp-checkbox__wrap">
+      <div class="mp-checkbox">
+        <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
+          <!--v-if-->
+          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-checkbox__wrap">
+      <div class="mp-checkbox">
+        <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
+          <!--v-if-->
+          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-checkbox__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-checkbox__wrap">
+      <div class="mp-checkbox">
+        <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
+          <!--v-if-->
+          <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-checkbox__text"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
 exports[`checkbox group label is VNode 1`] = `
 "<div class="mp-checkbox-group__wrap">
   <div class="mp-checkbox-group mp-checkbox-group--horizontal">

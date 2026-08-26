@@ -6,7 +6,7 @@
         n(),
         n('$--box'),
         [isInternalSize(size), n(`--${size}`)],
-        [round, n('--round')],
+        [shape === 'circle', n('--round')],
         [bordered, n('--bordered')],
         [hoverable, n('--hoverable')],
       )
@@ -19,15 +19,15 @@
     }"
     @click="handleClick"
   >
-    <template v-if="src">
+    <template v-if="imageUrl">
       <img
         v-if="lazy"
-        v-lazy="src"
+        v-lazy="imageUrl"
         role="img"
         :class="n('image')"
-        :src="src"
+        :src="imageUrl"
         :alt="alt"
-        :style="{ objectFit: fit }"
+        :style="{ objectFit }"
         :lazy-loading="loading"
         :lazy-error="error"
         @load="handleLoad"
@@ -37,9 +37,9 @@
         v-else
         role="img"
         :class="n('image')"
-        :src="src"
+        :src="imageUrl"
         :alt="alt"
-        :style="{ objectFit: fit }"
+        :style="{ objectFit }"
         @load="handleLoad"
         @error="handleError"
       />
@@ -68,7 +68,8 @@ export default defineComponent({
   name,
   directives: { Lazy },
   props,
-  setup(props) {
+  emits: ['error', 'click', 'load'],
+  setup(props, { emit }) {
     const avatarElement: Ref<HTMLElement | null> = ref(null)
     const textElement: Ref<HTMLElement | null> = ref(null)
     const scale: Ref<number> = ref(1)
@@ -94,22 +95,22 @@ export default defineComponent({
 
     function handleLoad(e: Event) {
       const el: LazyHTMLElement = e.currentTarget as LazyHTMLElement
-      const { lazy, onLoad, onError } = props
+      const { lazy } = props
 
       if (lazy) {
-        el._lazy.state === 'success' && call(onLoad, e)
-        el._lazy.state === 'error' && call(onError, e)
+        el._lazy.state === 'success' && emit('load', e)
+        el._lazy.state === 'error' && emit('error', e)
       } else {
-        call(onLoad, e)
+        emit('load', e)
       }
     }
 
     function handleError(e: Event) {
-      call(props.onError, e)
+      emit('error', e)
     }
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {

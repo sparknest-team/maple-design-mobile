@@ -31,24 +31,24 @@ onUnmounted(() => {
 
 <template>
   <mp-space direction="column" :size="[12, 12]">
-    <mp-progress :value="20" />
-    <mp-progress :value="value" :track="false" label />
-    <mp-progress :value="100" label>success</mp-progress>
+    <mp-progress :percent="20" />
+    <mp-progress :percent="value" :track="false" show-text />
+    <mp-progress :percent="100" show-text>success</mp-progress>
   </mp-space>
 </template>
 ```
 
 ### 其他样式
 
-通过 `type`、`line-width`、`color`、`track-color` 属性设置线宽、进度条颜色、轨道颜色。
+通过 `status`、`stroke-width`、`color`、`track-color` 属性设置线宽、进度条颜色、轨道颜色。
 
 ```html
 <template>
   <mp-space direction="column" :size="[12, 12]">
-    <mp-progress :value="40" color="linear-gradient(131.53deg, #3fecff 0%, #6149f6 100%)"/>
-    <mp-progress type="info" :value="40" />
-    <mp-progress type="success" :value="60" />
-    <mp-progress :value="80" :line-width="8" color="#ff9f00" track-color="#f5cb90" />
+    <mp-progress :percent="40" color="linear-gradient(131.53deg, #3fecff 0%, #6149f6 100%)"/>
+    <mp-progress status="info" :percent="40" />
+    <mp-progress status="success" :percent="60" />
+    <mp-progress :percent="80" :stroke-width="8" color="#ff9f00" track-color="#f5cb90" />
   </mp-space>
 </template>
 ```
@@ -82,16 +82,16 @@ onUnmounted(() => {
   <mp-space :size="[20, 20]">
     <mp-progress 
       mode="circle" 
-      :value="100" 
+      :percent="100" 
       :size="60"  
       :color="{
         '0%': '#3fecff',
         '100%': '#6149f6',
       }" 
     />
-    <mp-progress mode="circle" :value="75" :size="60" :track="false" />
-    <mp-progress mode="circle" label :value="value" :line-width="5" :size="60" />
-    <mp-progress mode="circle" type="success" label :value="100" :line-width="5" :size="60">
+    <mp-progress mode="circle" :percent="75" :size="60" :track="false" />
+    <mp-progress mode="circle" show-text :percent="value" :stroke-width="5" :size="60" />
+    <mp-progress mode="circle" status="success" show-text :percent="100" :stroke-width="5" :size="60">
       success
     </mp-progress>
   </mp-space>
@@ -106,11 +106,11 @@ onUnmounted(() => {
 <template>
   <mp-space direction="column" :size="[20, 20]">
     <mp-progress indeterminate />
-    <mp-progress indeterminate type="info" />
+    <mp-progress indeterminate status="info" />
 
     <mp-space justify="space-between">
       <mp-progress mode="circle" indeterminate :size="60" />
-      <mp-progress mode="circle" type="info" indeterminate :size="60" />
+      <mp-progress mode="circle" status="info" indeterminate :size="60" />
     </mp-space>
   </mp-space>
 </template>
@@ -122,14 +122,14 @@ onUnmounted(() => {
 
 | 参数            | 说明                                                              | 类型       | 默认值       |
 |---------------|-----------------------------------------------------------------|----------|-----------|
-| `mode`        | `progress` 的模式，可选值为 `linear, circle`                            | _string_ | `linear`  |
-| `type`        | 类型，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary`      |
-| `value`       | `progress` 的进度                                                  | _string \| number_   |  `0`  |
-| `line-width`  | `progress` 的线宽                                                  | _string \| number_   | `4` |
+| `mode`        | `progress` 的模式，可选值为 `line, circle`                            | _string_ | `line`  |
+| `status`        | 类型，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary`      |
+| `percent`       | `progress` 的进度                                                  | _string \| number_   |  `0`  |
+| `stroke-width`  | `progress` 的线宽                                                  | _string \| number_   | `4` |
 | `color`       | `progress` 的颜色 (环形进度条设置渐变色请使用object, 渐变同svg的linearGradient元素)                                                  | _string \| object_ | `-` |
 | `track-color` | `progress` 轨道的颜色                                                | _string_ | `-` |
-| `label`       | 是否显示 `label`                                                    | _boolean_ | `false`   |
-| `label-class` | 自定义 `label` 的类名                                                 | _string_ | `-`       |
+| `show-text`       | 是否显示百分比文本                                                    | _boolean_ | `false`   |
+| `text-class` | 自定义文本的类名                                                 | _string_ | `-`       |
 | `track`       | 是否显示 `progress` 的轨道                                             | _boolean_ | `true`    |
 | `indeterminate` | 是否显示不间断动画                                                        | _boolean_ | `false` |
 | `size`        | `progress` 的尺寸（仅支持环形进度条）                                        | _string \| number_   | `40` |
@@ -139,7 +139,7 @@ onUnmounted(() => {
 
 | 名称 | 说明 | 参数 |
 | ----- | -------------- | -------- |
-| `default` | 自定义 label | `-` |
+| `default` | 自定义文本 | `-` |
 
 ### 样式变量
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
@@ -156,4 +156,4 @@ onUnmounted(() => {
 | `--progress-success-color` | `var(--color-success)`|
 | `--progress-warning-color` |  `var(--color-warning)`|
 | `--progress-info-color` | `var(--color-info)`|
-| `--progress-linear-border-radius` | `0px`|
+| `--progress-line-border-radius` | `0px`|

@@ -73,6 +73,7 @@ const loadingSizeMap = {
   sm: 'small',
   md: 'normal',
   lg: 'large',
+  xl: 'large',
 } as const
 
 const props = defineProps(buttonProps)
@@ -127,23 +128,23 @@ function attemptAutoLoading(result: any) {
 }
 
 function handleClick(e: Event) {
-  const { loading, onClick } = props
+  const { loading } = props
 
-  if (!onClick || loading || states.value.disabled || pending.value) {
+  if (!props.onClick || loading || states.value.disabled || pending.value) {
     return
   }
 
-  attemptAutoLoading(call(onClick, e))
+  attemptAutoLoading(call(props.onClick, e))
 }
 
 function handleTouchstart(e: Event) {
-  const { loading, onTouchstart } = props
+  const { loading } = props
 
-  if (!onTouchstart || loading || states.value.disabled || pending.value) {
+  if (!props.onTouchstart || loading || states.value.disabled || pending.value) {
     return
   }
 
-  attemptAutoLoading(call(onTouchstart, e))
+  attemptAutoLoading(call(props.onTouchstart, e))
 }
 
 function handleFocus() {

@@ -31,10 +31,7 @@ export interface CascaderProps extends BasicAttributes {
   modelValue?: any
   options?: CascaderOption[]
   presentation?: CascaderPresentation
-  show?: boolean
-  labelKey?: string
-  valueKey?: string
-  childrenKey?: string
+  open?: boolean
   fieldNames?: CascaderFieldNames
   multiple?: boolean
   checkStrictly?: boolean
@@ -65,7 +62,7 @@ export interface CascaderProps extends BasicAttributes {
   onClose?: ListenerProp<(value: any) => void>
   onChange?: ListenerProp<(value: any) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface CascaderArrowIconData {

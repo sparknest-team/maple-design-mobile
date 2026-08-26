@@ -12,7 +12,7 @@ export interface LoadingProps extends BasicAttributes {
   radius?: string | number
   size?: LoadingSize
   color?: string
-  description?: string
+  tip?: string
   loading?: boolean
 }
 
@@ -23,7 +23,7 @@ export class Loading extends VarComponent {
 
   $slots: {
     default(): VNode[]
-    description(): VNode[]
+    tip(): VNode[]
   }
 }
 

@@ -19,12 +19,12 @@ The cell is a single display item in the list.
 <template>
   <mp-cell icon="fire" title="This is Cell">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
   <mp-cell icon="fire" title="This is Cell">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
 </template>
@@ -36,7 +36,7 @@ The cell is a single display item in the list.
 <template>
   <mp-cell icon="fire" title="This is Cell" description="Description">
     <template #extra>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
   </mp-cell>
   <mp-cell title="This is Cell" description="Description" />
@@ -110,7 +110,6 @@ const handleClick = (item) => {
 | ----- | -------------- | -------- | ---------- |
 | `title` | Title | _string_ | `-` |
 | `icon` | Icon name | _string_ | `-` |
-| `namespace` |  Icon namespace | _string_ | `mp-icon` |
 | `description` | Description | _string_ | `-` |
 | `border` | Whether to show border | _boolean_ | `false` |
 | `border-offset` | Border offset | _string \| number_ | `-` |
@@ -147,7 +146,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--cell-description-color` | `rgba(0, 0, 0, 0.6)` |
 | `--cell-padding` | `10px 12px` |
 | `--cell-min-height` | `40px` |
-| `--cell-border-color` | `var(--color-outline)` |
+| `--cell-border-color` | `var(--color-border-2)` |
 | `--cell-border-left` | `12px` |
 | `--cell-border-right` | `12px` |
 | `--cell-icon-right` | `8px` |

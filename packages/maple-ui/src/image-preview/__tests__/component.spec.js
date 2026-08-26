@@ -33,19 +33,19 @@ test('image preview component plugin', () => {
 })
 
 describe('test image preview component props', () => {
-  test('image preview visible', async () => {
-    const onUpdateVisible = vi.fn((value) => wrapper.setProps({ visible: value }))
+  test('image preview open', async () => {
+    const onUpdateOpen = vi.fn((value) => wrapper.setProps({ open: value }))
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        'onUpdate:visible': onUpdateVisible,
+        popupContainer: null,
+        'onUpdate:open': onUpdateOpen,
       },
     })
 
     expect(wrapper.html()).toMatchSnapshot()
 
     await wrapper.setProps({
-      visible: true,
+      open: true,
     })
     expect(wrapper.html()).toMatchSnapshot()
 
@@ -55,16 +55,16 @@ describe('test image preview component props', () => {
   test('image preview images', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg'],
-        visible: true,
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg'],
+        open: true,
       },
     })
 
     expect(wrapper.findAll('.mp-image-preview__zoom-container').length).toBe(1)
 
     await wrapper.setProps({
-      images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
+      images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
     })
     expect(wrapper.findAll('.mp-image-preview__zoom-container').length).toBe(2)
 
@@ -74,10 +74,10 @@ describe('test image preview component props', () => {
   test('image preview imagePreventDefault', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg'],
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg'],
         imagePreventDefault: true,
-        visible: true,
+        open: true,
       },
     })
 
@@ -91,10 +91,10 @@ describe('test image preview component props', () => {
   test('image preview current', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
         current: 1,
-        visible: true,
+        open: true,
       },
     })
 
@@ -108,9 +108,9 @@ describe('test image preview component props', () => {
   test('image preview closable', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        visible: true,
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
+        open: true,
       },
     })
 
@@ -125,13 +125,13 @@ describe('test image preview component props', () => {
   })
 
   test('image preview zoom', async () => {
-    const onUpdateVisible = vi.fn((value) => wrapper.setProps({ visible: value }))
+    const onUpdateOpen = vi.fn((value) => wrapper.setProps({ open: value }))
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        visible: true,
-        images: ['https://maplejs.org/varlet/cat.jpg'],
-        'onUpdate:visible': onUpdateVisible,
+        popupContainer: null,
+        open: true,
+        images: ['https://maplejs.org/cat.jpg'],
+        'onUpdate:open': onUpdateOpen,
       },
     })
 
@@ -158,9 +158,9 @@ describe('test image preview component props', () => {
   test('image preview zoom move', async () => {
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        visible: true,
-        images: ['https://maplejs.org/varlet/cat.jpg'],
+        popupContainer: null,
+        open: true,
+        images: ['https://maplejs.org/cat.jpg'],
       },
     })
 
@@ -190,13 +190,13 @@ describe('test image preview component props', () => {
 
 describe('test image preview component events', () => {
   test('image preview tap', async () => {
-    const onUpdateVisible = vi.fn((value) => wrapper.setProps({ visible: value }))
+    const onUpdateOpen = vi.fn((value) => wrapper.setProps({ open: value }))
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        visible: true,
-        images: ['https://maplejs.org/varlet/cat.jpg'],
-        'onUpdate:visible': onUpdateVisible,
+        popupContainer: null,
+        open: true,
+        images: ['https://maplejs.org/cat.jpg'],
+        'onUpdate:open': onUpdateOpen,
       },
     })
 
@@ -210,10 +210,10 @@ describe('test image preview component events', () => {
     const onLongPress = vi.fn()
     const wrapper = mount(VarImagePreview, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg'],
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg'],
         onLongPress,
-        visible: true,
+        open: true,
       },
     })
 
@@ -241,9 +241,9 @@ describe('test image preview component methods', () => {
     }
     const wrapper = mount(Wrapper, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        visible: true,
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
+        open: true,
       },
     })
 
@@ -283,9 +283,9 @@ describe('test image preview component methods', () => {
     }
     const wrapper = mount(Wrapper, {
       props: {
-        teleport: null,
-        images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
-        visible: true,
+        popupContainer: null,
+        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
+        open: true,
       },
     })
     const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')

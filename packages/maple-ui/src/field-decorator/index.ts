@@ -7,6 +7,7 @@ withPropsDefaultsSetter(FieldDecorator, fieldDecoratorProps)
 
 export { fieldDecoratorProps }
 
+export type FieldDecoratorInstance = InstanceType<typeof FieldDecorator>
 export const _FieldDecoratorComponent = FieldDecorator
 
 export default FieldDecorator

@@ -7,6 +7,7 @@ withPropsDefaultsSetter(DatePicker, datePickerProps)
 
 export { datePickerProps }
 
+export type DatePickerInstance = InstanceType<typeof DatePicker>
 export const _DatePickerComponent = DatePicker
 
 export default DatePicker

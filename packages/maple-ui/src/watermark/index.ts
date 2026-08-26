@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Watermark, watermarkProps)
 
 export { watermarkProps }
 
+export type WatermarkInstance = InstanceType<typeof Watermark>
 export const _WatermarkComponent = Watermark
 
 export default Watermark

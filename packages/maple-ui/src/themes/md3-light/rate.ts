@@ -1,5 +1,5 @@
 export default {
-  '--mp-rate-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-rate-color': 'var(--mp-color-text-3)',
   '--mp-rate-size': '24px',
   '--mp-rate-disabled-color': 'var(--mp-color-text-disabled)',
   '--mp-rate-error-color': 'var(--mp-color-danger)',

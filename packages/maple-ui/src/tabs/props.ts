@@ -1,6 +1,6 @@
 import { type PropType } from 'vue'
 import { stickyProps } from '../sticky'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 
 export type TabsScrollable = 'auto' | 'always'
 
@@ -59,7 +59,4 @@ export const props = {
   stickyCssMode: pickProps(stickyProps, 'cssMode'),
   stickyZIndex: pickProps(stickyProps, 'zIndex'),
   offsetTop: pickProps(stickyProps, 'offsetTop'),
-  onClick: defineListenerProp<(active: string | number) => void>(),
-  onChange: defineListenerProp<(active: string | number) => void>(),
-  'onUpdate:active': defineListenerProp<(active: string | number) => void>(),
 }

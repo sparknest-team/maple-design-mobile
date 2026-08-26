@@ -19,7 +19,7 @@ function handleAfterRead(file) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @after-read="handleAfterRead"/>
+  <mp-uploader v-model="files" @after:before-read="handleAfterRead"/>
 </template>
 ```
 
@@ -111,7 +111,7 @@ function handleAfterRead(file) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @after-read="handleAfterRead"/>
+  <mp-uploader v-model="files" @after:before-read="handleAfterRead"/>
 </template>
 ```
 
@@ -144,7 +144,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @after-read="handleAfterRead"/>
+  <mp-uploader v-model="files" @after:before-read="handleAfterRead"/>
 </template>
 ```
 
@@ -158,7 +158,7 @@ const files = ref([])
 </script>
 
 <template>
-  <mp-uploader v-model="files" :maxlength="1"/>
+  <mp-uploader v-model="files" :max-files="1"/>
 </template>
 ```
 
@@ -175,13 +175,13 @@ const files = ref([])
 </script>
 
 <template>
-  <mp-uploader v-model="files" :maxsize="1024" @oversize="Message.warning('file size exceeds limit')" />
+  <mp-uploader v-model="files" :max-file-size="1024" @oversize="Message.warning('file size exceeds limit')" />
 </template>
 ```
 
 ### File List Filter
 
-Filter files through the `before-filter` event, and return a `MpFile` array after filtering.
+Filter files through the `before-add` event, and return a `MpFile` array after filtering.
 
 ```html
 <script setup>
@@ -195,7 +195,7 @@ function handleBeforeFilter(files) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" multiple @before-filter="handleBeforeFilter" />
+  <mp-uploader v-model="files" multiple @before:before-add="handleBeforeFilter" />
 </template>
 
 ```
@@ -223,7 +223,7 @@ function handleBeforeRead(file) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @before-read="handleBeforeRead"/>
+  <mp-uploader v-model="files" @before:before-read="handleBeforeRead"/>
 </template>
 ```
 
@@ -308,7 +308,7 @@ async function handleBeforeRemove() {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @before-remove="handleBeforeRemove" />
+  <mp-uploader v-model="files" @before:before-remove="handleBeforeRemove" />
 </template>
 ```
 
@@ -367,7 +367,7 @@ const files = ref([
     />
     <mp-uploader hide-list v-model="files">
       <mp-button round type="primary">
-        <mp-icon :size="28" name="upload" />
+        <m-icon-upload :size="28" />
       </mp-button>
     </mp-uploader>
   </mp-space>
@@ -406,7 +406,7 @@ const files = ref([
   <mp-uploader v-model="files">
     <template #remove-button="{ remove }">
       <div class="custom-remove-button">
-        <mp-icon color="#fff" name="window-close" @click.stop="remove"></mp-icon>
+        <m-icon-window-close color="#fff" @click.stop="remove"></m-icon-window-close>
       </div>
     </template>
   </mp-uploader>
@@ -436,8 +436,8 @@ const files = ref([
 | `disabled` | Whether the disabled | _boolean_ | `false` |
 | `elevation`| Elevation level, options `true` `false` and level of `0-24`, not in simple mode | _string \| number \| boolean_|  `true` |
 | `removable` | Whether the removable | _boolean_ | `true` |
-| `maxlength` | Maximum number of files | _string \| number_ | `-` |
-| `maxsize`   | Maximum file size, the unit is `byte` | _string \| number_ | `-` |
+| `maxFiles` | Maximum number of files | _string \| number_ | `-` |
+| `max-file-size`   | Maximum file size, the unit is `byte` | _string \| number_ | `-` |
 | `previewed` | Whether to allow preview | _boolean_ | `true` |
 | `prevent-default-preview` | Prevent default preview behavior | _boolean_ | `false` |
 | `ripple`    | Whether to open ripple | _boolean_ | `true` |
@@ -470,7 +470,7 @@ const files = ref([
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `before-filter` | Triggered before the event `before-read` to filter the file list | `files: MpFile[]` |
+| `before-add` | Triggered before the event `before-read` to filter the file list | `files: MpFile[]` |
 | `before-read` | Triggered returns a false value before a file is read to prevent the file from being read(support promise) | `file: MpFile` |
 | `after-read` | Triggered after the file is read | `file: MpFile` |
 | `oversize` | Triggered when the file size limit is exceeded | `file: MpFile` |

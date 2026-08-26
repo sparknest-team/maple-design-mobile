@@ -1,6 +1,6 @@
 import { toNumber } from '@maplejs/maple-shared'
 import { hours24, hoursAmpm } from './props'
-import type { AllowedTime, AmPm } from './props'
+import type { AmPm, DisabledTime } from './props'
 
 type DisableProps = {
   time: number
@@ -11,7 +11,7 @@ type DisableProps = {
   max: string | undefined
   min: string | undefined
   disableHour: Array<string>
-  allowedTime: AllowedTime | undefined
+  disabledTime: DisabledTime | undefined
 }
 
 export const notConvert = (format: string, ampm: AmPm | undefined): boolean => format === '24hr' || ampm === 'am'
@@ -40,7 +40,7 @@ export const getIsDisableMinute = (values: Omit<DisableProps, 'minute'>): boolea
   const { time, format, ampm, hour, max, min, disableHour } = values
   const { hourStr, hourNum } = convertHour(format, ampm, hour)
   let isBetweenMinMax = false
-  let isAllow = false
+  let isDisabledByCallback = false
 
   if (disableHour.includes(hourStr)) {
     return true
@@ -64,18 +64,18 @@ export const getIsDisableMinute = (values: Omit<DisableProps, 'minute'>): boolea
     isBetweenMinMax = (minHour === hourNum && time < minMinute) || (maxHour === hourNum && time > maxMinute)
   }
 
-  if (values.allowedTime?.minutes) {
-    isAllow = values.allowedTime?.minutes(time)
+  if (values.disabledTime?.minutes) {
+    isDisabledByCallback = values.disabledTime.minutes(time)
   }
 
-  return isBetweenMinMax || isAllow
+  return isBetweenMinMax || isDisabledByCallback
 }
 
 export const getIsDisableSecond = (values: DisableProps): boolean => {
   const { time, format, ampm, hour, minute, max, min, disableHour } = values
   const { hourStr, hourNum } = convertHour(format, ampm, hour)
   let isBetweenMinMax = false
-  let isAllow = false
+  let isDisabledByCallback = false
 
   if (disableHour.includes(hourStr)) {
     return true
@@ -104,9 +104,9 @@ export const getIsDisableSecond = (values: DisableProps): boolean => {
       (minHour === hourNum && minMinute === minute && time < minSecond)
   }
 
-  if (values.allowedTime?.seconds) {
-    isAllow = values.allowedTime?.seconds(time)
+  if (values.disabledTime?.seconds) {
+    isDisabledByCallback = values.disabledTime.seconds(time)
   }
 
-  return isBetweenMinMax || isAllow
+  return isBetweenMinMax || isDisabledByCallback
 }

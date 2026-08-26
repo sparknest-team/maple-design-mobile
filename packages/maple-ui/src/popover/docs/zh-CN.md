@@ -62,7 +62,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-popover :placement="placement">
       <mp-button type="primary">
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
       <template #content>
         <mp-cell>选项</mp-cell>
@@ -121,7 +121,7 @@ const placementOptions = [
 
 ### 触发方式
 
-通过 `trigger` 改变气泡卡片显示的触发方式，可选值为 `click` 和 `hover`。
+通过 `trigger` 改变气泡卡片显示的触发方式，可选值为 `click`、`hover`、`manual`、`contextMenu`。
 
 ```html
 <template>
@@ -182,7 +182,7 @@ import { Message } from '@maplejs/maple-ui'
 
 ### 双向绑定
 
-通过 `v-model:show` 进行双向绑定控制气泡卡片的显示和隐藏。
+通过 `v-model:open` 进行双向绑定控制气泡卡片的显示和隐藏。
 
 ```html
 <script setup>
@@ -196,7 +196,7 @@ function closeMenu() {
 </script>
 
 <template>
-  <mp-popover v-model:show="show">
+  <mp-popover v-model:open="open">
     <mp-button type="primary">双向绑定</mp-button>
     
     <template #content>
@@ -218,21 +218,22 @@ Popover 是一个 `inline-block` 元素，通过默认插槽点击时显示气�
 
 | 参数              | 说明                                                          | 类型                    | 默认值               |
 |-----------------|-------------------------------------------------------------|-----------------------|-------------------|
-| `v-model:show`  | 是否显示气泡卡片                                                      | _boolean_              | `false`         |
+| `v-model:open`  | 是否显示气泡卡片                                                      | _boolean_              | `false`         |
 | `placement`     | 气泡卡片弹出位置                                                      | _Placement_           | `cover-top-start` |
 | `strategy`       | 气泡卡片定位方式，可选值为 `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x`      | x 轴偏移量， 相对于气泡卡片对齐后的位置                                         | _number \| string_           | `0` |
 | `offset-y`      | y 轴偏移量， 相对于气泡卡片对齐后的位置                                         | _number \| string_           | `0` |
-| `teleport`      | 气泡卡片挂载的位置                                                     | _TeleportProps['to'] \| false_ | `body`            |
+| `popupContainer`      | 气泡卡片挂载的位置                                                     | _TeleportProps['to'] \| false_ | `body`            |
 | `disabled`      | 是否禁用气泡卡片                                                      | _boolean_             | `false`           |
-| `trigger`       | 气泡卡片触发方式，可选值为 `click` `hover` `manual` | _string_              | `click`           |
+| `trigger`       | 气泡卡片触发方式，可选值为 `click` `hover` `manual` `contextMenu` | _string_              | `click`           |
 | `reference`       | 气泡卡片关联的触发元素，`string` 类型为组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_              | `-`           |
 | `elevation` | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _string \| number \| boolean_|   `true`    |
 | `same-width`    | 是否与触发元素同宽                                                   | _boolean_             | `false`           |
 | `default-style` | 是否启用默认样式                                                    | _boolean_             | `true`            |
 | `popover-class` | 弹出层的 class                                                    | _string_             | `-`            |
 | `close-on-click-reference` | 是否在点击触发元素后关闭气泡卡片 | _boolean_ | `false` |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭气泡卡片 | _boolean_ | `true`  |
+| `esc-to-close` | 是否支持键盘 ESC 关闭气泡卡片 | _boolean_ | `true`  |
+| `align-point` | 弹出层是否跟随鼠标（配合 `contextMenu`） | _boolean_ | `false` |
 
 ### Placement
 
@@ -291,5 +292,5 @@ Popover 是一个 `inline-block` 元素，通过默认插槽点击时显示气�
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--popover-background-color` | `var(--color-surface-container-high)` |
+| `--popover-background-color` | `var(--color-fill-2)` |
 | `--popover-border-radius` | `2px` |

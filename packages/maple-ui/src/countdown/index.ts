@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Countdown, countdownProps)
 
 export { countdownProps }
 
+export type CountdownInstance = InstanceType<typeof Countdown>
 export const _CountdownComponent = Countdown
 
 export default Countdown

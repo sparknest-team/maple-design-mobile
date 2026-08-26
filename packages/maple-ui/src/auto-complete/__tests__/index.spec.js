@@ -43,9 +43,9 @@ test('auto-complete options', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option 1')
@@ -70,15 +70,15 @@ test('auto-complete getShow', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.find('input').trigger('blur')
 
   await wrapper.setProps({ modelValue: 'b' })
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   wrapper.unmount()
 })
@@ -88,8 +88,7 @@ test('auto-complete options custom key', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
-      labelKey: 'name',
-      valueKey: 'id',
+      fieldNames: { label: 'name', value: 'id' },
       'onUpdate:modelValue': onUpdateModelValue,
       options: [
         {
@@ -104,9 +103,9 @@ test('auto-complete options custom key', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option Id 1')
@@ -124,11 +123,11 @@ test('auto-complete placeholder', () => {
   wrapper.unmount()
 })
 
-test('auto-complete maxlength', async () => {
+test('auto-complete maxLength', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(AutoComplete, {
     props: {
-      maxlength: 1,
+      maxLength: 1,
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })
@@ -139,12 +138,12 @@ test('auto-complete maxlength', async () => {
   wrapper.unmount()
 })
 
-test('auto-complete maxlength for handle auto complete', async () => {
+test('auto-complete maxLength for handle auto complete', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
-      maxlength: 3,
+      maxLength: 3,
       options: [
         {
           value: 'Option 1',
@@ -159,9 +158,9 @@ test('auto-complete maxlength for handle auto complete', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Opt')
@@ -193,9 +192,9 @@ test('auto-complete disabled', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
 
   await wrapper.trigger('click')
   expect(onClick).not.toHaveBeenCalled()
@@ -227,9 +226,9 @@ test('auto-complete readonly', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
 
   await wrapper.trigger('click')
   expect(onClick).toBeCalledTimes(1)
@@ -313,7 +312,7 @@ test('auto-complete custom color', () => {
 test('auto-complete size', () => {
   const wrapper = mount(AutoComplete, {
     props: {
-      size: 'small',
+      size: 'sm',
     },
   })
 
@@ -362,12 +361,12 @@ test('auto-complete click outside', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await trigger(document, 'click')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
 
   wrapper.unmount()
 })
@@ -391,9 +390,9 @@ test('auto-complete select option by keyboard', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
   await trigger(document.querySelector('.mp-menu-option'), 'focus')
@@ -420,12 +419,12 @@ test('auto-complete close menu by keyboard tab', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await triggerKeyboard(window, 'keydown', { key: 'Tab' })
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
 
   wrapper.unmount()
 })
@@ -445,9 +444,9 @@ test('auto-complete handle same value by option', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onChange).toHaveBeenCalledTimes(0)

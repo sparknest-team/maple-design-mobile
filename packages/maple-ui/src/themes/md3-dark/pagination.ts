@@ -1,8 +1,8 @@
 export default {
   '--mp-pagination-text-color': '#fff',
-  '--mp-pagination-item-background': 'var(--mp-color-surface-container)',
+  '--mp-pagination-item-background': 'var(--mp-color-bg-2)',
   '--mp-pagination-font-size': 'var(--mp-font-size-md)',
-  '--mp-pagination-active-color': 'var(--mp-color-on-primary)',
+  '--mp-pagination-active-color': 'var(--mp-color-white)',
   '--mp-pagination-active-bg-color': 'var(--mp-color-primary)',
   '--mp-pagination-hover-bg-color': 'rgba(85, 85, 85, 0.15)',
   '--mp-pagination-total-margin': '0 10px',

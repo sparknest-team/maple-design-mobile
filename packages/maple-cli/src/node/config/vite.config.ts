@@ -1,8 +1,11 @@
 import { resolve } from 'path'
 import { isArray } from '@maplejs/maple-shared'
 import { copy, html, inlineCss, markdown } from '@maplejs/maple-vite-plugins'
+import { MapleResolver } from '@maplejs/resolver'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { InlineConfig, Plugin } from 'vite'
 import {
   ES_DIR,
@@ -38,6 +41,9 @@ export function getHtmlInject(inject: MapleConfigHtmlInject) {
 
 export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
   const { vitePlugins = [] } = mapleConfig
+  // Dev stubs resolve package exports back to source SFCs, whose styles are
+  // handled by Vite. Published style subpaths do not exist in this mode.
+  const resolverOptions = { importStyle: false }
 
   const plugins = [
     vue({
@@ -45,6 +51,16 @@ export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
     }),
 
     jsx(),
+
+    Components({
+      resolvers: [MapleResolver(resolverOptions)],
+      dts: false,
+    }),
+
+    AutoImport({
+      resolvers: [MapleResolver({ ...resolverOptions, autoImport: true })],
+      dts: false,
+    }),
 
     markdown({ style: mapleConfig?.highlight?.style }),
 
@@ -88,6 +104,7 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
   )
 
   return {
+    configFile: false,
     root: SITE_DIR,
 
     resolve: {
@@ -96,6 +113,7 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
       alias: {
         ...resolveAlias,
         '@config': SITE_CONFIG,
+        '@maple-theme': resolve(SRC_DIR, 'styles/theme/css-variables.less'),
         '@pc-routes': SITE_PC_ROUTES,
         '@mobile-routes': SITE_MOBILE_ROUTES,
       },
@@ -161,6 +179,7 @@ export function getBundleConfig(mapleConfig: Required<MapleConfig>, buildOptions
   }
 
   return {
+    configFile: false,
     logLevel: 'silent',
 
     define: removeEnv
@@ -201,6 +220,7 @@ export type ExtensionMode = 'dev' | 'build'
 
 export function getExtensionConfig(mode: ExtensionMode): InlineConfig {
   return {
+    configFile: false,
     build: {
       sourcemap: mode === 'dev' ? 'inline' : false,
 

@@ -3,7 +3,7 @@
 exports[`uploader disabled 1`] = `
 "<div class="mp-uploader mp--box">
   <div class="mp-uploader__file-list">
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*"><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
@@ -18,12 +18,12 @@ exports[`uploader disabled 2`] = `
   <div class="mp-uploader__file-list">
     <div class="mp-uploader__file mp-elevation--2">
       <div class="mp-uploader__file-name">cat.png</div>
-      <div class="mp-uploader__file-close"><i class="mp-icon mp-icon--set mp-icon-delete mp-uploader__file-close-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i></div><img role="img" class="mp-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
+      <div class="mp-uploader__file-close"><span class="mp-icon mp-uploader__file-close-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6z"></path></svg></span></div><img role="img" class="mp-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
       <div class="mp-uploader__file-indicator">
         <div class="mp-uploader__progress" style="width: 0%;"></div>
       </div>
     </div>
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2 mp-uploader--disabled"><input type="file" class="mp-uploader__action-input" accept="image/*" disabled=""><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2 mp-uploader--disabled"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*" disabled=""><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
@@ -36,7 +36,7 @@ exports[`uploader disabled 2`] = `
 exports[`uploader hideList 1`] = `
 "<div class="mp-uploader mp--box">
   <div class="mp-uploader__file-list">
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*"><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
@@ -46,10 +46,10 @@ exports[`uploader hideList 1`] = `
 </div>"
 `;
 
-exports[`uploader length over maxlength in multiple mode 1`] = `
+exports[`uploader length over maxFiles in multiple mode 1`] = `
 "<div class="mp-uploader mp--box">
   <div class="mp-uploader__file-list">
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*"><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
@@ -64,13 +64,13 @@ exports[`uploader progress 1`] = `
   <div class="mp-uploader__file-list">
     <div class="mp-uploader__file mp-elevation--2 mp-uploader--loading">
       <div class="mp-uploader__file-name">progress</div>
-      <div class="mp-uploader__file-close"><i class="mp-icon mp-icon--set mp-icon-delete mp-uploader__file-close-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i></div>
+      <div class="mp-uploader__file-close"><span class="mp-icon mp-uploader__file-close-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6z"></path></svg></span></div>
       <!--v-if-->
       <div class="mp-uploader__file-indicator">
         <div class="mp-uploader__progress" style="width: 40%;"></div>
       </div>
     </div>
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*"><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
       <div class="mp-hover-overlay"></div>
     </div>
   </div>
@@ -84,12 +84,12 @@ exports[`uploader remove button slot 1`] = `
 "<div class="mp-uploader mp--box">
   <div class="mp-uploader__file-list">
     <div class="mp-uploader__file mp-elevation--2">
-      <div class="mp-uploader__file-name">https://maplejs.org/varlet/cat.jpg</div>remove<img role="img" class="mp-uploader__file-cover" src="https://maplejs.org/varlet/cat.jpg">
+      <div class="mp-uploader__file-name">https://maplejs.org/cat.jpg</div>remove<img role="img" class="mp-uploader__file-cover" src="https://maplejs.org/cat.jpg">
       <div class="mp-uploader__file-indicator">
         <div class="mp-uploader__progress"></div>
       </div>
     </div>
-    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*"><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+    <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*"><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
       <div class="mp-hover-overlay"></div>
     </div>
   </div>

@@ -108,10 +108,10 @@ test('datePicker style and type', async () => {
   wrapper.unmount()
 })
 
-test('datePicker allowedDates', () => {
+test('datePicker disabledDate', () => {
   const wrapper = mount(VarDatePicker, {
     props: {
-      allowedDates: (val) => parseInt(val.split('-')[2], 10) % 2 === 1,
+      disabledDate: (val) => parseInt(val.split('-')[2], 10) % 2 === 0,
       modelValue: '2021-03-01',
     },
   })
@@ -125,6 +125,7 @@ test('datePicker firstDayOfWeek', async () => {
     props: {
       firstDayOfWeek: '3',
       modelValue: '2021-03-01',
+      presentation: 'calendar',
     },
   })
 
@@ -138,6 +139,7 @@ test('datePicker hint', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
       hint: '选择日期',
+      presentation: 'calendar',
     },
   })
 
@@ -159,6 +161,7 @@ test('datePicker max and min', async () => {
       max: '2021-4-8',
       min: '2021-4-8',
       modelValue: '2021-4-8',
+      presentation: 'calendar',
     },
   })
 
@@ -179,7 +182,7 @@ test('datePicker max and min', async () => {
 })
 
 test('datePicker v-model', async () => {
-  const template = `<mp-date-picker :type="type" v-model="date" />`
+  const template = `<mp-date-picker :type="type" v-model="date" presentation="calendar" />`
 
   const wrapper = mount({
     components: {
@@ -321,7 +324,7 @@ test('datePicker range', async () => {
 })
 
 test('datePicker readonly', async () => {
-  const template = `<mp-date-picker v-model="date" readonly :type="type" />`
+  const template = `<mp-date-picker v-model="date" readonly :type="type" presentation="calendar" />`
 
   const wrapper = mount({
     components: {
@@ -360,7 +363,7 @@ test('datePicker touchable', async () => {
         type: 'date',
       }
     },
-    template: `<mp-date-picker v-model="date" :type="type" />`,
+    template: `<mp-date-picker v-model="date" :type="type" presentation="calendar" />`,
   })
 
   const pickBodyEl = wrapper.find('.mp-date-picker__body')
@@ -408,6 +411,7 @@ test('datePicker titleColor', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
       titleColor: 'red',
+      presentation: 'calendar',
     },
   })
 

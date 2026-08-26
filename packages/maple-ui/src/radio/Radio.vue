@@ -19,10 +19,10 @@
         @blur="isFocusing = false"
       >
         <slot v-if="checked" name="checked-icon">
-          <mp-icon :class="n('icon')" mp-radio-cover name="radio-marked" :size="iconSize" />
+          <mp-icon :class="n('icon')" mp-radio-cover :size="iconSize"><MIconRadioMarked /></mp-icon>
         </slot>
         <slot v-else name="unchecked-icon">
-          <mp-icon :class="n('icon')" mp-radio-cover name="radio-blank" :size="iconSize" />
+          <mp-icon :class="n('icon')" mp-radio-cover :size="iconSize"><MIconRadioBlank /></mp-icon>
         </slot>
         <mp-hover-overlay
           :hovering="!disabled && !formDisabled && hovering"
@@ -48,6 +48,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import { IconRadioBlank as MIconRadioBlank, IconRadioMarked as MIconRadioMarked } from '@maplejs/icons-vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import { useFormItem } from '../form-item'
@@ -66,16 +67,19 @@ export default defineComponent({
   name,
   directives: { Ripple, Hover },
   components: {
+    MIconRadioMarked,
+    MIconRadioBlank,
     MpIcon,
     MpHoverOverlay,
   },
   inheritAttrs: false,
   props,
-  setup(props) {
+  emits: ['click', 'change', 'update:modelValue'],
+  setup(props, { emit }) {
     const action = ref<HTMLElement>()
     const isFocusing = ref(false)
-    const value = useVModel(props, 'modelValue')
-    const checked = computed(() => value.value === props.checkedValue)
+    const model = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
+    const checked = computed(() => model.value === props.value)
     const { radioGroup, bindRadioGroup } = useRadioGroup()
     const { hovering, handleHovering } = useHoverOverlay()
     const { form } = useForm()
@@ -143,32 +147,32 @@ export default defineComponent({
     }
 
     function change(changedValue: any) {
-      const { checkedValue, onChange } = props
+      const { value: optionVal } = props
 
-      if (radioGroup && value.value === checkedValue) {
+      if (radioGroup && model.value === optionVal) {
         return
       }
 
-      value.value = changedValue
+      model.value = changedValue
 
-      call(onChange, value.value)
-      radioGroup?.onToggle(checkedValue)
+      emit('change', model.value)
+      radioGroup?.onToggle(optionVal)
       eventHandlers.value.onChange?.()
     }
 
     function handleClick(e: Event) {
-      const { disabled, readonly, uncheckedValue, checkedValue, onClick } = props
+      const { disabled, readonly, value: optionVal } = props
 
       if (form?.disabled.value || disabled) {
         return
       }
 
-      call(onClick, e)
+      emit('click', e)
       if (form?.readonly.value || readonly) {
         return
       }
 
-      change(checked.value ? uncheckedValue : checkedValue)
+      change(checked.value ? false : optionVal)
     }
 
     function handleTextClick() {
@@ -176,20 +180,20 @@ export default defineComponent({
     }
 
     function sync(v: any) {
-      const { checkedValue, uncheckedValue } = props
-      const checked = v === checkedValue
-      value.value = checked ? checkedValue : uncheckedValue
+      const { value: optionVal } = props
+      const isChecked = v === optionVal
+      model.value = isChecked ? optionVal : false
 
-      return checked
+      return isChecked
     }
 
     // expose
     function toggle(changedValue?: any) {
-      const { uncheckedValue, checkedValue } = props
+      const { value: optionVal } = props
 
-      const shouldReverse = ![uncheckedValue, checkedValue].includes(changedValue)
+      const shouldReverse = ![false, optionVal].includes(changedValue)
       if (shouldReverse) {
-        changedValue = checked.value ? uncheckedValue : checkedValue
+        changedValue = checked.value ? false : optionVal
       }
 
       change(changedValue)

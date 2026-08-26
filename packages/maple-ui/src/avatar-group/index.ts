@@ -7,6 +7,7 @@ withPropsDefaultsSetter(AvatarGroup, avatarGroupProps)
 
 export { avatarGroupProps }
 
+export type AvatarGroupInstance = InstanceType<typeof AvatarGroup>
 export const _AvatarGroupComponent = AvatarGroup
 
 export default AvatarGroup

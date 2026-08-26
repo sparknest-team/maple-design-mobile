@@ -58,10 +58,10 @@ const loading = ref(false)
   <mp-button @click="loading = !loading" style="margin-bottom: 8px">
     {{ loading ? 'Open' : 'Close' }}
   </mp-button>
-  <mp-loading description="LOADING" :loading="loading">
+  <mp-loading tip="LOADING" :loading="loading">
     <mp-card 
       title="Intro"
-      description="Varlet is a Material design mobile component library developed based on Vue3, developed and maintained by partners in the community." 
+      description="Maple is a Material design mobile component library developed based on Vue3, developed and maintained by partners in the community." 
     />
   </mp-loading>
 </template>
@@ -76,7 +76,7 @@ const loading = ref(false)
 | `color`  | Loading color                                           | _string_ | `-`      |
 | `type`   | Can be set to `circle` `wave` `cube` `rect` `disappear` | _string_ | `circle` |
 | `size`   | Can be set to `large` `normal` `small` `mini`           | _string_ | `normal` |
-| `description`   | Description of the loading                       | _string_ | `-`      |
+| `tip`   | Tip of the loading                       | _string_ | `-`      |
 | `loading`| Specify whether loading is active                       | _boolean_ | `false`  |
 | `radius` | Set radius size when the `type` is `circle`             | _string \| number_  | `-` |
 
@@ -85,7 +85,7 @@ const loading = ref(false)
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Content wrapped in loading | `-` |
-| `description`    | Description of the loading | `-` |
+| `tip`    | Tip of the loading | `-` |
 
 ### Style Variables
 

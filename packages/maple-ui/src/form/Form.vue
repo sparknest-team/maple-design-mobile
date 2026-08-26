@@ -18,7 +18,8 @@ const { name, n } = createNamespace('form')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['submit', 'reset'],
+  setup(props, { emit }) {
     const disabled = computed(() => props.disabled)
     const readonly = computed(() => props.readonly)
     const model = computed(() => props.model)
@@ -51,13 +52,13 @@ export default defineComponent({
     async function handleSubmit(event: Event) {
       preventDefault(event)
       const valid = await validate()
-      call(props.onSubmit, valid)
+      emit('submit', valid)
     }
 
     function handleReset(event: Event) {
       preventDefault(event)
       resetFields()
-      call(props.onReset)
+      emit('reset')
     }
 
     function matchFormItems(field?: string | string[]) {

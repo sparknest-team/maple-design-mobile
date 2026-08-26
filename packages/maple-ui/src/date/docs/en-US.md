@@ -8,9 +8,9 @@ Form date field that opens `DatePicker` in a bottom popup. Interaction matches S
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const date = ref()
+  const date = ref()
 </script>
 
 <template>
@@ -18,15 +18,31 @@ const date = ref()
 </template>
 ```
 
+### Calendar Mode
+
+Column wheels are used by default. Set `presentation="calendar"` to use the calendar panel.
+
+```html
+<script setup>
+  import { ref } from 'vue'
+
+  const date = ref()
+</script>
+
+<template>
+  <mp-date v-model="date" presentation="calendar" placeholder="Select a date from calendar" clearable />
+</template>
+```
+
 ### Type
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const year = ref()
-const month = ref()
-const date = ref()
+  const year = ref()
+  const month = ref()
+  const date = ref()
 </script>
 
 <template>
@@ -42,9 +58,9 @@ const date = ref()
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const multiple = ref([])
+  const multiple = ref([])
 </script>
 
 <template>
@@ -60,9 +76,9 @@ Enable `show-time` for date+time (aligned with Cedar).
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const dateTime = ref()
+  const dateTime = ref()
 </script>
 
 <template>
@@ -74,12 +90,12 @@ const dateTime = ref()
 
 ```html
 <script setup>
-import { reactive, ref } from 'vue'
+  import { reactive, ref } from 'vue'
 
-const form = ref(null)
-const formData = reactive({
-  birthday: undefined,
-})
+  const form = ref(null)
+  const formData = reactive({
+    birthday: undefined,
+  })
 </script>
 
 <template>
@@ -95,52 +111,53 @@ const formData = reactive({
 
 ### Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `v-model` | Bound value; date-time string when `show-time` | _string \| string[]_ | `-` |
-| `show` | Controlled popup visibility | _boolean_ | `-` |
-| `type` | Picker type: `year` `month` `date` | _string_ | `date` |
-| `show-time` | Enable time selection | _boolean_ | `false` |
-| `use-seconds` | Show seconds when `show-time` | _boolean_ | `false` |
-| `multiple` | Enable multiple select | _boolean_ | `false` |
-| `min` | Minimum date | _string_ | `-` |
-| `max` | Maximum date | _string_ | `-` |
-| `allowed-dates` | Allowed dates filter | _(val: string) => boolean_ | `-` |
-| `allowed-time` | Restricts selectable time when `show-time` | _AllowedTime_ | `-` |
-| `separator` | Display separator for multiple | _string_ | `, ` |
-| `date-picker-props` | Props passed to `mp-date-picker` | _Partial\<DatePickerProps\>_ | `{}` |
-| `popup-props` | Props passed to popup | _Partial\<PopupProps\>_ | `{}` |
-| `placeholder` | Placeholder | _string_ | `-` |
-| `clearable` | Show clear button | _boolean_ | `false` |
-| `disabled` | Disabled | _boolean_ | `false` |
-| `readonly` | Readonly | _boolean_ | `false` |
-| `size` | Size: `normal` `small` | _string_ | `normal` |
-| `variant` | Variant: `standard` `outlined` | _string_ | `standard` |
+| Prop                | Description                                                       | Type                         | Default    |
+| ------------------- | ----------------------------------------------------------------- | ---------------------------- | ---------- |
+| `v-model`           | Bound value; date-time string when `show-time`                    | _string \| string[]_         | `-`        |
+| `open`              | Controlled popup visibility                                       | _boolean_                    | `-`        |
+| `presentation`      | Panel mode: `picker` `calendar` `calendarClock` `calendarPicker`  | _string_                     | `picker`   |
+| `type`              | Picker type: `year` `month` `date`                                | _string_                     | `date`     |
+| `show-time`         | Enable time selection                                             | _boolean_                    | `false`    |
+| `use-seconds`       | Show seconds when `show-time`                                     | _boolean_                    | `false`    |
+| `multiple`          | Enable multiple select                                            | _boolean_                    | `false`    |
+| `min`               | Minimum date                                                      | _string_                     | `-`        |
+| `max`               | Maximum date                                                      | _string_                     | `-`        |
+| `disabled-date`     | Returns `true` to disable a date                                  | _(val: string) => boolean_   | `-`        |
+| `disabled-time`     | Disabled time when `show-time` (callback returns true to disable) | _DisabledTime_               | `-`        |
+| `separator`         | Display separator for multiple                                    | _string_                     | `, `       |
+| `date-picker-props` | Props passed to `mp-date-picker`                                  | _Partial\<DatePickerProps\>_ | `{}`       |
+| `popup-props`       | Props passed to popup                                             | _Partial\<PopupProps\>_      | `{}`       |
+| `placeholder`       | Placeholder                                                       | _string_                     | `-`        |
+| `clearable`         | Show clear button                                                 | _boolean_                    | `false`    |
+| `disabled`          | Disabled                                                          | _boolean_                    | `false`    |
+| `readonly`          | Readonly                                                          | _boolean_                    | `false`    |
+| `size`              | Size: `xs` `sm` `md` `lg` `xl`                                    | _ComponentSize_              | `md`       |
+| `variant`           | Variant: `filled` `standard` `outlined`                           | _string_                     | `standard` |
 
 ### Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `focus` | Emitted on focus | `-` |
-| `blur` | Emitted on blur | `-` |
-| `click` | Emitted on click | `event: Event` |
-| `clear` | Emitted on clear | `value` |
-| `close` | Emitted when popup closes | `value` |
-| `change` | Emitted after confirm | `value` |
+| Event    | Description               | Arguments      |
+| -------- | ------------------------- | -------------- |
+| `focus`  | Emitted on focus          | `-`            |
+| `blur`   | Emitted on blur           | `-`            |
+| `click`  | Emitted on click          | `event: Event` |
+| `clear`  | Emitted on clear          | `value`        |
+| `close`  | Emitted when popup closes | `value`        |
+| `change` | Emitted after confirm     | `value`        |
 
 ### Methods
 
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `focus` | Focus the field | `-` | `-` |
-| `blur` | Blur the field | `-` | `-` |
+| Method  | Description     | Arguments | Return |
+| ------- | --------------- | --------- | ------ |
+| `focus` | Focus the field | `-`       | `-`    |
+| `blur`  | Blur the field  | `-`       | `-`    |
 
 ### Slots
 
-| Slot | Description | Arguments |
-| --- | --- | --- |
-| `selected` | Selected content | `-` |
-| `prefix` | Prefix | `-` |
-| `clear-icon` | Clear icon | `clear: (e: Event) => void` |
-| `suffix` | Suffix | `-` |
-| `arrow-icon` | Arrow icon | `focus: boolean, popupOpen: boolean` |
+| Slot         | Description      | Arguments                            |
+| ------------ | ---------------- | ------------------------------------ |
+| `selected`   | Selected content | `-`                                  |
+| `prefix`     | Prefix           | `-`                                  |
+| `clear-icon` | Clear icon       | `clear: (e: Event) => void`          |
+| `suffix`     | Suffix           | `-`                                  |
+| `arrow-icon` | Arrow icon       | `focus: boolean, popupOpen: boolean` |

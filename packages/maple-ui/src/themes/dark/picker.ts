@@ -1,14 +1,12 @@
 export default {
-  '--mp-picker-background': '#1e1e1e',
-  '--mp-picker-cancel-button-text-color': '#aaa',
-  '--mp-picker-title-text-color': '#fff',
-  '--mp-picker-option-text-color': '#fff',
-  '--mp-picker-mask-background-image':
-    'linear-gradient(180deg, hsla(0, 0%, 12%, 0.9), hsla(0, 0%, 12%, 0.4)), linear-gradient(0deg, hsla(0, 0%, 12%, 0.9), hsla(0, 0%, 12%, 0.4))',
-  '--mp-picker-toolbar-height': '44px',
+  '--mp-picker-background': 'var(--mp-color-body)',
+  '--mp-picker-cancel-button-text-color': 'var(--mp-color-text-3)',
   '--mp-picker-confirm-button-text-color': 'var(--mp-color-primary)',
-  '--mp-picker-picked-border': '1px solid var(--mp-color-outline)',
+  '--mp-picker-picked-border': '1px solid var(--mp-color-border-2)',
   '--mp-picker-title-font-size': 'var(--mp-font-size-lg)',
+  '--mp-picker-title-text-color': 'var(--mp-color-text-1)',
   '--mp-picker-option-font-size': 'var(--mp-font-size-lg)',
+  '--mp-picker-option-text-color': 'var(--mp-color-text-1)',
+  '--mp-picker-toolbar-height': '44px',
   '--mp-picker-toolbar-padding': '0 4px',
 }

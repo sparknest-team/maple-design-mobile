@@ -7,6 +7,7 @@ withPropsDefaultsSetter(TimePicker, timePickerProps)
 
 export { timePickerProps }
 
+export type TimePickerInstance = InstanceType<typeof TimePicker>
 export const _TimePickerComponent = TimePicker
 
 export default TimePicker

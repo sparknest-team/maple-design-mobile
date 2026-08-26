@@ -31,7 +31,7 @@ onThemeChange()
   user-select: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  background-color: var(--mp-color-surface-container-highest);
+  background-color: var(--mp-color-fill-3);
   transition: background-color 0.25s;
 }
 </style>

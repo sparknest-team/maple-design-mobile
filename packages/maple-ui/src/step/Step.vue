@@ -12,20 +12,10 @@
         @click="click"
       >
         <slot name="icon" :step="stepNumber" :status="computedStatus">
-          <mp-icon
-            v-if="computedStatus === 'finish'"
-            :class="n('icon')"
-            mp-step-cover
-            name="check"
-            namespace="mp-icon"
-          />
-          <mp-icon
-            v-else-if="computedStatus === 'error'"
-            :class="n('icon')"
-            mp-step-cover
-            name="close-circle"
-            namespace="mp-icon"
-          />
+          <mp-icon v-if="computedStatus === 'finish'" :class="n('icon')" mp-step-cover><MIconCheck /></mp-icon>
+          <mp-icon v-else-if="computedStatus === 'error'" :class="n('icon')" mp-step-cover
+            ><MIconCloseCircle
+          /></mp-icon>
           <span v-else>{{ stepNumber }}</span>
         </slot>
       </div>
@@ -48,6 +38,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, useSlots, type ComputedRef } from 'vue'
+import { IconCheck as MIconCheck, IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
 import type { StepStatus } from '../steps/props'
 import { createNamespace } from '../utils/components'
@@ -58,7 +49,11 @@ const { name, n, classes } = createNamespace('step')
 
 export default defineComponent({
   name,
-  components: { MpIcon },
+  components: {
+    MIconCheck,
+    MIconCloseCircle,
+    MpIcon,
+  },
   props,
   setup(props) {
     const slots = useSlots()

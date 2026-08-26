@@ -1,29 +1,39 @@
 <template>
   <div class="mp-site-code-example">
     <div class="mp-site-code-example__toolbar">
-      <mp-tooltip placement="top" :content="height >= 0 ? 'Show Source' : 'Hide Source'">
-        <mp-button text round @click="toggle" v-if="fold && !disabledFold">
-          <mp-icon name="xml" size="18" />
-        </mp-button>
-      </mp-tooltip>
+      <button
+        v-if="fold && !disabledFold"
+        type="button"
+        class="mp-site-code-example__toolbar-button"
+        :aria-label="height >= 0 ? 'Show Source' : 'Hide Source'"
+        :data-tooltip="height >= 0 ? 'Show Source' : 'Hide Source'"
+        @click="toggle"
+      >
+        <MIconXml class="mp-site-code-example__toolbar-icon" />
+      </button>
 
-      <mp-tooltip placement="top" content="Copy Example Code">
-        <mp-button
-          :id="`clip-trigger-${cid}`"
-          :data-clipboard-target="`#clip-target-${cid}`"
-          text
-          round
-          v-if="clipboard"
-        >
-          <mp-icon name="content-copy" size="18" />
-        </mp-button>
-      </mp-tooltip>
+      <button
+        v-if="clipboard"
+        :id="`clip-trigger-${cid}`"
+        :data-clipboard-target="`#clip-target-${cid}`"
+        type="button"
+        class="mp-site-code-example__toolbar-button"
+        aria-label="Copy Example Code"
+        data-tooltip="Copy Example Code"
+      >
+        <MIconContentCopy class="mp-site-code-example__toolbar-icon" />
+      </button>
 
-      <mp-tooltip placement="top" content="Edit In Playground">
-        <mp-button text round @click="toPlayground" v-if="playground">
-          <mp-icon name="code-json" size="18" />
-        </mp-button>
-      </mp-tooltip>
+      <button
+        v-if="playground"
+        type="button"
+        class="mp-site-code-example__toolbar-button"
+        aria-label="Edit In Playground"
+        data-tooltip="Edit In Playground"
+        @click="toPlayground"
+      >
+        <MIconCodeJson class="mp-site-code-example__toolbar-icon" />
+      </button>
     </div>
     <div
       :id="`clip-target-${cid}`"
@@ -42,6 +52,11 @@
 <script lang="ts">
 import { defineComponent, nextTick, onMounted, ref, type Ref } from 'vue'
 import config from '@config'
+import {
+  IconCodeJson as MIconCodeJson,
+  IconContentCopy as MIconContentCopy,
+  IconXml as MIconXml,
+} from '@maplejs/icons-vue'
 import { getBrowserTheme, getPCLocationInfo } from '@maplejs/maple-cli/client'
 import { doubleRaf } from '@maplejs/maple-shared'
 import { Context, Message } from '@maplejs/maple-ui'
@@ -55,6 +70,7 @@ let clipId = 0
 const offset = 10
 
 export default defineComponent({
+  components: { MIconXml, MIconContentCopy, MIconCodeJson },
   name: 'MpSiteCodeExample',
   props: {
     playgroundIgnore: {
@@ -100,7 +116,7 @@ export default defineComponent({
     const toPlayground = () => {
       const codeText = code.value?.innerText ?? ''
       const file = { 'App.vue': codeText }
-      const initialTheme = getBrowserTheme()
+      const initialTheme = getBrowserTheme('demo')
 
       context.showPlayground = true
       context.playgroundURL = `${playground.value}/?initialTheme=${initialTheme}#${utoa(JSON.stringify(file))}`

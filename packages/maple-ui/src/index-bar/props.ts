@@ -1,5 +1,3 @@
-import { defineListenerProp } from '../utils/components'
-
 export interface IndexBarScrollToOptions {
   event?: boolean
 }
@@ -30,6 +28,4 @@ export const props = {
     type: [Number, String],
     default: 0,
   },
-  onClick: defineListenerProp<(value: string | number) => void>(),
-  onChange: defineListenerProp<(value: string | number) => void>(),
 }

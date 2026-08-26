@@ -41,7 +41,7 @@ test('image preview onChange callback', async () => {
   const onChange = vi.fn()
 
   previewImage({
-    images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
+    images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
     onChange,
   })
   await delay(200)
@@ -70,7 +70,7 @@ test('image preview closable', async () => {
 test('image preview setDefaultOptions and resetDefaultOptions', async () => {
   previewImage.setDefaultOptions({ closable: true })
   await delay(16)
-  previewImage('https://maplejs.org/varlet/cat.jpg')
+  previewImage('https://maplejs.org/cat.jpg')
   await delay(200)
   await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
   await delay(300)
@@ -78,7 +78,7 @@ test('image preview setDefaultOptions and resetDefaultOptions', async () => {
 
   previewImage.resetDefaultOptions()
   await delay(16)
-  previewImage('https://maplejs.org/varlet/cat.jpg')
+  previewImage('https://maplejs.org/cat.jpg')
   await delay(200)
   expect(document.querySelector('.mp-image-preview__close-icon')).toBeFalsy()
   previewImage.close()
@@ -86,7 +86,7 @@ test('image preview setDefaultOptions and resetDefaultOptions', async () => {
 
 test('image preview imagePreventDefault', async () => {
   previewImage({
-    images: ['https://maplejs.org/varlet/cat.jpg'],
+    images: ['https://maplejs.org/cat.jpg'],
     imagePreventDefault: true,
   })
 
@@ -100,7 +100,7 @@ test('image preview onLongPress callback', async () => {
   const onLongPress = vi.fn()
 
   previewImage({
-    images: ['https://maplejs.org/varlet/cat.jpg'],
+    images: ['https://maplejs.org/cat.jpg'],
     onLongPress,
   })
 
@@ -116,7 +116,7 @@ test('image preview onLongPress callback', async () => {
 
 test('image preview current', async () => {
   previewImage({
-    images: ['https://maplejs.org/varlet/cat.jpg', 'https://maplejs.org/varlet/cat2.jpg'],
+    images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
     current: 1,
   })
 

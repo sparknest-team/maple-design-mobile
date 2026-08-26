@@ -218,7 +218,7 @@ function handleSelect(action) {
   <mp-button type="warning" block @click="show = true">Basic Usage</mp-button>
   <mp-action-sheet 
     :actions="actions"
-    v-model:show="show"
+    v-model:open="open"
     @select="handleSelect"
   />
 </template>
@@ -257,7 +257,7 @@ function handleSelect(action) {
   <mp-action-sheet 
     title="Choose whichever you like" 
     :actions="actions"
-    v-model:show="show"
+    v-model:open="open"
     @select="handleSelect"
   />
 </template>
@@ -296,7 +296,7 @@ function handleSelect(action) {
   <mp-button type="warning" block @click="show = true">Action Disabled</mp-button>
   <mp-action-sheet 
     :actions="actions"
-    v-model:show="show"
+    v-model:open="open"
     @select="handleSelect"
   />
 </template>
@@ -335,7 +335,7 @@ function handleSelect(action) {
   <mp-action-sheet 
     :close-on-click-action="false"
     :actions="actions" 
-    v-model:show="show" 
+    v-model:open="open" 
     @select="handleSelect"
   />
 </template>
@@ -376,7 +376,7 @@ function handleSelect(action) {
   <mp-button type="warning" block @click="show = true">Custom Action Styles</mp-button>
   <mp-action-sheet 
     :actions="actions" 
-    v-model:show="show" 
+    v-model:open="open" 
     @select="handleSelect"
   />
 </template>
@@ -388,18 +388,18 @@ function handleSelect(action) {
 
 | Prop                     | Description                                                                                                    | Type                  | Default      |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------- | --------------------- | ------------ |
-| `v-model:show`           | Whether to display the action sheet                                                                            | _boolean_             | `false`      |
+| `v-model:open`           | Whether to display the action sheet                                                                            | _boolean_             | `false`      |
 | `actions`                | Action list                                                                                                    | _Actions_             | `[]`         |
 | `title`                  | Action sheet title                                                                                             | _string_              | `Select One` |
-| `overlay`                | Whether to display the overlay                                                                                 | _boolean_             | `true`       |
-| `overlay-class`          | Custom overlay class                                                                                           | _string_              | `-`          |
-| `overlay-style`          | Custom overlay style                                                                                           | _object_              | `-`          |
+| `mask`                | Whether to display the overlay                                                                                 | _boolean_             | `true`       |
+| `mask-class`          | Custom overlay class                                                                                           | _string_              | `-`          |
+| `mask-style`          | Custom overlay style                                                                                           | _object_              | `-`          |
 | `lock-scroll`            | Whether to disable scrolling penetration, scrolling the Dialog when disabled will not cause the body to scroll | _boolean_             | `true`       |
 | `close-on-click-action`  | Whether to close the actions sheet when clicking action                                                        | _boolean_             | `true`       |
-| `close-on-click-overlay` | Whether to click the overlay to close the action sheet                                                         | _boolean_             | `true`       |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the action sheet | _boolean_ | `true`  |
+| `mask-closable` | Whether to click the overlay to close the action sheet                                                         | _boolean_             | `true`       |
+| `esc-to-close` | Whether to support keyboard ESC to close the action sheet | _boolean_ | `true`  |
 | `safe-area`              | Whether to enable bottom safety zone adaptation	                                                              | _boolean_             | `false`  |
-| `teleport`               | The location of the action sheet to mount                                                                      | _TeleportProps['to'] \| false_ | `body`          |
+| `popupContainer`               | The location of the action sheet to mount                                                                      | _TeleportProps['to'] \| false_ | `body`          |
 
 ### Events
 
@@ -429,13 +429,13 @@ function handleSelect(action) {
 | Option                  | Description                                                                                                          | Type                       | Default      |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------ |
 | `title`               | Action sheet title                                                                                                   | _string_                   | `Select One` |
-| `overlay`             | Whether to display the overlay                                                                                       | _boolean_                  | `true`       |
-| `overlayClass`        | Custom overlay class                                                                                                 | _string_                   | `-`          |
-| `overlayStyle`        | Custom overlay style                                                                                                 | _object_                   | `-`          |
+| `mask`             | Whether to display the overlay                                                                                       | _boolean_                  | `true`       |
+| `maskClass`        | Custom overlay class                                                                                                 | _string_                   | `-`          |
+| `maskStyle`        | Custom overlay style                                                                                                 | _object_                   | `-`          |
 | `lockScroll`          | Whether to disable scrolling penetration, scrolling the action sheet when disabled will not cause the body to scroll | _boolean_                  | `true`       |
 | `closeOnClickAction`  | Whether to close the actions sheet when clicking action                                                        | _boolean_             | `true`       |
-| `closeOnClickOverlay` | Whether to click the overlay to close the action sheet                                                               | _boolean_                  | `true`       |
-| `closeOnKeyEscape` | Whether to support keyboard ESC to close the action sheet | _boolean_ | `true`  |
+| `maskClosable` | Whether to click the overlay to close the action sheet                                                               | _boolean_                  | `true`       |
+| `escToClose` | Whether to support keyboard ESC to close the action sheet | _boolean_ | `true`  |
 | `safe-area`              | Whether to enable bottom safety zone adaptation	                                                              | _boolean_             | `false`  |
 | `onOpen`              | Action sheet open callback                                                                                           | _() => void_               | `-`          |
 | `onOpened`            | Action sheet open-animation ends callback                                                                            | _() => void_               | `-`          |

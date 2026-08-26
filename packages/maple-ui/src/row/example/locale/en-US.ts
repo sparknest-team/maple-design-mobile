@@ -1,6 +1,10 @@
 export default {
-  girdSystem: 'Grid System',
+  gridSystem: 'Basic Usage',
   offset: 'Offset',
-  alignment: 'Alignment',
-  gutter: 'Gutter',
+  justify: 'Horizontal',
+  align: 'Vertical',
+  order: 'Order',
+  flex: 'Flex',
+  responsive: 'Responsive',
+  responsiveObject: 'Responsive Object',
 }

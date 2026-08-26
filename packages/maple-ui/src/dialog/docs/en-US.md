@@ -26,7 +26,7 @@ Set `type` to `info` / `success` / `warning` / `error` to show the corresponding
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `v-model:show` | Whether to display the dialog | _boolean_ | `false` |
+| `v-model:open` | Whether to display the dialog | _boolean_ | `false` |
 | `type` | Dialog type: `info` `success` `warning` `error` (shows icon in title) | _string_ | `-` |
 | `title` | Title | _string_ | `Hint` |
 | `width` | Width | _string \| number_ | `-` |
@@ -53,13 +53,14 @@ Set `type` to `info` / `success` / `warning` / `error` to show the corresponding
 | `cancel-button-props` | Cancel button props | _ButtonProps_ | `-` |
 | `dialog-class` | Dialog class | _string_ | `-` |
 | `dialog-style` | Dialog style | _object_ | `-` |
-| `overlay` | Show overlay | _boolean_ | `true` |
-| `overlay-class` | Overlay class | _string_ | `-` |
-| `overlay-style` | Overlay style | _object_ | `-` |
+| `mask` | Show overlay | _boolean_ | `true` |
+| `mask-class` | Overlay class | _string_ | `-` |
+| `mask-style` | Overlay style | _object_ | `-` |
 | `lock-scroll` | Lock body scroll | _boolean_ | `true` |
-| `close-on-click-overlay` | Close on overlay click | _boolean_ | `true` |
-| `close-on-key-escape` | Close on ESC | _boolean_ | `true` |
-| `teleport` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
+| `mask-closable` | Close on overlay click | _boolean_ | `true` |
+| `esc-to-close` | Close on ESC | _boolean_ | `true` |
+| `popupContainer` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
+| `before-close` | Before close interceptor (`:before-close`) | _(action, done, refs) => void_ | `-` |
 
 ### Events
 

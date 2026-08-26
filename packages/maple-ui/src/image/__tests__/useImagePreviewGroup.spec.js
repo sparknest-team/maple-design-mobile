@@ -15,7 +15,7 @@ describe('useImagePreviewGroupState', () => {
 
     group.previewByImageId(1)
 
-    expect(group.mergedVisible.value).toBe(true)
+    expect(group.mergedOpen.value).toBe(true)
     expect(group.mergedCurrent.value).toBe(1)
   })
 

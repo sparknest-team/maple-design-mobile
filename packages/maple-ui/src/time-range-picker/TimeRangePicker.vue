@@ -4,7 +4,7 @@
       <div :class="classes(n('value'), [activeTab === 'start', n('value--active')])" @click="activeTab = 'start'">
         {{ startValue }}
       </div>
-      <mp-icon :class="n('value-arrow')" mp-time-range-picker-cover name="chevron-right" />
+      <mp-icon :class="n('value-arrow')" mp-time-range-picker-cover><MIconChevronRight /></mp-icon>
       <div :class="classes(n('value'), [activeTab === 'end', n('value--active')])" @click="activeTab = 'end'">
         <span>{{ endValue }}</span>
         <span v-if="showNextDayLabel" :class="n('next-day')">{{ nextDayText }}</span>
@@ -24,25 +24,27 @@
     <template v-else>
       <mp-time-picker
         v-show="activeTab === 'start'"
+        presentation="clock"
         :model-value="startValue"
         v-bind="timePickerBindingProps"
         :format="format"
         :use-seconds="useSeconds"
         :min="min"
         :max="max"
-        :allowed-time="allowedTime"
+        :disabled-time="disabledTime"
         :readonly="readonly"
         @update:model-value="(value) => updateSide('start', value)"
       />
       <mp-time-picker
         v-show="activeTab === 'end'"
+        presentation="clock"
         :model-value="endValue"
         v-bind="timePickerBindingProps"
         :format="format"
         :use-seconds="useSeconds"
         :min="min"
         :max="max"
-        :allowed-time="allowedTime"
+        :disabled-time="disabledTime"
         :readonly="readonly"
         @update:model-value="(value) => updateSide('end', value)"
       />
@@ -56,6 +58,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import { call, isArray, toNumber } from '@maplejs/maple-shared'
 import MpIcon from '../icon'
 import { t } from '../locale'
@@ -105,12 +108,14 @@ function joinTimeParts(values: (string | number)[], useSeconds: boolean) {
 export default defineComponent({
   name,
   components: {
+    MIconChevronRight,
     MpIcon,
     MpPicker,
     MpTimePicker,
   },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue'],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const translate = (key: string) => (pt ? pt : t)(key as any)
     const activeTab = ref<'start' | 'end'>('start')
@@ -136,13 +141,13 @@ export default defineComponent({
     const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
 
     const pickerColumns = computed(() => {
-      const { allowedTime, useSeconds } = props
+      const { disabledTime, useSeconds } = props
       const columns: PickerColumnOption[][] = [
-        buildColumn(24, allowedTime?.hours ? (hour) => !!allowedTime.hours?.(hour) : undefined),
-        buildColumn(60, allowedTime?.minutes ? (minute) => !!allowedTime.minutes?.(minute) : undefined),
+        buildColumn(24, disabledTime?.hours ? (hour) => !!disabledTime.hours?.(hour) : undefined),
+        buildColumn(60, disabledTime?.minutes ? (minute) => !!disabledTime.minutes?.(minute) : undefined),
       ]
       if (useSeconds) {
-        columns.push(buildColumn(60, allowedTime?.seconds ? (second) => !!allowedTime.seconds?.(second) : undefined))
+        columns.push(buildColumn(60, disabledTime?.seconds ? (second) => !!disabledTime.seconds?.(second) : undefined))
       }
       return columns
     })
@@ -153,8 +158,8 @@ export default defineComponent({
     })
 
     function emitValue(next: string[]) {
-      call(props['onUpdate:modelValue'], next)
-      call(props.onChange, next)
+      emit('update:modelValue', next)
+      emit('change', next)
     }
 
     function updateSide(side: 'start' | 'end', time: string) {

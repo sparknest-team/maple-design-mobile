@@ -6,15 +6,7 @@ withInstall(_Badge)
 withPropsDefaultsSetter(_Badge, badgeProps)
 
 export type BadgeInstance = InstanceType<typeof _Badge>
-export type {
-  BadgeProps,
-  BadgeStatus,
-  BadgeVariant,
-  BadgeType,
-  BadgePosition,
-  BadgeInlinePosition,
-  BadgeSize,
-} from './props'
+export type { BadgeProps, BadgeVariant, BadgeMode, BadgePosition, BadgeInlinePosition } from './props'
 export { badgeProps }
 
 export const _BadgeComponent = _Badge

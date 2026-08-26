@@ -1,4 +1,4 @@
-import icons from '@maplejs/maple-icons'
+import { iconNames } from '@maplejs/icons-vue'
 import { isString, kebabCase, pascalCase } from '@maplejs/maple-shared'
 import {
   CompletionItem,
@@ -85,7 +85,7 @@ export function registerCompletions(context: ExtensionContext) {
         return null
       }
 
-      const completionItems: CompletionItem[] = icons.map(
+      const completionItems: CompletionItem[] = iconNames.map(
         (icon: string) => new CompletionItem(icon, CompletionItemKind.Field),
       )
 

@@ -3,7 +3,7 @@ import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from '.
 
 export declare const timePickerProps: Record<keyof TimePickerProps, any>
 
-export type AllowedTime = {
+export type DisabledTime = {
   hours?: (hour: number) => boolean
   minutes?: (minute: number) => boolean
   seconds?: (second: number) => boolean
@@ -17,7 +17,7 @@ export interface TimePickerProps extends BasicAttributes {
   color?: string
   hint?: string
   titleColor?: string
-  allowedTime?: AllowedTime
+  disabledTime?: DisabledTime
   format?: TimePickerFormat
   min?: string
   max?: string

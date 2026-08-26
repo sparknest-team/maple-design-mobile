@@ -1,27 +1,26 @@
-import { type PropType } from 'vue'
-import { type RouteLocationRaw } from 'vue-router'
-import { defineListenerProp } from '../utils/components'
-
-export type LinkType = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
+import { type ExtractPropTypes, type PropType } from 'vue'
+import { semanticStatuses, type SemanticStatus } from '../utils/constants'
 
 export type LinkUnderline = 'always' | 'hover' | 'none'
+export const linkUnderlines = ['always', 'hover', 'none'] as const
 
 export const props = {
-  type: {
-    type: String as PropType<LinkType>,
+  status: {
+    type: String as PropType<SemanticStatus>,
     default: 'default',
+    validator: (value: unknown): value is SemanticStatus => semanticStatuses.includes(value as SemanticStatus),
   },
   href: String,
   target: String,
   rel: String,
-  to: [String, Object] as PropType<RouteLocationRaw>,
-  replace: Boolean,
   underline: {
     type: String as PropType<LinkUnderline>,
-    default: 'always',
+    default: 'none',
+    validator: (value: unknown): value is LinkUnderline => linkUnderlines.includes(value as LinkUnderline),
   },
   disabled: Boolean,
-  textSize: [String, Number],
-  textColor: String,
-  onClick: defineListenerProp<(e: Event) => void>(),
+  loading: Boolean,
+  icon: Boolean,
 }
+
+export type LinkProps = ExtractPropTypes<typeof props>

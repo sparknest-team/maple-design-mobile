@@ -18,7 +18,7 @@ export type TooltipType = 'default' | 'primary' | 'info' | 'success' | 'warning'
 export type TooltipStrategy = PositioningStrategy
 
 export interface TooltipProps extends BasicAttributes {
-  show?: boolean
+  open?: boolean
   disabled?: boolean
   content?: string
   color?: string
@@ -30,16 +30,16 @@ export interface TooltipProps extends BasicAttributes {
   strategy?: TooltipStrategy
   offsetX?: string | number
   offsetY?: string | number
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   sameWidth?: boolean
   closeOnClickReference?: boolean
-  closeOnKeyEscape?: boolean
+  escToClose?: boolean
   onOpen?: ListenerProp<() => void>
   onOpened?: ListenerProp<() => void>
   onClose?: ListenerProp<() => void>
   onClosed?: ListenerProp<() => void>
   onClickOutside?: ListenerProp<(event: Event) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export class Tooltip extends VarComponent {

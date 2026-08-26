@@ -21,6 +21,7 @@ export function useHoverOverlay() {
 
 export { hoverOverlayProps }
 
+export type HoverOverlayInstance = InstanceType<typeof HoverOverlay>
 export const _HoverOverlayComponent = HoverOverlay
 
 export default HoverOverlay

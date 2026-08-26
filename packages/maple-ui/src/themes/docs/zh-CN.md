@@ -2,34 +2,32 @@
 
 ### 介绍
 
-组件库通过 [css 变量](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties) 组织样式。推荐使用 [StyleProvider](#/zh-CN/style-provider) 加载主题、对主题进行定制。组件库内置的主题如下。
+Maple 色板与 Cedar 结构对齐：**RGB 通道色阶** + **语义色** + **组件 token**。
 
-### 内置主题
+- 色阶：`--mp-primary-6: r, g, b`，用法 `rgb(var(--mp-primary-6))` / `rgba(var(--mp-primary-6), 0.12)`
+- 语义：`--mp-color-text-1`、`--mp-color-bg-*`、`--mp-color-fill-*`、`--mp-color-primary` 等
+- 暗色：根节点属性 `maple-theme="dark"` 整表覆盖
+- 覆盖 / 多主题包：继续用 [StyleProvider](#/zh-CN/style-provider)
 
-| 主题名称                 | 主题包                    |
-| ------------------------ | ------------------------- |
-| `Material Design 2 亮色` | _默认主题，基于 css 文件_ |
-| `Material Design 2 暗色` | _Themes.dark_             |
-| `Material Design 3 亮色` | _Themes.md3Light_         |
-| `Material Design 3 暗色` | _Themes.md3Dark_          |
+### 内置主题包
 
-### 设置 body 变量
+| 主题名称 | 主题包 | 说明 |
+| --- | --- | --- |
+| 默认亮色 | CSS `:root` | 色阶 + 语义 |
+| 暗色 | `Themes.dark` 或 DOM | 与 `:root[maple-theme=dark]` 对齐 |
+| MD3 亮色 | `Themes.md3Light` | StyleProvider 注入覆盖 |
+| MD3 暗色 | `Themes.md3Dark` | StyleProvider 注入 + DOM dark |
 
-给 body 设置组件库推荐的一些基础样式变量，以控制应用的基本样式。
+### DOM 切换暗色
 
-```css
-/* playground-ignore */
-body {
-  transition:
-    background-color 0.25s,
-    color 0.25s;
-  color: var(--color-text);
-  background-color: var(--color-body);
-  color-scheme: var(--color-scheme);
-}
+```ts
+document.documentElement.setAttribute('maple-theme', 'dark')
+document.documentElement.removeAttribute('maple-theme')
 ```
 
-### 切换主题
+### StyleProvider 切换
+
+`StyleProvider(Themes.dark)` 会同步设置 `html[maple-theme=dark]`；`StyleProvider(null)` 移除属性并恢复默认。
 
 ```html
 <!-- playground-ignore -->
@@ -39,17 +37,29 @@ body {
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-button type="primary" block @click="StyleProvider(null)">Material Design 2 亮色</mp-button>
-    <mp-button type="primary" block @click="StyleProvider(Themes.dark)">Material Design 2 暗色</mp-button>
-    <mp-button type="primary" block @click="StyleProvider(Themes.md3Light)">Material Design 3 亮色</mp-button>
-    <mp-button type="primary" block @click="StyleProvider(Themes.md3Dark)">Material Design 3 暗色</mp-button>
+    <mp-button type="primary" block @click="StyleProvider(null)">亮色</mp-button>
+    <mp-button type="primary" block @click="StyleProvider(Themes.dark)">暗色</mp-button>
+    <mp-button type="primary" block @click="StyleProvider(Themes.md3Light)">MD3 亮色</mp-button>
+    <mp-button type="primary" block @click="StyleProvider(Themes.md3Dark)">MD3 暗色</mp-button>
   </mp-space>
 </template>
 ```
 
-### 主题定制
+### 设置 body
 
-由于定义一套主题的工作量巨大，推荐基于内置主题进行扩展。
+```css
+/* playground-ignore */
+body {
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+  color: var(--mp-color-text);
+  background-color: var(--mp-color-body);
+  color-scheme: var(--mp-color-scheme);
+}
+```
+
+### 主题定制
 
 ```html
 <!-- playground-ignore -->
@@ -58,99 +68,24 @@ body {
 
   const customTheme = {
     ...Themes.md3Light,
-    '--color-primary': 'red',
+    '--mp-primary-6': '255, 0, 0',
+    '--mp-color-primary': 'rgb(var(--mp-primary-6))',
   }
 
   StyleProvider(customTheme)
 </script>
 ```
 
-### 主题生成器
+### 通用样式变量（节选）
 
-我们提供了一个[主题生成器](https://varletjs.github.io/maple-theme-builder/)，可以通过产品主题色或产品图片智能推导出符合设计系统的配色。
-
-- 注意: 只支持生成 Material Design 3 的主题配色
-
-### 通用样式变量
-
-以下为组件库的通用样式变量，各组件独有的样式变量请查看各组件文档底部的样式变量表格。
-
-| 变量名                              | 默认值                                          |
-| ----------------------------------- | ----------------------------------------------- |
-| `--font-size-xs`                    | `10px`                                          |
-| `--font-size-sm`                    | `12px`                                          |
-| `--font-size-md`                    | `14px`                                          |
-| `--font-size-lg`                    | `16px`                                          |
-| `--icon-size-xs`                    | `16px`                                          |
-| `--icon-size-sm`                    | `18px`                                          |
-| `--icon-size-md`                    | `20px`                                          |
-| `--icon-size-lg`                    | `22px`                                          |
-| `--hsl-body`                        | `0, 0%, 100%`                                   |
-| `--color-body`                      | `hsla(var(--hsl-body), 1)`                      |
-| `--hsl-text`                        | `0, 0%, 20%`                                    |
-| `--color-text`                      | `hsla(var(--hsl-text), 1)`                      |
-| `--hsl-primary`                     | `180, 100%, 37%`                                |
-| `--color-primary`                   | `hsla(var(--hsl-primary), 1)`                   |
-| `--hsl-info`                        | `196, 100%, 47%`                                |
-| `--color-info`                      | `hsla(var(--hsl-info), 1)`                      |
-| `--hsl-success`                     | `164, 100%, 38%`                                |
-| `--color-success`                   | `hsla(var(--hsl-success), 1)`                   |
-| `--hsl-warning`                     | `37, 100%, 50%`                                 |
-| `--color-warning`                   | `hsla(var(--hsl-warning), 1)`                   |
-| `--hsl-danger`                      | `4, 90%, 58%`                                   |
-| `--color-danger`                    | `hsla(var(--hsl-danger), 1)`                    |
-| `--hsl-disabled`                    | `0, 0%, 88%`                                    |
-| `--color-disabled`                  | `hsla(var(--hsl-disabled), 1)`                  |
-| `--hsl-text-disabled`               | `0, 0%, 67%`                                    |
-| `--color-text-disabled`             | `hsla(var(--hsl-text-disabled), 1)`             |
-| `--hsl-on-primary`                  | `0, 0%, 100%`                                   |
-| `--color-on-primary`                | `hsla(var(--hsl-on-primary), 1)`                |
-| `--hsl-on-info`                     | `0, 0%, 100%`                                   |
-| `--color-on-info`                   | `hsla(var(--hsl-on-info), 1)`                   |
-| `--hsl-on-success`                  | `0, 0%, 100%`                                   |
-| `--color-on-success`                | `hsla(var(--hsl-on-success), 1)`                |
-| `--hsl-on-warning`                  | `0, 0%, 100%`                                   |
-| `--color-on-warning`                | `hsla(var(--hsl-on-warning), 1)`                |
-| `--hsl-on-danger`                   | `0, 0%, 100%`                                   |
-| `--color-on-danger`                 | `hsla(var(--hsl-on-danger), 1)`                 |
-| `--hsl-primary-container`           | `180, 100%, 37%`                                |
-| `--color-primary-container`         | `hsla(var(--hsl-primary-container), 1)`         |
-| `--hsl-info-container`              | `196, 100%, 47%`                                |
-| `--color-info-container`            | `hsla(var(--hsl-info-container), 1)`            |
-| `--hsl-success-container`           | `164, 100%, 38%`                                |
-| `--color-success-container`         | `hsla(var(--hsl-success-container), 1)`         |
-| `--hsl-warning-container`           | `37, 100%, 50%`                                 |
-| `--color-warning-container`         | `hsla(var(--hsl-warning-container), 1)`         |
-| `--hsl-danger-container`            | `4, 90%, 58%`                                   |
-| `--color-danger-container`          | `hsla(var(--hsl-danger-container), 1)`          |
-| `--hsl-on-primary-container`        | `0, 0%, 100%`                                   |
-| `--color-on-primary-container`      | `hsla(var(--hsl-on-primary-container), 1)`      |
-| `--hsl-on-info-container`           | `0, 0%, 100%`                                   |
-| `--color-on-info-container`         | `hsla(var(--hsl-on-info-container), 1)`         |
-| `--hsl-on-success-container`        | `0, 0%, 100%`                                   |
-| `--color-on-success-container`      | `hsla(var(--hsl-on-success-container), 1)`      |
-| `--hsl-on-warning-container`        | `0, 0%, 100%`                                   |
-| `--color-on-warning-container`      | `hsla(var(--hsl-on-warning-container), 1)`      |
-| `--hsl-on-danger-container`         | `0, 0%, 100%`                                   |
-| `--color-on-danger-container`       | `hsla(var(--hsl-on-danger-container), 1)`       |
-| `--hsl-surface-container`           | `0, 0%, 100%`                                   |
-| `--color-surface-container`         | `hsla(var(--hsl-surface-container), 1)`         |
-| `--hsl-surface-container-low`       | `0, 0%, 100%`                                   |
-| `--color-surface-container-low`     | `hsla(var(--hsl-surface-container-low), 1)`     |
-| `--hsl-surface-container-high`      | `0, 0%, 100%`                                   |
-| `--color-surface-container-high`    | `hsla(var(--hsl-surface-container-high), 1)`    |
-| `--hsl-surface-container-highest`   | `0, 0%, 100%`                                   |
-| `--color-surface-container-highest` | `hsla(var(--hsl-surface-container-highest), 1)` |
-| `--hsl-inverse-surface`             | `0, 0%, 20%`                                    |
-| `--color-inverse-surface`           | `hsla(var(--hsl-inverse-surface), 1)`           |
-| `--hsl-outline`                     | `0, 0%, 0%`                                     |
-| `--color-outline`                   | `hsla(var(--hsl-outline), 0.12)`                |
-| `--hsl-on-surface-variant`          | `0, 0%, 53%`                                    |
-| `--color-on-surface-variant`        | `hsla(var(--hsl-on-surface-variant), 1)`        |
-| `--opacity-disabled`                | `0.6`                                           |
-| `--opacity-hover`                   | `0.15`                                          |
-| `--opacity-focus`                   | `0.2`                                           |
-| `--cubic-bezier`                    | `cubic-bezier(0.25, 0.8, 0.5, 1)`               |
-| `--shadow-key-umbra-opacity`        | `rgba(0, 0, 0, 0.2)`                            |
-| `--shadow-key-penumbra-opacity`     | `rgba(0, 0, 0, 0.14)`                           |
-| `--shadow-key-ambient-opacity`      | `rgba(0, 0, 0, 0.12)`                           |
+| 变量名 | 说明 |
+| --- | --- |
+| `--mp-primary-1` … `--mp-primary-10` | 主色阶（RGB 通道） |
+| `--mp-success-*` / `--mp-danger-*` / `--mp-warning-*` / `--mp-info-*` | 功能色阶 |
+| `--mp-gray-1` … `--mp-gray-10` | 中性色阶 |
+| `--mp-color-text-1` … `--mp-color-text-4` | 文本语义 |
+| `--mp-color-bg-1` … `--mp-color-bg-5` | 背景语义 |
+| `--mp-color-fill-1` … `--mp-color-fill-4` | 填充语义 |
+| `--mp-color-border-1` … `--mp-color-border-4` | 边框语义 |
+| `--mp-color-primary` 等 | 功能语义色（成品色） |
+| `--mp-opacity-*` | 交互透明度 |

@@ -26,7 +26,8 @@ test('time confirm writes modelValue', async () => {
   await delay(300)
 
   expect(document.querySelector('.mp-time__panel')).toBeTruthy()
-  expect(document.querySelector('.mp-time-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-time-picker')).toBeFalsy()
 
   await trigger(document.querySelector('.mp-time__confirm-button'), 'click')
   await delay(300)
@@ -54,6 +55,26 @@ test('time cancel does not write modelValue', async () => {
   await delay(300)
 
   expect(onUpdateModelValue).not.toHaveBeenCalled()
+
+  wrapper.unmount()
+  document.body.innerHTML = ''
+})
+
+test('time clock presentation', async () => {
+  const wrapper = mount(VarTime, {
+    props: {
+      modelValue: '12:30',
+      presentation: 'clock',
+      format: '24hr',
+    },
+    attachTo: document.body,
+  })
+
+  await wrapper.find('.mp-field-decorator').trigger('click')
+  await delay(300)
+
+  expect(document.querySelector('.mp-time-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeFalsy()
 
   wrapper.unmount()
   document.body.innerHTML = ''

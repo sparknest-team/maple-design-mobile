@@ -40,13 +40,13 @@ import { getRect, toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import { createNamespace } from '../utils/components'
 import { padStart } from '../utils/shared'
-import { hours24, hoursAmpm, minSec, type AllowedTime, type AmPm, type Format, type Time } from './props'
+import { hours24, hoursAmpm, minSec, type AmPm, type DisabledTime, type Format, type Time } from './props'
 import { convertHour, getIsDisableMinute, getIsDisableSecond, getNumberTime, notConvert } from './utils'
 
 const { n, classes } = createNamespace('time-picker')
 
 export default defineComponent({
-  name: 'Clock',
+  name: createNamespace('clock').name,
   props: {
     isInner: {
       type: Boolean,
@@ -59,8 +59,8 @@ export default defineComponent({
       type: String as PropType<Format>,
       default: 'ampm',
     },
-    allowedTime: {
-      type: Object as PropType<AllowedTime>,
+    disabledTime: {
+      type: Object as PropType<DisabledTime>,
     },
     time: {
       type: Object as PropType<Time>,
@@ -132,7 +132,7 @@ export default defineComponent({
         minute: toNumber(props.time.minute),
         max: props.max,
         min: props.min,
-        allowedTime: props.allowedTime,
+        disabledTime: props.disabledTime,
         disableHour: disableHour.value,
       }
 
@@ -283,8 +283,8 @@ export default defineComponent({
     )
 
     watch(
-      [() => props.max, () => props.min, () => props.allowedTime],
-      ([max, min, allowedTime]) => {
+      [() => props.max, () => props.min, () => props.disabledTime],
+      ([max, min, disabledTime]) => {
         disableHour.value = []
         if (max && !min) {
           const { hour: maxHour } = getNumberTime(max)
@@ -311,11 +311,11 @@ export default defineComponent({
           disableHour.value = [...disableAmpmHours, ...disable24Hours]
         }
 
-        if (allowedTime?.hours) {
-          const { hours } = allowedTime
+        if (disabledTime?.hours) {
+          const { hours } = disabledTime
 
-          const disableAmpmHours = hoursAmpm.filter((hour) => !hours(toNumber(hour)))
-          const disable24Hours = hours24.filter((hour) => !hours(toNumber(hour)))
+          const disableAmpmHours = hoursAmpm.filter((hour) => hours(toNumber(hour)))
+          const disable24Hours = hours24.filter((hour) => hours(toNumber(hour)))
           disableHour.value = [...new Set([...disableHour.value, ...disableAmpmHours, ...disable24Hours])]
         }
 

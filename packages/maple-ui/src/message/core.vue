@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" :class="n()" :style="{ pointerEvents: isForbidClick ? 'auto' : 'none', zIndex }">
+  <div v-show="open" :class="n()" :style="{ pointerEvents: isForbidClick ? 'auto' : 'none', zIndex }">
     <div
       :class="
         classes(
@@ -14,7 +14,12 @@
       :style="{ zIndex }"
     >
       <div v-if="showIconSlot" :class="n('icon')">
-        <mp-icon v-if="iconName" :name="iconName" />
+        <mp-icon v-if="type && type !== 'loading' && type !== 'normal'">
+          <MIconCheckboxMarkedCircle v-if="type === 'success'" />
+          <MIconWarning v-else-if="type === 'warning'" />
+          <MIconInformation v-else-if="type === 'info'" />
+          <MIconError v-else />
+        </mp-icon>
         <mp-loading
           v-if="type === 'loading'"
           :type="loadingType"
@@ -29,8 +34,8 @@
       </div>
       <div v-if="$slots.action || closable" :class="n('action')">
         <slot name="action" />
-        <mp-button v-if="closable" :class="n('close')" text round :elevation="false" size="small" @click="handleClose">
-          <mp-icon name="close" :size="18" />
+        <mp-button v-if="closable" :class="n('close')" text round :elevation="false" size="sm" @click="handleClose">
+          <mp-icon :size="18"><MIconWindowClose /></mp-icon>
         </mp-button>
       </div>
     </div>
@@ -39,6 +44,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, useSlots, watch, type ComputedRef, type Ref } from 'vue'
+import {
+  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconError as MIconError,
+  IconInformation as MIconInformation,
+  IconWarning as MIconWarning,
+  IconWindowClose as MIconWindowClose,
+} from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
 import MpButton from '../button'
@@ -47,49 +59,38 @@ import { useZIndex } from '../context/zIndex'
 import MpIcon from '../icon'
 import MpLoading from '../loading'
 import { createNamespace, formatElevation } from '../utils/components'
-import { MESSAGE_TYPE, type MessageType } from './index'
+import { MESSAGE_TYPE } from './index'
 import { props } from './props'
 
 const { n, classes } = createNamespace('message')
 
-const ICON_TYPE_DICT: Partial<Record<MessageType, string>> = {
-  success: 'checkbox-marked-circle',
-  warning: 'warning',
-  info: 'information',
-  error: 'error',
-  loading: '',
-  normal: '',
-}
-
 export default defineComponent({
-  name: 'MpMessageCore',
+  name: createNamespace('message-core').name,
   components: {
+    MIconCheckboxMarkedCircle,
+    MIconWarning,
+    MIconInformation,
+    MIconError,
+    MIconWindowClose,
     MpLoading,
     MpIcon,
     MpButton,
   },
   props,
-  setup(props) {
+  emits: ['update:open', 'open', 'close'],
+  setup(props, { emit }) {
     const slots = useSlots()
     const timer: Ref = ref(null)
-    const { zIndex } = useZIndex(() => props.show, 1)
+    const { zIndex } = useZIndex(() => props.open, 1)
 
     useLock(
-      () => props.show,
+      () => props.open,
       () => props.lockScroll,
     )
 
     const isForbidClick: ComputedRef<boolean> = computed(() => {
       const { type, forbidClick } = props
       return type === 'loading' || forbidClick
-    })
-
-    const iconName: ComputedRef<string> = computed(() => {
-      if (!props.type || !props.showIcon) {
-        return ''
-      }
-
-      return ICON_TYPE_DICT[props.type] ?? ''
     })
 
     const showIconSlot = computed(() => {
@@ -101,11 +102,11 @@ export default defineComponent({
         return false
       }
 
-      return Boolean(iconName.value || props.type === 'loading' || slots.icon)
+      return Boolean((props.type && props.type !== 'normal') || slots.icon)
     })
 
     function handleClose() {
-      call(props['onUpdate:show'], false)
+      emit('update:open', false)
     }
 
     function updateAfterDuration() {
@@ -116,19 +117,19 @@ export default defineComponent({
       }
 
       timer.value = setTimeout(() => {
-        call(props['onUpdate:show'], false)
+        emit('update:open', false)
       }, props.duration)
     }
 
     watch(
-      () => props.show,
+      () => props.open,
       (show) => {
         if (show) {
-          call(props.onOpen)
+          emit('open')
           updateAfterDuration()
         } else {
           clearTimeout(timer.value)
-          call(props.onClose)
+          emit('close')
         }
       },
     )
@@ -142,8 +143,8 @@ export default defineComponent({
     )
 
     onSmartMounted(() => {
-      if (props.show) {
-        call(props.onOpen)
+      if (props.open) {
+        emit('open')
         updateAfterDuration()
       }
     })
@@ -151,7 +152,6 @@ export default defineComponent({
     return {
       MESSAGE_TYPE,
       zIndex,
-      iconName,
       showIconSlot,
       isForbidClick,
       handleClose,

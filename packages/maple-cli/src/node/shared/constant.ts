@@ -56,7 +56,6 @@ export const HL_ZH_MD = 'zh-CN.md'
 export const HL_ZH_WEB_TYPES_JSON = resolve(HL_DIR, 'web-types.zh-CN.json')
 
 // icons
-export const ICONS_PNG_DIR_NAME = 'png'
 
 // extension
 export const EXTENSION_ENTRY = resolve(CWD, 'src/extension.ts')

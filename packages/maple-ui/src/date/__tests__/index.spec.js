@@ -26,7 +26,8 @@ test('date confirm writes modelValue', async () => {
   await delay(300)
 
   expect(document.querySelector('.mp-date__panel')).toBeTruthy()
-  expect(document.querySelector('.mp-date-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-date-picker__body')).toBeFalsy()
 
   await trigger(document.querySelector('.mp-date__confirm-button'), 'click')
   await delay(300)

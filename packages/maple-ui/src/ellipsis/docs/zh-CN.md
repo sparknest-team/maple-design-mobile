@@ -66,7 +66,7 @@ const expand = ref(false)
     其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
 
     <template #tooltip-content>
-      <mp-icon name="github" />
+      <m-icon-github />
     </template>
   </mp-ellipsis>
 </template>

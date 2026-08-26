@@ -5,8 +5,7 @@ export declare const checkboxProps: Record<keyof CheckboxProps, any>
 
 export interface CheckboxProps extends BasicAttributes {
   modelValue?: any
-  checkedValue?: any
-  uncheckedValue?: any
+  value?: any
   checkedColor?: string
   uncheckedColor?: string
   disabled?: boolean

@@ -5,7 +5,7 @@ import { t, use } from './locale'
 
 const ranges = reactive({
   basic: ['09:00', '18:00'],
-  picker: ['09:00', '18:00'],
+  clock: ['09:00', '18:00'],
   seconds: ['09:00:00', '18:00:00'],
   readonly: ['09:00', '18:00'],
   nextDay: ['22:00', '06:00'],
@@ -20,8 +20,8 @@ onThemeChange()
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-time-range-picker v-model="ranges.basic" />
 
-  <app-type>{{ t('pickerMode') }}</app-type>
-  <mp-time-range-picker v-model="ranges.picker" presentation="picker" format="24hr" />
+  <app-type>{{ t('clockMode') }}</app-type>
+  <mp-time-range-picker v-model="ranges.clock" presentation="clock" format="24hr" />
 
   <app-type>{{ t('hour24Seconds') }}</app-type>
   <mp-time-range-picker v-model="ranges.seconds" format="24hr" use-seconds />

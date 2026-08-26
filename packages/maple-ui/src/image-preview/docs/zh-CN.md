@@ -70,15 +70,15 @@ function preview() {
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const current = ref(0)
 const images = ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg']
 </script>
 
 <template>
-  <mp-button type="primary" block @click="visible = true">打开预览</mp-button>
+  <mp-button type="primary" block @click="open = true">打开预览</mp-button>
   <mp-image-preview-group
-    v-model:visible="visible"
+    v-model:open="open"
     v-model:current="current"
     :images="images"
   />
@@ -91,7 +91,7 @@ const images = ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg']
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -102,18 +102,18 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="visible = true"
+    @click="open = true"
   >
     基本使用
   </mp-button>
-  <mp-image-preview :images="images" v-model:visible="visible" />
+  <mp-image-preview :images="images" v-model:open="open" />
 </template>
 ```
 
 ### 单图 src
 
 ```html
-<mp-image-preview v-model:visible="visible" src="https://maplejs.org/cat.jpg" />
+<mp-image-preview v-model:open="open" src="https://maplejs.org/cat.jpg" />
 ```
 
 ### 指定初始位置
@@ -122,7 +122,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -133,14 +133,14 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="visible = true"
+    @click="open = true"
   >
     指定初始位置
   </mp-button>
   <mp-image-preview
     :current="1"
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
   />
 </template>
 ```
@@ -151,7 +151,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -162,14 +162,14 @@ const images = ref([
   <mp-button
     type="warning"
     block
-    @click="visible = true"
+    @click="open = true"
   >
     展示关闭按钮
   </mp-button>
   <mp-image-preview
     closable
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
   />
 </template>
 ```
@@ -181,7 +181,7 @@ const images = ref([
 import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -192,13 +192,13 @@ const images = ref([
   <mp-button
     block
     type="warning"
-    @click="visible = true"
+    @click="open = true"
   >
     监听关闭事件
   </mp-button>
   <mp-image-preview
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
     @close="Message('触发了关闭事件。')"
   />
 </template>
@@ -213,7 +213,7 @@ const images = ref([
 import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
-const visible = ref(false)
+const open = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
   'https://maplejs.org/cat2.jpg',
@@ -224,14 +224,14 @@ const images = ref([
   <mp-button
     block
     type="warning"
-    @click="visible = true"
+    @click="open = true"
   >
     监听长按事件
   </mp-button>
   <mp-image-preview
     image-prevent-default
     :images="images"
-    v-model:visible="visible"
+    v-model:open="open"
     @long-press="Message('触发了长按事件')"
   />
 </template>
@@ -243,7 +243,7 @@ const images = ref([
 <script setup>
 import { ref } from 'vue'
 
-const visible = ref(false)
+const open = ref(false)
 const menuShow = ref(false)
 const images = ref([
   'https://maplejs.org/cat.jpg',
@@ -265,19 +265,19 @@ const actions = [
   <mp-button
     block
     type="warning" 
-    @click="visible = true"
+    @click="open = true"
   >
     展示额外插槽
   </mp-button>
-  <mp-image-preview :images="images" v-model:visible="visible">
+  <mp-image-preview :images="images" v-model:open="open">
     <template #extra>
-      <mp-icon
-        name="menu"
+      <m-icon-menu
+       
         :size="22"
         color="#fff"
         @click="menuShow = true"
       />
-      <mp-action-sheet :actions="actions" v-model:show="menuShow" />
+      <mp-action-sheet :actions="actions" v-model:open="menuShow" />
     </template>
   </mp-image-preview>
 </template>
@@ -286,19 +286,19 @@ const actions = [
 ### 关闭循环播放
 
 ```html
-<mp-image-preview v-model:visible="visible" :images="images" :loop="false" />
+<mp-image-preview v-model:open="open" :images="images" :loop="false" />
 ```
 
 ### 隐藏指示器
 
 ```html
-<mp-image-preview v-model:visible="visible" :images="images" :indicator="false" />
+<mp-image-preview v-model:open="open" :images="images" :indicator="false" />
 ```
 
 ### 设置缩放倍数
 
 ```html
-<mp-image-preview v-model:visible="visible" :images="images" :zoom="3" />
+<mp-image-preview v-model:open="open" :images="images" :zoom="3" />
 ```
 
 ### 自定义指示器 / 关闭按钮
@@ -311,7 +311,7 @@ const actions = [
 
 | 参数         | 说明   | 类型  | 默认值  |
 | ------------ | ------------ | ------------------ | ------------ |
-| `v-model:visible` | 是否显示 | _boolean_ | `false` |
+| `v-model:open` | 是否显示 | _boolean_ | `false` |
 | `images`     | 需要预览的图片 URL 数组 | _string[]_ | `[]` |
 | `src` | 单图预览地址 | _string_ | `-` |
 | `current` | 当前图片索引 | _number_ | `0` |
@@ -320,8 +320,8 @@ const actions = [
 | `loop`       | 是否开启循环播放 | _boolean_ | `true` |
 | `indicator`  | 是否显示分页 | _boolean_ | `true` |
 | `lock-scroll` | 锁定滚动 | _boolean_ | `true` |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭 | _boolean_ | `true`  |
-| `teleport`   | 弹出层挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
+| `esc-to-close` | 是否支持键盘 ESC 关闭 | _boolean_ | `true`  |
+| `popupContainer`   | 弹出层挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
 | `image-prevent-default` | 是否禁止图片默认行为 |  _boolean_ | `false` |
 
 ### ImagePreviewGroup 属性
@@ -329,12 +329,13 @@ const actions = [
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `images` | 图片 URL 列表（设置后不再收集子 Image） | _string[]_ | `[]` |
-| `v-model:visible` | 是否显示预览 | _boolean_ | `false` |
+| `v-model:open` | 是否打开预览 | _boolean_ | `false` |
+| `default-open` | 非受控默认打开状态 | _boolean_ | `false` |
 | `v-model:current` | 当前图片索引 | _number_ | `0` |
 | `loop` | 是否循环切换 | _boolean_ | `true` |
 | `closable` | 是否显示关闭按钮 | _boolean_ | `false` |
 | `mask-closable` | 点击遮罩是否关闭 | _boolean_ | `false` |
-| `teleport` | 弹出层挂载位置 | _string \| Element \| false_ | `-` |
+| `popupContainer` | 弹出层挂载位置 | _string \| Element \| false_ | `-` |
 
 ### 事件
 
@@ -343,6 +344,7 @@ const actions = [
 | `change` | 切换图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
 | `open`   | 打开 image-preview 时触发 | `-`  |
 | `opened` | 打开 image-preview 动画结束时触发 | `-` |
+| `open-change` | 打开状态变化时触发 | `open: boolean` |
 | `close`  | 关闭 image-preview 时触发 | `-` |
 | `closed` | 关闭 image-preview 动画结束时触发 | `-` |
 | `long-press` | 长按图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 | 
@@ -377,7 +379,7 @@ const actions = [
 | `current` | 图片预览起始的索引 | _number_ | `0` |
 | `zoom`       | 双击放大倍数  | _string \| number_ | `2` |
 | `closable`  | 是否显示关闭按钮 | _boolean_ | `false` |
-| `closeOnKeyEscape` | 是否支持键盘 ESC 关闭图片预览 | _boolean_ | `true` |
+| `escToClose` | 是否支持键盘 ESC 关闭图片预览 | _boolean_ | `true` |
 | `loop`       | 是否开启循环播放 | _boolean_ | `true` |
 | `indicator`  | 是否显示分页 | _boolean_ | `true` |
 | `lockScroll` | 锁定滚动 | _boolean_ | `true` |

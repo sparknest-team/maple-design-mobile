@@ -1,38 +1,40 @@
 <template>
-  <div
-    v-hover:desktop="hover"
-    :class="classes(n(), [variant, n('--variant')])"
-    role="switch"
-    :aria-checked="modelValue"
-  >
+  <div v-hover:desktop="hover" :class="classes(n(), n(`--variant-${variant}`))">
     <div
-      ref="switchRef"
-      :class="classes(n('block'), [disabled || formDisabled, n('--disabled')], [isActive, n('block--active')])"
+      :class="classes(n('block'), [disabled || formDisabled, n('--disabled')], [isChecked, n('block--active')])"
       :style="styleComputed.switch"
-      @click="switchActive"
+      role="switch"
+      :aria-checked="isChecked"
+      :aria-disabled="disabled || formDisabled || undefined"
+      :aria-busy="loading || undefined"
+      :tabindex="disabled || formDisabled ? -1 : 0"
+      @click="switchChecked"
+      @keydown.enter.prevent="switchChecked"
+      @keydown.space.prevent="switchChecked"
+      @focus="isFocusing = true"
+      @blur="isFocusing = false"
     >
       <div
         :style="styleComputed.track"
-        :class="classes(n('track'), [isActive, n('track--active')], [mergedError && !variant, n('track--error')])"
+        :class="
+          classes(n('track'), [isChecked, n('track--active')], [mergedError && variant !== 'md3', n('track--error')])
+        "
       ></div>
       <div
         v-ripple="{
           disabled: !ripple || disabled || loading || formDisabled || readonly || formReadonly,
         }"
-        :class="classes(n('ripple'), [isActive, n('ripple--active')])"
+        :class="classes(n('ripple'), [isChecked, n('ripple--active')])"
         :style="styleComputed.ripple"
-        :tabindex="disabled || formDisabled ? undefined : '0'"
-        @focus="isFocusing = true"
-        @blur="isFocusing = false"
       >
         <div
           :style="styleComputed.handle"
           :class="
             classes(
               n('handle'),
-              formatElevation(buttonElevation, 2),
-              [isActive, n('handle--active')],
-              [mergedError && !variant, n('handle--error')],
+              formatElevation(handleElevation, 2),
+              [isChecked, n('handle--active')],
+              [mergedError && variant !== 'md3', n('handle--error')],
               [hovering, n('handle--hover')],
             )
           "
@@ -62,8 +64,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { call, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener } from '@maplejs/maple-use'
+import { call } from '@maplejs/maple-shared'
 import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
@@ -91,108 +92,72 @@ export default defineComponent({
   },
   directives: { Ripple, Hover },
   props,
-  setup(props) {
-    const switchRef = ref<HTMLElement | null>(null)
+  emits: ['click', 'change', 'update:modelValue'],
+  setup(props, { emit }) {
     const isFocusing = ref(false)
     const { form } = useForm()
     const { mergedError, eventHandlers } = useFormItem()
     const { hovering, handleHovering } = useHoverOverlay()
 
-    const isActive = computed(() => props.modelValue === props.activeValue)
+    const isChecked = computed(() => props.modelValue === props.checkedValue)
 
     const styleComputed = computed<Record<string, Partial<StyleProps>>>(() => {
-      const { size, color, closeColor, loadingColor, variant } = props
+      const { size, checkedColor, uncheckedColor, loadingColor, variant } = props
+      const isMd3 = variant === 'md3'
 
       return {
         handle: {
           width: multiplySizeUnit(size),
           height: multiplySizeUnit(size),
-          backgroundColor: isActive.value ? color : closeColor,
+          backgroundColor: isChecked.value ? checkedColor : uncheckedColor,
           color: loadingColor,
         },
         ripple: {
-          left: isActive.value ? multiplySizeUnit(size, 0.5) : `-${multiplySizeUnit(size, variant ? 1 / 3 : 0.5)}`,
-          color: isActive.value ? color : closeColor || 'currentColor',
+          left: isChecked.value ? multiplySizeUnit(size, 0.5) : `-${multiplySizeUnit(size, isMd3 ? 1 / 3 : 0.5)}`,
+          color: isChecked.value ? checkedColor : uncheckedColor || 'currentColor',
           width: multiplySizeUnit(size, 2),
           height: multiplySizeUnit(size, 2),
         },
         track: {
-          width: multiplySizeUnit(size, variant ? 13 / 6 : 1.9),
-          height: multiplySizeUnit(size, variant ? 4 / 3 : 0.72),
+          width: multiplySizeUnit(size, isMd3 ? 13 / 6 : 1.9),
+          height: multiplySizeUnit(size, isMd3 ? 4 / 3 : 0.72),
           borderRadius: multiplySizeUnit(size, 2 / 3),
-          filter: isActive.value || mergedError.value ? undefined : `brightness(${variant ? 1 : 0.6})`,
-          backgroundColor: isActive.value ? color : closeColor,
-          borderWidth: variant && !isActive.value ? multiplySizeUnit(size, 1 / 12) : undefined,
+          filter: isChecked.value || mergedError.value ? undefined : `brightness(${isMd3 ? 1 : 0.6})`,
+          backgroundColor: isChecked.value ? checkedColor : uncheckedColor,
+          borderWidth: isMd3 && !isChecked.value ? multiplySizeUnit(size, 1 / 12) : undefined,
         },
         switch: {
-          width: multiplySizeUnit(size, variant ? 13 / 6 : 2),
-          height: multiplySizeUnit(size, variant ? 4 / 3 : 1.2),
+          width: multiplySizeUnit(size, isMd3 ? 13 / 6 : 2),
+          height: multiplySizeUnit(size, isMd3 ? 4 / 3 : 1.2),
         },
       }
     })
 
     const radius = computed(() => multiplySizeUnit(props.size, 0.8))
 
-    useEventListener(() => window, 'keydown', handleKeydown)
-    useEventListener(() => window, 'keyup', handleKeyup)
-
-    function handleKeydown(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      if (event.key === ' ' || event.key === 'Enter') {
-        preventDefault(event)
-      }
-
-      if (event.key === 'Enter') {
-        switchRef.value!.click()
-      }
-    }
-
-    function handleKeyup(event: KeyboardEvent) {
-      if (!isFocusing.value || event.key !== ' ') {
-        return
-      }
-
-      preventDefault(event)
-      switchRef.value!.click()
-    }
-
-    function switchActive(event: Event) {
-      const {
-        onClick,
-        onChange,
-        disabled,
-        loading,
-        readonly,
-        activeValue,
-        inactiveValue,
-        lazyChange,
-        'onUpdate:modelValue': updateModelValue,
-        onBeforeChange,
-      } = props
+    function switchChecked(event: Event) {
+      const { disabled, loading, readonly, checkedValue, uncheckedValue, lazyChange, beforeChange } = props
 
       if (disabled || form?.disabled.value) {
         return
       }
 
-      call(onClick, event)
+      emit('click', event)
 
       if (loading || readonly || form?.readonly.value) {
         return
       }
 
-      const newValue = isActive.value ? inactiveValue : activeValue
+      const newValue = isChecked.value ? uncheckedValue : checkedValue
 
       if (lazyChange) {
-        call(onBeforeChange, newValue, (value) => {
-          call(updateModelValue, value)
+        call(beforeChange, newValue, (value) => {
+          emit('update:modelValue', value)
           eventHandlers.value.onChange?.()
         })
       } else {
-        call(onChange, newValue)
-        call(updateModelValue, newValue)
+        emit('change', newValue)
+        emit('update:modelValue', newValue)
         eventHandlers.value.onChange?.()
       }
     }
@@ -206,8 +171,7 @@ export default defineComponent({
     }
 
     return {
-      isActive,
-      switchRef,
+      isChecked,
       hovering,
       isFocusing,
       radius,
@@ -219,7 +183,7 @@ export default defineComponent({
       classes,
       formatElevation,
       multiplySizeUnit,
-      switchActive,
+      switchChecked,
       hover,
     }
   },

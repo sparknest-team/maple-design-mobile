@@ -7,7 +7,7 @@ import { t, use } from './locale'
 const images = ['cat.jpg', 'cat2.jpg']
 const singleImage = 'cat.jpg'
 
-const visible = ref(false)
+const open = ref(false)
 const srcVisible = ref(false)
 const currentVisible = ref(false)
 const closeVisible = ref(false)
@@ -87,76 +87,76 @@ function openDataGroup() {
     <app-type>{{ t('dataDrivenGroup') }}</app-type>
     <mp-button type="primary" block @click="openDataGroup">{{ t('openPreview') }}</mp-button>
     <mp-image-preview-group
-      v-model:visible="dataGroupVisible"
+      v-model:open="dataGroupVisible"
       v-model:current="dataGroupCurrent"
       :images="images"
       :loop="false"
       closable
     />
 
-    <mp-button type="warning" block @click="visible = true">{{ t('basicUse') }}</mp-button>
-    <mp-image-preview v-model:visible="visible" :images="images" />
+    <mp-button type="warning" block @click="open = true">{{ t('basicUse') }}</mp-button>
+    <mp-image-preview v-model:open="open" :images="images" />
 
     <mp-button type="warning" block @click="srcVisible = true">{{ t('useSrc') }}</mp-button>
-    <mp-image-preview v-model:visible="srcVisible" src="cat.jpg" />
+    <mp-image-preview v-model:open="srcVisible" src="cat.jpg" />
 
     <mp-button type="warning" block @click="currentVisible = true">{{ t('specifyInitialPosition') }}</mp-button>
-    <mp-image-preview v-model:visible="currentVisible" :images="images" :current="1" />
+    <mp-image-preview v-model:open="currentVisible" :images="images" :current="1" />
 
     <mp-button type="warning" block @click="closeVisible = true">{{ t('displayCloseButton') }}</mp-button>
-    <mp-image-preview v-model:visible="closeVisible" :images="images" closable />
+    <mp-image-preview v-model:open="closeVisible" :images="images" closable />
 
     <mp-button type="warning" block @click="closeEventVisible = true">{{ t('listenCloseEvents') }}</mp-button>
-    <mp-image-preview v-model:visible="closeEventVisible" :images="images" @close="handleCloseEvent" />
+    <mp-image-preview v-model:open="closeEventVisible" :images="images" @close="handleCloseEvent" />
 
     <mp-button type="warning" block @click="longPressVisible = true">{{ t('preventLongTapDefault') }}</mp-button>
     <mp-image-preview
-      v-model:visible="longPressVisible"
+      v-model:open="longPressVisible"
       :images="images"
       image-prevent-default
       @long-press="handleLongPressEvent"
     />
 
     <mp-button type="warning" block @click="extraVisible = true">{{ t('showExtraSlots') }}</mp-button>
-    <mp-image-preview v-model:visible="extraVisible" :images="images">
+    <mp-image-preview v-model:open="extraVisible" :images="images">
       <template #extra>
-        <mp-icon name="menu" :size="22" color="#fff" @click="menuShow = true" />
-        <mp-action-sheet v-model:show="menuShow" :actions="actions" />
+        <m-icon-menu :size="22" color="#fff" @click="menuShow = true" />
+        <mp-action-sheet v-model:open="menuShow" :actions="actions" />
       </template>
     </mp-image-preview>
 
     <mp-button type="warning" block @click="noLoopVisible = true">{{ t('disableLoop') }}</mp-button>
-    <mp-image-preview v-model:visible="noLoopVisible" :images="images" :loop="false" />
+    <mp-image-preview v-model:open="noLoopVisible" :images="images" :loop="false" />
 
     <mp-button type="warning" block @click="noIndicatorVisible = true">{{ t('hideIndicator') }}</mp-button>
-    <mp-image-preview v-model:visible="noIndicatorVisible" :images="images" :indicator="false" />
+    <mp-image-preview v-model:open="noIndicatorVisible" :images="images" :indicator="false" />
 
     <mp-button type="warning" block @click="zoomVisible = true">{{ t('setZoom') }}</mp-button>
-    <mp-image-preview v-model:visible="zoomVisible" :images="images" :zoom="3" />
+    <mp-image-preview v-model:open="zoomVisible" :images="images" :zoom="3" />
 
     <mp-button type="warning" block @click="customCloseVisible = true">{{ t('customCloseIcon') }}</mp-button>
-    <mp-image-preview v-model:visible="customCloseVisible" :images="images" closable>
+    <mp-image-preview v-model:open="customCloseVisible" :images="images" closable>
       <template #close-icon>
-        <mp-icon name="window-close" :size="24" color="#fff" @click="customCloseVisible = false" />
+        <m-icon-window-close :size="24" color="#fff" @click="customCloseVisible = false" />
       </template>
     </mp-image-preview>
 
     <mp-button type="warning" block @click="customIndicatorVisible = true">{{ t('customIndicator') }}</mp-button>
-    <mp-image-preview v-model:visible="customIndicatorVisible" :images="images">
+    <mp-image-preview v-model:open="customIndicatorVisible" :images="images">
       <template #indicator="{ index, length }">
         <div class="custom-indicator">{{ index + 1 }} / {{ length }}</div>
       </template>
     </mp-image-preview>
 
     <mp-button type="warning" block @click="unlockScrollVisible = true">{{ t('disableLockScroll') }}</mp-button>
-    <mp-image-preview v-model:visible="unlockScrollVisible" :images="images" :lock-scroll="false" />
+    <mp-image-preview v-model:open="unlockScrollVisible" :images="images" :lock-scroll="false" />
 
     <mp-button type="warning" block @click="noEscVisible = true">{{ t('disableEscClose') }}</mp-button>
-    <mp-image-preview v-model:visible="noEscVisible" :images="images" :close-on-key-escape="false" closable />
+    <mp-image-preview v-model:open="noEscVisible" :images="images" :esc-to-close="false" closable />
 
     <mp-button type="warning" block @click="lifecycleVisible = true">{{ t('listenLifecycle') }}</mp-button>
     <mp-image-preview
-      v-model:visible="lifecycleVisible"
+      v-model:open="lifecycleVisible"
       :images="images"
       @open="handleLifecycle('open')"
       @opened="handleLifecycle('opened')"

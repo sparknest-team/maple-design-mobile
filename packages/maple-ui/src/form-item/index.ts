@@ -10,6 +10,7 @@ withPropsDefaultsSetter(FormItem, formItemProps)
 export { formItemProps }
 export { useFormItem } from './provide'
 
+export type FormItemInstance = InstanceType<typeof FormItem>
 export const _FormItemComponent = FormItem
 
 export default FormItem

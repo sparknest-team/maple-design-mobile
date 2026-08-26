@@ -94,19 +94,19 @@ Button component for triggering actions.
 <template>
   <mp-space :size="[10, 10]">
     <mp-button type="primary" round icon-container>
-      <mp-icon name="plus" />
+      <m-icon-plus />
     </mp-button>
     <mp-button type="info" round icon-container>
-      <mp-icon name="information" />
+      <m-icon-information />
     </mp-button>
     <mp-button type="success" round icon-container>
-      <mp-icon name="check" />
+      <m-icon-check />
     </mp-button>
     <mp-button type="warning" round icon-container>
-      <mp-icon name="warning" />
+      <m-icon-warning />
     </mp-button>
     <mp-button type="danger" round icon-container>
-      <mp-icon name="window-close" />
+      <m-icon-window-close />
     </mp-button>
   </mp-space>
 </template>
@@ -191,7 +191,7 @@ function handleAutoLoadingClick() {
     <mp-button-group type="primary">
       <mp-button @click.stop>Split Button</mp-button>
       <mp-button style="padding: 0 6px;">
-        <mp-icon name="menu-down" :size="24" />
+        <m-icon-menu-down :size="24" />
       </mp-button>
     </mp-button-group>
 
@@ -223,13 +223,13 @@ function handleAutoLoadingClick() {
 
     <mp-button-group mode="icon-container">
       <mp-button type="warning">
-        <mp-icon name="warning" />
+        <m-icon-warning />
       </mp-button>
       <mp-button type="info">
-        <mp-icon name="information" />
+        <m-icon-information />
       </mp-button>
       <mp-button type="success">
-        <mp-icon name="check" />
+        <m-icon-check />
       </mp-button>
     </mp-button-group>
   
@@ -273,13 +273,13 @@ function handleAutoLoadingClick() {
 
     <mp-button-group mode="icon-container" vertical>
       <mp-button type="warning">
-        <mp-icon name="warning" />
+        <m-icon-warning />
       </mp-button>
       <mp-button type="info">
-        <mp-icon name="information" />
+        <m-icon-information />
       </mp-button>
       <mp-button type="success">
-        <mp-icon name="check" />
+        <m-icon-check />
       </mp-button>
     </mp-button-group>
     
@@ -366,11 +366,11 @@ Here are the CSS variables used by the component. Styles can be customized using
 | Variable                       | Default                      |
 | ------------------------------ | ---------------------------- |
 | `--button-default-text-color` | `#555` |
-| `--button-primary-text-color` | `var(--color-on-primary)` |
-| `--button-danger-text-color` | `var(--color-on-danger)` |
-| `--button-success-text-color` | `var(--color-on-success)` |
-| `--button-warning-text-color` | `var(--color-on-warning)` |
-| `--button-info-text-color` | `var(--color-on-info)` |
+| `--button-primary-text-color` | `var(--color-white)` |
+| `--button-danger-text-color` | `var(--color-white)` |
+| `--button-success-text-color` | `var(--color-white)` |
+| `--button-warning-text-color` | `var(--color-white)` |
+| `--button-info-text-color` | `var(--color-white)` |
 | `--button-default-color` | `#f5f5f5` |
 | `--button-primary-color` | `var(--color-primary)`|
 | `--button-danger-color` |  `var(--color-danger)`|
@@ -378,17 +378,17 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--button-warning-color` |  `var(--color-warning)`|
 | `--button-info-color` | `var(--color-info)`|
 | `--button-default-icon-color` | `#555` |
-| `--button-primary-icon-color` | `var(--color-on-primary-container)` |
-| `--button-danger-icon-color` | `var(--color-on-danger-container)` |
-| `--button-success-icon-color` | `var(--color-on-success-container)` |
-| `--button-warning-icon-color` | `var(--color-on-warning-container)` |
-| `--button-info-icon-color` | `var(--color-on-info-container)` |
+| `--button-primary-icon-color` | `var(--color-white)` |
+| `--button-danger-icon-color` | `var(--color-white)` |
+| `--button-success-icon-color` | `var(--color-white)` |
+| `--button-warning-icon-color` | `var(--color-white)` |
+| `--button-info-icon-color` | `var(--color-white)` |
 | `--button-default-icon-container-color` | `#f5f5f5` |
-| `--button-primary-icon-container-color` | `var(--color-primary-container)` |
-| `--button-danger-icon-container-color` | `var(--color-danger-container)` |
-| `--button-success-icon-container-color` | `var(--color-success-container)` |
-| `--button-warning-icon-container-color` | `var(--color-warning-container)` |
-| `--button-info-icon-container-color` | `var(--color-info-container)` |
+| `--button-primary-icon-container-color` | `var(--color-primary)` |
+| `--button-danger-icon-container-color` | `var(--color-danger)` |
+| `--button-success-icon-container-color` | `var(--color-success)` |
+| `--button-warning-icon-container-color` | `var(--color-warning)` |
+| `--button-info-icon-container-color` | `var(--color-info)` |
 | `--button-disabled-color` | `var(--color-disabled)`|
 | `--button-disabled-text-color` | `var(--color-text-disabled)` |
 | `--button-border-radius` | `4px` |

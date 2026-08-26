@@ -1,6 +1,5 @@
 import { type PropType } from 'vue'
 import { type FormLayout } from '../form/props'
-import { defineListenerProp } from '../utils/components'
 
 export type FormItemValidateTrigger = 'change' | 'input' | 'focus' | 'blur' | 'clear'
 
@@ -31,5 +30,4 @@ export const props = {
     type: [String, Array] as PropType<FormItemValidateTrigger | FormItemValidateTrigger[]>,
     default: 'change',
   },
-  onValidate: defineListenerProp<(valid: boolean) => void>(),
 }

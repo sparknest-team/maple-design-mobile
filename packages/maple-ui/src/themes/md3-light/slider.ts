@@ -1,7 +1,7 @@
 export default {
   '--mp-slider-thumb-size': '16px',
   '--mp-slider-track-height': '4px',
-  '--mp-slider-track-background': 'var(--mp-color-surface-container-highest)',
+  '--mp-slider-track-background': 'var(--mp-color-fill-3)',
   '--mp-slider-track-fill-border-radius': '4px',
   '--mp-slider-track-border-radius': '4px',
   '--mp-slider-error-color': 'var(--mp-color-danger)',
@@ -10,6 +10,6 @@ export default {
   '--mp-slider-thumb-ripple-background': 'var(--mp-color-primary)',
   '--mp-slider-thumb-label-background': 'var(--mp-color-primary)',
   '--mp-slider-thumb-label-font-size': 'var(--mp-font-size-sm)',
-  '--mp-slider-thumb-label-text-color': 'var(--mp-color-on-primary)',
+  '--mp-slider-thumb-label-text-color': 'var(--mp-color-white)',
   '--mp-slider-disabled-opacity': 'var(--mp-opacity-disabled)',
 }

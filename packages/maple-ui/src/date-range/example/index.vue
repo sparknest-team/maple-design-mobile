@@ -4,7 +4,7 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const range = ref([])
-const rangePicker = ref(['2024-01-01', '2024-12-31'])
+const rangeCalendar = ref(['2024-01-01', '2024-12-31'])
 const dateTimeRange = ref([])
 const yearRange = ref([])
 const monthRange = ref([])
@@ -25,8 +25,8 @@ onThemeChange()
     <app-type>{{ t('basicUsage') }}</app-type>
     <mp-date-range v-model="range" :placeholder="t('placeholder')" clearable />
 
-    <app-type>{{ t('pickerMode') }}</app-type>
-    <mp-date-range v-model="rangePicker" presentation="picker" :placeholder="t('pickerPlaceholder')" clearable />
+    <app-type>{{ t('calendarMode') }}</app-type>
+    <mp-date-range v-model="rangeCalendar" presentation="calendar" :placeholder="t('calendarPlaceholder')" clearable />
 
     <app-type>{{ t('dateTime') }}</app-type>
     <mp-date-range v-model="dateTimeRange" show-time :placeholder="t('dateTimePlaceholder')" clearable />

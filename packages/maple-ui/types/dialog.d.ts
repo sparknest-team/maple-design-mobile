@@ -17,7 +17,7 @@ export interface DialogBeforeCloseRefs {
 }
 
 export interface DialogProps extends BasicAttributes {
-  show?: boolean
+  open?: boolean
   width?: string | number
   title?: string
   message?: string
@@ -42,25 +42,25 @@ export interface DialogProps extends BasicAttributes {
   bodyClass?: string
   bodyStyle?: Record<string, any>
   unmountOnClose?: boolean
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   dialogClass?: string
   dialogStyle?: Record<string, any>
   lockScroll?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
-  teleport?: TeleportProps['to'] | false
+  maskClosable?: boolean
+  escToClose?: boolean
+  popupContainer?: TeleportProps['to'] | false
   onOpen?: ListenerProp<() => void>
   onOpened?: ListenerProp<() => void>
-  onBeforeClose?: ListenerProp<(action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void>
+  beforeClose?: ListenerProp<(action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void>
   onClose?: ListenerProp<() => void>
   onClosed?: ListenerProp<() => void>
   onConfirm?: ListenerProp<() => void>
   onCancel?: ListenerProp<() => void>
   onClickOverlay?: ListenerProp<() => void>
   onKeyEscape?: ListenerProp<() => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface DialogFooterData {
@@ -80,7 +80,7 @@ export class DialogComponent extends VarComponent {
 }
 
 export interface DialogOptions {
-  show?: boolean
+  open?: boolean
   title?: string
   width?: string | number
   message?: string
@@ -105,18 +105,18 @@ export interface DialogOptions {
   bodyClass?: string
   bodyStyle?: Record<string, any>
   unmountOnClose?: boolean
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   dialogClass?: string
   dialogStyle?: Record<string, any>
   lockScroll?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
-  teleport?: TeleportProps['to'] | false
+  maskClosable?: boolean
+  escToClose?: boolean
+  popupContainer?: TeleportProps['to'] | false
   onOpen?: () => void
   onOpened?: () => void
-  onBeforeClose?: (action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void
+  beforeClose?: (action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void
   onClose?: () => void
   onClosed?: () => void
   onConfirm?: () => void
@@ -129,7 +129,7 @@ export type DialogUpdateOptions = Omit<
   DialogOptions,
   | 'onConfirm'
   | 'onCancel'
-  | 'onBeforeClose'
+  | 'beforeClose'
   | 'onOpen'
   | 'onOpened'
   | 'onClose'

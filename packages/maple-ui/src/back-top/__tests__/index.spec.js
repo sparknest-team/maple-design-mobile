@@ -19,9 +19,9 @@ const Wrapper = {
     <div class="back-top__test" style="height: 300px; overflow: auto">
       <div style="height: 5000px"></div>
       <mp-back-top
-        target=".back-top__test"
+        target-container=".back-top__test"
         :duration="500"
-        visibility-height="500"
+        visible-height="500"
         right="80"
         bottom="80"
         @click="clickHandle"
@@ -36,7 +36,7 @@ test('backTop plugin', () => {
 })
 
 describe('test backTop props', () => {
-  test('backTop visibilityHeight', async () => {
+  test('backTop visibleHeight', async () => {
     const wrapper = mount(Wrapper, { attachTo: document.body })
 
     const backTopEl = document.querySelector('.mp-back-top')

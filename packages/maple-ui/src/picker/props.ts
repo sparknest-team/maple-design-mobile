@@ -1,6 +1,7 @@
 import { type PropType } from 'vue'
 import { popupProps } from '../popup'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
+import { type FieldNames } from '../utils/options'
 
 export type PickerColumnOption = {
   text?: string | number
@@ -22,17 +23,9 @@ export const props = {
     default: () => [],
   },
   title: String,
-  textKey: {
-    type: String,
-    default: 'text',
-  },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  childrenKey: {
-    type: String,
-    default: 'children',
+  fieldNames: {
+    type: Object as PropType<FieldNames>,
+    default: undefined,
   },
   toolbar: {
     type: Boolean,
@@ -58,26 +51,5 @@ export const props = {
   cancelButtonTextColor: String,
   // dynamic internal
   dynamic: Boolean,
-  onChange:
-    defineListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>(),
-  onConfirm:
-    defineListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>(),
-  onCancel:
-    defineListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(values: (string | number)[]) => void>(),
-  ...pickProps(popupProps, [
-    'show',
-    'onUpdate:show',
-    'closeOnClickOverlay',
-    'closeOnKeyEscape',
-    'teleport',
-    'safeArea',
-    'onOpen',
-    'onClose',
-    'onOpened',
-    'onClosed',
-    'onClickOverlay',
-    'onRouteChange',
-    'onKeyEscape',
-  ]),
+  ...pickProps(popupProps, ['open', 'maskClosable', 'escToClose', 'popupContainer', 'safeArea']),
 }

@@ -5,8 +5,7 @@
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `v-model` | 绑定的值 | _any_ | `false` |
-| `checked-value` | 选中状态的值 | _any_ | `true` |
-| `unchecked-value` | 未选中状态的值 | _any_ | `false` |
+| `value` | 选项值 | _any_ | `true` |
 | `checked-color` | 选中状态的颜色 | _string_ | `-` |
 | `unchecked-color` | 未选中状态的颜色 | _string_ | `-` |
 | `icon-size` | 图标尺寸 | _string \| number_ | `-` |

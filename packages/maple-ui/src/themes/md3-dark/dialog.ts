@@ -1,8 +1,8 @@
 export default {
   '--mp-dialog-width': '312px',
-  '--mp-dialog-background': 'var(--mp-color-surface-container-high)',
-  '--mp-dialog-title-color': 'var(--mp-color-inverse-surface)',
-  '--mp-dialog-message-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-dialog-background': 'var(--mp-color-bg-3)',
+  '--mp-dialog-title-color': 'var(--mp-color-text-1)',
+  '--mp-dialog-message-color': 'var(--mp-color-text-3)',
   '--mp-dialog-border-radius': '28px',
   '--mp-dialog-title-padding': '24px 24px 0',
   '--mp-dialog-message-padding': '16px 24px 24px',

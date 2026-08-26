@@ -46,7 +46,7 @@ export default {
   '--mp-time-picker-clock-item-height': '32px',
   '--mp-time-picker-clock-item-width': '32px',
   '--mp-time-picker-clock-item-active-background': 'var(--mp-color-primary)',
-  '--mp-time-picker-clock-item-active-color': 'var(--mp-color-on-primary)',
+  '--mp-time-picker-clock-item-active-color': 'var(--mp-color-white)',
   '--mp-time-picker-inner-left': '36px',
   '--mp-time-picker-inner-right': '36px',
   '--mp-time-picker-inner-top': '36px',

@@ -1,81 +1,21 @@
-import { parse, resolve } from 'path'
-import { buildIcons, getIo } from '@varlet/icon-builder'
-import chokidar from 'chokidar'
-import fse from 'fs-extra'
-import sharp from 'sharp'
-import { getMapleConfig, MapleConfig } from '../config/maple.config.js'
-import { ICONS_PNG_DIR_NAME } from '../shared/constant.js'
+import { spawn } from 'node:child_process'
+import { resolve } from 'node:path'
 import logger from '../shared/logger.js'
-
-const { removeSync, ensureDirSync, readdirSync } = fse
-
-function clearPngOutputs(pngDir: string) {
-  removeSync(pngDir)
-  ensureDirSync(pngDir)
-}
-
-async function buildPNG(io: { entry: string; output: string }) {
-  const svgFiles = readdirSync(io.entry).filter((svgFile) => svgFile.endsWith('.svg'))
-  const pngDir = resolve(io.output, ICONS_PNG_DIR_NAME)
-
-  clearPngOutputs(pngDir)
-
-  await Promise.all(
-    svgFiles.map(
-      (svg) =>
-        new Promise<void>((done) => {
-          const { name } = parse(svg)
-          sharp(resolve(io.entry, svg))
-            .resize({ height: 100 })
-            .toBuffer()
-            .then((buffer) => {
-              sharp({
-                create: {
-                  width: 100,
-                  height: 100,
-                  channels: 4,
-                  background: '#4a7afe',
-                },
-              })
-                .composite([
-                  {
-                    input: buffer,
-                    blend: 'dest-in',
-                  },
-                ])
-                .png()
-                .toFile(resolve(pngDir, `${name}.png`))
-                .then(() => {
-                  done()
-                })
-            })
-        }),
-    ),
-  )
-
-  logger.success('build png success!')
-}
-
-export async function build(mapleConfig: Required<MapleConfig>, io: { entry: string; output: string }) {
-  await Promise.all([buildPNG(io), buildIcons(mapleConfig?.icons)])
-}
 
 export interface IconsCommandOptions {
   watch?: boolean
 }
 
+function run(command: string, args: string[], cwd: string) {
+  return new Promise<void>((done, fail) => {
+    const child = spawn(command, args, { cwd, stdio: 'inherit', shell: process.platform === 'win32' })
+    child.on('error', fail)
+    child.on('exit', (code) => (code === 0 ? done() : fail(new Error(`${command} exited with code ${code}`))))
+  })
+}
+
 export async function icons({ watch = false }: IconsCommandOptions = {}) {
-  const mapleConfig = await getMapleConfig()
-  const io = getIo(mapleConfig?.icons)
-
-  const task = () => build(mapleConfig, io)
-
-  if (watch) {
-    await build(mapleConfig, io)
-    chokidar.watch(io.entry, { ignoreInitial: true }).on('all', task)
-    logger.info(`watching for ${io.entry} changes...`)
-    return
-  }
-
-  await task()
+  const packageRoot = resolve(process.cwd(), 'packages/maple-icons-vue')
+  logger.info(`${watch ? 'Watching' : 'Building'} @maplejs/icons-vue...`)
+  await run('pnpm', ['--dir', packageRoot, watch ? 'dev' : 'build'], process.cwd())
 }

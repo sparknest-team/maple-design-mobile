@@ -1,8 +1,8 @@
 export default {
-  '--mp-bottom-navigation-item-active-background-color': 'var(--mp-color-info-container)',
-  '--mp-bottom-navigation-item-inactive-color': 'var(--mp-color-on-surface-variant)',
-  '--mp-bottom-navigation-item-variant-active-background-color': 'var(--mp-color-info-container)',
-  '--mp-bottom-navigation-item-variant-active-color': 'var(--mp-color-on-info-container)',
+  '--mp-bottom-navigation-item-active-background-color': 'var(--mp-color-info)',
+  '--mp-bottom-navigation-item-inactive-color': 'var(--mp-color-text-3)',
+  '--mp-bottom-navigation-item-variant-active-background-color': 'var(--mp-color-info)',
+  '--mp-bottom-navigation-item-variant-active-color': 'var(--mp-color-white)',
   '--mp-bottom-navigation-fab-border-radius': '12px',
   '--mp-bottom-navigation-item-font-size': 'var(--mp-font-size-sm)',
   '--mp-bottom-navigation-item-active-color': 'var(--mp-color-primary)',

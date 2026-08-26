@@ -1,30 +1,21 @@
 <template>
-  <component
-    :is="isURL(name) ? 'img' : 'i'"
-    :class="
-      classes(
-        n(),
-        [namespace !== n(), namespace],
-        `${namespace}--set`,
-        [isURL(name), n('image'), `${namespace}-${nextName}`],
-        [animateInProgress, animationClass == null ? n('--shrinking') : animationClass],
-      )
-    "
+  <span
+    :class="classes(n(), [animateInProgress, animationClass == null ? n('--shrinking') : animationClass])"
     :style="{
       color,
       'transition-duration': `${toNumber(transition)}ms`,
-      width: isURL(name) ? toSizeUnit(size) : null,
-      height: isURL(name) ? toSizeUnit(size) : null,
       fontSize: toSizeUnit(size),
     }"
-    :src="isURL(name) ? nextName : null"
-    @click="onClick"
-  />
+    @click="emit('click', $event)"
+  >
+    <slot v-if="$slots.default" />
+    <component :is="iconComponent" v-else />
+  </span>
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, ref, watch } from 'vue'
-import { isURL, toNumber } from '@maplejs/maple-shared'
+import { computed, defineComponent, getCurrentInstance, nextTick, ref, watch } from 'vue'
+import { pascalCase, toNumber } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
@@ -34,9 +25,15 @@ const { name, n, classes } = createNamespace('icon')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
+    const instance = getCurrentInstance()
     const nextName = ref<string | undefined>('')
     const animateInProgress = ref(false)
+    const iconComponent = computed(() => {
+      const componentName = `Icon${pascalCase(nextName.value ?? '')}`
+      return instance?.appContext.components[componentName]
+    })
 
     watch(() => props.name, handleNameChange, { immediate: true })
 
@@ -63,12 +60,13 @@ export default defineComponent({
 
     return {
       nextName,
+      iconComponent,
       animateInProgress,
       n,
       classes,
-      isURL,
       toNumber,
       toSizeUnit,
+      emit,
     }
   },
 })

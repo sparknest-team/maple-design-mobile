@@ -7,7 +7,7 @@ export interface TextareaProps extends BasicAttributes {
   modelValue?: string
   modelModifiers?: { trim?: boolean }
   rows?: string | number
-  maxlength?: string | number
+  maxLength?: string | number
   readonly?: boolean
   resize?: boolean
   autofocus?: boolean

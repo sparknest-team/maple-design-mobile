@@ -49,13 +49,10 @@
           {{ placeholder }}
         </span>
 
-        <slot name="arrow-icon" :focus="isFocusing" :popup-open="show">
-          <mp-icon
-            :class="classes(n('arrow'), [show, n('--arrow-rotate')])"
-            mp-time-cover
-            name="menu-down"
-            :transition="300"
-          />
+        <slot name="arrow-icon" :focus="isFocusing" :popup-open="open">
+          <mp-icon :class="classes(n('arrow'), [open, n('--arrow-rotate')])" mp-time-cover :transition="300"
+            ><MIconMenuDown
+          /></mp-icon>
         </slot>
       </div>
 
@@ -68,7 +65,7 @@
       </template>
     </mp-field-decorator>
 
-    <mp-popup v-model:show="show" position="bottom" v-bind="popupBindingProps">
+    <mp-popup v-model:open="open" position="bottom" v-bind="popupBindingProps">
       <div :class="n('panel')">
         <div :class="n('toolbar')">
           <mp-button :class="n('cancel-button')" mp-time-cover text @click="handleCancel">
@@ -80,14 +77,24 @@
           </mp-button>
         </div>
 
+        <mp-picker
+          v-if="presentation === 'picker'"
+          v-bind="pickerBindingProps"
+          :toolbar="false"
+          :columns="pickerColumns"
+          :model-value="pickerValue"
+          @change="handlePickerChange"
+        />
         <mp-time-picker
+          v-else
           v-model="draft"
+          presentation="clock"
           v-bind="timePickerBindingProps"
           :format="format"
           :use-seconds="useSeconds"
           :min="min"
           :max="max"
-          :allowed-time="allowedTime"
+          :disabled-time="disabledTime"
           :readonly="readonly || formReadonly"
         />
       </div>
@@ -97,7 +104,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
-import { call, isEmpty, preventDefault } from '@maplejs/maple-shared'
+import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
+import { call, isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
 import MpFieldDecorator from '../field-decorator'
@@ -106,27 +114,70 @@ import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { _PickerComponent as MpPicker } from '../picker'
+import type { PickerColumnOption } from '../picker/props'
 import MpPopup from '../popup'
 import MpTimePicker from '../time-picker'
 import { createNamespace } from '../utils/components'
+import { padStart } from '../utils/shared'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('time')
 
+function pad(value: number) {
+  return padStart(`${value}`, 2, '0')
+}
+
+function buildColumn(count: number, filter?: (value: number) => boolean): PickerColumnOption[] {
+  return Array.from({ length: count }, (_, index) => {
+    if (filter?.(index)) {
+      return null
+    }
+
+    const text = pad(index)
+    return { text, value: text }
+  }).filter(Boolean) as PickerColumnOption[]
+}
+
+function parseTimeParts(time: string, useSeconds: boolean) {
+  const [hour = '00', minute = '00', second = '00'] = time.split(':')
+  const parts = [pad(toNumber(hour)), pad(toNumber(minute))]
+
+  if (useSeconds) {
+    parts.push(pad(toNumber(second)))
+  }
+
+  return parts
+}
+
+function joinTimeParts(values: (string | number)[], useSeconds: boolean) {
+  const hour = pad(toNumber(values[0]))
+  const minute = pad(toNumber(values[1]))
+
+  if (useSeconds) {
+    return `${hour}:${minute}:${pad(toNumber(values[2] ?? 0))}`
+  }
+
+  return `${hour}:${minute}`
+}
+
 export default defineComponent({
   name,
   components: {
+    MIconMenuDown,
     MpIcon,
     MpPopup,
     MpButton,
+    MpPicker,
     MpTimePicker,
     MpFieldDecorator,
   },
   props,
-  setup(props) {
+  emits: ['close', 'update:modelValue', 'update:open', 'focus', 'blur', 'change', 'clear', 'click'],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const isFocusing = ref(false)
-    const show = useVModel(props, 'show', { defaultValue: false })
+    const open = useVModel(props, 'open', { defaultValue: false, emit, eventName: 'update:open' })
     const root = ref<HTMLElement | null>(null)
     const draft = ref<string | undefined>()
     const confirming = ref(false)
@@ -143,26 +194,41 @@ export default defineComponent({
         return undefined
       }
       if (mergedError.value) {
-        return 'var(--mp-field-decorator-error-color)'
+        return 'var(--mp-field-color-error)'
       }
       if (isFocusing.value) {
-        return focusColor || 'var(--mp-field-decorator-focus-color)'
+        return focusColor || 'var(--mp-field-color-focus)'
       }
-      return blurColor || 'var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color))'
+      return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
     })
     const timePickerBindingProps = computed(() => ({ ...props.timePickerProps }))
+    const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
     const popupBindingProps = computed(() => ({ ...props.popupProps }))
     const titleText = computed(() => props.timePickerProps?.hint ?? (pt ? pt : t)('pickerTitle'))
     const cancelButtonText = computed(() => (pt ? pt : t)('pickerCancelButtonText'))
     const confirmButtonText = computed(() => (pt ? pt : t)('pickerConfirmButtonText'))
+    const pickerColumns = computed(() => {
+      const { disabledTime, useSeconds } = props
+      const columns: PickerColumnOption[][] = [
+        buildColumn(24, disabledTime?.hours ? (hour) => !!disabledTime.hours?.(hour) : undefined),
+        buildColumn(60, disabledTime?.minutes ? (minute) => !!disabledTime.minutes?.(minute) : undefined),
+      ]
 
-    watch(show, (visible) => {
+      if (useSeconds) {
+        columns.push(buildColumn(60, disabledTime?.seconds ? (second) => !!disabledTime.seconds?.(second) : undefined))
+      }
+
+      return columns
+    })
+    const pickerValue = computed(() => parseTimeParts(draft.value ?? '00:00', props.useSeconds))
+
+    watch(open, (visible) => {
       if (visible) {
         draft.value = props.modelValue ?? (props.useSeconds ? '00:00:00' : '00:00')
         return
       }
       if (!confirming.value) {
-        call(props.onClose, props.modelValue)
+        emit('close', props.modelValue)
       }
       confirming.value = false
     })
@@ -176,102 +242,102 @@ export default defineComponent({
         return
       }
       const { key } = event
-      if (key === ' ' && !show.value) {
+      if (key === ' ' && !open.value) {
         preventDefault(event)
         return
       }
-      if (key === 'Escape' && show.value) {
+      if (key === 'Escape' && open.value) {
         root.value?.focus()
         preventDefault(event)
-        show.value = false
+        open.value = false
         return
       }
-      if (key === 'Tab' && show.value) {
+      if (key === 'Tab' && open.value) {
         root.value?.focus()
         preventDefault(event)
         handleBlur()
         return
       }
-      if (key === 'Enter' && !show.value) {
+      if (key === 'Enter' && !open.value) {
         preventDefault(event)
-        show.value = true
+        open.value = true
       }
     }
 
     function handleKeyup(event: KeyboardEvent) {
       const { disabled, readonly } = props
-      if (form?.disabled.value || form?.readonly.value || disabled || readonly || show.value || !isFocusing.value) {
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly || open.value || !isFocusing.value) {
         return
       }
-      if (event.key === ' ' && !show.value) {
+      if (event.key === ' ' && !open.value) {
         preventDefault(event)
-        show.value = true
+        open.value = true
       }
     }
 
     function handleFocus() {
-      const { disabled, readonly, onFocus } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
       focus()
-      call(onFocus)
+      emit('focus')
       eventHandlers.value.onFocus?.()
     }
 
     function handleBlur() {
-      const { disabled, readonly, onBlur } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
       blur()
-      call(onBlur)
+      emit('blur')
       eventHandlers.value.onBlur?.()
     }
 
     function handleRootBlur() {
-      if (show.value) {
+      if (open.value) {
         return
       }
       handleBlur()
     }
 
     function handleClick(e: Event) {
-      const { disabled, onClick, readonly } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || disabled) {
         return
       }
-      call(onClick, e)
+      emit('click', e)
       if (form?.readonly.value || readonly) {
         return
       }
-      show.value = true
+      open.value = true
     }
 
     function handleClear() {
-      const { disabled, readonly, clearable, onClear, onChange } = props
+      const { disabled, readonly, clearable } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly || !clearable) {
         return
       }
-      call(props['onUpdate:modelValue'], undefined)
-      call(onClear, undefined)
+      emit('update:modelValue', undefined)
+      emit('clear', undefined)
       eventHandlers.value.onClear?.()
-      call(onChange, undefined)
+      emit('change', undefined)
       eventHandlers.value.onChange?.()
     }
 
     function handleConfirm() {
-      const { disabled, readonly, onChange, onClose } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
       const value = draft.value
       confirming.value = true
-      call(props['onUpdate:modelValue'], value)
-      call(onChange, value)
+      emit('update:modelValue', value)
+      emit('change', value)
       eventHandlers.value.onChange?.()
-      call(onClose, value)
-      show.value = false
+      emit('close', value)
+      open.value = false
     }
 
     function handleCancel() {
@@ -279,7 +345,15 @@ export default defineComponent({
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
-      show.value = false
+      open.value = false
+    }
+
+    function handlePickerChange(values: (string | number)[]) {
+      if (form?.readonly.value || props.readonly) {
+        return
+      }
+
+      draft.value = joinTimeParts(values, props.useSeconds)
     }
 
     function focus() {
@@ -288,13 +362,13 @@ export default defineComponent({
 
     function blur() {
       isFocusing.value = false
-      show.value = false
+      open.value = false
     }
 
     return {
       root,
       isFocusing,
-      show,
+      open,
       draft,
       mergedError,
       mergedHint,
@@ -306,6 +380,9 @@ export default defineComponent({
       placeholderColor,
       enableCustomPlaceholder,
       timePickerBindingProps,
+      pickerBindingProps,
+      pickerColumns,
+      pickerValue,
       popupBindingProps,
       titleText,
       cancelButtonText,
@@ -318,6 +395,7 @@ export default defineComponent({
       handleClear,
       handleConfirm,
       handleCancel,
+      handlePickerChange,
       focus,
       blur,
     }
@@ -331,6 +409,7 @@ export default defineComponent({
 @import '../button/button';
 @import '../field-decorator/fieldDecorator';
 @import '../popup/popup';
+@import '../picker/picker';
 @import '../time-picker/timePicker';
 @import './time';
 </style>

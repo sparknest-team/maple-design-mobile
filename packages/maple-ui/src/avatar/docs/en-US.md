@@ -9,11 +9,11 @@ Used as avatar display, supporting images, icons and characters.
 ```html
 <template>
   <mp-space align="center">
-    <mp-avatar src="https://maplejs.org/cat.jpg" size="mini" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" size="small" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" size="large" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" :size="78" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="mini" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="small" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="large" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" :size="78" />
   </mp-space>
 </template>
 ```
@@ -23,8 +23,8 @@ Used as avatar display, supporting images, icons and characters.
 ```html
 <template>
   <mp-space>
-    <mp-avatar src="https://maplejs.org/cat.jpg" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" :round="false" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" shape="square" />
   </mp-space>
 </template>
 ```
@@ -35,23 +35,23 @@ Used as avatar display, supporting images, icons and characters.
 <template>
   <mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" />
       <span>cover</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="fill" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="fill" />
       <span>fill</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="contain" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="contain" />
       <span>contain</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="none" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="none" />
       <span>none</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="scale-down" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="scale-down" />
       <span>scale-down</span>
     </mp-space>
   </mp-space>
@@ -64,14 +64,14 @@ Used as avatar display, supporting images, icons and characters.
 <script setup>
 import { ref } from 'vue'
 
-const text = ref('VARLET')
+const text = ref('Maple')
 </script>
 
 <template>
   <mp-space direction="column">
     <mp-space>
       <mp-avatar>{{ text }}</mp-avatar>
-      <mp-avatar :round="false">{{ text }}</mp-avatar>
+      <mp-avatar shape="square">{{ text }}</mp-avatar>
     </mp-space>
     <mp-input v-model="text" />
   </mp-space>
@@ -84,9 +84,9 @@ const text = ref('VARLET')
 <template>
   <mp-space>
     <mp-avatar color="var(--color-warning)">
-      <mp-icon name="fire" />
+      <m-icon-fire />
     </mp-avatar>
-    <mp-avatar color="var(--color-danger)">VARLET</mp-avatar>
+    <mp-avatar color="var(--color-danger)">Maple</mp-avatar>
   </mp-space>
 </template>
 ```
@@ -96,9 +96,9 @@ const text = ref('VARLET')
 ```html
 <template>
   <mp-avatar-group>
-    <mp-avatar src="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat3.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
     <mp-avatar bordered>+2</mp-avatar>
   </mp-avatar-group>
 </template>
@@ -109,9 +109,9 @@ const text = ref('VARLET')
 ```html
 <template>
   <mp-avatar-group vertical>
-    <mp-avatar src="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat3.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
     <mp-avatar bordered>+2</mp-avatar>
   </mp-avatar-group>
 </template>
@@ -122,9 +122,9 @@ const text = ref('VARLET')
 ```html
 <template>
   <mp-avatar-group>
-    <mp-avatar hoverable src="https://maplejs.org/cat.jpg" />
-    <mp-avatar hoverable src="https://maplejs.org/cat2.jpg" />
-    <mp-avatar hoverable src="https://maplejs.org/cat3.jpg" />
+    <mp-avatar hoverable image-url="https://maplejs.org/cat.jpg" />
+    <mp-avatar hoverable image-url="https://maplejs.org/cat2.jpg" />
+    <mp-avatar hoverable image-url="https://maplejs.org/cat3.jpg" />
     <mp-avatar hoverable bordered>+2</mp-avatar>
   </mp-avatar-group>
 </template>
@@ -151,7 +151,7 @@ export default defineConfig({
     vue({
       template: {
         transformAssetUrls: {
-          'mp-avatar': ['src']
+          'mp-avatar': ['imageUrl']
         }
       }
     })
@@ -162,7 +162,7 @@ export default defineConfig({
 ```html
 <!-- playground-ignore -->
 <template>
-  <mp-avatar src="../../assets/logo.png"/>
+  <mp-avatar image-url="../../assets/logo.png"/>
 </template>
 ```
 
@@ -175,7 +175,7 @@ import logo from '../../assets/logo.png'
 </script>
 
 <template>
-  <mp-avatar :src="logo"/>
+  <mp-avatar :image-url="logo"/>
 </template>
 ```
 
@@ -184,7 +184,7 @@ import logo from '../../assets/logo.png'
 ```html
 <!-- playground-ignore -->
 <template>
-  <mp-avatar :src="require('../../assets/logo.png')"/>
+  <mp-avatar :image-url="require('../../assets/logo.png')"/>
 </template>
 ```
 
@@ -196,12 +196,12 @@ import logo from '../../assets/logo.png'
 
 | Prop          | Description                                                 | Type   | Default          |
 |---------------|-------------------------------------------------------------|------|--------------|
-| `round`       | Whether the avatar is round or not                                                | _boolean_          | `true` |
+| `shape`       | Avatar shape, optional values `circle` `square`                                                | _string_            | `circle` |
 | `size`        | The size of the avatar, with optional values of `mini small normal large`                 | _string \| number_ | `normal` |
 | `color`       | Background color of the avatar                                                | _string_           | `-` |
-| `src`         | Address of avatar                                                   | _string_            | `-` |
+| `image-url`         | Image URL of avatar                                                   | _string_            | `-` |
 | `alt` | Image alt text, the same as the native attribute of the `img` tag              | _string_ | `-` |
-| `fit`         | Filling mode of avatar image, optional value `fill contain cover none scale-down` | _string_            | `cover` |
+| `object-fit`         | Object-fit of avatar image, optional value `fill contain cover none scale-down` | _string_            | `cover` |
 | `bordered`    | Avatar with or without border                                                | _boolean_ | `false` |
 | `border-color`| Avatar border color                                                  | _string_ | `-` |
 | `loading`     | When lazy loading is enabled, the image displayed in the load                                 | _string_ | `-` |

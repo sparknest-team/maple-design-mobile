@@ -18,15 +18,15 @@ export interface ActionItem {
 
 export interface ActionSheetOptions {
   actions?: ActionItem[]
-  show?: boolean
+  open?: boolean
   title?: string
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   lockScroll?: boolean
   closeOnClickAction?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
+  maskClosable?: boolean
+  escToClose?: boolean
   safeArea?: boolean
   onOpen?: () => void
   onOpened?: () => void
@@ -36,7 +36,7 @@ export interface ActionSheetOptions {
   onSelect?: (action: ActionItem) => void
   onKeyEscape?: () => void
   // internal
-  teleport?: TeleportProps['to']
+  popupContainer?: TeleportProps['to']
 }
 
 let singletonOptions: ActionSheetOptions | null
@@ -55,7 +55,7 @@ function ActionSheet(options?: ActionSheetOptions): Promise<ActionSheetActions |
     ActionSheet.close()
 
     const reactiveActionSheetOptions: ActionSheetOptions = reactive(normalizeOptions(options))
-    reactiveActionSheetOptions.teleport = 'body'
+    reactiveActionSheetOptions.popupContainer = 'body'
     singletonOptions = reactiveActionSheetOptions
 
     const { unmountInstance } = mountInstance(VarActionSheet, reactiveActionSheetOptions, {
@@ -76,12 +76,12 @@ function ActionSheet(options?: ActionSheetOptions): Promise<ActionSheetActions |
         unmountInstance()
         singletonOptions === reactiveActionSheetOptions && (singletonOptions = null)
       },
-      'onUpdate:show': (value: boolean) => {
-        reactiveActionSheetOptions.show = value
+      'onUpdate:open': (value: boolean) => {
+        reactiveActionSheetOptions.open = value
       },
     })
 
-    reactiveActionSheetOptions.show = true
+    reactiveActionSheetOptions.open = true
   })
 }
 
@@ -99,7 +99,7 @@ ActionSheet.close = function () {
     singletonOptions = null
 
     nextTick().then(() => {
-      prevSingletonOptions.show = false
+      prevSingletonOptions.open = false
     })
   }
 }
@@ -111,6 +111,7 @@ withPropsDefaultsSetter(ActionSheet, actionSheetProps)
 
 export { actionSheetProps }
 
+export type ActionSheetInstance = InstanceType<typeof VarActionSheet>
 export const _ActionSheetComponent = VarActionSheet
 
 export default ActionSheet

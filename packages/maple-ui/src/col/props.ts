@@ -1,43 +1,72 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
-import { type ColSizeDescriptor } from './provide'
 
-export type ColAlign =
-  | 'stretch'
-  | 'center'
-  | 'start'
-  | 'end'
-  | 'baseline'
-  | 'initial'
-  | 'inherit'
-  | 'flex-start'
-  | 'flex-end'
+export type FlexType = number | string | 'initial' | 'auto' | 'none'
 
-export type ColJustify = 'start' | 'end' | 'center' | 'space-around' | 'space-between' | 'flex-start' | 'flex-end'
+export type ColSizeDescriptor = {
+  span?: number
+  offset?: number
+  order?: number
+}
 
-export type ColDirection = 'row' | 'column'
+export type ColBreakpoint = number | ColSizeDescriptor
 
-export type ColBreakpoint = string | number | ColSizeDescriptor | undefined
+export type ColProps = {
+  span?: number
+  offset?: number
+  order?: number
+  xs?: ColBreakpoint
+  sm?: ColBreakpoint
+  md?: ColBreakpoint
+  lg?: ColBreakpoint
+  xl?: ColBreakpoint
+  xxl?: ColBreakpoint
+  flex?: FlexType
+}
 
 export const props = {
+  /**
+   * 栅格占位格数
+   */
   span: {
-    type: [String, Number],
+    type: Number,
     default: 24,
   },
-  offset: {
-    type: [String, Number],
-    default: 0,
-  },
-  direction: {
-    type: String as PropType<ColDirection>,
-    default: 'row',
-  },
-  justify: String as PropType<ColJustify>,
-  align: String as PropType<ColDirection>,
-  xs: [Object, Number, String] as PropType<ColBreakpoint>,
-  sm: [Object, Number, String] as PropType<ColBreakpoint>,
-  md: [Object, Number, String] as PropType<ColBreakpoint>,
-  lg: [Object, Number, String] as PropType<ColBreakpoint>,
-  xl: [Object, Number, String] as PropType<ColBreakpoint>,
-  onClick: defineListenerProp<(e: Event) => void>(),
+  /**
+   * 栅格左侧的间隔格数
+   */
+  offset: Number,
+  /**
+   * 对元素进行排序
+   */
+  order: Number,
+  /**
+   * < 576px 响应式栅格
+   */
+  xs: [Number, Object] as PropType<ColBreakpoint>,
+  /**
+   * >= 576px 响应式栅格
+   */
+  sm: [Number, Object] as PropType<ColBreakpoint>,
+  /**
+   * >= 768px 响应式栅格
+   */
+  md: [Number, Object] as PropType<ColBreakpoint>,
+  /**
+   * >= 992px 响应式栅格
+   */
+  lg: [Number, Object] as PropType<ColBreakpoint>,
+  /**
+   * >= 1200px 响应式栅格
+   */
+  xl: [Number, Object] as PropType<ColBreakpoint>,
+  /**
+   * >= 1600px 响应式栅格
+   */
+  xxl: [Number, Object] as PropType<ColBreakpoint>,
+  /**
+   * 设置 flex 布局属性
+   */
+  flex: [Number, String] as PropType<FlexType>,
 }
+
+export const colProps = props

@@ -3,7 +3,7 @@ import { type BreadcrumbRoute } from './types'
 
 export const props = {
   /**
-   * 最多展示的面包屑数量（0 表示不限制）
+   * 最多展示的正常面包屑项数量，不包含 more（0 表示不限制）
    */
   maxCount: {
     type: Number,
@@ -22,14 +22,8 @@ export const props = {
     type: [String, Number] as PropType<string | number>,
     default: '/',
   },
-  /**
-   * 自定义 routes 模式下的链接地址
-   */
-  customUrl: {
-    type: Function as PropType<(paths: string[]) => string>,
-  },
 }
 
 export type BreadcrumbProps = ExtractPropTypes<typeof props>
 
-export type { BreadcrumbRoute }
+export type { BreadcrumbRoute, BreadcrumbMoreIconSlotData }

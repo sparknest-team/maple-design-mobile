@@ -110,25 +110,25 @@ onThemeChange()
 
     <app-type>Inline 模式（带描述）</app-type>
     <mp-space :size="['2.666vmin', '4vmin']">
-      <mp-badge type="inline" status="success" dot description="在线" />
-      <mp-badge type="inline" status="warning" dot description="离开" />
-      <mp-badge type="inline" status="danger" dot description="离线" />
+      <mp-badge mode="inline" status="success" dot description="在线" />
+      <mp-badge mode="inline" status="warning" dot description="离开" />
+      <mp-badge mode="inline" status="danger" dot description="离线" />
     </mp-space>
 
     <app-type>尺寸</app-type>
     <mp-space :size="['2.666vmin', '4vmin']">
-      <mp-badge type="inline" status="primary" :content="6" size="xs" description="xs" />
-      <mp-badge type="inline" status="primary" :content="6" size="sm" description="sm" />
-      <mp-badge type="inline" status="primary" :content="6" size="md" description="md" />
-      <mp-badge type="inline" status="primary" :content="6" size="lg" description="lg" />
-      <mp-badge type="inline" status="primary" :content="6" size="xl" description="xl" />
+      <mp-badge mode="inline" status="primary" :content="6" size="xs" description="xs" />
+      <mp-badge mode="inline" status="primary" :content="6" size="sm" description="sm" />
+      <mp-badge mode="inline" status="primary" :content="6" size="md" description="md" />
+      <mp-badge mode="inline" status="primary" :content="6" size="lg" description="lg" />
+      <mp-badge mode="inline" status="primary" :content="6" size="xl" description="xl" />
     </mp-space>
 
     <app-type>变体 outline</app-type>
     <mp-space :size="['2.666vmin', '4vmin']">
-      <mp-badge type="inline" variant="outline" status="primary" :content="6" description="primary" />
-      <mp-badge type="inline" variant="outline" status="success" :content="6" description="success" />
-      <mp-badge type="inline" variant="outline" status="danger" :content="6" description="danger" />
+      <mp-badge mode="inline" variant="outline" status="primary" :content="6" description="primary" />
+      <mp-badge mode="inline" variant="outline" status="success" :content="6" description="success" />
+      <mp-badge mode="inline" variant="outline" status="danger" :content="6" description="danger" />
     </mp-space>
   </div>
 </template>

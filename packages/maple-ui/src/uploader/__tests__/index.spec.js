@@ -31,13 +31,13 @@ test('uploader onAfterRead', async () => {
   wrapper.unmount()
 })
 
-test('uploader onBeforeFilter', async () => {
+test('uploader beforeAdd', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
   const wrapper = mount(VarUploader, {
     props: {
       modelValue: [],
       'onUpdate:modelValue': onUpdateModelValue,
-      onBeforeFilter: (files) => files.filter((file) => file.name.endsWith('jpg')),
+      beforeAdd: (files) => files.filter((file) => file.name.endsWith('jpg')),
     },
   })
 
@@ -51,7 +51,7 @@ test('uploader onBeforeFilter', async () => {
     modelValue: [],
     multiple: true,
     'onUpdate:modelValue': onUpdateModelValue,
-    onBeforeFilter(files) {
+    beforeAdd(files) {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(files.filter((file) => file.name.endsWith('jpg')))
@@ -72,13 +72,13 @@ test('uploader onBeforeFilter', async () => {
   wrapper.unmount()
 })
 
-test('uploader onBeforeRead', async () => {
+test('uploader beforeRead', async () => {
   const onAfterRead = vi.fn()
 
   const wrapper = mount(VarUploader, {
     props: {
       onAfterRead,
-      onBeforeRead: (file) => file.name.endsWith('jpg'),
+      beforeRead: (file) => file.name.endsWith('jpg'),
     },
   })
 
@@ -100,8 +100,8 @@ test('uploader preview', async () => {
     props: {
       modelValue: [
         {
-          url: 'https://maplejs.org/varlet/cat.jpg',
-          cover: 'https://maplejs.org/varlet/cat.jpg',
+          url: 'https://maplejs.org/cat.jpg',
+          cover: 'https://maplejs.org/cat.jpg',
         },
       ],
       'onUpdate:modelValue': onUpdateModelValue,
@@ -127,8 +127,8 @@ test('uploader preview event', async () => {
     props: {
       modelValue: [
         {
-          url: 'https://maplejs.org/varlet/cat.jpg',
-          cover: 'https://maplejs.org/varlet/cat.jpg',
+          url: 'https://maplejs.org/cat.jpg',
+          cover: 'https://maplejs.org/cat.jpg',
         },
       ],
       onPreview,
@@ -151,8 +151,8 @@ test('uploader prevent default preview', async () => {
     props: {
       modelValue: [
         {
-          url: 'https://maplejs.org/varlet/cat.jpg',
-          cover: 'https://maplejs.org/varlet/cat.jpg',
+          url: 'https://maplejs.org/cat.jpg',
+          cover: 'https://maplejs.org/cat.jpg',
         },
       ],
       preventDefaultPreview: true,
@@ -175,7 +175,7 @@ test('uploader onOversize', async () => {
 
   const wrapper = mount(VarUploader, {
     props: {
-      maxsize: -1,
+      maxFileSize: -1,
       onOversize,
     },
   })
@@ -211,16 +211,16 @@ test('uploader onRemove', async () => {
   mockRestore()
 })
 
-test('uploader onBeforeRemove', async () => {
+test('uploader beforeRemove', async () => {
   const { mockRestore } = mockFileReader('data:image/png;base64,')
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-  const onBeforeRemove = vi.fn(() => false)
+  const beforeRemove = vi.fn(() => false)
   const onRemove = vi.fn()
 
   const wrapper = mount(VarUploader, {
     props: {
       modelValue: [],
-      onBeforeRemove,
+      beforeRemove,
       onRemove,
       'onUpdate:modelValue': onUpdateModelValue,
     },
@@ -230,7 +230,7 @@ test('uploader onBeforeRemove', async () => {
   expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
 
   await wrapper.find('.mp-uploader__file-close').trigger('click')
-  expect(onBeforeRemove).toHaveBeenCalledTimes(1)
+  expect(beforeRemove).toHaveBeenCalledTimes(1)
   expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
   expect(onRemove).toHaveBeenCalledTimes(0)
   expect(wrapper.vm.modelValue).toHaveLength(1)
@@ -270,13 +270,13 @@ test('uploader disabled', async () => {
   mockRestore()
 })
 
-test('uploader length over maxlength in multiple mode', async () => {
+test('uploader length over maxFiles in multiple mode', async () => {
   const { mockRestore } = mockFileReader('data:image/png;base64,')
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarUploader, {
     props: {
-      maxlength: 1,
+      maxFiles: 1,
       modelValue: [],
       'onUpdate:modelValue': onUpdateModelValue,
     },
@@ -577,8 +577,8 @@ test('uploader remove button slot', () => {
     props: {
       modelValue: [
         {
-          url: 'https://maplejs.org/varlet/cat.jpg',
-          cover: 'https://maplejs.org/varlet/cat.jpg',
+          url: 'https://maplejs.org/cat.jpg',
+          cover: 'https://maplejs.org/cat.jpg',
         },
       ],
     },

@@ -27,8 +27,8 @@ onThemeChange()
       v-model:active="active"
       elevation
       color="var(--mp-color-primary)"
-      active-color="var(--mp-color-on-primary)"
-      inactive-color="var(--mp-color-on-info)"
+      active-color="var(--mp-color-white)"
+      inactive-color="var(--mp-color-white)"
       style="margin-top: 14px"
     >
       <mp-tab style="font-size: 13px">{{ t('basicUsage') }}</mp-tab>
@@ -39,19 +39,19 @@ onThemeChange()
 
   <mp-tabs-items v-model:active="active">
     <mp-tab-item>
-      <mp-floating-panel v-if="active === 0" teleport="body">
+      <mp-floating-panel v-if="active === 0" popup-container="body">
         <mp-cell v-for="i in 26" :key="i" :title="String.fromCharCode(i + 64)" border> </mp-cell>
       </mp-floating-panel>
     </mp-tab-item>
     <mp-tab-item>
-      <mp-floating-panel v-if="active === 1" v-model:anchor="anchor" :anchors="anchors" teleport="body">
+      <mp-floating-panel v-if="active === 1" v-model:anchor="anchor" :anchors="anchors" popup-container="body">
         <div style="text-align: center; padding: 5px 15px">
           <p>{{ t('currentAnchorText') }} {{ Math.floor(anchor) }} px</p>
         </div>
       </mp-floating-panel>
     </mp-tab-item>
     <mp-tab-item>
-      <mp-floating-panel v-if="active === 2" :content-draggable="false" teleport="body">
+      <mp-floating-panel v-if="active === 2" :content-draggable="false" popup-container="body">
         <mp-cell v-for="i in 26" :key="i" :title="String.fromCharCode(i + 64)" border> </mp-cell>
       </mp-floating-panel>
     </mp-tab-item>

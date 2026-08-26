@@ -1,23 +1,23 @@
 import { VNode } from 'vue'
-import { BasicAttributes, Type as ProgressType, SetPropsDefaults, VarComponent } from './varComponent'
+import { BasicAttributes, SetPropsDefaults, VarComponent } from './varComponent'
 
-export type ProgressMode = 'linear' | 'circle'
+export type ProgressMode = 'line' | 'circle'
 
-export { ProgressType }
+export type ProgressStatus = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
 
 export declare const progressProps: Record<keyof ProgressProps, any>
 
 export interface ProgressProps extends BasicAttributes {
   mode?: ProgressMode
-  type?: ProgressType
+  status?: ProgressStatus
   indeterminate?: boolean
-  lineWidth?: string | number
+  strokeWidth?: string | number
   color?: string | Record<string, string>
   trackColor?: string
-  label?: boolean
-  labelClass?: string
+  showText?: boolean
+  textClass?: string
   track?: boolean
-  value?: number | string
+  percent?: number | string
   size?: number | string
   rotate?: number
 }

@@ -1,26 +1,26 @@
 import { type PropType } from 'vue'
 
-export type ProgressMode = 'linear' | 'circle'
+export type ProgressMode = 'line' | 'circle'
 
-export type ProgressType = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
+export type ProgressStatus = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
 
 export const props = {
   mode: {
     type: String as PropType<ProgressMode>,
-    default: 'linear',
+    default: 'line',
   },
-  lineWidth: {
+  strokeWidth: {
     type: [Number, String],
     default: 4,
   },
   color: [String, Object] as PropType<string | Record<string, string>>,
   trackColor: String,
-  value: {
+  percent: {
     type: [Number, String],
     default: 0,
   },
-  label: Boolean,
-  labelClass: String,
+  showText: Boolean,
+  textClass: String,
   size: {
     type: [Number, String],
     default: 40,
@@ -34,8 +34,8 @@ export const props = {
     default: true,
   },
   indeterminate: Boolean,
-  type: {
-    type: String as PropType<ProgressType>,
+  status: {
+    type: String as PropType<ProgressStatus>,
     default: 'primary',
   },
 }

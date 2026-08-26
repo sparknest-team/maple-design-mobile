@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { AllowedTime, TimePickerFormat } from './timePicker'
+import { DisabledTime, TimePickerFormat } from './timePicker'
 import { TimeRangePickerPresentation } from './timeRangePicker'
 import {
   BasicAttributes,
@@ -17,17 +17,17 @@ export type TimeRangeSize = 'small' | 'normal'
 
 export type TimeRangePresentation = TimeRangePickerPresentation
 
-export type { AllowedTime }
+export type { DisabledTime }
 
 export interface TimeRangeProps extends BasicAttributes {
   modelValue?: string[]
-  show?: boolean
+  open?: boolean
   presentation?: TimeRangePresentation
   format?: TimeRangeFormat
   useSeconds?: boolean
   min?: string
   max?: string
-  allowedTime?: AllowedTime
+  disabledTime?: DisabledTime
   separator?: string
   timePickerProps?: Record<string, any>
   pickerProps?: Record<string, any>
@@ -51,7 +51,7 @@ export interface TimeRangeProps extends BasicAttributes {
   onClose?: ListenerProp<(value: string[]) => void>
   onChange?: ListenerProp<(value: string[]) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: string[]) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface TimeRangeArrowIconData {

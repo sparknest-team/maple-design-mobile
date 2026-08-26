@@ -1,34 +1,37 @@
+import type { PropType } from 'vue'
 import { defineListenerProp } from '../utils/components'
+
+export type SwitchVariant = 'standard' | 'md3'
 
 export const props = {
   modelValue: {
     default: false,
   },
-  activeValue: {
+  checkedValue: {
     default: true,
   },
-  inactiveValue: {
+  uncheckedValue: {
     default: false,
   },
   lazyChange: Boolean,
   disabled: Boolean,
   readonly: Boolean,
   loading: Boolean,
-  color: String,
+  checkedColor: String,
   loadingColor: String,
-  closeColor: String,
+  uncheckedColor: String,
   size: [String, Number],
-  variant: Boolean,
+  variant: {
+    type: String as PropType<SwitchVariant>,
+    default: 'standard',
+  },
   ripple: {
     type: Boolean,
     default: true,
   },
-  buttonElevation: {
+  handleElevation: {
     type: [Boolean, String, Number],
     default: true,
   },
-  onClick: defineListenerProp<(event: Event) => void>(),
-  onBeforeChange: defineListenerProp<(value: any, change: (value: any) => void) => void>(),
-  onChange: defineListenerProp<(value: any) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
+  beforeChange: defineListenerProp<(value: any, change: (value: any) => void) => void>(),
 }

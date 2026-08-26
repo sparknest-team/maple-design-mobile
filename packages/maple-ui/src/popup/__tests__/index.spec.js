@@ -14,12 +14,12 @@ const Wrapper = {
   components: {
     [VarPopup.name]: VarPopup,
   },
-  props: ['closeOnClickOverlay', 'onOpen', 'onClose', 'onClickOverlay', 'defaultStyle'],
+  props: ['maskClosable', 'onOpen', 'onClose', 'onClickOverlay', 'defaultStyle'],
   data: () => ({
-    show: false,
+    open: false,
   }),
   template: `
-    <mp-popup v-model:show="show" v-bind="$props" :teleport="null">
+    <mp-popup v-model:open="open" v-bind="$props" :popup-container="null">
       default slot content
     </mp-popup>
   `,
@@ -30,11 +30,11 @@ test('popup show', async () => {
   expect(wrapper.find('.mp-popup').isVisible()).toBeFalsy()
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ open: true })
   expect(wrapper.find('.mp-popup').isVisible()).toBeTruthy()
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.setData({ show: false })
+  await wrapper.setData({ open: false })
   expect(wrapper.find('.mp-popup').isVisible()).toBeFalsy()
   expect(wrapper.html()).toMatchSnapshot()
 
@@ -51,10 +51,10 @@ test('popup onOpen & onClose', async () => {
       onClose,
     },
   })
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ open: true })
   expect(onOpen).toHaveBeenCalledTimes(1)
 
-  await wrapper.setData({ show: false })
+  await wrapper.setData({ open: false })
   expect(onClose).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
@@ -67,7 +67,7 @@ test('popup zIndex', async () => {
     },
   })
 
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ open: true })
   expect(wrapper.find('.mp-popup').attributes('style')).toContain('z-index: 38')
   expect(wrapper.find('.mp-popup__overlay').attributes('style')).toContain('z-index: 39')
   expect(wrapper.find('.mp-popup__content').attributes('style')).toContain('z-index: 40')
@@ -86,14 +86,14 @@ test('popup close on clickOverlay', async () => {
     },
   })
 
-  await wrapper.setData({ show: true })
+  await wrapper.setData({ open: true })
 
   await wrapper.find('.mp-popup__overlay').trigger('click')
   expect(onClickOverlay).toHaveBeenCalledTimes(1)
   expect(onClose).toHaveBeenCalledTimes(1)
 
-  await wrapper.setData({ show: true })
-  await wrapper.setProps({ closeOnClickOverlay: false })
+  await wrapper.setData({ open: true })
+  await wrapper.setProps({ maskClosable: false })
   await wrapper.find('.mp-popup__overlay').trigger('click')
   expect(onClickOverlay).toHaveBeenCalledTimes(2)
   expect(onClose).toHaveBeenCalledTimes(1)
@@ -104,7 +104,7 @@ test('popup close on clickOverlay', async () => {
 test('popup default style', async () => {
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
+      open: true,
       defaultStyle: true,
     },
   })
@@ -124,7 +124,7 @@ test('popup default style', async () => {
 test('popup safeArea prop', async () => {
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
+      open: true,
       safeArea: true,
     },
   })
@@ -142,7 +142,7 @@ test('popup safeArea prop', async () => {
 test('popup safeAreaTop prop', async () => {
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
+      open: true,
       safeAreaTop: true,
     },
   })
@@ -157,11 +157,11 @@ test('popup safeAreaTop prop', async () => {
   wrapper.unmount()
 })
 
-test('popup overlayClass prop', () => {
+test('popup maskClass prop', () => {
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
-      overlayClass: 'test-class',
+      open: true,
+      maskClass: 'test-class',
     },
   })
 
@@ -170,11 +170,11 @@ test('popup overlayClass prop', () => {
   wrapper.unmount()
 })
 
-test('popup overlayStyle prop', () => {
+test('popup maskStyle prop', () => {
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
-      overlayStyle: {
+      open: true,
+      maskStyle: {
         background: 'red',
       },
     },
@@ -189,7 +189,7 @@ test('popup position prop', () => {
   ;['top', 'bottom', 'right', 'left', 'center'].forEach((position) => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         position,
       },
     })
@@ -206,9 +206,9 @@ test('popup keyboard escape', async () => {
 
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
+      open: true,
       onKeyEscape,
-      'onUpdate:show': onUpdateShow,
+      'onUpdate:open': onUpdateShow,
     },
   })
 
@@ -219,16 +219,16 @@ test('popup keyboard escape', async () => {
   wrapper.unmount()
 })
 
-test('popup keyboard escape and closeOnKeyEscape', async () => {
+test('popup keyboard escape and escToClose', async () => {
   const onKeyEscape = vi.fn()
   const onUpdateShow = vi.fn()
 
   const wrapper = mount(Wrapper, {
     props: {
-      show: true,
-      closeOnKeyEscape: false,
+      open: true,
+      escToClose: false,
       onKeyEscape,
-      'onUpdate:show': onUpdateShow,
+      'onUpdate:open': onUpdateShow,
     },
   })
 

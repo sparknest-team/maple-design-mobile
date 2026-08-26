@@ -1,16 +1,4 @@
-export {
-  default,
-  ImagePreview,
-  ImagePreviewGroup,
-  previewImage,
-  imagePreviewProps,
-  _ImagePreviewComponent,
-  _ImagePreviewGroupComponent,
-} from '../image/preview'
+export { default, ImagePreview, previewImage, imagePreviewProps, _ImagePreviewComponent } from '../image/preview'
 
-export type {
-  ImagePreviewOptions,
-  UserImagePreviewOptions,
-  ImagePreviewProps,
-  ImagePreviewGroupProps,
-} from '../image/types'
+export type { ImagePreviewOptions, UserImagePreviewOptions, ImagePreviewProps } from '../image/types'
+export type { ImagePreviewInstance } from '../image/preview'

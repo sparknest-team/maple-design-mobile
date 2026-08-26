@@ -1,5 +1,4 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export type CollapseActiveNames = Array<string | number>
 
@@ -33,6 +32,4 @@ export const props = {
     default: undefined,
   },
   destroyOnHide: Boolean,
-  onChange: defineListenerProp<(value: CollapseActiveNames) => void>(),
-  'onUpdate:activeNames': defineListenerProp<(value: CollapseActiveNames) => void>(),
 }

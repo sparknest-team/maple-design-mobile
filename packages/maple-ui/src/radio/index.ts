@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Radio, radioProps)
 
 export { radioProps }
 
+export type RadioInstance = InstanceType<typeof Radio>
 export const _RadioComponent = Radio
 
 export default Radio

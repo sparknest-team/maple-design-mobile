@@ -6,7 +6,7 @@ The component library provides the ability to customize the default values of co
 
 ### Basic Usage
 
-Customize the component's property definition through the static method `setPropsDefaults` provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.
+Customize the component's property definition through the mp-static method `setPropsDefaults` provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.
 
 ```js
 // playground-ignore

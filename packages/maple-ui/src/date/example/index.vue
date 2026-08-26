@@ -4,6 +4,7 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const date = ref()
+const calendarDate = ref()
 const year = ref()
 const month = ref()
 const multiple = ref([])
@@ -23,6 +24,9 @@ onThemeChange()
   <mp-space direction="column" size="large">
     <app-type>{{ t('basicUsage') }}</app-type>
     <mp-date v-model="date" :placeholder="t('placeholder')" clearable />
+
+    <app-type>{{ t('calendarMode') }}</app-type>
+    <mp-date v-model="calendarDate" presentation="calendar" :placeholder="t('calendarPlaceholder')" clearable />
 
     <app-type>{{ t('type') }}</app-type>
     <mp-date v-model="year" type="year" :placeholder="t('year')" clearable />

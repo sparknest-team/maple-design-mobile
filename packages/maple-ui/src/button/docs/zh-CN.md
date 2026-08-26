@@ -133,22 +133,22 @@
 <template>
   <mp-space :size="[10, 10]">
     <mp-button round icon-container>
-      <mp-icon name="bookmark" />
+      <m-icon-bookmark />
     </mp-button>
     <mp-button status="primary" round icon-container>
-      <mp-icon name="plus" />
+      <m-icon-plus />
     </mp-button>
     <mp-button status="info" round icon-container>
-      <mp-icon name="information" />
+      <m-icon-information />
     </mp-button>
     <mp-button status="success" round icon-container>
-      <mp-icon name="check" />
+      <m-icon-check />
     </mp-button>
     <mp-button status="warning" round icon-container>
-      <mp-icon name="warning" />
+      <m-icon-warning />
     </mp-button>
     <mp-button status="danger" round icon-container>
-      <mp-icon name="window-close" />
+      <m-icon-window-close />
     </mp-button>
   </mp-space>
 </template>
@@ -238,7 +238,7 @@ function handleAutoLoadingClick() {
     <mp-button-group status="primary">
       <mp-button @click.stop>按钮拆分</mp-button>
       <mp-button style="padding: 0 6px;">
-        <mp-icon name="menu-down" :size="24" />
+        <m-icon-menu-down :size="24" />
       </mp-button>
     </mp-button-group>
 
@@ -270,13 +270,13 @@ function handleAutoLoadingClick() {
 
     <mp-button-group>
       <mp-button status="warning" icon-container>
-        <mp-icon name="warning" />
+        <m-icon-warning />
       </mp-button>
       <mp-button status="info" icon-container>
-        <mp-icon name="information" />
+        <m-icon-information />
       </mp-button>
       <mp-button status="success" icon-container>
-        <mp-icon name="check" />
+        <m-icon-check />
       </mp-button>
     </mp-button-group>
 
@@ -320,13 +320,13 @@ function handleAutoLoadingClick() {
 
     <mp-button-group vertical>
       <mp-button status="warning" icon-container>
-        <mp-icon name="warning" />
+        <m-icon-warning />
       </mp-button>
       <mp-button status="info" icon-container>
-        <mp-icon name="information" />
+        <m-icon-information />
       </mp-button>
       <mp-button status="success" icon-container>
-        <mp-icon name="check" />
+        <m-icon-check />
       </mp-button>
     </mp-button-group>
 
@@ -414,11 +414,11 @@ function handleAutoLoadingClick() {
 | 变量名 | 默认值 |
 | --- | --- |
 | `--button-default-text-color` | `#555` |
-| `--button-primary-text-color` | `var(--color-on-primary)` |
-| `--button-danger-text-color` | `var(--color-on-danger)` |
-| `--button-success-text-color` | `var(--color-on-success)` |
-| `--button-warning-text-color` | `var(--color-on-warning)` |
-| `--button-info-text-color` | `var(--color-on-info)` |
+| `--button-primary-text-color` | `var(--color-white)` |
+| `--button-danger-text-color` | `var(--color-white)` |
+| `--button-success-text-color` | `var(--color-white)` |
+| `--button-warning-text-color` | `var(--color-white)` |
+| `--button-info-text-color` | `var(--color-white)` |
 | `--button-default-color` | `#f5f5f5` |
 | `--button-primary-color` | `var(--color-primary)`|
 | `--button-danger-color` |  `var(--color-danger)`|
@@ -426,17 +426,17 @@ function handleAutoLoadingClick() {
 | `--button-warning-color` |  `var(--color-warning)`|
 | `--button-info-color` | `var(--color-info)`|
 | `--button-default-icon-color` | `#555` |
-| `--button-primary-icon-color` | `var(--color-on-primary-container)` |
-| `--button-danger-icon-color` | `var(--color-on-danger-container)` |
-| `--button-success-icon-color` | `var(--color-on-success-container)` |
-| `--button-warning-icon-color` | `var(--color-on-warning-container)` |
-| `--button-info-icon-color` | `var(--color-on-info-container)` |
+| `--button-primary-icon-color` | `var(--color-white)` |
+| `--button-danger-icon-color` | `var(--color-white)` |
+| `--button-success-icon-color` | `var(--color-white)` |
+| `--button-warning-icon-color` | `var(--color-white)` |
+| `--button-info-icon-color` | `var(--color-white)` |
 | `--button-default-icon-container-color` | `#f5f5f5` |
-| `--button-primary-icon-container-color` | `var(--color-primary-container)` |
-| `--button-danger-icon-container-color` | `var(--color-danger-container)` |
-| `--button-success-icon-container-color` | `var(--color-success-container)` |
-| `--button-warning-icon-container-color` | `var(--color-warning-container)` |
-| `--button-info-icon-container-color` | `var(--color-info-container)` |
+| `--button-primary-icon-container-color` | `var(--color-primary)` |
+| `--button-danger-icon-container-color` | `var(--color-danger)` |
+| `--button-success-icon-container-color` | `var(--color-success)` |
+| `--button-warning-icon-container-color` | `var(--color-warning)` |
+| `--button-info-icon-container-color` | `var(--color-info)` |
 | `--button-disabled-color` | `var(--color-disabled)`|
 | `--button-disabled-text-color` | `var(--color-text-disabled)` |
 | `--button-border-radius` | `4px` |

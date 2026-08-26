@@ -1,20 +1,11 @@
 import { type ButtonHTMLAttributes, type ExtractPropTypes, type PropType } from 'vue'
 import { loadingProps } from '../loading'
 import { defineListenerProp, pickProps } from '../utils/components'
+import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
 /**
  * 按钮主题色（与 Cedar Design Web 对齐的 Status 集合）
  */
-export type ButtonStatus =
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
-  | 'secondary'
-  | 'contrast'
-  | 'default'
-
 /**
  * 按钮变体
  */
@@ -23,18 +14,11 @@ export type ButtonVariant = 'default' | 'text' | 'outline' | 'link' | 'tonal'
 /**
  * 按钮尺寸
  */
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg'
-
-/**
- * @deprecated 旧 API，保留类型别名以便 Fab 等内部组件渐进迁移；新代码请使用 `ButtonStatus`
- */
-export type ButtonType = ButtonStatus
-
 export const buttonProps = {
   /**
    * 按钮主题色
    */
-  status: String as PropType<ButtonStatus>,
+  status: String as PropType<SemanticStatus>,
   /**
    * 按钮变体
    */
@@ -42,7 +26,7 @@ export const buttonProps = {
   /**
    * 按钮尺寸
    */
-  size: String as PropType<ButtonSize>,
+  size: String as PropType<ComponentSize>,
   /**
    * 原生按钮类型：button | submit | reset
    */
@@ -142,13 +126,9 @@ export const buttonProps = {
     ...pickProps(loadingProps, 'color'),
     default: 'currentColor',
   },
+
   onClick: defineListenerProp<(e: Event) => void | Promise<any>>(),
   onTouchstart: defineListenerProp<(e: Event) => void | Promise<any>>(),
 }
 
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>
-
-/**
- * @deprecated 兼容旧 `import { props } from './props'` 调用
- */
-export const props = buttonProps

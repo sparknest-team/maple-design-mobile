@@ -1,9 +1,9 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import { componentSizes, type ComponentSize } from '../utils/constants'
 
-export type FieldDecoratorSize = 'small' | 'normal'
+export type FieldDecoratorSize = ComponentSize
 
-export type FieldDecoratorVariant = 'outlined' | 'standard'
+export type FieldDecoratorVariant = 'filled' | 'outlined' | 'standard'
 
 export const props = {
   value: {
@@ -17,7 +17,8 @@ export const props = {
   isFocusing: Boolean,
   size: {
     type: String as PropType<FieldDecoratorSize>,
-    default: 'normal',
+    default: 'md',
+    validator: (value: ComponentSize) => componentSizes.includes(value),
   },
   variant: {
     type: String as PropType<FieldDecoratorVariant>,
@@ -45,6 +46,4 @@ export const props = {
   clearable: Boolean,
   cursor: String,
   composing: Boolean,
-  onClick: defineListenerProp<(e: Event) => void>(),
-  onClear: defineListenerProp<(value: Event) => void>(),
 }

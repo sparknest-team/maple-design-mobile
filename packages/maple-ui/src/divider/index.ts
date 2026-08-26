@@ -15,6 +15,7 @@ export type {
   DividerSizePreset,
 } from './props'
 
+export type DividerInstance = InstanceType<typeof Divider>
 export const _DividerComponent = Divider
 
 export default Divider

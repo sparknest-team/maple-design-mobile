@@ -20,7 +20,7 @@ export interface FabTriggerData {
 
 export interface FabProps extends BasicAttributes {
   active?: boolean
-  show?: boolean
+  open?: boolean
   drag?: FabDrag
   type?: FabType
   fixed?: boolean
@@ -41,7 +41,7 @@ export interface FabProps extends BasicAttributes {
   left?: string | number
   right?: string | number
   safeArea?: boolean
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   elevation?: boolean | number | string
   onClick?: ListenerProp<(active: boolean, e: Event) => void>
   onOpen?: ListenerProp<() => void>

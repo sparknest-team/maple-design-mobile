@@ -17,6 +17,7 @@ export class MenuOption extends VarComponent {
 
   $slots: {
     default(): VNode[]
+    icon(): VNode[]
   }
 }
 

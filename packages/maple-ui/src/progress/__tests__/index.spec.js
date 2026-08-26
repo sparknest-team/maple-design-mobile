@@ -12,56 +12,56 @@ test('progress use', () => {
 describe('test progress component props', () => {
   test('progress mode', async () => {
     const wrapper = mount(VarProgress, {
-      props: { mode: 'linear' },
+      props: { mode: 'line' },
     })
 
-    expect(wrapper.find('.mp-progress__linear').exists()).toBe(true)
+    expect(wrapper.find('.mp-progress__line').exists()).toBe(true)
     await wrapper.setProps({ mode: 'circle' })
     expect(wrapper.find('.mp-progress__circle').exists()).toBe(true)
     wrapper.unmount()
   })
 
-  test('progress value', () => {
+  test('progress percent', () => {
     const wrapper = mount(VarProgress, {
       props: {
-        value: 20,
+        percent: 20,
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-certain').attributes('style')).toContain('width: 20%;')
+    expect(wrapper.find('.mp-progress__line-certain').attributes('style')).toContain('width: 20%;')
     wrapper.unmount()
   })
 
-  test('progress type', () => {
-    ;['default', 'primary', 'info', 'success', 'warning', 'danger'].forEach((type) => {
+  test('progress status', () => {
+    ;['default', 'primary', 'info', 'success', 'warning', 'danger'].forEach((status) => {
       const wrapper = mount(VarProgress, {
-        props: { type, mode: 'linear' },
+        props: { status, mode: 'line' },
       })
 
-      expect(wrapper.find(`.mp-progress__linear--${type}`).exists()).toBe(true)
+      expect(wrapper.find(`.mp-progress__line--${status}`).exists()).toBe(true)
       wrapper.unmount()
     })
   })
 
-  test('progress line-width', () => {
+  test('progress stroke-width', () => {
     const wrapper = mount(VarProgress, {
       props: {
-        lineWidth: 5,
+        strokeWidth: 5,
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-block').attributes('style')).toContain('height: 5px;')
+    expect(wrapper.find('.mp-progress__line-block').attributes('style')).toContain('height: 5px;')
     wrapper.unmount()
   })
 
-  test('linear progress color', () => {
+  test('line progress color', () => {
     const wrapper = mount(VarProgress, {
       props: {
         color: 'red',
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-certain').attributes('style')).toContain('background: red;')
+    expect(wrapper.find('.mp-progress__line-certain').attributes('style')).toContain('background: red;')
     wrapper.unmount()
   })
 
@@ -87,20 +87,20 @@ describe('test progress component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-background').attributes('style')).toContain('background: red;')
+    expect(wrapper.find('.mp-progress__line-background').attributes('style')).toContain('background: red;')
     wrapper.unmount()
   })
 
-  test('progress label', async () => {
+  test('progress showText', async () => {
     const wrapper = mount(VarProgress, {
       props: {
-        label: true,
+        showText: true,
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-label').exists()).toBe(true)
-    await wrapper.setProps({ label: false })
-    expect(wrapper.find('.mp-progress__linear-label').exists()).toBe(false)
+    expect(wrapper.find('.mp-progress__line-label').exists()).toBe(true)
+    await wrapper.setProps({ showText: false })
+    expect(wrapper.find('.mp-progress__line-label').exists()).toBe(false)
     wrapper.unmount()
   })
 
@@ -111,9 +111,9 @@ describe('test progress component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-background').exists()).toBe(true)
+    expect(wrapper.find('.mp-progress__line-background').exists()).toBe(true)
     await wrapper.setProps({ track: false })
-    expect(wrapper.find('.mp-progress__linear-background').exists()).toBe(false)
+    expect(wrapper.find('.mp-progress__line-background').exists()).toBe(false)
     wrapper.unmount()
   })
 
@@ -145,12 +145,12 @@ describe('test progress component props', () => {
   test('progress indeterminate', async () => {
     const wrapper = mount(VarProgress, {
       props: {
-        mode: 'linear',
+        mode: 'line',
         indeterminate: true,
       },
     })
 
-    expect(wrapper.find('.mp-progress__linear-indeterminate').exists()).toBe(true)
+    expect(wrapper.find('.mp-progress__line-indeterminate').exists()).toBe(true)
     await wrapper.setProps({ mode: 'circle' })
     expect(wrapper.find('.mp-progress__circle-indeterminate').exists()).toBe(true)
     expect(wrapper.find('.mp-progress__circle-overlay').exists()).toBe(true)
@@ -161,13 +161,13 @@ describe('test progress component props', () => {
 test('progress component default slots', () => {
   const wrapper = mount(VarProgress, {
     props: {
-      label: true,
+      showText: true,
     },
     slots: {
       default: () => 'This is default slots',
     },
   })
 
-  expect(wrapper.find('.mp-progress__linear-label').element.textContent).toBe('This is default slots')
+  expect(wrapper.find('.mp-progress__line-label').element.textContent).toBe('This is default slots')
   wrapper.unmount()
 })

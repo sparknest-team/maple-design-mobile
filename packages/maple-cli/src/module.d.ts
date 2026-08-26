@@ -9,7 +9,6 @@ declare module 'jest' {
 }
 
 declare module '@babel/helper-plugin-utils'
-declare module '@varlet/markdown-vite-plugin'
 declare module 'conventional-changelog'
 declare module '@config'
 declare module '*.vue'

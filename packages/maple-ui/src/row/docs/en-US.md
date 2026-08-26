@@ -1,53 +1,32 @@
-# Layout
+# Row / Col
 
 ### Intro
 
-The component library provides two auxiliary layout components,
-`<mp-row/>` and `<mp-col/>`,
-so that you can layout more efficiently.
+24-column Flex grid layout. API aligned with Cedar Design Web (PC).
 
-### Gird System
+> The former "Layout" menu entry is removed. For CSS Grid layout, see [Grid](#/en-US/grid).
 
-```html
-The `<mp-row/>` component divides a row into 24 columns of grids (24 copies), `<mp-col/>` provides the `span` attribute to set the number of copies of a column, and the `offset` attribute to set a column the number of copies offset,
-The `gutter` property sets column spacing.
-```
+Breakpoints (same as PC):
+
+| Breakpoint | Media query |
+| --- | --- |
+| `xs` | `< 576px` |
+| `sm` | `≥ 576px` |
+| `md` | `≥ 768px` |
+| `lg` | `≥ 992px` |
+| `xl` | `≥ 1200px` |
+| `xxl` | `≥ 1600px` |
+
+### Basic Usage
 
 ```html
 <template>
   <mp-row :gutter="[10, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
 ### Offset
@@ -55,247 +34,80 @@ The `gutter` property sets column spacing.
 ```html
 <template>
   <mp-row :gutter="[10, 10]">
-    <mp-col :span="16" :offset="8">
-      <div class="item">offset: 8 span: 16</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
+    <mp-col :span="16" :offset="8"><div class="item">offset: 8 span: 16</div></mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
-### Alignment
+### Horizontal Alignment
 
-The layout component is laid out in `flex` by default,
-using the `<mp-row/>` `justify` and `align` properties to set the alignment of the main and cross axes.
+`justify`: `start` `center` `end` `space-around` `space-between`.
+
+### Vertical Alignment
+
+`align`: `start` `center` `end` `stretch`.
+
+### Order
 
 ```html
 <template>
-  <mp-row :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="center" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="flex-end" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="space-around" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-  </mp-row>
-  <mp-row justify="space-between" :gutter="[20, 10]">
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
-    <mp-col :span="8">
-      <div class="item">span: 8</div>
-    </mp-col>
+  <mp-row>
+    <mp-col :span="6" :order="4"><div class="item">1</div></mp-col>
+    <mp-col :span="6" :order="1"><div class="item">4</div></mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
-### Responsive Layout
-
-#### Basic Usage
-
-```vue
-import BasicExample from '../example/Responsive.vue'
-```
+### Responsive
 
 ```html
 <template>
   <mp-row :gutter="10">
-    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1">
+    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="2" :xxl="1">
       <div class="item">1</div>
-    </mp-col>
-    <mp-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
-      <div class="item">2</div>
-    </mp-col>
-    <mp-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
-      <div class="item">3</div>
-    </mp-col>
-    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1">
-      <div class="item">4</div>
     </mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
-#### Column Props Object
-
-```vue
-import ObjectExample from '../example/ResponsiveObject.vue'
-```
+### Flex
 
 ```html
 <template>
-  <mp-row :gutter="10">
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">1</div>
-    </mp-col>
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">2</div>
-    </mp-col>
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">3</div>
-    </mp-col>
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-    >
-      <div class="item">4</div>
-    </mp-col>
+  <mp-row>
+    <mp-col flex="100px"><div class="item">100px</div></mp-col>
+    <mp-col flex="auto"><div class="item">auto</div></mp-col>
   </mp-row>
 </template>
-
-<style>
-.item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  background: #3a7afe;
-  color: #fff;
-}
-</style>
 ```
 
 ## API
 
-### Props
+### Row Props
 
-#### Row Props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `gutter` | Gutter in px. Supports responsive object or `[horizontal, vertical]` | `number \| ResponsiveValue \| [number \| ResponsiveValue, number \| ResponsiveValue]` | `0` |
+| `justify` | Horizontal alignment | `'start' \| 'center' \| 'end' \| 'space-around' \| 'space-between'` | `'start'` |
+| `align` | Vertical alignment | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` |
+| `wrap` | Whether columns can wrap | `boolean` | `true` |
+| `div` | Treat as plain div without grid styles | `boolean` | `false` |
 
-| Prop      | Description                                                                                          | Type               | Default      |
-| --------- | ---------------------------------------------------------------------------------------------------- | ------------------ | ------------ |
-| `gutter`  | Col gutter, default is horizontal spacing. Can be set to [Vertical, Horizontal](Support length unit)  | _string \| number \| [string \| number, string \| number]_ | `0`  |
-| `justify` | Spindle alignment, optional value is `flex-start` `flex-end` `center` `space-between` `space-around` | _string_           | `flex-start` |
-| `align`   | Cross axis alignment, optional value is `flex-start` `flex-end` `center`                             | _string_           | `flex-start` |
+### Col Props
 
-#### Col Props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `span` | Number of grid spaces | `number` | `24` |
+| `offset` | Number of spacing on the left | `number` | `-` |
+| `order` | Sort order | `number` | `-` |
+| `xs` | `< 576px` | `number \| { span?, offset?, order? }` | `-` |
+| `sm` | `≥ 576px` | same | `-` |
+| `md` | `≥ 768px` | same | `-` |
+| `lg` | `≥ 992px` | same | `-` |
+| `xl` | `≥ 1200px` | same | `-` |
+| `xxl` | `≥ 1600px` | same | `-` |
+| `flex` | Flex layout property | `number \| string \| 'initial' \| 'auto' \| 'none'` | `-` |
 
-| Prop     | Description                                         | Type     | Default |
-|----------| --------------------------------------------------- |----------| ------- |
-| `span`   | Number of grids occupied by columns                 | _string \| number_                                                          | `24`    |
-| `offset` | Number of grids for column offsets                  | _string \| number_                                                          | `0`     |
-| `direction` | The optional value of layout direction is `row` `column` |  _string_ | `row` |
-| `justify`   | Main axis arrangement, can be set to `flex-start` `flex-end` `center` `space-around` `space-between`             | _string_ | `-` |
-| `align`     | Cross axis arrangement, can be set to `stretch` `center` `flex-start` `flex-end` `baseline`                         | _string_ | `-`     |
-| `xs`     | `<768px` Responsive columns or column props object  | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-`     |
-| `sm`     | `≥768px` Responsive columns or column props object  | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-`     |
-| `md`     | `≥992px` Responsive columns or column props object  | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-`     |
-| `lg`     | `≥1200px` Responsive columns or column props object | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-`     |
-| `xl`     | `≥1920px` Responsive columns or column props object | _string \| number \| { span?: number \| string, offset?: number \| string }_ | `-`     |
+### Events / Slots
 
-### Events
-
-#### Row Events
-
-| Event   | Description                  | Arguments      |
-| ------- | ---------------------------- | -------------- |
-| `click` | Triggered when clicking Row | `event: Event` |
-
-#### Col Events
-
-| Event   | Description                  | Arguments      |
-| ------- | ---------------------------- | -------------- |
-| `click` | Triggered when clicking Col | `event: Event` |
-
-### Slots
-
-#### Row Slots
-
-| Name | Description | SlotProps |
-| --------- | ----------- | --------- |
-| `default` | Row content | `-`       |
-
-#### Col Slots
-
-| Name | Description | SlotProps |
-| --------- | ----------- | --------- |
-| `default` | Col content | `-`       |
+Row & Col emit `click` and provide a `default` slot.

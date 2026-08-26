@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { AllowedTime } from './timePicker'
+import { DisabledTime } from './timePicker'
 import { BasicAttributes, Variant as DateVariant, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const dateProps: Record<keyof DateProps, any>
@@ -10,7 +10,7 @@ export type DateSize = 'small' | 'normal'
 
 export interface DateProps extends BasicAttributes {
   modelValue?: string | string[]
-  show?: boolean
+  open?: boolean
   type?: DateType
   presentation?: 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
   showTime?: boolean
@@ -18,8 +18,8 @@ export interface DateProps extends BasicAttributes {
   multiple?: boolean
   min?: string
   max?: string
-  allowedDates?: (val: string) => boolean
-  allowedTime?: AllowedTime
+  disabledDate?: (val: string) => boolean
+  disabledTime?: DisabledTime
   separator?: string
   datePickerProps?: Record<string, any>
   popupProps?: Record<string, any>
@@ -41,7 +41,7 @@ export interface DateProps extends BasicAttributes {
   onClose?: ListenerProp<(value: string | string[] | undefined) => void>
   onChange?: ListenerProp<(value: string | string[] | undefined) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: string | string[] | undefined) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface DateArrowIconData {

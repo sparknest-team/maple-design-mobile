@@ -31,7 +31,7 @@ onThemeChange()
 
   <app-type>{{ t('variant') }}</app-type>
   <mp-space direction="column" size="large">
-    <mp-select v-model="type" variant="outlined" size="small" :options="options" />
+    <mp-select v-model="type" variant="outlined" size="sm" :options="options" />
     <mp-alert :title="t('alertTitle')" :message="t('alertText')" :type="type" />
     <mp-alert variant="tonal" :title="t('alertTitle')" :message="t('alertText')" :type="type" />
     <mp-alert variant="outlined" :title="t('alertTitle')" :message="t('alertText')" :type="type" />
@@ -49,19 +49,19 @@ onThemeChange()
   <app-type>{{ t('customIcon') }}</app-type>
   <mp-alert :title="t('alertTitle')" :message="t('alertText')">
     <template #icon>
-      <mp-icon name="heart" />
+      <m-icon-heart />
     </template>
   </mp-alert>
 
   <app-type>{{ t('action') }}</app-type>
   <mp-alert :title="t('alertTitle')" :message="t('alertText')">
     <template #action>
-      <mp-button size="mini" type="primary">{{ t('detail') }}</mp-button>
+      <mp-button size="xs" type="primary">{{ t('detail') }}</mp-button>
     </template>
   </mp-alert>
 
   <app-type>{{ t('allowToClose') }}</app-type>
-  <mp-alert v-if="show" :title="t('alertTitle')" :message="t('alertText')" closable @close="show = false" />
+  <mp-alert v-if="open" :title="t('alertTitle')" :message="t('alertText')" closable @close="show = false" />
 
   <app-type>{{ t('customCloseIcon') }}</app-type>
   <mp-alert
@@ -72,7 +72,7 @@ onThemeChange()
     @close="showCloseIcon = false"
   >
     <template #close-icon>
-      <mp-icon name="window-close" />
+      <m-icon-window-close />
     </template>
   </mp-alert>
 </template>

@@ -8,7 +8,7 @@
 
 ```html
 <template>
-  <mp-watermark content="Varlet">
+  <mp-watermark content="Maple">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 </template>
@@ -25,7 +25,7 @@
 
 ```html
 <template>
-  <mp-watermark content="Varlet" :gap-x="40" :gap-y="40">
+  <mp-watermark content="Maple" :gap="[40, 40]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 </template>
@@ -42,7 +42,7 @@
 
 ```html
 <template>
-  <mp-watermark content="Varlet" :offset-x="20" :offset-y="20">
+  <mp-watermark content="Maple" :offset="[20, 20]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 </template>
@@ -59,7 +59,7 @@
 
 ```html
 <template>
-  <mp-watermark content="Varlet" :rotate="22" :offset-y="20">
+  <mp-watermark content="Maple" :rotate="22" :offset="[0, 20]">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 </template>
@@ -80,10 +80,8 @@
     image="./logo.svg"
     :width="40" 
     :height="40" 
-    :gap-x="40" 
-    :gap-y="40" 
-    :offset-x="10" 
-    :offset-y="10" 
+    :gap="[40, 40]" 
+    :offset="[10, 10]" 
   >
     <div class="watermark-wrapper"></div>
   </mp-watermark>
@@ -112,11 +110,10 @@ const toggle = () => {
 
 <template>
   <mp-watermark 
-    content="Varlet UI" 
-    :opacity="0.2" 
+    content="Maple UI" 
+    :alpha="0.2" 
     :fullscreen="fullscreen" 
-    :offset-x="10"
-    :offset-y="10"
+    :offset="[10, 10]"
   >
     <div class="watermark-wrapper">
       <mp-button type="primary" @click="toggle">切换</mp-button>
@@ -136,10 +133,10 @@ const toggle = () => {
 
 ```html
 <template>
-  <mp-watermark :offset-x="10" :offset-y="10">
+  <mp-watermark :offset="[10, 10]">
     <div class="watermark-wrapper"></div>
     <template #content>
-      <span style="font-size: 20px; color: #7986cb">Varlet UI</span>
+      <span style="font-size: 20px; color: #7986cb">Maple UI</span>
     </template>
   </mp-watermark>
 </template>
@@ -164,12 +161,10 @@ const toggle = () => {
 | `content`  | 文字水印的内容    | _string_       | `-`   |
 | `image`    | 图片水印的路径，优先级比 `content` 高    | _string_       | `-`   |
 | `rotate`   | 水印的旋转角度           | _number_       | `-22`   |
-| `offset-x` | 水印距离容器x轴的偏移量    | _number_       | `0`   |
-| `offset-y` | 水印距离容器y轴的偏移量    | _number_       | `0`   |
-| `gap-x`    | 水印水平方向的间距        | _number_       | `0`   |
-| `gap-y`    | 水印垂直方向的间距        | _number_       | `0`   |
+| `offset` | 水印距离容器左上角的偏移量 `[x, y]` | _[number, number]_ | `[0, 0]` |
+| `gap` | 水印间距 `[x, y]` | _[number, number]_ | `[0, 0]` |
 | `z-index`  | 水印的z-index       | _number \| string_       | `10`   |
-| `opacity`  | 水印的透明度         | _number \| string_      | `0.5`   |
+| `alpha`  | 水印的透明度         | _number \| string_      | `0.5`   |
 | `fullscreen`    | 水印是否全屏显示        | _boolean_       | `false`   |
 | `font`    | 文字水印的字体样式    | _WatermarkFont_ | `WatermarkFont` |
 

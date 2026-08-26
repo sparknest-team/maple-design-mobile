@@ -1,16 +1,9 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
 /**
  * 标签主题色（与 Button / Cedar Tag 的 Status 集合对齐）
  */
-export type TagStatus = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'secondary' | 'contrast' | 'default'
-
-/**
- * 标签尺寸
- */
-export type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
 /**
  * 标签变体（与 Button 的 variant 对齐）
  */
@@ -21,14 +14,14 @@ export const tagProps = {
    * 标签主题色
    */
   status: {
-    type: String as PropType<TagStatus>,
+    type: String as PropType<SemanticStatus>,
     default: 'default',
   },
   /**
    * 标签尺寸
    */
   size: {
-    type: String as PropType<TagSize>,
+    type: String as PropType<ComponentSize>,
     default: 'md',
   },
   /**
@@ -41,14 +34,14 @@ export const tagProps = {
   /**
    * 标签是否可见（v-model）
    */
-  visible: {
+  show: {
     type: Boolean,
     default: undefined,
   },
   /**
    * 标签默认是否可见
    */
-  defaultVisible: {
+  defaultShow: {
     type: Boolean,
     default: true,
   },
@@ -94,10 +87,6 @@ export const tagProps = {
    * 自定义文字色
    */
   textColor: String,
-  onClose: defineListenerProp<(e: MouseEvent) => void>(),
-  onCheck: defineListenerProp<(checked: boolean, e: MouseEvent) => void>(),
-  'onUpdate:visible': defineListenerProp<(visible: boolean) => void>(),
-  'onUpdate:checked': defineListenerProp<(checked: boolean) => void>(),
 }
 
 export type TagProps = ExtractPropTypes<typeof tagProps>

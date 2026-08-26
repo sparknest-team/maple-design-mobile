@@ -64,7 +64,7 @@ const current = ref(2)
     <mp-step>
       步骤1
       <template #icon="{ status }">
-        <mp-icon v-if="status === 'finish'" name="heart" />
+        <m-icon-heart v-if="status === 'finish'" />
         <span v-else>1</span>
       </template>
     </mp-step>
@@ -175,7 +175,7 @@ const current = ref(1)
 | `--step-tag-size` | `20px` |
 | `--step-tag-background` | `#9e9e9e` |
 | `--step-tag-font-size` | `var(--font-size-md)` |
-| `--step-tag-color` | `var(--color-on-primary)` |
+| `--step-tag-color` | `var(--color-white)` |
 | `--step-tag-active-color` | `var(--color-primary)` |
 | `--step-tag-error-color` | `var(--color-danger)` |
 | `--step-tag-margin` | `4px 0` |

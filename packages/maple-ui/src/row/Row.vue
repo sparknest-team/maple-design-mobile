@@ -1,22 +1,14 @@
 <template>
-  <div
-    :class="classes(n(), n('$--box'))"
-    :style="{
-      justifyContent: padStartFlex(justify),
-      alignItems: padStartFlex(align),
-      margin: `${-average[0]}px ${-average[1]}px`,
-    }"
-    @click="handleClick"
-  >
+  <div :class="classNames" :style="styles" @click="handleClick">
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { call, isArray } from '@maplejs/maple-shared'
+import { computed, defineComponent, toRefs } from 'vue'
+import { isArray } from '@maplejs/maple-shared'
+import { useResponsiveState } from '../grid/hook/use-responsive-state'
 import { createNamespace } from '../utils/components'
-import { padStartFlex, toPxNum } from '../utils/elements'
 import { props } from './props'
 import { useCols } from './provide'
 
@@ -25,24 +17,61 @@ const { name, n, classes } = createNamespace('row')
 export default defineComponent({
   name,
   props,
-  setup(props) {
-    const average = computed(() =>
-      isArray(props.gutter) ? props.gutter.map((numeric) => toPxNum(numeric) / 2) : [0, toPxNum(props.gutter) / 2],
-    )
-    const { bindCols } = useCols()
+  emits: ['click'],
+  setup(props, { emit }) {
+    const { gutter, align, justify, div, wrap } = toRefs(props)
 
-    bindCols({ average })
+    const classNames = computed(() =>
+      classes(
+        [!div.value, n()],
+        [!div.value && !wrap.value, n('--nowrap')],
+        [!div.value && align.value, n(`--align-${align.value}`)],
+        [!div.value && justify.value, n(`--justify-${justify.value}`)],
+      ),
+    )
+
+    const propGutterHorizontal = computed(() => (isArray(gutter.value) ? gutter.value[0] : gutter.value))
+    const propGutterVertical = computed(() => (isArray(gutter.value) ? gutter.value[1] : 0))
+    const gutterHorizontal = useResponsiveState(propGutterHorizontal as any, 0)
+    const gutterVertical = useResponsiveState(propGutterVertical as any, 0)
+
+    const styles = computed(() => {
+      const result: {
+        marginTop?: string
+        marginBottom?: string
+        marginLeft?: string
+        marginRight?: string
+      } = {}
+      if ((gutterHorizontal.value || gutterVertical.value) && !div.value) {
+        const marginHorizontal = -gutterHorizontal.value / 2
+        const marginVertical = -gutterVertical.value / 2
+        if (marginHorizontal) {
+          result.marginLeft = `${marginHorizontal}px`
+          result.marginRight = `${marginHorizontal}px`
+        }
+        if (marginVertical) {
+          result.marginTop = `${marginVertical}px`
+          result.marginBottom = `${marginVertical}px`
+        }
+      }
+      return result
+    })
+
+    const resultGutter = computed<[number, number]>(() => [gutterHorizontal.value, gutterVertical.value])
+    const { bindCols } = useCols()
+    bindCols({
+      gutter: resultGutter,
+      div: computed(() => !!div.value),
+    })
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {
-      average,
-      n,
-      classes,
+      classNames,
+      styles,
       handleClick,
-      padStartFlex,
     }
   },
 })

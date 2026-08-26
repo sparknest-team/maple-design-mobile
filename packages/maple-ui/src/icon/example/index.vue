@@ -1,7 +1,9 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { iconNames as icons } from '@maplejs/icons-vue'
+import * as MapleIcons from '@maplejs/icons-vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import icons from '@maplejs/maple-icons'
+import { pascalCase } from '@maplejs/maple-shared'
 import { Message } from '@maplejs/maple-ui'
 import Clipboard from 'clipboard'
 import { t, use } from './locale'
@@ -13,9 +15,16 @@ const searchIcons = computed(() =>
   searchText.value ? iconNames.filter((name) => name.includes(searchText.value)) : iconNames,
 )
 
+const app = getCurrentInstance()?.appContext.app
+app?.component('IconInformation', MapleIcons.IconInformation)
+app?.component('IconCheckboxMarkedCircle', MapleIcons.IconCheckboxMarkedCircle)
+
 onMounted(() => {
   const clipboard = new Clipboard('.icon-example__icon', {
-    text: (trigger) => `<mp-icon name="${trigger.getAttribute('data-clipboard-text')}" />`,
+    text: (trigger) => {
+      const iconName = trigger.getAttribute('data-clipboard-text') ?? ''
+      return `<m-icon-${iconName} />`
+    },
   })
 
   clipboard.on('success', (e) => {
@@ -29,27 +38,43 @@ onThemeChange()
 function toggle() {
   iconName.value = iconName.value === 'information' ? 'checkbox-marked-circle' : 'information'
 }
+
+function resolveIcon(name) {
+  return MapleIcons[`Icon${pascalCase(name)}`]
+}
 </script>
 
 <template>
+  <app-type>{{ t('basic') }}</app-type>
+  <mp-icon size="40" color="red">
+    <m-icon-checkbox-marked-circle />
+  </mp-icon>
+  <mp-icon size="40" color="red">
+    <m-icon-information />
+  </mp-icon>
+
   <app-type>{{ t('iconSize') }}</app-type>
-  <mp-icon class="icon-example__animation-icon" name="checkbox-marked-circle" />
-  <mp-icon class="icon-example__animation-icon" name="checkbox-marked-circle" :size="26" />
+  <mp-icon class="icon-example__animation-icon" size="20"><m-icon-checkbox-marked-circle /></mp-icon>
+  <mp-icon class="icon-example__animation-icon" size="28"><m-icon-checkbox-marked-circle /></mp-icon>
+  <mp-icon class="icon-example__animation-icon" size="36"><m-icon-checkbox-marked-circle /></mp-icon>
 
   <app-type>{{ t('iconColor') }}</app-type>
-  <mp-icon class="icon-example__animation-icon" name="checkbox-marked-circle" color="var(--mp-color-primary)" />
-  <mp-icon class="icon-example__animation-icon" name="checkbox-marked-circle" color="var(--mp-color-success)" />
-
-  <app-type>{{ t('useImage') }}</app-type>
-  <mp-icon class="icon-example__animation-icon" name="https://maplejs.org/cat.jpg" :size="32" />
+  <mp-icon class="icon-example__animation-icon" size="28" color="var(--mp-color-primary)"
+    ><m-icon-checkbox-marked-circle
+  /></mp-icon>
+  <mp-icon class="icon-example__animation-icon" size="28" color="var(--mp-color-success)"
+    ><m-icon-checkbox-marked-circle
+  /></mp-icon>
 
   <app-type>{{ t('clickEvent') }}</app-type>
   <mp-icon
     class="icon-example__animation-icon"
-    name="checkbox-marked-circle"
+    size="28"
     color="var(--mp-color-primary)"
     @click="Message.success(t('clickSuccess'))"
-  />
+  >
+    <m-icon-checkbox-marked-circle />
+  </mp-icon>
 
   <app-type>{{ t('iconAnimation') }}</app-type>
   <mp-icon
@@ -57,15 +82,6 @@ function toggle() {
     color="var(--mp-color-primary)"
     :size="30"
     :transition="300"
-    :name="iconName"
-    @click="toggle"
-  />
-  <mp-icon
-    class="icon-example__animation-icon"
-    color="var(--mp-color-primary)"
-    :size="30"
-    :transition="300"
-    animation-class="fade"
     :name="iconName"
     @click="toggle"
   />
@@ -81,7 +97,7 @@ function toggle() {
     clearable
   >
     <template #suffix>
-      <mp-icon class="search-icon" name="magnify" />
+      <m-icon-magnify class="search-icon" />
     </template>
   </mp-input>
 
@@ -94,7 +110,7 @@ function toggle() {
       :style="{ background: 'var(--mp-paper-background)' }"
       :data-clipboard-text="name"
     >
-      <mp-icon :name="name" />
+      <component :is="resolveIcon(name)" />
       <div class="icon-example__icon-name">{{ name }}</div>
     </div>
   </div>

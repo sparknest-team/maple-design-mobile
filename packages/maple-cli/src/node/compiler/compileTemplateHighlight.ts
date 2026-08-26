@@ -44,7 +44,7 @@ export function parseTable(table: string) {
     const cols = row.split('|')
     cols.shift()
     cols.pop()
-    return cols.map((col) => col.replace(/__varlet_axis__/g, '|').trim())
+    return cols.map((col) => col.replace(/__maple_axis__/g, '|').trim())
   })
 }
 
@@ -73,7 +73,7 @@ export function compileTable(md: string, titleRe: RegExp): string {
   }
   md = md.slice(0, (tableFootMatched.index as number) + tableFootMatched[0].length)
 
-  return md.replace(/\\\|/g, '__varlet_axis__').trim()
+  return md.replace(/\\\|/g, '__maple_axis__').trim()
 }
 
 export function compileWebTypes(

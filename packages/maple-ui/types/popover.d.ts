@@ -18,14 +18,14 @@ export type PopoverPlacement =
   | 'cover-left'
   | 'cover-right'
 
-export type PopoverTrigger = 'click' | 'hover' | 'manual'
+export type PopoverTrigger = 'click' | 'hover' | 'manual' | 'contextMenu'
 
 export type PopoverStrategy = PositioningStrategy
 
 export type PopoverReference = string | HTMLElement
 
 export interface PopoverProps extends BasicAttributes {
-  show?: boolean
+  open?: boolean
   disabled?: boolean
   trigger?: PopoverTrigger
   reference?: PopoverReference
@@ -33,19 +33,20 @@ export interface PopoverProps extends BasicAttributes {
   strategy?: PopoverStrategy
   offsetX?: string | number
   offsetY?: string | number
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   sameWidth?: boolean
   elevation?: boolean | number | string
   defaultStyle?: boolean
   popoverClass?: string
   closeOnClickReference?: boolean
-  closeOnKeyEscape?: boolean
+  escToClose?: boolean
+  alignPoint?: boolean
   onOpen?: ListenerProp<() => void>
   onOpened?: ListenerProp<() => void>
   onClose?: ListenerProp<() => void>
   onClosed?: ListenerProp<() => void>
   onClickOutside?: ListenerProp<(event: Event) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export class Popover extends VarComponent {

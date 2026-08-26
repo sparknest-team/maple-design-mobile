@@ -1,7 +1,7 @@
 :root {
   --mp-pagination-text-color: #555;
   --mp-pagination-font-size: var(--mp-font-size-md);
-  --mp-pagination-active-color: var(--mp-color-on-primary);
+  --mp-pagination-active-color: var(--mp-color-white);
   --mp-pagination-active-bg-color: var(--mp-color-primary);
   --mp-pagination-hover-bg-color: rgba(85, 85, 85, 0.15);
   --mp-pagination-total-margin: 0 10px;
@@ -18,6 +18,11 @@
   --mp-pagination-size-line-height: 24px;
   --mp-pagination-size-padding: 0 4px;
   --mp-pagination-quick-jumper-margin: 0 10px;
+  --mp-pagination-size-xs: 24px;
+  --mp-pagination-size-sm: 28px;
+  --mp-pagination-size-md: 32px;
+  --mp-pagination-size-lg: 36px;
+  --mp-pagination-size-xl: 40px;
 }
 
 .mp-pagination-flex-nowrap {
@@ -34,6 +39,31 @@
   font-size: var(--mp-pagination-font-size);
   padding: 0;
   color: var(--mp-pagination-text-color);
+
+  &-size-xs &__item {
+    min-width: var(--mp-pagination-size-xs);
+    height: var(--mp-pagination-size-xs);
+  }
+
+  &-size-sm &__item {
+    min-width: var(--mp-pagination-size-sm);
+    height: var(--mp-pagination-size-sm);
+  }
+
+  &-size-md &__item {
+    min-width: var(--mp-pagination-size-md);
+    height: var(--mp-pagination-size-md);
+  }
+
+  &-size-lg &__item {
+    min-width: var(--mp-pagination-size-lg);
+    height: var(--mp-pagination-size-lg);
+  }
+
+  &-size-xl &__item {
+    min-width: var(--mp-pagination-size-xl);
+    height: var(--mp-pagination-size-xl);
+  }
 
   &__list,
   &__simple-wrap {

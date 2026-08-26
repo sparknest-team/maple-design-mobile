@@ -16,7 +16,8 @@ const { name, n } = createNamespace('signature')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['start', 'signing', 'end'],
+  setup(props, { emit }) {
     const root = ref<HTMLElement>()
     const canvas = ref<HTMLCanvasElement>()
     const canvasWidth = ref(0)
@@ -53,7 +54,7 @@ export default defineComponent({
       ctx.lineWidth = toNumber(props.lineWidth)
       ctx.strokeStyle = props.strokeStyle === 'currentColor' ? getStyle(root.value).color : props.strokeStyle
 
-      call(props.onStart)
+      emit('start')
     }
 
     function handleTouchmove(event: TouchEvent) {
@@ -71,7 +72,7 @@ export default defineComponent({
       ctx.lineTo(x, y)
       ctx.stroke()
 
-      call(props.onSigning)
+      emit('signing')
     }
 
     function handleTouchend(event: Event) {
@@ -81,7 +82,7 @@ export default defineComponent({
 
       event.preventDefault()
       isSigning = false
-      call(props.onEnd)
+      emit('end')
     }
 
     function getDataUrl(canvas: HTMLCanvasElement) {

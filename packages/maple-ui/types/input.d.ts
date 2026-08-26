@@ -19,7 +19,7 @@ export interface InputProps extends BasicAttributes {
   textColor?: string
   focusColor?: string
   blurColor?: string
-  maxlength?: string | number
+  maxLength?: string | number
   disabled?: boolean
   readonly?: boolean
   clearable?: boolean

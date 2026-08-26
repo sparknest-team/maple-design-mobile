@@ -3,15 +3,15 @@
     <mp-menu
       v-if="!historyPopup && recentSearches.length"
       ref="historyMenu"
-      :popup-visible="historyMenuVisible"
+      :open="historyMenuVisible"
       :reference="fieldRef"
       :options="historyOptions"
-      :same-width="true"
-      :popover-class="n('history-menu')"
+      :auto-fit-popup-width="true"
+      :popup-class="n('history-menu')"
       placement="bottom-start"
       trigger="click"
       :close-on-click-reference="false"
-      @update:popup-visible="handleHistoryMenuVisibleChange"
+      @update:open="handleHistoryMenuVisibleChange"
       @select="handleHistoryMenuSelect"
     />
 
@@ -41,7 +41,7 @@
         :type="type"
         :aria-label="ariaLabel"
         :placeholder="searchPlaceholder"
-        :maxlength="maxlength"
+        :max-length="maxLength"
         :readonly="readonly"
         :disabled="disabled"
         :autofocus="autofocus"
@@ -63,7 +63,12 @@
       >
         <template #prefix>
           <slot name="prefix">
-            <mp-icon :class="n('search-icon')" :name="searchIcon" @click="handleSearch" />
+            <mp-registered-icon
+              :class="n('search-icon')"
+              :name="searchIcon"
+              :fallback="searchIcon === 'magnify' ? IconMagnify : undefined"
+              @click="handleSearch"
+            />
           </slot>
         </template>
 
@@ -72,9 +77,9 @@
             <mp-icon
               :class="classes(n('clear-icon'), 'mp-field-decorator__clear-icon')"
               mp-field-decorator-cover
-              name="close-circle"
               @click="handleClearIconClick(clear, $event)"
-            />
+              ><MIconCloseCircle
+            /></mp-icon>
           </slot>
         </template>
       </mp-input>
@@ -86,14 +91,14 @@
 
     <mp-popup
       v-if="historyPopup"
-      :show="historyPopupVisible"
+      :open="historyPopupVisible"
       :class="n('popup')"
       :style="popupStyle"
       position="top"
       transition="mp-fade"
-      :overlay="false"
+      :mask="false"
       safe-area-top
-      @update:show="handlePopupVisibleChange"
+      @update:open="handlePopupVisibleChange"
     >
       <div :class="n('popup-content')">
         <mp-search
@@ -117,7 +122,7 @@
           :type="type"
           :aria-label="ariaLabel"
           :placeholder="placeholder"
-          :maxlength="maxlength"
+          :max-length="maxLength"
           :readonly="readonly"
           :disabled="disabled"
           autofocus
@@ -147,9 +152,9 @@
               <mp-icon
                 :class="classes(n('clear-icon'), 'mp-field-decorator__clear-icon')"
                 mp-field-decorator-cover
-                name="close-circle"
                 @click="handleClearIconClick(clear, $event)"
-              />
+                ><MIconCloseCircle
+              /></mp-icon>
             </slot>
           </template>
         </mp-search>
@@ -172,8 +177,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { IconMagnify, IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpIcon from '../icon'
+import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'
 import MpMenu from '../menu'
 import MpPopup from '../popup'
@@ -188,13 +195,29 @@ const { name, n, classes } = createNamespace('search')
 export default defineComponent({
   name,
   components: {
+    MIconCloseCircle,
     MpIcon,
+    MpRegisteredIcon,
     MpInput,
     MpMenu,
     MpPopup,
     MpSelect,
   },
   props,
+  emits: [
+    'focus',
+    'blur',
+    'input',
+    'change',
+    'clear',
+    'search',
+    'update:modelField',
+    'update:searchField',
+    'update:modelValue',
+    'update:searchText',
+    'update:model',
+    'cancel',
+  ],
   setup(props, { emit }) {
     const input = ref<InstanceType<typeof MpInput> | null>(null)
     const select = ref<InstanceType<typeof MpSelect> | null>(null)
@@ -233,29 +256,26 @@ export default defineComponent({
 
     function handleFocus(e: FocusEvent) {
       openHistoryPopup()
-      call(props.onFocus, e)
+      emit('focus', e)
     }
 
     function handleBlur(e: FocusEvent) {
-      call(props.onBlur, e)
+      emit('blur', e)
     }
 
     function handleInput(nextValue: string, e: Event) {
       updateValue(nextValue)
-      call(props.onInput, nextValue, e)
-      call(props.onChange as any, nextValue, e)
+      emit('input', nextValue, e)
       emit('change', nextValue, e)
     }
 
     function handleChange(nextValue: string, e: Event) {
-      call(props.onChange as any, nextValue, e)
       emit('change', nextValue, e)
     }
 
     function handleClear(nextValue: string) {
       updateValue(nextValue)
-      call(props.onClear, nextValue)
-      call(props.onChange as any, nextValue)
+      emit('clear', nextValue)
       emit('change', nextValue)
       keepHistoryVisible()
     }
@@ -270,11 +290,11 @@ export default defineComponent({
       field.value = nextField
       clearModel()
       updateValue('')
-      call(props['onUpdate:modelField'], nextField)
-      call(props['onUpdate:searchField'], nextField)
       emit('update:modelField', nextField)
       emit('update:searchField', nextField)
-      call(props.onChange as any, '', undefined)
+      emit('update:modelField', nextField)
+      emit('update:searchField', nextField)
+      emit('change', '', undefined)
       emit('change', '')
       input.value?.focus()
     }
@@ -286,7 +306,6 @@ export default defineComponent({
 
       closeHistoryMenu()
       const result = search(computedValue.value || '')
-      call(props.onSearch, result, e)
       emit('search', result, e)
       input.value?.blur()
     }
@@ -303,8 +322,7 @@ export default defineComponent({
 
       closeHistoryMenu()
       updateValue('')
-      call(props.onCancel)
-      call(props.onChange as any, '', e)
+      emit('cancel')
       emit('change', '', e)
       input.value?.blur()
     }
@@ -352,12 +370,12 @@ export default defineComponent({
       requestAnimationFrame(openHistoryPopup)
     }
 
-    function handlePopupVisibleChange(show: boolean) {
-      historyPopupVisible.value = show
+    function handlePopupVisibleChange(open: boolean) {
+      historyPopupVisible.value = open
     }
 
-    function handleHistoryMenuVisibleChange(show: boolean) {
-      historyMenuVisible.value = show
+    function handleHistoryMenuVisibleChange(open: boolean) {
+      historyMenuVisible.value = open
     }
 
     function handlePopupFieldUpdate(nextField: string) {
@@ -366,7 +384,6 @@ export default defineComponent({
 
     function handlePopupSearch(result: SearchResult, e?: Event) {
       historyPopupVisible.value = false
-      call(props.onSearch, result, e)
       emit('search', result, e)
       nextTick(() => input.value?.blur())
     }
@@ -376,7 +393,6 @@ export default defineComponent({
       const result = search(nextValue)
       historyPopupVisible.value = false
       historyMenuVisible.value = false
-      call(props.onSearch, result, e)
       emit('search', result, e)
       nextTick(() => input.value?.blur())
     }
@@ -388,8 +404,8 @@ export default defineComponent({
     function updateValue(nextValue: string) {
       value.value = nextValue
       updateModel(nextValue)
-      call(props['onUpdate:modelValue'], nextValue)
-      call(props['onUpdate:searchText'], nextValue)
+      emit('update:modelValue', nextValue)
+      emit('update:searchText', nextValue)
       emit('update:modelValue', nextValue)
       emit('update:searchText', nextValue)
     }
@@ -403,7 +419,7 @@ export default defineComponent({
         const key = item.value as string
         ;(props.model as Record<string, any>)[key] = undefined
       })
-      call(props['onUpdate:model'], props.model)
+      emit('update:model', props.model)
       emit('update:model', props.model)
     }
 
@@ -415,7 +431,7 @@ export default defineComponent({
 
       clearModel()
       ;(props.model as Record<string, any>)[key] = nextValue
-      call(props['onUpdate:model'], props.model)
+      emit('update:model', props.model)
       emit('update:model', props.model)
     }
 
@@ -472,6 +488,7 @@ export default defineComponent({
       historyMenuVisible,
       n,
       classes,
+      IconMagnify,
       handleFocus,
       handleBlur,
       handleInput,

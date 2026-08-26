@@ -1,5 +1,5 @@
 import { type PropType } from 'vue'
-import { props as buttonProps } from '../button/props'
+import { buttonProps } from '../button/props'
 import { popupProps } from '../popup'
 import { defineListenerProp, pickProps, type ExtractPublicPropTypes } from '../utils/components'
 import type { DialogActions, DialogBeforeCloseRefs, DialogType } from './index'
@@ -14,7 +14,7 @@ export const DIALOG_TYPE_ICON: Record<DialogType, string> = {
 }
 
 export const props = {
-  show: Boolean,
+  open: Boolean,
   width: [Number, String],
   title: String,
   message: String,
@@ -58,24 +58,14 @@ export const props = {
   unmountOnClose: Boolean,
   dialogClass: String,
   dialogStyle: Object,
-  onBeforeClose: defineListenerProp<(action: DialogActions, done: () => void, refs: DialogBeforeCloseRefs) => void>(),
-  onConfirm: defineListenerProp<() => void>(),
-  onCancel: defineListenerProp<() => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
+  beforeClose: defineListenerProp<(action: DialogActions, done: () => void, refs: DialogBeforeCloseRefs) => void>(),
   ...pickProps(popupProps, [
-    'overlay',
-    'overlayClass',
-    'overlayStyle',
+    'mask',
+    'maskClass',
+    'maskStyle',
     'lockScroll',
-    'closeOnClickOverlay',
-    'closeOnKeyEscape',
-    'teleport',
-    'onOpen',
-    'onClose',
-    'onOpened',
-    'onClosed',
-    'onClickOverlay',
-    'onKeyEscape',
-    'onRouteChange',
+    'maskClosable',
+    'escToClose',
+    'popupContainer',
   ]),
 }

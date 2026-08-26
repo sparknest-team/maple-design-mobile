@@ -4,17 +4,27 @@
 
 链接组件，用于页面跳转。
 
-### 主题色链接
+### 基础用法
+
+```html
+<template>
+  <mp-link>默认链接</mp-link>
+</template>
+```
+
+### 语义状态
 
 ```html
 <template>
   <mp-space :size="[10, 10]">
     <mp-link>默认链接</mp-link>
-    <mp-link type="primary">主要链接</mp-link>
-    <mp-link type="info">信息链接</mp-link>
-    <mp-link type="success">成功链接</mp-link>
-    <mp-link type="warning">警告链接</mp-link>
-    <mp-link type="danger">危险链接</mp-link>
+    <mp-link status="primary">主要链接</mp-link>
+    <mp-link status="secondary">次要链接</mp-link>
+    <mp-link status="tertiary">三级链接</mp-link>
+    <mp-link status="info">信息链接</mp-link>
+    <mp-link status="success">成功链接</mp-link>
+    <mp-link status="warning">警告链接</mp-link>
+    <mp-link status="danger">危险链接</mp-link>
   </mp-space>
 </template>
 ```
@@ -24,14 +34,14 @@
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-link 
-      type="primary" 
-      href="https://maplejs.org/#/zh-CN/home" 
+    <mp-link
+      status="primary"
+      href="https://example.com/"
       target="_blank"
+      rel="noopener noreferrer"
     >
       href 链接
     </mp-link>
-    <mp-link type="primary" to="/button">router-link 链接</mp-link>
   </mp-space>
 </template>
 ```
@@ -41,9 +51,9 @@
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-link type="primary">始终显示</mp-link>
-    <mp-link type="primary" underline="hover">悬停显示</mp-link>
-    <mp-link type="primary" underline="none">不显示</mp-link>
+    <mp-link status="primary" underline="always">始终显示</mp-link>
+    <mp-link status="primary" underline="hover">悬停显示</mp-link>
+    <mp-link status="primary" underline="none">不显示</mp-link>
   </mp-space>
 </template>
 ```
@@ -56,28 +66,40 @@
 </template>
 ```
 
-### 自定义颜色
+### 图标
 
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-link text-color="#009688">链接</mp-link>
-    <mp-link text-color="#ab47bc">链接</mp-link>
+    <mp-link icon>默认图标</mp-link>
+    <mp-link>
+      <template #icon><m-icon-github /></template>
+      自定义图标
+    </mp-link>
   </mp-space>
 </template>
 ```
 
-### 默认插槽
+### 加载中
 
 ```html
+<script setup>
+import { ref } from 'vue'
+
+const loading = ref(false)
+const handleClick = () => {
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false
+  }, 3000)
+}
+</script>
+
 <template>
-  <mp-link
-    href="https://maplejs.org/#/zh-CN/home"
-    target="_blank"
-    underline="none"
-  >
-    <mp-button type="primary">跳转首页</mp-button>
-  </mp-link>
+  <mp-space :size="[10, 10]">
+    <mp-link loading>加载中</mp-link>
+    <mp-link :loading="loading" @click="handleClick">点击加载</mp-link>
+  </mp-space>
 </template>
 ```
 
@@ -87,16 +109,14 @@
 
 | 参数           | 说明                                                              | 类型       | 默认值      |
 |--------------|-----------------------------------------------------------------|----------|----------|
-| `type`       | 类型，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `default` |
-| `underline`  | 下划线状态，可选值为 `always` `hover` `none`                              | _string_ | `always` |
+| `status`       | 语义状态，可选值为 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
+| `underline`  | 下划线状态，可选值为 `always` `hover` `none`                              | _string_ | `none` |
 | `disabled`   | 禁用状态                                                            | _boolean_ | `false`  |
-| `text-color` | 文字颜色                                                            | _string_ | `-`      |
-| `text-size`  | 文字尺寸                                                            | _string \| number_  | `-`            |
-| `href`       | 原生 `href` 属性，优先级高于 `to`                                         | _string_ | `-`      |
+| `loading`    | 加载状态，加载时禁止导航和点击                                        | _boolean_ | `false`  |
+| `icon`       | 是否显示默认链接图标                                                  | _boolean_ | `false`  |
+| `href`       | 原生 `href` 属性                                         | _string_ | `-`      |
 | `rel`        | 原生 `rel` 属性                                            | _string_ | `-`      |
 | `target`     | 原生 `target` 属性                                                  | _string_ | `-`      |
-| `to`         | `router-link` `to` 属性，将会渲染为 `<router-link />`                   | _string \| object_  | `-`        |
-| `replace`    | `router-link` `replace` 属性                                      | _boolean_ | `false`  |
 
 ### 事件
 
@@ -109,6 +129,7 @@
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | 链接内容 | `-` |
+| `icon` | 自定义链接图标 | `-` |
 
 ### 样式变量
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
@@ -123,4 +144,5 @@
 | `--link-info-color` | `var(--color-info)`          |
 | `--link-disabled-color` | `var(--color-text-disabled)` |
 | `--link-font-size` | `var(--font-size-md)` |
+| `--link-icon-size` | `1em` |
 | `--link-focus-opacity` | `0.8` |

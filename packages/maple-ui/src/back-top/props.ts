@@ -1,8 +1,7 @@
 import type { PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export const props = {
-  visibilityHeight: {
+  visibleHeight: {
     type: [Number, String],
     default: 200,
   },
@@ -16,10 +15,9 @@ export const props = {
     default: true,
   },
   bottom: [Number, String],
-  target: [String, Object] as PropType<string | HTMLElement>,
-  teleport: {
+  targetContainer: [String, Object] as PropType<string | HTMLElement>,
+  popupContainer: {
     type: Boolean,
     default: true,
   },
-  onClick: defineListenerProp<(event: Event) => void>(),
 }

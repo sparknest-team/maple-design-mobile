@@ -6,8 +6,8 @@ import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
 import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import type { AllowedTime } from '../time-picker/props'
-import { defineListenerProp, pickProps } from '../utils/components'
+import type { DisabledTime } from '../time-picker/props'
+import { pickProps } from '../utils/components'
 
 export type DateRangeType = DateRangePickerType
 export type DateRangePresentation = DateRangePickerPresentation
@@ -17,13 +17,13 @@ export const props = {
     type: Array as PropType<string[]>,
     default: () => [],
   },
-  show: {
+  open: {
     type: Boolean,
     default: undefined,
   },
   presentation: {
     type: String as PropType<DateRangePresentation>,
-    default: 'calendar',
+    default: 'picker',
   },
   type: {
     type: String as PropType<DateRangeType>,
@@ -33,8 +33,8 @@ export const props = {
   useSeconds: Boolean,
   min: String,
   max: String,
-  allowedDates: Function as PropType<(val: string) => boolean>,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledDate: Function as PropType<(val: string) => boolean>,
+  disabledTime: Object as PropType<DisabledTime>,
   separator: {
     type: String,
     default: ' ~ ',
@@ -60,13 +60,6 @@ export const props = {
     default: () => ({}),
   },
   readonly: Boolean,
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(value: string[]) => void>(),
-  onChange: defineListenerProp<(value: string[]) => void>(),
-  onClear: defineListenerProp<(value: string[]) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string[]) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -78,7 +71,6 @@ export const props = {
     'blurColor',
     'disabled',
     'clearable',
-    'onClick',
   ]),
 }
 

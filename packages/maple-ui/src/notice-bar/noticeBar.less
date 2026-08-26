@@ -1,0 +1,95 @@
+:root {
+  --mp-notice-bar-height: 40px;
+  --mp-notice-bar-padding: 0 12px;
+  --mp-notice-bar-font-size: var(--mp-font-size-md);
+  --mp-notice-bar-icon-size: 18px;
+  --mp-notice-bar-icon-margin: 0 8px 0 0;
+  --mp-notice-bar-close-margin: 0 0 0 8px;
+  --mp-notice-bar-info-color: var(--mp-color-white);
+  --mp-notice-bar-info-background: var(--mp-color-info);
+  --mp-notice-bar-success-color: var(--mp-color-white);
+  --mp-notice-bar-success-background: var(--mp-color-success);
+  --mp-notice-bar-warning-color: var(--mp-color-white);
+  --mp-notice-bar-warning-background: var(--mp-color-warning);
+  --mp-notice-bar-danger-color: var(--mp-color-white);
+  --mp-notice-bar-danger-background: var(--mp-color-danger);
+}
+
+.mp-notice-bar {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--mp-notice-bar-height);
+  padding: var(--mp-notice-bar-padding);
+  font-size: var(--mp-notice-bar-font-size);
+  overflow: hidden;
+
+  &--info {
+    color: var(--mp-notice-bar-info-color);
+    background: var(--mp-notice-bar-info-background);
+  }
+
+  &--success {
+    color: var(--mp-notice-bar-success-color);
+    background: var(--mp-notice-bar-success-background);
+  }
+
+  &--warning {
+    color: var(--mp-notice-bar-warning-color);
+    background: var(--mp-notice-bar-warning-background);
+  }
+
+  &--danger {
+    color: var(--mp-notice-bar-danger-color);
+    background: var(--mp-notice-bar-danger-background);
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    font-size: var(--mp-notice-bar-icon-size);
+    margin: var(--mp-notice-bar-icon-margin);
+  }
+
+  &__close {
+    font-size: var(--mp-notice-bar-icon-size);
+    margin: var(--mp-notice-bar-close-margin);
+    cursor: pointer;
+  }
+
+  &__content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__text {
+    white-space: nowrap;
+
+    &--scroll {
+      padding-left: 100%;
+      animation-name: mp-notice-bar-scroll;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+@keyframes mp-notice-bar-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}

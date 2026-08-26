@@ -42,8 +42,8 @@ export interface MessageOptions {
   onOpened?: () => void
   onClosed?: () => void
   // internal
-  teleport?: TeleportProps['to']
-  show?: boolean
+  popupContainer?: TeleportProps['to']
+  open?: boolean
 }
 
 interface UniqMessageOptions {
@@ -95,7 +95,7 @@ const defaultOptionsValue: MessageOptions = {
   loadingType: 'circle',
   loadingSize: 'normal',
   lockScroll: false,
-  teleport: 'body',
+  popupContainer: 'body',
   forbidClick: false,
   showIcon: true,
   closable: false,
@@ -165,8 +165,8 @@ const TransitionGroupHost = {
             style={style}
             data-id={id}
             _update={_update}
-            show={true}
-            onUpdate:show={(value: boolean) => {
+            open={true}
+            onUpdate:open={(value: boolean) => {
               if (!value) {
                 closeById(id)
               }
@@ -338,5 +338,6 @@ withPropsDefaultsSetter(Message, messageProps)
 export { messageProps }
 
 export const _MessageComponent = VarMessage
+export type MessageInstance = InstanceType<typeof VarMessage>
 
 export default Message

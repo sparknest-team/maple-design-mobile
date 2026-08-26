@@ -2,8 +2,8 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 import { datePickerProps as datePickerPropsSource } from '../date-picker'
 import { fieldDecoratorProps } from '../field-decorator'
 import { popupProps } from '../popup'
-import type { AllowedTime } from '../time-picker/props'
-import { defineListenerProp, pickProps } from '../utils/components'
+import type { DisabledTime } from '../time-picker/props'
+import { pickProps } from '../utils/components'
 
 export type DateType = 'year' | 'month' | 'date'
 
@@ -12,7 +12,7 @@ export const props = {
     type: [String, Array] as PropType<string | string[]>,
     default: undefined,
   },
-  show: {
+  open: {
     type: Boolean,
     default: undefined,
   },
@@ -25,12 +25,12 @@ export const props = {
   multiple: Boolean,
   presentation: {
     type: String as PropType<'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'>,
-    default: 'calendar',
+    default: 'picker',
   },
   min: String,
   max: String,
-  allowedDates: Function as PropType<(val: string) => boolean>,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledDate: Function as PropType<(val: string) => boolean>,
+  disabledTime: Object as PropType<DisabledTime>,
   separator: String,
   datePickerProps: {
     type: Object as PropType<Partial<ExtractPropTypes<typeof datePickerPropsSource>>>,
@@ -41,13 +41,6 @@ export const props = {
     default: () => ({}),
   },
   readonly: Boolean,
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(value: string | string[] | undefined) => void>(),
-  onChange: defineListenerProp<(value: string | string[] | undefined) => void>(),
-  onClear: defineListenerProp<(value: string | string[] | undefined) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string | string[] | undefined) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -59,7 +52,6 @@ export const props = {
     'blurColor',
     'disabled',
     'clearable',
-    'onClick',
   ]),
 }
 

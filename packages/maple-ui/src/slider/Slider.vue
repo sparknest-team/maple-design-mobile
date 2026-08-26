@@ -105,7 +105,8 @@ export default defineComponent({
   },
   directives: { Hover },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue', 'start', 'end'],
+  setup(props, { emit }) {
     const maxDistance = ref(0)
     const sliderEl = ref<HTMLElement | null>(null)
     const isScroll = ref(false)
@@ -305,8 +306,8 @@ export default defineComponent({
     }
 
     function emitChange(value: number | number[]) {
-      call(props.onChange, value)
-      call(props['onUpdate:modelValue'], value)
+      emit('change', value)
+      emit('update:modelValue', value)
       eventHandlers.value.onChange?.()
     }
 
@@ -369,7 +370,7 @@ export default defineComponent({
         return
       }
 
-      call(props.onStart)
+      emit('start')
       isScroll.value = true
       const { clientX, clientY } = event.touches[0]
       thumbsProps[type].startPosition = isVertical.value ? clientY : clientX
@@ -399,7 +400,7 @@ export default defineComponent({
     function end() {
       removeDocumentEvents()
 
-      const { range, modelValue, onEnd, step, min } = props
+      const { range, modelValue, step, min } = props
 
       if (!isDisabled.value) {
         thumbsProps[activeThumb].active = false
@@ -419,7 +420,7 @@ export default defineComponent({
         rangeValue = activeThumb === Thumbs.First ? [curValue, modelValue[1]] : [modelValue[0], curValue]
       }
 
-      call(onEnd, range ? rangeValue : curValue)
+      emit('end', range ? rangeValue : curValue)
       isScroll.value = false
     }
 

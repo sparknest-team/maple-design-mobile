@@ -12,7 +12,7 @@
             color="transparent"
             text-color="#fff"
           >
-            <mp-icon name="chevron-left" class="arrow-left" style="margin-top: 1px" />
+            <mp-icon class="arrow-left" style="margin-top: 1px"><MIconChevronLeft /></mp-icon>
           </mp-button>
           <mp-button
             v-if="!showBackIcon && github"
@@ -23,7 +23,7 @@
             text-color="#fff"
             @click="toGithub"
           >
-            <mp-icon name="github" class="github" style="margin-top: 1px" />
+            <mp-icon class="github" style="margin-top: 1px"><MIconGithub /></mp-icon>
           </mp-button>
         </template>
         <template #right>
@@ -35,8 +35,8 @@
             text-color="#fff"
             @click.stop="showThemeMenu = true"
           >
-            <mp-icon name="palette" :size="28" class="palette" />
-            <mp-icon name="chevron-down" class="arrow-down" />
+            <mp-icon :size="28" class="palette"><MIconPalette /></mp-icon>
+            <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
           </mp-button>
           <mp-button
             v-if="languages"
@@ -46,8 +46,8 @@
             text-color="#fff"
             @click.stop="showMenu = true"
           >
-            <mp-icon name="translate" class="i18n" />
-            <mp-icon name="chevron-down" class="arrow-down" />
+            <mp-icon class="i18n"><MIconTranslate /></mp-icon>
+            <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
           </mp-button>
         </template>
       </mp-app-bar>
@@ -91,12 +91,27 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch, type ComputedRef, type Ref } from 'vue'
 import config from '@config'
-import { getBrowserTheme, getMobileIndex, setTheme, watchLang, watchTheme, type Theme } from '@maplejs/maple-cli/client'
+import {
+  IconChevronDown as MIconChevronDown,
+  IconChevronLeft as MIconChevronLeft,
+  IconGithub as MIconGithub,
+  IconPalette as MIconPalette,
+  IconTranslate as MIconTranslate,
+} from '@maplejs/icons-vue'
+import {
+  getBrowserTheme,
+  getMobileIndex,
+  persistTheme,
+  setTheme,
+  watchLang,
+  type Theme,
+} from '@maplejs/maple-cli/client'
 import { pascalCase } from '@maplejs/maple-shared'
 import { useRoute } from 'vue-router'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
+  components: { MIconChevronLeft, MIconGithub, MIconPalette, MIconChevronDown, MIconTranslate },
   setup() {
     const bigCamelizeComponentName: Ref<string> = ref('')
     const route = useRoute()
@@ -110,7 +125,7 @@ export default defineComponent({
     const redirect = config?.mobile?.redirect ?? ''
     const github: Ref<string> = ref(config?.mobile?.header?.github ?? '')
     const darkMode: Ref<string> = ref(config?.mobile?.header?.darkMode ?? '')
-    const currentTheme = ref(getBrowserTheme())
+    const currentTheme = ref(getBrowserTheme('demo'))
 
     const changeLanguage = (lang: string) => {
       language.value = lang
@@ -154,35 +169,23 @@ export default defineComponent({
       },
     )
 
-    const getThemeMessage = () => ({ action: 'theme-change', from: 'mobile', data: currentTheme.value })
-
     const setCurrentTheme = (theme: Theme) => {
       currentTheme.value = theme
-      setTheme(currentTheme.value)
-      window.localStorage.setItem(config?.themeKey, currentTheme.value)
+      setTheme(theme)
+      persistTheme(theme, 'demo')
     }
 
     const toggleTheme = (value: Theme) => {
       setCurrentTheme(value)
-      window.postMessage(getThemeMessage(), '*')
       showThemeMenu.value = false
-
-      if (!isPhone() && inIframe()) {
-        ;(window.top as any).postMessage(getThemeMessage(), '*')
-      }
     }
 
     ;(window as any).toggleTheme = toggleTheme
     setTheme(currentTheme.value)
-    window.postMessage(getThemeMessage(), '*')
 
     document.body.addEventListener('click', () => {
       showMenu.value = false
       showThemeMenu.value = false
-    })
-
-    watchTheme((theme, from) => {
-      from === 'pc' && setCurrentTheme(theme)
     })
 
     return {

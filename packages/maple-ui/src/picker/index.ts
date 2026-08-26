@@ -7,11 +7,9 @@ import { props as pickerProps, type PickerColumnOption } from './props'
 interface PickerOptions {
   modelValue?: (string | number)[]
   columns?: PickerColumnOption[] | PickerColumnOption[][]
-  show?: boolean
+  open?: boolean
   title?: string
-  textKey?: string
-  valueKey?: string
-  childrenKey?: string
+  fieldNames?: { label?: string; value?: string; children?: string }
   toolbar?: boolean
   cascade?: boolean
   optionHeight?: number | string
@@ -22,9 +20,9 @@ interface PickerOptions {
   confirmButtonTextColor?: string
   cancelButtonTextColor?: string
   safeArea?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
-  teleport?: TeleportProps['to']
+  maskClosable?: boolean
+  escToClose?: boolean
+  popupContainer?: TeleportProps['to']
   dynamic?: boolean
   onClickOverlay?: () => void
   onOpen?: () => void
@@ -55,7 +53,7 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
     const pickerOptions: PickerOptions = isArray(options) ? { columns: options } : options
     const reactivePickerOptions: PickerOptions = reactive(pickerOptions)
     reactivePickerOptions.dynamic = true
-    reactivePickerOptions.teleport = 'body'
+    reactivePickerOptions.popupContainer = 'body'
     singletonOptions = reactivePickerOptions
 
     function resetSingletonOptions() {
@@ -71,7 +69,7 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
           indexes,
           options,
         })
-        reactivePickerOptions.show = false
+        reactivePickerOptions.open = false
         resetSingletonOptions()
       },
       onCancel: (values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => {
@@ -82,7 +80,7 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
           indexes,
           options,
         })
-        reactivePickerOptions.show = false
+        reactivePickerOptions.open = false
         resetSingletonOptions()
       },
       onClose: () => {
@@ -101,12 +99,12 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
         unmountInstance()
         resetSingletonOptions()
       },
-      'onUpdate:show': (value: boolean) => {
-        reactivePickerOptions.show = value
+      'onUpdate:open': (value: boolean) => {
+        reactivePickerOptions.open = value
       },
     })
 
-    reactivePickerOptions.show = true
+    reactivePickerOptions.open = true
   })
 }
 
@@ -118,7 +116,7 @@ Picker.close = function () {
   const prevSingletonOptions = singletonOptions
   singletonOptions = null
   nextTick().then(() => {
-    prevSingletonOptions.show = false
+    prevSingletonOptions.open = false
   })
 }
 
@@ -129,6 +127,7 @@ withPropsDefaultsSetter(Picker, pickerProps)
 
 export { pickerProps }
 
+export type PickerInstance = InstanceType<typeof VarPicker>
 export const _PickerComponent = VarPicker
 
 export default Picker

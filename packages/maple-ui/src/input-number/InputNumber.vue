@@ -20,7 +20,7 @@
       @keydown="handleKeydown"
     >
       <template #prefix>
-        <template v-if="controlType === 'split' && controls && !readonly">
+        <template v-if="mode === 'button' && !readonly">
           <button
             :class="classes(n('step-button'), [mergedDisabled || isMin, n('step-button--disabled')])"
             type="button"
@@ -31,7 +31,7 @@
             @mouseleave="clearRepeatTimer"
           >
             <slot name="minus">
-              <mp-icon name="minus" />
+              <mp-icon><MIconMinus /></mp-icon>
             </slot>
           </button>
         </template>
@@ -44,8 +44,8 @@
         <span v-if="$slots.suffix" :class="n('suffix')">
           <slot name="suffix" />
         </span>
-        <template v-if="controls && !readonly">
-          <div v-if="controlType === 'stacked'" :class="n('step')">
+        <template v-if="mode !== 'input' && !readonly">
+          <div v-if="mode === 'embed'" :class="n('step')">
             <div :class="n('step-divider-vertical')" />
             <div :class="n('step-buttons')">
               <button
@@ -58,7 +58,7 @@
                 @mouseleave="clearRepeatTimer"
               >
                 <slot name="plus">
-                  <mp-icon name="chevron-up" />
+                  <mp-icon><MIconChevronUp /></mp-icon>
                 </slot>
               </button>
               <div :class="n('step-divider-horizontal')" />
@@ -72,7 +72,7 @@
                 @mouseleave="clearRepeatTimer"
               >
                 <slot name="minus">
-                  <mp-icon name="chevron-down" />
+                  <mp-icon><MIconChevronDown /></mp-icon>
                 </slot>
               </button>
             </div>
@@ -88,7 +88,7 @@
             @mouseleave="clearRepeatTimer"
           >
             <slot name="plus">
-              <mp-icon name="plus" />
+              <mp-icon><MIconPlus /></mp-icon>
             </slot>
           </button>
         </template>
@@ -103,6 +103,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
+import {
+  IconChevronDown as MIconChevronDown,
+  IconChevronUp as MIconChevronUp,
+  IconMinus as MIconMinus,
+  IconPlus as MIconPlus,
+} from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import { Decimal } from 'decimal.js'
 import { useFormItem } from '../form-item'
@@ -126,17 +132,22 @@ function isNumber(value: unknown): value is number {
 export default defineComponent({
   name,
   components: {
+    MIconMinus,
+    MIconChevronUp,
+    MIconChevronDown,
+    MIconPlus,
     MpIcon,
     MpInput,
   },
   props,
-  setup(props) {
+  emits: ['change', 'input', 'focus', 'blur', 'clear', 'keydown', 'update:modelValue'],
+  setup(props, { emit }) {
     const input = ref<InstanceType<typeof MpInput> | null>(null)
     const { form } = useForm()
     const { mergedError: formMergedError, eventHandlers } = useFormItem()
     const mergedDisabled = computed(() => Boolean(form?.disabled.value || props.disabled))
     const mergedError = computed(() => Boolean(formMergedError.value || props.error))
-    const inputSize = computed(() => (props.size === 'xs' || props.size === 'sm' ? 'small' : 'normal'))
+    const inputSize = computed(() => props.size)
     const inputVariant = computed(() => 'outlined')
     const mergedPrecision = computed(() => {
       if (isNumber(props.precision)) {
@@ -171,7 +182,7 @@ export default defineComponent({
     const rootClasses = computed(() =>
       classes(
         n(),
-        n(`--control-type-${props.controlType}`),
+        n(`--mode-${props.mode}`),
         [props.size, n(`--size-${props.size}`)],
         [props.readonly, n('--readonly')],
       ),
@@ -224,7 +235,7 @@ export default defineComponent({
         inputValue.value = stringValue
       }
 
-      call(props['onUpdate:modelValue'], finalValue)
+      emit('update:modelValue', finalValue)
     }
 
     function nextStep(method: StepMethod, event: Event) {
@@ -241,8 +252,8 @@ export default defineComponent({
 
       inputValue.value = getStringValue(nextValue)
       updateNumberStatus(nextValue)
-      call(props['onUpdate:modelValue'], nextValue)
-      call(props.onChange, nextValue, event)
+      emit('update:modelValue', nextValue)
+      emit('change', nextValue, event)
       eventHandlers.value.onChange?.()
     }
 
@@ -272,11 +283,11 @@ export default defineComponent({
         inputValue.value = props.formatter?.(value) ?? value
         updateNumberStatus(valueNumber.value)
 
-        call(props.onInput, valueNumber.value, inputValue.value, event)
+        emit('input', valueNumber.value, inputValue.value, event)
         eventHandlers.value.onInput?.()
         if (props.modelEvent === 'input') {
-          call(props['onUpdate:modelValue'], valueNumber.value)
-          call(props.onChange, valueNumber.value, event)
+          emit('update:modelValue', valueNumber.value)
+          emit('change', valueNumber.value, event)
           eventHandlers.value.onChange?.()
         }
       }
@@ -288,32 +299,32 @@ export default defineComponent({
       }
 
       handleExceedRange()
-      call(props.onChange, valueNumber.value, event)
+      emit('change', valueNumber.value, event)
       eventHandlers.value.onChange?.()
     }
 
     function handleFocus(event: FocusEvent) {
-      call(props.onFocus, event)
+      emit('focus', event)
       eventHandlers.value.onFocus?.()
     }
 
     function handleBlur(event: FocusEvent) {
-      call(props.onBlur, event)
+      emit('blur', event)
       eventHandlers.value.onBlur?.()
     }
 
     function handleClear(event: Event | string) {
       const clearEvent = event instanceof Event ? event : new Event('clear')
       inputValue.value = ''
-      call(props['onUpdate:modelValue'], undefined)
-      call(props.onChange, undefined, clearEvent)
-      call(props.onClear, clearEvent)
+      emit('update:modelValue', undefined)
+      emit('change', undefined, clearEvent)
+      emit('clear', clearEvent)
       eventHandlers.value.onChange?.()
       eventHandlers.value.onClear?.()
     }
 
     function handleKeydown(event: KeyboardEvent) {
-      call(props.onKeydown, event)
+      emit('keydown', event)
       if (event.defaultPrevented || props.readonly || form?.readonly.value) {
         return
       }

@@ -57,7 +57,7 @@ const anchor = ref(100)
 | `content-draggable` | 是否允许拖拽面板内容       | _boolean_ | `true`  |
 | `duration`          | 动画时长，单位为 `ms`          | _number \| string_ | `300`  |
 | `elevation`         | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级                                                            | _string \| number \| boolean_ | `true`            |
-| `teleport`          | 弹出层挂载的位置              | _TeleportProps['to'] \| false_ | `body`  |
+| `popupContainer`          | 弹出层挂载的位置              | _TeleportProps['to'] \| false_ | `body`  |
 | `safe-area`         | 是否开启底部安全区适配        | _boolean_ | `false`  |
 
 ### 事件
@@ -82,7 +82,7 @@ const anchor = ref(100)
 | `--floating-panel-z-index` | `999` |
 | `--floating-panel-border-top` | `none` |
 | `--floating-panel-border-radius` | `0` |
-| `--floating-panel-background` | `var(--color-surface-container-high)` |
+| `--floating-panel-background` | `var(--color-fill-2)` |
 | `--floating-panel-header-height` | `40px` |
 | `--floating-panel-toolbar-width` | `20px` |
 | `--floating-panel-toolbar-height` | `3px` |

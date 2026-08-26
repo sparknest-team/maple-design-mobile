@@ -17,17 +17,14 @@ export interface FieldNameMap {
 
 export interface FieldNameProps {
   fieldNames?: FieldNames
-  labelKey?: string
-  valueKey?: string
-  childrenKey?: string
 }
 
-export function useFieldNames(props: FieldNameProps): ComputedRef<FieldNameMap> {
+export function useFieldNames(props: FieldNameProps, defaults?: Partial<FieldNameMap>): ComputedRef<FieldNameMap> {
   return computed(() => ({
-    label: props.fieldNames?.label ?? props.labelKey ?? 'label',
-    value: props.fieldNames?.value ?? props.valueKey ?? 'value',
-    children: props.fieldNames?.children ?? props.childrenKey ?? 'children',
-    disabled: props.fieldNames?.disabled ?? 'disabled',
+    label: props.fieldNames?.label ?? defaults?.label ?? 'label',
+    value: props.fieldNames?.value ?? defaults?.value ?? 'value',
+    children: props.fieldNames?.children ?? defaults?.children ?? 'children',
+    disabled: props.fieldNames?.disabled ?? defaults?.disabled ?? 'disabled',
   }))
 }
 

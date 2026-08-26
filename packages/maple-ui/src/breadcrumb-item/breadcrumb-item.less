@@ -23,7 +23,21 @@
   &__more-icon {
     display: inline-flex;
     align-items: center;
-    letter-spacing: 1px;
+  }
+
+  &__dropdown-icon {
+    display: inline-flex;
+    margin-left: 4px;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+
+  &--dropdown-icon-active {
+    transform: rotate(180deg);
+  }
+
+  &--with-dropdown {
+    cursor: pointer;
   }
 
   &--active {

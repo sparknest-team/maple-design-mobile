@@ -3,6 +3,7 @@ export default {
   morePages: '更多页码',
   showPageSize: '每页条数',
   showJumper: '页码跳转',
+  size: '分页尺寸',
   showTotal: '展示总数',
   total: '共',
   item: '条',

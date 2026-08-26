@@ -6,9 +6,9 @@ export default defineConfig({
   host: 'localhost',
   port: 8080,
   title: 'Maple',
-  logo: 'varlet_icon.png',
+  logo: 'maple_icon.png',
   defaultLanguage: 'zh-CN',
-  themeKey: 'VARLET_V3_THEME',
+  themeKey: 'MAPLE_V3_THEME',
   defaultLightTheme: 'md3LightTheme',
   defaultDarkTheme: 'md3DarkTheme',
   useMobile: false,
@@ -386,16 +386,8 @@ export default defineConfig({
           'zh-CN': '贡献者',
           'en-US': 'Contributors',
         },
-        link: 'https://github.com/varletjs/varlet/graphs/contributors',
-        image: 'https://contrib.rocks/image?repo=varletjs/varlet',
-      },
-      sponsors: {
-        label: {
-          'zh-CN': '赞助者',
-          'en-US': 'Sponsors',
-        },
-        link: 'https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg',
-        image: 'https://cdn.jsdelivr.net/gh/varletjs/maple-static/sponsorkit/sponsors.svg',
+        link: 'https://github.com/loca-spirit/maple-design-mobile/graphs/contributors',
+        image: 'https://contrib.rocks/image?repo=loca-spirit/maple-design-mobile',
       },
       license: {
         'zh-CN': '组件库基于 MIT 协议，您可以自由的使用和分享',
@@ -426,35 +418,9 @@ export default defineConfig({
             },
           ],
         },
-        {
-          name: 'varlet.pages.dev',
-          items: [
-            {
-              label: 'v3.x',
-              link: 'https://varlet.pages.dev',
-            },
-            {
-              label: 'v2.x',
-              link: 'https://varlet.pages.dev/v2',
-            },
-          ],
-        },
-        {
-          name: 'varletjs.vercel.app',
-          items: [
-            {
-              label: 'v3.x',
-              link: 'https://maple-varletjs.vercel.app',
-            },
-            {
-              label: 'v2.x',
-              link: 'https://maple-git-v2x-varletjs.vercel.app',
-            },
-          ],
-        },
       ],
-      github: 'https://github.com/varletjs/varlet',
-      changelog: 'https://github.com/varletjs/varlet/blob/main/CHANGELOG.md',
+      github: 'https://github.com/loca-spirit/maple-design-mobile',
+      changelog: 'https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md',
       playground: 'https://maplejs.org/playground',
       themes: [
         { 'zh-CN': 'Md2 亮色', 'en-US': 'Md2 Light', value: 'lightTheme' },
@@ -487,7 +453,7 @@ export default defineConfig({
         'zh-CN': '中文',
         'en-US': 'English',
       },
-      github: 'https://github.com/varletjs/varlet',
+      github: 'https://github.com/loca-spirit/maple-design-mobile',
       themes: [
         { 'zh-CN': 'Md2 亮色', 'en-US': 'Md2 Light', value: 'lightTheme' },
         { 'zh-CN': 'Md2 暗色', 'en-US': 'Md2 Dark', value: 'darkTheme' },
@@ -731,12 +697,8 @@ export default defineConfig({
     'color-hl-group-i': '#7eeeee',
   },
   icons: {
-    name: 'maple-icons',
-    namespace: 'mp-icon',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontFamilyClassName: 'mp-icon--set',
-    base64: true,
+    entry: 'packages/maple-icons-vue/svg',
+    output: 'packages/maple-icons-vue/src',
   },
   esbuild: {
     target: 'es2016',

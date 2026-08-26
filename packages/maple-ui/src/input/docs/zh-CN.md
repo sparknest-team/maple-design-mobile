@@ -2,161 +2,124 @@
 
 ### 介绍
 
-输入框的行为和基本原生一致，用户输入时始终获得一个符合 `type` 规则的字符串，可选择 `standard` 和 `outlined` 两种风格，默认为 `standard`。
+用于输入单行文本。组件支持多种外观、浮动提示、输入类型、状态以及前后缀内容。
 
-### 标准外观
+### 基础用法
 
 ```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-  const value2 = ref('')
-  const value3 = ref('')
-  const value4 = ref('')
-  const value5 = ref('')
-  const value7 = ref('')
-  const value8 = ref('')
-  const value9 = ref('')
-  const value11 = ref('')
-  const value12 = ref('')
-  const value13 = ref('')
-</script>
-
-<template>
-  <mp-space direction="column" size="large">
-    <mp-input placeholder="请输入文本" v-model="value" />
-    <mp-input placeholder="请输入数字" type="number" v-model="value13" />
-    <mp-input placeholder="只读" readonly v-model="value2" />
-    <mp-input placeholder="禁用" disabled v-model="value3" />
-    <mp-input placeholder="可清除" clearable v-model="value4" />
-    <mp-input clearable placeholder="使用插槽自定义清除图标" v-model="value5">
-      <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
-      </template>
-    </mp-input>
-    <mp-input placeholder="显示图标" v-model="value7">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" />
-      </template>
-    </mp-input>
-    <mp-input placeholder="自定义图标尺寸" v-model="value8">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
-      </template>
-    </mp-input>
-    <mp-input placeholder="最大长度" :maxlength="10" v-model="value9" />
-    <mp-input placeholder="小尺寸" size="small" v-model="value11" />
-    <mp-input placeholder="移除空白字符" v-model.trim="value12" />
-  </mp-space>
-</template>
-
-<style>
-  .prefix {
-    margin-right: 6px;
-  }
-
-  .suffix {
-    margin-left: 6px;
-  }
-</style>
+<mp-input v-model="value" placeholder="请输入内容" />
+<mp-input v-model="clearableValue" clearable placeholder="可清除文本" />
 ```
 
-### 外边框外观
+### 外观变体
 
 ```html
-<script setup>
-  import { ref } from 'vue'
+<mp-input variant="filled" placeholder="填充外观" />
+<mp-input variant="outlined" placeholder="描边外观" />
+<mp-input variant="standard" placeholder="标准外观" />
+```
 
-  const value = ref('')
-  const value2 = ref('')
-  const value3 = ref('')
-  const value4 = ref('')
-  const value5 = ref('')
-  const value7 = ref('')
-  const value8 = ref('')
-  const value9 = ref('')
-  const value11 = ref('')
-  const value12 = ref('')
-  const value13 = ref('')
-</script>
+### 提示文字
 
-<template>
-  <mp-space direction="column" size="large">
-    <mp-input variant="outlined" placeholder="请输入文本" v-model="value" />
-    <mp-input variant="outlined" placeholder="请输入数字" type="number" v-model="value13" />
-    <mp-input variant="outlined" placeholder="只读" readonly v-model="value2" />
-    <mp-input variant="outlined" placeholder="禁用" disabled v-model="value3" />
-    <mp-input variant="outlined" placeholder="可清除" clearable v-model="value4" />
-    <mp-input variant="outlined" clearable placeholder="使用插槽自定义清除图标" v-model="value5">
-      <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
-      </template>
-    </mp-input>
-    <mp-input variant="outlined" placeholder="显示图标" v-model="value7">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" />
-      </template>
-    </mp-input>
-    <mp-input variant="outlined" placeholder="自定义图标尺寸" v-model="value8">
-      <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
-      </template>
-      <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
-      </template>
-    </mp-input>
-    <mp-input variant="outlined" placeholder="最大长度" :maxlength="10" v-model="value9" />
-    <mp-input variant="outlined" placeholder="小尺寸" size="small" v-model="value11" />
-    <mp-input variant="outlined" placeholder="移除空白字符" v-model.trim="value12" />
-  </mp-space>
+`hint` 不依赖特定外观。开启时，placeholder 会在输入框聚焦或有值时作为提示文字上浮；关闭时保持原生占位符行为。
+
+```html
+<mp-input variant="filled" placeholder="用户名" />
+<mp-input variant="outlined" placeholder="用户名" />
+<mp-input variant="standard" placeholder="用户名" />
+
+<mp-input variant="filled" :hint="false" placeholder="用户名" />
+<mp-input variant="outlined" :hint="false" placeholder="用户名" />
+<mp-input variant="standard" :hint="false" placeholder="用户名" />
+```
+
+### 输入类型
+
+```html
+<mp-input type="text" placeholder="请输入文本" />
+<mp-input type="number" placeholder="请输入数字" />
+<mp-input type="tel" placeholder="请输入手机号" />
+<mp-input type="email" placeholder="请输入邮箱" />
+<mp-input type="password" placeholder="请输入密码" />
+```
+
+### 尺寸
+
+```html
+<template v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
+  <mp-input v-for="variant in ['filled', 'outlined', 'standard']" :key="variant" :size="size" :variant="variant" />
 </template>
+```
 
-<style>
-  .prefix {
-    margin-right: 6px;
-  }
+### 状态
 
-  .suffix {
-    margin-left: 6px;
-  }
-</style>
+```html
+<mp-input model-value="Maple Design" readonly /> <mp-input model-value="Maple Design" disabled />
+```
+
+### 前缀和后缀
+
+```html
+<mp-input placeholder="请输入手机号"><template #prefix>+86</template></mp-input>
+<mp-input placeholder="请输入金额"><template #suffix>RMB</template></mp-input>
+```
+
+### 字数限制
+
+```html
+<mp-input v-model="value" :max-length="10" clearable />
+```
+
+### 自定义清除图标
+
+```html
+<mp-input v-model="value" clearable>
+  <template #clear-icon="{ clear }">
+    <m-icon-error @click="clear" />
+  </template>
+</mp-input>
+```
+
+### 输入修饰符与原生属性
+
+```html
+<mp-input v-model.trim="value" />
+<mp-input
+  type="email"
+  autocomplete="email"
+  enterkeyhint="next"
+  aria-label="邮箱"
+  :input-attrs="{ name: 'email', autocapitalize: 'none' }"
+/>
 ```
 
 ## API
 
 ### 属性
 
-| 参数                     | 说明                                                                                                         | 类型               | 默认值     |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------ | ---------- |
-| `v-model`                | 绑定的值                                                                                                     | _string_           | `-`        |
-| `placeholder`            | 占位符                                                                                                       | _string_           | `-`        |
-| `type`                   | 输入框类型, 可选值为 `text` `password` `number` `tel`                                                        | _string_           | `text`     |
-| `size`                   | 输入框尺寸，可选值 `normal` `small`                                                                          | _string_           | `normal`   |
-| `variant`                | 输入框风格, 可选值为 `standard` `outlined`                                                                   | _string_           | `standard` |
-| `maxlength`              | 最大长度                                                                                                     | _string \| number_ | `-`        |
-| `line`                   | 是否显示分割线                                                                                               | _boolean_          | `true`     |
-| `hint`                   | 是否使用占位符作为提示                                                                                       | _boolean_          | `true`     |
-| `text-color`             | 文字颜色                                                                                                     | _string_           | `-`        |
-| `focus-color`            | 聚焦时的主要颜色                                                                                             | _string_           | `-`        |
-| `blur-color`             | 失焦时的主要颜色                                                                                             | _string_           | `-`        |
-| `readonly`               | 是否只读                                                                                                     | _boolean_          | `false`    |
-| `disabled`               | 是否禁用                                                                                                     | _boolean_          | `false`    |
-| `clearable`              | 是否可清除                                                                                                   | _boolean_          | `false`    |
-| `autofocus`              | 是否自动聚焦                                                                                                 | _boolean_          | `false`    |
-| `enterkeyhint`           | 定制回车键样式，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_           | `-`        |
-| `aria-label` _**3.8.4**_ | 参见 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA/Attributes/aria-label)            | _string_           | `-`        |
+| 参数           | 说明                                                        | 类型               | 默认值     |
+| -------------- | ----------------------------------------------------------- | ------------------ | ---------- |
+| `v-model`      | 绑定值                                                      | _string_           | `-`        |
+| `type`         | 输入类型，可选值为 `text` `password` `number` `tel` `email` | _string_           | `text`     |
+| `placeholder`  | 占位符，也可作为浮动提示文字                                | _string_           | `-`        |
+| `size`         | 尺寸，可选值为 `xs` `sm` `md` `lg` `xl`                     | _ComponentSize_    | `md`       |
+| `variant`      | 外观，可选值为 `filled` `outlined` `standard`               | _string_           | `standard` |
+| `hint`         | 是否将 placeholder 用作浮动提示文字                         | _boolean_          | `true`     |
+| `line`         | 是否显示分割线                                              | _boolean_          | `true`     |
+| `max-length`   | 最大输入长度并显示字数统计                                  | _string \| number_ | `-`        |
+| `readonly`     | 是否只读                                                    | _boolean_          | `false`    |
+| `disabled`     | 是否禁用                                                    | _boolean_          | `false`    |
+| `clearable`    | 是否可清除                                                  | _boolean_          | `false`    |
+| `autofocus`    | 是否自动聚焦                                                | _boolean_          | `false`    |
+| `enterkeyhint` | 移动端回车键提示                                            | _string_           | `-`        |
+| `autocomplete` | 原生自动填充策略                                            | _string_           | `off`      |
+| `aria-label`   | 输入框无障碍标签                                            | _string_           | `-`        |
+| `input-attrs`  | 透传给原生 input 的属性                                     | _object_           | `-`        |
+| `text-color`   | 文字颜色                                                    | _string_           | `-`        |
+| `focus-color`  | 聚焦颜色                                                    | _string_           | `-`        |
+| `blur-color`   | 失焦颜色                                                    | _string_           | `-`        |
 
-校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
+校验规则配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
 ### 方法
 
@@ -167,62 +130,29 @@
 
 ### 事件
 
-| 事件名   | 说明       | 参数                            |
-| -------- | ---------- | ------------------------------- |
-| `focus`  | 聚焦时触发 | `event: Event`                  |
-| `blur`   | 失焦时触发 | `event: Event`                  |
-| `click`  | 点击时触发 | `event: Event`                  |
-| `clear`  | 清除时触发 | `value: string`                 |
-| `input`  | 输入时触发 | `value: string`, `event: Event` |
-| `change` | 更新时触发 | `value: string`, `event: Event` |
+| 事件名    | 说明             | 参数                          |
+| --------- | ---------------- | ----------------------------- |
+| `focus`   | 聚焦时触发       | `event: FocusEvent`           |
+| `blur`    | 失焦时触发       | `event: FocusEvent`           |
+| `click`   | 点击时触发       | `event: Event`                |
+| `clear`   | 清除时触发       | `value: string`               |
+| `input`   | 输入时触发       | `value: string, event: Event` |
+| `change`  | 值提交变更时触发 | `value: string, event: Event` |
+| `keydown` | 按键时触发       | `event: KeyboardEvent`        |
 
 ### 插槽
 
-| 插槽名       | 说明     | 参数                                                                     |
-| ------------ | -------- | ------------------------------------------------------------------------ |
-| `prefix`     | 前缀     | `-`                                                                      |
-| `suffix`     | 后缀     | `-`                                                                      |
-| `clear-icon` | 清除图标 | `clear: (e: Event) => void` 清除函数(在使用插槽时, 可用于清除输入框内容) |
+| 插槽名       | 说明     | 参数                |
+| ------------ | -------- | ------------------- |
+| `prefix`     | 前缀     | `-`                 |
+| `suffix`     | 后缀     | `-`                 |
+| `clear-icon` | 清除图标 | `clear: () => void` |
 
 ### 样式变量
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+Input 自身提供以下变量；容器外观相关变量请参考 [FieldDecorator](#/zh-CN/field-decorator)。
 
-| 变量名                                                  | 默认值                       |
-| ------------------------------------------------------- | ---------------------------- |
-| `--field-decorator-text-color`                          | `#555`                       |
-| `--field-decorator-error-color`                         | `var(--color-danger)`        |
-| `--field-decorator-blur-color`                          | `#888`                       |
-| `--field-decorator-focus-color`                         | `var(--color-primary)`       |
-| `--field-decorator-placeholder-size`                    | `16px`                       |
-| `--field-decorator-icon-size`                           | `20px`                       |
-| `--field-decorator-line-size`                           | `1px`                        |
-| `--field-decorator-line-focus-size`                     | `2px`                        |
-| `--field-decorator-line-border-radius`                  | `4px`                        |
-| `--field-decorator-disabled-color`                      | `var(--color-text-disabled)` |
-| `--field-decorator-standard-normal-margin-top`          | `22px`                       |
-| `--field-decorator-standard-normal-margin-bottom`       | `4px`                        |
-| `--field-decorator-standard-normal-icon-margin-top`     | `22px`                       |
-| `--field-decorator-standard-normal-icon-margin-bottom`  | `4px`                        |
-| `--field-decorator-standard-normal-non-hint-margin-top` | `4px`                        |
-| `--field-decorator-standard-small-margin-top`           | `18px`                       |
-| `--field-decorator-standard-small-margin-bottom`        | `4px`                        |
-| `--field-decorator-standard-small-icon-margin-top`      | `18px`                       |
-| `--field-decorator-standard-small-icon-margin-bottom`   | `4px`                        |
-| `--field-decorator-standard-small-non-hint-margin-top`  | `2px`                        |
-| `--field-decorator-outlined-normal-margin-top`          | `16px`                       |
-| `--field-decorator-outlined-normal-margin-bottom`       | `16px`                       |
-| `--field-decorator-outlined-normal-padding-left`        | `16px`                       |
-| `--field-decorator-outlined-normal-padding-right`       | `16px`                       |
-| `--field-decorator-outlined-normal-placeholder-space`   | `4px`                        |
-| `--field-decorator-outlined-normal-icon-margin-top`     | `16px`                       |
-| `--field-decorator-outlined-normal-icon-margin-bottom`  | `16px`                       |
-| `--field-decorator-outlined-small-margin-top`           | `8px`                        |
-| `--field-decorator-outlined-small-margin-bottom`        | `8px`                        |
-| `--field-decorator-outlined-small-padding-left`         | `12px`                       |
-| `--field-decorator-outlined-small-padding-right`        | `12px`                       |
-| `--field-decorator-outlined-small-placeholder-space`    | `2px`                        |
-| `--field-decorator-outlined-small-icon-margin-top`      | `8px`                        |
-| `--field-decorator-outlined-small-icon-margin-bottom`   | `8px`                        |
-| `--input-input-height`                                  | `24px`                       |
-| `--input-input-font-size`                               | `16px`                       |
+| 变量名                    | 默认值 |
+| ------------------------- | ------ |
+| `--input-input-height`    | `24px` |
+| `--input-input-font-size` | `16px` |

@@ -6,7 +6,7 @@
         n(),
         n('$--box'),
         formatElevation(elevation, 2),
-        [onClick, n('--cursor')],
+        [n('--cursor')],
         [round, n('--round')],
         [inline, n('$--inline-flex')],
       )
@@ -36,9 +36,10 @@ export default defineComponent({
   name,
   directives: { Ripple },
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {

@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Checkbox, checkboxProps)
 
 export { checkboxProps }
 
+export type CheckboxInstance = InstanceType<typeof Checkbox>
 export const _CheckboxComponent = Checkbox
 
 export default Checkbox

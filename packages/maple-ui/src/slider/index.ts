@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Slider, sliderProps)
 
 export { sliderProps }
 
+export type SliderInstance = InstanceType<typeof Slider>
 export const _SliderComponent = Slider
 
 export default Slider

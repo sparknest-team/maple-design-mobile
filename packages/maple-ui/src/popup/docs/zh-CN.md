@@ -2,7 +2,7 @@
 
 ### 介绍
 
-创建一个可以从上、下、左、右、中心弹出的容器，用于展示信息。默认使用 `teleport` 插入到 `body` 尾部。
+创建一个可以从上、下、左、右、中心弹出的容器，用于展示信息。默认使用 `popupContainer` 插入到 `body` 尾部。
 
 
 ### 弹出位置
@@ -37,7 +37,7 @@ const right = ref(false)
     </mp-button>
   </mp-space>
 
-  <mp-popup v-model:show="center">
+  <mp-popup v-model:open="center">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
       瓶身描绘的牡丹一如你初妆,
@@ -46,7 +46,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="bottom" v-model:show="bottom">
+  <mp-popup position="bottom" v-model:open="bottom">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
       瓶身描绘的牡丹一如你初妆,
@@ -55,7 +55,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="top" v-model:show="top">
+  <mp-popup position="top" v-model:open="top">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
       瓶身描绘的牡丹一如你初妆,
@@ -64,7 +64,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="left" v-model:show="left">
+  <mp-popup position="left" v-model:open="left">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
       瓶身描绘的牡丹一如你初妆,
@@ -73,7 +73,7 @@ const right = ref(false)
     </div>
   </mp-popup>
 
-  <mp-popup position="right" v-model:show="right">
+  <mp-popup position="right" v-model:open="right">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
       瓶身描绘的牡丹一如你初妆,
@@ -97,23 +97,23 @@ const right = ref(false)
 <script setup>
 import { ref } from 'vue'
 
-const overlayClass = ref(false)
-const overlayStyle = ref(false)
+const maskClass = ref(false)
+const maskStyle = ref(false)
 </script>
 
 <template>
   <mp-space direction="column" :size="[10, 0]">
-    <mp-button type="primary" block @click="overlayClass = true">
+    <mp-button type="primary" block @click="maskClass = true">
       遮罩层 class
     </mp-button>
-    <mp-button type="primary" block @click="overlayStyle = true">
+    <mp-button type="primary" block @click="maskStyle = true">
       遮罩层 style
     </mp-button>
   </mp-space>
 
   <mp-popup
-    overlay-class="popup-example-custom-overlay"
-    v-model:show="overlayClass"
+    mask-class="popup-example-custom-overlay"
+    v-model:open="maskClass"
   >
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
@@ -124,8 +124,8 @@ const overlayStyle = ref(false)
   </mp-popup>
 
   <mp-popup
-    :overlay-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}"
-    v-model:show="overlayStyle"
+    :mask-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}"
+    v-model:open="maskStyle"
   >
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡,
@@ -164,7 +164,7 @@ const event = ref(false)
   </mp-button>
 
   <mp-popup
-    v-model:show="event"
+    v-model:open="event"
     @open="Message.info('open')"
     @opened="Message.success('opened')"
     @close="Message.warning('close')"
@@ -193,17 +193,17 @@ const event = ref(false)
 
 | 参数                       | 说明                                               | 类型                    | 默认值      |
 |--------------------------|--------------------------------------------------|-----------------------|----------|
-| `v-model:show`           | 是否显示弹出层                                          | _boolean_             | `false`  |
+| `v-model:open`           | 是否显示弹出层                                          | _boolean_             | `false`  |
 | `position`               | 弹出位置，可选值为 `top` `bottom` `right` `left` `center` | _string_              | `center` |
-| `overlay`                | 是否显示遮罩层                                          | _boolean_             | `true`   |
-| `overlay-class`          | 自定义遮罩层的 class                                    | _string_              | `-`      |
-| `overlay-style`          | 自定义遮罩层的 style                                    | _object_              | `-`      |
+| `mask`                | 是否显示遮罩层                                          | _boolean_             | `true`   |
+| `mask-class`          | 自定义遮罩层的 class                                    | _string_              | `-`      |
+| `mask-style`          | 自定义遮罩层的 style                                    | _object_              | `-`      |
 | `default-style`          | 是否启用默认样式                                         | _boolean_             | `true`   |
 | `transition`             | 过渡动画的名称                                          | _string_              | `-`      |
 | `lock-scroll`            | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动                   | _boolean_             | `true`   |
-| `close-on-click-overlay` | 是否点击遮罩层关闭弹出层                                     | _boolean_             | `true`   |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭弹出层 | _boolean_ | `true`  |
-| `teleport`               | 弹出层挂载的位置                                         | _TeleportProps['to'] \| false_ | `body`      |
+| `mask-closable` | 是否点击遮罩层关闭弹出层                                     | _boolean_             | `true`   |
+| `esc-to-close` | 是否支持键盘 ESC 关闭弹出层 | _boolean_ | `true`  |
+| `popupContainer`               | 弹出层挂载的位置                                         | _TeleportProps['to'] \| false_ | `body`      |
 | `safe-area`              | 是否开启底部安全区适配	                                     | _boolean_             | `false`  |
 | `safe-area-top`          | 是否开启顶部安全区适配	                                     | _boolean_             | `false`  |
 | `z-index`  ***3.3.10***         | 	 元素 z-index            | _number_             | `-`  |
@@ -231,4 +231,4 @@ const event = ref(false)
 | 变量名 | 默认值 |
 | --- | --- |
 | `--popup-overlay-background-color` | `rgba(0, 0, 0, .6)` |
-| `--popup-content-background-color` | `var(--color-surface-container-low)` |
+| `--popup-content-background-color` | `var(--color-bg-1)` |

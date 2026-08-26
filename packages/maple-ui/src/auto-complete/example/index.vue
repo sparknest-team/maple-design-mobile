@@ -55,29 +55,29 @@ function useAutoComplete() {
     <mp-auto-complete v-model="standardValue4" clearable :placeholder="t('clearable')" :options="standardOptions4" />
     <mp-auto-complete v-model="standardValue5" clearable :placeholder="t('clearIconSlot')" :options="standardOptions5">
       <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
+        <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete v-model="standardValue7" :placeholder="t('displayIcon')" :options="standardOptions7">
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete v-model="standardValue8" :placeholder="t('customIconSize')" :options="standardOptions8">
       <template #prefix>
-        <mp-icon class="prefix" name="github" size="8vmin" />
+        <m-icon-github class="prefix" size="8vmin" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" size="12vmin" />
+        <m-icon-github class="suffix" size="12vmin" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
       v-model="standardValue9"
-      :placeholder="t('maxlength')"
-      :maxlength="10"
+      :placeholder="t('maxLength')"
+      :max-length="10"
       :options="standardOptions9"
     />
     <mp-auto-complete
@@ -86,12 +86,7 @@ function useAutoComplete() {
       :get-show="(value) => value.length > 3"
       :options="standardOptions10"
     />
-    <mp-auto-complete
-      v-model="standardValue11"
-      size="small"
-      :placeholder="t('smallSize')"
-      :options="standardOptions11"
-    />
+    <mp-auto-complete v-model="standardValue11" size="sm" :placeholder="t('smallSize')" :options="standardOptions11" />
   </mp-space>
 
   <app-type style="margin-top: 10vmin">{{ t('outlined') }}</app-type>
@@ -131,7 +126,7 @@ function useAutoComplete() {
       :options="outlinedOptions5"
     >
       <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
+        <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
@@ -141,10 +136,10 @@ function useAutoComplete() {
       :options="outlinedOptions7"
     >
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
@@ -154,17 +149,17 @@ function useAutoComplete() {
       :options="outlinedOptions8"
     >
       <template #prefix>
-        <mp-icon class="prefix" name="github" size="8vmin" />
+        <m-icon-github class="prefix" size="8vmin" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" size="12vmin" />
+        <m-icon-github class="suffix" size="12vmin" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
       v-model="outlinedValue9"
       variant="outlined"
-      :placeholder="t('maxlength')"
-      :maxlength="10"
+      :placeholder="t('maxLength')"
+      :max-length="10"
       :options="outlinedOptions9"
     />
     <mp-auto-complete
@@ -177,7 +172,7 @@ function useAutoComplete() {
     <mp-auto-complete
       v-model="outlinedValue11"
       variant="outlined"
-      size="small"
+      size="sm"
       :placeholder="t('smallSize')"
       :options="outlinedOptions11"
     />

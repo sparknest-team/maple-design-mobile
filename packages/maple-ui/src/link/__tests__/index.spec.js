@@ -1,15 +1,13 @@
 import { createApp } from 'vue'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Link from '..'
 import { trigger } from '../../utils/test'
 import VarLink from '../Link'
 
-const HREF = 'https://maplejs.org/varlet/'
+const HREF = 'https://maplejs.org/'
 
 const TARGET = '_blank'
-
-const TO = '/button'
 
 test('link plugin', () => {
   const app = createApp({}).use(Link)
@@ -17,13 +15,13 @@ test('link plugin', () => {
 })
 
 describe('test link component props', () => {
-  test('link type', () => {
-    ;['default', 'primary', 'info', 'success', 'warning', 'danger'].forEach((type) => {
+  test('link status', () => {
+    ;['default', 'primary', 'info', 'success', 'warning', 'danger'].forEach((status) => {
       const wrapper = mount(VarLink, {
-        props: { type },
+        props: { status },
       })
 
-      expect(wrapper.find('a').classes()).toContain('mp-link--' + type)
+      expect(wrapper.find('a').classes()).toContain('mp-link--' + status)
       wrapper.unmount()
     })
   })
@@ -47,34 +45,13 @@ describe('test link component props', () => {
       props: {
         href: HREF,
         target: TARGET,
-        to: TO,
       },
     })
 
     expect(wrapper.find('a').exists()).toBe(true)
     expect(wrapper.attributes('href')).toMatch(HREF)
     expect(wrapper.attributes('target')).toMatch(TARGET)
-    wrapper.unmount()
-  })
-
-  test('link to replace', () => {
-    const wrapper = mount(VarLink, {
-      props: {
-        to: TO,
-        target: TARGET,
-        replace: true,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
-    })
-
-    expect(wrapper.find('a').exists()).toBe(true)
-    expect(wrapper.findComponent(RouterLinkStub).props().to).toBe(TO)
-    expect(wrapper.props().replace).toBe(true)
-    expect(wrapper.attributes('target')).toMatch(TARGET)
+    expect(wrapper.attributes('href')).toBe(HREF)
     wrapper.unmount()
   })
 
@@ -105,42 +82,44 @@ describe('test link component props', () => {
     })
 
     await trigger(wrapper, 'click')
-    expect(wrapper.find('span').exists()).toBe(true)
+    expect(wrapper.find('a').exists()).toBe(true)
+    expect(wrapper.attributes('aria-disabled')).toBe('true')
     expect(wrapper.classes()).toContain('mp-link--disabled')
     expect(onClick).toHaveBeenCalledTimes(0)
     wrapper.unmount()
   })
 
-  test('link text color', async () => {
+  test('link loading semantics', async () => {
+    const onClick = vi.fn()
     const wrapper = mount(VarLink, {
       props: {
-        textColor: '#000',
+        href: HREF,
+        loading: true,
+        onClick,
       },
     })
 
-    expect(wrapper.attributes('style')).toMatch('color: rgb(0, 0, 0)')
-
-    await wrapper.setProps({
-      textColor: 'red',
+    expect(wrapper.attributes()).toMatchObject({
+      'aria-disabled': 'true',
+      'aria-busy': 'true',
+      tabindex: '-1',
     })
-    expect(wrapper.attributes('style')).toMatch('color: red')
+    expect(wrapper.attributes('href')).toBeUndefined()
+    expect(wrapper.find('svg').attributes('fill')).toBe('none')
+    await wrapper.trigger('click')
+    expect(onClick).not.toHaveBeenCalled()
 
     wrapper.unmount()
   })
 
-  test('link text size', async () => {
+  test('link icon slot', () => {
     const wrapper = mount(VarLink, {
-      props: {
-        textSize: '12',
+      slots: {
+        icon: '<span class="custom-icon" />',
       },
     })
 
-    expect(wrapper.attributes('style')).toMatch('font-size: 12px')
-
-    await wrapper.setProps({
-      textSize: '14px',
-    })
-    expect(wrapper.attributes('style')).toMatch('font-size: 14px')
+    expect(wrapper.find('.custom-icon').exists()).toBe(true)
 
     wrapper.unmount()
   })

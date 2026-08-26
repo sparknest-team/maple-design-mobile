@@ -5,14 +5,7 @@
     :class="classes(n('action-item'), className, [disabled, n('--disabled')])"
     :style="{ color }"
   >
-    <mp-icon
-      v-if="icon"
-      mp-action-sheet-cover
-      :class="n('action-icon')"
-      :namespace="namespace"
-      :name="icon"
-      :size="iconSize"
-    />
+    <mp-registered-icon v-if="icon" mp-action-sheet-cover :class="n('action-icon')" :name="icon" :size="iconSize" />
     <div :class="n('action-name')">{{ name }}</div>
 
     <mp-hover-overlay :hovering="disabled ? false : hovering" />
@@ -23,7 +16,7 @@
 import { defineComponent } from 'vue'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
-import MpIcon from '../icon'
+import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 
@@ -33,7 +26,7 @@ export default defineComponent({
   name,
   components: {
     MpHoverOverlay,
-    MpIcon,
+    MpRegisteredIcon,
   },
   directives: { Ripple, Hover },
   props: {
@@ -41,7 +34,6 @@ export default defineComponent({
     className: String,
     disabled: Boolean,
     color: String,
-    namespace: String,
     iconSize: [String, Number],
     icon: String,
   },

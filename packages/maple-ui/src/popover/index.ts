@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Popover, popoverProps)
 
 export { popoverProps }
 
+export type PopoverInstance = InstanceType<typeof Popover>
 export const _PopoverComponent = Popover
 
 export default Popover

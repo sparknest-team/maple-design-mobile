@@ -52,7 +52,7 @@ function change() {
 <style scoped>
 .countdown-example-block {
   background: var(--mp-color-primary);
-  color: var(--mp-color-on-primary);
+  color: var(--mp-color-white);
   width: 30px;
   height: 30px;
   border-radius: 50%;

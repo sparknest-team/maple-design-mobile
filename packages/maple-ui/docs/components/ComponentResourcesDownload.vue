@@ -8,7 +8,7 @@ watchLang(use, 'pc')
 onThemeChange()
 
 function download() {
-  window.location.href = 'https://raw.githubusercontent.com/varletjs/maple-design-resources/main/components.sketch'
+  window.location.href = 'https://raw.githubusercontent.com/loca-spirit/maple-design-resources/main/components.sketch'
 }
 </script>
 

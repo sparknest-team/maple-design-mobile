@@ -30,7 +30,7 @@ Customize separator via parent/child `separator` prop or `#separator` slot. Chil
 
   <mp-breadcrumb>
     <template #separator>
-      <mp-icon name="menu-right" style="margin: 1px 4px 0" />
+      <m-icon-menu-right style="margin: 1px 4px 0" />
     </template>
     <mp-breadcrumb-item>Home</mp-breadcrumb-item>
     <mp-breadcrumb-item>Level 1</mp-breadcrumb-item>
@@ -41,7 +41,7 @@ Customize separator via parent/child `separator` prop or `#separator` slot. Chil
 
 ### Routes
 
-Pass breadcrumb data via `routes`. Default rendering uses `a[href]`. Customize with `#item-render` or `custom-url`.
+Pass breadcrumb data via `routes`. Each item's `path` is used as its native `href`. Customize with `#item-render`.
 
 ```html
 <script setup>
@@ -62,6 +62,17 @@ const routes = [
 Limit visible items with `max-count`. Overflow is collapsed into an ellipsis. Customize with `#more-icon`.
 
 ```html
+<script setup>
+const maxRoutes = [
+  { path: '/', label: 'Home' },
+  { path: '/sub-home', label: 'Sub Home' },
+  { path: '/all-channel', label: 'All Channel' },
+  { path: '/channel', label: 'Channel' },
+  { path: '/news', label: 'News' },
+  { path: '/post', label: 'Post' },
+]
+</script>
+
 <template>
   <mp-breadcrumb :max-count="3">
     <mp-breadcrumb-item>Home</mp-breadcrumb-item>
@@ -71,12 +82,20 @@ Limit visible items with `max-count`. Overflow is collapsed into an ellipsis. Cu
     <mp-breadcrumb-item>News</mp-breadcrumb-item>
     <mp-breadcrumb-item>Post</mp-breadcrumb-item>
   </mp-breadcrumb>
+
+  <mp-breadcrumb :routes="maxRoutes" :max-count="3">
+    <template #more-icon="{ omittedItems }">
+      <mp-tooltip :content="omittedItems.map((item) => item.label).join(' / ')">
+        <m-icon-more />
+      </mp-tooltip>
+    </template>
+  </mp-breadcrumb>
 </template>
 ```
 
 ### Link & Click
 
-Use `href` to render a link. `@click` fires for non-last items.
+Use `href` to render a link. `@click` does not fire for collapsed items.
 
 ```html
 <script setup>
@@ -101,16 +120,17 @@ import { Message } from '@maplejs/maple-ui'
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `separator` | Separator | _string \| number_ | `/` |
-| `max-count` | Max visible count, `0` means unlimited | _number_ | `0` |
+| `max-count` | Max visible normal items, excluding more; `0` means unlimited | _number_ | `0` |
 | `routes` | Route data (used when default slot is empty) | _BreadcrumbRoute[]_ | `-` |
-| `custom-url` | Custom link builder in routes mode | _(paths: string[]) => string_ | `-` |
 
 #### BreadcrumbItem Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `separator` | Separator (overrides parent) | _string \| number_ | `-` |
-| `href` | Link URL (not applied on the last item) | _string_ | `-` |
+| `href` | Link URL | _string_ | `-` |
+| `droplist` | Dropdown menu items | _BreadcrumbRoute['children']_ | `-` |
+| `dropdown-props` | Props passed to Menu | _MenuProps_ | `-` |
 
 ### Events
 
@@ -118,7 +138,8 @@ import { Message } from '@maplejs/maple-ui'
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `click` | Fired on click (not for last / ellipsis item) | `event: Event` |
+| `click` | Fired on click (not for collapsed item) | `event: MouseEvent` |
+| `select` | Fired when a built-in dropdown item is selected | `route: BreadcrumbRoute` |
 
 ### Slots
 
@@ -129,7 +150,7 @@ import { Message } from '@maplejs/maple-ui'
 | `default` | Breadcrumb items | `-` |
 | `separator` | Custom separator | `-` |
 | `item-render` | Custom render in routes mode | `route` `routes` `paths` |
-| `more-icon` | Custom ellipsis icon | `-` |
+| `more-icon` | Custom ellipsis icon | `omittedItems` `count` `start` `end` |
 
 #### BreadcrumbItem Slots
 
@@ -137,6 +158,7 @@ import { Message } from '@maplejs/maple-ui'
 | --- | --- | --- |
 | `default` | Item content | `-` |
 | `separator` | Custom separator (priority over parent) | `-` |
+| `droplist` | Custom dropdown menu | `-` |
 
 ### Type Definitions
 

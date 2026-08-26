@@ -1,86 +1,175 @@
 # 快速开始
 
-### 介绍
-
-这里为您介绍常见开发模式下接入组件库的最基本方式。
-
 ### 安装
 
-#### CDN
-
-`maple.js` 包含组件库的所有样式和逻辑, 引入即可。
-
-```html
-<!-- playground-ignore -->
-<div id="app"></div>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/umd/maple.js"></script>
-<script>
-  const app = Vue.createApp({
-    template: '<mp-button>按钮</mp-button>'
-  })
-  app.use(Maple).mount('#app')
-</script>
-```
-
-#### Webpack/Vite
-
 ```shell
-# playground-ignore
-# 通过 npm、yarn 或 pnpm 安装
-
 # npm
-npm i @maplejs/maple-ui -S
-
-# yarn
-yarn add @maplejs/maple-ui
+npm i @maplejs/maple-ui @maplejs/icons-vue
 
 # pnpm
-pnpm add @maplejs/maple-ui
+pnpm add @maplejs/maple-ui @maplejs/icons-vue
 ```
 
-```js
-// playground-ignore
-import App from './App.vue'
-import Maple from '@maplejs/maple-ui'
+### 自动按需引入（推荐）
+
+Maple 提供内部维护的 `@maplejs/resolver`。配合 `unplugin-vue-components`，模板中使用到的组件、独立 SVG 图标及其样式会在编译时自动按需引入。
+
+```shell
+npm i @maplejs/resolver unplugin-auto-import unplugin-vue-components -D
+```
+
+#### Vite
+
+```ts
+// vite.config.ts
+import { MapleResolver } from '@maplejs/resolver'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [MapleResolver()],
+    }),
+    Components({
+      resolvers: [MapleResolver()],
+    }),
+  ],
+})
+```
+
+配置后可直接使用，无需在组件中手动导入：
+
+```html
+<template>
+  <mp-button status="primary">确认</mp-button>
+  <mp-icon size="40" color="red">
+    <m-icon-information />
+  </mp-icon>
+</template>
+```
+
+Resolver 会分别生成：
+
+```ts
+import { IconInformation } from '@maplejs/icons-vue/icon-information'
+import { _ButtonComponent, _IconComponent } from '@maplejs/maple-ui'
+import '@maplejs/maple-ui/button/style'
+import '@maplejs/maple-ui/icon/style'
+```
+
+独立 SVG 图标通过 `currentColor` 继承容器颜色，因此图标子包不需要额外 CSS；`mp-icon` 容器自身需要加载 `@maplejs/maple-ui/icon/style`。
+
+#### 动态名称与显式注册
+
+`<mp-icon name="information" />` 只会查询显式注册到 Vue 应用的图标，不会在内部导入图标全集。建议只注册动态场景实际需要的图标：
+
+```ts
+// main.ts
 import { createApp } from 'vue'
-import '@maplejs/maple-ui/es/style'
+import { IconInformation, IconWarning } from '@maplejs/icons-vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component('IconInformation', IconInformation)
+app.component('IconWarning', IconWarning)
+app.mount('#app')
+```
+
+如果业务确定需要通过任意名称使用全部图标，也可以主动批量注册；这种写法会加载完整图标集合：
+
+```ts
+import * as MapleIconsVue from '@maplejs/icons-vue'
+
+for (const [name, component] of Object.entries(MapleIconsVue)) {
+  if (name.startsWith('Icon')) app.component(name, component)
+}
+```
+
+#### 直接使用 SVG 图标
+
+`@maplejs/icons-vue` 中的每个 SVG 图标都是独立的 Vue 组件，也可以不使用 `mp-icon` 容器直接渲染：
+
+```html
+<script setup lang="ts">
+  import { IconDelete, IconMagnify, IconPlus, IconShare } from '@maplejs/icons-vue'
+</script>
+
+<template>
+  <!-- 直接使用 SVG 图标时不会自动提供业务布局属性 -->
+  <!-- 请根据使用场景设置宽高、间距等属性 -->
+  <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconShare style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconMagnify style="width: 1em; height: 1em; margin-right: 8px" />
+</template>
+```
+
+这里的“布局属性”是指 `width`、`height`、`margin` 等业务样式；图标组件自身仍支持 `size`、`color`、`rotate` 和 `spin`。直接使用同样支持 Tree Shaking。需要统一控制布局、尺寸、颜色、动画或交互区域时，推荐再使用 `mp-icon` 包裹。
+
+#### 自动引入函数 API
+
+上面的同一个 `MapleResolver()` 也会为 `unplugin-auto-import` 解析 `Message`、`Dialog`、`ImagePreview` 等函数 API：
+
+```ts
+Message.success('保存成功')
+```
+
+`importStyle` 会统一控制模板组件、Icon 容器和函数 API 的样式导入。只有明确不希望解析函数 API 时，才需要设置 `MapleResolver({ autoImport: false })`。
+
+#### 自动引入指令
+
+同一个 `MapleResolver()` 也支持 `v-ripple`、`v-lazy` 和 `v-hover`，无需额外 Resolver。可通过 `MapleResolver({ directives: false })` 关闭。
+
+### 手动按需引入
+
+不使用自动导入插件时，可手动导入组件和样式：
+
+```html
+<script setup lang="ts">
+  import { IconInformation } from '@maplejs/icons-vue/icon-information'
+  import { Button } from '@maplejs/maple-ui'
+  import '@maplejs/maple-ui/button/style'
+</script>
+
+<template>
+  <Button status="primary">确认</Button>
+  <IconInformation :size="24" />
+</template>
+```
+
+### 完整引入
+
+完整引入会注册全部 Maple 组件和指令，并加载全部样式，适合原型或对包体积不敏感的项目：
+
+```ts
+import { createApp } from 'vue'
+import Maple from '@maplejs/maple-ui'
+import '@maplejs/maple-ui/style'
+import App from './App.vue'
 
 createApp(App).use(Maple).mount('#app')
 ```
 
-### 支持桌面端
+独立 SVG 图标不会随 UI 包全部注册；请继续显式导入，或使用 `MapleResolver()` 自动按需引入。
 
-`Maple` 是一个移动端优先的组件库，支持桌面端需要安装一个适配器，详情见[浏览器适配](#/zh-CN/browserAdaptation)。
+### TypeScript 配置
 
-### 选择设计系统
+确保自动生成的声明文件被 TypeScript 包含：
 
-从 3.x 版本开始，Maple 同时支持了 Material Design 2 和 Material Design 3 两种设计系统。
-
-```js
-// playground-ignore
-// Maple 默认为 Material Design 2 亮色模式
-import { Themes, StyleProvider } from '@maplejs/maple-ui'
-
-// Material Design 2 暗色模式
-StyleProvider(Themes.dark)
-// Material Design 3 亮色模式
-StyleProvider(Themes.md3Light)
-// Material Design 3 暗色模式
-StyleProvider(Themes.md3Dark)
-```
-
-```css
-// playground-ignore
-body {
-  transition: background-color .25s, color .25s;
-  color: var(--color-text);
-  background-color: var(--color-body);
-  color-scheme: var(--color-scheme);
+```json
+{
+  "include": ["src", "components.d.ts", "auto-imports.d.ts"]
 }
 ```
 
-### 在线体验组件
+### 样式控制
 
-我们提供了网页版的组件编辑器，方便您对组件库的各个组件进行快速上手、在线编辑、分享给他人或是下载代码包本地运行。
-您可以点击网页右上角的 `{...}` 图标或是 [这里前往](https://maplejs.org/playground)。
+Resolver 默认自动引入组件样式。如项目已全量引入 `maple.css`，可关闭重复的按需样式：
+
+```ts
+MapleResolver({ importStyle: false })
+```

@@ -3,7 +3,9 @@ export default {
   separator: 'Separator',
   childSeparator: 'Child Separator',
   separatorSlot: 'Separator Slot',
+  customIcon: 'Custom Icon',
   routesMode: 'Routes',
+  dropdown: 'Dropdown',
   maxCount: 'Max Count',
   clickEvent: 'Link & Click',
   level1: 'Home',
@@ -14,4 +16,6 @@ export default {
   channel: 'Channel',
   news: 'News',
   post: 'Post',
+  goods: 'Goods',
+  wallet: 'Wallet',
 }

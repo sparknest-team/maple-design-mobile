@@ -1,5 +1,4 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export type StepsDirection = 'horizontal' | 'vertical'
 
@@ -41,11 +40,9 @@ export const props = {
   /**
    * 步骤数发生改变时触发
    */
-  onChange: defineListenerProp<(step: number, ev: Event) => void>(),
   /**
    * v-model:current
    */
-  'onUpdate:current': defineListenerProp<(step: number) => void>(),
 }
 
 export type StepsProps = ExtractPropTypes<typeof props>

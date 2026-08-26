@@ -1,5 +1,4 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export enum Thumbs {
   First = '1',
@@ -67,8 +66,4 @@ export const props = {
     type: String as PropType<SliderDirection>,
     default: 'horizontal',
   },
-  onChange: defineListenerProp<(value: number | Array<number>) => void>(),
-  onStart: defineListenerProp<() => void>(),
-  onEnd: defineListenerProp<(value: number | Array<number>) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: number | Array<number>) => void>(),
 }

@@ -3,14 +3,27 @@ import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from '.
 
 export declare const rowProps: Record<keyof RowProps, any>
 
-export type RowJustify = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'start' | 'end'
+export type RowJustify = 'start' | 'center' | 'end' | 'space-around' | 'space-between'
 
-export type RowAlign = 'flex-start' | 'center' | 'flex-end' | 'start' | 'end'
+export type RowAlign = 'start' | 'center' | 'end' | 'stretch'
+
+export interface ResponsiveValue {
+  xxl?: number
+  xl?: number
+  lg?: number
+  md?: number
+  sm?: number
+  xs?: number
+}
+
+export type RowGutter = number | ResponsiveValue | [number | ResponsiveValue, number | ResponsiveValue]
 
 export interface RowProps extends BasicAttributes {
-  gutter?: string | number | [number | string, number | string]
+  gutter?: RowGutter
   justify?: RowJustify
   align?: RowAlign
+  wrap?: boolean
+  div?: boolean
   onClick?: ListenerProp<(e: Event) => void>
 }
 

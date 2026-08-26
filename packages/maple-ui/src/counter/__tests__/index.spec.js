@@ -100,7 +100,7 @@ test('counter lazy change', async () => {
         change(isInc ? value + 1 : value - 1)
       },
     },
-    template: `<mp-counter lazy-change v-model="value" @before-change="onBeforeChange" />`,
+    template: `<mp-counter lazy-change v-model="value" :before-change="onBeforeChange" />`,
   })
 
   await wrapper.find('.mp-counter__increment-button').trigger('click')

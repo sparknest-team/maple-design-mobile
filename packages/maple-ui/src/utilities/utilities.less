@@ -1,0 +1,79 @@
+// Maple semantic utilities — classes prefixed mp-; vars --mp-*
+// info → --mp-info-* (theme provides --mp-info-*)
+
+@util-prefix: mp;
+
+// ---------------------------------------------------------------------------
+// Color
+// ---------------------------------------------------------------------------
+
+@status-tokens: primary, success, warning, danger, info;
+
+@hue-primary: primary;
+@hue-success: success;
+@hue-warning: warning;
+@hue-danger: danger;
+@hue-info: info;
+
+.generate-status(@index) when (@index > 0) {
+  @name: extract(@status-tokens, @index);
+  @hue: ~'@{hue-@{name}}';
+
+  .@{util-prefix}-@{name} {
+    color: rgb(var(~'--mp-@{hue}-6')) !important;
+  }
+
+  .@{util-prefix}-@{name}-hover {
+    color: rgb(var(~'--mp-@{hue}-5')) !important;
+  }
+
+  .@{util-prefix}-@{name}-pressed {
+    color: rgb(var(~'--mp-@{hue}-7')) !important;
+  }
+
+  .@{util-prefix}-@{name}-disabled {
+    color: rgb(var(~'--mp-@{hue}-3')) !important;
+  }
+
+  .@{util-prefix}-bg-@{name} {
+    background-color: rgb(var(~'--mp-@{hue}-1')) !important;
+  }
+
+  .generate-status(@index - 1);
+}
+
+.generate-status(length(@status-tokens));
+
+.generate-levels(@prefix, @prop, @index) when (@index > 0) {
+  .@{util-prefix}-@{prefix}-@{index} {
+    @{prop}: var(~'--mp-color-@{prefix}-@{index}') !important;
+  }
+
+  .generate-levels(@prefix, @prop, @index - 1);
+}
+
+.generate-levels(text, color, 4);
+.generate-levels(fill, background-color, 4);
+
+// 边框色与变量对齐为 mp-color-border-*，避免和原子化边框宽度 mp-border-* 撞名
+.generate-color-border(@index) when (@index > 0) {
+  .@{util-prefix}-color-border-@{index} {
+    border-color: var(~'--mp-color-border-@{index}') !important;
+  }
+
+  .generate-color-border(@index - 1);
+}
+
+.generate-color-border(4);
+
+.@{util-prefix}-bg-0 {
+  background-color: var(~'--mp-color-bg-white') !important;
+}
+
+.@{util-prefix}-bg-1 {
+  background-color: var(~'--mp-color-bg-1') !important;
+}
+
+.@{util-prefix}-bg-2 {
+  background-color: var(~'--mp-color-bg-2') !important;
+}

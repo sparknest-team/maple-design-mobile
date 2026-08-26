@@ -4,7 +4,7 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const checked = ref(true)
-const visible = ref(true)
+const show = ref(true)
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
 
 watchLang(use)
@@ -25,7 +25,7 @@ function removeTag(tag) {
     <mp-tag status="warning">{{ t('warningTag') }}</mp-tag>
     <mp-tag status="danger">{{ t('dangerTag') }}</mp-tag>
     <mp-tag status="secondary">{{ t('secondaryTag') }}</mp-tag>
-    <mp-tag status="contrast">{{ t('contrastTag') }}</mp-tag>
+    <mp-tag status="tertiary">{{ t('tertiaryTag') }}</mp-tag>
   </mp-space>
 
   <app-type>{{ t('outlineTag') }}</app-type>
@@ -56,7 +56,7 @@ function removeTag(tag) {
 
   <app-type>{{ t('closableTag') }}</app-type>
   <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag v-model:visible="visible" closable status="primary">{{ t('tagText') }}</mp-tag>
+    <mp-tag v-model:show="show" closable status="primary">{{ t('tagText') }}</mp-tag>
     <mp-tag v-for="tag in dynamicTags" :key="tag" closable round status="info" @close="removeTag(tag)">
       {{ tag }}
     </mp-tag>
@@ -77,11 +77,11 @@ function removeTag(tag) {
   <app-type>{{ t('iconTag') }}</app-type>
   <mp-space :size="['2.666vmin', '2.666vmin']">
     <mp-tag status="success">
-      <template #icon><mp-icon name="check" /></template>
+      <template #icon><m-icon-check /></template>
       {{ t('complete') }}
     </mp-tag>
     <mp-tag status="info">
-      <template #icon><mp-icon name="information" /></template>
+      <template #icon><m-icon-information /></template>
       {{ t('infoTag') }}
     </mp-tag>
   </mp-space>

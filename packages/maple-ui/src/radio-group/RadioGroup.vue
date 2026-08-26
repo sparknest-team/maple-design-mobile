@@ -5,7 +5,7 @@
         <mp-radio
           v-for="option in options"
           :key="option[valueKey]"
-          :checked-value="option[valueKey]"
+          :value="option[valueKey]"
           :disabled="option.disabled"
         >
           <template #default="{ checked }">
@@ -25,6 +25,7 @@ import { useEventListener } from '@maplejs/maple-use'
 import { useFormItem } from '../form-item'
 import MpRadio from '../radio'
 import { createNamespace, MaybeVNode } from '../utils/components'
+import { useFieldNames } from '../utils/options'
 import { props } from './props'
 import { useRadios, type RadioGroupProvider } from './provide'
 
@@ -34,10 +35,14 @@ export default defineComponent({
   name,
   components: { MpRadio, MaybeVNode },
   props,
-  setup(props) {
+  emits: ['change', 'update:modelValue'],
+  setup(props, { emit }) {
     const { length, radios, bindRadios } = useRadios()
     const { mergedError, eventHandlers } = useFormItem()
     const hasChecked = ref(false)
+    const fieldNames = useFieldNames(props)
+    const labelKey = computed(() => fieldNames.value.label)
+    const valueKey = computed(() => fieldNames.value.value)
 
     const radioGroupProvider: RadioGroupProvider = {
       onToggle,
@@ -112,13 +117,15 @@ export default defineComponent({
     }
 
     function onToggle(changedValue: any) {
-      call(props['onUpdate:modelValue'], changedValue)
-      call(props.onChange, changedValue)
+      emit('update:modelValue', changedValue)
+      emit('change', changedValue)
       eventHandlers.value.onChange?.()
     }
 
     return {
       mergedError,
+      labelKey,
+      valueKey,
       n,
       classes,
       isFunction,

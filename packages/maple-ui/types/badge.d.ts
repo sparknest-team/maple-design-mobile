@@ -1,24 +1,32 @@
 import { VNode } from 'vue'
-import { Type as BadgeType, BasicAttributes, SetPropsDefaults, VarComponent } from './varComponent'
+import { BasicAttributes, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const badgeProps: Record<keyof BadgeProps, any>
 
-export type BadgePosition = 'right-top' | 'right-bottom' | 'left-top' | 'left-bottom'
-
-export { BadgeType }
+export type BadgeVariant = 'default' | 'outline'
+export type BadgeMode = 'floating' | 'inline'
+export type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+export type BadgeInlinePosition = 'start' | 'end'
+export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type BadgeStatus = 'default' | 'primary' | 'secondary' | 'tertiary' | 'info' | 'success' | 'warning' | 'danger'
 
 export interface BadgeProps extends BasicAttributes {
-  type?: BadgeType
-  hidden?: boolean
+  description?: string
   dot?: boolean
-  value?: string | number
-  maxValue?: string | number
+  max?: number
+  show?: boolean
+  showZero?: boolean
+  offsetX?: number
+  offsetY?: number
   color?: string
+  content?: string | number
+  textColor?: string
+  mode?: BadgeMode
   position?: BadgePosition
-  icon?: string
-  namespace?: string
-  offsetX?: number | string
-  offsetY?: number | string
+  inlinePosition?: BadgeInlinePosition
+  size?: BadgeSize
+  status?: BadgeStatus
+  variant?: BadgeVariant
 }
 
 export class Badge extends VarComponent {
@@ -28,7 +36,7 @@ export class Badge extends VarComponent {
 
   $slots: {
     default(): VNode[]
-    value(): VNode[]
+    content(): VNode[]
   }
 }
 

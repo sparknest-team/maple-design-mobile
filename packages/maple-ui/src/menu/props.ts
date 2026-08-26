@@ -1,9 +1,9 @@
-import { VNode, VNodeChild, type PropType } from 'vue'
-import { popoverProps } from '../popover'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { VNode, VNodeChild, type ExtractPropTypes, type PropType } from 'vue'
+import { triggerProps, type TriggerPlacement } from '../trigger'
+import { pickProps } from '../utils/components'
+import { type FieldNames } from '../utils/options'
 
 export type MenuSize = 'normal' | 'mini' | 'small' | 'large'
-export type MenuPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br'
 
 export type MenuOptionLabelRender = (option: MenuOption, checked: boolean) => VNodeChild
 
@@ -31,69 +31,52 @@ export const props = {
     type: Array as PropType<MenuOption[]>,
     default: () => [],
   },
-  labelKey: {
-    type: String,
-    default: 'label',
-  },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  childrenKey: {
-    type: String,
-    default: 'children',
+  fieldNames: {
+    type: Object as PropType<FieldNames>,
+    default: undefined,
   },
   size: {
     type: String as PropType<MenuSize>,
     default: 'normal',
   },
   multiple: Boolean,
-  scrollable: Boolean,
-  closeOnSelect: {
-    type: Boolean,
+  popupMaxHeight: {
+    type: [Boolean, Number] as PropType<boolean | number>,
     default: true,
-  },
-  popupVisible: {
-    type: Boolean,
-    default: undefined,
-  },
-  defaultPopupVisible: Boolean,
-  position: String as PropType<MenuPosition>,
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<import('vue').TeleportProps['to'] | false>,
-    default: undefined,
   },
   hideOnSelect: {
     type: Boolean,
+    default: true,
+  },
+  autoFitPopupWidth: Boolean,
+  open: {
+    type: Boolean,
     default: undefined,
   },
-  'onUpdate:modelValue': defineListenerProp<(value: any) => void>(),
-  'onUpdate:popupVisible': defineListenerProp<(visible: boolean) => void>(),
-  onPopupVisibleChange: defineListenerProp<(visible: boolean) => void>(),
-  onSelect: defineListenerProp<(value: any, option: MenuOption) => void>(),
-  ...pickProps(popoverProps, [
-    'show',
+  defaultOpen: Boolean,
+  elevation: {
+    type: [Boolean, String, Number],
+    default: true,
+  },
+  ...pickProps(triggerProps, [
     'disabled',
     'trigger',
     'reference',
-    'placement',
     'strategy',
     'offsetX',
     'offsetY',
-    'teleport',
-    'sameWidth',
-    'elevation',
-    'popoverClass',
+    'popupContainer',
+    'popupClass',
     'closeOnClickReference',
-    'onOpen',
-    'onOpened',
-    'onClose',
-    'onClosed',
-    'onClickOutside',
-    'onUpdate:show',
+    'alignPoint',
   ]),
+  placement: {
+    type: String as PropType<TriggerPlacement>,
+    default: 'bottom',
+  },
 
   // internal start
-  onKeyEscape: defineListenerProp<() => void>(),
   // internal end
 }
+
+export type MenuProps = ExtractPropTypes<typeof props>

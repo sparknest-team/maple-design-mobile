@@ -4,12 +4,13 @@ import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from '.
 export declare const overlayProps: Record<keyof OverlayProps, any>
 
 export interface OverlayProps extends BasicAttributes {
+  open?: boolean
   lockScroll?: boolean
-  teleport?: TeleportProps['to'] | false
-  closeOnKeyEscape?: boolean
+  popupContainer?: TeleportProps['to'] | false
+  escToClose?: boolean
   onClick?: ListenerProp<() => void>
   onKeyEscape?: ListenerProp<() => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export class Overlay extends VarComponent {

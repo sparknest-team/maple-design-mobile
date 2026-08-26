@@ -7,6 +7,7 @@ withPropsDefaultsSetter(RadioGroup, radioGroupProps)
 
 export { radioGroupProps }
 
+export type RadioGroupInstance = InstanceType<typeof RadioGroup>
 export const _RadioGroupComponent = RadioGroup
 
 export default RadioGroup

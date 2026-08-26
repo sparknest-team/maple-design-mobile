@@ -1,8 +1,8 @@
 export default {
   '--mp-dialog-width': '312px',
-  '--mp-dialog-background': 'var(--mp-color-surface-container-high)',
+  '--mp-dialog-background': 'var(--mp-color-fill-2)',
   '--mp-dialog-title-color': '#1D1B20',
-  '--mp-dialog-message-color': 'var(--mp-color-on-surface-variant)',
+  '--mp-dialog-message-color': 'var(--mp-color-text-3)',
   '--mp-dialog-border-radius': '28px',
   '--mp-dialog-title-padding': '24px 24px 0',
   '--mp-dialog-message-padding': '16px 24px 24px',

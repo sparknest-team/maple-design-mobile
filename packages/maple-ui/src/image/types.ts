@@ -1,7 +1,7 @@
 export type ImageFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 
 export interface ImagePreviewProps {
-  visible?: boolean
+  open?: boolean
   src?: string
   images?: string[]
   current?: number
@@ -9,15 +9,15 @@ export interface ImagePreviewProps {
   maskClosable?: boolean
   loop?: boolean
   zoom?: number | string
-  teleport?: string | Element | false
+  popupContainer?: string | Element | false
   lockScroll?: boolean
-  closeOnKeyEscape?: boolean
+  escToClose?: boolean
   imagePreventDefault?: boolean
   indicator?: boolean
   onChange?: (index: number) => void
   onClose?: () => void
   onLongPress?: (index: number) => void
-  onPreviewVisibleChange?: (visible: boolean) => void
+  onOpenChange?: (open: boolean) => void
 }
 
 export interface ImageProps {
@@ -38,13 +38,14 @@ export interface ImageProps {
   ripple?: boolean
   block?: boolean
   preview?: boolean
-  previewVisible?: boolean
-  defaultPreviewVisible?: boolean
+  previewOpen?: boolean
+  defaultPreviewOpen?: boolean
   previewProps?: Partial<ImagePreviewProps>
 }
 
 export interface ImagePreviewGroupProps extends Omit<ImagePreviewProps, 'src' | 'onClose'> {
   images?: string[]
+  defaultOpen?: boolean
   defaultCurrent?: number
 }
 

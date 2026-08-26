@@ -7,6 +7,7 @@ withPropsDefaultsSetter(List, listProps)
 
 export { listProps }
 
+export type ListInstance = InstanceType<typeof List>
 export const _ListComponent = List
 
 export default List

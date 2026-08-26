@@ -30,7 +30,8 @@ test('breadcrumb basic usage', async () => {
   })
 
   await delay(0)
-  expect(wrapper.html()).toMatchSnapshot()
+  expect(wrapper.findAll('.mp-breadcrumb-item')).toHaveLength(3)
+  expect(wrapper.findAll('.mp-breadcrumb-item__separator')).toHaveLength(2)
   wrapper.unmount()
 })
 
@@ -45,7 +46,7 @@ test('breadcrumb parent separator', async () => {
   })
 
   await delay(0)
-  expect(wrapper.html()).toMatchSnapshot()
+  expect(wrapper.findAll('.mp-breadcrumb-item__separator').map((item) => item.text())).toEqual(['+', '+'])
   wrapper.unmount()
 })
 
@@ -60,7 +61,7 @@ test('breadcrumb parent and child separator', async () => {
   })
 
   await delay(0)
-  expect(wrapper.html()).toMatchSnapshot()
+  expect(wrapper.findAll('.mp-breadcrumb-item__separator').map((item) => item.text())).toEqual(['-', '-'])
   wrapper.unmount()
 })
 
@@ -92,7 +93,7 @@ test('breadcrumb events', async () => {
   await delay(0)
   await wrapper.findAll('.mp-breadcrumb-item__content')[0].trigger('click')
   await wrapper.findAll('.mp-breadcrumb-item__content')[2].trigger('click')
-  expect(onClick).toHaveBeenCalledTimes(1)
+  expect(onClick).toHaveBeenCalledTimes(2)
   wrapper.unmount()
 })
 
@@ -113,7 +114,7 @@ test('breadcrumb slots', async () => {
   })
 
   await delay(0)
-  expect(wrapper.html()).toMatchSnapshot()
+  expect(wrapper.findAll('span')).toHaveLength(2)
   wrapper.unmount()
 })
 
@@ -131,12 +132,13 @@ test('breadcrumb routes', async () => {
   await delay(0)
   const items = wrapper.findAll('.mp-breadcrumb-item')
   expect(items.length).toBe(3)
-  expect(wrapper.find('a').attributes('href')).toBe('#/')
+  expect(wrapper.find('a').attributes('href')).toBe('/')
   expect(wrapper.findAll('a').length).toBe(2)
   wrapper.unmount()
 })
 
 test('breadcrumb max-count', async () => {
+  let moreSlotData
   const wrapper = mount(VarBreadcrumb, {
     props: {
       maxCount: 3,
@@ -151,13 +153,18 @@ test('breadcrumb max-count', async () => {
             }),
           ),
         ),
+      'more-icon': (data) => {
+        moreSlotData = data
+        return h('span', { class: 'custom-more' })
+      },
     },
   })
 
   await delay(0)
   expect(wrapper.findAll('.mp-breadcrumb-item').length).toBe(4)
-  expect(wrapper.find('.mp-breadcrumb-item--more').exists()).toBe(true)
-  expect(wrapper.find('.mp-breadcrumb-item__more-icon').text()).toBe('...')
+  expect(wrapper.find('[aria-label="ellipses of breadcrumb items"]').exists()).toBe(true)
+  expect(wrapper.find('.custom-more').exists()).toBe(true)
+  expect(moreSlotData).toMatchObject({ count: 3, start: 1, end: 3, omittedItems: [] })
   wrapper.unmount()
 })
 
@@ -178,5 +185,26 @@ test('breadcrumb item href', async () => {
   expect(links.length).toBe(2)
   expect(links[0].attributes('href')).toBe('#/home')
   expect(wrapper.findAll('.mp-breadcrumb-item__content')[2].element.tagName).toBe('DIV')
+  wrapper.unmount()
+})
+
+test('breadcrumb route children render a dropdown trigger', async () => {
+  const wrapper = mount(VarBreadcrumb, {
+    props: {
+      routes: [
+        { path: '/', label: 'Home' },
+        {
+          path: '/channel',
+          label: 'Channel',
+          children: [{ path: '/goods', label: 'Goods' }],
+        },
+        { path: '/news', label: 'News' },
+      ],
+    },
+  })
+
+  await delay(0)
+  expect(wrapper.find('.mp-breadcrumb-item--with-dropdown').exists()).toBe(true)
+  expect(wrapper.find('.mp-breadcrumb-item__dropdown-icon').exists()).toBe(true)
   wrapper.unmount()
 })

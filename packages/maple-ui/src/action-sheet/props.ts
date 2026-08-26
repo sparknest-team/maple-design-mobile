@@ -1,10 +1,10 @@
 import { type PropType } from 'vue'
 import { popupProps } from '../popup'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 import { ActionItem } from './index'
 
 export const props = {
-  show: Boolean,
+  open: Boolean,
   title: String,
   actions: {
     type: Array as PropType<ActionItem[]>,
@@ -14,24 +14,15 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  onSelect: defineListenerProp<(actionItem: ActionItem) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(popupProps, [
-    'overlay',
-    'overlayClass',
-    'overlayStyle',
+    'mask',
+    'maskClass',
+    'maskStyle',
     'lockScroll',
-    'closeOnClickOverlay',
-    'closeOnKeyEscape',
+    'maskClosable',
+    'escToClose',
     'safeArea',
-    'teleport',
-    'onOpen',
-    'onClose',
-    'onOpened',
-    'onClosed',
-    'onClickOverlay',
+    'popupContainer',
     // internal for function call closes the dialog
-    'onRouteChange',
-    'onKeyEscape',
   ]),
 }

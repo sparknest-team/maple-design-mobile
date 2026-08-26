@@ -107,9 +107,9 @@ export default defineComponent({
       }
     })
 
-    function init(show: boolean) {
-      isShow.value = show
-      if (show) {
+    function init(open: boolean) {
+      isShow.value = open
+      if (open) {
         contentMounted.value = true
       } else if (mergedDestroyOnHide.value && !showContent.value) {
         contentMounted.value = false

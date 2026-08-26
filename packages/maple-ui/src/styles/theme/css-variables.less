@@ -1,0 +1,151 @@
+@import '../color/css-variables.less';
+
+:root {
+  --mp-font-size-xs: 10px;
+  --mp-font-size-sm: 12px;
+  --mp-font-size-md: 14px;
+  --mp-font-size-lg: 16px;
+  --mp-icon-size-xs: 16px;
+  --mp-icon-size-sm: 18px;
+  --mp-icon-size-md: 20px;
+  --mp-icon-size-lg: 22px;
+  --mp-line-height: 1.5715;
+  --mp-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --mp-color-scheme: light;
+
+  /* info shares blue scale */
+  --mp-info-1: var(--mp-blue-1);
+  --mp-info-2: var(--mp-blue-2);
+  --mp-info-3: var(--mp-blue-3);
+  --mp-info-4: var(--mp-blue-4);
+  --mp-info-5: var(--mp-blue-5);
+  --mp-info-6: var(--mp-blue-6);
+  --mp-info-7: var(--mp-blue-7);
+  --mp-info-8: var(--mp-blue-8);
+  --mp-info-9: var(--mp-blue-9);
+  --mp-info-10: var(--mp-blue-10);
+
+  /* semantic surfaces */
+  --mp-color-white: #ffffff;
+  --mp-color-black: #000000;
+  --mp-color-body: #ffffff;
+  --mp-color-bg-white: #ffffff;
+  --mp-color-bg-1: #ffffff;
+  --mp-color-bg-2: #ffffff;
+  --mp-color-bg-3: #ffffff;
+  --mp-color-bg-4: #ffffff;
+  --mp-color-bg-5: #ffffff;
+  --mp-color-text-1: rgb(var(--mp-gray-10));
+  --mp-color-text-2: rgb(var(--mp-gray-8));
+  --mp-color-text-3: rgb(var(--mp-gray-6));
+  --mp-color-text-4: rgb(var(--mp-gray-4));
+  --mp-color-text: var(--mp-color-text-1);
+  --mp-color-fill-1: rgb(var(--mp-gray-1));
+  --mp-color-fill-2: rgb(var(--mp-gray-2));
+  --mp-color-fill-3: rgb(var(--mp-gray-3));
+  --mp-color-fill-4: rgb(var(--mp-gray-4));
+  --mp-color-border-1: rgb(var(--mp-gray-2));
+  --mp-color-border-2: rgb(var(--mp-gray-3));
+  --mp-color-border-3: rgb(var(--mp-gray-4));
+  --mp-color-border-4: rgb(var(--mp-gray-6));
+  --mp-color-border: var(--mp-color-border-2);
+  --mp-color-disabled: rgb(var(--mp-gray-3));
+  --mp-color-text-disabled: rgb(var(--mp-gray-5));
+
+  /* functional */
+  --mp-color-primary: rgb(var(--mp-primary-6));
+  --mp-color-info: rgb(var(--mp-info-6));
+  --mp-color-success: rgb(var(--mp-success-6));
+  --mp-color-warning: rgb(var(--mp-warning-6));
+  --mp-color-danger: rgb(var(--mp-danger-6));
+  --mp-color-primary-light-1: rgb(var(--mp-primary-1));
+  --mp-color-primary-light-2: rgb(var(--mp-primary-2));
+  --mp-color-primary-light-3: rgb(var(--mp-primary-3));
+  --mp-color-primary-light-4: rgb(var(--mp-primary-4));
+  --mp-color-info-light-1: rgb(var(--mp-info-1));
+  --mp-color-info-light-2: rgb(var(--mp-info-2));
+  --mp-color-success-light-1: rgb(var(--mp-success-1));
+  --mp-color-success-light-2: rgb(var(--mp-success-2));
+  --mp-color-warning-light-1: rgb(var(--mp-warning-1));
+  --mp-color-warning-light-2: rgb(var(--mp-warning-2));
+  --mp-color-danger-light-1: rgb(var(--mp-danger-1));
+  --mp-color-danger-light-2: rgb(var(--mp-danger-2));
+
+  /* opacity / elevation */
+  --mp-opacity-border: 0.12;
+  --mp-opacity-high-emphasis: 0.87;
+  --mp-opacity-medium-emphasis: 0.6;
+  --mp-opacity-disabled: 0.38;
+  --mp-opacity-idle: 0.04;
+  --mp-opacity-hover: 0.04;
+  --mp-opacity-focus: 0.12;
+  --mp-opacity-selected: 0.08;
+  --mp-opacity-activated: 0.12;
+  --mp-opacity-pressed: 0.12;
+  --mp-opacity-dragged: 0.08;
+  --mp-cubic-bezier: cubic-bezier(0.25, 0.8, 0.5, 1);
+  --mp-shadow-key-umbra-opacity: rgba(0, 0, 0, 0.2);
+  --mp-shadow-key-penumbra-opacity: rgba(0, 0, 0, 0.14);
+  --mp-shadow-key-ambient-opacity: rgba(0, 0, 0, 0.12);
+
+  /* rounded */
+
+  /* shadow (utility) */
+}
+
+:root[maple-theme='dark'] {
+  --mp-color-scheme: dark;
+  --mp-color-white: rgba(255, 255, 255, 0.9);
+  --mp-color-black: #000000;
+  --mp-color-body: #17171a;
+  --mp-color-bg-white: #17171a;
+  --mp-color-bg-1: #17171a;
+  --mp-color-bg-2: #232324;
+  --mp-color-bg-3: #2a2a2b;
+  --mp-color-bg-4: #313132;
+  --mp-color-bg-5: #373739;
+  --mp-color-text-1: rgba(255, 255, 255, 0.9);
+  --mp-color-text-2: rgba(255, 255, 255, 0.7);
+  --mp-color-text-3: rgba(255, 255, 255, 0.5);
+  --mp-color-text-4: rgba(255, 255, 255, 0.3);
+  --mp-color-text: var(--mp-color-text-1);
+  --mp-color-fill-1: rgba(255, 255, 255, 0.04);
+  --mp-color-fill-2: rgba(255, 255, 255, 0.08);
+  --mp-color-fill-3: rgba(255, 255, 255, 0.12);
+  --mp-color-fill-4: rgba(255, 255, 255, 0.16);
+  --mp-color-border-1: rgba(255, 255, 255, 0.08);
+  --mp-color-border-2: rgba(255, 255, 255, 0.12);
+  --mp-color-border-3: rgba(255, 255, 255, 0.2);
+  --mp-color-border-4: rgba(255, 255, 255, 0.3);
+  --mp-color-border: var(--mp-color-border-2);
+  --mp-color-disabled: rgba(255, 255, 255, 0.08);
+  --mp-color-text-disabled: rgba(255, 255, 255, 0.3);
+  --mp-color-primary: rgb(var(--mp-primary-6));
+  --mp-color-info: rgb(var(--mp-info-6));
+  --mp-color-success: rgb(var(--mp-success-6));
+  --mp-color-warning: rgb(var(--mp-warning-6));
+  --mp-color-danger: rgb(var(--mp-danger-6));
+  --mp-color-primary-light-1: rgba(var(--mp-primary-6), 0.2);
+  --mp-color-primary-light-2: rgba(var(--mp-primary-6), 0.35);
+  --mp-color-primary-light-3: rgba(var(--mp-primary-6), 0.5);
+  --mp-color-primary-light-4: rgba(var(--mp-primary-6), 0.65);
+  --mp-color-info-light-1: rgba(var(--mp-info-6), 0.2);
+  --mp-color-info-light-2: rgba(var(--mp-info-6), 0.35);
+  --mp-color-success-light-1: rgba(var(--mp-success-6), 0.2);
+  --mp-color-success-light-2: rgba(var(--mp-success-6), 0.35);
+  --mp-color-warning-light-1: rgba(var(--mp-warning-6), 0.2);
+  --mp-color-warning-light-2: rgba(var(--mp-warning-6), 0.35);
+  --mp-color-danger-light-1: rgba(var(--mp-danger-6), 0.2);
+  --mp-color-danger-light-2: rgba(var(--mp-danger-6), 0.35);
+  --mp-opacity-border: 0.12;
+  --mp-opacity-high-emphasis: 1;
+  --mp-opacity-medium-emphasis: 0.7;
+  --mp-opacity-disabled: 0.5;
+  --mp-opacity-idle: 0.1;
+  --mp-opacity-hover: 0.04;
+  --mp-opacity-focus: 0.12;
+  --mp-opacity-selected: 0.08;
+  --mp-opacity-activated: 0.12;
+  --mp-opacity-pressed: 0.16;
+  --mp-opacity-dragged: 0.08;
+}

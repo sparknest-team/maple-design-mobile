@@ -1,7 +1,8 @@
-# 海拔效果
+# 海拔 Elevation
 
 ### 介绍
-组件库提供了基于 `Material` 规范的阴影海拔效果，用来表现元素的立体感。
+组件库提供阴影海拔效果（`mp-elevation--0` … `mp-elevation--24`），用来表现元素的立体感，按需单独引入。  
+Cedar 对应 `c-elevation--0` … `--24`（随 box-shadow 工具层）。
 
 ### 引入样式
 

@@ -1,8 +1,7 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import { type AllowedTime, type Format } from '../time-picker/props'
-import { defineListenerProp } from '../utils/components'
+import { type DisabledTime, type Format } from '../time-picker/props'
 
 export type TimeRangePickerPresentation = 'clock' | 'picker'
 
@@ -13,7 +12,7 @@ export const props = {
   },
   presentation: {
     type: String as PropType<TimeRangePickerPresentation>,
-    default: 'clock',
+    default: 'picker',
   },
   format: {
     type: String as PropType<Format>,
@@ -22,7 +21,7 @@ export const props = {
   useSeconds: Boolean,
   min: String,
   max: String,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledTime: Object as PropType<DisabledTime>,
   timePickerProps: {
     type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
     default: () => ({}),
@@ -37,8 +36,6 @@ export const props = {
     type: [Boolean, Number, String],
     default: false,
   },
-  onChange: defineListenerProp<(value: string[]) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string[]) => void>(),
 }
 
 export type TimeRangePickerProps = ExtractPropTypes<typeof props>

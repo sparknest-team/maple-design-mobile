@@ -56,7 +56,7 @@ By default, both the head area and the content area of a FloatingPanel can be dr
 | `content-draggable` | Whether to allow to drag panel content area | _boolean_ | `true`  |
 | `duration`          | Transition duration which unit is `ms` | _number \| string_ | `300`  |
 | `elevation`         | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
-| `teleport`          | The location of the ejector layer mount              | _TeleportProps['to'] \| false_ | `body`  |
+| `popupContainer`          | The location of the ejector layer mount              | _TeleportProps['to'] \| false_ | `body`  |
 | `safe-area`         | Whether to enable bottom safe area adaptation | _boolean_ | `false`  |
 
 ### Events
@@ -81,7 +81,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--floating-panel-z-index` | `999` |
 | `--floating-panel-border-top` | `none` |
 | `--floating-panel-border-radius` | `0` |
-| `--floating-panel-background` | `var(--color-surface-container-high)` |
+| `--floating-panel-background` | `var(--color-fill-2)` |
 | `--floating-panel-header-height` | `40px` |
 | `--floating-panel-toolbar-width` | `20px` |
 | `--floating-panel-toolbar-height` | `3px` |

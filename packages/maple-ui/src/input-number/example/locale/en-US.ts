@@ -1,12 +1,12 @@
 export default {
   basicUsage: 'Basic Usage',
   range: 'Range',
-  controlType: 'Control Type',
+  mode: 'Mode',
   size: 'Size',
   stepAndPrecision: 'Step And Precision',
   prefixAndSuffix: 'Prefix And Suffix',
   customIcon: 'Custom Icon',
   format: 'Format',
-  hideControls: 'Hide Controls',
+  hideControls: 'Input Mode',
   modelEvent: 'Update On Input',
 }

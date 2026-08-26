@@ -19,7 +19,8 @@ type CollapseToggleAllOptions = { expand: boolean | 'inverse'; skipDisabled?: bo
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['change', 'update:activeNames'],
+  setup(props, { emit }) {
     const slots = useSlots()
     const offset = computed(() => props.offset)
     const divider = computed(() => props.divider)
@@ -72,8 +73,8 @@ export default defineComponent({
 
     function updateActiveNames(activeNames: CollapseActiveNames) {
       innerActiveNames.value = activeNames
-      call(props['onUpdate:activeNames'], activeNames)
-      call(props.onChange, activeNames)
+      emit('update:activeNames', activeNames)
+      emit('change', activeNames)
     }
 
     function matchItems(): Array<CollapseItemProvider> | CollapseItemProvider | undefined {

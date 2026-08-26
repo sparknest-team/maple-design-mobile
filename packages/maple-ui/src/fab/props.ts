@@ -1,10 +1,8 @@
 import { type PropType, type TeleportProps } from 'vue'
-import { type ButtonType } from '../button/props'
 import { dragProps } from '../drag'
 import { iconProps } from '../icon'
-import { defineListenerProp, ExtractPublicPropTypes, pickProps } from '../utils/components'
-
-export type FabType = ButtonType
+import { ExtractPublicPropTypes, pickProps } from '../utils/components'
+import type { SemanticStatus } from '../utils/constants'
 
 export type FabPosition = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom'
 
@@ -16,7 +14,7 @@ export type FabDrag = Pick<ExtractPublicPropTypes<typeof dragProps>, 'direction'
 
 export const props = {
   active: Boolean,
-  show: {
+  open: {
     type: Boolean,
     default: true,
   },
@@ -24,8 +22,8 @@ export const props = {
     type: [Object, Boolean] as PropType<FabDrag>,
     default: false,
   },
-  type: {
-    type: String as PropType<FabType>,
+  status: {
+    type: String as PropType<SemanticStatus>,
     default: 'primary',
   },
   position: {
@@ -52,8 +50,6 @@ export const props = {
   },
   inactiveIconSize: pickProps(iconProps, 'size'),
   activeIconSize: pickProps(iconProps, 'size'),
-  inactiveIconNamespace: pickProps(iconProps, 'namespace'),
-  activeIconNamespace: pickProps(iconProps, 'namespace'),
   fixed: {
     type: Boolean,
     default: true,
@@ -71,14 +67,8 @@ export const props = {
     default: true,
   },
   safeArea: Boolean,
-  teleport: {
+  popupContainer: {
     type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
     default: 'body',
   },
-  onClick: defineListenerProp<(active: boolean, e: Event) => void>(),
-  onOpen: defineListenerProp<() => void>(),
-  onOpened: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<() => void>(),
-  onClosed: defineListenerProp<() => void>(),
-  'onUpdate:active': defineListenerProp<(active: boolean) => void>(),
 }

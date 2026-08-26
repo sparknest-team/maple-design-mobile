@@ -78,7 +78,7 @@ const score = ref(3)
 
 ### 使用半星
 
-通过 `half` 属性将评分设置为可半选，`half-icon` 属性设置半选时的样式。
+通过 `allow-half` 属性将评分设置为可半选，`half-icon` 属性设置半选时的样式。
 
 ```html
 <script setup>
@@ -88,9 +88,9 @@ const score = ref(3.5)
 </script>
 
 <template>
-  <mp-rate half :count="8" v-model="score" />
+  <mp-rate allow-half :count="8" v-model="score" />
   <mp-rate
-    half
+    allow-half
     icon="heart"
     half-icon="heart-half-full"
     empty-icon="heart-outline"
@@ -130,7 +130,7 @@ const score = ref(3.5)
 </script>
 
 <template>
-  <mp-rate v-model="score" clearable half/>
+  <mp-rate v-model="score" clearable allow-half/>
 </template>
 ```
 
@@ -174,11 +174,8 @@ function handleChange(score) {
 | `empty-icon`     | 未选中时图标的样式 | _string_ | `star-outline` |
 | `size`           | 图标大小，默认单位为 `px` | _number \| string_ | `-`|
 | `gap`            | 图标间隔，默认单位为 `px` | _number \| string_ | `-` |
-| `half`           | 是否允许半选 | _boolean_ | `false` |
-| `half-icon`      | 半选时图标的样式，只有在 `half` 为 `true` 时才有效| _string_ | `star-half-full` |
-| `namespace`      | 图标的命名空间 |  _string_ | `mp-icon` |
-| `empty-icon-namespace`      | 未选中时图标的命名空间 |  _string_ | `mp-icon` |
-| `half-icon-namespace`      | 半选时图标的命名空间 |  _string_ | `mp-icon` |
+| `allow-half`           | 是否允许半选 | _boolean_ | `false` |
+| `half-icon`      | 半选时图标的样式，只有在 `allow-half` 为 `true` 时才有效| _string_ | `star-half-full` |
 | `disabled`       | 是否禁止评分 | _boolean_ | `false`|
 | `disabled-color` | 禁止评分时图标的颜色，只有在 `disabled` 为 `true` 时才有效，优先级高于 `color`、`empty-color`| _string_ | `-` |
 | `readonly`       | 是否为只读状态，只读状态下无法修改评分 | _boolean_ | `false` |

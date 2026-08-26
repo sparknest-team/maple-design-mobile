@@ -18,6 +18,7 @@ export * from './breadcrumbItem'
 export * from './button'
 export * from './buttonGroup'
 export * from './card'
+export * from './carousel'
 export * from './cascader'
 export * from './cell'
 export * from './checkbox'
@@ -44,6 +45,8 @@ export * from './floatingPanel'
 export * from './form'
 export * from './formDetails'
 export * from './formItem'
+export * from './grid'
+export * from './gridItem'
 export * from './highlighterProvider'
 export * from './hover'
 export * from './hoverOverlay'
@@ -62,8 +65,11 @@ export * from './loadingBar'
 export * from './locale'
 export * from './localeProvider'
 export * from './menu'
+export * from './menuGroup'
 export * from './menuOption'
 export * from './message'
+export * from './noticeBar'
+export * from './numberKeyboard'
 export * from './option'
 export * from './overlay'
 export * from './pagination'
@@ -90,8 +96,7 @@ export * from './steps'
 export * from './sticky'
 export * from './styleProvider'
 export * from './styleVars'
-export * from './swipe'
-export * from './swipeItem'
+export * from './swipeCell'
 export * from './switch'
 export * from './tab'
 export * from './tabItem'
@@ -128,6 +133,7 @@ declare module 'vue' {
     MpButton: (typeof import('@maplejs/maple-ui'))['_ButtonComponent']
     MpButtonGroup: (typeof import('@maplejs/maple-ui'))['_ButtonGroupComponent']
     MpCard: (typeof import('@maplejs/maple-ui'))['_CardComponent']
+    MpCarousel: (typeof import('@maplejs/maple-ui'))['_CarouselComponent']
     MpCascader: (typeof import('@maplejs/maple-ui'))['_CascaderComponent']
     MpCell: (typeof import('@maplejs/maple-ui'))['_CellComponent']
     MpCheckbox: (typeof import('@maplejs/maple-ui'))['_CheckboxComponent']
@@ -154,6 +160,8 @@ declare module 'vue' {
     MpForm: (typeof import('@maplejs/maple-ui'))['_FormComponent']
     MpFormDetails: (typeof import('@maplejs/maple-ui'))['_FormDetailsComponent']
     MpFormItem: (typeof import('@maplejs/maple-ui'))['_FormItemComponent']
+    MpGrid: (typeof import('@maplejs/maple-ui'))['_GridComponent']
+    MpGridItem: (typeof import('@maplejs/maple-ui'))['_GridItemComponent']
     MpHighlighterProvider: (typeof import('@maplejs/maple-ui'))['_HighlighterProviderComponent']
     MpHoverOverlay: (typeof import('@maplejs/maple-ui'))['_HoverOverlayComponent']
     MpIcon: (typeof import('@maplejs/maple-ui'))['_IconComponent']
@@ -170,8 +178,11 @@ declare module 'vue' {
     MpLocale: (typeof import('@maplejs/maple-ui'))['_LocaleComponent']
     MpLocaleProvider: (typeof import('@maplejs/maple-ui'))['_LocaleProviderComponent']
     MpMenu: (typeof import('@maplejs/maple-ui'))['_MenuComponent']
+    MpMenuGroup: (typeof import('@maplejs/maple-ui'))['_MenuGroupComponent']
     MpMenuOption: (typeof import('@maplejs/maple-ui'))['_MenuOptionComponent']
     MpMessage: (typeof import('@maplejs/maple-ui'))['_MessageComponent']
+    MpNoticeBar: (typeof import('@maplejs/maple-ui'))['_NoticeBarComponent']
+    MpNumberKeyboard: (typeof import('@maplejs/maple-ui'))['_NumberKeyboardComponent']
     MpOption: (typeof import('@maplejs/maple-ui'))['_OptionComponent']
     MpOverlay: (typeof import('@maplejs/maple-ui'))['_OverlayComponent']
     MpPagination: (typeof import('@maplejs/maple-ui'))['_PaginationComponent']
@@ -197,8 +208,7 @@ declare module 'vue' {
     MpSticky: (typeof import('@maplejs/maple-ui'))['_StickyComponent']
     MpStyleProvider: (typeof import('@maplejs/maple-ui'))['_StyleProviderComponent']
     MpStyleVars: (typeof import('@maplejs/maple-ui'))['_StyleVarsComponent']
-    MpSwipe: (typeof import('@maplejs/maple-ui'))['_SwipeComponent']
-    MpSwipeItem: (typeof import('@maplejs/maple-ui'))['_SwipeItemComponent']
+    MpSwipeCell: (typeof import('@maplejs/maple-ui'))['_SwipeCellComponent']
     MpSwitch: (typeof import('@maplejs/maple-ui'))['_SwitchComponent']
     MpTab: (typeof import('@maplejs/maple-ui'))['_TabComponent']
     MpTabItem: (typeof import('@maplejs/maple-ui'))['_TabItemComponent']

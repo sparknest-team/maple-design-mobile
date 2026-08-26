@@ -49,13 +49,10 @@
           {{ placeholder }}
         </span>
 
-        <slot name="arrow-icon" :focus="isFocusing" :popup-open="show">
-          <mp-icon
-            :class="classes(n('arrow'), [show, n('--arrow-rotate')])"
-            mp-time-range-cover
-            name="menu-down"
-            :transition="300"
-          />
+        <slot name="arrow-icon" :focus="isFocusing" :popup-open="open">
+          <mp-icon :class="classes(n('arrow'), [open, n('--arrow-rotate')])" mp-time-range-cover :transition="300"
+            ><MIconMenuDown
+          /></mp-icon>
         </slot>
       </div>
 
@@ -68,7 +65,7 @@
       </template>
     </mp-field-decorator>
 
-    <mp-popup v-model:show="show" position="bottom" v-bind="popupBindingProps">
+    <mp-popup v-model:open="open" position="bottom" v-bind="popupBindingProps">
       <div :class="n('panel')">
         <div :class="n('toolbar')">
           <mp-button :class="n('cancel-button')" mp-time-range-cover text @click="handleCancel">
@@ -88,7 +85,7 @@
           :use-seconds="useSeconds"
           :min="min"
           :max="max"
-          :allowed-time="allowedTime"
+          :disabled-time="disabledTime"
           :show-next-day="showNextDay"
           :time-picker-props="timePickerBindingProps"
           :picker-props="pickerBindingProps"
@@ -101,6 +98,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
+import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
 import { call, isArray, isEmpty, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
@@ -121,6 +119,7 @@ const { name, n, classes } = createNamespace('time-range')
 export default defineComponent({
   name,
   components: {
+    MIconMenuDown,
     MpIcon,
     MpPopup,
     MpButton,
@@ -128,11 +127,12 @@ export default defineComponent({
     MpFieldDecorator,
   },
   props,
-  setup(props) {
+  emits: ['close', 'update:modelValue', 'update:open', 'focus', 'blur', 'change', 'clear', 'click'],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const translate = (key: string) => (pt ? pt : t)(key as any)
     const isFocusing = ref(false)
-    const show = useVModel(props, 'show', { defaultValue: false })
+    const open = useVModel(props, 'open', { defaultValue: false, emit, eventName: 'update:open' })
     const root = ref<HTMLElement | null>(null)
     const draft = ref<string[]>(['00:00', '00:00'])
     const confirming = ref(false)
@@ -160,12 +160,12 @@ export default defineComponent({
         return undefined
       }
       if (mergedError.value) {
-        return 'var(--mp-field-decorator-error-color)'
+        return 'var(--mp-field-color-error)'
       }
       if (isFocusing.value) {
-        return focusColor || 'var(--mp-field-decorator-focus-color)'
+        return focusColor || 'var(--mp-field-color-focus)'
       }
-      return blurColor || 'var(--mp-field-decorator-placeholder-color, var(--mp-field-decorator-blur-color))'
+      return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
     })
     const timePickerBindingProps = computed(() => ({ ...props.timePickerProps }))
     const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
@@ -181,7 +181,7 @@ export default defineComponent({
       return props.useSeconds ? '00:00:00' : '00:00'
     }
 
-    watch(show, (visible) => {
+    watch(open, (visible) => {
       if (visible) {
         const value = props.modelValue
         const fallback = defaultTime()
@@ -192,7 +192,7 @@ export default defineComponent({
         return
       }
       if (!confirming.value) {
-        call(props.onClose, props.modelValue)
+        emit('close', props.modelValue)
       }
       confirming.value = false
     })
@@ -206,103 +206,103 @@ export default defineComponent({
         return
       }
       const { key } = event
-      if (key === ' ' && !show.value) {
+      if (key === ' ' && !open.value) {
         preventDefault(event)
         return
       }
-      if (key === 'Escape' && show.value) {
+      if (key === 'Escape' && open.value) {
         root.value?.focus()
         preventDefault(event)
-        show.value = false
+        open.value = false
         return
       }
-      if (key === 'Tab' && show.value) {
+      if (key === 'Tab' && open.value) {
         root.value?.focus()
         preventDefault(event)
         handleBlur()
         return
       }
-      if (key === 'Enter' && !show.value) {
+      if (key === 'Enter' && !open.value) {
         preventDefault(event)
-        show.value = true
+        open.value = true
       }
     }
 
     function handleKeyup(event: KeyboardEvent) {
       const { disabled, readonly } = props
-      if (form?.disabled.value || form?.readonly.value || disabled || readonly || show.value || !isFocusing.value) {
+      if (form?.disabled.value || form?.readonly.value || disabled || readonly || open.value || !isFocusing.value) {
         return
       }
-      if (event.key === ' ' && !show.value) {
+      if (event.key === ' ' && !open.value) {
         preventDefault(event)
-        show.value = true
+        open.value = true
       }
     }
 
     function handleFocus() {
-      const { disabled, readonly, onFocus } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
       focus()
-      call(onFocus)
+      emit('focus')
       eventHandlers.value.onFocus?.()
     }
 
     function handleBlur() {
-      const { disabled, readonly, onBlur } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
       blur()
-      call(onBlur)
+      emit('blur')
       eventHandlers.value.onBlur?.()
     }
 
     function handleRootBlur() {
-      if (show.value) {
+      if (open.value) {
         return
       }
       handleBlur()
     }
 
     function handleClick(e: Event) {
-      const { disabled, onClick, readonly } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || disabled) {
         return
       }
-      call(onClick, e)
+      emit('click', e)
       if (form?.readonly.value || readonly) {
         return
       }
-      show.value = true
+      open.value = true
     }
 
     function handleClear() {
-      const { disabled, readonly, clearable, onClear, onChange } = props
+      const { disabled, readonly, clearable } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly || !clearable) {
         return
       }
       const changedModelValue: string[] = []
-      call(props['onUpdate:modelValue'], changedModelValue)
-      call(onClear, changedModelValue)
+      emit('update:modelValue', changedModelValue)
+      emit('clear', changedModelValue)
       eventHandlers.value.onClear?.()
-      call(onChange, changedModelValue)
+      emit('change', changedModelValue)
       eventHandlers.value.onChange?.()
     }
 
     function handleConfirm() {
-      const { disabled, readonly, onChange, onClose } = props
+      const { disabled, readonly } = props
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
       const value = sortTimeRangeValue(draft.value, props.showNextDay)
       confirming.value = true
-      call(props['onUpdate:modelValue'], value)
-      call(onChange, value)
+      emit('update:modelValue', value)
+      emit('change', value)
       eventHandlers.value.onChange?.()
-      call(onClose, value)
-      show.value = false
+      emit('close', value)
+      open.value = false
     }
 
     function handleCancel() {
@@ -310,7 +310,7 @@ export default defineComponent({
       if (form?.disabled.value || form?.readonly.value || disabled || readonly) {
         return
       }
-      show.value = false
+      open.value = false
     }
 
     function focus() {
@@ -319,13 +319,13 @@ export default defineComponent({
 
     function blur() {
       isFocusing.value = false
-      show.value = false
+      open.value = false
     }
 
     return {
       root,
       isFocusing,
-      show,
+      open,
       draft,
       mergedError,
       mergedHint,

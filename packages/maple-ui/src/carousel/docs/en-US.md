@@ -70,7 +70,7 @@ Displays a collection of items that can be scrolled and swiped across the screen
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" :autoplay="2000">
+  <mp-carousel class="carousel-example" :auto-play="2000">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -101,7 +101,7 @@ Displays a collection of items that can be scrolled and swiped across the screen
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" :autoplay="{ interval: 2000, hoverToPause: true }">
+  <mp-carousel class="carousel-example" :auto-play="{ interval: 2000, hoverToPause: true }">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -132,7 +132,7 @@ Displays a collection of items that can be scrolled and swiped across the screen
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" vertical>
+  <mp-carousel class="carousel-example" direction="vertical">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -161,11 +161,11 @@ Displays a collection of items that can be scrolled and swiped across the screen
 
 ### Navigation
 
-Navigation buttons can be enabled by setting `navigation`, when `navigation` is `hover`, the navigation buttons can be displayed when the pointer is hovering.
+Navigation buttons can be enabled by setting `show-arrow`, when `show-arrow` is `hover`, the navigation buttons can be displayed when the pointer is hovering.
 
 ```html
 <template>
-  <mp-carousel class="carousel-example" navigation>
+  <mp-carousel class="carousel-example" show-arrow="always">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -177,7 +177,7 @@ Navigation buttons can be enabled by setting `navigation`, when `navigation` is 
     </mp-carousel-item>
   </mp-carousel>
 
-  <mp-carousel class="carousel-example" navigation="hover">
+  <mp-carousel class="carousel-example" show-arrow="hover">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -643,17 +643,16 @@ import { Message } from '@maplejs/maple-ui'
 | `current`(v-model) | Current slide index (controlled mode) | _number_ | `-` |
 | `default-current` | Default current slide index | _number_ | `0` |
 | `loop` | Whether to loop infinitely | _boolean_ | `true` |
-| `autoplay` | Autoplay interval(ms). Object `{ interval, hoverToPause }` to enable hover pause | _string \| number \| CarouselAutoPlayConfig_ | `-` |
-| `duration` | Transition duration(ms) | _string \| number_ | `300` |
-| `initial-index` | Index of initial slide | _string \| number_ | `0` |
-| `navigation` | Show navigation arrows. `'hover'` shows on hover | _boolean \| 'hover' \| 'always' \| 'never'_ | `false` |
+| `auto-play` | Autoplay interval(ms). Object `{ interval, hoverToPause }` to enable hover pause | _string \| number \| CarouselAutoPlayConfig_ | `-` |
+| `move-speed` | Transition move speed(ms) | _string \| number_ | `300` |
+| `show-arrow` | Show navigation arrows | _'always' \| 'hover' \| 'never'_ | `never` |
 | `indicator` | Whether to show indicator dots | _boolean_ | `true` |
 | `indicator-color` | Color of indicator dots | _string_ | `-` |
 | `indicator-class` | Custom class for indicator | _string_ | `-` |
 | `indicator-type` | Indicator type, options: `dot` `line` `slider` | _string_ | `dot` |
 | `indicator-position` | Indicator position, options: `bottom` `top` `left` `right` `outer` | _string_ | `bottom` |
 | `arrow-class` | Custom class for navigation arrows | _string_ | `-` |
-| `vertical` | Whether to enable vertical carousel | _boolean_ | `false` |
+| `direction` | Carousel direction, optional values `horizontal` `vertical` | _string_ | `horizontal` |
 | `touchable` | Whether to enable touch swiping | _boolean_ | `true` |
 | `draggable` | Whether to enable mouse dragging | _boolean_ | `false` |
 | `effect` | Transition effect, options: `slide` `fade` `card` | _string_ | `slide` |

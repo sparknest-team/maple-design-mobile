@@ -1,11 +1,13 @@
 export default {
   basicUsage: '基本使用',
+  calendarMode: '日历模式',
   type: '选择类型',
   multiple: '多选',
   dateTime: '日期时间',
   disabled: '禁用',
   withFormItem: '搭配 FormItem',
   placeholder: '请选择日期',
+  calendarPlaceholder: '使用日历选择日期',
   year: '选择年',
   month: '选择月',
   date: '选择日',

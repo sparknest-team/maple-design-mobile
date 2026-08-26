@@ -18,20 +18,20 @@ test('watermark plugin', () => {
 test('watermark content', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      content: 'Varlet',
+      content: 'Maple',
     },
   })
 
   await wrapper.vm.$nextTick()
 
-  expect(wrapper.find('svg span').text()).toBe('Varlet')
+  expect(wrapper.find('svg span').text()).toBe('Maple')
   wrapper.unmount()
 })
 
 test('watermark font', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      content: 'Varlet',
+      content: 'Maple',
       font: {
         fontSize: 15,
         fontWeight: 700,
@@ -70,10 +70,10 @@ test('watermark fullscreen', async () => {
   wrapper.unmount()
 })
 
-test('watermark opacity', async () => {
+test('watermark alpha', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      opacity: 1,
+      alpha: 1,
     },
   })
 
@@ -86,7 +86,7 @@ test('watermark opacity', async () => {
 test('watermark image', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      image: 'https://maplejs.org/varlet/varlet_icon.png',
+      image: 'https://maplejs.org/maple_icon.png',
     },
   })
 
@@ -100,7 +100,7 @@ test('watermark content rotate', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
       rotate: 20,
-      content: 'Varlet',
+      content: 'Maple',
     },
   })
 
@@ -119,7 +119,7 @@ test('watermark image rotate', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
       rotate: 20,
-      image: 'https://maplejs.org/varlet/varlet_icon.png',
+      image: 'https://maplejs.org/maple_icon.png',
     },
   })
 
@@ -174,10 +174,10 @@ test('watermark height', async () => {
   wrapper.unmount()
 })
 
-test('watermark gapX', async () => {
+test('watermark gap', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      gapX: 20,
+      gap: [20, 0],
     },
   })
 
@@ -185,38 +185,19 @@ test('watermark gapX', async () => {
 
   expect(wrapper.find('svg').attributes('style')).toContain('padding: 0px 20px 0px 0px')
   await wrapper.setProps({
-    gapX: 30,
+    gap: [30, 20],
   })
 
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('svg').attributes('style')).toContain('padding: 0px 30px 0px 0px')
+  expect(wrapper.find('svg').attributes('style')).toContain('padding: 0px 30px 20px 0px')
   wrapper.unmount()
 })
 
-test('watermark gapY', async () => {
+test('watermark content offset', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      gapY: 20,
-    },
-  })
-
-  await wrapper.vm.$nextTick()
-
-  expect(wrapper.find('svg').attributes('style')).toContain('padding: 0px 0px 20px 0px')
-  await wrapper.setProps({
-    gapY: 30,
-  })
-
-  await wrapper.vm.$nextTick()
-  expect(wrapper.find('svg').attributes('style')).toContain('padding: 0px 0px 30px 0px')
-  wrapper.unmount()
-})
-
-test('watermark content offsetX', async () => {
-  const wrapper = mount(VarWatermark, {
-    props: {
-      offsetX: 20,
-      content: 'Varlet',
+      offset: [20, 0],
+      content: 'Maple',
     },
   })
 
@@ -224,39 +205,19 @@ test('watermark content offsetX', async () => {
 
   expect(wrapper.find('svg div').attributes('style')).toContain('transform: translate(20px, 0px)')
   await wrapper.setProps({
-    offsetX: 30,
+    offset: [30, 20],
   })
 
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('svg div').attributes('style')).toContain('transform: translate(30px, 0px)')
+  expect(wrapper.find('svg div').attributes('style')).toContain('transform: translate(30px, 20px)')
   wrapper.unmount()
 })
 
-test('watermark content offsetY', async () => {
+test('watermark image offset', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      offsetY: 20,
-      content: 'Varlet',
-    },
-  })
-
-  await wrapper.vm.$nextTick()
-
-  expect(wrapper.find('svg div').attributes('style')).toContain('transform: translate(0px, 20px)')
-  await wrapper.setProps({
-    offsetY: 30,
-  })
-
-  await wrapper.vm.$nextTick()
-  expect(wrapper.find('svg div').attributes('style')).toContain('transform: translate(0px, 30px)')
-  wrapper.unmount()
-})
-
-test('watermark image offsetX', async () => {
-  const wrapper = mount(VarWatermark, {
-    props: {
-      offsetX: 20,
-      image: 'https://maplejs.org/varlet/varlet_icon.png',
+      offset: [20, 0],
+      image: 'https://maplejs.org/maple_icon.png',
     },
   })
 
@@ -264,27 +225,7 @@ test('watermark image offsetX', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
   await wrapper.setProps({
-    offsetX: 30,
-  })
-
-  await wrapper.vm.$nextTick()
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
-})
-
-test('watermark image offsetY', async () => {
-  const wrapper = mount(VarWatermark, {
-    props: {
-      offsetY: 20,
-      image: 'https://maplejs.org/varlet/varlet_icon.png',
-    },
-  })
-
-  await wrapper.vm.$nextTick()
-
-  expect(wrapper.html()).toMatchSnapshot()
-  await wrapper.setProps({
-    offsetY: 30,
+    offset: [0, 30],
   })
 
   await wrapper.vm.$nextTick()
@@ -295,21 +236,21 @@ test('watermark image offsetY', async () => {
 test('watermark content slot', async () => {
   const wrapper = mount(VarWatermark, {
     slots: {
-      content: () => 'Varlet UI',
+      content: () => 'Maple UI',
     },
   })
 
   await wrapper.vm.$nextTick()
 
-  expect(wrapper.find('svg div').text()).toBe('Varlet UI')
+  expect(wrapper.find('svg div').text()).toBe('Maple UI')
   wrapper.unmount()
 })
 
 test('watermark priority between image and content', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      image: 'https://maplejs.org/varlet/varlet_icon.png',
-      content: 'Varlet UI',
+      image: 'https://maplejs.org/maple_icon.png',
+      content: 'Maple UI',
     },
   })
 
@@ -323,16 +264,16 @@ test('watermark priority between image and content', async () => {
 test('watermark priority between image and content slot', async () => {
   const wrapper = mount(VarWatermark, {
     props: {
-      image: 'https://maplejs.org/varlet/varlet_icon.png',
+      image: 'https://maplejs.org/maple_icon.png',
     },
     slots: {
-      content: () => 'Varlet UI',
+      content: () => 'Maple UI',
     },
   })
 
   await wrapper.vm.$nextTick()
 
   expect(wrapper.find('svg image').exists()).toBe(false)
-  expect(wrapper.find('svg div').text()).toBe('Varlet UI')
+  expect(wrapper.find('svg div').text()).toBe('Maple UI')
   wrapper.unmount()
 })

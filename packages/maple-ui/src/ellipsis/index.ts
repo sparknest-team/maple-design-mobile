@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Ellipsis, ellipsisProps)
 
 export { ellipsisProps }
 
+export type EllipsisInstance = InstanceType<typeof Ellipsis>
 export const _EllipsisComponent = Ellipsis
 
 export default Ellipsis

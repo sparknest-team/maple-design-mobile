@@ -19,13 +19,13 @@
         @blur="isFocusing = false"
       >
         <slot v-if="isIndeterminate" name="indeterminate-icon">
-          <mp-icon :class="n('icon')" name="minus-box" :size="iconSize" mp-checkbox-cover />
+          <MIconMinusBox :class="n('icon')" :size="iconSize" mp-checkbox-cover />
         </slot>
         <slot v-if="checked && !isIndeterminate" name="checked-icon">
-          <mp-icon :class="n('icon')" name="checkbox-marked" :size="iconSize" mp-checkbox-cover />
+          <MIconCheckboxMarked :class="n('icon')" :size="iconSize" mp-checkbox-cover />
         </slot>
         <slot v-if="!checked && !isIndeterminate" name="unchecked-icon">
-          <mp-icon :class="n('icon')" name="checkbox-blank-outline" :size="iconSize" mp-checkbox-cover />
+          <MIconCheckboxBlankOutline :class="n('icon')" :size="iconSize" mp-checkbox-cover />
         </slot>
         <mp-hover-overlay
           :hovering="!disabled && !formDisabled && hovering"
@@ -52,13 +52,17 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import {
+  IconCheckboxBlankOutline as MIconCheckboxBlankOutline,
+  IconCheckboxMarked as MIconCheckboxMarked,
+  IconMinusBox as MIconMinusBox,
+} from '@maplejs/icons-vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import { useFormItem } from '../form-item'
 import { useForm } from '../form/provide'
 import Hover from '../hover'
 import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
-import MpIcon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
@@ -70,24 +74,27 @@ export default defineComponent({
   name,
   directives: { Ripple, Hover },
   components: {
-    MpIcon,
+    MIconMinusBox,
+    MIconCheckboxMarked,
+    MIconCheckboxBlankOutline,
     MpHoverOverlay,
   },
   props,
-  setup(props) {
+  emits: ['change', 'click', 'update:modelValue', 'update:indeterminate'],
+  setup(props, { emit }) {
     const action = ref<HTMLElement | null>(null)
     const isFocusing = ref(false)
-    const value = useVModel(props, 'modelValue')
-    const isIndeterminate = useVModel(props, 'indeterminate')
-    const checked = computed(() => value.value === props.checkedValue)
-    const checkedValue = computed(() => props.checkedValue)
+    const model = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
+    const isIndeterminate = useVModel(props, 'indeterminate', { emit, eventName: 'update:indeterminate' })
+    const checked = computed(() => model.value === props.value)
+    const optionValue = computed(() => props.value)
     const { checkboxGroup, bindCheckboxGroup } = useCheckboxGroup()
     const { hovering, handleHovering } = useHoverOverlay()
     const { form } = useForm()
     const { mergedError, eventHandlers } = useFormItem()
 
     const checkboxProvider: CheckboxProvider = {
-      checkedValue,
+      value: optionValue,
       checked,
       sync,
     }
@@ -98,22 +105,22 @@ export default defineComponent({
     useEventListener(() => window, 'keyup', handleKeyup)
 
     function change(changedValue: any) {
-      const { checkedValue, onChange } = props
+      const { value: optionVal } = props
 
-      value.value = changedValue
-      call(onChange, value.value, isIndeterminate.value)
+      model.value = changedValue
+      emit('change', model.value, isIndeterminate.value)
       eventHandlers.value.onChange?.()
-      changedValue === checkedValue ? checkboxGroup?.onChecked(checkedValue) : checkboxGroup?.onUnchecked(checkedValue)
+      changedValue === optionVal ? checkboxGroup?.onChecked(optionVal) : checkboxGroup?.onUnchecked(optionVal)
     }
 
     function handleClick(e: Event) {
-      const { disabled, readonly, checkedValue, uncheckedValue, onClick } = props
+      const { disabled, readonly, value: optionVal } = props
 
       if (form?.disabled.value || disabled) {
         return
       }
 
-      call(onClick, e)
+      emit('click', e)
 
       if (form?.readonly.value || readonly) {
         return
@@ -121,7 +128,7 @@ export default defineComponent({
 
       if (isIndeterminate.value === true) {
         isIndeterminate.value = false
-        call(props.onChange, value.value, isIndeterminate.value)
+        emit('change', model.value, isIndeterminate.value)
         eventHandlers.value.onChange?.()
         return
       }
@@ -132,7 +139,7 @@ export default defineComponent({
         return
       }
 
-      change(checked.value ? uncheckedValue : checkedValue)
+      change(checked.value ? false : optionVal)
     }
 
     function handleTextClick() {
@@ -140,17 +147,17 @@ export default defineComponent({
     }
 
     function sync(values: Array<any>) {
-      const { checkedValue, uncheckedValue } = props
-      value.value = values.includes(checkedValue) ? checkedValue : uncheckedValue
+      const { value: optionVal } = props
+      model.value = values.includes(optionVal) ? optionVal : false
     }
 
     // expose
     function toggle(changedValue?: any) {
-      const { checkedValue, uncheckedValue } = props
+      const { value: optionVal } = props
 
-      const shouldReverse = ![checkedValue, uncheckedValue].includes(changedValue)
+      const shouldReverse = ![optionVal, false].includes(changedValue)
       if (shouldReverse) {
-        changedValue = checked.value ? uncheckedValue : checkedValue
+        changedValue = checked.value ? false : optionVal
       }
 
       change(changedValue)

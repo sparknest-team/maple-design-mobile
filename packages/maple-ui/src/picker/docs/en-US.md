@@ -486,9 +486,7 @@ function handleChange(values, indexes) {
 | `v-model` | Selected values | _(string \| number)[]_ | `[]` |
 | `columns` | Column content | _PickerColumnOption[] \| PickerColumnOption[][]_ | `[]` |
 | `title` | Title | _string_ | `Pick it` |
-| `text-key` | Text key | _string_ | `text` |
-| `value-key` | Value key | _string_ | `value` |
-| `children-key` | Children key | _string_ | `children` |
+| `field-names` | Custom column field mapping (`label` maps to text, default `text`) | _{ label?, value?, children? }_ | `-` |
 | `toolbar` | Whether to display the upper toolbar | _boolean_ | `true` |
 | `selected-values` | Selected option values; shows a check mark on the right | _(string \| number)[]_ | `[]` |
 | `cascade` | Whether to enable cascade mode | _boolean_ | `true` |
@@ -499,7 +497,7 @@ function handleChange(values, indexes) {
 | `cancel-button-text` | Cancel button text | _string_ | `Cancel` |
 | `confirm-button-text-color` | Confirm button text color | _string_ | `-` |
 | `cancel-button-text-color` | Cancel button text color | _string_ | `-` |
-| `close-on-key-escape` | Whether to support keyboard ESC to close the picker | _boolean_ | `true`  |
+| `esc-to-close` | Whether to support keyboard ESC to close the picker | _boolean_ | `true`  |
 
 ### Picker Options
 
@@ -507,9 +505,7 @@ function handleChange(values, indexes) {
 |--------------------------| --- | --- | --- |
 | `columns`                | Column content | _PickerColumnOption[] \| PickerColumnOption[][]_ | `[]` |
 | `title`                  | Column content | _string_ | `Pick it` |
-| `textKey`                | Text key | _string_ | `text` |
-| `valueKey`               | Value key | _string_ | `value` |
-| `childrenKey`            | Children key | _string_ | `children` |
+| `fieldNames`             | Custom column field mapping (`label` maps to text, default `text`) | _{ label?, value?, children? }_ | `-` |
 | `toolbar`                | Whether to display the upper toolbar | _boolean_ | `true` |
 | `selectedValues`         | Selected option values; shows a check mark on the right | _(string \| number)[]_ | `[]` |
 | `cascade`                | Whether to enable cascade mode | _boolean_ | `true` |
@@ -520,8 +516,8 @@ function handleChange(values, indexes) {
 | `cancelButtonText`       | Cancel button text | _string_ | `Cancel` |
 | `confirmButtonTextColor` | Confirm button text color | _string_ | `-` |
 | `cancelButtonTextColor`  | Cancel button text color | _string_ | `-` |
-| `closeOnClickOverlay`    | Whether to click the overlay to close the picker  | _boolean_ |  `true`  |
-| `closeOnKeyEscape`       | Whether to support keyboard ESC to close the picker | _boolean_ |`true`  |
+| `maskClosable`    | Whether to click the overlay to close the picker  | _boolean_ |  `true`  |
+| `escToClose`       | Whether to support keyboard ESC to close the picker | _boolean_ |`true`  |
 | `safeArea`               | Whether to enable bottom safety zone adaptation      | _boolean_             | `false`  |
 | `onClickOverlay`         | Click overlay callback  | _() => void_   | `-`  |
 | `onOpen`                 | Popup open callback | _() => void_ | `-` |
@@ -578,7 +574,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--picker-toolbar-height` | `44px` |
 | `--picker-confirm-button-text-color` | `var(--color-primary)` |
 | `--picker-cancel-button-text-color` | `#888` |
-| `--picker-picked-border` | `1px solid var(--color-outline)` |
+| `--picker-picked-border` | `1px solid var(--color-border-2)` |
 | `--picker-title-font-size` | `var(--font-size-lg)` |
 | `--picker-title-text-color` | `#555` |
 | `--picker-option-font-size` | `var(--font-size-lg)` |

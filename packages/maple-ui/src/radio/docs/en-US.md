@@ -5,8 +5,7 @@
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `v-model` | The value of the binding | _any_ | `false` |
-| `checked-value` | Checked value | _any_ | `true` |
-| `unchecked-value` | Unchecked value | _any_ | `false` |
+| `value` | Option value | _any_ | `true` |
 | `checked-color` | Checked color | _string_ | `-` |
 | `unchecked-color` | Unchecked color | _string_ | `-` |
 | `icon-size` | Icon size | _string \| number_ | `-` |

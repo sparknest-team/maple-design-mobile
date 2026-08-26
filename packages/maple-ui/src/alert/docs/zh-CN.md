@@ -80,7 +80,7 @@
 <template>
   <mp-alert title="…" message="…">
     <template #icon>
-      <mp-icon name="heart" />
+      <m-icon-heart />
     </template>
   </mp-alert>
 </template>
@@ -92,7 +92,7 @@
 <template>
   <mp-alert title="…" message="…">
     <template #action>
-      <mp-button size="mini" type="primary">详情</mp-button>
+      <mp-button size="xs" type="primary">详情</mp-button>
     </template>
   </mp-alert>
 </template>
@@ -112,7 +112,7 @@
 <template>
   <mp-alert title="…" message="…" closable>
     <template #close-icon>
-      <mp-icon name="window-close" />
+      <m-icon-window-close />
     </template>
   </mp-alert>
 </template>

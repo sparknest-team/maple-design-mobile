@@ -7,5 +7,6 @@ export default {
   '--mp-link-info-color': 'var(--mp-color-info)',
   '--mp-link-disabled-color': 'var(--mp-color-text-disabled)',
   '--mp-link-font-size': 'var(--mp-font-size-md)',
+  '--mp-link-icon-size': '1em',
   '--mp-link-focus-opacity': '0.8',
 }

@@ -26,7 +26,8 @@ test('date-range confirm writes modelValue', async () => {
   await delay(300)
 
   expect(document.querySelector('.mp-date-range__panel')).toBeTruthy()
-  expect(document.querySelector('.mp-date-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-date-picker')).toBeFalsy()
 
   await trigger(document.querySelector('.mp-date-range__confirm-button'), 'click')
   await delay(300)
@@ -39,11 +40,11 @@ test('date-range confirm writes modelValue', async () => {
   document.body.innerHTML = ''
 })
 
-test('date-range picker presentation', async () => {
+test('date-range calendar presentation', async () => {
   const wrapper = mount(VarDateRange, {
     props: {
       modelValue: ['2024-01-01', '2024-12-31'],
-      presentation: 'picker',
+      presentation: 'calendar',
     },
     attachTo: document.body,
   })
@@ -51,8 +52,8 @@ test('date-range picker presentation', async () => {
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
 
-  expect(document.querySelector('.mp-date-range-picker__values')).toBeTruthy()
-  expect(document.querySelector('.mp-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-date-picker')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeFalsy()
 
   wrapper.unmount()
   document.body.innerHTML = ''

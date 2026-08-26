@@ -41,7 +41,7 @@
 
     <mp-image-preview
       v-if="showStandalonePreview"
-      v-model:visible="previewVisibleState"
+      v-model:open="previewOpenState"
       :images="[previewUrl]"
       v-bind="previewProps"
       @close="handlePreviewClose"
@@ -74,27 +74,25 @@ export default defineComponent({
     Ripple,
   },
   props,
-  emits: ['update:previewVisible', 'preview-visible-change'],
+  emits: ['update:previewOpen', 'preview-open-change', 'click', 'load', 'error'],
   setup(props, { slots, emit }) {
     const showErrorSlot = ref(false)
     const groupContext = inject(PreviewGroupInjectionKey, undefined)
-    const localPreviewVisible = ref(props.defaultPreviewVisible)
+    const localPreviewOpen = ref(props.defaultPreviewOpen)
     const currentImageId = imageId++
 
-    const previewVisibleState = computed({
+    const previewOpenState = computed({
       get() {
-        return props.previewVisible ?? localPreviewVisible.value
+        return props.previewOpen ?? localPreviewOpen.value
       },
       set(value: boolean) {
-        if (props.previewVisible !== undefined) {
-          call(props['onUpdate:previewVisible'], value)
-          emit('update:previewVisible', value)
+        if (props.previewOpen !== undefined) {
+          emit('update:previewOpen', value)
         } else {
-          localPreviewVisible.value = value
+          localPreviewOpen.value = value
         }
 
-        call(props.onPreviewVisibleChange, value)
-        emit('preview-visible-change', value)
+        emit('preview-open-change', value)
       },
     })
 
@@ -123,7 +121,7 @@ export default defineComponent({
 
     function handleError(e: Event) {
       showErrorSlot.value = !!slots.error
-      call(props.onError, e)
+      emit('error', e)
     }
 
     function handleLoad(e: Event) {
@@ -131,7 +129,7 @@ export default defineComponent({
 
       if (props.lazy) {
         if (el._lazy.state === 'success') {
-          call(props.onLoad, e)
+          emit('load', e)
           return
         }
 
@@ -139,12 +137,12 @@ export default defineComponent({
           handleError(e)
         }
       } else {
-        call(props.onLoad, e)
+        emit('load', e)
       }
     }
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
 
       if (!props.preview || showErrorSlot.value) {
         return
@@ -155,17 +153,17 @@ export default defineComponent({
         return
       }
 
-      previewVisibleState.value = true
+      previewOpenState.value = true
     }
 
     function handlePreviewClose() {
-      previewVisibleState.value = false
+      previewOpenState.value = false
     }
 
     return {
       showErrorSlot,
       showStandalonePreview,
-      previewVisibleState,
+      previewOpenState,
       previewUrl,
       previewProps: computed(() => props.previewProps),
       n,

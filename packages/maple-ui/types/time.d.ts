@@ -7,7 +7,7 @@ export type TimeFormat = 'ampm' | '24hr'
 
 export type TimeSize = 'small' | 'normal'
 
-export type AllowedTime = {
+export type DisabledTime = {
   hours?: (hour: number) => boolean
   minutes?: (minute: number) => boolean
   seconds?: (second: number) => boolean
@@ -15,12 +15,12 @@ export type AllowedTime = {
 
 export interface TimeProps extends BasicAttributes {
   modelValue?: string
-  show?: boolean
+  open?: boolean
   format?: TimeFormat
   useSeconds?: boolean
   min?: string
   max?: string
-  allowedTime?: AllowedTime
+  disabledTime?: DisabledTime
   timePickerProps?: Record<string, any>
   popupProps?: Record<string, any>
   variant?: TimeVariant
@@ -41,7 +41,7 @@ export interface TimeProps extends BasicAttributes {
   onClose?: ListenerProp<(value: string | undefined) => void>
   onChange?: ListenerProp<(value: string | undefined) => void>
   'onUpdate:modelValue'?: ListenerProp<(value: string | undefined) => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export interface TimeArrowIconData {

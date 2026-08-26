@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Collapse, collapseProps)
 
 export { collapseProps }
 
+export type CollapseInstance = InstanceType<typeof Collapse>
 export const _CollapseComponent = Collapse
 
 export default Collapse

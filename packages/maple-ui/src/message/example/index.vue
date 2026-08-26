@@ -157,40 +157,40 @@ function openMultiple() {
   </mp-space>
 
   <div class="message-demo">
-    <mp-message v-model:show="show1">
+    <mp-message v-model:open="show1">
       {{ t('text') }}
     </mp-message>
 
-    <mp-message v-model:show="show2" position="bottom">
+    <mp-message v-model:open="show2" position="bottom">
       {{ t('text') }}
       <template #action>
-        <mp-button type="primary" :elevation="false" size="small" @click="show2 = false">{{ t('close') }}</mp-button>
+        <mp-button type="primary" :elevation="false" size="sm" @click="show2 = false">{{ t('close') }}</mp-button>
       </template>
     </mp-message>
 
-    <mp-message v-model:show="show3" :vertical="true">
+    <mp-message v-model:open="show3" :vertical="true">
       {{ t('text') }}
       <template #action>
-        <mp-button type="primary" :elevation="false" size="small" @click="show3 = false">{{ t('close') }}</mp-button>
+        <mp-button type="primary" :elevation="false" size="sm" @click="show3 = false">{{ t('close') }}</mp-button>
       </template>
     </mp-message>
 
-    <mp-message v-model:show="show4" :duration="100000" :elevation="5">
+    <mp-message v-model:open="show4" :duration="100000" :elevation="5">
       {{ t('text') }}
     </mp-message>
 
-    <mp-message v-model:show="show5">
+    <mp-message v-model:open="show5">
       {{ t('text') }}
       <template #icon>
-        <mp-icon name="heart-outline" />
+        <m-icon-heart-outline />
       </template>
     </mp-message>
 
-    <mp-message v-model:show="show9" :forbid-click="true">
+    <mp-message v-model:open="show9" :forbid-click="true">
       {{ t('text') }}
     </mp-message>
 
-    <mp-message v-model:show="showClosable" closable :duration="0" type="info">
+    <mp-message v-model:open="showClosable" closable :duration="0" type="info">
       {{ t('text') }}
     </mp-message>
   </div>

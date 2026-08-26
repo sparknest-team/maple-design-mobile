@@ -2,217 +2,184 @@
 
 ### Intro
 
-A red dot, number, or text that appears in the upper corner of an icon or text indicates that there is new content or pending information.
+A red dot, number, or text that appears on an icon or text to indicate new or pending content.
+
+> ⚠️ **BREAKING**: Aligned with PC `CBadge`. Old API is not compatible. Migration:
+
+| Old API | New API |
+| --- | --- |
+| `type="primary"` etc. | `status="primary"` etc. |
+| `type="floating\|inline"` (layout) | `mode="floating\|inline"` |
+| `value` | `content` |
+| `max-value` | `max` |
+| `hidden` | `show` (inverted) |
+| `position="right-top"` | `position="top-right"` |
+| `position="right-bottom"` | `position="bottom-right"` |
+| `position="left-top"` | `position="top-left"` |
+| `position="left-bottom"` | `position="bottom-left"` |
+| `slot="value"` | `slot="content"` |
+| `icon` / `namespace` | _removed (use `slot="content"`)_ |
 
 ### Theme Color Badge
 
-Set different color badge through the `type` attribute.
+Set different theme colors via `status`.
 
 ```html
-<template>
-  <mp-space>
-    <mp-badge />
-    <mp-badge type="primary" />
-    <mp-badge type="info" />
-    <mp-badge type="success" />
-    <mp-badge type="warning" />
-    <mp-badge type="danger" />
-  </mp-space>
-</template>
+<mp-badge dot status="primary" />
+<mp-badge dot status="info" />
+<mp-badge dot status="success" />
+<mp-badge dot status="warning" />
+<mp-badge dot status="danger" />
 ```
 
 ### Dot Badge
 
-Set the badge as a dot through the `dot` attribute.
+```html
+<mp-badge dot status="danger">
+  <mp-tag>Badge</mp-tag>
+</mp-badge>
+```
+
+### Custom Content
 
 ```html
-<template>
-  <mp-badge type="danger" dot />
-</template>
+<mp-badge status="danger" content="hot">
+  <mp-tag>Badge</mp-tag>
+</mp-badge>
+<mp-badge status="danger" :content="66">
+  <mp-tag>Badge</mp-tag>
+</mp-badge>
 ```
-### Custom Badge Content
 
-Set the content of the badge through the `value` attribute.
-
-```html
-<template>
-  <mp-space>
-    <mp-badge type="danger" :value="66" />
-    <mp-badge type="danger" value="badge" />
-    <mp-badge type="danger" value="hot" />
-  </mp-space>
-</template>
-```
 ### Maximum
 
-Control the range of badge display values through `value` and `max-value` (effective when both `value` and `max-value` exist).
+When numeric `content` exceeds `max`, it shows `${max}+`.
 
 ```html
-<template>
-  <mp-space>
-    <mp-badge type="danger" :value="88" :max-value="99" />
-    <mp-badge type="danger" :value="188" :max-value="99" />
-  </mp-space>
-</template>
+<mp-badge status="danger" :content="188" :max="99">
+  <mp-tag>Badge</mp-tag>
+</mp-badge>
 ```
 
-### Different Positioning Badges
-
-Set the position of the badge through the `position` property.
+### Position
 
 ```html
-<template>
-  <mp-space :size="[8, 20]">
-    <mp-badge type="danger">
-      <mp-tag>The Upper Right</mp-tag>
-    </mp-badge>
-    <mp-badge type="danger" position="right-bottom">
-      <mp-tag>The Lower Right</mp-tag>
-    </mp-badge>
-    <mp-badge type="danger" position="left-top">
-      <mp-tag>The Upper Left</mp-tag>
-    </mp-badge>
-    <mp-badge type="danger" position="left-bottom">
-      <mp-tag>The Lower Left</mp-tag>
-    </mp-badge>
-  </mp-space>
-</template>
+<mp-badge dot status="danger" position="top-right" />
+<mp-badge dot status="danger" position="top-left" />
+<mp-badge dot status="danger" position="bottom-right" />
+<mp-badge dot status="danger" position="bottom-left" />
 ```
 
-### Custom Offset
-
-Set the horizontal and vertical offset of the logo via the `offset-x` and `offset-y` properties.
+### Offset
 
 ```html
-<template>
-  <mp-space :size="[8, 20]">
-    <mp-badge type="danger" :offset-x="6" :offset-y="6">
-      <mp-tag>Badge</mp-tag>
-    </mp-badge>
-    <mp-badge type="danger" position="right-bottom" :offset-x="6" :offset-y="6">
-      <mp-tag>Badge</mp-tag>
-    </mp-badge>
-    <mp-badge type="danger" position="left-top" :offset-x="6" :offset-y="6">
-      <mp-tag>Badge</mp-tag>
-    </mp-badge>
-    <mp-badge type="danger" position="left-bottom" :offset-x="6" :offset-y="6">
-      <mp-tag>Badge</mp-tag>
-    </mp-badge>
-  </mp-space>
-</template>
+<mp-badge status="danger" dot :offset-x="6" :offset-y="6">
+  <mp-tag>Badge</mp-tag>
+</mp-badge>
 ```
 
-### Hidden Badge
-
-Control whether the badge is hidden or not via the `hidden` prop.
+### Hidden
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const hidden = ref(false)
-
-function handleChange() {
-  hidden.value = !hidden.value
-}
-</script>
-
-<template>
-  <mp-space>
-    <mp-badge type="danger" :hidden="hidden">
-      <mp-tag>Badge</mp-tag>
-    </mp-badge>
-
-    <mp-button type="success" @click="handleChange">Click To Change The State</mp-button>
-  </mp-space>
-</template>
+<mp-badge status="danger" dot :show="false">
+  <mp-tag>Badge</mp-tag>
+</mp-badge>
 ```
 
-### Custom Badge Color
+### Inline Mode
 
-Set the color of the badge through the `color` property.
+Use `mode="inline"` with `description` for inline badges.
 
 ```html
-<template>
-  <mp-badge type="primary" color="#6200ea">
-    <mp-tag>Badge</mp-tag>
-  </mp-badge>
-</template>
+<mp-badge mode="inline" status="success" dot description="Online" />
+<mp-badge mode="inline" status="warning" dot description="Away" />
 ```
 
-### Custom Badge Icon
-
-Set Badge Icon through `icon` property.
+### Size
 
 ```html
-<template>
-  <mp-badge icon="notebook">
-    <mp-tag>Badge</mp-tag>
-  </mp-badge>
-</template>
+<mp-badge mode="inline" status="primary" :content="6" size="xs" description="xs" />
+<mp-badge mode="inline" status="primary" :content="6" size="sm" description="sm" />
+<mp-badge mode="inline" status="primary" :content="6" size="md" description="md" />
+<mp-badge mode="inline" status="primary" :content="6" size="lg" description="lg" />
+<mp-badge mode="inline" status="primary" :content="6" size="xl" description="xl" />
 ```
 
-### Custom Badge Value
+### Outline Variant
 
 ```html
-<template>
-  <mp-badge>
-    <mp-tag>Badge</mp-tag>
-
-    <template #value>
-      <mp-ellipsis style="max-width: 40px" :tooltip="{ sameWidth: false }">100000000</mp-ellipsis>
-    </template>
-  </mp-badge>
-</template>
+<mp-badge mode="inline" variant="outline" status="primary" :content="6" description="primary" />
 ```
 
 ## API
 
 ### Props
 
-| Prop | Description                                                                                                                                                          | Type | Default |
-| --- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- | --- |
-| `type` | Badge type, can be set to `default` `primary` `info` `success` `warning` `danger`                                                                                    | _string_ | `default` |
-| `hidden` | Whether to hidden badge                                                                                                                                              | _boolean_ | `false` |
-| `dot` | Whether the badge is a dot                                                                                                                                           | _boolean_ | `false`|
-| `value` | The value shown in the badge (takes effect when `dot` is `false`)                                                                                                    | _string \| number_ | `0`|
-| `max-value`| The maximum value shown in the logo, when `value` is greater than `max-value`, displays `max-value+` (effective when both `value` and `max-value` exist)             | _number_| `-` |
-| `position` | Define the position of the logo on other labels when there are other labels in the logo tag. Optional values are `right-top` `right-bottom` `left-top` `left-bottom` | _string_ | `right-top` |
-| `offset-x`  | The horizontal offset of badge | _number \| string_ | `0` |
-| `offset-y`  | The vertical offset of badge | _number \| string_ | `0` |
-| `color` | Custom badge colors                                                                                                                                                  | _string_ | `-` |
-| `icon` | Customize the content of the icon in the badge (priority is higher than `value`)                                                                                      | _string_ | `-` |
-| `namespace`      | Customize the namespace of the icon in the badge | _string_ | `mp-icon` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `description` | Description text (shown beside content when `mode=inline`; floating uses default slot) | `string` | `-` |
+| `dot` | Show as a red dot | `boolean` | `false` |
+| `max` | Max numeric value; overflow shows `${max}+` | `number` | `99` |
+| `show` | Whether to show the badge | `boolean` | `true` |
+| `show-zero` | Show when `content` is `0` | `boolean` | `false` |
+| `offset-x` | Horizontal offset (px) | `number` | `0` |
+| `offset-y` | Vertical offset (px) | `number` | `0` |
+| `color` | Custom background color | `string` | `-` |
+| `text-color` | Custom text color | `string` | `-` |
+| `content` | Badge content | `string \| number` | `-` |
+| `mode` | Layout mode: `floating` / `inline` | `BadgeMode` | `'floating'` |
+| `position` | Position when floating | `BadgePosition` | `'top-right'` |
+| `inline-position` | Position when inline | `BadgeInlinePosition` | `'end'` |
+| `size` | Size | `BadgeSize` | `'md'` |
+| `status` | Semantic color | `BadgeStatus` | `'default'` |
+| `variant` | Variant | `BadgeVariant` | `'default'` |
 
 ### Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` |  Badge content | `-` |
-| `value` | The value shown in the badge | `-` |
-
-### Style Variables
-
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
-
-| Variable | Default |
+| Name | Description |
 | --- | --- |
-| `--badge-content-padding` | `2px 6px` |
-| `--badge-content-border`| `none` |
-| `--badge-content-border-radius`| `100px` |
-| `--badge-content-font-size` | `12px` |
-| `--badge-icon-size` | `12px` |
-| `--badge-default-color` | `#e0e0e0` |
-| `--badge-primary-color` | `var(--color-primary)`|
-| `--badge-danger-color` |  `var(--color-danger)`|
-| `--badge-success-color` | `var(--color-success)`|
-| `--badge-warning-color` |  `var(--color-warning)`|
-| `--badge-info-color` | `var(--color-info)`|
-| `--badge-default-text-color` | `#1D1B20` |
-| `--badge-primary-text-color` | `var(--color-on-primary)` |
-| `--badge-danger-text-color` | `var(--color-on-danger)` |
-| `--badge-success-text-color` | `var(--color-on-success)` |
-| `--badge-warning-text-color` | `var(--color-on-warning)` |
-| `--badge-info-text-color` | `var(--color-on-info)` |
-| `--badge-dot-width` |  `8px`|
-| `--badge-dot-height` | `8px`|
+| `default` | Wrapped content (`mode=floating`) |
+| `content` | Custom badge content (overrides `content` prop) |
+
+## Types
+
+```ts
+type BadgeStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary'
+type BadgeVariant = 'default' | 'outline'
+type BadgeMode = 'floating' | 'inline'
+type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+type BadgeInlinePosition = 'start' | 'end'
+type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+```
+
+## Style Variables
+
+### Common
+
+| Name | Default |
+| --- | --- |
+| `--mp-badge-font-weight` | `500` |
+| `--mp-badge-bg-color` | `#ef4444` |
+| `--mp-badge-text-color` | `#ffffff` |
+| `--mp-badge-description-text-color` | `var(--mp-color-text-1)` |
+
+### Size (`xs / sm / md / lg / xl`)
+
+| Name |
+| --- |
+| `--mp-badge-size-{size}-font-size` |
+| `--mp-badge-size-{size}-scale` |
+| `--mp-badge-size-{size}-dot-width` / `-dot-height` |
+| `--mp-badge-size-{size}-padding` |
+| `--mp-badge-size-{size}-height` |
+| `--mp-badge-size-{size}-border-radius` |
+| `--mp-badge-size-{size}-space` |
+| `--mp-badge-description-size-{size}-font-size` |
+
+### Status (`default / info / success / warning / danger / primary`)
+
+| Name |
+| --- |
+| `--mp-badge-status-{status}-bg-color` |
+| `--mp-badge-status-{status}-text-color` |
+| `--mp-badge-variant-outline-status-{status}-text-color` |

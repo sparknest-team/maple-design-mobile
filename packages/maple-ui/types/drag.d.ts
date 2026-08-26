@@ -20,7 +20,7 @@ export interface DragProps extends BasicAttributes {
   disabled?: boolean
   boundary?: DragBoundary
   zIndex?: string | number
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   onClick?: ListenerProp<(event: Event) => void>
 }
 

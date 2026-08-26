@@ -6,26 +6,26 @@ export declare const popupProps: Record<keyof PopupProps, any>
 export type PopupPosition = 'top' | 'bottom' | 'right' | 'left' | 'center'
 
 export interface PopupProps extends BasicAttributes {
-  show?: boolean
+  open?: boolean
   position?: PopupPosition
-  overlay?: boolean
-  overlayClass?: string
-  overlayStyle?: Record<string, any>
+  mask?: boolean
+  maskClass?: string
+  maskStyle?: Record<string, any>
   lockScroll?: boolean
-  closeOnClickOverlay?: boolean
-  closeOnKeyEscape?: boolean
+  maskClosable?: boolean
+  escToClose?: boolean
   defaultStyle?: boolean
   safeArea?: boolean
   safeAreaTop?: boolean
   zIndex?: number
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   onOpen?: ListenerProp<() => void>
   onOpened?: ListenerProp<() => void>
   onClose?: ListenerProp<() => void>
   onClosed?: ListenerProp<() => void>
   onClickOverlay?: ListenerProp<() => void>
   onKeyEscape?: ListenerProp<() => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export class Popup extends VarComponent {

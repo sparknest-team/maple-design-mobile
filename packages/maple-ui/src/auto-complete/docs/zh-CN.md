@@ -48,33 +48,33 @@
     <mp-auto-complete clearable placeholder="可清除" :options="options4" v-model="value4" />
     <mp-auto-complete clearable placeholder="使用插槽自定义清除图标" :options="options5" v-model="value5">
       <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
+        <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete placeholder="显示图标" :options="options7" v-model="value7">
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete placeholder="自定义图标尺寸" :options="options8" v-model="value8">
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete placeholder="最大长度" :maxlength="10" :options="options9" v-model="value9" />
+    <mp-auto-complete placeholder="最大长度" :max-length="10" :options="options9" v-model="value9" />
     <mp-auto-complete
       placeholder="自定义菜单显示时机"
       :get-show="(value) => value.length > 3"
       :options="options10"
       v-model="value10"
     />
-    <mp-auto-complete size="small" placeholder="小尺寸" :options="options11" v-model="value11" />
+    <mp-auto-complete size="sm" placeholder="小尺寸" :options="options11" v-model="value11" />
   </mp-space>
 </template>
 
@@ -139,26 +139,26 @@
       v-model="value5"
     >
       <template #clear-icon="{ clear }">
-        <mp-icon name="error" @click="clear" />
+        <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete variant="outlined" placeholder="显示图标" :options="options7" v-model="value7">
       <template #prefix>
-        <mp-icon class="prefix" name="github" />
+        <m-icon-github class="prefix" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" />
+        <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete variant="outlined" placeholder="自定义图标尺寸" :options="options8" v-model="value8">
       <template #prefix>
-        <mp-icon class="prefix" name="github" :size="28" />
+        <m-icon-github class="prefix" :size="28" />
       </template>
       <template #suffix>
-        <mp-icon class="suffix" name="github" :size="42" />
+        <m-icon-github class="suffix" :size="42" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="最大长度" :maxlength="10" :options="options9" v-model="value9" />
+    <mp-auto-complete variant="outlined" placeholder="最大长度" :max-length="10" :options="options9" v-model="value9" />
     <mp-auto-complete
       variant="outlined"
       placeholder="自定义菜单显示时机"
@@ -166,7 +166,7 @@
       :options="options10"
       v-model="value10"
     />
-    <mp-auto-complete variant="outlined" size="small" placeholder="小尺寸" :options="options11" v-model="value11" />
+    <mp-auto-complete variant="outlined" size="sm" placeholder="小尺寸" :options="options11" v-model="value11" />
   </mp-space>
 </template>
 
@@ -187,26 +187,25 @@
 
 #### AutoComplete Props
 
-| 参数           | 说明                                                                                                         | 类型                     | 默认值     |
-| -------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------ | ---------- |
-| `v-model`      | 绑定的值                                                                                                     | _string_                 | `-`        |
-| `variant`      | 输入框风格, 可选值为 `standard` `outlined`                                                                   | _string_                 | `standard` |
-| `size`         | 输入框尺寸，可选值 `normal` `small`                                                                          | _string_                 | `normal`   |
-| `placeholder`  | 占位符                                                                                                       | _string_                 | `-`        |
-| `options`      | 指定可选项                                                                                                   | _AutoCompleteOption[]_   | `[]`       |
-| `label-key`    | 作为 label 唯一标识的键名                                                                                    | _string_                 | `label`    |
-| `value-key`    | 作为 value 唯一标识的键名                                                                                    | _string_                 | `value`    |
-| `maxlength`    | 最大长度                                                                                                     | _string \| number_       | `-`        |
-| `readonly`     | 是否只读                                                                                                     | _boolean_                | `false`    |
-| `disabled`     | 是否禁用                                                                                                     | _boolean_                | `false`    |
-| `enterkeyhint` | 定制回车键样式，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                 | `-`        |
-| `clearable`    | 是否可清除                                                                                                   | _boolean_                | `false`    |
-| `line`         | 是否显示分割线                                                                                               | _boolean_                | `true`     |
-| `hint`         | 是否使用占位符作为提示                                                                                       | _boolean_                | `true`     |
-| `text-color`   | 文字颜色                                                                                                     | _string_                 | `-`        |
-| `focus-color`  | 聚焦时的主要颜色                                                                                             | _string_                 | `-`        |
-| `blur-color`   | 失焦时的主要颜色                                                                                             | _string_                 | `-`        |
-| `get-show`     | 根据输入值决定是否显示菜单                                                                                   | _(v: string) => boolean_ | `-`        |
+| 参数           | 说明                                                                                                         | 类型                                       | 默认值     |
+| -------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ---------- |
+| `v-model`      | 绑定的值                                                                                                     | _string_                                   | `-`        |
+| `variant`      | 输入框风格, 可选值为 `filled` `standard` `outlined`                                                          | _string_                                   | `standard` |
+| `size`         | 输入框尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                  | _ComponentSize_                            | `md`       |
+| `placeholder`  | 占位符                                                                                                       | _string_                                   | `-`        |
+| `options`      | 指定可选项                                                                                                   | _AutoCompleteOption[]_                     | `[]`       |
+| `field-names`  | 自定义 `options` 字段映射                                                                                    | _{ label?, value?, children?, disabled? }_ | `-`        |
+| `maxLength`    | 最大长度                                                                                                     | _string \| number_                         | `-`        |
+| `readonly`     | 是否只读                                                                                                     | _boolean_                                  | `false`    |
+| `disabled`     | 是否禁用                                                                                                     | _boolean_                                  | `false`    |
+| `enterkeyhint` | 定制回车键样式，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                                   | `-`        |
+| `clearable`    | 是否可清除                                                                                                   | _boolean_                                  | `false`    |
+| `line`         | 是否显示分割线                                                                                               | _boolean_                                  | `true`     |
+| `hint`         | 是否使用占位符作为提示                                                                                       | _boolean_                                  | `true`     |
+| `text-color`   | 文字颜色                                                                                                     | _string_                                   | `-`        |
+| `focus-color`  | 聚焦时的主要颜色                                                                                             | _string_                                   | `-`        |
+| `blur-color`   | 失焦时的主要颜色                                                                                             | _string_                                   | `-`        |
+| `get-show`     | 根据输入值决定是否显示菜单                                                                                   | _(v: string) => boolean_                   | `-`        |
 
 校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 

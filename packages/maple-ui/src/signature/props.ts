@@ -1,5 +1,4 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export type SignatureDataUrlType = 'png' | 'jpg'
 
@@ -16,7 +15,4 @@ export const props = {
     type: String as PropType<SignatureDataUrlType>,
     default: 'png',
   },
-  onStart: defineListenerProp<() => void>(),
-  onEnd: defineListenerProp<() => void>(),
-  onSigning: defineListenerProp<() => void>(),
 }

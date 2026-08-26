@@ -52,7 +52,7 @@ const { n, classes } = createNamespace('month-picker')
 const { n: nDate } = createNamespace('date-picker')
 
 export default defineComponent({
-  name: 'MonthPickerPanel',
+  name: createNamespace('month-picker-panel').name,
   components: {
     MpButton,
     PanelHeader,
@@ -143,7 +143,7 @@ export default defineComponent({
       const {
         choose: { chooseMonth },
         preview: { previewYear },
-        componentProps: { allowedDates, color, multiple, range },
+        componentProps: { disabledDate, color, multiple, range },
       }: { choose: Choose; preview: Preview; componentProps: ComponentProps } = props
 
       const val = `${previewYear}-${key}`
@@ -159,11 +159,11 @@ export default defineComponent({
         if (!inRange(key)) {
           return true
         }
-        if (!allowedDates) {
+        if (!disabledDate) {
           return false
         }
 
-        return !allowedDates(val)
+        return !!disabledDate(val)
       }
       const disabled = computeDisabled()
 

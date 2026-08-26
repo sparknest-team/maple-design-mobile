@@ -66,7 +66,7 @@ const expand = ref(false)
     I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
 
     <template #tooltip-content>
-      <mp-icon name="github" />
+      <m-icon-github />
     </template>
   </mp-ellipsis>
 </template>

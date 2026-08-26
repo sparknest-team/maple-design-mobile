@@ -26,7 +26,8 @@ export default defineComponent({
   name,
   directives: { Ripple },
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
     const tabEl = ref<HTMLElement | null>(null)
     const element = computed<HTMLElement | null>(() => tabEl.value)
     const name = computed(() => props.name)
@@ -63,13 +64,13 @@ export default defineComponent({
     }
 
     function handleClick(event: Event) {
-      const { disabled, name, onClick } = props
+      const { disabled, name } = props
 
       if (disabled) {
         return
       }
 
-      call(onClick, name ?? index.value, event)
+      emit('click', name ?? index.value, event)
       onTabClick(tabProvider)
     }
 

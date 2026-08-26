@@ -16,13 +16,13 @@ export interface MessageProps extends BasicAttributes {
   loadingSize?: LoadingSize
   loadingColor?: string
   loadingRadius?: string | number
-  teleport?: TeleportProps['to'] | false
+  popupContainer?: TeleportProps['to'] | false
   lockScroll?: boolean
   contentClass?: string
   duration?: number
   elevation?: boolean | string | number
   vertical?: boolean
-  show?: boolean
+  open?: boolean
   forbidClick?: boolean
   showIcon?: boolean
   closable?: boolean
@@ -30,7 +30,7 @@ export interface MessageProps extends BasicAttributes {
   onClose?: ListenerProp<(id?: string | number) => void>
   onOpened?: ListenerProp<() => void>
   onClosed?: ListenerProp<() => void>
-  'onUpdate:show'?: ListenerProp<(show: boolean) => void>
+  'onUpdate:open'?: ListenerProp<(open: boolean) => void>
 }
 
 export class MessageComponent extends VarComponent {

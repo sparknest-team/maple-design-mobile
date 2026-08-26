@@ -1,5 +1,3 @@
-import { defineListenerProp } from '../utils/components'
-
 export const props = {
   active: {
     type: [String, Number],
@@ -14,5 +12,4 @@ export const props = {
     default: true,
   },
   loop: Boolean,
-  'onUpdate:active': defineListenerProp<(active: string | number) => void>(),
 }

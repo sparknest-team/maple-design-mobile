@@ -140,7 +140,7 @@
 | `clearable`                | 是否可清除                                                | _boolean_          | `true`    |
 | `disabled`                 | 是否禁用                                                  | _boolean_          | `false`   |
 | `readonly`                 | 是否只读                                                  | _boolean_          | `false`   |
-| `maxlength`                | 最大长度                                                  | _string \| number_ | `-`       |
+| `maxLength`                | 最大长度                                                  | _string \| number_ | `-`       |
 | `enterkeyhint`             | 定制回车键样式                                            | _string_           | `search`  |
 
 ### 事件

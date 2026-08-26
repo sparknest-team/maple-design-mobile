@@ -142,13 +142,13 @@ describe('test rate component props', () => {
     wrapper.unmount()
   })
 
-  test('rate half', async () => {
+  test('rate allowHalf', async () => {
     const onChange = vi.fn()
     const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
     const wrapper = mount(VarRate, {
       props: {
-        half: true,
+        allowHalf: true,
         modelValue: 0,
         onChange,
         'onUpdate:modelValue': onUpdateModelValue,
@@ -168,7 +168,7 @@ describe('test rate component props', () => {
     const wrapper = mount(VarRate, {
       props: {
         modelValue: 1.5,
-        half: true,
+        allowHalf: true,
       },
     })
 
@@ -263,13 +263,13 @@ describe('test rate component props', () => {
     wrapper.unmount()
   })
 
-  test('rate half clearable', async () => {
+  test('rate allowHalf clearable', async () => {
     const onChange = vi.fn()
     const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
     const wrapper = mount(VarRate, {
       props: {
-        half: true,
+        allowHalf: true,
         clearable: true,
         modelValue: 0,
         onChange,

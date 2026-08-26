@@ -6,7 +6,7 @@
     "emulator",
     "maple"
   ],
-  "homepage": "https://github.com/varletjs/varlet#readme",
+  "homepage": "https://github.com/loca-spirit/maple-design-mobile#readme",
   "bugs": {
     "url": "https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues"
   },
@@ -24,7 +24,7 @@
     "index.js"
   ],
   "scripts": {
-    "build": "tsup index.js --format iife --out-dir=. --globalName=VarletTouchEmulator && node build.js"
+    "build": "tsup index.js --format iife --out-dir=. --globalName=MapleTouchEmulator && node build.js"
   },
   "devDependencies": {
     "tsup": "catalog:"

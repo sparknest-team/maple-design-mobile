@@ -6,5 +6,5 @@ export default {
   open: '打开',
   close: '关闭',
   cardTitle: '介绍',
-  cardDesc: 'Varlet 是一个基于Vue3开发的 Material 风格移动端组件库，全面拥抱Vue3生态，由社区的小伙伴开发和维护。',
+  cardDesc: 'Maple 是一个基于Vue3开发的 Material 风格移动端组件库，全面拥抱Vue3生态，由社区的小伙伴开发和维护。',
 }

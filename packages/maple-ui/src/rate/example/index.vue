@@ -48,7 +48,7 @@ watchLang(use)
   <mp-rate v-model="scores.score4" size="8vmin" gap="1vmin" />
 
   <app-type>{{ t('halfStar') }}</app-type>
-  <mp-rate v-model="scores.score6" :count="8" half />
+  <mp-rate v-model="scores.score6" :count="8" allow-half />
   <mp-rate
     v-model="scores.score6"
     :count="8"
@@ -56,7 +56,7 @@ watchLang(use)
     half-icon="heart-half-full"
     empty-icon="heart-outline"
     color="var(--mp-color-danger)"
-    half
+    allow-half
     style="margin-top: 4px"
   />
 
@@ -65,7 +65,7 @@ watchLang(use)
   <mp-rate v-model="scores.score8" readonly />
 
   <app-type>{{ t('clearable') }}</app-type>
-  <mp-rate v-model="scores.score12" clearable half />
+  <mp-rate v-model="scores.score12" clearable allow-half />
 
   <app-type>{{ t('listenEvent') }}</app-type>
   <mp-rate v-model="scores.score10" @change="handleChange" />

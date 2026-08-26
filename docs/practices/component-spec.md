@@ -3,6 +3,9 @@
 > 适用范围：`packages/maple-ui/src/<component>/` 下所有新增 / 重构组件。
 > 本规范以 `space` / `button` / `breadcrumb` 三个组件为参考实现，从 Cedar Design Web 规范迁移而来，针对移动端做了相应调整。
 > **凡是新组件 PR，必须按本规范落实；若有偏离，需在 PR 描述中说明原因。**
+>
+> Cedar/Maple 共用的 API、Token、测试、可访问性、SSR 与版本规则以
+> `design-ui/standards/` 为准；本文只补充 Maple 的目录和移动端实现约定。
 
 ---
 
@@ -115,28 +118,26 @@ n('$--box')   // 'mp--box'            ← 全局共享类
 
 ```ts
 import type { ExtractPropTypes, PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import type { ComponentSize } from '../utils/constants'
 
-export type SpaceSize = SpaceInternalSize | number | string | [number | string, number | string]
-export type SpaceInternalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type SpaceSize = ComponentSize | number | string | [number | string, number | string]
 
 export const spaceProps = {
   /** 间距大小 */
   size: { type: [Number, String, Array] as PropType<SpaceSize>, default: 'md' },
   /** 是否块级 */
   block: { type: Boolean, default: false },
-  /** 点击事件 */
-  onClick: defineListenerProp<(e: Event) => void | Promise<any>>(),
 }
 export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
-// 兼容旧用法：同步 export `props`
-export const props = spaceProps
 ```
 
 要求：
 - 每个 prop 上方写中文 JSDoc。
-- 事件回调用 `defineListenerProp<...>()`。
+- 普通通知事件不进入 props，统一在组件的 `emits` 中声明并通过 `emit` 触发，例如 `click`、`change`、`open`、`closed`、`update:modelValue`。
+- 只有返回值、Promise 或 `done` 回调会控制组件后续行为的控制回调，才允许使用 `defineListenerProp<...>()`，并采用 `beforeXxx` / `request` 等控制语义名称；不使用 `onBeforeXxx`。
+- `Button` 的 `onClick` / `onTouchstart` 是明确例外：组件会消费其 Promise 返回值驱动 `autoLoading`；`Uploader` 的文件拦截与自定义选择回调同样属于控制回调。
+- `ComponentSize` / `SemanticStatus` / `Orientation` 从 `utils/constants.ts` 复用，禁止组件重复声明。
 - 通用 prop 必须保持统一语义：`size` / `block` / `disabled` / `loading` / `direction` / `align` / `justify` / `wrap` 等，详见 `space` / `button` 实现。
 - 父子继承的布尔 prop（如 `disabled`）默认值用 `default: undefined`。
 
@@ -308,6 +309,9 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 - ❌ CSS 变量缺少 `--mp-` 前缀
 - ❌ BEM 修饰符 / icon 激活类被加上 `mp-` 前缀（见 §7.3）
 - ❌ 在 `classes([refValue, ...])` 处忘记 `.value`
+- ❌ 在组件内重复声明公共尺寸或语义状态联合类型
+- ❌ 将 `click` / `change` / `open` / `update:*` 等普通事件声明为 `onXxx` prop
+- ❌ 同一事件同时通过 props 回调和 `emit` 分发
 - ❌ 残留 `console.log`
 
 ---
@@ -365,7 +369,7 @@ Steps 按 Pagination 语义完成 PC ↔ Mobile API 对齐（进度序号，不�
 **核心约定**：
 - 进度 prop：`current` / `defaultCurrent`（**1-based**）；不用 `active`。
 - 状态：`status: wait | process | finish | error`；子项可覆盖；推导规则 `step < current → finish`。
-- 点击：`changeable` 门控 + `onChange(step, ev)` / `v-model:current`。
+- 点击：`changeable` 门控 + `change(step, ev)` 事件 / `v-model:current`。
 - Step 内容：`title` / `description` / `disabled` + `#icon` / `#description`。
 - PC 独有：`type` / `labelPlacement` / `small` / `showLine` / `#node`（移动不实现）。
 - 移动移除：`activeColor` / 三态 icon props / `click-step`。

@@ -16,12 +16,12 @@ const Wrapper = {
   components: {
     [VarDialog.name]: VarDialog,
   },
-  props: ['closeOnClickOverlay', 'onBeforeClose', 'onClickOverlay'],
+  props: ['maskClosable', 'beforeClose', 'onClickOverlay'],
   data: () => ({
-    show: false,
+    open: false,
   }),
   template: `
-    <mp-dialog v-model:show="show" v-bind="$props" :teleport="null" />
+    <mp-dialog v-model:open="open" v-bind="$props" :popup-container="null" />
   `,
 }
 
@@ -29,7 +29,7 @@ describe('test dialog component props', () => {
   test('dialog component confirmButton', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
       },
     })
 
@@ -46,7 +46,7 @@ describe('test dialog component props', () => {
   test('dialog component cancelButton', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
       },
     })
 
@@ -63,7 +63,7 @@ describe('test dialog component props', () => {
   test('dialog component confirmButtonText', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
       },
     })
 
@@ -80,7 +80,7 @@ describe('test dialog component props', () => {
   test('dialog component cancelButtonText', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
       },
     })
 
@@ -97,7 +97,7 @@ describe('test dialog component props', () => {
   test('dialog component title', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
       },
     })
 
@@ -114,7 +114,7 @@ describe('test dialog component props', () => {
   test('dialog component message', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         message: 'Dialog',
       },
     })
@@ -132,7 +132,7 @@ describe('test dialog component props', () => {
   test('dialog component dialogClass', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         dialogClass: 'test-dialog-class',
       },
     })
@@ -145,7 +145,7 @@ describe('test dialog component props', () => {
   test('dialog component dialogStyle', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         dialogStyle: {
           background: 'red',
         },
@@ -160,7 +160,7 @@ describe('test dialog component props', () => {
   test('dialog component width', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         width: 100,
       },
     })
@@ -179,7 +179,7 @@ describe('test dialog component props', () => {
     ;['left', 'center', 'right'].forEach((align) => {
       const wrapper = mount(Wrapper, {
         props: {
-          show: true,
+          open: true,
           messageAlign: align,
         },
       })
@@ -193,7 +193,7 @@ describe('test dialog component props', () => {
   test('dialog component confirmButtonColor', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         confirmButtonColor: 'blue',
       },
     })
@@ -208,7 +208,7 @@ describe('test dialog component props', () => {
   test('dialog component cancelButtonColor', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         cancelButtonColor: 'blue',
       },
     })
@@ -221,7 +221,7 @@ describe('test dialog component props', () => {
   test('dialog component confirmButtonTextColor', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         confirmButtonTextColor: 'blue',
       },
     })
@@ -234,7 +234,7 @@ describe('test dialog component props', () => {
   test('dialog component cancelButtonTextColor', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         cancelButtonTextColor: 'blue',
       },
     })
@@ -252,65 +252,61 @@ describe('test dialog component events', () => {
     const wrapper = mount(Wrapper, {
       props: {
         onClickOverlay,
-        closeOnClickOverlay: false,
+        maskClosable: false,
       },
     })
-    await wrapper.setData({ show: true })
+    await wrapper.setData({ open: true })
 
     await wrapper.find('.mp-popup__overlay').trigger('click')
     expect(onClickOverlay).toHaveBeenCalledTimes(1)
-    expect(wrapper.vm.show).toBe(true)
+    expect(wrapper.vm.open).toBe(true)
 
-    await wrapper.setProps({ closeOnClickOverlay: true })
+    await wrapper.setProps({ maskClosable: true })
     await wrapper.find('.mp-popup__overlay').trigger('click')
     expect(onClickOverlay).toHaveBeenCalledTimes(2)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
     wrapper.unmount()
   })
 
-  test('dialog component onBeforeClose', async () => {
+  test('dialog component beforeClose', async () => {
     const wrapper = mount({
       components: {
         [VarDialog.name]: VarDialog,
       },
       data: () => ({
-        show: true,
+        open: true,
       }),
       methods: {
-        async onBeforeClose(_action, change) {
+        async beforeClose(_action, change) {
           await delay(500)
           change()
         },
       },
-      template: `<mp-dialog v-model:show="show" :teleport="null" @before-close="onBeforeClose" />`,
+      template: `<mp-dialog v-model:open="open" :popup-container="null" :before-close="beforeClose" />`,
     })
 
     await wrapper.find('.mp-popup__overlay').trigger('click')
-    expect(wrapper.vm.show).toBe(true)
+    expect(wrapper.vm.open).toBe(true)
 
     await delay(600)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
-    await wrapper.setData({
-      show: true,
-    })
+    await wrapper.setData({ open: true })
 
     await wrapper.find('.mp-dialog__cancel-button').trigger('click')
-    expect(wrapper.vm.show).toBe(true)
+    expect(wrapper.vm.open).toBe(true)
 
     await delay(600)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
-    await wrapper.setData({
-      show: true,
-    })
+    await wrapper.setData({ open: true })
 
     await wrapper.find('.mp-dialog__confirm-button').trigger('click')
-    expect(wrapper.vm.show).toBe(true)
+    expect(wrapper.vm.open).toBe(true)
 
     await delay(600)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
     wrapper.unmount()
   })
@@ -322,39 +318,39 @@ describe('test dialog component events', () => {
         [VarDialog.name]: VarDialog,
       },
       data: () => ({
-        show: true,
+        open: true,
       }),
       methods: {
         onKeyEscape,
       },
-      template: `<mp-dialog v-model:show="show" :teleport="null" @key-escape="onKeyEscape" />`,
+      template: `<mp-dialog v-model:open="open" :popup-container="null" @key-escape="onKeyEscape" />`,
     })
 
     await triggerKeyboard(window, 'keydown', { key: 'Escape' })
     expect(onKeyEscape).toBeCalledTimes(1)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
     wrapper.unmount()
   })
 
-  test('dialog keyboard escape and closeOnKeyEscape', async () => {
+  test('dialog keyboard escape and escToClose', async () => {
     const onKeyEscape = vi.fn()
     const wrapper = mount({
       components: {
         [VarDialog.name]: VarDialog,
       },
       data: () => ({
-        show: true,
+        open: true,
       }),
       methods: {
         onKeyEscape,
       },
-      template: `<mp-dialog v-model:show="show" :close-on-key-escape="false" :teleport="null" @key-escape="onKeyEscape" />`,
+      template: `<mp-dialog v-model:open="open" :esc-to-close="false" :popup-container="null" @key-escape="onKeyEscape" />`,
     })
 
     await triggerKeyboard(window, 'keydown', { key: 'Escape' })
     expect(onKeyEscape).toBeCalledTimes(1)
-    expect(wrapper.vm.show).toBe(true)
+    expect(wrapper.vm.open).toBe(true)
 
     wrapper.unmount()
   })
@@ -368,10 +364,10 @@ describe('test dialog component slots', () => {
         [MpIcon.name]: MpIcon,
       },
       data: () => ({
-        show: true,
+        open: true,
       }),
       template: `
-        <mp-dialog v-model:show="show" :teleport="null">
+        <mp-dialog v-model:open="open" :popup-container="null">
           <template #title>
             <mp-icon name="information" />
           </template>
@@ -392,10 +388,10 @@ describe('test dialog component slots', () => {
         [VarDialog.name]: VarDialog,
       },
       data: () => ({
-        show: true,
+        open: true,
       }),
       template: `
-        <mp-dialog v-model:show="show" :teleport="null">
+        <mp-dialog v-model:open="open" :popup-container="null">
           dialog default slot
         </mp-dialog>
       `,
@@ -415,9 +411,9 @@ describe('test dialog component slots', () => {
         [VarButton.name]: VarButton,
       },
       data: () => ({
-        show: true,
+        open: true,
       }),
-      template: `<mp-dialog v-model:show="show" :teleport="null">
+      template: `<mp-dialog v-model:open="open" :popup-container="null">
         <template #footer="{slotClass, cancel, confirm}">
           <div :class="slotClass">
             <mp-button class="cancel" @click="cancel">cancel</mp-button>
@@ -431,15 +427,13 @@ describe('test dialog component slots', () => {
 
     await wrapper.find('.cancel').trigger('click')
     await delay(300)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
-    await wrapper.setData({
-      show: true,
-    })
+    await wrapper.setData({ open: true })
 
     await wrapper.find('.confirm').trigger('click')
     await delay(300)
-    expect(wrapper.vm.show).toBe(false)
+    expect(wrapper.vm.open).toBe(false)
 
     wrapper.unmount()
   })
@@ -447,7 +441,7 @@ describe('test dialog component slots', () => {
   test('dialog component type icon', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         type: 'warning',
         title: 'warning title',
       },
@@ -463,7 +457,7 @@ describe('test dialog component slots', () => {
   test('dialog component footer', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         footer: false,
       },
     })
@@ -476,7 +470,7 @@ describe('test dialog component slots', () => {
   test('dialog component hideTitle', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         hideTitle: true,
       },
     })
@@ -489,7 +483,7 @@ describe('test dialog component slots', () => {
   test('dialog component bodyClass and bodyStyle', () => {
     const wrapper = mount(Wrapper, {
       props: {
-        show: true,
+        open: true,
         bodyClass: 'custom-body',
         bodyStyle: { padding: '8px' },
       },
@@ -505,9 +499,9 @@ describe('test dialog component slots', () => {
   test('dialog component unmountOnClose', async () => {
     const wrapper = mount(VarDialog, {
       props: {
-        show: true,
+        open: true,
         unmountOnClose: true,
-        teleport: null,
+        popupContainer: null,
       },
       global: {
         stubs: {
@@ -518,7 +512,7 @@ describe('test dialog component slots', () => {
 
     expect(wrapper.find('.mp-dialog').exists()).toBe(true)
 
-    await wrapper.setProps({ show: false })
+    await wrapper.setProps({ open: false })
     await delay(300)
 
     expect(wrapper.find('.mp-dialog').exists()).toBe(false)

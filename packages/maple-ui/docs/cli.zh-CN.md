@@ -41,19 +41,19 @@ maple-cli gen
 
 | 参数 | 说明 | 类型 | 默认值 |
 | -- | -------------- | -------- | ---------- |
-| `name` | 组件库全名，会作为包名 | _string_ | `Varlet` |
+| `name` | 组件库全名，会作为包名 | _string_ | `Maple` |
 | `namespace` | 组件库命名空间, 会作为组件前缀 | _string_ | `var` |
 | `host` | 开发服务器主机 | _number_ | `localhost` |
 | `port` | 开发服务器端口 | _number_ | `8080` |
 | `proxy` | 开发服务器代理 | _Record<string, string \| ProxyOptions>_ | `-` |
-| `title` | 文档中组件库的标题 | _string_ | `VARLET` |
+| `title` | 文档中组件库的标题 | _string_ | `Maple` |
 | `logo` | 文档中组件库的 logo | _string_ | `-` |
 | `alias` | 路径别名 (使用相对路径时，根路径为 src 文件夹) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | 文档默认语言 | _string_ | `zh-CN` |
 | `defaultLightTheme` | 默认的亮色主题 | _string_ | `md3LightTheme` |
 | `defaultDarkTheme` | 默认的暗色主题 | _string_ | `md3DarkTheme` |
 | `useMobile` | 是否显示右侧手机预览 | _boolean_ | `false` |
-| `themeKey` | 主题在本地存储中的 key | _string_ | `VARLET_THEME` |
+| `themeKey` | 主题在本地存储中的 key | _string_ | `MAPLE_THEME` |
 | `lightTheme` | md2 亮色模式文档主题 | _Record<string, any>_ | `-` |
 | `darkTheme` | md2 暗黑模式文档主题 | _Record<string, any>_ | `-` |
 | `md3LightTheme` | md3 亮色模式文档主题 | _Record<string, any>_ | `-` |
@@ -65,7 +65,7 @@ maple-cli gen
 | `bundle` | 组件库编译的捆绑产物配置 | _{ external: string[], globals: Record<string, string> }_ | `-` |
 | `vitePlugins` | vite 插件 | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
 | `directives` | 组件库指令文件夹名称 | _string[]_ | `[]` |
-| `copy` | 复制文件配置 | _[CopyPath[]](https://github.com/varletjs/varlet/blob/dev/packages/maple-vite-plugins/src/copy.ts)_ | `-` |
+| `copy` | 复制文件配置 | _[CopyPath[]](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-vite-plugins/src/copy.ts)_ | `-` |
 | `icons` | 字体图标打包相关配置 | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
 | `esbuild` | esbuild 配置 | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
 | `seo` | seo 选项 | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |

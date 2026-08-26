@@ -1,5 +1,5 @@
 export default {
-  '--mp-tooltip-default-color': 'var(--mp-color-inverse-surface)',
+  '--mp-tooltip-default-color': 'var(--mp-color-text-1)',
   '--mp-tooltip-opacity': '1',
   '--mp-tooltip-default-text-color': '#322F35',
   '--mp-tooltip-border-radius': '4px',
@@ -11,9 +11,9 @@ export default {
   '--mp-tooltip-success-color': 'var(--mp-color-success)',
   '--mp-tooltip-warning-color': 'var(--mp-color-warning)',
   '--mp-tooltip-danger-color': 'var(--mp-color-danger)',
-  '--mp-tooltip-primary-text-color': 'var(--mp-color-on-primary)',
-  '--mp-tooltip-info-text-color': 'var(--mp-color-on-info)',
-  '--mp-tooltip-success-text-color': 'var(--mp-color-on-success)',
-  '--mp-tooltip-warning-text-color': 'var(--mp-color-on-warning)',
-  '--mp-tooltip-danger-text-color': 'var(--mp-color-on-danger)',
+  '--mp-tooltip-primary-text-color': 'var(--mp-color-white)',
+  '--mp-tooltip-info-text-color': 'var(--mp-color-white)',
+  '--mp-tooltip-success-text-color': 'var(--mp-color-white)',
+  '--mp-tooltip-warning-text-color': 'var(--mp-color-white)',
+  '--mp-tooltip-danger-text-color': 'var(--mp-color-white)',
 }

@@ -10,7 +10,7 @@ It is used to show the results to users.
 <template>
   <mp-result
     title="Success"
-    description="Hi, I'm a result description."
+    subtitle="Hi, I'm a result description."
   >
     <template #footer>
       <mp-button type="success">OK</mp-button>
@@ -19,9 +19,9 @@ It is used to show the results to users.
 </template>
 ```
 
-### Types
+### Status
 
-Result type, optional values are `info`, `success`, `warning`, `error`, `question`, `empty`.
+Result status, optional values are `info`, `success`, `warning`, `danger`, `question`, `empty`.
 
 ```html
 <script setup>
@@ -59,40 +59,40 @@ const empty = ref(false)
     </mp-button>
   </mp-space>
 
-  <mp-popup :default-style="false" v-model:show="success">
-    <mp-result class="result" title="Success" description="Hi, I'm a result description.">
+  <mp-popup :default-style="false" v-model:open="success">
+    <mp-result class="result" title="Success" subtitle="Hi, I'm a result description.">
       <template #footer>
         <mp-button type="success" @click="success = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup :default-style="false" v-model:show="warning">
-    <mp-result class="result" type="warning" title="Warning" description="Hi, I'm a result description.">
+  <mp-popup :default-style="false" v-model:open="warning">
+    <mp-result class="result" status="warning" title="Warning" subtitle="Hi, I'm a result description.">
       <template #footer>
         <mp-button type="warning" @click="warning = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup :default-style="false" v-model:show="info">
-    <mp-result class="result" type="info" title="Info" description="Hi, I'm a result description.">
+  <mp-popup :default-style="false" v-model:open="info">
+    <mp-result class="result" status="info" title="Info" subtitle="Hi, I'm a result description.">
       <template #footer>
         <mp-button type="info" @click="info = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup :default-style="false" v-model:show="error">
-    <mp-result class="result" type="error" title="Error" description="Hi, I'm a result description.">
+  <mp-popup :default-style="false" v-model:open="error">
+    <mp-result class="result" status="danger" title="Error" subtitle="Hi, I'm a result description.">
       <template #footer>
         <mp-button type="danger" @click="error = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
 
-  <mp-popup :default-style="false" v-model:show="question">
-    <mp-result class="result" type="question" title="Question" description="Hi, I'm a result description.">
+  <mp-popup :default-style="false" v-model:open="question">
+    <mp-result class="result" status="question" title="Question" subtitle="Hi, I'm a result description.">
       <template #footer>
         <mp-button
           color="var(--result-question-color)"
@@ -105,8 +105,8 @@ const empty = ref(false)
     </mp-result>
   </mp-popup>
 
-  <mp-popup :default-style="false" v-model:show="empty">
-    <mp-result class="result" type="empty" title="Empty" description="Hi, I'm a result description.">
+  <mp-popup :default-style="false" v-model:open="empty">
+    <mp-result class="result" status="empty" title="Empty" subtitle="Hi, I'm a result description.">
       <template #footer>
         <mp-button
           color="var(--result-empty-color)"
@@ -136,9 +136,9 @@ Please try not to modify the background color to be transparent or translucent, 
 
 | Prop          | Description                                                              | Type     | Default   |
 |---------------|--------------------------------------------------------------------------|----------|-----------|
-| `type`        | Image type, options `info` `success` `warning` `error` `question` `empty` | _string_ | `success` |
+| `status`        | Image type, options `info` `success` `warning` `danger` `question` `empty` | _string_ | `success` |
 | `title`       | The title of Result                                                      | _string_ | `-`       |
-| `description` | The description of Result                                                | _string_ | `-`       |
+| `subtitle` | The description of Result                                                | _string_ | `-`       |
 | `image-size`  | Image Size                                                               | _string \| number_   | `-`  |
 | `animation`    | Whether to enable animation, valid for `success` type only               | _boolean_ | `true`    |
 
@@ -148,7 +148,7 @@ Please try not to modify the background color to be transparent or translucent, 
 |--------------------|---------| ---- |
 | `image`            | Custom image   | `-`  |
 | `title`            |  Custom title   | `-`  |
-| `description`      |  Custom description   | `-`  |
+| `subtitle`      |  Custom description   | `-`  |
 | `footer`           | Custom bottom content | `-`  |
 
 ### Style Variables
@@ -162,8 +162,8 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--result-info-border-color`       | `rgba(0, 175, 239, 0.3)`   |
 | `--result-success-color`           | `var(--color-success)`     |
 | `--result-success-border-color`    | `rgba(0, 196, 143, 0.3)`   |
-| `--result-error-color`             | `var(--color-danger)`      |
-| `--result-error-border-color`      | `rgba(244, 67, 54, 0.3)`   |
+| `--result-danger-color`             | `var(--color-danger)`      |
+| `--result-danger-border-color`      | `rgba(244, 67, 54, 0.3)`   |
 | `--result-warning-color`           | `var(--color-warning)`     |
 | `--result-warning-border-color`    | `rgba(255, 159, 0, 0.3)`   |
 | `--result-question-color`          | `#607d8b`                  |
@@ -177,8 +177,8 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--result-title-margin`            | `15px 0 0 0`               |
 | `--result-image-size`              | `80px`                     |
 | `--result-title-font-weight`       | `500`                      |
-| `--result-description-margin`      | `10px 0 0 0`               |
-| `--result-description-font-size`   | `14px`                     |
-| `--result-description-color`       | `rgba(0, 0, 0, 0.6)`       |
-| `--result-description-line-height` | `1.6`                      |
+| `--result-subtitle-margin`      | `10px 0 0 0`               |
+| `--result-subtitle-font-size`   | `14px`                     |
+| `--result-subtitle-color`       | `rgba(0, 0, 0, 0.6)`       |
+| `--result-subtitle-line-height` | `1.6`                      |
 

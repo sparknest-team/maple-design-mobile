@@ -50,7 +50,8 @@ export default defineComponent({
     MpFormDetails,
   },
   props,
-  setup(props) {
+  emits: ['validate'],
+  setup(props, { emit }) {
     const slots = useSlots()
     const { bindForm, form } = useForm()
     const { errorMessage, validate: v, resetValidation, validateWithTrigger: vt } = useValidation()
@@ -133,7 +134,7 @@ export default defineComponent({
 
     async function validate() {
       const valid = await v(mergedRules.value, fieldValue.value)
-      call(props.onValidate, valid)
+      emit('validate', valid)
       return valid
     }
 

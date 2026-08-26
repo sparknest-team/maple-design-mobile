@@ -22,7 +22,7 @@
     <mp-button type="primary">内容插槽</mp-button>
     
     <template #content>
-      <mp-icon name="star" />
+      <m-icon-star />
     </template>
   </mp-tooltip>
 </template>
@@ -63,7 +63,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placement">
       <mp-button type="primary">
-        <mp-icon name="star" />
+        <m-icon-star />
       </mp-button>
     </mp-tooltip>
   </div>
@@ -178,7 +178,7 @@ import { Message } from '@maplejs/maple-ui'
 
 | 参数 | 说明 | 类型             | 默认值       |
 | ------- | --- |----------------|-----------|
-| `v-model:show` | 是否显示 | _boolean_       | `false`   |
+| `v-model:open` | 是否显示 | _boolean_       | `false`   |
 | `content` | 显示的内容 | _string_    | `-`       |
 | `color` | 背景颜色 | _string_       | `-`       |
 | `text-color` ***3.5.0*** | 文字颜色 | _string_       | `-`       |
@@ -187,13 +187,13 @@ import { Message } from '@maplejs/maple-ui'
 | `strategy`  | 定位方式，可选值为 `absolute` `fixed` | _string_    | `absolute`    |
 | `offset-x` | x 轴偏移量， 相对于 `Tooltip` 对齐后的位置 | _number \| string_   | `0` |
 | `offset-y` | y 轴偏移量， 相对于 `Tooltip` 对齐后的位置 | _number \| string_   | `0` |
-| `teleport` | 挂载的位置 | _TeleportProps['to'] \| false_ | `body`    |
+| `popupContainer` | 挂载的位置 | _TeleportProps['to'] \| false_ | `body`    |
 | `same-width` | 是否与触发元素同宽 | _boolean_ | `false`  |
 | `disabled` | 是否禁用 Tooltip | _boolean_      | `false`   |
 | `trigger` | 触发方式，可选值为 `click` `hover` `manual` | _string_       | `hover`   |
 | `reference`       | 菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器，`HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_ | `-`           |
 | `close-on-click-reference` | 是否在点击菜单触发元素后关闭菜单 | _boolean_ | `false` |
-| `close-on-key-escape` | 是否支持键盘 ESC 关闭提示 | _boolean_ | `true`  |
+| `esc-to-close` | 是否支持键盘 ESC 关闭提示 | _boolean_ | `true`  |
 
 ### Placement
 
@@ -256,8 +256,8 @@ import { Message } from '@maplejs/maple-ui'
 | `--tooltip-warning-color` | `var(--color-warning)` |
 | `--tooltip-danger-color` | `var(--color-danger)` |
 | `--tooltip-default-text-color` | `#fff` |
-| `--tooltip-primary-text-color` | `var(--color-on-primary)` |
-| `--tooltip-info-text-color` | `var(--color-on-info)` |
-| `--tooltip-success-text-color` | `var(--color-on-success)` |
-| `--tooltip-warning-text-color` | `var(--color-on-warning)` |
-| `--tooltip-danger-text-color` | `var(--color-on-danger)` |
+| `--tooltip-primary-text-color` | `var(--color-white)` |
+| `--tooltip-info-text-color` | `var(--color-white)` |
+| `--tooltip-success-text-color` | `var(--color-white)` |
+| `--tooltip-warning-text-color` | `var(--color-white)` |
+| `--tooltip-danger-text-color` | `var(--color-white)` |

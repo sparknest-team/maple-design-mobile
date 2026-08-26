@@ -41,19 +41,19 @@ Also refer to `@maplejs/maple-ui` [maple.config.mjs](https://xxx/pe.frontend/mat
 
 | Parameter | Description | Type | Default |
 | --- | -------------- | -------- | ---------- |
-| `name` | The full name of the component library, which will be used as the package name | _string_ | `Varlet` |
+| `name` | The full name of the component library, which will be used as the package name | _string_ | `Maple` |
 | `namespace` | Component library namespace, will be used as component prefix | _string_ | `var` |
 | `host` | Development server host | _number_ | `localhost` |
 | `port` | Development server port | _number_ | `8080` |
 | `proxy` | Development server proxy | _Record<string, string \| ProxyOptions>_ | `-` |
-| `title` | The title of the component library in the document | _string_ | `VARLET` |
+| `title` | The title of the component library in the document | _string_ | `Maple` |
 | `logo` | The logo of the component library in the document | _string_ | `-` |
 | `alias` | Path alias (root is src folder when use relative path) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | Document default language | _string_ | `zh-CN` |
 | `defaultLightTheme` | The default light theme | _string_ | `md3LightTheme` |
 | `defaultDarkTheme` | The default dark theme | _string_ | `md3DarkTheme` |
 | `useMobile` | Whether to display the mobile phone preview on the right | _boolean_ | `false` |
-| `themeKey` | The key of the theme in local storage | _string_ | `VARLET_THEME` |
+| `themeKey` | The key of the theme in local storage | _string_ | `MAPLE_THEME` |
 | `lightTheme` | md2 light mode document theme | _Record<string, any>_ | `-` |
 | `darkTheme` | md2 dark mode document theme | _Record<string, any>_ | `-` |
 | `md3LightTheme` | md3 light mode document theme | _Record<string, any>_ | `-` |
@@ -65,7 +65,7 @@ Also refer to `@maplejs/maple-ui` [maple.config.mjs](https://xxx/pe.frontend/mat
 | `bundle` | Bundle output options | _{ external: string[], globals: Record<string, string> }_ | `-` |
 | `vitePlugins` | vite plugins | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
 | `directives` | Component library directive folder name | _string[]_ | `[]` |
-| `copy` | Copy file configuration | _[CopyPath[]](https://github.com/varletjs/varlet/blob/dev/packages/maple-vite-plugins/src/copy.ts)_ | `- ` |
+| `copy` | Copy file configuration | _[CopyPath[]](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-vite-plugins/src/copy.ts)_ | `- ` |
 | `icons` | Font icon packaging related configurations | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads) _ | `-` |
 | `esbuild` | esbuild configuration | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
 | `seo` | seo options | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |

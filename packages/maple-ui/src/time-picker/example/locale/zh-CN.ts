@@ -1,5 +1,6 @@
 export default {
   basicUsage: '基本使用',
+  clockMode: '时钟模式',
   hour24: '24小时格式',
   readonly: '只读',
   timeLimit: '时间限制',

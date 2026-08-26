@@ -1,12 +1,11 @@
 import { createApp } from 'vue'
 import config from '@config'
-import Maple from '@maplejs/maple-ui'
 import routes from '@mobile-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { inIframe, isPhone } from '../utils'
 import App from './App.vue'
 import '@maplejs/maple-touch-emulator'
-import '@maplejs/maple-ui/es/style'
+import '@maple-theme'
 
 const redirect = config?.mobile?.redirect
 const defaultLanguage = config?.defaultLanguage
@@ -55,4 +54,4 @@ router.beforeEach((to: any) => {
   }
 })
 
-createApp(App).use(router).use(Maple).mount('#app')
+createApp(App).use(router).mount('#app')

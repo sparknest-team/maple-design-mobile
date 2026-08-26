@@ -2,13 +2,13 @@
   <slot />
   <mp-image-preview
     v-if="previewImages.length"
-    v-model:visible="mergedVisible"
+    v-model:open="mergedOpen"
     :images="previewImages"
     :current="mergedCurrent"
     :loop="mergedLoop"
     :closable="mergedClosable"
     :mask-closable="mergedMaskClosable"
-    :teleport="teleport"
+    :popup-container="popupContainer"
     @change="onPreviewChange"
     @close="onPreviewClose"
   />
@@ -16,7 +16,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, provide, toRef, watch } from 'vue'
-import { call } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
 import { useImagePreviewGroupState } from './composables/useImagePreviewGroup'
 import { PreviewGroupInjectionKey } from './context'
@@ -33,29 +32,25 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: imagePreviewGroupProps,
-  emits: ['update:visible', 'update:current', 'change', 'preview-visible-change'],
+  emits: ['update:open', 'update:current', 'change', 'open-change'],
   setup(props, { emit }) {
     const groupState = useImagePreviewGroupState({
       images: toRef(props, 'images'),
-      visible: toRef(props, 'visible'),
-      defaultVisible: props.defaultVisible,
+      open: toRef(props, 'open'),
+      defaultOpen: props.defaultOpen,
       current: toRef(props, 'current'),
       defaultCurrent: props.defaultCurrent,
-      onVisibleChange: (visible) => {
-        call(props['onUpdate:visible'], visible)
-        call(props.onPreviewVisibleChange, visible)
-        emit('update:visible', visible)
-        emit('preview-visible-change', visible)
+      onOpenChange: (open) => {
+        emit('update:open', open)
+        emit('open-change', open)
       },
       onCurrentChange: (index) => {
-        call(props['onUpdate:current'], index)
-        call(props.onChange, index)
         emit('update:current', index)
         emit('change', index)
       },
     })
 
-    const { mergedVisible, mergedCurrent, previewImages } = groupState
+    const { mergedOpen, mergedCurrent, previewImages } = groupState
     const mergedLoop = computed(() => props.loop ?? imagePlatformConfig.defaultLoop)
     const mergedClosable = computed(() => props.closable ?? imagePlatformConfig.defaultClosable)
     const mergedMaskClosable = computed(() => props.maskClosable ?? imagePlatformConfig.defaultMaskClosable)
@@ -68,10 +63,10 @@ export default defineComponent({
     })
 
     watch(
-      () => props.visible,
-      (visible) => {
-        if (visible !== undefined) {
-          mergedVisible.value = visible
+      () => props.open,
+      (open) => {
+        if (open !== undefined) {
+          mergedOpen.value = open
         }
       },
     )
@@ -81,17 +76,17 @@ export default defineComponent({
     }
 
     function onPreviewClose() {
-      mergedVisible.value = false
+      mergedOpen.value = false
     }
 
     return {
-      mergedVisible,
+      mergedOpen,
       mergedCurrent,
       previewImages,
       mergedLoop,
       mergedClosable,
       mergedMaskClosable,
-      teleport: toRef(props, 'teleport'),
+      popupContainer: toRef(props, 'popupContainer'),
       onPreviewChange,
       onPreviewClose,
     }

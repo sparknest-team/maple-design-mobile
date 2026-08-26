@@ -27,7 +27,8 @@ export default defineComponent({
   name,
   components: { MpCarousel },
   props,
-  setup(props) {
+  emits: ['update:active'],
+  setup(props, { emit }) {
     const carouselRef = ref<null | typeof MpCarousel>(null)
     const { tabItemList, bindTabItem, length } = useTabItem()
 
@@ -70,7 +71,7 @@ export default defineComponent({
       const tabItem = tabItemList.find(({ index }) => index.value === currentIndex) as TabItemProvider
       const active = tabItem.name.value ?? tabItem.index.value
 
-      call(props['onUpdate:active'], active)
+      emit('update:active', active)
     }
 
     // expose

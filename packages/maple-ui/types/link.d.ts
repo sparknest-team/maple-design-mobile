@@ -1,15 +1,14 @@
 import { VNode } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import { BasicAttributes, Type as LinkType, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
+import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const linkProps: Record<keyof LinkProps, any>
 
 export type LinkUnderline = 'always' | 'hover' | 'none'
-
-export { LinkType }
+export type LinkStatus = 'default' | 'primary' | 'secondary' | 'tertiary' | 'info' | 'success' | 'warning' | 'danger'
 
 export interface LinkProps extends BasicAttributes {
-  type?: LinkType
+  status?: LinkStatus
   href?: string
   rel?: string
   target?: string

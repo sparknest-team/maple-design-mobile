@@ -6,8 +6,8 @@ exports[`timePicker hint 1`] = `
     <div class="mp-time-picker__title-hint">choose clock-in time</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">00</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">00</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">00</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">00</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -49,8 +49,8 @@ exports[`timePicker hint 2`] = `
     <div class="mp-time-picker__title-hint">choose off-duty time</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">00</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">00</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">00</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">00</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -92,8 +92,8 @@ exports[`timePicker max and min 1`] = `
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">11</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">11</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">11</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">11</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -135,8 +135,8 @@ exports[`timePicker max and min 2`] = `
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">11</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">11</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">11</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">11</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -178,8 +178,8 @@ exports[`timePicker reset when modelValue is undefined or an empty string 1`] = 
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">10</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">22</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">10</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">22</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -221,8 +221,8 @@ exports[`timePicker reset when modelValue is undefined or an empty string 2`] = 
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">00</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">00</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">00</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">00</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -264,8 +264,8 @@ exports[`timePicker reset when modelValue is undefined or an empty string 3`] = 
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">08</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">30</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">08</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">30</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -307,8 +307,8 @@ exports[`timePicker reset when modelValue is undefined or an empty string 4`] = 
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">00</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">00</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">00</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">00</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -350,8 +350,8 @@ exports[`timePicker style and format 1`] = `
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">05</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">10</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">05</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">10</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -393,8 +393,8 @@ exports[`timePicker style and format 2`] = `
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">05</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">10</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">05</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">10</div>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -441,14 +441,14 @@ exports[`timePicker style and format 2`] = `
 `;
 
 exports[`timePicker useSeconds 1`] = `
-"<div class="mp-time-picker">
+"<div class="mp-time-picker mp-time-picker--with-seconds">
   <div class="mp-time-picker__title">
     <div class="mp-time-picker__title-hint">选择时间</div>
     <div class="mp-time-picker__title-time-container">
       <div class="mp-time-picker__title-time">
-        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active">11</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">11</div><span class="mp-time-picker__title-splitter">:</span>
-        <div class="mp-time-picker__title-btn">00</div>
+        <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active" role="button">11</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">11</div><span class="mp-time-picker__title-splitter">:</span>
+        <div class="mp-time-picker__title-btn" role="button">00</div>
       </div>
       <div class="mp-time-picker__title-ampm">
         <div class="mp-time-picker__title-btn mp-time-picker__title-btn--active"> AM </div>

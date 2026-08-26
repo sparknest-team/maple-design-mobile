@@ -1,5 +1,5 @@
 export default {
-  '--mp-menu-option-text-color': 'var(--mp-color-inverse-surface)',
+  '--mp-menu-option-text-color': 'var(--mp-color-text-1)',
   '--mp-menu-option-normal-height': '38px',
   '--mp-menu-option-small-height': '30px',
   '--mp-menu-option-mini-height': '24px',
@@ -10,5 +10,7 @@ export default {
   '--mp-menu-option-mini-font-size': 'var(--mp-font-size-xs)',
   '--mp-menu-option-large-font-size': 'var(--mp-font-size-lg)',
   '--mp-menu-option-selected-background': 'var(--mp-color-primary)',
+  '--mp-menu-option-selected-text-color': 'var(--mp-color-primary)',
+  '--mp-menu-option-bg-hover': 'var(--mp-color-fill-3)',
   '--mp-menu-option-disabled-color': 'var(--mp-color-text-disabled)',
 }

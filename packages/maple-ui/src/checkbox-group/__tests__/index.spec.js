@@ -44,8 +44,7 @@ test('checkbox check value with custom value', async () => {
   const wrapper = mount(VarCheckbox, {
     props: {
       modelValue: 0,
-      uncheckedValue: 0,
-      checkedValue: 1,
+      value: 1,
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })
@@ -173,8 +172,8 @@ test('checkbox with checkbox group', async () => {
     }),
     template: `
       <mp-checkbox-group v-model="value">
-        <mp-checkbox :checked-value="1" />
-        <mp-checkbox :checked-value="2" />
+        <mp-checkbox :value="1" />
+        <mp-checkbox :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -210,8 +209,8 @@ test('checkbox group max', async () => {
     }),
     template: `
       <mp-checkbox-group :max="1" v-model="value">
-        <mp-checkbox :checked-value="1" />
-        <mp-checkbox :checked-value="2" />
+        <mp-checkbox :value="1" />
+        <mp-checkbox :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -238,8 +237,8 @@ test('checkbox group checkAll & inverseAll methods', async () => {
     }),
     template: `
       <mp-checkbox-group ref="checkboxGroup" v-model="value">
-        <mp-checkbox :checked-value="1" />
-        <mp-checkbox :checked-value="2" />
+        <mp-checkbox :value="1" />
+        <mp-checkbox :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -269,8 +268,8 @@ test('checkbox group layout direction', () => {
     }),
     template: `
       <mp-checkbox-group direction="vertical" v-model="value">
-        <mp-checkbox :checked-value="1" />
-        <mp-checkbox :checked-value="2" />
+        <mp-checkbox :value="1" />
+        <mp-checkbox :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -317,7 +316,7 @@ test('checkbox group options', async () => {
   wrapper.unmount()
 })
 
-test('checkbox group label-key', async () => {
+test('checkbox group field-names label', async () => {
   const wrapper = mount({
     components: {
       [VarCheckboxGroup.name]: VarCheckboxGroup,
@@ -330,10 +329,10 @@ test('checkbox group label-key', async () => {
         { name: 'sleep', value: 1 },
         { name: 'game', value: 2 },
       ],
-      labelKey: 'name',
+      fieldNames: { label: 'name' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :label-key="labelKey">
+      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -356,7 +355,7 @@ test('checkbox group label-key', async () => {
   wrapper.unmount()
 })
 
-test('checkbox group value-key', async () => {
+test('checkbox group field-names value', async () => {
   const wrapper = mount({
     components: {
       [VarCheckboxGroup.name]: VarCheckboxGroup,
@@ -369,10 +368,10 @@ test('checkbox group value-key', async () => {
         { label: 'sleep', id: 1 },
         { label: 'game', id: 2 },
       ],
-      valueKey: 'id',
+      fieldNames: { value: 'id' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :value-key="valueKey">
+      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -408,11 +407,10 @@ test('checkbox group label is VNode', async () => {
         { name: h('h2', 'sleep'), id: 1 },
         { name: h('h3', 'game'), id: 2 },
       ],
-      valueKey: 'id',
-      labelKey: 'name',
+      fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :label-key="labelKey" :value-key="valueKey">
+      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -449,11 +447,10 @@ test('checkbox group label is function', async () => {
         { name: formatLabel, id: 1 },
         { name: formatLabel, id: 2 },
       ],
-      valueKey: 'id',
-      labelKey: 'name',
+      fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :label-key="labelKey" :value-key="valueKey">
+      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -490,8 +487,8 @@ test('checkbox keyboard Enter', async () => {
     }),
     template: `
           <mp-checkbox-group v-model="value">
-            <mp-checkbox :checked-value="1" >eat</mp-checkbox>
-            <mp-checkbox :checked-value="2" >sleep</mp-checkbox>
+            <mp-checkbox :value="1" >eat</mp-checkbox>
+            <mp-checkbox :value="2" >sleep</mp-checkbox>
           </mp-checkbox-group>
         `,
   })

@@ -1,40 +1,44 @@
 <template>
-  <div ref="host" :class="classes(n(), n('$--box'))">
+  <mp-trigger
+    ref="triggerRef"
+    :open="$props.open"
+    :disabled="disabled"
+    :trigger="trigger"
+    :reference="reference"
+    :placement="placement"
+    :strategy="strategy"
+    :offset-x="offsetX"
+    :offset-y="offsetY"
+    :popup-container="popupContainer"
+    :same-width="sameWidth"
+    :close-on-click-reference="closeOnClickReference"
+    :esc-to-close="escToClose"
+    :popup-class="classes(n('tooltip'), n('$--box'))"
+    :animation-name="n()"
+    @update:open="$emit('update:open', $event)"
+    @open="$emit('open')"
+    @opened="$emit('opened')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
+    @click-outside="$emit('click-outside', $event)"
+  >
     <slot />
-
-    <Teleport :to="teleport === false ? undefined : teleport" :disabled="teleportDisabled || teleport === false">
-      <transition :name="n()" @after-enter="onOpened" @after-leave="handleClosed">
-        <div
-          v-show="show"
-          ref="popover"
-          :class="classes(n('tooltip'), n('$--box'))"
-          :style="{ zIndex }"
-          @click.stop
-          @mouseenter="handlePopoverMouseenter"
-          @mouseleave="handlePopoverMouseleave"
-        >
-          <div
-            :style="{
-              background: color,
-              color: textColor,
-              width: sameWidth ? toSizeUnit(Math.ceil(referenceSize.width)) : undefined,
-            }"
-            :class="classes(n('content-container'), n(`--${type}`))"
-            role="tooltip"
-          >
-            <slot name="content">{{ content }}</slot>
-          </div>
-        </div>
-      </transition>
-    </Teleport>
-  </div>
+    <template #content>
+      <div
+        :style="{ background: color, color: textColor }"
+        :class="classes(n('content-container'), n(`--${type}`))"
+        role="tooltip"
+      >
+        <slot name="content">{{ content }}</slot>
+      </div>
+    </template>
+  </mp-trigger>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { usePopover } from '../popover/usePopover'
-import { createNamespace, useTeleport } from '../utils/components'
-import { toSizeUnit } from '../utils/elements'
+import { defineComponent, ref } from 'vue'
+import MpTrigger, { type TriggerInstance } from '../trigger'
+import { createNamespace } from '../utils/components'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('tooltip')
@@ -42,42 +46,20 @@ const { name, n, classes } = createNamespace('tooltip')
 export default defineComponent({
   name,
   props,
-  setup(props) {
-    const { disabled: teleportDisabled } = useTeleport()
-    const {
-      popover,
-      host,
-      referenceSize,
-      show,
-      zIndex,
-      handlePopoverMouseenter,
-      handlePopoverMouseleave,
-      handlePopoverClose,
-      handleClosed,
-      // expose
-      open,
-      // expose
-      close,
-      // expose
-      resize,
-      // expose
-      setReference,
-    } = usePopover(props)
+  emits: ['update:open', 'open', 'opened', 'close', 'closed', 'click-outside'],
+  components: { MpTrigger },
+  setup() {
+    const triggerRef = ref<TriggerInstance>()
+    const open = () => triggerRef.value?.open()
+    const close = () => triggerRef.value?.close()
+    const resize = () => triggerRef.value?.resize()
+    const setReference = (...args: Parameters<TriggerInstance['setReference']>) =>
+      triggerRef.value?.setReference(...args)
 
     return {
-      popover,
-      host,
-      referenceSize,
-      show,
-      zIndex,
-      teleportDisabled,
-      toSizeUnit,
+      triggerRef,
       n,
       classes,
-      handlePopoverClose,
-      handlePopoverMouseenter,
-      handlePopoverMouseleave,
-      handleClosed,
       resize,
       open,
       close,

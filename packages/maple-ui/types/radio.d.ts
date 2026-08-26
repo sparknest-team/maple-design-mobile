@@ -5,8 +5,7 @@ export declare const radioProps: Record<keyof RadioProps, any>
 
 export interface RadioProps extends BasicAttributes {
   modelValue?: any
-  checkedValue?: any
-  uncheckedValue?: any
+  value?: any
   checkedColor?: string
   uncheckedColor?: string
   disabled?: boolean

@@ -1,91 +1,70 @@
 <template>
-  <div ref="host" :class="classes(n(), n('$--box'))">
+  <mp-trigger
+    ref="triggerRef"
+    :open="$props.open"
+    :disabled="disabled"
+    :trigger="trigger"
+    :reference="reference"
+    :placement="placement"
+    :strategy="strategy"
+    :offset-x="offsetX"
+    :offset-y="offsetY"
+    :popup-container="popupContainer"
+    :same-width="sameWidth"
+    :popup-class="
+      classes(
+        n('content'),
+        n('$--box'),
+        popoverClass,
+        [defaultStyle, n('--background-color')],
+        [defaultStyle, formatElevation(elevation, 3)],
+      )
+    "
+    :close-on-click-reference="closeOnClickReference"
+    :esc-to-close="escToClose"
+    :align-point="alignPoint"
+    :cascade-optimization="cascadeOptimization"
+    :animation-name="n()"
+    @update:open="$emit('update:open', $event)"
+    @open="$emit('open')"
+    @opened="$emit('opened')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
+    @click-outside="$emit('click-outside', $event)"
+  >
     <slot />
-
-    <Teleport :to="teleport === false ? undefined : teleport" :disabled="teleportDisabled || teleport === false">
-      <transition :name="n()" @after-enter="onOpened" @after-leave="handleClosed">
-        <div
-          v-show="show"
-          ref="popover"
-          :style="{
-            zIndex,
-            width: sameWidth ? toSizeUnit(Math.ceil(referenceSize.width)) : undefined,
-          }"
-          :class="
-            classes(
-              n('content'),
-              n('$--box'),
-              popoverClass,
-              [defaultStyle, n('--background-color')],
-              [defaultStyle, formatElevation(elevation, 3)],
-            )
-          "
-          @click.stop
-          @mouseenter="handlePopoverMouseenter"
-          @mouseleave="handlePopoverMouseleave"
-        >
-          <slot name="content" />
-        </div>
-      </transition>
-    </Teleport>
-  </div>
+    <template #content><slot name="content" /></template>
+  </mp-trigger>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { createNamespace, formatElevation, useTeleport } from '../utils/components'
-import { toSizeUnit } from '../utils/elements'
+import { defineComponent, ref } from 'vue'
+import MpTrigger, { type TriggerInstance } from '../trigger'
+import { createNamespace, formatElevation } from '../utils/components'
 import { props } from './props'
-import { usePopover } from './usePopover'
 
 const { name, n, classes } = createNamespace('popover')
 
 export default defineComponent({
   name,
   props,
-  setup(props) {
-    const { disabled: teleportDisabled } = useTeleport()
-    const {
-      popover,
-      host,
-      referenceSize,
-      show,
-      zIndex,
-      handlePopoverMouseenter,
-      handlePopoverMouseleave,
-      handlePopoverClose,
-      handleClosed,
-      setAllowClose,
-      // expose
-      open,
-      // expose
-      close,
-      // expose
-      resize,
-      // expose
-      setReference,
-    } = usePopover(props)
-
-    function allowClose() {
-      setAllowClose(true)
-    }
+  emits: ['update:open', 'open', 'opened', 'close', 'closed', 'click-outside'],
+  components: { MpTrigger },
+  setup() {
+    const triggerRef = ref<TriggerInstance>()
+    const open = () => triggerRef.value?.open()
+    const close = () => triggerRef.value?.close()
+    const resize = () => triggerRef.value?.resize()
+    const setReference = (...args: Parameters<TriggerInstance['setReference']>) =>
+      triggerRef.value?.setReference(...args)
+    const allowClose = () => triggerRef.value?.allowClose()
 
     return {
-      popover,
-      host,
-      referenceSize,
-      show,
-      zIndex,
-      teleportDisabled,
+      triggerRef,
       allowClose,
       formatElevation,
-      toSizeUnit,
       n,
       classes,
-      handlePopoverMouseenter,
-      handlePopoverMouseleave,
-      handlePopoverClose,
-      handleClosed,
       resize,
       open,
       close,

@@ -16,13 +16,19 @@
 ```shell
 # playground-ignore
 # npm
-npm i @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+```
+
+独立 SVG 图标由 `@maplejs/icons-vue` 提供，请将其安装为项目依赖：
+
+```shell
+pnpm add @maplejs/icons-vue
 ```
 
 #### Vite
@@ -33,21 +39,32 @@ pnpm add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-im
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleImportResolver } from '@maplejs/maple-import-resolver'
+import { MapleResolver } from '@maplejs/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
     components({
-      resolvers: [MapleImportResolver()]
+      resolvers: [MapleResolver()]
     }),
     autoImport({
-      resolvers: [MapleImportResolver({ autoImport: true })]
+      resolvers: [MapleResolver()]
     })
   ]
 })
 ```
+
+同一个 Resolver 会根据组件名自动选择 UI 包或图标包，无需配置第二个 Resolver：
+
+```vue
+<template>
+  <mp-button>确认</mp-button>
+  <mp-icon-information :size="32" />
+</template>
+```
+
+`MpButton` 从 `@maplejs/maple-ui` 引入，`MpIconInformation` 从 `@maplejs/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
 
 #### Vue CLI
 ```js
@@ -55,16 +72,16 @@ export default defineConfig({
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleImportResolver } = require('@maplejs/maple-import-resolver')
+const { MapleResolver } = require('@maplejs/resolver')
 
 module.exports = {
   configureWebpack: {
     plugins: [
       Components.default({
-        resolvers: [MapleImportResolver()]
+        resolvers: [MapleResolver()]
       }),
       AutoImport.default({
-        resolvers: [MapleImportResolver({ autoImport: true })]
+        resolvers: [MapleResolver()]
       })
     ]
   }
@@ -91,7 +108,7 @@ module.exports = {
 import App from './App.vue'
 import { createApp } from 'vue'
 import { Button } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/es/button/style/index'
+import '@maplejs/maple-ui/button/style'
 
 createApp(App).use(Button)
 ```
@@ -102,7 +119,7 @@ createApp(App).use(Button)
 // playground-ignore
 <script setup>
 import { Button as VarButton } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/es/button/style/index'
+import '@maplejs/maple-ui/button/style'
 </script>
 
 <template>
@@ -118,8 +135,8 @@ import '@maplejs/maple-ui/es/button/style/index'
 // playground-ignore
 <script setup>
 import { Button as VarButton, Message } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/es/button/style/index'
-import '@maplejs/maple-ui/es/message/style/index'
+import '@maplejs/maple-ui/button/style'
+import '@maplejs/maple-ui/message/style'
 
 function handleClick() {
   Message('你好!')

@@ -83,18 +83,18 @@ test('select size', async () => {
   const wrapper = mount(VarSelect, {
     props: {
       value: '',
-      size: 'small',
+      size: 'sm',
     },
   })
 
-  expect(wrapper.find('.mp-field-decorator--small').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-field-decorator--size-sm').exists()).toBeTruthy()
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.setProps({
-    size: 'normal',
+    size: 'md',
   })
 
-  expect(wrapper.find('.mp-field-decorator--small').exists()).toBeFalsy()
+  expect(wrapper.find('.mp-field-decorator--size-sm').exists()).toBeFalsy()
 
   wrapper.unmount()
 })
@@ -238,11 +238,11 @@ test('select disabled', async () => {
     { attachTo: document.body },
   )
 
-  await trigger(document.querySelector('.mp-select__menu'), 'click')
+  await trigger(document.querySelector('.mp-field-decorator'), 'click')
   expect(onFocus).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ disabled: false })
-  await trigger(document.querySelector('.mp-select__menu'), 'click')
+  await trigger(document.querySelector('.mp-field-decorator'), 'click')
   await wrapper.setData({ disabled: true })
   await wrapper.find('.container').trigger('click')
   expect(onBlur).toHaveBeenCalledTimes(0)
@@ -253,7 +253,7 @@ test('select disabled', async () => {
   await trigger(document.querySelector('.mp-option'), 'click')
   expect(wrapper.vm.value).toBe('sleep')
 
-  await wrapper.find('.mp-icon-close-circle').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
   expect(wrapper.vm.value).toBe('sleep')
 
   wrapper.unmount()
@@ -296,18 +296,18 @@ test('select readonly', async () => {
   expect(onFocus).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ readonly: false })
-  await trigger(document.querySelector('.mp-select__menu'), 'click')
+  await trigger(document.querySelector('.mp-field-decorator'), 'click')
   await wrapper.setData({ readonly: true })
   await wrapper.find('.container').trigger('click')
   expect(onBlur).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ readonly: false })
-  await trigger(document.querySelector('.mp-select__menu'), 'click')
+  await trigger(document.querySelector('.mp-field-decorator'), 'click')
   await wrapper.setData({ readonly: true })
   await trigger(document.querySelector('.mp-option'), 'click')
   expect(wrapper.vm.value).toBe('sleep')
 
-  await wrapper.find('.mp-icon-close-circle').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
   expect(wrapper.vm.value).toBe('sleep')
 
   wrapper.unmount()
@@ -337,7 +337,7 @@ test('select clear', async () => {
     { attachTo: document.body },
   )
 
-  await wrapper.find('.mp-icon-close-circle').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
   expect(wrapper.vm.value).toBe(undefined)
 
   expect(onClear).toHaveBeenCalledTimes(1)
@@ -514,9 +514,9 @@ test('select keyboard close menu by escape', async () => {
 
   await wrapper.trigger('focus')
   await triggerKeyboard(window, 'keydown', { key: 'Enter' })
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
   await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-  expect(document.querySelector('.mp-popover__content').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
 
   wrapper.unmount()
   document.body.innerHTML = ''
@@ -549,7 +549,7 @@ test('select offset-y', async () => {
   select.focus()
   await delay(1000)
 
-  const menu = wrapper.findComponent({ name: 'mp-popover' })
+  const menu = wrapper.findComponent({ name: 'MpTrigger' })
 
   expect(menu.vm.offsetY).toBe(40)
 
@@ -621,7 +621,7 @@ test('select options multiple', async () => {
   wrapper.unmount()
 })
 
-test('select label-key', async () => {
+test('select field-names label', async () => {
   const wrapper = mount({
     ...Wrapper,
     data: () => ({
@@ -633,7 +633,7 @@ test('select label-key', async () => {
       ],
     }),
     template: `
-      <mp-select v-model="value" :options="options" label-key="name">
+      <mp-select v-model="value" :options="options" :field-names="{ label: 'name' }">
       </mp-select>
     `,
   })
@@ -652,7 +652,7 @@ test('select label-key', async () => {
   wrapper.unmount()
 })
 
-test('select value-key', async () => {
+test('select field-names value', async () => {
   const wrapper = mount({
     ...Wrapper,
     data: () => ({
@@ -664,7 +664,7 @@ test('select value-key', async () => {
       ],
     }),
     template: `
-      <mp-select v-model="value" :options="options" value-key="id">
+      <mp-select v-model="value" :options="options" :field-names="{ value: 'id' }">
       </mp-select>
     `,
   })

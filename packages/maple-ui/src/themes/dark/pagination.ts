@@ -3,7 +3,7 @@ export default {
   '--mp-pagination-hover-bg-color': 'rgba(255, 255, 255, .15)',
   '--mp-pagination-item-background': '#303030',
   '--mp-pagination-font-size': 'var(--mp-font-size-md)',
-  '--mp-pagination-active-color': 'var(--mp-color-on-primary)',
+  '--mp-pagination-active-color': 'var(--mp-color-white)',
   '--mp-pagination-active-bg-color': 'var(--mp-color-primary)',
   '--mp-pagination-total-margin': '0 10px',
   '--mp-pagination-total-line-height': '24px',

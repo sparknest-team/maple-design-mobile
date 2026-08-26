@@ -12,7 +12,7 @@
     >
       <slot>
         <mp-button :elevation="elevation" status="primary" mp-back-top-cover>
-          <mp-icon name="chevron-up" />
+          <MIconChevronUp />
         </mp-button>
       </slot>
     </div>
@@ -21,10 +21,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, onActivated, onMounted, ref, type TeleportProps } from 'vue'
+import { IconChevronUp as MIconChevronUp } from '@maplejs/icons-vue'
 import { call, getScrollLeft, getScrollTop } from '@maplejs/maple-shared'
 import { onSmartUnmounted } from '@maplejs/maple-use'
 import MpButton from '../button'
-import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTarget, scrollTo, toPxNum, toSizeUnit } from '../utils/elements'
 import { easeInOutCubic } from '../utils/shared'
@@ -36,19 +36,20 @@ const { name, n, classes } = createNamespace('back-top')
 export default defineComponent({
   name,
   components: {
+    MIconChevronUp,
     MpButton,
-    MpIcon,
   },
   inheritAttrs: false,
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
     const show = ref(false)
     const backTopEl = ref<HTMLElement | null>(null)
     const disabled = ref<TeleportProps['disabled']>(true)
 
     let scroller: HTMLElement | Window
 
-    const teleport = computed(() => props.teleport)
+    const teleport = computed(() => props.popupContainer)
 
     const handleScroll = throttleByRaf(() => {
       setBackTopVisibility()
@@ -58,7 +59,7 @@ export default defineComponent({
       setScroller()
       addScrollerEventListener()
       setBackTopVisibility()
-      if (props.teleport) {
+      if (props.popupContainer) {
         disabled.value = false
       }
     })
@@ -67,11 +68,11 @@ export default defineComponent({
     onSmartUnmounted(removeScrollerEventListener)
 
     function setBackTopVisibility() {
-      show.value = getScrollTop(scroller) >= toPxNum(props.visibilityHeight)
+      show.value = getScrollTop(scroller) >= toPxNum(props.visibleHeight)
     }
 
     function handleClick(event: Event) {
-      call(props.onClick, event)
+      emit('click', event)
 
       const left = getScrollLeft(scroller)
 
@@ -83,7 +84,9 @@ export default defineComponent({
     }
 
     function setScroller() {
-      scroller = props.target ? getTarget(props.target, 'BackTop') : getParentScroller(backTopEl.value!)
+      scroller = props.targetContainer
+        ? getTarget(props.targetContainer, 'BackTop')
+        : getParentScroller(backTopEl.value!)
     }
 
     function addScrollerEventListener() {

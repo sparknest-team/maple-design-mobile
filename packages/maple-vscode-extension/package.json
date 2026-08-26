@@ -89,7 +89,7 @@
     "onLanguage:typescriptreact"
   ],
   "dependencies": {
-    "@maplejs/maple-icons": "workspace:*",
+    "@maplejs/icons-vue": "workspace:*",
     "@maplejs/maple-shared": "workspace:*",
     "@maplejs/maple-ui": "workspace:*"
   },

@@ -36,8 +36,8 @@ onThemeChange((theme) => {
     v-model:active="active2"
     elevation
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
     <mp-tab>{{ t('option') }}2</mp-tab>
@@ -49,8 +49,8 @@ onThemeChange((theme) => {
     v-model:active="active3"
     elevation
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
     :disabled-color="currentTheme === 'darkTheme' ? '#bbb' : undefined"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
@@ -63,8 +63,8 @@ onThemeChange((theme) => {
     v-model:active="active4"
     elevation
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
     <mp-tab>{{ t('option') }}2</mp-tab>
@@ -82,19 +82,19 @@ onThemeChange((theme) => {
     elevation
     item-vertical
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
   >
     <mp-tab>
-      <mp-icon class="icon" name="information" />
+      <m-icon-information class="icon" />
       <div>{{ t('option') }}1</div>
     </mp-tab>
     <mp-tab>
-      <mp-icon class="icon" name="warning" />
+      <m-icon-warning class="icon" />
       <div>{{ t('option') }}2</div>
     </mp-tab>
     <mp-tab>
-      <mp-icon class="icon" name="error" />
+      <m-icon-error class="icon" />
       <div>{{ t('option') }}3</div>
     </mp-tab>
   </mp-tabs>
@@ -106,8 +106,8 @@ onThemeChange((theme) => {
     elevation
     vertical
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
     <mp-tab>{{ t('option') }}2</mp-tab>
@@ -119,8 +119,8 @@ onThemeChange((theme) => {
     v-model:active="activeRelation"
     elevation
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
     offset-top="50"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
@@ -146,8 +146,8 @@ onThemeChange((theme) => {
     sticky
     elevation
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
     offset-top="14.4vmin"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
@@ -161,8 +161,8 @@ onThemeChange((theme) => {
     elevation
     indicator-position="reverse"
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
     <mp-tab>{{ t('option') }}2</mp-tab>
@@ -177,8 +177,8 @@ onThemeChange((theme) => {
     indicator-position="reverse"
     vertical
     color="var(--mp-color-primary)"
-    active-color="var(--mp-color-on-primary)"
-    inactive-color="var(--mp-color-on-info)"
+    active-color="var(--mp-color-white)"
+    inactive-color="var(--mp-color-white)"
   >
     <mp-tab>{{ t('option') }}1</mp-tab>
     <mp-tab>{{ t('option') }}2</mp-tab>

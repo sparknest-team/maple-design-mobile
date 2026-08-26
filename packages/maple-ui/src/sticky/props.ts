@@ -1,5 +1,4 @@
 import { type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export const props = {
   offsetTop: {
@@ -13,5 +12,4 @@ export const props = {
   cssMode: Boolean,
   disabled: Boolean,
   target: [String, Object] as PropType<string | HTMLElement | Window>,
-  onChange: defineListenerProp<(fixed: boolean, offsetTop: number) => void>(),
 }

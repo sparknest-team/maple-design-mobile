@@ -9,14 +9,14 @@
   --mp-progress-success-color: var(--mp-color-success);
   --mp-progress-warning-color: var(--mp-color-warning);
   --mp-progress-info-color: var(--mp-color-info);
-  --mp-progress-linear-border-radius: 0px;
+  --mp-progress-line-border-radius: 0px;
 }
 
 .mp-progress {
   position: relative;
   font-size: var(--mp-progress-font-size);
 
-  &__linear {
+  &__line {
     display: flex;
     align-items: center;
 
@@ -25,13 +25,13 @@
       position: relative;
       overflow: hidden;
       height: 4px;
-      border-radius: var(--mp-progress-linear-border-radius);
+      border-radius: var(--mp-progress-line-border-radius);
     }
 
     &-certain {
       width: 100%;
       height: 100%;
-      border-radius: var(--mp-progress-linear-border-radius);
+      border-radius: var(--mp-progress-line-border-radius);
     }
 
     &-background {
@@ -64,14 +64,14 @@
         top: 0;
         width: auto;
         will-change: left, right;
-        border-radius: var(--mp-progress-linear-border-radius);
+        border-radius: var(--mp-progress-line-border-radius);
 
         &:first-child {
-          animation: progress-linear-long 2.2s infinite;
+          animation: progress-line-long 2.2s infinite;
         }
 
         &:last-child {
-          animation: progress-linear-short 2.2s infinite;
+          animation: progress-line-short 2.2s infinite;
         }
       }
     }
@@ -100,7 +100,7 @@
       background-color: var(--mp-progress-info-color);
     }
 
-    @keyframes progress-linear-long {
+    @keyframes progress-line-long {
       0% {
         left: -90%;
         right: 100%;
@@ -116,7 +116,7 @@
       }
     }
 
-    @keyframes progress-linear-short {
+    @keyframes progress-line-short {
       0% {
         left: -200%;
         right: 100%;

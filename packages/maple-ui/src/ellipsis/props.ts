@@ -1,6 +1,6 @@
 import { type PropType } from 'vue'
 import { tooltipProps } from '../tooltip'
-import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/components'
+import { type ExtractPublicPropTypes } from '../utils/components'
 
 export type EllipsisExpandTrigger = 'click'
 
@@ -12,5 +12,4 @@ export const props = {
     type: [Object, Boolean] as PropType<ExtractPublicPropTypes<typeof tooltipProps> | boolean>,
     default: true,
   },
-  'onUpdate:expand': defineListenerProp<(expand: boolean) => void>(),
 }

@@ -11,7 +11,7 @@ test('input plugin', () => {
 })
 
 test('input variant', () => {
-  ;['standard', 'outlined'].forEach((variant) => {
+  ;['filled', 'outlined', 'standard'].forEach((variant) => {
     const wrapper = mount(VarInput, {
       props: {
         modelValue: 'text',
@@ -28,6 +28,7 @@ test('input variant', () => {
         break
       }
 
+      case 'filled':
       case 'outlined': {
         expect(wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('legend')).toBeTruthy()
         break
@@ -43,16 +44,21 @@ test('input variant', () => {
 })
 
 test('input size', () => {
-  const wrapper = mount(VarInput, {
-    props: {
-      modelValue: 'text',
-      size: 'small',
-    },
-  })
+  ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
+    const wrapper = mount(VarInput, {
+      props: {
+        modelValue: 'text',
+        size,
+      },
+    })
 
-  expect(wrapper.find('.mp-field-decorator--small')).toBeTruthy()
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
+    if (size === 'md') {
+      expect(wrapper.find('.mp-field-decorator--size-md').exists()).toBeFalsy()
+    } else {
+      expect(wrapper.find(`.mp-field-decorator--size-${size}`).exists()).toBeTruthy()
+    }
+    wrapper.unmount()
+  })
 })
 
 test('input type', () => {
@@ -172,11 +178,11 @@ describe('test input events', () => {
   })
 })
 
-test('input maxlength', () => {
+test('input maxLength', () => {
   const wrapper = mount(VarInput, {
     props: {
       modelValue: 'text',
-      maxlength: 100,
+      maxLength: 100,
     },
   })
 

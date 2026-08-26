@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Counter, counterProps)
 
 export { counterProps }
 
+export type CounterInstance = InstanceType<typeof Counter>
 export const _CounterComponent = Counter
 
 export default Counter

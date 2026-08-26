@@ -9,11 +9,11 @@
 ```html
 <template>
   <mp-space align="center">
-    <mp-avatar src="https://maplejs.org/cat.jpg" size="mini" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" size="small" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" size="large" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" :size="78" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="mini" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="small" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="large" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" :size="78" />
   </mp-space>
 </template>
 ```
@@ -23,8 +23,8 @@
 ```html
 <template>
   <mp-space>
-    <mp-avatar src="https://maplejs.org/cat.jpg" />
-    <mp-avatar src="https://maplejs.org/cat.jpg" :round="false" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" shape="square" />
   </mp-space>
 </template>
 ```
@@ -35,23 +35,23 @@
 <template>
   <mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" />
       <span>cover</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="fill" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="fill" />
       <span>fill</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="contain" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="contain" />
       <span>contain</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="none" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="none" />
       <span>none</span>
     </mp-space>
     <mp-space direction="column" align="center">
-      <mp-avatar src="https://maplejs.org/cat.jpg" fit="scale-down" />
+      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="scale-down" />
       <span>scale-down</span>
     </mp-space>
   </mp-space>
@@ -71,7 +71,7 @@ const text = ref('MAPLE')
   <mp-space direction="column">
     <mp-space>
       <mp-avatar>{{ text }}</mp-avatar>
-      <mp-avatar :round="false">{{ text }}</mp-avatar>
+      <mp-avatar shape="square">{{ text }}</mp-avatar>
     </mp-space>
     <mp-input v-model="text" />
   </mp-space>
@@ -84,9 +84,9 @@ const text = ref('MAPLE')
 <template>
   <mp-space>
     <mp-avatar color="var(--color-warning)">
-      <mp-icon name="fire" />
+      <m-icon-fire />
     </mp-avatar>
-    <mp-avatar color="var(--color-danger)">VARLET</mp-avatar>
+    <mp-avatar color="var(--color-danger)">Maple</mp-avatar>
   </mp-space>
 </template>
 ```
@@ -96,9 +96,9 @@ const text = ref('MAPLE')
 ```html
 <template>
   <mp-avatar-group>
-    <mp-avatar src="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat3.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
     <mp-avatar bordered>+2</mp-avatar>
   </mp-avatar-group>
 </template>
@@ -109,9 +109,9 @@ const text = ref('MAPLE')
 ```html
 <template>
   <mp-avatar-group vertical>
-    <mp-avatar src="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar src="https://maplejs.org/cat3.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
+    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
     <mp-avatar bordered>+2</mp-avatar>
   </mp-avatar-group>
 </template>
@@ -122,9 +122,9 @@ const text = ref('MAPLE')
 ```html
 <template>
   <mp-avatar-group>
-    <mp-avatar hoverable src="https://maplejs.org/cat.jpg" />
-    <mp-avatar hoverable src="https://maplejs.org/cat2.jpg" />
-    <mp-avatar hoverable src="https://maplejs.org/cat3.jpg" />
+    <mp-avatar hoverable image-url="https://maplejs.org/cat.jpg" />
+    <mp-avatar hoverable image-url="https://maplejs.org/cat2.jpg" />
+    <mp-avatar hoverable image-url="https://maplejs.org/cat3.jpg" />
     <mp-avatar hoverable bordered>+2</mp-avatar>
   </mp-avatar-group>
 </template>
@@ -149,7 +149,7 @@ export default defineConfig({
     vue({
       template: {
         transformAssetUrls: {
-          'mp-avatar': ['src']
+          'mp-avatar': ['imageUrl']
         }
       }
     })
@@ -160,7 +160,7 @@ export default defineConfig({
 ```html
 <!-- playground-ignore -->
 <template>
-  <mp-avatar src="../../assets/logo.png"/>
+  <mp-avatar image-url="../../assets/logo.png"/>
 </template>
 ```
 
@@ -173,7 +173,7 @@ import logo from '../../assets/logo.png'
 </script>
 
 <template>
-  <mp-avatar :src="logo"/>
+  <mp-avatar :image-url="logo"/>
 </template>
 ```
 
@@ -182,7 +182,7 @@ import logo from '../../assets/logo.png'
 ```html
 <!-- playground-ignore -->
 <template>
-  <mp-avatar :src="require('../../assets/logo.png')"/>
+  <mp-avatar :image-url="require('../../assets/logo.png')"/>
 </template>
 ```
 
@@ -195,12 +195,12 @@ import logo from '../../assets/logo.png'
 
 | 参数           | 说明                                                            | 类型               | 默认值   |
 | -------------- | --------------------------------------------------------------- | ------------------ | -------- |
-| `round`        | 头像是否为圆形                                                  | _boolean_          | `true`   |
+| `shape`        | 头像形状，可选值 `circle` `square`                                                  | _string_            | `circle`   |
 | `size`         | 头像的尺寸，可选值为 `mini small normal large`                  | _string \| number_ | `normal` |
 | `color`        | 头像的背景颜色                                                  | _string_           | `-`      |
-| `src`          | 头像的地址                                                      | _string_           | `-`      |
+| `image-url`          | 头像图片地址                                                      | _string_           | `-`      |
 | `alt`          | 替代文本，和 `img` 标签原生属性一致                             | _string_           | `-`      |
-| `fit`          | 头像图片的填充模式，可选值 `fill contain cover none scale-down` | _string_           | `cover`  |
+| `object-fit`          | 头像图片的 object-fit，可选值 `fill contain cover none scale-down` | _string_           | `cover`  |
 | `bordered`     | 头像是否带边框                                                  | _boolean_          | `false`  |
 | `border-color` | 头像边框颜色                                                    | _string_           | `-`      |
 | `loading`      | 当开启懒加载时, 加载中显示的图片                                | _string_           | `-`      |

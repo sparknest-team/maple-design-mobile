@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Table, tableProps)
 
 export { tableProps }
 
+export type TableInstance = InstanceType<typeof Table>
 export const _TableComponent = Table
 
 export default Table

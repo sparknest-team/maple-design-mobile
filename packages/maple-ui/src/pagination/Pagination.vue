@@ -158,7 +158,8 @@ export default defineComponent({
     PageOptions,
   },
   props,
-  setup(props) {
+  emits: ['change', 'page-size-change', 'update:current', 'update:pageSize'],
+  setup(props, { emit }) {
     const { t: pt } = injectLocaleProvider()
     const {
       disabled,
@@ -191,15 +192,15 @@ export default defineComponent({
     const handleClick = (page: number) => {
       if (page !== computedCurrent.value && isNumber(page) && !props.disabled) {
         _current.value = page
-        call(props['onUpdate:current'], page)
-        call(props.onChange, page)
+        emit('update:current', page)
+        emit('change', page)
       }
     }
 
     const handlePageSizeChange = (pageSize: number) => {
       _pageSize.value = pageSize
-      call(props['onUpdate:pageSize'], pageSize)
-      call(props.onPageSizeChange, pageSize)
+      emit('update:pageSize', pageSize)
+      emit('page-size-change', pageSize)
     }
 
     const pageList = computed(() => {
@@ -260,8 +261,8 @@ export default defineComponent({
         const newPage = Math.ceil(index / curPageSize)
         if (newPage !== computedCurrent.value) {
           _current.value = newPage
-          call(props['onUpdate:current'], newPage)
-          call(props.onChange, newPage)
+          emit('update:current', newPage)
+          emit('change', newPage)
         }
       }
     })
@@ -270,12 +271,14 @@ export default defineComponent({
       if (props.autoAdjust && curPages !== prePages && computedCurrent.value > 1 && computedCurrent.value > curPages) {
         const newCurrent = Math.max(curPages, 1)
         _current.value = newCurrent
-        call(props['onUpdate:current'], newCurrent)
-        call(props.onChange, newCurrent)
+        emit('update:current', newCurrent)
+        emit('change', newCurrent)
       }
     })
 
-    const rootCls = computed(() => classes(n(), [props.simple, n('--simple')], [props.disabled, n('--disabled')]))
+    const rootCls = computed(() =>
+      classes(n(), `${n()}-size-${props.size}`, [props.simple, n('--simple')], [props.disabled, n('--disabled')]),
+    )
 
     return {
       n,
@@ -312,7 +315,6 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
-@import '../popover/popover';
 @import '../menu/menu';
 @import '../menu-option/menuOption';
 @import '../cell/cell';

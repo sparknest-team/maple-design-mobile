@@ -2,7 +2,9 @@
 
 ### 介绍
 
-具有选择器功能的菜单，弹出层基于 [气泡卡片](#/zh-CN/popover) 实现，部分功能的使用方式一致。
+具有选择器功能的菜单，弹出层基于无视觉样式的 [Trigger](#/zh-CN/trigger) 实现。
+
+定位枚举沿用 Popper（含 `cover-*`），默认 `bottom`。同宽、高度限制分别使用 `auto-fit-popup-width`、`popup-max-height`。支持 `trigger="contextMenu"` 配合 `align-point` 做右键菜单。
 
 ### 基本使用
 
@@ -17,7 +19,7 @@
   <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="吃饭" />
       <mp-menu-option label="睡觉" />
       <mp-menu-option label="打游戏" />
@@ -32,7 +34,7 @@
 <script setup>
   import { Message } from '@maplejs/maple-ui'
 
-  function handleSelect(value) {
+  function handleSelect(value, option, ev) {
     Message(`Select: ${value}`)
   }
 </script>
@@ -41,7 +43,7 @@
   <mp-menu @select="handleSelect">
     <mp-button type="primary">请选择</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="吃饭" />
       <mp-menu-option label="睡觉" />
       <mp-menu-option label="打游戏" />
@@ -50,65 +52,99 @@
 </template>
 ```
 
-### 按钮下拉框
+### 悬浮触发
 
 ```html
-<script setup>
-  import { Message } from '@maplejs/maple-ui'
-
-  function handleClick() {
-    Message('发布')
-  }
-
-  function handleSelect(value) {
-    Message(`操作: ${value}`)
-  }
-</script>
-
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-menu position="br" @select="handleSelect">
-      <mp-button-group status="primary">
-        <mp-button @click.stop="handleClick">发布</mp-button>
-        <mp-button style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
+  <mp-menu trigger="hover" @select="handleSelect">
+    <mp-button type="primary">Hover 悬浮触发</mp-button>
 
+    <template #content>
+      <mp-menu-option label="吃饭" />
+      <mp-menu-option label="睡觉" />
+      <mp-menu-option label="打游戏" />
+    </template>
+  </mp-menu>
+</template>
+```
+
+### 弹出位置
+
+Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应的是 `bottom-start / bottom / bottom-end / top-start / top / top-end`。
+
+```html
+<template>
+  <mp-space>
+    <mp-menu placement="bottom-start">
+      <mp-button type="primary">Bottom Start</mp-button>
       <template #content>
-        <mp-menu-option label="立即保存" />
-        <mp-menu-option label="保存并发布" />
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
       </template>
     </mp-menu>
-
-    <mp-menu disabled position="br">
-      <mp-button-group status="primary">
-        <mp-button disabled>禁用</mp-button>
-        <mp-button disabled style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
+    <mp-menu placement="bottom">
+      <mp-button type="primary">Bottom</mp-button>
       <template #content>
-        <mp-menu-option label="立即保存" />
-        <mp-menu-option label="保存并发布" />
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
       </template>
     </mp-menu>
-
-    <mp-menu position="br" @select="handleSelect">
-      <mp-button-group status="primary">
-        <mp-button @click.stop="handleClick">发布</mp-button>
-        <mp-button style="padding: 0 6px">
-          <mp-icon name="menu-down" :size="24" />
-        </mp-button>
-      </mp-button-group>
-
+    <mp-menu placement="bottom-end">
+      <mp-button type="primary">Bottom End</mp-button>
       <template #content>
-        <mp-menu-option label="立即保存" />
-        <mp-menu-option label="保存并发布" />
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
+      </template>
+    </mp-menu>
+    <mp-menu placement="top-start">
+      <mp-button type="primary">Top Start</mp-button>
+      <template #content>
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
+      </template>
+    </mp-menu>
+    <mp-menu placement="top">
+      <mp-button type="primary">Top</mp-button>
+      <template #content>
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
+      </template>
+    </mp-menu>
+    <mp-menu placement="top-end">
+      <mp-button type="primary">Top End</mp-button>
+      <template #content>
+        <mp-menu-option label="Option 1" />
+        <mp-menu-option label="Option 2" />
+        <mp-menu-option label="Option 3" />
       </template>
     </mp-menu>
   </mp-space>
+</template>
+```
+
+### 右键菜单
+
+需要同时设置 `trigger="contextMenu"` 和 `align-point`。
+
+```html
+<template>
+  <mp-menu trigger="contextMenu" align-point>
+    <div
+      style="display: flex; align-items: center; justify-content: center; height: 200px; background: var(--color-fill-2)"
+    >
+      右键点击
+    </div>
+    <template #content>
+      <mp-menu-option label="Option 1" />
+      <mp-menu-option label="Option 2" />
+      <mp-menu-option label="Option 3" />
+    </template>
+  </mp-menu>
 </template>
 ```
 
@@ -129,7 +165,7 @@
     <mp-menu v-model="valueNormal">
       <mp-button type="primary"> {{ valueNormal ? valueNormal : '常规尺寸' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="吃饭" />
         <mp-menu-option label="睡觉" />
         <mp-menu-option label="打游戏" />
@@ -139,7 +175,7 @@
     <mp-menu size="small" v-model="valueSmall">
       <mp-button type="primary"> {{ valueSmall ? valueSmall : '小型尺寸' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="吃饭" />
         <mp-menu-option label="睡觉" />
         <mp-menu-option label="打游戏" />
@@ -149,7 +185,7 @@
     <mp-menu size="mini" v-model="valueMini">
       <mp-button type="primary"> {{ valueMini ? valueMini : '迷你尺寸' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="吃饭" />
         <mp-menu-option label="睡觉" />
         <mp-menu-option label="打游戏" />
@@ -159,7 +195,7 @@
     <mp-menu size="large" v-model="valueLarge">
       <mp-button type="primary"> {{ valueLarge ? valueLarge : '大型尺寸' }} </mp-button>
 
-      <template #options>
+      <template #content>
         <mp-menu-option label="吃饭" />
         <mp-menu-option label="睡觉" />
         <mp-menu-option label="打游戏" />
@@ -182,7 +218,7 @@
   <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? `value: ${value}` : '请选择' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="吃饭" :value="1" />
       <mp-menu-option label="睡觉" :value="2" />
       <mp-menu-option label="打游戏" :value="3" />
@@ -191,9 +227,9 @@
 </template>
 ```
 
-### 可滚动
+### 限制弹出高度
 
-通过开启 `scrollable` 使菜单可以局部滚动。
+`popup-max-height` 默认为 `true`，超出默认最大高度后可滚动。传入数字表示像素高度，传入 `false` 则不限制。
 
 ```html
 <script setup>
@@ -204,10 +240,10 @@
 </script>
 
 <template>
-  <mp-menu scrollable v-model="value">
+  <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option v-for="option in options" :key="option.value" :label="option.label" />
     </template>
   </mp-menu>
@@ -224,10 +260,10 @@
 </script>
 
 <template>
-  <mp-menu scrollable v-model="value">
+  <mp-menu v-model="value">
     <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="吃饭" />
       <mp-menu-option label="睡觉" />
       <mp-menu-option label="打游戏" disabled />
@@ -249,7 +285,7 @@
   <mp-menu multiple v-model="value">
     <mp-button type="primary">{{ value.length ? value : '请选择' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="吃饭" />
       <mp-menu-option label="睡觉" />
       <mp-menu-option label="打游戏" />
@@ -262,7 +298,7 @@
 
 ### 选择选项时禁止关闭菜单
 
-关闭 `close-on-select` 可以在选择选项时禁止关闭菜单。默认行为是在选择选项时关闭菜单，多选模式下不允许关闭此选项。
+关闭 `hide-on-select` 可以在选择选项时禁止关闭菜单。默认行为是在选择选项时关闭菜单，多选模式下始终不关闭菜单。
 
 ```html
 <script setup>
@@ -272,13 +308,83 @@
 </script>
 
 <template>
-  <mp-menu :close-on-select="false" v-model="value">
+  <mp-menu :hide-on-select="false" v-model="value">
     <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
 
-    <template #options>
+    <template #content>
       <mp-menu-option label="吃饭" />
       <mp-menu-option label="睡觉" />
       <mp-menu-option label="打游戏" />
+    </template>
+  </mp-menu>
+</template>
+```
+
+### 选项分组
+
+```html
+<script setup>
+  import { Message } from '@maplejs/maple-ui'
+
+  function handleSelect(value) {
+    Message(`Select: ${value}`)
+  }
+</script>
+
+<template>
+  <mp-menu @select="handleSelect">
+    <mp-button type="primary">选项分组</mp-button>
+
+    <template #content>
+      <mp-menu-group title="用餐">
+        <mp-menu-option label="吃饭" />
+        <mp-menu-option label="睡觉" />
+      </mp-menu-group>
+      <mp-menu-group title="工作">
+        <mp-menu-option label="写代码" />
+        <mp-menu-option label="摸鱼" />
+      </mp-menu-group>
+    </template>
+  </mp-menu>
+</template>
+```
+
+### 插入图标
+
+```html
+<template>
+  <mp-menu>
+    <mp-button type="primary">插入图标</mp-button>
+
+    <template #content>
+      <mp-menu-option label="吃饭">
+        <template #icon>
+          <m-icon-star :size="18" />
+        </template>
+      </mp-menu-option>
+      <mp-menu-option label="睡觉">
+        <template #icon>
+          <m-icon-star :size="18" />
+        </template>
+      </mp-menu-option>
+    </template>
+  </mp-menu>
+</template>
+```
+
+### 页脚
+
+```html
+<template>
+  <mp-menu>
+    <mp-button type="primary">页脚</mp-button>
+
+    <template #content>
+      <mp-menu-option label="吃饭" />
+      <mp-menu-option label="睡觉" />
+    </template>
+    <template #footer>
+      <div style="padding: 8px 12px">自定义页脚</div>
     </template>
   </mp-menu>
 </template>
@@ -377,7 +483,7 @@
 <script setup>
   import { ref } from 'vue'
 
-  const value = ref()
+  const value = ref([])
   const options = ref([
     {
       label: '1',
@@ -416,14 +522,14 @@
 
 <template>
   <mp-menu multiple v-model="value" :options="options">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button type="primary">{{ value.length ? value : '请选择' }}</mp-button>
   </mp-menu>
 </template>
 ```
 
 ### 选项式 API（自定义字段）
 
-可以将选项以数组形式传给 `options` 属性，同时通过 `label-key` 和 `value-key` 属性指定选项数组内文本和值的字段。
+可以将选项以数组形式传给 `options` 属性，同时通过 `field-names` 属性指定选项数组内文本和值的字段。级联选择同样走这套字段映射。
 
 ```html
 <script setup>
@@ -448,7 +554,7 @@
 </script>
 
 <template>
-  <mp-menu v-model="value" :options="options" label-key="name" value-key="id">
+  <mp-menu v-model="value" :options="options" :field-names="{ label: 'name', value: 'id' }">
     <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
   </mp-menu>
 </template>
@@ -460,53 +566,57 @@
 
 #### Menu Props
 
-| 参数                       | 说明                                                                                                 | 类型                             | 默认值            |
-| -------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------- | ----------------- |
-| `v-model`                  | 绑定的值                                                                                             | _any \| any[]_                   | `-`               |
-| `v-model:popup-visible`    | 是否显示菜单，与 Cedar Menu 对齐                                                                     | _boolean_                        | `-`               |
-| `default-popup-visible`    | 非受控模式下菜单默认是否显示                                                                         | _boolean_                        | `false`           |
-| `size`                     | 菜单尺寸，可选值 `normal` `mini` `small` `large`                                                     | _string_                         | `normal`          |
-| `multiple`                 | 是否多选                                                                                             | _boolean_                        | `false`           |
-| `scrollable`               | 是否可滚动                                                                                           | _boolean_                        | `false`           |
-| `close-on-select`          | 选择菜单项时是否关闭菜单（多选模式下始终不关闭菜单）                                                 | _boolean_                        | `true`            |
-| `hide-on-select`           | 选择菜单项时是否关闭菜单（优先于 `close-on-select`）                                                 | _boolean_                        | `-`               |
-| `position`                 | Cedar 风格弹出位置：`top` `tl` `tr` `bottom` `bl` `br`                                               | _string_                         | `-`               |
-| `placement`                | 菜单弹出位置                                                                                         | _Placement_                      | `cover-top-start` |
-| `strategy`                 | 菜单定位方式，可选值为 `absolute` `fixed`                                                            | _string_                         | `absolute`        |
-| `offset-x`                 | x 轴偏移量， 相对于菜单对齐后的位置                                                                  | _number \| string_               | `0`               |
-| `offset-y`                 | y 轴偏移量， 相对于菜单对齐后的位置                                                                  | _number \| string_               | `0`               |
-| `teleport`                 | 菜单挂载的位置                                                                                       | _TeleportProps['to'] \| false_   | `body`            |
-| `popup-container`          | 菜单挂载容器（优先于 `teleport`）                                                                    | _string \| HTMLElement \| false_ | `-`               |
-| `disabled`                 | 是否禁用菜单                                                                                         | _boolean_                        | `false`           |
-| `trigger`                  | 菜单触发方式，可选值为 `click` `hover` `manual`                                                      | _string_                         | `click`           |
-| `reference`                | 菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_          | `-`               |
-| `elevation`                | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级                                                   | _string \| number \| boolean_    | `true`            |
-| `same-width`               | 是否与触发元素同宽                                                                                   | _boolean_                        | `false`           |
-| `popover-class`            | 弹出层的 class                                                                                       | _string_                         | `-`               |
-| `close-on-click-reference` | 是否在点击菜单触发元素后关闭菜单                                                                     | _boolean_                        | `false`           |
-| `options` _**3.3.7**_      | 指定可选项                                                                                           | _MenuOption[]_                   | `[]`              |
-| `label-key` _**3.3.7**_    | 作为 label 唯一标识的键名                                                                            | _string_                         | `label`           |
-| `value-key` _**3.3.7**_    | 作为 value 唯一标识的键名                                                                            | _string_                         | `value`           |
-| `children-key` _**3.8.0**_ | 作为 children 唯一标识的键名                                                                         | _string_                         | `children`        |
+| 参数                       | 说明                                                                                                 | 类型                                       | 默认值     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------ | ---------- |
+| `v-model`                  | 绑定的值                                                                                             | _any \| any[]_                             | `-`        |
+| `v-model:open`             | 是否显示菜单                                                                                         | _boolean_                                  | `-`        |
+| `default-open`             | 非受控模式下默认是否显示菜单                                                                         | _boolean_                                  | `false`    |
+| `size`                     | 菜单尺寸，可选值 `normal` `mini` `small` `large`                                                     | _string_                                   | `normal`   |
+| `multiple`                 | 是否多选                                                                                             | _boolean_                                  | `false`    |
+| `popup-max-height`         | 弹出层最大高度。`true` 使用默认高度，`false` 不限制，传入 `number` 为像素值                          | _boolean \| number_                        | `true`     |
+| `auto-fit-popup-width`     | 是否与触发元素同宽                                                                                   | _boolean_                                  | `false`    |
+| `hide-on-select`           | 选择菜单项时是否关闭菜单（多选模式下始终不关闭菜单）                                                 | _boolean_                                  | `true`     |
+| `placement`                | 菜单弹出位置                                                                                         | _Placement_                                | `bottom`   |
+| `strategy`                 | 菜单定位方式，可选值为 `absolute` `fixed`                                                            | _string_                                   | `absolute` |
+| `offset-x`                 | x 轴偏移量，相对于菜单对齐后的位置                                                                   | _number \| string_                         | `0`        |
+| `offset-y`                 | y 轴偏移量，相对于菜单对齐后的位置                                                                   | _number \| string_                         | `0`        |
+| `popup-container`          | 菜单挂载的位置                                                                                       | _TeleportProps['to'] \| false_             | `body`     |
+| `disabled`                 | 是否禁用菜单                                                                                         | _boolean_                                  | `false`    |
+| `trigger`                  | 菜单触发方式，可选值为 `click` `hover` `manual` `contextMenu`                                        | _string_                                   | `click`    |
+| `align-point`              | 弹出层是否跟随鼠标（配合 `contextMenu`）                                                             | _boolean_                                  | `false`    |
+| `reference`                | 菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_                    | `-`        |
+| `elevation`                | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级                                                   | _string \| number \| boolean_              | `true`     |
+| `popup-class`              | 弹出层的 class                                                                                       | _ClassName_                                | `-`        |
+| `close-on-click-reference` | 是否在点击菜单触发元素后关闭菜单                                                                     | _boolean_                                  | `false`    |
+| `options`                  | 指定可选项                                                                                           | _MenuOption[]_                             | `[]`       |
+| `field-names`              | 自定义 `options` 字段映射                                                                            | _{ label?, value?, children?, disabled? }_ | `-`        |
 
-#### MenuOption
+#### MenuOption 数据字段
 
-| 参数                   | 说明             | 类型                                                                       | 默认值 |
-| ---------------------- | ---------------- | -------------------------------------------------------------------------- | ------ |
-| `label`                | 选项的标签       | _string \| VNode \| (option: MenuOption, selected: boolean) => VNodeChild_ | `-`    |
-| `value`                | 选项的值         | _any_                                                                      | `-`    |
-| `children` _**3.8.0**_ | 选项的子选项     | _MenuOption[]_                                                             | `-`    |
-| `disabled`             | 是否禁用         | _boolean_                                                                  | `-`    |
-| `ripple`               | 是否启用水波效果 | _boolean_                                                                  | `true` |
+用于 `options` 数组项。
+
+| 参数       | 说明             | 类型                                                                       | 默认值 |
+| ---------- | ---------------- | -------------------------------------------------------------------------- | ------ |
+| `label`    | 选项的标签       | _string \| VNode \| (option: MenuOption, selected: boolean) => VNodeChild_ | `-`    |
+| `value`    | 选项的值         | _any_                                                                      | `-`    |
+| `children` | 选项的子选项     | _MenuOption[]_                                                             | `-`    |
+| `disabled` | 是否禁用         | _boolean_                                                                  | `-`    |
+| `ripple`   | 是否启用水波效果 | _boolean_                                                                  | `true` |
 
 #### MenuOption Props
 
-| 参数                 | 说明             | 类型      | 默认值  |
-| -------------------- | ---------------- | --------- | ------- |
-| `label`              | 选项显示的文本   | _any_     | `-`     |
-| `value`              | 选项绑定的值     | _any_     | `-`     |
-| `disabled`           | 是否禁用         | _boolean_ | `false` |
-| `ripple` _**3.3.0**_ | 是否启用水波效果 | _boolean_ | `true`  |
+| 参数       | 说明             | 类型      | 默认值  |
+| ---------- | ---------------- | --------- | ------- |
+| `label`    | 选项显示的文本   | _any_     | `-`     |
+| `value`    | 选项绑定的值     | _any_     | `-`     |
+| `disabled` | 是否禁用         | _boolean_ | `false` |
+| `ripple`   | 是否启用水波效果 | _boolean_ | `true`  |
+
+#### MenuGroup Props
+
+| 参数    | 说明     | 类型     | 默认值 |
+| ------- | -------- | -------- | ------ |
+| `title` | 分组标题 | _string_ | `-`    |
 
 ### Placement
 
@@ -537,42 +647,51 @@
 
 #### Menu Methods
 
-| 方法名                     | 说明                                                      | 参数                                     | 返回值 |
-| -------------------------- | --------------------------------------------------------- | ---------------------------------------- | ------ |
-| `open`                     | 打开 Menu                                                 | `-`                                      | `-`    |
-| `close`                    | 关闭 Menu                                                 | `-`                                      | `-`    |
-| `resize`                   | Menu 默认插槽元素产生位置大小变化时可以调用此方法进行重绘 | `-`                                      | `-`    |
-| `setReference` _**3.7.2**_ | 设置 Menu 关联的触发元素                                  | `reference: 与组件属性的 reference 一致` | `-`    |
+| 方法名         | 说明                                                      | 参数                                     | 返回值 |
+| -------------- | --------------------------------------------------------- | ---------------------------------------- | ------ |
+| `open`         | 打开 Menu                                                 | `-`                                      | `-`    |
+| `close`        | 关闭 Menu                                                 | `-`                                      | `-`    |
+| `resize`       | Menu 默认插槽元素产生位置大小变化时可以调用此方法进行重绘 | `-`                                      | `-`    |
+| `setReference` | 设置 Menu 关联的触发元素                                  | `reference: 与组件属性的 reference 一致` | `-`    |
 
 ### 事件
 
 #### Menu Events
 
-| 事件名                 | 说明                   | 参数                             |
-| ---------------------- | ---------------------- | -------------------------------- |
-| `open`                 | 打开菜单时触发         | `-`                              |
-| `opened`               | 打开菜单动画结束时触发 | `-`                              |
-| `close`                | 关闭菜单时触发         | `-`                              |
-| `closed`               | 关闭菜单动画结束时触发 | `-`                              |
-| `click-outside`        | 点击菜单外部时触发     | `event: Event`                   |
-| `select` _**3.8.0**_   | 用户选择菜单项时触发；受控模式下是否产生选中态取决于 `v-model` 是否更新 | `value: any, option: MenuOption` |
-| `popup-visible-change` | 菜单显示状态变化时触发 | `visible: boolean`               |
+| 事件名          | 说明                                                                    | 参数                                         |
+| --------------- | ----------------------------------------------------------------------- | -------------------------------------------- |
+| `open`          | 打开菜单时触发                                                          | `-`                                          |
+| `opened`        | 打开菜单动画结束时触发                                                  | `-`                                          |
+| `close`         | 关闭菜单时触发                                                          | `-`                                          |
+| `closed`        | 关闭菜单动画结束时触发                                                  | `-`                                          |
+| `click-outside` | 点击菜单外部时触发                                                      | `event: Event`                               |
+| `select`        | 用户选择菜单项时触发；受控模式下是否产生选中态取决于 `v-model` 是否更新 | `value: any, option: MenuOption, ev?: Event` |
+| `open-change`   | 菜单打开状态变化时触发                                                  | `open: boolean`                              |
+| `key-escape`    | 按下 Escape 关闭菜单时触发                                              | `-`                                          |
 
 ### 插槽
 
 #### Menu Slots
 
-| 插槽名    | 说明                             | 参数 |
-| --------- | -------------------------------- | ---- |
-| `default` | 菜单关联的触发元素               | `-`  |
-| `content` | 菜单选项内容，与 Cedar Menu 对齐 | `-`  |
-| `options` | 菜单选项内容（兼容旧插槽）       | `-`  |
+| 插槽名    | 说明               | 参数 |
+| --------- | ------------------ | ---- |
+| `default` | 菜单关联的触发元素 | `-`  |
+| `content` | 菜单选项内容       | `-`  |
+| `footer`  | 菜单页脚           | `-`  |
 
 #### MenuOption Slots
 
 | 插槽名    | 说明           | 参数 |
 | --------- | -------------- | ---- |
 | `default` | 选项显示的内容 | `-`  |
+| `icon`    | 选项图标       | `-`  |
+
+#### MenuGroup Slots
+
+| 插槽名    | 说明     | 参数 |
+| --------- | -------- | ---- |
+| `title`   | 分组标题 | `-`  |
+| `default` | 分组内容 | `-`  |
 
 ### 样式变量
 
@@ -580,12 +699,13 @@
 
 #### Menu Variables
 
-| 变量名                         | 默认值                                |
-| ------------------------------ | ------------------------------------- |
-| `--menu-menu-max-height`       | `278px`                               |
-| `--menu-menu-padding`          | `0`                                   |
-| `--menu-menu-border-radius`    | `2px`                                 |
-| `--menu-menu-background-color` | `var(--color-surface-container-high)` |
+| 变量名                    | 默认值                |
+| ------------------------- | --------------------- |
+| `--menu-max-height`       | `278px`               |
+| `--menu-padding`          | `4px 0`               |
+| `--menu-border-radius`    | `2px`                 |
+| `--menu-border-color`     | `var(--color-fill-3)` |
+| `--menu-background-color` | `var(--color-fill-2)` |
 
 #### MenuOption Variables
 
@@ -601,5 +721,19 @@
 | `--menu-option-mini-font-size`      | `var(--font-size-xs)`        |
 | `--menu-option-large-font-size`     | `var(--font-size-lg)`        |
 | `--menu-option-selected-background` | `var(--color-primary)`       |
-| `--menu-option-text-color`          | `#555`                       |
+| `--menu-option-selected-text-color` | `var(--color-primary)`       |
+| `--menu-option-bg-hover`            | `var(--color-fill-3)`        |
+| `--menu-option-text-color`          | `var(--color-text-1)`        |
 | `--menu-option-disabled-color`      | `var(--color-text-disabled)` |
+| `--menu-option-arrow-padding`       | `0 6px 0 8px`                |
+| `--menu-option-arrow-icon-size`     | `18px`                       |
+| `--menu-option-icon-margin-right`   | `8px`                        |
+
+#### MenuGroup Variables
+
+| 变量名                          | 默认值                |
+| ------------------------------- | --------------------- |
+| `--menu-group-title-height`     | `24px`                |
+| `--menu-group-title-padding`    | `8px 12px 4px`        |
+| `--menu-group-title-font-size`  | `var(--font-size-sm)` |
+| `--menu-group-title-text-color` | `var(--color-text-3)` |

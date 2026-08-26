@@ -1,5 +1,4 @@
 import { PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 
 export const props = {
   from: {
@@ -25,5 +24,4 @@ export const props = {
   timingFunction: {
     type: Function as PropType<(v: number) => number>,
   },
-  onEnd: defineListenerProp<() => void>(),
 }

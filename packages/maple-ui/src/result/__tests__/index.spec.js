@@ -16,13 +16,13 @@ test('result snapshot', () => {
 })
 
 describe('test result component props', () => {
-  test('result type', () => {
-    ;['info', 'success', 'warning', 'error', 'question', 'empty'].forEach((type) => {
+  test('result status', () => {
+    ;['info', 'success', 'warning', 'danger', 'question', 'empty'].forEach((status) => {
       const wrapper = mount(VarResult, {
-        props: { type },
+        props: { status },
       })
 
-      expect(wrapper.find('.mp-result__image').classes()).toContain('mp-result__' + type)
+      expect(wrapper.find('.mp-result__image').classes()).toContain('mp-result__' + status)
       wrapper.unmount()
     })
   })
@@ -30,13 +30,13 @@ describe('test result component props', () => {
   test('result imageSize', () => {
     const wrapper = mount(VarResult, {
       props: {
-        type: 'empty',
+        status: 'empty',
         imageSize: '100px',
       },
     })
 
-    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('width: calc(100px * 0.9)')
-    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('height: calc(100px * 0.9)')
+    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('width: calc(90px)')
+    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('height: calc(90px)')
 
     wrapper.unmount()
   })
@@ -50,12 +50,12 @@ describe('test result component props', () => {
     wrapper.unmount()
   })
 
-  test('result description', () => {
+  test('result subtitle', () => {
     const wrapper = mount(VarResult, {
-      props: { description: 'This is description' },
+      props: { subtitle: 'This is description' },
     })
 
-    expect(wrapper.find('.mp-result__description').element.textContent).toBe('This is description')
+    expect(wrapper.find('.mp-result__subtitle').element.textContent).toBe('This is description')
     wrapper.unmount()
   })
 })

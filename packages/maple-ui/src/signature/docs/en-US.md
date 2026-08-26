@@ -98,6 +98,6 @@ Here are the CSS variables used by the component. Styles can be customized using
 | Variable | Default |
 | --- | --- |
 | `--signature-height` | `200px` |
-| `--signature-background-color` | `var(--color-surface-container-highest)` |
+| `--signature-background-color` | `var(--color-fill-3)` |
 | `--signature-stroke-color` | `#333` |
 | `--signature-border-radius` | `4px` |

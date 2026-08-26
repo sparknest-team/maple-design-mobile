@@ -7,6 +7,7 @@ withPropsDefaultsSetter(CheckboxGroup, checkboxGroupProps)
 
 export { checkboxGroupProps }
 
+export type CheckboxGroupInstance = InstanceType<typeof CheckboxGroup>
 export const _CheckboxGroupComponent = CheckboxGroup
 
 export default CheckboxGroup

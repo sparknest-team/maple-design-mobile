@@ -39,7 +39,8 @@ const { name, n, classes } = createNamespace('sticky')
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['change'],
+  setup(props, { emit }) {
     const stickyEl = ref<HTMLElement | null>(null)
     const wrapperEl = ref<HTMLElement | null>(null)
     const isFixed = ref(false)
@@ -76,7 +77,7 @@ export default defineComponent({
       }
 
       lastFixed = fixed
-      call(props.onChange, fixed, currentOffsetTop)
+      emit('change', fixed, currentOffsetTop)
     }
 
     function computeFixedParams() {
@@ -85,6 +86,10 @@ export default defineComponent({
       if (disabled) {
         isFixed.value = false
         emitChange(false, 0)
+        return
+      }
+
+      if (!stickyEl.value || !wrapperEl.value) {
         return
       }
 
@@ -150,6 +155,9 @@ export default defineComponent({
       isFixed.value = false
       lastFixed = false
       await raf()
+      if (!stickyEl.value || !wrapperEl.value) {
+        return
+      }
       setupScroller()
       computeFixedParams()
     }

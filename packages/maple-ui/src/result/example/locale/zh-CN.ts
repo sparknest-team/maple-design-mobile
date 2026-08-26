@@ -3,7 +3,7 @@ export default {
   success: '成功',
   info: '信息',
   warning: '警告',
-  error: '错误',
+  danger: '错误',
   question: '疑问',
   empty: '空值',
   type: '类型',

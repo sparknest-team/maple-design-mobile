@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { AllowedTime, TimePickerFormat } from './timePicker'
+import { DisabledTime, TimePickerFormat } from './timePicker'
 import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const timeRangePickerProps: Record<keyof TimeRangePickerProps, any>
@@ -13,7 +13,7 @@ export interface TimeRangePickerProps extends BasicAttributes {
   useSeconds?: boolean
   min?: string
   max?: string
-  allowedTime?: AllowedTime
+  disabledTime?: DisabledTime
   timePickerProps?: Record<string, any>
   pickerProps?: Record<string, any>
   readonly?: boolean

@@ -29,8 +29,7 @@ const value = ref(0)
 
 <template>
   <mp-checkbox
-    :unchecked-value="0"
-    :checked-value="1"
+    :value="1"
     v-model="value"
   >
     Current value: {{ value }}
@@ -54,10 +53,10 @@ const value = ref(false)
     v-model="value"
   >
     <template #unchecked-icon>
-      <mp-icon name="heart-half-full" size="24px"/>
+      <m-icon-heart-half-full size="24px"/>
     </template>
     <template #checked-icon>
-      <mp-icon name="heart" size="24px"/>
+      <m-icon-heart size="24px"/>
     </template>
     <template #default>
       Current value: {{ value }}
@@ -116,7 +115,7 @@ const indeterminate = ref(true)
 
 ### CheckboxGroup
 
-In the checkbox group, you must set the `checked-value` to identify the `checkbox`,
+In the checkbox group, you must set the `value` to identify the `checkbox`,
 The checkbox group collects all checked identifiers.
 
 ```html
@@ -128,8 +127,8 @@ const value = ref([])
 
 <template>
   <mp-checkbox-group ref="group" v-model="value">
-    <mp-checkbox :checked-value="0">Eat</mp-checkbox>
-    <mp-checkbox :checked-value="1">Sleep</mp-checkbox>
+    <mp-checkbox :value="0">Eat</mp-checkbox>
+    <mp-checkbox :value="1">Sleep</mp-checkbox>
   </mp-checkbox-group>
   <mp-space :size="[0, 10]">
     <mp-button
@@ -173,7 +172,7 @@ const options = ref([
 
 ### Custom Fields
 
-Customize the format of the data in `options` through the `label-key` and `value-key` attributes.
+Customize the format of the data in `options` through the `field-names` attribute.
 
 ```html
 <script setup>
@@ -188,7 +187,8 @@ const options = ref([
 </script>
 
 <template>
-  <mp-checkbox-group v-model="value" :options="options" label-key="name" value-key="id" />
+  <mp-checkbox-group v-model="value" :options="options"
+      :field-names="{ label: 'name', value: 'id' }" />
   <div>Current value: {{ value }}</div>
 </template>
 ```
@@ -204,8 +204,8 @@ const value = ref([])
 
 <template>
   <mp-checkbox-group v-model="value" direction="vertical">
-    <mp-checkbox :checked-value="0">Eat</mp-checkbox>
-    <mp-checkbox :checked-value="1">Sleep</mp-checkbox>
+    <mp-checkbox :value="0">Eat</mp-checkbox>
+    <mp-checkbox :value="1">Sleep</mp-checkbox>
   </mp-checkbox-group>
 </template>
 ```
@@ -223,8 +223,8 @@ const value = ref([])
 
 <template>
   <mp-checkbox-group v-model="value" :max="1">
-    <mp-checkbox :checked-value="0">Eat</mp-checkbox>
-    <mp-checkbox :checked-value="1">Sleep</mp-checkbox>
+    <mp-checkbox :value="0">Eat</mp-checkbox>
+    <mp-checkbox :value="1">Sleep</mp-checkbox>
   </mp-checkbox-group>
 </template>
 ```
@@ -243,8 +243,7 @@ const value = ref([])
 | `max` | Maximum number of checked | _string \| number_ | `-` |
 | `direction` | The layout direction, optional value is `horizontal` `vertical` | _string_ | `horizontal` |
 | `options` ***3.2.11*** | Specifies options | _CheckboxGroupOption[]_ | `[]` |
-| `label-key` ***3.2.12*** | As the key that uniquely identifies label | _string_ | `label` |
-| `value-key` ***3.2.12*** | As the key that uniquely identifies value | _string_ | `value` |
+| `field-names` | Custom field mapping for `options` | _{ label?, value?, children?, disabled? }_ | `-` |
 
 #### CheckboxGroupOption 
 
@@ -259,8 +258,7 @@ const value = ref([])
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `v-model` | The value of the binding | _any_ | `false` |
-| `checked-value` | Checked value | _any_ | `true` |
-| `unchecked-value` | Unchecked value | _any_ | `false` |
+| `value` | Option value | _any_ | `true` |
 | `checked-color` | Checked color | _string_ | `-` |
 | `unchecked-color` | Unchecked color | _string_ | `-` |
 | `icon-size` | Icon size | _string \| number_ | `-` |
@@ -282,7 +280,7 @@ const value = ref([])
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `toggle` | Toggle the checked state, pass `checked-value` to check, `unchecked-value` to uncheck, do not pass or other cases to reverse | `value?: any` | `-` |
+| `toggle` | Toggle the checked state, pass `value` to check, `false` to uncheck, do not pass or other cases to reverse | `value?: any` | `-` |
 
 ### Events
 

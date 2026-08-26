@@ -7,7 +7,7 @@ export default {
   warningTag: '警告',
   dangerTag: '危险',
   secondaryTag: '次要',
-  contrastTag: '对比',
+  tertiaryTag: '第三语义色',
   outlineTag: '描边标签',
   roundTag: '圆角标签',
   outlineRoundTag: '描边圆角',

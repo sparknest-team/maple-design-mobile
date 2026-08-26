@@ -4,19 +4,19 @@
     v-bind="
       dynamic
         ? {
-            onOpen,
-            onOpened,
-            onClose,
-            onClosed,
-            onClickOverlay,
-            onRouteChange,
-            onKeyEscape,
-            closeOnClickOverlay,
-            closeOnKeyEscape,
-            teleport,
-            show,
+            onOpen: () => $emit('open'),
+            onOpened: () => $emit('opened'),
+            onClose: () => $emit('close'),
+            onClosed: () => $emit('closed'),
+            onClickOverlay: () => $emit('click-overlay'),
+            onRouteChange: () => $emit('route-change'),
+            onKeyEscape: () => $emit('key-escape'),
+            maskClosable,
+            escToClose,
+            popupContainer,
+            open,
             safeArea,
-            'onUpdate:show': handlePopupUpdateShow,
+            'onUpdate:open': handlePopupUpdateShow,
             position: 'bottom',
             class: n('popup'),
           }
@@ -91,8 +91,8 @@
                 v-if="isOptionSelected(option) && !isOptionDisabled(option)"
                 :class="n('option-check')"
                 mp-picker-cover
-                name="check"
-              />
+                ><MIconCheck
+              /></mp-icon>
             </div>
           </div>
         </div>
@@ -111,6 +111,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, Transition, watch, type ComponentPublicInstance } from 'vue'
+import { IconCheck as MIconCheck } from '@maplejs/icons-vue'
 import { call, clamp, clampArrayRange, toNumber } from '@maplejs/maple-shared'
 import { useTouch, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
@@ -120,6 +121,7 @@ import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
 import { createNamespace } from '../utils/components'
 import { getTranslateY, toPxNum } from '../utils/elements'
+import { useFieldNames } from '../utils/options'
 import { props, type PickerColumnOption } from './props'
 
 export interface ScrollColumn {
@@ -147,14 +149,29 @@ let sid = 0
 export default defineComponent({
   name,
   components: {
+    MIconCheck,
     MpButton,
     MpIcon,
     MpPopup,
   },
   inheritAttrs: false,
   props,
-  setup(props) {
-    const modelValue = useVModel(props, 'modelValue')
+  emits: [
+    'confirm',
+    'cancel',
+    'update:open',
+    'update:modelValue',
+    'change',
+    'open',
+    'opened',
+    'close',
+    'closed',
+    'click-overlay',
+    'route-change',
+    'key-escape',
+  ],
+  setup(props, { emit }) {
+    const modelValue = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
     const scrollColumns = ref<ScrollColumn[]>([])
     const visibleColumnsCount = computed(() => toNumber(props.columnsCount))
     const optionHeight = computed(() => toPxNum(props.optionHeight))
@@ -163,6 +180,7 @@ export default defineComponent({
     const columnHeight = computed(() => optionCount.value * optionHeight.value)
     const { prevY, moveY, dragging, startTouch, moveTouch, endTouch } = useTouch()
     const { t: pt } = injectLocaleProvider()
+    const fieldNames = useFieldNames(props, { label: 'text' })
 
     let prevIndexes: number[] = []
 
@@ -174,9 +192,9 @@ export default defineComponent({
 
     function getOptionKey(key: 'text' | 'value' | 'children') {
       const keyMap = {
-        text: props.textKey,
-        value: props.valueKey,
-        children: props.childrenKey,
+        text: fieldNames.value.label,
+        value: fieldNames.value.value,
+        children: fieldNames.value.children,
       }
 
       return keyMap[key]
@@ -298,7 +316,7 @@ export default defineComponent({
     }
 
     function handlePopupUpdateShow(value: boolean) {
-      call(props['onUpdate:show'], value)
+      emit('update:open', value)
     }
 
     function clampTranslate(scrollColumn: ScrollColumn) {
@@ -416,7 +434,7 @@ export default defineComponent({
     }
 
     function handleScrollColumnChange(scrollColumn: ScrollColumn) {
-      const { onChange, cascade } = props
+      const { cascade } = props
 
       if (isSamePicked()) {
         return
@@ -435,7 +453,7 @@ export default defineComponent({
       // rebuild will update the value of picked, so need to get the latest value again.
       const { values, indexes, options } = getPicked()
       setPrevIndexes(indexes)
-      call(onChange, values, indexes, options)
+      emit('change', values, indexes, options)
       modelValue.value = values
     }
 
@@ -467,7 +485,7 @@ export default defineComponent({
 
       const { values, indexes, options } = getPicked()
       setPrevIndexes(indexes)
-      call(props.onConfirm, values, indexes, options)
+      emit('confirm', values, indexes, options)
     }
 
     // expose
@@ -476,7 +494,7 @@ export default defineComponent({
 
       const { values, indexes, options } = getPicked()
       setPrevIndexes(indexes)
-      call(props.onCancel, values, indexes, options)
+      emit('cancel', values, indexes, options)
     }
 
     return {

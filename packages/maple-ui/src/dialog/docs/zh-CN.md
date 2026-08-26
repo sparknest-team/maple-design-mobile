@@ -73,13 +73,13 @@ async function createAction() {
 
 ### 异步关闭
 
-通过 `onBeforeClose(action, done, refs)` 拦截关闭；`refs` 可控制按钮 loading / disabled。
+通过 `beforeClose(action, done, refs)` 拦截关闭；`refs` 可控制按钮 loading / disabled。
 
 ```html
 <script setup>
 import { Dialog, Message } from '@maplejs/maple-ui'
 
-function onBeforeClose(action, done, refs) {
+function beforeClose(action, done, refs) {
   if (action !== 'confirm') {
     done()
     return
@@ -94,7 +94,7 @@ function onBeforeClose(action, done, refs) {
 }
 
 function asyncClose() {
-  Dialog({ message: '兰亭临帖 行书如行云流水', onBeforeClose })
+  Dialog({ message: '兰亭临帖 行书如行云流水', beforeClose })
 }
 </script>
 ```
@@ -129,7 +129,7 @@ function openInfo() {
   <mp-button type="primary" block @click="openInfo">函数调用</mp-button>
   <mp-button type="warning" block @click="openType('warning')">组件调用</mp-button>
   <mp-dialog
-    v-model:show="show"
+    v-model:open="open"
     :type="type"
     title="警告提示"
     message="请确认后再继续操作。"
@@ -161,7 +161,7 @@ async function handleConfirm() {
   <mp-button type="primary" block @click="handleConfirm">函数调用</mp-button>
   <mp-button type="warning" block @click="show = true">组件调用</mp-button>
   <mp-dialog
-    v-model:show="show"
+    v-model:open="open"
     type="warning"
     title="确认操作"
     message="确定要执行此操作吗？"
@@ -184,7 +184,7 @@ const show = ref(false)
 <template>
   <mp-button type="warning" block @click="show = true">打开对话框</mp-button>
   <mp-dialog
-    v-model:show="show"
+    v-model:open="open"
     title="兰亭序"
     message="兰亭临帖 行书如行云流水"
     @confirm="Message.success('confirm')"
@@ -203,9 +203,9 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-dialog v-model:show="show">
+  <mp-dialog v-model:open="open">
     <template #title>
-      <mp-icon name="information" />
+      <m-icon-information />
     </template>
     <mp-cell>兰亭临帖 行书如行云流水</mp-cell>
     <template #footer="{ confirm, cancel }">
@@ -222,7 +222,7 @@ const show = ref(false)
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `v-model:show` | 是否显示对话框 | _boolean_ | `false` |
+| `v-model:open` | 是否显示对话框 | _boolean_ | `false` |
 | `type` | 对话框类型，可选 `info` `success` `warning` `error`（标题前显示对应图标） | _string_ | `-` |
 | `title` | 标题 | _string_ | `提示` |
 | `width` | 宽度 | _string \| number_ | `-` |
@@ -249,13 +249,14 @@ const show = ref(false)
 | `cancel-button-props` | 取消按钮 props | _ButtonProps_ | `-` |
 | `dialog-class` | 对话框 class | _string_ | `-` |
 | `dialog-style` | 对话框 style | _object_ | `-` |
-| `overlay` | 是否显示遮罩 | _boolean_ | `true` |
-| `overlay-class` | 遮罩 class | _string_ | `-` |
-| `overlay-style` | 遮罩 style | _object_ | `-` |
+| `mask` | 是否显示遮罩 | _boolean_ | `true` |
+| `mask-class` | 遮罩 class | _string_ | `-` |
+| `mask-style` | 遮罩 style | _object_ | `-` |
 | `lock-scroll` | 是否锁定滚动 | _boolean_ | `true` |
-| `close-on-click-overlay` | 点击遮罩关闭 | _boolean_ | `true` |
-| `close-on-key-escape` | ESC 关闭 | _boolean_ | `true` |
-| `teleport` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
+| `mask-closable` | 点击遮罩关闭 | _boolean_ | `true` |
+| `esc-to-close` | ESC 关闭 | _boolean_ | `true` |
+| `popupContainer` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
+| `before-close` | 关闭前拦截（`:before-close`） | _(action, done, refs) => void_ | `-` |
 
 ### 事件
 
@@ -289,7 +290,7 @@ const show = ref(false)
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `show` | 是否显示 | _boolean_ | `true` |
+| `open` | 是否显示 | _boolean_ | `true` |
 | `type` | 类型 | _DialogType_ | `-` |
 | `title` | 标题 | _string_ | `提示` |
 | `message` | 内容 | _string_ | `-` |
@@ -303,12 +304,12 @@ const show = ref(false)
 | `confirmButtonLoading` / `cancelButtonLoading` | 按钮 loading | _boolean_ | `false` |
 | `confirmButtonDisabled` / `cancelButtonDisabled` | 按钮 disabled | _boolean_ | `false` |
 | `confirmButtonProps` / `cancelButtonProps` | 按钮 props | _ButtonProps_ | `-` |
-| `overlay` / `overlayClass` / `overlayStyle` | 遮罩 | - | - |
-| `lockScroll` / `closeOnClickOverlay` / `closeOnKeyEscape` | 交互 | _boolean_ | 见 props |
-| `teleport` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
+| `overlay` / `maskClass` / `maskStyle` | 遮罩 | - | - |
+| `lockScroll` / `maskClosable` / `escToClose` | 交互 | _boolean_ | 见 props |
+| `popupContainer` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
 | `onOpen` / `onOpened` / `onClose` / `onClosed` | 生命周期 | _Function_ | `-` |
 | `onConfirm` / `onCancel` | 按钮回调 | _Function_ | `-` |
-| `onBeforeClose` | 关闭前拦截 | _(action, done, refs) => void_ | `-` |
+| `beforeClose` | 关闭前拦截 | _(action, done, refs) => void_ | `-` |
 | `onClickOverlay` / `onKeyEscape` | 交互回调 | _Function_ | `-` |
 
 ### 插槽
@@ -343,7 +344,7 @@ interface DialogReturn {
 | 变量名 | 默认值 |
 | --- | --- |
 | `--dialog-width` | `280px` |
-| `--dialog-background` | `var(--color-surface-container-low)` |
+| `--dialog-background` | `var(--color-bg-1)` |
 | `--dialog-border-radius` | `3px` |
 | `--dialog-title-padding` | `20px 20px 0` |
 | `--dialog-title-font-size` | `var(--font-size-lg)` |

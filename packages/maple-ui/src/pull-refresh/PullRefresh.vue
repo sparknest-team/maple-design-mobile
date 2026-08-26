@@ -12,11 +12,14 @@
       :style="controlStyle"
     >
       <mp-icon
-        :name="iconName"
         :transition="ICON_TRANSITION"
         :class="classes(n('icon'), [refreshStatus === 'loading', n('animation')])"
         mp-pull-refresh-cover
-      />
+      >
+        <MIconCheckboxMarkedCircle v-if="iconName === 'checkbox-marked-circle'" />
+        <MIconRefresh v-else-if="iconName === 'refresh'" />
+        <MIconArrowDown v-else />
+      </mp-icon>
     </div>
     <slot />
   </div>
@@ -24,6 +27,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import {
+  IconArrowDown as MIconArrowDown,
+  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconRefresh as MIconRefresh,
+} from '@maplejs/icons-vue'
 import { call, getRect, getScrollTop, isNumber, isString, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted, useEventListener, useTouch } from '@maplejs/maple-use'
 import MpIcon from '../icon'
@@ -37,9 +45,15 @@ const ICON_TRANSITION = 150
 
 export default defineComponent({
   name,
-  components: { MpIcon },
+  components: {
+    MIconCheckboxMarkedCircle,
+    MIconRefresh,
+    MIconArrowDown,
+    MpIcon,
+  },
   props,
-  setup(props) {
+  emits: ['update:modelValue', 'refresh'],
+  setup(props, { emit }) {
     const controlPosition = ref(0)
     const freshNode = ref<HTMLElement | null>(null)
     const controlNode = ref<HTMLElement | null>(null)
@@ -161,9 +175,9 @@ export default defineComponent({
         refreshStatus.value = 'loading'
         distance.value = maxDistance.value * 0.3
 
-        call(props['onUpdate:modelValue'], true)
+        emit('update:modelValue', true)
         nextTick(() => {
-          call(props.onRefresh)
+          emit('refresh')
         })
         lockEvent('remove')
       } else {

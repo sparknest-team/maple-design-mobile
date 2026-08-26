@@ -6,7 +6,7 @@ function toPath(path: string) {
   return fileURLToPath(new URL(path, import.meta.url))
 }
 
-function copyVarletDependencies(): Plugin {
+function copyMapleDependencies(): Plugin {
   return {
     name: 'copy-maple-dependencies',
 
@@ -42,5 +42,5 @@ export default defineConfig({
     __APP_ENABLE_PREVIEW__: process.env.ENABLE_PREVIEW,
   },
 
-  plugins: [copyVarletDependencies()],
+  plugins: [copyMapleDependencies()],
 })

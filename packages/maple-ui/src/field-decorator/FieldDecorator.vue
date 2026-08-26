@@ -1,6 +1,8 @@
 <template>
   <div
-    :class="classes(n(), n('$--box'), n(`--${variant}`), [size === 'small', n('--small')], [disabled, n('--disabled')])"
+    :class="
+      classes(n(), n('$--box'), n(`--${variant}`), [size !== 'md', n(`--size-${size}`)], [disabled, n('--disabled')])
+    "
     @click="handleClick"
   >
     <div
@@ -16,9 +18,9 @@
         color,
         cursor,
         overflow: isFloating ? 'visible' : 'hidden',
-        '--mp-field-decorator-middle-offset-left': middleOffsetLeft,
-        '--mp-field-decorator-middle-offset-width': middleOffsetWidth,
-        '--mp-field-decorator-middle-offset-height': middleOffsetHeight,
+        '--mp-field-middle-offset-left': middleOffsetLeft,
+        '--mp-field-middle-offset-width': middleOffsetWidth,
+        '--mp-field-middle-offset-height': middleOffsetHeight,
       }"
     >
       <div :class="classes(n('icon'), [!hint, n('--icon-non-hint')])">
@@ -53,7 +55,7 @@
 
       <div :class="classes(n('icon'), [!hint, n('--icon-non-hint')])">
         <slot v-if="clearable && !isEmpty(value)" name="clear-icon" :clear="handleClear">
-          <mp-icon :class="n('clear-icon')" mp-field-decorator-cover name="close-circle" @click="handleClear" />
+          <mp-icon :class="n('clear-icon')" mp-field-decorator-cover @click="handleClear"><MIconCloseCircle /></mp-icon>
         </slot>
         <slot name="suffix" />
       </div>
@@ -61,7 +63,7 @@
 
     <template v-if="line">
       <fieldset
-        v-if="variant === 'outlined'"
+        v-if="variant === 'outlined' || variant === 'filled'"
         :class="classes(n('line'), [isError, n('--line-error')], [formDisabled || disabled, n('--line-disabled')])"
       >
         <legend
@@ -69,18 +71,14 @@
           :style="{ width: legendWidth }"
         >
           <teleport v-if="placeholder && hint" to="body">
-            <span
-              ref="placeholderTextEl"
-              :class="
-                classes(n('placeholder-text'), n('$--ellipsis'), [size === 'small', n('placeholder-text--small')])
-              "
-              >{{ placeholder }}</span
-            >
+            <span ref="placeholderTextEl" :class="classes(n('placeholder-text'), n('$--ellipsis'))">{{
+              placeholder
+            }}</span>
           </teleport>
         </legend>
       </fieldset>
       <fieldset
-        v-if="variant === 'outlined'"
+        v-if="variant === 'outlined' || variant === 'filled'"
         :class="
           classes(
             n('state-line'),
@@ -120,6 +118,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onUpdated, ref, watch } from 'vue'
+import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import { call, doubleRaf, getStyle, isEmpty } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize } from '@maplejs/maple-use'
 import { useCarouselResizeDispatcher } from '../carousel/provide'
@@ -132,9 +131,13 @@ const { name, n, classes } = createNamespace('field-decorator')
 
 export default defineComponent({
   name,
-  components: { MpIcon },
+  components: {
+    MIconCloseCircle,
+    MpIcon,
+  },
   props,
-  setup(props) {
+  emits: ['clear', 'click'],
+  setup(props, { emit }) {
     const placeholderTextEl = ref<HTMLElement | null>(null)
     const middleEl = ref<HTMLElement | null>(null)
     const legendWidth = ref('')
@@ -171,7 +174,7 @@ export default defineComponent({
 
     if (popup) {
       watch(
-        () => popup.show.value,
+        () => popup.open.value,
         async (show) => {
           if (show) {
             await doubleRaf()
@@ -194,11 +197,11 @@ export default defineComponent({
     }
 
     function handleClear(e: Event) {
-      call(props.onClear, e)
+      emit('clear', e)
     }
 
     function handleClick(e: Event) {
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     function resize() {
@@ -206,10 +209,9 @@ export default defineComponent({
       middleOffsetWidth.value = `${middleEl.value!.offsetWidth}px`
       middleOffsetHeight.value = `${middleEl.value!.offsetHeight}px`
 
-      if (props.variant === 'outlined' && placeholderTextEl.value) {
+      if ((props.variant === 'outlined' || props.variant === 'filled') && placeholderTextEl.value) {
         const placeholderTextStyle = getStyle(placeholderTextEl.value)
-        const placeholderSpace = `var(--mp-field-decorator-outlined-${props.size}-placeholder-space)`
-        legendWidth.value = `calc(${placeholderTextStyle.width} * 0.75 + ${placeholderSpace} * 2)`
+        legendWidth.value = `calc(${placeholderTextStyle.width} * 0.75 + var(--mp-field-current-placeholder-space) * 2)`
       }
     }
 

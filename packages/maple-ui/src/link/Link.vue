@@ -7,59 +7,52 @@
         n(),
         n('$--box'),
         n('$--inline-flex'),
-        n(`--${type}`),
+        n(`--${status}`),
         [underline !== 'none', n(`--underline-${underline}`)],
-        [disabled, n('--disabled')],
+        [disabled || loading, n('--disabled')],
+        [loading, n('--loading')],
         [isFocusing && !inMobile(), n('--focusing')],
       )
     "
-    :style="{
-      color: textColor,
-      fontSize: toSizeUnit(textSize),
-    }"
+    :aria-disabled="disabled || loading || undefined"
+    :aria-busy="loading || undefined"
+    :tabindex="disabled || loading ? -1 : undefined"
     @click="handleClick"
     @focus="isFocusing = true"
     @blur="isFocusing = false"
   >
+    <span v-if="loading || showIcon" :class="n('icon')" aria-hidden="true">
+      <MIconLoading v-if="loading" />
+      <slot v-else name="icon"><MIconLink /></slot>
+    </span>
     <slot />
   </component>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { call, inMobile } from '@maplejs/maple-shared'
+import { IconLink as MIconLink, IconLoading as MIconLoading } from '@maplejs/icons-vue'
+import { inMobile } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
-import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('link')
 
 export default defineComponent({
   name,
+  components: {
+    MIconLoading,
+    MIconLink,
+  },
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit, slots }) {
     const isFocusing = ref(false)
-    const tag = computed<'a' | 'router-link' | 'span'>(() => {
-      const { disabled, href, to } = props
-
-      if (disabled) {
-        return 'span'
-      }
-
-      if (href) {
-        return 'a'
-      }
-
-      if (to) {
-        return 'router-link'
-      }
-
-      return 'a'
-    })
+    const tag = 'a'
     const linkProps = computed(() => {
-      const { disabled, href, target, to, replace, rel } = props
+      const { disabled, loading, href, target, rel } = props
 
-      if (disabled) {
+      if (disabled || loading) {
         return {}
       }
 
@@ -67,30 +60,27 @@ export default defineComponent({
         return { href, target, rel }
       }
 
-      if (to) {
-        return { to, target, replace }
-      }
-
       return {}
     })
 
     function handleClick(e: Event) {
-      if (props.disabled) {
+      if (props.disabled || props.loading) {
+        e.preventDefault()
         return
       }
 
-      call(props.onClick, e)
+      emit('click', e)
     }
 
     return {
       tag,
       linkProps,
+      showIcon: computed(() => props.icon || Boolean(slots.icon)),
       isFocusing,
       inMobile,
       n,
       classes,
       handleClick,
-      toSizeUnit,
     }
   },
 })

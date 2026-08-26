@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Progress, progressProps)
 
 export { progressProps }
 
+export type ProgressInstance = InstanceType<typeof Progress>
 export const _ProgressComponent = Progress
 
 export default Progress

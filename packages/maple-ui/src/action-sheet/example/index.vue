@@ -53,7 +53,7 @@ const rawCustomStyleActions = [
 const actions = reactive(rawActions)
 const disabledActions = reactive(rawDisabledActions)
 const customStyleActions = reactive(rawCustomStyleActions)
-const show = ref(false)
+const open = ref(false)
 const show1 = ref(false)
 const show2 = ref(false)
 const show3 = ref(false)
@@ -130,16 +130,16 @@ function handleSelect(action) {
 
   <app-type>{{ t('componentCall') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="warning" block @click="show = true">{{ t('basicUsage') }}</mp-button>
+    <mp-button type="warning" block @click="open = true">{{ t('basicUsage') }}</mp-button>
     <mp-button type="warning" block @click="show1 = true">{{ t('modifyTitle') }}</mp-button>
     <mp-button type="warning" block @click="show2 = true">{{ t('disabled') }}</mp-button>
     <mp-button type="warning" block @click="show3 = true">{{ t('disableCloseOnClickAction') }}</mp-button>
     <mp-button type="warning" block @click="show4 = true">{{ t('customActionStyles') }}</mp-button>
   </mp-space>
 
-  <mp-action-sheet v-model:show="show" :actions="actions" @select="handleSelect" />
-  <mp-action-sheet v-model:show="show1" :title="t('customTitle')" :actions="actions" @select="handleSelect" />
-  <mp-action-sheet v-model:show="show2" :actions="disabledActions" @select="handleSelect" />
-  <mp-action-sheet v-model:show="show3" :close-on-click-action="false" :actions="actions" @select="handleSelect" />
-  <mp-action-sheet v-model:show="show4" :actions="customStyleActions" @select="handleSelect" />
+  <mp-action-sheet v-model:open="open" :actions="actions" @select="handleSelect" />
+  <mp-action-sheet v-model:open="show1" :title="t('customTitle')" :actions="actions" @select="handleSelect" />
+  <mp-action-sheet v-model:open="show2" :actions="disabledActions" @select="handleSelect" />
+  <mp-action-sheet v-model:open="show3" :close-on-click-action="false" :actions="actions" @select="handleSelect" />
+  <mp-action-sheet v-model:open="show4" :actions="customStyleActions" @select="handleSelect" />
 </template>

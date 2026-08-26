@@ -6,6 +6,12 @@ import Popover from '..'
 import { delay, mockStubs, trigger, triggerKeyboard } from '../../utils/test'
 import VarPopover from '../Popover'
 
+const mountPopover = (options = {}) =>
+  mount(VarPopover, {
+    ...options,
+    slots: { default: '<button class="reference">reference</button>', ...options.slots },
+  })
+
 test('popover plugin', () => {
   const app = createApp({}).use(Popover)
   expect(app.component(Popover.name)).toBeTruthy()
@@ -13,10 +19,10 @@ test('popover plugin', () => {
 
 test('popover content slot', () => {
   const root = document.createElement('div')
-  const wrapper = mount(VarPopover, {
+  const wrapper = mountPopover({
     props: {
-      show: true,
-      teleport: root,
+      open: true,
+      popupContainer: root,
     },
     slots: {
       content: 'Popover content',
@@ -54,10 +60,10 @@ test('popover placement', () => {
 
     const root = document.createElement('div')
 
-    const wrapper = mount(VarPopover, {
+    const wrapper = mountPopover({
       props: {
         placement,
-        teleport: root,
+        popupContainer: root,
       },
     })
 
@@ -71,11 +77,11 @@ test('popover placement', () => {
 test('popover click trigger', async () => {
   const { mockRestore } = mockStubs()
 
-  const wrapper = mount(VarPopover, {
+  const wrapper = mountPopover({
     attachTo: document.body,
   })
 
-  await wrapper.trigger('click')
+  await wrapper.get('.reference').trigger('click')
   await delay(300)
   expect(document.body.innerHTML).toMatchSnapshot()
 
@@ -93,15 +99,15 @@ test('popover manual trigger', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarPopover, {
+  const wrapper = mountPopover({
     props: {
       trigger: 'manual',
-      teleport: root,
+      popupContainer: root,
     },
   })
 
   await doubleRaf()
-  await wrapper.trigger('click')
+  await wrapper.get('.reference').trigger('click')
   await trigger(root.querySelector('.mp-popover__content'), 'mouseenter')
   await delay(300)
   expect(root.innerHTML).toMatchSnapshot()
@@ -119,10 +125,10 @@ test('popover hover trigger and events', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarPopover, {
+  const wrapper = mountPopover({
     props: {
       trigger: 'hover',
-      teleport: root,
+      popupContainer: root,
       onOpen,
       onOpened,
       onClose,
@@ -130,7 +136,7 @@ test('popover hover trigger and events', async () => {
     },
   })
 
-  await wrapper.trigger('mouseenter')
+  await wrapper.get('.reference').trigger('mouseenter')
   expect(onOpen).toHaveBeenCalledTimes(1)
 
   await delay(300)
@@ -138,7 +144,7 @@ test('popover hover trigger and events', async () => {
   expect(onOpened).toHaveBeenCalledTimes(1)
   expect(root.innerHTML).toMatchSnapshot()
 
-  await wrapper.trigger('mouseleave')
+  await wrapper.get('.reference').trigger('mouseleave')
 
   await doubleRaf()
   await delay(0)
@@ -159,15 +165,15 @@ test('popover close on escape', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarPopover, {
+  const wrapper = mountPopover({
     props: {
-      teleport: root,
-      show: true,
+      popupContainer: root,
+      open: true,
       onClose,
     },
   })
 
-  await wrapper.trigger('mouseenter')
+  await wrapper.get('.reference').trigger('mouseenter')
   await triggerKeyboard(window, 'keydown', { key: 'Escape' })
 
   await doubleRaf()
@@ -181,10 +187,10 @@ test('popover close on escape', async () => {
 test('popover default style', async () => {
   const root = document.createElement('div')
 
-  mount(VarPopover, {
+  mountPopover({
     props: {
       defaultStyle: false,
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -198,11 +204,11 @@ test('popover offset', async () => {
 
   const root = document.createElement('div')
 
-  mount(VarPopover, {
+  mountPopover({
     props: {
       offsetX: 100,
       offsetY: 100,
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -218,11 +224,11 @@ test('popover hover the popover content', async () => {
 
   const root = document.createElement('div')
 
-  mount(VarPopover, {
+  mountPopover({
     props: {
-      show: true,
+      open: true,
       trigger: 'hover',
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -242,10 +248,10 @@ test('popover same width', async () => {
 
   mount(VarPopover, {
     props: {
-      show: true,
+      open: true,
       sameWidth: true,
       trigger: 'hover',
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -260,11 +266,11 @@ test('popover elevation', async () => {
 
   const root = document.createElement('div')
 
-  const wrapper = mount(VarPopover, {
+  const wrapper = mountPopover({
     props: {
-      show: true,
+      open: true,
       elevation: false,
-      teleport: root,
+      popupContainer: root,
     },
   })
 
@@ -277,4 +283,28 @@ test('popover elevation', async () => {
 
   mockRestore()
   wrapper.unmount()
+})
+
+test('popover contextMenu trigger', async () => {
+  const { mockRestore } = mockStubs()
+
+  const root = document.createElement('div')
+  const wrapper = mountPopover({
+    attachTo: document.body,
+    props: {
+      trigger: 'contextMenu',
+      alignPoint: true,
+      popupContainer: root,
+    },
+    slots: {
+      content: 'Popover content',
+    },
+  })
+
+  await wrapper.get('.reference').trigger('contextmenu')
+  await delay(300)
+  expect(root.querySelector('.mp-popover__content')?.textContent).toBe('Popover content')
+
+  wrapper.unmount()
+  mockRestore()
 })

@@ -37,19 +37,19 @@ export interface UploaderProps extends BasicAttributes {
   disabled?: boolean
   elevation?: boolean | string | number
   removable?: boolean
-  maxlength?: string | number
-  maxsize?: string | number
+  maxFiles?: string | number
+  maxFileSize?: string | number
   previewed?: boolean
   hideList?: boolean
   ripple?: boolean
   preventDefaultPreview?: boolean
   resolveType?: UploaderResolveType
   onClickAction?: ListenerProp<(chooseFile: () => void, event: Event) => void>
-  onBeforeFilter?: ListenerProp<(files: MpFile[]) => Promise<MpFile[]> | MpFile[]>
-  onBeforeRead?: ListenerProp<(file: MpFile) => Promise<any> | any>
+  beforeAdd?: ListenerProp<(files: MpFile[]) => Promise<MpFile[]> | MpFile[]>
+  beforeRead?: ListenerProp<(file: MpFile) => Promise<any> | any>
   onAfterRead?: ListenerProp<(file: MpFile) => any>
   onOversize?: ListenerProp<(file: MpFile) => any>
-  onBeforeRemove?: ListenerProp<(file: MpFile) => any>
+  beforeRemove?: ListenerProp<(file: MpFile) => any>
   onRemove?: ListenerProp<(file: MpFile) => any>
   onPreview?: ListenerProp<(file: MpFile) => void>
   'onUpdate:modelValue'?: ListenerProp<(files: MpFile[]) => any>

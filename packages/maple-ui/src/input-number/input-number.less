@@ -1,10 +1,10 @@
 :root {
-  --mp-input-number-border-radius: var(--mp-field-decorator-line-border-radius);
+  --mp-input-number-border-radius: var(--mp-field-border-radius);
   --mp-input-number-step-layer-border-radius: 1px;
   --mp-input-number-step-button-width: 28px;
-  --mp-input-number-step-button-color: var(--mp-field-decorator-text-color);
-  --mp-input-number-step-button-disabled-color: var(--mp-field-decorator-disabled-color);
-  --mp-input-number-step-button-border-color: var(--mp-color-outline);
+  --mp-input-number-step-button-color: var(--mp-field-color-text);
+  --mp-input-number-step-button-disabled-color: var(--mp-field-color-text-disabled);
+  --mp-input-number-step-button-border-color: var(--mp-color-border-2);
   --mp-input-number-step-button-background: rgba(0, 0, 0, 0.04);
   --mp-input-number-step-button-hover-background: rgba(0, 0, 0, 0.08);
   --mp-input-number-step-button-active-background: rgba(0, 0, 0, 0.12);
@@ -72,12 +72,12 @@
     text-align: left;
   }
 
-  &--control-type-stacked {
+  &--mode-embed {
     .mp-input-number__step {
       position: relative;
       width: var(--mp-input-number-step-button-width);
       height: 100%;
-      margin-right: calc(-1 * var(--mp-field-decorator-outlined-normal-padding-right));
+      margin-right: calc(-1 * var(--mp-field-padding-x));
       border-radius: var(--mp-input-number-step-layer-border-radius);
       overflow: hidden;
     }
@@ -112,10 +112,10 @@
     }
   }
 
-  &--control-type-split {
+  &--mode-button {
     .mp-field-decorator__controller {
-      padding-right: var(--mp-field-decorator-outlined-normal-padding-right);
-      padding-left: var(--mp-field-decorator-outlined-normal-padding-left);
+      padding-right: var(--mp-field-padding-x);
+      padding-left: var(--mp-field-padding-x);
     }
 
     .mp-field-decorator__icon {
@@ -123,11 +123,11 @@
     }
 
     .mp-field-decorator__icon:first-child {
-      margin-left: calc(-1 * var(--mp-field-decorator-outlined-normal-padding-left));
+      margin-left: calc(-1 * var(--mp-field-padding-x));
     }
 
     .mp-field-decorator__icon:last-child {
-      margin-right: calc(-1 * var(--mp-field-decorator-outlined-normal-padding-right));
+      margin-right: calc(-1 * var(--mp-field-padding-x));
     }
 
     .mp-input-number__step-button:first-child {

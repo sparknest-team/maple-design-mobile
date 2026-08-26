@@ -15,7 +15,7 @@ describe('image preview group wrap mode', () => {
         MpImage: Image,
       },
       template: `
-        <mp-image-preview-group :teleport="null">
+        <mp-image-preview-group :popup-container="null">
           <mp-image src="https://maplejs.org/cat.jpg" width="85" height="85" />
           <mp-image src="https://maplejs.org/cat2.jpg" width="85" height="85" />
         </mp-image-preview-group>
@@ -39,8 +39,8 @@ describe('image preview group wrap mode', () => {
     await images[1].find('img').trigger('click')
     await flushPromises()
 
-    expect(group.vm.mergedVisible).toBe(true)
-    expect(preview.props('visible')).toBe(true)
+    expect(group.vm.mergedOpen).toBe(true)
+    expect(preview.props('open')).toBe(true)
     expect(preview.props('current')).toBe(1)
 
     wrapper.unmount()

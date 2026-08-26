@@ -219,7 +219,7 @@ test('search history menu', async () => {
   await wrapper.find('.mp-input__input').trigger('focus')
   expect(document.body.querySelector('.mp-search__popup')).toBeFalsy()
   expect(wrapper.vm.historyMenuVisible).toBe(true)
-  const popover = document.body.querySelector('.mp-popover__content')
+  const popover = document.body.querySelector('.mp-trigger__popup')
   expect(popover.getAttribute('data-popper-placement')).toBe('bottom-start')
   expect(popover.classList.contains('mp-search__history-menu')).toBe(true)
 

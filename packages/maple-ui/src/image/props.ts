@@ -1,5 +1,4 @@
 import { ImgHTMLAttributes, type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
 import type { ImageFit, ImagePreviewProps } from './types'
 
 export type { ImageFit }
@@ -38,17 +37,12 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  previewVisible: Boolean,
-  defaultPreviewVisible: {
+  previewOpen: Boolean,
+  defaultPreviewOpen: {
     type: Boolean,
     default: false,
   },
   previewProps: {
     type: Object as PropType<Partial<ImagePreviewProps>>,
   },
-  onClick: defineListenerProp<(e: Event) => void>(),
-  onLoad: defineListenerProp<(e: Event) => void>(),
-  onError: defineListenerProp<(e: Event) => void>(),
-  'onUpdate:previewVisible': defineListenerProp<(visible: boolean) => void>(),
-  onPreviewVisibleChange: defineListenerProp<(visible: boolean) => void>(),
 }

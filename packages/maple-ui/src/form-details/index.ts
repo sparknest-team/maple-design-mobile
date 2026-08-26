@@ -7,6 +7,7 @@ withPropsDefaultsSetter(FormDetails, formDetailsProps)
 
 export { formDetailsProps }
 
+export type FormDetailsInstance = InstanceType<typeof FormDetails>
 export const _FormDetailsComponent = FormDetails
 
 export default FormDetails

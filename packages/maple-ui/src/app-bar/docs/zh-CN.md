@@ -60,7 +60,7 @@
         round
         text
       >
-        <mp-icon name="chevron-left" :size="24" />
+        <m-icon-chevron-left :size="24" />
       </mp-button>
     </template>
 
@@ -72,7 +72,7 @@
           round
           text
         >
-          <mp-icon name="menu" :size="24" />
+          <m-icon-menu :size="24" />
         </mp-button>
 
         <template #content>
@@ -124,19 +124,19 @@ const active = ref(0)
     标题
     <template #left>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="menu" :size="24" />
+        <m-icon-menu :size="24" />
       </mp-button>
     </template>
 
     <template #right>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="map-marker-radius" :size="24" />
+        <m-icon-map-marker-radius :size="24" />
       </mp-button>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="star" :size="24" />
+        <m-icon-star :size="24" />
       </mp-button>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="heart" :size="24" />
+        <m-icon-heart :size="24" />
       </mp-button>
     </template>
 
@@ -201,4 +201,4 @@ const active = ref(0)
 | `--app-bar-right-gap`     | `6px` |
 | `--app-bar-border-radius` | `4px` |
 | `--app-bar-font-size` | `var(--font-size-lg)` |
-| `--app-bar-border-bottom` | `thin solid var(--color-outline)` |
+| `--app-bar-border-bottom` | `thin solid var(--color-border-2)` |

@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { Swipe } from './swipe'
+import { Carousel } from './carousel'
 import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const tabsItemsProps: Record<keyof TabsItemsProps, any>
@@ -21,7 +21,7 @@ export class TabsItems extends VarComponent {
     default(): VNode[]
   }
 
-  getSwipe(): Swipe
+  getCarousel(): Carousel
 }
 
 export class _TabsItemsComponent extends TabsItems {}

@@ -1,18 +1,25 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
+import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
 import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import { type AllowedTime, type Format } from '../time-picker/props'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { type DisabledTime, type Format } from '../time-picker/props'
+import { pickProps } from '../utils/components'
+
+export type TimePresentation = 'clock' | 'picker'
 
 export const props = {
   modelValue: {
     type: String,
     default: undefined,
   },
-  show: {
+  open: {
     type: Boolean,
     default: undefined,
+  },
+  presentation: {
+    type: String as PropType<TimePresentation>,
+    default: 'picker',
   },
   format: {
     type: String as PropType<Format>,
@@ -21,9 +28,13 @@ export const props = {
   useSeconds: Boolean,
   min: String,
   max: String,
-  allowedTime: Object as PropType<AllowedTime>,
+  disabledTime: Object as PropType<DisabledTime>,
   timePickerProps: {
     type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
+    default: () => ({}),
+  },
+  pickerProps: {
+    type: Object as PropType<Partial<ExtractPropTypes<typeof pickerPropsSource>>>,
     default: () => ({}),
   },
   popupProps: {
@@ -31,13 +42,6 @@ export const props = {
     default: () => ({}),
   },
   readonly: Boolean,
-  onFocus: defineListenerProp<() => void>(),
-  onBlur: defineListenerProp<() => void>(),
-  onClose: defineListenerProp<(value: string | undefined) => void>(),
-  onChange: defineListenerProp<(value: string | undefined) => void>(),
-  onClear: defineListenerProp<(value: string | undefined) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string | undefined) => void>(),
-  'onUpdate:show': defineListenerProp<(show: boolean) => void>(),
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -49,7 +53,6 @@ export const props = {
     'blurColor',
     'disabled',
     'clearable',
-    'onClick',
   ]),
 }
 

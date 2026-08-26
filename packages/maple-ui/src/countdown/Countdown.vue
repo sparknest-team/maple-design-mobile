@@ -23,7 +23,8 @@ const DAY = 24 * HOUR
 export default defineComponent({
   name,
   props,
-  setup(props) {
+  emits: ['change', 'end'],
+  setup(props, { emit }) {
     const showTime = ref('')
     const timeData = ref<TimeData>({
       days: 0,
@@ -120,12 +121,12 @@ export default defineComponent({
       }
       timeData.value = time
 
-      call(props.onChange, timeData.value)
+      emit('change', timeData.value)
       showTime.value = parseFormat(props.format, time)
     }
 
     function countdown() {
-      const { time, onEnd } = props
+      const { time } = props
       const now = performance.now()
 
       if (!endTime) {
@@ -140,7 +141,7 @@ export default defineComponent({
       displayTime(remainingTime)
 
       if (remainingTime === 0) {
-        call(onEnd)
+        emit('end')
         return
       }
 

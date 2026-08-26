@@ -7,6 +7,7 @@ withPropsDefaultsSetter(Card, cardProps)
 
 export { cardProps }
 
+export type CardInstance = InstanceType<typeof Card>
 export const _CardComponent = Card
 
 export default Card

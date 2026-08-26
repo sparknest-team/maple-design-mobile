@@ -1,7 +1,16 @@
 <template>
-  <Teleport :to="teleport === false ? undefined : teleport" :disabled="disabled || teleport === false">
-    <transition :name="`${n()}-fade`" @after-enter="onOpened" @after-leave="onClosed">
-      <mp-message-core v-bind="$props" :class="n('transition')">
+  <Teleport
+    :to="popupContainer === false ? undefined : popupContainer"
+    :disabled="disabled || popupContainer === false"
+  >
+    <transition :name="`${n()}-fade`" @after-enter="$emit('opened')" @after-leave="$emit('closed')">
+      <mp-message-core
+        v-bind="$props"
+        :class="n('transition')"
+        @update:open="$emit('update:open', $event)"
+        @open="$emit('open')"
+        @close="$emit('close')"
+      >
         <slot />
         <template v-if="$slots.icon" #icon>
           <slot name="icon" />
@@ -26,6 +35,7 @@ export default defineComponent({
   name,
   components: { MpMessageCore },
   props,
+  emits: ['update:open', 'open', 'opened', 'close', 'closed'],
   setup() {
     const { disabled } = useTeleport()
 

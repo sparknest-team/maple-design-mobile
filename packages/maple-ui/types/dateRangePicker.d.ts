@@ -1,6 +1,6 @@
 import { VNode } from 'vue'
 import { DatePickerType } from './datePicker'
-import { AllowedTime } from './timePicker'
+import { DisabledTime } from './timePicker'
 import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const dateRangePickerProps: Record<keyof DateRangePickerProps, any>
@@ -17,8 +17,8 @@ export interface DateRangePickerProps extends BasicAttributes {
   useSeconds?: boolean
   min?: string
   max?: string
-  allowedDates?: (val: string) => boolean
-  allowedTime?: AllowedTime
+  disabledDate?: (val: string) => boolean
+  disabledTime?: DisabledTime
   datePickerProps?: Record<string, any>
   pickerProps?: Record<string, any>
   timePickerProps?: Record<string, any>

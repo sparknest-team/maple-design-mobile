@@ -58,7 +58,7 @@ Turn on rounded border with the `round` prop.
         round
         text
       >
-        <mp-icon name="chevron-left" :size="24" />
+        <m-icon-chevron-left :size="24" />
       </mp-button>
     </template>
 
@@ -70,7 +70,7 @@ Turn on rounded border with the `round` prop.
           round
           text
         >
-          <mp-icon name="menu" :size="24" />
+          <m-icon-menu :size="24" />
         </mp-button>
 
         <template #content>
@@ -122,19 +122,19 @@ const active = ref(0)
     Title
     <template #left>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="menu" :size="24" />
+        <m-icon-menu :size="24" />
       </mp-button>
     </template>
 
     <template #right>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="map-marker-radius" :size="24" />
+        <m-icon-map-marker-radius :size="24" />
       </mp-button>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="star" :size="24" />
+        <m-icon-star :size="24" />
       </mp-button>
       <mp-button round text color="transparent" text-color="#fff">
-        <mp-icon name="heart" :size="24" />
+        <m-icon-heart :size="24" />
       </mp-button>
     </template>
 
@@ -198,4 +198,4 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--app-bar-left-gap` | `6px` |
 | `--app-bar-right-gap` | `6px` |
 | `--app-bar-border-radius` | `4px` |
-| `--app-bar-border-bottom` | `thin solid var(--color-outline)` |
+| `--app-bar-border-bottom` | `thin solid var(--color-border-2)` |

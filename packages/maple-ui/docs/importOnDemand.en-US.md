@@ -16,13 +16,19 @@ Implement components to automatically import on demand, This is our most recomme
 ```shell
 # playground-ignore
 # npm
-npm i @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+```
+
+Install the standalone SVG icon package as an application dependency:
+
+```shell
+pnpm add @maplejs/icons-vue
 ```
 
 #### Vite
@@ -33,21 +39,32 @@ pnpm add @maplejs/maple-import-resolver unplugin-vue-components unplugin-auto-im
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleImportResolver } from '@maplejs/maple-import-resolver'
+import { MapleResolver } from '@maplejs/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
     components({
-      resolvers: [MapleImportResolver()]
+      resolvers: [MapleResolver()]
     }),
     autoImport({
-      resolvers: [MapleImportResolver({ autoImport: true })]
+      resolvers: [MapleResolver()]
     })
   ]
 })
 ```
+
+The same resolver selects the UI or icon package from the component name; no second resolver is required:
+
+```vue
+<template>
+  <mp-button>Confirm</mp-button>
+  <mp-icon-information :size="32" />
+</template>
+```
+
+`MpButton` is imported from `@maplejs/maple-ui`, while `MpIconInformation` is imported from `@maplejs/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
 
 #### Vue CLI
 ```js
@@ -55,16 +72,16 @@ export default defineConfig({
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleImportResolver } = require('@maplejs/maple-import-resolver')
+const { MapleResolver } = require('@maplejs/resolver')
 
 module.exports = {
   configureWebpack: {
     plugins: [
       Components.default({
-        resolvers: [MapleImportResolver()]
+        resolvers: [MapleResolver()]
       }),
       AutoImport.default({
-        resolvers: [MapleImportResolver({ autoImport: true })]
+        resolvers: [MapleResolver()]
       })
     ]
   }
@@ -93,7 +110,7 @@ Each component is a `Vue plugin` and consists of `component logic` and `style fi
 import App from './App.vue'
 import { createApp } from 'vue'
 import { Button } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/es/button/style/index'
+import '@maplejs/maple-ui/button/style'
 
 createApp(App).use(Button)
 ```
@@ -104,7 +121,7 @@ OR
 // playground-ignore
 <script setup>
 import { Button as VarButton } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/es/button/style/index'
+import '@maplejs/maple-ui/button/style'
 </script>
 
 <template>
@@ -120,8 +137,8 @@ Manual import
 // playground-ignore
 <script setup>
 import { Button as VarButton, Message } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/es/button/style/index'
-import '@maplejs/maple-ui/es/message/style/index'
+import '@maplejs/maple-ui/button/style'
+import '@maplejs/maple-ui/message/style'
 
 function handleClick() {
   Message('Hello!')

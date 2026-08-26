@@ -7,6 +7,7 @@ withPropsDefaultsSetter(BottomNavigationItem, bottomNavigationItemProps)
 
 export { bottomNavigationItemProps }
 
+export type BottomNavigationItemInstance = InstanceType<typeof BottomNavigationItem>
 export const _BottomNavigationItemComponent = BottomNavigationItem
 
 export default BottomNavigationItem

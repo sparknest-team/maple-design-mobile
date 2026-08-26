@@ -9,13 +9,16 @@ See [Breadcrumb](#/en-US/breadcrumb).
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `separator` | Separator (overrides parent) | _string \| number_ | `-` |
-| `href` | Link URL (not applied on the last item) | _string_ | `-` |
+| `href` | Link URL | _string_ | `-` |
+| `droplist` | Dropdown items | _BreadcrumbRoute[]_ | `-` |
+| `dropdown-props` | Props passed to Menu | _MenuProps_ | `-` |
 
 ### Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `click` | Fired on click (not for last / ellipsis item) | `event: Event` |
+| `click` | Fired on click (not for collapsed item) | `event: MouseEvent` |
+| `select` | Fired when a built-in dropdown item is selected | `route: BreadcrumbRoute` |
 
 ### Slots
 
@@ -23,3 +26,4 @@ See [Breadcrumb](#/en-US/breadcrumb).
 | --- | --- |
 | `default` | Item content |
 | `separator` | Custom separator |
+| `droplist` | Custom dropdown menu |

@@ -18,11 +18,11 @@
     >
       <mp-badge v-if="badge" v-bind="badgeProps" :class="n('badge')" mp-bottom-navigation-item-cover>
         <slot name="icon" :active="isActive">
-          <mp-icon v-if="icon" :name="icon" :namespace="namespace" :class="n('icon')" mp-bottom-navigation-item-cover />
+          <mp-registered-icon v-if="icon" :name="icon" :class="n('icon')" mp-bottom-navigation-item-cover />
         </slot>
       </mp-badge>
       <slot v-else name="icon" :active="isActive">
-        <mp-icon v-if="icon" :name="icon" :namespace="namespace" :class="n('icon')" mp-bottom-navigation-item-cover />
+        <mp-registered-icon v-if="icon" :name="icon" :class="n('icon')" mp-bottom-navigation-item-cover />
       </slot>
     </div>
 
@@ -37,7 +37,7 @@ import { computed, defineComponent } from 'vue'
 import { call } from '@maplejs/maple-shared'
 import { type BadgeProps } from '../../types'
 import MpBadge from '../badge'
-import MpIcon from '../icon'
+import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
@@ -54,11 +54,12 @@ export default defineComponent({
   name,
   components: {
     MpBadge,
-    MpIcon,
+    MpRegisteredIcon,
   },
   directives: { Ripple },
   props,
-  setup(props) {
+  emits: ['click'],
+  setup(props, { emit }) {
     const name = computed<string | undefined>(() => props.name)
     const isActive = computed<boolean>(() => [name.value, index.value].includes(active.value))
     const badgeProps = computed(() => (props.badge === true ? defaultBadgeProps : props.badge) as BadgeProps)
@@ -74,7 +75,7 @@ export default defineComponent({
     function handleClick() {
       const active = name.value ?? index.value
 
-      call(props.onClick, active)
+      emit('click', active)
       call(bottomNavigation.onToggle, active)
     }
 

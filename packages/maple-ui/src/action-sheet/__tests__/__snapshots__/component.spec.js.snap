@@ -3,7 +3,7 @@
 exports[`action-sheet styles 1`] = `
 "<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
   <div class="mp--box mp-popup" style="z-index: 1998;">
-    <div class="mp-popup__overlay" style="z-index: 1999;"></div>
+    <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-bottom" appear="false" persisted="false" css="true">
       <div class="mp-popup__content mp-popup--bottom mp-popup--content-background-color mp-elevation--3 mp-popup--safe-area mp-action-sheet__popup-radius" style="z-index: 2000;" role="dialog" aria-modal="true">
         <div class="mp-action-sheet mp--box">

@@ -3,12 +3,12 @@ import { BasicAttributes, SetPropsDefaults, VarComponent } from './varComponent'
 
 export declare const resultProps: Record<keyof ResultProps, any>
 
-export type ResultType = 'info' | 'success' | 'warning' | 'error' | 'question' | 'empty'
+export type ResultStatus = 'info' | 'success' | 'warning' | 'danger' | 'question' | 'empty'
 
 export interface ResultProps extends BasicAttributes {
-  type?: ResultType
+  status?: ResultStatus
   title?: string
-  description?: string
+  subtitle?: string
   imageSize?: string | number
   animation?: boolean
 }
@@ -21,7 +21,7 @@ export class Result extends VarComponent {
   $slots: {
     image(): VNode[]
     title(): VNode[]
-    description(): VNode[]
+    subtitle(): VNode[]
     footer(): VNode[]
   }
 }

@@ -18,7 +18,7 @@ function handleAfterRead(file) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @after-read="handleAfterRead"/>
+  <mp-uploader v-model="files" @after:before-read="handleAfterRead"/>
 </template>
 ```
 
@@ -110,7 +110,7 @@ function handleAfterRead(file) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @after-read="handleAfterRead"/>
+  <mp-uploader v-model="files" @after:before-read="handleAfterRead"/>
 </template>
 ```
 
@@ -143,7 +143,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @after-read="handleAfterRead"/>
+  <mp-uploader v-model="files" @after:before-read="handleAfterRead"/>
 </template>
 ```
 
@@ -157,7 +157,7 @@ const files = ref([])
 </script>
 
 <template>
-  <mp-uploader v-model="files" :maxlength="1"/>
+  <mp-uploader v-model="files" :max-files="1"/>
 </template>
 ```
 
@@ -174,13 +174,13 @@ const files = ref([])
 </script>
 
 <template>
-  <mp-uploader v-model="files" :maxsize="1024" @oversize="Message.warning('文件大小超出限制')" />
+  <mp-uploader v-model="files" :max-file-size="1024" @oversize="Message.warning('文件大小超出限制')" />
 </template>
 ```
 
 ### 文件列表过滤
 
-通过 `before-filter` 事件对文件进行过滤，返回一个被过滤之后的 `MpFile` 数组。
+通过 `before-add` 事件对文件进行过滤，返回一个被过滤之后的 `MpFile` 数组。
 
 ```html
 <script setup>
@@ -194,7 +194,7 @@ function handleBeforeFilter(files) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" multiple @before-filter="handleBeforeFilter" />
+  <mp-uploader v-model="files" multiple @before:before-add="handleBeforeFilter" />
 </template>
 
 ```
@@ -222,7 +222,7 @@ function handleBeforeRead(file) {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @before-read="handleBeforeRead"/>
+  <mp-uploader v-model="files" @before:before-read="handleBeforeRead"/>
 </template>
 ```
 
@@ -307,7 +307,7 @@ async function handleBeforeRemove() {
 </script>
 
 <template>
-  <mp-uploader v-model="files" @before-remove="handleBeforeRemove" />
+  <mp-uploader v-model="files" @before:before-remove="handleBeforeRemove" />
 </template>
 ```
 
@@ -366,7 +366,7 @@ const files = ref([
     />
     <mp-uploader hide-list v-model="files">
       <mp-button round type="primary">
-        <mp-icon :size="28" name="upload" />
+        <m-icon-upload :size="28" />
       </mp-button>
     </mp-uploader>
   </mp-space>
@@ -405,7 +405,7 @@ const files = ref([
   <mp-uploader v-model="files">
     <template #remove-button="{ remove }">
       <div class="custom-remove-button">
-        <mp-icon color="#fff" name="window-close" @click.stop="remove"></mp-icon>
+        <m-icon-window-close color="#fff" @click.stop="remove"></m-icon-window-close>
       </div>
     </template>
   </mp-uploader>
@@ -435,8 +435,8 @@ const files = ref([
 | `disabled` | 是否禁用 | _boolean_ | `false` |
 | `elevation`| 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效 | _string \| number \| boolean_|   `true`    |
 | `removable` | 是否可以删除 | _boolean_ | `true` |
-| `maxlength` | 最大文件个数 | _string \| number_ | `-` |
-| `maxsize` | 最大文件大小，单位为 `byte` | _string \| number_ | `-` |
+| `maxFiles` | 最大文件个数 | _string \| number_ | `-` |
+| `max-file-size` | 最大文件大小，单位为 `byte` | _string \| number_ | `-` |
 | `previewed` | 是否允许预览 | _boolean_ | `true` |
 | `prevent-default-preview` | 阻止默认预览行为 | _boolean_ | `false` |
 | `ripple` | 是否开启水波纹 | _boolean_ | `true` |
@@ -469,7 +469,7 @@ const files = ref([
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `before-filter` | `before-read` 前触发，对文件列表进行过滤 | `files: MpFile[]` |
+| `before-add` | `before-read` 前触发，对文件列表进行过滤 | `files: MpFile[]` |
 | `before-read` | 文件读取前触发，返回假值阻止文件读取(支持 promise) | `file: MpFile` |
 | `after-read` | 文件读取后触发 | `file: MpFile` |
 | `oversize` | 文件超过限制大小时触发 | `file: MpFile` |

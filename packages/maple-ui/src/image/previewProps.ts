@@ -1,10 +1,10 @@
 import { type PropType } from 'vue'
 import { carouselProps } from '../carousel'
 import { popupProps } from '../popup'
-import { defineListenerProp, pickProps } from '../utils/components'
+import { pickProps } from '../utils/components'
 
 export const props = {
-  visible: Boolean,
+  open: Boolean,
   imagePreventDefault: Boolean,
   src: String,
   images: {
@@ -21,20 +21,6 @@ export const props = {
   },
   closable: Boolean,
   maskClosable: Boolean,
-  'onUpdate:visible': defineListenerProp<(visible: boolean) => void>(),
-  'onUpdate:current': defineListenerProp<(current: number) => void>(),
-  onPreviewVisibleChange: defineListenerProp<(visible: boolean) => void>(),
-  onLongPress: defineListenerProp<(index: number) => void>(),
-  onClose: defineListenerProp<() => void>(),
-  ...pickProps(carouselProps, ['loop', 'indicator', 'onChange']),
-  ...pickProps(popupProps, [
-    'lockScroll',
-    'teleport',
-    'closeOnKeyEscape',
-    'onOpen',
-    'onOpened',
-    'onClosed',
-    'onKeyEscape',
-    'onRouteChange',
-  ]),
+  ...pickProps(carouselProps, ['loop', 'indicator']),
+  ...pickProps(popupProps, ['lockScroll', 'popupContainer', 'escToClose']),
 }
