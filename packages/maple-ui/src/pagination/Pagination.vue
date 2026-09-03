@@ -312,16 +312,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../menu/menu';
-@import '../menu-option/menuOption';
-@import '../cell/cell';
-@import '../ripple/ripple';
-@import '../icon/icon';
-@import '../field-decorator/fieldDecorator';
-@import '../form-details/formDetails';
-@import '../input/input';
-@import './pagination';
-</style>

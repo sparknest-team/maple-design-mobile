@@ -1,7 +1,7 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { type StepProvider } from '../step/provide'
 import type { StepStatus } from './props'
+import { type StepProvider } from './step-provide'
 
 export interface StepsProvider {
   current: ComputedRef<number>

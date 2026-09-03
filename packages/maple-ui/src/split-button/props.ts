@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import { buttonProps, type ButtonProps } from '../button'
-import { buttonGroupProps } from '../button-group'
+import { buttonGroupProps } from '../button/group-props'
 import { menuProps } from '../menu'
 import { pickProps } from '../utils/components'
 

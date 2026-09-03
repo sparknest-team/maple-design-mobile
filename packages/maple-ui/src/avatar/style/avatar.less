@@ -1,0 +1,112 @@
+:root {
+  --mp-avatar-size-default: 40px;
+  --mp-avatar-text-color: #fff;
+  --mp-avatar-background: var(--mp-color-fill-4);
+  --mp-avatar-square-border-radius: 4px;
+  --mp-avatar-border: 2px solid var(--mp-color-bg-2);
+  --mp-avatar-trigger-size: 20px;
+  --mp-avatar-trigger-background: var(--mp-color-fill-2);
+  --mp-avatar-trigger-mask-background: rgba(0, 0, 0, 0.6);
+  --mp-avatar-hover-transform: scale(1.1);
+}
+
+.mp-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mp-avatar-size-default);
+  height: var(--mp-avatar-size-default);
+  overflow: visible;
+  color: var(--mp-avatar-text-color);
+  font-size: 20px;
+  line-height: 1;
+  vertical-align: middle;
+  background: var(--mp-avatar-background);
+
+  &--circle,
+  &--circle &__image,
+  &--circle &__trigger-icon-mask {
+    border-radius: 50%;
+  }
+
+  &--square,
+  &--square &__image,
+  &--square &__trigger-icon-mask {
+    border-radius: var(--mp-avatar-square-border-radius);
+  }
+
+  &--bordered {
+    border: var(--mp-avatar-border);
+  }
+
+  &--hoverable {
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: var(--mp-avatar-hover-transform);
+      cursor: pointer;
+    }
+  }
+
+  &__image {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__text {
+    display: inline-block;
+    max-width: 100%;
+    padding: 0 4px;
+    white-space: nowrap;
+    transform-origin: center;
+  }
+
+  &__trigger-icon-button {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--mp-avatar-trigger-size);
+    height: var(--mp-avatar-trigger-size);
+    color: var(--mp-color-text-2);
+    font-size: 12px;
+    background: var(--mp-avatar-trigger-background);
+    border-radius: 50%;
+  }
+
+  &__trigger-icon-mask {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mp-avatar-trigger-mask-background);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &--with-trigger {
+    cursor: pointer;
+  }
+
+  &--with-trigger:hover &__trigger-icon-mask {
+    opacity: 1;
+  }
+}

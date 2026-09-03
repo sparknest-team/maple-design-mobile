@@ -30,6 +30,7 @@ import hoverOverlay from './hoverOverlay'
 import icon from './icon'
 import imagePreview from './imagePreview'
 import indexBar from './indexBar'
+import infiniteScroll from './infiniteScroll'
 import input from './input'
 import link from './link'
 import list from './list'
@@ -56,6 +57,7 @@ import signature from './signature'
 import skeleton from './skeleton'
 import slider from './slider'
 import space from './space'
+import statistic from './statistic'
 import step from './step'
 import switchThemes from './switch'
 import tab from './tab'
@@ -152,6 +154,7 @@ export default {
   ...icon,
   ...imagePreview,
   ...indexBar,
+  ...infiniteScroll,
   ...input,
   ...list,
   ...loading,
@@ -159,6 +162,7 @@ export default {
   ...overlay,
   ...ripple,
   ...space,
+  ...statistic,
   ...carousel,
   ...code,
   ...signature,

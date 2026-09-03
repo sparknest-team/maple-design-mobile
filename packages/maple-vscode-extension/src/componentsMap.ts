@@ -74,16 +74,17 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     attrs: ['title=""'],
     characterDelta: -2,
   },
-  'collapse-transition': {
-    path: '/collapse-transition',
-    attrs: ['title=""'],
-    characterDelta: -2,
+  grid: {
+    path: '/grid',
+  },
+  'grid-item': {
+    path: '/grid',
   },
   row: {
-    path: '/row',
+    path: '/grid',
   },
   col: {
-    path: '/row',
+    path: '/grid',
     attrs: [':span=""'],
     characterDelta: -2,
   },
@@ -98,7 +99,13 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
   },
   list: {
     path: '/list',
-    attrs: ['@load=""'],
+  },
+  'list-item': {
+    path: '/list',
+  },
+  'infinite-scroll': {
+    path: '/infinite-scroll',
+    attrs: ['v-model:status=""', '@load=""'],
     characterDelta: -2,
   },
   swipe: {
@@ -140,13 +147,13 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     characterDelta: -3,
   },
   'date-picker': {
-    path: '/date-picker',
+    path: '/date',
     attrs: ['v-model=""'],
     closeSelf: true,
     characterDelta: -3,
   },
   'time-picker': {
-    path: '/time-picker',
+    path: '/time',
     attrs: ['v-model=""'],
     closeSelf: true,
     characterDelta: -3,
@@ -165,7 +172,7 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     path: '/index-bar',
   },
   'index-anchor': {
-    path: 'index-anchor',
+    path: '/index-bar',
     attrs: [':index=""'],
     characterDelta: -2,
   },
@@ -207,18 +214,18 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     characterDelta: -2,
   },
   radio: {
-    path: '/radio-group',
+    path: '/radio',
   },
   'radio-group': {
-    path: '/radio-group',
+    path: '/radio',
     attrs: ['v-model=""'],
     characterDelta: -2,
   },
   checkbox: {
-    path: '/checkbox-group',
+    path: '/checkbox',
   },
   'checkbox-group': {
-    path: '/checkbox-group',
+    path: '/checkbox',
     attrs: ['v-model=""'],
     characterDelta: -2,
   },
@@ -272,7 +279,7 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     characterDelta: -2,
   },
   'image-preview': {
-    path: '/image-preview',
+    path: '/image',
     attrs: [':images=""'],
     closeSelf: true,
     characterDelta: -3,
@@ -331,7 +338,7 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     path: '/menu-select',
   },
   'menu-option': {
-    path: '/menu-select',
+    path: '/menu',
     attrs: ['label=""'],
     closeSelf: true,
     characterDelta: -3,
@@ -347,6 +354,12 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
   'count-to': {
     path: '/count-to',
     attrs: [':to=""'],
+    closeSelf: true,
+    characterDelta: -3,
+  },
+  statistic: {
+    path: '/statistic',
+    attrs: [':value=""'],
     closeSelf: true,
     characterDelta: -3,
   },

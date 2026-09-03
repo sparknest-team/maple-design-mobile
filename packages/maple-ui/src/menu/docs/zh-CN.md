@@ -737,3 +737,37 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 | `--menu-group-title-padding`    | `8px 12px 4px`        |
 | `--menu-group-title-font-size`  | `var(--font-size-sm)` |
 | `--menu-group-title-text-color` | `var(--color-text-3)` |
+
+## API
+
+### 属性
+
+| 参数       | 说明             | 类型      | 默认值  |
+| ---------- | ---------------- | --------- | ------- |
+| `label`    | 选项显示的文本   | _any_     | `-`     |
+| `value`    | 选项绑定的值     | _any_     | `-`     |
+| `disabled` | 是否禁用         | _boolean_ | `false` |
+| `ripple`   | 是否启用水波效果 | _boolean_ | `true`  |
+
+### 插槽
+
+| 插槽名    | 说明           | 参数 |
+| --------- | -------------- | ---- |
+| `default` | 选项显示的内容 | `-`  |
+| `icon`    | 选项图标       | `-`  |
+
+## API
+
+### 属性
+
+| 参数    | 说明     | 类型     | 默认值 |
+| ------- | -------- | -------- | ------ |
+| `title` | 分组标题 | _string_ | `-`    |
+
+### 插槽
+
+| 插槽名    | 说明     | 参数 |
+| --------- | -------- | ---- |
+| `title`   | 分组标题 | `-`  |
+| `default` | 分组内容 | `-`  |
+

@@ -61,7 +61,7 @@ import {
 } from 'vue'
 import { call, clamp, isString, raf, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpInput from '../input/Input.vue'
 import { createNamespace, flatFragment, MaybeVNode } from '../utils/components'
@@ -541,11 +541,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../field-decorator/fieldDecorator';
-@import '../input/input';
-@import './verificationCode';
-</style>

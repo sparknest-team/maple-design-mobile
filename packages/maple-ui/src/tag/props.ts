@@ -9,6 +9,26 @@ import type { ComponentSize, SemanticStatus } from '../utils/constants'
  */
 export type TagVariant = 'default' | 'outline'
 
+export const tagVariants = ['default', 'outline'] as const
+
+export const TAG_COLORS = [
+  'red',
+  'orangered',
+  'orange',
+  'gold',
+  'lime',
+  'green',
+  'cyan',
+  'blue',
+  'brand',
+  'purple',
+  'pinkpurple',
+  'magenta',
+  'gray',
+] as const
+
+export type TagColor = (typeof TAG_COLORS)[number]
+
 export const tagProps = {
   /**
    * 标签主题色
@@ -30,6 +50,7 @@ export const tagProps = {
   variant: {
     type: String as PropType<TagVariant>,
     default: 'default',
+    validator: (value: unknown): value is TagVariant => tagVariants.includes(value as TagVariant),
   },
   /**
    * 标签是否可见（v-model）
@@ -82,7 +103,7 @@ export const tagProps = {
   /**
    * 自定义背景色（outline 时为边框色）
    */
-  color: String,
+  color: String as PropType<TagColor | string>,
   /**
    * 自定义文字色
    */

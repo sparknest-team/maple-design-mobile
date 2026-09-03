@@ -4,51 +4,33 @@
 
 用于实时展示倒计时数值，支持毫秒精度。
 
+`time` 为剩余时长（毫秒）。若要对准某个时刻，传入 `deadline - Date.now()`。
+
 ### 基本使用
 
-`time` 属性表示倒计时总时长，单位为毫秒。
-
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const time = ref(30 * 60 * 60 * 1000)
-</script>
-
 <template>
-  <mp-countdown :time="time" />
+  <mp-countdown :time="2 * 60 * 60 * 1000" />
 </template>
 ```
 
 ### 自定义格式
 
-通过 `format` 属性设置倒计时文本的内容。
+通过 `format` 属性设置倒计时文本的内容。未出现的高位会累加到下一级。
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const time = ref(30 * 60 * 60 * 1000)
-</script>
-
 <template>
-  <mp-countdown :time="time" format="DD 天 HH 时 mm 分 ss 秒" />
+  <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
 </template>
 ```
 
 ### 显示毫秒
 
-通过 `S` 文本显示毫秒。
+通过 `S` / `SS` / `SSS` 展示毫秒。
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const time = ref(30 * 60 * 60 * 1000)
-</script>
-
 <template>
-  <mp-countdown :time="time" format="HH:mm:ss:SS" />
+  <mp-countdown :time="2 * 60 * 60 * 1000" format="HH:mm:ss.SSS" />
 </template>
 ```
 
@@ -65,14 +47,14 @@ const time = ref(30 * 60 * 60 * 1000)
       <span class="countdown-example-block">{{ minutes }}</span>
       <span class="countdown-example-colon">:</span>
       <span class="countdown-example-block">{{ seconds }}</span>
-     </template>
+    </template>
   </mp-countdown>
 </template>
 
 <style>
 .countdown-example-block {
-  background: var(--color-primary);
-  color: var(--color-white);
+  background: var(--mp-color-primary);
+  color: var(--mp-color-white);
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -92,38 +74,49 @@ const time = ref(30 * 60 * 60 * 1000)
 
 ### 手动控制
 
-通过 ref 获取到组件实例后，可以调用 `start`、`pause`、`reset` 方法。
+设置 `auto-start` 为 `false`，通过 `start`、`pause`、`reset` 控制。倒计时结束时触发 `end`。
 
 ```html
 <script setup>
 import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
-const countdown = ref(null)
+const countdownRef = ref()
+const time = ref(5000)
 
-function end() {
+function handleEnd() {
   Message.info('end!')
-}
-
-function change() {
-  console.log('change')
 }
 </script>
 
 <template>
   <mp-countdown
-    time="3000"
-    ref="countdown"
+    ref="countdownRef"
+    :time="time"
     :auto-start="false"
-    format="ss : SSS"
-    @end="end"
-    @change="change"
+    format="ss.SSS"
+    @end="handleEnd"
   />
   <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button type="primary" @click="countdown.start()">开始</mp-button>
-    <mp-button @click="countdown.pause()">暂停</mp-button>
-    <mp-button @click="countdown.reset()">重置</mp-button>
+    <mp-button status="primary" @click="countdownRef.start()">开始</mp-button>
+    <mp-button @click="countdownRef.pause()">暂停</mp-button>
+    <mp-button @click="countdownRef.reset()">重置</mp-button>
   </mp-row>
+</template>
+```
+
+### 嵌入 Statistic
+
+未传入 `value` 时，Statistic 可用默认插槽嵌入 Countdown。
+
+```html
+<template>
+  <mp-statistic title="Countdown">
+    <mp-countdown :time="2 * 60 * 60 * 1000" />
+  </mp-statistic>
+  <mp-statistic title="Campaign">
+    <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
+  </mp-statistic>
 </template>
 ```
 
@@ -134,7 +127,7 @@ function change() {
 | 参数 | 说明 | 类型 | 默认值 |
 | ----- | -------------- | -------- | ---------- |
 | `time` | 倒计时时长（ms）| _string \| number_ | `0` |
-| `format` | 时间格式 | _string_ | `HH : mm : ss` |
+| `format` | 时间格式 | _string_ | `HH:mm:ss` |
 | `auto-start` | 是否自动开始倒计时 | _boolean_ | `true` |
 
 ### format 格式
@@ -174,7 +167,7 @@ function change() {
 
 ### 方法
 
-通过 ref 可以获取到 CountDown 实例并调用实例方法.
+通过 ref 可以获取到 Countdown 实例并调用实例方法.
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
@@ -188,5 +181,5 @@ function change() {
 
 | 变量名                         | 默认值 |
 |-----------------------------| --- |
-| `--countdown-text-color`     | `var(--color-text)`                |
-| `--countdown-text-font-size` | `var(--font-size-lg)` |
+| `--mp-countdown-text-color`     | `var(--mp-color-text)`                |
+| `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` |

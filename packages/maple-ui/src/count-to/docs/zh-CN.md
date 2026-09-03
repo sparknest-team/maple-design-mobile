@@ -30,7 +30,7 @@
 
 ```html
 <template>
-  <mp-count-to :to="123456" :duration="100000" />
+  <mp-count-to :to="123456" :duration="10000" />
 </template>
 ```
 
@@ -69,9 +69,11 @@ const countTo = ref()
 
 <template>
   <mp-count-to ref="countTo" :to="123456" :auto-start="false" />
-  <mp-button @click="countTo.start()">开始</mp-button>
-  <mp-button @click="countTo.pause()">暂停</mp-button>
-  <mp-button @click="countTo.reset()">重置</mp-button>
+  <mp-row justify="space-between" align="center" style="margin-top: 10px">
+    <mp-button status="primary" @click="countTo.start()">开始</mp-button>
+    <mp-button @click="countTo.pause()">暂停</mp-button>
+    <mp-button @click="countTo.reset()">重置</mp-button>
+  </mp-row>
 </template>
 ```
 
@@ -84,9 +86,9 @@ const countTo = ref()
 | `from`       | 起始值                     | _number \| string_ | `0`     |
 | `to`         | 目标值                     | _number \| string_ | `0`     |
 | `duration`   | 动画持续时间（单位：毫秒） | _number \| string_ | `2000` |
-| `precision`   | 精度 | _number \| string_ | `2` |
+| `precision`   | 精度 | _number \| string_ | `0` |
 | `auto-start` | 是否自动开始播放动画       | _boolean_          | `true`  |
-| `timing-function` | 动画曲线函数       | _(v: number) => number_          | `v => v`  |
+| `timing-function` | 动画曲线函数       | _(v: number) => number_          | `-`  |
 
 ### 事件
 
@@ -114,5 +116,5 @@ const countTo = ref()
 
 | 变量名                         | 默认值 |
 |-----------------------------| --- |
-| `--count-to-text-color`     | `var(--color-text)`  |
-| `--count-to-text-font-size` | `var(--font-size-lg)` |
+| `--mp-count-to-text-color`     | `var(--mp-color-text)`  |
+| `--mp-count-to-text-font-size` | `var(--mp-font-size-lg)` |

@@ -2,7 +2,7 @@ import { createApp, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import SplitButton from '..'
-import MenuOption from '../../menu-option'
+import MenuOption from '../../menu/MenuOption.vue'
 
 test('split-button plugin', () => {
   const app = createApp({}).use(SplitButton)

@@ -611,34 +611,16 @@
           "attributes": [
             {
               "name": "shape",
-              "description": "Avatar shape, optional values `circle` `square`",
-              "default": "circle",
+              "description": "Avatar shape",
+              "default": "'circle'",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "The size of the avatar, with optional values of `mini small normal large`",
-              "default": "normal",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Background color of the avatar",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`'circle' | 'square'`",
                 "kind": "expression"
               }
             },
             {
               "name": "image-url",
-              "description": "Image URL of avatar",
+              "description": "Image URL",
               "default": "-",
               "value": {
                 "type": "string",
@@ -647,7 +629,61 @@
             },
             {
               "name": "alt",
-              "description": "Image alt text, the same as the native attribute of the `img` tag",
+              "description": "Image alternative text",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Avatar width and height in px",
+              "default": "40",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fix-font-size",
+              "description": "Automatically scales long text",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-type",
+              "description": "Trigger icon presentation",
+              "default": "'button'",
+              "value": {
+                "type": "`'button' | 'mask'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-icon-style",
+              "description": "Custom trigger icon style",
+              "default": "-",
+              "value": {
+                "type": "CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "object-fit",
+              "description": "Image fitting mode",
+              "default": "'cover'",
+              "value": {
+                "type": "`'fill' | 'contain' | 'cover' | 'none' | 'scale-down'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Avatar background color",
               "default": "-",
               "value": {
                 "type": "string",
@@ -655,17 +691,8 @@
               }
             },
             {
-              "name": "object-fit",
-              "description": "Object-fit of avatar image, optional value `fill contain cover none scale-down`",
-              "default": "cover",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "bordered",
-              "description": "Avatar with or without border",
+              "description": "Whether to show a border",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -674,7 +701,7 @@
             },
             {
               "name": "border-color",
-              "description": "Avatar border color",
+              "description": "Border color",
               "default": "-",
               "value": {
                 "type": "string",
@@ -683,7 +710,7 @@
             },
             {
               "name": "loading",
-              "description": "When lazy loading is enabled, the image displayed in the load",
+              "description": "Placeholder image while loading",
               "default": "-",
               "value": {
                 "type": "string",
@@ -692,7 +719,7 @@
             },
             {
               "name": "error",
-              "description": "When lazy loading is enabled, the image displayed when loading fails",
+              "description": "Fallback image on load failure",
               "default": "-",
               "value": {
                 "type": "string",
@@ -701,7 +728,7 @@
             },
             {
               "name": "lazy",
-              "description": "Whether to enable lazy loading",
+              "description": "Whether to lazy-load the image",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -710,7 +737,7 @@
             },
             {
               "name": "hoverable",
-              "description": "Whether to enable hover effect",
+              "description": "Whether to enable hover scale",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -721,51 +748,29 @@
           "events": [
             {
               "name": "click",
-              "description": "Triggered when clicking on avatar"
+              "description": "Emitted when the avatar is clicked"
             },
             {
               "name": "load",
-              "description": "Triggered when the avatar image is successfully loaded (failure in lazy loading mode will try to load the avatar image multiple times and will only be triggered when successfully loaded)"
+              "description": "Emitted when the image loads"
             },
             {
               "name": "error",
-              "description": "Triggered when the avatar image fails to load (failure in lazy loading mode will try to load the avatar image multiple times, will only be triggered at the end of the number of attempts)"
+              "description": "Emitted when the image fails to load"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Avatar content"
-            }
-          ]
-        },
-        {
-          "name": "mp-avatar-group",
-          "attributes": [
-            {
-              "name": "offset",
-              "description": "Avatar Offset within Avatar Group",
-              "default": "-",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
+              "description": "Text, icon, or loading content"
             },
             {
-              "name": "vertical",
-              "description": "Whether the group avatars are vertically aligned",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
+              "name": "error",
+              "description": "Image error fallback"
+            },
             {
-              "name": "default",
-              "description": "Avatar group content"
+              "name": "trigger-icon",
+              "description": "Interactive icon on the avatar"
             }
           ]
         },
@@ -1129,12 +1134,6 @@
           ]
         },
         {
-          "name": "mp-bottom-navigation-item",
-          "attributes": [],
-          "events": [],
-          "slots": []
-        },
-        {
           "name": "mp-breadcrumb",
           "attributes": [
             {
@@ -1191,71 +1190,6 @@
             {
               "name": "more-icon",
               "description": "Custom ellipsis icon"
-            }
-          ]
-        },
-        {
-          "name": "mp-breadcrumb-item",
-          "attributes": [
-            {
-              "name": "separator",
-              "description": "Separator (overrides parent)",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "href",
-              "description": "Link URL",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "droplist",
-              "description": "Dropdown items",
-              "default": "-",
-              "value": {
-                "type": "BreadcrumbRoute[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "dropdown-props",
-              "description": "Props passed to Menu",
-              "default": "-",
-              "value": {
-                "type": "MenuProps",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Fired on click (not for collapsed item)"
-            },
-            {
-              "name": "select",
-              "description": "Fired when a built-in dropdown item is selected"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Item content"
-            },
-            {
-              "name": "separator",
-              "description": "Custom separator"
-            },
-            {
-              "name": "droplist",
-              "description": "Custom dropdown menu"
             }
           ]
         },
@@ -1461,81 +1395,6 @@
           ]
         },
         {
-          "name": "mp-button-group",
-          "attributes": [
-            {
-              "name": "type",
-              "description": "Button Group type, can be set to `default` `primary` `info` `success` `warning` `danger`",
-              "default": "default",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Button Group size, can be set to `normal` `mini` `small` `large`",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mode",
-              "description": "Button Group mode, can be set to `normal` `text` `outline`",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "vertical",
-              "description": "Whether to be vertical button  group",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation of Button Group, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Button Group background color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Button Group Text color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Button Group content"
-            }
-          ]
-        },
-        {
           "name": "mp-card",
           "attributes": [
             {
@@ -1720,7 +1579,7 @@
           "attributes": [
             {
               "name": "current(v-model)",
-              "description": "Current slide index (controlled mode)",
+              "description": "Current slide index (0-based)",
               "default": "-",
               "value": {
                 "type": "number",
@@ -1729,7 +1588,7 @@
             },
             {
               "name": "default-current",
-              "description": "Default current slide index",
+              "description": "Default current slide index (0-based)",
               "default": "0",
               "value": {
                 "type": "number",
@@ -1747,16 +1606,16 @@
             },
             {
               "name": "auto-play",
-              "description": "Autoplay interval(ms). Object `{ interval, hoverToPause }` to enable hover pause",
-              "default": "-",
+              "description": "Autoplay; `true` uses 3000ms, a number is the interval in ms, or `{ interval, hoverToPause }`",
+              "default": "false",
               "value": {
-                "type": "string | number | CarouselAutoPlayConfig",
+                "type": "boolean | number | CarouselAutoPlayConfig",
                 "kind": "expression"
               }
             },
             {
               "name": "move-speed",
-              "description": "Transition move speed(ms)",
+              "description": "Transition duration (ms)",
               "default": "300",
               "value": {
                 "type": "string | number",
@@ -1764,56 +1623,29 @@
               }
             },
             {
+              "name": "trigger",
+              "description": "Indicator trigger",
+              "default": "click",
+              "value": {
+                "type": "CarouselTriggerEvent",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "direction",
+              "description": "Slide direction",
+              "default": "horizontal",
+              "value": {
+                "type": "'horizontal' | 'vertical'",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "show-arrow",
-              "description": "Show navigation arrows",
+              "description": "When to show navigation arrows",
               "default": "never",
               "value": {
-                "type": "'always' | 'hover' | 'never'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator",
-              "description": "Whether to show indicator dots",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-color",
-              "description": "Color of indicator dots",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-class",
-              "description": "Custom class for indicator",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-type",
-              "description": "Indicator type, options: `dot` `line` `slider`",
-              "default": "dot",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-position",
-              "description": "Indicator position, options: `bottom` `top` `left` `right` `outer`",
-              "default": "bottom",
-              "value": {
-                "type": "string",
+                "type": "CarouselArrowType",
                 "kind": "expression"
               }
             },
@@ -1827,9 +1659,63 @@
               }
             },
             {
-              "name": "direction",
-              "description": "Carousel direction, optional values `horizontal` `vertical`",
-              "default": "horizontal",
+              "name": "indicator",
+              "description": "Whether to show indicators",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-type",
+              "description": "Indicator type",
+              "default": "dot",
+              "value": {
+                "type": "CarouselIndicatorType",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-position",
+              "description": "Indicator position",
+              "default": "bottom",
+              "value": {
+                "type": "CarouselIndicatorPosition",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-class",
+              "description": "Custom class for indicator",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-color",
+              "description": "Color of indicator",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "height",
+              "description": "Carousel container height",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "transition-timing-function",
+              "description": "CSS transition timing function",
+              "default": "cubic-bezier(0.25, 0.8, 0.5, 1)",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -1854,11 +1740,20 @@
               }
             },
             {
-              "name": "effect",
-              "description": "Transition effect, options: `slide` `fade` `card`",
-              "default": "slide",
+              "name": "mousewheel",
+              "description": "Whether to enable mousewheel navigation",
+              "default": "false",
               "value": {
-                "type": "string",
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "keyboard",
+              "description": "Whether to enable keyboard arrow navigation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -1881,53 +1776,17 @@
               }
             },
             {
+              "name": "effect",
+              "description": "Transition effect (mobile)",
+              "default": "slide",
+              "value": {
+                "type": "CarouselEffect",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "centered-slides",
-              "description": "Center the active slide (works with `slides-per-view`)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "height",
-              "description": "Carousel container height",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "transition-timing-function",
-              "description": "CSS transition timing function",
-              "default": "cubic-bezier(0.25, 0.8, 0.5, 1)",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "Indicator trigger method, options: `click` `hover`",
-              "default": "click",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mousewheel",
-              "description": "Whether to enable mousewheel navigation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "keyboard",
-              "description": "Whether to enable keyboard arrow navigation",
+              "description": "Center the active slide (with `slides-per-view`, mobile)",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -1938,11 +1797,11 @@
           "events": [
             {
               "name": "update:current",
-              "description": "Emitted when `current` value updates"
+              "description": "Emitted when the v-model value updates (0-based)"
             },
             {
               "name": "change",
-              "description": "Emitted when the active slide changes"
+              "description": "Emitted when the active slide changes (0-based)"
             }
           ],
           "slots": [
@@ -2335,120 +2194,6 @@
             {
               "name": "v-model",
               "description": "The value of the binding",
-              "default": "false",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "value",
-              "description": "Option value",
-              "default": "true",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "checked-color",
-              "description": "Checked color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "unchecked-color",
-              "description": "Unchecked color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "icon-size",
-              "description": "Icon size",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indeterminate",
-              "description": "Whether indeterminate status(style has the highest priority)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to open ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Triggered on Click"
-            },
-            {
-              "name": "change",
-              "description": "Triggered on change"
-            }
-          ],
-          "slots": [
-            {
-              "name": "checked-icon",
-              "description": "Checked icon"
-            },
-            {
-              "name": "unchecked-icon",
-              "description": "Unchecked icon"
-            },
-            {
-              "name": "indeterminate-icon",
-              "description": "Indeterminate icon"
-            },
-            {
-              "name": "default",
-              "description": "Displayed text"
-            }
-          ]
-        },
-        {
-          "name": "mp-checkbox-group",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "The value of the binding",
               "default": "[]",
               "value": {
                 "type": "any[]",
@@ -2558,17 +2303,11 @@
           "slots": []
         },
         {
-          "name": "mp-col",
-          "attributes": [],
-          "events": [],
-          "slots": []
-        },
-        {
           "name": "mp-collapse",
           "attributes": [
             {
               "name": "active-names **(v-model)**",
-              "description": "Names of current active panels",
+              "description": "Names of expanded panels",
               "default": "-",
               "value": {
                 "type": "(string | number)[]",
@@ -2577,7 +2316,7 @@
             },
             {
               "name": "default-active-names",
-              "description": "Default active panel names (uncontrolled)",
+              "description": "Default expanded names (uncontrolled)",
               "default": "[]",
               "value": {
                 "type": "(string | number)[]",
@@ -2586,7 +2325,7 @@
             },
             {
               "name": "accordion",
-              "description": "Whether to be accordion mode",
+              "description": "Accordion mode",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -2594,27 +2333,9 @@
               }
             },
             {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset",
-              "description": "Whether to show margin",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "divider",
-              "description": "Whether to show divider",
-              "default": "true",
+              "name": "show-expand-icon",
+              "description": "Whether to show expand icons",
+              "default": "-",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2623,16 +2344,34 @@
             {
               "name": "expand-icon-position",
               "description": "Expand icon position",
-              "default": "right",
+              "default": "'left'",
               "value": {
                 "type": "'left' | 'right'",
                 "kind": "expression"
               }
             },
             {
-              "name": "show-expand-icon",
-              "description": "Whether to show expand icon",
-              "default": "-",
+              "name": "bordered",
+              "description": "Whether to show the border",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "divider",
+              "description": "Whether to show dividers",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset",
+              "description": "Whether expanded panels have a gap",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2640,10 +2379,19 @@
             },
             {
               "name": "destroy-on-hide",
-              "description": "Whether to destroy content when hidden",
+              "description": "Destroy content when hidden",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Elevation; `true` `false` or a level from `0-24`",
+              "default": "true",
+              "value": {
+                "type": "string | number | boolean",
                 "kind": "expression"
               }
             }
@@ -2651,94 +2399,17 @@
           "events": [
             {
               "name": "change",
-              "description": "Emitted when active names changed"
+              "description": "Emitted when expanded panels change"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Content of collapse"
+              "description": "Panel list"
             },
             {
               "name": "expand-icon",
               "description": "Expand icon"
-            }
-          ]
-        },
-        {
-          "name": "mp-collapse-item",
-          "attributes": [
-            {
-              "name": "name",
-              "description": "Name",
-              "default": "index",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title",
-              "description": "Title",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "icon",
-              "description": "Icon name",
-              "default": "chevron-down",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable collapse",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Content"
-            },
-            {
-              "name": "title",
-              "description": "Title"
-            },
-            {
-              "name": "icon",
-              "description": "Custom right icon"
-            }
-          ]
-        },
-        {
-          "name": "mp-collapse-transition",
-          "attributes": [
-            {
-              "name": "expand",
-              "description": "Collapse or expand content",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Collapsed or expanded content"
             }
           ]
         },
@@ -2780,8 +2451,8 @@
             },
             {
               "name": "precision",
-              "description": "Precision (ms)",
-              "default": "2",
+              "description": "Precision",
+              "default": "0",
               "value": {
                 "type": "number | string",
                 "kind": "expression"
@@ -2799,7 +2470,7 @@
             {
               "name": "timing-function",
               "description": "Animation curve",
-              "default": "v => v",
+              "default": "-",
               "value": {
                 "type": "(v: number) => number",
                 "kind": "expression"
@@ -2834,7 +2505,7 @@
             {
               "name": "format",
               "description": "Time format",
-              "default": "HH : mm : ss",
+              "default": "HH:mm:ss",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -3305,236 +2976,6 @@
           ]
         },
         {
-          "name": "mp-date-picker",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "Selected date; date-time string when `show-time`",
-              "default": "undefined",
-              "value": {
-                "type": "string[] | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "type",
-              "description": "Picker type, optional values `date` `month` `year`",
-              "default": "date",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "presentation",
-              "description": "Panel mode: `calendar` `picker` `calendarClock` `calendarPicker`",
-              "default": "picker",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-time",
-              "description": "Enable time selection",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "use-seconds",
-              "description": "Show seconds when `show-time`",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-date",
-              "description": "Returns `true` to disable a date",
-              "default": "-",
-              "value": {
-                "type": "function",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-time",
-              "description": "Disabled time when `show-time` (callback returns true to disable)",
-              "default": "-",
-              "value": {
-                "type": "DisabledTime",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "time-picker-props",
-              "description": "Props for `mp-time-picker` (`calendarClock`)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<TimePickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Picker color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title-color",
-              "description": "Color of picker title. If not specified it will use `color` prop or the default picker color.",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hint",
-              "description": "Picker hint",
-              "default": "SELECT DATE",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "false",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "button-elevation",
-              "description": "Elevation level of Button",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "first-day-of-week",
-              "description": "Sets the first day of the week, starting with 0 for Sunday.",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "Minimum allowed date/month (ISO 8601 format)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "Maximum allowed date/month (ISO 8601 format)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-current",
-              "description": "Whether to display the current date",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "multiple",
-              "description": "Allow the selection of multiple dates",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "range",
-              "description": "Allow the selection of date range",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "touchable",
-              "description": "Allow switch panel by touch",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "preview",
-              "description": "Emitted after date switched"
-            },
-            {
-              "name": "change",
-              "description": "Emitted after date changed"
-            }
-          ],
-          "slots": [
-            {
-              "name": "year",
-              "description": "Custom the year in the title"
-            },
-            {
-              "name": "month",
-              "description": "Custom the month in the title"
-            },
-            {
-              "name": "date",
-              "description": "Custom the date in the title"
-            },
-            {
-              "name": "range",
-              "description": "Custom the range in the title"
-            },
-            {
-              "name": "multiple",
-              "description": "Custom the multiple in the title"
-            },
-            {
-              "name": "actions",
-              "description": "Custom the views in the action panel"
-            }
-          ]
-        },
-        {
           "name": "mp-date-range",
           "attributes": [
             {
@@ -3751,144 +3192,6 @@
             {
               "name": "change",
               "description": "Emitted after confirm"
-            }
-          ],
-          "slots": []
-        },
-        {
-          "name": "mp-date-range-picker",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "Binding value; date-time strings when `show-time`",
-              "default": "[]",
-              "value": {
-                "type": "string[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "presentation",
-              "description": "Panel mode: `calendar` `picker` `calendarClock` `calendarPicker`",
-              "default": "picker",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "type",
-              "description": "Selection type: `date` `month` `year`",
-              "default": "date",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-time",
-              "description": "Enable time selection",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "use-seconds",
-              "description": "Show seconds when `show-time`",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "Minimum date",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "Maximum date",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-date",
-              "description": "Returns `true` to disable a date",
-              "default": "-",
-              "value": {
-                "type": "(val: string) => boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-time",
-              "description": "Disabled time when `show-time` (callback returns true to disable)",
-              "default": "-",
-              "value": {
-                "type": "DisabledTime",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "date-picker-props",
-              "description": "Props for `mp-date-picker` (calendar)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<DatePickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "picker-props",
-              "description": "Props for `mp-picker` (picker)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<PickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "time-picker-props",
-              "description": "Props for `mp-time-picker` (calendar + show-time)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<TimePickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation",
-              "default": "false",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Emitted when the range changes"
             }
           ],
           "slots": [
@@ -4500,60 +3803,65 @@
           "attributes": [
             {
               "name": "description",
-              "description": "Description text",
+              "description": "Description; falls back to i18n",
               "default": "-",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image-size",
-              "description": "Image size, optional values are `xs` `sm` `md` `lg` `xl`, or a specific number",
-              "default": "md",
-              "value": {
-                "type": "string | number",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "image-url",
-              "description": "Custom image URL (overrides default icon)",
+              "description": "Custom image URL",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "alt",
+              "description": "Image alt text",
+              "default": "''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "image-size",
+              "description": "Image/icon size",
+              "default": "'md'",
+              "value": {
+                "type": "`'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-icon",
-              "description": "Whether to show icon",
+              "description": "Whether to show the icon",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-description",
-              "description": "Whether to show description",
+              "description": "Whether to show the description",
               "default": "true",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "on-click",
-              "description": "Click callback",
-              "default": "-",
-              "value": {
-                "type": "(event: Event) => void",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "click",
+              "description": "Click callback"
+            }
+          ],
           "slots": [
             {
               "name": "default",
@@ -4565,7 +3873,7 @@
             },
             {
               "name": "extra",
-              "description": "Extra action area"
+              "description": "Extra actions"
             }
           ]
         },
@@ -5012,159 +4320,7 @@
           ]
         },
         {
-          "name": "mp-form-item",
-          "attributes": [
-            {
-              "name": "field",
-              "description": "Field path in `Form.model`, supports `a.b`",
-              "default": "''",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "label",
-              "description": "Label text; when set, renders outer label and disables floating hint",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "layout",
-              "description": "Layout, `vertical` or `horizontal`; inherits `Form.layout` when omitted",
-              "default": "-",
-              "value": {
-                "type": "'vertical' | 'horizontal'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "required",
-              "description": "Required (asterisk + auto required rule)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-label",
-              "description": "Hide label",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-asterisk",
-              "description": "Hide required asterisk",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "asterisk-position",
-              "description": "Asterisk position",
-              "default": "'start'",
-              "value": {
-                "type": "'start' | 'end'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "help",
-              "description": "Help text (shown when no error)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "extra",
-              "description": "Extra text",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "no-style",
-              "description": "Remove label/error UI, keep validation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rules",
-              "description": "Validation rules (function / Zod / array)",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "validate-trigger",
-              "description": "Triggers for validation",
-              "default": "'change'",
-              "value": {
-                "type": "FormItemValidateTrigger | FormItemValidateTrigger[]",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "validate",
-              "description": "Emitted after validation"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Form control"
-            },
-            {
-              "name": "label",
-              "description": "Custom label"
-            },
-            {
-              "name": "help",
-              "description": "Custom help"
-            },
-            {
-              "name": "extra",
-              "description": "Custom extra"
-            }
-          ]
-        },
-        {
           "name": "mp-grid",
-          "attributes": [],
-          "events": [],
-          "slots": []
-        },
-        {
-          "name": "mp-grid-item",
           "attributes": [],
           "events": [],
           "slots": []
@@ -5320,7 +4476,43 @@
               }
             },
             {
-              "name": "referrerpolicy",
+              "name": "description",
+              "description": "Image description; used as fallback alt text and in the default error state",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-footer",
+              "description": "Whether to hide the footer; `never` keeps it visible on errors",
+              "default": "false",
+              "value": {
+                "type": "boolean | 'never'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "footer-position",
+              "description": "Footer position: `inner` or `outer`",
+              "default": "inner",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "footer-class",
+              "description": "Footer class name",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "referrer-policy",
               "description": "Indicate which referrer to use when fetching the resource. This attribute requires attention to browser compatibility, see [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)",
               "default": "-",
               "value": {
@@ -5365,8 +4557,8 @@
               }
             },
             {
-              "name": "loading",
-              "description": "When lazy loading is enabled, the image displayed in loading",
+              "name": "loading-src",
+              "description": "When lazy loading is enabled, the image displayed while loading",
               "default": "-",
               "value": {
                 "type": "string",
@@ -5374,11 +4566,20 @@
               }
             },
             {
-              "name": "error",
-              "description": "When lazy loading is enabled, the image displayed in error",
+              "name": "error-src",
+              "description": "When lazy loading is enabled, the image displayed after an error",
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-loader",
+              "description": "Whether to show the default loading state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -5428,11 +4629,29 @@
               }
             },
             {
+              "name": "default-preview-open",
+              "description": "Default preview visibility",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "preview-props",
               "description": "Props passed to `ImagePreview`",
               "default": "-",
               "value": {
                 "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Preview mount target; `false` disables Teleport",
+              "default": "body",
+              "value": {
+                "type": "string | HTMLElement | false",
                 "kind": "expression"
               }
             }
@@ -5453,194 +4672,32 @@
             {
               "name": "preview-open-change",
               "description": "Triggered when preview opens or closes"
+            },
+            {
+              "name": "update:preview-open",
+              "description": "Updates the `preview-open` model"
             }
           ],
           "slots": [
             {
               "name": "error",
               "description": "Load failure slot"
-            }
-          ]
-        },
-        {
-          "name": "mp-image-preview",
-          "attributes": [
-            {
-              "name": "v-model:open",
-              "description": "Whether to display",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
             },
             {
-              "name": "images",
-              "description": "Need to preview the image URL",
-              "default": "[]",
-              "value": {
-                "type": "string[]",
-                "kind": "expression"
-              }
+              "name": "error-icon",
+              "description": "Custom icon for the default error state"
             },
             {
-              "name": "src",
-              "description": "Single image URL",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "current",
-              "description": "Index from which the image preview starts",
-              "default": "0",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "zoom",
-              "description": "Double-click to zoom in",
-              "default": "2",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "closable",
-              "description": "Whether to show the close button",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "esc-to-close",
-              "description": "Whether to support keyboard ESC to close the image-preview",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loop",
-              "description": "Whether to open loop playback",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator",
-              "description": "Whether to show paging",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lock-scroll",
-              "description": "Lock scroll",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popupContainer",
-              "description": "The location of the pop-up layer to mount",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image-prevent-default",
-              "description": "Whether to disable the default behavior of images",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "The callback function when switching images, the callback parameter is the current index"
-            },
-            {
-              "name": "open",
-              "description": "Triggered when Image-Preview is turned on"
-            },
-            {
-              "name": "opened",
-              "description": "Triggered at the end of the open image-preview animation"
-            },
-            {
-              "name": "open-change",
-              "description": "Triggered when open state changes"
-            },
-            {
-              "name": "close",
-              "description": "Triggered when Image-Preview is off"
-            },
-            {
-              "name": "closed",
-              "description": "Triggered when the animation that closes the image-preview ends"
-            },
-            {
-              "name": "long-press",
-              "description": "The callback function when long pressing an image, the callback parameter is the current index"
-            },
-            {
-              "name": "key-escape",
-              "description": "Triggered when click keyboard ESC"
-            }
-          ],
-          "slots": [
-            {
-              "name": "indicator",
-              "description": "Paging indicator"
-            },
-            {
-              "name": "close-icon",
-              "description": "Close button"
+              "name": "loader",
+              "description": "Custom loading state"
             },
             {
               "name": "extra",
-              "description": "Extra slots"
-            }
-          ]
-        },
-        {
-          "name": "mp-index-anchor",
-          "attributes": [
+              "description": "Extra footer content"
+            },
             {
-              "name": "index",
-              "description": "Index",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Custom index character"
+              "name": "preview-actions",
+              "description": "Custom preview action content"
             }
           ]
         },
@@ -5725,6 +4782,88 @@
             {
               "name": "default",
               "description": "Content of index bar"
+            }
+          ]
+        },
+        {
+          "name": "mp-infinite-scroll",
+          "attributes": [
+            {
+              "name": "v-model:status",
+              "description": "Pagination status",
+              "default": "'idle'",
+              "value": {
+                "type": "`'idle' | 'loading' | 'error' | 'finished'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "bottom-offset",
+              "description": "Bottom threshold",
+              "default": "0",
+              "value": {
+                "type": "`string | number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "immediate",
+              "description": "Check after mounting",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Pause loading and retry",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "target",
+              "description": "Scroll container or CSS selector",
+              "default": "-",
+              "value": {
+                "type": "`string | HTMLElement`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:status",
+              "description": "Requests a pagination status update"
+            },
+            {
+              "name": "load",
+              "description": "Requests the next page at the threshold"
+            },
+            {
+              "name": "retry",
+              "description": "Retries from the error state"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Content"
+            },
+            {
+              "name": "loading",
+              "description": "Loading state"
+            },
+            {
+              "name": "error",
+              "description": "Error state"
+            },
+            {
+              "name": "finished",
+              "description": "Finished state"
             }
           ]
         },
@@ -6240,100 +5379,72 @@
           "name": "mp-list",
           "attributes": [
             {
-              "name": "v-model:loading",
-              "description": "Loading state",
-              "default": "false",
+              "name": "data",
+              "description": "Data passed to the `item` slot",
+              "default": "-",
               "value": {
-                "type": "boolean",
+                "type": "`unknown[]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "v-model:error",
-              "description": "Error state",
-              "default": "false",
+              "name": "size",
+              "description": "List item size",
+              "default": "'md'",
               "value": {
-                "type": "boolean",
+                "type": "`'sm' | 'md' | 'lg'`",
                 "kind": "expression"
               }
             },
             {
-              "name": "immediate-check",
-              "description": "Whether the location is detected immediately when the List is initialized",
+              "name": "bordered",
+              "description": "Show the outer border",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "finished",
-              "description": "Whether the load is complete",
-              "default": "false",
+              "name": "split",
+              "description": "Show separators between list items",
+              "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "offset",
-              "description": "Trigger distance from the bottom",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-text",
-              "description": "Loading text",
-              "default": "Loading",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "finished-text",
-              "description": "Finished text",
-              "default": "No more",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "error-text",
-              "description": "Error text",
-              "default": "Load fail",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "load",
-              "description": "Triggered when it hit bottom"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "List content"
             },
             {
               "name": "loading",
-              "description": "Loading content"
+              "description": "Initial full-list loading or refreshing",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Manual content; takes priority over `data`"
             },
             {
-              "name": "error",
-              "description": "Error content"
+              "name": "item",
+              "description": "Data item content"
             },
             {
-              "name": "finished",
-              "description": "Finished content"
+              "name": "header",
+              "description": "Header"
+            },
+            {
+              "name": "footer",
+              "description": "Footer"
+            },
+            {
+              "name": "empty",
+              "description": "Empty content shown when not loading"
             }
           ]
         },
@@ -6739,83 +5850,6 @@
             {
               "name": "footer",
               "description": "Menu footer"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu-group",
-          "attributes": [
-            {
-              "name": "title",
-              "description": "Group title",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "title",
-              "description": "Group title"
-            },
-            {
-              "name": "default",
-              "description": "Group content"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu-option",
-          "attributes": [
-            {
-              "name": "label",
-              "description": "The text that the option displays",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "value",
-              "description": "The value of the option binding",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to enable ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Options to display the content"
-            },
-            {
-              "name": "icon",
-              "description": "Option icon"
             }
           ]
         },
@@ -7245,54 +6279,6 @@
             }
           ],
           "slots": []
-        },
-        {
-          "name": "mp-option",
-          "attributes": [
-            {
-              "name": "label",
-              "description": "The text that the option displays",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "value",
-              "description": "The value of the option binding",
-              "default": "-",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to enable ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Options to display the content"
-            }
-          ]
         },
         {
           "name": "mp-overlay",
@@ -8311,79 +7297,79 @@
               "description": "Loading status",
               "default": "-",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled",
-              "description": "Whether to disable pull refresh",
+              "description": "Disable pull-to-refresh",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "target",
-              "description": "The target to trigger scroll. If it is undefined back top will listen to the nearest scrollable parent.",
+              "description": "Scroll container. Defaults to the nearest scrollable ancestor",
               "default": "-",
               "value": {
-                "type": "string | HTMLElement",
+                "type": "`string | HTMLElement`",
                 "kind": "expression"
               }
             },
             {
               "name": "animation-duration",
-              "description": "The duration of the animation to return to the initial position after loading(ms)",
+              "description": "Rebound animation duration (ms)",
               "default": "300",
               "value": {
-                "type": "string | number",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
             {
               "name": "success-duration",
-              "description": "Success text display duration(ms)",
+              "description": "Success state duration (ms)",
               "default": "2000",
               "value": {
-                "type": "string | number",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
             {
               "name": "bg-color",
-              "description": "BackgroundColor of control",
-              "default": "#005CAF",
+              "description": "Indicator background",
+              "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "color",
-              "description": "Color of control",
-              "default": "#ffffff",
+              "description": "Indicator color",
+              "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "success-bg-color",
-              "description": "BackgroundColor of control when the status is success",
-              "default": "#4CAF50",
+              "description": "Success indicator background",
+              "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "success-color",
-              "description": "Color of control when the status is success",
-              "default": "ffffff",
+              "description": "Success indicator color",
+              "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             }
@@ -8391,119 +7377,22 @@
           "events": [
             {
               "name": "refresh",
-              "description": "Emitted after pulling refresh"
+              "description": "Fired when refresh starts"
+            },
+            {
+              "name": "update:modelValue",
+              "description": "Fired when loading status changes"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Default slot"
+              "description": "List content"
             }
           ]
         },
         {
           "name": "mp-radio",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "The value of the binding",
-              "default": "false",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "value",
-              "description": "Option value",
-              "default": "true",
-              "value": {
-                "type": "any",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "checked-color",
-              "description": "Checked color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "unchecked-color",
-              "description": "Unchecked color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "icon-size",
-              "description": "Icon size",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to open ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Triggered on click"
-            },
-            {
-              "name": "change",
-              "description": "Triggered on change"
-            }
-          ],
-          "slots": [
-            {
-              "name": "checked-icon",
-              "description": "Checked icon"
-            },
-            {
-              "name": "unchecked-icon",
-              "description": "Unchecked icon"
-            },
-            {
-              "name": "default",
-              "description": "Displayed text"
-            }
-          ]
-        },
-        {
-          "name": "mp-radio-group",
           "attributes": [
             {
               "name": "v-model",
@@ -8646,12 +7535,6 @@
         },
         {
           "name": "mp-ripple",
-          "attributes": [],
-          "events": [],
-          "slots": []
-        },
-        {
-          "name": "mp-row",
           "attributes": [],
           "events": [],
           "slots": []
@@ -9762,11 +8645,11 @@
           ]
         },
         {
-          "name": "mp-step",
+          "name": "mp-statistic",
           "attributes": [
             {
               "name": "title",
-              "description": "Step title",
+              "description": "Title of the statistic",
               "default": "-",
               "value": {
                 "type": "string",
@@ -9774,8 +8657,17 @@
               }
             },
             {
-              "name": "description",
-              "description": "Step description",
+              "name": "value",
+              "description": "Displayed value",
+              "default": "-",
+              "value": {
+                "type": "number | string | Date",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "prefix",
+              "description": "Prefix of the value",
               "default": "-",
               "value": {
                 "type": "string",
@@ -9783,20 +8675,119 @@
               }
             },
             {
-              "name": "status",
-              "description": "Step status (overrides auto derivation)",
+              "name": "suffix",
+              "description": "Suffix of the value",
               "default": "-",
               "value": {
-                "type": "'wait' | 'process' | 'finish' | 'error'",
+                "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "disabled",
-              "description": "Whether disabled",
+              "name": "format",
+              "description": "Date format (date mode)",
+              "default": "HH:mm:ss",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "extra",
+              "description": "Extra content",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "start",
+              "description": "Whether to start the animation",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "precision",
+              "description": "Decimal places (number mode)",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Group separator (number mode)",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-group-separator",
+              "description": "Whether to show the group separator",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tabular-nums",
+              "description": "Whether to use tabular numbers",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "animation",
+              "description": "Whether to enable animation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "animation-duration",
+              "description": "Animation duration",
+              "default": "2000",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value-from",
+              "description": "Animation start value",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder when `value` is `undefined` and the default slot is unused",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value-style",
+              "description": "Custom style of the value",
+              "default": "-",
+              "value": {
+                "type": "CSSProperties",
                 "kind": "expression"
               }
             }
@@ -9805,15 +8796,23 @@
           "slots": [
             {
               "name": "default",
-              "description": "Step title (takes precedence over `title`)"
+              "description": "Custom value, used when `value` is not provided"
             },
             {
-              "name": "icon",
-              "description": "Custom node icon"
+              "name": "title",
+              "description": "Title"
             },
             {
-              "name": "description",
-              "description": "Step description"
+              "name": "prefix",
+              "description": "Prefix"
+            },
+            {
+              "name": "suffix",
+              "description": "Suffix"
+            },
+            {
+              "name": "extra",
+              "description": "Extra content"
             }
           ]
         },
@@ -9946,6 +8945,12 @@
           ]
         },
         {
+          "name": "mp-style",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-style-provider",
           "attributes": [
             {
@@ -9974,12 +8979,6 @@
               "description": "Component content"
             }
           ]
-        },
-        {
-          "name": "mp-styles",
-          "attributes": [],
-          "events": [],
-          "slots": []
         },
         {
           "name": "mp-swipe-cell",
@@ -10215,71 +9214,6 @@
           "slots": []
         },
         {
-          "name": "mp-tab",
-          "attributes": [
-            {
-              "name": "name",
-              "description": "Tab's name",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable tab",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to enable ripple effect",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Triggered when the tab is clicked, but not when the tab `disabled` status is `true`"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Tab's content"
-            }
-          ]
-        },
-        {
-          "name": "mp-tab-item",
-          "attributes": [
-            {
-              "name": "name",
-              "description": "View's name",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "TabItem's content"
-            }
-          ]
-        },
-        {
           "name": "mp-table",
           "attributes": [
             {
@@ -10506,59 +9440,11 @@
           ]
         },
         {
-          "name": "mp-tabs-items",
-          "attributes": [
-            {
-              "name": "v-model:active",
-              "description": "The identity of the active tab",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "can-swipe",
-              "description": "Whether to allow swipe switch",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "animated",
-              "description": "Whether to enable content switching animation",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loop",
-              "description": "Whether to allow cycle switching",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "TabsItems content"
-            }
-          ]
-        },
-        {
           "name": "mp-tag",
           "attributes": [
             {
               "name": "status",
-              "description": "Theme color: `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`",
+              "description": "Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger`",
               "default": "default",
               "value": {
                 "type": "string",
@@ -10935,135 +9821,6 @@
           ]
         },
         {
-          "name": "mp-time-picker",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "Selected time（ISO 8601 format, `HH:mm` or `HH:mm:ss`）",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "presentation",
-              "description": "Panel mode: `picker` or `clock`",
-              "default": "picker",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "picker-props",
-              "description": "Props passed to `Picker` in column-wheel mode",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "format",
-              "description": "Picker type, optional values `ampm` `24hr`",
-              "default": "ampm",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Picker color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title-color",
-              "description": "Color of picker title. If not specified it will use the color defined by `color` prop or the default picker color.",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hint",
-              "description": "Picker hint",
-              "default": "SELECT TIME",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "false",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "Minimum allowed time (ISO 8601 format)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "Maximum allowed time (ISO 8601 format)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-time",
-              "description": "Disabled time filter (callback returns true to disable)",
-              "default": "-",
-              "value": {
-                "type": "DisabledTime",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "use-seconds",
-              "description": "Whether to display seconds",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Emitted after time changed"
-            }
-          ],
-          "slots": []
-        },
-        {
           "name": "mp-time-range",
           "attributes": [
             {
@@ -11267,126 +10024,6 @@
             {
               "name": "close",
               "description": "Popup closed"
-            }
-          ],
-          "slots": []
-        },
-        {
-          "name": "mp-time-range-picker",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "Binding value",
-              "default": "[]",
-              "value": {
-                "type": "string[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "presentation",
-              "description": "Panel mode: `clock` `picker`",
-              "default": "picker",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "format",
-              "description": "Format: `ampm` `24hr` (mainly for clock)",
-              "default": "ampm",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "use-seconds",
-              "description": "Whether to select seconds",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "Minimum allowed time",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "Maximum allowed time",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-time",
-              "description": "Disabled times (callback returns true to disable)",
-              "default": "-",
-              "value": {
-                "type": "DisabledTime",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-next-day",
-              "description": "Show next-day marker on the end side when end is earlier than start. Panel selection does not swap; swap happens on `TimeRange` confirm when this prop is off",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "time-picker-props",
-              "description": "Props passed to `mp-time-picker` (clock)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<TimePickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "picker-props",
-              "description": "Props passed to `mp-picker` (picker)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<PickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation: `true` `false` or `0-24`",
-              "default": "false",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Emitted when the range changes"
             }
           ],
           "slots": [

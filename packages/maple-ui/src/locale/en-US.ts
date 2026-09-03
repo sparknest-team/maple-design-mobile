@@ -7,10 +7,12 @@ export default {
   dialogCancelButtonText: 'Cancel',
   // ActionSheet
   actionSheetTitle: 'Select One',
-  // List
-  listLoadingText: 'Loading',
-  listFinishedText: 'No more',
-  listErrorText: 'Load fail',
+  // Empty
+  emptyDescription: 'No Data',
+  // InfiniteScroll
+  infiniteScrollLoadingText: 'Loading',
+  infiniteScrollFinishedText: 'No more',
+  infiniteScrollErrorText: 'Load failed. Tap to retry',
   // Picker
   pickerTitle: 'Pick it',
   pickerConfirmButtonText: 'Confirm',

@@ -60,12 +60,12 @@ import { computed, defineComponent, onActivated, ref, Transition, watch } from '
 import { call, clamp, doubleRaf, isNumber } from '@maplejs/maple-shared'
 import { onWindowResize } from '@maplejs/maple-use'
 import MpSticky from '../sticky'
-import { type TabProvider } from '../tab/provide'
 import { createNamespace, formatElevation } from '../utils/components'
 import { scrollTo, toSizeUnit } from '../utils/elements'
 import { linear } from '../utils/shared'
 import { props } from './props'
 import { useTabList, type TabsProvider } from './provide'
+import { type TabProvider } from './tab-provide'
 
 const { name, n, classes } = createNamespace('tabs')
 
@@ -236,10 +236,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../sticky/sticky';
-@import './tabs';
-</style>

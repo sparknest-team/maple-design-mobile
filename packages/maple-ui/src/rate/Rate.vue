@@ -29,10 +29,9 @@
 import { defineComponent, ref } from 'vue'
 import { IconStar, IconStarHalfFull, IconStarOutline } from '@maplejs/icons-vue'
 import { call, toNumber } from '@maplejs/maple-shared'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
-import Hover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -172,11 +171,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../ripple/ripple';
-@import '../icon/icon';
-@import '../hover-overlay/hoverOverlay';
-@import './rate';
-</style>

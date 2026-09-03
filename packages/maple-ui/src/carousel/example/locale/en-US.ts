@@ -4,7 +4,7 @@ export default {
   autoplay: 'Autoplay',
   autoplayHoverPause: 'Autoplay Hover Pause',
   vertical: 'Vertical Carousel',
-  navigation: 'Navigation',
+  navigation: 'Navigation Arrows',
   handleChange: 'Handle Change',
   customIndicator: 'Custom Indicator',
   effectSlide: 'Slide Effect',

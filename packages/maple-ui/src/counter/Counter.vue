@@ -105,7 +105,7 @@ import { IconMinus as MIconMinus, IconPlus as MIconPlus } from '@maplejs/icons-v
 import { call, toNumber } from '@maplejs/maple-shared'
 import { Decimal } from 'decimal.js'
 import MpButton from '../button'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
@@ -383,13 +383,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../icon/icon';
-@import '../loading/loading';
-@import '../button/button';
-@import '../ripple/ripple';
-@import './counter';
-</style>

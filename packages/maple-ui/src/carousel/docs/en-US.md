@@ -2,7 +2,7 @@
 
 ### Intro
 
-Displays a collection of items that can be scrolled and swiped across the screen. Supports slide, fade, and card effects, multi-slide view, and various navigation styles.
+Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are mobile-only.
 
 ### Basic Usage
 
@@ -67,6 +67,8 @@ Displays a collection of items that can be scrolled and swiped across the screen
 ```
 
 ### Autoplay
+
+Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
 
 ```html
 <template>
@@ -159,9 +161,9 @@ Displays a collection of items that can be scrolled and swiped across the screen
 </style>
 ```
 
-### Navigation
+### Navigation Arrows
 
-Navigation buttons can be enabled by setting `show-arrow`, when `show-arrow` is `hover`, the navigation buttons can be displayed when the pointer is hovering.
+Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. Mobile default is `never`.
 
 ```html
 <template>
@@ -360,6 +362,8 @@ Navigation buttons can be enabled by setting `show-arrow`, when `show-arrow` is 
 
 ### Indicator Types
 
+Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indicator`.
+
 ```html
 <template>
   <h4>Dot</h4>
@@ -377,6 +381,19 @@ Navigation buttons can be enabled by setting `show-arrow`, when `show-arrow` is 
 
   <h4>Line</h4>
   <mp-carousel class="carousel-example" indicator-type="line">
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat2.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat3.jpg">
+    </mp-carousel-item>
+  </mp-carousel>
+
+  <h4>Slider</h4>
+  <mp-carousel class="carousel-example" indicator-type="slider">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -408,7 +425,21 @@ Navigation buttons can be enabled by setting `show-arrow`, when `show-arrow` is 
 
 ```html
 <template>
+  <h4>Top</h4>
   <mp-carousel class="carousel-example" indicator-position="top">
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat2.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat3.jpg">
+    </mp-carousel-item>
+  </mp-carousel>
+
+  <h4>Outer</h4>
+  <mp-carousel class="carousel-example" indicator-position="outer">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -640,30 +671,30 @@ import { Message } from '@maplejs/maple-ui'
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `current`(v-model) | Current slide index (controlled mode) | _number_ | `-` |
-| `default-current` | Default current slide index | _number_ | `0` |
+| `current`(v-model) | Current slide index (0-based) | _number_ | `-` |
+| `default-current` | Default current slide index (0-based) | _number_ | `0` |
 | `loop` | Whether to loop infinitely | _boolean_ | `true` |
-| `auto-play` | Autoplay interval(ms). Object `{ interval, hoverToPause }` to enable hover pause | _string \| number \| CarouselAutoPlayConfig_ | `-` |
-| `move-speed` | Transition move speed(ms) | _string \| number_ | `300` |
-| `show-arrow` | Show navigation arrows | _'always' \| 'hover' \| 'never'_ | `never` |
-| `indicator` | Whether to show indicator dots | _boolean_ | `true` |
-| `indicator-color` | Color of indicator dots | _string_ | `-` |
-| `indicator-class` | Custom class for indicator | _string_ | `-` |
-| `indicator-type` | Indicator type, options: `dot` `line` `slider` | _string_ | `dot` |
-| `indicator-position` | Indicator position, options: `bottom` `top` `left` `right` `outer` | _string_ | `bottom` |
+| `auto-play` | Autoplay; `true` uses 3000ms, a number is the interval in ms, or `{ interval, hoverToPause }` | _boolean \| number \| CarouselAutoPlayConfig_ | `false` |
+| `move-speed` | Transition duration (ms) | _string \| number_ | `300` |
+| `trigger` | Indicator trigger | _CarouselTriggerEvent_ | `click` |
+| `direction` | Slide direction | _'horizontal' \| 'vertical'_ | `horizontal` |
+| `show-arrow` | When to show navigation arrows | _CarouselArrowType_ | `never` |
 | `arrow-class` | Custom class for navigation arrows | _string_ | `-` |
-| `direction` | Carousel direction, optional values `horizontal` `vertical` | _string_ | `horizontal` |
-| `touchable` | Whether to enable touch swiping | _boolean_ | `true` |
-| `draggable` | Whether to enable mouse dragging | _boolean_ | `false` |
-| `effect` | Transition effect, options: `slide` `fade` `card` | _string_ | `slide` |
-| `slides-per-view` | Number of slides visible per view. `'auto'` uses slide's own width | _number \| 'auto'_ | `1` |
-| `space-between` | Gap between slides | _string \| number_ | `0` |
-| `centered-slides` | Center the active slide (works with `slides-per-view`) | _boolean_ | `false` |
+| `indicator` | Whether to show indicators | _boolean_ | `true` |
+| `indicator-type` | Indicator type | _CarouselIndicatorType_ | `dot` |
+| `indicator-position` | Indicator position | _CarouselIndicatorPosition_ | `bottom` |
+| `indicator-class` | Custom class for indicator | _string_ | `-` |
+| `indicator-color` | Color of indicator | _string_ | `-` |
 | `height` | Carousel container height | _string_ | `-` |
 | `transition-timing-function` | CSS transition timing function | _string_ | `cubic-bezier(0.25, 0.8, 0.5, 1)` |
-| `trigger` | Indicator trigger method, options: `click` `hover` | _string_ | `click` |
+| `touchable` | Whether to enable touch swiping | _boolean_ | `true` |
+| `draggable` | Whether to enable mouse dragging | _boolean_ | `false` |
 | `mousewheel` | Whether to enable mousewheel navigation | _boolean_ | `false` |
 | `keyboard` | Whether to enable keyboard arrow navigation | _boolean_ | `false` |
+| `slides-per-view` | Number of slides visible per view. `'auto'` uses slide's own width | _number \| 'auto'_ | `1` |
+| `space-between` | Gap between slides | _string \| number_ | `0` |
+| `effect` | Transition effect (mobile) | _CarouselEffect_ | `slide` |
+| `centered-slides` | Center the active slide (with `slides-per-view`, mobile) | _boolean_ | `false` |
 
 ### Events
 
@@ -671,8 +702,8 @@ import { Message } from '@maplejs/maple-ui'
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `update:current` | Emitted when `current` value updates | `index: number` |
-| `change` | Emitted when the active slide changes | `index: number` <br/> `prevIndex: number` <br/> `isManual: boolean` |
+| `update:current` | Emitted when the v-model value updates (0-based) | `index: number` |
+| `change` | Emitted when the active slide changes (0-based) | `index: number` <br/> `prevIndex: number` <br/> `isManual: boolean` |
 
 ### Slots
 
@@ -692,9 +723,27 @@ import { Message } from '@maplejs/maple-ui'
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
 | `resize` | Recalculate carousel dimensions | `-` | `-` |
-| `next` | Switch to next slide | `options?: { event?: boolean }` | `-` |
-| `prev` | Switch to previous slide | `options?: { event?: boolean }` | `-` |
-| `to` | Jump to specified index | `index: number, options?: { event?: boolean }` | `-` |
+| `next` | Switch to next slide | `options?: CarouselToOptions` | `-` |
+| `prev` | Switch to previous slide | `options?: CarouselToOptions` | `-` |
+| `to` | Jump to specified index | `index: number, options?: CarouselToOptions` | `-` |
+
+### Types
+
+```ts
+type CarouselTriggerEvent = 'click' | 'hover'
+type CarouselArrowType = 'always' | 'hover' | 'never'
+type CarouselIndicatorType = 'dot' | 'line' | 'slider'
+type CarouselIndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'outer'
+type CarouselEffect = 'slide' | 'fade' | 'card'
+type CarouselAutoPlayConfig = {
+  interval?: number
+  hoverToPause?: boolean
+}
+type CarouselToOptions = {
+  event?: boolean
+  isManual?: boolean
+}
+```
 
 ### Style Variables
 
@@ -709,6 +758,8 @@ import { Message } from '@maplejs/maple-ui'
 | `--carousel-navigation-button-width` | `36px` |
 | `--carousel-navigation-button-height` | `36px` |
 | `--carousel-navigation-button-border-radius` | `50%` |
+| `--carousel-navigation-button-background` | `rgba(0, 0, 0, 0.35)` |
+| `--carousel-navigation-button-color` | `#fff` |
 | `--carousel-navigation-icon-size` | `20px` |
 | `--carousel-navigation-prev-left` | `8px` |
 | `--carousel-navigation-next-right` | `8px` |

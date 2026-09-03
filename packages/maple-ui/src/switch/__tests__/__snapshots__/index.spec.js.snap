@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test switch component props > variant mode 1`] = `
-"<div class="mp-switch mp-switch--variant-standard">
+"<div class="mp-switch mp-switch--variant-false">
   <div class="mp-switch__block mp-switch__block--active" role="switch" aria-checked="true" tabindex="0">
     <div class="mp-switch__track mp-switch__track--active"></div>
     <div class="mp-switch__ripple mp-switch__ripple--active">
@@ -15,7 +15,7 @@ exports[`test switch component props > variant mode 1`] = `
 `;
 
 exports[`test switch component props > variant mode 2`] = `
-"<div class="mp-switch mp-switch--variant-md3">
+"<div class="mp-switch mp-switch--variant-true">
   <div class="mp-switch__block mp-switch__block--active" role="switch" aria-checked="true" tabindex="0">
     <div class="mp-switch__track mp-switch__track--active"></div>
     <div class="mp-switch__ripple mp-switch__ripple--active">

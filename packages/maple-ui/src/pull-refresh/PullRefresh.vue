@@ -1,30 +1,3 @@
-<template>
-  <div
-    ref="freshNode"
-    :class="n()"
-    @touchstart="handleTouchstart"
-    @touchend="handleTouchend"
-    @touchcancel="handleTouchend"
-  >
-    <div
-      ref="controlNode"
-      :class="classes(n('control'), n('$-elevation--2'), [isSuccess, n('control-success')])"
-      :style="controlStyle"
-    >
-      <mp-icon
-        :transition="ICON_TRANSITION"
-        :class="classes(n('icon'), [refreshStatus === 'loading', n('animation')])"
-        mp-pull-refresh-cover
-      >
-        <MIconCheckboxMarkedCircle v-if="iconName === 'checkbox-marked-circle'" />
-        <MIconRefresh v-else-if="iconName === 'refresh'" />
-        <MIconArrowDown v-else />
-      </mp-icon>
-    </div>
-    <slot />
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import {
@@ -32,16 +5,18 @@ import {
   IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
   IconRefresh as MIconRefresh,
 } from '@maplejs/icons-vue'
-import { call, getRect, getScrollTop, isNumber, isString, preventDefault, toNumber } from '@maplejs/maple-shared'
+import { getRect, getScrollTop, isNumber, isString, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted, useEventListener, useTouch } from '@maplejs/maple-use'
 import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTarget } from '../utils/elements'
-import { props, type RefreshStatus } from './props'
+import { pullRefreshProps, type PullRefreshStatus } from './props'
 
 const { name, n, classes } = createNamespace('pull-refresh')
 
 const ICON_TRANSITION = 150
+
+type PullRefreshIconName = 'arrow-down' | 'refresh' | 'checkbox-marked-circle'
 
 export default defineComponent({
   name,
@@ -51,7 +26,7 @@ export default defineComponent({
     MIconArrowDown,
     MpIcon,
   },
-  props,
+  props: pullRefreshProps,
   emits: ['update:modelValue', 'refresh'],
   setup(props, { emit }) {
     const controlPosition = ref(0)
@@ -59,8 +34,8 @@ export default defineComponent({
     const controlNode = ref<HTMLElement | null>(null)
     const startPosition = ref(0)
     const distance = ref<number | string>('-125%')
-    const iconName = ref('arrow-down')
-    const refreshStatus = ref<RefreshStatus>('default')
+    const iconName = ref<PullRefreshIconName>('arrow-down')
+    const refreshStatus = ref<PullRefreshStatus>('default')
     const isEnd = ref(false)
     const maxDistance = computed(() => Math.abs(2 * controlPosition.value))
     const isSuccess = computed(() => refreshStatus.value === 'success')
@@ -99,12 +74,12 @@ export default defineComponent({
 
     useEventListener(freshNode, 'touchmove', handleTouchmove)
 
-    function startIconTransition(name: string) {
-      if (iconName.value === name) {
+    function startIconTransition(nextName: PullRefreshIconName) {
+      if (iconName.value === nextName) {
         return
       }
 
-      iconName.value = name
+      iconName.value = nextName
       return new Promise((resolve) => {
         window.setTimeout(resolve, ICON_TRANSITION)
       })
@@ -113,7 +88,7 @@ export default defineComponent({
     function lockEvent(action: 'add' | 'remove') {
       const el = 'classList' in scroller ? scroller : document.body
 
-      el.classList[action](`${n()}--lock`)
+      el.classList[action](n('--lock'))
     }
 
     function handleTouchstart(event: TouchEvent) {
@@ -195,7 +170,7 @@ export default defineComponent({
     }
 
     function setScroller() {
-      scroller = props.target ? getTarget(props.target, 'PullRefresh') : getParentScroller(freshNode.value!)
+      scroller = props.target ? getTarget(props.target, name) : getParentScroller(freshNode.value!)
     }
 
     function reset() {
@@ -224,9 +199,28 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../icon/icon';
-@import './pullRefresh';
-</style>
+<template>
+  <div
+    ref="freshNode"
+    :class="classes(n(), n('$--box'))"
+    @touchstart="handleTouchstart"
+    @touchend="handleTouchend"
+    @touchcancel="handleTouchend"
+  >
+    <div
+      ref="controlNode"
+      :class="classes(n('control'), n('$-elevation--2'), [isSuccess, n('control--success')])"
+      :style="controlStyle"
+    >
+      <mp-icon
+        :transition="ICON_TRANSITION"
+        :class="classes(n('icon'), [refreshStatus === 'loading', n('icon--spin')])"
+      >
+        <MIconCheckboxMarkedCircle v-if="iconName === 'checkbox-marked-circle'" />
+        <MIconRefresh v-else-if="iconName === 'refresh'" />
+        <MIconArrowDown v-else />
+      </mp-icon>
+    </div>
+    <slot />
+  </div>
+</template>

@@ -62,7 +62,7 @@ exports[`test dialog component slots > dialog title slot 1`] = `
       <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-dialog__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-dialog-cover="">
         <div class="mp--box mp-dialog">
           <div class="mp-dialog__title">
-            <!--v-if--><i class="mp-icon mp-icon--set mp-icon-information" style="transition-duration: 0ms;"></i>
+            <!--v-if--><span class="mp-icon" style="transition-duration: 0ms;"><!----></span>
           </div>
           <div class="mp-dialog__message" style="text-align: left;"></div>
           <div class="mp-dialog__actions"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-dialog__button mp-dialog__cancel-button" type="button" text="true" mp-dialog-cover="">

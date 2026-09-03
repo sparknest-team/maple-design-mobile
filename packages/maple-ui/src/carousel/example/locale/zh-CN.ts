@@ -4,7 +4,7 @@ export default {
   autoplay: '开启自动播放',
   autoplayHoverPause: '自动播放悬停暂停',
   vertical: '垂直轮播',
-  navigation: '导航',
+  navigation: '切换箭头',
   handleChange: '监听切换',
   customIndicator: '自定义指示器',
   effectSlide: '滑动效果',

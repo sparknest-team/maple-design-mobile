@@ -9,7 +9,7 @@ import type { ComponentSize, SemanticStatus } from '../utils/constants'
 /**
  * 按钮变体
  */
-export type ButtonVariant = 'default' | 'text' | 'outline' | 'link' | 'tonal'
+export type ButtonVariant = 'default' | 'text' | 'outline' | 'tonal'
 
 /**
  * 按钮尺寸

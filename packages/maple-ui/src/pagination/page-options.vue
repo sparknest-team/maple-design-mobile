@@ -28,7 +28,7 @@ import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import MpMenu from '../menu'
-import MpMenuOption from '../menu-option'
+import MpMenuOption from '../menu/MenuOption.vue'
 import { createNamespace } from '../utils/components'
 
 const { n, classes } = createNamespace('pagination')

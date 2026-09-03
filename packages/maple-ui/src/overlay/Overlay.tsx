@@ -6,8 +6,7 @@ import { useStack } from '../context/stack'
 import { useZIndex } from '../context/zIndex'
 import { createNamespace, useTeleport } from '../utils/components'
 import { props } from './props'
-import '../styles/common.less'
-import './overlay.less'
+import './style'
 
 const { name, n } = createNamespace('overlay')
 

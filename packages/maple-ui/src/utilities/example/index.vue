@@ -72,6 +72,6 @@ const spaceSamples = [
 </template>
 
 <style lang="less">
-@import '../../styles/theme/css-variables.less';
-@import '../utilities.less';
+@import '../../style/theme/css-variables.less';
+@import '../style/utilities.less';
 </style>

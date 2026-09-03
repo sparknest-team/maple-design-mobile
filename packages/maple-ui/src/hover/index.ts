@@ -1,5 +1,8 @@
-import { type App, type Directive, type DirectiveBinding, type Plugin } from 'vue'
+import { ref, type App, type Directive, type DirectiveBinding, type Plugin } from 'vue'
 import { camelize, inMobile, isFunction } from '@maplejs/maple-shared'
+import { withPropsDefaultsSetter } from '../utils/components'
+import HoverOverlay from './HoverOverlay.vue'
+import { props as hoverOverlayProps } from './overlay-props'
 
 export type HoverValue = Record<string, any> | ((isHovering: boolean) => void)
 
@@ -167,7 +170,7 @@ function updated(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue
   }
 }
 
-const Hover: Directive & Plugin = {
+const HoverDirective: Directive & Plugin = {
   mounted,
   unmounted,
   beforeUpdate,
@@ -177,7 +180,36 @@ const Hover: Directive & Plugin = {
   },
 }
 
-export type HoverInstance = InstanceType<typeof Hover>
+const Hover = Object.assign(HoverDirective, {
+  Overlay: HoverOverlay,
+  install(app: App) {
+    app.directive('hover', HoverDirective)
+    if (HoverOverlay.name) {
+      app.component(HoverOverlay.name, HoverOverlay)
+    }
+  },
+})
+
+withPropsDefaultsSetter(HoverOverlay, hoverOverlayProps)
+
+export function useHoverOverlay() {
+  const hovering = ref(false)
+
+  const handleHovering = (value: boolean) => {
+    hovering.value = value
+  }
+
+  return {
+    hovering,
+    handleHovering,
+  }
+}
+
+export { hoverOverlayProps, HoverOverlay }
+
+export type HoverOverlayInstance = InstanceType<typeof HoverOverlay>
+export type HoverInstance = typeof Hover
 export const _HoverComponent = Hover
+export const _HoverOverlayComponent = HoverOverlay
 
 export default Hover

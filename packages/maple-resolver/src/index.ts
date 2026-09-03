@@ -52,7 +52,6 @@ const mapleComponents = new Set([
   'Col',
   'Collapse',
   'CollapseItem',
-  'CollapseTransition',
   'Context',
   'CountTo',
   'Countdown',
@@ -83,11 +82,13 @@ const mapleComponents = new Set([
   'ImagePreviewGroup',
   'IndexAnchor',
   'IndexBar',
+  'InfiniteScroll',
   'Input',
   'InputNumber',
   'Lazy',
   'Link',
   'List',
+  'ListItem',
   'Loading',
   'LoadingBar',
   'Locale',
@@ -144,8 +145,53 @@ const mapleComponents = new Set([
   'Watermark',
 ])
 
+const styleDirAliases: Record<string, string> = {
+  CollapseItem: 'collapse',
+  Row: 'grid',
+  Col: 'grid',
+  GridItem: 'grid',
+  ImagePreview: 'image',
+  ImagePreviewGroup: 'image',
+  CarouselItem: 'carousel',
+  AvatarGroup: 'avatar',
+  ButtonGroup: 'button',
+  BreadcrumbItem: 'breadcrumb',
+  BottomNavigationItem: 'bottom-navigation',
+  Tab: 'tabs',
+  TabItem: 'tabs',
+  TabsItems: 'tabs',
+  CheckboxGroup: 'checkbox',
+  RadioGroup: 'radio',
+  MenuOption: 'menu',
+  MenuGroup: 'menu',
+  Step: 'steps',
+  ListItem: 'list',
+  FormItem: 'form',
+  IndexAnchor: 'index-bar',
+  Option: 'select',
+  DatePicker: 'date',
+  DateRangePicker: 'date-range',
+  TimePicker: 'time',
+  TimeRangePicker: 'time-range',
+  HoverOverlay: 'hover',
+}
+
+const stylelessComponents = new Set([
+  'Context',
+  'HighlighterProvider',
+  'Lazy',
+  'Locale',
+  'LocaleProvider',
+  'Themes',
+  'Trigger',
+])
+
 function getStyleSideEffects(name: string, importStyle = true) {
-  return importStyle ? [`@maplejs/maple-ui/${kebabCase(name)}/style`] : undefined
+  if (!importStyle || stylelessComponents.has(name)) {
+    return undefined
+  }
+  const dir = styleDirAliases[name] ?? kebabCase(name)
+  return [`@maplejs/maple-ui/${dir}/style`]
 }
 
 export function resolveMapleComponent(name: string, options: MapleResolverOptions = {}, programmatic = false) {

@@ -1,27 +1,35 @@
-import { type PropType } from 'vue'
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue'
 
-export type AvatarSize = 'mini' | 'small' | 'normal' | 'large' | number | string
+export const avatarShapes = ['circle', 'square'] as const
+export const avatarTriggerTypes = ['button', 'mask'] as const
+export const avatarObjectFits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
 
-export type AvatarShape = 'circle' | 'square'
-
-export type AvatarObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+export type AvatarShape = (typeof avatarShapes)[number]
+export type AvatarTriggerType = (typeof avatarTriggerTypes)[number]
+export type ObjectFit = (typeof avatarObjectFits)[number]
 
 export const props = {
   shape: {
     type: String as PropType<AvatarShape>,
     default: 'circle',
+    validator: (value: unknown): value is AvatarShape => avatarShapes.includes(value as AvatarShape),
   },
-  size: {
-    type: [String, Number] as PropType<AvatarSize>,
-    default: 'normal',
-  },
-  alt: String,
-  color: String,
   imageUrl: String,
-  objectFit: {
-    type: String as PropType<AvatarObjectFit>,
-    default: 'cover',
+  alt: { type: String, default: '' },
+  size: Number,
+  autoFixFontSize: { type: Boolean, default: true },
+  triggerType: {
+    type: String as PropType<AvatarTriggerType>,
+    default: 'button',
+    validator: (value: unknown): value is AvatarTriggerType => avatarTriggerTypes.includes(value as AvatarTriggerType),
   },
+  triggerIconStyle: Object as PropType<CSSProperties>,
+  objectFit: {
+    type: String as PropType<ObjectFit>,
+    default: 'cover',
+    validator: (value: unknown): value is ObjectFit => avatarObjectFits.includes(value as ObjectFit),
+  },
+  color: String,
   bordered: Boolean,
   borderColor: String,
   loading: String,
@@ -29,3 +37,5 @@ export const props = {
   lazy: Boolean,
   hoverable: Boolean,
 }
+
+export type AvatarProps = ExtractPropTypes<typeof props>

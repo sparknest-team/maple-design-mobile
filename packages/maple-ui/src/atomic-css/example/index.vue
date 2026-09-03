@@ -104,8 +104,8 @@ const fonts = [
 </template>
 
 <style lang="less">
-@import '../../styles/theme/css-variables.less';
-@import '../../utilities/utilities.less';
+@import '../../style/theme/css-variables.less';
+@import '../../utilities/style/utilities.less';
 
 .demo {
   font-size: 13px;

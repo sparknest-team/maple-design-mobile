@@ -1,0 +1,30 @@
+// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
+@import '../../style/common';
+@import '../../style/elevation';
+@import '../../icon/style/icon';
+@import './collapse-item';
+
+.mp-collapse {
+  position: relative;
+  width: 100%;
+  z-index: 0;
+  border: var(--mp-collapse-border-width) solid var(--mp-collapse-border-color);
+  border-radius: var(--mp-collapse-border-radius);
+  &--borderless {
+    border: none;
+  }
+  &--no-divider {
+    > .mp-collapse-item:not(:first-child)::after {
+      border-top: none;
+    }
+  }
+  &--offset {
+    > .mp-collapse-item--active + .mp-collapse-item,
+    > .mp-collapse-item--active:not(:first-child) {
+      margin-top: var(--mp-collapse-item-margin-top);
+      &::after {
+        border-top: none;
+      }
+    }
+  }
+}

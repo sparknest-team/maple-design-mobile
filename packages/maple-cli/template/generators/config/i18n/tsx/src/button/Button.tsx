@@ -1,6 +1,6 @@
 import { defineComponent, PropType } from 'vue'
 import { createNamespace } from '../utils/components'
-import './button.less'
+import './style'
 // i18n for component's internal
 import { t } from '../locale'
 

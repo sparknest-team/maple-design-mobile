@@ -57,13 +57,13 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch, type PropType } from 'vue'
 import { raf } from '@maplejs/maple-shared'
-import MpMenuOption from '../menu-option/MenuOption.vue'
-import { type MenuOptionKeyArrowX } from '../menu-option/props'
 import type { TriggerInstance } from '../trigger'
 import MpTrigger from '../trigger/Trigger.vue'
 import { createNamespace, pickProps } from '../utils/components'
 import { focusChildElementByKey } from '../utils/elements'
 import { useFieldNames, type FieldNames } from '../utils/options'
+import MpMenuOption from './MenuOption.vue'
+import { type MenuOptionKeyArrowX } from './option-props'
 import { props as menuProps, type MenuOption } from './props'
 
 const { name } = createNamespace('menu-children')

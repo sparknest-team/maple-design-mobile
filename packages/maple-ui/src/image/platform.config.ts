@@ -6,7 +6,7 @@ export const imagePlatformConfig = {
   enableRipple: true,
   toolbarActions: [] as string[],
   closeOnImageTap: true,
-  defaultClosable: false,
-  defaultMaskClosable: false,
-  defaultLoop: true,
+  defaultClosable: true,
+  defaultMaskClosable: true,
+  defaultLoop: false,
 }

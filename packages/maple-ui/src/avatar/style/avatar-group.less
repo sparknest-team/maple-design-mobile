@@ -1,0 +1,37 @@
+:root {
+  --mp-avatar-group-offset: -10px;
+  --mp-avatar-group-border: 2px solid var(--mp-color-bg-2);
+}
+
+.mp-avatar-group {
+  display: inline-flex;
+  align-items: center;
+
+  > .mp-avatar,
+  > .mp-popover > .mp-avatar {
+    border: var(--mp-avatar-group-border);
+  }
+
+  > :not(:first-child) {
+    margin-inline-start: var(--mp-avatar-group-offset);
+  }
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > :not(:first-child) {
+      margin-inline-start: 0;
+      margin-block-start: var(--mp-avatar-group-offset);
+    }
+  }
+
+  &__max-count-avatar {
+    cursor: default;
+  }
+
+  &__popover {
+    display: flex;
+    gap: 8px;
+  }
+}

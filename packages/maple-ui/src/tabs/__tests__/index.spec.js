@@ -2,9 +2,9 @@ import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Tabs from '..'
-import Tab from '../../tab'
-import TabItem from '../../tab-item'
-import TabsItems from '../../tabs-items'
+import Tab from '../../tabs/Tab.vue'
+import TabItem from '../../tabs/TabItem.vue'
+import TabsItems from '../../tabs/TabsItems.vue'
 import { delay, mockOffset, mockScrollTo } from '../../utils/test'
 
 mockScrollTo()
@@ -52,7 +52,7 @@ const Wrapper = {
 }
 
 test('tabs & tab & tabsItems & tabItem plugin', () => {
-  const app = createApp({}).use(Tabs).use(Tab).use(TabsItems).use(TabItem)
+  const app = createApp({}).use(Tabs)
   expect(app.component(Tabs.name)).toBeTruthy()
   expect(app.component(Tab.name)).toBeTruthy()
   expect(app.component(TabsItems.name)).toBeTruthy()

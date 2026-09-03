@@ -11,7 +11,7 @@ test('tag plugin', () => {
 
 describe('test tag component props', () => {
   test('tag status', () => {
-    ;['default', 'primary', 'info', 'success', 'warning', 'danger', 'secondary', 'contrast'].forEach((status) => {
+    ;['default', 'primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger'].forEach((status) => {
       const wrapper = mount(VarTag, {
         props: { status },
       })
@@ -84,9 +84,23 @@ describe('test tag component props', () => {
   })
 
   test('tag loading', () => {
-    const wrapper = mount(VarTag, { props: { loading: true } })
+    const wrapper = mount(VarTag, { props: { loading: true, closable: true } })
     expect(wrapper.find('.mp-tag--loading').exists()).toBe(true)
     expect(wrapper.find('.mp-tag__loading-icon').exists()).toBe(true)
+    expect(wrapper.find('.mp-tag__close-btn').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  test('supports keyboard interaction when checkable', async () => {
+    const wrapper = mount(VarTag, {
+      props: { checkable: true, defaultChecked: false },
+    })
+
+    const tag = wrapper.find('.mp-tag')
+    expect(tag.attributes()).toMatchObject({ role: 'checkbox', 'aria-checked': 'false', tabindex: '0' })
+    await tag.trigger('keydown', { key: ' ' })
+    expect(tag.attributes('aria-checked')).toBe('true')
+    expect(wrapper.emitted('update:checked')?.[0]).toEqual([true])
     wrapper.unmount()
   })
 

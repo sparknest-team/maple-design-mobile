@@ -1,9 +1,9 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
-import { datePickerProps as datePickerPropsSource } from '../date-picker'
 import { fieldDecoratorProps } from '../field-decorator'
 import { popupProps } from '../popup'
-import type { DisabledTime } from '../time-picker/props'
+import type { DisabledTime } from '../time/picker-props'
 import { pickProps } from '../utils/components'
+import { props as datePickerPropsSource } from './picker-props'
 
 export type DateType = 'year' | 'month' | 'date'
 

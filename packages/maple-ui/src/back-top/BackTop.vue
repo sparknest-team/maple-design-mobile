@@ -116,10 +116,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../button/button';
-@import '../icon/icon';
-@import './backTop';
-</style>

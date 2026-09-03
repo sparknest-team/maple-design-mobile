@@ -7,10 +7,12 @@ export default {
   dialogCancelButtonText: '取消',
   // ActionSheet
   actionSheetTitle: '请选择',
-  // List
-  listLoadingText: '加载中',
-  listFinishedText: '没有更多了',
-  listErrorText: '加载失败',
+  // Empty
+  emptyDescription: '暂无数据',
+  // InfiniteScroll
+  infiniteScrollLoadingText: '加载中',
+  infiniteScrollFinishedText: '没有更多了',
+  infiniteScrollErrorText: '加载失败，点击重试',
   // Picker
   pickerTitle: '请选择',
   pickerConfirmButtonText: '确认',

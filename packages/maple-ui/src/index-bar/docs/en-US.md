@@ -126,3 +126,17 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--index-bar-list-item-active-color` | `var(--color-danger)`  |
 | `--index-bar-list-item-height`       | `14px`                 |
 | `--index-bar-list-item-padding`      | `0 10px`               |
+
+## API
+
+### Props
+
+| Prop | Description | Type | Default |
+| ----- | -------------- | -------- | ---------- |
+| `index` | Index | _string \| number_ | `-` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --- | --- | --- |
+| `default` | Custom index character | `-` |

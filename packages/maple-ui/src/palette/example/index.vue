@@ -35,7 +35,7 @@ const steps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 </template>
 
 <style lang="less">
-@import '../../styles/theme/css-variables.less';
+@import '../../style/theme/css-variables.less';
 
 .palette-demo {
   box-sizing: border-box;

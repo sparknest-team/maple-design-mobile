@@ -2,8 +2,7 @@ import { type App, type Directive, type DirectiveBinding, type Plugin } from 'vu
 import { getRect, getStyle, supportTouch } from '@maplejs/maple-shared'
 import context from '../context'
 import { createNamespace } from '../utils/components'
-import '../styles/common.less'
-import './ripple.less'
+import './style'
 
 const { n } = createNamespace('ripple')
 

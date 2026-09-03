@@ -21,13 +21,13 @@ packages/
         <Component>.tsx      # 或 .tsx
         index.ts             # 入口聚合
         props.ts             # props + 类型
-        <component>.less     # 主样式（kebab-case）
+        style/               # index.less + index.ts（按需 / 全量样式入口）
         __tests__/           # 单测（*.spec.js）
         docs/zh-CN.md        # 文档
         example/index.vue    # 示例
       themes/                # 主题色板
       utils/                 # createNamespace / 工具
-      styles/common.less     # 全局工具类（mp--box / mp--flex 等）
+      style/                 # 全局 foundation（tokens / common / elevation）
   maple-cli/                 # CLI / build / vitest 配置
   maple-icons-vue/           # 独立 SVG Vue 图标包（不使用 iconfont）
   maple-shared/              # createNamespaceFn 等基础工具

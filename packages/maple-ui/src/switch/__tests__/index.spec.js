@@ -61,7 +61,7 @@ describe('test switch component props', () => {
     expect(wrapper.find('.mp-elevation--2').exists()).toBeTruthy()
 
     await wrapper.setProps({
-      buttonElevation: 4,
+      handleElevation: 4,
     })
 
     expect(wrapper.find('.mp-elevation--4').exists()).toBeTruthy()
@@ -238,41 +238,36 @@ describe('test switch events', () => {
   })
 
   test('switch keyboard enter for switch', async () => {
-    const click = vi.fn()
-    const origin = HTMLElement.prototype.click
-    HTMLElement.prototype.click = click
+    const onUpdateModelValue = vi.fn()
 
     const wrapper = mount(VarSwitch, {
       props: {
         modelValue: true,
+        'onUpdate:modelValue': onUpdateModelValue,
       },
     })
 
-    await wrapper.find('.mp-switch__ripple').trigger('focus')
-    await triggerKeyboard(window, 'keydown', { key: 'Enter' })
-    expect(click).toHaveBeenCalledTimes(1)
+    await wrapper.find('.mp-switch__block').trigger('focus')
+    await triggerKeyboard(wrapper.find('.mp-switch__block'), 'keydown', { key: 'Enter' })
+    expect(onUpdateModelValue).toHaveBeenCalledWith(false)
 
-    HTMLElement.prototype.click = origin
     wrapper.unmount()
   })
 
   test('switch keyboard space for switch', async () => {
-    const click = vi.fn()
-    const origin = HTMLElement.prototype.click
-    HTMLElement.prototype.click = click
+    const onUpdateModelValue = vi.fn()
 
     const wrapper = mount(VarSwitch, {
       props: {
         modelValue: true,
+        'onUpdate:modelValue': onUpdateModelValue,
       },
     })
 
-    await wrapper.find('.mp-switch__ripple').trigger('focus')
-    await triggerKeyboard(window, 'keydown', { key: ' ' })
-    await triggerKeyboard(window, 'keyup', { key: ' ' })
-    expect(click).toHaveBeenCalledTimes(1)
+    await wrapper.find('.mp-switch__block').trigger('focus')
+    await triggerKeyboard(wrapper.find('.mp-switch__block'), 'keydown', { key: ' ' })
+    expect(onUpdateModelValue).toHaveBeenCalledWith(false)
 
-    HTMLElement.prototype.click = origin
     wrapper.unmount()
   })
 })

@@ -57,6 +57,7 @@
                   <mp-tag
                     v-for="l in displayLabels"
                     :key="l"
+                    :show="true"
                     round
                     :class="n('tag')"
                     mp-select-cover
@@ -164,6 +165,7 @@
                   <mp-tag
                     v-for="l in displayLabels"
                     :key="l"
+                    :show="true"
                     round
                     :class="n('tag')"
                     mp-select-cover
@@ -229,6 +231,7 @@
             <mp-tag
               v-for="(l, i) in pickerDraftLabels"
               :key="i"
+              :show="true"
               round
               :class="n('picker-draft-tag')"
               mp-select-cover
@@ -316,6 +319,7 @@
                   <mp-tag
                     v-for="l in displayLabels"
                     :key="l"
+                    :show="true"
                     round
                     :class="n('tag')"
                     mp-select-cover
@@ -417,13 +421,11 @@ import { assert, call, doubleRaf, isArray, isEmpty, isFunction, preventDefault }
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
 import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
-import MpOption from '../option'
-import { type OptionProvider } from '../option/provide'
 import { _PickerComponent as MpPicker } from '../picker'
 import MpPopup from '../popup'
 import MpTag from '../tag'
@@ -431,6 +433,8 @@ import MpTrigger from '../trigger'
 import { createNamespace, MaybeVNode } from '../utils/components'
 import { focusChildElementByKey, toPxNum } from '../utils/elements'
 import { normalizeSelectOptionsToPickerColumns, useFieldNames } from '../utils/options'
+import { type OptionProvider } from './option-provide'
+import MpOption from './Option.vue'
 import { props, type SelectOption } from './props'
 import { useOptions, type SelectProvider } from './provide'
 import { useSelectController } from './useSelectController'
@@ -978,16 +982,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../icon/icon';
-@import '../button/button';
-@import '../field-decorator/fieldDecorator';
-@import '../tag/tag';
-@import '../option/option';
-@import '../popup/popup';
-@import '../picker/picker';
-@import './select';
-</style>

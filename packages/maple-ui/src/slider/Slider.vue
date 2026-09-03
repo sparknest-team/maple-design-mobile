@@ -88,10 +88,9 @@ import {
   warn,
 } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize, useEventListener } from '@maplejs/maple-use'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
-import Hover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import { createNamespace } from '../utils/components'
 import { getLeft, toSizeUnit } from '../utils/elements'
 import { props, Thumbs, type ThumbProps, type ThumbsListProps, type ThumbsProps } from './props'
@@ -574,9 +573,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../hover-overlay/hoverOverlay';
-@import './slider';
-</style>

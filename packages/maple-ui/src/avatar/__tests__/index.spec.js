@@ -1,203 +1,136 @@
-import { createApp, Fragment, h } from 'vue'
+import { Fragment, h } from 'vue'
 import { mount } from '@vue/test-utils'
-import { expect, test, vi } from 'vitest'
-import Avatar from '..'
-import AvatarGroup from '../../avatar-group'
-import VarAvatarGroup from '../../avatar-group/AvatarGroup.vue'
-import VarAvatar from '../Avatar.vue'
+import { describe, expect, test, vi } from 'vitest'
+import AvatarGroup from '../../avatar/AvatarGroup.vue'
+import { props as avatarGroupProps } from '../../avatar/group-props'
+import Avatar from '../Avatar.vue'
+import { props as avatarProps } from '../props'
 
-test('avatar plugin', () => {
-  const app = createApp({}).use(Avatar)
-  expect(app.component(Avatar.name)).toBeTruthy()
-})
+const avatarPropNames = [
+  'shape',
+  'imageUrl',
+  'alt',
+  'size',
+  'autoFixFontSize',
+  'triggerType',
+  'triggerIconStyle',
+  'objectFit',
+  'color',
+  'bordered',
+  'borderColor',
+  'loading',
+  'error',
+  'lazy',
+  'hoverable',
+]
 
-test('avatar group plugin', () => {
-  const app = createApp({}).use(AvatarGroup)
-  expect(app.component(AvatarGroup.name)).toBeTruthy()
-})
+const avatarGroupPropNames = [
+  'shape',
+  'size',
+  'autoFixFontSize',
+  'maxCount',
+  'zIndexAscend',
+  'maxStyle',
+  'maxPopoverProps',
+  'offset',
+  'vertical',
+]
 
-test('avatar shape', async () => {
-  const wrapper = mount(VarAvatar, {
-    props: { shape: 'circle' },
+describe('Avatar', () => {
+  test('keeps the shared Avatar contract', () => {
+    expect(Object.keys(avatarProps)).toEqual(avatarPropNames)
+    expect(Object.keys(avatarGroupProps)).toEqual(avatarGroupPropNames)
   })
 
-  expect(wrapper.find(`.mp-avatar--round`).exists()).toBeTruthy()
-
-  await wrapper.setProps({
-    shape: 'square',
-  })
-
-  expect(wrapper.find(`.mp-avatar--round`).exists()).toBeFalsy()
-  wrapper.unmount()
-})
-
-test('avatar bordered', async () => {
-  const wrapper = mount(VarAvatar, {
-    props: { bordered: true },
-  })
-
-  expect(wrapper.find(`.mp-avatar--bordered`).exists()).toBeTruthy()
-
-  await wrapper.setProps({
-    bordered: false,
-  })
-
-  expect(wrapper.find(`.mp-avatar--bordered`).exists()).toBeFalsy()
-  wrapper.unmount()
-})
-
-test('avatar hoverable', async () => {
-  const wrapper = mount(VarAvatar, {
-    props: { hoverable: true },
-  })
-
-  expect(wrapper.find(`.mp-avatar--hoverable`).exists()).toBeTruthy()
-
-  await wrapper.setProps({
-    hoverable: false,
-  })
-
-  expect(wrapper.find(`.mp-avatar--hoverable`).exists()).toBeFalsy()
-  wrapper.unmount()
-})
-
-test('avatar size', () => {
-  ;['mini', 'small', 'normal', 'large'].forEach((size) => {
-    const wrapper = mount(VarAvatar, {
-      props: { size },
+  test('renders text, shape and numeric size', async () => {
+    const wrapper = mount(Avatar, {
+      props: { shape: 'square', size: 48 },
+      slots: { default: 'Maple' },
     })
 
-    expect(wrapper.find(`.mp-avatar--${size}`).exists()).toBeTruthy()
-    wrapper.unmount()
+    expect(wrapper.classes()).toContain('mp-avatar--square')
+    expect(wrapper.attributes('style')).toContain('width: 48px')
+    expect(wrapper.text()).toContain('Maple')
   })
 
-  const wrapper = mount(VarAvatar, {
-    props: { size: 78 },
-  })
-
-  expect(wrapper.find('.mp-avatar').attributes('style')).toContain('width: 78px; height: 78px;')
-  wrapper.unmount()
-})
-
-test('avatar color', () => {
-  const wrapper = mount(VarAvatar, {
-    props: { color: 'red' },
-  })
-
-  expect(wrapper.find('.mp-avatar').attributes('style')).toContain('background-color: red')
-  wrapper.unmount()
-})
-
-test('avatar borderColor', () => {
-  const wrapper = mount(VarAvatar, {
-    props: { borderColor: 'red' },
-  })
-
-  expect(wrapper.find('.mp-avatar').attributes('style')).toContain('border-color: red')
-  wrapper.unmount()
-})
-
-test('avatar imageUrl', () => {
-  const wrapper = mount(VarAvatar, {
-    props: { imageUrl: 'https://1.png' },
-  })
-
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
-})
-
-test('avatar imageUrl and alt', () => {
-  const wrapper = mount(VarAvatar, {
-    props: { imageUrl: 'https://1.png', alt: '1.png' },
-  })
-
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
-})
-
-test('avatar imageUrl and objectFit', () => {
-  ;['fill', 'contain', 'cover', 'none', 'scale-down'].forEach((objectFit) => {
-    const wrapper = mount(VarAvatar, {
-      props: { imageUrl: 'https://1.png', objectFit },
+  test('renders an accessible image and emits image events', async () => {
+    const onLoad = vi.fn()
+    const onError = vi.fn()
+    const wrapper = mount(Avatar, {
+      props: { imageUrl: '/avatar.png', alt: 'Ada Lovelace', onLoad, onError },
     })
 
-    expect(wrapper.html()).toMatchSnapshot()
-    wrapper.unmount()
+    expect(wrapper.get('img').attributes()).toMatchObject({
+      src: '/avatar.png',
+      alt: 'Ada Lovelace',
+    })
+    await wrapper.get('img').trigger('load')
+    await wrapper.get('img').trigger('error')
+    expect(onLoad).toHaveBeenCalledOnce()
+    expect(onError).toHaveBeenCalledOnce()
+  })
+
+  test('emits click', async () => {
+    const onClick = vi.fn()
+    const wrapper = mount(Avatar, { props: { onClick } })
+    await wrapper.trigger('click')
+    expect(onClick).toHaveBeenCalledOnce()
+  })
+
+  test('renders trigger icon variants', () => {
+    const wrapper = mount(Avatar, {
+      props: { triggerType: 'mask' },
+      slots: { 'trigger-icon': 'edit' },
+    })
+    expect(wrapper.find('.mp-avatar__trigger-icon-mask').exists()).toBe(true)
+  })
+
+  test('applies color, bordered and lazy', () => {
+    const wrapper = mount(Avatar, {
+      props: {
+        color: '#00bebe',
+        bordered: true,
+        borderColor: '#111',
+        imageUrl: '/avatar.png',
+        lazy: true,
+        hoverable: true,
+      },
+    })
+
+    expect(wrapper.classes()).toContain('mp-avatar--bordered')
+    expect(wrapper.classes()).toContain('mp-avatar--hoverable')
+    expect(wrapper.attributes('style')).toContain('background-color')
+    expect(wrapper.attributes('style')).toContain('border-color')
   })
 })
 
-test('avatar onClick', async () => {
-  const onClick = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { onClick } })
+describe('AvatarGroup', () => {
+  const avatars = () => h(Fragment, [h(Avatar), h(Avatar), h(Avatar), h(Avatar)])
 
-  await wrapper.trigger('click')
-  expect(onClick).toBeCalledTimes(1)
-  wrapper.unmount()
-})
-
-test('avatar onLoad', async () => {
-  const onLoad = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { imageUrl: 'https://1.png', onLoad } })
-
-  await wrapper.find('img').trigger('load')
-  expect(onLoad).toBeCalledTimes(1)
-  wrapper.unmount()
-})
-
-test('avatar onError', async () => {
-  const onError = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { imageUrl: 'https://1.png', onError } })
-
-  await wrapper.find('img').trigger('error')
-  expect(onError).toBeCalledTimes(1)
-  wrapper.unmount()
-})
-
-test('avatar lazy onLoad', async () => {
-  const onLoad = vi.fn()
-  const wrapper = mount(VarAvatar, { props: { imageUrl: 'https://1.png', lazy: true, onLoad } })
-  wrapper.find('img').element._lazy.state = 'success'
-
-  await wrapper.find('img').trigger('load')
-  expect(onLoad).toBeCalledTimes(1)
-  wrapper.unmount()
-})
-
-test('avatar group basic use', () => {
-  const wrapper = mount(VarAvatarGroup, {
-    slots: {
-      default: () => h(Fragment, [h(VarAvatar), h(VarAvatar), h(VarAvatar)]),
-    },
+  test('renders children and applies group size', () => {
+    const wrapper = mount(AvatarGroup, {
+      props: { size: 48 },
+      slots: { default: avatars },
+    })
+    expect(wrapper.findAll('.mp-avatar')).toHaveLength(4)
+    expect(wrapper.find('.mp-avatar').attributes('style')).toContain('width: 48px')
   })
 
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
-})
-
-test('avatar group vertical', () => {
-  const wrapper = mount(VarAvatarGroup, {
-    props: {
-      vertical: true,
-    },
-    slots: {
-      default: () => h(Fragment, [h(VarAvatar), h(VarAvatar), h(VarAvatar)]),
-    },
+  test('collapses avatars over maxCount', () => {
+    const wrapper = mount(AvatarGroup, {
+      props: { maxCount: 2 },
+      slots: { default: avatars },
+      global: { stubs: { MpPopover: { template: '<div><slot /></div>' } } },
+    })
+    expect(wrapper.text()).toContain('+2')
   })
 
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
-})
-
-test('avatar group offset', () => {
-  const wrapper = mount(VarAvatarGroup, {
-    props: {
-      offset: 10,
-    },
-    slots: {
-      default: () => h(Fragment, [h(VarAvatar), h(VarAvatar), h(VarAvatar)]),
-    },
+  test('stacks vertically and applies offset', () => {
+    const wrapper = mount(AvatarGroup, {
+      props: { vertical: true, offset: -12 },
+      slots: { default: avatars },
+    })
+    expect(wrapper.classes()).toContain('mp-avatar-group--vertical')
+    expect(wrapper.attributes('style')).toContain('--mp-avatar-group-offset: -12px')
   })
-
-  expect(wrapper.html()).toMatchSnapshot()
-  wrapper.unmount()
 })

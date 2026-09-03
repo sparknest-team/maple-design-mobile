@@ -14,8 +14,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Hover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -49,11 +48,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../ripple/ripple';
-@import '../popup/popup';
-@import './actionSheet';
-</style>

@@ -1,11 +1,10 @@
 import { createApp, Fragment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import Button from '..'
-import ButtonGroup from '../../button-group'
-import VarButtonGroup from '../../button-group/ButtonGroup.vue'
+import Button, { ButtonGroup } from '..'
 import { delay, trigger } from '../../utils/test'
 import VarButton from '../Button.vue'
+import VarButtonGroup from '../ButtonGroup.vue'
 
 test('button plugin', () => {
   const app = createApp({}).use(Button)
@@ -13,7 +12,7 @@ test('button plugin', () => {
 })
 
 test('button group plugin', () => {
-  const app = createApp({}).use(ButtonGroup)
+  const app = createApp({}).use(Button)
   expect(app.component(ButtonGroup.name)).toBeTruthy()
 })
 
@@ -381,7 +380,12 @@ describe('test button group component props', () => {
         variant: 'default',
       },
       slots: {
-        default: () => h(Fragment, [h(VarButton, { iconContainer: true }), h(VarButton, { iconContainer: true }), h(VarButton, { iconContainer: true })]),
+        default: () =>
+          h(Fragment, [
+            h(VarButton, { iconContainer: true }),
+            h(VarButton, { iconContainer: true }),
+            h(VarButton, { iconContainer: true }),
+          ]),
       },
     })
 

@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import type { TabProvider } from '../tab/provide'
+import type { TabProvider } from './tab-provide'
 
 export interface TabsProvider {
   active: ComputedRef<number | string>

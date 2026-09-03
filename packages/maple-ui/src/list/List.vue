@@ -1,119 +1,23 @@
-<template>
-  <div ref="listEl" :class="classes(n(), n('$--box'))">
-    <slot />
-
-    <slot v-if="loading" name="loading">
-      <div :class="n('loading')">
-        <div :class="n('loading-text')">{{ loadingText ?? (pt ? pt : t)('listLoadingText') }}</div>
-        <mp-loading size="mini" :radius="10" />
-      </div>
-    </slot>
-
-    <slot v-if="finished" name="finished">
-      <div :class="n('finished')">{{ finishedText ?? (pt ? pt : t)('listFinishedText') }}</div>
-    </slot>
-
-    <slot v-if="error" name="error">
-      <div v-ripple :class="n('error')" @click="load">
-        {{ errorText ?? (pt ? pt : t)('listErrorText') }}
-      </div>
-    </slot>
-
-    <div ref="detectorEl" :class="n('detector')"></div>
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent, nextTick, ref, watch } from 'vue'
-import { call, getRect, isNumber } from '@maplejs/maple-shared'
-import { onSmartMounted, onSmartUnmounted } from '@maplejs/maple-use'
+import { defineComponent } from 'vue'
 import MpLoading from '../loading'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
-import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
-import { getParentScroller, toPxNum } from '../utils/elements'
-import { props } from './props'
-import { useTabItem } from './provide'
+import { listProps } from './props'
 
 const { name, n, classes } = createNamespace('list')
 
 export default defineComponent({
   name,
-  directives: { Ripple },
   components: { MpLoading },
-  props,
-  emits: ['update:error', 'update:loading', 'load'],
-  setup(props, { emit }) {
-    const listEl = ref<HTMLElement | null>(null)
-    const detectorEl = ref<HTMLElement | null>(null)
-    const { tabItem, bindTabItem } = useTabItem()
+  props: listProps,
+  setup() {
     const { t: pt } = injectLocaleProvider()
 
-    let scroller: HTMLElement | Window
-
-    call(bindTabItem, {})
-
-    if (tabItem) {
-      watch(() => tabItem.current.value, check)
-    }
-
-    watch(() => [props.loading, props.error, props.finished], check)
-
-    onSmartMounted(() => {
-      scroller = getParentScroller(listEl.value!)
-      scroller.addEventListener('scroll', check)
-
-      if (props.immediateCheck) {
-        check()
-      }
-    })
-
-    onSmartUnmounted(removeScrollerListener)
-
-    function load() {
-      emit('update:error', false)
-      emit('update:loading', true)
-      emit('load')
-    }
-
-    function isReachBottom() {
-      const { bottom: containerBottom } = getRect(scroller)
-      const { bottom: detectorBottom } = getRect(detectorEl.value!)
-
-      // The fractional part of the detectorBottom when bottoming out overflows
-      // https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues/310
-      return Math.floor(detectorBottom) - toPxNum(props.offset) <= containerBottom
-    }
-
-    function removeScrollerListener() {
-      if (!scroller) {
-        // may be null in nuxt
-        return
-      }
-
-      scroller.removeEventListener('scroll', check)
-    }
-
-    // expose
-    async function check() {
-      await nextTick()
-
-      if (props.loading || props.finished || props.error || tabItem?.current.value === false || !isReachBottom()) {
-        return
-      }
-
-      load()
-    }
-
     return {
-      listEl,
-      detectorEl,
       pt,
       t,
-      isNumber,
-      load,
-      check,
       n,
       classes,
     }
@@ -121,9 +25,39 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
-@import '../styles/common';
-@import '../ripple/ripple';
-@import '../loading/loading';
-@import './list';
-</style>
+<template>
+  <div
+    :class="
+      classes(
+        n(),
+        n(`--${size}`),
+        bordered ? n('--bordered') : undefined,
+        split ? n('--split') : undefined,
+        n('$--box'),
+      )
+    "
+    :aria-busy="loading"
+  >
+    <div v-if="$slots.header" :class="n('header')">
+      <slot name="header" />
+    </div>
+
+    <div :class="n('content')" role="list">
+      <slot v-if="$slots.default" />
+      <template v-else-if="data?.length">
+        <slot v-for="(item, index) in data" name="item" :item="item" :index="index" />
+      </template>
+      <slot v-else-if="!loading" name="empty">
+        <div :class="n('empty')">{{ (pt ? pt : t)('emptyDescription') }}</div>
+      </slot>
+    </div>
+
+    <div v-if="loading" :class="n('loading')">
+      <mp-loading size="mini" :radius="10" />
+    </div>
+
+    <div v-if="$slots.footer" :class="n('footer')">
+      <slot name="footer" />
+    </div>
+  </div>
+</template>

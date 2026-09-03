@@ -605,3 +605,21 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--option-font-size`           | `16px`                               |
 | `--option-selected-background` | `var(--input-decorator-focus-color)` |
 | `--option-text-color`          | `#555`                               |
+
+## API
+
+### Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `label` | The text that the option displays | _any_ | `-` |
+| `value` | The value of the option binding | _any_ | `-` |
+| `disabled` | Whether to disable | _boolean_ | `false` |
+| `ripple` ***3.8.0***  | Whether to enable ripple | _boolean_ | `true` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --- | --- | --- |
+| `default` | Options to display the content | `selected: boolean` selected or not |
+

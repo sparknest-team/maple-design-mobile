@@ -2,135 +2,95 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import List from '..'
-import TabItem from '../../tab-item'
-import TabsItems from '../../tabs-items'
-import { delay } from '../../utils/test'
-import VarList from '../List'
+import ListItem from '../../list/ListItem.vue'
+import _List from '../List.vue'
 
-test('list use', () => {
+test('installs List and ListItem together', () => {
   const app = createApp({}).use(List)
   expect(app.component(List.name)).toBeTruthy()
+  expect(app.component(ListItem.name)).toBeTruthy()
 })
 
-test('list component load event', async () => {
-  const onLoad = vi.fn()
-  const onUpdateLoading = vi.fn()
-
-  const wrapper = mount(VarList, {
-    props: {
-      onLoad,
-      'onUpdate:loading': onUpdateLoading,
+test('default slot takes priority over data and item slot', () => {
+  const item = vi.fn(({ item }) => item)
+  const wrapper = mount(_List, {
+    props: { data: ['data item'] },
+    slots: {
+      default: 'default item',
+      item,
     },
-    attachTo: document.body,
   })
 
-  const mockGetBoundingClientRect = vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({ bottom: 0 })
-  await delay(16)
-
-  expect(onLoad).toHaveBeenCalledTimes(1)
-  expect(onUpdateLoading).toHaveBeenCalledTimes(1)
-  wrapper.unmount()
-  mockGetBoundingClientRect.mockRestore()
+  expect(wrapper.text()).toContain('default item')
+  expect(wrapper.text()).not.toContain('data item')
+  expect(item).not.toHaveBeenCalled()
 })
 
-describe('test list component props', () => {
-  test('list loading and loading-text', async () => {
-    const wrapper = mount(VarList, {
-      props: {
-        loading: true,
-        loadingText: 'This is loading text',
+test('renders data, header and footer in order', () => {
+  const wrapper = mount(_List, {
+    props: { data: ['a', 'b'] },
+    slots: {
+      header: 'header',
+      item: ({ item, index }) => `${index}:${item}`,
+      footer: 'footer',
+    },
+  })
+
+  expect(wrapper.text()).toBe('header0:a1:bfooter')
+})
+
+test('shows empty only when an empty list is not loading', async () => {
+  const wrapper = mount(_List, {
+    props: { data: [], loading: true },
+    slots: { empty: 'empty' },
+  })
+
+  expect(wrapper.find('.mp-list__loading').exists()).toBe(true)
+  expect(wrapper.text()).not.toContain('empty')
+
+  await wrapper.setProps({ loading: false })
+  expect(wrapper.find('.mp-list__loading').exists()).toBe(false)
+  expect(wrapper.text()).toContain('empty')
+})
+
+test('applies size, border and split classes', () => {
+  const wrapper = mount(_List, {
+    props: { size: 'lg', bordered: true, split: true },
+  })
+
+  expect(wrapper.classes()).toEqual(expect.arrayContaining(['mp-list--lg', 'mp-list--bordered', 'mp-list--split']))
+})
+
+test('uses aligned defaults and list semantics', () => {
+  const wrapper = mount(_List)
+
+  expect(wrapper.props()).toMatchObject({
+    size: 'md',
+    bordered: true,
+    split: true,
+    loading: false,
+  })
+  expect(wrapper.classes()).toEqual(expect.arrayContaining(['mp-list--md', 'mp-list--bordered', 'mp-list--split']))
+  expect(wrapper.find('.mp-list__content').attributes('role')).toBe('list')
+})
+
+describe('ListItem slots', () => {
+  test('renders prefix, default and suffix in semantic order', () => {
+    const wrapper = mount(ListItem, {
+      slots: {
+        prefix: 'prefix',
+        default: 'content',
+        suffix: 'suffix',
       },
     })
 
-    const mockGetBoundingClientRect = vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({ bottom: 50 })
-    await delay(16)
-    expect(wrapper.find('.mp-list__loading').element.textContent).toBe('This is loading text')
-    await wrapper.setProps({ loading: false })
-    await delay(16)
-    expect(wrapper.find('.mp-list__loading').exists()).toBe(false)
-    wrapper.unmount()
-    mockGetBoundingClientRect.mockRestore()
+    expect(wrapper.text()).toBe('prefixcontentsuffix')
+    expect(wrapper.attributes('role')).toBe('listitem')
   })
 
-  test('list error and error-text', async () => {
-    const wrapper = mount(VarList, {
-      props: {
-        error: true,
-        errorText: 'This is error text',
-      },
-    })
-
-    const mockGetBoundingClientRect = vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({ bottom: 50 })
-    await delay(16)
-    expect(wrapper.find('.mp-list__error').element.textContent).toBe('This is error text')
-    await wrapper.setProps({ error: false })
-    await delay(16)
-    expect(wrapper.find('.mp-list__error').exists()).toBe(false)
-    wrapper.unmount()
-    mockGetBoundingClientRect.mockRestore()
+  test('omits unused prefix and suffix regions', () => {
+    const wrapper = mount(ListItem, { slots: { default: 'content' } })
+    expect(wrapper.find('.mp-list-item__prefix').exists()).toBe(false)
+    expect(wrapper.find('.mp-list-item__suffix').exists()).toBe(false)
   })
-
-  test('list finished and finished-text', async () => {
-    const wrapper = mount(VarList, {
-      props: {
-        finished: true,
-        finishedText: 'This is finished text',
-      },
-    })
-
-    const mockGetBoundingClientRect = vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({ bottom: 50 })
-    await delay(16)
-    expect(wrapper.find('.mp-list__finished').element.textContent).toBe('This is finished text')
-    await wrapper.setProps({ finished: false })
-    await delay(16)
-    expect(wrapper.find('.mp-list__finished').exists()).toBe(false)
-    wrapper.unmount()
-    mockGetBoundingClientRect.mockRestore()
-  })
-})
-
-test('load event while list in tab-item', async () => {
-  const load = vi.fn()
-  const load2 = vi.fn()
-
-  const Wrapper = {
-    components: {
-      [List.name]: List,
-      [TabsItems.name]: TabsItems,
-      [TabItem.name]: TabItem,
-    },
-    data: () => ({
-      loading: false,
-      loading2: false,
-      active: 0,
-    }),
-    methods: {
-      load,
-      load2,
-    },
-    template: `
-    <mp-tabs-items v-model:active="active">
-      <mp-tab-item>
-        <mp-list v-model:loading="loading" @load="load">
-        </mp-list>
-      </mp-tab-item>
-      <mp-tab-item>
-        <mp-list v-model:loading="loading2" @load="load2">
-        </mp-list>
-      </mp-tab-item>
-    </mp-tabs-items>
-    `,
-  }
-
-  const wrapper = mount(Wrapper)
-  await delay(60)
-  expect(load).toBeCalledTimes(1)
-  expect(load2).toBeCalledTimes(0)
-
-  await wrapper.setData({ active: 1 })
-  await delay(0)
-  expect(load).toBeCalledTimes(1)
-  expect(load2).toBeCalledTimes(1)
-
-  wrapper.unmount()
 })

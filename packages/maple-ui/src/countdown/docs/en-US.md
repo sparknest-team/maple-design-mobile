@@ -2,53 +2,35 @@
 
 ### Intro
 
-For real-time display of countdown values, support millisecond precision.
+For real-time display of countdown values, with millisecond precision.
+
+`time` is remaining duration in milliseconds. To align with a deadline, pass `deadline - Date.now()`.
 
 ### Basic Usage
 
-Use `time` to set countdown time(ms).
-
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const time = ref(30 * 60 * 60 * 1000)
-</script>
-
 <template>
-  <mp-countdown :time="time" />
+  <mp-countdown :time="2 * 60 * 60 * 1000" />
 </template>
 ```
 
 ### Custom Format
 
-Use `format` to set time text.
+Use `format` to set time text. Higher units not present in the format roll down to the next unit.
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const time = ref(30 * 60 * 60 * 1000)
-</script>
-
 <template>
-  <mp-countdown :time="time" format="DD Day, HH:mm:ss" />
+  <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD Day, HH:mm:ss" />
 </template>
 ```
 
 ### Show Millisecond
 
-Use `S` text to show millisecond.
+Use `S` / `SS` / `SSS` to show milliseconds.
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const time = ref(30 * 60 * 60 * 1000)
-</script>
-
 <template>
-  <mp-countdown :time="time" format="HH:mm:ss:SS" />
+  <mp-countdown :time="2 * 60 * 60 * 1000" format="HH:mm:ss.SSS" />
 </template>
 ```
 
@@ -65,14 +47,14 @@ Use `slot` to set custom countdown style.
       <span class="countdown-example-block">{{ minutes }}</span>
       <span class="countdown-example-colon">:</span>
       <span class="countdown-example-block">{{ seconds }}</span>
-     </template>
+    </template>
   </mp-countdown>
 </template>
 
 <style>
 .countdown-example-block {
-  background: var(--color-primary);
-  color: var(--color-white);
+  background: var(--mp-color-primary);
+  color: var(--mp-color-white);
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -92,38 +74,49 @@ Use `slot` to set custom countdown style.
 
 ### Manual Control
 
-Use `ref` to get countdown instance, you can call the `start`, `pause`, and `reset` methods.
+Set `auto-start` to `false`, then control with `start`, `pause`, and `reset`. The `end` event fires when the countdown finishes.
 
 ```html
 <script setup>
 import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
-const countdown = ref(null)
+const countdownRef = ref()
+const time = ref(5000)
 
-function end() {
+function handleEnd() {
   Message.info('end!')
-}
-
-function change() {
-  console.log('change')
 }
 </script>
 
 <template>
   <mp-countdown
-    time="3000"
-    ref="countdown"
-    format="ss : SSS"
+    ref="countdownRef"
+    :time="time"
     :auto-start="false"
-    @end="end"
-    @change="change"
+    format="ss.SSS"
+    @end="handleEnd"
   />
   <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button type="primary" @click="countdown.start()">Start</mp-button>
-    <mp-button @click="countdown.pause()">Pause</mp-button>
-    <mp-button @click="countdown.reset()">Reset</mp-button>
+    <mp-button status="primary" @click="countdownRef.start()">Start</mp-button>
+    <mp-button @click="countdownRef.pause()">Pause</mp-button>
+    <mp-button @click="countdownRef.reset()">Reset</mp-button>
   </mp-row>
+</template>
+```
+
+### Embed in Statistic
+
+When `value` is omitted, Statistic can embed Countdown in the default slot.
+
+```html
+<template>
+  <mp-statistic title="Countdown">
+    <mp-countdown :time="2 * 60 * 60 * 1000" />
+  </mp-statistic>
+  <mp-statistic title="Campaign">
+    <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
+  </mp-statistic>
 </template>
 ```
 
@@ -134,7 +127,7 @@ function change() {
 | Prop         | Description                      | Type               | Default        |
 | ------------ | -------------------------------- | ------------------ | -------------- |
 | `time`       | Total time(ms)                   | _string \| number_ | `0`            |
-| `format`     | Time format                      | _string_           | `HH : mm : ss` |
+| `format`     | Time format                      | _string_           | `HH:mm:ss`     |
 | `auto-start` | Whether to auto start count down | _boolean_          | `true`         |
 
 ### Available formats
@@ -174,7 +167,7 @@ function change() {
 
 ### Methods
 
-Use ref to get CountDown instance and call instance methods.
+Use ref to get Countdown instance and call instance methods.
 
 | Method | Description	 | Arguments | Return |
 | ---- | ------- | -------- |--------|
@@ -187,5 +180,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | --- | --- |
-| `--countdown-text-color`     | `var(--color-text)`   |
-| `--countdown-text-font-size` | `var(--font-size-lg)` |
+| `--mp-countdown-text-color`     | `var(--mp-color-text)`   |
+| `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` |

@@ -39,7 +39,6 @@ function handleAutoLoadingClick() {
     <mp-button variant="text" status="primary">{{ t('plainTextButton') }}</mp-button>
     <mp-button variant="text">{{ t('plainTextButton') }}</mp-button>
     <mp-button variant="tonal" status="primary">{{ t('plainTextButton') }}</mp-button>
-    <mp-button variant="link" status="primary">{{ t('plainTextButton') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('disabledStatus') }}</app-type>

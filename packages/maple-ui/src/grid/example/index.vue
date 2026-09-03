@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
+import Responsive from './Responsive.vue'
+import ResponsiveObject from './ResponsiveObject.vue'
 
 const collapsed = ref(false)
 
@@ -43,6 +45,31 @@ onThemeChange()
       <div class="item">suffix</div>
     </mp-grid-item>
   </mp-grid>
+
+  <app-type>{{ t('gridSystem') }}</app-type>
+  <mp-row :gutter="[10, 10]">
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+  </mp-row>
+
+  <app-type>{{ t('offset') }}</app-type>
+  <mp-row :gutter="[10, 10]">
+    <mp-col :span="16" :offset="8"><div class="item">offset: 8 span: 16</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+  </mp-row>
+
+  <app-type>{{ t('justify') }}</app-type>
+  <mp-row justify="center" :gutter="[20, 10]">
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
+  </mp-row>
+
+  <app-type>{{ t('responsiveRow') }}</app-type>
+  <responsive />
+
+  <app-type>{{ t('responsiveObject') }}</app-type>
+  <responsive-object />
 </template>
 
 <style scoped lang="less">

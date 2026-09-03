@@ -1,8 +1,6 @@
 # 徽标 Badge
 
-### 介绍
-
-出现在图标或文字上的红色圆点、数字或者文字，表示有新内容或者待处理的信息。
+出现在图标或文字上的红色圆点、数字或者文字，表示有新内容或者待处理的信息。示例与 Cedar Design Web 保持一致，布局按移动端换行。
 
 > ⚠️ **BREAKING**：本组件已与 PC 端 `CBadge` 对齐，旧 API 不兼容。迁移指南：
 
@@ -20,95 +18,152 @@
 | `slot="value"` | `slot="content"` |
 | `icon` / `namespace` | _移除（请改用 `slot="content"`）_ |
 
-### 主题色徽标
+## 案例
 
-通过 `status` 属性设置不同主题色的徽标。
+### 基础用法
+
+只需指定 `content` 或 `content` 插槽，即可显示徽标。
 
 ```html
-<mp-badge dot status="primary" />
-<mp-badge dot status="info" />
-<mp-badge dot status="success" />
-<mp-badge dot status="warning" />
-<mp-badge dot status="danger" />
+<mp-space wrap align="center" :size="16">
+  <mp-badge :content="9">
+    <mp-avatar shape="square" :size="40">
+      <m-icon-account-circle />
+    </mp-avatar>
+  </mp-badge>
+  <mp-badge :content="9" dot>
+    <mp-avatar shape="square" :size="40">
+      <m-icon-account-circle />
+    </mp-avatar>
+  </mp-badge>
+  <mp-badge>
+    <template #content>
+      <m-icon-history />
+    </template>
+    <mp-avatar shape="square" :size="40">
+      <m-icon-account-circle />
+    </mp-avatar>
+  </mp-badge>
+</mp-space>
+```
+
+### 内联类型
+
+`default` 插槽和 `description` 同时为空时会变为内联类型，也可以通过 `mode` 指定。可用 `description` 指定描述文本。
+
+```html
+<mp-badge :content="1000" />
+<mp-badge :content="1000" dot />
+<mp-badge :content="1000" mode="inline" description="描述文本" />
+<mp-badge :content="1000" mode="inline" description="描述文本" inline-position="start" />
 ```
 
 ### 小红点
 
+设置 `dot` 后只显示小红点。可用 `offset-x` / `offset-y` 微调位置。
+
 ```html
-<mp-badge dot status="danger">
-  <mp-tag>徽标</mp-tag>
+<mp-badge :content="9" dot :offset-x="6" :offset-y="-2">
+  <a href="#">链接</a>
+</mp-badge>
+<mp-badge :content="9" dot :offset-x="2" :offset-y="-2">
+  <m-icon-bell />
 </mp-badge>
 ```
 
 ### 自定义内容
 
+设置 `content` 可显示文字徽标；`mode="inline"` 时与包裹内容行内排列。
+
 ```html
-<mp-badge status="danger" content="hot">
-  <mp-tag>徽标</mp-tag>
+<mp-badge content="NEW">
+  <mp-avatar shape="square" :size="40">
+    <m-icon-account-circle />
+  </mp-avatar>
 </mp-badge>
-<mp-badge status="danger" :content="66">
-  <mp-tag>徽标</mp-tag>
+<mp-badge content="HOT" mode="inline" inline-position="end">
+  <mp-avatar shape="square" :size="40">
+    <m-icon-account-circle />
+  </mp-avatar>
 </mp-badge>
 ```
 
 ### 最大值
 
-数字内容超过 `max` 时显示为 `${max}+`。
+设置 `max` 可限制最大显示数值，超出后加 `+` 后缀。`max` 默认为 `99`。`content` 为 `0` 且未开 `show-zero` 时不显示。
 
 ```html
-<mp-badge status="danger" :content="188" :max="99">
-  <mp-tag>徽标</mp-tag>
+<mp-badge :max="10" :content="0">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :max="10" :content="100">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :content="100">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :max="999" :content="1000">
+  <mp-avatar shape="square" :size="40" />
 </mp-badge>
 ```
 
-### 不同位置
+### 状态和颜色
+
+用 `status` 和 `color` 设置徽标状态和颜色，也可用 `text-color` 改文字色。
 
 ```html
-<mp-badge dot status="danger" position="top-right" />
-<mp-badge dot status="danger" position="top-left" />
-<mp-badge dot status="danger" position="bottom-right" />
-<mp-badge dot status="danger" position="bottom-left" />
-```
-
-### 偏移
-
-```html
-<mp-badge status="danger" dot :offset-x="6" :offset-y="6">
-  <mp-tag>徽标</mp-tag>
-</mp-badge>
-```
-
-### 隐藏
-
-```html
-<mp-badge status="danger" dot :show="false">
-  <mp-tag>徽标</mp-tag>
-</mp-badge>
-```
-
-### Inline 模式
-
-`mode="inline"` 配合 `description` 显示行内徽标。
-
-```html
-<mp-badge mode="inline" status="success" dot description="在线" />
-<mp-badge mode="inline" status="warning" dot description="离开" />
+<mp-badge color="#F53F3F" description="#F53F3F" mode="inline" inline-position="end" />
+<mp-badge status="success" description="Success" mode="inline" />
+<mp-badge status="danger" content="Danger" />
+<mp-badge description="red #7BC616" content="1" color="red" text-color="#7BC616" />
 ```
 
 ### 尺寸
 
+提供 `xs`、`sm`、`md`、`lg`、`xl` 五种尺寸，可用于小红点、数字和浮动徽标。
+
 ```html
-<mp-badge mode="inline" status="primary" :content="6" size="xs" description="xs" />
-<mp-badge mode="inline" status="primary" :content="6" size="sm" description="sm" />
-<mp-badge mode="inline" status="primary" :content="6" size="md" description="md" />
-<mp-badge mode="inline" status="primary" :content="6" size="lg" description="lg" />
-<mp-badge mode="inline" status="primary" :content="6" size="xl" description="xl" />
+<mp-badge dot :content="1" size="xs" mode="inline" description="描述文本" />
+<mp-badge :content="1" size="md" mode="inline" description="描述文本" />
+<mp-badge :content="1" size="lg">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
 ```
 
-### 描边变体
+### 位置
+
+浮动模式提供四角（`top-right`、`top-left`、`bottom-right`、`bottom-left`）；内联模式用 `inline-position` 的 `start` / `end`。可用 `offset-x` / `offset-y` 微调。
 
 ```html
-<mp-badge mode="inline" variant="outline" status="primary" :content="6" description="primary" />
+<mp-badge :content="100" position="top-right" :offset-x="offsetX" :offset-y="offsetY">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :content="100" mode="inline" inline-position="start">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+```
+
+### 显示与隐藏
+
+`show` 控制是否显示；`show-zero` 控制 `content` 为 `0` 时是否显示。
+
+```html
+<mp-switch v-model="show" />
+<mp-input-number v-model="content" size="sm" />
+<mp-badge :content="0" :show-zero="true" :show="show" description="show-zero true" />
+<mp-badge :content="content" :show="show" description="描述文本" />
+<mp-badge :content="content" :show="show" description="描述文本" dot />
+```
+
+### 变体
+
+提供 `outline` 和 `default` 两种变体。
+
+```html
+<mp-badge variant="outline" content="1" status="success">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge variant="outline" content="1" status="danger" mode="inline" description="描述文本" />
 ```
 
 ## API

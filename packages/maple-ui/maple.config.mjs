@@ -173,7 +173,7 @@ export default defineConfig({
           'zh-CN': '海拔 Elevation',
           'en-US': 'Elevation',
         },
-        doc: 'styles',
+        doc: 'style',
         type: 2,
       },
       {
@@ -276,14 +276,6 @@ export default defineConfig({
           'en-US': 'Space',
         },
         doc: 'space',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Row / Col 栅格',
-          'en-US': 'Row / Col',
-        },
-        doc: 'row',
         type: 2,
       },
       {
@@ -406,14 +398,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'FormItem 表单项',
-          'en-US': 'FormItem',
-        },
-        doc: 'form-item',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Input 输入框',
           'en-US': 'Input',
         },
@@ -484,22 +468,7 @@ export default defineConfig({
         doc: 'date-range',
         type: 2,
       },
-      {
-        text: {
-          'zh-CN': 'DatePicker 日期面板',
-          'en-US': 'DatePicker',
-        },
-        doc: 'date-picker',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'DateRangePicker 日期范围面板',
-          'en-US': 'DateRangePicker',
-        },
-        doc: 'date-range-picker',
-        type: 2,
-      },
+
       {
         text: {
           'zh-CN': 'Time 时间字段',
@@ -516,28 +485,13 @@ export default defineConfig({
         doc: 'time-range',
         type: 2,
       },
-      {
-        text: {
-          'zh-CN': 'TimePicker 时间面板',
-          'en-US': 'TimePicker',
-        },
-        doc: 'time-picker',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'TimeRangePicker 时间范围面板',
-          'en-US': 'TimeRangePicker',
-        },
-        doc: 'time-range-picker',
-        type: 2,
-      },
+
       {
         text: {
           'zh-CN': 'Radio 单选框',
           'en-US': 'Radio',
         },
-        doc: 'radio-group',
+        doc: 'radio',
         type: 2,
       },
       {
@@ -545,7 +499,7 @@ export default defineConfig({
           'zh-CN': 'Checkbox 复选框',
           'en-US': 'Checkbox',
         },
-        doc: 'checkbox-group',
+        doc: 'checkbox',
         type: 2,
       },
       {
@@ -669,14 +623,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'ImagePreview 图片预览',
-          'en-US': 'ImagePreview',
-        },
-        doc: 'image-preview',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Tabs 选项卡',
           'en-US': 'Tabs',
         },
@@ -693,18 +639,18 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'CollapseTransition 折叠动效',
-          'en-US': 'CollapseTransition',
+          'zh-CN': 'List 列表',
+          'en-US': 'List',
         },
-        doc: 'collapse-transition',
+        doc: 'list',
         type: 2,
       },
       {
         text: {
-          'zh-CN': 'List 无限滚动列表',
-          'en-US': 'List',
+          'zh-CN': 'InfiniteScroll 无限滚动',
+          'en-US': 'InfiniteScroll',
         },
-        doc: 'list',
+        doc: 'infinite-scroll',
         type: 2,
       },
       {
@@ -737,6 +683,14 @@ export default defineConfig({
           'en-US': 'Code',
         },
         doc: 'code',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Statistic 统计数值',
+          'en-US': 'Statistic',
+        },
+        doc: 'statistic',
         type: 2,
       },
       {
@@ -945,7 +899,7 @@ export default defineConfig({
         doc: 'hover',
         type: 2,
       },
-],
+    ],
   },
   copy: [],
   directives: ['ripple', 'lazy', 'hover'],

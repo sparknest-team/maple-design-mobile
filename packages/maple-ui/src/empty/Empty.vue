@@ -1,8 +1,54 @@
+<script lang="ts">
+import { computed, defineComponent, type CSSProperties } from 'vue'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
+import { createNamespace } from '../utils/components'
+import { componentSizes } from '../utils/constants'
+import { emptyProps } from './props'
+
+const { name, n, classes } = createNamespace('empty')
+
+export default defineComponent({
+  name,
+  props: emptyProps,
+  emits: ['click'],
+  setup(props, { emit }) {
+    const { t: pt } = injectLocaleProvider()
+    const namedSize = computed(() => {
+      const val = props.imageSize
+      return typeof val === 'string' && componentSizes.includes(val as (typeof componentSizes)[number]) ? val : ''
+    })
+    const imageClass = computed(() => classes(n('image'), namedSize.value ? n(`image--${namedSize.value}`) : undefined))
+    const imageStyle = computed<CSSProperties>(() => {
+      if (namedSize.value) {
+        return {}
+      }
+      const size = typeof props.imageSize === 'number' ? `${props.imageSize}px` : props.imageSize
+      return { width: size, height: size, fontSize: size }
+    })
+    const descriptionText = computed(() => props.description || (pt ? pt : t)('emptyDescription'))
+
+    const handleClick = (event: MouseEvent) => {
+      emit('click', event)
+    }
+
+    return {
+      n,
+      classes,
+      imageClass,
+      imageStyle,
+      descriptionText,
+      handleClick,
+    }
+  },
+})
+</script>
+
 <template>
-  <div :class="classes(n(), n('$--box'))" v-bind="$attrs" @click.stop="handleClick">
-    <div v-if="showIcon" :class="n('image')" :style="imageStyle">
+  <div :class="classes(n(), n('$--box'))" @click.stop="handleClick">
+    <div v-if="showIcon" :class="imageClass" :style="imageStyle">
       <slot name="image">
-        <img v-if="imageUrl" :src="imageUrl" :alt="description" />
+        <img v-if="imageUrl" :src="imageUrl" :alt="alt" />
         <svg
           v-else
           xmlns="http://www.w3.org/2000/svg"
@@ -19,67 +65,11 @@
         </svg>
       </slot>
     </div>
-
-    <div v-if="showDescription && (description || $slots.default)" :class="n('description')">
-      <slot>
-        {{ description }}
-      </slot>
+    <div v-if="showDescription" :class="n('description')">
+      <slot>{{ descriptionText }}</slot>
     </div>
-
     <div v-if="$slots.extra" :class="n('extra')">
       <slot name="extra" />
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { isNumber } from '@maplejs/maple-shared'
-import { createNamespace } from '../utils/components'
-import { props, type EmptySize } from './props'
-
-const { name, n, classes } = createNamespace('empty')
-
-const IMAGE_SIZE_MAP: Record<EmptySize, string> = {
-  xs: '80px',
-  sm: '100px',
-  md: '120px',
-  lg: '140px',
-  xl: '160px',
-}
-
-export default defineComponent({
-  name,
-  props,
-  emits: ['click'],
-  setup(props, { emit }) {
-    const imageStyle = computed(() => {
-      const { imageSize } = props
-
-      if (imageSize in IMAGE_SIZE_MAP) {
-        const px = IMAGE_SIZE_MAP[imageSize as EmptySize]
-        return { width: px, height: px }
-      }
-
-      const size = isNumber(imageSize) ? `${imageSize}px` : imageSize
-      return { width: size, height: size }
-    })
-
-    const handleClick = (event: Event) => {
-      emit('click', event)
-    }
-
-    return {
-      imageStyle,
-      handleClick,
-      n,
-      classes,
-    }
-  },
-})
-</script>
-
-<style lang="less">
-@import '../styles/common';
-@import './empty';
-</style>

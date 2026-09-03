@@ -1,6 +1,6 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { type MenuOptionProvider } from '../menu-option/provide'
+import { type MenuOptionProvider } from './option-provide'
 import { type MenuSize } from './props'
 
 export const MENU_BIND_MENU_OPTION_KEY = Symbol('MENU_BIND_MENU_OPTION_KEY')

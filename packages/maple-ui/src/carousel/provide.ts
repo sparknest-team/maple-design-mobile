@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 import { useChildren, useParent } from '@maplejs/maple-use'
-import type { CarouselEffect } from '../carousel/props'
-import { type CarouselItemProvider } from '../carousel-item/provide'
+import { type CarouselItemProvider } from './item-provide'
+import type { CarouselEffect } from './props'
 
 export interface CarouselProvider {
   size: Ref<number>

@@ -6,7 +6,7 @@
 
 ### 主题色标签
 
-通过 `status` 设置主题色，可选值与 Button 一致：`default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`。
+通过 `status` 设置主题色，可选值与 Button 一致：`default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger`。
 
 ```html
 <template>
@@ -154,7 +154,7 @@ const checked = ref(true)
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `status` | 主题色，可选值 `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast` | _string_ | `default` |
+| `status` | 主题色，可选值 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
 | `variant` | 变体，可选 `default`（实心） / `outline`（描边） | _string_ | `default` |
 | `size` | 尺寸，可选值 `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
 | `round` | 是否为圆角胶囊形 | _boolean_ | `false` |
@@ -193,7 +193,7 @@ const checked = ref(true)
 ### 类型定义
 
 ```ts
-type TagStatus = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'secondary' | 'contrast' | 'default'
+type TagStatus = 'default' | 'primary' | 'secondary' | 'tertiary' | 'info' | 'success' | 'warning' | 'danger'
 type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type TagVariant = 'default' | 'outline'
 ```

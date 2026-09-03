@@ -1,6 +1,16 @@
 <template>
   <transition :name="n('$-fade')">
-    <span v-show="computedShow" :class="rootClass" :style="rootStyle" @click="handleClick">
+    <span
+      v-if="computedShow"
+      :class="rootClass"
+      :style="rootStyle"
+      :role="checkable ? 'checkbox' : undefined"
+      :aria-checked="checkable ? computedChecked : undefined"
+      :tabindex="checkable ? 0 : undefined"
+      @click="handleClick"
+      @keydown.enter.prevent="handleKeyboardActivation"
+      @keydown.space.prevent="handleKeyboardActivation"
+    >
       <span v-if="$slots.icon" :class="n('icon')">
         <slot name="icon" />
       </span>
@@ -9,7 +19,16 @@
       </span>
       <slot v-else />
       <span v-if="loading" :class="n('loading-icon')" aria-hidden="true" />
-      <span v-else-if="closable" role="button" aria-label="Close" :class="n('close-btn')" @click.stop="handleClose">
+      <span
+        v-else-if="closable"
+        role="button"
+        aria-label="Close"
+        tabindex="0"
+        :class="n('close-btn')"
+        @click.stop="handleClose"
+        @keydown.enter.prevent.stop="handleKeyboardActivation"
+        @keydown.space.prevent.stop="handleKeyboardActivation"
+      >
         <slot name="close-icon">
           <mp-icon><MIconCloseCircle /></mp-icon>
         </slot>
@@ -98,10 +117,8 @@ function handleClick(e: MouseEvent) {
   emit('update:checked', next)
   emit('check', next, e)
 }
-</script>
 
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import './tag';
-</style>
+function handleKeyboardActivation(e: KeyboardEvent) {
+  ;(e.currentTarget as HTMLElement).click()
+}
+</script>

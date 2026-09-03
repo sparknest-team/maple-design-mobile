@@ -17,15 +17,24 @@ export const props = {
   alt: String,
   title: String,
   description: String,
-  referrerpolicy: String as PropType<ImgHTMLAttributes['referrerpolicy']>,
+  hideFooter: {
+    type: [Boolean, String] as PropType<boolean | 'never'>,
+    default: false,
+  },
+  footerPosition: {
+    type: String as PropType<'inner' | 'outer'>,
+    default: 'inner',
+  },
+  footerClass: [String, Array, Object],
+  referrerPolicy: String as PropType<ImgHTMLAttributes['referrerpolicy']>,
   width: [String, Number],
   height: [String, Number],
   radius: {
     type: [String, Number],
     default: 0,
   },
-  loading: String,
-  error: String,
+  loadingSrc: String,
+  errorSrc: String,
   lazy: Boolean,
   showLoader: Boolean,
   ripple: Boolean,
@@ -37,12 +46,19 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  previewOpen: Boolean,
+  previewOpen: {
+    type: Boolean,
+    default: undefined,
+  },
   defaultPreviewOpen: {
     type: Boolean,
     default: false,
   },
   previewProps: {
     type: Object as PropType<Partial<ImagePreviewProps>>,
+  },
+  popupContainer: {
+    type: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
+    default: undefined,
   },
 }

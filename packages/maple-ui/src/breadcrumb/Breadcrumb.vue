@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import MpBreadcrumbItem from '../breadcrumb-item'
 import { createNamespace } from '../utils/components'
+import MpBreadcrumbItem from './BreadcrumbItem.vue'
 import { props } from './props'
 import { useBreadcrumbItems, type BreadcrumbProvider } from './provide'
 
@@ -77,8 +77,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import './breadcrumb';
-</style>

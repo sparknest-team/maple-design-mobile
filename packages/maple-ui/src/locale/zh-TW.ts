@@ -7,10 +7,12 @@ export default {
   dialogCancelButtonText: '取消',
   // ActionSheet
   actionSheetTitle: '請選擇',
-  // List
-  listLoadingText: '載入中',
-  listFinishedText: '沒有更多了',
-  listErrorText: '載入失敗',
+  // Empty
+  emptyDescription: '暫無資料',
+  // InfiniteScroll
+  infiniteScrollLoadingText: '載入中',
+  infiniteScrollFinishedText: '沒有更多了',
+  infiniteScrollErrorText: '載入失敗，點擊重試',
   // Picker
   pickerTitle: '請選擇',
   pickerConfirmButtonText: '確認',

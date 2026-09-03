@@ -737,3 +737,37 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--menu-group-title-padding`    | `8px 12px 4px`        |
 | `--menu-group-title-font-size`  | `var(--font-size-sm)` |
 | `--menu-group-title-text-color` | `var(--color-text-3)` |
+
+## API
+
+### Props
+
+| Prop       | Description                       | Type      | Default |
+| ---------- | --------------------------------- | --------- | ------- |
+| `label`    | The text that the option displays | _any_     | `-`     |
+| `value`    | The value of the option binding   | _any_     | `-`     |
+| `disabled` | Whether to disable                | _boolean_ | `false` |
+| `ripple`   | Whether to enable ripple          | _boolean_ | `true`  |
+
+### Slots
+
+| Name      | Description                    | SlotProps |
+| --------- | ------------------------------ | --------- |
+| `default` | Options to display the content | `-`       |
+| `icon`    | Option icon                    | `-`       |
+
+## API
+
+### Props
+
+| Prop    | Description | Type     | Default |
+| ------- | ----------- | -------- | ------- |
+| `title` | Group title | _string_ | `-`     |
+
+### Slots
+
+| Name      | Description  | SlotProps |
+| --------- | ------------ | --------- |
+| `title`   | Group title  | `-`       |
+| `default` | Group content | `-`      |
+

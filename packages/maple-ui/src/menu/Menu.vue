@@ -69,14 +69,14 @@
 import { computed, defineComponent, ref, type CSSProperties } from 'vue'
 import { preventDefault } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
-import MpMenuOption from '../menu-option'
-import { type MenuOptionProvider } from '../menu-option/provide'
 import { useSelectController } from '../select/useSelectController'
 import MpTrigger, { type Reference, type TriggerInstance } from '../trigger'
 import { createNamespace, formatElevation } from '../utils/components'
 import { focusChildElementByKey } from '../utils/elements'
 import { useFieldNames } from '../utils/options'
 import MpMenuChildren from './MenuChildren.vue'
+import MpMenuOption from './MenuOption.vue'
+import { type MenuOptionProvider } from './option-provide'
 import { MenuOption, props } from './props'
 import { useMenuOptions, type MenuProvider } from './provide'
 
@@ -425,10 +425,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/elevation';
-@import '../styles/common';
-@import '../menu-option/menuOption';
-@import './menu';
-</style>

@@ -1,156 +1,125 @@
 <template>
-  <div :class="n()">
+  <div :class="cls">
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, useSlots, watch } from 'vue'
-import { call, normalizeToArray, removeArrayBlank } from '@maplejs/maple-shared'
-import { type CollapseItemProvider } from '../collapse-item/provide'
+import { computed, defineComponent, provide, reactive, ref, shallowRef, toRefs } from 'vue'
+import { isArray } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
-import { props, type CollapseActiveNames } from './props'
-import { useCollapseItem, type CollapseProvider } from './provide'
+import { collapseProps, type CollapseName, type CollapseToggleAllOptions } from './props'
+import { collapseKey, type CollapseItemContext } from './provide'
 
-const { name, n } = createNamespace('collapse')
-
-type CollapseToggleAllOptions = { expand: boolean | 'inverse'; skipDisabled?: boolean }
+const { name, n, classes } = createNamespace('collapse')
 
 export default defineComponent({
   name,
-  props,
-  emits: ['change', 'update:activeNames'],
-  setup(props, { emit }) {
-    const slots = useSlots()
-    const offset = computed(() => props.offset)
-    const divider = computed(() => props.divider)
-    const elevation = computed(() => props.elevation)
-    const accordion = computed(() => props.accordion)
-    const expandIconPosition = computed(() => props.expandIconPosition)
-    const showExpandIcon = computed(() => props.showExpandIcon)
-    const destroyOnHide = computed(() => props.destroyOnHide)
-    const innerActiveNames = ref<CollapseActiveNames>([...(props.defaultActiveNames ?? [])])
-    const normalizeValues = computed(() => props.activeNames ?? innerActiveNames.value)
-    const { length, collapseItems, bindCollapseItems } = useCollapseItem()
-
-    const collapseProvider: CollapseProvider = {
-      offset,
-      divider,
-      elevation,
-      accordion,
-      expandIconPosition,
-      showExpandIcon,
-      destroyOnHide,
-      slots,
-      updateItem,
-    }
-
-    watch(
-      () => length.value,
-      () => nextTick().then(resize),
-    )
-
-    watch(
-      () => props.activeNames,
-      () => nextTick().then(resize),
-    )
-
-    watch(innerActiveNames, () => nextTick().then(resize))
-
-    bindCollapseItems(collapseProvider)
-
-    function updateItem(itemValue: number | string, targetExpand: boolean) {
-      if (props.accordion) {
-        updateActiveNames(targetExpand ? [itemValue] : [])
-        return
+  props: collapseProps,
+  emits: {
+    'update:activeNames': (_activeNames: CollapseName[]) => true,
+    change: (_activeNames: CollapseName[], _ev: Event) => true,
+  },
+  setup(props, { emit, slots, expose }) {
+    const { expandIconPosition, destroyOnHide, showExpandIcon, divider, offset, elevation } = toRefs(props)
+    const items = shallowRef<CollapseItemContext[]>([])
+    const innerActiveNames = ref<CollapseName[]>([...(props.defaultActiveNames ?? [])])
+    const computedActiveNames = computed(() => {
+      const activeNames = props.activeNames ?? innerActiveNames.value
+      if (!isArray(activeNames)) {
+        return [activeNames]
       }
+      return activeNames
+    })
 
-      const nextNames = targetExpand
-        ? [...normalizeValues.value, itemValue]
-        : normalizeValues.value.filter((value) => value !== itemValue)
-      updateActiveNames(nextNames)
+    const updateActiveNames = (newActiveNames: CollapseName[], e?: Event) => {
+      innerActiveNames.value = newActiveNames
+      emit('update:activeNames', newActiveNames)
+      emit('change', newActiveNames, e ?? new Event('change'))
     }
 
-    function updateActiveNames(activeNames: CollapseActiveNames) {
-      innerActiveNames.value = activeNames
-      emit('update:activeNames', activeNames)
-      emit('change', activeNames)
-    }
-
-    function matchItems(): Array<CollapseItemProvider> | CollapseItemProvider | undefined {
+    const handleClick = (itemName: CollapseName, e: Event) => {
+      let newActiveNames: CollapseName[] = []
       if (props.accordion) {
-        const [value] = normalizeValues.value
-        if (value == null) {
-          return
+        if (!computedActiveNames.value.includes(itemName)) {
+          newActiveNames = [itemName]
         }
-
-        const matchedNameItem = collapseItems.find(({ name }) => value === name.value)
-        if (matchedNameItem == null) {
-          return collapseItems.find(({ index, name }) => name.value == null && value === index.value)
+      } else {
+        newActiveNames = [...computedActiveNames.value]
+        const index = newActiveNames.indexOf(itemName)
+        if (index > -1) {
+          newActiveNames.splice(index, 1)
+        } else {
+          newActiveNames.push(itemName)
         }
-
-        return matchedNameItem
       }
-
-      const matchedNameItems = collapseItems.filter(
-        ({ name }) => name.value != null && normalizeValues.value.includes(name.value),
-      )
-      const matchedIndexItems = collapseItems.filter(
-        ({ index, name }) => name.value == null && normalizeValues.value.includes(index.value),
-      )
-
-      return [...matchedNameItems, ...matchedIndexItems]
+      updateActiveNames(newActiveNames, e)
     }
 
-    function resize() {
-      const matchedItems: CollapseItemProvider[] = removeArrayBlank(normalizeToArray(matchItems()))
-
-      collapseItems.forEach((collapseItem) => {
-        collapseItem.init(matchedItems.includes(collapseItem))
-      })
+    const addItem = (item: CollapseItemContext) => {
+      if (!items.value.find((current) => current.name === item.name)) {
+        items.value.push(item)
+      }
     }
 
-    // expose
+    const removeItem = (itemName: CollapseName) => {
+      items.value = items.value.filter((item) => item.name !== itemName)
+    }
+
     const toggleAll = (options: CollapseToggleAllOptions) => {
       if (props.accordion) {
         return
       }
 
-      const matchedItems = collapseItems.filter((item) => {
-        const itemValue = item.name.value ?? item.index.value
-        const expanded = normalizeValues.value.includes(itemValue)
+      const nextNames = items.value
+        .filter((item) => {
+          const expanded = computedActiveNames.value.includes(item.name)
+          if (options.skipDisabled && item.disabled.value) {
+            return expanded
+          }
+          if (options.expand === 'inverse') {
+            return !expanded
+          }
+          return options.expand
+        })
+        .map((item) => item.name)
 
-        if (options.skipDisabled && item.disabled.value) {
-          return expanded
-        }
-
-        if (options.expand === 'inverse') {
-          return !expanded
-        }
-
-        return options.expand
-      })
-
-      const activeNames = matchedItems.map((item) => item.name.value ?? item.index.value)
-      updateActiveNames(activeNames)
+      updateActiveNames(nextNames)
     }
 
-    return {
-      divider,
-      n,
+    provide(
+      collapseKey,
+      reactive({
+        activeNames: computedActiveNames,
+        slots,
+        showExpandIcon,
+        expandIconPosition,
+        destroyOnHide,
+        divider,
+        offset,
+        elevation,
+        handleClick,
+        addItem,
+        removeItem,
+      }),
+    )
+
+    const cls = computed(() =>
+      classes(
+        n(),
+        [!props.bordered, n('--borderless')],
+        [!props.divider, n('--no-divider')],
+        [props.offset, n('--offset')],
+      ),
+    )
+
+    expose({
       toggleAll,
+    })
+
+    return {
+      cls,
     }
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-
-.mp-collapse {
-  position: relative;
-  width: 100%;
-  z-index: 0;
-}
-</style>

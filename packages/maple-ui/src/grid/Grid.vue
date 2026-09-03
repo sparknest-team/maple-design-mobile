@@ -80,8 +80,3 @@ provide(GRID_DATA_COLLECTOR_KEY, {
     <slot />
   </div>
 </template>
-
-<style lang="less">
-@import '../styles/common';
-@import './grid';
-</style>

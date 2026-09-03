@@ -27,8 +27,8 @@ onThemeChange()
 </template>
 
 <style lang="less">
-@import '../../styles/theme/css-variables.less';
-@import '../../utilities/utilities.less';
+@import '../../style/theme/css-variables.less';
+@import '../../utilities/style/utilities.less';
 
 .box {
   display: flex;

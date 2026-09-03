@@ -448,7 +448,7 @@ describe('test dialog component slots', () => {
     })
 
     expect(wrapper.find('.mp-dialog__title-icon').exists()).toBe(true)
-    expect(wrapper.find('.mp-icon-warning').exists()).toBe(true)
+    expect(wrapper.find('.mp-dialog__title-icon svg').exists()).toBe(true)
     expect(wrapper.find('.mp-dialog--type-warning').exists()).toBe(true)
 
     wrapper.unmount()

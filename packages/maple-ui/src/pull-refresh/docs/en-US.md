@@ -1,13 +1,12 @@
 # PullRefresh
 
-### Intro
+Provides pull-to-refresh at the top of a list.
 
-Provides a drop-down refresh interaction.
+## Examples
 
 ### Basic Usage
 
-The refresh event will be Emitted when pull refresh, you should set `v-model` to `true` at the beginning of the event
-indicates that loading is under way, and setting `v-model` to `false` after completion indicates that loading is over.
+`refresh` fires after releasing at the refresh position. Set `v-model` to `true` while loading, then back to `false` when finished.
 
 ```html
 <script setup>
@@ -28,73 +27,72 @@ function refresh() {
 
 <template>
   <mp-pull-refresh v-model="isRefresh" @refresh="refresh">
-    <mp-cell
-      v-for="(item, index) in data"
-      :key="index"
-      border
-    >
-      {{ item + ' ' + (index + 1) }}
+    <mp-cell v-for="(item, index) in data" :key="index" border>
+      {{ item }} {{ index + 1 }}
     </mp-cell>
   </mp-pull-refresh>
 </template>
 ```
 
-### Combine
+### Combine with InfiniteScroll
 
-Combined with the `List` component to implement the function of pull-up loading and pull-down refresh, ensuring the height of the `PullRefresh` is not `0` .
+Use with `InfiniteScroll` for pull-down refresh and bottom loading. Pause pagination with `disabled` while refreshing, then reset the data and pagination status.
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
 const refreshing = ref(false)
-const loading = ref(false)
+const infiniteDisabled = ref(false)
+const status = ref('idle')
 const list = ref([])
 
-function refresh() {
-  setTimeout(() => {
-    console.log('refresh')
-    refreshing.value = false
-  }, 2000)
+async function refresh() {
+  infiniteDisabled.value = true
+  list.value = await fetchFirstPage()
+  status.value = 'idle'
+  refreshing.value = false
+  infiniteDisabled.value = false
 }
 
-function load() {
-  setTimeout(() => {
-    for (let i = 0; i < 20; i++) {
-      list.value.push(list.value.length + 1)
-    }
-    
-    loading.value = false
-  }, 1000)
+async function load() {
+  try {
+    const next = await fetchNextPage()
+    list.value.push(...next.items)
+    status.value = next.hasMore ? 'idle' : 'finished'
+  } catch {
+    status.value = 'error'
+  }
 }
 </script>
 
 <template>
   <mp-pull-refresh v-model="refreshing" @refresh="refresh">
-    <mp-list v-model:loading="loading" @load="load">
-      <mp-cell :key="d" v-for="d in list">ListItem {{ d }}</mp-cell>
-    </mp-list>
+    <mp-infinite-scroll
+      v-model:status="status"
+      :disabled="infiniteDisabled"
+      @load="load"
+      @retry="load"
+    >
+      <mp-cell v-for="item in list" :key="item">List Item {{ item }}</mp-cell>
+    </mp-infinite-scroll>
   </mp-pull-refresh>
 </template>
 ```
 
-### Attention
+### Height
 
-When the height of the `PullRefresh` is `0`, it will be unavailable, so you need to ensure that the height of its child elements is **not** `0` or set height for the `PullRefresh`:
+Pull-to-refresh will not work when the container height is `0`. Give children a non-zero height, or set height on `PullRefresh`.
 
 ```html
 <!-- playground-ignore -->
-<template>
-  <mp-pull-refresh>
-    <div style="height: 200px"></div>
-  </mp-pull-refresh>
+<mp-pull-refresh>
+  <div style="height: 200px"></div>
+</mp-pull-refresh>
 
-  <!-- or -->
-  
-  <mp-pull-refresh style="height: 200px">
-    <div></div>
-  </mp-pull-refresh>
-</template>
+<mp-pull-refresh style="height: 200px">
+  <div></div>
+</mp-pull-refresh>
 ```
 
 ## API
@@ -102,36 +100,36 @@ When the height of the `PullRefresh` is `0`, it will be unavailable, so you need
 ### Props
 
 | Prop | Description | Type | Default |
-| ----- | -------------- | -------- | ---------- |
-| `v-model` | Loading status | _boolean_ | `-` |
-| `disabled` | Whether to disable pull refresh | _boolean_ | `false` |
-| `target` | The target to trigger scroll. If it is undefined back top will listen to the nearest scrollable parent. | _string \| HTMLElement_     | `-` |
-| `animation-duration` | The duration of the animation to return to the initial position after loading(ms) | _string \| number_ | `300` |
-| `success-duration` | Success text display duration(ms) | _string \| number_ | `2000` |
-| `bg-color` | BackgroundColor of control | _string_ | `#005CAF` |
-| `color` | Color of control | _string_ | `#ffffff` |
-| `success-bg-color` | BackgroundColor of control when the status is success | _string_ | `#4CAF50` |
-| `success-color` | Color of control when the status is success | _string_ | `ffffff` |
+| --- | --- | --- | --- |
+| `v-model` | Loading status | `boolean` | `-` |
+| `disabled` | Disable pull-to-refresh | `boolean` | `false` |
+| `target` | Scroll container. Defaults to the nearest scrollable ancestor | `string \| HTMLElement` | `-` |
+| `animation-duration` | Rebound animation duration (ms) | `number \| string` | `300` |
+| `success-duration` | Success state duration (ms) | `number \| string` | `2000` |
+| `bg-color` | Indicator background | `string` | `-` |
+| `color` | Indicator color | `string` | `-` |
+| `success-bg-color` | Success indicator background | `string` | `-` |
+| `success-color` | Success indicator color | `string` | `-` |
 
 ### Events
 
-| Event | Description | arguments |
-| ----- | -------------- | -------- | 
-| `refresh` | Emitted after pulling refresh | `-` |
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `refresh` | Fired when refresh starts | `-` |
+| `update:modelValue` | Fired when loading status changes | `(value: boolean)` |
 
 ### Slots
 
-| Name | Description | SlotProps |
-| ----- | -------------- | -------- | 
-| `default` | Default slot | `-` |
+| Name | Description |
+| --- | --- |
+| `default` | List content |
 
-### Style Variables
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+## Style Variables
 
 | Variable | Default |
 | --- | --- |
-| `--pull-refresh-size` | `40px` |
-| `--pull-refresh-background` | `#fff` |
-| `--pull-refresh-color` | `var(--color-primary)` |
-| `--pull-refresh-success-color` | `var(--color-success)` |
-| `--pull-refresh-icon-size` | `25px` |
+| `--mp-pull-refresh-size` | `40px` |
+| `--mp-pull-refresh-background` | `#fff` |
+| `--mp-pull-refresh-color` | `var(--mp-color-primary)` |
+| `--mp-pull-refresh-success-color` | `var(--mp-color-success)` |
+| `--mp-pull-refresh-icon-size` | `25px` |

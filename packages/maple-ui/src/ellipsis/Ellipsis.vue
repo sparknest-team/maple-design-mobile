@@ -1,16 +1,17 @@
 <template>
-  <mp-tooltip
-    :class="
-      classes(n(), [lineClamp, n('--clamp'), n('--line')], [expandTrigger, n('--cursor')], [expanding, n('--expand')])
-    "
-    mp-ellipsis-cover
-    :style="rootStyles"
-    v-bind="tooltipProps"
-    @click="handleClick"
-  >
-    <span>
-      <slot />
-    </span>
+  <mp-tooltip v-bind="tooltipProps">
+    <div
+      :class="
+        classes(n(), [lineClamp, n('--clamp'), n('--line')], [expandTrigger, n('--cursor')], [expanding, n('--expand')])
+      "
+      mp-ellipsis-cover
+      :style="rootStyles"
+      @click="handleClick"
+    >
+      <span>
+        <slot />
+      </span>
+    </div>
 
     <template #content>
       <slot name="tooltip-content">
@@ -73,9 +74,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../tooltip/tooltip';
-@import './ellipsis';
-</style>

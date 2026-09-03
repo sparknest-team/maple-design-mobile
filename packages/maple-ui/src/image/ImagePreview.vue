@@ -13,8 +13,8 @@
     @close="$emit('close')"
     @closed="$emit('closed')"
     @opened="$emit('opened')"
-    @key-escape="$emit('key-escape')"
-    @route-change="$emit('route-change')"
+    @key-escape="$emit('keyEscape')"
+    @route-change="$emit('routeChange')"
   >
     <mp-carousel
       ref="carouselRef"
@@ -63,14 +63,18 @@
       </template>
     </mp-carousel>
 
-    <slot name="close-icon">
-      <mp-icon v-if="mergedCloseable" :class="n('close-icon')" mp-image-preview-cover @click="close"
-        ><MIconCloseCircle
-      /></mp-icon>
-    </slot>
+    <mp-icon v-if="mergedCloseable" :class="n('close-icon')" mp-image-preview-cover @click="close">
+      <slot name="close-icon">
+        <MIconCloseCircle />
+      </slot>
+    </mp-icon>
 
     <div v-if="$slots.extra" :class="n('extra')">
       <slot name="extra" />
+    </div>
+
+    <div v-if="$slots.actions" :class="n('actions')">
+      <slot name="actions" />
     </div>
   </mp-popup>
 </template>
@@ -81,7 +85,7 @@ import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import { call, clamp, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { useEventListener, useTouch } from '@maplejs/maple-use'
 import MpCarousel from '../carousel'
-import MpCarouselItem from '../carousel-item'
+import MpCarouselItem from '../carousel/CarouselItem.vue'
 import { type CarouselToOptions } from '../carousel/props'
 import MpIcon from '../icon'
 import MpPopup from '../popup'
@@ -113,35 +117,48 @@ export default defineComponent({
   emits: [
     'update:open',
     'update:current',
-    'open-change',
+    'openChange',
     'open',
     'opened',
     'close',
     'closed',
-    'key-escape',
-    'route-change',
-    'long-press',
+    'keyEscape',
+    'routeChange',
+    'longPress',
     'change',
   ],
   setup(props, { emit }) {
+    const localOpen = ref(props.defaultOpen)
     const mergedOpen = computed({
       get() {
-        return props.open ?? false
+        return props.open ?? localOpen.value
       },
       set(value: boolean) {
+        if (props.open === undefined) {
+          localOpen.value = value
+        }
         emit('update:open', value)
-        emit('open-change', value)
+        emit('openChange', value)
       },
     })
 
     const mergedImages = computed(() => getPreviewImages(props))
-    const mergedCurrent = ref(getPreviewCurrent(props.current))
-    watch(
-      () => props.current,
-      (current) => {
-        mergedCurrent.value = getPreviewCurrent(current)
+    const localCurrent = ref(getPreviewCurrent(props.defaultCurrent))
+    const mergedCurrent = computed({
+      get() {
+        return props.current === undefined ? localCurrent.value : getPreviewCurrent(props.current)
       },
-    )
+      set(index: number) {
+        if (index === mergedCurrent.value) {
+          return
+        }
+        if (props.current === undefined) {
+          localCurrent.value = index
+        }
+        emit('update:current', index)
+        emit('change', index)
+      },
+    })
     const mergedCloseable = computed(() => props.closable ?? imagePlatformConfig.defaultClosable)
     const mergedMaskClosable = computed(() => props.maskClosable ?? imagePlatformConfig.defaultMaskClosable)
     const mergedEscToClose = computed(() => props.escToClose ?? true)
@@ -253,7 +270,7 @@ export default defineComponent({
 
       longPressRunner = window.setTimeout(() => {
         isLongPress = true
-        emit('long-press', idx)
+        emit('longPress', idx)
       }, LONG_PRESS_DELAY)
 
       if (isDoubleTouch(target)) {
@@ -336,7 +353,6 @@ export default defineComponent({
       }
 
       mergedOpen.value = false
-      emit('close')
     }
 
     function preventImageDefault(event: Event) {
@@ -347,8 +363,6 @@ export default defineComponent({
 
     function onChange(index: number) {
       mergedCurrent.value = index
-      emit('update:current', index)
-      emit('change', index)
     }
 
     function prev(options?: CarouselToOptions) {
@@ -400,12 +414,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../carousel/carousel';
-@import '../carousel-item/carouselItem';
-@import '../popup/popup';
-@import './imagePreview';
-</style>

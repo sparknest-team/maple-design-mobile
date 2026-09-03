@@ -1,21 +1,22 @@
-import { nextTick, reactive } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { call, inBrowser } from '@maplejs/maple-shared'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
-import ImagePreview from './ImagePreview.vue'
+import _ImagePreview from './ImagePreview.vue'
 import ImagePreviewGroup from './ImagePreviewGroup.vue'
 import { props as imagePreviewProps } from './previewProps'
-import type { ImagePreviewOptions, UserImagePreviewOptions } from './types'
+import type { ImagePreviewMethods, ImagePreviewOptions, UserImagePreviewOptions } from './types'
 import { normalizePreviewOptions } from './utils/previewUtils'
 
 let singletonOptions: ImagePreviewOptions | null
+let singletonHandle: ImagePreviewMethods | null
 let defaultOptions: ImagePreviewOptions = {}
 
-function previewImage(options: UserImagePreviewOptions) {
+function imagePreview(options: UserImagePreviewOptions): ImagePreviewMethods | undefined {
   if (!inBrowser()) {
     return
   }
 
-  previewImage.close()
+  imagePreview.close()
 
   const imagePreviewOptions = normalizePreviewOptions(options, defaultOptions)
   const reactiveImagePreviewOptions = reactive({
@@ -25,60 +26,119 @@ function previewImage(options: UserImagePreviewOptions) {
   })
 
   singletonOptions = reactiveImagePreviewOptions
+  const componentRef = ref<ImagePreviewMethods | null>(null)
 
-  const { unmountInstance } = mountInstance(ImagePreview, reactiveImagePreviewOptions, {
+  const { unmountInstance } = mountInstance(_ImagePreview, reactiveImagePreviewOptions, {
+    ref: componentRef,
     onClose: () => call(reactiveImagePreviewOptions.onClose),
     onClosed: () => {
       call(reactiveImagePreviewOptions.onClosed)
       unmountInstance()
-      singletonOptions === reactiveImagePreviewOptions && (singletonOptions = null)
+      if (singletonOptions === reactiveImagePreviewOptions) {
+        singletonOptions = null
+        singletonHandle = null
+      }
     },
     onRouteChange: () => {
+      call(reactiveImagePreviewOptions.onRouteChange)
       unmountInstance()
-      singletonOptions === reactiveImagePreviewOptions && (singletonOptions = null)
+      if (singletonOptions === reactiveImagePreviewOptions) {
+        singletonOptions = null
+        singletonHandle = null
+      }
     },
     'onUpdate:open': (value: boolean) => {
       reactiveImagePreviewOptions.open = value
+      call(reactiveImagePreviewOptions['onUpdate:open'], value)
+    },
+    'onUpdate:current': (index: number) => {
+      reactiveImagePreviewOptions.current = index
+      call(reactiveImagePreviewOptions['onUpdate:current'], index)
     },
     onOpenChange: (value: boolean) => {
       call(reactiveImagePreviewOptions.onOpenChange, value)
     },
   })
+
+  const images = reactiveImagePreviewOptions.images ?? []
+  const setCurrent = (index: number) => {
+    if (
+      !Number.isInteger(index) ||
+      index < 0 ||
+      index >= images.length ||
+      index === reactiveImagePreviewOptions.current
+    ) {
+      return
+    }
+
+    reactiveImagePreviewOptions.current = index
+    call(reactiveImagePreviewOptions['onUpdate:current'], index)
+    call(reactiveImagePreviewOptions.onChange, index)
+  }
+
+  const getCurrent = () => reactiveImagePreviewOptions.current ?? reactiveImagePreviewOptions.defaultCurrent ?? 0
+  const getLoopIndex = (index: number) => {
+    if (index >= 0 && index < images.length) {
+      return index
+    }
+    if (!reactiveImagePreviewOptions.loop || images.length === 0) {
+      return index
+    }
+    return index < 0 ? images.length - 1 : 0
+  }
+
+  const handle = {
+    close: () => {
+      if (componentRef.value) {
+        componentRef.value.close()
+      } else {
+        reactiveImagePreviewOptions.open = false
+      }
+    },
+    prev: () => setCurrent(getLoopIndex(getCurrent() - 1)),
+    next: () => setCurrent(getLoopIndex(getCurrent() + 1)),
+    to: setCurrent,
+    zoom: (ratio: number) => componentRef.value?.zoom(ratio),
+  } satisfies ImagePreviewMethods
+
+  singletonHandle = handle
+  return handle
 }
 
-previewImage.close = () => {
+imagePreview.close = () => {
   if (singletonOptions != null) {
     const prevSingletonOptions = singletonOptions
+    const prevSingletonHandle = singletonHandle
     singletonOptions = null
+    singletonHandle = null
 
     nextTick().then(() => {
-      prevSingletonOptions.open = false
+      if (prevSingletonHandle) {
+        prevSingletonHandle.close()
+      } else {
+        prevSingletonOptions.open = false
+      }
     })
   }
 }
 
-previewImage.setDefaultOptions = (options: ImagePreviewOptions) => {
+imagePreview.setDefaultOptions = (options: ImagePreviewOptions) => {
   defaultOptions = options
 }
 
-previewImage.resetDefaultOptions = () => {
+imagePreview.resetDefaultOptions = () => {
   defaultOptions = {}
 }
 
-previewImage.Component = ImagePreview
-previewImage.Group = ImagePreviewGroup
+const ImagePreview = withInstall(_ImagePreview)
 
-const ImagePreviewPlugin = previewImage
-
-withInstall(ImagePreview)
 withInstall(ImagePreviewGroup)
-withInstall(ImagePreview, ImagePreviewPlugin)
-withPropsDefaultsSetter(ImagePreviewPlugin, imagePreviewProps)
+withPropsDefaultsSetter(ImagePreview, imagePreviewProps)
 
-export { imagePreviewProps, ImagePreview, previewImage }
+export { imagePreviewProps, ImagePreview, imagePreview }
 export type { ImagePreviewOptions, UserImagePreviewOptions }
 
-export const _ImagePreviewComponent = ImagePreview
-export type ImagePreviewInstance = InstanceType<typeof ImagePreview>
+export const _ImagePreviewComponent = _ImagePreview
+export type ImagePreviewInstance = InstanceType<typeof _ImagePreview>
 
-export default ImagePreviewPlugin
+export default ImagePreview

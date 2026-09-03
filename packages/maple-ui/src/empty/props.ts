@@ -1,31 +1,18 @@
-import type { PropType } from 'vue'
+import { type ExtractPropTypes, type PropType } from 'vue'
+import { componentSizes, type ComponentSize } from '../utils/constants'
 
-export type EmptySize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type EmptyImageSize = ComponentSize | number | string
 
-export const props = {
-  /** 空状态描述文字 */
-  description: {
-    type: String,
-    default: '',
-  },
-  /** 空状态图片/图标尺寸，可选值为 `xs` `sm` `md` `lg` `xl`，或具体数值 */
+export const emptyProps = {
+  description: String,
+  imageUrl: String,
+  alt: { type: String, default: '' },
   imageSize: {
-    type: [String, Number] as PropType<EmptySize | number | string>,
+    type: [String, Number] as PropType<EmptyImageSize>,
     default: 'md',
   },
-  /** 自定义图片 URL，会覆盖默认图标 */
-  imageUrl: {
-    type: String,
-  },
-  /** 是否显示图标 */
-  showIcon: {
-    type: Boolean,
-    default: true,
-  },
-  /** 是否显示描述 */
-  showDescription: {
-    type: Boolean,
-    default: true,
-  },
-  /** 点击操作回调 */
+  showIcon: { type: Boolean, default: true },
+  showDescription: { type: Boolean, default: true },
 }
+
+export type EmptyProps = ExtractPropTypes<typeof emptyProps>

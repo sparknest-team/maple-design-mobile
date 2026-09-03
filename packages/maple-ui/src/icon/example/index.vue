@@ -117,7 +117,7 @@ function resolveIcon(name) {
 </template>
 
 <style lang="less" scoped>
-@import '../../styles/elevation';
+@import '../../style/elevation';
 
 .icon-example {
   &__animation {

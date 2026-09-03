@@ -36,9 +36,10 @@ export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) 
       return options.open?.value ?? localOpen.value
     },
     set(value: boolean) {
-      if (options.open?.value !== undefined) {
-        options.open.value = value
-      } else {
+      if (value === mergedOpen.value) {
+        return
+      }
+      if (options.open?.value === undefined) {
         localOpen.value = value
       }
 
@@ -51,9 +52,10 @@ export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) 
       return options.current?.value ?? localCurrent.value
     },
     set(value: number) {
-      if (options.current?.value !== undefined) {
-        options.current.value = value
-      } else {
+      if (value === mergedCurrent.value) {
+        return
+      }
+      if (options.current?.value === undefined) {
         localCurrent.value = value
       }
 

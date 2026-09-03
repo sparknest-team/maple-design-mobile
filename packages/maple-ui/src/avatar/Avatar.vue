@@ -5,131 +5,168 @@
       classes(
         n(),
         n('$--box'),
-        [isInternalSize(size), n(`--${size}`)],
-        [shape === 'circle', n('--round')],
+        n(`--${mergedShape}`),
         [bordered, n('--bordered')],
         [hoverable, n('--hoverable')],
+        [hasTriggerIcon, n('--with-trigger')],
       )
     "
-    :style="{
-      width: !isInternalSize(size) ? toSizeUnit(size) : undefined,
-      height: !isInternalSize(size) ? toSizeUnit(size) : undefined,
-      borderColor,
-      backgroundColor: color,
-    }"
+    :style="outerStyle"
     @click="handleClick"
   >
-    <template v-if="imageUrl">
-      <img
-        v-if="lazy"
-        v-lazy="imageUrl"
-        role="img"
-        :class="n('image')"
-        :src="imageUrl"
-        :alt="alt"
-        :style="{ objectFit }"
-        :lazy-loading="loading"
-        :lazy-error="error"
-        @load="handleLoad"
-      />
+    <span ref="contentElement" :class="n(imageUrl ? 'image' : 'text')" :style="contentStyle">
+      <template v-if="imageUrl">
+        <slot v-if="hasError" name="error">
+          <img v-if="error" :src="error" role="img" :alt="alt" :style="imageStyle" />
+          <MIconCloseCircle v-else />
+        </slot>
+        <template v-else>
+          <img
+            v-if="lazy"
+            v-lazy="imageUrl"
+            role="img"
+            :alt="alt"
+            :style="imageStyle"
+            :lazy-loading="loading"
+            :lazy-error="error"
+            @load="handleLoad"
+          />
+          <img
+            v-else
+            v-show="isLoaded"
+            role="img"
+            :src="imageUrl"
+            :alt="alt"
+            :style="imageStyle"
+            @load="handleLoad"
+            @error="handleError"
+          />
+          <template v-if="!lazy && !isLoaded">
+            <img v-if="loading" :src="loading" role="img" :alt="alt" :style="imageStyle" />
+            <slot v-else><MIconLoading /></slot>
+          </template>
+        </template>
+      </template>
+      <slot v-else />
+    </span>
 
-      <img
-        v-else
-        role="img"
-        :class="n('image')"
-        :src="imageUrl"
-        :alt="alt"
-        :style="{ objectFit }"
-        @load="handleLoad"
-        @error="handleError"
-      />
-    </template>
-
-    <div v-else ref="textElement" :class="n('text')" :style="{ transform: `scale(${scale})` }">
-      <slot />
-    </div>
+    <span v-if="hasTriggerIcon" :class="n(`trigger-icon-${triggerType}`)" :style="triggerIconStyle">
+      <slot name="trigger-icon" />
+    </span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onUpdated, ref, type Ref } from 'vue'
-import { call } from '@maplejs/maple-shared'
-import { onSmartMounted } from '@maplejs/maple-use'
+import { computed, defineComponent, inject, nextTick, onMounted, onUpdated, ref, type CSSProperties } from 'vue'
+import { IconCloseCircle as MIconCloseCircle, IconLoading as MIconLoading } from '@maplejs/icons-vue'
 import Lazy, { type LazyHTMLElement } from '../lazy'
 import { createNamespace } from '../utils/components'
-import { toSizeUnit } from '../utils/elements'
+import { avatarGroupInjectionKey } from './context'
 import { props } from './props'
-
-const isInternalSize = (size: any) => ['mini', 'small', 'normal', 'large'].includes(size)
 
 const { name, n, classes } = createNamespace('avatar')
 
 export default defineComponent({
   name,
+  components: { MIconCloseCircle, MIconLoading },
   directives: { Lazy },
   props,
-  emits: ['error', 'click', 'load'],
-  setup(props, { emit }) {
-    const avatarElement: Ref<HTMLElement | null> = ref(null)
-    const textElement: Ref<HTMLElement | null> = ref(null)
-    const scale: Ref<number> = ref(1)
+  emits: {
+    click: (_event: MouseEvent) => true,
+    load: () => true,
+    error: () => true,
+  },
+  setup(props, { emit, slots }) {
+    const group = inject(avatarGroupInjectionKey, undefined)
+    const avatarElement = ref<HTMLElement | null>(null)
+    const contentElement = ref<HTMLElement | null>(null)
+    const scale = ref(1)
+    const isLoaded = ref(false)
+    const hasError = ref(false)
 
-    onSmartMounted(getScale)
-    onUpdated(getScale)
+    const mergedShape = computed(() => group?.shape.value ?? props.shape)
+    const mergedSize = computed(() => group?.size.value ?? props.size)
+    const mergedAutoFixFontSize = computed(() => group?.autoFixFontSize.value ?? props.autoFixFontSize)
+    const hasTriggerIcon = computed(() => Boolean(slots['trigger-icon']))
+    const outerStyle = computed<CSSProperties>(() => {
+      const style: CSSProperties =
+        mergedSize.value == null
+          ? {}
+          : {
+              width: `${mergedSize.value}px`,
+              height: `${mergedSize.value}px`,
+              fontSize: `${mergedSize.value / 2}px`,
+            }
+      if (props.color) {
+        style.backgroundColor = props.color
+      }
+      if (props.borderColor) {
+        style.borderColor = props.borderColor
+      }
+      return style
+    })
+    const imageStyle = computed<CSSProperties>(() => ({ objectFit: props.objectFit }))
+    const contentStyle = computed<CSSProperties>(() => (props.imageUrl ? {} : { transform: `scale(${scale.value})` }))
 
-    function getScale() {
-      if (!avatarElement.value || !textElement.value) {
-        scale.value = 1
+    function updateScale() {
+      if (!mergedAutoFixFontSize.value || props.imageUrl) {
+        return
+      }
+      nextTick(() => {
+        const avatarWidth = avatarElement.value?.offsetWidth ?? 0
+        const contentWidth = contentElement.value?.scrollWidth ?? 0
+        scale.value = avatarWidth && contentWidth > avatarWidth ? avatarWidth / (contentWidth + 8) : 1
+      })
+    }
+
+    function handleClick(event: MouseEvent) {
+      emit('click', event)
+    }
+
+    function handleLoad(event: Event) {
+      if (props.lazy) {
+        const el = event.currentTarget as LazyHTMLElement
+        if (el._lazy?.state === 'success') {
+          isLoaded.value = true
+          hasError.value = false
+          emit('load')
+        }
+        if (el._lazy?.state === 'error') {
+          hasError.value = true
+          emit('error')
+        }
         return
       }
 
-      const avatarElementWidth = avatarElement.value.offsetWidth
-      const textElementWidth = textElement.value.offsetWidth
-
-      if (avatarElementWidth > textElementWidth) {
-        scale.value = 1
-      } else {
-        scale.value = avatarElementWidth / textElementWidth
-      }
+      isLoaded.value = true
+      hasError.value = false
+      emit('load')
     }
 
-    function handleLoad(e: Event) {
-      const el: LazyHTMLElement = e.currentTarget as LazyHTMLElement
-      const { lazy } = props
-
-      if (lazy) {
-        el._lazy.state === 'success' && emit('load', e)
-        el._lazy.state === 'error' && emit('error', e)
-      } else {
-        emit('load', e)
-      }
+    function handleError() {
+      hasError.value = true
+      emit('error')
     }
 
-    function handleError(e: Event) {
-      emit('error', e)
-    }
-
-    function handleClick(e: Event) {
-      emit('click', e)
-    }
+    onMounted(updateScale)
+    onUpdated(updateScale)
 
     return {
-      avatarElement,
-      textElement,
-      scale,
       n,
       classes,
-      isInternalSize,
-      toSizeUnit,
+      avatarElement,
+      contentElement,
+      mergedShape,
+      outerStyle,
+      contentStyle,
+      imageStyle,
+      isLoaded,
+      hasError,
+      hasTriggerIcon,
+      handleClick,
       handleLoad,
       handleError,
-      handleClick,
     }
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import './avatar';
-</style>

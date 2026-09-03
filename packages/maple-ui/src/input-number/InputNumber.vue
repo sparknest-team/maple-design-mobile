@@ -111,7 +111,7 @@ import {
 } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import { Decimal } from 'decimal.js'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import MpInput from '../input'
@@ -391,10 +391,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../input/input';
-@import './input-number';
-</style>

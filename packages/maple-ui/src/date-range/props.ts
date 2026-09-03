@@ -1,13 +1,13 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
-import { datePickerProps as datePickerPropsSource } from '../date-picker'
-import { props as dateRangePickerPropsSource } from '../date-range-picker/props'
-import type { DateRangePickerPresentation, DateRangePickerType } from '../date-range-picker/props'
+import { props as datePickerPropsSource } from '../date/picker-props'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
-import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import type { DisabledTime } from '../time-picker/props'
+import { props as timePickerPropsSource } from '../time/picker-props'
+import type { DisabledTime } from '../time/picker-props'
 import { pickProps } from '../utils/components'
+import { props as dateRangePickerPropsSource } from './picker-props'
+import type { DateRangePickerPresentation, DateRangePickerType } from './picker-props'
 
 export type DateRangeType = DateRangePickerType
 export type DateRangePresentation = DateRangePickerPresentation

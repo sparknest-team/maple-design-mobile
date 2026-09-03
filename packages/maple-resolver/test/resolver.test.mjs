@@ -20,10 +20,46 @@ test('resolves UI components with their styles', () => {
   assert.deepEqual(components.resolve('MpMenuGroup'), {
     from: '@maplejs/maple-ui',
     name: '_MenuGroupComponent',
-    sideEffects: ['@maplejs/maple-ui/menu-group/style'],
+    sideEffects: ['@maplejs/maple-ui/menu/style'],
+  })
+
+  assert.deepEqual(components.resolve('MpInfiniteScroll'), {
+    from: '@maplejs/maple-ui',
+    name: '_InfiniteScrollComponent',
+    sideEffects: ['@maplejs/maple-ui/infinite-scroll/style'],
+  })
+
+  assert.deepEqual(components.resolve('MpListItem'), {
+    from: '@maplejs/maple-ui',
+    name: '_ListItemComponent',
+    sideEffects: ['@maplejs/maple-ui/list/style'],
   })
 
   assert.equal(components.resolve('MpActionItem'), undefined)
+
+  assert.deepEqual(components.resolve('MpCollapseItem'), {
+    from: '@maplejs/maple-ui',
+    name: '_CollapseItemComponent',
+    sideEffects: ['@maplejs/maple-ui/collapse/style'],
+  })
+
+  assert.deepEqual(components.resolve('MpRow'), {
+    from: '@maplejs/maple-ui',
+    name: '_RowComponent',
+    sideEffects: ['@maplejs/maple-ui/grid/style'],
+  })
+
+  assert.deepEqual(components.resolve('MpImagePreview'), {
+    from: '@maplejs/maple-ui',
+    name: '_ImagePreviewComponent',
+    sideEffects: ['@maplejs/maple-ui/image/style'],
+  })
+
+  assert.deepEqual(components.resolve('MpHoverOverlay'), {
+    from: '@maplejs/maple-ui',
+    name: '_HoverOverlayComponent',
+    sideEffects: ['@maplejs/maple-ui/hover/style'],
+  })
 })
 
 test('distinguishes the icon wrapper from standalone SVG icons', () => {

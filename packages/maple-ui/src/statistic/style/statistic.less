@@ -1,0 +1,86 @@
+:root {
+  --mp-statistic-title-color: var(--mp-color-text-3);
+  --mp-statistic-title-font-size: var(--mp-font-size-sm);
+  --mp-statistic-title-margin-bottom: 8px;
+  --mp-statistic-value-color: var(--mp-color-text-1);
+  --mp-statistic-value-font-size: 28px;
+  --mp-statistic-value-font-weight: 500;
+  --mp-statistic-decimal-font-size: inherit;
+  --mp-statistic-prefix-color: var(--mp-color-text-2);
+  --mp-statistic-prefix-font-size: var(--mp-font-size-md);
+  --mp-statistic-prefix-spacing: 4px;
+  --mp-statistic-suffix-color: var(--mp-color-text-2);
+  --mp-statistic-suffix-font-size: var(--mp-font-size-md);
+  --mp-statistic-suffix-spacing: 4px;
+  --mp-statistic-extra-color: var(--mp-color-text-3);
+  --mp-statistic-extra-font-size: var(--mp-font-size-sm);
+  --mp-statistic-extra-margin-top: 8px;
+}
+
+.mp-statistic {
+  display: inline-block;
+  line-height: 1.4;
+
+  &__title {
+    margin-bottom: var(--mp-statistic-title-margin-bottom);
+    color: var(--mp-statistic-title-color);
+    font-size: var(--mp-statistic-title-font-size);
+  }
+
+  &__value {
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--mp-statistic-value-color);
+    font-weight: var(--mp-statistic-value-font-weight);
+    font-size: var(--mp-statistic-value-font-size);
+    white-space: nowrap;
+
+    &--tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mp-count-to {
+      display: inline;
+      color: inherit;
+      font-weight: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  &__value-integer {
+    font-size: inherit;
+    white-space: nowrap;
+  }
+
+  &__value-decimal {
+    display: inline-block;
+    font-size: var(--mp-statistic-decimal-font-size);
+  }
+
+  &__prefix {
+    margin-right: var(--mp-statistic-prefix-spacing);
+    color: var(--mp-statistic-prefix-color);
+    font-size: var(--mp-statistic-prefix-font-size);
+
+    .mp-icon {
+      vertical-align: -0.125em;
+    }
+  }
+
+  &__suffix {
+    margin-left: var(--mp-statistic-suffix-spacing);
+    color: var(--mp-statistic-suffix-color);
+    font-size: var(--mp-statistic-suffix-font-size);
+
+    .mp-icon {
+      vertical-align: -0.125em;
+    }
+  }
+
+  &__extra {
+    margin-top: var(--mp-statistic-extra-margin-top);
+    color: var(--mp-statistic-extra-color);
+    font-size: var(--mp-statistic-extra-font-size);
+  }
+}

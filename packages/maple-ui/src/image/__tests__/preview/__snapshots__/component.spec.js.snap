@@ -1,0 +1,100 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`test image preview component props > image preview current 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <div class="mp-carousel mp-image-preview__swipe" mp-image-preview-cover="">
+          <!-- Track (only for slide/card effect) -->
+          <div class="mp-carousel__track" style="width: 750px; transform: translateX(-375px); transition-duration: 300ms; transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1);">
+            <div class="mp-carousel-item mp-image-preview__swipe-item" style="width: 375px;" tabindex="-1" aria-hidden="true" mp-image-preview-cover="">
+              <div class="mp-image-preview__zoom-container" style="transform: scale(1) translate(0px, 0px);"><img role="img" class="mp-image-preview__image" src="https://maplejs.org/cat.jpg" alt="https://maplejs.org/cat.jpg"></div>
+            </div>
+            <div class="mp-carousel-item mp-image-preview__swipe-item" style="width: 375px;" tabindex="-1" aria-hidden="false" mp-image-preview-cover="">
+              <div class="mp-image-preview__zoom-container" style="transform: scale(1) translate(0px, 0px);"><img role="img" class="mp-image-preview__image" src="https://maplejs.org/cat2.jpg" alt="https://maplejs.org/cat2.jpg"></div>
+            </div>
+          </div><!-- Fade container -->
+          <!--v-if-->
+          <!-- Prev Navigation -->
+          <!--v-if-->
+          <!-- Next Navigation -->
+          <!--v-if-->
+          <!-- Indicator -->
+          <div class="mp-image-preview__indicators">2 / 2</div>
+        </div><span class="mp-icon mp-image-preview__close-icon" style="transition-duration: 0ms;" mp-image-preview-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test image preview component props > image preview imagePreventDefault 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <div class="mp-carousel mp-image-preview__swipe" mp-image-preview-cover="">
+          <!-- Track (only for slide/card effect) -->
+          <div class="mp-carousel__track" style="width: 375px; transform: translateX(0px); transition-duration: 300ms; transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1);">
+            <div class="mp-carousel-item mp-image-preview__swipe-item" style="width: 375px;" tabindex="-1" aria-hidden="false" mp-image-preview-cover="">
+              <div class="mp-image-preview__zoom-container" style="transform: scale(1) translate(0px, 0px);"><img role="img" class="mp-image-preview__image mp-image-preview--prevent" src="https://maplejs.org/cat.jpg" alt="https://maplejs.org/cat.jpg"></div>
+            </div>
+          </div><!-- Fade container -->
+          <!--v-if-->
+          <!-- Prev Navigation -->
+          <!--v-if-->
+          <!-- Next Navigation -->
+          <!--v-if-->
+          <!-- Indicator -->
+          <!--v-if-->
+        </div><span class="mp-icon mp-image-preview__close-icon" style="transition-duration: 0ms;" mp-image-preview-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test image preview component props > image preview open 1`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998; display: none;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000; display: none;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <!---->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;
+
+exports[`test image preview component props > image preview open 2`] = `
+"<transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+  <div class="mp--box mp-popup mp-popup--pointer-events-none" style="z-index: 1998;">
+    <!---->
+    <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3 mp-image-preview__popup" style="z-index: 2000;" role="dialog" aria-modal="true" mp-image-preview-cover="">
+        <div class="mp-carousel mp-image-preview__swipe" mp-image-preview-cover="">
+          <!-- Track (only for slide/card effect) -->
+          <div class="mp-carousel__track" style="width: 0px; transform: translateX(0px); transition-duration: 0ms; transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1);"></div><!-- Fade container -->
+          <!--v-if-->
+          <!-- Prev Navigation -->
+          <!--v-if-->
+          <!-- Next Navigation -->
+          <!--v-if-->
+          <!-- Indicator -->
+          <!--v-if-->
+        </div><span class="mp-icon mp-image-preview__close-icon" style="transition-duration: 0ms;" mp-image-preview-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span>
+        <!--v-if-->
+        <!--v-if-->
+      </div>
+    </transition-stub>
+  </div>
+</transition-stub>"
+`;

@@ -1,21 +1,31 @@
 import { type PropType } from 'vue'
 
-export type CollapseActiveNames = Array<string | number>
+export type CollapseName = string | number
 
-export type CollapseExpandIconPosition = 'left' | 'right'
+export type CollapseActiveNames = CollapseName[]
 
-export const props = {
+export const expandIconPositions = ['left', 'right'] as const
+
+export type CollapseExpandIconPosition = (typeof expandIconPositions)[number]
+
+export type CollapseToggleAllOptions = {
+  expand: boolean | 'inverse'
+  skipDisabled?: boolean
+}
+
+export const collapseProps = {
   activeNames: Array as PropType<CollapseActiveNames>,
   defaultActiveNames: {
     type: Array as PropType<CollapseActiveNames>,
     default: () => [],
   },
   accordion: Boolean,
-  offset: {
+  offset: Boolean,
+  divider: {
     type: Boolean,
     default: true,
   },
-  divider: {
+  bordered: {
     type: Boolean,
     default: true,
   },
@@ -25,7 +35,7 @@ export const props = {
   },
   expandIconPosition: {
     type: String as PropType<CollapseExpandIconPosition>,
-    default: 'right',
+    default: 'left',
   },
   showExpandIcon: {
     type: Boolean,
@@ -33,3 +43,5 @@ export const props = {
   },
   destroyOnHide: Boolean,
 }
+
+export const props = collapseProps

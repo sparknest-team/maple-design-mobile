@@ -1,14 +1,28 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import DateRange from './DateRange.vue'
+import _DateRange from './DateRange.vue'
+import DateRangePicker from './DateRangePicker.vue'
+import { props as dateRangePickerProps } from './picker-props'
 import { props as dateRangeProps } from './props'
 
-withInstall(DateRange)
-withPropsDefaultsSetter(DateRange, dateRangeProps)
+const DateRange = withInstall(
+  _DateRange,
+  Object.assign(_DateRange, {
+    Picker: DateRangePicker,
+  }),
+  { components: [_DateRange, DateRangePicker] },
+)
 
-export type DateRangeInstance = InstanceType<typeof DateRange>
+withPropsDefaultsSetter(DateRange, dateRangeProps)
+withPropsDefaultsSetter(DateRangePicker, dateRangePickerProps)
+
+export { dateRangeProps, dateRangePickerProps, DateRangePicker }
+
+export type DateRangeInstance = InstanceType<typeof _DateRange>
+export type DateRangePickerInstance = InstanceType<typeof DateRangePicker>
 export type { DateRangeProps, DateRangeType, DateRangePresentation } from './props'
-export { dateRangeProps }
+export type { DateRangePickerProps, DateRangePickerPresentation, DateRangePickerType } from './picker-props'
 
 export const _DateRangeComponent = DateRange
+export const _DateRangePickerComponent = DateRangePicker
 
 export default DateRange

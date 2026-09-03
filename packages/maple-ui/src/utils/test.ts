@@ -1,6 +1,21 @@
-import { nextTick, type ComponentPublicInstance } from 'vue'
-import { getStyle, isPlainObject } from '@maplejs/maple-shared'
+import { defineComponent, nextTick, type Component, type ComponentPublicInstance } from 'vue'
+import { getStyle, isPlainObject, pascalCase } from '@maplejs/maple-shared'
 import { config, type DOMWrapper, type VueWrapper } from '@vue/test-utils'
+
+export function createRegisteredIconComponents(iconNames: string[]): Record<string, Component> {
+  return Object.fromEntries(
+    iconNames.map((name) => {
+      const componentName = `Icon${pascalCase(name)}`
+      return [
+        componentName,
+        defineComponent({
+          name: componentName,
+          template: `<svg class="mp-icon-${name}" />`,
+        }),
+      ]
+    }),
+  )
+}
 
 export const delay = (time: number) =>
   new Promise((resolve) => {

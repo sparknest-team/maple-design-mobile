@@ -1,3 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`test tag component props > tag snapshot 1`] = `"<transition-stub name="mp-fade" appear="false" persisted="true" css="true"><span class="mp-tag mp-tag--size-md mp-tag--status-default mp-tag--variant-default mp-tag--checked"><!--v-if-->Tag Text<!--v-if--></span></transition-stub>"`;
+exports[`test tag component props > tag snapshot 1`] = `"<transition-stub name="mp-fade" appear="false" persisted="false" css="true"><span class="mp-tag mp-tag--size-md mp-tag--status-default mp-tag--variant-default mp-tag--checked"><!--v-if-->Tag Text<!--v-if--></span></transition-stub>"`;

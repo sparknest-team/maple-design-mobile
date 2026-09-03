@@ -104,16 +104,16 @@ import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
 import { call, isArray, isEmpty, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
-import { defaultDate, defaultDateTime } from '../date-picker/datetime'
-import MpDateRangePicker from '../date-range-picker'
+import { defaultDate, defaultDateTime } from '../date/datetime'
 import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
 import { createNamespace } from '../utils/components'
+import MpDateRangePicker from './DateRangePicker.vue'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('date-range')
@@ -362,13 +362,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../button/button';
-@import '../field-decorator/fieldDecorator';
-@import '../popup/popup';
-@import '../date-range-picker/dateRangePicker';
-@import './date-range';
-</style>

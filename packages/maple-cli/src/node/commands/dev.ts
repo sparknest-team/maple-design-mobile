@@ -34,7 +34,7 @@ async function stub(mapleConfig: Required<MapleConfig>) {
 
   outputFileSync(resolve(ES_DIR, `index${getScriptExtname()}`), indexTemplate)
   // Load global tokens once; keep them out of component SFCs so Vite Less won't inline them N times.
-  outputFileSync(resolve(ES_DIR, `style${getScriptExtname()}`), `import '../${SRC}/styles/theme/css-variables.less'\n`)
+  outputFileSync(resolve(ES_DIR, `style${getScriptExtname()}`), `import '../${SRC}/style/theme/css-variables.less'\n`)
   outputFileSync(esmFile, esmContent)
   outputFileSync(cssFile, cssContent)
 }

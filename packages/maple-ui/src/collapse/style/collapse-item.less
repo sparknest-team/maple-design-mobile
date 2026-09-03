@@ -1,0 +1,105 @@
+:root {
+  --mp-collapse-background: var(--mp-color-fill-3);
+  --mp-collapse-text-color: #232222;
+  --mp-collapse-header-font-size: var(--mp-font-size-lg);
+  --mp-collapse-header-padding: 10px 12px;
+  --mp-collapse-content-font-size: var(--mp-font-size-md);
+  --mp-collapse-content-padding: 0 12px 10px;
+  --mp-collapse-item-margin-top: 16px;
+  --mp-collapse-disable-color: #bdbdbd;
+  --mp-collapse-border-top: thin solid var(--mp-color-border-2);
+  --mp-collapse-border-width: 1px;
+  --mp-collapse-border-color: var(--mp-color-border-2);
+  --mp-collapse-border-radius: 4px;
+}
+
+.mp-collapse-item {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 0;
+  background: var(--mp-collapse-background);
+  color: var(--mp-collapse-text-color);
+  transition:
+    margin-top 0.25s,
+    background-color 0.25s;
+
+  &__shadow {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+  }
+
+  &:not(:first-child)::after {
+    border-top: var(--mp-collapse-divider-top);
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    font-size: var(--mp-collapse-header-font-size);
+    gap: 8px;
+    outline: none;
+    padding: var(--mp-collapse-header-padding);
+    position: relative;
+
+    &-title {
+      flex: 1;
+      min-width: 0;
+      transition: color 0.25s;
+    }
+
+    &-extra {
+      flex-shrink: 0;
+    }
+
+    &-icon {
+      flex-shrink: 0;
+      transform: rotate(0deg);
+      transition: transform 0.25s;
+    }
+
+    &-open {
+      transform: rotate(-180deg);
+    }
+
+    &--disable {
+      color: var(--mp-collapse-disable-color);
+    }
+
+    &--cursor-pointer {
+      cursor: pointer;
+    }
+
+    &--icon-left {
+      .mp-collapse-item__header-icon {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__content {
+    font-size: var(--mp-collapse-content-font-size);
+    overflow: hidden;
+    transition: all 0.25s;
+
+    &-wrap {
+      padding: var(--mp-collapse-content-padding);
+      word-break: break-all;
+    }
+  }
+
+  &--disable {
+    color: var(--mp-collapse-disable-color);
+    cursor: not-allowed;
+  }
+}

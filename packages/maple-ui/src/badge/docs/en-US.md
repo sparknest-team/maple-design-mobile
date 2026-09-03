@@ -1,8 +1,6 @@
 # Badge
 
-### Intro
-
-A red dot, number, or text that appears on an icon or text to indicate new or pending content.
+A red dot, number, or text that appears on an icon or text to indicate new or pending content. Examples match Cedar Design Web, with a more compact mobile layout.
 
 > ⚠️ **BREAKING**: Aligned with PC `CBadge`. Old API is not compatible. Migration:
 
@@ -20,95 +18,152 @@ A red dot, number, or text that appears on an icon or text to indicate new or pe
 | `slot="value"` | `slot="content"` |
 | `icon` / `namespace` | _removed (use `slot="content"`)_ |
 
-### Theme Color Badge
+## Examples
 
-Set different theme colors via `status`.
+### Basic Usage
+
+Set `content` or the `content` slot to show a badge.
 
 ```html
-<mp-badge dot status="primary" />
-<mp-badge dot status="info" />
-<mp-badge dot status="success" />
-<mp-badge dot status="warning" />
-<mp-badge dot status="danger" />
+<mp-space wrap align="center" :size="16">
+  <mp-badge :content="9">
+    <mp-avatar shape="square" :size="40">
+      <m-icon-account-circle />
+    </mp-avatar>
+  </mp-badge>
+  <mp-badge :content="9" dot>
+    <mp-avatar shape="square" :size="40">
+      <m-icon-account-circle />
+    </mp-avatar>
+  </mp-badge>
+  <mp-badge>
+    <template #content>
+      <m-icon-history />
+    </template>
+    <mp-avatar shape="square" :size="40">
+      <m-icon-account-circle />
+    </mp-avatar>
+  </mp-badge>
+</mp-space>
 ```
 
-### Dot Badge
+### Inline
+
+When both the default slot and `description` are empty, the badge becomes inline. You can also set `mode`. Use `description` for the label.
 
 ```html
-<mp-badge dot status="danger">
-  <mp-tag>Badge</mp-tag>
+<mp-badge :content="1000" />
+<mp-badge :content="1000" dot />
+<mp-badge :content="1000" mode="inline" description="Description" />
+<mp-badge :content="1000" mode="inline" description="Description" inline-position="start" />
+```
+
+### Dot
+
+Set `dot` to show only a red dot. Use `offset-x` / `offset-y` to nudge the position.
+
+```html
+<mp-badge :content="9" dot :offset-x="6" :offset-y="-2">
+  <a href="#">Link</a>
+</mp-badge>
+<mp-badge :content="9" dot :offset-x="2" :offset-y="-2">
+  <m-icon-bell />
 </mp-badge>
 ```
 
 ### Custom Content
 
+Set `content` for text badges. With `mode="inline"` the badge sits in a row with the wrapped content.
+
 ```html
-<mp-badge status="danger" content="hot">
-  <mp-tag>Badge</mp-tag>
+<mp-badge content="NEW">
+  <mp-avatar shape="square" :size="40">
+    <m-icon-account-circle />
+  </mp-avatar>
 </mp-badge>
-<mp-badge status="danger" :content="66">
-  <mp-tag>Badge</mp-tag>
+<mp-badge content="HOT" mode="inline" inline-position="end">
+  <mp-avatar shape="square" :size="40">
+    <m-icon-account-circle />
+  </mp-avatar>
 </mp-badge>
 ```
 
-### Maximum
+### Max
 
-When numeric `content` exceeds `max`, it shows `${max}+`.
+`max` caps the numeric value and appends `+`. Default is `99`. `content` of `0` is hidden unless `show-zero` is on.
 
 ```html
-<mp-badge status="danger" :content="188" :max="99">
-  <mp-tag>Badge</mp-tag>
+<mp-badge :max="10" :content="0">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :max="10" :content="100">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :content="100">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :max="999" :content="1000">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+```
+
+### Status and Color
+
+Use `status` and `color` for semantic or custom colors, and `text-color` for the content color.
+
+```html
+<mp-badge color="#F53F3F" description="#F53F3F" mode="inline" inline-position="end" />
+<mp-badge status="success" description="Success" mode="inline" />
+<mp-badge status="danger" content="Danger" />
+<mp-badge description="red #7BC616" content="1" color="red" text-color="#7BC616" />
+```
+
+### Size
+
+Sizes: `xs`, `sm`, `md`, `lg`, `xl`. Works with dots, numbers, and floating badges.
+
+```html
+<mp-badge dot :content="1" size="xs" mode="inline" description="Description" />
+<mp-badge :content="1" size="md" mode="inline" description="Description" />
+<mp-badge :content="1" size="lg">
+  <mp-avatar shape="square" :size="40" />
 </mp-badge>
 ```
 
 ### Position
 
-```html
-<mp-badge dot status="danger" position="top-right" />
-<mp-badge dot status="danger" position="top-left" />
-<mp-badge dot status="danger" position="bottom-right" />
-<mp-badge dot status="danger" position="bottom-left" />
-```
-
-### Offset
+Floating mode supports four corners (`top-right`, `top-left`, `bottom-right`, `bottom-left`). Inline mode uses `inline-position` `start` / `end`. Nudge with `offset-x` / `offset-y`.
 
 ```html
-<mp-badge status="danger" dot :offset-x="6" :offset-y="6">
-  <mp-tag>Badge</mp-tag>
+<mp-badge :content="100" position="top-right" :offset-x="offsetX" :offset-y="offsetY">
+  <mp-avatar shape="square" :size="40" />
+</mp-badge>
+<mp-badge :content="100" mode="inline" inline-position="start">
+  <mp-avatar shape="square" :size="40" />
 </mp-badge>
 ```
 
-### Hidden
+### Show and Hide
+
+`show` toggles visibility. `show-zero` controls whether `content` of `0` is shown.
 
 ```html
-<mp-badge status="danger" dot :show="false">
-  <mp-tag>Badge</mp-tag>
+<mp-switch v-model="show" />
+<mp-input-number v-model="content" size="sm" />
+<mp-badge :content="0" :show-zero="true" :show="show" description="show-zero true" />
+<mp-badge :content="content" :show="show" description="Description" />
+<mp-badge :content="content" :show="show" description="Description" dot />
+```
+
+### Variant
+
+Variants: `outline` and `default`.
+
+```html
+<mp-badge variant="outline" content="1" status="success">
+  <mp-avatar shape="square" :size="40" />
 </mp-badge>
-```
-
-### Inline Mode
-
-Use `mode="inline"` with `description` for inline badges.
-
-```html
-<mp-badge mode="inline" status="success" dot description="Online" />
-<mp-badge mode="inline" status="warning" dot description="Away" />
-```
-
-### Size
-
-```html
-<mp-badge mode="inline" status="primary" :content="6" size="xs" description="xs" />
-<mp-badge mode="inline" status="primary" :content="6" size="sm" description="sm" />
-<mp-badge mode="inline" status="primary" :content="6" size="md" description="md" />
-<mp-badge mode="inline" status="primary" :content="6" size="lg" description="lg" />
-<mp-badge mode="inline" status="primary" :content="6" size="xl" description="xl" />
-```
-
-### Outline Variant
-
-```html
-<mp-badge mode="inline" variant="outline" status="primary" :content="6" description="primary" />
+<mp-badge variant="outline" content="1" status="danger" mode="inline" description="Description" />
 ```
 
 ## API

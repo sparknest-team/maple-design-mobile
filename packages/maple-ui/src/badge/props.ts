@@ -1,123 +1,57 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
-import type { ComponentSize, SemanticStatus } from '../utils/constants'
+import { componentSizes, semanticStatuses, type ComponentSize, type SemanticStatus } from '../utils/constants'
 
-/**
- * 徽标变体
- */
-export type BadgeVariant = 'default' | 'outline'
+export const badgeModes = ['floating', 'inline'] as const
+export const badgePositions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'] as const
+export const badgeInlinePositions = ['start', 'end'] as const
+export const badgeVariants = ['default', 'outline'] as const
 
-/**
- * 徽标布局模式
- */
-export type BadgeMode = 'floating' | 'inline'
+export type BadgeMode = (typeof badgeModes)[number]
+export type BadgePosition = (typeof badgePositions)[number]
+export type BadgeInlinePosition = (typeof badgeInlinePositions)[number]
+export type BadgeVariant = (typeof badgeVariants)[number]
 
-/**
- * 徽标定位（mode=floating 时有效）
- */
-export type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
-
-/**
- * 内联模式定位（mode=inline 时有效）
- */
-export type BadgeInlinePosition = 'start' | 'end'
-
-/**
- * 徽标尺寸
- */
 export const badgeProps = {
-  /**
-   * 徽标的描述文本
-   */
   description: String,
-  /**
-   * 显示为小红点
-   */
   dot: Boolean,
-  /**
-   * 徽标最大显示数值，超出时显示为 `${max}+`，content 为数字时有效
-   */
-  max: {
-    type: Number,
-    default: 99,
-  },
-  /**
-   * 是否显示徽标
-   */
-  show: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * 徽标内容为 0 时是否显示
-   */
-  showZero: Boolean,
-  /**
-   * 横向偏移量（mode=floating 时有效）
-   */
-  offsetX: {
-    type: Number,
-    default: 0,
-  },
-  /**
-   * 纵向偏移量
-   */
-  offsetY: {
-    type: Number,
-    default: 0,
-  },
-  /**
-   * 自定义背景色
-   */
+  max: { type: Number, default: 99 },
+  show: { type: Boolean, default: true },
+  showZero: { type: Boolean, default: false },
+  offsetX: { type: Number, default: 0 },
+  offsetY: { type: Number, default: 0 },
   color: String,
-  /**
-   * 徽标显示的内容
-   */
-  content: [Number, String],
-  /**
-   * 徽标显示的内容颜色
-   */
+  content: [Number, String] as PropType<number | string>,
   textColor: String,
-  /**
-   * 徽标布局模式，可选 `floating` | `inline`
-   */
   mode: {
     type: String as PropType<BadgeMode>,
     default: 'floating',
+    validator: (value: unknown): value is BadgeMode => badgeModes.includes(value as BadgeMode),
   },
-  /**
-   * 徽标定位（mode=floating 时有效）
-   */
   position: {
     type: String as PropType<BadgePosition>,
     default: 'top-right',
+    validator: (value: unknown): value is BadgePosition => badgePositions.includes(value as BadgePosition),
   },
-  /**
-   * 内联模式定位（mode=inline 时有效）
-   */
   inlinePosition: {
     type: String as PropType<BadgeInlinePosition>,
     default: 'end',
+    validator: (value: unknown): value is BadgeInlinePosition =>
+      badgeInlinePositions.includes(value as BadgeInlinePosition),
   },
-  /**
-   * 徽标尺寸
-   */
   size: {
     type: String as PropType<ComponentSize>,
     default: 'md',
+    validator: (value: unknown): value is ComponentSize => componentSizes.includes(value as ComponentSize),
   },
-  /**
-   * 徽标状态色
-   */
   status: {
     type: String as PropType<SemanticStatus>,
     default: 'default',
+    validator: (value: unknown): value is SemanticStatus => semanticStatuses.includes(value as SemanticStatus),
   },
-  /**
-   * 徽标变体
-   */
   variant: {
     type: String as PropType<BadgeVariant>,
     default: 'default',
+    validator: (value: unknown): value is BadgeVariant => badgeVariants.includes(value as BadgeVariant),
   },
 }
 

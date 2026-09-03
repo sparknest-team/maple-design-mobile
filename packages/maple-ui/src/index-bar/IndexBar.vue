@@ -30,10 +30,10 @@ import {
   toNumber,
 } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
-import { type IndexAnchorProvider } from '../index-anchor/provide'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, toPxNum, scrollTo as varScrollTo } from '../utils/elements'
 import { easeInOutCubic } from '../utils/shared'
+import { type IndexAnchorProvider } from './anchor-provide'
 import { props, type ClickOptions, type IndexBarScrollToOptions } from './props'
 import { useIndexAnchors, type IndexBarProvider } from './provide'
 
@@ -205,8 +205,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import './indexBar';
-</style>

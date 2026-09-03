@@ -1,67 +1,55 @@
+<!-- @sync-with: cedar-ui/src/count-to/count-to.vue -->
 <template>
   <div :class="n()">
-    <slot :value="value"> {{ value }} </slot>
+    <slot :value="displayValue">{{ displayValue }}</slot>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onMounted, watch } from 'vue'
-import { call, floor, toNumber } from '@maplejs/maple-shared'
+<script lang="ts" setup>
+import { computed, onMounted, watch } from 'vue'
+import { floor, toNumber } from '@maplejs/maple-shared'
 import { useMotion } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
-import { props } from './props'
+import { countToProps } from './props'
 
-const { name, n } = createNamespace('count-to')
+defineOptions({
+  name: createNamespace('count-to').name,
+})
 
-export default defineComponent({
-  name,
-  props,
-  emits: ['end'],
-  setup(props, { emit }) {
-    const {
-      value: _value,
-      reset: _reset,
-      // expose
-      start,
-      // expose
-      pause,
-    } = useMotion({
-      from: () => toNumber(props.from),
-      to: () => toNumber(props.to),
-      duration: () => toNumber(props.duration),
-      timingFunction: props.timingFunction,
-      onFinished() {
-        emit('end')
-      },
-    })
+const { n } = createNamespace('count-to')
+const props = defineProps(countToProps)
+const emit = defineEmits<{ (event: 'end'): void }>()
 
-    const value = computed(() => floor(_value.value, toNumber(props.precision)))
-
-    watch(() => [props.from, props.to, props.duration], reset)
-    onMounted(reset)
-
-    // expose
-    function reset() {
-      _reset()
-      if (props.autoStart) {
-        start()
-      }
-    }
-
-    return {
-      value,
-      n,
-      start,
-      pause,
-      reset,
-      toNumber,
-      floor,
-    }
+const {
+  value: motionValue,
+  reset: resetMotion,
+  start,
+  pause,
+} = useMotion({
+  from: () => toNumber(props.from),
+  to: () => toNumber(props.to),
+  duration: () => toNumber(props.duration),
+  timingFunction: props.timingFunction,
+  onFinished() {
+    emit('end')
   },
 })
-</script>
 
-<style lang="less">
-@import '../styles/common';
-@import './countTo';
-</style>
+const displayValue = computed(() => floor(motionValue.value, toNumber(props.precision)))
+
+function reset() {
+  resetMotion()
+  if (props.autoStart) {
+    start()
+  }
+}
+
+watch(() => [props.from, props.to, props.duration], reset)
+onMounted(reset)
+
+defineExpose({
+  start,
+  pause,
+  reset,
+})
+</script>

@@ -3,8 +3,7 @@ import { isArray, isNumeric } from '@maplejs/maple-shared'
 import { createNamespace, flatFragment } from '../utils/components'
 import { padStartFlex, toSizeUnit } from '../utils/elements'
 import { spaceProps as props, type SpaceSize } from './props'
-import '../styles/common.less'
-import './space.less'
+import './style'
 
 const isInternalSize = (size: any) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(size)
 

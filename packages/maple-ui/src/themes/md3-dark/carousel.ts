@@ -6,6 +6,8 @@ export default {
   '--mp-carousel-navigation-button-width': '36px',
   '--mp-carousel-navigation-button-height': '36px',
   '--mp-carousel-navigation-button-border-radius': '50%',
+  '--mp-carousel-navigation-button-background': 'rgba(0, 0, 0, 0.35)',
+  '--mp-carousel-navigation-button-color': '#fff',
   '--mp-carousel-navigation-icon-size': '20px',
   '--mp-carousel-navigation-prev-left': '8px',
   '--mp-carousel-navigation-next-right': '8px',

@@ -450,3 +450,64 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--tab-font-weight`    | `400`                        |
 | `--tab-active-font-size`      | `var(--font-size-md)`        |
 | `--tab-active-font-weight`    | `400`                        |
+
+## API
+
+### Props
+
+| Prop       | Description            | Type               | Default |
+| ---------- | ---------------------- | ------------------ | ------- |
+| `name`     | Tab's name             | _string \| number_ | `-` |
+| `disabled` | Whether to disable tab | _boolean_          | `false` |
+| `ripple`   | Whether to enable ripple effect | _boolean_ | `true`  |
+
+### Events
+
+#### Tab Events
+
+| Event   | Description                                                                         | Arguments                                      |
+| ------- | ----------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `click` | Triggered when the tab is clicked, but not when the tab `disabled` status is `true` | `active: string \| number` <br> `event: Event` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --------- | ------------- | --------- |
+| `default` | Tab's content | `-`       |
+
+## API
+
+### Props
+
+| Prop   | Description | Type               | Default |
+| ------ | ----------- | ------------------ | ------- |
+| `name` | View's name | _string \| number_ | `-` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --------- | ----------------- | --------- |
+| `default` | TabItem's content | `-`       |
+
+## API
+
+### Props
+
+| Prop             | Description                      | Type               | Default |
+| ---------------- | -------------------------------- | ------------------ | ------- |
+| `v-model:active` | The identity of the active tab   | _string \| number_ | `-`     |
+| `can-swipe`      | Whether to allow swipe switch    | _boolean_          | `true`  |
+| `animated`       | Whether to enable content switching animation | _boolean_          | `true`  |
+| `loop`           | Whether to allow cycle switching | _boolean_          | `false` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --------- | ----------------- | --------- |
+| `default` | TabsItems content | `-`       |
+
+### Methods
+
+| Method     | Description                        | Arguments | Return |
+| ---------- | ---------------------------------- | --------- | ------ |
+| `getCarousel` | Get the `carousel` component instance | `-`       | `-`    |

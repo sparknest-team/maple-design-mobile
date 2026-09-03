@@ -109,7 +109,7 @@ import { call, isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
 import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
@@ -117,10 +117,10 @@ import { injectLocaleProvider } from '../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../picker'
 import type { PickerColumnOption } from '../picker/props'
 import MpPopup from '../popup'
-import MpTimePicker from '../time-picker'
 import { createNamespace } from '../utils/components'
 import { padStart } from '../utils/shared'
 import { props } from './props'
+import MpTimePicker from './TimePicker.vue'
 
 const { name, n, classes } = createNamespace('time')
 
@@ -402,14 +402,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../button/button';
-@import '../field-decorator/fieldDecorator';
-@import '../popup/popup';
-@import '../picker/picker';
-@import '../time-picker/timePicker';
-@import './time';
-</style>

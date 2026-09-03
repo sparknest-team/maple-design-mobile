@@ -20,7 +20,7 @@ Controlling numerical precision with `precision`
 
 ```html
 <template>
-  <mp-count-to :to="123456" />
+  <mp-count-to :to="123456" :precision="2" />
 </template>
 ```
 
@@ -30,7 +30,7 @@ The `duration` attribute specifies the animation duration in milliseconds.
 
 ```html
 <template>
-  <mp-count-to :to="123456" :duration="100000" />
+  <mp-count-to :to="123456" :duration="10000" />
 </template>
 ```
 
@@ -69,9 +69,11 @@ const countTo = ref()
 
 <template>
   <mp-count-to ref="countTo" :to="123456" :auto-start="false" />
-  <mp-button @click="countToRef.start()">Start</mp-button>
-  <mp-button @click="countToRef.pause()">Pause</mp-button>
-  <mp-button @click="countToRef.reset()">Reset</mp-button>
+  <mp-row justify="space-between" align="center" style="margin-top: 10px">
+    <mp-button status="primary" @click="countTo.start()">Start</mp-button>
+    <mp-button @click="countTo.pause()">Pause</mp-button>
+    <mp-button @click="countTo.reset()">Reset</mp-button>
+  </mp-row>
 </template>
 ```
 
@@ -84,9 +86,9 @@ const countTo = ref()
 | `from`       | Start value                              | _number \| string_ | `0`     |
 | `to`         | Target value                             | _number \| string_ | `0`     |
 | `duration`   | Animation duration (ms)                  | _number \| string_ | `2000` |
-| `precision`   | Precision (ms)                  | _number \| string_ | `2` |
+| `precision`   | Precision                  | _number \| string_ | `0` |
 | `auto-start` | Whether to start animation automatically | _boolean_          | `true`  |
-| `timing-function` | Animation curve      | _(v: number) => number_          | `v => v`  |
+| `timing-function` | Animation curve      | _(v: number) => number_          | `-`  |
 
 ### Events
 
@@ -114,5 +116,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | --- | --- |
-| `--count-to-text-color`     | `var(--color-text)`   |
-| `--count-to-text-font-size` | `var(--font-size-lg)` |
+| `--mp-count-to-text-color`     | `var(--mp-color-text)`   |
+| `--mp-count-to-text-font-size` | `var(--mp-font-size-lg)` |

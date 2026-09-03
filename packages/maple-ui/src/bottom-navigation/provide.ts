@@ -1,6 +1,6 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { type BottomNavigationItemProvider } from '../bottom-navigation-item/provide'
+import { type BottomNavigationItemProvider } from './item-provide'
 
 export interface BottomNavigationProvider {
   active: ComputedRef<number | string | undefined>

@@ -7,14 +7,7 @@ import Icon from '../icon'
 import { createNamespace, flatFragment } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
-import '../styles/common.less'
-import '../styles/elevation.less'
-import '../ripple/ripple.less'
-import '../icon/icon.less'
-import '../loading/loading.less'
-import '../button/button.less'
-import '../drag/drag.less'
-import './fab.less'
+import './style'
 
 const { name, classes, n } = createNamespace('fab')
 

@@ -8,13 +8,13 @@ export type DividerSize = number | string | Array<number | string>
 
 export const dividerProps = {
   /**
-   * 水平方向缩进 / 垂直方向时的上下间距
+   * 沿 x 轴方向的间距（水平分割线时为左右 inset；竖直分割线时为上下 margin）
    */
   sizeX: {
     type: [Number, String, Array] as PropType<DividerSize>,
   },
   /**
-   * 水平方向上下间距 / 垂直方向时的左右间距
+   * 沿 y 轴方向的间距（水平分割线时为上下 margin；竖直分割线时为左右 inset）
    */
   sizeY: {
     type: [Number, String, Array] as PropType<DividerSize>,

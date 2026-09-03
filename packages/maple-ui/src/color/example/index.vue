@@ -55,6 +55,6 @@ const levels = [1, 2, 3, 4]
 </template>
 
 <style lang="less">
-@import '../../styles/theme/css-variables.less';
-@import '../../utilities/utilities.less';
+@import '../../style/theme/css-variables.less';
+@import '../../utilities/style/utilities.less';
 </style>

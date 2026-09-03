@@ -1,229 +1,93 @@
 # List
 
-### Intro
+A presentational list. Compose it with `InfiniteScroll` for pagination.
 
-Unlimited scroll load list, touch bottom load, support manual check position load.
-Support custom loading state, error state, data loading completed state.
-
-### Basic Use
-
-The `load` event is emitted when a scroll container is detected scrolling to the bottom, and will be set `loading` to `true`,
-you need to manually set `loading` to `false` at the end of loading, that's the end of the load.
+## Basic Usage
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(false)
-const finished = ref(false)
-const list = ref([])
-    
-function load() {
-  setTimeout(() => {
-    for (let i = 0; i < 20; i++) {
-      list.value.push(list.value.length + 1)
-    }
-
-    loading.value = false
-
-    if (list.value.length >= 60) {
-      finished.value = true
-    }
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-list
-    :finished="finished"
-    v-model:loading="loading"
-    @load="load"
-  >
-    <mp-cell :key="item" v-for="item in list">
-      List Item: {{ item }}
-    </mp-cell>
-  </mp-list>
-</template>
+<mp-list :data="items" size="md" bordered>
+  <template #header>Contacts</template>
+  <template #item="{ item, index }">
+    <mp-list-item>
+      <template #prefix>{{ index + 1 }}</template>
+      {{ item.name }}
+      <template #suffix>{{ item.phone }}</template>
+    </mp-list-item>
+  </template>
+  <template #empty>No contacts</template>
+  <template #footer>{{ items.length }} items</template>
+</mp-list>
 ```
 
-### Load Fail
-
-You can manually set the error status using `v-model:error`, an error message is displayed.
-Clicking on the error message will help you set the `error` to `false` and trigger the `load` event again.
+You can also provide list content directly. When both the default slot and `data` are present, the default slot wins and `item` is not invoked.
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(false)
-const error = ref(false)
-const list = ref([])
-    
-function load() {
-  setTimeout(() => {
-    if (list.value.length === 40) {
-      error.value = true
-      loading.value = false
-      return
-    }
-
-    for (let i = 0; i < 20; i++) {
-      list.value.push(list.value.length + 1)
-    }
-
-    loading.value = false
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-list
-    v-model:error="error"
-    v-model:loading="loading"
-    @load="load"
-  >
-    <mp-cell :key="item" v-for="item in list">
-      List Item: {{ item }}
-    </mp-cell>
-  </mp-list>
-</template>
+<mp-list :data="items">
+  <mp-list-item>Default slot content</mp-list-item>
+  <template #item="{ item }">{{ item }}</template>
+</mp-list>
 ```
 
-### Tip Text
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(false)
-const finished = ref(false)
-const list = ref([])
-
-function load() {
-  setTimeout(() => {
-    for (let i = 0; i < 20; i++) {
-      list.value.push(list.value.length + 1)
-    }
-
-    loading.value = false
-
-    if (list.value.length >= 60) {
-      finished.value = true
-    }
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-list 
-    loading-text="loading QAQ" 
-    finished-text="finished ORZ" 
-    error-text="error TNT" 
-    :finished="finished" 
-    v-model:loading="loading" 
-    @load="load"
-  >
-    <mp-cell :key="item" v-for="item in list">
-      List Item: {{ item }}
-    </mp-cell>
-  </mp-list>
-</template>
-```
-
-### Combine
-
-Combined with the `PullRefresh` component to implement the function of pull-up loading and pull-down refresh, ensuring the height of the `PullRefresh` is not `0`.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const refreshing = ref(false)
-const loading = ref(false)
-const list = ref([])
-
-function refresh() {
-  setTimeout(() => {
-    console.log('refresh')
-    refreshing.value = false
-  }, 2000)
-}
-
-function load() {
-  setTimeout(() => {
-    for (let i = 0; i < 20; i++) {
-      list.value.push(list.value.length + 1)
-    }
-    
-    loading.value = false
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-pull-refresh v-model="refreshing" @refresh="refresh">
-    <mp-list v-model:loading="loading" @load="load">
-      <mp-cell :key="d" v-for="d in list">ListItem {{ d }}</mp-cell>
-    </mp-list>
-  </mp-pull-refresh>
-</template>
-```
-
-### Be Careful
-
-We detect bottoming by listening for the scroll event of the scroll container and perform the load.
-A scroll container is the nearest element that `overflow-y='auto'` or `scroll`
-When you set an element's `overflow-x` to a value other than `visible`, The browser will fix your `overflow-y` to `auto` in order to maintain a `BFC` structure.
-This can be mistaken for a scroll container, so avoid it.
+`loading` represents an initial full-list load or refresh, not next-page loading. An empty list does not render its empty state while loading.
 
 ## API
 
 ### Props
 
-| Prop              | Description                                                               | Type               | Default     |
-| ----------------- | ------------------------------------------------------------------------- | ------------------ | ----------- |
-| `v-model:loading` | Loading state                                                             | _boolean_          | `false`     |
-| `v-model:error`   | Error state                                                               | _boolean_          | `false`     |
-| `immediate-check` | Whether the location is detected immediately when the List is initialized | _boolean_          | `true`      |
-| `finished`        | Whether the load is complete                                              | _boolean_          | `false`     |
-| `offset`          | Trigger distance from the bottom                                          | _string \| number_ | `0`         |
-| `loading-text`    | Loading text                                                              | _string_           | `Loading`   |
-| `finished-text`   | Finished text                                                             | _string_           | `No more`   |
-| `error-text`      | Error text                                                                | _string_           | `Load fail` |
-
-### Methods
-
-| Method  | Description                                             | Arguments | Return |
-| ------- | ------------------------------------------------------- | --------- | --- |
-| `check` | Trigger position check, touch bottom trigger load event | `-`       | `-` |
-
-### Events
-
-| Event  | Description                  | Arguments |
-| ------ | ---------------------------- | --------- |
-| `load` | Triggered when it hit bottom | `-`       |
+| Prop       | Description                             | Type                   | Default |
+| ---------- | --------------------------------------- | ---------------------- | ------- |
+| `data`     | Data passed to the `item` slot          | `unknown[]`            | `-`     |
+| `size`     | List item size                          | `'sm' \| 'md' \| 'lg'` | `'md'`  |
+| `bordered` | Show the outer border                   | `boolean`              | `true`  |
+| `split`    | Show separators between list items      | `boolean`              | `true`  |
+| `loading`  | Initial full-list loading or refreshing | `boolean`              | `false` |
 
 ### Slots
 
-| Name | Description | SlotProps |
-| ---------- | ---------------- | --------- |
-| `default`  | List content     | `-`       |
-| `loading`  | Loading content  | `-`       |
-| `error`    | Error content    | `-`       |
-| `finished` | Finished content | `-`       |
+| Name      | Description                                | Props             |
+| --------- | ------------------------------------------ | ----------------- |
+| `default` | Manual content; takes priority over `data` | `-`               |
+| `item`    | Data item content                          | `{ item, index }` |
+| `header`  | Header                                     | `-`               |
+| `footer`  | Footer                                     | `-`               |
+| `empty`   | Empty content shown when not loading       | `-`               |
 
-### Style Variables
+### ListItem
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+| Name      | Description    |
+| --------- | -------------- |
+| `prefix`  | Prefix content |
+| `default` | Main content   |
+| `suffix`  | Suffix content |
 
-| Variable                    | Default               |
-| --------------------------- | --------------------- |
-| `--list-loading-height`     | `50px`                |
-| `--list-finished-height`    | `50px`                |
-| `--list-error-height`       | `50px`                |
-| `--list-loading-color`      | `#888`                |
-| `--list-finished-color`     | `#888`                |
-| `--list-error-color`        | `#888`                |
-| `--list-loading-font-size`  | `var(--font-size-md)` |
-| `--list-finished-font-size` | `var(--font-size-md)` |
-| `--list-error-font-size`    | `var(--font-size-md)` |
+## Style Variables
+
+| Variable                    | Default                    |
+| --------------------------- | -------------------------- |
+| `--mp-list-background`      | `var(--mp-color-bg-1)`     |
+| `--mp-list-border-color`    | `var(--mp-color-border-2)` |
+| `--mp-list-border-radius`   | `4px`                      |
+| `--mp-list-header-padding`  | `12px 16px`                |
+| `--mp-list-footer-padding`  | `12px 16px`                |
+| `--mp-list-empty-padding`   | `24px 16px`                |
+| `--mp-list-empty-color`     | `var(--mp-color-text-3)`   |
+| `--mp-list-loading-padding` | `16px`                     |
+| `--mp-list-item-padding-sm` | `8px 12px`                 |
+| `--mp-list-item-padding-md` | `12px 16px`                |
+| `--mp-list-item-padding-lg` | `16px 20px`                |
+| `--mp-list-item-gap`        | `12px`                     |
+
+# ListItem
+
+A presentational item for `List`; it can also be used independently.
+
+## API
+
+### Slots
+
+| Name      | Description    |
+| --------- | -------------- |
+| `prefix`  | Prefix content |
+| `default` | Main content   |
+| `suffix`  | Suffix content |
+

@@ -21,7 +21,7 @@ onThemeChange()
 </template>
 
 <style scoped lang="less">
-@import '../../styles/elevation.less';
+@import '../../style/elevation.less';
 
 .ripple-example__block {
   display: flex;

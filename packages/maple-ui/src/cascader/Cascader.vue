@@ -464,9 +464,9 @@ import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
 import MpCheckbox from '../checkbox'
 import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
-import MpHoverOverlay from '../hover-overlay'
+import { HoverOverlay as MpHoverOverlay } from '../hover'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
@@ -1402,17 +1402,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../icon/icon';
-@import '../field-decorator/fieldDecorator';
-@import '../button/button';
-@import '../tag/tag';
-@import '../checkbox/checkbox';
-@import '../hover-overlay/hoverOverlay';
-@import '../popup/popup';
-@import '../picker/picker';
-@import './cascader';
-</style>

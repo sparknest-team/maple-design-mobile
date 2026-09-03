@@ -7,10 +7,12 @@ export default {
   dialogCancelButtonText: 'لغو',
   // ActionSheet
   actionSheetTitle: 'انتخاب یک مورد',
-  // List
-  listLoadingText: 'در حال بارگزاری',
-  listFinishedText: 'مورد دیگری وجود ندارد',
-  listErrorText: 'بارگزاری ناموفق',
+  // Empty
+  emptyDescription: 'داده‌ای وجود ندارد',
+  // InfiniteScroll
+  infiniteScrollLoadingText: 'در حال بارگزاری',
+  infiniteScrollFinishedText: 'مورد دیگری وجود ندارد',
+  infiniteScrollErrorText: 'بارگزاری ناموفق، برای تلاش مجدد ضربه بزنید',
   // Picker
   pickerTitle: 'انتخاب کنید',
   pickerConfirmButtonText: 'تایید',

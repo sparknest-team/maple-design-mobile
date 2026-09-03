@@ -1,0 +1,33 @@
+@import './theme/css-variables.less';
+
+.mp {
+  &--box {
+    box-sizing: border-box;
+
+    * {
+      box-sizing: border-box;
+    }
+  }
+
+  &--lock {
+    overflow: hidden !important;
+  }
+
+  &--ellipsis {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &--inline-block {
+    display: inline-block;
+  }
+
+  &--flex {
+    display: flex;
+  }
+
+  &--inline-flex {
+    display: inline-flex;
+  }
+}

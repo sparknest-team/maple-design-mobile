@@ -5,6 +5,7 @@
   "scripts": {
     "bootstrap": "pnpm install && node scripts/bootstrap.mjs",
     "build": "pnpm --dir ./packages/maple-ui build",
+    "build:lib": "node scripts/build-lib.mjs",
     "build:play": "pnpm --dir ./packages/maple-ui-playground build",
     "changelog": "maple-cli changelog",
     "changeset": "changeset",

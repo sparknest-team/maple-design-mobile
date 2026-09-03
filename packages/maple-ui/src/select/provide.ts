@@ -1,6 +1,6 @@
 import { type ComputedRef } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { type OptionProvider } from '../option/provide'
+import { type OptionProvider } from './option-provide'
 
 export const SELECT_BIND_OPTION_KEY = Symbol('SELECT_BIND_OPTION_KEY')
 

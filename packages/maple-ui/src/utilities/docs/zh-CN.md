@@ -18,7 +18,7 @@ Maple / Cedar 语义与结构一致，**类名必须带库前缀**（`mp-` / `c-
 import '@maplejs/maple-ui/es/utilities/utilities.css'
 ```
 
-需已加载主题变量（`styles/theme/css-variables`）。
+需已加载主题变量（`style/theme/css-variables`）。
 
 ### 分册
 

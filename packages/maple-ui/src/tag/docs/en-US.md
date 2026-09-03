@@ -6,7 +6,7 @@ Tag is used for marking, categorizing, and filtering. The API aligns with Cedar 
 
 ### Theme Color
 
-Set the theme color with `status`. Options match Button: `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`.
+Set the theme color with `status`. Options match Button: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger`.
 
 ```html
 <template>
@@ -154,7 +154,7 @@ Override status colors with `color` and `text-color`. With `variant="outline"`, 
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `status` | Theme color: `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast` | _string_ | `default` |
+| `status` | Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
 | `variant` | Variant: `default` (filled) / `outline` | _string_ | `default` |
 | `size` | Size: `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
 | `round` | Whether to use a pill shape | _boolean_ | `false` |
@@ -193,7 +193,7 @@ Override status colors with `color` and `text-color`. With `variant="outline"`, 
 ### Type Definitions
 
 ```ts
-type TagStatus = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'secondary' | 'contrast' | 'default'
+type TagStatus = 'default' | 'primary' | 'secondary' | 'tertiary' | 'info' | 'success' | 'warning' | 'danger'
 type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type TagVariant = 'default' | 'outline'
 ```

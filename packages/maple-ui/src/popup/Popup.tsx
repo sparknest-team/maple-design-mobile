@@ -7,8 +7,7 @@ import { useZIndex } from '../context/zIndex'
 import { createNamespace, useRouteListener, useTeleport } from '../utils/components'
 import { props } from './props'
 import { usePopupItems } from './provide'
-import '../styles/common.less'
-import './popup.less'
+import './style'
 
 const { name, n, classes } = createNamespace('popup')
 

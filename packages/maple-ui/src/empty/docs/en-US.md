@@ -1,63 +1,60 @@
 # Empty
 
-### Intro
+Shown when the current view has no data. Examples match Cedar Design Web, with a more compact mobile layout.
 
-Placeholder hint for empty state.
+## Examples
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-</script>
+Basic empty state. Without `description`, the i18n copy is used.
 
-<template>
-  <mp-empty description="No data" />
-</template>
+```html
+<mp-empty description="No data" />
+```
+
+### Custom Image and Copy
+
+Customize the illustration with the `image` slot or default slot copy. Use `image-url` for an image source.
+
+```html
+<mp-empty>
+  <template #image>
+    <m-icon-alert-circle-outline />
+  </template>
+  No data, please reload!!
+</mp-empty>
+<mp-empty image-url="cat.jpg" alt="Empty image" description="Custom Image and Copy" />
 ```
 
 ### Image Size
 
-Control the icon size via `image-size` prop, optional values are `xs` `sm` `md` `lg` `xl`.
+`image-size` accepts `xs` `sm` `md` `lg` `xl`, or a number.
 
 ```html
-<template>
-  <mp-space direction="column" :size="['0', '20px']">
-    <mp-empty v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :image-size="size" :description="`image-size: ${size}`" />
-  </mp-space>
-</template>
-```
-
-### Custom Image
-
-```html
-<template>
-  <mp-empty description="Custom image" image-url="https://cdn.example.com/empty.svg" />
-</template>
-```
-
-### Custom Image Slot
-
-```html
-<template>
-  <mp-empty description="Custom icon">
-    <template #image>
-      <m-icon-search />
-    </template>
-  </mp-empty>
-</template>
+<mp-space direction="column" :size="16">
+  <mp-empty v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :image-size="size" :description="`image-size: ${size}`" />
+</mp-space>
 ```
 
 ### Extra Action
 
+Add actions with the `extra` slot.
+
 ```html
-<template>
-  <mp-empty description="No data">
-    <template #extra>
-      <mp-button type="primary" size="sm" @click="() => {}">Reload</mp-button>
-    </template>
-  </mp-empty>
-</template>
+<mp-empty description="No data, please reload">
+  <template #extra>
+    <mp-button status="primary" size="sm">Reload</mp-button>
+  </template>
+</mp-empty>
+```
+
+### Show and Hide
+
+`show-icon` and `show-description` toggle the illustration and copy.
+
+```html
+<mp-empty description="Hide icon" :show-icon="false" />
+<mp-empty description="Hide description" :show-description="false" />
 ```
 
 ## API
@@ -66,17 +63,45 @@ Control the icon size via `image-size` prop, optional values are `xs` `sm` `md` 
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `description` | Description text | _string_ | `-` |
-| `image-size` | Image size, optional values are `xs` `sm` `md` `lg` `xl`, or a specific number | _string \| number_ | `md` |
-| `image-url` | Custom image URL (overrides default icon) | _string_ | `-` |
-| `show-icon` | Whether to show icon | _boolean_ | `true` |
-| `show-description` | Whether to show description | _boolean_ | `true` |
-| `on-click` | Click callback | _(event: Event) => void_ | `-` |
+| `description` | Description; falls back to i18n | `string` | `-` |
+| `image-url` | Custom image URL | `string` | `-` |
+| `alt` | Image alt text | `string` | `''` |
+| `image-size` | Image/icon size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string` | `'md'` |
+| `show-icon` | Whether to show the icon | `boolean` | `true` |
+| `show-description` | Whether to show the description | `boolean` | `true` |
+
+### Events
+
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `click` | Click callback | `(event: MouseEvent)` |
 
 ### Slots
 
-| Slot | Description | Arguments |
-| --- | --- | --- |
-| `default` | Description content | `-` |
-| `image` | Custom icon/image | `-` |
-| `extra` | Extra action area | `-` |
+| Name | Description |
+| --- | --- |
+| `default` | Description content |
+| `image` | Custom icon/image |
+| `extra` | Extra actions |
+
+### Types
+
+```ts
+type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
+```
+
+### Style Variables
+
+| Name | Default |
+| --- | --- |
+| `--mp-empty-padding` | `20px` |
+| `--mp-empty-image-margin-bottom` | `4px` |
+| `--mp-empty-description-font-size` | `14px` |
+| `--mp-empty-description-color` | `var(--mp-color-text-3, #888)` |
+| `--mp-empty-icon-color` | `var(--mp-color-text-4, #ccc)` |
+| `--mp-empty-extra-margin-top` | `20px` |
+| `--mp-empty-size-xs` | `80px` |
+| `--mp-empty-size-sm` | `100px` |
+| `--mp-empty-size-md` | `120px` |
+| `--mp-empty-size-lg` | `140px` |
+| `--mp-empty-size-xl` | `160px` |

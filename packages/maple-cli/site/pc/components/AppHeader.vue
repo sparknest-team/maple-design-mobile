@@ -242,10 +242,12 @@ export default defineComponent({
   }
 
   &__logo {
-    width: 32px;
-    height: 32px;
-    margin-right: 12px;
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
     flex-shrink: 0;
+    display: block;
+    object-fit: contain;
     transition: 0.3s all ease-in-out;
   }
 

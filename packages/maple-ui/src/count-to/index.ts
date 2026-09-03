@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import CountTo from './CountTo.vue'
-import { props as countToProps } from './props'
+import { countToProps } from './props'
 
 withInstall(CountTo)
 withPropsDefaultsSetter(CountTo, countToProps)
@@ -8,6 +8,7 @@ withPropsDefaultsSetter(CountTo, countToProps)
 export { countToProps }
 
 export type CountToInstance = InstanceType<typeof CountTo>
+export type { CountToProps } from './props'
 export const _CountToComponent = CountTo
 
 export default CountTo

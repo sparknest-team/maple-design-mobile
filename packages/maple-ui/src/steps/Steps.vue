@@ -62,14 +62,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-
-.mp-steps {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  overflow: hidden;
-}
-</style>

@@ -285,11 +285,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../ripple/ripple';
-@import '../popup/popup';
-@import './numberKeyboard.less';
-</style>

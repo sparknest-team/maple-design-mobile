@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const countToRef = ref()
 
 watchLang(use)
+onThemeChange()
 </script>
 
 <template>
@@ -31,8 +32,8 @@ watchLang(use)
   <app-type>{{ t('manualControl') }}</app-type>
   <mp-count-to ref="countToRef" :to="123456" :auto-start="false" />
   <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button type="primary" @click="countToRef.start()">{{ t('startText') }}</mp-button>
+    <mp-button status="primary" @click="countToRef.start()">{{ t('startText') }}</mp-button>
     <mp-button @click="countToRef.pause()">{{ t('pauseText') }}</mp-button>
-    <mp-button @click="countToRef.reset()">{{ t('resetText') }} </mp-button>
+    <mp-button @click="countToRef.reset()">{{ t('resetText') }}</mp-button>
   </mp-row>
 </template>

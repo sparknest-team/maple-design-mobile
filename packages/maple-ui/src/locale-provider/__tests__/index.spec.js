@@ -1,7 +1,7 @@
 import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
-import DatePicker from '../../date-picker'
+import DatePicker from '../../date/DatePicker.vue'
 import Dialog from '../../dialog/Dialog.vue'
 import Locale from '../../locale'
 import LocaleProvider from '../index'

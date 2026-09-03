@@ -11,7 +11,7 @@ exports[`form events 1`] = `
             <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
-                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="new-password" type="text">
+                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="off" type="text">
               </div>
               <!--v-if-->
               <div class="mp-field-decorator__icon">
@@ -57,7 +57,7 @@ exports[`form events 2`] = `
             <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
-                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text">
+                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text">
               </div>
               <!--v-if-->
               <div class="mp-field-decorator__icon">
@@ -88,29 +88,27 @@ exports[`form with auto-complete 1`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-auto-complete" tabindex="0">
-          <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
-            <div class="mp-input mp--box">
-              <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-                <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-                  <div class="mp-field-decorator__icon"></div>
-                  <div class="mp-field-decorator__middle">
-                    <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="off" type="text" value="">
-                  </div>
-                  <!--v-if-->
-                  <div class="mp-field-decorator__icon">
-                    <!--v-if-->
-                  </div>
+          <div class="mp-input mp--box">
+            <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+              <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+                <div class="mp-field-decorator__icon"></div>
+                <div class="mp-field-decorator__middle">
+                  <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="off" type="text" value="">
                 </div>
                 <!--v-if-->
-                <div class="mp-field-decorator__line mp-field-decorator--line-error">
-                  <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
+                <div class="mp-field-decorator__icon">
+                  <!--v-if-->
                 </div>
               </div>
               <!--v-if-->
+              <div class="mp-field-decorator__line mp-field-decorator--line-error">
+                <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
+              </div>
             </div>
-            <!--teleport start-->
-            <!--teleport end-->
+            <!--v-if-->
           </div>
+          <!--teleport start-->
+          <!--teleport end-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -140,29 +138,27 @@ exports[`form with auto-complete 2`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-auto-complete" tabindex="0">
-          <div class="mp-popover mp--box mp-menu mp-auto-complete__menu" tabindex="-1" auto-complete-cover="">
-            <div class="mp-input mp--box">
-              <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-                <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-                  <div class="mp-field-decorator__icon"></div>
-                  <div class="mp-field-decorator__middle">
-                    <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
-                  </div>
-                  <!--v-if-->
-                  <div class="mp-field-decorator__icon">
-                    <!--v-if-->
-                  </div>
+          <div class="mp-input mp--box">
+            <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+              <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+                <div class="mp-field-decorator__icon"></div>
+                <div class="mp-field-decorator__middle">
+                  <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
                 </div>
                 <!--v-if-->
-                <div class="mp-field-decorator__line">
-                  <div class="mp-field-decorator__dot"></div>
+                <div class="mp-field-decorator__icon">
+                  <!--v-if-->
                 </div>
               </div>
               <!--v-if-->
+              <div class="mp-field-decorator__line">
+                <div class="mp-field-decorator__dot"></div>
+              </div>
             </div>
-            <!--teleport start-->
-            <!--teleport end-->
+            <!--v-if-->
           </div>
+          <!--teleport start-->
+          <!--teleport end-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -184,7 +180,10 @@ exports[`form with checkbox 1`] = `
           <div class="mp-checkbox">
             <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
               <!--v-if-->
-              <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+                <!--v-if-->
+                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
+              </svg>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -210,7 +209,10 @@ exports[`form with checkbox 2`] = `
           <div class="mp-checkbox">
             <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
               <!--v-if-->
-              <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+                <!--v-if-->
+                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
+              </svg>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -236,7 +238,10 @@ exports[`form with checkbox 3`] = `
           <div class="mp-checkbox">
             <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
               <!--v-if-->
-              <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+                <!--v-if-->
+                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
+              </svg>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -273,7 +278,10 @@ exports[`form with checkbox 4`] = `
           <div class="mp-checkbox">
             <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
               <!--v-if-->
-              <!--v-if--><i class="mp-icon mp-icon--set mp-icon-checkbox-blank-outline mp-checkbox__icon" style="transition-duration: 0ms;" mp-checkbox-cover=""></i>
+              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+                <!--v-if-->
+                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
+              </svg>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -298,11 +306,11 @@ exports[`form with counter 1`] = `
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2 mp-counter--disabled"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button mp-counter--not-allowed" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
-            </button><input class="mp-counter__input mp-counter--not-allowed" inputmode="numeric" disabled=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button mp-counter--not-allowed" type="button" mp-counter-cover="">
+            </button><input autocomplete="off" class="mp-counter__input mp-counter--not-allowed" inputmode="numeric" disabled=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button mp-counter--not-allowed" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
             </button></div>
         </div>
@@ -325,11 +333,11 @@ exports[`form with counter 2`] = `
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
-            </button><input class="mp-counter__input" inputmode="numeric" readonly=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+            </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric" readonly=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
             </button></div>
         </div>
@@ -352,11 +360,11 @@ exports[`form with counter 3`] = `
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2 mp-counter--error"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
-            </button><input class="mp-counter__input" inputmode="numeric" readonly=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+            </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric" readonly=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
             </button></div>
         </div>
@@ -390,11 +398,11 @@ exports[`form with counter 4`] = `
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__decrement-button" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-minus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13H5v-2h14z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
-            </button><input class="mp-counter__input" inputmode="numeric" readonly=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
+            </button><input autocomplete="off" class="mp-counter__input" inputmode="numeric" readonly=""><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-counter__increment-button" type="button" mp-counter-cover="">
               <!--v-if-->
-              <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-plus" style="transition-duration: 0ms;"></i></div>
+              <div class="mp-button__content"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span></div>
               <div class="mp-hover-overlay"></div>
             </button></div>
         </div>
@@ -419,7 +427,7 @@ exports[`form with input 1`] = `
             <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
-                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--disabled" autocomplete="new-password" disabled="" type="text">
+                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--disabled" autocomplete="off" disabled="" type="text">
               </div>
               <!--v-if-->
               <div class="mp-field-decorator__icon">
@@ -454,7 +462,7 @@ exports[`form with input 2`] = `
             <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
-                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" readonly="">
+                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" readonly="">
               </div>
               <!--v-if-->
               <div class="mp-field-decorator__icon">
@@ -489,7 +497,7 @@ exports[`form with input 3`] = `
             <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
-                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="new-password" type="text" readonly="" value="">
+                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input mp-input--error mp-input--caret-error" autocomplete="off" type="text" readonly="" value="">
               </div>
               <!--v-if-->
               <div class="mp-field-decorator__icon">
@@ -535,7 +543,7 @@ exports[`form with input 4`] = `
             <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
               <div class="mp-field-decorator__icon"></div>
               <div class="mp-field-decorator__middle">
-                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="new-password" type="text" readonly="">
+                <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" readonly="">
               </div>
               <!--v-if-->
               <div class="mp-field-decorator__icon">
@@ -567,7 +575,7 @@ exports[`form with radio 1`] = `
       <div class="mp-form-item__content">
         <div class="mp-radio__wrap">
           <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+            <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -591,7 +599,7 @@ exports[`form with radio 2`] = `
       <div class="mp-form-item__content">
         <div class="mp-radio__wrap">
           <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+            <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -615,7 +623,7 @@ exports[`form with radio 3`] = `
       <div class="mp-form-item__content">
         <div class="mp-radio__wrap">
           <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+            <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -650,7 +658,7 @@ exports[`form with radio 4`] = `
       <div class="mp-form-item__content">
         <div class="mp-radio__wrap">
           <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><i class="mp-icon mp-icon--set mp-icon-radio-blank mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""></i>
+            <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
             <!--v-if-->
@@ -674,19 +682,19 @@ exports[`form with rate 1`] = `
       <div class="mp-form-item__content">
         <div class="mp-rate__wrap">
           <div class="mp-rate">
-            <div class="mp-rate__content mp-rate--disabled"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--disabled"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content mp-rate--disabled"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--disabled"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content mp-rate--disabled"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--disabled"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content mp-rate--disabled"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--disabled"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div style="margin-right: 0px;" class="mp-rate__content mp-rate--disabled"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div style="margin-right: 0px;" class="mp-rate__content mp-rate--disabled"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>
@@ -709,19 +717,19 @@ exports[`form with rate 2`] = `
       <div class="mp-form-item__content">
         <div class="mp-rate__wrap">
           <div class="mp-rate">
-            <div class="mp-rate__content mp-rate--error"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--error"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content mp-rate--error"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--error"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content mp-rate--error"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--error"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content mp-rate--error"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content mp-rate--error"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div style="margin-right: 0px;" class="mp-rate__content mp-rate--error"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div style="margin-right: 0px;" class="mp-rate__content mp-rate--error"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>
@@ -755,19 +763,19 @@ exports[`form with rate 3`] = `
       <div class="mp-form-item__content">
         <div class="mp-rate__wrap">
           <div class="mp-rate">
-            <div class="mp-rate__content"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div class="mp-rate__content"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
-            <div style="margin-right: 0px;" class="mp-rate__content"><i class="mp-icon mp-icon--set mp-icon-star-outline mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""></i>
+            <div style="margin-right: 0px;" class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;" mp-rate-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>
@@ -789,31 +797,29 @@ exports[`form with select 1`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-select">
-          <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
-            <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-                <div class="mp-field-decorator__icon"></div>
-                <div class="mp-field-decorator__middle">
-                  <div class="mp-select__select mp-select--disabled" style="text-align: left;">
-                    <div class="mp-select__label">
-                      <div class="mp-select__tags">
-                        <transition-stub name="mp-fade" appear="false" persisted="true" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-default mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round"><!--v-if--><span>option1</span><span role="button" aria-label="Close" class="mp-tag__close-btn"><i class="mp-icon mp-icon--set mp-icon-close-circle" style="transition-duration: 0ms;"></i></span></span></transition-stub>
-                      </div>
+          <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+            <div class="mp-field-decorator__controller mp-field-decorator--disabled" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__icon"></div>
+              <div class="mp-field-decorator__middle">
+                <div class="mp-select__select mp-select--disabled" style="text-align: left;">
+                  <div class="mp-select__label">
+                    <div class="mp-select__tags">
+                      <transition-stub name="mp-fade" appear="false" persisted="false" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-default mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round"><!--v-if--><span>option1</span><span role="button" aria-label="Close" tabindex="0" class="mp-tag__close-btn"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></span></span></transition-stub>
                     </div>
-                    <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
                   </div>
+                  <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
                 </div>
-                <!--v-if-->
-                <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
               <!--v-if-->
-              <div class="mp-field-decorator__line mp-field-decorator--line-disabled">
-                <div class="mp-field-decorator__dot mp-field-decorator--line-disabled"></div>
-              </div>
+              <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
             </div>
-            <!--teleport start-->
-            <!--teleport end-->
+            <!--v-if-->
+            <div class="mp-field-decorator__line mp-field-decorator--line-disabled">
+              <div class="mp-field-decorator__dot mp-field-decorator--line-disabled"></div>
+            </div>
           </div>
+          <!--teleport start-->
+          <!--teleport end-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -832,31 +838,29 @@ exports[`form with select 2`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-select" tabindex="0">
-          <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
-            <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-                <div class="mp-field-decorator__icon"></div>
-                <div class="mp-field-decorator__middle">
-                  <div class="mp-select__select" style="text-align: left;">
-                    <div class="mp-select__label">
-                      <div class="mp-select__tags">
-                        <transition-stub name="mp-fade" appear="false" persisted="true" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-default mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round" style="display: none;"><!--v-if--><span>option1</span><span role="button" aria-label="Close" class="mp-tag__close-btn"><i class="mp-icon mp-icon--set mp-icon-close-circle" style="transition-duration: 0ms;"></i></span></span></transition-stub>
-                      </div>
+          <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+            <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__icon"></div>
+              <div class="mp-field-decorator__middle">
+                <div class="mp-select__select" style="text-align: left;">
+                  <div class="mp-select__label">
+                    <div class="mp-select__tags">
+                      <transition-stub name="mp-fade" appear="false" persisted="false" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-default mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round"><!--v-if--><span>option1</span><span role="button" aria-label="Close" tabindex="0" class="mp-tag__close-btn"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></span></span></transition-stub>
                     </div>
-                    <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
                   </div>
+                  <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
                 </div>
-                <!--v-if-->
-                <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
               <!--v-if-->
-              <div class="mp-field-decorator__line">
-                <div class="mp-field-decorator__dot"></div>
-              </div>
+              <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
             </div>
-            <!--teleport start-->
-            <!--teleport end-->
+            <!--v-if-->
+            <div class="mp-field-decorator__line">
+              <div class="mp-field-decorator__dot"></div>
+            </div>
           </div>
+          <!--teleport start-->
+          <!--teleport end-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -875,31 +879,29 @@ exports[`form with select 3`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-select" tabindex="0">
-          <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
-            <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-                <div class="mp-field-decorator__icon"></div>
-                <div class="mp-field-decorator__middle">
-                  <div class="mp-select__select mp-select--error" style="text-align: left;">
-                    <div class="mp-select__label">
-                      <div class="mp-select__tags">
-                        <transition-stub name="mp-fade" appear="false" persisted="true" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-danger mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round" style="display: none;"><!--v-if--><span>option1</span><span role="button" aria-label="Close" class="mp-tag__close-btn"><i class="mp-icon mp-icon--set mp-icon-close-circle" style="transition-duration: 0ms;"></i></span></span></transition-stub>
-                      </div>
+          <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+            <div class="mp-field-decorator__controller mp-field-decorator--error" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__icon"></div>
+              <div class="mp-field-decorator__middle">
+                <div class="mp-select__select mp-select--error" style="text-align: left;">
+                  <div class="mp-select__label">
+                    <div class="mp-select__tags">
+                      <transition-stub name="mp-fade" appear="false" persisted="false" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-danger mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round"><!--v-if--><span>option1</span><span role="button" aria-label="Close" tabindex="0" class="mp-tag__close-btn"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></span></span></transition-stub>
                     </div>
-                    <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
                   </div>
+                  <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
                 </div>
-                <!--v-if-->
-                <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
               <!--v-if-->
-              <div class="mp-field-decorator__line mp-field-decorator--line-error">
-                <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
-              </div>
+              <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
             </div>
-            <!--teleport start-->
-            <!--teleport end-->
+            <!--v-if-->
+            <div class="mp-field-decorator__line mp-field-decorator--line-error">
+              <div class="mp-field-decorator__dot mp-field-decorator--line-error"></div>
+            </div>
           </div>
+          <!--teleport start-->
+          <!--teleport end-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -929,31 +931,29 @@ exports[`form with select 4`] = `
     <div class="mp-form-item__wrapper">
       <div class="mp-form-item__content">
         <div class="mp-select" tabindex="0">
-          <div class="mp-popover mp--box mp-select__menu" mp-select-cover="">
-            <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-              <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-                <div class="mp-field-decorator__icon"></div>
-                <div class="mp-field-decorator__middle">
-                  <div class="mp-select__select" style="text-align: left;">
-                    <div class="mp-select__label">
-                      <div class="mp-select__tags">
-                        <transition-stub name="mp-fade" appear="false" persisted="true" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-default mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round" style="display: none;"><!--v-if--><span>option1</span><span role="button" aria-label="Close" class="mp-tag__close-btn"><i class="mp-icon mp-icon--set mp-icon-close-circle" style="transition-duration: 0ms;"></i></span></span></transition-stub>
-                      </div>
+          <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+            <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+              <div class="mp-field-decorator__icon"></div>
+              <div class="mp-field-decorator__middle">
+                <div class="mp-select__select" style="text-align: left;">
+                  <div class="mp-select__label">
+                    <div class="mp-select__tags">
+                      <transition-stub name="mp-fade" appear="false" persisted="false" css="true" class="mp-select__tag" mp-select-cover=""><span class="mp-tag mp-tag--size-sm mp-tag--status-default mp-tag--variant-default mp-tag--closable mp-tag--checked mp-tag--round"><!--v-if--><span>option1</span><span role="button" aria-label="Close" tabindex="0" class="mp-tag__close-btn"><span class="mp-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></span></span></transition-stub>
                     </div>
-                    <!--v-if--><i class="mp-icon mp-icon--set mp-icon-menu-down mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""></i>
                   </div>
+                  <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
                 </div>
-                <!--v-if-->
-                <div class="mp-field-decorator__icon"><i class="mp-icon mp-icon--set mp-icon-close-circle mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""></i></div>
               </div>
               <!--v-if-->
-              <div class="mp-field-decorator__line">
-                <div class="mp-field-decorator__dot"></div>
-              </div>
+              <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
             </div>
-            <!--teleport start-->
-            <!--teleport end-->
+            <!--v-if-->
+            <div class="mp-field-decorator__line">
+              <div class="mp-field-decorator__dot"></div>
+            </div>
           </div>
+          <!--teleport start-->
+          <!--teleport end-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -1169,7 +1169,7 @@ exports[`form with uploader 1`] = `
       <div class="mp-form-item__content">
         <div class="mp-uploader mp--box">
           <div class="mp-uploader__file-list">
-            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2 mp-uploader--disabled"><input type="file" class="mp-uploader__action-input" accept="image/*" disabled=""><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2 mp-uploader--disabled"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*" disabled=""><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>
@@ -1195,7 +1195,7 @@ exports[`form with uploader 2`] = `
       <div class="mp-form-item__content">
         <div class="mp-uploader mp--box">
           <div class="mp-uploader__file-list">
-            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*" disabled=""><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*" disabled=""><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>
@@ -1221,7 +1221,7 @@ exports[`form with uploader 3`] = `
       <div class="mp-form-item__content">
         <div class="mp-uploader mp--box">
           <div class="mp-uploader__file-list">
-            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*" disabled=""><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*" disabled=""><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>
@@ -1258,7 +1258,7 @@ exports[`form with uploader 4`] = `
       <div class="mp-form-item__content">
         <div class="mp-uploader mp--box">
           <div class="mp-uploader__file-list">
-            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" class="mp-uploader__action-input" accept="image/*" disabled=""><i class="mp-icon mp-icon--set mp-icon-plus mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""></i>
+            <div class="mp-uploader--outline-none mp-uploader__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-uploader__action-input" accept="image/*" disabled=""><span class="mp-icon mp-uploader__action-icon" style="transition-duration: 0ms;" mp-uploader-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
               <div class="mp-hover-overlay"></div>
             </div>
           </div>

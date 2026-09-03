@@ -7,10 +7,12 @@ export default {
   dialogCancelButtonText: 'キャンセル',
   // ActionSheet
   actionSheetTitle: 'いずれかを選択',
-  // List
-  listLoadingText: '読み込み中',
-  listFinishedText: '以上です',
-  listErrorText: '読み込み失敗',
+  // Empty
+  emptyDescription: 'データがありません',
+  // InfiniteScroll
+  infiniteScrollLoadingText: '読み込み中',
+  infiniteScrollFinishedText: '以上です',
+  infiniteScrollErrorText: '読み込みに失敗しました。タップして再試行',
   // Picker
   pickerTitle: '選択してください',
   pickerConfirmButtonText: '確認',

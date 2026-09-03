@@ -8,4 +8,7 @@ export default {
   startText: '开始',
   pauseText: '暂停',
   resetText: '重置',
+  embedStatistic: '嵌入 Statistic',
+  countdown: '倒计时',
+  campaign: '活动倒计时',
 }

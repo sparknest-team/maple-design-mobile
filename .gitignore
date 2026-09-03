@@ -4,6 +4,11 @@
 dist
 es
 lib
+umd
+types
+# generated type declarations (built by `pnpm compile` / icons `build`)
+packages/maple-ui/types
+packages/maple-icons-vue/types
 # docs site build output (static assets live in public/)
 packages/maple-ui/site
 packages/maple-ui-playground/site

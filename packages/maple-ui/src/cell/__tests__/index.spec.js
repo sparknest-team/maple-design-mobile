@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Cell from '..'
 import MpIcon from '../../icon/Icon'
+import { createRegisteredIconComponents } from '../../utils/test'
 import VarCell from '../Cell'
 
 test('cell plugin', () => {
@@ -27,9 +28,12 @@ describe('test cell component props', () => {
       props: {
         icon: 'fire',
       },
+      global: {
+        components: createRegisteredIconComponents(['fire']),
+      },
     })
 
-    expect(wrapper.find('.mp-icon').classes('mp-icon-fire')).toBe(true)
+    expect(wrapper.find('.mp-icon-fire').exists()).toBe(true)
     wrapper.unmount()
   })
 
@@ -125,9 +129,12 @@ describe('test cell component slots', () => {
       slots: {
         icon: h(MpIcon, { name: 'fire' }),
       },
+      global: {
+        components: createRegisteredIconComponents(['fire']),
+      },
     })
 
-    expect(wrapper.find('.mp-icon').classes('mp-icon-fire')).toBe(true)
+    expect(wrapper.find('.mp-icon-fire').exists()).toBe(true)
     wrapper.unmount()
   })
 

@@ -277,11 +277,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../popup/popup';
-@import '../button/button';
-@import '../icon/icon';
-@import './dialog';
-</style>

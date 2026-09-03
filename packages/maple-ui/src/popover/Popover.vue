@@ -73,9 +73,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/elevation';
-@import '../styles/common';
-@import './popover';
-</style>

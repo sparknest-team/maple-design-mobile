@@ -59,10 +59,9 @@ import {
 } from '@maplejs/icons-vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
-import Hover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
@@ -210,11 +209,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../ripple/ripple';
-@import '../icon/icon';
-@import '../hover-overlay/hoverOverlay';
-@import './checkbox';
-</style>

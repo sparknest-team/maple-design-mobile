@@ -103,16 +103,16 @@ import { call, isArray, isEmpty, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
 import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
-import MpTimeRangePicker from '../time-range-picker'
-import { isTimeRangeNextDay, sortTimeRangeValue } from '../time-range-picker/utils'
 import { createNamespace } from '../utils/components'
+import { isTimeRangeNextDay, sortTimeRangeValue } from './picker-utils'
 import { props } from './props'
+import MpTimeRangePicker from './TimeRangePicker.vue'
 
 const { name, n, classes } = createNamespace('time-range')
 
@@ -357,13 +357,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../button/button';
-@import '../field-decorator/fieldDecorator';
-@import '../popup/popup';
-@import '../time-range-picker/timeRangePicker';
-@import './time-range';
-</style>

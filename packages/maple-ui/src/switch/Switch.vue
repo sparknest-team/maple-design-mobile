@@ -65,10 +65,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { call } from '@maplejs/maple-shared'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
-import Hover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { multiplySizeUnit } from '../utils/elements'
@@ -189,12 +188,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../ripple/ripple';
-@import '../loading/loading';
-@import '../hover-overlay/hoverOverlay';
-@import './switch';
-</style>

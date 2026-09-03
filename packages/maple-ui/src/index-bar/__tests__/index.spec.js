@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import IndexBar from '..'
-import IndexAnchor from '../../index-anchor'
-import VarIndexAnchor from '../../index-anchor/IndexAnchor'
+import VarIndexAnchor from '../../index-bar/IndexAnchor'
+import IndexAnchor from '../../index-bar/IndexAnchor.vue'
 import { delay, mockScrollTo } from '../../utils/test'
 import VarIndexBar from '../IndexBar'
 
@@ -86,7 +86,7 @@ const Wrapper2 = {
 }
 
 test('indexBar and indexAnchor use', () => {
-  const app = createApp({}).use(IndexBar).use(IndexAnchor)
+  const app = createApp({}).use(IndexBar)
 
   expect(app.component(IndexBar.name)).toBeTruthy()
   expect(app.component(IndexAnchor.name)).toBeTruthy()

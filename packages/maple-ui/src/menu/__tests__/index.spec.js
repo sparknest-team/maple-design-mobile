@@ -2,8 +2,8 @@ import { createApp, Fragment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Menu from '..'
-import MenuOption from '../../menu-option'
-import VarMenuOption from '../../menu-option/MenuOption'
+import VarMenuOption from '../../menu/MenuOption'
+import MenuOption from '../../menu/MenuOption.vue'
 import { delay, mockStubs, trigger, triggerKeyboard } from '../../utils/test'
 import VarMenu from '../Menu'
 
@@ -36,7 +36,7 @@ test('menu cedar-compatible api', async () => {
 })
 
 test('menu-option plugin', () => {
-  const app = createApp({}).use(MenuOption)
+  const app = createApp({}).use(Menu)
   expect(app.component(MenuOption.name)).toBeTruthy()
 })
 

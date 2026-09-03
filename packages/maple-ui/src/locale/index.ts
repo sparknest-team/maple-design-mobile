@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue'
 import { hasOwn } from '@maplejs/maple-shared'
-import { type Month, type Week } from '../date-picker/props'
+import { type Month, type Week } from '../date/picker-props'
 import enUS from './en-US'
 import faIR from './fa-IR'
 import jaJP from './ja-JP'
@@ -15,10 +15,12 @@ export type Message = {
   dialogCancelButtonText: string
   // ActionSheet
   actionSheetTitle: string
-  // List
-  listLoadingText: string
-  listFinishedText: string
-  listErrorText: string
+  // Empty
+  emptyDescription: string
+  // InfiniteScroll
+  infiniteScrollLoadingText: string
+  infiniteScrollFinishedText: string
+  infiniteScrollErrorText: string
   // Picker
   pickerTitle: string
   pickerConfirmButtonText: string

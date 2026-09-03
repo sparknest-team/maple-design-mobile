@@ -1,191 +1,208 @@
-# 头像
+# Avatar 头像
 
-### 介绍
+用于展示用户或事物的头像，支持图片、文字、图标和头像组。示例与 Cedar Design Web 保持一致。
 
-用作头像显示，支持图片、图标和字符。
+## 案例
 
-### 头像尺寸
+### 基础用法
+
+头像默认使用圆形外观；没有图片时，可以通过默认插槽展示文字或图标。
 
 ```html
-<template>
-  <mp-space align="center">
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="mini" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="small" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="large" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" :size="78" />
-  </mp-space>
-</template>
+<mp-space align="center" :size="16">
+  <mp-avatar :size="32">C</mp-avatar>
+  <mp-avatar :size="40">CD</mp-avatar>
+  <mp-avatar :size="48" shape="square">Cedar</mp-avatar>
+  <mp-avatar :size="56" color="#00bebe">
+    <m-icon-account-circle />
+  </mp-avatar>
+</mp-space>
 ```
 
-### 头像形状
+### 尺寸
+
+`size` 控制头像宽高，单位为 px。可同时用于文字头像和图片头像。
 
 ```html
-<template>
-  <mp-space>
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" shape="square" />
+<mp-space direction="column" :size="16">
+  <mp-space align="center" :size="16">
+    <mp-avatar :size="24">A</mp-avatar>
+    <mp-avatar :size="32">B</mp-avatar>
+    <mp-avatar :size="40">C</mp-avatar>
+    <mp-avatar :size="48">D</mp-avatar>
+    <mp-avatar :size="64">E</mp-avatar>
   </mp-space>
-</template>
+  <mp-space align="center" :size="16">
+    <mp-avatar image-url="cat.jpg" alt="一只猫" :size="28" />
+    <mp-avatar image-url="cat.jpg" alt="一只猫" :size="36" />
+    <mp-avatar image-url="cat.jpg" alt="一只猫" :size="48" />
+    <mp-avatar image-url="cat.jpg" alt="一只猫" :size="64" />
+    <mp-avatar image-url="cat.jpg" alt="一只猫" :size="78" />
+  </mp-space>
+</mp-space>
 ```
 
-### 填充模式
+### 形状
+
+`shape` 支持圆形和方形。
 
 ```html
-<template>
-  <mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" />
-      <span>cover</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="fill" />
-      <span>fill</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="contain" />
-      <span>contain</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="none" />
-      <span>none</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="scale-down" />
-      <span>scale-down</span>
-    </mp-space>
-  </mp-space>
-</template>
+<mp-space align="center" :size="16">
+  <mp-avatar>圆</mp-avatar>
+  <mp-avatar shape="square">方</mp-avatar>
+  <mp-avatar image-url="cat.jpg" alt="圆形图片" />
+  <mp-avatar image-url="cat.jpg" alt="方形图片" shape="square" />
+</mp-space>
 ```
 
 ### 文字自适应
+
+默认会按头像宽度缩放过长文字。修改输入框内容可以实时看到缩放效果；将 `auto-fix-font-size` 设为 `false` 后保持原始字号。
 
 ```html
 <script setup>
 import { ref } from 'vue'
 
-const text = ref('MAPLE')
+const text = ref('Maple')
 </script>
 
 <template>
-  <mp-space direction="column">
-    <mp-space>
+  <mp-space direction="column" :size="16">
+    <mp-space align="center" :size="16">
       <mp-avatar>{{ text }}</mp-avatar>
       <mp-avatar shape="square">{{ text }}</mp-avatar>
+      <mp-avatar :auto-fix-font-size="false">{{ text }}</mp-avatar>
     </mp-space>
-    <mp-input v-model="text" />
+    <mp-input v-model="text" placeholder="输入文字" />
   </mp-space>
 </template>
 ```
 
-### 背景颜色
+### 图片头像
+
+使用 `image-url` 设置图片，并通过 `alt` 提供可访问的替代文本。
 
 ```html
-<template>
-  <mp-space>
-    <mp-avatar color="var(--color-warning)">
-      <m-icon-fire />
-    </mp-avatar>
-    <mp-avatar color="var(--color-danger)">Maple</mp-avatar>
-  </mp-space>
-</template>
+<mp-space align="center" :size="16">
+  <mp-avatar image-url="cat.jpg" alt="一只猫" />
+  <mp-avatar image-url="cat2.jpg" alt="一只猫" :size="48" shape="square" />
+</mp-space>
 ```
 
-### 头像水平分组
+### 图片填充
+
+`object-fit` 控制图片在头像区域内的填充方式。
 
 ```html
-<template>
+<mp-space align="center" :size="24">
+  <mp-avatar image-url="cat.jpg" alt="fill" object-fit="fill" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="contain" object-fit="contain" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="cover" object-fit="cover" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="none" object-fit="none" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="scale-down" object-fit="scale-down" :size="56" />
+</mp-space>
+```
+
+### 加载与回退
+
+`lazy` 开启懒加载，`loading` 指定加载中占位图。失败时可用 `error` 占位图，或使用 `error` 插槽自定义内容。
+
+```html
+<mp-space align="center" :size="16">
+  <mp-avatar lazy image-url="cat.jpg" loading="cat2.jpg" alt="懒加载与占位图" :size="48" />
+  <mp-avatar image-url="missing-avatar.jpg" error="cat.jpg" alt="失败时回退到占位图" :size="48" />
+  <mp-avatar image-url="missing-avatar.jpg" alt="失败插槽" :size="48">
+    <template #error>NA</template>
+  </mp-avatar>
+</mp-space>
+```
+
+### 颜色与边框
+
+使用 `color` 设置背景色，可传入主题色变量。`bordered` / `border-color` 控制描边。
+
+```html
+<mp-space align="center" :size="16">
+  <mp-avatar color="var(--mp-color-warning)">
+    <m-icon-fire />
+  </mp-avatar>
+  <mp-avatar color="var(--mp-color-danger)">Maple</mp-avatar>
+  <mp-avatar color="#00bebe">CD</mp-avatar>
+  <mp-avatar color="#7b61ff" shape="square">A</mp-avatar>
+  <mp-avatar bordered>B</mp-avatar>
+  <mp-avatar bordered border-color="#00bebe" color="#e6fffb">C</mp-avatar>
+</mp-space>
+```
+
+### 头像组
+
+`AvatarGroup` 会自动堆叠子头像。可以用 `bordered` 做出叠层描边，或设置 `max-count` 将超出的头像收纳到 Popover 中。`z-index-ascend` 按顺序递增层级。
+
+```html
+<mp-space direction="column" :size="20">
   <mp-avatar-group>
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
+    <mp-avatar image-url="cat.jpg" alt="用户一" bordered />
+    <mp-avatar image-url="cat2.jpg" alt="用户二" bordered />
+    <mp-avatar image-url="cat.jpg" alt="用户三" bordered />
     <mp-avatar bordered>+2</mp-avatar>
   </mp-avatar-group>
-</template>
+
+  <mp-avatar-group :max-count="3" :size="48">
+    <mp-avatar image-url="cat.jpg" alt="用户一" />
+    <mp-avatar image-url="cat2.jpg" alt="用户二" />
+    <mp-avatar color="#00bebe">A</mp-avatar>
+    <mp-avatar color="#f59e0b">B</mp-avatar>
+    <mp-avatar color="#ef4444">C</mp-avatar>
+  </mp-avatar-group>
+
+  <mp-avatar-group z-index-ascend>
+    <mp-avatar image-url="cat.jpg" alt="用户一" />
+    <mp-avatar image-url="cat2.jpg" alt="用户二" />
+    <mp-avatar color="#7b61ff">CD</mp-avatar>
+  </mp-avatar-group>
+</mp-space>
 ```
 
-### 头像垂直分组
+### 纵向头像组
+
+`vertical` 改为纵向堆叠，`offset` 控制重叠间距。
 
 ```html
-<template>
-  <mp-avatar-group vertical>
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
-    <mp-avatar bordered>+2</mp-avatar>
-  </mp-avatar-group>
-</template>
+<mp-avatar-group vertical :offset="-12">
+  <mp-avatar image-url="cat.jpg" alt="用户一" bordered />
+  <mp-avatar image-url="cat2.jpg" alt="用户二" bordered />
+  <mp-avatar image-url="cat.jpg" alt="用户三" bordered />
+  <mp-avatar bordered>+2</mp-avatar>
+</mp-avatar-group>
 ```
 
 ### 头像可悬停
 
-```html
-<template>
-  <mp-avatar-group>
-    <mp-avatar hoverable image-url="https://maplejs.org/cat.jpg" />
-    <mp-avatar hoverable image-url="https://maplejs.org/cat2.jpg" />
-    <mp-avatar hoverable image-url="https://maplejs.org/cat3.jpg" />
-    <mp-avatar hoverable bordered>+2</mp-avatar>
-  </mp-avatar-group>
-</template>
-```
-
-### 使用本地路径
-
-在 `.vue` 文件中，`Vue组件` 不会如同原生 img 一样被构建工具自动处理模块请求，所以需要手动导入图片资源。
-下面是不同构建工具的使用方式。
-
-#### Vite
-
-推荐使用 [@vitejs/plugin-vue](https://github.com/vitejs/vite/tree/main/packages/plugin-vue#asset-url-handling) 进行路径预处理。
-
-```ts
-// playground-ignore
-// vite.config.js
-import vue from '@vitejs/plugin-vue'
-
-export default defineConfig({
-  plugins: [
-    vue({
-      template: {
-        transformAssetUrls: {
-          'mp-avatar': ['imageUrl']
-        }
-      }
-    })
-  ],
-})
-```
+设置 `hoverable` 后，鼠标悬停时头像会放大。
 
 ```html
-<!-- playground-ignore -->
-<template>
-  <mp-avatar image-url="../../assets/logo.png"/>
-</template>
+<mp-avatar-group>
+  <mp-avatar hoverable image-url="cat.jpg" alt="用户一" bordered />
+  <mp-avatar hoverable image-url="cat2.jpg" alt="用户二" bordered />
+  <mp-avatar hoverable image-url="cat.jpg" alt="用户三" bordered />
+  <mp-avatar hoverable bordered>+2</mp-avatar>
+</mp-avatar-group>
 ```
 
-或者单独导入
+### 交互图标
+
+使用 `trigger-icon` 插槽添加交互入口，`trigger-type` 支持独立按钮和悬浮遮罩两种形式。
 
 ```html
-<!-- playground-ignore -->
-<script setup>
-import logo from '../../assets/logo.png'
-</script>
-
-<template>
-  <mp-avatar :image-url="logo"/>
-</template>
+<mp-space align="center" :size="24">
+  <mp-avatar image-url="cat.jpg" alt="编辑头像" :size="56">
+    <template #trigger-icon><m-icon-image /></template>
+  </mp-avatar>
+  <mp-avatar image-url="cat2.jpg" alt="更换头像" :size="56" trigger-type="mask">
+    <template #trigger-icon><m-icon-camera /></template>
+  </mp-avatar>
+</mp-space>
 ```
-
-#### Webpack
-
-```html
-<!-- playground-ignore -->
-<template>
-  <mp-avatar :image-url="require('../../assets/logo.png')"/>
-</template>
-```
-
 
 ## API
 
@@ -193,71 +210,83 @@ import logo from '../../assets/logo.png'
 
 #### Avatar Props
 
-| 参数           | 说明                                                            | 类型               | 默认值   |
-| -------------- | --------------------------------------------------------------- | ------------------ | -------- |
-| `shape`        | 头像形状，可选值 `circle` `square`                                                  | _string_            | `circle`   |
-| `size`         | 头像的尺寸，可选值为 `mini small normal large`                  | _string \| number_ | `normal` |
-| `color`        | 头像的背景颜色                                                  | _string_           | `-`      |
-| `image-url`          | 头像图片地址                                                      | _string_           | `-`      |
-| `alt`          | 替代文本，和 `img` 标签原生属性一致                             | _string_           | `-`      |
-| `object-fit`          | 头像图片的 object-fit，可选值 `fill contain cover none scale-down` | _string_           | `cover`  |
-| `bordered`     | 头像是否带边框                                                  | _boolean_          | `false`  |
-| `border-color` | 头像边框颜色                                                    | _string_           | `-`      |
-| `loading`      | 当开启懒加载时, 加载中显示的图片                                | _string_           | `-`      |
-| `error`        | 当开启懒加载时, 加载失败显示的图片                              | _string_           | `-`      |
-| `lazy`         | 是否开启懒加载                                                  | _boolean_          | `false`  |
-| `hoverable`    | 是否开启悬停效果                                        | _boolean_          | `false`  |
-
-#### AvatarGroup Props
-
-| 参数       | 说明                 | 类型               | 默认值  |
-| ---------- | -------------------- | ------------------ | ------- |
-| `offset`   | 组内头像的头像偏移量 | _number \| string_ | `-`     |
-| `vertical` | 组内头像是否垂直排列 | _boolean_          | `false` |
+| 参数                 | 说明                       | 类型                                                       | 默认值     |
+| -------------------- | -------------------------- | ---------------------------------------------------------- | ---------- |
+| `shape`              | 头像形状                   | `'circle' \| 'square'`                                     | `'circle'` |
+| `image-url`          | 图片地址                   | _string_                                                   | `-`        |
+| `alt`                | 图片替代文本               | _string_                                                   | `''`       |
+| `size`               | 头像宽高，单位为 px        | _number_                                                   | `40`       |
+| `auto-fix-font-size` | 是否自动缩放过长的文字内容 | _boolean_                                                  | `true`     |
+| `trigger-type`       | 交互图标展示方式           | `'button' \| 'mask'`                                       | `'button'` |
+| `trigger-icon-style` | 交互图标的自定义样式       | _CSSProperties_                                            | `-`        |
+| `object-fit`         | 图片填充方式               | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`  |
+| `color`              | 头像背景色                 | _string_                                                   | `-`        |
+| `bordered`           | 是否显示描边               | _boolean_                                                  | `false`    |
+| `border-color`       | 描边颜色                   | _string_                                                   | `-`        |
+| `loading`            | 图片加载中的占位图地址     | _string_                                                   | `-`        |
+| `error`              | 图片加载失败的占位图地址   | _string_                                                   | `-`        |
+| `lazy`               | 是否懒加载图片             | _boolean_                                                  | `false`    |
+| `hoverable`          | 是否开启悬停放大效果       | _boolean_                                                  | `false`    |
 
 ### 事件
 
 #### Avatar Events
 
-| 事件名  | 说明                                                                                       | 参数           |
-| ------- | ------------------------------------------------------------------------------------------ | -------------- |
-| `click` | 点击头像时触发                                                                             | `event: Event` |
-| `load`  | 头像图片成功加载时触发（懒加载模式下失败时会多次尝试加载头像图片，只会在成功加载时触发）     | `event: Event` |
-| `error` | 头像图片失败加载时触发（懒加载模式下失败时会多次尝试加载头像图片，只会在尝试次数结束时触发） | `event: Event` |
+| 事件名  | 说明               | 参数                |
+| ------- | ------------------ | ------------------- |
+| `click` | 点击头像时触发     | `event: MouseEvent` |
+| `load`  | 图片加载成功时触发 | `-`                 |
+| `error` | 图片加载失败时触发 | `-`                 |
 
 ### 插槽
 
 #### Avatar Slots
 
-| 名称      | 说明     | 参数 |
-| --------- | -------- | ---- |
-| `default` | 头像内容 | `-`  |
+| 名称           | 说明                       |
+| -------------- | -------------------------- |
+| `default`      | 文字、图标或图片加载中内容 |
+| `error`        | 图片加载失败时的回退内容   |
+| `trigger-icon` | 头像上的交互图标           |
+
+#### AvatarGroup Props
+
+| 参数                 | 说明                               | 类型                   | 默认值     |
+| -------------------- | ---------------------------------- | ---------------------- | ---------- |
+| `shape`              | 子头像形状                         | `'circle' \| 'square'` | `'circle'` |
+| `size`               | 子头像宽高，单位为 px              | _number_               | `40`       |
+| `auto-fix-font-size` | 是否自动缩放子头像中的文字         | _boolean_              | `true`     |
+| `max-count`          | 最多直接展示的头像数，`0` 表示不限 | _number_               | `0`        |
+| `z-index-ascend`     | 头像层级是否按顺序递增             | _boolean_              | `false`    |
+| `max-style`          | 数量汇总头像的自定义样式           | _CSSProperties_        | `-`        |
+| `max-popover-props`  | 汇总 Popover 的属性                | _PopoverProps_         | `-`        |
+| `offset`             | 组内头像的重叠偏移量               | _number \| string_     | `-`        |
+| `vertical`           | 是否纵向堆叠                       | _boolean_              | `false`    |
 
 #### AvatarGroup Slots
 
-| 名称      | 说明       | 参数 |
-| --------- | ---------- | ---- |
-| `default` | 头像组内容 | `-`  |
+| 名称      | 说明     |
+| --------- | -------- |
+| `default` | 头像列表 |
 
-### 样式变量
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+## API
 
-#### Avatar Variables
+### 属性
 
-| 变量名                      | 默认值           |
-| --------------------------- | ---------------- |
-| `--avatar-text-color`       | `#f5f5f5`        |
-| `--avatar-border-radius`    | `4px`            |
-| `--avatar-mini-size`        | `28px`           |
-| `--avatar-small-size`       | `36px`           |
-| `--avatar-normal-size`      | `48px`           |
-| `--avatar-large-size`       | `64px`           |
-| `--avatar-border`           | `2px solid #fff` |
-| `--avatar-background-color` | `#bebebe`        |
-| `--avatar-hover-transform`  | `scale(1.1)`     |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `shape` | 子头像形状 | `'circle' \| 'square'` | `'circle'` |
+| `size` | 子头像宽高，单位为 px | _number_ | `40` |
+| `auto-fix-font-size` | 是否自动缩放子头像中的文字 | _boolean_ | `true` |
+| `max-count` | 最多直接展示的头像数，`0` 表示不限 | _number_ | `0` |
+| `z-index-ascend` | 头像层级是否按顺序递增 | _boolean_ | `false` |
+| `max-style` | 数量汇总头像的自定义样式 | _CSSProperties_ | `-` |
+| `max-popover-props` | 汇总 Popover 的属性 | _PopoverProps_ | `-` |
+| `offset` | 组内头像的重叠偏移量 | _number \| string_ | `-` |
+| `vertical` | 是否纵向堆叠 | _boolean_ | `false` |
 
-#### AvatarGroup Variables
+### 插槽
 
-| 变量名                  | 默认值  |
-| ----------------------- | ------- |
-| `--avatar-group-offset` | `-10px` |
+| 名称 | 说明 | 参数 |
+| --- | --- | --- |
+| `default` | 头像列表 | `-` |
+

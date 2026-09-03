@@ -34,10 +34,10 @@
 import { computed, defineComponent, onUpdated, ref, watch } from 'vue'
 import { call, getRect, isNumber, normalizeToArray } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize } from '@maplejs/maple-use'
-import { type BottomNavigationItemProvider } from '../bottom-navigation-item/provide'
 import MpButton from '../button'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { type BottomNavigationItemProvider } from './item-provide'
 import { props } from './props'
 import { useBottomNavigationItems, type BottomNavigationProvider } from './provide'
 
@@ -221,12 +221,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../ripple/ripple';
-@import '../loading/loading';
-@import '../button/button';
-@import './bottomNavigation';
-</style>

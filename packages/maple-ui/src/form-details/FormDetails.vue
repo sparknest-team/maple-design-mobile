@@ -34,8 +34,3 @@ export default defineComponent({
   setup: () => ({ n }),
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import './formDetails';
-</style>

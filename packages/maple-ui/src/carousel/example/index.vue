@@ -152,7 +152,29 @@ onThemeChange()
   </mp-carousel>
 
   <app-type>{{ t('indicatorType') }}</app-type>
-  <mp-carousel class="carousel" indicator-type="line">
+  <mp-carousel class="carousel" indicator-type="dot">
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
+    </mp-carousel-item>
+  </mp-carousel>
+  <mp-carousel class="carousel" style="margin-top: 12px" indicator-type="line">
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
+    </mp-carousel-item>
+  </mp-carousel>
+  <mp-carousel class="carousel" style="margin-top: 12px" indicator-type="slider">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>
@@ -166,6 +188,17 @@ onThemeChange()
 
   <app-type>{{ t('indicatorPosition') }}</app-type>
   <mp-carousel class="carousel" indicator-position="top">
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
+    </mp-carousel-item>
+  </mp-carousel>
+  <mp-carousel class="carousel" style="margin-top: 12px" indicator-position="outer">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>
@@ -216,19 +249,6 @@ onThemeChange()
     </mp-carousel-item>
   </mp-carousel>
 
-  <app-type>{{ t('handleChange') }}</app-type>
-  <mp-carousel class="carousel" @change="(index) => Message(String(index))">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
-
   <app-type>{{ t('customIndicator') }}</app-type>
   <mp-carousel class="carousel-example">
     <mp-carousel-item>
@@ -241,16 +261,31 @@ onThemeChange()
       <img class="carousel-item" :src="'cat3.jpg'" />
     </mp-carousel-item>
     <template #indicator="{ index, length, to }">
-      <div class="carousel-indicators">
+      <div class="carousel-custom-indicators">
         <div
           v-for="(l, idx) in length"
           :key="l"
-          class="carousel-indicator"
-          :class="{ 'carousel-active-indicator': idx === index }"
+          class="carousel-custom-indicator"
+          :class="{ 'carousel-custom--active': idx === index }"
           @click="to(idx)"
-        ></div>
+        >
+          {{ idx + 1 }}
+        </div>
       </div>
     </template>
+  </mp-carousel>
+
+  <app-type>{{ t('handleChange') }}</app-type>
+  <mp-carousel class="carousel" @change="(index) => Message(String(index))">
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
+    </mp-carousel-item>
   </mp-carousel>
 
   <div class="space"></div>
@@ -284,25 +319,29 @@ onThemeChange()
   font-weight: bold;
 }
 
-.carousel-indicators {
+.carousel-custom-indicators {
   position: absolute;
-  display: flex;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
 }
 
-.carousel-indicator {
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  opacity: 0.3;
-  margin: 0 4px;
-  transition: opacity 0.3s;
+.carousel-custom-indicator {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 12px;
+  border-radius: 50%;
 }
 
-.carousel-active-indicator {
-  opacity: 1;
+.carousel-custom--active {
+  background: #4a90d9;
 }
 
 .space {

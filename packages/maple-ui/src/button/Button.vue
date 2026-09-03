@@ -54,8 +54,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { call, normalizeToArray } from '@maplejs/maple-shared'
-import vHover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import vHover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import MpLoading from '../loading'
 import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
@@ -155,12 +154,3 @@ function handleFocus() {
   isFocusing.value = true
 }
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../hover-overlay/hoverOverlay';
-@import '../ripple/ripple';
-@import '../loading/loading';
-@import './button';
-</style>

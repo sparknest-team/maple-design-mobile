@@ -95,7 +95,7 @@ import { computed, defineComponent, ref } from 'vue'
 import { call, isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted, useClientId } from '@maplejs/maple-use'
 import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import { createNamespace } from '../utils/components'
 import { props, type InputType } from './props'
@@ -338,10 +338,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../field-decorator/fieldDecorator';
-@import './input';
-</style>

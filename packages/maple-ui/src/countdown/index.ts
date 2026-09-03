@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import Countdown from './Countdown.vue'
-import { props as countdownProps } from './props'
+import { countdownProps } from './props'
 
 withInstall(Countdown)
 withPropsDefaultsSetter(Countdown, countdownProps)
@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Countdown, countdownProps)
 export { countdownProps }
 
 export type CountdownInstance = InstanceType<typeof Countdown>
+export type { CountdownProps, TimeData } from './props'
 export const _CountdownComponent = Countdown
 
 export default Countdown

@@ -1,17 +1,18 @@
 import { createApp, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import Collapse from '..'
-import CollapseItem from '../../collapse-item'
-import VarCollapseItem from '../../collapse-item/CollapseItem'
+import Collapse, { CollapseItem } from '..'
 import { delay } from '../../utils/test'
 import VarCollapse from '../Collapse'
+import VarCollapseItem from '../CollapseItem.vue'
 
 describe('test collapse and collapseItem render', () => {
   test('collapse and collapseItem use', () => {
-    const app = createApp({}).use(Collapse).use(CollapseItem)
+    const app = createApp({}).use(Collapse)
 
     expect(app.component(Collapse.name)).toBeTruthy()
+    expect(app.component(Collapse.Item.name)).toBeTruthy()
+    expect(Collapse.Item).toBe(VarCollapseItem)
     expect(app.component(CollapseItem.name)).toBeTruthy()
   })
 })
@@ -111,17 +112,48 @@ describe('test collapse and collapseItem props', () => {
       },
     })
 
+    expect(wrapper.find('.mp-collapse').classes()).not.toContain('mp-collapse--offset')
+
     const collapseItemList = wrapper.findAll('.mp-collapse-item')
     await collapseItemList[0].find('.mp-collapse-item__header').trigger('click')
     await delay(100)
-    expect(collapseItemList[0].classes()).not.toContain('mp-collapse-item--active')
+    expect(collapseItemList[0].classes()).toContain('mp-collapse-item--active')
 
-    await wrapper.setData({ value: ['2'] })
     offset.value = true
     await delay(100)
-    await collapseItemList[0].find('.mp-collapse-item__header').trigger('click')
-    await delay(100)
-    expect(collapseItemList[0].classes()).toContain('mp-collapse-item--active')
+    expect(wrapper.find('.mp-collapse').classes()).toContain('mp-collapse--offset')
+  })
+
+  test('collapse bordered', () => {
+    const wrapper = mount({
+      components: {
+        [VarCollapse.name]: VarCollapse,
+        [VarCollapseItem.name]: VarCollapseItem,
+      },
+      template: `
+        <mp-collapse>
+          <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
+        </mp-collapse>
+      `,
+    })
+
+    expect(wrapper.find('.mp-collapse').classes()).not.toContain('mp-collapse--borderless')
+    wrapper.unmount()
+
+    const borderless = mount({
+      components: {
+        [VarCollapse.name]: VarCollapse,
+        [VarCollapseItem.name]: VarCollapseItem,
+      },
+      template: `
+        <mp-collapse :bordered="false">
+          <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
+        </mp-collapse>
+      `,
+    })
+
+    expect(borderless.find('.mp-collapse').classes()).toContain('mp-collapse--borderless')
+    borderless.unmount()
   })
 
   test('collapse divider', async () => {
@@ -147,13 +179,11 @@ describe('test collapse and collapseItem props', () => {
 
     await delay(100)
 
-    expect(wrapper.find('.mp-collapse-item').attributes('style')).toBe(
-      '--mp-collapse-divider-top: var(--mp-collapse-border-top);',
-    )
+    expect(wrapper.find('.mp-collapse').classes()).not.toContain('mp-collapse--no-divider')
 
     await wrapper.setData({ divider: false })
     await delay(100)
-    expect(wrapper.find('.mp-collapse-item').attributes('style')).toBe('--mp-collapse-divider-top: none;')
+    expect(wrapper.find('.mp-collapse').classes()).toContain('mp-collapse--no-divider')
 
     wrapper.unmount()
   })
@@ -205,10 +235,10 @@ describe('test collapse and collapseItem props', () => {
     expect(wrapper.find('.mp-collapse-item__header').text()).toBe('test2')
   })
 
-  test('collapseItem icon', async () => {
+  test('collapseItem expand icon', async () => {
     const template = `
       <mp-collapse v-model:active-names="value">
-        <mp-collapse-item title="test1" name="1" icon="checkbox-marked-circle" />
+        <mp-collapse-item title="test1" name="1" />
       </mp-collapse>
     `
 
@@ -229,7 +259,10 @@ describe('test collapse and collapseItem props', () => {
     )
 
     await delay(100)
-    expect(wrapper.find('.mp-icon-checkbox-marked-circle').exists()).toBe(true)
+    const icon = wrapper.findComponent({ name: 'MpIcon' })
+    expect(icon.exists()).toBe(true)
+    expect(icon.find('svg').exists()).toBe(true)
+    expect(icon.classes()).toContain('mp-collapse-item__header-open')
   })
 
   test('collapseItem disabled', async () => {
@@ -319,6 +352,28 @@ describe('test collapse Events', () => {
 
     expect(collapseItemList[0].classes()).toContain('mp-collapse-item--active')
     expect(handleChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('supports keyboard expansion with linked aria regions', async () => {
+    const wrapper = mount({
+      components: {
+        [VarCollapse.name]: VarCollapse,
+        [VarCollapseItem.name]: VarCollapseItem,
+      },
+      template: `
+        <mp-collapse>
+          <mp-collapse-item title="details" name="details">Content</mp-collapse-item>
+        </mp-collapse>
+      `,
+    })
+
+    const header = wrapper.get('[role="button"]')
+    const panel = wrapper.get('[role="region"]')
+    expect(header.attributes('aria-controls')).toBe(panel.attributes('id'))
+    expect(panel.attributes('aria-labelledby')).toBe(header.attributes('id'))
+
+    await header.trigger('keydown', { key: 'Enter' })
+    expect(header.attributes('aria-expanded')).toBe('true')
   })
 
   describe('test collapse Methods', () => {

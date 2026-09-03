@@ -1,10 +1,9 @@
 import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import Select from '..'
-import Option from '../../option'
-import VarOption from '../../option/Option'
+import Select, { Option } from '..'
 import { delay, trigger, triggerKeyboard } from '../../utils/test'
+import VarOption from '../Option.vue'
 import VarSelect from '../Select'
 
 const Wrapper = {
@@ -20,7 +19,7 @@ test('select plugin', () => {
 })
 
 test('option plugin', () => {
-  const app = createApp({}).use(Option)
+  const app = createApp({}).use(Select)
   expect(app.component(Option.name)).toBeTruthy()
 })
 

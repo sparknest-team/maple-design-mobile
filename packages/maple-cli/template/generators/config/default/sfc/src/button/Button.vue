@@ -32,7 +32,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import './button';
-</style>

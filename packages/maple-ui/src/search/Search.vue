@@ -515,13 +515,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../icon/icon';
-@import '../field-decorator/fieldDecorator';
-@import '../input/input';
-@import '../menu/menu';
-@import '../popup/popup';
-@import './search';
-</style>

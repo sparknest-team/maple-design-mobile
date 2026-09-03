@@ -40,15 +40,25 @@ describe('test badge component props', () => {
     })
   })
 
+  test('badge auto-dots when content is omitted', () => {
+    const wrapper = mount(VarBadge, {
+      slots: { default: () => 'x' },
+    })
+    expect(wrapper.find('.mp-badge--dot').exists()).toBe(true)
+    expect(wrapper.find('.mp-badge__dot-content').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
   test('badge dot', async () => {
     const wrapper = mount(VarBadge, {
-      props: { dot: true },
+      props: { content: 1, dot: true },
       slots: { default: () => 'x' },
     })
     expect(wrapper.find('.mp-badge--dot').exists()).toBe(true)
     expect(wrapper.find('.mp-badge__dot-content').exists()).toBe(true)
     await wrapper.setProps({ dot: false })
     expect(wrapper.find('.mp-badge--dot').exists()).toBe(false)
+    expect(wrapper.find('.mp-badge__content').text()).toBe('1')
     wrapper.unmount()
   })
 

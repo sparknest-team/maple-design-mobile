@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Rate from '..'
-import { delay, trigger } from '../../utils/test'
+import { createRegisteredIconComponents, delay, trigger } from '../../utils/test'
 import VarRate from '../Rate'
 
 test('rate use', () => {
@@ -31,13 +31,18 @@ describe('test rate component props', () => {
   })
 
   test('rate icon', async () => {
+    const iconComponents = createRegisteredIconComponents(['thumb-up'])
     const wrapper = mount(VarRate, {
       props: {
         modelValue: 1,
       },
+      global: {
+        components: iconComponents,
+      },
     })
 
-    expect(wrapper.findAll('.mp-icon-star').length).toBe(1)
+    expect(wrapper.findAll('.mp-rate--primary').length).toBe(1)
+    expect(wrapper.findAll('.mp-rate__content-icon svg').length).toBe(5)
 
     await wrapper.setProps({
       icon: 'thumb-up',
@@ -66,9 +71,15 @@ describe('test rate component props', () => {
   })
 
   test('rate emptyIcon', async () => {
-    const wrapper = mount(VarRate)
+    const iconComponents = createRegisteredIconComponents(['thumb-up-outline'])
+    const wrapper = mount(VarRate, {
+      global: {
+        components: iconComponents,
+      },
+    })
 
-    expect(wrapper.findAll('.mp-icon-star-outline').length).toBe(5)
+    expect(wrapper.findAll('.mp-rate__content-icon svg').length).toBe(5)
+    expect(wrapper.findAll('.mp-rate--primary').length).toBe(0)
 
     await wrapper.setProps({
       emptyIcon: 'thumb-up-outline',
@@ -159,20 +170,24 @@ describe('test rate component props', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
     expect(wrapper.props('modelValue')).toBe(0.5)
-    expect(wrapper.find('.mp-icon-star-half-full').exists()).toBe(true)
+    expect(wrapper.findAll('.mp-rate__content-icon svg').length).toBe(5)
 
     wrapper.unmount()
   })
 
   test('rate halfIcon', async () => {
+    const iconComponents = createRegisteredIconComponents(['heart-half-full'])
     const wrapper = mount(VarRate, {
       props: {
         modelValue: 1.5,
         allowHalf: true,
       },
+      global: {
+        components: iconComponents,
+      },
     })
 
-    expect(wrapper.findAll('.mp-icon-star-half-full').length).toBe(1)
+    expect(wrapper.findAll('.mp-rate__content-icon svg').length).toBe(5)
 
     await wrapper.setProps({
       halfIcon: 'heart-half-full',

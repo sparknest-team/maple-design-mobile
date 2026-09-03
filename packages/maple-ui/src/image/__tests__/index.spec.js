@@ -4,6 +4,7 @@ import { describe, expect, test, vi } from 'vitest'
 import Image from '..'
 import { delay, trigger } from '../../utils/test'
 import VarImage from '../Image'
+import ImagePreview from '../ImagePreview.vue'
 
 const SRC = 'https://maplejs.org/cat.png'
 
@@ -97,6 +98,16 @@ describe('test image component event', () => {
 })
 
 describe('test image component props', () => {
+  test('image default preview open', async () => {
+    const wrapper = mount(VarImage, {
+      props: { src: SRC, defaultPreviewOpen: true },
+    })
+
+    await wrapper.find('img').trigger('load')
+    expect(wrapper.findComponent(ImagePreview).props('open')).toBe(true)
+    wrapper.unmount()
+  })
+
   test('image src', () => {
     const wrapper = mount(VarImage, {
       props: {
@@ -130,6 +141,99 @@ describe('test image component props', () => {
     wrapper.unmount()
   })
 
+  test('image description falls back to alt', () => {
+    const wrapper = mount(VarImage, {
+      props: { description: 'Image description' },
+    })
+
+    expect(wrapper.find('img').attributes('alt')).toBe('Image description')
+    wrapper.unmount()
+  })
+
+  test('image loader and custom loader slot', () => {
+    const wrapper = mount(VarImage, {
+      props: { showLoader: true },
+    })
+    expect(wrapper.find('.mp-image__loader').exists()).toBe(true)
+    wrapper.unmount()
+
+    const customWrapper = mount(VarImage, {
+      slots: { loader: '<span class="custom-loader">Loading</span>' },
+    })
+    expect(customWrapper.find('.custom-loader').exists()).toBe(true)
+    customWrapper.unmount()
+  })
+
+  test('image default and custom error state', async () => {
+    const wrapper = mount(VarImage, {
+      props: { description: 'Load failed' },
+    })
+    await wrapper.find('img').trigger('error')
+    expect(wrapper.find('.mp-image__error').exists()).toBe(true)
+    expect(wrapper.find('.mp-image__error-alt').text()).toBe('Load failed')
+    wrapper.unmount()
+
+    const customWrapper = mount(VarImage, {
+      slots: { error: '<span class="custom-error">Error</span>' },
+    })
+    await customWrapper.find('img').trigger('error')
+    expect(customWrapper.find('.custom-error').exists()).toBe(true)
+    customWrapper.unmount()
+  })
+
+  test('image inner and outer footer', async () => {
+    const wrapper = mount(VarImage, {
+      props: { title: 'Title', description: 'Description', footerClass: 'custom-footer' },
+      slots: { extra: '<button class="footer-extra">Action</button>' },
+    })
+    await wrapper.find('img').trigger('load')
+    expect(wrapper.classes()).toContain('mp-image--with-footer-inner')
+    expect(wrapper.find('.mp-image__content > .mp-image__footer').exists()).toBe(true)
+    expect(wrapper.find('.custom-footer').exists()).toBe(true)
+    expect(wrapper.find('.footer-extra').exists()).toBe(true)
+
+    await wrapper.setProps({ footerPosition: 'outer' })
+    expect(wrapper.classes()).toContain('mp-image--with-footer-outer')
+    expect(wrapper.find('.mp-image > .mp-image__footer').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  test('image footer visibility', async () => {
+    const hidden = mount(VarImage, { props: { title: 'Title', hideFooter: true } })
+    await hidden.find('img').trigger('load')
+    expect(hidden.find('.mp-image__footer').exists()).toBe(false)
+    hidden.unmount()
+
+    const neverHidden = mount(VarImage, { props: { title: 'Title', hideFooter: 'never' } })
+    await neverHidden.find('img').trigger('error')
+    expect(neverHidden.find('.mp-image__footer').exists()).toBe(true)
+    neverHidden.unmount()
+  })
+
+  test('image forwards preview-actions', async () => {
+    const wrapper = mount(VarImage, {
+      props: { src: SRC },
+      slots: { 'preview-actions': '<button class="preview-action">Action</button>' },
+    })
+    await wrapper.find('img').trigger('load')
+    const preview = wrapper.findComponent(ImagePreview)
+    expect(preview.vm.$slots.actions).toBeTruthy()
+    expect(preview.vm.$slots.extra).toBeUndefined()
+    wrapper.unmount()
+  })
+
+  test('image forwards popupContainer and emits canonical preview event', async () => {
+    const wrapper = mount(VarImage, {
+      props: { src: SRC, popupContainer: false },
+    })
+    await wrapper.find('img').trigger('load')
+    await wrapper.find('img').trigger('click')
+
+    expect(wrapper.findComponent(ImagePreview).props('popupContainer')).toBe(false)
+    expect(wrapper.emitted('previewOpenChange')?.[0]).toEqual([true])
+    wrapper.unmount()
+  })
+
   test('image title', () => {
     const wrapper = mount(VarImage, {
       props: {
@@ -141,10 +245,10 @@ describe('test image component props', () => {
     wrapper.unmount()
   })
 
-  test('image referrerpolicy', () => {
+  test('image referrerPolicy', () => {
     const wrapper = mount(VarImage, {
       props: {
-        referrerpolicy: 'no-referrer',
+        referrerPolicy: 'no-referrer',
       },
     })
 
@@ -222,7 +326,7 @@ describe('test image component props', () => {
     const wrapper = mount(VarImage, {
       props: {
         lazy: true,
-        loading: SRC,
+        loadingSrc: SRC,
       },
     })
 
@@ -234,7 +338,7 @@ describe('test image component props', () => {
     const wrapper = mount(VarImage, {
       props: {
         lazy: true,
-        error: SRC,
+        errorSrc: SRC,
       },
     })
 

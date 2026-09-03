@@ -1,6 +1,6 @@
 import type { ComputedRef, Ref } from 'vue'
 import { useChildren } from '@maplejs/maple-use'
-import { type IndexAnchorProvider } from '../index-anchor/provide'
+import { type IndexAnchorProvider } from './anchor-provide'
 
 export interface IndexBarProvider {
   active: Ref<number | string | undefined>

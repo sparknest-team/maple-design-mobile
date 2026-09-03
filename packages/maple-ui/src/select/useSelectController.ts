@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { isEmpty } from '@maplejs/maple-shared'
-import { type OptionProvider } from '../option/provide'
+import { type OptionProvider } from './option-provide'
 
 export interface UseSelectControllerOptions {
   modelValue: () => any

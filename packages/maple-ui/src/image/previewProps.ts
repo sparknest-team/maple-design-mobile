@@ -4,7 +4,14 @@ import { popupProps } from '../popup'
 import { pickProps } from '../utils/components'
 
 export const props = {
-  open: Boolean,
+  open: {
+    type: Boolean,
+    default: undefined,
+  },
+  defaultOpen: {
+    type: Boolean,
+    default: false,
+  },
   imagePreventDefault: Boolean,
   src: String,
   images: {
@@ -12,15 +19,25 @@ export const props = {
     default: () => [],
   },
   current: {
-    type: [String, Number],
+    type: Number,
+    default: undefined,
+  },
+  defaultCurrent: {
+    type: Number,
     default: 0,
   },
   zoom: {
     type: [String, Number],
     default: 2,
   },
-  closable: Boolean,
-  maskClosable: Boolean,
+  closable: {
+    type: Boolean,
+    default: undefined,
+  },
+  maskClosable: {
+    type: Boolean,
+    default: undefined,
+  },
   ...pickProps(carouselProps, ['loop', 'indicator']),
   ...pickProps(popupProps, ['lockScroll', 'popupContainer', 'escToClose']),
 }

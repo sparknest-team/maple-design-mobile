@@ -41,9 +41,8 @@ export function getHtmlInject(inject: MapleConfigHtmlInject) {
 
 export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
   const { vitePlugins = [] } = mapleConfig
-  // Dev stubs resolve package exports back to source SFCs, whose styles are
-  // handled by Vite. Published style subpaths do not exist in this mode.
-  const resolverOptions = { importStyle: false }
+  // Resolve on-demand component styles from source via alias during docs/dev.
+  const resolverOptions = { importStyle: true }
 
   const plugins = [
     vue({
@@ -110,12 +109,32 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
     resolve: {
       extensions: VITE_RESOLVE_EXTENSIONS,
 
-      alias: {
-        ...resolveAlias,
-        '@config': SITE_CONFIG,
-        '@maple-theme': resolve(SRC_DIR, 'styles/theme/css-variables.less'),
-        '@pc-routes': SITE_PC_ROUTES,
-        '@mobile-routes': SITE_MOBILE_ROUTES,
+      alias: [
+        ...Object.entries(resolveAlias).map(([find, replacement]) => ({ find, replacement })),
+        { find: '@config', replacement: SITE_CONFIG },
+        { find: '@maple-theme', replacement: resolve(SRC_DIR, 'style/theme/css-variables.less') },
+        { find: '@pc-routes', replacement: SITE_PC_ROUTES },
+        { find: '@mobile-routes', replacement: SITE_MOBILE_ROUTES },
+        {
+          find: /^@maplejs\/maple-ui$/,
+          replacement: resolve(SRC_DIR, 'index.ts'),
+        },
+        {
+          find: /^@maplejs\/maple-ui\/style$/,
+          replacement: resolve(SRC_DIR, 'style/index.less'),
+        },
+        {
+          find: /^@maplejs\/maple-ui\/(.+)\/style$/,
+          replacement: resolve(SRC_DIR, '$1/style'),
+        },
+      ],
+    },
+
+    css: {
+      preprocessorOptions: {
+        less: {
+          javascriptEnabled: true,
+        },
       },
     },
 

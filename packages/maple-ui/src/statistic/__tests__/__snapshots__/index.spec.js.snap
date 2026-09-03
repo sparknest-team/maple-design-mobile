@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`statistic snapshot 1`] = `
+"<div class="mp-statistic">
+  <div class="mp-statistic__title">Downloads</div>
+  <div class="mp-statistic__content">
+    <div class="mp-statistic__value">
+      <!--v-if--><span class="mp-statistic__value-integer">125670</span>
+      <!--v-if-->
+      <!--v-if-->
+    </div>
+    <!--v-if-->
+  </div>
+</div>"
+`;

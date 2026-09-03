@@ -2,7 +2,7 @@
 
 ### Intro
 
-A content area which can be collapsed and expanded.
+A content area which can be collapsed and expanded. Examples match Cedar Design Web, with a more compact mobile layout. `Collapse.Item` is the same component as `mp-collapse-item`; `app.use(Collapse)` registers both.
 
 ### Basic Usage
 
@@ -27,245 +27,56 @@ function handleChange(val) {
 </template>
 ```
 
-### Hide Margin
-
-Use `offset` prop to hide the margin.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref(['2'])
-</script>
-
-<template>
-  <mp-collapse v-model:active-names="activeNames" :offset="false">
-    <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
-```
-
-### Controlled Divider
-
-Use `divider` prop to control the divider.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref([])
-const divider = ref(false)
-</script>
-
-<template>
-  <mp-button @click="divider = !divider">
-    {{ divider ? 'Hide Divider' : 'Show Divider' }}
-  </mp-button>
-  <mp-collapse v-model:active-names="activeNames" :divider="divider">
-    <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="3">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
-```
-
 ### Accordion Mode
 
-Use `accordion` to enable accordion mode. `activeNames` remains an array and contains at most one item.
+Use `accordion` to allow only one panel open. `activeNames` remains an array with at most one item.
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref([])
-</script>
-
-<template>
-  <mp-collapse v-model:active-names="activeNames" accordion :offset="false">
-    <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
+<mp-collapse v-model:active-names="activeNames" accordion>
+  <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
+  <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
+</mp-collapse>
 ```
 
 ### Disabled
 
-Use the `disabled` prop to disable CollapseItem.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref([1])
-const disabled = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" :size="[8, 8]">
-    <mp-button @click="disabled = !disabled">
-      {{ disabled ? 'Enable' : 'Disabled' }}
-    </mp-button>
-
-    <mp-collapse v-model:active-names="activeNames">
-      <mp-collapse-item title="Title" :name="1" :disabled="disabled">
-        Text
-      </mp-collapse-item>
-      <mp-collapse-item title="Title" :name="2" :disabled="disabled">
-        Text
-      </mp-collapse-item>
-    </mp-collapse>
-  </mp-space>
-</template>
-```
-
-### Custom Content
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref(['1'])
-</script>
-
-<template>
-  <mp-collapse v-model:active-names="activeNames">
-    <template #expand-icon="{ active }">
-      <span>{{ active ? '▼' : '▶' }}</span>
-    </template>
-    <mp-collapse-item title="This is a Title" name="1">
-      <template #extra>Extra</template>
-      Text
-    </mp-collapse-item>
-    <mp-collapse-item name="2">
-      <template #title>This is a Title</template>
-      <template #expand-icon="{ active }">{{ active ? '^^' : 'vv' }}</template>
-      This is a content
-    </mp-collapse-item>
-  </mp-collapse>
-</template>
-```
-
-### Expand Icon Position
-
-Use `expand-icon-position` to set the expand icon position.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref(['1'])
-</script>
-
-<template>
-  <mp-collapse v-model:active-names="activeNames" expand-icon-position="left">
-    <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
-```
+Disable a panel with `disabled` on `collapse-item`.
 
 ### Nested
 
-Panels can be nested.
+Panels can be nested. Nested groups can turn off `elevation`.
 
-```html
-<script setup>
-import { ref } from 'vue'
+### Borderless
 
-const activeNames = ref(['1'])
-const nestedNames = ref(['1.1'])
-</script>
+Hide the border with `bordered="false"`.
 
-<template>
-  <mp-collapse v-model:active-names="activeNames" destroy-on-hide>
-    <mp-collapse-item title="Title" name="1">
-      <mp-collapse v-model:active-names="nestedNames" destroy-on-hide :elevation="false" :offset="false">
-        <mp-collapse-item title="Title" name="1.1">Text</mp-collapse-item>
-        <mp-collapse-item title="Title" name="1.2">Text</mp-collapse-item>
-      </mp-collapse>
-    </mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="3">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
-```
+### Divider
+
+Control item dividers with `divider`.
+
+### Offset
+
+Control the gap between expanded panels with `offset`. It is off by default.
+
+### Extra
+
+Set extra content with the `extra` slot. Clicking `extra` does not toggle the panel.
+
+### Expand Icon
+
+Customize the expand icon with the `expand-icon` slot.
+
+### Expand Icon Position
+
+Set `expand-icon-position` to `left` or `right`. Default is `left`.
 
 ### Destroy On Hide
 
-Use `destroy-on-hide` to destroy content after the panel collapses.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const activeNames = ref(['1'])
-</script>
-
-<template>
-  <mp-collapse v-model:active-names="activeNames" destroy-on-hide>
-    <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="3" :show-expand-icon="false">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
-```
+Destroy panel content after collapse with `destroy-on-hide`.
 
 ### Toggle All
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const collapseRef = ref(null)
-const activeNames = ref(['2', '4'])
-
-function toggleAll() {
-  collapseRef.value.toggleAll({ expand: 'inverse' })
-}
-
-function toggleAllSkipDisabled() {
-  collapseRef.value.toggleAll({ expand: 'inverse', skipDisabled: true })
-}
-
-function openAll() {
-  collapseRef.value.toggleAll({ expand: true })
-}
-function openAllSkipDisabled() {
-  collapseRef.value.toggleAll({ expand: true, skipDisabled: true })
-}
-
-function closeAll() {
-  collapseRef.value.toggleAll({ expand: false })
-}
-
-function closeAllSkipDisabled() {
-  collapseRef.value.toggleAll({ expand: false, skipDisabled: true })
-}
-</script>
-
-<template>
-  <mp-button @click="toggleAll" style="margin: 8px">Toggle All</mp-button>
-  <mp-button @click="toggleAllSkipDisabled" style="margin: 8px">
-    Toggle All(Skip Disabled)
-  </mp-button>
-  <mp-button @click="openAll" style="margin: 8px">Open All</mp-button>
-  <mp-button @click="openAllSkipDisabled" style="margin: 8px">
-    Open All(Skip Disabled)
-  </mp-button>
-  <mp-button @click="closeAll" style="margin: 8px">Close All</mp-button>
-  <mp-button @click="closeAllSkipDisabled" style="margin: 8px">
-    Close All(Skip Disabled)
-  </mp-button>
-
-  <mp-collapse v-model:active-names="activeNames" ref="collapseRef">
-    <mp-collapse-item title="Title" name="1">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" name="2">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" disabled name="3">Text</mp-collapse-item>
-    <mp-collapse-item title="Title" disabled name="4">Text</mp-collapse-item>
-  </mp-collapse>
-</template>
-```
+Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mode.
 
 ## API
 
@@ -273,79 +84,83 @@ function closeAllSkipDisabled() {
 
 #### Collapse Props
 
-| Prop                         | Description                                                 | Type                          | Default |
-| ---------------------------- | ----------------------------------------------------------- | ----------------------------- | ------- |
-| `active-names` **(v-model)** | Names of current active panels                              | _(string \| number)[]_        | `-`     |
-| `default-active-names`       | Default active panel names (uncontrolled)                   | _(string \| number)[]_        | `[]`    |
-| `accordion`                  | Whether to be accordion mode                                | _boolean_                     | `false` |
-| `elevation`                  | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_ | `true`  |
-| `offset`                     | Whether to show margin                                      | _boolean_                     | `true`  |
-| `divider`                    | Whether to show divider                                     | _boolean_                     | `true`  |
-| `expand-icon-position`       | Expand icon position                                        | _'left' \| 'right'_           | `right` |
-| `show-expand-icon`           | Whether to show expand icon                                 | _boolean_                     | `-`     |
-| `destroy-on-hide`            | Whether to destroy content when hidden                      | _boolean_                     | `false` |
+| Prop                         | Description                                              | Type                          | Default  |
+| ---------------------------- | -------------------------------------------------------- | ----------------------------- | -------- |
+| `active-names` **(v-model)** | Names of expanded panels                                 | _(string \| number)[]_        | `-`      |
+| `default-active-names`       | Default expanded names (uncontrolled)                    | _(string \| number)[]_        | `[]`     |
+| `accordion`                  | Accordion mode                                           | _boolean_                     | `false`  |
+| `show-expand-icon`           | Whether to show expand icons                             | _boolean_                     | `-`      |
+| `expand-icon-position`       | Expand icon position                                     | _'left' \| 'right'_           | `'left'` |
+| `bordered`                   | Whether to show the border                               | _boolean_                     | `true`   |
+| `divider`                    | Whether to show dividers                                 | _boolean_                     | `true`   |
+| `offset`                     | Whether expanded panels have a gap                       | _boolean_                     | `false`  |
+| `destroy-on-hide`            | Destroy content when hidden                              | _boolean_                     | `false`  |
+| `elevation`                  | Elevation; `true` `false` or a level from `0-24`         | _string \| number \| boolean_ | `true`   |
 
 #### CollapseItem Props
 
-| Prop               | Description                              | Type               | Default        |
-| ------------------ | ---------------------------------------- | ------------------ | -------------- |
-| `name`             | Unique identifier, defaults to index     | _string \| number_ | `index`        |
-| `title`            | Title                                    | _string_           | `-`            |
-| `icon`             | Expand icon name                         | _string_           | `chevron-down` |
-| `disabled`         | Whether to disable collapse              | _boolean_          | `false`        |
-| `show-expand-icon` | Whether to show expand icon              | _boolean_          | `true`         |
-| `destroy-on-hide`  | Whether to destroy content when hidden   | _boolean_          | `false`        |
+| Prop               | Description                                      | Type               | Default        |
+| ------------------ | ------------------------------------------------ | ------------------ | -------------- |
+| `name` **(required)** | Unique name, corresponding to `activeNames`   | _string \| number_ | `-`            |
+| `title`            | Panel title                                      | _string_           | `-`            |
+| `disabled`         | Disable the panel                                | _boolean_          | `false`        |
+| `show-expand-icon` | Whether to show the expand icon                  | _boolean_          | `true`         |
+| `destroy-on-hide`  | Destroy content when hidden                      | _boolean_          | `false`        |
 
 ### Methods
 
-| Method      | Description               | Arguments                           | Return |
-| ----------- | ------------------------- | ----------------------------------- | ------ |
-| `toggleAll` | Expand or close all items | `options: CollapseToggleAllOptions` | `-`    |
+| Method      | Description                                      | Arguments                           | Return |
+| ----------- | ------------------------------------------------ | ----------------------------------- | ------ |
+| `toggleAll` | Expand or collapse all panels (no-op in accordion) | `options: CollapseToggleAllOptions` | `-`    |
 
 ### CollapseToggleAllOptions
 
-| Option         | Description                                                                                                      | Type                   | Default |
-| -------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------- | ------- |
-| `expand`       | Set `'inverse'` to switch the status of all items; set `boolean` to expand or collapse all items                 | _'inverse' \| boolean_ | `-`     |
-| `skipDisabled` | Skip the disabled item                                                                                           | _boolean_              | `false` |
+| Prop           | Description                                                      | Type                   | Default |
+| -------------- | ---------------------------------------------------------------- | ---------------------- | ------- |
+| `expand`       | `'inverse'` toggles all; `boolean` expands or collapses all      | `'inverse' \| boolean` | `-`     |
+| `skipDisabled` | Skip disabled panels                                             | _boolean_              | `false` |
 
 ### Events
 
 #### Collapse Events
 
-| Event    | Description                       | Arguments                             |
-| -------- | --------------------------------- | ------------------------------------- |
-| `change` | Emitted when active names changed | `activeNames: (string \| number)[]` |
+| Event    | Description                         | Arguments                                           |
+| -------- | ----------------------------------- | --------------------------------------------------- |
+| `change` | Emitted when expanded panels change | `activeNames: (string \| number)[]`<br>`ev: Event` |
 
 ### Slots
 
 #### Collapse Slots
 
-| Name          | Description         | SlotProps                                                              |
-| ------------- | ------------------- | ---------------------------------------------------------------------- |
-| `default`     | Content of collapse | `-`                                                                    |
-| `expand-icon` | Expand icon         | `active: boolean`<br>`disabled: boolean`<br>`position: 'left' \| 'right'` |
+| Name          | Description  | Slot Props                                                                |
+| ------------- | ------------ | ------------------------------------------------------------------------- |
+| `default`     | Panel list   | `-`                                                                       |
+| `expand-icon` | Expand icon  | `active: boolean`<br>`disabled: boolean`<br>`position: 'left' \| 'right'` |
 
 #### CollapseItem Slots
 
-| Name          | Description   | SlotProps                                                              |
-| ------------- | ------------- | ---------------------------------------------------------------------- |
-| `default`     | Content       | `-`                                                                    |
-| `title`       | Title         | `-`                                                                    |
-| `extra`       | Extra content | `-`                                                                    |
-| `expand-icon` | Expand icon   | `active: boolean`<br>`disabled: boolean`<br>`position: 'left' \| 'right'` |
+| Name          | Description  | Slot Props                                                                |
+| ------------- | ------------ | ------------------------------------------------------------------------- |
+| `default`     | Panel content | `-`                                                                      |
+| `title`       | Panel title  | `-`                                                                       |
+| `extra`       | Extra content | `-`                                                                      |
+| `expand-icon` | Expand icon  | `active: boolean`<br>`disabled: boolean`<br>`position: 'left' \| 'right'` |
 
 ### Style Variables
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
 
-| Variable                       | Default                          |
-| ------------------------------ | -------------------------------- |
-| `--collapse-background`        | `var(--color-fill-3)`                           |
-| `--collapse-text-color`        | `#232222`                        |
-| `--collapse-header-font-size`  | `var(--font-size-lg)`            |
-| `--collapse-header-padding`    | `10px 12px`                      |
-| `--collapse-content-font-size` | `var(--font-size-md)`            |
-| `--collapse-content-padding`   | `0 12px 10px`                    |
-| `--collapse-item-margin-top`   | `16px`                           |
-| `--collapse-disable-color`     | `#bdbdbd`                        |
-| `--collapse-border-top`        | `thin solid var(--color-border-2)`|
+Use [StyleProvider](#/en-US/style-provider) to customize these CSS variables.
+
+| Variable                       | Default                            |
+| ------------------------------ | ---------------------------------- |
+| `--collapse-background`        | `var(--color-fill-3)`              |
+| `--collapse-text-color`        | `#232222`                          |
+| `--collapse-header-font-size`  | `var(--font-size-lg)`              |
+| `--collapse-header-padding`    | `10px 12px`                        |
+| `--collapse-content-font-size` | `var(--font-size-md)`              |
+| `--collapse-content-padding`   | `0 12px 10px`                      |
+| `--collapse-item-margin-top`   | `16px`                             |
+| `--collapse-disable-color`     | `#bdbdbd`                          |
+| `--collapse-border-top`        | `thin solid var(--color-border-2)` |
+| `--collapse-border-width`      | `1px`                              |
+| `--collapse-border-color`      | `var(--color-border-2)`            |
+| `--collapse-border-radius`     | `4px`                              |

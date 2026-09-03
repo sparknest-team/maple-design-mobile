@@ -2,16 +2,15 @@ import { createApp, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Steps from '..'
-import Step from '../../step'
-import VarStep from '../../step/Step'
 import { delay } from '../../utils/test'
+import VarStep from '../Step.vue'
 import VarSteps from '../Steps'
 
 test('steps and step use', () => {
-  const app = createApp({}).use(Steps).use(Step)
+  const app = createApp({}).use(Steps)
 
   expect(app.component(Steps.name)).toBeTruthy()
-  expect(app.component(Step.name)).toBeTruthy()
+  expect(app.component(VarStep.name)).toBeTruthy()
 })
 
 describe('test steps and step components props', () => {
@@ -33,7 +32,8 @@ describe('test steps and step components props', () => {
     await delay(50)
     const tags = wrapper.findAll('.mp-step__horizontal-tag')
     expect(tags[0].classes()).toContain('mp-step__horizontal-tag--active')
-    expect(tags[0].find('.mp-icon-check').exists()).toBe(true)
+    expect(tags[0].classes()).toContain('mp-step__horizontal-tag--finish')
+    expect(tags[0].find('.mp-step__icon').exists()).toBe(true)
     expect(tags[1].classes()).toContain('mp-step__horizontal-tag--active')
     expect(tags[1].text()).toBe('2')
     expect(tags[2].classes()).not.toContain('mp-step__horizontal-tag--active')

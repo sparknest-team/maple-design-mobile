@@ -2,7 +2,7 @@
 
 ### 介绍
 
-显示可以在屏幕上滚动和滑动的项目集合。支持滑动、淡入淡出和卡片三种效果，多图同屏展示以及多种导航样式。
+显示可以在屏幕上滚动和滑动的项目集合。示例与 Cedar Design Web 保持一致；`effect`、`centered-slides` 为移动端能力。
 
 ### 基本使用
 
@@ -67,6 +67,8 @@
 ```
 
 ### 开启自动播放
+
+通过 `auto-play` 开启自动播放。传入 `true` 使用默认间隔 3000ms；传入数字则作为间隔（毫秒）。
 
 ```html
 <template>
@@ -159,9 +161,9 @@
 </style>
 ```
 
-### 导航
+### 切换箭头
 
-通过设置 `show-arrow` 可开启导航按钮, 当 `show-arrow` 为 `hover` 时，可在指针悬浮时对导航按钮进行显示。
+通过 `show-arrow` 控制切换箭头的显示时机，支持 `always`、`hover`、`never`。移动端默认 `never`。
 
 ```html
 <template>
@@ -360,6 +362,8 @@
 
 ### 指示器类型
 
+通过 `indicator-type` 设置指示器类型，支持 `dot`、`line`、`slider`。隐藏指示器请使用 `indicator`。
+
 ```html
 <template>
   <h4>圆点</h4>
@@ -377,6 +381,19 @@
 
   <h4>线条</h4>
   <mp-carousel class="carousel-example" indicator-type="line">
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat2.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat3.jpg">
+    </mp-carousel-item>
+  </mp-carousel>
+
+  <h4>滑块</h4>
+  <mp-carousel class="carousel-example" indicator-type="slider">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -408,7 +425,21 @@
 
 ```html
 <template>
+  <h4>顶部</h4>
   <mp-carousel class="carousel-example" indicator-position="top">
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat2.jpg">
+    </mp-carousel-item>
+    <mp-carousel-item>
+      <img class="carousel-example-image" src="/cat3.jpg">
+    </mp-carousel-item>
+  </mp-carousel>
+
+  <h4>外部</h4>
+  <mp-carousel class="carousel-example" indicator-position="outer">
     <mp-carousel-item>
       <img class="carousel-example-image" src="/cat.jpg">
     </mp-carousel-item>
@@ -640,30 +671,30 @@ import { Message } from '@maplejs/maple-ui'
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `current`(v-model) | 当前展示索引（受控模式） | _number_ | `-` |
-| `default-current` | 当前展示索引（默认值） | _number_ | `0` |
+| `current`(v-model) | 当前展示索引（0-based） | _number_ | `-` |
+| `default-current` | 当前展示索引默认值（0-based） | _number_ | `0` |
 | `loop` | 是否循环轮播 | _boolean_ | `true` |
-| `auto-play` | 自动播放间隔(ms)，传入对象 `{ interval, hoverToPause }` 可开启悬停暂停 | _string \| number \| CarouselAutoPlayConfig_ | `-` |
+| `auto-play` | 是否自动播放；`true` 为 3000ms，数字为间隔毫秒，或 `{ interval, hoverToPause }` | _boolean \| number \| CarouselAutoPlayConfig_ | `false` |
 | `move-speed` | 切换动画时长(ms) | _string \| number_ | `300` |
-| `show-arrow` | 是否显示切换箭头 | _'always' \| 'hover' \| 'never'_ | `never` |
-| `indicator` | 是否显示指示器 | _boolean_ | `true` |
-| `indicator-color` | 指示器颜色 | _string_ | `-` |
-| `indicator-class` | 指示器自定义 class | _string_ | `-` |
-| `indicator-type` | 指示器类型，可选值 `dot` `line` `slider` | _string_ | `dot` |
-| `indicator-position` | 指示器位置，可选值 `bottom` `top` `left` `right` `outer` | _string_ | `bottom` |
+| `trigger` | 指示器的触发方式 | _CarouselTriggerEvent_ | `click` |
+| `direction` | 轮播方向 | _'horizontal' \| 'vertical'_ | `horizontal` |
+| `show-arrow` | 切换箭头显示时机 | _CarouselArrowType_ | `never` |
 | `arrow-class` | 切换箭头自定义 class | _string_ | `-` |
-| `direction` | 轮播方向，可选值 `horizontal` `vertical` | _string_ | `horizontal` |
-| `touchable` | 是否允许触摸滑动 | _boolean_ | `true` |
-| `draggable` | 是否允许鼠标拖拽切换 | _boolean_ | `false` |
-| `effect` | 切换动画类型，可选值 `slide` `fade` `card` | _string_ | `slide` |
-| `slides-per-view` | 每屏显示的 slide 数量，`'auto'` 时由 slide 自身宽度决定 | _number \| 'auto'_ | `1` |
-| `space-between` | slide 之间的间距 | _string \| number_ | `0` |
-| `centered-slides` | 居中当前 slide（需配合 `slides-per-view` 使用） | _boolean_ | `false` |
+| `indicator` | 是否显示指示器 | _boolean_ | `true` |
+| `indicator-type` | 指示器类型 | _CarouselIndicatorType_ | `dot` |
+| `indicator-position` | 指示器位置 | _CarouselIndicatorPosition_ | `bottom` |
+| `indicator-class` | 指示器自定义 class | _string_ | `-` |
+| `indicator-color` | 指示器颜色 | _string_ | `-` |
 | `height` | 轮播容器高度 | _string_ | `-` |
 | `transition-timing-function` | 动画过渡曲线 | _string_ | `cubic-bezier(0.25, 0.8, 0.5, 1)` |
-| `trigger` | 指示器的触发方式，可选值 `click` `hover` | _string_ | `click` |
+| `touchable` | 是否允许触摸滑动 | _boolean_ | `true` |
+| `draggable` | 是否允许鼠标拖拽切换 | _boolean_ | `false` |
 | `mousewheel` | 是否允许鼠标滚轮切换 | _boolean_ | `false` |
 | `keyboard` | 是否允许键盘方向键切换 | _boolean_ | `false` |
+| `slides-per-view` | 每屏显示的 slide 数量，`'auto'` 时由 slide 自身宽度决定 | _number \| 'auto'_ | `1` |
+| `space-between` | slide 之间的间距 | _string \| number_ | `0` |
+| `effect` | 切换动画类型（移动端） | _CarouselEffect_ | `slide` |
+| `centered-slides` | 居中当前 slide（需配合 `slides-per-view`，移动端） | _boolean_ | `false` |
 
 ### 事件
 
@@ -671,8 +702,8 @@ import { Message } from '@maplejs/maple-ui'
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `update:current` | `current` 值更新时触发 | `index: number` |
-| `change` | 切换时触发 | `index: number` <br/> `prevIndex: number` <br/> `isManual: boolean` |
+| `update:current` | v-model 绑定值更新时触发（0-based） | `index: number` |
+| `change` | 幻灯片发生切换时的回调函数（0-based） | `index: number` <br/> `prevIndex: number` <br/> `isManual: boolean` |
 
 ### 插槽
 
@@ -692,9 +723,27 @@ import { Message } from '@maplejs/maple-ui'
 | 方法名 | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
 | `resize` | 重新计算轮播尺寸 | `-` | `-` |
-| `next` | 切换到下一页 | `options?: { event?: boolean }` | `-` |
-| `prev` | 切换到上一页 | `options?: { event?: boolean }` | `-` |
-| `to` | 跳转到指定索引 | `index: number, options?: { event?: boolean }` | `-` |
+| `next` | 切换到下一页 | `options?: CarouselToOptions` | `-` |
+| `prev` | 切换到上一页 | `options?: CarouselToOptions` | `-` |
+| `to` | 跳转到指定索引 | `index: number, options?: CarouselToOptions` | `-` |
+
+### 类型定义
+
+```ts
+type CarouselTriggerEvent = 'click' | 'hover'
+type CarouselArrowType = 'always' | 'hover' | 'never'
+type CarouselIndicatorType = 'dot' | 'line' | 'slider'
+type CarouselIndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'outer'
+type CarouselEffect = 'slide' | 'fade' | 'card'
+type CarouselAutoPlayConfig = {
+  interval?: number
+  hoverToPause?: boolean
+}
+type CarouselToOptions = {
+  event?: boolean
+  isManual?: boolean
+}
+```
 
 ### 样式变量
 
@@ -711,6 +760,8 @@ import { Message } from '@maplejs/maple-ui'
 | `--carousel-navigation-button-width` | `36px` |
 | `--carousel-navigation-button-height` | `36px` |
 | `--carousel-navigation-button-border-radius` | `50%` |
+| `--carousel-navigation-button-background` | `rgba(0, 0, 0, 0.35)` |
+| `--carousel-navigation-button-color` | `#fff` |
 | `--carousel-navigation-icon-size` | `20px` |
 | `--carousel-navigation-prev-left` | `8px` |
 | `--carousel-navigation-next-right` | `8px` |

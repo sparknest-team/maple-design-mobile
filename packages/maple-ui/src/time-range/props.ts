@@ -2,10 +2,9 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
-import { timePickerProps as timePickerPropsSource } from '../time-picker'
-import { type DisabledTime, type Format } from '../time-picker/props'
-import { props as timeRangePickerPropsSource } from '../time-range-picker/props'
+import { props as timePickerPropsSource, type DisabledTime, type Format } from '../time/picker-props'
 import { pickProps } from '../utils/components'
+import { props as timeRangePickerPropsSource } from './picker-props'
 
 export type TimeRangePresentation = 'clock' | 'picker'
 

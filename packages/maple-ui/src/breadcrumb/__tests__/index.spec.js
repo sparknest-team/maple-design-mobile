@@ -2,7 +2,7 @@ import { createApp, Fragment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Breadcrumb from '..'
-import VarBreadcrumbItem from '../../breadcrumb-item/BreadcrumbItem.vue'
+import VarBreadcrumbItem from '../../breadcrumb/BreadcrumbItem.vue'
 import { delay } from '../../utils/test'
 import VarBreadcrumb from '../Breadcrumb.vue'
 

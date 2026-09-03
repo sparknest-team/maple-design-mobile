@@ -248,7 +248,7 @@ test('auto-complete clearable', async () => {
     },
   })
 
-  await wrapper.find('.mp-icon-close-circle').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
   expect(onClear).toHaveBeenCalledWith('')
   expect(onUpdateModelValue).toHaveBeenCalledWith('')
   wrapper.unmount()

@@ -3,7 +3,14 @@
     ref="carouselEl"
     v-hover="handleHovering"
     :class="
-      classes(n(), [effect === 'fade', n('--fade')], [effect === 'card', n('--card')], [height, n('--custom-height')])
+      classes(
+        n(),
+        [effect === 'fade', n('--fade')],
+        [effect === 'card', n('--card')],
+        [height, n('--custom-height')],
+        [indicator && indicatorPosition === 'outer' && !vertical, n('--outer')],
+        [indicator && indicatorPosition === 'outer' && vertical, n('--outer-vertical')],
+      )
     "
     :style="height ? { height: toSizeUnit(height) } : undefined"
     @mouseenter="handleMouseEnter"
@@ -61,17 +68,15 @@
           v-if="showArrow === 'always' || hovering"
           :class="classes(n('navigation'), n('navigation-prev'), [vertical, n('--navigation-vertical-prev')])"
         >
-          <mp-button
-            mp-carousel-cover
+          <button
+            type="button"
             :disabled="!loop && index === 0"
-            :class="classes(n('navigation-prev-button'), arrowClass)"
+            :class="classes(n('navigation-button'), n('navigation-prev-button'), arrowClass)"
             @click="prev({ event: true, isManual: true })"
           >
-            <mp-icon mp-carousel-cover :class="n('navigation-prev-button-icon')">
-              <MIconChevronUp v-if="vertical" />
-              <MIconChevronLeft v-else />
-            </mp-icon>
-          </mp-button>
+            <MIconChevronUp v-if="vertical" />
+            <MIconChevronLeft v-else />
+          </button>
         </div>
       </transition>
     </slot>
@@ -94,17 +99,15 @@
           v-if="showArrow === 'always' || hovering"
           :class="classes(n('navigation'), n('navigation-next'), [vertical, n('--navigation-vertical-next')])"
         >
-          <mp-button
-            mp-carousel-cover
+          <button
+            type="button"
             :disabled="!loop && index === length - 1"
-            :class="classes(n('navigation-next-button'), arrowClass)"
+            :class="classes(n('navigation-button'), n('navigation-next-button'), arrowClass)"
             @click="next({ event: true, isManual: true })"
           >
-            <mp-icon mp-carousel-cover :class="n('navigation-next-button-icon')">
-              <MIconChevronDown v-if="vertical" />
-              <MIconChevronRight v-else />
-            </mp-icon>
-          </mp-button>
+            <MIconChevronDown v-if="vertical" />
+            <MIconChevronRight v-else />
+          </button>
         </div>
       </transition>
     </slot>
@@ -168,13 +171,11 @@ import {
 } from '@maplejs/icons-vue'
 import { call, clamp, doubleRaf, isNumber, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartUnmounted, onWindowResize, useEventListener, useTouch, useVModel } from '@maplejs/maple-use'
-import MpButton from '../button'
-import { type CarouselItemProvider } from '../carousel-item/provide'
 import Hover from '../hover'
-import MpIcon from '../icon'
 import { usePopup } from '../popup/provide'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { type CarouselItemProvider } from './item-provide'
 import { props, type CarouselToOptions } from './props'
 import { useCarouselItems, useCarouselResizeListeners, type CarouselProvider } from './provide'
 
@@ -191,8 +192,6 @@ export default defineComponent({
     MIconChevronLeft,
     MIconChevronDown,
     MIconChevronRight,
-    MpButton,
-    MpIcon,
   },
   props,
   emits: ['change', 'update:current'],
@@ -782,6 +781,7 @@ export default defineComponent({
       length,
       index,
       activeIndex,
+      vertical,
       carouselEl,
       trackSize,
       trackTranslate,

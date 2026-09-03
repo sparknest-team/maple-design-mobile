@@ -1,0 +1,260 @@
+.mp-button {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: none;
+  border-radius: var(--mp-button-border-radius);
+  user-select: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    box-shadow 0.2s,
+    background-color 0.25s,
+    border-radius 0.2s;
+  will-change: box-shadow;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+
+  &:active {
+    box-shadow:
+      0 3px 5px -1px var(--mp-shadow-key-umbra-opacity),
+      0 5px 8px 0 var(--mp-shadow-key-penumbra-opacity),
+      0 1px 14px 0 var(--mp-shadow-key-ambient-opacity);
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__loading[mp-button-cover] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  // === variant=default × status: filled ===
+  &--variant-default {
+    &.mp-button--status-default {
+      color: var(--mp-button-default-text-color);
+      background-color: var(--mp-button-default-color);
+    }
+
+    &.mp-button--status-primary {
+      color: var(--mp-button-primary-text-color);
+      background-color: var(--mp-button-primary-color);
+    }
+
+    &.mp-button--status-info {
+      color: var(--mp-button-info-text-color);
+      background-color: var(--mp-button-info-color);
+    }
+
+    &.mp-button--status-success {
+      color: var(--mp-button-success-text-color);
+      background-color: var(--mp-button-success-color);
+    }
+
+    &.mp-button--status-warning {
+      color: var(--mp-button-warning-text-color);
+      background-color: var(--mp-button-warning-color);
+    }
+
+    &.mp-button--status-danger {
+      color: var(--mp-button-danger-text-color);
+      background-color: var(--mp-button-danger-color);
+    }
+
+    &.mp-button--status-secondary {
+      color: var(--mp-button-secondary-text-color);
+      background-color: var(--mp-button-secondary-color);
+    }
+
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-text-color);
+      background-color: var(--mp-button-tertiary-color);
+    }
+  }
+
+  // === variant=text: 透明背景 + status 取色 ===
+  &--variant-text {
+    background-color: transparent;
+
+    &:active {
+      box-shadow: none;
+    }
+
+    &.mp-button--status-default {
+      color: inherit;
+    }
+    &.mp-button--status-primary {
+      color: var(--mp-button-primary-color);
+    }
+    &.mp-button--status-info {
+      color: var(--mp-button-info-color);
+    }
+    &.mp-button--status-success {
+      color: var(--mp-button-success-color);
+    }
+    &.mp-button--status-warning {
+      color: var(--mp-button-warning-color);
+    }
+    &.mp-button--status-danger {
+      color: var(--mp-button-danger-color);
+    }
+    &.mp-button--status-secondary {
+      color: var(--mp-button-secondary-color);
+    }
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
+    }
+  }
+
+  // === variant=outline: 描边 + status 取色 ===
+  &--variant-outline {
+    background-color: transparent;
+    border: thin solid currentColor;
+
+    &.mp-button--status-default {
+      color: inherit;
+    }
+    &.mp-button--status-primary {
+      color: var(--mp-button-primary-color);
+    }
+    &.mp-button--status-info {
+      color: var(--mp-button-info-color);
+    }
+    &.mp-button--status-success {
+      color: var(--mp-button-success-color);
+    }
+    &.mp-button--status-warning {
+      color: var(--mp-button-warning-color);
+    }
+    &.mp-button--status-danger {
+      color: var(--mp-button-danger-color);
+    }
+    &.mp-button--status-secondary {
+      color: var(--mp-button-secondary-color);
+    }
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
+    }
+  }
+
+  // === variant=tonal: 浅色填充 ===
+  &--variant-tonal {
+    &.mp-button--status-default {
+      color: var(--mp-button-default-text-color);
+      background-color: var(--mp-button-default-icon-container-color);
+    }
+    &.mp-button--status-primary {
+      color: var(--mp-button-primary-icon-color);
+      background-color: var(--mp-button-primary-icon-container-color);
+    }
+    &.mp-button--status-info {
+      color: var(--mp-button-info-icon-color);
+      background-color: var(--mp-button-info-icon-container-color);
+    }
+    &.mp-button--status-success {
+      color: var(--mp-button-success-icon-color);
+      background-color: var(--mp-button-success-icon-container-color);
+    }
+    &.mp-button--status-warning {
+      color: var(--mp-button-warning-icon-color);
+      background-color: var(--mp-button-warning-icon-container-color);
+    }
+    &.mp-button--status-danger {
+      color: var(--mp-button-danger-icon-color);
+      background-color: var(--mp-button-danger-icon-container-color);
+    }
+    &.mp-button--status-secondary {
+      color: var(--mp-button-secondary-color);
+      background-color: color-mix(in srgb, var(--mp-button-secondary-color) 16%, transparent);
+    }
+    &.mp-button--status-tertiary {
+      color: var(--mp-button-tertiary-color);
+      background-color: color-mix(in srgb, var(--mp-button-tertiary-color) 16%, transparent);
+    }
+  }
+
+  // === icon-container 单色块按钮 ===
+  &--icon-container-default {
+    color: var(--mp-button-default-icon-color);
+    background-color: var(--mp-button-default-icon-container-color);
+  }
+  &--icon-container-primary {
+    color: var(--mp-button-primary-icon-color);
+    background-color: var(--mp-button-primary-icon-container-color);
+  }
+  &--icon-container-info {
+    color: var(--mp-button-info-icon-color);
+    background-color: var(--mp-button-info-icon-container-color);
+  }
+  &--icon-container-success {
+    color: var(--mp-button-success-icon-color);
+    background-color: var(--mp-button-success-icon-container-color);
+  }
+  &--icon-container-warning {
+    color: var(--mp-button-warning-icon-color);
+    background-color: var(--mp-button-warning-icon-container-color);
+  }
+  &--icon-container-danger {
+    color: var(--mp-button-danger-icon-color);
+    background-color: var(--mp-button-danger-icon-container-color);
+  }
+
+  // === sizes ===
+  &--size-md {
+    height: var(--mp-button-normal-height);
+    padding: var(--mp-button-normal-padding);
+    font-size: var(--mp-button-normal-font-size);
+  }
+  &--size-lg {
+    height: var(--mp-button-large-height);
+    padding: var(--mp-button-large-padding);
+    font-size: var(--mp-button-large-font-size);
+  }
+  &--size-sm {
+    height: var(--mp-button-small-height);
+    padding: var(--mp-button-small-padding);
+    font-size: var(--mp-button-small-font-size);
+  }
+  &--size-xs {
+    height: var(--mp-button-mini-height);
+    padding: var(--mp-button-mini-padding);
+    font-size: var(--mp-button-mini-font-size);
+  }
+  &--size-xl {
+    height: var(--mp-button-xl-height);
+    padding: var(--mp-button-xl-padding);
+    font-size: var(--mp-button-xl-font-size);
+  }
+
+  &--round {
+    padding: var(--mp-button-round-padding);
+    border-radius: 50%;
+    height: auto;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &--loading {
+    cursor: default;
+  }
+
+  &--hidden {
+    opacity: 0;
+  }
+
+  &--disabled {
+    background-color: var(--mp-button-disabled-color);
+    color: var(--mp-button-disabled-text-color);
+    cursor: not-allowed;
+    box-shadow: none !important;
+  }
+}

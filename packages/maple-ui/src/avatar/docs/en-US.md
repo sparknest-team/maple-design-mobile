@@ -1,64 +1,63 @@
 # Avatar
 
-### Intro
+Displays an avatar for a person or object using an image, text, icon, or avatar group. The examples match Cedar Design Web.
 
-Used as avatar display, supporting images, icons and characters.
+## Examples
 
-### Avatar Size
+### Basic Usage
 
-```html
-<template>
-  <mp-space align="center">
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="mini" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="small" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" size="large" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" :size="78" />
-  </mp-space>
-</template>
-```
-
-### Avatar Shape
+Avatars are circular by default. Use the default slot to show text or an icon when there is no image.
 
 ```html
-<template>
-  <mp-space>
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" />
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" shape="square" />
-  </mp-space>
-</template>
+<mp-space align="center" :size="16">
+  <mp-avatar :size="32">C</mp-avatar>
+  <mp-avatar :size="40">CD</mp-avatar>
+  <mp-avatar :size="48" shape="square">Cedar</mp-avatar>
+  <mp-avatar :size="56" color="#00bebe">
+    <m-icon-account-circle />
+  </mp-avatar>
+</mp-space>
 ```
 
-### Fit Mode
+### Size
+
+`size` controls the avatar width and height in px. It works for both text and image avatars.
 
 ```html
-<template>
-  <mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" />
-      <span>cover</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="fill" />
-      <span>fill</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="contain" />
-      <span>contain</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="none" />
-      <span>none</span>
-    </mp-space>
-    <mp-space direction="column" align="center">
-      <mp-avatar image-url="https://maplejs.org/cat.jpg" object-fit="scale-down" />
-      <span>scale-down</span>
-    </mp-space>
+<mp-space direction="column" :size="16">
+  <mp-space align="center" :size="16">
+    <mp-avatar :size="24">A</mp-avatar>
+    <mp-avatar :size="32">B</mp-avatar>
+    <mp-avatar :size="40">C</mp-avatar>
+    <mp-avatar :size="48">D</mp-avatar>
+    <mp-avatar :size="64">E</mp-avatar>
   </mp-space>
-</template>
+  <mp-space align="center" :size="16">
+    <mp-avatar image-url="cat.jpg" alt="A cat" :size="28" />
+    <mp-avatar image-url="cat.jpg" alt="A cat" :size="36" />
+    <mp-avatar image-url="cat.jpg" alt="A cat" :size="48" />
+    <mp-avatar image-url="cat.jpg" alt="A cat" :size="64" />
+    <mp-avatar image-url="cat.jpg" alt="A cat" :size="78" />
+  </mp-space>
+</mp-space>
 ```
 
-### Text Adaptive
+### Shape
+
+`shape` supports circle and square.
+
+```html
+<mp-space align="center" :size="16">
+  <mp-avatar>C</mp-avatar>
+  <mp-avatar shape="square">S</mp-avatar>
+  <mp-avatar image-url="cat.jpg" alt="Circle image" />
+  <mp-avatar image-url="cat.jpg" alt="Square image" shape="square" />
+</mp-space>
+```
+
+### Auto-fit Text
+
+Long text is scaled to the avatar width by default. Change the input to see it update live. Set `auto-fix-font-size` to `false` to keep the original font size.
 
 ```html
 <script setup>
@@ -68,124 +67,141 @@ const text = ref('Maple')
 </script>
 
 <template>
-  <mp-space direction="column">
-    <mp-space>
+  <mp-space direction="column" :size="16">
+    <mp-space align="center" :size="16">
       <mp-avatar>{{ text }}</mp-avatar>
       <mp-avatar shape="square">{{ text }}</mp-avatar>
+      <mp-avatar :auto-fix-font-size="false">{{ text }}</mp-avatar>
     </mp-space>
-    <mp-input v-model="text" />
+    <mp-input v-model="text" placeholder="Enter text" />
   </mp-space>
 </template>
 ```
 
-### Background Color
+### Image Avatar
+
+Set the image with `image-url` and provide accessible alternative text with `alt`.
 
 ```html
-<template>
-  <mp-space>
-    <mp-avatar color="var(--color-warning)">
-      <m-icon-fire />
-    </mp-avatar>
-    <mp-avatar color="var(--color-danger)">Maple</mp-avatar>
-  </mp-space>
-</template>
+<mp-space align="center" :size="16">
+  <mp-avatar image-url="cat.jpg" alt="A cat" />
+  <mp-avatar image-url="cat2.jpg" alt="A cat" :size="48" shape="square" />
+</mp-space>
 ```
 
-### Avatar Horizontal Group
+### Image Fit
+
+`object-fit` controls how the image fills the avatar.
 
 ```html
-<template>
+<mp-space align="center" :size="24">
+  <mp-avatar image-url="cat.jpg" alt="fill" object-fit="fill" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="contain" object-fit="contain" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="cover" object-fit="cover" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="none" object-fit="none" :size="56" />
+  <mp-avatar image-url="cat.jpg" alt="scale-down" object-fit="scale-down" :size="56" />
+</mp-space>
+```
+
+### Loading and Fallback
+
+`lazy` enables lazy loading, and `loading` sets a placeholder while the image loads. On failure, use the `error` image or the `error` slot.
+
+```html
+<mp-space align="center" :size="16">
+  <mp-avatar lazy image-url="cat.jpg" loading="cat2.jpg" alt="Lazy load with placeholder" :size="48" />
+  <mp-avatar image-url="missing-avatar.jpg" error="cat.jpg" alt="Fallback image on error" :size="48" />
+  <mp-avatar image-url="missing-avatar.jpg" alt="Error slot" :size="48">
+    <template #error>NA</template>
+  </mp-avatar>
+</mp-space>
+```
+
+### Color and Border
+
+Use `color` for the background, including theme color variables. `bordered` / `border-color` control the outline.
+
+```html
+<mp-space align="center" :size="16">
+  <mp-avatar color="var(--mp-color-warning)">
+    <m-icon-fire />
+  </mp-avatar>
+  <mp-avatar color="var(--mp-color-danger)">Maple</mp-avatar>
+  <mp-avatar color="#00bebe">CD</mp-avatar>
+  <mp-avatar color="#7b61ff" shape="square">A</mp-avatar>
+  <mp-avatar bordered>B</mp-avatar>
+  <mp-avatar bordered border-color="#00bebe" color="#e6fffb">C</mp-avatar>
+</mp-space>
+```
+
+### Avatar Group
+
+`AvatarGroup` stacks child avatars. Use `bordered` for layered outlines, or `max-count` to collect extra avatars into a Popover. `z-index-ascend` uses ascending stacking order.
+
+```html
+<mp-space direction="column" :size="20">
   <mp-avatar-group>
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
+    <mp-avatar image-url="cat.jpg" alt="User one" bordered />
+    <mp-avatar image-url="cat2.jpg" alt="User two" bordered />
+    <mp-avatar image-url="cat.jpg" alt="User three" bordered />
     <mp-avatar bordered>+2</mp-avatar>
   </mp-avatar-group>
-</template>
-```
 
-### Avatar Vertical Group
-
-```html
-<template>
-  <mp-avatar-group vertical>
-    <mp-avatar image-url="https://maplejs.org/cat.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat2.jpg" bordered />
-    <mp-avatar image-url="https://maplejs.org/cat3.jpg" bordered />
-    <mp-avatar bordered>+2</mp-avatar>
+  <mp-avatar-group :max-count="3" :size="48">
+    <mp-avatar image-url="cat.jpg" alt="User one" />
+    <mp-avatar image-url="cat2.jpg" alt="User two" />
+    <mp-avatar color="#00bebe">A</mp-avatar>
+    <mp-avatar color="#f59e0b">B</mp-avatar>
+    <mp-avatar color="#ef4444">C</mp-avatar>
   </mp-avatar-group>
-</template>
-```
 
-### Avatar Hoverable
-
-```html
-<template>
-  <mp-avatar-group>
-    <mp-avatar hoverable image-url="https://maplejs.org/cat.jpg" />
-    <mp-avatar hoverable image-url="https://maplejs.org/cat2.jpg" />
-    <mp-avatar hoverable image-url="https://maplejs.org/cat3.jpg" />
-    <mp-avatar hoverable bordered>+2</mp-avatar>
+  <mp-avatar-group z-index-ascend>
+    <mp-avatar image-url="cat.jpg" alt="User one" />
+    <mp-avatar image-url="cat2.jpg" alt="User two" />
+    <mp-avatar color="#7b61ff">CD</mp-avatar>
   </mp-avatar-group>
-</template>
+</mp-space>
 ```
 
-### Use Local Paths
+### Vertical Group
 
-In the file `.vue`,
-the `Vue component` will not be automatically processed by the build tool like the native img module,
-so you need to import the image resources manually.
-Here's how the different build tools are used.
-
-#### Vite
-
-Automatic preprocessing with [@vitejs/plugin-vue](https://github.com/vitejs/vite/tree/main/packages/plugin-vue#asset-url-handling).
-
-```ts
-// playground-ignore
-// vite.config.js
-import vue from '@vitejs/plugin-vue'
-
-export default defineConfig({
-  plugins: [
-    vue({
-      template: {
-        transformAssetUrls: {
-          'mp-avatar': ['imageUrl']
-        }
-      }
-    })
-  ],
-})
-```
+`vertical` stacks avatars in a column, and `offset` controls the overlap.
 
 ```html
-<!-- playground-ignore -->
-<template>
-  <mp-avatar image-url="../../assets/logo.png"/>
-</template>
+<mp-avatar-group vertical :offset="-12">
+  <mp-avatar image-url="cat.jpg" alt="User one" bordered />
+  <mp-avatar image-url="cat2.jpg" alt="User two" bordered />
+  <mp-avatar image-url="cat.jpg" alt="User three" bordered />
+  <mp-avatar bordered>+2</mp-avatar>
+</mp-avatar-group>
 ```
 
-Or import separately
+### Hoverable
+
+Set `hoverable` to scale the avatar on hover.
 
 ```html
-<!-- playground-ignore -->
-<script setup>
-import logo from '../../assets/logo.png'
-</script>
-
-<template>
-  <mp-avatar :image-url="logo"/>
-</template>
+<mp-avatar-group>
+  <mp-avatar hoverable image-url="cat.jpg" alt="User one" bordered />
+  <mp-avatar hoverable image-url="cat2.jpg" alt="User two" bordered />
+  <mp-avatar hoverable image-url="cat.jpg" alt="User three" bordered />
+  <mp-avatar hoverable bordered>+2</mp-avatar>
+</mp-avatar-group>
 ```
 
-#### Webpack
+### Trigger Icon
+
+Use the `trigger-icon` slot for an action entry. `trigger-type` supports a corner button or a hover mask.
 
 ```html
-<!-- playground-ignore -->
-<template>
-  <mp-avatar :image-url="require('../../assets/logo.png')"/>
-</template>
+<mp-space align="center" :size="24">
+  <mp-avatar image-url="cat.jpg" alt="Edit avatar" :size="56">
+    <template #trigger-icon><m-icon-image /></template>
+  </mp-avatar>
+  <mp-avatar image-url="cat2.jpg" alt="Change avatar" :size="56" trigger-type="mask">
+    <template #trigger-icon><m-icon-camera /></template>
+  </mp-avatar>
+</mp-space>
 ```
 
 ## API
@@ -194,71 +210,83 @@ import logo from '../../assets/logo.png'
 
 #### Avatar Props
 
-| Prop          | Description                                                 | Type   | Default          |
-|---------------|-------------------------------------------------------------|------|--------------|
-| `shape`       | Avatar shape, optional values `circle` `square`                                                | _string_            | `circle` |
-| `size`        | The size of the avatar, with optional values of `mini small normal large`                 | _string \| number_ | `normal` |
-| `color`       | Background color of the avatar                                                | _string_           | `-` |
-| `image-url`         | Image URL of avatar                                                   | _string_            | `-` |
-| `alt` | Image alt text, the same as the native attribute of the `img` tag              | _string_ | `-` |
-| `object-fit`         | Object-fit of avatar image, optional value `fill contain cover none scale-down` | _string_            | `cover` |
-| `bordered`    | Avatar with or without border                                                | _boolean_ | `false` |
-| `border-color`| Avatar border color                                                  | _string_ | `-` |
-| `loading`     | When lazy loading is enabled, the image displayed in the load                                 | _string_ | `-` |
-| `error`       | When lazy loading is enabled, the image displayed when loading fails                           | _string_ | `-` |
-| `lazy`        | Whether to enable lazy loading                                               | _boolean_ | `false` |
-| `hoverable`   | Whether to enable hover effect | _boolean_ | `false` |
-
-#### AvatarGroup Props
-
-| Prop              | Description                                        | Type   | Default          |
-|-------------------|-------------------------------------------|------|--------------|
-| `offset`          | Avatar Offset within Avatar Group	| _number \| string_ | `-` |
-| `vertical`        | Whether the group avatars are vertically aligned | _boolean_ | `false` |
+| Prop                 | Description                     | Type                                                       | Default    |
+| -------------------- | ------------------------------- | ---------------------------------------------------------- | ---------- |
+| `shape`              | Avatar shape                    | `'circle' \| 'square'`                                     | `'circle'` |
+| `image-url`          | Image URL                       | _string_                                                   | `-`        |
+| `alt`                | Image alternative text          | _string_                                                   | `''`       |
+| `size`               | Avatar width and height in px   | _number_                                                   | `40`       |
+| `auto-fix-font-size` | Automatically scales long text  | _boolean_                                                  | `true`     |
+| `trigger-type`       | Trigger icon presentation       | `'button' \| 'mask'`                                       | `'button'` |
+| `trigger-icon-style` | Custom trigger icon style       | _CSSProperties_                                            | `-`        |
+| `object-fit`         | Image fitting mode              | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`  |
+| `color`              | Avatar background color         | _string_                                                   | `-`        |
+| `bordered`           | Whether to show a border        | _boolean_                                                  | `false`    |
+| `border-color`       | Border color                    | _string_                                                   | `-`        |
+| `loading`            | Placeholder image while loading | _string_                                                   | `-`        |
+| `error`              | Fallback image on load failure  | _string_                                                   | `-`        |
+| `lazy`               | Whether to lazy-load the image  | _boolean_                                                  | `false`    |
+| `hoverable`          | Whether to enable hover scale   | _boolean_                                                  | `false`    |
 
 ### Events
 
 #### Avatar Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `click` | Triggered when clicking on avatar | `event: Event` |
-| `load`  | Triggered when the avatar image is successfully loaded (failure in lazy loading mode will try to load the avatar image multiple times and will only be triggered when successfully loaded) | `event: Event` |
-| `error` | Triggered when the avatar image fails to load (failure in lazy loading mode will try to load the avatar image multiple times, will only be triggered at the end of the number of attempts) | `event: Event` |
+| Event   | Description                          | Arguments           |
+| ------- | ------------------------------------ | ------------------- |
+| `click` | Emitted when the avatar is clicked   | `event: MouseEvent` |
+| `load`  | Emitted when the image loads         | `-`                 |
+| `error` | Emitted when the image fails to load | `-`                 |
 
 ### Slots
 
 #### Avatar Slots
 
-| Name | Description | SlotProps |
-| ----- | -------------- | -------- |
-| `default` | Avatar content | `-` |
+| Name           | Description                    |
+| -------------- | ------------------------------ |
+| `default`      | Text, icon, or loading content |
+| `error`        | Image error fallback           |
+| `trigger-icon` | Interactive icon on the avatar |
+
+#### AvatarGroup Props
+
+| Prop                 | Description                                  | Type                   | Default    |
+| -------------------- | -------------------------------------------- | ---------------------- | ---------- |
+| `shape`              | Child avatar shape                           | `'circle' \| 'square'` | `'circle'` |
+| `size`               | Child avatar width and height in px          | _number_               | `40`       |
+| `auto-fix-font-size` | Automatically scales child text              | _boolean_              | `true`     |
+| `max-count`          | Maximum visible avatars; `0` means unlimited | _number_               | `0`        |
+| `z-index-ascend`     | Uses ascending avatar stacking order         | _boolean_              | `false`    |
+| `max-style`          | Custom summary avatar style                  | _CSSProperties_        | `-`        |
+| `max-popover-props`  | Summary Popover props                        | _PopoverProps_         | `-`        |
+| `offset`             | Overlap offset between avatars               | _number \| string_     | `-`        |
+| `vertical`           | Stacks avatars vertically                    | _boolean_              | `false`    |
 
 #### AvatarGroup Slots
 
+| Name      | Description |
+| --------- | ----------- |
+| `default` | Avatar list |
+
+## API
+
+### Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `shape` | Child avatar shape | `'circle' \| 'square'` | `'circle'` |
+| `size` | Child avatar width and height in px | _number_ | `40` |
+| `auto-fix-font-size` | Automatically scales child text | _boolean_ | `true` |
+| `max-count` | Maximum visible avatars; `0` means unlimited | _number_ | `0` |
+| `z-index-ascend` | Uses ascending avatar stacking order | _boolean_ | `false` |
+| `max-style` | Custom summary avatar style | _CSSProperties_ | `-` |
+| `max-popover-props` | Summary Popover props | _PopoverProps_ | `-` |
+| `offset` | Overlap offset between avatars | _number \| string_ | `-` |
+| `vertical` | Stacks avatars vertically | _boolean_ | `false` |
+
+### Slots
+
 | Name | Description | SlotProps |
-| ----- | -------------- | -------- |
-| `default` | Avatar group content | `-` |
+| --- | --- | --- |
+| `default` | Avatar list | `-` |
 
-### Style Variables
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
-
-#### Avatar Variables
-
-| Variable | Default |
-| --- | --- |
-| `--avatar-text-color` |  `#f5f5f5`|
-| `--avatar-border-radius` | `4px` |
-| `--avatar-mini-size` | `28px`|
-| `--avatar-small-size` |  `36px`|
-| `--avatar-normal-size` |  `48px`|
-| `--avatar-large-size` |  `64px`|
-| `--avatar-border` |  `2px solid #fff`|
-| `--avatar-background-color` |  `#bebebe`|
-| `--avatar-hover-transform` | `scale(1.1)`      |
-
-#### AvatarGroup Variables
-
-| Variable | Default |
-| --- | --- |
-| `--avatar-group-offset` | `-10px` |

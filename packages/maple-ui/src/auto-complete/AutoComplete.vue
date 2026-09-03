@@ -77,11 +77,11 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { call, preventDefault, raf, toNumber } from '@maplejs/maple-shared'
 import { useClickOutside, useEventListener, useVModel } from '@maplejs/maple-use'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpInput from '../input'
 import MpMenu from '../menu'
-import MpMenuOption from '../menu-option'
+import MpMenuOption from '../menu/MenuOption.vue'
 import { createNamespace } from '../utils/components'
 import { useFieldNames } from '../utils/options'
 import { props, type AutoCompleteOption } from './props'
@@ -288,14 +288,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../icon/icon';
-@import '../field-decorator/fieldDecorator';
-@import '../input/input';
-@import '../menu-option/menuOption';
-@import '../menu/menu';
-@import './autoComplete';
-</style>

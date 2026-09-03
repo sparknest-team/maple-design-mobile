@@ -111,12 +111,11 @@ import { computed, defineComponent, reactive, ref } from 'vue'
 import { IconDelete as MIconDelete, IconPlus as MIconPlus } from '@maplejs/icons-vue'
 import { call, isNumber, normalizeToArray, toDataURL, toNumber } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
-import { useFormItem } from '../form-item'
+import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
-import Hover from '../hover'
-import MpHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import MpIcon from '../icon'
-import { previewImage } from '../image/preview'
+import { imagePreview } from '../image/preview'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
@@ -213,7 +212,7 @@ export default defineComponent({
       const { url } = varFile
 
       if (isHTMLSupportImage(url)) {
-        previewImage(url)
+        imagePreview(url)
         return
       }
 
@@ -394,7 +393,7 @@ export default defineComponent({
     function closePreview() {
       currentPreview.value = null
       showPreview.value = false
-      previewImage.close()
+      imagePreview.close()
     }
 
     return {
@@ -429,16 +428,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../styles/elevation';
-@import '../hover-overlay/hoverOverlay';
-@import '../ripple/ripple';
-@import '../icon/icon';
-@import '../popup/popup';
-@import '../carousel/carousel';
-@import '../carousel-item/carouselItem';
-@import '../image-preview/imagePreview';
-@import './uploader';
-</style>

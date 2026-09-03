@@ -5,7 +5,7 @@
 Maple 主题色阶以 CSS 变量形式提供，前缀一律 `--mp-*`。  
 本页只展示原始色阶；文字、填充、边框和背景等语义用法统一放在 [颜色 Color](#/zh-CN/color)，避免两个页面重复。
 
-完整色阶定义见 `styles/color/css-variables.less`，暗色由 `:root[maple-theme=dark]` 覆盖。
+完整色阶定义见 `style/color/css-variables.less`，暗色由 `:root[maple-theme=dark]` 覆盖。
 
 ### 引入
 
@@ -13,7 +13,7 @@ Maple 主题色阶以 CSS 变量形式提供，前缀一律 `--mp-*`。
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/styles/theme/css-variables.css'
+import '@maplejs/maple-ui/es/style/theme/css-variables.css'
 ```
 
 ### 功能色阶（1–10）

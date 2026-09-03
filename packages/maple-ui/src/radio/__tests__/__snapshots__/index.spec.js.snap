@@ -1,0 +1,248 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`radio group field-names label 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group field-names value 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group label is VNode 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text">
+          <h1>eat</h1>
+        </div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text">
+          <h2>sleep</h2>
+        </div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled">
+          <h3>game</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group label is function 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>0-false</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>1-false</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>2-false</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group label is function 2`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="-1"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>0-false</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="true" class="mp-radio">
+        <div class="mp-radio__action mp-radio--checked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 5a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>1-true</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>2-false</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group label is function 3`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="-1"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>0-false</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="true" class="mp-radio">
+        <div class="mp-radio__action mp-radio--checked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 5a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>1-true</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>2-false</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group layout direction 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--vertical">
+    <!--v-if-->
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <!--v-if-->
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <!--v-if-->
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`radio group options 1`] = `
+"<div class="mp-radio-group__wrap">
+  <div aria-label="" role="radiogroup" class="mp-radio-group mp-radio-group--horizontal">
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>eat</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text"><span>sleep</span></div>
+      </div>
+    </div>
+    <div class="mp-radio__wrap">
+      <div role="radio" aria-checked="false" class="mp-radio">
+        <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
+          <div class="mp-hover-overlay"></div>
+        </div>
+        <div class="mp-radio__text mp-radio--disabled"><span>game</span></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;

@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import BottomNavigation from '..'
-import BottomNavigationItem from '../../bottom-navigation-item'
-import VarBottomNavigationItem from '../../bottom-navigation-item/BottomNavigationItem'
+import VarBottomNavigationItem from '../../bottom-navigation/BottomNavigationItem'
+import BottomNavigationItem from '../../bottom-navigation/BottomNavigationItem.vue'
 import { delay, trigger } from '../../utils/test'
 import VarBottomNavigation from '../BottomNavigation'
 
@@ -29,7 +29,7 @@ const Wrapper = {
 }
 
 test('bottom-navigation plugin', () => {
-  const app = createApp({}).use(BottomNavigation).use(BottomNavigationItem)
+  const app = createApp({}).use(BottomNavigation)
   expect(app.component(BottomNavigation.name)).toBeTruthy()
   expect(app.component(BottomNavigationItem.name)).toBeTruthy()
 })

@@ -45,7 +45,7 @@
             :class="n('confirm-button')"
             text
             mp-picker-cover
-            :disabled="confirmDisabled"
+            :disabled="confirmButtonDisabled"
             :text-color="confirmButtonTextColor"
             @click="confirm"
           >
@@ -213,7 +213,7 @@ export default defineComponent({
       return Boolean(option?.disabled)
     }
 
-    const confirmDisabled = computed(() =>
+    const confirmButtonDisabled = computed(() =>
       scrollColumns.value.some(({ column, index }) => isOptionDisabled(column[index])),
     )
 
@@ -479,7 +479,7 @@ export default defineComponent({
     function confirm() {
       stopScroll()
 
-      if (confirmDisabled.value) {
+      if (confirmButtonDisabled.value) {
         return
       }
 
@@ -503,7 +503,7 @@ export default defineComponent({
       scrollColumns,
       columnHeight,
       center,
-      confirmDisabled,
+      confirmButtonDisabled,
       Transition,
       pt,
       t,
@@ -526,11 +526,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../styles/common';
-@import '../button/button';
-@import '../icon/icon';
-@import '../popup/popup';
-@import './picker';
-</style>

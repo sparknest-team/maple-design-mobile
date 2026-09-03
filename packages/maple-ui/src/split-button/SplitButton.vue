@@ -44,7 +44,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
 import MpButton from '../button'
-import MpButtonGroup from '../button-group'
+import MpButtonGroup from '../button/ButtonGroup.vue'
 import MpMenu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
@@ -79,10 +79,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="less">
-@import '../button/button';
-@import '../button-group/buttonGroup';
-@import '../menu/menu';
-@import '../menu-option/menuOption';
-</style>

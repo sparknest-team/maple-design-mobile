@@ -1,8 +1,12 @@
 import { cpus } from 'os'
+import { dirname as pathDirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vitest/config'
 import { VITE_RESOLVE_EXTENSIONS } from '../shared/constant.js'
+
+const configDir = pathDirname(fileURLToPath(import.meta.url))
 
 const cpuNum = Math.max(cpus().length - 1, 1)
 
@@ -15,6 +19,7 @@ export default defineConfig({
 
   test: {
     environment: 'jsdom',
+    setupFiles: [resolve(configDir, 'vitest.setup.js')],
     coverage: {
       provider: 'istanbul',
       exclude: [

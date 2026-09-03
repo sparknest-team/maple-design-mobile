@@ -27,7 +27,10 @@ packages/maple-ui/src/<component>/
   index.ts                   # 入口：聚合 install + 类型 + 默认导出
   props.ts                   # 集中放 props 与类型定义
   provide.ts                 # 可选：父子上下文 (useChildren / useParent)
-  <component>.less           # 主样式（BEM）
+  style/
+    index.ts                 # `import './index.less'`（按需入口）
+    index.less               # 聚合本地 less + 依赖
+    <name>.less              # 主样式（BEM），可多个文件
   __tests__/index.spec.js    # 单测
   __tests__/__snapshots__/   # vitest 快照
   docs/zh-CN.md              # 中文文档
@@ -35,7 +38,7 @@ packages/maple-ui/src/<component>/
   example/index.vue          # 示例 demo
 ```
 
-> 注意：与 PC 端 `cedar-design-web` 不同，移动端组件文件名采用 PascalCase（`Space.tsx` / `Button.vue`），样式文件采用 kebab-case（`space.less`）。
+> 组件 SFC **不要**再写 `<style>`。全局 foundation 在 `src/style/`（tokens / common / elevation），与 Cedar 的 `style/` 约定对齐。
 
 ---
 
@@ -77,7 +80,7 @@ export default defineComponent({
 | Block | `.mp-<component>` |
 | Element | `.mp-<component>__<el>`（`n('xxx')`） |
 | Modifier | `.mp-<component>--<mod>`（`n('--xxx')`） |
-| 全局共享类 | `n('$--box')` → `.mp--box`，定义在 `styles/common.less` |
+| 全局共享类 | `n('$--box')` → `.mp--box`，定义在 `style/common.less` |
 | CSS 变量前缀 | **`--mp-<component>-...`**（强制 `mp-` 前缀） |
 
 模板根元素 class 一律通过 `classes(n(), n('$--box'), [cond.value, n('--xxx')], …)` 组装，**禁止字符串拼接**。
@@ -107,7 +110,7 @@ n('$--box')   // 'mp--box'            ← 全局共享类
 ### 3.3 文件命名
 
 - 组件文件：PascalCase（`Space.tsx`、`Button.vue`、`BottomNavigation.vue`）
-- 样式文件：kebab-case（`space.less`、`bottom-navigation.less`）
+- 样式文件：放在 `style/` 下；实现文件**只用 kebab-case**（如 `field-decorator.less`、`hover-overlay.less`）；`index.less` 聚合，`token.less` 声明组件 CSS 变量
 - 示例文件：`example/index.vue`
 - 测试文件：`__tests__/index.spec.js`
 - 类型名：标准 PascalCase（`SpaceSize`、`ButtonVariant`，**不是** `Spacesize`）
@@ -189,7 +192,7 @@ export default Space
 
 ### 7.1 文件结构
 
-每个组件**单一**样式文件 `<component>.less`：
+每个组件在 `style/` 下维护样式（`index.ts` + `index.less`，实现可拆多个 `.less`）：
 
 ```less
 :root {
@@ -215,7 +218,7 @@ export default Space
 ### 7.2 强制规则
 
 - **所有 CSS 自定义属性必须以 `--mp-` 开头**，例如 `--mp-button-padding`、`--mp-space-size-md-row-gap`。
-- 全局工具类放在 `styles/common.less`（`mp--box` / `mp--flex` / `mp--lock` 等），不要在组件样式中再定义。
+- 全局工具类放在 `style/common.less`（`mp--box` / `mp--flex` / `mp--lock` 等），不要在组件样式中再定义。
 - 主样式**只读 CSS 变量，不写常量值**；颜色 / 间距常量必须落到 `:root` 或 `themes/` 主题文件。
 - 主题色板放在 `src/themes/{dark,md3-light,md3-dark}/<component>.ts`，键统一以 `--mp-<component>-` 开头。
 - 模板里写在 `style` 内联的 CSS 变量也必须带 `--mp-` 前缀：
@@ -324,7 +327,7 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 2. 写 `props.ts`，定义类型与 `xxxProps`，同步 `export const props = xxxProps`。
 3. 写 `<Component>.vue` 或 `<Component>.tsx`（`createNamespace(...).name` 用于 `defineComponent.name`）。
 4. 如有子组件，写 `provide.ts` 与 `<Component>Sub.vue`。
-5. 写 `<component>.less`：`:root` 声明 `--mp-*` token，主选择器使用 BEM。
+5. 写 `style/`：`:root` 声明 `--mp-*` token，主选择器使用 BEM；入口为 `style/index.ts`。
 6. 写 `index.ts`（按规范导出全部内容）。
 7. 写 `docs/zh-CN.md` 与至少一个 `example/index.vue` + 一个 `__tests__/index.spec.js`。
 8. 如果有主题需求，在 `src/themes/{dark,md3-light,md3-dark}/<component>.ts` 中补对应键值。

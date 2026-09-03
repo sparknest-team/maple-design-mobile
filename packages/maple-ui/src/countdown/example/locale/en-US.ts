@@ -8,4 +8,7 @@ export default {
   startText: 'Start',
   pauseText: 'Pause',
   resetText: 'Reset',
+  embedStatistic: 'Embed in Statistic',
+  countdown: 'Countdown',
+  campaign: 'Campaign',
 }

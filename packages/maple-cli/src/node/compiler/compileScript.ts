@@ -240,7 +240,7 @@ export default {
 `
 
   const styleTemplate = `\
-import '${root}styles/theme/css-variables.css'
+import '${root}style/theme/css-variables.css'
 ${cssImports.join('\n')}
 `
 

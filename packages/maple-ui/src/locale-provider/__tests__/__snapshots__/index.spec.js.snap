@@ -8,57 +8,605 @@ exports[`localeProvider locale 2`] = `
     <!--teleport start-->
     <!--teleport end-->
     <div class="mp-date-picker">
-      <div class="mp-date-picker__title">
-        <div class="mp-date-picker__title-select">
-          <div class="mp-date-picker__title-hint">选择日期</div>
-          <div class="mp-date-picker__title-year">2021</div>
-        </div>
-        <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
-          <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
-            <div>04-08 星期四</div>
-          </transition-stub>
-        </div>
+      <!--v-if-->
+      <div class="mp-date-picker__column-labels">
+        <div class="mp-date-picker__column-label">年</div>
+        <div class="mp-date-picker__column-label">月</div>
+        <div class="mp-date-picker__column-label">日</div>
       </div>
-      <div class="mp-date-picker__body">
-        <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
-          <div class="mp-day-picker">
-            <div class="mp-day-picker__content">
-              <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+      <transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
+        <div class="mp-picker">
+          <!--v-if-->
+          <div class="mp-picker__columns" style="height: 264px;">
+            <div class="mp-picker__column">
+              <div class="mp-picker__scroller" style="transform: translateY(-1870px); transition-duration: 0ms; transition-property: none;">
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1976</div>
                   <!--v-if-->
-                  <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
-                  <div class="mp-hover-overlay"></div>
-                </button>
-                <div class="mp-date-picker-header__value">
-                  <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
-                    <div>2021 四月</div>
-                  </transition-stub>
-                </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
-                  <!--v-if-->
-                  <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
-                  <div class="mp-hover-overlay"></div>
-                </button>
-              </div>
-              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
-                <div>
-                  <ul class="mp-day-picker__head">
-                    <li>日</li>
-                    <li>一</li>
-                    <li>二</li>
-                    <li>三</li>
-                    <li>四</li>
-                    <li>五</li>
-                    <li>六</li>
-                  </ul>
-                  <ul class="mp-day-picker__body"></ul>
                 </div>
-              </transition-stub>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1977</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1978</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1979</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1980</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1981</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1982</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1983</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1984</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1985</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1986</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1987</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1988</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1989</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1990</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1991</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1992</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1993</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1994</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1995</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1996</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1997</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1998</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1999</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2000</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2001</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2002</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2003</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2004</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2005</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2006</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2007</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2008</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2009</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2010</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2011</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2012</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2013</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2014</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2015</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2016</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2017</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2018</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2019</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2020</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2021</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2022</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2023</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2024</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2025</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2026</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2027</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2028</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2029</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2030</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2031</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2032</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2033</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2034</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2035</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2036</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2037</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2038</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2039</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2040</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2041</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2042</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2043</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2044</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2045</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2046</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2047</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2048</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2049</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2050</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2051</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2052</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2053</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2054</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2055</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2056</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2057</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2058</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2059</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2060</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2061</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2062</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2063</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2064</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2065</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2066</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2067</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2068</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2069</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2070</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2071</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2072</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2073</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2074</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2075</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2076</div>
+                  <!--v-if-->
+                </div>
+              </div>
             </div>
+            <div class="mp-picker__column">
+              <div class="mp-picker__scroller" style="transform: translateY(-22px); transition-duration: 0ms; transition-property: none;">
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">01</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">02</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">03</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">04</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">05</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">06</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">07</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">08</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">09</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">10</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">11</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">12</div>
+                  <!--v-if-->
+                </div>
+              </div>
+            </div>
+            <div class="mp-picker__column">
+              <div class="mp-picker__scroller" style="transform: translateY(-198px); transition-duration: 0ms; transition-property: none;">
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">01</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">02</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">03</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">04</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">05</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">06</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">07</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">08</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">09</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">10</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">11</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">12</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">13</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">14</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">15</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">16</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">17</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">18</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">19</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">20</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">21</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">22</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">23</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">24</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">25</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">26</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">27</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">28</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">29</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">30</div>
+                  <!--v-if-->
+                </div>
+              </div>
+            </div>
+            <div class="mp-picker__picked" style="top: 110px; height: 44px;"></div>
+            <div class="mp-picker__mask" style="background-size: 100% 110px;"></div>
           </div>
-        </transition-stub>
-      </div>
-      <!--v-if-->
-      <!--v-if-->
-      <!--v-if-->
+        </div>
+      </transition-stub>
       <!--v-if-->
     </div>
   </div>
@@ -73,228 +621,605 @@ exports[`localeProvider locale 4`] = `
     <!--teleport start-->
     <!--teleport end-->
     <div class="mp-date-picker">
-      <div class="mp-date-picker__title">
-        <div class="mp-date-picker__title-select">
-          <div class="mp-date-picker__title-hint">SELECT DATE</div>
-          <div class="mp-date-picker__title-year">2021</div>
-        </div>
-        <div class="mp-date-picker__title-date mp-date-picker__title-date--active">
-          <transition-stub name="mp-date-picker-translatey" appear="false" persisted="false" css="true">
-            <div>Thu, Apr 8</div>
-          </transition-stub>
-        </div>
+      <!--v-if-->
+      <div class="mp-date-picker__column-labels">
+        <div class="mp-date-picker__column-label">Y</div>
+        <div class="mp-date-picker__column-label">M</div>
+        <div class="mp-date-picker__column-label">D</div>
       </div>
-      <div class="mp-date-picker__body">
-        <transition-stub name="mp-date-picker-panel-fade" appear="false" persisted="false" css="true">
-          <div class="mp-day-picker">
-            <div class="mp-day-picker__content">
-              <div class="mp-date-picker-header"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
+      <transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
+        <div class="mp-picker">
+          <!--v-if-->
+          <div class="mp-picker__columns" style="height: 264px;">
+            <div class="mp-picker__column">
+              <div class="mp-picker__scroller" style="transform: translateY(-1870px); transition-duration: 0ms; transition-property: none;">
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1976</div>
                   <!--v-if-->
-                  <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-left" style="transition-duration: 0ms;"></i></div>
-                  <div class="mp-hover-overlay"></div>
-                </button>
-                <div class="mp-date-picker-header__value">
-                  <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
-                    <div>April 2021</div>
-                  </transition-stub>
-                </div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-date-picker-header__arrow" type="button" mp-date-picker-header-cover="" text="">
-                  <!--v-if-->
-                  <div class="mp-button__content"><i class="mp-icon mp-icon--set mp-icon-chevron-right" style="transition-duration: 0ms;"></i></div>
-                  <div class="mp-hover-overlay"></div>
-                </button>
-              </div>
-              <transition-stub name="mp-date-picker-translatex" appear="false" persisted="false" css="true">
-                <div>
-                  <ul class="mp-day-picker__head">
-                    <li>S</li>
-                    <li>M</li>
-                    <li>T</li>
-                    <li>W</li>
-                    <li>T</li>
-                    <li>F</li>
-                    <li>S</li>
-                  </ul>
-                  <ul class="mp-day-picker__body">
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
-                        <!--v-if-->
-                        <div class="mp-button__content"></div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
-                        <!--v-if-->
-                        <div class="mp-button__content"></div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
-                        <!--v-if-->
-                        <div class="mp-button__content"></div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-button--disabled mp-day-picker__button" type="submit" disabled="" mp-day-picker-cover="">
-                        <!--v-if-->
-                        <div class="mp-button__content"></div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">1</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">2</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">3</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">4</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">5</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">6</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">7</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-primary mp-button--variant-default mp--inline-flex mp-elevation--2 mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="false">
-                        <!--v-if-->
-                        <div class="mp-button__content">8</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">9</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">10</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">11</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">12</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">13</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">14</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">15</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">16</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">17</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">18</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">19</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">20</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">21</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">22</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">23</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">24</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">25</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">26</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">27</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">28</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">29</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                    <li><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-button--round mp-day-picker__button mp-day-picker__button--usable" type="submit" mp-day-picker-cover="" mp-date-picker-color-cover="true">
-                        <!--v-if-->
-                        <div class="mp-button__content">30</div>
-                        <div class="mp-hover-overlay"></div>
-                      </button></li>
-                  </ul>
                 </div>
-              </transition-stub>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1977</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1978</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1979</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1980</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1981</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1982</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1983</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1984</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1985</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1986</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1987</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1988</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1989</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1990</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1991</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1992</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1993</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1994</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1995</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1996</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1997</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1998</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">1999</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2000</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2001</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2002</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2003</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2004</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2005</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2006</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2007</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2008</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2009</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2010</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2011</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2012</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2013</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2014</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2015</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2016</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2017</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2018</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2019</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2020</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2021</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2022</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2023</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2024</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2025</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2026</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2027</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2028</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2029</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2030</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2031</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2032</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2033</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2034</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2035</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2036</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2037</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2038</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2039</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2040</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2041</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2042</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2043</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2044</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2045</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2046</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2047</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2048</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2049</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2050</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2051</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2052</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2053</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2054</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2055</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2056</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2057</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2058</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2059</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2060</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2061</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2062</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2063</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2064</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2065</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2066</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2067</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2068</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2069</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2070</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2071</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2072</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2073</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2074</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2075</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">2076</div>
+                  <!--v-if-->
+                </div>
+              </div>
             </div>
+            <div class="mp-picker__column">
+              <div class="mp-picker__scroller" style="transform: translateY(-22px); transition-duration: 0ms; transition-property: none;">
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">01</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">02</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">03</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">04</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">05</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">06</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">07</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">08</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">09</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">10</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">11</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">12</div>
+                  <!--v-if-->
+                </div>
+              </div>
+            </div>
+            <div class="mp-picker__column">
+              <div class="mp-picker__scroller" style="transform: translateY(-198px); transition-duration: 0ms; transition-property: none;">
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">01</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">02</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">03</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">04</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">05</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">06</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">07</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">08</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">09</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">10</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">11</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">12</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">13</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">14</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">15</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">16</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">17</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">18</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">19</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">20</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">21</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">22</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">23</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">24</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">25</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">26</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">27</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">28</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">29</div>
+                  <!--v-if-->
+                </div>
+                <div class="mp-picker__option" style="height: 44px;">
+                  <div class="mp-picker__text">30</div>
+                  <!--v-if-->
+                </div>
+              </div>
+            </div>
+            <div class="mp-picker__picked" style="top: 110px; height: 44px;"></div>
+            <div class="mp-picker__mask" style="background-size: 100% 110px;"></div>
           </div>
-        </transition-stub>
-      </div>
-      <!--v-if-->
-      <!--v-if-->
-      <!--v-if-->
+        </div>
+      </transition-stub>
       <!--v-if-->
     </div>
   </div>
