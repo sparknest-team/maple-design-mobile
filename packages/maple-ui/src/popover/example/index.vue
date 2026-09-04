@@ -41,7 +41,7 @@ function closeMenu() {
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-popover>
-    <mp-button type="primary">{{ t('basicUsage') }}</mp-button>
+    <mp-button status="primary">{{ t('basicUsage') }}</mp-button>
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -55,7 +55,7 @@ function closeMenu() {
   </mp-select>
   <div class="placement-container">
     <mp-popover :placement="placementValue">
-      <mp-button type="primary">
+      <mp-button status="primary">
         <m-icon-star />
       </mp-button>
       <template #content>
@@ -68,7 +68,7 @@ function closeMenu() {
 
   <app-type>{{ t('offset') }}</app-type>
   <mp-popover offset-x="36px" offset-y="18px">
-    <mp-button type="primary">{{ t('offset') }}</mp-button>
+    <mp-button status="primary">{{ t('offset') }}</mp-button>
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -78,7 +78,7 @@ function closeMenu() {
 
   <app-type>{{ t('sameWidth') }}</app-type>
   <mp-popover same-width>
-    <mp-button type="primary">{{ t('sameWidth') }}</mp-button>
+    <mp-button status="primary">{{ t('sameWidth') }}</mp-button>
 
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -94,7 +94,7 @@ function closeMenu() {
     <mp-option label="contextMenu" />
   </mp-select>
   <mp-popover style="margin-top: 15px" :trigger="trigger">
-    <mp-button type="primary">{{ t('trigger') }}</mp-button>
+    <mp-button status="primary">{{ t('trigger') }}</mp-button>
 
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -110,7 +110,7 @@ function closeMenu() {
     @close="Message.warning('close')"
     @closed="Message.error('closed')"
   >
-    <mp-button type="primary">{{ t('events') }}</mp-button>
+    <mp-button status="primary">{{ t('events') }}</mp-button>
 
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -121,7 +121,7 @@ function closeMenu() {
 
   <app-type>{{ t('disabled') }}</app-type>
   <mp-popover disabled>
-    <mp-button type="primary" disabled>{{ t('disabled') }}</mp-button>
+    <mp-button status="primary" disabled>{{ t('disabled') }}</mp-button>
 
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>
@@ -132,7 +132,7 @@ function closeMenu() {
 
   <app-type>{{ t('twoWayBinding') }}</app-type>
   <mp-popover v-model:open="open">
-    <mp-button type="primary">{{ t('twoWayBinding') }}</mp-button>
+    <mp-button status="primary">{{ t('twoWayBinding') }}</mp-button>
 
     <template #content>
       <mp-cell @click="closeMenu">{{ t('menuOption') }}</mp-cell>

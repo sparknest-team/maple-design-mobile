@@ -32,9 +32,9 @@ export interface ActionSheetOptions {
   onOpened?: () => void
   onClose?: () => void
   onClosed?: () => void
-  onClickOverlay?: () => void
+  onClickMask?: (event: MouseEvent) => void
   onSelect?: (action: ActionItem) => void
-  onKeyEscape?: () => void
+  onKeyEscape?: (event: KeyboardEvent) => void
   // internal
   popupContainer?: TeleportProps['to']
 }

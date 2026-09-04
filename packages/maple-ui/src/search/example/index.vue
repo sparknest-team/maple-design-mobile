@@ -113,7 +113,7 @@ onThemeChange()
       @change="handleChange"
       @search="handleSearch"
     />
-    <mp-button text @click="reset">{{ t('reset') }}</mp-button>
+    <mp-button variant="text" @click="reset">{{ t('reset') }}</mp-button>
   </mp-space>
 
   <app-type style="margin-top: 8vmin">{{ t('shape') }}</app-type>

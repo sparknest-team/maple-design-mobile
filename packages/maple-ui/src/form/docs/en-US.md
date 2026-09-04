@@ -112,19 +112,19 @@ const emailSuggestions = computed(() =>
       </mp-form-item>
 
       <mp-space direction="column" :size="[14, 0]">
-        <mp-button block type="danger" @click="form.resetFields()">
+        <mp-button block status="danger" @click="form.resetFields()">
           Empty form
         </mp-button>
-        <mp-button block type="warning" @click="form.clearValidate()">
+        <mp-button block status="warning" @click="form.clearValidate()">
           Empty the validation
         </mp-button>
-        <mp-button block type="success" @click="form.validate()">
+        <mp-button block status="success" @click="form.validate()">
           Trigger validation
         </mp-button>
-        <mp-button block type="info" @click="disabled = !disabled">
+        <mp-button block status="info" @click="disabled = !disabled">
           Form disabled
         </mp-button>
-        <mp-button block type="primary" @click="readonly = !readonly">
+        <mp-button block status="primary" @click="readonly = !readonly">
           Form readonly
         </mp-button>
       </mp-space>
@@ -170,10 +170,10 @@ function handleReset() {
       </mp-form-item>
 
       <mp-space>
-        <mp-button type="primary" native-type="submit">
+        <mp-button status="primary" native-type="submit">
           Submit
         </mp-button>
-        <mp-button type="primary" native-type="reset">
+        <mp-button status="primary" native-type="reset">
           Reset
         </mp-button>
       </mp-space>
@@ -357,7 +357,7 @@ const formData = reactive({
       <mp-input v-model="formData.password" type="password" placeholder="Please input" />
     </mp-form-item>
 
-    <mp-button block type="primary" @click="form.validate()">Submit</mp-button>
+    <mp-button block status="primary" @click="form.validate()">Submit</mp-button>
   </mp-form>
 </template>
 ```

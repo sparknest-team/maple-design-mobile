@@ -1,4 +1,5 @@
 .mp-dialog {
+  position: relative;
   width: var(--mp-dialog-width);
   background: var(--mp-dialog-background);
   transition: 0.25s background-color;
@@ -15,6 +16,37 @@
     font-weight: 400;
     padding: var(--mp-dialog-title-padding);
     color: var(--mp-dialog-title-color);
+    justify-content: space-between;
+    touch-action: none;
+  }
+
+  &__title--start {
+    text-align: left;
+  }
+
+  &__title--center {
+    text-align: center;
+  }
+
+  &__title-content {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  &__close-button {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: var(--mp-dialog-close-button-size);
+    height: var(--mp-dialog-close-button-size);
+    padding: 0;
+    border: 0;
+    color: var(--mp-dialog-close-button-color);
+    font-size: var(--mp-dialog-close-button-font-size);
+    background: transparent;
+    cursor: pointer;
   }
 
   &__title-icon {
@@ -54,19 +86,28 @@
 
   &__button[mp-dialog-cover] {
     margin-left: var(--mp-dialog-button-margin-left);
-    background-color: transparent;
-    box-shadow: none;
+  }
 
-    &:active {
-      box-shadow: none;
+  &--simple {
+    width: var(--mp-dialog-simple-width);
+    border-radius: var(--mp-dialog-simple-border-radius);
+
+    .mp-dialog__message {
+      padding: var(--mp-dialog-simple-message-padding);
+    }
+
+    .mp-dialog__actions {
+      justify-content: center;
     }
   }
 
-  &__confirm-button[mp-dialog-cover] {
-    color: var(--mp-dialog-confirm-button-color);
+  &--draggable {
+    cursor: default;
   }
 
-  &__cancel-button[mp-dialog-cover] {
-    color: var(--mp-dialog-cancel-button-color);
+  &--fullscreen {
+    width: var(--mp-dialog-fullscreen-width);
+    height: var(--mp-dialog-fullscreen-height);
+    border-radius: 0;
   }
 }

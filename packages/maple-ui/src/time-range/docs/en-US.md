@@ -135,8 +135,6 @@ When the end time is earlier than the start (overnight), enable `show-next-day` 
 | `--time-range-toolbar-padding`           | `var(--picker-toolbar-padding, 0 4px)`                          |
 | `--time-range-title-text-color`          | `var(--picker-title-text-color, #555)`                          |
 | `--time-range-title-font-size`           | `var(--picker-title-font-size, 16px)`                           |
-| `--time-range-cancel-button-text-color`  | `var(--picker-cancel-button-text-color, #888)`                  |
-| `--time-range-confirm-button-text-color` | `var(--picker-confirm-button-text-color, var(--color-primary))` |
 
 Panel CSS variables: [`TimeRangePicker`](/en-US/time-range-picker).
 
@@ -236,8 +234,8 @@ Form field: [`TimeRange`](/en-US/time-range). Single time panel: [`TimePicker`](
   <mp-time-range-picker v-model="range">
     <template #actions>
       <mp-space size="small">
-        <mp-button type="primary" text>Action</mp-button>
-        <mp-button type="primary" text>Action</mp-button>
+        <mp-button status="primary" variant="text">Action</mp-button>
+        <mp-button status="primary" variant="text">Action</mp-button>
       </mp-space>
     </template>
   </mp-time-range-picker>

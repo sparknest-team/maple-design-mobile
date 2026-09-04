@@ -119,10 +119,10 @@ describe('test image component props', () => {
     wrapper.unmount()
   })
 
-  test('image fit', () => {
+  test('image objectFit', () => {
     ;['fill', 'contain', 'cover', 'none', 'scale-down'].forEach((fit) => {
       const wrapper = mount(VarImage, {
-        props: { fit },
+        props: { objectFit: fit },
       })
 
       expect(wrapper.find('.mp-image__image').attributes('style')).toContain(`object-fit: ${fit};`)
@@ -248,7 +248,7 @@ describe('test image component props', () => {
   test('image referrerPolicy', () => {
     const wrapper = mount(VarImage, {
       props: {
-        referrerPolicy: 'no-referrer',
+        imgProps: { referrerPolicy: 'no-referrer' },
       },
     })
 
@@ -256,13 +256,13 @@ describe('test image component props', () => {
     wrapper.unmount()
   })
 
-  test('image position', async () => {
+  test('image objectPosition', async () => {
     const wrapper = mount(VarImage)
 
     expect(wrapper.find('.mp-image__image').attributes('style')).toContain('object-position: 50% 50%')
 
     await wrapper.setProps({
-      position: 'left',
+      objectPosition: 'left',
     })
     expect(wrapper.find('.mp-image__image').attributes('style')).toContain('object-position: left')
 
@@ -322,27 +322,40 @@ describe('test image component props', () => {
     wrapper.unmount()
   })
 
-  test('image loading', () => {
+  test('image loading indicator', () => {
     const wrapper = mount(VarImage, {
       props: {
         lazy: true,
-        loadingSrc: SRC,
+        showLoader: true,
       },
     })
 
-    expect(wrapper.find('.mp-image__image').attributes('lazy-loading')).toContain(SRC)
+    expect(wrapper.find('.mp-image__loader').exists()).toBe(true)
     wrapper.unmount()
   })
 
-  test('image error', () => {
+  test('image error fallback', async () => {
+    const onError = vi.fn()
     const wrapper = mount(VarImage, {
       props: {
-        lazy: true,
-        errorSrc: SRC,
+        src: 'invalid-image.jpg',
+        fallbackSrc: SRC,
+        onError,
       },
     })
 
-    expect(wrapper.find('.mp-image__image').attributes('lazy-error')).toContain(SRC)
+    await wrapper.find('img').trigger('error')
+    expect(wrapper.find('.mp-image__image').attributes('src')).toContain(SRC)
+    expect(wrapper.vm.isLoading).toBe(true)
+    expect(onError).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('img').trigger('load')
+    expect(wrapper.vm.isLoaded).toBe(true)
+    expect(wrapper.find('.mp-image__image').attributes('src')).toContain(SRC)
+
+    await wrapper.setProps({ alt: 'fallback loaded' })
+    expect(wrapper.find('.mp-image__image').attributes('src')).toContain(SRC)
+    expect(onError).toHaveBeenCalledTimes(1)
     wrapper.unmount()
   })
 

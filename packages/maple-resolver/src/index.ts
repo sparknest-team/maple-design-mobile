@@ -12,6 +12,7 @@ export interface MapleResolverOptions {
 
 const mapleFunctions = [
   'ImagePreview',
+  'imagePreview',
   'Message',
   'Picker',
   'ActionSheet',
@@ -29,7 +30,7 @@ const mapleIcons = new Set<string>(iconNames)
 const mapleComponents = new Set([
   'ActionSheet',
   'Alert',
-  'AppBar',
+  'PageHeader',
   'AutoComplete',
   'Avatar',
   'AvatarGroup',
@@ -107,6 +108,7 @@ const mapleComponents = new Set([
   'Popover',
   'Popup',
   'Progress',
+  'ProgressGroup',
   'PullRefresh',
   'Radio',
   'RadioGroup',
@@ -127,6 +129,7 @@ const mapleComponents = new Set([
   'SwipeCell',
   'Switch',
   'SplitButton',
+  'Statistic',
   'Tab',
   'TabItem',
   'Table',
@@ -140,12 +143,14 @@ const mapleComponents = new Set([
   'TimeRange',
   'TimeRangePicker',
   'Tooltip',
+  'Trigger',
   'Uploader',
   'VerificationCode',
   'Watermark',
 ])
 
 const styleDirAliases: Record<string, string> = {
+  imagePreview: 'image',
   CollapseItem: 'collapse',
   Row: 'grid',
   Col: 'grid',

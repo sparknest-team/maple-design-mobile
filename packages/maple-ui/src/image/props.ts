@@ -1,64 +1,33 @@
-import { ImgHTMLAttributes, type PropType } from 'vue'
-import type { ImageFit, ImagePreviewProps } from './types'
+import type { ImgHTMLAttributes, PropType } from 'vue'
+import type { ImageFit, ImagePreviewProps } from './api'
 
-export type { ImageFit }
-
-export const props = {
+export const imageProps = {
   src: String,
   previewSrc: String,
-  fit: {
-    type: String as PropType<ImageFit>,
-    default: 'fill',
-  },
-  position: {
-    type: String,
-    default: '50% 50%',
-  },
+  fallbackSrc: String,
+  width: [String, Number] as PropType<string | number>,
+  height: [String, Number] as PropType<string | number>,
+  objectFit: { type: String as PropType<ImageFit>, default: 'fill' },
+  objectPosition: { type: String, default: '50% 50%' },
+  radius: { type: [String, Number] as PropType<string | number>, default: 0 },
   alt: String,
   title: String,
   description: String,
-  hideFooter: {
-    type: [Boolean, String] as PropType<boolean | 'never'>,
-    default: false,
-  },
-  footerPosition: {
-    type: String as PropType<'inner' | 'outer'>,
-    default: 'inner',
-  },
+  loadDescription: String,
+  hideFooter: { type: [Boolean, String] as PropType<boolean | 'never'>, default: false },
+  footerPosition: { type: String as PropType<'inner' | 'outer'>, default: 'inner' },
   footerClass: [String, Array, Object],
-  referrerPolicy: String as PropType<ImgHTMLAttributes['referrerpolicy']>,
-  width: [String, Number],
-  height: [String, Number],
-  radius: {
-    type: [String, Number],
-    default: 0,
-  },
-  loadingSrc: String,
-  errorSrc: String,
   lazy: Boolean,
+  imgProps: Object as PropType<ImgHTMLAttributes>,
+  previewedImgProps: Object as PropType<ImgHTMLAttributes>,
   showLoader: Boolean,
   ripple: Boolean,
-  block: {
-    type: Boolean,
-    default: true,
-  },
-  preview: {
-    type: Boolean,
-    default: true,
-  },
-  previewOpen: {
-    type: Boolean,
-    default: undefined,
-  },
-  defaultPreviewOpen: {
-    type: Boolean,
-    default: false,
-  },
-  previewProps: {
-    type: Object as PropType<Partial<ImagePreviewProps>>,
-  },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
-    default: undefined,
-  },
+  block: { type: Boolean, default: true },
+  previewDisabled: Boolean,
+  previewOpen: { type: Boolean, default: undefined },
+  defaultPreviewOpen: { type: Boolean, default: false },
+  previewProps: Object as PropType<Partial<ImagePreviewProps>>,
+  popupContainer: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
 }
+
+export const props = imageProps

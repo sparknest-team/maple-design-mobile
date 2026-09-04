@@ -48,11 +48,12 @@ Add a unit, currency symbol, or trend with `prefix` / `suffix` or the same-named
 
 ### Tabular Numbers
 
-Enable `tabular-nums` to keep digit width stable when the value changes.
+Enable `tabular-nums` so every digit occupies the same width. This is useful for frequently changing values and vertically aligned numbers. Compare equal-length values such as `1111` and `8888`: proportional numbers may change total width, while tabular numbers remain stable.
 
 ```html
 <template>
-  <mp-statistic title="Tabular nums" :value="12880" show-group-separator tabular-nums />
+  <mp-statistic title="Proportional nums" :value="1111" :value-style="{ fontVariantNumeric: 'proportional-nums' }" />
+  <mp-statistic title="Tabular nums" :value="1111" tabular-nums />
 </template>
 ```
 

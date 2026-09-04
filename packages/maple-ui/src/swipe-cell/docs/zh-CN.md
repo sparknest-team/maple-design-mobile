@@ -16,7 +16,7 @@ const message = ref('')
 <template>
   <mp-swipe-cell>
     <template #right>
-      <mp-button type="danger" style="height: 100%">删除</mp-button>
+      <mp-button status="danger" style="height: 100%">删除</mp-button>
     </template>
     <mp-cell title="左滑显示操作" border />
   </mp-swipe-cell>
@@ -29,11 +29,11 @@ const message = ref('')
 <template>
   <mp-swipe-cell>
     <template #left>
-      <mp-button type="primary" style="height: 100%">选择</mp-button>
+      <mp-button status="primary" style="height: 100%">选择</mp-button>
     </template>
     <mp-cell title="两侧均可滑动" border />
     <template #right>
-      <mp-button type="danger" style="height: 100%">删除</mp-button>
+      <mp-button status="danger" style="height: 100%">删除</mp-button>
     </template>
   </mp-swipe-cell>
 </template>
@@ -60,7 +60,7 @@ const beforeClose = async ({ position }) => {
   <mp-swipe-cell :before-close="beforeClose">
     <mp-cell title="删除前确认" border />
     <template #right>
-      <mp-button type="danger" style="height: 100%">删除</mp-button>
+      <mp-button status="danger" style="height: 100%">删除</mp-button>
     </template>
   </mp-swipe-cell>
 </template>

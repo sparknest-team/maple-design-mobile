@@ -13,7 +13,7 @@ function download() {
 </script>
 
 <template>
-  <mp-button type="primary" @click="download">
+  <mp-button status="primary" @click="download">
     {{ t('downloadResources') }}
     <mp-icon name="download" style="margin: 2px 0 0 6px" />
   </mp-button>

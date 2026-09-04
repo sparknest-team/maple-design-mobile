@@ -40,16 +40,16 @@ function clearCustomStyleSignature() {
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-signature ref="signatureRef" />
   <mp-space class="gap">
-    <mp-button type="primary" @click="confirmSignature">{{ t('confirm') }}</mp-button>
-    <mp-button type="primary" @click="resetSignature">{{ t('reset') }}</mp-button>
+    <mp-button status="primary" @click="confirmSignature">{{ t('confirm') }}</mp-button>
+    <mp-button status="primary" @click="resetSignature">{{ t('reset') }}</mp-button>
   </mp-space>
   <img v-if="signature" class="gap" :src="signature" />
 
   <app-type>{{ t('customStyle') }}</app-type>
   <mp-signature ref="customStyleSignatureRef" style="color: var(--mp-color-primary)" :line-width="4" />
   <mp-space class="gap">
-    <mp-button type="primary" @click="confirmCustomStyleSignature">{{ t('confirm') }}</mp-button>
-    <mp-button type="primary" @click="clearCustomStyleSignature">{{ t('reset') }}</mp-button>
+    <mp-button status="primary" @click="confirmCustomStyleSignature">{{ t('confirm') }}</mp-button>
+    <mp-button status="primary" @click="clearCustomStyleSignature">{{ t('reset') }}</mp-button>
   </mp-space>
   <img v-if="customStyleSignature" :src="customStyleSignature" class="gap" />
 </template>

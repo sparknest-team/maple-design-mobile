@@ -15,7 +15,7 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  emits: ['update:open', 'open', 'close', 'opened', 'route-change', 'key-escape', 'closed', 'click-overlay'],
+  emits: ['update:open', 'open', 'close', 'opened', 'route-change', 'key-escape', 'closed', 'click-mask'],
   setup(props, { slots, attrs, emit }) {
     const rendered = useInitialized(() => props.open, true)
     const { zIndex } = useZIndex(() => props.open, 3)
@@ -50,10 +50,10 @@ export default defineComponent({
     // internal for Dialog
     useRouteListener(() => emit('route-change'))
 
-    function hidePopup() {
+    function hidePopup(event: MouseEvent) {
       const { maskClosable } = props
 
-      emit('click-overlay')
+      emit('click-mask', event)
 
       if (!maskClosable) {
         return
@@ -103,7 +103,7 @@ export default defineComponent({
     function renderPopup() {
       return (
         <Transition
-          name={n('$-fade')}
+          name={props.maskTransition || n('$-fade')}
           onAfterEnter={(...args: any[]) => emit('opened', ...args)}
           onAfterLeave={(...args: any[]) => emit('closed', ...args)}
         >
@@ -124,7 +124,7 @@ export default defineComponent({
         return
       }
 
-      emit('key-escape')
+      emit('key-escape', event)
 
       if (!props.escToClose) {
         return

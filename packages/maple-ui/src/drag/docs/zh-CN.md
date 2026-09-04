@@ -9,7 +9,7 @@
 ```html
 <template>
   <mp-drag>
-    <mp-button type="primary">基本使用</mp-button>
+    <mp-button status="primary">基本使用</mp-button>
   </mp-drag>
 </template>
 ```
@@ -19,7 +19,7 @@
 ```html
 <template>
   <mp-drag direction="x">
-    <mp-button type="primary">拖拽方向</mp-button>
+    <mp-button status="primary">拖拽方向</mp-button>
   </mp-drag>
 </template>
 ```
@@ -29,10 +29,10 @@
 ```html
 <template>
   <mp-drag style="left: 0; top: 0" attraction="x">
-    <mp-button type="primary">水平吸附</mp-button>
+    <mp-button status="primary">水平吸附</mp-button>
   </mp-drag>
   <mp-drag style="left: 100px; top: 0" attraction="y">
-    <mp-button type="primary">垂直吸附</mp-button>
+    <mp-button status="primary">垂直吸附</mp-button>
   </mp-drag>
 </template>
 ```
@@ -42,7 +42,7 @@
 ```html
 <template>
   <mp-drag disabled>
-    <mp-button type="primary" disabled>禁用</mp-button>
+    <mp-button status="primary" disabled>禁用</mp-button>
   </mp-drag>
 </template>
 ```
@@ -52,7 +52,7 @@
 ```html
 <template>
   <mp-drag style="top: 80px; left: 80px" :boundary="{ top: 80, bottom: 80, left: 80, right: 80 }">
-    <mp-button type="primary">拖拽区域</mp-button>
+    <mp-button status="primary">拖拽区域</mp-button>
   </mp-drag>
 </template>
 ```
@@ -72,10 +72,10 @@ function reset() {
 
 <template>
   <mp-drag ref="drag" style="top: 100px">
-    <mp-button type="primary">拖拽元素</mp-button>
+    <mp-button status="primary">拖拽元素</mp-button>
   </mp-drag>
 
-  <mp-button type="primary" @click="reset">重置位置</mp-button>
+  <mp-button status="primary" @click="reset">重置位置</mp-button>
 </template>
 ```
 

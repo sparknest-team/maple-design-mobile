@@ -57,7 +57,7 @@ onThemeChange(() => {
 
   <mp-watermark ref="watermarkRef5" content="Maple UI" :fullscreen="fullscreen" z-index="99" :offset="[10, 10]">
     <div class="watermark-wrapper">
-      <mp-button type="primary" @click="toggle">{{ t('toggle') }}</mp-button>
+      <mp-button status="primary" @click="toggle">{{ t('toggle') }}</mp-button>
     </div>
   </mp-watermark>
 

@@ -73,7 +73,7 @@ const lists = [...Array(40).keys()]
 <div id="scroll-container" class="scroll-container">
   <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
   <mp-back-top target-container="#scroll-container" :duration="300" @click="handleClick">
-    <mp-button type="primary" round>TOP</mp-button>
+    <mp-button status="primary" round>TOP</mp-button>
   </mp-back-top>
 </div>
 ```

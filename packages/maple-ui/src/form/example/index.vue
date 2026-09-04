@@ -120,11 +120,11 @@ onThemeChange()
   <app-type>{{ t('controller') }}</app-type>
 
   <mp-space direction="column" :size="['4vmin', 0]">
-    <mp-button block type="danger" @click="form.resetFields()">{{ t('reset') }}</mp-button>
-    <mp-button block type="warning" @click="form.clearValidate()">{{ t('resetValidation') }}</mp-button>
-    <mp-button block type="success" @click="form.validate()">{{ t('validate') }}</mp-button>
-    <mp-button block type="info" @click="disabled = !disabled">{{ t('disabled') }}</mp-button>
-    <mp-button block type="primary" @click="readonly = !readonly">{{ t('readonly') }}</mp-button>
+    <mp-button block status="danger" @click="form.resetFields()">{{ t('reset') }}</mp-button>
+    <mp-button block status="warning" @click="form.clearValidate()">{{ t('resetValidation') }}</mp-button>
+    <mp-button block status="success" @click="form.validate()">{{ t('validate') }}</mp-button>
+    <mp-button block status="info" @click="disabled = !disabled">{{ t('disabled') }}</mp-button>
+    <mp-button block status="primary" @click="readonly = !readonly">{{ t('readonly') }}</mp-button>
   </mp-space>
 
   <div class="space"></div>

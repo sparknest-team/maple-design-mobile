@@ -41,7 +41,7 @@ function fullscreen() {
   </mp-skeleton>
 
   <app-type>{{ t('fullscreenMode') }}</app-type>
-  <mp-button type="danger" class="button" @click="fullscreen">
+  <mp-button status="danger" class="button" @click="fullscreen">
     {{ t('toggleFullscreenMode') }}
   </mp-button>
   <mp-skeleton fullscreen :loading="fullscreenLoading" />

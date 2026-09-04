@@ -17,7 +17,6 @@
           <ul :class="n('body')">
             <li v-for="(day, index) in days" :key="index">
               <mp-button
-                type="primary"
                 mp-day-picker-cover
                 round
                 :ripple="false"
@@ -55,7 +54,7 @@ import { onSmartMounted } from '@maplejs/maple-use'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
 import isSameOrBefore from 'dayjs/esm/plugin/isSameOrBefore/index.js'
-import MpButton from '../../button'
+import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
@@ -212,8 +211,8 @@ export default defineComponent({
     const buttonProps = (day: number) => {
       if (day < 0) {
         return {
-          variant: 'text',
-          status: 'default',
+          variant: 'text' as ButtonVariant,
+          status: 'default' as SemanticStatus,
           textColor: '',
           class: n('button'),
           disabled: true,
@@ -297,10 +296,12 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
+      const variant: ButtonVariant = computeOutline() ? 'outline' : computeText() ? 'text' : 'default'
+      const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
-        variant: computeOutline() ? 'outline' : computeText() ? 'text' : 'default',
-        status: !computeText() ? 'primary' : 'default',
+        variant,
+        status,
         textColor: isCover ? '' : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,
         class: classes(n('button'), n('button--usable'), [disabled, n('button--disabled')]),

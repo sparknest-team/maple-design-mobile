@@ -3,12 +3,12 @@
 exports[`cascade column picker columnsCount 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -49,12 +49,12 @@ exports[`cascade column picker columnsCount 1`] = `
 exports[`cascade mode 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -95,12 +95,12 @@ exports[`cascade mode 1`] = `
 exports[`column option className 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -129,12 +129,12 @@ exports[`column option className 1`] = `
 exports[`custom key 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -171,12 +171,12 @@ exports[`custom key 1`] = `
 exports[`custom key 2`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -213,12 +213,12 @@ exports[`custom key 2`] = `
 exports[`multiple column picker columnsCount 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -267,12 +267,12 @@ exports[`multiple column picker columnsCount 1`] = `
 exports[`scroll down & onCancel 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -305,12 +305,12 @@ exports[`scroll down & onCancel 1`] = `
 exports[`scroll down & onCancel 2`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -343,12 +343,12 @@ exports[`scroll down & onCancel 2`] = `
 exports[`scroll up & onConfirm 1`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>
@@ -381,12 +381,12 @@ exports[`scroll up & onConfirm 1`] = `
 exports[`scroll up & onConfirm 2`] = `
 "<transition-stub appear="false" persisted="false" css="true" mp-picker-cover="">
   <div class="mp-picker">
-    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__cancel-button" type="button" mp-picker-cover="" text="">
+    <div class="mp-picker__toolbar"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__cancel-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">取消</div>
         <div class="mp-hover-overlay"></div>
       </button>
-      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2 mp-picker__confirm-button" type="button" text="" mp-picker-cover="">
+      <div class="mp-picker__title">请选择</div><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex mp-picker__confirm-button" type="button" mp-picker-cover="">
         <!--v-if-->
         <div class="mp-button__content">确认</div>
         <div class="mp-hover-overlay"></div>

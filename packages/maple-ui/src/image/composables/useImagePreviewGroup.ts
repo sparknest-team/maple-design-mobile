@@ -1,7 +1,11 @@
 // @sync-with: cedar-ui/src/image/composables/useImagePreviewGroup.ts
 
 import { computed, ref, watch, type Ref } from 'vue'
-import type { ImageUrlRecord } from '../types'
+
+interface ImageUrlRecord {
+  url: string
+  canPreview: boolean
+}
 
 export interface UseImagePreviewGroupOptions {
   images?: Ref<string[] | undefined>

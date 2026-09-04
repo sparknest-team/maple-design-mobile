@@ -140,12 +140,12 @@
               "description": "关闭动作面板动画结束时触发"
             },
             {
-              "name": "click-overlay",
+              "name": "click-mask",
               "description": "点击遮罩层时触发"
             },
             {
               "name": "key-escape",
-              "description": "点击键盘 ESC 时触发"
+              "description": "按下 ESC 时触发"
             }
           ],
           "slots": [
@@ -283,147 +283,6 @@
             {
               "name": "close-icon",
               "description": "关闭图标"
-            }
-          ]
-        },
-        {
-          "name": "mp-app-bar",
-          "attributes": [
-            {
-              "name": "color",
-              "description": "背景颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "文字颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title",
-              "description": "标题",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title-position",
-              "description": "标题位置，可选值为 `left` `center` `right`",
-              "default": "left",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fixed",
-              "description": "是否固定到顶部",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "是否在顶部生成相同高度的占位元素(需设置 `fixed`)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index",
-              "description": "元素 z-index",
-              "default": "1",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "round",
-              "description": "是否使用圆角",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "border",
-              "description": "是否使用底部边框",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image",
-              "description": "背景图片",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image-linear-gradient",
-              "description": "背景图片渐变色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area-top",
-              "description": "是否开启顶部安全区适配",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "自定义标题内容，会覆盖 `title` 的内容"
-            },
-            {
-              "name": "left",
-              "description": "插入至导航栏左侧的内容"
-            },
-            {
-              "name": "right",
-              "description": "插入至导航栏右侧的内容"
-            },
-            {
-              "name": "content",
-              "description": "扩展内容"
             }
           ]
         },
@@ -3080,375 +2939,9 @@
         },
         {
           "name": "mp-dialog",
-          "attributes": [
-            {
-              "name": "v-model:open",
-              "description": "是否显示对话框",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "type",
-              "description": "对话框类型，可选 `info` `success` `warning` `error`（标题前显示对应图标）",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title",
-              "description": "标题",
-              "default": "提示",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "width",
-              "description": "宽度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "message",
-              "description": "内容（也可使用 default 插槽）",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "message-align",
-              "description": "内容对齐，可选 `left` `center` `right`",
-              "default": "left",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "footer",
-              "description": "是否展示 footer 区域",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-title",
-              "description": "隐藏标题",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "body-class",
-              "description": "内容区 class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "body-style",
-              "description": "内容区 style",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "unmount-on-close",
-              "description": "关闭后卸载",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button",
-              "description": "是否显示确认按钮",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button",
-              "description": "是否显示取消按钮",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-text",
-              "description": "确认按钮文字",
-              "default": "确认",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-text",
-              "description": "取消按钮文字",
-              "default": "取消",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-text-color",
-              "description": "确认按钮文字颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-text-color",
-              "description": "取消按钮文字颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-color",
-              "description": "确认按钮颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-color",
-              "description": "取消按钮颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-loading",
-              "description": "确认按钮 loading",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-loading",
-              "description": "取消按钮 loading",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-disabled",
-              "description": "确认按钮 disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-disabled",
-              "description": "取消按钮 disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-props",
-              "description": "确认按钮 props",
-              "default": "-",
-              "value": {
-                "type": "ButtonProps",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-props",
-              "description": "取消按钮 props",
-              "default": "-",
-              "value": {
-                "type": "ButtonProps",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "dialog-class",
-              "description": "对话框 class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "dialog-style",
-              "description": "对话框 style",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mask",
-              "description": "是否显示遮罩",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mask-class",
-              "description": "遮罩 class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mask-style",
-              "description": "遮罩 style",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lock-scroll",
-              "description": "是否锁定滚动",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mask-closable",
-              "description": "点击遮罩关闭",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "esc-to-close",
-              "description": "ESC 关闭",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popupContainer",
-              "description": "挂载位置",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "before-close",
-              "description": "关闭前拦截（`:before-close`）",
-              "default": "-",
-              "value": {
-                "type": "(action, done, refs) => void",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "打开时触发"
-            },
-            {
-              "name": "opened",
-              "description": "打开动画结束"
-            },
-            {
-              "name": "close",
-              "description": "关闭时触发"
-            },
-            {
-              "name": "closed",
-              "description": "关闭动画结束"
-            },
-            {
-              "name": "before-close",
-              "description": "关闭前拦截"
-            },
-            {
-              "name": "confirm",
-              "description": "点击确认"
-            },
-            {
-              "name": "cancel",
-              "description": "点击取消"
-            },
-            {
-              "name": "click-overlay",
-              "description": "点击遮罩"
-            },
-            {
-              "name": "key-escape",
-              "description": "按下 ESC"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "内容"
-            },
-            {
-              "name": "title",
-              "description": "标题"
-            },
-            {
-              "name": "footer",
-              "description": "底部操作区"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-divider",
@@ -4244,7 +3737,7 @@
               }
             },
             {
-              "name": "fit",
+              "name": "object-fit",
               "description": "填充模式, 可选值为 `fill contain cover none scale-down`",
               "default": "fill",
               "value": {
@@ -4253,7 +3746,7 @@
               }
             },
             {
-              "name": "position",
+              "name": "object-position",
               "description": "图片内容位置，等同 CSS `object-position`",
               "default": "50% 50%",
               "value": {
@@ -4361,7 +3854,7 @@
               }
             },
             {
-              "name": "loading-src",
+              "name": "show-loader",
               "description": "当开启懒加载时，加载中显示的图片",
               "default": "-",
               "value": {
@@ -4370,7 +3863,7 @@
               }
             },
             {
-              "name": "error-src",
+              "name": "fallback-src",
               "description": "当开启懒加载时，加载失败显示的图片",
               "default": "-",
               "value": {
@@ -4406,9 +3899,9 @@
               }
             },
             {
-              "name": "preview",
-              "description": "是否开启点击预览（详见 ImagePreview 文档）",
-              "default": "true",
+              "name": "preview-disabled",
+              "description": "是否禁用点击预览",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -6181,6 +5674,78 @@
           ]
         },
         {
+          "name": "mp-page-header",
+          "attributes": [
+            {
+              "name": "title",
+              "description": "主标题",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "subtitle",
+              "description": "次标题",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "extra",
+              "description": "右侧附加内容",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "back",
+              "description": "点击返回按钮时触发；绑定该事件后显示返回按钮"
+            }
+          ],
+          "slots": [
+            {
+              "name": "header",
+              "description": "页头上方内容，通常用于面包屑"
+            },
+            {
+              "name": "back",
+              "description": "自定义返回图标"
+            },
+            {
+              "name": "avatar",
+              "description": "头像"
+            },
+            {
+              "name": "title",
+              "description": "主标题"
+            },
+            {
+              "name": "subtitle",
+              "description": "次标题"
+            },
+            {
+              "name": "extra",
+              "description": "右侧附加内容"
+            },
+            {
+              "name": "default",
+              "description": "页头正文内容"
+            },
+            {
+              "name": "footer",
+              "description": "页头底部内容"
+            }
+          ]
+        },
+        {
           "name": "mp-pagination",
           "attributes": [
             {
@@ -6581,7 +6146,7 @@
               }
             },
             {
-              "name": "columns-count",
+              "name": "columns-count _**3.3.11**_",
               "description": "最大显示列数",
               "default": "-",
               "value": {
@@ -6650,7 +6215,7 @@
             },
             {
               "name": "key-escape",
-              "description": "点击键盘 ESC 时触发"
+              "description": "按下 ESC 时触发"
             }
           ],
           "slots": [
@@ -6970,7 +6535,7 @@
               }
             },
             {
-              "name": "z-index",
+              "name": "z-index _**3.3.10**_",
               "description": "元素 z-index",
               "default": "-",
               "value": {
@@ -6997,12 +6562,12 @@
               "description": "关闭弹出层动画结束时触发"
             },
             {
-              "name": "click-overlay",
+              "name": "click-mask",
               "description": "点击遮罩层时触发"
             },
             {
               "name": "key-escape",
-              "description": "点击键盘 ESC 时触发"
+              "description": "按下 ESC 时触发"
             }
           ],
           "slots": [
@@ -7131,6 +6696,12 @@
               "description": "自定义文本"
             }
           ]
+        },
+        {
+          "name": "mp-progress-group",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-pull-refresh",
@@ -8821,11 +8392,29 @@
               }
             },
             {
+              "name": "type",
+              "description": "步骤条类型",
+              "default": "default",
+              "value": {
+                "type": "'default' | 'arrow' | 'dot' | 'navigation'",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "direction",
-              "description": "显示方向，可选值为 `vertical`",
+              "description": "显示方向",
               "default": "horizontal",
               "value": {
-                "type": "string",
+                "type": "'horizontal' | 'vertical'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-placement",
+              "description": "内容相对节点的位置",
+              "default": "right",
+              "value": {
+                "type": "'right' | 'bottom'",
                 "kind": "expression"
               }
             },
@@ -8835,6 +8424,24 @@
               "default": "process",
               "value": {
                 "type": "'wait' | 'process' | 'finish' | 'error'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "步骤条尺寸",
+              "default": "md",
+              "value": {
+                "type": "'sm' | 'md'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-line",
+              "description": "是否显示连接线",
+              "default": "true",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -8862,6 +8469,14 @@
             {
               "name": "default",
               "description": "steps 的内容"
+            },
+            {
+              "name": "finish-icon",
+              "description": "完成状态图标"
+            },
+            {
+              "name": "error-icon",
+              "description": "错误状态图标"
             }
           ]
         },

@@ -116,7 +116,7 @@ const toggle = () => {
     :offset="[10, 10]"
   >
     <div class="watermark-wrapper">
-      <mp-button type="primary" @click="toggle">Toggle</mp-button>
+      <mp-button status="primary" @click="toggle">Toggle</mp-button>
     </div>
   </mp-watermark>
 </template>

@@ -9,7 +9,7 @@ and changes the display position of the popover by controlling the placement and
 ```html
 <template>
   <mp-popover>
-    <mp-button type="primary">Basic Usage</mp-button>
+    <mp-button status="primary">Basic Usage</mp-button>
     
     <template #content>
       <mp-cell>Option</mp-cell>
@@ -62,7 +62,7 @@ const placementOptions = [
   
   <div class="placement-container">
     <mp-popover :placement="placement">
-      <mp-button type="primary">
+      <mp-button status="primary">
         <m-icon-star />
       </mp-button>
       <template #content>
@@ -91,7 +91,7 @@ The offset of the Popover popup can be set with `offset-x` and `offset-y`.
 ```html
 <template>
   <mp-popover offset-x="36px" offset-y="18px">
-    <mp-button type="primary">Offset</mp-button>
+    <mp-button status="primary">Offset</mp-button>
     
     <template #content>
       <mp-cell>Option</mp-cell>
@@ -109,7 +109,7 @@ Use `same-width` to make the popover and trigger the same width.
 ```html
 <template>
   <mp-popover same-width>
-    <mp-button type="primary">Same width as trigger element</mp-button>
+    <mp-button status="primary">Same width as trigger element</mp-button>
     
     <template #content>
       <mp-cell>Option</mp-cell>
@@ -128,7 +128,7 @@ the optional values are `click` `hover` `manual` `contextMenu`
 ```html
 <template>
   <mp-popover trigger="hover">
-    <mp-button type="primary">Trigger</mp-button>
+    <mp-button status="primary">Trigger</mp-button>
     
     <template #content>
       <mp-cell>Option</mp-cell>
@@ -153,7 +153,7 @@ import { Message } from '@maplejs/maple-ui'
     @close="Message.warning('close')"
     @closed="Message.error('closed')"
   >
-    <mp-button type="primary">Events</mp-button>
+    <mp-button status="primary">Events</mp-button>
     
     <template #content>
       <mp-cell>Option</mp-cell>
@@ -171,7 +171,7 @@ In the `disabled` state, the popover will no longer be opened.
 ```html
 <template>
   <mp-popover disabled>
-    <mp-button type="primary" disabled>Disabled</mp-button>
+    <mp-button status="primary" disabled>Disabled</mp-button>
     
     <template #content>
       <mp-cell>Option</mp-cell>
@@ -199,7 +199,7 @@ function closeMenu() {
 
 <template>
   <mp-popover v-model:open="open">
-    <mp-button type="primary">Two-way binding</mp-button>
+    <mp-button status="primary">Two-way binding</mp-button>
 
     <template #content>
       <mp-cell @click="closeMenu">Option</mp-cell>

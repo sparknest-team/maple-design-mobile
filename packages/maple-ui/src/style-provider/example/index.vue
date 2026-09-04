@@ -29,6 +29,6 @@ function toggleTheme() {
   <mp-style-provider :style-vars="styleVars">
     <mp-rate v-model="state.score" />
     <mp-switch v-model="state.license" />
-    <mp-button style="margin-top: 10px" type="primary" block @click="toggleTheme">{{ t('toggleTheme') }}</mp-button>
+    <mp-button style="margin-top: 10px" status="primary" block @click="toggleTheme">{{ t('toggleTheme') }}</mp-button>
   </mp-style-provider>
 </template>

@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Steps > render 1`] = `"<div role="list" class="mp-steps mp-steps-horizontal mp-steps-label-horizontal mp-steps-mode-default mp-steps-size-md mp-steps-show-line"></div>"`;

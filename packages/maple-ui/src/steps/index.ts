@@ -1,27 +1,30 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as stepsProps } from './props'
-import { props as stepProps } from './step-props'
-import Step from './Step.vue'
-import _Steps from './Steps.vue'
+import { stepProps, stepsProps } from './props'
+import _StepsStep from './Step.vue'
+import _Steps from './Steps'
 
 const Steps = withInstall(
   _Steps,
   Object.assign(_Steps, {
-    Step: Step,
+    Step: _StepsStep,
   }),
-  { components: [_Steps, Step] },
+  { components: [_Steps, _StepsStep] },
 )
 
 withPropsDefaultsSetter(Steps, stepsProps)
-withPropsDefaultsSetter(Step, stepProps)
-
-export { stepsProps, stepProps, Steps, Step }
-export type { StepsProps, StepsDirection, StepStatus } from './props'
-export type { StepProps } from './step-props'
+withPropsDefaultsSetter(_StepsStep, stepProps)
 
 export type StepsInstance = InstanceType<typeof _Steps>
-export type StepInstance = InstanceType<typeof Step>
+export type StepInstance = InstanceType<typeof _StepsStep>
+export type StepsStepInstance = StepInstance
+export type { StepsProps, StepProps, StepStatus, StepsType, StepsSize, StepsContentPlacement } from './props'
+
+export { stepsProps, stepProps }
+export { _StepsStep as Step }
+
 export const _StepsComponent = Steps
-export const _StepComponent = Step
+export const _StepComponent = _StepsStep
+
+export { Steps }
 
 export default Steps

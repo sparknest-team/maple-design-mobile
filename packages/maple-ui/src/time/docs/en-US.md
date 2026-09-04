@@ -260,8 +260,8 @@ Use `min`, `max` and `disabled-time` prop to allow the maximum and minimum time.
   <mp-time-picker v-model="date">
     <template #actions>
       <mp-space size="small">
-        <mp-button type="primary" text>ACTION</mp-button>
-        <mp-button type="primary" text>ACTION</mp-button>
+        <mp-button status="primary" variant="text">ACTION</mp-button>
+        <mp-button status="primary" variant="text">ACTION</mp-button>
       </mp-space>
     </template>
   </mp-time-picker>

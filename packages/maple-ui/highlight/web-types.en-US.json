@@ -140,12 +140,12 @@
               "description": "Triggered when an action sheet close-animation ends"
             },
             {
-              "name": "click-overlay",
-              "description": "Triggered when clicking on overlay"
+              "name": "click-mask",
+              "description": "Triggered when clicking the mask"
             },
             {
               "name": "key-escape",
-              "description": "Triggered when click keyboard ESC"
+              "description": "Triggered when pressing ESC"
             }
           ],
           "slots": [
@@ -252,147 +252,6 @@
             {
               "name": "close-icon",
               "description": "The close icon of alert"
-            }
-          ]
-        },
-        {
-          "name": "mp-app-bar",
-          "attributes": [
-            {
-              "name": "color",
-              "description": "Background",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Text color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title",
-              "description": "Title",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title-position",
-              "description": "Title location, can be set to `left`, `center`, `right`",
-              "default": "left",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fixed",
-              "description": "Whether to fixed to the top",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "Whether to generate placeholder elements of the same height at the top (`fixed` required)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index",
-              "description": "AppBar element z-index",
-              "default": "1",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "round",
-              "description": "Whether to use rounded border",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "border",
-              "description": "Whether to use bottom border",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image",
-              "description": "Background image",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image-linear-gradient",
-              "description": "Background image linear gradient",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area-top",
-              "description": "Whether to enable top safe area adaptation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Customize the title content to override the `title` content"
-            },
-            {
-              "name": "left",
-              "description": "Insert the content to the left of the app bar"
-            },
-            {
-              "name": "right",
-              "description": "Insert the content to the right of the app bar"
-            },
-            {
-              "name": "content",
-              "description": "Insert the content to the extra content of the app bar"
             }
           ]
         },
@@ -3205,373 +3064,260 @@
           "name": "mp-dialog",
           "attributes": [
             {
-              "name": "v-model:open",
-              "description": "Whether to display the dialog",
+              "name": "open **(v-model)**",
+              "description": "Visible state",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial uncontrolled state",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "title / message",
+              "description": "Title and message",
+              "default": "-",
+              "value": {
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "type",
-              "description": "Dialog type: `info` `success` `warning` `error` (shows icon in title)",
+              "description": "Semantic icon",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`'info' | 'success' | 'warning' | 'error'`",
                 "kind": "expression"
               }
             },
             {
-              "name": "title",
-              "description": "Title",
-              "default": "Hint",
+              "name": "simple",
+              "description": "Compact layout",
+              "default": "false",
               "value": {
-                "type": "string",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "width",
-              "description": "Width",
+              "name": "width / top",
+              "description": "Width and top offset",
               "default": "-",
               "value": {
-                "type": "string | number",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "message",
-              "description": "Message (or use default slot)",
-              "default": "-",
+              "name": "title-align",
+              "description": "Title alignment",
+              "default": "'center'",
               "value": {
-                "type": "string",
+                "type": "`'start' | 'center'`",
                 "kind": "expression"
               }
             },
             {
               "name": "message-align",
-              "description": "Message alignment: `left` `center` `right`",
-              "default": "left",
+              "description": "Message alignment",
+              "default": "'left'",
               "value": {
-                "type": "string",
+                "type": "`'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-center",
+              "description": "Center vertically and horizontally",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "footer",
-              "description": "Show footer area",
+              "description": "Show footer",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "hide-title",
-              "description": "Hide title",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "body-class",
-              "description": "Body class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "body-style",
-              "description": "Body style",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "unmount-on-close",
-              "description": "Unmount after close",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button",
-              "description": "Show confirm button",
+              "name": "confirm-button / cancel-button",
+              "description": "Show action buttons",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "cancel-button",
-              "description": "Show cancel button",
+              "name": "closable",
+              "description": "Show close button",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "confirm-button-text",
-              "description": "Confirm button text",
-              "default": "Confirm",
+              "name": "confirm-button-text / cancel-button-text",
+              "description": "Button labels",
+              "default": "localized",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "cancel-button-text",
-              "description": "Cancel button text",
-              "default": "Cancel",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-text-color",
-              "description": "Confirm button text color",
+              "name": "confirm-button-props / cancel-button-props",
+              "description": "Button props, including colors",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`ButtonProps`",
                 "kind": "expression"
               }
             },
             {
-              "name": "cancel-button-text-color",
-              "description": "Cancel button text color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-color",
-              "description": "Confirm button color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-color",
-              "description": "Cancel button color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-loading",
-              "description": "Confirm button loading",
+              "name": "confirm-button-loading / cancel-button-loading",
+              "description": "Loading state",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "cancel-button-loading",
-              "description": "Cancel button loading",
+              "name": "confirm-button-disabled / cancel-button-disabled",
+              "description": "Disabled state",
               "default": "false",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-disabled",
-              "description": "Confirm button disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-disabled",
-              "description": "Cancel button disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "confirm-button-props",
-              "description": "Confirm button props",
-              "default": "-",
-              "value": {
-                "type": "ButtonProps",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cancel-button-props",
-              "description": "Cancel button props",
-              "default": "-",
-              "value": {
-                "type": "ButtonProps",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "dialog-class",
-              "description": "Dialog class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "dialog-style",
-              "description": "Dialog style",
-              "default": "-",
-              "value": {
-                "type": "object",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "mask",
-              "description": "Show overlay",
+              "description": "Show mask",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "mask-class",
-              "description": "Overlay class",
+              "name": "mask-class / dialog-class / body-class",
+              "description": "Custom classes",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string | any[]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "mask-style",
-              "description": "Overlay style",
+              "name": "mask-style / dialog-style / body-style",
+              "description": "Custom styles",
               "default": "-",
               "value": {
-                "type": "object",
+                "type": "`StyleValue`",
                 "kind": "expression"
               }
             },
             {
-              "name": "lock-scroll",
-              "description": "Lock body scroll",
+              "name": "mask-closable / esc-to-close / lock-scroll",
+              "description": "Close/scroll behavior",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "mask-closable",
-              "description": "Close on overlay click",
-              "default": "true",
+              "name": "popup-container",
+              "description": "Teleport target; `false` disables teleport",
+              "default": "'body'",
               "value": {
-                "type": "boolean",
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
             {
-              "name": "esc-to-close",
-              "description": "Close on ESC",
-              "default": "true",
+              "name": "hide-title / unmount-on-close",
+              "description": "Rendering behavior",
+              "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "popupContainer",
-              "description": "Teleport target",
-              "default": "body",
+              "name": "draggable / fullscreen",
+              "description": "Layout modes",
+              "default": "false",
               "value": {
-                "type": "TeleportProps['to'] | false",
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mask-animation-name / dialog-animation-name",
+              "description": "Transition names",
+              "default": "library defaults",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible name without a visible title",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-button-aria-label",
+              "description": "Close button label",
+              "default": "'Close dialog'",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "z-index",
+              "description": "Stack level",
+              "default": "automatic",
+              "value": {
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "before-close",
-              "description": "Before close interceptor (`:before-close`)",
+              "description": "Close interceptor",
               "default": "-",
               "value": {
-                "type": "(action, done, refs) => void",
+                "type": "`(action, done, refs) => void`",
                 "kind": "expression"
               }
             }
           ],
-          "events": [
-            {
-              "name": "open",
-              "description": "Emitted when opening"
-            },
-            {
-              "name": "opened",
-              "description": "Emitted after open animation"
-            },
-            {
-              "name": "close",
-              "description": "Emitted when closing"
-            },
-            {
-              "name": "closed",
-              "description": "Emitted after close animation"
-            },
-            {
-              "name": "before-close",
-              "description": "Before close (can prevent)"
-            },
-            {
-              "name": "confirm",
-              "description": "On confirm"
-            },
-            {
-              "name": "cancel",
-              "description": "On cancel"
-            },
-            {
-              "name": "click-overlay",
-              "description": "On overlay click"
-            },
-            {
-              "name": "key-escape",
-              "description": "On ESC"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Content"
-            },
-            {
-              "name": "title",
-              "description": "Title"
-            },
-            {
-              "name": "footer",
-              "description": "Footer actions"
-            }
-          ]
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-divider",
@@ -4440,7 +4186,7 @@
               }
             },
             {
-              "name": "fit",
+              "name": "object-fit",
               "description": "Image fit mode, optional value is `fill` `contain` `cover` `none` `scale-down`",
               "default": "fill",
               "value": {
@@ -4449,7 +4195,7 @@
               }
             },
             {
-              "name": "position",
+              "name": "object-position _**3.2.3**_",
               "description": "The position of the replaceable element's content in its content box, equal to [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position)",
               "default": "50% 50%",
               "value": {
@@ -4557,7 +4303,7 @@
               }
             },
             {
-              "name": "loading-src",
+              "name": "show-loader",
               "description": "When lazy loading is enabled, the image displayed while loading",
               "default": "-",
               "value": {
@@ -4566,7 +4312,7 @@
               }
             },
             {
-              "name": "error-src",
+              "name": "fallback-src",
               "description": "When lazy loading is enabled, the image displayed after an error",
               "default": "-",
               "value": {
@@ -4602,9 +4348,9 @@
               }
             },
             {
-              "name": "preview",
-              "description": "Whether to enable click preview",
-              "default": "true",
+              "name": "preview-disabled",
+              "description": "Whether click preview is disabled",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -6338,6 +6084,78 @@
           ]
         },
         {
+          "name": "mp-page-header",
+          "attributes": [
+            {
+              "name": "title",
+              "description": "Main title",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "subtitle",
+              "description": "Subtitle",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "extra",
+              "description": "Extra content on the right",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "back",
+              "description": "Emitted when back is clicked; attaching it displays the back control"
+            }
+          ],
+          "slots": [
+            {
+              "name": "header",
+              "description": "Content above the heading, usually breadcrumbs"
+            },
+            {
+              "name": "back",
+              "description": "Custom back icon"
+            },
+            {
+              "name": "avatar",
+              "description": "Avatar"
+            },
+            {
+              "name": "title",
+              "description": "Main title"
+            },
+            {
+              "name": "subtitle",
+              "description": "Subtitle"
+            },
+            {
+              "name": "extra",
+              "description": "Extra content on the right"
+            },
+            {
+              "name": "default",
+              "description": "Main page-header content"
+            },
+            {
+              "name": "footer",
+              "description": "Footer content"
+            }
+          ]
+        },
+        {
           "name": "mp-pagination",
           "attributes": [
             {
@@ -6738,7 +6556,7 @@
               }
             },
             {
-              "name": "columns-count",
+              "name": "columns-count _**3.3.11**_",
               "description": "Number of visible columns",
               "default": "-",
               "value": {
@@ -6807,7 +6625,7 @@
             },
             {
               "name": "key-escape",
-              "description": "Triggered when click keyboard ESC"
+              "description": "Triggered when pressing ESC"
             }
           ],
           "slots": [
@@ -7127,7 +6945,7 @@
               }
             },
             {
-              "name": "z-index",
+              "name": "z-index _**3.3.10**_",
               "description": "The zIndex of element",
               "default": "-",
               "value": {
@@ -7154,12 +6972,12 @@
               "description": "Triggered when the Popup close-animation ends"
             },
             {
-              "name": "click-overlay",
-              "description": "Triggered when you click on overlay"
+              "name": "click-mask",
+              "description": "Triggered when you click the mask"
             },
             {
               "name": "key-escape",
-              "description": "Triggered when click keyboard ESC"
+              "description": "Triggered when pressing ESC"
             }
           ],
           "slots": [
@@ -7288,6 +7106,12 @@
               "description": "Custom text"
             }
           ]
+        },
+        {
+          "name": "mp-progress-group",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-pull-refresh",
@@ -8838,11 +8662,29 @@
               }
             },
             {
+              "name": "type",
+              "description": "Display type",
+              "default": "default",
+              "value": {
+                "type": "'default' | 'arrow' | 'dot' | 'navigation'",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "direction",
-              "description": "Direction, can be `vertical`",
+              "description": "Layout direction",
               "default": "horizontal",
               "value": {
-                "type": "string",
+                "type": "'horizontal' | 'vertical'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-placement",
+              "description": "Content position relative to the indicator",
+              "default": "right",
+              "value": {
+                "type": "'right' | 'bottom'",
                 "kind": "expression"
               }
             },
@@ -8852,6 +8694,24 @@
               "default": "process",
               "value": {
                 "type": "'wait' | 'process' | 'finish' | 'error'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Steps size",
+              "default": "md",
+              "value": {
+                "type": "'sm' | 'md'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-line",
+              "description": "Whether to show connectors",
+              "default": "true",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -8879,6 +8739,14 @@
             {
               "name": "default",
               "description": "Steps content"
+            },
+            {
+              "name": "finish-icon",
+              "description": "Finished status icon"
+            },
+            {
+              "name": "error-icon",
+              "description": "Error status icon"
             }
           ]
         },

@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import MpAlert from '..'
 import { t, use } from './locale'
 
 const options = ['info', 'success', 'warning', 'danger', 'default'].map((value) => ({ label: value, value }))
@@ -56,12 +55,12 @@ onThemeChange()
   <app-type>{{ t('action') }}</app-type>
   <mp-alert :title="t('alertTitle')" :message="t('alertText')">
     <template #action>
-      <mp-button size="xs" type="primary">{{ t('detail') }}</mp-button>
+      <mp-button size="xs" status="primary">{{ t('detail') }}</mp-button>
     </template>
   </mp-alert>
 
   <app-type>{{ t('allowToClose') }}</app-type>
-  <mp-alert v-if="open" :title="t('alertTitle')" :message="t('alertText')" closable @close="show = false" />
+  <mp-alert v-if="show" :title="t('alertTitle')" :message="t('alertText')" closable @close="show = false" />
 
   <app-type>{{ t('customCloseIcon') }}</app-type>
   <mp-alert

@@ -48,11 +48,12 @@
 
 ### 等宽数字
 
-开启 `tabular-nums` 后数字使用等宽字形，数值变化时宽度更稳定。
+开启 `tabular-nums` 后，每个数字字符占用相同宽度，适合数值频繁变化或纵向对齐的场景。对比相同位数的 `1111` 和 `8888`：比例数字的总宽度可能变化，等宽数字的总宽度保持稳定。
 
 ```html
 <template>
-  <mp-statistic title="等宽数字" :value="12880" show-group-separator tabular-nums />
+  <mp-statistic title="比例数字" :value="1111" :value-style="{ fontVariantNumeric: 'proportional-nums' }" />
+  <mp-statistic title="等宽数字" :value="1111" tabular-nums />
 </template>
 ```
 

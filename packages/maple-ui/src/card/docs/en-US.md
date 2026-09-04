@@ -52,8 +52,8 @@ Display content and actions about a single subject.
   >
     <template #extra>
       <mp-space>
-        <mp-button type="primary">ACTION 1</mp-button>
-        <mp-button type="primary">ACTION 2</mp-button>
+        <mp-button status="primary">ACTION 1</mp-button>
+        <mp-button status="primary">ACTION 2</mp-button>
       </mp-space>
     </template>
   </mp-card>
@@ -71,10 +71,10 @@ Display content and actions about a single subject.
     layout="row"
   >
     <template #extra>
-      <mp-button text round>
+      <mp-button variant="text" round>
         <m-icon-star />
       </mp-button>
-      <mp-button round text>
+      <mp-button round variant="text">
         <m-icon-heart />
       </mp-button>
     </template>
@@ -112,7 +112,7 @@ const floating = ref(false)
     v-model:floating="floating"
   >
     <template #extra>
-      <mp-button type="primary" @click="floating = true">Floating</mp-button>
+      <mp-button status="primary" @click="floating = true">Floating</mp-button>
     </template>
 
     <template #floating-content>

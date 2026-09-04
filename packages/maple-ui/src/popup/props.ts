@@ -9,6 +9,8 @@ export const props = {
     default: 'center',
   },
   transition: String,
+  // Internal override used by composed overlays such as Dialog.
+  maskTransition: String,
   mask: {
     type: Boolean,
     default: true,

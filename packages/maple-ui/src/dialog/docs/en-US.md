@@ -2,105 +2,214 @@
 
 ### Description
 
-Display a dialog for user interaction. `Dialog` supports both **component** and **function** usage with the same API.
+Use `<mp-dialog>` for component usage and explicit `Dialog.*` methods for functional usage. Both forms share one configuration model. Callable `Dialog(...)` is not supported.
 
-- Simple confirm: pass `message` with default buttons
-- Custom content: use `default` / `title` / `footer` slots
-- No separate Modal component — everything is `Dialog`
+## Examples
 
-## Function Call
+The sections below follow the same order as the controls in the mobile preview.
 
-See the Chinese documentation for examples. API tables below match the component implementation.
+### Basic Usage
 
-### Type Icon
+Component dialogs show the top-right close button by default.
 
-Set `type` to `info` / `success` / `warning` / `error` to show the corresponding icon before the title.
+```html
+<script setup>
+  import { ref } from 'vue'
+
+  const open = ref(false)
+</script>
+
+<template>
+  <mp-button status="warning" block @click="open = true">Component Call</mp-button>
+  <mp-dialog v-model:open="open" title="Title" message="Dialog content" />
+</template>
+```
+
+### Async Close
+
+`beforeClose` closes only after `done()` is called. Functional calls default to `simple: true` and `closable: false`.
+
+```ts
+const instance = Dialog.open({
+  message: 'Submitting',
+  beforeClose(action, done, refs) {
+    if (action !== 'confirm') return done()
+    refs.confirmButtonLoading.value = true
+    submit().then(done)
+  },
+})
+```
+
+Component dialogs support the same interception and loading refs through `before-close`.
+
+### Function Calls
+
+```ts
+Dialog.open('Dialog content')
+const instance = Dialog.open({ title: 'Title', message: 'Dialog content' })
+instance.update({ title: 'Updated title' })
+
+const action = await Dialog.open('Dialog content')
+Dialog.open({ message: 'Dialog content', confirmButton: false, cancelButton: false })
+```
+
+### Alert Dialog
+
+```ts
+Dialog.alert({ title: 'Notice', message: 'Dialog content', type: 'info' })
+```
 
 ### Confirm Box
 
-`Dialog.confirm()` defaults to `type: warning` and shows a warning icon in the title.
+```ts
+await Dialog.confirm({ title: 'Confirm Action', message: 'Continue?' })
+await Dialog.confirm({
+  title: 'Dangerous Action',
+  message: 'This action cannot be undone. Continue?',
+  confirmButtonProps: { variant: 'default', status: 'danger' },
+})
+```
+
+The component version uses the same `type="warning"`.
+
+### Semantic Messages
+
+```ts
+Dialog.info({ title: 'Information', message: 'Information message' })
+Dialog.success({ title: 'Success', message: 'Operation completed' })
+Dialog.warning({ title: 'Warning', message: 'Confirm before continuing' })
+Dialog.error({ title: 'Error', message: 'Operation failed' })
+```
+
+### Dialog Form
+
+Use a component dialog for complex forms and validate from `before-close`.
+
+```html
+<mp-dialog v-model:open="open" title="Dialog Form" :before-close="beforeClose">
+  <mp-form ref="formRef" :model="formData">...</mp-form>
+</mp-dialog>
+```
+
+### Custom Footer
+
+```html
+<mp-dialog v-model:open="open">
+  <template #footer="{ close, cancel, confirm }">
+    <mp-button variant="text" @click="close">Close</mp-button>
+    <mp-button variant="text" @click="cancel">Cancel</mp-button>
+    <mp-button status="primary" @click="confirm">Confirm</mp-button>
+  </template>
+</mp-dialog>
+```
+
+### Custom Button Text
+
+Confirm and cancel buttons use Button's `default` status and `text` variant unless `confirmButtonProps` or `cancelButtonProps` overrides them.
+
+```html
+<mp-dialog v-model:open="open" confirm-button-text="Continue" cancel-button-text="Exit" />
+```
+
+### Layout
+
+The preview demonstrates custom width, simple, draggable, and fullscreen dialogs in this order.
+
+```html
+<mp-dialog v-model:open="open" :width="320" />
+<mp-dialog v-model:open="simpleOpen" simple />
+<mp-dialog v-model:open="draggableOpen" draggable />
+<mp-dialog v-model:open="fullscreenOpen" fullscreen />
+```
+
+### Advanced Props
+
+The preview demonstrates hidden footer, hidden title, custom body, and unmount-on-close behavior.
+
+```html
+<mp-dialog v-model:open="open" :footer="false" />
+<mp-dialog v-model:open="hideTitleOpen" hide-title aria-label="Title" />
+<mp-dialog v-model:open="customBodyOpen" body-class="custom-body" :body-style="{ padding: 0 }" />
+<mp-dialog v-model:open="unmountOpen" unmount-on-close />
+```
+
+### Long Content
+
+```html
+<mp-dialog v-model:open="open" :body-style="{ maxHeight: '50vh', overflowY: 'auto' }">
+  <p v-for="item in 12" :key="item">{{ item }}. Scrollable long content</p>
+</mp-dialog>
+```
 
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `v-model:open` | Whether to display the dialog | _boolean_ | `false` |
-| `type` | Dialog type: `info` `success` `warning` `error` (shows icon in title) | _string_ | `-` |
-| `title` | Title | _string_ | `Hint` |
-| `width` | Width | _string \| number_ | `-` |
-| `message` | Message (or use default slot) | _string_ | `-` |
-| `message-align` | Message alignment: `left` `center` `right` | _string_ | `left` |
-| `footer` | Show footer area | _boolean_ | `true` |
-| `hide-title` | Hide title | _boolean_ | `false` |
-| `body-class` | Body class | _string_ | `-` |
-| `body-style` | Body style | _object_ | `-` |
-| `unmount-on-close` | Unmount after close | _boolean_ | `false` |
-| `confirm-button` | Show confirm button | _boolean_ | `true` |
-| `cancel-button` | Show cancel button | _boolean_ | `true` |
-| `confirm-button-text` | Confirm button text | _string_ | `Confirm` |
-| `cancel-button-text` | Cancel button text | _string_ | `Cancel` |
-| `confirm-button-text-color` | Confirm button text color | _string_ | `-` |
-| `cancel-button-text-color` | Cancel button text color | _string_ | `-` |
-| `confirm-button-color` | Confirm button color | _string_ | `-` |
-| `cancel-button-color` | Cancel button color | _string_ | `-` |
-| `confirm-button-loading` | Confirm button loading | _boolean_ | `false` |
-| `cancel-button-loading` | Cancel button loading | _boolean_ | `false` |
-| `confirm-button-disabled` | Confirm button disabled | _boolean_ | `false` |
-| `cancel-button-disabled` | Cancel button disabled | _boolean_ | `false` |
-| `confirm-button-props` | Confirm button props | _ButtonProps_ | `-` |
-| `cancel-button-props` | Cancel button props | _ButtonProps_ | `-` |
-| `dialog-class` | Dialog class | _string_ | `-` |
-| `dialog-style` | Dialog style | _object_ | `-` |
-| `mask` | Show overlay | _boolean_ | `true` |
-| `mask-class` | Overlay class | _string_ | `-` |
-| `mask-style` | Overlay style | _object_ | `-` |
-| `lock-scroll` | Lock body scroll | _boolean_ | `true` |
-| `mask-closable` | Close on overlay click | _boolean_ | `true` |
-| `esc-to-close` | Close on ESC | _boolean_ | `true` |
-| `popupContainer` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
-| `before-close` | Before close interceptor (`:before-close`) | _(action, done, refs) => void_ | `-` |
+| Prop                                                 | Description                                | Type                                          | Default          |
+| ---------------------------------------------------- | ------------------------------------------ | --------------------------------------------- | ---------------- |
+| `open` **(v-model)**                                 | Visible state                              | `boolean`                                     | `-`              |
+| `default-open`                                       | Initial uncontrolled state                 | `boolean`                                     | `false`          |
+| `title` / `message`                                  | Title and message                          | `string`                                      | `-`              |
+| `type`                                               | Semantic icon                              | `'info' \| 'success' \| 'warning' \| 'error'` | `-`              |
+| `simple`                                             | Compact layout                             | `boolean`                                     | `false`          |
+| `width` / `top`                                      | Width and top offset                       | `number \| string`                            | `-`              |
+| `title-align`                                        | Title alignment                            | `'start' \| 'center'`                         | `'center'`       |
+| `message-align`                                      | Message alignment                          | `'left' \| 'center' \| 'right'`               | `'left'`         |
+| `align-center`                                       | Center vertically and horizontally         | `boolean`                                     | `true`           |
+| `footer`                                             | Show footer                                | `boolean`                                     | `true`           |
+| `confirm-button` / `cancel-button`                   | Show action buttons                        | `boolean`                                     | `true`           |
+| `closable`                                           | Show close button                          | `boolean`                                     | `true`           |
+| `confirm-button-text` / `cancel-button-text`         | Button labels                              | `string`                                      | localized        |
+| `confirm-button-props` / `cancel-button-props`       | Button props, including colors             | `ButtonProps`                                 | `-`              |
+| `confirm-button-loading` / `cancel-button-loading`   | Loading state                              | `boolean`                                     | `false`          |
+| `confirm-button-disabled` / `cancel-button-disabled` | Disabled state                             | `boolean`                                     | `false`          |
+| `mask`                                               | Show mask                                  | `boolean`                                     | `true`           |
+| `mask-class` / `dialog-class` / `body-class`         | Custom classes                             | `string \| any[]`                             | `-`              |
+| `mask-style` / `dialog-style` / `body-style`         | Custom styles                              | `StyleValue`                                  | `-`              |
+| `mask-closable` / `esc-to-close` / `lock-scroll`     | Close/scroll behavior                      | `boolean`                                     | `true`           |
+| `popup-container`                                    | Teleport target; `false` disables teleport | `string \| HTMLElement \| false`              | `'body'`         |
+| `hide-title` / `unmount-on-close`                    | Rendering behavior                         | `boolean`                                     | `false`          |
+| `draggable` / `fullscreen`                           | Layout modes                               | `boolean`                                     | `false`          |
+| `mask-animation-name` / `dialog-animation-name`      | Transition names                           | `string`                                      | library defaults |
+| `aria-label`                                         | Accessible name without a visible title    | `string`                                      | `-`              |
+| `close-button-aria-label`                            | Close button label                         | `string`                                      | `'Close dialog'` |
+| `z-index`                                            | Stack level                                | `number`                                      | automatic        |
+| `before-close`                                       | Close interceptor                          | `(action, done, refs) => void`                | `-`              |
 
-### Events
+### Events and slots
 
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `open` | Emitted when opening | `-` |
-| `opened` | Emitted after open animation | `-` |
-| `close` | Emitted when closing | `-` |
-| `closed` | Emitted after close animation | `-` |
-| `before-close` | Before close (can prevent) | `action`, `done`, `refs` |
-| `confirm` | On confirm | `-` |
-| `cancel` | On cancel | `-` |
-| `click-overlay` | On overlay click | `-` |
-| `key-escape` | On ESC | `-` |
+| Event                                  | Arguments       |
+| -------------------------------------- | --------------- |
+| `update:open`                          | `boolean`       |
+| `open` / `opened` / `close` / `closed` | `-`             |
+| `confirm` / `cancel`                   | `Event`         |
+| `click-mask`                           | `MouseEvent`    |
+| `key-escape`                           | `KeyboardEvent` |
 
-### Methods
+| Slot                | Slot props                   |
+| ------------------- | ---------------------------- |
+| `default` / `title` | `-`                          |
+| `footer`            | `confirm`, `cancel`, `close` |
 
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `Dialog` | Show dialog | _options \| string_ | `Promise<DialogAction> & DialogReturn` |
-| `Dialog.open` | Open dialog | _options_ | `Promise<DialogAction> & DialogReturn` |
-| `Dialog.confirm` | Confirm dialog (`type: warning`) | _options_ | `Promise<DialogAction> & DialogReturn` |
-| `Dialog.alert` | Alert dialog (no cancel) | _options_ | `Promise<DialogAction> & DialogReturn` |
-| `Dialog.close` | Close function dialog | `-` | `-` |
-| `Dialog.setDefaultOptions` | Set default options | _options_ | `-` |
-| `Dialog.resetDefaultOptions` | Reset default options | `-` | `-` |
+The component exposes `confirm()`, `cancel()`, and `close()`. Close button, mask, Escape, and programmatic close use `close` semantics and do not emit `cancel`.
 
-### Slots
+### Functional API
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Content | `-` |
-| `title` | Title | `-` |
-| `footer` | Footer actions | `slotClass`, `cancel`, `confirm` |
+Opening methods accept `DialogConfig | string` and return `Promise<DialogAction | void> & DialogReturn`.
+All functional dialogs use the compact layout (`simple: true`) and hide the top-right close button (`closable: false`) by default. Call options or global defaults can explicitly override either value.
 
-### Types
+| Method                                                       | Behavior                                     |
+| ------------------------------------------------------------ | -------------------------------------------- |
+| `Dialog.open(config)`                                        | General dialog                               |
+| `Dialog.confirm(config)`                                     | Warning type and simple layout               |
+| `Dialog.alert(config)`                                       | No cancel button; mask/Escape close disabled |
+| `Dialog.info/success/warning/error(config)`                  | Semantic one-button dialog                   |
+| `Dialog.close()`                                             | Close the latest functional dialog           |
+| `Dialog.setDefaultOptions(config)` / `resetDefaultOptions()` | Manage functional defaults                   |
+
+`DialogConfig` uses camelCase component props and also supports renderable `content`, `title`, `message`, and `footer`, plus lifecycle and interaction callbacks including `onClickMask`. `DialogReturn` exposes `close()` and `update(config)`. The same service is available as `this.$dialog` after installation.
 
 ```ts
 type DialogAction = 'confirm' | 'cancel' | 'close'
 type DialogType = 'info' | 'success' | 'warning' | 'error'
 ```
-
-See Chinese docs for full Dialog Options table and style variables.

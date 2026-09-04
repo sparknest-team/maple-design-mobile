@@ -8,7 +8,7 @@
 ```html
 <template>
   <mp-popover>
-    <mp-button type="primary">基本使用</mp-button>
+    <mp-button status="primary">基本使用</mp-button>
     
     <template #content>
       <mp-cell>选项</mp-cell>
@@ -61,7 +61,7 @@ const placementOptions = [
   
   <div class="placement-container">
     <mp-popover :placement="placement">
-      <mp-button type="primary">
+      <mp-button status="primary">
         <m-icon-star />
       </mp-button>
       <template #content>
@@ -90,7 +90,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-popover offset-x="36px" offset-y="18px">
-    <mp-button type="primary">偏移量</mp-button>
+    <mp-button status="primary">偏移量</mp-button>
     
     <template #content>
       <mp-cell>选项</mp-cell>
@@ -108,7 +108,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-popover same-width>
-    <mp-button type="primary">与触发元素同宽</mp-button>
+    <mp-button status="primary">与触发元素同宽</mp-button>
     
     <template #content>
       <mp-cell>选项</mp-cell>
@@ -126,7 +126,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-popover trigger="hover">
-    <mp-button type="primary">触发方式</mp-button>
+    <mp-button status="primary">触发方式</mp-button>
     
     <template #content>
       <mp-cell>选项</mp-cell>
@@ -151,7 +151,7 @@ import { Message } from '@maplejs/maple-ui'
     @close="Message.warning('close')"
     @closed="Message.error('closed')"
   >
-    <mp-button type="primary">注册事件</mp-button>
+    <mp-button status="primary">注册事件</mp-button>
     
     <template #content>
       <mp-cell>选项</mp-cell>
@@ -169,7 +169,7 @@ import { Message } from '@maplejs/maple-ui'
 ```html
 <template>
   <mp-popover disabled>
-    <mp-button type="primary" disabled>禁用</mp-button>
+    <mp-button status="primary" disabled>禁用</mp-button>
     
     <template #content>
       <mp-cell>选项</mp-cell>
@@ -197,7 +197,7 @@ function closeMenu() {
 
 <template>
   <mp-popover v-model:open="open">
-    <mp-button type="primary">双向绑定</mp-button>
+    <mp-button status="primary">双向绑定</mp-button>
     
     <template #content>
       <mp-cell @click="closeMenu">选项</mp-cell>

@@ -13,7 +13,7 @@
     subtitle="嗨~ 我是结果页的一段描述~"
   >
     <template #footer>
-      <mp-button type="success">知道了</mp-button>
+      <mp-button status="success">知道了</mp-button>
     </template>
   </mp-result>
 </template>
@@ -37,10 +37,10 @@ const empty = ref(false)
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-button type="success" block @click="success = true">成功</mp-button>
-    <mp-button type="warning" block @click="warning = true">警告</mp-button>
-    <mp-button type="info" block @click="info = true">信息</mp-button>
-    <mp-button type="danger" block @click="error = true">错误</mp-button>
+    <mp-button status="success" block @click="success = true">成功</mp-button>
+    <mp-button status="warning" block @click="warning = true">警告</mp-button>
+    <mp-button status="info" block @click="info = true">信息</mp-button>
+    <mp-button status="danger" block @click="error = true">错误</mp-button>
     <mp-button 
       color="var(--result-question-color)"
       text-color="#fff"
@@ -62,7 +62,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="success">
     <mp-result class="result" title="成功" subtitle="嗨~ 我是结果页的一段描述~">
       <template #footer>
-        <mp-button type="success" @click="success = false">知道了</mp-button>
+        <mp-button status="success" @click="success = false">知道了</mp-button>
       </template>
     </mp-result>
   </mp-popup>
@@ -70,7 +70,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="warning">
     <mp-result class="result" status="warning" title="警告" subtitle="嗨~ 我是结果页的一段描述~">
       <template #footer>
-        <mp-button type="warning" @click="warning = false">知道了</mp-button>
+        <mp-button status="warning" @click="warning = false">知道了</mp-button>
       </template>
     </mp-result>
   </mp-popup>
@@ -78,7 +78,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="info">
     <mp-result class="result" status="info" title="信息" subtitle="嗨~ 我是结果页的一段描述~">
       <template #footer>
-        <mp-button type="info" @click="info = false">知道了</mp-button>
+        <mp-button status="info" @click="info = false">知道了</mp-button>
       </template>
     </mp-result>
   </mp-popup>
@@ -86,7 +86,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="error">
     <mp-result class="result" status="danger" title="错误" subtitle="嗨~ 我是结果页的一段描述~">
       <template #footer>
-        <mp-button type="danger" @click="error = false">知道了</mp-button>
+        <mp-button status="danger" @click="error = false">知道了</mp-button>
       </template>
     </mp-result>
   </mp-popup>

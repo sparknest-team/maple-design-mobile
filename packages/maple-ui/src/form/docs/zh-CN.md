@@ -112,19 +112,19 @@ const emailSuggestions = computed(() =>
       </mp-form-item>
 
       <mp-space direction="column" :size="[14, 0]">
-        <mp-button block type="danger" @click="form.resetFields()">
+        <mp-button block status="danger" @click="form.resetFields()">
           清空表单
         </mp-button>
-        <mp-button block type="warning" @click="form.clearValidate()">
+        <mp-button block status="warning" @click="form.clearValidate()">
           清空验证
         </mp-button>
-        <mp-button block type="success" @click="form.validate()">
+        <mp-button block status="success" @click="form.validate()">
           触发验证
         </mp-button>
-        <mp-button block type="info" @click="disabled = !disabled">
+        <mp-button block status="info" @click="disabled = !disabled">
           表单禁用
         </mp-button>
-        <mp-button block type="primary" @click="readonly = !readonly">
+        <mp-button block status="primary" @click="readonly = !readonly">
           表单只读
         </mp-button>
       </mp-space>
@@ -170,10 +170,10 @@ function handleReset() {
       </mp-form-item>
 
       <mp-space>
-        <mp-button type="primary" native-type="submit">
+        <mp-button status="primary" native-type="submit">
           提交
         </mp-button>
-        <mp-button type="primary" native-type="reset">
+        <mp-button status="primary" native-type="reset">
           清空
         </mp-button>
       </mp-space>
@@ -356,7 +356,7 @@ const formData = reactive({
       <mp-input v-model="formData.password" type="password" placeholder="请输入" />
     </mp-form-item>
 
-    <mp-button block type="primary" @click="form.validate()">提交</mp-button>
+    <mp-button block status="primary" @click="form.validate()">提交</mp-button>
   </mp-form>
 </template>
 ```

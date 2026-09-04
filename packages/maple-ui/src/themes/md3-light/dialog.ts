@@ -11,6 +11,4 @@ export default {
   '--mp-dialog-button-margin-left': '8px',
   '--mp-dialog-message-line-height': '24px',
   '--mp-dialog-message-font-size': 'var(--mp-font-size-md)',
-  '--mp-dialog-confirm-button-color': 'var(--mp-color-primary)',
-  '--mp-dialog-cancel-button-color': 'var(--mp-color-primary)',
 }

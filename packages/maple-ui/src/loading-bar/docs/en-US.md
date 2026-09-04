@@ -35,10 +35,10 @@ function setStyle() {
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-button type="primary" block @click="LoadingBar.start()">Start</mp-button>
-    <mp-button type="primary" block @click="LoadingBar.finish()">Finish</mp-button>
-    <mp-button type="primary" block @click="LoadingBar.error()">Error</mp-button>
-    <mp-button type="primary" block @click="setStyle">
+    <mp-button status="primary" block @click="LoadingBar.start()">Start</mp-button>
+    <mp-button status="primary" block @click="LoadingBar.finish()">Finish</mp-button>
+    <mp-button status="primary" block @click="LoadingBar.error()">Error</mp-button>
+    <mp-button status="primary" block @click="setStyle">
       {{ hasCustomStyle ? 'Clear Style' : 'Custom Style' }}
     </mp-button>
   </mp-space>

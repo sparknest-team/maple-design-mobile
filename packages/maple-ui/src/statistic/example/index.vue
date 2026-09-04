@@ -4,7 +4,7 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const started = ref(false)
-const values = [8, 88, 888, 1888, 12880]
+const values = [1111, 8888, 1010, 9090]
 const index = ref(0)
 const count = ref(values[0])
 let timer = 0
@@ -56,9 +56,15 @@ onUnmounted(() => {
   </mp-space>
 
   <app-type>{{ t('tabularNums') }}</app-type>
+  <p class="statistic-example__hint">{{ t('tabularHint') }}</p>
   <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('tabularOff')" :value="count" show-group-separator />
-    <mp-statistic :title="t('tabularNums')" :value="count" show-group-separator tabular-nums />
+    <mp-statistic
+      :title="t('tabularOff')"
+      :value="count"
+      suffix="|"
+      :value-style="{ fontVariantNumeric: 'proportional-nums' }"
+    />
+    <mp-statistic :title="t('tabularOn')" :value="count" suffix="|" tabular-nums />
   </mp-space>
 
   <app-type>{{ t('extra') }}</app-type>
@@ -107,3 +113,12 @@ onUnmounted(() => {
     </mp-statistic>
   </mp-space>
 </template>
+
+<style scoped>
+.statistic-example__hint {
+  margin: 0 0 12px;
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+  line-height: 1.5;
+}
+</style>

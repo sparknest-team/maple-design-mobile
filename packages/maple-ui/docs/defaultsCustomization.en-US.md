@@ -33,6 +33,6 @@ After customization, the following two writing methods will be equivalent.
 <!-- playground-ignore -->
 <!-- App.vue -->
 <template>
-  <mp-button type="primary" :elevation="10">Hello</mp-button>
+  <mp-button status="primary" :elevation="10">Hello</mp-button>
 </template>
 ```

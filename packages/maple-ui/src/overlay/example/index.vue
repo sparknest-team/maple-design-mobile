@@ -18,17 +18,17 @@ onThemeChange()
 
 <template>
   <app-type>{{ t('overlayBase') }}</app-type>
-  <mp-button type="primary" block @click="baseOverlay = true">
+  <mp-button status="primary" block @click="baseOverlay = true">
     {{ t('showOverlay') }}
   </mp-button>
 
   <app-type>{{ t('overlayContent') }}</app-type>
-  <mp-button type="primary" block @click="contentOverlay = true">
+  <mp-button status="primary" block @click="contentOverlay = true">
     {{ t('overlayContent') }}
   </mp-button>
 
   <app-type>{{ t('clickEvent') }}</app-type>
-  <mp-button type="primary" block @click="clickOverlay = true">
+  <mp-button status="primary" block @click="clickOverlay = true">
     {{ t('clickOverlay') }}
   </mp-button>
 

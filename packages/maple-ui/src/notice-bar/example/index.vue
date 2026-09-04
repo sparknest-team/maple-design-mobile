@@ -9,7 +9,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import NoticeBar from './index'
+import NoticeBar from '..'
 
 export default defineComponent({
   name: 'NoticeBarExample',

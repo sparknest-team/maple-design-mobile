@@ -236,11 +236,21 @@
       <mp-popup v-model:open="open" position="bottom" v-bind="popupBindingProps">
         <div v-if="multiple" :class="n('picker-panel')">
           <div :class="n('picker-toolbar')">
-            <mp-button :class="n('picker-cancel-button')" mp-cascader-cover text @click="handlePickerMultipleCancel">
+            <mp-button
+              :class="n('picker-cancel-button')"
+              mp-cascader-cover
+              variant="text"
+              @click="handlePickerMultipleCancel"
+            >
               {{ pickerCancelText }}
             </mp-button>
             <div :class="n('picker-title')">{{ pickerTitleText }}</div>
-            <mp-button :class="n('picker-done-button')" mp-cascader-cover text @click="handlePickerMultipleDone">
+            <mp-button
+              :class="n('picker-done-button')"
+              mp-cascader-cover
+              variant="text"
+              @click="handlePickerMultipleDone"
+            >
               {{ pickerDoneText }}
             </mp-button>
           </div>
@@ -277,7 +287,7 @@
             <mp-button
               :class="n('picker-add-button')"
               mp-cascader-cover
-              type="primary"
+              status="primary"
               block
               @click="handlePickerMultipleAdd"
             >
@@ -387,11 +397,21 @@
       <mp-popup v-model:open="open" position="bottom" v-bind="popupBindingProps">
         <div :class="n('list-panel')">
           <div v-if="multiple" :class="n('picker-toolbar')">
-            <mp-button :class="n('picker-cancel-button')" mp-cascader-cover text @click="handlePickerMultipleCancel">
+            <mp-button
+              :class="n('picker-cancel-button')"
+              mp-cascader-cover
+              variant="text"
+              @click="handlePickerMultipleCancel"
+            >
               {{ pickerCancelText }}
             </mp-button>
             <div :class="n('picker-title')">{{ listTitleText }}</div>
-            <mp-button :class="n('picker-done-button')" mp-cascader-cover text @click="handlePickerMultipleDone">
+            <mp-button
+              :class="n('picker-done-button')"
+              mp-cascader-cover
+              variant="text"
+              @click="handlePickerMultipleDone"
+            >
               {{ pickerDoneText }}
             </mp-button>
           </div>

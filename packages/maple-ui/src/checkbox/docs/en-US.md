@@ -108,7 +108,7 @@ const indeterminate = ref(true)
     <mp-checkbox v-model="value" v-model:indeterminate="indeterminate">
       Current value: {{ value }}
     </mp-checkbox>
-    <mp-button type="primary" @click="indeterminate = !indeterminate">Toggle</mp-button>
+    <mp-button status="primary" @click="indeterminate = !indeterminate">Toggle</mp-button>
   </mp-space>
 </template>
 ```
@@ -131,14 +131,12 @@ const value = ref([])
     <mp-checkbox :value="1">Sleep</mp-checkbox>
   </mp-checkbox-group>
   <mp-space :size="[0, 10]">
-    <mp-button
-      type="primary"
+    <mp-button status="primary"
       @click="$refs.group.checkAll()"
     >
       Check All
     </mp-button>
-    <mp-button
-      type="primary"
+    <mp-button status="primary"
       @click="$refs.group.inverseAll()"
     >
       Inverse All

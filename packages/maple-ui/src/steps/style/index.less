@@ -1,11 +1,76 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import '../../style/common';
-@import '../../icon/style/icon';
-@import './step';
+@import './token.less';
+@import './circle.less';
+@import './dot.less';
+@import './arrow.less';
+@import './navigation.less';
 
 .mp-steps {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
-  overflow: hidden;
+
+  &-changeable {
+    .mp-steps-item-title,
+    .mp-steps-item-description {
+      transition: all var(~'--mp-steps-transition-duration-1') var(~'--mp-steps-transition-timing-function-linear');
+    }
+  }
+
+  &-changeable &-item:not(&-item-active):not(&-item-disabled) {
+    cursor: pointer;
+
+    &:hover {
+      .mp-steps-item-content {
+        .mp-steps-item-title,
+        .mp-steps-item-description {
+          color: var(~'--mp-steps-changeable-hover-text-color');
+        }
+      }
+    }
+  }
+}
+
+// Line Less
+.mp-steps {
+  &-show-line:not(&-vertical):not(&-mode-arrow):not(&-mode-navigation) &-item-title::after {
+    display: flex !important;
+  }
+}
+
+// Direction
+.mp-steps {
+  &-vertical {
+    flex-direction: column;
+  }
+
+  &-vertical &-item {
+    &:not(:last-child) {
+      min-height: var(~'--mp-steps-vertical-item-min-height');
+    }
+
+    &-title::after {
+      display: none !important;
+    }
+
+    &-description {
+      max-width: none;
+    }
+  }
+}
+
+// Label vertical
+.mp-steps {
+  &-label-vertical &-item {
+    &:last-child {
+      flex: 1;
+    }
+
+    &-content {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    &-description {
+      max-width: none;
+    }
+  }
 }

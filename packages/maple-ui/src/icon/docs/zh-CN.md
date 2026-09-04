@@ -1,12 +1,63 @@
 # 图标
 
-### 介绍
+## 介绍
 
 基于 SVG Vue 组件的图标库。
 图标源自 [Material Design Icon](https://materialdesignicons.com/)。
 
-配置 `MapleResolver` 后，推荐使用 `m-icon-*` 标签，Resolver 会从 `@maplejs/icons-vue` 的图标子路径自动按需导入。
-推荐通过 `<mp-icon>` 容器统一控制尺寸、颜色和交互。网络图片请使用 `<img>` 或图片组件。
+## 推荐用法
+
+配置 `MapleResolver()` 后，推荐使用模板标签自动按需导入。`m-icon-*` 是 Resolver 的图标命名空间，实际仍只会从 `@maplejs/icons-vue` 加载对应的单个图标：
+
+```html
+<mp-icon size="40" color="red">
+  <m-icon-checkbox-marked-circle />
+</mp-icon>
+```
+
+也可以手动导入独立图标组件：
+
+```ts
+import { IconCheckboxMarkedCircle } from '@maplejs/icons-vue'
+```
+
+手动导入时，同样推荐通过 `<mp-icon>` 容器统一控制尺寸、颜色、动画和交互区域：
+
+```html
+<mp-icon size="40" color="red">
+  <IconCheckboxMarkedCircle />
+</mp-icon>
+```
+
+以上两种写法效果一致，均支持 Tree Shaking。前者由 Resolver 生成导入，后者由业务代码显式导入。网络图片请使用 `<img>` 或图片组件。
+
+### 动态名称与显式注册
+
+仅当图标名称必须在运行时决定时使用 `<mp-icon :name>`。`name` 只查询已经显式注册到当前 Vue 应用的图标，`mp-icon` 本身不会导入图标全集。建议只注册动态场景实际需要的图标：
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import { IconCheckboxMarkedCircle, IconInformation } from '@maplejs/icons-vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component('IconCheckboxMarkedCircle', IconCheckboxMarkedCircle)
+app.component('IconInformation', IconInformation)
+app.mount('#app')
+```
+
+如果业务确实需要通过任意名称访问全部图标，可以主动批量注册。此时会加载完整图标集合：
+
+```ts
+import * as MapleIconsVue from '@maplejs/icons-vue'
+
+for (const [name, component] of Object.entries(MapleIconsVue)) {
+  if (name !== 'iconNames') app.component(name, component)
+}
+```
+
+## 示例
 
 ### 基础用法
 
@@ -52,19 +103,7 @@
 
 ### 动态名称（特殊场景）
 
-仅当图标名称必须在运行时决定时使用 `<mp-icon :name>`。`name` 只查询已经显式注册到当前 Vue 应用的图标，Icon 组件本身不会导入图标全集。可以只注册动态场景需要的图标；如果选择批量注册，则由业务主动承担完整图标集合的体积。设置 `transition(ms)` 后可触发切换动画。
-
-```ts
-// main.ts
-import { createApp } from 'vue'
-import { IconCheckboxMarkedCircle, IconInformation } from '@maplejs/icons-vue'
-import App from './App.vue'
-
-const app = createApp(App)
-app.component('IconCheckboxMarkedCircle', IconCheckboxMarkedCircle)
-app.component('IconInformation', IconInformation)
-app.mount('#app')
-```
+设置 `transition`（单位为 ms）后可触发图标切换动画。
 
 ```html
 <script setup>
@@ -113,20 +152,6 @@ app.mount('#app')
     <span>{{ name }}</span>
   </button>
 </template>
-```
-
-### 独立图标包
-
-推荐直接从 `@maplejs/icons-vue` 导入具体图标组件。此方式不依赖字体，并支持 Tree Shaking。
-
-```ts
-import { IconInformation } from '@maplejs/icons-vue'
-```
-
-```html
-<mp-icon :size="24" color="currentColor">
-  <IconInformation title="信息" />
-</mp-icon>
 ```
 
 ## API

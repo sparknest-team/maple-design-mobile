@@ -10,11 +10,11 @@ Button component for triggering actions.
 <template>
   <mp-space :size="[10, 10]">
     <mp-button>Default Button</mp-button>
-    <mp-button type="primary">Primary Button</mp-button>
-    <mp-button type="info">Info Button</mp-button>
-    <mp-button type="success">Success Button</mp-button>
-    <mp-button type="warning">Warning Button</mp-button>
-    <mp-button type="danger">Danger Button</mp-button>
+    <mp-button status="primary">Primary Button</mp-button>
+    <mp-button status="info">Info Button</mp-button>
+    <mp-button status="success">Success Button</mp-button>
+    <mp-button status="warning">Warning Button</mp-button>
+    <mp-button status="danger">Danger Button</mp-button>
   </mp-space>
 </template>
 ```
@@ -24,8 +24,8 @@ Button component for triggering actions.
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button text outline type="primary">Outline Button</mp-button>
-    <mp-button text type="primary">Plain Text Button</mp-button>
+    <mp-button variant="outline" status="primary">Outline Button</mp-button>
+    <mp-button variant="text" status="primary">Plain Text Button</mp-button>
   </mp-space>
 </template>
 ```
@@ -36,8 +36,8 @@ Button component for triggering actions.
 <template>
   <mp-space :size="[10, 10]">
     <mp-button disabled>Disabled Status</mp-button>
-    <mp-button disabled text outline>Disabled Status</mp-button>
-    <mp-button disabled text>Disabled Status</mp-button>
+    <mp-button disabled variant="outline">Disabled Status</mp-button>
+    <mp-button disabled variant="text">Disabled Status</mp-button>
   </mp-space>
 </template>
 ```
@@ -47,11 +47,11 @@ Button component for triggering actions.
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button loading type="primary"> Loading Status </mp-button>
-    <mp-button loading type="info" loading-type="rect"> Loading Status </mp-button>
-    <mp-button loading type="success" loading-type="disappear"> Loading Status </mp-button>
-    <mp-button loading type="danger" loading-type="cube"> Loading Status </mp-button>
-    <mp-button loading type="warning" loading-type="wave"> Loading Status </mp-button>
+    <mp-button loading status="primary"> Loading Status </mp-button>
+    <mp-button loading status="info" loading-type="rect"> Loading Status </mp-button>
+    <mp-button loading status="success" loading-type="disappear"> Loading Status </mp-button>
+    <mp-button loading status="danger" loading-type="cube"> Loading Status </mp-button>
+    <mp-button loading status="warning" loading-type="wave"> Loading Status </mp-button>
   </mp-space>
 </template>
 ```
@@ -61,10 +61,10 @@ Button component for triggering actions.
 ```html
 <template>
   <mp-space align="center" :size="[10, 10]">
-    <mp-button type="primary">Normal Button</mp-button>
-    <mp-button type="success" size="small">Small Button</mp-button>
-    <mp-button type="warning" size="mini">Mini Button</mp-button>
-    <mp-button type="danger" size="large">Large Button</mp-button>
+    <mp-button status="primary">Normal Button</mp-button>
+    <mp-button status="success" size="small">Small Button</mp-button>
+    <mp-button status="warning" size="mini">Mini Button</mp-button>
+    <mp-button status="danger" size="large">Large Button</mp-button>
   </mp-space>
 </template>
 ```
@@ -73,7 +73,7 @@ Button component for triggering actions.
 
 ```html
 <template>
-  <mp-button block type="primary">Block Button</mp-button>
+  <mp-button block status="primary">Block Button</mp-button>
 </template>
 ```
 
@@ -93,19 +93,19 @@ Button component for triggering actions.
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button type="primary" round icon-container>
+    <mp-button status="primary" round icon-container>
       <m-icon-plus />
     </mp-button>
-    <mp-button type="info" round icon-container>
+    <mp-button status="info" round icon-container>
       <m-icon-information />
     </mp-button>
-    <mp-button type="success" round icon-container>
+    <mp-button status="success" round icon-container>
       <m-icon-check />
     </mp-button>
-    <mp-button type="warning" round icon-container>
+    <mp-button status="warning" round icon-container>
       <m-icon-warning />
     </mp-button>
-    <mp-button type="danger" round icon-container>
+    <mp-button status="danger" round icon-container>
       <m-icon-window-close />
     </mp-button>
   </mp-space>
@@ -135,9 +135,9 @@ function handleAutoLoadingClick() {
 
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button type="success" @click="handleClick">Click</mp-button>
-    <mp-button type="success" @touchstart="handleTouchstart">TouchStart</mp-button>
-    <mp-button type="success" @click="handleAutoLoadingClick" auto-loading>AutoLoading</mp-button>
+    <mp-button status="success" @click="handleClick">Click</mp-button>
+    <mp-button status="success" @touchstart="handleTouchstart">TouchStart</mp-button>
+    <mp-button status="success" @click="handleAutoLoadingClick" auto-loading>AutoLoading</mp-button>
   </mp-space>
 </template>
 ```
@@ -148,16 +148,16 @@ function handleAutoLoadingClick() {
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button-group type="default">
+    <mp-button-group status="default">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
   
-    <mp-button-group type="primary">
-      <mp-button type="primary">Button</mp-button>
-      <mp-button type="primary">Button</mp-button>
-      <mp-button type="primary">Button</mp-button>
+    <mp-button-group status="primary">
+      <mp-button status="primary">Button</mp-button>
+      <mp-button status="primary">Button</mp-button>
+      <mp-button status="primary">Button</mp-button>
     </mp-button-group>
   </mp-space>
 </template>
@@ -168,13 +168,13 @@ function handleAutoLoadingClick() {
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button-group type="primary" size="normal">
+    <mp-button-group status="primary" size="normal">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
   
-    <mp-button-group type="primary" size="large">
+    <mp-button-group status="primary" size="large">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
@@ -188,7 +188,7 @@ function handleAutoLoadingClick() {
 ```html
 <template>
   <mp-popover placement="bottom" same-width :offset-y="6">
-    <mp-button-group type="primary">
+    <mp-button-group status="primary">
       <mp-button @click.stop>Split Button</mp-button>
       <mp-button style="padding: 0 6px;">
         <m-icon-menu-down :size="24" />
@@ -209,31 +209,31 @@ function handleAutoLoadingClick() {
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button-group type="primary" mode="text">
+    <mp-button-group status="primary" variant="text">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
   
-    <mp-button-group type="primary" mode="outline">
+    <mp-button-group status="primary" variant="outline">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
 
     <mp-button-group mode="icon-container">
-      <mp-button type="warning">
+      <mp-button status="warning">
         <m-icon-warning />
       </mp-button>
-      <mp-button type="info">
+      <mp-button status="info">
         <m-icon-information />
       </mp-button>
-      <mp-button type="success">
+      <mp-button status="success">
         <m-icon-check />
       </mp-button>
     </mp-button-group>
   
-    <mp-button-group type="primary">
+    <mp-button-group status="primary">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
@@ -246,7 +246,7 @@ function handleAutoLoadingClick() {
 
 ```html
 <template>
-  <mp-button-group type="primary" color="linear-gradient(to bottom right, #6750A4, #D0BCFF)">
+  <mp-button-group status="primary" color="linear-gradient(to bottom right, #6750A4, #D0BCFF)">
     <mp-button>Button</mp-button>
     <mp-button>Button</mp-button>
     <mp-button>Button</mp-button>
@@ -259,31 +259,31 @@ function handleAutoLoadingClick() {
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button-group type="primary" mode="text" vertical>
+    <mp-button-group status="primary" variant="text" vertical>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
   
-    <mp-button-group type="primary" mode="outline" vertical>
+    <mp-button-group status="primary" variant="outline" vertical>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
 
     <mp-button-group mode="icon-container" vertical>
-      <mp-button type="warning">
+      <mp-button status="warning">
         <m-icon-warning />
       </mp-button>
-      <mp-button type="info">
+      <mp-button status="info">
         <m-icon-information />
       </mp-button>
-      <mp-button type="success">
+      <mp-button status="success">
         <m-icon-check />
       </mp-button>
     </mp-button-group>
     
-    <mp-button-group type="primary" vertical>
+    <mp-button-group status="primary" vertical>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>

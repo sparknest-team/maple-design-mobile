@@ -13,7 +13,7 @@ It is used to show the results to users.
     subtitle="Hi, I'm a result description."
   >
     <template #footer>
-      <mp-button type="success">OK</mp-button>
+      <mp-button status="success">OK</mp-button>
     </template>
   </mp-result>
 </template>
@@ -37,10 +37,10 @@ const empty = ref(false)
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-button type="success" block @click="success = true">Success</mp-button>
-    <mp-button type="warning" block @click="warning = true">Warning</mp-button>
-    <mp-button type="info" block @click="info = true">Info</mp-button>
-    <mp-button type="danger" block @click="error = true">Error</mp-button>
+    <mp-button status="success" block @click="success = true">Success</mp-button>
+    <mp-button status="warning" block @click="warning = true">Warning</mp-button>
+    <mp-button status="info" block @click="info = true">Info</mp-button>
+    <mp-button status="danger" block @click="error = true">Error</mp-button>
     <mp-button
       color="var(--result-question-color)"
       text-color="#fff"
@@ -62,7 +62,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="success">
     <mp-result class="result" title="Success" subtitle="Hi, I'm a result description.">
       <template #footer>
-        <mp-button type="success" @click="success = false">OK</mp-button>
+        <mp-button status="success" @click="success = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
@@ -70,7 +70,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="warning">
     <mp-result class="result" status="warning" title="Warning" subtitle="Hi, I'm a result description.">
       <template #footer>
-        <mp-button type="warning" @click="warning = false">OK</mp-button>
+        <mp-button status="warning" @click="warning = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
@@ -78,7 +78,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="info">
     <mp-result class="result" status="info" title="Info" subtitle="Hi, I'm a result description.">
       <template #footer>
-        <mp-button type="info" @click="info = false">OK</mp-button>
+        <mp-button status="info" @click="info = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>
@@ -86,7 +86,7 @@ const empty = ref(false)
   <mp-popup :default-style="false" v-model:open="error">
     <mp-result class="result" status="danger" title="Error" subtitle="Hi, I'm a result description.">
       <template #footer>
-        <mp-button type="danger" @click="error = false">OK</mp-button>
+        <mp-button status="danger" @click="error = false">OK</mp-button>
       </template>
     </mp-result>
   </mp-popup>

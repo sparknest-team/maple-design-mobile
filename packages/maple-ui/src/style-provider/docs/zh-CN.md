@@ -36,8 +36,7 @@ function toggleTheme() {
     <mp-rate v-model="state.score" />
     <mp-switch v-model="state.license" />
     <mp-button
-      style="margin-top: 10px"
-      type="primary"
+      style="margin-top: 10px" status="primary"
       block
       @click="toggleTheme"
     >

@@ -43,7 +43,11 @@
 
 .mp-alert {
   display: flex;
+  align-items: center;
+  width: 100%;
   padding: var(--mp-alert-padding);
+  overflow: hidden;
+  border: thin solid transparent;
   border-radius: var(--mp-alert-border-radius);
 
   &--with-title {
@@ -63,6 +67,9 @@
   }
 
   &__icon {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
     margin: var(--mp-alert-icon-margin);
 
     .mp-icon {
@@ -72,6 +79,7 @@
 
   &__body {
     flex: 1;
+    min-width: 0;
   }
 
   &__title {
@@ -97,10 +105,11 @@
   }
 
   &__close-icon {
+    flex-shrink: 0;
     cursor: pointer;
     margin: var(--mp-alert-close-icon-margin);
 
-    .mp-icon[alert-cover] {
+    .mp-icon[mp-alert-cover] {
       font-size: var(--mp-alert-close-icon-size);
     }
   }

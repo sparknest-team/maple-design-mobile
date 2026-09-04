@@ -1,7 +1,6 @@
 import { StyleVars } from '../../style-provider'
 import actionSheet from './actionSheet'
 import alert from './alert'
-import appBar from './appBar'
 import avatar from './avatar'
 import avatarGroup from './avatarGroup'
 import backTop from './backTop'
@@ -58,7 +57,6 @@ import skeleton from './skeleton'
 import slider from './slider'
 import space from './space'
 import statistic from './statistic'
-import step from './step'
 import switchThemes from './switch'
 import tab from './tab'
 import table from './table'
@@ -160,10 +158,8 @@ export default {
   ...skeleton,
   ...space,
   ...statistic,
-  ...step,
   ...carousel,
   ...watermark,
-  ...appBar,
   ...code,
   ...signature,
 } as StyleVars

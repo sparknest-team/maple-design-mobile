@@ -10,7 +10,7 @@
 <template>
   <div class="sticky-example">
     <mp-sticky :offset-top="54">
-      <mp-button type="primary">基本使用</mp-button>
+      <mp-button status="primary">基本使用</mp-button>
     </mp-sticky>
   </div>
 </template>
@@ -29,7 +29,7 @@
   <div class="sticky-example">
     <div ref="scrollerRef" class="sticky-example-scroller">
       <mp-sticky :target="scrollerRef">
-        <mp-button type="success">局部吸顶</mp-button>
+        <mp-button status="success">局部吸顶</mp-button>
       </mp-sticky>
       <div class="sticky-example-block"></div>
     </div>
@@ -68,7 +68,7 @@ const scrollerRef = ref(null)
 <template>
   <div class="sticky-example">
     <mp-sticky :offset-top="54" @change="handleChange">
-      <mp-button type="warning">固定状态改变</mp-button>
+      <mp-button status="warning">固定状态改变</mp-button>
     </mp-sticky>
     <div>是否吸顶: {{ fixed }}</div>
   </div>

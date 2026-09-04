@@ -323,7 +323,7 @@ const files = ref()
 
 <template>
   <mp-uploader v-model="files">
-    <mp-button type="primary">Upload</mp-button>
+    <mp-button status="primary">Upload</mp-button>
   </mp-uploader>
 </template>
 ```
@@ -366,7 +366,7 @@ const files = ref([
       :src="f.cover"
     />
     <mp-uploader hide-list v-model="files">
-      <mp-button round type="primary">
+      <mp-button round status="primary">
         <m-icon-upload :size="28" />
       </mp-button>
     </mp-uploader>

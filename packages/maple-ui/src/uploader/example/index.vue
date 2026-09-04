@@ -187,14 +187,14 @@ function handleActionClick(chooseFile) {
 
   <app-type>{{ t('style') }}</app-type>
   <mp-uploader v-model="values.files6">
-    <mp-button type="primary">{{ t('upload') }}</mp-button>
+    <mp-button status="primary">{{ t('upload') }}</mp-button>
   </mp-uploader>
 
   <app-type>{{ t('customRender') }}</app-type>
   <mp-space>
     <img v-for="f in values.files12" :key="f.id" class="custom-uploader-file" :src="f.cover" />
     <mp-uploader v-model="values.files12" hide-list>
-      <mp-button round type="primary">
+      <mp-button round status="primary">
         <m-icon-upload :size="28" />
       </mp-button>
     </mp-uploader>

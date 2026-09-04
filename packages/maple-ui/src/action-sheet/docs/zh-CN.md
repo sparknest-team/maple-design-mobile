@@ -12,32 +12,32 @@
 
 ```html
 <script setup>
-import { Message, ActionSheet } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maplejs/maple-ui'
 
-async function createBasic() {
-  const action = await ActionSheet({ 
-    actions: [
-      {
-        name: 'Item 01',
-        icon: 'account-circle',
-      },
-      {
-        name: 'Item 02',
-        icon: 'notebook',
-      },
-      {
-        name: 'Item 03',
-        icon: 'wifi',
-      },
-    ] 
-  })
-  
-  action !== 'close' && Message(`您选择的是:${action.name}`)
-}
+  async function createBasic() {
+    const action = await ActionSheet({
+      actions: [
+        {
+          name: 'Item 01',
+          icon: 'account-circle',
+        },
+        {
+          name: 'Item 02',
+          icon: 'notebook',
+        },
+        {
+          name: 'Item 03',
+          icon: 'wifi',
+        },
+      ],
+    })
+
+    action !== 'close' && Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="primary" block @click="createBasic">基本使用</mp-button>
+  <mp-button status="primary" block @click="createBasic">基本使用</mp-button>
 </template>
 ```
 
@@ -45,33 +45,33 @@ async function createBasic() {
 
 ```html
 <script setup>
-import { Message, ActionSheet } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maplejs/maple-ui'
 
-async function handleSelect(){
-  const action = await ActionSheet({ 
-    actions: [
-      {
-        name: 'Item 01',
-        icon: 'account-circle',
-      },
-      {
-        name: 'Item 02',
-        icon: 'notebook',
-      },
-      {
-        name: 'Item 03',
-        icon: 'wifi',
-      },
-    ],
-    title: '选择一个你喜欢的吧' 
-  })
-  
-  action !== 'close' && Message(`您选择的是:${action.name}`)
-}
+  async function handleSelect() {
+    const action = await ActionSheet({
+      actions: [
+        {
+          name: 'Item 01',
+          icon: 'account-circle',
+        },
+        {
+          name: 'Item 02',
+          icon: 'notebook',
+        },
+        {
+          name: 'Item 03',
+          icon: 'wifi',
+        },
+      ],
+      title: '选择一个你喜欢的吧',
+    })
+
+    action !== 'close' && Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="primary" block @click="handleSelect">修改标题</mp-button>
+  <mp-button status="primary" block @click="handleSelect">修改标题</mp-button>
 </template>
 ```
 
@@ -81,33 +81,33 @@ async function handleSelect(){
 
 ```html
 <script setup>
-import { Message, ActionSheet } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maplejs/maple-ui'
 
-async function handleSelect() {
-  const action = await ActionSheet({ 
-    actions: [
-      {
-        name: 'Item 01',
-        icon: 'account-circle',
-      },
-      {
-        name: 'Item 02',
-        icon: 'notebook',
-      },
-      {
-        name: 'Item 03',
-        icon: 'wifi',
-        disabled: true,
-      },
-    ] 
-  })
-  
-  action !== 'close' && Message(`您选择的是:${action.name}`)
-}
+  async function handleSelect() {
+    const action = await ActionSheet({
+      actions: [
+        {
+          name: 'Item 01',
+          icon: 'account-circle',
+        },
+        {
+          name: 'Item 02',
+          icon: 'notebook',
+        },
+        {
+          name: 'Item 03',
+          icon: 'wifi',
+          disabled: true,
+        },
+      ],
+    })
+
+    action !== 'close' && Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="primary" block @click="handleSelect">禁用选项</mp-button>
+  <mp-button status="primary" block @click="handleSelect">禁用选项</mp-button>
 </template>
 ```
 
@@ -118,32 +118,32 @@ async function handleSelect() {
 
 ```html
 <script setup>
-import { Message, ActionSheet } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maplejs/maple-ui'
 
-async function handleSelect(){
-  await ActionSheet({ 
-    actions: [
-      {
-        name: 'Item 01',
-        icon: 'account-circle',
-      },
-      {
-        name: 'Item 02',
-        icon: 'notebook',
-      },
-      {
-        name: 'Item 03',
-        icon: 'wifi',
-      },
-    ], 
-    closeOnClickAction: false,
-    onSelect: action => Message(`您选择的是:${action.name}`), 
-  })
-}
+  async function handleSelect() {
+    await ActionSheet({
+      actions: [
+        {
+          name: 'Item 01',
+          icon: 'account-circle',
+        },
+        {
+          name: 'Item 02',
+          icon: 'notebook',
+        },
+        {
+          name: 'Item 03',
+          icon: 'wifi',
+        },
+      ],
+      closeOnClickAction: false,
+      onSelect: (action) => Message(`您选择的是:${action.name}`),
+    })
+  }
 </script>
 
 <template>
-  <mp-button type="primary" block @click="handleSelect">禁用关闭动作面板</mp-button>
+  <mp-button status="primary" block @click="handleSelect">禁用关闭动作面板</mp-button>
 </template>
 ```
 
@@ -153,35 +153,35 @@ async function handleSelect(){
 
 ```html
 <script setup>
-import { Message, ActionSheet } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maplejs/maple-ui'
 
-async function handleSelect() {
-  const action = await ActionSheet({ 
-    actions: [
-      {
-        name: 'Item 01',
-        icon: 'account-circle',
-        color: 'var(--color-success)',
-      },
-      {
-        name: 'Item 02',
-        icon: 'notebook',
-        color: 'var(--color-warning)',
-      },
-      {
-        name: 'Item 03',
-        icon: 'wifi',
-        color: 'var(--color-info)',
-      },
-    ] 
-  })
-  
-  action !== 'close' && Message(`您选择的是:${action.name}`)
-}
+  async function handleSelect() {
+    const action = await ActionSheet({
+      actions: [
+        {
+          name: 'Item 01',
+          icon: 'account-circle',
+          color: 'var(--color-success)',
+        },
+        {
+          name: 'Item 02',
+          icon: 'notebook',
+          color: 'var(--color-warning)',
+        },
+        {
+          name: 'Item 03',
+          icon: 'wifi',
+          color: 'var(--color-info)',
+        },
+      ],
+    })
+
+    action !== 'close' && Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="primary" block @click="handleSelect">自定义选项样式</mp-button>
+  <mp-button status="primary" block @click="handleSelect">自定义选项样式</mp-button>
 </template>
 ```
 
@@ -191,37 +191,33 @@ async function handleSelect() {
 
 ```html
 <script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+  import { ref } from 'vue'
+  import { Message } from '@maplejs/maple-ui'
 
-const show = ref(false)
-const actions = ref([
-  {
-    name: 'Item 01',
-    icon: 'account-circle',
-  },
-  {
-    name: 'Item 02',
-    icon: 'notebook',
-  },
-  {
-    name: 'Item 03',
-    icon: 'wifi',
-  },
-])
+  const show = ref(false)
+  const actions = ref([
+    {
+      name: 'Item 01',
+      icon: 'account-circle',
+    },
+    {
+      name: 'Item 02',
+      icon: 'notebook',
+    },
+    {
+      name: 'Item 03',
+      icon: 'wifi',
+    },
+  ])
 
-function handleSelect(action){
-  Message(`您选择的是:${action.name}`)
-}
+  function handleSelect(action) {
+    Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="warning" block @click="show = true">基本使用</mp-button>
-  <mp-action-sheet 
-    :actions="actions"
-    v-model:open="open"
-    @select="handleSelect"
-  />
+  <mp-button status="warning" block @click="show = true">基本使用</mp-button>
+  <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
 
@@ -229,38 +225,33 @@ function handleSelect(action){
 
 ```html
 <script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+  import { ref } from 'vue'
+  import { Message } from '@maplejs/maple-ui'
 
-const show = ref(false)
-const actions = ref([
-  {
-    name: 'Item 01',
-    icon: 'account-circle',
-  },
-  {
-    name: 'Item 02',
-    icon: 'notebook',
-  },
-  {
-    name: 'Item 03',
-    icon: 'wifi',
-  },
-])
+  const show = ref(false)
+  const actions = ref([
+    {
+      name: 'Item 01',
+      icon: 'account-circle',
+    },
+    {
+      name: 'Item 02',
+      icon: 'notebook',
+    },
+    {
+      name: 'Item 03',
+      icon: 'wifi',
+    },
+  ])
 
-function handleSelect(action){
-  Message(`您选择的是:${action.name}`)
-}
+  function handleSelect(action) {
+    Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="warning" block @click="show = true">修改标题</mp-button>
-  <mp-action-sheet 
-    title="选择一个你喜欢的吧"
-    :actions="actions"
-    v-model:open="open"
-    @select="handleSelect"
-  />
+  <mp-button status="warning" block @click="show = true">修改标题</mp-button>
+  <mp-action-sheet title="选择一个你喜欢的吧" :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
 
@@ -268,38 +259,34 @@ function handleSelect(action){
 
 ```html
 <script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+  import { ref } from 'vue'
+  import { Message } from '@maplejs/maple-ui'
 
-const show = ref(false)
-const actions = ref([
-  {
-    name: 'Item 01',
-    icon: 'account-circle',
-  },
-  {
-    name: 'Item 02',
-    icon: 'notebook',
-  },
-  {
-    name: 'Item 03',
-    icon: 'wifi',
-    disabled: true,
-  },
-])
+  const show = ref(false)
+  const actions = ref([
+    {
+      name: 'Item 01',
+      icon: 'account-circle',
+    },
+    {
+      name: 'Item 02',
+      icon: 'notebook',
+    },
+    {
+      name: 'Item 03',
+      icon: 'wifi',
+      disabled: true,
+    },
+  ])
 
-function handleSelect(action) {
-  Message(`您选择的是:${action.name}`)
-}
+  function handleSelect(action) {
+    Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="warning" block @click="show = true">禁用选项</mp-button>
-  <mp-action-sheet 
-    :actions="actions"
-    v-model:open="open"
-    @select="handleSelect"
-  />
+  <mp-button status="warning" block @click="show = true">禁用选项</mp-button>
+  <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
 
@@ -307,38 +294,33 @@ function handleSelect(action) {
 
 ```html
 <script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+  import { ref } from 'vue'
+  import { Message } from '@maplejs/maple-ui'
 
-const show = ref(false)
-const actions = ref([
-  {
-    name: 'Item 01',
-    icon: 'account-circle',
-  },
-  {
-    name: 'Item 02',
-    icon: 'notebook',
-  },
-  {
-    name: 'Item 03',
-    icon: 'wifi',
-  },
-])
+  const show = ref(false)
+  const actions = ref([
+    {
+      name: 'Item 01',
+      icon: 'account-circle',
+    },
+    {
+      name: 'Item 02',
+      icon: 'notebook',
+    },
+    {
+      name: 'Item 03',
+      icon: 'wifi',
+    },
+  ])
 
-function handleSelect(action) {
-  Message(`您选择的是:${action.name}`)
-}
+  function handleSelect(action) {
+    Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="warning" block @click="show = true">禁用点击选项时关闭动作面板</mp-button>
-  <mp-action-sheet 
-    :close-on-click-action="false"
-    :actions="actions" 
-    v-model:open="open" 
-    @select="handleSelect"
-  />
+  <mp-button status="warning" block @click="show = true">禁用点击选项时关闭动作面板</mp-button>
+  <mp-action-sheet :close-on-click-action="false" :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
 
@@ -346,40 +328,36 @@ function handleSelect(action) {
 
 ```html
 <script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+  import { ref } from 'vue'
+  import { Message } from '@maplejs/maple-ui'
 
-const show = ref(false)
-const actions = ref([
-  {
-    name: 'Item 01',
-    icon: 'account-circle',
-    color: 'var(--color-success)',
-  },
-  {
-    name: 'Item 02',
-    icon: 'notebook',
-    color: 'var(--color-warning)',
-  },
-  {
-    name: 'Item 03',
-    icon: 'wifi',
-    color: 'var(--color-info)',
-  },
-])
+  const show = ref(false)
+  const actions = ref([
+    {
+      name: 'Item 01',
+      icon: 'account-circle',
+      color: 'var(--color-success)',
+    },
+    {
+      name: 'Item 02',
+      icon: 'notebook',
+      color: 'var(--color-warning)',
+    },
+    {
+      name: 'Item 03',
+      icon: 'wifi',
+      color: 'var(--color-info)',
+    },
+  ])
 
-function handleSelect(action) {
-  Message(`您选择的是:${action.name}`)
-}
+  function handleSelect(action) {
+    Message(`您选择的是:${action.name}`)
+  }
 </script>
 
 <template>
-  <mp-button type="warning" block @click="show = true">自定义选项样式</mp-button>
-  <mp-action-sheet 
-    :actions="actions" 
-    v-model:open="open" 
-    @select="handleSelect"
-  />
+  <mp-button status="warning" block @click="show = true">自定义选项样式</mp-button>
+  <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
 
@@ -387,100 +365,100 @@ function handleSelect(action) {
 
 ### 属性
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `v-model:open` | 是否显示动作面板 | _boolean_ | `false` |
-| `actions` | 选项列表 | _Actions_ | `[]` |
-| `title` | 动作面板标题 | _string_ | `请选择` |
-| `mask` | 是否显示遮罩层 | _boolean_ | `true` |
-| `mask-class` | 自定义遮罩层的 class | _string_ | `-` |
-| `mask-style` | 自定义遮罩层的 style | _object_ | `-` |
-| `lock-scroll` | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_ | `true` |
-| `close-on-click-action` | 是否点击选项时关闭动作面板 | _boolean_ | `true` |
-| `mask-closable` | 是否点击遮罩层关闭动作面板 | _boolean_ | `true` |
-| `esc-to-close` | 是否支持键盘 ESC 关闭动作面板 | _boolean_ | `true` |
-| `safe-area`   | 是否开启底部安全区适配      | _boolean_             | `false`  |
-| `popupContainer` | 动作面板挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
+| 参数                    | 说明                                                   | 类型                           | 默认值   |
+| ----------------------- | ------------------------------------------------------ | ------------------------------ | -------- |
+| `v-model:open`          | 是否显示动作面板                                       | _boolean_                      | `false`  |
+| `actions`               | 选项列表                                               | _Actions_                      | `[]`     |
+| `title`                 | 动作面板标题                                           | _string_                       | `请选择` |
+| `mask`                  | 是否显示遮罩层                                         | _boolean_                      | `true`   |
+| `mask-class`            | 自定义遮罩层的 class                                   | _string_                       | `-`      |
+| `mask-style`            | 自定义遮罩层的 style                                   | _object_                       | `-`      |
+| `lock-scroll`           | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_                      | `true`   |
+| `close-on-click-action` | 是否点击选项时关闭动作面板                             | _boolean_                      | `true`   |
+| `mask-closable`         | 是否点击遮罩层关闭动作面板                             | _boolean_                      | `true`   |
+| `esc-to-close`          | 是否支持键盘 ESC 关闭动作面板                          | _boolean_                      | `true`   |
+| `safe-area`             | 是否开启底部安全区适配                                 | _boolean_                      | `false`  |
+| `popupContainer`        | 动作面板挂载的位置                                     | _TeleportProps['to'] \| false_ | `body`   |
 
 ### 事件
 
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `select` | 选择选项时触发 | `action: Action` |
-| `open` | 打开动作面板时触发 | `-` |
-| `opened` | 打开动作面板动画结束时触发 | `-` |
-| `close` | 关闭动作面板时触发 | `-` |
-| `closed` | 关闭动作面板动画结束时触发 | `-` |
-| `click-overlay` | 点击遮罩层时触发 | `-` |
-| `key-escape` | 点击键盘 ESC 时触发 | `-` |
+| 事件名       | 说明                       | 参数             |
+| ------------ | -------------------------- | ---------------- |
+| `select`     | 选择选项时触发             | `action: Action` |
+| `open`       | 打开动作面板时触发         | `-`              |
+| `opened`     | 打开动作面板动画结束时触发 | `-`              |
+| `close`      | 关闭动作面板时触发         | `-`              |
+| `closed`     | 关闭动作面板动画结束时触发 | `-`              |
+| `click-mask` | 点击遮罩层时触发           | `MouseEvent`     |
+| `key-escape` | 按下 ESC 时触发            | `KeyboardEvent`  |
 
 ### 方法
 
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `ActionSheet` | 显示动作面板 | _options_ | `-` |
-| `ActionSheet.close` | 关闭动作面板 | _-_ | `-` |
-| `ActionSheet.setDefaultOptions` | 设置默认的选项配置 | _options_ | `-` |
-| `ActionSheet.resetDefaultOptions` | 重置默认的选项配置 | _-_ | `-` |
+| 方法名                            | 说明               | 参数      | 返回值 |
+| --------------------------------- | ------------------ | --------- | ------ |
+| `ActionSheet`                     | 显示动作面板       | _options_ | `-`    |
+| `ActionSheet.close`               | 关闭动作面板       | _-_       | `-`    |
+| `ActionSheet.setDefaultOptions`   | 设置默认的选项配置 | _options_ | `-`    |
+| `ActionSheet.resetDefaultOptions` | 重置默认的选项配置 | _-_       | `-`    |
 
 ### ActionSheet Options
 
 #### 函数式调用时传入的选项
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `actions` | 选项列表 | _Actions_ | `[]` |
-| `title` | 动作面板标题 | _string_ | `请选择` |
-| `mask` | 是否显示遮罩层 | _boolean_ | `true` |
-| `maskClass` | 自定义遮罩层的 class | _string_ | `-` |
-| `maskStyle` | 自定义遮罩层的 style | _object_ | `-` |
-| `lockScroll` | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_ | `true` |
-| `closeOnClickAction` | 是否点击选项时关闭动作面板 | _boolean_ | `true` |
-| `maskClosable` | 是否点击遮罩层关闭弹出层 | _boolean_ | `true` |
-| `escToClose` | 是否支持键盘 ESC 关闭动作面板 | _boolean_ | `true`
-| `safe-area`              | 是否开启底部安全区适配	                                     | _boolean_             | `false`  |
-| `onOpen` | 动作面板开启回调 | _() => void_ | `-` |
-| `onOpened` | 动作面板开启动画结束回调 | _() => void_ | `-` |
-| `onClose` | 动作面板关闭回调 | _() => void_ | `-` |
-| `onClosed` |动作面板关闭动画结束回调 | _() => void_ | `-` |
-| `onSelect` | 选项选择时回调 | _(action: Action) => void_ | `-` |
-| `onClickOverlay` | 遮罩层点击回调 | _() => void_ | `-` |
-| `onKeyEscape` | 点击键盘 ESC 时触发 | _() => void_ | `-` |
+| 参数                 | 说明                                                   | 类型                          | 默认值   |
+| -------------------- | ------------------------------------------------------ | ----------------------------- | -------- |
+| `actions`            | 选项列表                                               | _Actions_                     | `[]`     |
+| `title`              | 动作面板标题                                           | _string_                      | `请选择` |
+| `mask`               | 是否显示遮罩层                                         | _boolean_                     | `true`   |
+| `maskClass`          | 自定义遮罩层的 class                                   | _string_                      | `-`      |
+| `maskStyle`          | 自定义遮罩层的 style                                   | _object_                      | `-`      |
+| `lockScroll`         | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_                     | `true`   |
+| `closeOnClickAction` | 是否点击选项时关闭动作面板                             | _boolean_                     | `true`   |
+| `maskClosable`       | 是否点击遮罩层关闭弹出层                               | _boolean_                     | `true`   |
+| `escToClose`         | 是否支持键盘 ESC 关闭动作面板                          | _boolean_                     | `true`   |
+| `safe-area`          | 是否开启底部安全区适配                                 | _boolean_                     | `false`  |
+| `onOpen`             | 动作面板开启回调                                       | _() => void_                  | `-`      |
+| `onOpened`           | 动作面板开启动画结束回调                               | _() => void_                  | `-`      |
+| `onClose`            | 动作面板关闭回调                                       | _() => void_                  | `-`      |
+| `onClosed`           | 动作面板关闭动画结束回调                               | _() => void_                  | `-`      |
+| `onSelect`           | 选项选择时回调                                         | _(action: Action) => void_    | `-`      |
+| `onClickMask`        | 遮罩层点击回调                                         | _(event: MouseEvent) => void_ | `-`      |
+| `onKeyEscape`        | 点击键盘 ESC 时触发                                    | _() => void_                  | `-`      |
 
 ### ActionSheet Action
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `name` | 选项名称 | _string_ | `-` |
-| `color` | 选项文字颜色 | _string_ | `-` |
-| `icon` | icon 图标，支持网络图片地址 | _string_ | `-` |
-| `iconSize` | 图标尺寸 | _string_ | `-` |
-| `namespace` | 图标命名空间 | _string_ | `-` |
-| `className` | 选项附加类名 | _string_ | `-` |
-| `disabled` | 是否禁用选项 | _boolean_ | `false` |
+| 参数        | 说明                        | 类型      | 默认值  |
+| ----------- | --------------------------- | --------- | ------- |
+| `name`      | 选项名称                    | _string_  | `-`     |
+| `color`     | 选项文字颜色                | _string_  | `-`     |
+| `icon`      | icon 图标，支持网络图片地址 | _string_  | `-`     |
+| `iconSize`  | 图标尺寸                    | _string_  | `-`     |
+| `namespace` | 图标命名空间                | _string_  | `-`     |
+| `className` | 选项附加类名                | _string_  | `-`     |
+| `disabled`  | 是否禁用选项                | _boolean_ | `false` |
 
 ### 插槽
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `actions` | 选项列表 | `-` |
-| `title` | 动作面板标题 | `-` |
+| 插槽名    | 说明         | 参数 |
+| --------- | ------------ | ---- |
+| `actions` | 选项列表     | `-`  |
+| `title`   | 动作面板标题 | `-`  |
 
 ### 样式变量
 
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--action-sheet-border-radius` | `2px` |
-| `--action-sheet-border-top` | `none` |
-| `--action-sheet-background` | `#fff` |
-| `--action-sheet-title-color` | `#888` |
-| `--action-sheet-title-padding` | `10px 16px` |
-| `--action-sheet-title-font-size` | `14px` |
-| `--action-sheet-action-item-height` | `48px` |
-| `--action-sheet-action-item-padding` | `0px 18px` |
-| `--action-sheet-action-item-color` | `#333` |
+| 变量名                                      | 默认值                       |
+| ------------------------------------------- | ---------------------------- |
+| `--action-sheet-border-radius`              | `2px`                        |
+| `--action-sheet-border-top`                 | `none`                       |
+| `--action-sheet-background`                 | `#fff`                       |
+| `--action-sheet-title-color`                | `#888`                       |
+| `--action-sheet-title-padding`              | `10px 16px`                  |
+| `--action-sheet-title-font-size`            | `14px`                       |
+| `--action-sheet-action-item-height`         | `48px`                       |
+| `--action-sheet-action-item-padding`        | `0px 18px`                   |
+| `--action-sheet-action-item-color`          | `#333`                       |
 | `--action-sheet-action-item-disabled-color` | `var(--color-text-disabled)` |
-| `--action-sheet-icon-margin` | `0 0 20px 0` |
-| `--action-sheet-icon-size` | `24px` |
+| `--action-sheet-icon-margin`                | `0 0 20px 0`                 |
+| `--action-sheet-icon-size`                  | `24px`                       |

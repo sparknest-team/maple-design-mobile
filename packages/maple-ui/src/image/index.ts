@@ -1,5 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { imagePreviewGroupProps } from './groupProps'
 import Image from './Image.vue'
+import _ImagePreviewAction from './ImagePreviewAction'
 import ImagePreviewGroup from './ImagePreviewGroup.vue'
 import { ImagePreview, imagePreview } from './preview'
 import { props as imagePreviewProps } from './previewProps'
@@ -12,26 +14,41 @@ const ImageWithPreview = Object.assign(Image, {
 })
 
 const ImageFamily = withInstall(Image, ImageWithPreview, {
-  components: [Image, ImagePreview, ImagePreviewGroup],
+  components: [Image, ImagePreview, ImagePreviewGroup, _ImagePreviewAction],
 })
 
 withPropsDefaultsSetter(ImageFamily, imageProps)
 
-export { ImageFamily as Image, ImagePreview, ImagePreviewGroup, imageProps, imagePreviewProps, imagePreview }
+export {
+  ImageFamily as Image,
+  ImagePreview,
+  ImagePreviewGroup,
+  _ImagePreviewAction as ImagePreviewAction,
+  imageProps,
+  imagePreviewProps,
+  imagePreviewGroupProps,
+  imagePreview,
+  imagePreview as previewImage,
+  imagePreview as ImagePreviewFn,
+}
+
+export type ImagePreviewActionInstance = InstanceType<typeof _ImagePreviewAction>
 
 export type {
+  ImageFit,
   ImageProps,
+  ImageInteraction,
+  ImagePreviewActionName,
+  ImageInstance,
   ImagePreviewProps,
+  ImagePreviewInstance,
   ImagePreviewGroupProps,
-  ImagePreviewGroupMethods,
+  ImagePreviewGroupInstance,
   ImagePreviewOptions,
   ImagePreviewHandle,
-  ImagePreviewMethods,
-  ImagePreviewActionsSlotData,
   UserImagePreviewOptions,
-} from './types'
+} from './api'
 
-export type ImageInstance = InstanceType<typeof ImageFamily>
 export const _ImageComponent = ImageFamily
 export const _ImagePreviewComponent = ImagePreview
 export const _ImagePreviewGroupComponent = ImagePreviewGroup

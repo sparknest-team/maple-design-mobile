@@ -10,7 +10,7 @@ and changes the display position of the tooltip by controlling the placement and
 ```html
 <template>
   <mp-tooltip content="Tooltip">
-    <mp-button type="primary">Basic Usage</mp-button>
+    <mp-button status="primary">Basic Usage</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -20,7 +20,7 @@ and changes the display position of the tooltip by controlling the placement and
 ```html
 <template>
   <mp-tooltip>
-    <mp-button type="primary">Content Slot</mp-button>
+    <mp-button status="primary">Content Slot</mp-button>
     
     <template #content>
       <m-icon-star />
@@ -63,7 +63,7 @@ const placementOptions = [
   
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placement">
-      <mp-button type="primary">
+      <mp-button status="primary">
         <m-icon-star />
       </mp-button>
     </mp-tooltip>
@@ -89,19 +89,19 @@ const placementOptions = [
       <mp-button>Default</mp-button>
     </mp-tooltip>
     <mp-tooltip type="primary" content="Tooltip">
-      <mp-button type="primary">Primary</mp-button>
+      <mp-button status="primary">Primary</mp-button>
     </mp-tooltip>
     <mp-tooltip type="info" content="Tooltip">
-      <mp-button type="info">Info</mp-button>
+      <mp-button status="info">Info</mp-button>
     </mp-tooltip>
     <mp-tooltip type="success" content="Tooltip">
-      <mp-button type="success">Success</mp-button>
+      <mp-button status="success">Success</mp-button>
     </mp-tooltip>
     <mp-tooltip type="warning" content="Tooltip">
-      <mp-button type="warning">Warning</mp-button>
+      <mp-button status="warning">Warning</mp-button>
     </mp-tooltip>
     <mp-tooltip type="danger" content="Tooltip">
-      <mp-button type="danger">Danger</mp-button>
+      <mp-button status="danger">Danger</mp-button>
     </mp-tooltip>
   </mp-space>
 </template>
@@ -111,7 +111,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-tooltip content="Tooltip" color="#d81b60" text-color="#fff">
-    <mp-button type="primary">Custom Color</mp-button>
+    <mp-button status="primary">Custom Color</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -123,7 +123,7 @@ The offset of the Tooltip can be set with `offset-x` and `offset-y`.
 ```html
 <template>
   <mp-tooltip content="Tooltip" :offset-x="64" :offset-y="-10">
-    <mp-button type="primary">Offset</mp-button>
+    <mp-button status="primary">Offset</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -136,7 +136,7 @@ the optional values are `click` and `hover`.
 ```html
 <template>
   <mp-tooltip content="Tooltip" trigger="hover">
-    <mp-button type="primary">Trigger</mp-button>
+    <mp-button status="primary">Trigger</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -156,7 +156,7 @@ import { Message } from '@maplejs/maple-ui'
     @close="Message.warning('close')"
     @closed="Message.error('closed')"
   >
-    <mp-button type="primary">Events</mp-button>
+    <mp-button status="primary">Events</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -168,7 +168,7 @@ In the `disabled` state, the tooltip will not be opened.
 ```html
 <template>
   <mp-tooltip content="Tooltip" disabled>
-    <mp-button type="primary">Disabled</mp-button>
+    <mp-button status="primary">Disabled</mp-button>
   </mp-tooltip>
 </template>
 ```

@@ -2,59 +2,110 @@
   <slot />
   <mp-image-preview
     v-if="previewImages.length"
-    v-bind="previewProps"
+    ref="previewRef"
+    v-bind="previewBindings"
     v-model:open="mergedOpen"
-    :images="previewImages"
-    :current="mergedCurrent"
-    :loop="mergedLoop"
-    :closable="mergedClosable"
-    :mask-closable="mergedMaskClosable"
-    :popup-container="mergedPopupContainer"
-    :esc-to-close="mergedEscToClose"
-    :lock-scroll="mergedLockScroll"
+    :src="currentUrl"
+    @prev="prev"
+    @next="next"
     @open="$emit('open')"
     @opened="$emit('opened')"
-    @change="onPreviewChange"
-    @close="onPreviewClose"
+    @close="$emit('close')"
     @closed="$emit('closed')"
     @key-escape="$emit('keyEscape')"
+    @long-press="$emit('longPress', mergedCurrent)"
   >
-    <template v-if="$slots.indicator" #indicator="slotProps">
-      <slot name="indicator" v-bind="slotProps" />
+    <template #image="{ scale, rotate, translateX, translateY, moving, previewedImgProps }">
+      <div
+        class="mp-image-preview__track"
+        :class="{
+          'mp-image-preview__track-moving': moving && scale <= 1,
+          'mp-image-preview__track-instant': trackInstant,
+        }"
+        :style="trackStyle(translateX, scale)"
+        @transitionend="handleTrackTransitionEnd"
+      >
+        <div v-for="(image, index) in trackImages" :key="`${index}-${image}`" class="mp-image-preview__slide">
+          <img
+            v-bind="previewedImgProps"
+            role="img"
+            data-image-preview-image
+            :src="image"
+            :alt="previewedImgProps?.alt || image"
+            :class="[previewedImgProps?.class, 'mp-image-preview__image']"
+            :style="[previewedImgProps?.style, slideImageStyle(index, scale, rotate, translateX, translateY)]"
+            :draggable="false"
+            @dragstart.prevent
+          />
+        </div>
+      </div>
     </template>
-    <template v-if="$slots['close-icon']" #close-icon>
-      <slot name="close-icon" />
+    <template v-if="$slots['close-icon']" #close-icon><slot name="close-icon" /></template>
+    <template #overlay>
+      <button
+        v-if="previewImages.length > 1"
+        type="button"
+        class="mp-image-preview__arrow mp-image-preview__arrow--left"
+        data-image-preview-interactive
+        :disabled="!loop && mergedCurrent === 0"
+        aria-label="Previous image"
+        @click="prev"
+      >
+        ‹
+      </button>
+      <button
+        v-if="previewImages.length > 1"
+        type="button"
+        class="mp-image-preview__arrow mp-image-preview__arrow--right"
+        data-image-preview-interactive
+        :disabled="!loop && mergedCurrent === previewImages.length - 1"
+        aria-label="Next image"
+        @click="next"
+      >
+        ›
+      </button>
+      <slot name="indicator" :index="mergedCurrent" :length="previewImages.length">
+        <div v-if="previewImages.length > 1" class="mp-image-preview__indicators">
+          {{ mergedCurrent + 1 }} / {{ previewImages.length }}
+        </div>
+      </slot>
     </template>
-    <template v-if="$slots.extra" #extra>
-      <slot name="extra" />
-    </template>
-    <template v-if="$slots.actions" #actions>
-      <slot name="actions" :url="currentUrl" />
-    </template>
+    <template v-if="$slots.extra" #extra><slot name="extra" :url="currentUrl" /></template>
+    <template v-if="$slots.actions" #actions><slot name="actions" :url="currentUrl" /></template>
   </mp-image-preview>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, toRef, watch } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, provide, ref, toRef, watch } from 'vue'
 import { createNamespace } from '../utils/components'
+import type { ImagePreviewInstance } from './api'
 import { useImagePreviewGroupState } from './composables/useImagePreviewGroup'
 import { PreviewGroupInjectionKey } from './context'
 import { imagePreviewGroupProps } from './groupProps'
 import MpImagePreview from './ImagePreview.vue'
-import { imagePlatformConfig } from './platform.config'
 
 const { name } = createNamespace('image-preview-group')
 
 export default defineComponent({
   name,
-  components: {
-    MpImagePreview,
-  },
+  components: { MpImagePreview },
   inheritAttrs: false,
   props: imagePreviewGroupProps,
-  emits: ['update:open', 'update:current', 'change', 'openChange', 'open', 'opened', 'close', 'closed', 'keyEscape'],
+  emits: [
+    'update:open',
+    'update:current',
+    'change',
+    'openChange',
+    'open',
+    'opened',
+    'close',
+    'closed',
+    'keyEscape',
+    'longPress',
+  ],
   setup(props, { emit }) {
-    const groupState = useImagePreviewGroupState({
+    const previousIndex = ref(props.defaultCurrent)
+    const group = useImagePreviewGroupState({
       images: toRef(props, 'images'),
       open: toRef(props, 'open'),
       defaultOpen: props.defaultOpen,
@@ -66,93 +117,207 @@ export default defineComponent({
         props.onOpenChange?.(open)
       },
       onCurrentChange: (index) => {
+        const previous = previousIndex.value
+        previousIndex.value = index
         emit('update:current', index)
-        emit('change', index)
+        emit('change', index, previous)
       },
     })
-
-    const { mergedOpen, mergedCurrent, previewImages } = groupState
-    const currentUrl = computed(() => previewImages.value[mergedCurrent.value])
-    const mergedLoop = computed(() => props.loop ?? props.previewProps?.loop ?? imagePlatformConfig.defaultLoop)
-    const mergedClosable = computed(
-      () => props.closable ?? props.previewProps?.closable ?? imagePlatformConfig.defaultClosable,
+    const previewRef = ref<ImagePreviewInstance>()
+    const currentUrl = computed(() => group.previewImages.value[group.mergedCurrent.value])
+    const visualCurrent = ref(0)
+    const trackInstant = ref(false)
+    const trackImages = computed(() =>
+      props.loop && group.previewImages.value.length > 1
+        ? [...group.previewImages.value, ...group.previewImages.value, ...group.previewImages.value]
+        : group.previewImages.value,
     )
-    const mergedMaskClosable = computed(
-      () => props.maskClosable ?? props.previewProps?.maskClosable ?? imagePlatformConfig.defaultMaskClosable,
-    )
-    const mergedPopupContainer = computed(() => props.popupContainer ?? props.previewProps?.popupContainer)
-    const mergedEscToClose = computed(() => props.escToClose ?? props.previewProps?.escToClose)
-    const mergedLockScroll = computed(() => props.lockScroll ?? props.previewProps?.lockScroll)
-
-    provide(PreviewGroupInjectionKey, {
-      registerImageUrl: groupState.registerImageUrl,
-      preview: (imageId: number) => {
-        groupState.previewByImageId(imageId)
-      },
+    let recenterTimer: ReturnType<typeof setTimeout> | undefined
+    let releaseFrame: number | undefined
+    let paintFrame: number | undefined
+    const previewBindings = computed(() => {
+      const { images, current, defaultCurrent, loop, open, defaultOpen, ...shared } = props
+      return shared
     })
+
+    provide(PreviewGroupInjectionKey, { registerImageUrl: group.registerImageUrl, preview: group.previewByImageId })
+
+    function canonicalVisual(index = group.mergedCurrent.value) {
+      const length = group.previewImages.value.length
+      return props.loop && length > 1 ? length + index : index
+    }
+    function setVisualInstant(index = group.mergedCurrent.value) {
+      if (releaseFrame !== undefined) {
+        cancelAnimationFrame(releaseFrame)
+      }
+      if (paintFrame !== undefined) {
+        cancelAnimationFrame(paintFrame)
+      }
+      trackInstant.value = true
+      visualCurrent.value = canonicalVisual(index)
+      nextTick(() => {
+        if (typeof requestAnimationFrame !== 'function') {
+          trackInstant.value = false
+          return
+        }
+        releaseFrame = requestAnimationFrame(() => {
+          paintFrame = requestAnimationFrame(() => {
+            trackInstant.value = false
+            releaseFrame = undefined
+            paintFrame = undefined
+          })
+        })
+      })
+    }
+    function needsRecenter() {
+      const length = group.previewImages.value.length
+      return props.loop && length > 1 && (visualCurrent.value < length || visualCurrent.value >= length * 2)
+    }
+    function recenterIfNeeded() {
+      if (!needsRecenter()) {
+        return
+      }
+      if (recenterTimer) {
+        clearTimeout(recenterTimer)
+      }
+      recenterTimer = undefined
+      setVisualInstant()
+    }
+    function scheduleRecenter() {
+      if (recenterTimer) {
+        clearTimeout(recenterTimer)
+      }
+      if (!needsRecenter()) {
+        return
+      }
+      recenterTimer = setTimeout(recenterIfNeeded, 400)
+    }
+    function handleTrackTransitionEnd(event: TransitionEvent) {
+      if (event.target !== event.currentTarget || event.propertyName !== 'transform') {
+        return
+      }
+      recenterIfNeeded()
+    }
 
     watch(
-      () => props.open,
-      (open) => {
-        if (open !== undefined) {
-          mergedOpen.value = open
-        }
-      },
+      () => group.previewImages.value.length,
+      () => setVisualInstant(),
+      { immediate: true },
     )
-
-    function onPreviewChange(index: number) {
-      mergedCurrent.value = index
-    }
-
-    function onPreviewClose() {
-      emit('close')
-      mergedOpen.value = false
-    }
-
-    function to(index: number) {
-      if (Number.isInteger(index) && index >= 0 && index < previewImages.value.length) {
-        mergedCurrent.value = index
+    watch(group.mergedCurrent, (index) => {
+      const length = group.previewImages.value.length
+      const represented = length ? ((visualCurrent.value % length) + length) % length : 0
+      if (represented !== index) {
+        setVisualInstant(index)
       }
+    })
+    onBeforeUnmount(() => {
+      if (recenterTimer) {
+        clearTimeout(recenterTimer)
+      }
+      if (releaseFrame !== undefined) {
+        cancelAnimationFrame(releaseFrame)
+      }
+      if (paintFrame !== undefined) {
+        cancelAnimationFrame(paintFrame)
+      }
+    })
+
+    function trackStyle(translateX: number, scale: number) {
+      const offset = scale <= 1 ? translateX : 0
+      return { transform: `translate3d(calc(${-visualCurrent.value * 100}% + ${offset}px), 0, 0)` }
+    }
+    function slideImageStyle(index: number, scale: number, rotate: number, x: number, y: number) {
+      const isCurrent = index === visualCurrent.value
+      const panX = isCurrent && scale > 1 ? x : 0
+      const panY = isCurrent && scale > 1 ? y : 0
+      return { transform: `translate(${panX}px, ${panY}px) rotate(${rotate}deg) scale(${scale})` }
     }
 
+    function to(index: number, direction?: 'prev' | 'next') {
+      const length = group.previewImages.value.length
+      if (!Number.isInteger(index) || index < 0 || index >= length) {
+        return
+      }
+      if (index === group.mergedCurrent.value) {
+        return
+      }
+      if (props.loop && group.previewImages.value.length > 1 && direction) {
+        visualCurrent.value += direction === 'next' ? 1 : -1
+      } else {
+        visualCurrent.value = index
+      }
+      group.mergedCurrent.value = index
+      previewRef.value?.reset()
+      scheduleRecenter()
+    }
     function open(index = 0) {
       to(index)
-      mergedOpen.value = true
+      group.open(index)
     }
-
     function close() {
-      mergedOpen.value = false
+      group.close()
     }
-
     function prev() {
-      const index = mergedCurrent.value - 1
-      to(index >= 0 ? index : mergedLoop.value ? previewImages.value.length - 1 : index)
+      const index = group.mergedCurrent.value - 1
+      if (index >= 0) {
+        to(index, 'prev')
+      } else if (props.loop && group.previewImages.value.length) {
+        to(group.previewImages.value.length - 1, 'prev')
+      }
     }
-
     function next() {
-      const index = mergedCurrent.value + 1
-      to(index < previewImages.value.length ? index : mergedLoop.value ? 0 : index)
+      const index = group.mergedCurrent.value + 1
+      if (index < group.previewImages.value.length) {
+        to(index, 'next')
+      } else if (props.loop && group.previewImages.value.length) {
+        to(0, 'next')
+      }
+    }
+    function reset() {
+      previewRef.value?.reset()
+    }
+    function zoomTo(scale: number) {
+      previewRef.value?.zoomTo(scale)
+    }
+    function zoomIn() {
+      previewRef.value?.zoomIn()
+    }
+    function zoomOut() {
+      previewRef.value?.zoomOut()
+    }
+    function rotateLeft() {
+      previewRef.value?.rotateLeft()
+    }
+    function rotateRight() {
+      previewRef.value?.rotateRight()
+    }
+    function toggleFullscreen() {
+      previewRef.value?.toggleFullscreen()
     }
 
     return {
-      mergedOpen,
-      mergedCurrent,
-      previewImages,
+      ...group,
+      previewRef,
       currentUrl,
-      mergedLoop,
-      mergedClosable,
-      mergedMaskClosable,
-      mergedPopupContainer,
-      mergedEscToClose,
-      mergedLockScroll,
-      previewProps: toRef(props, 'previewProps'),
-      onPreviewChange,
-      onPreviewClose,
+      trackImages,
+      trackInstant,
+      trackStyle,
+      slideImageStyle,
+      handleTrackTransitionEnd,
+      previewBindings,
       open,
       close,
       prev,
       next,
       to,
+      reset,
+      zoomTo,
+      zoomIn,
+      zoomOut,
+      rotateLeft,
+      rotateRight,
+      toggleFullscreen,
     }
   },
 })

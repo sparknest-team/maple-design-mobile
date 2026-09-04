@@ -17,7 +17,7 @@ Placement stays on the Popper set (including `cover-*`), default `bottom`. Use `
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -41,7 +41,7 @@ Placement stays on the Popper set (including `cover-*`), default `bottom`. Use `
 
 <template>
   <mp-menu @select="handleSelect">
-    <mp-button type="primary">Please Select</mp-button>
+    <mp-button status="primary">Please Select</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -57,7 +57,7 @@ Placement stays on the Popper set (including `cover-*`), default `bottom`. Use `
 ```html
 <template>
   <mp-menu trigger="hover" @select="handleSelect">
-    <mp-button type="primary">Hover</mp-button>
+    <mp-button status="primary">Hover</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -76,7 +76,7 @@ Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` 
 <template>
   <mp-space>
     <mp-menu placement="bottom-start">
-      <mp-button type="primary">Bottom Start</mp-button>
+      <mp-button status="primary">Bottom Start</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -84,7 +84,7 @@ Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` 
       </template>
     </mp-menu>
     <mp-menu placement="bottom">
-      <mp-button type="primary">Bottom</mp-button>
+      <mp-button status="primary">Bottom</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -92,7 +92,7 @@ Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` 
       </template>
     </mp-menu>
     <mp-menu placement="bottom-end">
-      <mp-button type="primary">Bottom End</mp-button>
+      <mp-button status="primary">Bottom End</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -100,7 +100,7 @@ Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` 
       </template>
     </mp-menu>
     <mp-menu placement="top-start">
-      <mp-button type="primary">Top Start</mp-button>
+      <mp-button status="primary">Top Start</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -108,7 +108,7 @@ Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` 
       </template>
     </mp-menu>
     <mp-menu placement="top">
-      <mp-button type="primary">Top</mp-button>
+      <mp-button status="primary">Top</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -116,7 +116,7 @@ Maple uses the Popper enum. The Cedar values `bl / bottom / br / tl / top / tr` 
       </template>
     </mp-menu>
     <mp-menu placement="top-end">
-      <mp-button type="primary">Top End</mp-button>
+      <mp-button status="primary">Top End</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -163,7 +163,7 @@ Set both `trigger="contextMenu"` and `align-point`.
 <template>
   <mp-space>
     <mp-menu v-model="valueNormal">
-      <mp-button type="primary"> {{ valueNormal ? valueNormal : 'Normal Size' }} </mp-button>
+      <mp-button status="primary"> {{ valueNormal ? valueNormal : 'Normal Size' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="Eat" />
@@ -173,7 +173,7 @@ Set both `trigger="contextMenu"` and `align-point`.
     </mp-menu>
 
     <mp-menu size="small" v-model="valueSmall">
-      <mp-button type="primary"> {{ valueSmall ? valueSmall : 'Small Size' }} </mp-button>
+      <mp-button status="primary"> {{ valueSmall ? valueSmall : 'Small Size' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="Eat" />
@@ -183,7 +183,7 @@ Set both `trigger="contextMenu"` and `align-point`.
     </mp-menu>
 
     <mp-menu size="mini" v-model="valueMini">
-      <mp-button type="primary"> {{ valueMini ? valueMini : 'Mini Size' }} </mp-button>
+      <mp-button status="primary"> {{ valueMini ? valueMini : 'Mini Size' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="Eat" />
@@ -193,7 +193,7 @@ Set both `trigger="contextMenu"` and `align-point`.
     </mp-menu>
 
     <mp-menu size="large" v-model="valueLarge">
-      <mp-button type="primary"> {{ valueLarge ? valueLarge : 'Large Size' }} </mp-button>
+      <mp-button status="primary"> {{ valueLarge ? valueLarge : 'Large Size' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="Eat" />
@@ -216,7 +216,7 @@ Set both `trigger="contextMenu"` and `align-point`.
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? `value: ${value}` : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? `value: ${value}` : 'Please Select' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" :value="1" />
@@ -241,7 +241,7 @@ Set both `trigger="contextMenu"` and `align-point`.
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
     <template #content>
       <mp-menu-option v-for="option in options" :key="option.value" :label="option.label" />
@@ -261,7 +261,7 @@ Set both `trigger="contextMenu"` and `align-point`.
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -283,7 +283,7 @@ Set both `trigger="contextMenu"` and `align-point`.
 
 <template>
   <mp-menu multiple v-model="value">
-    <mp-button type="primary">{{ value.length ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value.length ? value : 'Please Select' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -309,7 +309,7 @@ Set `hide-on-select` to `false` to keep the menu open after selecting. By defaul
 
 <template>
   <mp-menu :hide-on-select="false" v-model="value">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -333,7 +333,7 @@ Set `hide-on-select` to `false` to keep the menu open after selecting. By defaul
 
 <template>
   <mp-menu @select="handleSelect">
-    <mp-button type="primary">Option Group</mp-button>
+    <mp-button status="primary">Option Group</mp-button>
 
     <template #content>
       <mp-menu-group title="Daily">
@@ -354,7 +354,7 @@ Set `hide-on-select` to `false` to keep the menu open after selecting. By defaul
 ```html
 <template>
   <mp-menu>
-    <mp-button type="primary">Icon</mp-button>
+    <mp-button status="primary">Icon</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat">
@@ -377,7 +377,7 @@ Set `hide-on-select` to `false` to keep the menu open after selecting. By defaul
 ```html
 <template>
   <mp-menu>
-    <mp-button type="primary">Footer</mp-button>
+    <mp-button status="primary">Footer</mp-button>
 
     <template #content>
       <mp-menu-option label="Eat" />
@@ -418,7 +418,7 @@ Pass options as an array to the `options` prop.
 
 <template>
   <mp-menu v-model="value" :options="options">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
   </mp-menu>
 </template>
 ```
@@ -470,7 +470,7 @@ Pass a `children` array on an option to enable cascade.
 
 <template>
   <mp-menu v-model="value" :options="options">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
   </mp-menu>
 </template>
 ```
@@ -522,7 +522,7 @@ Add `multiple` on top of cascade.
 
 <template>
   <mp-menu multiple v-model="value" :options="options">
-    <mp-button type="primary">{{ value.length ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value.length ? value : 'Please Select' }}</mp-button>
   </mp-menu>
 </template>
 ```
@@ -555,7 +555,7 @@ Pass options as an array and map fields with `field-names`. Cascade selection us
 
 <template>
   <mp-menu v-model="value" :options="options" :field-names="{ label: 'name', value: 'id' }">
-    <mp-button type="primary">{{ value ? value : 'Please Select' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : 'Please Select' }}</mp-button>
   </mp-menu>
 </template>
 ```

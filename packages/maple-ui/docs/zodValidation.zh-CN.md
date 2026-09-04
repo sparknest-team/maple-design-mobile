@@ -60,7 +60,7 @@ function handleSubmit(valid) {
       >
         <mp-input type="password" placeholder="确认密码" v-model="user.repeatPassword" />
       </mp-form-item>
-      <mp-button type="primary" native-type="submit">提交</mp-button>
+      <mp-button status="primary" native-type="submit">提交</mp-button>
     </mp-space>
   </mp-form>
 </template>

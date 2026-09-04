@@ -11,7 +11,7 @@ If necessary, you can switch to the `css sticky` layout mode to improve performa
 <template>
   <div class="sticky-example">
     <mp-sticky :offset-top="54">
-      <mp-button type="primary">Basic Use</mp-button>
+      <mp-button status="primary">Basic Use</mp-button>
     </mp-sticky>
   </div>
 </template>
@@ -30,7 +30,7 @@ If necessary, you can switch to the `css sticky` layout mode to improve performa
   <div class="sticky-example">
     <div ref="scrollerRef" class="sticky-example-scroller">
       <mp-sticky :target="scrollerRef">
-        <mp-button type="success">Local Sticky</mp-button>
+        <mp-button status="success">Local Sticky</mp-button>
       </mp-sticky>
       <div class="sticky-example-block"></div>
     </div>
@@ -69,7 +69,7 @@ const scrollerRef = ref(null)
 <template>
   <div class="sticky-example">
     <mp-sticky :offset-top="54" @change="handleChange">
-      <mp-button type="warning">Fixed State Change</mp-button>
+      <mp-button status="warning">Fixed State Change</mp-button>
     </mp-sticky>
     <div>Fixed: {{ fixed }}</div>
   </div>

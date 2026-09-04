@@ -114,7 +114,7 @@ function fullscreen() {
 </script>
 
 <template>
-  <mp-button type="danger" @click="fullscreen">Toggle Fullscreen Mode</mp-button>
+  <mp-button status="danger" @click="fullscreen">Toggle Fullscreen Mode</mp-button>
   <mp-skeleton fullscreen :loading="loading" />
 </template>
 ```

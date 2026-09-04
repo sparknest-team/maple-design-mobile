@@ -1,5 +1,5 @@
 import { isArray, isString, toNumber } from '@maplejs/maple-shared'
-import type { ImagePreviewOptions, UserImagePreviewOptions } from '../types'
+import type { ImagePreviewOptions, UserImagePreviewOptions } from '../api'
 
 export function getPreviewImages(source: { images?: string[]; src?: string }): string[] {
   if (source.images?.length) {

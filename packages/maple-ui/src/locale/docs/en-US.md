@@ -53,7 +53,7 @@ function switchLocale() {
 <template>
   <mp-locale-provider :locale="locale" :messages="messages">
     <mp-date-picker v-model="date" />
-    <mp-button type="primary" @click="switchLocale">Switch</mp-button>
+    <mp-button status="primary" @click="switchLocale">Switch</mp-button>
   </mp-locale-provider>
 </template>
 ```

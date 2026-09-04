@@ -250,8 +250,8 @@
   <mp-time-picker v-model="date">
     <template #actions>
       <mp-space size="small">
-        <mp-button type="primary" text>操作</mp-button>
-        <mp-button type="primary" text>操作</mp-button>
+        <mp-button status="primary" variant="text">操作</mp-button>
+        <mp-button status="primary" variant="text">操作</mp-button>
       </mp-space>
     </template>
   </mp-time-picker>

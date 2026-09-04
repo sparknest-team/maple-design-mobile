@@ -44,8 +44,8 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     closeSelf: true,
     characterDelta: -2,
   },
-  'app-bar': {
-    path: '/app-bar',
+  'page-header': {
+    path: '/page-header',
   },
   loading: {
     path: '/loading',

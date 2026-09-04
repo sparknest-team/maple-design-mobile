@@ -8,9 +8,9 @@
             onOpened: () => $emit('opened'),
             onClose: () => $emit('close'),
             onClosed: () => $emit('closed'),
-            onClickOverlay: () => $emit('click-overlay'),
+            onClickMask: (event) => $emit('click-mask', event),
             onRouteChange: () => $emit('route-change'),
-            onKeyEscape: () => $emit('key-escape'),
+            onKeyEscape: (event) => $emit('key-escape', event),
             maskClosable,
             escToClose,
             popupContainer,
@@ -30,7 +30,7 @@
           <mp-button
             :class="n('cancel-button')"
             mp-picker-cover
-            text
+            variant="text"
             :text-color="cancelButtonTextColor"
             @click="cancel"
           >
@@ -43,7 +43,7 @@
         <slot name="confirm">
           <mp-button
             :class="n('confirm-button')"
-            text
+            variant="text"
             mp-picker-cover
             :disabled="confirmButtonDisabled"
             :text-color="confirmButtonTextColor"
@@ -166,7 +166,7 @@ export default defineComponent({
     'opened',
     'close',
     'closed',
-    'click-overlay',
+    'click-mask',
     'route-change',
     'key-escape',
   ],

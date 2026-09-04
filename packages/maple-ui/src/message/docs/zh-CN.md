@@ -16,7 +16,7 @@ import { Message } from '@maplejs/maple-ui'
 </script>
 
 <template>
-  <mp-button type="primary" block @click="Message('这是一条消息提示')">基本使用</mp-button>
+  <mp-button status="primary" block @click="Message('这是一条消息提示')">基本使用</mp-button>
 </template>
 ```
 
@@ -166,7 +166,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = !show">基本使用</mp-button>
+  <mp-button status="primary" block @click="show = !show">基本使用</mp-button>
   <mp-message v-model:open="open">这是一条消息提示</mp-message>
 </template>
 ```
@@ -184,7 +184,7 @@ const show = ref(false)
   <mp-message v-model:open="open" :vertical="true">
     这是一条消息提示
     <template #action>
-      <mp-button type="primary" :elevation="false" size="sm" @click="show = false">关闭</mp-button>
+      <mp-button status="primary" :elevation="false" size="sm" @click="show = false">关闭</mp-button>
     </template>
   </mp-message>
 </template>
@@ -203,7 +203,7 @@ const show = ref(false)
   <mp-message v-model:open="open" position="bottom">
     这是一条消息提示
     <template #action>
-      <mp-button type="primary" :elevation="false" size="sm" @click="show = false">关闭</mp-button>
+      <mp-button status="primary" :elevation="false" size="sm" @click="show = false">关闭</mp-button>
     </template>
   </mp-message>
 </template>

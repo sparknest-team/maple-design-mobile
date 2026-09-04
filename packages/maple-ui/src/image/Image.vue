@@ -14,27 +14,26 @@
       <img
         v-if="lazy"
         v-lazy="src ?? ''"
+        v-bind="imgProps"
         role="img"
         :class="n('image')"
-        :alt="alt || description"
+        :alt="alt || description || loadDescription"
         :title="title"
-        :referrerpolicy="referrerPolicy"
-        :lazy-loading="loadingSrc"
-        :lazy-error="errorSrc"
-        :style="{ objectFit: fit, objectPosition: position }"
+        :lazy-error="fallbackSrc"
+        :style="[imgProps?.style, { objectFit, objectPosition }]"
         @load="handleLoad"
         @click="handleClick"
       />
 
       <img
         v-if="!lazy"
+        v-bind="imgProps"
         role="img"
         :class="n('image')"
-        :alt="alt || description"
+        :alt="alt || description || loadDescription"
         :title="title"
-        :referrerpolicy="referrerPolicy"
-        :style="{ objectFit: fit, objectPosition: position }"
-        :src="src"
+        :style="[imgProps?.style, { objectFit, objectPosition }]"
+        :src="displaySrc"
         @load="handleLoad"
         @error="handleError"
         @click="handleClick"
@@ -53,7 +52,8 @@
             </div>
           </div>
         </slot>
-        <slot v-if="isLoading && (showLoader || $slots.loader)" name="loader">
+        <slot v-if="isLoading && $slots.placeholder" name="placeholder" />
+        <slot v-else-if="isLoading && (showLoader || $slots.loader)" name="loader">
           <div :class="n('loader')" aria-hidden="true" />
         </slot>
       </div>
@@ -80,8 +80,9 @@
     <mp-image-preview
       v-if="showStandalonePreview"
       v-model:open="previewOpenState"
-      :images="[previewUrl]"
+      :src="previewUrl"
       v-bind="previewProps"
+      :previewed-img-props="previewedImgProps"
       :popup-container="mergedPopupContainer"
       @close="handlePreviewClose"
     >
@@ -124,6 +125,8 @@ export default defineComponent({
     const isLoading = computed(() => loadStatus.value === 'loading')
     const isLoaded = computed(() => loadStatus.value === 'loaded')
     const isError = computed(() => loadStatus.value === 'error')
+    const usingFallback = ref(false)
+    const displaySrc = computed(() => (usingFallback.value ? props.fallbackSrc : props.src))
     const groupContext = inject(PreviewGroupInjectionKey, undefined)
     const localPreviewOpen = ref(props.defaultPreviewOpen)
     const currentImageId = imageId++
@@ -155,11 +158,15 @@ export default defineComponent({
       return !props.hideFooter && isLoaded.value
     })
 
-    const showStandalonePreview = computed(() => isLoaded.value && props.preview && !groupContext && !!previewUrl.value)
+    const previewEnabled = computed(() => !props.previewDisabled)
+    const showStandalonePreview = computed(
+      () => isLoaded.value && previewEnabled.value && !groupContext && !!previewUrl.value,
+    )
 
     watch(
-      () => props.src,
+      () => [props.src, props.fallbackSrc, props.lazy],
       () => {
+        usingFallback.value = false
         loadStatus.value = 'loading'
       },
     )
@@ -169,7 +176,7 @@ export default defineComponent({
         return
       }
 
-      const unregister = groupContext.registerImageUrl(currentImageId, previewUrl.value, props.preview)
+      const unregister = groupContext.registerImageUrl(currentImageId, previewUrl.value, previewEnabled.value)
 
       onInvalidate(() => {
         unregister?.()
@@ -177,6 +184,13 @@ export default defineComponent({
     })
 
     function handleError(e: Event) {
+      if (!props.lazy && !usingFallback.value && props.fallbackSrc && props.fallbackSrc !== props.src) {
+        usingFallback.value = true
+        loadStatus.value = 'loading'
+        emit('error', e)
+        return
+      }
+
       loadStatus.value = 'error'
       emit('error', e)
     }
@@ -203,7 +217,7 @@ export default defineComponent({
     function handleClick(e: Event) {
       emit('click', e)
 
-      if (!props.preview || isError.value) {
+      if (!previewEnabled.value || isError.value) {
         return
       }
 
@@ -219,10 +233,22 @@ export default defineComponent({
       previewOpenState.value = false
     }
 
+    function showPreview() {
+      if (!previewEnabled.value || isError.value) {
+        return
+      }
+      if (groupContext?.preview) {
+        groupContext.preview(currentImageId)
+      } else {
+        previewOpenState.value = true
+      }
+    }
+
     return {
       isLoading,
       isLoaded,
       isError,
+      displaySrc,
       showFooter,
       showStandalonePreview,
       previewOpenState,
@@ -236,6 +262,8 @@ export default defineComponent({
       handleError,
       handleClick,
       handlePreviewClose,
+      showPreview,
+      click: showPreview,
     }
   },
 })

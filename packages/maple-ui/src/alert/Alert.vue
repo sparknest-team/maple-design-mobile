@@ -43,7 +43,7 @@
 
       <div v-if="closable" tabindex="-1" role="button" aria-label="Close" :class="n('close-icon')" @click="handleClose">
         <slot name="close-icon">
-          <mp-icon><MIconWindowClose /></mp-icon>
+          <mp-icon mp-alert-cover><MIconWindowClose /></mp-icon>
         </slot>
       </div>
     </div>

@@ -68,11 +68,11 @@
     <mp-popup v-model:open="open" position="bottom" v-bind="popupBindingProps">
       <div :class="n('panel')">
         <div :class="n('toolbar')">
-          <mp-button :class="n('cancel-button')" mp-time-cover text @click="handleCancel">
+          <mp-button :class="n('cancel-button')" mp-time-cover variant="text" @click="handleCancel">
             {{ cancelButtonText }}
           </mp-button>
           <div :class="n('title')">{{ titleText }}</div>
-          <mp-button :class="n('confirm-button')" mp-time-cover text @click="handleConfirm">
+          <mp-button :class="n('confirm-button')" mp-time-cover variant="text" @click="handleConfirm">
             {{ confirmButtonText }}
           </mp-button>
         </div>

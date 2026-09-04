@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { ActionSheet, Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const rawActions = [
@@ -121,20 +120,22 @@ function handleSelect(action) {
 <template>
   <app-type>{{ t('functionCall') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="primary" block @click="createBasic">{{ t('basicUsage') }}</mp-button>
-    <mp-button type="primary" block @click="modifyTitle">{{ t('modifyTitle') }}</mp-button>
-    <mp-button type="primary" block @click="disableAction">{{ t('disabled') }}</mp-button>
-    <mp-button type="primary" block @click="disableCloseOnClickAction">{{ t('disableCloseOnClickAction') }} </mp-button>
-    <mp-button type="primary" block @click="customActionStyles">{{ t('customActionStyles') }}</mp-button>
+    <mp-button status="primary" block @click="createBasic">{{ t('basicUsage') }}</mp-button>
+    <mp-button status="primary" block @click="modifyTitle">{{ t('modifyTitle') }}</mp-button>
+    <mp-button status="primary" block @click="disableAction">{{ t('disabled') }}</mp-button>
+    <mp-button status="primary" block @click="disableCloseOnClickAction"
+      >{{ t('disableCloseOnClickAction') }}
+    </mp-button>
+    <mp-button status="primary" block @click="customActionStyles">{{ t('customActionStyles') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('componentCall') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="warning" block @click="open = true">{{ t('basicUsage') }}</mp-button>
-    <mp-button type="warning" block @click="show1 = true">{{ t('modifyTitle') }}</mp-button>
-    <mp-button type="warning" block @click="show2 = true">{{ t('disabled') }}</mp-button>
-    <mp-button type="warning" block @click="show3 = true">{{ t('disableCloseOnClickAction') }}</mp-button>
-    <mp-button type="warning" block @click="show4 = true">{{ t('customActionStyles') }}</mp-button>
+    <mp-button status="warning" block @click="open = true">{{ t('basicUsage') }}</mp-button>
+    <mp-button status="warning" block @click="show1 = true">{{ t('modifyTitle') }}</mp-button>
+    <mp-button status="warning" block @click="show2 = true">{{ t('disabled') }}</mp-button>
+    <mp-button status="warning" block @click="show3 = true">{{ t('disableCloseOnClickAction') }}</mp-button>
+    <mp-button status="warning" block @click="show4 = true">{{ t('customActionStyles') }}</mp-button>
   </mp-space>
 
   <mp-action-sheet v-model:open="open" :actions="actions" @select="handleSelect" />

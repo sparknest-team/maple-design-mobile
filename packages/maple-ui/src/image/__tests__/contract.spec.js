@@ -1,77 +1,179 @@
-import { h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { imagePreviewGroupProps } from '../groupProps'
 import Image from '../Image.vue'
 import ImagePreview from '../ImagePreview.vue'
 import ImagePreviewGroup from '../ImagePreviewGroup.vue'
-import ImagePlugin, {
-  ImagePreview as ExportedImagePreview,
-  imagePreview,
-  Image as NamedImage,
-  ImagePreviewGroup as NamedImagePreviewGroup,
-} from '../index'
-import { imagePlatformConfig } from '../platform.config'
-import { props as imagePreviewProps } from '../previewProps'
+import { imagePreview, ImagePreviewAction, previewImage } from '../index'
+import { imagePreviewProps } from '../previewProps'
 import { props as imageProps } from '../props'
 import { normalizePreviewOptions } from '../utils/previewUtils'
 
 describe('image api contract', () => {
-  it('aligns the image entry exports', () => {
-    expect(NamedImage).toBe(ImagePlugin)
-    expect(ExportedImagePreview).toBe(ImagePreview)
-    expect(NamedImagePreviewGroup).toBe(ImagePreviewGroup)
-    expect(ImagePlugin.Preview).toBe(ImagePreview)
-    expect(ImagePlugin.PreviewGroup).toBe(ImagePreviewGroup)
-    expect(ImagePlugin.preview).toBe(imagePreview)
-    expect(typeof ExportedImagePreview.install).toBe('function')
-    expect(imagePreview.install).toBeUndefined()
-    expect(imagePreview.Component).toBeUndefined()
-    expect(imagePreview.Group).toBeUndefined()
+  it('exports the unified family API', () => {
+    expect(imagePreview).toBe(previewImage)
+    expect(ImagePreviewAction).toBeTruthy()
+  })
+  it('uses only canonical Image props', () => {
+    for (const key of ['objectFit', 'objectPosition', 'fallbackSrc', 'previewDisabled', 'previewProps']) {
+      expect(imageProps).toHaveProperty(key)
+    }
+    for (const key of ['fit', 'position', 'preview', 'loadingSrc', 'errorSrc', 'renderToBody']) {
+      expect(imageProps).not.toHaveProperty(key)
+    }
   })
 
-  it('registers preview components through Image.install', () => {
-    expect(typeof ImagePlugin.install).toBe('function')
-    expect(ImagePlugin.Preview).toBe(ExportedImagePreview)
-    expect(ImagePlugin.PreviewGroup).toBe(NamedImagePreviewGroup)
+  it('keeps collection state exclusively on ImagePreviewGroup', () => {
+    for (const key of ['images', 'current', 'defaultCurrent', 'loop']) {
+      expect(imagePreviewProps).not.toHaveProperty(key)
+      expect(imagePreviewGroupProps).toHaveProperty(key)
+    }
+    expect(imagePreviewGroupProps).not.toHaveProperty('previewProps')
   })
 
-  it('returns the common imperative preview handle', async () => {
-    const onUpdateOpen = vi.fn()
-    const onUpdateCurrent = vi.fn()
-    const handle = imagePreview({
-      images: ['a.jpg', 'b.jpg'],
-      current: 0,
-      popupContainer: false,
-      'onUpdate:open': onUpdateOpen,
-      'onUpdate:current': onUpdateCurrent,
+  it('supports single-image transforms', async () => {
+    const wrapper = mount(ImagePreview, { props: { src: 'a.jpg', defaultOpen: true, popupContainer: false } })
+    wrapper.vm.zoomTo(2)
+    wrapper.vm.rotateRight()
+    expect([wrapper.vm.scale, wrapper.vm.rotate]).toEqual([2, 90])
+    expect(wrapper.vm.mergedActions).not.toContain('prev')
+    expect(wrapper.vm.mergedActions).not.toContain('next')
+    wrapper.vm.close()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+    wrapper.unmount()
+  })
+
+  it('closes the preview when the image is clicked by default', async () => {
+    const wrapper = mount(ImagePreview, { props: { src: 'a.jpg', defaultOpen: true, popupContainer: false } })
+    const image = wrapper.find('[data-image-preview-image]')
+    await image.trigger('pointerdown', {
+      button: 0,
+      pointerId: 3,
+      pointerType: 'mouse',
+      clientX: 20,
+      clientY: 20,
     })
-    expect(handle).toEqual(
-      expect.objectContaining({
-        close: expect.any(Function),
-        prev: expect.any(Function),
-        next: expect.any(Function),
-        to: expect.any(Function),
-        zoom: expect.any(Function),
-      }),
+    await image.trigger('pointerup', {
+      button: 0,
+      pointerId: 3,
+      pointerType: 'mouse',
+      clientX: 20,
+      clientY: 20,
+    })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.mergedOpen).toBe(false)
+    wrapper.unmount()
+  })
+
+  it('lets ImagePreviewGroup own navigation', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(ImagePreviewGroup, {
+      props: { images: ['a.jpg', 'b.jpg'], defaultOpen: true, popupContainer: false },
+    })
+    expect(wrapper.findComponent(ImagePreview).props('src')).toBe('a.jpg')
+    expect(wrapper.find('.mp-image-preview__indicators').element.parentElement).toBe(
+      wrapper.find('[data-image-preview-overlay]').element,
     )
-    handle.to(1)
-    await Promise.resolve()
-    expect(onUpdateCurrent).toHaveBeenCalledWith(1)
-    handle.close()
-    await Promise.resolve()
-    expect(onUpdateOpen).toHaveBeenCalledWith(false)
+    expect(wrapper.find('.mp-image-preview__arrow--left').attributes('disabled')).toBeDefined()
+    const nextArrow = wrapper.find('.mp-image-preview__arrow--right')
+    await nextArrow.trigger('pointerdown', {
+      button: 0,
+      pointerId: 1,
+      pointerType: 'touch',
+      clientX: 0,
+      clientY: 0,
+    })
+    await nextArrow.trigger('pointerup', {
+      button: 0,
+      pointerId: 1,
+      pointerType: 'touch',
+      clientX: 0,
+      clientY: 0,
+    })
+    await nextArrow.trigger('click')
+    await wrapper.vm.$nextTick()
+    vi.advanceTimersByTime(321)
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(ImagePreview).props('src')).toBe('b.jpg')
+    expect(wrapper.findAll('.mp-image-preview__slide')).toHaveLength(2)
+    expect(wrapper.find('.mp-image-preview__track').attributes('style')).toContain('calc(-100% + 0px)')
+    expect(wrapper.vm.mergedOpen).toBe(true)
+    expect(wrapper.findComponent(ImagePreview).vm.mergedOpen).toBe(true)
+    expect(wrapper.emitted('change')?.at(-1)).toEqual([1, 0])
+
+    const stage = wrapper.find('[data-image-preview-stage]')
+    await stage.trigger('pointerdown', {
+      button: 0,
+      pointerId: 2,
+      pointerType: 'touch',
+      clientX: 100,
+      clientY: 20,
+    })
+    await stage.trigger('pointermove', {
+      button: 0,
+      pointerId: 2,
+      pointerType: 'touch',
+      clientX: 164,
+      clientY: 20,
+    })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(ImagePreview).vm.translateX).toBe(64)
+    expect(wrapper.findComponent(ImagePreview).vm.moving).toBe(true)
+    expect(wrapper.find('.mp-image-preview__track').attributes('style')).toContain('calc(-100% + 64px)')
+    await stage.trigger('pointerup', {
+      button: 0,
+      pointerId: 2,
+      pointerType: 'touch',
+      clientX: 164,
+      clientY: 20,
+    })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(ImagePreview).props('src')).toBe('a.jpg')
+    expect(wrapper.find('.mp-image-preview__track').attributes('style')).toContain('calc(0% + 0px)')
+    expect(wrapper.findComponent(ImagePreview).vm.translateX).toBe(0)
+    expect(wrapper.findComponent(ImagePreview).vm.moving).toBe(false)
+    expect(wrapper.emitted('change')?.at(-1)).toEqual([0, 1])
+    wrapper.vm.zoomTo(2)
+    expect(wrapper.findComponent(ImagePreview).vm.scale).toBe(2)
+    wrapper.vm.rotateRight()
+    expect(wrapper.findComponent(ImagePreview).vm.rotate).toBe(90)
+    wrapper.unmount()
+    vi.useRealTimers()
   })
 
-  it('preview defaults to true on Image', () => {
-    expect(imageProps.preview.default).toBe(true)
+  it('recenters loop clones without an animated jump', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(ImagePreviewGroup, {
+      props: {
+        images: ['a.jpg', 'b.jpg'],
+        defaultCurrent: 1,
+        defaultOpen: true,
+        defaultScale: 1.25,
+        loop: true,
+        popupContainer: false,
+      },
+    })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findAll('.mp-image-preview__slide')).toHaveLength(6)
+    expect(
+      wrapper.findAll('[data-image-preview-image]').every((image) => image.attributes('style').includes('scale(1.25)')),
+    ).toBe(true)
+    wrapper.vm.next()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.mp-image-preview__track').attributes('style')).toContain('calc(-400% + 0px)')
+    await wrapper.find('.mp-image-preview__track').trigger('transitionend', { propertyName: 'transform' })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.mp-image-preview__track').attributes('style')).toContain('calc(-200% + 0px)')
+    expect(wrapper.find('.mp-image-preview__track').classes()).toContain('mp-image-preview__track-instant')
+    expect(
+      wrapper.findAll('[data-image-preview-image]').every((image) => image.attributes('style').includes('scale(1.25)')),
+    ).toBe(true)
+    wrapper.unmount()
+    vi.useRealTimers()
   })
 
-  it('keeps previewOpen uncontrolled when omitted', () => {
-    expect(imageProps.previewOpen.default).toBeUndefined()
-  })
-
-  it('emits the previewOpen model update in uncontrolled mode', async () => {
+  it('opens embedded preview from Image', async () => {
     const wrapper = mount(Image, { props: { src: 'a.jpg', popupContainer: false } })
     await wrapper.find('img').trigger('load')
     await wrapper.find('img').trigger('click')
@@ -79,144 +181,8 @@ describe('image api contract', () => {
     wrapper.unmount()
   })
 
-  it('uses canonical Image prop names', () => {
-    expect(imageProps).toHaveProperty('popupContainer')
-    expect(imageProps).toHaveProperty('loadingSrc')
-    expect(imageProps).toHaveProperty('errorSrc')
-    expect(imageProps).toHaveProperty('referrerPolicy')
-    expect(imageProps).not.toHaveProperty('renderToBody')
-    expect(imageProps).not.toHaveProperty('loading')
-    expect(imageProps).not.toHaveProperty('error')
-    expect(imageProps).not.toHaveProperty('referrerpolicy')
-  })
-
-  it('aligns ImagePreview controlled and uncontrolled props', () => {
-    expect(imagePreviewProps.open.default).toBeUndefined()
-    expect(imagePreviewProps.defaultOpen.default).toBe(false)
-    expect(imagePreviewProps.closable.default).toBeUndefined()
-    expect(imagePreviewProps.maskClosable.default).toBeUndefined()
-    expect(imagePreviewProps.current.default).toBeUndefined()
-    expect(imagePreviewProps.defaultCurrent.default).toBe(0)
-    expect(ImagePreview.emits).toEqual(
-      expect.arrayContaining(['open', 'opened', 'close', 'closed', 'keyEscape', 'longPress']),
-    )
-    expect(ImagePreview.emits).not.toContain('long-press')
-  })
-
-  it('supports ImagePreview uncontrolled current and canonical change events', async () => {
-    const wrapper = mount(ImagePreview, {
-      props: {
-        images: ['a.jpg', 'b.jpg'],
-        defaultCurrent: 1,
-        defaultOpen: true,
-        popupContainer: false,
-      },
-    })
-    expect(wrapper.vm.mergedCurrent).toBe(1)
-
-    wrapper.vm.onChange(0)
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.mergedCurrent).toBe(0)
-    expect(wrapper.emitted('update:current')?.[0]).toEqual([0])
-    expect(wrapper.emitted('change')?.[0]).toEqual([0])
-    wrapper.unmount()
-  })
-
-  it('supports ImagePreview defaultOpen and canonical openChange event', async () => {
-    const wrapper = mount(ImagePreview, {
-      props: { defaultOpen: true, popupContainer: false },
-    })
-    expect(wrapper.vm.mergedOpen).toBe(true)
-
-    wrapper.vm.mergedOpen = false
-    await wrapper.vm.$nextTick()
-    expect(wrapper.emitted('openChange')?.[0]).toEqual([false])
-    wrapper.unmount()
-  })
-
-  it('keeps preview actions distinct from extra content', async () => {
-    const preview = mount(ImagePreview, {
-      props: { src: 'a.jpg', defaultOpen: true, popupContainer: false },
-      slots: {
-        actions: '<span class="preview-actions" />',
-        extra: '<span class="preview-extra" />',
-      },
-    })
-    expect(preview.find('.mp-image-preview__actions .preview-actions').exists()).toBe(true)
-    expect(preview.find('.mp-image-preview__extra .preview-extra').exists()).toBe(true)
-    preview.unmount()
-
-    const image = mount(Image, {
-      props: { src: 'a.jpg', popupContainer: false },
-      slots: { 'preview-actions': '<span class="image-preview-actions" />' },
-    })
-    await image.find('img').trigger('load')
-    await image.find('img').trigger('click')
-    expect(image.find('.mp-image-preview__actions .image-preview-actions').exists()).toBe(true)
-    expect(image.find('.mp-image-preview__extra .image-preview-actions').exists()).toBe(false)
-    image.unmount()
-  })
-
-  it('normalizes string preview options', () => {
-    expect(normalizePreviewOptions('a.jpg')).toEqual({
-      images: ['a.jpg'],
-    })
-  })
-
-  it('normalizes array preview options', () => {
-    expect(normalizePreviewOptions(['a.jpg', 'b.jpg'])).toEqual({
-      images: ['a.jpg', 'b.jpg'],
-    })
-  })
-
-  it('normalizes object preview options with src', () => {
-    expect(normalizePreviewOptions({ src: 'a.jpg', current: 1 })).toEqual({
-      src: 'a.jpg',
-      current: 1,
-      images: ['a.jpg'],
-    })
-  })
-
-  it('uses maple mobile platform defaults', () => {
-    expect(imagePlatformConfig.defaultPreview).toBe(true)
-    expect(imagePlatformConfig.defaultClosable).toBe(true)
-    expect(imagePlatformConfig.defaultMaskClosable).toBe(true)
-    expect(imagePlatformConfig.defaultLoop).toBe(false)
-  })
-
-  it('aligns ImagePreviewGroup props, defaults, and events', async () => {
-    expect(imagePreviewGroupProps.loop.default).toBeUndefined()
-    expect(imagePreviewGroupProps.closable.default).toBeUndefined()
-    expect(imagePreviewGroupProps.maskClosable.default).toBeUndefined()
-    expect(imagePreviewGroupProps).toHaveProperty('previewProps')
-    expect(imagePreviewGroupProps).toHaveProperty('escToClose')
-
-    const wrapper = mount(ImagePreviewGroup, {
-      props: {
-        images: ['a.jpg', 'b.jpg'],
-        defaultOpen: true,
-        popupContainer: false,
-        previewProps: { escToClose: false },
-      },
-      slots: {
-        actions: ({ url }) => h('span', { class: 'group-action-url' }, url),
-      },
-    })
-    const preview = wrapper.findComponent(ImagePreview)
-    expect(preview.props('loop')).toBe(false)
-    expect(preview.props('closable')).toBe(true)
-    expect(preview.props('maskClosable')).toBe(true)
-    expect(preview.props('escToClose')).toBe(false)
-    expect(wrapper.find('.group-action-url').text()).toBe('a.jpg')
-
-    wrapper.vm.next()
-    expect(wrapper.emitted('change')?.at(-1)).toEqual([1])
-    wrapper.vm.close()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.emitted('openChange')?.[0]).toEqual([false])
-    wrapper.vm.open(0)
-    expect(wrapper.emitted('openChange')?.at(-1)).toEqual([true])
-    expect(wrapper.emitted()).not.toHaveProperty('open-change')
-    wrapper.unmount()
+  it('normalizes imperative inputs', () => {
+    expect(normalizePreviewOptions('a.jpg')).toEqual({ images: ['a.jpg'] })
+    expect(normalizePreviewOptions(['a.jpg', 'b.jpg'])).toEqual({ images: ['a.jpg', 'b.jpg'] })
   })
 })

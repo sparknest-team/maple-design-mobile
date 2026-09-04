@@ -24,11 +24,11 @@ onThemeChange()
 <template>
   <app-type>{{ t('popupPosition') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="primary" block @click="center = true">{{ t('centerPopup') }}</mp-button>
-    <mp-button type="primary" block @click="bottom = true">{{ t('belowPopup') }}</mp-button>
-    <mp-button type="primary" block @click="top = true">{{ t('abovePopup') }}</mp-button>
-    <mp-button type="primary" block @click="left = true">{{ t('leftPopup') }}</mp-button>
-    <mp-button type="primary" block @click="right = true">{{ t('rightPopup') }}</mp-button>
+    <mp-button status="primary" block @click="center = true">{{ t('centerPopup') }}</mp-button>
+    <mp-button status="primary" block @click="bottom = true">{{ t('belowPopup') }}</mp-button>
+    <mp-button status="primary" block @click="top = true">{{ t('abovePopup') }}</mp-button>
+    <mp-button status="primary" block @click="left = true">{{ t('leftPopup') }}</mp-button>
+    <mp-button status="primary" block @click="right = true">{{ t('rightPopup') }}</mp-button>
   </mp-space>
 
   <mp-popup v-model:open="center">
@@ -50,8 +50,8 @@ onThemeChange()
   <app-type>{{ t('maskStyle') }}</app-type>
 
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="primary" block @click="maskClass = true">{{ t('maskClass') }}</mp-button>
-    <mp-button type="primary" block @click="maskStyle = true">{{ t('overlayStyles') }}</mp-button>
+    <mp-button status="primary" block @click="maskClass = true">{{ t('maskClass') }}</mp-button>
+    <mp-button status="primary" block @click="maskStyle = true">{{ t('overlayStyles') }}</mp-button>
   </mp-space>
 
   <mp-popup v-model:open="maskClass" mask-class="custom-overlay">
@@ -67,7 +67,7 @@ onThemeChange()
   </mp-popup>
 
   <app-type>{{ t('event') }}</app-type>
-  <mp-button type="primary" block @click="event = true">{{ t('event') }}</mp-button>
+  <mp-button status="primary" block @click="event = true">{{ t('event') }}</mp-button>
   <mp-popup
     v-model:open="event"
     @open="Message.info('open')"

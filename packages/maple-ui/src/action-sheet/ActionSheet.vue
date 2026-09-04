@@ -16,7 +16,8 @@
     @closed="$emit('closed')"
     @opened="$emit('opened')"
     @route-change="$emit('route-change')"
-    @key-escape="$emit('key-escape')"
+    @key-escape="$emit('key-escape', $event)"
+    @click-mask="$emit('click-mask', $event)"
   >
     <div :class="classes(n(), n('$--box'))" v-bind="$attrs">
       <slot name="title">
@@ -64,7 +65,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'route-change', 'key-escape'],
+  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'route-change', 'key-escape', 'click-mask'],
   setup(props, { emit }) {
     const open = useVModel(props, 'open', { emit, eventName: 'update:open' })
     const { t: pt } = injectLocaleProvider()

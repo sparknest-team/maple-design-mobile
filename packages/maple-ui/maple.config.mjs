@@ -359,10 +359,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'AppBar 导航栏',
-          'en-US': 'AppBar',
+          'zh-CN': 'PageHeader 导航栏',
+          'en-US': 'PageHeader',
         },
-        doc: 'app-bar',
+        doc: 'page-header',
         type: 2,
       },
       {
@@ -834,6 +834,14 @@ export default defineConfig({
           'en-US': 'Progress',
         },
         doc: 'progress',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'ProgressGroup 分段进度条',
+          'en-US': 'ProgressGroup',
+        },
+        doc: 'progress-group',
         type: 2,
       },
       {

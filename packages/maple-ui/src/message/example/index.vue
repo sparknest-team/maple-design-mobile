@@ -1,7 +1,7 @@
 <script setup>
 import { h, onBeforeUnmount, reactive, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Button, Icon, Message } from '@maplejs/maple-ui'
+import { Button, Icon } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const shows = reactive({
@@ -124,36 +124,36 @@ function openMultiple() {
 <template>
   <app-type>{{ t('functionCall') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="warning" block @click="createMessage()">{{ t('basicUsage') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('icon')">{{ t('customIcon') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('position')">{{ t('position') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('time')">{{ t('hiddenTime') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('closable')">{{ t('closable') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('update')">{{ t('updateContent') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('loading')">{{ t('loadingPersist') }}</mp-button>
-    <mp-button type="warning" block @click="openMultiple">{{ t('multiple') }}</mp-button>
-    <mp-button type="warning" block @click="createMessage('action')">{{ t('customAction') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage()">{{ t('basicUsage') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('icon')">{{ t('customIcon') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('position')">{{ t('position') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('time')">{{ t('hiddenTime') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('closable')">{{ t('closable') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('update')">{{ t('updateContent') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('loading')">{{ t('loadingPersist') }}</mp-button>
+    <mp-button status="warning" block @click="openMultiple">{{ t('multiple') }}</mp-button>
+    <mp-button status="warning" block @click="createMessage('action')">{{ t('customAction') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('type') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="success" block @click="create('success')">{{ t('success') }}</mp-button>
-    <mp-button type="warning" block @click="create('warning')">{{ t('warning') }}</mp-button>
-    <mp-button type="info" block @click="create('info')">{{ t('info') }}</mp-button>
-    <mp-button type="danger" block @click="create('error')">{{ t('error') }}</mp-button>
-    <mp-button type="primary" block @click="create('loading')">{{ t('loading') }}</mp-button>
-    <mp-button type="default" block @click="create('normal')">{{ t('normal') }}</mp-button>
+    <mp-button status="success" block @click="create('success')">{{ t('success') }}</mp-button>
+    <mp-button status="warning" block @click="create('warning')">{{ t('warning') }}</mp-button>
+    <mp-button status="info" block @click="create('info')">{{ t('info') }}</mp-button>
+    <mp-button status="danger" block @click="create('error')">{{ t('error') }}</mp-button>
+    <mp-button status="primary" block @click="create('loading')">{{ t('loading') }}</mp-button>
+    <mp-button status="default" block @click="create('normal')">{{ t('normal') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('componentCall') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="primary" block @click="changeValue('show1')">{{ t('basicUsage') }}</mp-button>
-    <mp-button type="primary" block @click="changeValue('show3')">{{ t('multiLine') }}</mp-button>
-    <mp-button type="primary" block @click="changeValue('show2')">{{ t('bottomDisplay') }}</mp-button>
-    <mp-button type="primary" block @click="changeValue('show4')">{{ t('hiddenTime') }}</mp-button>
-    <mp-button type="primary" block @click="changeValue('show5')">{{ t('customIcon') }}</mp-button>
-    <mp-button type="primary" block @click="changeValue('show9')">{{ t('forbidClick') }}</mp-button>
-    <mp-button type="primary" block @click="changeValue('showClosable')">{{ t('closable') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('show1')">{{ t('basicUsage') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('show3')">{{ t('multiLine') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('show2')">{{ t('bottomDisplay') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('show4')">{{ t('hiddenTime') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('show5')">{{ t('customIcon') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('show9')">{{ t('forbidClick') }}</mp-button>
+    <mp-button status="primary" block @click="changeValue('showClosable')">{{ t('closable') }}</mp-button>
   </mp-space>
 
   <div class="message-demo">
@@ -164,14 +164,14 @@ function openMultiple() {
     <mp-message v-model:open="show2" position="bottom">
       {{ t('text') }}
       <template #action>
-        <mp-button type="primary" :elevation="false" size="sm" @click="show2 = false">{{ t('close') }}</mp-button>
+        <mp-button status="primary" :elevation="false" size="sm" @click="show2 = false">{{ t('close') }}</mp-button>
       </template>
     </mp-message>
 
     <mp-message v-model:open="show3" :vertical="true">
       {{ t('text') }}
       <template #action>
-        <mp-button type="primary" :elevation="false" size="sm" @click="show3 = false">{{ t('close') }}</mp-button>
+        <mp-button status="primary" :elevation="false" size="sm" @click="show3 = false">{{ t('close') }}</mp-button>
       </template>
     </mp-message>
 

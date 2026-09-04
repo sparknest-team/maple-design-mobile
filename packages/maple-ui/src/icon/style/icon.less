@@ -2,24 +2,27 @@
   --mp-icon-size: 20px;
 }
 
-.mp-icon {
+.mp-icon,
+.mp-svg-icon {
   position: relative;
   display: inline-flex;
-  justify-content: center;
+  flex-shrink: 0;
   align-items: center;
-  vertical-align: bottom;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  vertical-align: middle;
   color: inherit;
+}
+
+.mp-icon {
   font-size: var(--mp-icon-size);
 
   svg {
     width: 1em;
     height: 1em;
-  }
-
-  &.mp-svg-icon {
-    width: 1em;
-    height: 1em;
-    flex-shrink: 0;
   }
 
   &--shrinking {

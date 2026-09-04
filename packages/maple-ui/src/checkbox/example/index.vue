@@ -80,7 +80,7 @@ onThemeChange()
     <mp-checkbox v-model="value10" v-model:indeterminate="indeterminate">
       {{ t('indeterminateValue') }} {{ indeterminate }}
     </mp-checkbox>
-    <mp-button type="primary" @click="indeterminate = !indeterminate">{{ t('toggle') }}</mp-button>
+    <mp-button status="primary" @click="indeterminate = !indeterminate">{{ t('toggle') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('checkboxGroup') }}</app-type>
@@ -91,8 +91,8 @@ onThemeChange()
   <div class="relation">{{ t('currentValue') }} {{ value6 }}</div>
   <mp-divider size-y="14px" />
   <mp-space :size="[0, 10]">
-    <mp-button type="primary" @click="$refs.group.checkAll()">{{ t('checkAll') }}</mp-button>
-    <mp-button type="primary" @click="$refs.group.inverseAll()">{{ t('inverseAll') }}</mp-button>
+    <mp-button status="primary" @click="$refs.group.checkAll()">{{ t('checkAll') }}</mp-button>
+    <mp-button status="primary" @click="$refs.group.inverseAll()">{{ t('inverseAll') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('checkboxGroupOptions') }}</app-type>

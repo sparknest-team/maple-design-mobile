@@ -28,12 +28,12 @@ onThemeChange()
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-tooltip content="Tooltip">
-    <mp-button type="primary">{{ t('basicUsage') }}</mp-button>
+    <mp-button status="primary">{{ t('basicUsage') }}</mp-button>
   </mp-tooltip>
 
   <app-type>{{ t('contentSlot') }}</app-type>
   <mp-tooltip>
-    <mp-button type="primary">{{ t('contentSlot') }}</mp-button>
+    <mp-button status="primary">{{ t('contentSlot') }}</mp-button>
 
     <template #content>
       <m-icon-star />
@@ -46,7 +46,7 @@ onThemeChange()
   </mp-select>
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placementValue">
-      <mp-button type="primary">
+      <mp-button status="primary">
         <m-icon-star />
       </mp-button>
     </mp-tooltip>
@@ -58,30 +58,30 @@ onThemeChange()
       <mp-button>{{ t('defaultTooltip') }}</mp-button>
     </mp-tooltip>
     <mp-tooltip type="primary" content="Tooltip">
-      <mp-button type="primary">{{ t('primaryTooltip') }}</mp-button>
+      <mp-button status="primary">{{ t('primaryTooltip') }}</mp-button>
     </mp-tooltip>
     <mp-tooltip type="info" content="Tooltip">
-      <mp-button type="info">{{ t('infoTooltip') }}</mp-button>
+      <mp-button status="info">{{ t('infoTooltip') }}</mp-button>
     </mp-tooltip>
     <mp-tooltip type="success" content="Tooltip">
-      <mp-button type="success">{{ t('successTooltip') }}</mp-button>
+      <mp-button status="success">{{ t('successTooltip') }}</mp-button>
     </mp-tooltip>
     <mp-tooltip type="warning" content="Tooltip">
-      <mp-button type="warning">{{ t('warningTooltip') }}</mp-button>
+      <mp-button status="warning">{{ t('warningTooltip') }}</mp-button>
     </mp-tooltip>
     <mp-tooltip type="danger" content="Tooltip">
-      <mp-button type="danger">{{ t('dangerTooltip') }}</mp-button>
+      <mp-button status="danger">{{ t('dangerTooltip') }}</mp-button>
     </mp-tooltip>
   </mp-space>
 
   <app-type>{{ t('customColor') }}</app-type>
   <mp-tooltip content="Tooltip" color="#d81b60" text-color="#fff">
-    <mp-button type="primary">{{ t('customColor') }}</mp-button>
+    <mp-button status="primary">{{ t('customColor') }}</mp-button>
   </mp-tooltip>
 
   <app-type>{{ t('offset') }}</app-type>
   <mp-tooltip content="Tooltip" :offset-x="64" :offset-y="-10">
-    <mp-button type="primary">{{ t('offset') }}</mp-button>
+    <mp-button status="primary">{{ t('offset') }}</mp-button>
   </mp-tooltip>
 
   <app-type>{{ t('trigger') }}</app-type>
@@ -90,7 +90,7 @@ onThemeChange()
     <mp-option label="hover" />
   </mp-select>
   <mp-tooltip content="Tooltip" style="margin-top: 15px" :trigger="trigger">
-    <mp-button type="primary">{{ t('trigger') }}</mp-button>
+    <mp-button status="primary">{{ t('trigger') }}</mp-button>
   </mp-tooltip>
 
   <app-type>{{ t('events') }}</app-type>
@@ -101,12 +101,12 @@ onThemeChange()
     @close="Message.warning('close')"
     @closed="Message.error('closed')"
   >
-    <mp-button type="primary">{{ t('events') }}</mp-button>
+    <mp-button status="primary">{{ t('events') }}</mp-button>
   </mp-tooltip>
 
   <app-type>{{ t('disabled') }}</app-type>
   <mp-tooltip content="Tooltip" disabled>
-    <mp-button type="primary">{{ t('disabled') }}</mp-button>
+    <mp-button status="primary">{{ t('disabled') }}</mp-button>
   </mp-tooltip>
 
   <div style="margin-bottom: 100px"></div>

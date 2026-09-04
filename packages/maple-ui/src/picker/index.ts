@@ -24,7 +24,7 @@ interface PickerOptions {
   escToClose?: boolean
   popupContainer?: TeleportProps['to']
   dynamic?: boolean
-  onClickOverlay?: () => void
+  onClickMask?: (event: MouseEvent) => void
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
@@ -32,7 +32,7 @@ interface PickerOptions {
   onChange?: (values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void
   onConfirm?: (values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void
   onCancel?: (values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void
-  onKeyEscape?: () => void
+  onKeyEscape?: (event: KeyboardEvent) => void
 }
 
 type PickerResolvedState = 'confirm' | 'cancel' | 'close'

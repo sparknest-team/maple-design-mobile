@@ -10,7 +10,5 @@ export default {
   '--mp-dialog-title-font-size': 'var(--mp-font-size-lg)',
   '--mp-dialog-actions-padding': '0 12px 12px',
   '--mp-dialog-button-margin-left': '6px',
-  '--mp-dialog-confirm-button-color': 'var(--mp-color-primary)',
-  '--mp-dialog-cancel-button-color': 'var(--mp-color-primary)',
   '--mp-dialog-background': 'var(--mp-color-bg-1)',
 }

@@ -9,7 +9,7 @@
 ```html
 <template>
   <mp-tooltip content="Tooltip">
-    <mp-button type="primary">基本使用</mp-button>
+    <mp-button status="primary">基本使用</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -19,7 +19,7 @@
 ```html
 <template>
   <mp-tooltip>
-    <mp-button type="primary">内容插槽</mp-button>
+    <mp-button status="primary">内容插槽</mp-button>
     
     <template #content>
       <m-icon-star />
@@ -62,7 +62,7 @@ const placementOptions = [
   
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placement">
-      <mp-button type="primary">
+      <mp-button status="primary">
         <m-icon-star />
       </mp-button>
     </mp-tooltip>
@@ -88,19 +88,19 @@ const placementOptions = [
       <mp-button>默认</mp-button>
     </mp-tooltip>
     <mp-tooltip type="primary" content="Tooltip">
-      <mp-button type="primary">主要</mp-button>
+      <mp-button status="primary">主要</mp-button>
     </mp-tooltip>
     <mp-tooltip type="info" content="Tooltip">
-      <mp-button type="info">信息</mp-button>
+      <mp-button status="info">信息</mp-button>
     </mp-tooltip>
     <mp-tooltip type="success" content="Tooltip">
-      <mp-button type="success">成功</mp-button>
+      <mp-button status="success">成功</mp-button>
     </mp-tooltip>
     <mp-tooltip type="warning" content="Tooltip">
-      <mp-button type="warning">警告</mp-button>
+      <mp-button status="warning">警告</mp-button>
     </mp-tooltip>
     <mp-tooltip type="danger" content="Tooltip">
-      <mp-button type="danger">危险</mp-button>
+      <mp-button status="danger">危险</mp-button>
     </mp-tooltip>
   </mp-space>
 </template>
@@ -111,7 +111,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-tooltip content="Tooltip" color="#d81b60" text-color="#fff">
-    <mp-button type="primary">自定义颜色</mp-button>
+    <mp-button status="primary">自定义颜色</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -123,7 +123,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-tooltip content="Tooltip" :offset-x="64" :offset-y="-10">
-    <mp-button type="primary">偏移量</mp-button>
+    <mp-button status="primary">偏移量</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -135,7 +135,7 @@ const placementOptions = [
 ```html
 <template>
   <mp-tooltip content="Tooltip" trigger="hover">
-    <mp-button type="primary">触发方式</mp-button>
+    <mp-button status="primary">触发方式</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -155,7 +155,7 @@ import { Message } from '@maplejs/maple-ui'
     @close="Message.warning('close')"
     @closed="Message.error('closed')"
   >
-    <mp-button type="primary">注册事件</mp-button>
+    <mp-button status="primary">注册事件</mp-button>
   </mp-tooltip>
 </template>
 ```
@@ -167,7 +167,7 @@ import { Message } from '@maplejs/maple-ui'
 ```html
 <template>
   <mp-tooltip content="Tooltip" disabled>
-    <mp-button type="primary">禁用提示</mp-button>
+    <mp-button status="primary">禁用提示</mp-button>
   </mp-tooltip>
 </template>
 ```

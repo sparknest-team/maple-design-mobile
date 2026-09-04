@@ -4,413 +4,176 @@
     mp-image-preview-cover
     :class="n('popup')"
     :transition="n('$-fade')"
-    :mask="false"
-    :mask-closable="mergedMaskClosable"
-    :esc-to-close="mergedEscToClose"
+    :mask-closable="maskClosable"
+    :esc-to-close="escToClose"
     :lock-scroll="lockScroll"
     :popup-container="popupContainer"
     @open="$emit('open')"
+    @opened="$emit('opened')"
     @close="$emit('close')"
     @closed="$emit('closed')"
-    @opened="$emit('opened')"
     @key-escape="$emit('keyEscape')"
-    @route-change="$emit('routeChange')"
   >
-    <mp-carousel
-      ref="carouselRef"
-      :class="n('swipe')"
+    <div
+      :class="n('stage')"
+      data-image-preview-stage
       mp-image-preview-cover
-      :touchable="canSwipe"
-      :indicator="indicator && mergedImages.length > 1"
-      :current="mergedCurrent"
-      :loop="mergedLoop"
-      v-bind="$attrs"
-      @change="onChange"
+      @wheel="onWheel"
+      @pointerdown="onPointerDown"
+      @pointermove="onPointerMove"
+      @pointerup="onPointerUp"
+      @pointercancel="onPointerUp"
+      @dblclick="onDoubleClick"
     >
-      <template #default>
-        <mp-carousel-item
-          v-for="(image, idx) in mergedImages"
-          :key="`${image}-${idx}`"
-          :class="n('swipe-item')"
-          mp-image-preview-cover
-        >
-          <div
-            :class="n('zoom-container')"
-            :style="{
-              transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
-              transitionTimingFunction,
-              transitionDuration,
-            }"
-            @touchstart="handleTouchstart($event, idx)"
-            @touchmove="handleTouchmove"
-            @touchend="handleTouchend"
-            @touchcancel="handleTouchcancel"
-          >
-            <img
-              role="img"
-              :class="classes(n('image'), [isPreventDefault, n('--prevent')])"
-              :src="image"
-              :alt="image"
-            />
-          </div>
-        </mp-carousel-item>
-      </template>
-
-      <template #indicator="{ index, length }">
-        <slot name="indicator" :index="index" :length="length">
-          <div v-if="indicator && mergedImages.length > 1" :class="n('indicators')">{{ index + 1 }} / {{ length }}</div>
-        </slot>
-      </template>
-    </mp-carousel>
-
-    <mp-icon v-if="mergedCloseable" :class="n('close-icon')" mp-image-preview-cover @click="close">
-      <slot name="close-icon">
-        <MIconCloseCircle />
+      <slot name="image" v-bind="{ src, scale, rotate, translateX, translateY, moving, previewedImgProps }">
+        <div :class="n('image-frame')">
+          <img
+            v-bind="previewedImgProps"
+            role="img"
+            data-image-preview-image
+            :src="src"
+            :alt="previewedImgProps?.alt || src"
+            :class="[previewedImgProps?.class, n('image'), { [n('image-moving')]: moving }]"
+            :style="[
+              previewedImgProps?.style,
+              { transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(${scale})` },
+            ]"
+            :draggable="false"
+            @dragstart.prevent
+            @contextmenu="imagePreventDefault && $event.preventDefault()"
+          />
+        </div>
       </slot>
-    </mp-icon>
-
-    <div v-if="$slots.extra" :class="n('extra')">
-      <slot name="extra" />
     </div>
 
-    <div v-if="$slots.actions" :class="n('actions')">
+    <div
+      v-if="showToolbar && mergedActions.length"
+      :class="n('toolbar')"
+      data-image-preview-toolbar
+      mp-image-preview-cover
+    >
+      <button
+        v-for="action in mergedActions"
+        :key="action"
+        type="button"
+        :class="n('toolbar-action')"
+        @click="runAction(action)"
+      >
+        {{ actionLabels[action] }}
+      </button>
       <slot name="actions" />
     </div>
+
+    <mp-icon
+      v-if="closable"
+      :class="n('close-icon')"
+      data-image-preview-interactive
+      mp-image-preview-cover
+      @click="close"
+    >
+      <slot name="close-icon"><MIconCloseCircle /></slot>
+    </mp-icon>
+    <div v-if="$slots.overlay" :class="n('overlay')" data-image-preview-overlay><slot name="overlay" /></div>
+    <div v-if="$slots.extra" :class="n('extra')"><slot name="extra" /></div>
   </mp-popup>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, toRefs } from 'vue'
 import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
-import { call, clamp, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { useEventListener, useTouch } from '@maplejs/maple-use'
-import MpCarousel from '../carousel'
-import MpCarouselItem from '../carousel/CarouselItem.vue'
-import { type CarouselToOptions } from '../carousel/props'
 import MpIcon from '../icon'
 import MpPopup from '../popup'
 import { createNamespace } from '../utils/components'
-import { imagePlatformConfig } from './platform.config'
-import { props } from './previewProps'
-import { getPreviewCurrent, getPreviewImages } from './utils/previewUtils'
+import type { ImagePreviewActionName } from './api'
+import { usePreviewController } from './composables/usePreviewController'
+import { imagePreviewProps } from './previewProps'
 
-const { name, n, classes } = createNamespace('image-preview')
-
-const DISTANCE_OFFSET = 12
-const EVENT_DELAY = 200
-const TAP_DELAY = 350
-const ANIMATION_DURATION = 200
-const LONG_PRESS_DELAY = 500
-const BASE_RATIO = 1
+const { name, n } = createNamespace('image-preview')
 
 export default defineComponent({
   name,
-  components: {
-    MIconCloseCircle,
-    MpCarousel,
-    MpCarouselItem,
-    MpPopup,
-    MpIcon,
-  },
+  components: { MIconCloseCircle, MpIcon, MpPopup },
   inheritAttrs: false,
-  props,
-  emits: [
-    'update:open',
-    'update:current',
-    'openChange',
-    'open',
-    'opened',
-    'close',
-    'closed',
-    'keyEscape',
-    'routeChange',
-    'longPress',
-    'change',
-  ],
+  props: imagePreviewProps,
+  emits: ['update:open', 'openChange', 'open', 'opened', 'close', 'closed', 'keyEscape', 'longPress', 'prev', 'next'],
   setup(props, { emit }) {
-    const localOpen = ref(props.defaultOpen)
-    const mergedOpen = computed({
-      get() {
-        return props.open ?? localOpen.value
+    const refs = toRefs(props)
+    const controller = usePreviewController({
+      open: refs.open,
+      defaultOpen: props.defaultOpen,
+      src: refs.src,
+      interaction: refs.interaction,
+      defaultScale: refs.defaultScale,
+      minScale: refs.minScale,
+      maxScale: refs.maxScale,
+      scaleStep: refs.scaleStep,
+      wheelZoom: refs.wheelZoom,
+      keyboard: refs.keyboard,
+      draggable: refs.draggable,
+      keepDragOffset: refs.keepDragOffset,
+      closeOnImageTap: refs.closeOnImageTap,
+      onOpenChange: (open) => {
+        emit('update:open', open)
+        emit('openChange', open)
+        props.onOpenChange?.(open)
       },
-      set(value: boolean) {
-        if (props.open === undefined) {
-          localOpen.value = value
-        }
-        emit('update:open', value)
-        emit('openChange', value)
-      },
+      onKeyEscape: () => emit('keyEscape'),
+      onLongPress: () => emit('longPress'),
+      onPrev: () => emit('prev'),
+      onNext: () => emit('next'),
     })
 
-    const mergedImages = computed(() => getPreviewImages(props))
-    const localCurrent = ref(getPreviewCurrent(props.defaultCurrent))
-    const mergedCurrent = computed({
-      get() {
-        return props.current === undefined ? localCurrent.value : getPreviewCurrent(props.current)
-      },
-      set(index: number) {
-        if (index === mergedCurrent.value) {
-          return
-        }
-        if (props.current === undefined) {
-          localCurrent.value = index
-        }
-        emit('update:current', index)
-        emit('change', index)
-      },
-    })
-    const mergedCloseable = computed(() => props.closable ?? imagePlatformConfig.defaultClosable)
-    const mergedMaskClosable = computed(() => props.maskClosable ?? imagePlatformConfig.defaultMaskClosable)
-    const mergedEscToClose = computed(() => props.escToClose ?? true)
-    const mergedLoop = computed(() => props.loop ?? imagePlatformConfig.defaultLoop)
-
-    const scale = ref(1)
-    const translateX = ref(0)
-    const translateY = ref(0)
-    const transitionTimingFunction = ref<string | undefined>()
-    const transitionDuration = ref<string | undefined>()
-    const canSwipe = ref(true)
-    const carouselRef = ref<InstanceType<typeof MpCarousel> | null>(null)
-    const { moveX, moveY, distance, startTime, startTouch, moveTouch, endTouch } = useTouch()
-    const isPreventDefault = computed(() => {
-      const { imagePreventDefault } = props
-      return mergedOpen.value && imagePreventDefault
-    })
-
-    let closeRunner: number | null = null
-    let longPressRunner: number | null = null
-    let isLongPress = false
-    const targets: Record<string, HTMLElement | null> = {
-      start: null,
-      prev: null,
+    const desktopActions: ImagePreviewActionName[] = [
+      'fullScreen',
+      'rotateLeft',
+      'rotateRight',
+      'originalSize',
+      'zoomOut',
+      'zoomIn',
+      'download',
+    ]
+    const mergedActions = computed(() => props.actionsLayout ?? (controller.isDesktop.value ? desktopActions : []))
+    const actionLabels: Record<ImagePreviewActionName, string> = {
+      prev: '‹',
+      next: '›',
+      fullScreen: '⛶',
+      rotateLeft: '↶',
+      rotateRight: '↷',
+      originalSize: '1:1',
+      zoomOut: '−',
+      zoomIn: '+',
+      download: '↓',
+      close: '×',
     }
 
-    watch(mergedCurrent, (index) => {
-      carouselRef.value?.to(index)
-    })
-
-    useEventListener(() => document, 'contextmenu', preventImageDefault)
-
-    function zoomIn(ratio: number | string) {
-      scale.value = toNumber(ratio)
-      canSwipe.value = false
-      targets.prev = null
-
-      window.setTimeout(() => {
-        transitionTimingFunction.value = 'linear'
-        transitionDuration.value = '0s'
-      }, ANIMATION_DURATION)
-    }
-
-    function zoomOut() {
-      scale.value = 1
-      translateX.value = 0
-      translateY.value = 0
-      canSwipe.value = true
-      targets.prev = null
-      transitionTimingFunction.value = undefined
-      transitionDuration.value = undefined
-    }
-
-    function isDoubleTouch(target: HTMLElement) {
-      if (!targets.prev) {
-        return false
-      }
-
-      return (
-        distance.value <= DISTANCE_OFFSET &&
-        performance.now() - startTime.value <= EVENT_DELAY &&
-        targets.prev === target
-      )
-    }
-
-    function isTapTouch(target: HTMLElement) {
-      if (!target || !targets.start || !targets.prev) {
-        return false
-      }
-
-      return (
-        distance.value <= DISTANCE_OFFSET &&
-        performance.now() - startTime.value < TAP_DELAY &&
-        (target === targets.start || target.parentNode === targets.start)
-      )
-    }
-
-    function handleTouchcancel() {
-      endTouch()
-
-      window.clearTimeout(longPressRunner as number)
-      isLongPress = false
-      targets.start = null
-    }
-
-    function handleTouchend(event: TouchEvent) {
-      endTouch()
-
-      window.clearTimeout(longPressRunner as number)
-
-      if (isLongPress) {
-        isLongPress = false
+    function download() {
+      if (!props.src) {
         return
       }
-
-      const isTap = isTapTouch(event.target as HTMLElement)
-      closeRunner = window.setTimeout(() => {
-        isTap && close()
-        targets.start = null
-      }, EVENT_DELAY)
+      const anchor = document.createElement('a')
+      anchor.href = props.src
+      anchor.download = ''
+      anchor.click()
     }
-
-    function handleTouchstart(event: TouchEvent, idx: number) {
-      window.clearTimeout(closeRunner as number)
-      window.clearTimeout(longPressRunner as number)
-
-      const target = event.currentTarget as HTMLElement
-      targets.start = target
-
-      longPressRunner = window.setTimeout(() => {
-        isLongPress = true
-        emit('longPress', idx)
-      }, LONG_PRESS_DELAY)
-
-      if (isDoubleTouch(target)) {
-        scale.value > BASE_RATIO ? zoomOut() : zoomIn(props.zoom)
-        return
+    const toggleFullscreen = () =>
+      document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()
+    function runAction(action: ImagePreviewActionName) {
+      const actions: Record<ImagePreviewActionName, () => void> = {
+        prev: () => emit('prev'),
+        next: () => emit('next'),
+        fullScreen: toggleFullscreen,
+        rotateLeft: controller.rotateLeft,
+        rotateRight: controller.rotateRight,
+        originalSize: controller.reset,
+        zoomOut: controller.zoomOut,
+        zoomIn: controller.zoomIn,
+        download,
+        close: controller.close,
       }
-
-      startTouch(event)
-      targets.prev = target
+      actions[action]()
     }
 
-    function getZoom(target: HTMLElement) {
-      const { offsetWidth, offsetHeight } = target
-      const { naturalWidth, naturalHeight } = target.querySelector(`.${n('image')}`) as HTMLImageElement
-
-      return {
-        width: offsetWidth,
-        height: offsetHeight,
-        imageRadio: naturalHeight / naturalWidth,
-        rootRadio: offsetHeight / offsetWidth,
-        zoom: toNumber(props.zoom),
-      }
-    }
-
-    function getLimitX(target: HTMLElement) {
-      const { zoom, imageRadio, rootRadio, width, height } = getZoom(target)
-
-      if (!imageRadio) {
-        return 0
-      }
-
-      const displayWidth = imageRadio > rootRadio ? height / imageRadio : width
-
-      return Math.max(0, (zoom * displayWidth - width) / 2) / zoom
-    }
-
-    function getLimitY(target: HTMLElement) {
-      const { zoom, imageRadio, rootRadio, width, height } = getZoom(target)
-
-      if (!imageRadio) {
-        return 0
-      }
-
-      const displayHeight = imageRadio > rootRadio ? height : width * imageRadio
-
-      return Math.max(0, (zoom * displayHeight - height) / 2) / zoom
-    }
-
-    function handleTouchmove(event: TouchEvent) {
-      if (!targets.prev) {
-        return
-      }
-
-      moveTouch(event)
-
-      const target = event.currentTarget as HTMLElement
-
-      if (distance.value > DISTANCE_OFFSET) {
-        window.clearTimeout(longPressRunner as number)
-      }
-
-      if (scale.value > BASE_RATIO) {
-        const limitX = getLimitX(target)
-        const limitY = getLimitY(target)
-
-        translateX.value = clamp(translateX.value + moveX.value, -limitX, limitX)
-        translateY.value = clamp(translateY.value + moveY.value, -limitY, limitY)
-      }
-
-      targets.prev = target
-    }
-
-    function close() {
-      if (scale.value > BASE_RATIO) {
-        zoomOut()
-        setTimeout(() => {
-          mergedOpen.value = false
-        }, ANIMATION_DURATION)
-        return
-      }
-
-      mergedOpen.value = false
-    }
-
-    function preventImageDefault(event: Event) {
-      if (isPreventDefault.value) {
-        preventDefault(event)
-      }
-    }
-
-    function onChange(index: number) {
-      mergedCurrent.value = index
-    }
-
-    function prev(options?: CarouselToOptions) {
-      carouselRef.value?.prev(options)
-    }
-
-    function next(options?: CarouselToOptions) {
-      carouselRef.value?.next(options)
-    }
-
-    function to(idx: number, options?: CarouselToOptions) {
-      carouselRef.value?.to(idx, options)
-    }
-
-    function zoom(ratio: number) {
-      ratio <= BASE_RATIO ? zoomOut() : zoomIn(ratio)
-    }
-
-    return {
-      carouselRef,
-      isPreventDefault,
-      mergedOpen,
-      mergedImages,
-      mergedCurrent,
-      mergedCloseable,
-      mergedMaskClosable,
-      mergedEscToClose,
-      mergedLoop,
-      scale,
-      translateX,
-      translateY,
-      canSwipe,
-      transitionTimingFunction,
-      transitionDuration,
-      n,
-      classes,
-      toNumber,
-      handleTouchstart,
-      handleTouchmove,
-      handleTouchend,
-      handleTouchcancel,
-      close,
-      onChange,
-      prev,
-      next,
-      to,
-      zoom,
-    }
+    return { ...controller, n, mergedActions, actionLabels, runAction, toggleFullscreen }
   },
 })
 </script>

@@ -15,7 +15,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = true">Show Overlay</mp-button>
+  <mp-button status="primary" block @click="show = true">Show Overlay</mp-button>
   <mp-overlay v-model:open="open" />
 </template>
 ```
@@ -30,7 +30,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = true">Overlay Content</mp-button>
+  <mp-button status="primary" block @click="show = true">Overlay Content</mp-button>
   <mp-overlay v-model:open="open">
     <div class="overlay-content">
       As he came into the window.
@@ -61,7 +61,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = true">Click Overlay</mp-button>
+  <mp-button status="primary" block @click="show = true">Click Overlay</mp-button>
   <mp-overlay
     v-model:open="open"
     @click="Message.success('click')"

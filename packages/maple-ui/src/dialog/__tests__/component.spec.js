@@ -1,522 +1,165 @@
-import { createApp } from 'vue'
+import { createApp, createSSRApp, h, nextTick } from 'vue'
+import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import Dialog from '..'
-import VarButton from '../../button'
-import MpIcon from '../../icon'
+import Dialog, { _DialogComponent as DialogComponent, dialogProps } from '..'
 import { delay, triggerKeyboard } from '../../utils/test'
-import VarDialog from '../Dialog'
 
-test('dialog component plugin', () => {
-  const app = createApp({}).use(Dialog.Component)
-  expect(app.component(Dialog.Component.name)).toBeTruthy()
-})
-
-const Wrapper = {
-  components: {
-    [VarDialog.name]: VarDialog,
-  },
-  props: ['maskClosable', 'beforeClose', 'onClickOverlay'],
-  data: () => ({
-    open: false,
-  }),
-  template: `
-    <mp-dialog v-model:open="open" v-bind="$props" :popup-container="null" />
-  `,
+function mountDialog(props = {}, slots = {}) {
+  return mount(DialogComponent, { props: { open: true, popupContainer: false, ...props }, slots })
 }
 
-describe('test dialog component props', () => {
-  test('dialog component confirmButton', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__confirm-button').exists()).toBe(true)
-
-    await wrapper.setProps({
-      confirmButton: false,
-    })
-    expect(wrapper.find('.mp-dialog__confirm-button').exists()).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component cancelButton', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__cancel-button').exists()).toBe(true)
-
-    await wrapper.setProps({
-      cancelButton: false,
-    })
-    expect(wrapper.find('.mp-dialog__cancel-button').exists()).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component confirmButtonText', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__confirm-button').text()).toBe('确认')
-
-    await wrapper.setProps({
-      confirmButtonText: 'confirm',
-    })
-    expect(wrapper.find('.mp-dialog__confirm-button').text()).toBe('confirm')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component cancelButtonText', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__cancel-button').text()).toBe('取消')
-
-    await wrapper.setProps({
-      cancelButtonText: 'cancel',
-    })
-    expect(wrapper.find('.mp-dialog__cancel-button').text()).toBe('cancel')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component title', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__title').text()).toBe('提示')
-
-    await wrapper.setProps({
-      title: 'Dialog Title',
-    })
-    expect(wrapper.find('.mp-dialog__title').text()).toBe('Dialog Title')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component message', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        message: 'Dialog',
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__message').text()).toBe('Dialog')
-
-    await wrapper.setProps({
-      message: 'Dialog Message',
-    })
-    expect(wrapper.find('.mp-dialog__message').text()).toBe('Dialog Message')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component dialogClass', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        dialogClass: 'test-dialog-class',
-      },
-    })
-
-    expect(wrapper.find('.test-dialog-class').exists()).toBe(true)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component dialogStyle', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        dialogStyle: {
-          background: 'red',
-        },
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog').attributes('style')).toContain('background: red')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component width', async () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        width: 100,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog').attributes('style')).toContain('width: 100px')
-
-    await wrapper.setProps({
-      width: '200',
-    })
-    expect(wrapper.find('.mp-dialog').attributes('style')).toContain('width: 200px')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component messageAlign', () => {
-    ;['left', 'center', 'right'].forEach((align) => {
-      const wrapper = mount(Wrapper, {
-        props: {
-          open: true,
-          messageAlign: align,
-        },
-      })
-
-      expect(wrapper.find('.mp-dialog__message').attributes('style')).toContain(`text-align: ${align}`)
-
-      wrapper.unmount()
-    })
-  })
-
-  test('dialog component confirmButtonColor', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        confirmButtonColor: 'blue',
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__confirm-button[mp-dialog-cover]').attributes('style')).toContain(
-      'background: blue',
-    )
-
-    wrapper.unmount()
-  })
-
-  test('dialog component cancelButtonColor', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        cancelButtonColor: 'blue',
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__cancel-button[mp-dialog-cover]').attributes('style')).toContain('background: blue')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component confirmButtonTextColor', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        confirmButtonTextColor: 'blue',
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__confirm-button[mp-dialog-cover]').attributes('style')).toContain('color: blue')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component cancelButtonTextColor', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        cancelButtonTextColor: 'blue',
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__cancel-button[mp-dialog-cover]').attributes('style')).toContain('color: blue')
-
-    wrapper.unmount()
-  })
+test('dialog plugins', () => {
+  const app = createApp({}).use(Dialog)
+  expect(app.component(DialogComponent.name)).toBeTruthy()
+  expect(app.config.globalProperties.$dialog.open).toBeTypeOf('function')
 })
 
-describe('test dialog component events', () => {
-  test('dialog component click overlay', async () => {
-    const onClickOverlay = vi.fn()
-
-    const wrapper = mount(Wrapper, {
-      props: {
-        onClickOverlay,
-        maskClosable: false,
-      },
-    })
-    await wrapper.setData({ open: true })
-
-    await wrapper.find('.mp-popup__overlay').trigger('click')
-    expect(onClickOverlay).toHaveBeenCalledTimes(1)
-    expect(wrapper.vm.open).toBe(true)
-
-    await wrapper.setProps({ maskClosable: true })
-    await wrapper.find('.mp-popup__overlay').trigger('click')
-    expect(onClickOverlay).toHaveBeenCalledTimes(2)
-    expect(wrapper.vm.open).toBe(false)
-
-    wrapper.unmount()
+describe('dialog props', () => {
+  test('shared defaults', () => {
+    expect(dialogProps.defaultOpen.default).toBe(false)
+    expect(dialogProps.titleAlign.default).toBe('center')
+    expect(dialogProps.messageAlign.default).toBe('left')
+    expect(dialogProps.alignCenter.default).toBe(true)
+    expect(dialogProps.closable.default).toBe(true)
   })
 
-  test('dialog component beforeClose', async () => {
-    const wrapper = mount({
-      components: {
-        [VarDialog.name]: VarDialog,
-      },
-      data: () => ({
-        open: true,
-      }),
-      methods: {
-        async beforeClose(_action, change) {
-          await delay(500)
-          change()
-        },
-      },
-      template: `<mp-dialog v-model:open="open" :popup-container="null" :before-close="beforeClose" />`,
-    })
-
-    await wrapper.find('.mp-popup__overlay').trigger('click')
-    expect(wrapper.vm.open).toBe(true)
-
-    await delay(600)
-    expect(wrapper.vm.open).toBe(false)
-
-    await wrapper.setData({ open: true })
-
-    await wrapper.find('.mp-dialog__cancel-button').trigger('click')
-    expect(wrapper.vm.open).toBe(true)
-
-    await delay(600)
-    expect(wrapper.vm.open).toBe(false)
-
-    await wrapper.setData({ open: true })
-
-    await wrapper.find('.mp-dialog__confirm-button').trigger('click')
-    expect(wrapper.vm.open).toBe(true)
-
-    await delay(600)
-    expect(wrapper.vm.open).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog keyboard escape', async () => {
-    const onKeyEscape = vi.fn()
-    const wrapper = mount({
-      components: {
-        [VarDialog.name]: VarDialog,
-      },
-      data: () => ({
-        open: true,
-      }),
-      methods: {
-        onKeyEscape,
-      },
-      template: `<mp-dialog v-model:open="open" :popup-container="null" @key-escape="onKeyEscape" />`,
-    })
-
-    await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-    expect(onKeyEscape).toBeCalledTimes(1)
-    expect(wrapper.vm.open).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog keyboard escape and escToClose', async () => {
-    const onKeyEscape = vi.fn()
-    const wrapper = mount({
-      components: {
-        [VarDialog.name]: VarDialog,
-      },
-      data: () => ({
-        open: true,
-      }),
-      methods: {
-        onKeyEscape,
-      },
-      template: `<mp-dialog v-model:open="open" :esc-to-close="false" :popup-container="null" @key-escape="onKeyEscape" />`,
-    })
-
-    await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-    expect(onKeyEscape).toBeCalledTimes(1)
-    expect(wrapper.vm.open).toBe(true)
-
-    wrapper.unmount()
-  })
-})
-
-describe('test dialog component slots', () => {
-  test('dialog title slot', async () => {
-    const wrapper = mount({
-      components: {
-        [VarDialog.name]: VarDialog,
-        [MpIcon.name]: MpIcon,
-      },
-      data: () => ({
-        open: true,
-      }),
-      template: `
-        <mp-dialog v-model:open="open" :popup-container="null">
-          <template #title>
-            <mp-icon name="information" />
-          </template>
-        </mp-dialog>
-      `,
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-
-    await wrapper.find('.mp-icon').exists()
-
-    wrapper.unmount()
-  })
-
-  test('dialog default slot', () => {
-    const wrapper = mount({
-      components: {
-        [VarDialog.name]: VarDialog,
-      },
-      data: () => ({
-        open: true,
-      }),
-      template: `
-        <mp-dialog v-model:open="open" :popup-container="null">
-          dialog default slot
-        </mp-dialog>
-      `,
-    })
-
-    expect(wrapper.find('.mp-dialog__message').text()).toBe('dialog default slot')
-
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.unmount()
-  })
-
-  test('dialog footer slot', async () => {
-    const wrapper = mount({
-      components: {
-        [VarDialog.name]: VarDialog,
-        [VarButton.name]: VarButton,
-      },
-      data: () => ({
-        open: true,
-      }),
-      template: `<mp-dialog v-model:open="open" :popup-container="null">
-        <template #footer="{slotClass, cancel, confirm}">
-          <div :class="slotClass">
-            <mp-button class="cancel" @click="cancel">cancel</mp-button>
-            <mp-button class="confirm" @click="confirm">confirm</mp-button>
-          </div>
-        </template>
-      </mp-dialog>`,
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-
-    await wrapper.find('.cancel').trigger('click')
-    await delay(300)
-    expect(wrapper.vm.open).toBe(false)
-
-    await wrapper.setData({ open: true })
-
-    await wrapper.find('.confirm').trigger('click')
-    await delay(300)
-    expect(wrapper.vm.open).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component type icon', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        type: 'warning',
-        title: 'warning title',
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__title-icon').exists()).toBe(true)
-    expect(wrapper.find('.mp-dialog__title-icon svg').exists()).toBe(true)
-    expect(wrapper.find('.mp-dialog--type-warning').exists()).toBe(true)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component footer', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        footer: false,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__actions').exists()).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component hideTitle', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        hideTitle: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-dialog__title').exists()).toBe(false)
-
-    wrapper.unmount()
-  })
-
-  test('dialog component bodyClass and bodyStyle', () => {
-    const wrapper = mount(Wrapper, {
-      props: {
-        open: true,
-        bodyClass: 'custom-body',
-        bodyStyle: { padding: '8px' },
-      },
-    })
-
-    const message = wrapper.find('.mp-dialog__message')
-    expect(message.classes()).toContain('custom-body')
-    expect(message.attributes('style')).toContain('padding: 8px')
-
-    wrapper.unmount()
-  })
-
-  test('dialog component unmountOnClose', async () => {
-    const wrapper = mount(VarDialog, {
-      props: {
-        open: true,
-        unmountOnClose: true,
-        popupContainer: null,
-      },
-      global: {
-        stubs: {
-          transition: false,
-        },
-      },
-    })
-
+  test('supports uncontrolled open', () => {
+    const wrapper = mount(DialogComponent, { props: { defaultOpen: true, popupContainer: false } })
     expect(wrapper.find('.mp-dialog').exists()).toBe(true)
+  })
 
-    await wrapper.setProps({ open: false })
-    await delay(300)
+  test('renders content, type and layout modifiers', () => {
+    const wrapper = mountDialog({
+      title: 'Title',
+      message: 'Message',
+      type: 'warning',
+      simple: true,
+      fullscreen: true,
+      messageAlign: 'center',
+    })
+    expect(wrapper.find('.mp-dialog__title').text()).toContain('Title')
+    expect(wrapper.find('.mp-dialog__message').text()).toBe('Message')
+    expect(wrapper.find('.mp-dialog__message').attributes('style')).toContain('text-align: center')
+    expect(wrapper.find('.mp-dialog').classes()).toEqual(
+      expect.arrayContaining(['mp-dialog--type-warning', 'mp-dialog--simple', 'mp-dialog--fullscreen']),
+    )
+  })
 
-    expect(wrapper.find('.mp-dialog').exists()).toBe(false)
+  test('configures buttons through ButtonProps', () => {
+    const wrapper = mountDialog({
+      confirmButtonProps: { variant: 'default', status: 'danger' },
+      cancelButtonProps: { disabled: true },
+    })
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--status-danger')
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--variant-default')
+    expect(wrapper.find('.mp-dialog__cancel-button').attributes('disabled')).toBeDefined()
+  })
 
+  test('uses the Button color system for default actions', () => {
+    const wrapper = mountDialog()
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--status-default')
+    expect(wrapper.find('.mp-dialog__cancel-button').classes()).toContain('mp-button--status-default')
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--variant-text')
+    expect(wrapper.find('.mp-dialog__cancel-button').classes()).toContain('mp-button--variant-text')
+  })
+
+  test('renders close button with accessible name', () => {
+    const wrapper = mountDialog({ closeButtonAriaLabel: '关闭对话框' })
+    expect(wrapper.get('button[aria-label="关闭对话框"]')).toBeTruthy()
+    expect(wrapper.get('[role="dialog"]').attributes('aria-modal')).toBe('true')
+  })
+
+  test('keeps closable independent from simple mode', () => {
+    const wrapper = mountDialog({ simple: true, closable: true })
+    expect(wrapper.find('.mp-dialog__close-button').exists()).toBe(true)
+  })
+})
+
+describe('dialog actions', () => {
+  test('emits confirm and cancel with the original event', async () => {
+    const confirmWrapper = mountDialog()
+    await confirmWrapper.get('.mp-dialog__confirm-button').trigger('click')
+    expect(confirmWrapper.emitted('confirm')?.[0]?.[0]).toBeInstanceOf(Event)
+
+    const cancelWrapper = mountDialog()
+    await cancelWrapper.get('.mp-dialog__cancel-button').trigger('click')
+    expect(cancelWrapper.emitted('cancel')?.[0]?.[0]).toBeInstanceOf(Event)
+  })
+
+  test('uses click-mask and close action', async () => {
+    const beforeClose = vi.fn((_action, done) => done())
+    const wrapper = mountDialog({ maskClosable: true, beforeClose })
+    await wrapper.get('.mp-popup__overlay').trigger('click')
+    expect(wrapper.emitted('click-mask')).toHaveLength(1)
+    expect(beforeClose).toHaveBeenCalledWith('close', expect.any(Function), expect.any(Object))
+    expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+  })
+
+  test('waits for asynchronous beforeClose', async () => {
+    const wrapper = mountDialog({
+      beforeClose: (_action, done) => setTimeout(done, 20),
+    })
+    await wrapper.get('.mp-dialog__confirm-button').trigger('click')
+    expect(wrapper.emitted('confirm')).toBeUndefined()
+    await delay(30)
+    expect(wrapper.emitted('confirm')).toHaveLength(1)
+  })
+
+  test('ESC emits key-escape and closes without cancel', async () => {
+    const wrapper = mountDialog()
+    await triggerKeyboard(window, 'keydown', { key: 'Escape' })
+    expect(wrapper.emitted('key-escape')).toHaveLength(1)
+    expect(wrapper.emitted('cancel')).toBeUndefined()
+    expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+  })
+})
+
+describe('dialog slots and instance', () => {
+  test('footer exposes confirm, cancel and close only', () => {
+    let slotProps
+    mountDialog(
+      {},
+      {
+        footer: (props) => {
+          slotProps = props
+          return h('div', 'footer')
+        },
+      },
+    )
+    expect(slotProps).toEqual(
+      expect.objectContaining({
+        cancel: expect.any(Function),
+        close: expect.any(Function),
+        confirm: expect.any(Function),
+      }),
+    )
+    expect(slotProps.slotClass).toBeUndefined()
+  })
+
+  test('exposes close, confirm and cancel', () => {
+    const wrapper = mountDialog()
+    expect(wrapper.vm.close).toBeTypeOf('function')
+    expect(wrapper.vm.confirm).toBeTypeOf('function')
+    expect(wrapper.vm.cancel).toBeTypeOf('function')
+  })
+
+  test('traps keyboard focus and renders safely during SSR', async () => {
+    const wrapper = mount(DialogComponent, {
+      attachTo: document.body,
+      props: { open: true, popupContainer: false },
+    })
+    await nextTick()
+    await delay(0)
+    const buttons = wrapper.findAll('button')
+    buttons.at(-1).element.focus()
+    await wrapper.get('[role="dialog"]').trigger('keydown', { key: 'Tab' })
+    expect(document.activeElement).toBe(buttons[0].element)
     wrapper.unmount()
+
+    const html = await renderToString(
+      createSSRApp({ render: () => h(DialogComponent, { open: true, popupContainer: false }) }),
+    )
+    expect(html).toContain('mp-dialog')
   })
 })

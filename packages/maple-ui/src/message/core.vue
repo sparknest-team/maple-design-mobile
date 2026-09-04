@@ -34,7 +34,15 @@
       </div>
       <div v-if="$slots.action || closable" :class="n('action')">
         <slot name="action" />
-        <mp-button v-if="closable" :class="n('close')" text round :elevation="false" size="sm" @click="handleClose">
+        <mp-button
+          v-if="closable"
+          :class="n('close')"
+          variant="text"
+          round
+          :elevation="false"
+          size="sm"
+          @click="handleClose"
+        >
           <mp-icon :size="18"><MIconWindowClose /></mp-icon>
         </mp-button>
       </div>

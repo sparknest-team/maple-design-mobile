@@ -37,13 +37,11 @@ test('localeProvider locale', async () => {
   expect(wrapper.html()).toMatchSnapshot()
   expect(container.innerHTML).contains('确认')
   expect(container.innerHTML).contains('取消')
-  expect(container.innerHTML).contains('提示')
   await wrapper.setProps({ locale: 'en-US' })
   expect(container.innerHTML).toMatchSnapshot()
   expect(wrapper.html()).toMatchSnapshot()
   expect(container.innerHTML).contains('Confirm')
   expect(container.innerHTML).contains('Cancel')
-  expect(container.innerHTML).contains('Hint')
 
   wrapper.unmount()
 })

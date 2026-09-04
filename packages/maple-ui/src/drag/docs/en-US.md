@@ -9,7 +9,7 @@ Make the element draggable freely.
 ```html
 <template>
   <mp-drag>
-    <mp-button type="primary">Basic Use</mp-button>
+    <mp-button status="primary">Basic Use</mp-button>
   </mp-drag>
 </template>
 ```
@@ -19,7 +19,7 @@ Make the element draggable freely.
 ```html
 <template>
   <mp-drag direction="x">
-    <mp-button type="primary">Direction</mp-button>
+    <mp-button status="primary">Direction</mp-button>
   </mp-drag>
 </template>
 ```
@@ -29,10 +29,10 @@ Make the element draggable freely.
 ```html
 <template>
   <mp-drag style="left: 0; top: 0" attraction="x">
-    <mp-button type="primary">X Attraction</mp-button>
+    <mp-button status="primary">X Attraction</mp-button>
   </mp-drag>
   <mp-drag style="left: 100px; top: 0" attraction="y">
-    <mp-button type="primary">Y Attraction</mp-button>
+    <mp-button status="primary">Y Attraction</mp-button>
   </mp-drag>
 </template>
 ```
@@ -42,7 +42,7 @@ Make the element draggable freely.
 ```html
 <template>
   <mp-drag disabled>
-    <mp-button type="primary" disabled>Disabled</mp-button>
+    <mp-button status="primary" disabled>Disabled</mp-button>
   </mp-drag>
 </template>
 ```
@@ -52,7 +52,7 @@ Make the element draggable freely.
 ```html
 <template>
   <mp-drag style="top: 80px; left: 80px" :boundary="{ top: 80, bottom: 80, left: 80, right: 80 }">
-    <mp-button type="primary">Boundary</mp-button>
+    <mp-button status="primary">Boundary</mp-button>
   </mp-drag>
 </template>
 ```
@@ -72,10 +72,10 @@ function reset() {
 
 <template>
   <mp-drag ref="drag" style="top: 100px">
-    <mp-button type="primary">Drag Element</mp-button>
+    <mp-button status="primary">Drag Element</mp-button>
   </mp-drag>
 
-  <mp-button type="primary" @click="reset">Reset Position</mp-button>
+  <mp-button status="primary" @click="reset">Reset Position</mp-button>
 </template>
 ```
 

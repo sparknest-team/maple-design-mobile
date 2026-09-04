@@ -92,7 +92,7 @@
 <template>
   <mp-alert title="…" message="…">
     <template #action>
-      <mp-button size="xs" type="primary">详情</mp-button>
+      <mp-button size="xs" status="primary">详情</mp-button>
     </template>
   </mp-alert>
 </template>

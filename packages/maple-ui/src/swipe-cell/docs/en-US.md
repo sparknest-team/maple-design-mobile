@@ -10,7 +10,7 @@ Swipe a cell to reveal action buttons on either side.
 <template>
   <mp-swipe-cell>
     <template #right>
-      <mp-button type="danger" style="height: 100%">Delete</mp-button>
+      <mp-button status="danger" style="height: 100%">Delete</mp-button>
     </template>
     <mp-cell title="Swipe left" border />
   </mp-swipe-cell>
@@ -23,11 +23,11 @@ Swipe a cell to reveal action buttons on either side.
 <template>
   <mp-swipe-cell>
     <template #left>
-      <mp-button type="primary" style="height: 100%">Select</mp-button>
+      <mp-button status="primary" style="height: 100%">Select</mp-button>
     </template>
     <mp-cell title="Swipe either side" border />
     <template #right>
-      <mp-button type="danger" style="height: 100%">Delete</mp-button>
+      <mp-button status="danger" style="height: 100%">Delete</mp-button>
     </template>
   </mp-swipe-cell>
 </template>

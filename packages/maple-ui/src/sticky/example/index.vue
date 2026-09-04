@@ -18,20 +18,20 @@ const handleChange = (value) => {
   <div class="example">
     <app-type>{{ t('basicUsage') }}</app-type>
     <mp-sticky offset-top="14.4vmin">
-      <mp-button type="primary">{{ t('basicUsage') }}</mp-button>
+      <mp-button status="primary">{{ t('basicUsage') }}</mp-button>
     </mp-sticky>
 
     <app-type>{{ t('localSticky') }}</app-type>
     <div ref="scrollerRef" class="scroller">
       <mp-sticky :target="scrollerRef">
-        <mp-button type="success">{{ t('localSticky') }}</mp-button>
+        <mp-button status="success">{{ t('localSticky') }}</mp-button>
       </mp-sticky>
       <div class="block"></div>
     </div>
 
     <app-type>{{ t('changeEvent') }}</app-type>
     <mp-sticky :offset-top="54" @change="handleChange">
-      <mp-button type="warning">{{ t('changeEvent') }}</mp-button>
+      <mp-button status="warning">{{ t('changeEvent') }}</mp-button>
     </mp-sticky>
     <div class="change-status">{{ t('fixedStatus') }}: {{ fixed }}</div>
   </div>

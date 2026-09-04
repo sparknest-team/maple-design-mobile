@@ -1,19 +1,12 @@
 <template>
   <div style="position: relative">
-    <header>
-      <mp-app-bar class="app-bar" title-position="left" :title="bigCamelizeComponentName">
-        <template #left>
-          <mp-button
-            v-if="showBackIcon"
-            style="margin-right: 6px"
-            text
-            round
-            @click="back"
-            color="transparent"
-            text-color="#fff"
-          >
-            <mp-icon class="arrow-left" style="margin-top: 1px"><MIconChevronLeft /></mp-icon>
-          </mp-button>
+    <header class="mobile-page-header">
+      <mp-page-header
+        class="app-bar mobile-page-header__content"
+        :title="bigCamelizeComponentName"
+        v-on="showBackIcon ? { back } : {}"
+      >
+        <template #extra>
           <mp-button
             v-if="!showBackIcon && github"
             style="margin-left: 2px; margin-right: 6px"
@@ -25,8 +18,6 @@
           >
             <mp-icon class="github" style="margin-top: 1px"><MIconGithub /></mp-icon>
           </mp-button>
-        </template>
-        <template #right>
           <mp-button
             v-if="themes.length > 1"
             class="theme-button"
@@ -50,7 +41,7 @@
             <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
           </mp-button>
         </template>
-      </mp-app-bar>
+      </mp-page-header>
     </header>
     <div class="router-view__block">
       <router-view />
@@ -93,7 +84,6 @@ import { computed, defineComponent, ref, watch, type ComputedRef, type Ref } fro
 import config from '@config'
 import {
   IconChevronDown as MIconChevronDown,
-  IconChevronLeft as MIconChevronLeft,
   IconGithub as MIconGithub,
   IconPalette as MIconPalette,
   IconTranslate as MIconTranslate,
@@ -111,7 +101,7 @@ import { useRoute } from 'vue-router'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
-  components: { MIconChevronLeft, MIconGithub, MIconPalette, MIconChevronDown, MIconTranslate },
+  components: { MIconGithub, MIconPalette, MIconChevronDown, MIconTranslate },
   setup() {
     const bigCamelizeComponentName: Ref<string> = ref('')
     const route = useRoute()
@@ -215,6 +205,11 @@ export default defineComponent({
   box-sizing: border-box;
 }
 
+:root {
+  --site-mobile-page-header-safe-area-top: constant(safe-area-inset-top);
+  --site-mobile-page-header-safe-area-top: env(safe-area-inset-top, 0px);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -243,11 +238,15 @@ body {
   min-height: 50px;
 }
 
-header {
+.mobile-page-header {
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 99;
   width: 100%;
+  padding-top: var(--site-mobile-page-header-safe-area-top);
   font-weight: bold;
+  background: var(--site-config-color-app-bar);
 }
 
 .site {
@@ -267,7 +266,7 @@ header {
 .settings {
   position: fixed;
   z-index: 200;
-  top: 48px;
+  top: calc(48px + var(--site-mobile-page-header-safe-area-top));
   right: 5px;
   background: var(--site-config-color-bar);
 }
@@ -275,13 +274,13 @@ header {
 .theme-settings {
   position: fixed;
   z-index: 200;
-  top: 48px;
+  top: calc(48px + var(--site-mobile-page-header-safe-area-top));
   right: 68px;
   background: var(--site-config-color-bar);
 }
 
 .router-view__block {
-  padding: 55px 15px 15px;
+  padding: calc(55px + var(--site-mobile-page-header-safe-area-top)) 15px 15px;
 }
 
 .mobile-language-cell {
@@ -339,6 +338,32 @@ header {
 }
 
 .app-bar {
+  --mp-page-header-title-color: #fff;
+  --mp-page-header-subtitle-color: rgba(255, 255, 255, 0.72);
+  --mp-page-header-back-color: #fff;
+
   background: var(--site-config-color-app-bar) !important;
+
+  .mp-page-header {
+    min-height: 54px;
+    padding: 0 6px;
+
+    &__main {
+      flex: 1;
+    }
+
+    &__back {
+      width: 42px;
+      height: 54px;
+      margin-left: -6px;
+    }
+
+    &__extra {
+      display: flex;
+      align-items: center;
+      height: 54px;
+      margin-left: 0;
+    }
+  }
 }
 </style>

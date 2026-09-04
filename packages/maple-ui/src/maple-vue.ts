@@ -1,7 +1,6 @@
 import type { App } from 'vue'
 import ActionSheet from './action-sheet'
 import Alert from './alert'
-import AppBar from './app-bar'
 import AutoComplete from './auto-complete'
 import Avatar from './avatar'
 import BackTop from './back-top'
@@ -53,12 +52,14 @@ import Message from './message'
 import NoticeBar from './notice-bar'
 import NumberKeyboard from './number-keyboard'
 import Overlay from './overlay'
+import PageHeader from './page-header'
 import Pagination from './pagination'
 import Paper from './paper'
 import Picker from './picker'
 import Popover from './popover'
 import Popup from './popup'
 import Progress from './progress'
+import ProgressGroup from './progress-group'
 import PullRefresh from './pull-refresh'
 import Radio from './radio'
 import Rate from './rate'
@@ -96,7 +97,6 @@ function install(app: App) {
   const plugins = [
     ActionSheet,
     Alert,
-    AppBar,
     AutoComplete,
     Avatar,
     BackTop,
@@ -148,12 +148,14 @@ function install(app: App) {
     NoticeBar,
     NumberKeyboard,
     Overlay,
+    PageHeader,
     Pagination,
     Paper,
     Picker,
     Popover,
     Popup,
     Progress,
+    ProgressGroup,
     PullRefresh,
     Radio,
     Rate,
@@ -196,7 +198,6 @@ export {
   install,
   ActionSheet,
   Alert,
-  AppBar,
   AutoComplete,
   Avatar,
   BackTop,
@@ -248,12 +249,14 @@ export {
   NoticeBar,
   NumberKeyboard,
   Overlay,
+  PageHeader,
   Pagination,
   Paper,
   Picker,
   Popover,
   Popup,
   Progress,
+  ProgressGroup,
   PullRefresh,
   Radio,
   Rate,
@@ -291,7 +294,6 @@ export default {
   install,
   ActionSheet,
   Alert,
-  AppBar,
   AutoComplete,
   Avatar,
   BackTop,
@@ -343,12 +345,14 @@ export default {
   NoticeBar,
   NumberKeyboard,
   Overlay,
+  PageHeader,
   Pagination,
   Paper,
   Picker,
   Popover,
   Popup,
   Progress,
+  ProgressGroup,
   PullRefresh,
   Radio,
   Rate,

@@ -17,7 +17,7 @@
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -41,7 +41,7 @@
 
 <template>
   <mp-menu @select="handleSelect">
-    <mp-button type="primary">请选择</mp-button>
+    <mp-button status="primary">请选择</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -57,7 +57,7 @@
 ```html
 <template>
   <mp-menu trigger="hover" @select="handleSelect">
-    <mp-button type="primary">Hover 悬浮触发</mp-button>
+    <mp-button status="primary">Hover 悬浮触发</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -76,7 +76,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 <template>
   <mp-space>
     <mp-menu placement="bottom-start">
-      <mp-button type="primary">Bottom Start</mp-button>
+      <mp-button status="primary">Bottom Start</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -84,7 +84,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
     <mp-menu placement="bottom">
-      <mp-button type="primary">Bottom</mp-button>
+      <mp-button status="primary">Bottom</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -92,7 +92,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
     <mp-menu placement="bottom-end">
-      <mp-button type="primary">Bottom End</mp-button>
+      <mp-button status="primary">Bottom End</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -100,7 +100,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
     <mp-menu placement="top-start">
-      <mp-button type="primary">Top Start</mp-button>
+      <mp-button status="primary">Top Start</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -108,7 +108,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
     <mp-menu placement="top">
-      <mp-button type="primary">Top</mp-button>
+      <mp-button status="primary">Top</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -116,7 +116,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
     <mp-menu placement="top-end">
-      <mp-button type="primary">Top End</mp-button>
+      <mp-button status="primary">Top End</mp-button>
       <template #content>
         <mp-menu-option label="Option 1" />
         <mp-menu-option label="Option 2" />
@@ -163,7 +163,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 <template>
   <mp-space>
     <mp-menu v-model="valueNormal">
-      <mp-button type="primary"> {{ valueNormal ? valueNormal : '常规尺寸' }} </mp-button>
+      <mp-button status="primary"> {{ valueNormal ? valueNormal : '常规尺寸' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="吃饭" />
@@ -173,7 +173,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
     </mp-menu>
 
     <mp-menu size="small" v-model="valueSmall">
-      <mp-button type="primary"> {{ valueSmall ? valueSmall : '小型尺寸' }} </mp-button>
+      <mp-button status="primary"> {{ valueSmall ? valueSmall : '小型尺寸' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="吃饭" />
@@ -183,7 +183,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
     </mp-menu>
 
     <mp-menu size="mini" v-model="valueMini">
-      <mp-button type="primary"> {{ valueMini ? valueMini : '迷你尺寸' }} </mp-button>
+      <mp-button status="primary"> {{ valueMini ? valueMini : '迷你尺寸' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="吃饭" />
@@ -193,7 +193,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
     </mp-menu>
 
     <mp-menu size="large" v-model="valueLarge">
-      <mp-button type="primary"> {{ valueLarge ? valueLarge : '大型尺寸' }} </mp-button>
+      <mp-button status="primary"> {{ valueLarge ? valueLarge : '大型尺寸' }} </mp-button>
 
       <template #content>
         <mp-menu-option label="吃饭" />
@@ -216,7 +216,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? `value: ${value}` : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? `value: ${value}` : '请选择' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" :value="1" />
@@ -241,7 +241,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
 
     <template #content>
       <mp-menu-option v-for="option in options" :key="option.value" :label="option.label" />
@@ -261,7 +261,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu v-model="value">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -283,7 +283,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu multiple v-model="value">
-    <mp-button type="primary">{{ value.length ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value.length ? value : '请选择' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -309,7 +309,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu :hide-on-select="false" v-model="value">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -333,7 +333,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu @select="handleSelect">
-    <mp-button type="primary">选项分组</mp-button>
+    <mp-button status="primary">选项分组</mp-button>
 
     <template #content>
       <mp-menu-group title="用餐">
@@ -354,7 +354,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 ```html
 <template>
   <mp-menu>
-    <mp-button type="primary">插入图标</mp-button>
+    <mp-button status="primary">插入图标</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭">
@@ -377,7 +377,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 ```html
 <template>
   <mp-menu>
-    <mp-button type="primary">页脚</mp-button>
+    <mp-button status="primary">页脚</mp-button>
 
     <template #content>
       <mp-menu-option label="吃饭" />
@@ -418,7 +418,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu v-model="value" :options="options">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
   </mp-menu>
 </template>
 ```
@@ -470,7 +470,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu v-model="value" :options="options">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
   </mp-menu>
 </template>
 ```
@@ -522,7 +522,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu multiple v-model="value" :options="options">
-    <mp-button type="primary">{{ value.length ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value.length ? value : '请选择' }}</mp-button>
   </mp-menu>
 </template>
 ```
@@ -555,7 +555,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 <template>
   <mp-menu v-model="value" :options="options" :field-names="{ label: 'name', value: 'id' }">
-    <mp-button type="primary">{{ value ? value : '请选择' }}</mp-button>
+    <mp-button status="primary">{{ value ? value : '请选择' }}</mp-button>
   </mp-menu>
 </template>
 ```

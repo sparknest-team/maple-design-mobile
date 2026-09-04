@@ -18,7 +18,7 @@ onThemeChange()
 
   <app-type>{{ t('twoWayBinding') }}</app-type>
   <mp-space direction="column" size="large">
-    <mp-button type="primary" @click="expand = !expand">{{ t('toggle') }}</mp-button>
+    <mp-button status="primary" @click="expand = !expand">{{ t('toggle') }}</mp-button>
     <mp-ellipsis v-model:expand="expand" style="max-width: 50vmin">{{ t('text') }}</mp-ellipsis>
   </mp-space>
 

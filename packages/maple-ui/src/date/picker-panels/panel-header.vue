@@ -4,7 +4,7 @@
       :class="n('arrow')"
       mp-date-picker-header-cover
       round
-      text
+      variant="text"
       :disabled="disabled.left"
       @click="checkDate('prev')"
     >
@@ -19,7 +19,7 @@
       :class="n('arrow')"
       mp-date-picker-header-cover
       round
-      text
+      variant="text"
       :disabled="disabled.right"
       @click="checkDate('next')"
     >

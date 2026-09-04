@@ -1,12 +1,63 @@
 # Icon
 
-### Intro
+## Introduction
 
 SVG Vue component icon library.
 Icons are sourced from [Material Design Icon](https://materialdesignicons.com/).
 
-After configuring `MapleResolver`, use `m-icon-*` tags. The resolver imports each icon on demand from the corresponding `@maplejs/icons-vue` subpath.
-Use the `<mp-icon>` wrapper to control size, color, and interaction consistently. Use `<img>` or an image component for web images.
+## Recommended Usage
+
+After configuring `MapleResolver()`, use template tags for automatic on-demand imports. `m-icon-*` is the Resolver's icon namespace; only the corresponding individual icon is loaded from `@maplejs/icons-vue`:
+
+```html
+<mp-icon size="40" color="red">
+  <m-icon-checkbox-marked-circle />
+</mp-icon>
+```
+
+You can also import a standalone icon component manually:
+
+```ts
+import { IconCheckboxMarkedCircle } from '@maplejs/icons-vue'
+```
+
+For manual imports, the `<mp-icon>` wrapper is still recommended when size, color, animation, or the interaction area should be controlled consistently:
+
+```html
+<mp-icon size="40" color="red">
+  <IconCheckboxMarkedCircle />
+</mp-icon>
+```
+
+Both approaches render the same result and support Tree Shaking. The Resolver generates the first import, while application code explicitly owns the second. Use `<img>` or an image component for web images.
+
+### Dynamic Names and Explicit Registration
+
+Use `<mp-icon :name>` only when the icon name must be decided at runtime. `name` only looks up icons explicitly registered on the current Vue application; `mp-icon` does not import the complete icon collection. Register only the icons required by the dynamic scenario:
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import { IconCheckboxMarkedCircle, IconInformation } from '@maplejs/icons-vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component('IconCheckboxMarkedCircle', IconCheckboxMarkedCircle)
+app.component('IconInformation', IconInformation)
+app.mount('#app')
+```
+
+If the application genuinely needs to access every icon by an arbitrary name, it can explicitly register the complete collection. This loads every icon:
+
+```ts
+import * as MapleIconsVue from '@maplejs/icons-vue'
+
+for (const [name, component] of Object.entries(MapleIconsVue)) {
+  if (name !== 'iconNames') app.component(name, component)
+}
+```
+
+## Examples
 
 ### Basic Usage
 
@@ -52,19 +103,7 @@ Use the `<mp-icon>` wrapper to control size, color, and interaction consistently
 
 ### Dynamic Name (Special Case)
 
-Use `<mp-icon :name>` only when the icon name must be decided at runtime. `name` only looks up icons explicitly registered on the current Vue application; the Icon component does not import the complete icon collection. Register only the icons required by the dynamic scenario. If the application registers the entire package, it explicitly accepts that bundle cost. Setting `transition (ms)` enables the switch animation.
-
-```ts
-// main.ts
-import { createApp } from 'vue'
-import { IconCheckboxMarkedCircle, IconInformation } from '@maplejs/icons-vue'
-import App from './App.vue'
-
-const app = createApp(App)
-app.component('IconCheckboxMarkedCircle', IconCheckboxMarkedCircle)
-app.component('IconInformation', IconInformation)
-app.mount('#app')
-```
+Set `transition` (in ms) to enable the icon-switch animation.
 
 ```html
 <script setup>
@@ -113,20 +152,6 @@ The list obtains every icon name from `iconNames` and resolves its SVG component
     <span>{{ name }}</span>
   </button>
 </template>
-```
-
-### Standalone icon package
-
-Import concrete icon components from `@maplejs/icons-vue` for SVG rendering and Tree Shaking. No icon font is required.
-
-```ts
-import { IconInformation } from '@maplejs/icons-vue'
-```
-
-```html
-<mp-icon :size="24" color="currentColor">
-  <IconInformation title="IconInformation" />
-</mp-icon>
 ```
 
 ## API

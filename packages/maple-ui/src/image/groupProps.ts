@@ -1,50 +1,15 @@
-import { type PropType } from 'vue'
-import type { ImagePreviewProps } from './types'
+import type { PropType } from 'vue'
+import { imagePreviewProps } from './previewProps'
+
+const { src: _src, previewedImgProps: _previewedImgProps, ...previewGroupSharedProps } = imagePreviewProps
+
+void _src
+void _previewedImgProps
 
 export const imagePreviewGroupProps = {
-  images: {
-    type: Array as PropType<string[]>,
-  },
-  open: {
-    type: Boolean,
-    default: undefined,
-  },
-  defaultOpen: {
-    type: Boolean,
-    default: false,
-  },
-  current: {
-    type: Number,
-    default: undefined,
-  },
-  defaultCurrent: {
-    type: Number,
-    default: 0,
-  },
-  loop: {
-    type: Boolean,
-    default: undefined,
-  },
-  closable: {
-    type: Boolean,
-    default: undefined,
-  },
-  maskClosable: {
-    type: Boolean,
-    default: undefined,
-  },
-  escToClose: {
-    type: Boolean,
-    default: undefined,
-  },
-  lockScroll: {
-    type: Boolean,
-    default: undefined,
-  },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
-    default: undefined,
-  },
-  previewProps: Object as PropType<Partial<ImagePreviewProps>>,
-  onOpenChange: Function as PropType<(open: boolean) => void>,
+  ...previewGroupSharedProps,
+  images: Array as PropType<string[]>,
+  current: { type: Number, default: undefined },
+  defaultCurrent: { type: Number, default: 0 },
+  loop: { type: Boolean, default: false },
 }

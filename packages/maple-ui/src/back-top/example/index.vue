@@ -49,7 +49,7 @@ function handleClick() {
       <mp-cell v-for="list in lists" :key="`custom-${list}`">Scroll to bottom {{ list }}</mp-cell>
     </div>
     <mp-back-top target-container="#content-scroll" :duration="300" @click="handleClick">
-      <mp-button type="primary" round>TOP</mp-button>
+      <mp-button status="primary" round>TOP</mp-button>
     </mp-back-top>
   </div>
 </template>

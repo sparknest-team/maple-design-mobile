@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message, Picker } from '@maplejs/maple-ui'
 import area from '../../../json/area.json'
 import { t, use } from './locale'
 
@@ -140,12 +139,12 @@ function handleChange(values, indexes) {
 <template>
   <app-type>{{ t('functionCall') }}</app-type>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button type="primary" block @click="picker">{{ t('singlePicker') }}</mp-button>
-    <mp-button type="primary" block @click="picker2">{{ t('multiplePicker') }}</mp-button>
-    <mp-button type="primary" block @click="picker3">{{ t('cascadePicker') }}</mp-button>
-    <mp-button type="primary" block @click="picker4">{{ t('areaPicker') }}</mp-button>
-    <mp-button type="primary" block @click="picker6">{{ t('columnsCount') }}</mp-button>
-    <mp-button type="primary" block @click="picker5">{{ t('valueMapping') }}</mp-button>
+    <mp-button status="primary" block @click="picker">{{ t('singlePicker') }}</mp-button>
+    <mp-button status="primary" block @click="picker2">{{ t('multiplePicker') }}</mp-button>
+    <mp-button status="primary" block @click="picker3">{{ t('cascadePicker') }}</mp-button>
+    <mp-button status="primary" block @click="picker4">{{ t('areaPicker') }}</mp-button>
+    <mp-button status="primary" block @click="picker6">{{ t('columnsCount') }}</mp-button>
+    <mp-button status="primary" block @click="picker5">{{ t('valueMapping') }}</mp-button>
   </mp-space>
 
   <app-type>{{ t('componentCall') }}</app-type>
@@ -170,7 +169,7 @@ function handleChange(values, indexes) {
 
   <app-type>{{ t('twoWayBinding') }}</app-type>
   <mp-space direction="column" size="large">
-    <mp-button type="primary" @click="values = ['A', 'B', 'C']">values: {{ values }} {{ t('reset') }}</mp-button>
+    <mp-button status="primary" @click="values = ['A', 'B', 'C']">values: {{ values }} {{ t('reset') }}</mp-button>
     <mp-picker v-model="values" :columns="columns2" @change="handleChange" />
   </mp-space>
 </template>

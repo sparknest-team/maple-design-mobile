@@ -131,7 +131,7 @@ const show = ref(true)
 <template>
   <mp-alert title="Pride And Prejudice" message="…">
     <template #action>
-      <mp-button size="xs" type="primary">Detail</mp-button>
+      <mp-button size="xs" status="primary">Detail</mp-button>
     </template>
   </mp-alert>
 </template>

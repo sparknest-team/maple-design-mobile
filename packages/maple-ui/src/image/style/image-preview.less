@@ -9,6 +9,10 @@
   --mp-image-preview-actions-bottom: 32px;
   --mp-image-preview-close-icon-size: 22px;
   --mp-image-preview-close-icon-color: #fff;
+  --mp-image-preview-arrow-color: #fff;
+  --mp-image-preview-arrow-background: rgb(38 38 38 / 92%);
+  --mp-image-preview-arrow-background-hover: rgb(56 56 56 / 96%);
+  --mp-image-preview-arrow-background-active: rgb(24 24 24 / 96%);
 }
 
 .mp-image-preview {
@@ -20,6 +24,16 @@
   &__swipe[mp-image-preview-cover] {
     width: 100vw;
     height: 100%;
+  }
+
+  &__stage[mp-image-preview-cover] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
   }
 
   &__swipe-item[mp-image-preview-cover] {
@@ -40,6 +54,12 @@
     left: var(--mp-image-preview-extra-left);
   }
 
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
   &__actions {
     position: absolute;
     bottom: var(--mp-image-preview-actions-bottom);
@@ -50,6 +70,9 @@
   &__indicators {
     position: absolute;
     top: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
     width: 100%;
     padding: var(--mp-image-preview-swipe-indicators-padding);
     color: var(--mp-image-preview-swipe-indicators-text-color);
@@ -61,6 +84,72 @@
     height: 100%;
     object-fit: contain;
     -webkit-user-drag: none;
+    transition: transform 0.2s;
+    user-select: none;
+  }
+
+  &__image-frame {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__track {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  &__track-moving,
+  &__track-instant {
+    transition: none;
+  }
+
+  &__slide {
+    display: flex;
+    flex: 0 0 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &__track-instant &__image {
+    transition: none;
+  }
+
+  &__image-moving {
+    cursor: grabbing;
+    transition: none;
+  }
+
+  &__toolbar[mp-image-preview-cover] {
+    position: absolute;
+    bottom: var(--mp-image-preview-actions-bottom);
+    left: 50%;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgb(0 0 0 / 55%);
+    border-radius: 8px;
+    transform: translateX(-50%);
+  }
+
+  &__toolbar-action {
+    min-width: 28px;
+    padding: 2px 6px;
+    color: #fff;
+    font: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
   }
 
   // fix IOS & weChat long press image default behavior
@@ -76,5 +165,64 @@
     width: 100vw;
     height: 100%;
     transition: transform 0.2s;
+  }
+}
+
+.mp-image-preview-action__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+}
+
+.mp-image-preview__overlay .mp-image-preview__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--mp-image-preview-arrow-color);
+  font-size: 28px;
+  line-height: 1;
+  appearance: none;
+  background-color: var(--mp-image-preview-arrow-background);
+  border: 0;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover:not(:disabled) {
+    background-color: var(--mp-image-preview-arrow-background-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--mp-image-preview-arrow-background-active);
+  }
+
+  &--left {
+    left: 16px;
+  }
+
+  &--right {
+    right: 16px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
   }
 }

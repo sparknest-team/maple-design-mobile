@@ -177,8 +177,6 @@
 | `--time-range-toolbar-padding`           | `var(--picker-toolbar-padding, 0 4px)`                          |
 | `--time-range-title-text-color`          | `var(--picker-title-text-color, #555)`                          |
 | `--time-range-title-font-size`           | `var(--picker-title-font-size, 16px)`                           |
-| `--time-range-cancel-button-text-color`  | `var(--picker-cancel-button-text-color, #888)`                  |
-| `--time-range-confirm-button-text-color` | `var(--picker-confirm-button-text-color, var(--color-primary))` |
 
 面板样式变量见 [`TimeRangePicker`](/zh-CN/time-range-picker)。
 
@@ -280,8 +278,8 @@
   <mp-time-range-picker v-model="range">
     <template #actions>
       <mp-space size="small">
-        <mp-button type="primary" text>操作</mp-button>
-        <mp-button type="primary" text>操作</mp-button>
+        <mp-button status="primary" variant="text">操作</mp-button>
+        <mp-button status="primary" variant="text">操作</mp-button>
       </mp-space>
     </template>
   </mp-time-range-picker>

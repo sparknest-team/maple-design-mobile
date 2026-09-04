@@ -14,7 +14,7 @@ const Wrapper = {
   components: {
     [VarPopup.name]: VarPopup,
   },
-  props: ['maskClosable', 'onOpen', 'onClose', 'onClickOverlay', 'defaultStyle'],
+  props: ['maskClosable', 'onOpen', 'onClose', 'onClickMask', 'defaultStyle'],
   data: () => ({
     open: false,
   }),
@@ -75,27 +75,27 @@ test('popup zIndex', async () => {
   wrapper.unmount()
 })
 
-test('popup close on clickOverlay', async () => {
+test('popup close on clickMask', async () => {
   const onClose = vi.fn()
-  const onClickOverlay = vi.fn()
+  const onClickMask = vi.fn()
 
   const wrapper = mount(Wrapper, {
     props: {
       onClose,
-      onClickOverlay,
+      onClickMask,
     },
   })
 
   await wrapper.setData({ open: true })
 
   await wrapper.find('.mp-popup__overlay').trigger('click')
-  expect(onClickOverlay).toHaveBeenCalledTimes(1)
+  expect(onClickMask).toHaveBeenCalledTimes(1)
   expect(onClose).toHaveBeenCalledTimes(1)
 
   await wrapper.setData({ open: true })
   await wrapper.setProps({ maskClosable: false })
   await wrapper.find('.mp-popup__overlay').trigger('click')
-  expect(onClickOverlay).toHaveBeenCalledTimes(2)
+  expect(onClickMask).toHaveBeenCalledTimes(2)
   expect(onClose).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()

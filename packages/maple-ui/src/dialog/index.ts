@@ -1,197 +1,183 @@
-import { nextTick, reactive, type Ref, type TeleportProps } from 'vue'
-import { call, inBrowser, isString } from '@maplejs/maple-shared'
-import { buttonProps } from '../button/props'
-import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
-import type { ExtractPublicPropTypes } from '../utils/components'
+import type { AppContext, VNodeChild } from 'vue'
+import { createVNode, defineComponent, h, reactive, render } from 'vue'
+import { inBrowser } from '@maplejs/maple-shared'
+import { withInstall } from '../utils/components'
 import MpDialog from './Dialog.vue'
-import { props as dialogProps } from './props'
+import { dialogProps } from './props'
+import type { DialogAction, DialogConfig, DialogMethod, DialogReturn, DialogUpdateConfig } from './types'
 
-export type DialogAction = 'confirm' | 'cancel' | 'close'
-export type DialogActions = DialogAction
-export type DialogType = 'info' | 'success' | 'warning' | 'error'
+let defaultOptions: DialogConfig = {}
+const activeDialogs: DialogReturn[] = []
 
-export interface DialogBeforeCloseRefs {
-  confirmButtonLoading: Ref<boolean>
-  cancelButtonLoading: Ref<boolean>
-  confirmButtonDisabled: Ref<boolean>
-  cancelButtonDisabled: Ref<boolean>
+function renderContent(content: DialogConfig['content']) {
+  return typeof content === 'function' ? content() : (content as VNodeChild)
 }
 
-export interface DialogOptions {
-  open?: boolean
-  width?: string | number
-  title?: string
-  message?: string
-  messageAlign?: string
-  type?: DialogType
-  confirmButton?: boolean
-  cancelButton?: boolean
-  confirmButtonText?: string
-  cancelButtonText?: string
-  confirmButtonTextColor?: string
-  cancelButtonTextColor?: string
-  confirmButtonColor?: string
-  cancelButtonColor?: string
-  confirmButtonProps?: ExtractPublicPropTypes<typeof buttonProps>
-  cancelButtonProps?: ExtractPublicPropTypes<typeof buttonProps>
-  confirmButtonLoading?: boolean
-  cancelButtonLoading?: boolean
-  confirmButtonDisabled?: boolean
-  cancelButtonDisabled?: boolean
-  dialogClass?: string
-  dialogStyle?: Record<string, any>
-  footer?: boolean
-  hideTitle?: boolean
-  bodyClass?: string
-  bodyStyle?: Record<string, any>
-  unmountOnClose?: boolean
-  mask?: boolean
-  maskClass?: string
-  maskStyle?: Record<string, any>
-  lockScroll?: boolean
-  maskClosable?: boolean
-  escToClose?: boolean
-  onOpen?: () => void
-  onOpened?: () => void
-  beforeClose?: (action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void
-  onClose?: () => void
-  onClosed?: () => void
-  onConfirm?: () => void
-  onCancel?: () => void
-  onClickOverlay?: () => void
-  onKeyEscape?: () => void
-  popupContainer?: TeleportProps['to']
+function normalizeConfig(config: DialogConfig | string = {}): DialogConfig {
+  return typeof config === 'string' ? { message: config } : config
 }
 
-export type DialogUpdateOptions = Omit<
-  DialogOptions,
-  | 'onConfirm'
-  | 'onCancel'
-  | 'beforeClose'
-  | 'onOpen'
-  | 'onOpened'
-  | 'onClose'
-  | 'onClosed'
-  | 'onClickOverlay'
-  | 'onKeyEscape'
->
-
-export interface DialogReturn {
-  close: () => void
-  update: (options: DialogUpdateOptions) => void
-}
-
-export type UserDialogOptions = DialogOptions | string
-
-let singletonOptions: DialogOptions | null
-let defaultOptions: DialogOptions = {}
-
-function normalizeOptions(options: UserDialogOptions = {}) {
-  if (isString(options)) {
-    return { ...defaultOptions, message: options }
-  }
-
-  return { ...defaultOptions, ...options }
-}
-
-function createDialogMethod(defaultConfig: Partial<DialogOptions> = {}) {
-  return (options?: UserDialogOptions): DialogReturn & Promise<DialogAction | void> => {
+function createDialogMethod(defaultMethodConfig: Partial<DialogConfig> = {}) {
+  return (
+    userConfig: DialogConfig | string = {},
+    appContext?: AppContext,
+  ): DialogReturn & Promise<DialogAction | void> => {
     if (!inBrowser()) {
       return Object.assign(Promise.resolve(), { close: () => {}, update: () => {} })
     }
 
-    let resolvePromise: ((action: DialogAction | void) => void) | null = null
+    const config = {
+      closable: false,
+      simple: true,
+      ...defaultOptions,
+      ...defaultMethodConfig,
+      ...normalizeConfig(userConfig),
+    }
+    const reactiveConfig = reactive<Record<string, any>>({
+      titleAlign: 'start',
+      ...config,
+      open: true,
+      popupContainer: false,
+    })
+    let resolvePromise: ((action: DialogAction | void) => void) | undefined
+    let resolved = false
     const promise = new Promise<DialogAction | void>((resolve) => {
       resolvePromise = resolve
     })
-
-    Dialog.close()
-
-    const dialogOptions: DialogOptions = {
-      ...defaultConfig,
-      ...normalizeOptions(options),
+    const resolveAction = (action: DialogAction) => {
+      if (!resolved) {
+        resolved = true
+        resolvePromise?.(action)
+      }
     }
-    const reactiveDialogOptions: DialogOptions = reactive(dialogOptions)
-    reactiveDialogOptions.popupContainer = 'body'
-    singletonOptions = reactiveDialogOptions
 
-    let updateHandler: ((options: DialogUpdateOptions) => void) | null = null
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const hasTitleSlot = config.title != null && typeof config.title !== 'string'
+    const slots = {
+      default: () => renderContent(reactiveConfig.content ?? reactiveConfig.message),
+      title: hasTitleSlot ? () => renderContent(reactiveConfig.title) : undefined,
+      footer: typeof config.footer === 'boolean' ? undefined : () => renderContent(reactiveConfig.footer),
+    }
+    const dialogReturn: DialogReturn = {
+      close: () => {
+        reactiveConfig.open = false
+        resolveAction('close')
+      },
+      update: (updateConfig: DialogUpdateConfig) => Object.assign(reactiveConfig, updateConfig),
+    }
 
-    const { unmountInstance } = mountInstance(MpDialog, reactiveDialogOptions, {
-      onConfirm: () => {
-        call(reactiveDialogOptions.onConfirm)
-        resolvePromise?.('confirm')
-      },
-      onCancel: () => {
-        call(reactiveDialogOptions.onCancel)
-        resolvePromise?.('cancel')
-      },
-      onClose: () => {
-        call(reactiveDialogOptions.onClose)
-        resolvePromise?.('close')
-      },
-      onClosed: () => {
-        call(reactiveDialogOptions.onClosed)
-        unmountInstance()
-        singletonOptions === reactiveDialogOptions && (singletonOptions = null)
-      },
-      onRouteChange: () => {
-        unmountInstance()
-        singletonOptions === reactiveDialogOptions && (singletonOptions = null)
-      },
-      'onUpdate:open': (value: boolean) => {
-        reactiveDialogOptions.open = value
+    const Host = defineComponent({
+      setup() {
+        return () => {
+          const componentProps = { ...reactiveConfig }
+          delete componentProps.content
+          delete componentProps.message
+          if (hasTitleSlot) {
+            delete componentProps.title
+          }
+          return h(
+            MpDialog as any,
+            {
+              ...componentProps,
+              footer: typeof reactiveConfig.footer === 'boolean' ? reactiveConfig.footer : undefined,
+              'onUpdate:open': (open: boolean) => {
+                reactiveConfig.open = open
+              },
+              onConfirm: (event?: Event) => {
+                config.onConfirm?.(event)
+                resolveAction('confirm')
+              },
+              onCancel: (event?: Event) => {
+                config.onCancel?.(event)
+                resolveAction('cancel')
+              },
+              onOpen: config.onOpen,
+              onOpened: config.onOpened,
+              onClose: () => {
+                config.onClose?.()
+                resolveAction('close')
+              },
+              onClickMask: config.onClickMask,
+              onKeyEscape: config.onKeyEscape,
+              onClosed: () => {
+                config.onClosed?.()
+                render(null, host)
+                host.remove()
+                const index = activeDialogs.indexOf(dialogReturn)
+                if (index >= 0) {
+                  activeDialogs.splice(index, 1)
+                }
+              },
+            },
+            slots,
+          )
+        }
       },
     })
+    const vnode = createVNode(Host)
+    vnode.appContext = appContext ?? Dialog._context
+    render(vnode, host)
 
-    updateHandler = (updateOptions: DialogUpdateOptions) => {
-      Object.assign(reactiveDialogOptions, updateOptions)
-    }
+    activeDialogs.push(dialogReturn)
+    return Object.assign(promise, dialogReturn)
+  }
+}
 
-    reactiveDialogOptions.open = true
+const methods: DialogMethod = {
+  open: createDialogMethod(),
+  confirm: createDialogMethod({ type: 'warning' }),
+  alert: createDialogMethod({ cancelButton: false, maskClosable: false, escToClose: false }),
+  info: createDialogMethod({ type: 'info', cancelButton: false }),
+  success: createDialogMethod({ type: 'success', cancelButton: false }),
+  warning: createDialogMethod({ type: 'warning', cancelButton: false }),
+  error: createDialogMethod({ type: 'error', cancelButton: false }),
+}
 
-    return Object.assign(promise, {
+const Dialog = Object.assign(MpDialog, {
+  ...methods,
+  close: () => activeDialogs.at(-1)?.close(),
+  setDefaultOptions: (options: DialogConfig) => {
+    defaultOptions = { ...options }
+  },
+  resetDefaultOptions: () => {
+    defaultOptions = {}
+  },
+  _context: null as AppContext | null,
+})
+
+withInstall(MpDialog, Dialog, {
+  setup(app) {
+    Dialog._context = app._context
+    app.config.globalProperties.$dialog = Object.fromEntries(
+      Object.entries(methods).map(([name, method]) => [
+        name,
+        (config?: DialogConfig | string) => method(config, app._context),
+      ]),
+    )
+    Object.assign(app.config.globalProperties.$dialog, {
       close: Dialog.close,
-      update: (updateOptions: DialogUpdateOptions) => updateHandler?.(updateOptions),
+      setDefaultOptions: Dialog.setDefaultOptions,
+      resetDefaultOptions: Dialog.resetDefaultOptions,
     })
-  }
-}
-
-function Dialog(options?: UserDialogOptions): DialogReturn & Promise<DialogAction | void> {
-  return createDialogMethod()(options)
-}
-
-Dialog.open = createDialogMethod()
-Dialog.confirm = createDialogMethod({ type: 'warning' })
-Dialog.alert = createDialogMethod({ cancelButton: false, maskClosable: false, escToClose: false })
-
-Dialog.setDefaultOptions = function (options: DialogOptions) {
-  defaultOptions = options
-}
-
-Dialog.resetDefaultOptions = function () {
-  defaultOptions = {}
-}
-
-Dialog.close = function () {
-  if (singletonOptions != null) {
-    const prevSingletonOptions = singletonOptions
-    singletonOptions = null
-
-    nextTick().then(() => {
-      prevSingletonOptions.open = false
-    })
-  }
-}
-
-Dialog.Component = MpDialog
-withInstall(MpDialog)
-withInstall(MpDialog, Dialog)
-withPropsDefaultsSetter(Dialog, dialogProps)
-
+  },
+})
 export { dialogProps }
-
+export type {
+  DialogAction,
+  DialogBeforeCloseRefs,
+  DialogConfig,
+  DialogMessageAlign,
+  DialogMethod,
+  DialogReturn,
+  DialogService,
+  DialogTitleAlign,
+  DialogType,
+  DialogUpdateConfig,
+} from './types'
+export type { DialogProps } from './props'
 export type DialogInstance = InstanceType<typeof MpDialog>
 export const _DialogComponent = MpDialog
+export { Dialog }
 
 export default Dialog

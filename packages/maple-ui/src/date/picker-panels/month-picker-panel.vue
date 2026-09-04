@@ -13,7 +13,6 @@
         <ul :key="panelKey">
           <li v-for="month in MONTH_LIST" :key="month">
             <mp-button
-              type="primary"
               mp-month-picker-cover
               :ripple="false"
               :elevation="componentProps.buttonElevation"
@@ -38,7 +37,7 @@ import { toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
 import isSameOrBefore from 'dayjs/esm/plugin/isSameOrBefore/index.js'
-import MpButton from '../../button'
+import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
@@ -216,10 +215,12 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
+      const variant: ButtonVariant = computeOutline() ? 'outline' : computeText() ? 'text' : 'default'
+      const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
-        variant: computeOutline() ? 'outline' : computeText() ? 'text' : 'default',
-        status: !computeText() ? 'primary' : 'default',
+        variant,
+        status,
         color: !computeText() ? color : '',
         textColor: isCover ? '' : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,

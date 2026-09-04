@@ -37,10 +37,10 @@ document.documentElement.removeAttribute('maple-theme')
 
 <template>
   <mp-space direction="column" size="large">
-    <mp-button type="primary" block @click="StyleProvider(null)">亮色</mp-button>
-    <mp-button type="primary" block @click="StyleProvider(Themes.dark)">暗色</mp-button>
-    <mp-button type="primary" block @click="StyleProvider(Themes.md3Light)">MD3 亮色</mp-button>
-    <mp-button type="primary" block @click="StyleProvider(Themes.md3Dark)">MD3 暗色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider(null)">亮色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider(Themes.dark)">暗色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider(Themes.md3Light)">MD3 亮色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider(Themes.md3Dark)">MD3 暗色</mp-button>
   </mp-space>
 </template>
 ```

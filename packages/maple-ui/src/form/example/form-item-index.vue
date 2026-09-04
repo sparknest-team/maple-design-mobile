@@ -119,8 +119,8 @@ export default defineComponent({
       </mp-form-item>
     </mp-form>
 
-    <mp-button block type="primary" @click="validateAll">校验</mp-button>
-    <mp-button block type="warning" @click="clearValidateAll">清空校验</mp-button>
-    <mp-button block type="danger" @click="resetAll">重置</mp-button>
+    <mp-button block status="primary" @click="validateAll">校验</mp-button>
+    <mp-button block status="warning" @click="clearValidateAll">清空校验</mp-button>
+    <mp-button block status="danger" @click="resetAll">重置</mp-button>
   </mp-space>
 </template>

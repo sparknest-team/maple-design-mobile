@@ -4,7 +4,6 @@ export {
   install,
   ActionSheet,
   Alert,
-  AppBar,
   AutoComplete,
   Avatar,
   BackTop,
@@ -56,12 +55,14 @@ export {
   NoticeBar,
   NumberKeyboard,
   Overlay,
+  PageHeader,
   Pagination,
   Paper,
   Picker,
   Popover,
   Popup,
   Progress,
+  ProgressGroup,
   PullRefresh,
   Radio,
   Rate,
@@ -95,7 +96,6 @@ export {
 } from './maple-vue'
 export { _ActionSheetComponent } from './action-sheet'
 export { _AlertComponent } from './alert'
-export { _AppBarComponent } from './app-bar'
 export { _AutoCompleteComponent } from './auto-complete'
 export { _AvatarComponent, _AvatarGroupComponent } from './avatar'
 export { _BackTopComponent } from './back-top'
@@ -147,12 +147,14 @@ export { _MessageComponent } from './message'
 export { _NoticeBarComponent } from './notice-bar'
 export { _NumberKeyboardComponent } from './number-keyboard'
 export { _OverlayComponent } from './overlay'
+export { _PageHeaderComponent } from './page-header'
 export { _PaginationComponent } from './pagination'
 export { _PaperComponent } from './paper'
 export { _PickerComponent } from './picker'
 export { _PopoverComponent } from './popover'
 export { _PopupComponent } from './popup'
 export { _ProgressComponent } from './progress'
+export { _ProgressGroupComponent } from './progress-group'
 export { _PullRefreshComponent } from './pull-refresh'
 export { _RadioComponent, _RadioGroupComponent } from './radio'
 export { _RateComponent } from './rate'

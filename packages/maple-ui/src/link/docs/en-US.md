@@ -66,7 +66,7 @@ Link component for hyperlink to web pages.
     target="_blank" 
     underline="none"
   >
-    <mp-button type="primary">To Home</mp-button>
+    <mp-button status="primary">To Home</mp-button>
   </mp-link>
 </template>
 ```

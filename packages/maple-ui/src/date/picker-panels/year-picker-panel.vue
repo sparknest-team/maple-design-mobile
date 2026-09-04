@@ -16,7 +16,6 @@
       <ul ref="panel" :key="panelKey" :class="n()">
         <li v-for="year in yearList" :key="year">
           <mp-button
-            type="primary"
             mp-year-picker-cover
             :ripple="false"
             :elevation="componentProps.buttonElevation"
@@ -49,7 +48,7 @@ import {
 import { toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
 import dayjs from 'dayjs/esm/index.js'
-import MpButton from '../../button'
+import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import MpSticky from '../../sticky'
 import { createNamespace } from '../../utils/components'
 import { type Choose, type ComponentProps, type PanelBtnDisabled } from '../picker-props'
@@ -212,10 +211,12 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
+      const variant: ButtonVariant = computeOutline() ? 'outline' : computeText() ? 'text' : 'default'
+      const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
-        variant: computeOutline() ? 'outline' : computeText() ? 'text' : 'default',
-        status: !computeText() ? 'primary' : 'default',
+        variant,
+        status,
         color: !computeText() ? color : '',
         textColor: isCover ? '' : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,

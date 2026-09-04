@@ -17,7 +17,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = true">显示遮罩层</mp-button>
+  <mp-button status="primary" block @click="show = true">显示遮罩层</mp-button>
   <mp-overlay v-model:open="open" />
 </template>
 ```
@@ -32,7 +32,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = true">嵌入内容</mp-button>
+  <mp-button status="primary" block @click="show = true">嵌入内容</mp-button>
   <mp-overlay v-model:open="open">
     <div class="overlay-content">
       素胚勾勒出青花笔锋浓转淡, 
@@ -62,7 +62,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-button type="primary" block @click="show = true">点击遮罩层</mp-button>
+  <mp-button status="primary" block @click="show = true">点击遮罩层</mp-button>
   <mp-overlay
     v-model:open="open"
     @click="Message.success('click')"

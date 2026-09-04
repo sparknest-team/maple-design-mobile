@@ -23,8 +23,8 @@ onThemeChange()
   <mp-card :title="t('title')" :subtitle="t('subtitle')" :description="t('description')" src="cat.jpg">
     <template #extra>
       <mp-space>
-        <mp-button type="primary">{{ t('action1') }}</mp-button>
-        <mp-button type="primary">{{ t('action2') }}</mp-button>
+        <mp-button status="primary">{{ t('action1') }}</mp-button>
+        <mp-button status="primary">{{ t('action2') }}</mp-button>
       </mp-space>
     </template>
   </mp-card>
@@ -32,10 +32,10 @@ onThemeChange()
   <app-type>{{ t('horizontal') }}</app-type>
   <mp-card :title="t('title')" :subtitle="t('description')" layout="row" src="cat.jpg">
     <template #extra>
-      <mp-button text round>
+      <mp-button variant="text" round>
         <m-icon-star />
       </mp-button>
-      <mp-button round text>
+      <mp-button round variant="text">
         <m-icon-heart />
       </mp-button>
     </template>
@@ -47,7 +47,7 @@ onThemeChange()
   <app-type>{{ t('floating') }}</app-type>
   <mp-card v-model:floating="floating" :title="t('title')" :subtitle="t('subtitle')" src="cat.jpg">
     <template #extra>
-      <mp-button type="primary" @click="floating = true">{{ t('floating') }}</mp-button>
+      <mp-button status="primary" @click="floating = true">{{ t('floating') }}</mp-button>
     </template>
 
     <template #floating-content>
