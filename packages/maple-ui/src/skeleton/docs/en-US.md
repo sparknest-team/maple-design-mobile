@@ -96,6 +96,27 @@ const loading = ref(true)
 </template>
 ```
 
+### Custom Template
+
+Use the `template` slot to compose line and shape placeholders.
+
+```html
+<template>
+  <mp-skeleton :loading="loading">
+    <template #template>
+      <mp-space block direction="column" size="lg">
+        <mp-skeleton-line
+          :rows="3"
+          :widths="['100%', '100%', '60%']"
+        />
+        <mp-skeleton-shape shape="circle" />
+      </mp-space>
+    </template>
+    Loading Data
+  </mp-skeleton>
+</template>
+```
+
 ### Fullscreen Mode
 
 ```html
@@ -126,6 +147,7 @@ function fullscreen() {
 | Prop | Description | Type | Default | 
 | --- | --- | --- | --- | 
 | `loading` | Loading Status Set to `true` to turn on the skeleton | _boolean_ | `true` |
+| `animation` | Whether to enable the shimmer animation | _boolean_ | `true` |
 | `title` | Whether to display the title | _boolean_ | `false` |
 | `card` | Whether to display the card | _boolean_ | `false` |
 | `avatar` | Whether to display the avatar | _boolean_ | `false` |
@@ -142,6 +164,9 @@ function fullscreen() {
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Content not loaded | `-` |
+| `template` | Custom loading placeholder | `-` |
+
+The package also exports `SkeletonLine` and `SkeletonShape`, available as `Skeleton.Line` and `Skeleton.Shape` for custom templates.
 
 ### Style Variables
 
@@ -149,7 +174,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | --- | --- |
-| `--skeleton-content-padding` | `16px` |
+| `--mp-skeleton-content-padding` | `16px` |
 | `--skeleton-card-height` | `160px` |
 | `--skeleton-card-border-radius` | `4px` |
 | `--skeleton-card-margin-bottom` | `16px` |

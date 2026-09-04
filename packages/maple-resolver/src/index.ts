@@ -120,6 +120,8 @@ const mapleComponents = new Set([
   'Select',
   'Signature',
   'Skeleton',
+  'SkeletonLine',
+  'SkeletonShape',
   'Slider',
   'Space',
   'Step',
@@ -179,6 +181,8 @@ const styleDirAliases: Record<string, string> = {
   TimePicker: 'time',
   TimeRangePicker: 'time-range',
   HoverOverlay: 'hover',
+  SkeletonLine: 'skeleton',
+  SkeletonShape: 'skeleton',
 }
 
 const stylelessComponents = new Set([

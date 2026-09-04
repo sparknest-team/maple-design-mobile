@@ -1,13 +1,29 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as skeletonProps } from './props'
-import Skeleton from './Skeleton.vue'
+import { skeletonLineProps, skeletonProps, skeletonShapeProps } from './props'
+import _Skeleton from './Skeleton.vue'
+import SkeletonLine from './SkeletonLine.vue'
+import SkeletonShape from './SkeletonShape.vue'
 
-withInstall(Skeleton)
+const Skeleton = Object.assign(_Skeleton, { Line: SkeletonLine, Shape: SkeletonShape })
+withInstall(Skeleton, undefined, { components: [Skeleton, SkeletonLine, SkeletonShape] })
 withPropsDefaultsSetter(Skeleton, skeletonProps)
 
-export { skeletonProps }
+export { skeletonLineProps, skeletonProps, skeletonShapeProps }
 
-export type SkeletonInstance = InstanceType<typeof Skeleton>
+export type SkeletonInstance = InstanceType<typeof _Skeleton>
+export type SkeletonLineInstance = InstanceType<typeof SkeletonLine>
+export type SkeletonShapeInstance = InstanceType<typeof SkeletonShape>
+export type {
+  SkeletonLineProps,
+  SkeletonProps,
+  SkeletonShapeProps,
+  SkeletonShapeSize,
+  SkeletonShapeType,
+  SkeletonSize,
+} from './props'
+export { SkeletonLine, SkeletonShape }
 export const _SkeletonComponent = Skeleton
+export const _SkeletonLineComponent = SkeletonLine
+export const _SkeletonShapeComponent = SkeletonShape
 
 export default Skeleton

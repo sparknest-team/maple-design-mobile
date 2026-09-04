@@ -68,7 +68,7 @@ import Ripple from './ripple'
 import Search from './search'
 import Select from './select'
 import Signature from './signature'
-import Skeleton from './skeleton'
+import Skeleton, { SkeletonLine, SkeletonShape } from './skeleton'
 import Slider from './slider'
 import Space from './space'
 import SplitButton from './split-button'
@@ -266,6 +266,8 @@ export {
   Select,
   Signature,
   Skeleton,
+  SkeletonLine,
+  SkeletonShape,
   Slider,
   Space,
   SplitButton,
@@ -362,6 +364,8 @@ export default {
   Select,
   Signature,
   Skeleton,
+  SkeletonLine,
+  SkeletonShape,
   Slider,
   Space,
   SplitButton,

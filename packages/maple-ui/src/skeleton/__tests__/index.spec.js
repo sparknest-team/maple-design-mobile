@@ -1,7 +1,7 @@
 import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import Skeleton from '..'
+import Skeleton, { SkeletonLine, SkeletonShape } from '..'
 import VarSkeleton from '../Skeleton'
 
 test('skeleton use', () => {
@@ -138,9 +138,9 @@ describe('test skeleton component props', () => {
       },
     })
 
-    expect(wrapper.findAll('.mp-skeleton--animation').length).toBe(1)
+    expect(wrapper.findAll('.mp-skeleton__row').length).toBe(1)
     await wrapper.setProps({ rows: '4' })
-    expect(wrapper.findAll('.mp-skeleton--animation').length).toBe(4)
+    expect(wrapper.findAll('.mp-skeleton__row').length).toBe(4)
     wrapper.unmount()
   })
 
@@ -160,6 +160,27 @@ describe('test skeleton component props', () => {
     })
     wrapper.unmount()
   })
+})
+
+test('skeleton template slot and animation switch', async () => {
+  const wrapper = mount(VarSkeleton, {
+    slots: { template: '<div class="custom-template">loading</div>', default: 'loaded' },
+  })
+  expect(wrapper.find('.custom-template').exists()).toBe(true)
+  expect(wrapper.classes()).toContain('mp-skeleton--animation')
+
+  await wrapper.setProps({ loading: false, animation: false })
+  expect(wrapper.text()).toBe('loaded')
+  expect(wrapper.attributes('aria-busy')).toBe('false')
+})
+
+test('skeleton line and shape primitives', () => {
+  const line = mount(SkeletonLine, { props: { rows: 2, widths: [20, '50%'] } })
+  const shape = mount(SkeletonShape, { props: { shape: 'circle', size: 'lg' } })
+
+  expect(line.findAll('.mp-skeleton-line__row')).toHaveLength(2)
+  expect(line.classes()).toContain('mp-skeleton-line')
+  expect(shape.classes()).toEqual(expect.arrayContaining(['mp-skeleton-shape--circle', 'mp-skeleton-shape--lg']))
 })
 
 test('skeleton default slots', () => {

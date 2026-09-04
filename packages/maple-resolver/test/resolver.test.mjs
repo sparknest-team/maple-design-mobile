@@ -37,6 +37,18 @@ test('resolves UI components with their styles', () => {
     sideEffects: ['@maplejs/maple-ui/statistic/style'],
   })
 
+  assert.deepEqual(components.resolve('MpSkeletonLine'), {
+    from: '@maplejs/maple-ui',
+    name: '_SkeletonLineComponent',
+    sideEffects: ['@maplejs/maple-ui/skeleton/style'],
+  })
+
+  assert.deepEqual(components.resolve('MpSkeletonShape'), {
+    from: '@maplejs/maple-ui',
+    name: '_SkeletonShapeComponent',
+    sideEffects: ['@maplejs/maple-ui/skeleton/style'],
+  })
+
   assert.deepEqual(components.resolve('MpMenuGroup'), {
     from: '@maplejs/maple-ui',
     name: '_MenuGroupComponent',

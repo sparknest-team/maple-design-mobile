@@ -96,6 +96,27 @@ const loading = ref(true)
 </template>
 ```
 
+### 自定义模板
+
+使用 `template` 插槽组合线条和图形骨架。
+
+```html
+<template>
+  <mp-skeleton :loading="loading">
+    <template #template>
+      <mp-space block direction="column" size="lg">
+        <mp-skeleton-line
+          :rows="3"
+          :widths="['100%', '100%', '60%']"
+        />
+        <mp-skeleton-shape shape="circle" />
+      </mp-space>
+    </template>
+    加载的数据
+  </mp-skeleton>
+</template>
+```
+
 ### 全屏模式
 
 ```html
@@ -126,6 +147,7 @@ function fullscreen() {
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `loading` | 加载状态，设置为 `true` 开启骨架屏 | _boolean_ | `true` |
+| `animation` | 是否开启流光动画 | _boolean_ | `true` |
 | `title` | 是否显示标题 | _boolean_ | `false` |
 | `card` | 是否显示卡片 | _boolean_ | `false` |
 | `avatar` | 是否显示头像 | _boolean_ | `false` |
@@ -142,6 +164,9 @@ function fullscreen() {
 | 插槽名 | 说明 | 参数 |
 | --- |--| --- |
 | `default` | 非加载状态下的内容 | `-` |
+| `template` | 自定义加载占位模板 | `-` |
+
+组件同时导出 `SkeletonLine` 和 `SkeletonShape`，也可通过 `Skeleton.Line`、`Skeleton.Shape` 组合自定义占位模板。
 
 ### 样式变量
 
@@ -149,7 +174,7 @@ function fullscreen() {
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--skeleton-content-padding` | `16px` |
+| `--mp-skeleton-content-padding` | `16px` |
 | `--skeleton-card-height` | `160px` |
 | `--skeleton-card-border-radius` | `4px` |
 | `--skeleton-card-margin-bottom` | `16px` |

@@ -163,7 +163,27 @@ export { _RippleComponent } from './ripple'
 export { _SearchComponent } from './search'
 export { _SelectComponent, _OptionComponent } from './select'
 export { _SignatureComponent } from './signature'
-export { _SkeletonComponent } from './skeleton'
+export {
+  _SkeletonComponent,
+  _SkeletonLineComponent,
+  _SkeletonShapeComponent,
+  SkeletonLine,
+  SkeletonShape,
+  skeletonLineProps,
+  skeletonProps,
+  skeletonShapeProps,
+} from './skeleton'
+export type {
+  SkeletonInstance,
+  SkeletonLineInstance,
+  SkeletonLineProps,
+  SkeletonProps,
+  SkeletonShapeInstance,
+  SkeletonShapeProps,
+  SkeletonShapeSize,
+  SkeletonShapeType,
+  SkeletonSize,
+} from './skeleton'
 export { _SliderComponent } from './slider'
 export { _SpaceComponent } from './space'
 export { _SplitButtonComponent } from './split-button'

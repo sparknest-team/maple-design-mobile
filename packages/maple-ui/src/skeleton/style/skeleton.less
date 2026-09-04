@@ -20,6 +20,10 @@
   --mp-skeleton-row-height: 12px;
   --mp-skeleton-row-border-radius: 10px;
   --mp-skeleton-row-margin-top: 10px;
+  --mp-skeleton-shape-size-sm: 36px;
+  --mp-skeleton-shape-size-md: 48px;
+  --mp-skeleton-shape-size-lg: 60px;
+  --mp-skeleton-shape-border-radius: 4px;
 }
 
 @keyframes mp-skeleton-animation {
@@ -104,18 +108,47 @@
     transition: 0.25s background-color;
   }
 
-  &--animation {
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      animation: mp-skeleton-animation 1s infinite;
-      background: var(--mp-skeleton-animation-background);
-      transition: 0.25s background-color;
-    }
+  &__shimmer {
+    position: absolute;
+    inset: 0;
+  }
+
+  &--animation &__shimmer {
+    z-index: 1;
+    animation: mp-skeleton-animation 1s infinite;
+    background: var(--mp-skeleton-animation-background);
+  }
+}
+
+.mp-skeleton-line {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__row {
+    width: 100%;
+    background-color: var(--mp-skeleton-title-background-color);
+    border-radius: var(--mp-skeleton-row-border-radius);
+  }
+}
+
+.mp-skeleton-shape {
+  width: var(--mp-skeleton-shape-size-md);
+  height: var(--mp-skeleton-shape-size-md);
+  background-color: var(--mp-skeleton-title-background-color);
+  border-radius: var(--mp-skeleton-shape-border-radius);
+
+  &--circle {
+    border-radius: 50%;
+  }
+  &--sm {
+    width: var(--mp-skeleton-shape-size-sm);
+    height: var(--mp-skeleton-shape-size-sm);
+  }
+  &--lg {
+    width: var(--mp-skeleton-shape-size-lg);
+    height: var(--mp-skeleton-shape-size-lg);
   }
 }

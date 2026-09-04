@@ -4,6 +4,8 @@ export default {
   customRowsWidth: '自定义段落宽度',
   displayAvatar: '显示头像',
   displayCard: '显示卡片',
+  customTemplate: '自定义模板',
+  animation: '动画',
   fullscreenMode: '全屏模式',
   toggleFullscreenMode: '切换全屏模式',
   loadingData: '加载的数据',
