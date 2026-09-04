@@ -60,7 +60,7 @@ watch(
           <div class="maple-doc-index__title">{{ title }}</div>
           <div class="maple-doc-index__description">{{ indexPage.description[language] }}</div>
 
-          <mp-space size="large">
+          <mp-space size="lg">
             <mp-button class="maple-doc-index__link-button" type="primary" style="line-height: 1.2" @click="getStar">
               {{ indexPage.started[language] }}
             </mp-button>

@@ -24,6 +24,9 @@ export default {
   previewSrc: 'Preview Source',
   controlledPreview: 'Controlled Preview',
   previewProps: 'Preview Props',
+  overlayClosable: 'Close on Overlay Click',
+  overlayClosableTip:
+    'Left enabled: click outside the image to close. Right disabled: use the close button. Clicking the image never closes it.',
   popupContainer: 'Custom Preview Container',
   openPreview: 'Open Preview',
   clickImagePreview: 'Click image to preview',

@@ -15,10 +15,10 @@ const active = ref(0)
 
 <template>
   <mp-bottom-navigation v-model:active="active">
-    <mp-bottom-navigation-item label="label" icon="home" />
-    <mp-bottom-navigation-item label="label" icon="magnify" />
-    <mp-bottom-navigation-item label="label" icon="heart" />
-    <mp-bottom-navigation-item label="label" icon="account-circle" />
+    <mp-bottom-navigation-item label="label" icon="home-fill" />
+    <mp-bottom-navigation-item label="label" icon="search" />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" />
+    <mp-bottom-navigation-item label="label" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>
 ```
@@ -29,15 +29,15 @@ const active = ref(0)
 <script setup>
 import { ref } from 'vue'
 
-const active = ref('home')
+const active = ref('home-fill')
 </script>
 
 <template>
   <mp-bottom-navigation v-model:active="active">
-    <mp-bottom-navigation-item name="home" label="label" icon="home" />
-    <mp-bottom-navigation-item name="search" label="label" icon="magnify" />
-    <mp-bottom-navigation-item name="heart" label="label" icon="heart" />
-    <mp-bottom-navigation-item name="user" label="label" icon="account-circle" />
+    <mp-bottom-navigation-item name="home-fill" label="label" icon="home-fill" />
+    <mp-bottom-navigation-item name="search" label="label" icon="search" />
+    <mp-bottom-navigation-item name="heart-fill" label="label" icon="heart-fill" />
+    <mp-bottom-navigation-item name="user" label="label" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>
 ```
@@ -57,10 +57,10 @@ const badgeProps = reactive({
 
 <template>
   <mp-bottom-navigation v-model:active="active">
-    <mp-bottom-navigation-item label="label" icon="home" />
-    <mp-bottom-navigation-item label="label" icon="magnify" badge />
-    <mp-bottom-navigation-item label="label" icon="heart" :badge="badgeProps" />
-    <mp-bottom-navigation-item label="label" icon="account-circle" />
+    <mp-bottom-navigation-item label="label" icon="home-fill" />
+    <mp-bottom-navigation-item label="label" icon="search" badge />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" :badge="badgeProps" />
+    <mp-bottom-navigation-item label="label" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>
 ```
@@ -76,10 +76,10 @@ const active = ref(0)
 
 <template>
   <mp-bottom-navigation active-color="var(--color-warning)" v-model:active="active">
-    <mp-bottom-navigation-item label="label" icon="home" />
-    <mp-bottom-navigation-item label="label" icon="magnify" />
-    <mp-bottom-navigation-item label="label" icon="heart" />
-    <mp-bottom-navigation-item label="label" icon="account-circle" />
+    <mp-bottom-navigation-item label="label" icon="home-fill" />
+    <mp-bottom-navigation-item label="label" icon="search" />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" />
+    <mp-bottom-navigation-item label="label" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>
 ```
@@ -100,10 +100,10 @@ function handleChange(active) {
 
 <template>
   <mp-bottom-navigation v-model:active="active" @change="handleChange">
-    <mp-bottom-navigation-item label="label" icon="home" />
-    <mp-bottom-navigation-item label="label" icon="magnify" />
-    <mp-bottom-navigation-item label="label" icon="heart" />
-    <mp-bottom-navigation-item label="label" icon="account-circle" />
+    <mp-bottom-navigation-item label="label" icon="home-fill" />
+    <mp-bottom-navigation-item label="label" icon="search" />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" />
+    <mp-bottom-navigation-item label="label" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>
 ```
@@ -124,10 +124,10 @@ function handleClick(active) {
 
 <template>
   <mp-bottom-navigation v-model:active="active">
-    <mp-bottom-navigation-item label="label" icon="home" @click="handleClick" />
-    <mp-bottom-navigation-item label="label" icon="magnify" @click="handleClick" />
-    <mp-bottom-navigation-item label="label" icon="heart" @click="handleClick"/>
-    <mp-bottom-navigation-item label="label" icon="account-circle" @click="handleClick"/>
+    <mp-bottom-navigation-item label="label" icon="home-fill" @click="handleClick" />
+    <mp-bottom-navigation-item label="label" icon="search" @click="handleClick" />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" @click="handleClick"/>
+    <mp-bottom-navigation-item label="label" icon="user-circle-fill" @click="handleClick"/>
   </mp-bottom-navigation>
 </template>
 ```
@@ -148,14 +148,14 @@ const isEven = ref(true)
     v-model:active="active"
     @fab-click="isEven = !isEven"
   >
-    <mp-bottom-navigation-item label="label" icon="home" />
-    <mp-bottom-navigation-item label="label" icon="magnify" />
-    <mp-bottom-navigation-item label="label" icon="heart" />
-    <mp-bottom-navigation-item label="label" icon="bell" />
-    <mp-bottom-navigation-item v-if="!isEven" label="label" icon="account-circle" />
+    <mp-bottom-navigation-item label="label" icon="home-fill" />
+    <mp-bottom-navigation-item label="label" icon="search" />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" />
+    <mp-bottom-navigation-item label="label" icon="bell-fill" />
+    <mp-bottom-navigation-item v-if="!isEven" label="label" icon="user-circle-fill" />
 
     <template #fab>
-      <m-icon-heart />
+      <m-icon-heart-fill />
     </template>
   </mp-bottom-navigation>
 </template>
@@ -178,10 +178,10 @@ const active = ref(0)
 
 <template>
   <mp-bottom-navigation variant v-model:active="active">
-    <mp-bottom-navigation-item label="label" icon="home" />
-    <mp-bottom-navigation-item label="label" icon="magnify" />
-    <mp-bottom-navigation-item label="label" icon="heart" />
-    <mp-bottom-navigation-item label="label" icon="account-circle" />
+    <mp-bottom-navigation-item label="label" icon="home-fill" />
+    <mp-bottom-navigation-item label="label" icon="search" />
+    <mp-bottom-navigation-item label="label" icon="heart-fill" />
+    <mp-bottom-navigation-item label="label" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>
 ```

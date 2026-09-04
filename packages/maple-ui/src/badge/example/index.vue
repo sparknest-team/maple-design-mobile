@@ -53,12 +53,12 @@ function resetOffset() {
   <mp-space wrap align="center" :size="16">
     <mp-badge :content="9">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :content="9" dot>
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge>
@@ -66,7 +66,7 @@ function resetOffset() {
         <m-icon-history class="badge-example__icon" />
       </template>
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
   </mp-space>
@@ -96,7 +96,7 @@ function resetOffset() {
       <a href="#">{{ t('link') }}</a>
     </mp-badge>
     <mp-badge :content="9" dot :offset-x="2" :offset-y="-2">
-      <m-icon-bell class="badge-example__bell" />
+      <m-icon-bell-fill class="badge-example__bell" />
     </mp-badge>
   </mp-space>
 
@@ -104,22 +104,22 @@ function resetOffset() {
   <mp-space wrap align="center" :size="16">
     <mp-badge content="NEW">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge content="HOT">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge content="NEW" mode="inline">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge content="HOT" mode="inline" inline-position="end">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
   </mp-space>
@@ -128,22 +128,22 @@ function resetOffset() {
   <mp-space wrap align="center" :size="16">
     <mp-badge :max="10" :content="0">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :max="10" :content="100">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :content="100">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :max="999" :content="1000">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
   </mp-space>
@@ -216,24 +216,24 @@ function resetOffset() {
     <mp-space wrap :size="16">
       <mp-badge v-for="size in ['xs', 'sm', 'md']" :key="`fdot-${size}`" dot :content="1" :size="size">
         <mp-avatar shape="square" :size="40">
-          <m-icon-account-circle />
+          <m-icon-user-circle-fill />
         </mp-avatar>
       </mp-badge>
       <mp-badge v-for="size in ['lg', 'xl']" :key="`fdot-${size}`" dot :max="999" :content="1000" :size="size">
         <mp-avatar shape="square" :size="40">
-          <m-icon-account-circle />
+          <m-icon-user-circle-fill />
         </mp-avatar>
       </mp-badge>
     </mp-space>
     <mp-space wrap :size="16">
       <mp-badge v-for="size in ['xs', 'sm', 'md']" :key="`fnum-${size}`" :content="1" :size="size">
         <mp-avatar shape="square" :size="40">
-          <m-icon-account-circle />
+          <m-icon-user-circle-fill />
         </mp-avatar>
       </mp-badge>
       <mp-badge v-for="size in ['lg', 'xl']" :key="`fnum-${size}`" :max="999" :content="1" :size="size">
         <mp-avatar shape="square" :size="40">
-          <m-icon-account-circle />
+          <m-icon-user-circle-fill />
         </mp-avatar>
       </mp-badge>
     </mp-space>
@@ -257,34 +257,34 @@ function resetOffset() {
   <mp-space wrap :size="24">
     <mp-badge :content="100" position="top-right" :dot="dot" :offset-x="offsetX" :offset-y="offsetY">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :content="100" position="top-left" :dot="dot" :offset-x="offsetX" :offset-y="offsetY">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :content="100" position="bottom-right" :dot="dot" :offset-x="offsetX" :offset-y="offsetY">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :content="100" position="bottom-left" :dot="dot" :offset-x="offsetX" :offset-y="offsetY">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
   </mp-space>
   <mp-space wrap align="center" :size="16" style="margin-top: 12px">
     <mp-badge :content="100" mode="inline" inline-position="start" :dot="dot" :offset-y="offsetY">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
     <mp-badge :content="100" mode="inline" inline-position="end" :dot="dot" :offset-y="offsetY">
       <mp-avatar shape="square" :size="40">
-        <m-icon-account-circle />
+        <m-icon-user-circle-fill />
       </mp-avatar>
     </mp-badge>
   </mp-space>
@@ -318,7 +318,7 @@ function resetOffset() {
         :status="status"
       >
         <mp-avatar shape="square" :size="40">
-          <m-icon-account-circle />
+          <m-icon-user-circle-fill />
         </mp-avatar>
       </mp-badge>
     </mp-space>

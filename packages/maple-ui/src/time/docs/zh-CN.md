@@ -31,7 +31,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-time v-model="time" format="24hr" placeholder="24 小时制" />
     <mp-time v-model="timeWithSeconds" format="24hr" use-seconds placeholder="含秒" />
   </mp-space>
@@ -65,7 +65,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-time v-model="disabledTime" format="24hr" disabled />
     <mp-time v-model="readonlyTime" format="24hr" readonly />
   </mp-space>
@@ -249,7 +249,7 @@
 <template>
   <mp-time-picker v-model="date">
     <template #actions>
-      <mp-space size="small">
+      <mp-space size="sm">
         <mp-button status="primary" variant="text">操作</mp-button>
         <mp-button status="primary" variant="text">操作</mp-button>
       </mp-space>

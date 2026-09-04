@@ -3,11 +3,11 @@
     v-model:open="open"
     position="bottom"
     :class="n('popup-radius')"
-    :mask="mask"
-    :mask-class="maskClass"
-    :mask-style="maskStyle"
+    :overlay="overlay"
+    :overlay-class="overlayClass"
+    :overlay-style="overlayStyle"
     :lock-scroll="lockScroll"
-    :mask-closable="maskClosable"
+    :overlay-closable="overlayClosable"
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
     :safe-area="safeArea"
@@ -17,7 +17,7 @@
     @opened="$emit('opened')"
     @route-change="$emit('route-change')"
     @key-escape="$emit('key-escape', $event)"
-    @click-mask="$emit('click-mask', $event)"
+    @click-overlay="$emit('click-overlay', $event)"
   >
     <div :class="classes(n(), n('$--box'))" v-bind="$attrs">
       <slot name="title">
@@ -65,7 +65,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'route-change', 'key-escape', 'click-mask'],
+  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'route-change', 'key-escape', 'click-overlay'],
   setup(props, { emit }) {
     const open = useVModel(props, 'open', { emit, eventName: 'update:open' })
     const { t: pt } = injectLocaleProvider()

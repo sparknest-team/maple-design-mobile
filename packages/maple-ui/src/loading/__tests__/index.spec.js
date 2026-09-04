@@ -1,12 +1,50 @@
-import { createApp } from 'vue'
+import { createApp, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import Loading from '..'
+import Loading, { vLoading } from '..'
 import VarLoading from '../Loading'
 
 test('loading use', () => {
   const app = createApp({}).use(Loading)
   expect(app.component(Loading.name)).toBeTruthy()
+  expect(app.directive('mp-loading')).toBe(vLoading)
+  expect(app.directive('loading')).toBeUndefined()
+})
+
+test('v-mp-loading renders the built-in loading component without changing content layout', async () => {
+  const Host = defineComponent({
+    directives: { 'mp-loading': vLoading },
+    data: () => ({ active: true }),
+    template: '<div v-mp-loading="active"><span>content</span></div>',
+  })
+  const wrapper = mount(Host)
+
+  expect(wrapper.find('.mp-loading-directive .mp-loading').exists()).toBe(true)
+  expect(wrapper.find('.mp-loading-directive .mp-loading__content--active').exists()).toBe(true)
+  expect(wrapper.find('.mp-loading-directive .mp-loading__content-mask').exists()).toBe(true)
+  expect(wrapper.find('.mp-loading-directive .mp-loading__inside').exists()).toBe(true)
+  expect(wrapper.find('.mp-loading-directive').element.firstElementChild).toBe(wrapper.find('.mp-loading').element)
+  expect(wrapper.find('.mp-loading-directive').element.parentElement).toBe(wrapper.element)
+
+  await wrapper.setData({ active: false })
+  await nextTick()
+  expect(wrapper.find('.mp-loading-directive').exists()).toBe(false)
+})
+
+test('v-mp-loading supports an options object with loading and tip', async () => {
+  const Host = defineComponent({
+    directives: { 'mp-loading': vLoading },
+    data: () => ({ options: { loading: true, tip: 'Loading...', type: 'wave' } }),
+    template: '<div v-mp-loading="options"><span>content</span></div>',
+  })
+  const wrapper = mount(Host)
+
+  expect(wrapper.find('.mp-loading__tip').text()).toBe('Loading...')
+  expect(wrapper.find('.mp-loading__wave').exists()).toBe(true)
+
+  await wrapper.setData({ options: { loading: false, tip: 'Loading...', type: 'wave' } })
+  await nextTick()
+  expect(wrapper.find('.mp-loading-directive').exists()).toBe(false)
 })
 
 describe('test loading component props', () => {
@@ -31,7 +69,7 @@ describe('test loading component props', () => {
   })
 
   test('loading size', () => {
-    ;['large', 'normal', 'small', 'mini'].forEach((size) => {
+    ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
       const wrapper = mount(VarLoading, {
         props: { size },
       })
@@ -39,6 +77,12 @@ describe('test loading component props', () => {
       expect(wrapper.find('.mp-loading__circle-block').classes()).toContain(`mp-loading__circle-block--${size}`)
       wrapper.unmount()
     })
+  })
+
+  test('loading numeric size', () => {
+    const wrapper = mount(VarLoading, { props: { size: 20 } })
+    expect(wrapper.find('.mp-loading__circle-block').attributes('style')).toContain('width: 20px; height: 20px;')
+    wrapper.unmount()
   })
 
   test('loading tip', () => {

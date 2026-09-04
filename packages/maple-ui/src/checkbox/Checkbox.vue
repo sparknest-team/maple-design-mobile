@@ -19,13 +19,13 @@
         @blur="isFocusing = false"
       >
         <slot v-if="isIndeterminate" name="indeterminate-icon">
-          <MIconMinusBox :class="n('icon')" :size="iconSize" mp-checkbox-cover />
+          <MIconMinusBoxFill :class="n('icon')" :size="iconSize" mp-checkbox-cover />
         </slot>
         <slot v-if="checked && !isIndeterminate" name="checked-icon">
-          <MIconCheckboxMarked :class="n('icon')" :size="iconSize" mp-checkbox-cover />
+          <MIconCheckboxMarkedFill :class="n('icon')" :size="iconSize" mp-checkbox-cover />
         </slot>
         <slot v-if="!checked && !isIndeterminate" name="unchecked-icon">
-          <MIconCheckboxBlankOutline :class="n('icon')" :size="iconSize" mp-checkbox-cover />
+          <MIconCheckboxBlank :class="n('icon')" :size="iconSize" mp-checkbox-cover />
         </slot>
         <mp-hover-overlay
           :hovering="!disabled && !formDisabled && hovering"
@@ -53,9 +53,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import {
-  IconCheckboxBlankOutline as MIconCheckboxBlankOutline,
-  IconCheckboxMarked as MIconCheckboxMarked,
-  IconMinusBox as MIconMinusBox,
+  IconCheckboxBlank as MIconCheckboxBlank,
+  IconCheckboxMarkedFill as MIconCheckboxMarkedFill,
+  IconMinusBoxFill as MIconMinusBoxFill,
 } from '@maplejs/icons-vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
@@ -73,9 +73,9 @@ export default defineComponent({
   name,
   directives: { Ripple, Hover },
   components: {
-    MIconMinusBox,
-    MIconCheckboxMarked,
-    MIconCheckboxBlankOutline,
+    MIconMinusBoxFill,
+    MIconCheckboxMarkedFill,
+    MIconCheckboxBlank,
     MpHoverOverlay,
   },
   props,

@@ -26,7 +26,7 @@
 
 ```html
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-alert title="傲慢与偏见" message="…" />
     <mp-alert type="success" title="…" message="…" />
     <mp-alert type="warning" title="…" message="…" />
@@ -42,7 +42,7 @@
 
 ```html
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-alert variant="standard" title="…" message="…" />
     <mp-alert variant="tonal" title="…" message="…" />
     <mp-alert variant="outlined" title="…" message="…" />
@@ -80,7 +80,7 @@
 <template>
   <mp-alert title="…" message="…">
     <template #icon>
-      <m-icon-heart />
+      <m-icon-heart-fill />
     </template>
   </mp-alert>
 </template>
@@ -112,7 +112,7 @@
 <template>
   <mp-alert title="…" message="…" closable>
     <template #close-icon>
-      <m-icon-window-close />
+      <m-icon-close />
     </template>
   </mp-alert>
 </template>

@@ -116,7 +116,7 @@ async function load() {
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `refresh` | 触发刷新时 | `-` |
-| `update:modelValue` | 加载状态变化时 | `(value: boolean)` |
+| `update:model-value` | 加载状态变化时 | `(value: boolean)` |
 
 ### 插槽
 

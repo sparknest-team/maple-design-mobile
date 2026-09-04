@@ -22,9 +22,8 @@ export interface ImagePreviewProps {
   popupContainer?: string | HTMLElement | false
   lockScroll?: boolean
   closable?: boolean
-  maskClosable?: boolean
+  overlayClosable?: boolean
   escToClose?: boolean
-  closeOnImageTap?: boolean
   imagePreventDefault?: boolean
   defaultScale?: number
   minScale?: number

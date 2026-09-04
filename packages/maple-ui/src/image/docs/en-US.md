@@ -97,6 +97,31 @@ Supports `Lazy load`, `loading images`, `error images`, and default Settings for
 
 For `preview`, `preview-src`, `v-model:preview-open`, and `preview-props`, see the ImagePreview API below. You can also use `Image.Preview` / `Image.PreviewGroup` / `Image.preview()`.
 
+### Close on Overlay Click
+
+Use `preview-props.overlayClosable` to control whether clicking outside the image closes the preview. It is enabled for the left image and disabled for the right image. Clicking the image itself never closes the preview.
+
+```html
+<template>
+  <mp-space :size="[16, 16]">
+    <mp-image
+      width="120"
+      height="120"
+      object-fit="cover"
+      src="https://maplejs.org/cat.jpg"
+      :preview-props="{ overlayClosable: true }"
+    />
+    <mp-image
+      width="120"
+      height="120"
+      object-fit="cover"
+      src="https://maplejs.org/cat2.jpg"
+      :preview-props="{ overlayClosable: false }"
+    />
+  </mp-space>
+</template>
+```
+
 ### Use local paths
 
 In the file `.vue`,
@@ -222,7 +247,7 @@ Or import separately
 | `src`                   | Single image URL                                           | _string_                         | `-`     |
 | `scale-step`            | Scale increment per action                                 | _number_                         | `0.5`   |
 | `closable`              | Whether to show the close button                           | _boolean_                        | `true`  |
-| `mask-closable`         | Whether clicking the mask closes the preview               | _boolean_                        | `true`  |
+| `overlay-closable`      | Close on backdrop click; clicking the image keeps it open  | _boolean_                        | `true`  |
 | `esc-to-close`          | Whether to support keyboard ESC to close the image-preview | _boolean_                        | `true`  |
 | `lock-scroll`           | Lock scroll                                                | _boolean_                        | `true`  |
 | `popup-container`       | The location of the pop-up layer to mount                  | _string \| HTMLElement \| false_ | `body`  |
@@ -230,46 +255,46 @@ Or import separately
 
 ### ImagePreviewGroup Props
 
-| Prop              | Description                                            | Type                             | Default |
-| ----------------- | ------------------------------------------------------ | -------------------------------- | ------- |
-| `images`          | Image URL list (skips collecting child Image when set) | _string[]_                       | `[]`    |
-| `v-model:open`    | Whether preview is open                                | _boolean_                        | `false` |
-| `default-open`    | Default open in uncontrolled mode                      | _boolean_                        | `false` |
-| `v-model:current` | Current image index                                    | _number_                         | `-`     |
-| `default-current` | Default image index in uncontrolled mode               | _number_                         | `0`     |
-| `loop`            | Whether to loop                                        | _boolean_                        | `false` |
-| `closable`        | Whether to show close button                           | _boolean_                        | `true`  |
-| `mask-closable`   | Close when mask is clicked                             | _boolean_                        | `true`  |
-| `esc-to-close`    | Whether pressing ESC closes the preview                | _boolean_                        | `true`  |
-| `popup-container` | Mount point for preview popup                          | _string \| HTMLElement \| false_ | `body`  |
+| Prop               | Description                                               | Type                             | Default |
+| ------------------ | --------------------------------------------------------- | -------------------------------- | ------- |
+| `images`           | Image URL list (skips collecting child Image when set)    | _string[]_                       | `[]`    |
+| `v-model:open`     | Whether preview is open                                   | _boolean_                        | `false` |
+| `default-open`     | Default open in uncontrolled mode                         | _boolean_                        | `false` |
+| `v-model:current`  | Current image index                                       | _number_                         | `-`     |
+| `default-current`  | Default image index in uncontrolled mode                  | _number_                         | `0`     |
+| `loop`             | Whether to loop                                           | _boolean_                        | `false` |
+| `closable`         | Whether to show close button                              | _boolean_                        | `true`  |
+| `overlay-closable` | Close on backdrop click; clicking the image keeps it open | _boolean_                        | `true`  |
+| `esc-to-close`     | Whether pressing ESC closes the preview                   | _boolean_                        | `true`  |
+| `popup-container`  | Mount point for preview popup                             | _string \| HTMLElement \| false_ | `body`  |
 
 ### Events
 
-| Event          | Description                                                                                    | Arguments                      |
-| -------------- | ---------------------------------------------------------------------------------------------- | ------------------------------ |
-| `change`       | The callback function when switching images, the callback parameter is the current index       | `index: number` Image indexing |
-| `open`         | Triggered when Image-Preview is turned on                                                      | `-`                            |
-| `opened`       | Triggered at the end of the open image-preview animation                                       | `-`                            |
-| `open-change`  | Triggered when open state changes                                                              | `open: boolean`                |
-| `close`        | Triggered when Image-Preview is off                                                            | `-`                            |
-| `closed`       | Triggered when the animation that closes the image-preview ends                                | `-`                            |
-| `long-press`   | The callback function when long pressing an image, the callback parameter is the current index | `index: number` Image indexing |
-| `key-escape`   | Triggered when click keyboard ESC                                                              | `-`                            |
+| Event         | Description                                                                                    | Arguments                      |
+| ------------- | ---------------------------------------------------------------------------------------------- | ------------------------------ |
+| `change`      | The callback function when switching images, the callback parameter is the current index       | `index: number` Image indexing |
+| `open`        | Triggered when Image-Preview is turned on                                                      | `-`                            |
+| `opened`      | Triggered at the end of the open image-preview animation                                       | `-`                            |
+| `open-change` | Triggered when open state changes                                                              | `open: boolean`                |
+| `close`       | Triggered when Image-Preview is off                                                            | `-`                            |
+| `closed`      | Triggered when the animation that closes the image-preview ends                                | `-`                            |
+| `long-press`  | The callback function when long pressing an image, the callback parameter is the current index | `index: number` Image indexing |
+| `key-escape`  | Triggered when click keyboard ESC                                                              | `-`                            |
 
 ### Methods
 
-| Method                             | Description                        | Arguments                                    | Return |
-| ---------------------------------- | ---------------------------------- | -------------------------------------------- | ------ |
-| `imagePreview`                     | Open image-preview                 | _options \| string \| string[]_              | `-`    |
-| `imagePreview.close`               | Close image-preview                | _-_                                          | `-`    |
-| `imagePreview.setDefaultOptions`   | Set default option configuration   | _options_                                    | `-`    |
-| `imagePreview.resetDefaultOptions` | Reset default option configuration | _-_                                          | `-`    |
-| `prev` / `next`                    | Switch image                       | `-`                                          | `-`    |
-| `to`                               | Go to an index                     | `index: number`                              | `-`    |
-| `zoomTo`                           | Set scale                          | `scale: number`                              | `-`    |
-| `zoomIn` / `zoomOut`               | Zoom in or out                     | `-`                                          | `-`    |
-| `rotateLeft` / `rotateRight`       | Rotate image                       | `-`                                          | `-`    |
-| `reset` / `toggleFullscreen`       | Reset or toggle fullscreen         | `-`                                          | `-`    |
+| Method                             | Description                        | Arguments                       | Return |
+| ---------------------------------- | ---------------------------------- | ------------------------------- | ------ |
+| `imagePreview`                     | Open image-preview                 | _options \| string \| string[]_ | `-`    |
+| `imagePreview.close`               | Close image-preview                | _-_                             | `-`    |
+| `imagePreview.setDefaultOptions`   | Set default option configuration   | _options_                       | `-`    |
+| `imagePreview.resetDefaultOptions` | Reset default option configuration | _-_                             | `-`    |
+| `prev` / `next`                    | Switch image                       | `-`                             | `-`    |
+| `to`                               | Go to an index                     | `index: number`                 | `-`    |
+| `zoomTo`                           | Set scale                          | `scale: number`                 | `-`    |
+| `zoomIn` / `zoomOut`               | Zoom in or out                     | `-`                             | `-`    |
+| `rotateLeft` / `rotateRight`       | Rotate image                       | `-`                             | `-`    |
+| `reset` / `toggleFullscreen`       | Reset or toggle fullscreen         | `-`                             | `-`    |
 
 ### Slots
 
@@ -286,7 +311,7 @@ Or import separately
 | --------------------- | ---------------------------------------------------------------------------------------------- | ------------------------- | ------- |
 | `images`              | The image URL array or the URL of a single image to be previewed                               | _string[] \| string_      | `[]`    |
 | `current`             | Index from which the image preview starts                                                      | _number_                  | `0`     |
-| `scaleStep`           | Scale increment per action                                                                    | _number_                  | `0.5`   |
+| `scaleStep`           | Scale increment per action                                                                     | _number_                  | `0.5`   |
 | `closable`            | Whether to show the close button                                                               | _boolean_                 | `true`  |
 | `escToClose`          | Whether to support keyboard ESC to close the image-preview                                     | _boolean_                 | `true`  |
 | `lockScroll`          | Lock scroll                                                                                    | _boolean_                 | `true`  |

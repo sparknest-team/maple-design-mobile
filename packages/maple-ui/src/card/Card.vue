@@ -87,7 +87,7 @@
       >
         <slot name="close-button">
           <mp-button mp-card-cover :class="classes(n('close-button'), n('$-elevation--6'))" @click.stop="close">
-            <mp-icon mp-card-cover :class="n('close-button-icon')"><MIconWindowClose /></mp-icon>
+            <mp-icon mp-card-cover :class="n('close-button-icon')"><MIconClose /></mp-icon>
           </mp-button>
         </slot>
       </div>
@@ -105,7 +105,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
-import { IconWindowClose as MIconWindowClose } from '@maplejs/icons-vue'
+import { IconClose as MIconClose } from '@maplejs/icons-vue'
 import { call, doubleRaf, getRect } from '@maplejs/maple-shared'
 import MpButton from '../button'
 import { useLock } from '../context/lock'
@@ -124,7 +124,7 @@ export default defineComponent({
   name,
   directives: { Ripple },
   components: {
-    MIconWindowClose,
+    MIconClose,
     MpIcon,
     MpButton,
   },

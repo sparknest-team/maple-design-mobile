@@ -4,8 +4,8 @@ import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/compon
 import type { DialogAction, DialogBeforeCloseRefs, DialogMessageAlign, DialogTitleAlign, DialogType } from './types'
 
 export const DIALOG_TYPE_ICON: Record<DialogType, string> = {
-  info: 'information',
-  success: 'checkbox-marked-circle',
+  info: 'info-circle-fill',
+  success: 'checkbox-marked-circle-fill',
   warning: 'warning',
   error: 'error',
 }
@@ -34,10 +34,10 @@ export const dialogProps = {
   cancelButtonLoading: { type: Boolean, default: false },
   confirmButtonDisabled: { type: Boolean, default: false },
   cancelButtonDisabled: { type: Boolean, default: false },
-  mask: { type: Boolean, default: true },
-  maskClass: String,
-  maskStyle: Object as PropType<CSSProperties>,
-  maskClosable: { type: Boolean, default: true },
+  overlay: { type: Boolean, default: true },
+  overlayClass: String,
+  overlayStyle: Object as PropType<CSSProperties>,
+  overlayClosable: { type: Boolean, default: true },
   escToClose: { type: Boolean, default: true },
   lockScroll: { type: Boolean, default: true },
   popupContainer: {
@@ -52,7 +52,7 @@ export const dialogProps = {
   unmountOnClose: { type: Boolean, default: false },
   draggable: { type: Boolean, default: false },
   fullscreen: { type: Boolean, default: false },
-  maskAnimationName: { type: String, default: 'mp-fade' },
+  overlayAnimationName: { type: String, default: 'mp-fade' },
   dialogAnimationName: { type: String, default: 'mp-pop-center' },
   ariaLabel: String,
   closeButtonAriaLabel: { type: String, default: 'Close dialog' },

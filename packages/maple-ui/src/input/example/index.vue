@@ -87,8 +87,8 @@ onThemeChange()
     <mp-input :placeholder="t('telPlaceholder')"><template #prefix>+86</template></mp-input>
     <mp-input :placeholder="t('amountPlaceholder')"><template #suffix>RMB</template></mp-input>
     <mp-input :placeholder="t('searchPlaceholder')">
-      <template #prefix><m-icon-magnify /></template>
-      <template #suffix><m-icon-close-circle /></template>
+      <template #prefix><m-icon-search /></template>
+      <template #suffix><m-icon-close-circle-fill /></template>
     </mp-input>
   </mp-space>
 

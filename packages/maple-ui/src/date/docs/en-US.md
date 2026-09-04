@@ -46,7 +46,7 @@ Column wheels are used by default. Set `presentation="calendar"` to use the cale
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-date v-model="year" type="year" placeholder="Select year" />
     <mp-date v-model="month" type="month" placeholder="Select month" />
     <mp-date v-model="date" type="date" placeholder="Select date" />

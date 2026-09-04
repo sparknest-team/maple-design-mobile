@@ -61,7 +61,7 @@
   <mp-divider description="靠左" text-align="start" />
   <mp-divider description="靠右" text-align="end" />
   <mp-divider>
-    <m-icon-heart-outline style="margin: 0 16px; color: var(--mp-color-danger)" />
+    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
   </mp-divider>
 </template>
 ```

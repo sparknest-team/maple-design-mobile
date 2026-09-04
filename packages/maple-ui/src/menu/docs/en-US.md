@@ -172,7 +172,7 @@ Set both `trigger="contextMenu"` and `align-point`.
       </template>
     </mp-menu>
 
-    <mp-menu size="small" v-model="valueSmall">
+    <mp-menu size="sm" v-model="valueSmall">
       <mp-button status="primary"> {{ valueSmall ? valueSmall : 'Small Size' }} </mp-button>
 
       <template #content>
@@ -182,7 +182,7 @@ Set both `trigger="contextMenu"` and `align-point`.
       </template>
     </mp-menu>
 
-    <mp-menu size="mini" v-model="valueMini">
+    <mp-menu size="xs" v-model="valueMini">
       <mp-button status="primary"> {{ valueMini ? valueMini : 'Mini Size' }} </mp-button>
 
       <template #content>
@@ -192,7 +192,7 @@ Set both `trigger="contextMenu"` and `align-point`.
       </template>
     </mp-menu>
 
-    <mp-menu size="large" v-model="valueLarge">
+    <mp-menu size="lg" v-model="valueLarge">
       <mp-button status="primary"> {{ valueLarge ? valueLarge : 'Large Size' }} </mp-button>
 
       <template #content>
@@ -359,12 +359,12 @@ Set `hide-on-select` to `false` to keep the menu open after selecting. By defaul
     <template #content>
       <mp-menu-option label="Eat">
         <template #icon>
-          <m-icon-star :size="18" />
+          <m-icon-star-fill :size="18" />
         </template>
       </mp-menu-option>
       <mp-menu-option label="Sleep">
         <template #icon>
-          <m-icon-star :size="18" />
+          <m-icon-star-fill :size="18" />
         </template>
       </mp-menu-option>
     </template>
@@ -571,7 +571,7 @@ Pass options as an array and map fields with `field-names`. Cascade selection us
 | `v-model`                  | The value of the binding                                                                                                                                                       | _any \| any[]_                             | `-`        |
 | `v-model:open`             | Whether the menu is open                                                                                                                                                       | _boolean_                                  | `-`        |
 | `default-open`             | Whether the menu is open by default in uncontrolled mode                                                                                                                       | _boolean_                                  | `false`    |
-| `size`                     | Menu size, optional values `normal` `mini` `small` `large`                                                                                                                     | _string_                                   | `normal`   |
+| `size`                     | Menu size, optional values `xs` `sm` `md` `lg` `xl`                                                                                                                            | _string_                                   | `md`       |
 | `multiple`                 | Whether to select multiple                                                                                                                                                     | _boolean_                                  | `false`    |
 | `popup-max-height`         | Maximum popup height. `true` uses the default height, `false` disables the limit, a `number` is a pixel value                                                                  | _boolean \| number_                        | `true`     |
 | `auto-fit-popup-width`     | Whether to same width as trigger element                                                                                                                                       | _boolean_                                  | `false`    |
@@ -711,15 +711,17 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable                            | Default                      |
 | ----------------------------------- | ---------------------------- |
-| `--menu-option-normal-height`       | `38px`                       |
-| `--menu-option-small-height`        | `30px`                       |
-| `--menu-option-mini-height`         | `24px`                       |
-| `--menu-option-large-height`        | `46px`                       |
+| `--menu-option-md-height`           | `38px`                       |
+| `--menu-option-sm-height`           | `30px`                       |
+| `--menu-option-xs-height`           | `24px`                       |
+| `--menu-option-lg-height`           | `46px`                       |
+| `--menu-option-xl-height`           | `54px`                       |
 | `--menu-option-padding`             | `0 12px`                     |
-| `--menu-option-normal-font-size`    | `var(--font-size-md)`        |
-| `--menu-option-small-font-size`     | `var(--font-size-sm)`        |
-| `--menu-option-mini-font-size`      | `var(--font-size-xs)`        |
-| `--menu-option-large-font-size`     | `var(--font-size-lg)`        |
+| `--menu-option-md-font-size`        | `var(--font-size-md)`        |
+| `--menu-option-sm-font-size`        | `var(--font-size-sm)`        |
+| `--menu-option-xs-font-size`        | `var(--font-size-xs)`        |
+| `--menu-option-lg-font-size`        | `var(--font-size-lg)`        |
+| `--menu-option-xl-font-size`        | `var(--font-size-lg)`        |
 | `--menu-option-selected-background` | `var(--color-primary)`       |
 | `--menu-option-selected-text-color` | `var(--color-primary)`       |
 | `--menu-option-bg-hover`            | `var(--color-fill-3)`        |
@@ -766,8 +768,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 ### Slots
 
-| Name      | Description  | SlotProps |
-| --------- | ------------ | --------- |
-| `title`   | Group title  | `-`       |
-| `default` | Group content | `-`      |
-
+| Name      | Description   | SlotProps |
+| --------- | ------------- | --------- |
+| `title`   | Group title   | `-`       |
+| `default` | Group content | `-`       |

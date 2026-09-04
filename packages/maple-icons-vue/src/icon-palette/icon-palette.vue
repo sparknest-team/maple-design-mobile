@@ -6,12 +6,15 @@
     :style="style"
     fill="currentColor"
     :aria-hidden="!props.title"
+    :stroke-width="props.strokeWidth"
+    :stroke-linecap="props.strokeLinecap"
+    :stroke-linejoin="props.strokeLinejoin"
     role="img"
     @click="emit('click', $event)"
   >
     <title v-if="props.title">{{ props.title }}</title>
     <path
-      d="M17.5 12a1.5 1.5 0 0 1-1.5-1.5A1.5 1.5 0 0 1 17.5 9a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5m-3-4A1.5 1.5 0 0 1 13 6.5 1.5 1.5 0 0 1 14.5 5 1.5 1.5 0 0 1 16 6.5 1.5 1.5 0 0 1 14.5 8m-5 0A1.5 1.5 0 0 1 8 6.5 1.5 1.5 0 0 1 9.5 5 1.5 1.5 0 0 1 11 6.5 1.5 1.5 0 0 1 9.5 8m-3 4A1.5 1.5 0 0 1 5 10.5 1.5 1.5 0 0 1 6.5 9 1.5 1.5 0 0 1 8 10.5 1.5 1.5 0 0 1 6.5 12M12 3a9 9 0 0 0-9 9 9 9 0 0 0 9 9 1.5 1.5 0 0 0 1.5-1.5c0-.39-.15-.74-.39-1-.23-.27-.38-.62-.38-1a1.5 1.5 0 0 1 1.5-1.5H16a5 5 0 0 0 5-5c0-4.42-4.03-8-9-8"
+      d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2c5.5 0 10 4 10 9a6 6 0 0 1-6 6h-1.8c-.3 0-.5.2-.5.5 0 .1.1.2.1.3.4.5.6 1.1.6 1.7.1 1.4-1 2.5-2.4 2.5m0-18a8 8 0 0 0-8 8 8 8 0 0 0 8 8c.3 0 .5-.2.5-.5 0-.2-.1-.3-.1-.4-.4-.5-.6-1-.6-1.6 0-1.4 1.1-2.5 2.5-2.5H16a4 4 0 0 0 4-4c0-3.9-3.6-7-8-7m-5.5 6c.8 0 1.5.7 1.5 1.5S7.3 13 6.5 13 5 12.3 5 11.5 5.7 10 6.5 10m3-4c.8 0 1.5.7 1.5 1.5S10.3 9 9.5 9 8 8.3 8 7.5 8.7 6 9.5 6m5 0c.8 0 1.5.7 1.5 1.5S15.3 9 14.5 9 13 8.3 13 7.5 13.7 6 14.5 6m3 4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5"
     />
   </svg>
 </template>
@@ -21,14 +24,32 @@ import { computed, type CSSProperties } from 'vue'
 
 defineOptions({ name: 'MIconPalette' })
 
-const props = defineProps<{ size?: string | number; color?: string; rotate?: number; spin?: boolean; title?: string }>()
+const props = withDefaults(
+  defineProps<{
+    size?: string | number
+    color?: string
+    rotate?: number
+    spin?: boolean
+    title?: string
+    strokeWidth?: number
+    strokeLinecap?: 'butt' | 'round' | 'square'
+    strokeLinejoin?: 'bevel' | 'inherit' | 'miter' | 'round'
+  }>(),
+  {
+    strokeWidth: 4,
+    strokeLinecap: 'butt',
+    strokeLinejoin: 'miter',
+  },
+)
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const numericSizeRE = /^-?(?:\d+|\d*\.\d+)$/
 const style = computed<CSSProperties>(() => ({
   width: '1em',
   height: '1em',
   flexShrink: 0,
   color: props.color,
-  fontSize: typeof props.size === 'number' ? `${props.size}px` : props.size,
+  fontSize:
+    typeof props.size === 'number' || numericSizeRE.test(props.size?.trim() ?? '') ? `${props.size}px` : props.size,
   transform: props.rotate ? `rotate(${props.rotate}deg)` : undefined,
 }))
 </script>

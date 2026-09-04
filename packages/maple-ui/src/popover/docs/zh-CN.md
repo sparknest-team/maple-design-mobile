@@ -62,7 +62,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-popover :placement="placement">
       <mp-button status="primary">
-        <m-icon-star />
+        <m-icon-star-fill />
       </mp-button>
       <template #content>
         <mp-cell>选项</mp-cell>
@@ -223,7 +223,7 @@ Popover 是一个 `inline-block` 元素，通过默认插槽点击时显示气�
 | `strategy`       | 气泡卡片定位方式，可选值为 `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x`      | x 轴偏移量， 相对于气泡卡片对齐后的位置                                         | _number \| string_           | `0` |
 | `offset-y`      | y 轴偏移量， 相对于气泡卡片对齐后的位置                                         | _number \| string_           | `0` |
-| `popupContainer`      | 气泡卡片挂载的位置                                                     | _TeleportProps['to'] \| false_ | `body`            |
+| `popup-container`      | 气泡卡片挂载的位置                                                     | _TeleportProps['to'] \| false_ | `body`            |
 | `disabled`      | 是否禁用气泡卡片                                                      | _boolean_             | `false`           |
 | `trigger`       | 气泡卡片触发方式，可选值为 `click` `hover` `manual` `contextMenu` | _string_              | `click`           |
 | `reference`       | 气泡卡片关联的触发元素，`string` 类型为组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_              | `-`           |

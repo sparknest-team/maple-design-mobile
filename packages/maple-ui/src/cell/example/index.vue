@@ -6,17 +6,17 @@ import { t, use } from './locale'
 const items = ref([
   {
     name: 'Vue2',
-    icon: 'star',
+    icon: 'star-fill',
     enabled: false,
   },
   {
     name: 'Vue3',
-    icon: 'heart',
+    icon: 'heart-fill',
     enabled: false,
   },
   {
     name: 'React',
-    icon: 'close-circle',
+    icon: 'close-circle-fill',
     enabled: false,
   },
 ])
@@ -37,19 +37,19 @@ onThemeChange()
   <app-type>{{ t('showIcon') }}</app-type>
   <mp-cell icon="fire" :title="t('content')">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
   <mp-cell icon="fire" :title="t('content')">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
 
   <app-type>{{ t('showDesc') }}</app-type>
   <mp-cell icon="fire" :title="t('content')" :description="t('description')">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
   <mp-cell :title="t('content')" :description="t('description')" />

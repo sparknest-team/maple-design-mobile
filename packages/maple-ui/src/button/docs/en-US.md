@@ -62,9 +62,9 @@ Button component for triggering actions.
 <template>
   <mp-space align="center" :size="[10, 10]">
     <mp-button status="primary">Normal Button</mp-button>
-    <mp-button status="success" size="small">Small Button</mp-button>
-    <mp-button status="warning" size="mini">Mini Button</mp-button>
-    <mp-button status="danger" size="large">Large Button</mp-button>
+    <mp-button status="success" size="sm">Small Button</mp-button>
+    <mp-button status="warning" size="xs">Mini Button</mp-button>
+    <mp-button status="danger" size="lg">Large Button</mp-button>
   </mp-space>
 </template>
 ```
@@ -97,7 +97,7 @@ Button component for triggering actions.
       <m-icon-plus />
     </mp-button>
     <mp-button status="info" round icon-container>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </mp-button>
     <mp-button status="success" round icon-container>
       <m-icon-check />
@@ -106,7 +106,7 @@ Button component for triggering actions.
       <m-icon-warning />
     </mp-button>
     <mp-button status="danger" round icon-container>
-      <m-icon-window-close />
+      <m-icon-close />
     </mp-button>
   </mp-space>
 </template>
@@ -168,13 +168,13 @@ function handleAutoLoadingClick() {
 ```html
 <template>
   <mp-space :size="[10, 10]">
-    <mp-button-group status="primary" size="normal">
+    <mp-button-group status="primary" size="md">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
     </mp-button-group>
   
-    <mp-button-group status="primary" size="large">
+    <mp-button-group status="primary" size="lg">
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
       <mp-button>Button</mp-button>
@@ -226,7 +226,7 @@ function handleAutoLoadingClick() {
         <m-icon-warning />
       </mp-button>
       <mp-button status="info">
-        <m-icon-information />
+        <m-icon-info-circle-fill />
       </mp-button>
       <mp-button status="success">
         <m-icon-check />
@@ -276,7 +276,7 @@ function handleAutoLoadingClick() {
         <m-icon-warning />
       </mp-button>
       <mp-button status="info">
-        <m-icon-information />
+        <m-icon-info-circle-fill />
       </mp-button>
       <mp-button status="success">
         <m-icon-check />

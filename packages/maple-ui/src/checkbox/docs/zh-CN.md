@@ -56,7 +56,7 @@ const value = ref(false)
       <m-icon-heart-half-full size="24px"/>
     </template>
     <template #checked-icon>
-      <m-icon-heart size="24px"/>
+      <m-icon-heart-fill size="24px"/>
     </template>
     <template #default>
       当前的值: {{ value }}

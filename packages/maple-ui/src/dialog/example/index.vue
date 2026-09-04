@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { Dialog, Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const basicOpen = ref(false)
@@ -196,7 +197,7 @@ function createAlert() {
     :type="dialogType"
     :title="typeText('typeTitle', dialogType)"
     :message="typeText('typeMessage', dialogType)"
-    @click-mask="Message.info('click-mask')"
+    @click-overlay="Message.info('click-overlay')"
   />
 
   <app-type>{{ t('formDialog') }}</app-type>
@@ -216,7 +217,7 @@ function createAlert() {
   <mp-button status="warning" block @click="slotsOpen = true">{{ t('customSlots') }}</mp-button>
   <mp-dialog v-model:open="slotsOpen">
     <template #title>
-      <m-icon-information color="var(--mp-color-primary)" />
+      <m-icon-info-circle-fill color="var(--mp-color-primary)" />
     </template>
     <mp-cell>{{ t('message') }}</mp-cell>
     <mp-cell>{{ t('message') }}</mp-cell>

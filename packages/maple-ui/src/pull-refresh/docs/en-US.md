@@ -116,7 +116,7 @@ Pull-to-refresh will not work when the container height is `0`. Give children a 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `refresh` | Fired when refresh starts | `-` |
-| `update:modelValue` | Fired when loading status changes | `(value: boolean)` |
+| `update:model-value` | Fired when loading status changes | `(value: boolean)` |
 
 ### Slots
 

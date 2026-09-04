@@ -96,6 +96,31 @@
 
 `preview`、`preview-src`、`v-model:preview-open`、`preview-props` 等预览能力见下方 ImagePreview API。也可使用 `Image.Preview` / `Image.PreviewGroup` / `Image.preview()`。
 
+### 点击背景层关闭
+
+通过 `preview-props.overlayClosable` 控制点击图片外的背景层是否关闭预览。左图开启，右图关闭；点击图片本身均不会关闭预览。
+
+```html
+<template>
+  <mp-space :size="[16, 16]">
+    <mp-image
+      width="120"
+      height="120"
+      object-fit="cover"
+      src="https://maplejs.org/cat.jpg"
+      :preview-props="{ overlayClosable: true }"
+    />
+    <mp-image
+      width="120"
+      height="120"
+      object-fit="cover"
+      src="https://maplejs.org/cat2.jpg"
+      :preview-props="{ overlayClosable: false }"
+    />
+  </mp-space>
+</template>
+```
+
 ### 使用本地路径
 
 在 `.vue` 文件中，`Vue组件` 不会如同原生 img 一样被构建工具自动处理模块请求，所以需要手动导入图片资源。
@@ -212,61 +237,61 @@ export default defineConfig({
 
 ### 属性
 
-| 参数                    | 说明                     | 类型                             | 默认值  |
-| ----------------------- | ------------------------ | -------------------------------- | ------- |
-| `v-model:open`          | 是否显示                 | _boolean_                        | `false` |
-| `default-open`          | 非受控模式的默认打开状态 | _boolean_                        | `false` |
-| `src`                   | 单图预览地址             | _string_                         | `-`     |
-| `scale-step`            | 每次缩放增量             | _number_                         | `0.5`   |
-| `closable`              | 是否显示关闭按钮         | _boolean_                        | `true`  |
-| `mask-closable`         | 点击遮罩是否关闭预览     | _boolean_                        | `true`  |
-| `lock-scroll`           | 锁定滚动                 | _boolean_                        | `true`  |
-| `esc-to-close`          | 是否支持键盘 ESC 关闭    | _boolean_                        | `true`  |
-| `popup-container`       | 弹出层挂载的位置         | _string \| HTMLElement \| false_ | `body`  |
-| `image-prevent-default` | 是否禁止图片默认行为     | _boolean_                        | `false` |
+| 参数                    | 说明                                             | 类型                             | 默认值  |
+| ----------------------- | ------------------------------------------------ | -------------------------------- | ------- |
+| `v-model:open`          | 是否显示                                         | _boolean_                        | `false` |
+| `default-open`          | 非受控模式的默认打开状态                         | _boolean_                        | `false` |
+| `src`                   | 单图预览地址                                     | _string_                         | `-`     |
+| `scale-step`            | 每次缩放增量                                     | _number_                         | `0.5`   |
+| `closable`              | 是否显示关闭按钮                                 | _boolean_                        | `true`  |
+| `overlay-closable`      | 点击图片外的背景层是否关闭预览，点击图片不会关闭 | _boolean_                        | `true`  |
+| `lock-scroll`           | 锁定滚动                                         | _boolean_                        | `true`  |
+| `esc-to-close`          | 是否支持键盘 ESC 关闭                            | _boolean_                        | `true`  |
+| `popup-container`       | 弹出层挂载的位置                                 | _string \| HTMLElement \| false_ | `body`  |
+| `image-prevent-default` | 是否禁止图片默认行为                             | _boolean_                        | `false` |
 
 ### ImagePreviewGroup 属性
 
-| 参数              | 说明                                    | 类型                             | 默认值  |
-| ----------------- | --------------------------------------- | -------------------------------- | ------- |
-| `images`          | 图片 URL 列表（设置后不再收集子 Image） | _string[]_                       | `[]`    |
-| `v-model:open`    | 是否打开预览                            | _boolean_                        | `false` |
-| `default-open`    | 非受控默认打开状态                      | _boolean_                        | `false` |
-| `v-model:current` | 当前图片索引                            | _number_                         | `-`     |
-| `default-current` | 非受控模式的默认图片索引                | _number_                         | `0`     |
-| `loop`            | 是否循环切换                            | _boolean_                        | `false` |
-| `closable`        | 是否显示关闭按钮                        | _boolean_                        | `true`  |
-| `mask-closable`   | 点击遮罩是否关闭                        | _boolean_                        | `true`  |
-| `esc-to-close`    | 是否支持键盘 ESC 关闭                   | _boolean_                        | `true`  |
-| `popup-container` | 弹出层挂载位置                          | _string \| HTMLElement \| false_ | `body`  |
+| 参数               | 说明                                         | 类型                             | 默认值  |
+| ------------------ | -------------------------------------------- | -------------------------------- | ------- |
+| `images`           | 图片 URL 列表（设置后不再收集子 Image）      | _string[]_                       | `[]`    |
+| `v-model:open`     | 是否打开预览                                 | _boolean_                        | `false` |
+| `default-open`     | 非受控默认打开状态                           | _boolean_                        | `false` |
+| `v-model:current`  | 当前图片索引                                 | _number_                         | `-`     |
+| `default-current`  | 非受控模式的默认图片索引                     | _number_                         | `0`     |
+| `loop`             | 是否循环切换                                 | _boolean_                        | `false` |
+| `closable`         | 是否显示关闭按钮                             | _boolean_                        | `true`  |
+| `overlay-closable` | 点击图片外的背景层是否关闭，点击图片不会关闭 | _boolean_                        | `true`  |
+| `esc-to-close`     | 是否支持键盘 ESC 关闭                        | _boolean_                        | `true`  |
+| `popup-container`  | 弹出层挂载位置                               | _string \| HTMLElement \| false_ | `body`  |
 
 ### 事件
 
-| 事件名         | 说明                                     | 回调参数                 |
-| -------------- | ---------------------------------------- | ------------------------ |
-| `change`       | 切换图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
-| `open`         | 打开 image-preview 时触发                | `-`                      |
-| `opened`       | 打开 image-preview 动画结束时触发        | `-`                      |
-| `open-change`  | 打开状态变化时触发                       | `open: boolean`          |
-| `close`        | 关闭 image-preview 时触发                | `-`                      |
-| `closed`       | 关闭 image-preview 动画结束时触发        | `-`                      |
-| `long-press`   | 长按图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
-| `key-escape`   | 点击键盘 ESC 时触发                      | `-`                      |
+| 事件名        | 说明                                     | 回调参数                 |
+| ------------- | ---------------------------------------- | ------------------------ |
+| `change`      | 切换图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
+| `open`        | 打开 image-preview 时触发                | `-`                      |
+| `opened`      | 打开 image-preview 动画结束时触发        | `-`                      |
+| `open-change` | 打开状态变化时触发                       | `open: boolean`          |
+| `close`       | 关闭 image-preview 时触发                | `-`                      |
+| `closed`      | 关闭 image-preview 动画结束时触发        | `-`                      |
+| `long-press`  | 长按图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
+| `key-escape`  | 点击键盘 ESC 时触发                      | `-`                      |
 
 ### 方法
 
-| 方法名                             | 说明               | 参数                                         | 返回值 |
-| ---------------------------------- | ------------------ | -------------------------------------------- | ------ |
-| `imagePreview`                     | 显示 image-preview | _options \| string \| string[]_              | `-`    |
-| `imagePreview.close`               | 关闭 image-preview | _-_                                          | `-`    |
-| `imagePreview.setDefaultOptions`   | 设置默认的选项配置 | _options_                                    | `-`    |
-| `imagePreview.resetDefaultOptions` | 重置默认的选项配置 | _-_                                          | `-`    |
-| `prev` / `next`                    | 切换图片           | `-`                                          | `-`    |
-| `to`                               | 跳转到指定下标     | `index: number`                              | `-`    |
-| `zoomTo`                           | 设置缩放比例       | `scale: number`                              | `-`    |
-| `zoomIn` / `zoomOut`               | 放大或缩小         | `-`                                          | `-`    |
-| `rotateLeft` / `rotateRight`       | 旋转图片           | `-`                                          | `-`    |
-| `reset` / `toggleFullscreen`       | 重置或切换全屏     | `-`                                          | `-`    |
+| 方法名                             | 说明               | 参数                            | 返回值 |
+| ---------------------------------- | ------------------ | ------------------------------- | ------ |
+| `imagePreview`                     | 显示 image-preview | _options \| string \| string[]_ | `-`    |
+| `imagePreview.close`               | 关闭 image-preview | _-_                             | `-`    |
+| `imagePreview.setDefaultOptions`   | 设置默认的选项配置 | _options_                       | `-`    |
+| `imagePreview.resetDefaultOptions` | 重置默认的选项配置 | _-_                             | `-`    |
+| `prev` / `next`                    | 切换图片           | `-`                             | `-`    |
+| `to`                               | 跳转到指定下标     | `index: number`                 | `-`    |
+| `zoomTo`                           | 设置缩放比例       | `scale: number`                 | `-`    |
+| `zoomIn` / `zoomOut`               | 放大或缩小         | `-`                             | `-`    |
+| `rotateLeft` / `rotateRight`       | 旋转图片           | `-`                             | `-`    |
+| `reset` / `toggleFullscreen`       | 重置或切换全屏     | `-`                             | `-`    |
 
 ### 插槽
 

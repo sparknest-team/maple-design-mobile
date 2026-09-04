@@ -22,7 +22,7 @@ so that you can do flex layout more efficiently.
 
 ```html
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button>Button1</mp-button>
     <mp-button>Button2</mp-button>
     <mp-button>Button3</mp-button>

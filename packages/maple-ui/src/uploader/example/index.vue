@@ -187,7 +187,7 @@ function handleActionClick(chooseFile) {
 
   <app-type>{{ t('style') }}</app-type>
   <mp-uploader v-model="values.files6">
-    <mp-button status="primary">{{ t('upload') }}</mp-button>
+    <mp-button status="primary">{{ t('upload-fill') }}</mp-button>
   </mp-uploader>
 
   <app-type>{{ t('customRender') }}</app-type>
@@ -195,7 +195,7 @@ function handleActionClick(chooseFile) {
     <img v-for="f in values.files12" :key="f.id" class="custom-uploader-file" :src="f.cover" />
     <mp-uploader v-model="values.files12" hide-list>
       <mp-button round status="primary">
-        <m-icon-upload :size="28" />
+        <m-icon-upload-fill :size="28" />
       </mp-button>
     </mp-uploader>
   </mp-space>
@@ -204,7 +204,7 @@ function handleActionClick(chooseFile) {
   <mp-uploader v-model="values.files2">
     <template #remove-button="{ remove }">
       <div class="custom-remove-button">
-        <m-icon-window-close color="#fff" @click.stop="remove" />
+        <m-icon-close color="#fff" @click.stop="remove" />
       </div>
     </template>
   </mp-uploader>

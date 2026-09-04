@@ -15,7 +15,7 @@ const score = ref(3)
 
 <template>
   <mp-rate v-model="score"/>
-  <mp-rate v-model="score" icon="thumb-up" empty-icon="thumb-up-outline"/>
+  <mp-rate v-model="score" icon="thumb-up-fill" empty-icon="thumb-up"/>
 </template>
 ```
 
@@ -50,8 +50,8 @@ const score = ref(3)
 
 <template>
   <mp-rate 
-    icon="heart" 
-    empty-icon="heart-outline" 
+    icon="heart-fill" 
+    empty-icon="heart" 
     color="red" 
     empty-color="red"
     v-model="score"
@@ -91,9 +91,9 @@ const score = ref(3.5)
   <mp-rate allow-half :count="8" v-model="score" />
   <mp-rate
     allow-half
-    icon="heart"
+    icon="heart-fill"
     half-icon="heart-half-full"
-    empty-icon="heart-outline"
+    empty-icon="heart"
     color="red"
     :count="8"
     v-model="score"
@@ -171,7 +171,7 @@ function handleChange(score) {
 | `color`          | 选中时图标的颜色 | _string_ | `-` |
 | `icon`           | 选中整个图标时的图标样式 | _string_ | `star`|
 | `empty-color`    | 未选中时图标的颜色 | _string_ | `-` |
-| `empty-icon`     | 未选中时图标的样式 | _string_ | `star-outline` |
+| `empty-icon`     | 未选中时图标的样式 | _string_ | `star` |
 | `size`           | 图标大小，默认单位为 `px` | _number \| string_ | `-`|
 | `gap`            | 图标间隔，默认单位为 `px` | _number \| string_ | `-` |
 | `allow-half`           | 是否允许半选 | _boolean_ | `false` |

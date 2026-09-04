@@ -33,7 +33,7 @@
           :aria-label="'close'"
           @click="handleClose"
           @keydown.enter.space.prevent="handleClose"
-          ><MIconWindowClose
+          ><MIconClose
         /></mp-icon>
       </slot>
     </div>
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
-import { IconWindowClose as MIconWindowClose } from '@maplejs/icons-vue'
+import { IconClose as MIconClose } from '@maplejs/icons-vue'
 import { toNumber } from '@maplejs/maple-shared'
 import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
@@ -54,7 +54,7 @@ const { name, n, classes } = createNamespace('notice-bar')
 export default defineComponent({
   name,
   components: {
-    MIconWindowClose,
+    MIconClose,
     MpIcon,
     MpRegisteredIcon,
   },

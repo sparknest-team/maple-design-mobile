@@ -28,12 +28,12 @@
 <mp-space wrap align="center" :size="16">
   <mp-badge :content="9">
     <mp-avatar shape="square" :size="40">
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-avatar>
   </mp-badge>
   <mp-badge :content="9" dot>
     <mp-avatar shape="square" :size="40">
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-avatar>
   </mp-badge>
   <mp-badge>
@@ -41,7 +41,7 @@
       <m-icon-history />
     </template>
     <mp-avatar shape="square" :size="40">
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-avatar>
   </mp-badge>
 </mp-space>
@@ -67,7 +67,7 @@
   <a href="#">链接</a>
 </mp-badge>
 <mp-badge :content="9" dot :offset-x="2" :offset-y="-2">
-  <m-icon-bell />
+  <m-icon-bell-fill />
 </mp-badge>
 ```
 
@@ -78,12 +78,12 @@
 ```html
 <mp-badge content="NEW">
   <mp-avatar shape="square" :size="40">
-    <m-icon-account-circle />
+    <m-icon-user-circle-fill />
   </mp-avatar>
 </mp-badge>
 <mp-badge content="HOT" mode="inline" inline-position="end">
   <mp-avatar shape="square" :size="40">
-    <m-icon-account-circle />
+    <m-icon-user-circle-fill />
   </mp-avatar>
 </mp-badge>
 ```

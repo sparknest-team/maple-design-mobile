@@ -1,14 +1,14 @@
 <template>
   <li v-ripple="{ disabled }" :class="cls" @click="handleClick">
     <slot>
-      <mp-icon><MIconDotsVertical :rotate="90" /></mp-icon>
+      <mp-icon><MIconMoreVertical :rotate="90" /></mp-icon>
     </slot>
   </li>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { IconDotsVertical as MIconDotsVertical } from '@maplejs/icons-vue'
+import { IconMoreVertical as MIconMoreVertical } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
@@ -19,7 +19,7 @@ const { n, classes } = createNamespace('pagination')
 export default defineComponent({
   name: createNamespace('pagination-item-ellipsis').name,
   components: {
-    MIconDotsVertical,
+    MIconMoreVertical,
     MpIcon,
   },
   directives: { Ripple },

@@ -4,7 +4,7 @@
 
 弹出一个动作面板提供用户选择选项的能力。
 `ActionSheet` 提供了函数式和组件式两种使用方式，两种使用效果和参数并没有本质区别。
-函数返回一个 `Promise`，选择时返回 `当前选择的 action`，点击遮罩层关闭返回 `close`。
+函数返回一个 `Promise`，选择时返回 `当前选择的 action`，点击背景层关闭返回 `close`。
 
 ## 函数调用
 
@@ -19,7 +19,7 @@
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -52,7 +52,7 @@
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -88,7 +88,7 @@
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -125,7 +125,7 @@
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -160,7 +160,7 @@
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
           color: 'var(--color-success)',
         },
         {
@@ -198,7 +198,7 @@
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -232,7 +232,7 @@
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -266,7 +266,7 @@
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -301,7 +301,7 @@
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -335,7 +335,7 @@
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
       color: 'var(--color-success)',
     },
     {
@@ -370,27 +370,27 @@
 | `v-model:open`          | 是否显示动作面板                                       | _boolean_                      | `false`  |
 | `actions`               | 选项列表                                               | _Actions_                      | `[]`     |
 | `title`                 | 动作面板标题                                           | _string_                       | `请选择` |
-| `mask`                  | 是否显示遮罩层                                         | _boolean_                      | `true`   |
-| `mask-class`            | 自定义遮罩层的 class                                   | _string_                       | `-`      |
-| `mask-style`            | 自定义遮罩层的 style                                   | _object_                       | `-`      |
+| `overlay`               | 是否显示背景层                                         | _boolean_                      | `true`   |
+| `overlay-class`         | 自定义背景层的 class                                   | _string_                       | `-`      |
+| `overlay-style`         | 自定义背景层的 style                                   | _object_                       | `-`      |
 | `lock-scroll`           | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_                      | `true`   |
 | `close-on-click-action` | 是否点击选项时关闭动作面板                             | _boolean_                      | `true`   |
-| `mask-closable`         | 是否点击遮罩层关闭动作面板                             | _boolean_                      | `true`   |
+| `overlay-closable`      | 是否点击背景层关闭动作面板                             | _boolean_                      | `true`   |
 | `esc-to-close`          | 是否支持键盘 ESC 关闭动作面板                          | _boolean_                      | `true`   |
 | `safe-area`             | 是否开启底部安全区适配                                 | _boolean_                      | `false`  |
-| `popupContainer`        | 动作面板挂载的位置                                     | _TeleportProps['to'] \| false_ | `body`   |
+| `popup-container`        | 动作面板挂载的位置                                     | _TeleportProps['to'] \| false_ | `body`   |
 
 ### 事件
 
-| 事件名       | 说明                       | 参数             |
-| ------------ | -------------------------- | ---------------- |
-| `select`     | 选择选项时触发             | `action: Action` |
-| `open`       | 打开动作面板时触发         | `-`              |
-| `opened`     | 打开动作面板动画结束时触发 | `-`              |
-| `close`      | 关闭动作面板时触发         | `-`              |
-| `closed`     | 关闭动作面板动画结束时触发 | `-`              |
-| `click-mask` | 点击遮罩层时触发           | `MouseEvent`     |
-| `key-escape` | 按下 ESC 时触发            | `KeyboardEvent`  |
+| 事件名          | 说明                       | 参数             |
+| --------------- | -------------------------- | ---------------- |
+| `select`        | 选择选项时触发             | `action: Action` |
+| `open`          | 打开动作面板时触发         | `-`              |
+| `opened`        | 打开动作面板动画结束时触发 | `-`              |
+| `close`         | 关闭动作面板时触发         | `-`              |
+| `closed`        | 关闭动作面板动画结束时触发 | `-`              |
+| `click-overlay` | 点击背景层时触发           | `MouseEvent`     |
+| `key-escape`    | 按下 ESC 时触发            | `KeyboardEvent`  |
 
 ### 方法
 
@@ -409,12 +409,12 @@
 | -------------------- | ------------------------------------------------------ | ----------------------------- | -------- |
 | `actions`            | 选项列表                                               | _Actions_                     | `[]`     |
 | `title`              | 动作面板标题                                           | _string_                      | `请选择` |
-| `mask`               | 是否显示遮罩层                                         | _boolean_                     | `true`   |
-| `maskClass`          | 自定义遮罩层的 class                                   | _string_                      | `-`      |
-| `maskStyle`          | 自定义遮罩层的 style                                   | _object_                      | `-`      |
+| `overlay`            | 是否显示背景层                                         | _boolean_                     | `true`   |
+| `overlayClass`       | 自定义背景层的 class                                   | _string_                      | `-`      |
+| `overlayStyle`       | 自定义背景层的 style                                   | _object_                      | `-`      |
 | `lockScroll`         | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动 | _boolean_                     | `true`   |
 | `closeOnClickAction` | 是否点击选项时关闭动作面板                             | _boolean_                     | `true`   |
-| `maskClosable`       | 是否点击遮罩层关闭弹出层                               | _boolean_                     | `true`   |
+| `overlayClosable`    | 是否点击背景层关闭弹出层                               | _boolean_                     | `true`   |
 | `escToClose`         | 是否支持键盘 ESC 关闭动作面板                          | _boolean_                     | `true`   |
 | `safe-area`          | 是否开启底部安全区适配                                 | _boolean_                     | `false`  |
 | `onOpen`             | 动作面板开启回调                                       | _() => void_                  | `-`      |
@@ -422,7 +422,7 @@
 | `onClose`            | 动作面板关闭回调                                       | _() => void_                  | `-`      |
 | `onClosed`           | 动作面板关闭动画结束回调                               | _() => void_                  | `-`      |
 | `onSelect`           | 选项选择时回调                                         | _(action: Action) => void_    | `-`      |
-| `onClickMask`        | 遮罩层点击回调                                         | _(event: MouseEvent) => void_ | `-`      |
+| `onClickOverlay`     | 背景层点击回调                                         | _(event: MouseEvent) => void_ | `-`      |
 | `onKeyEscape`        | 点击键盘 ESC 时触发                                    | _() => void_                  | `-`      |
 
 ### ActionSheet Action

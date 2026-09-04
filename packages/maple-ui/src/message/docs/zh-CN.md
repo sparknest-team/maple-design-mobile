@@ -45,7 +45,7 @@ import { Message, Icon } from '@maplejs/maple-ui'
 
 Message.info({
   content: '这是一条消息提示',
-  icon: () => h(Icon, { name: 'heart', style: { paddingRight: '12px' } }),
+  icon: () => h(Icon, { name: 'heart-fill', style: { paddingRight: '12px' } }),
 })
 </script>
 ```
@@ -147,7 +147,7 @@ import { Message, Button } from '@maplejs/maple-ui'
 const message = Message({
   content: 'Hello, Maple',
   action: () =>
-    h(Button, { size: 'small', type: 'primary', onClick: () => message.close() }, { default: () => '关闭' }),
+    h(Button, { size: 'sm', type: 'primary', onClick: () => message.close() }, { default: () => '关闭' }),
 })
 </script>
 ```
@@ -222,7 +222,7 @@ const show = ref(false)
   <mp-message v-model:open="open">
     这是一条消息提示
     <template #icon>
-      <m-icon-heart-outline />
+      <m-icon-heart />
     </template>
   </mp-message>
 </template>
@@ -274,7 +274,7 @@ const show = ref(false)
 | `closable` | 是否显示关闭按钮 | _boolean_ | `false` |
 | `forbid-click` | 禁止穿透点击 | _boolean_ | `false` |
 | `lock-scroll` | 锁定滚动 | _boolean_ | `false` |
-| `popupContainer` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
+| `popup-container` | 挂载位置 | _TeleportProps['to'] \| false_ | `body` |
 
 ### 事件
 

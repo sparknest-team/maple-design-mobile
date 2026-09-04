@@ -21,7 +21,7 @@
         aria-label="Copy Example Code"
         data-tooltip="Copy Example Code"
       >
-        <MIconContentCopy class="mp-site-code-example__toolbar-icon" />
+        <MIconCopy class="mp-site-code-example__toolbar-icon" />
       </button>
 
       <button
@@ -52,11 +52,7 @@
 <script lang="ts">
 import { defineComponent, nextTick, onMounted, ref, type Ref } from 'vue'
 import config from '@config'
-import {
-  IconCodeJson as MIconCodeJson,
-  IconContentCopy as MIconContentCopy,
-  IconXml as MIconXml,
-} from '@maplejs/icons-vue'
+import { IconCodeJson as MIconCodeJson, IconCopy as MIconCopy, IconXml as MIconXml } from '@maplejs/icons-vue'
 import { getBrowserTheme, getPCLocationInfo } from '@maplejs/maple-cli/client'
 import { doubleRaf } from '@maplejs/maple-shared'
 import { Context, Message } from '@maplejs/maple-ui'
@@ -70,7 +66,7 @@ let clipId = 0
 const offset = 10
 
 export default defineComponent({
-  components: { MIconXml, MIconContentCopy, MIconCodeJson },
+  components: { MIconXml, MIconCopy, MIconCodeJson },
   name: 'MpSiteCodeExample',
   props: {
     playgroundIgnore: {

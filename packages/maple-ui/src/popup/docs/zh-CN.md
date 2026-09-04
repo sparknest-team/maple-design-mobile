@@ -65,29 +65,29 @@
 </style>
 ```
 
-### 遮罩层样式
+### 背景层样式
 
 ```html
 <script setup>
   import { ref } from 'vue'
 
-  const maskClass = ref(false)
-  const maskStyle = ref(false)
+  const overlayClass = ref(false)
+  const overlayStyle = ref(false)
 </script>
 
 <template>
   <mp-space direction="column" :size="[10, 0]">
-    <mp-button status="primary" block @click="maskClass = true"> 遮罩层 class </mp-button>
-    <mp-button status="primary" block @click="maskStyle = true"> 遮罩层 style </mp-button>
+    <mp-button status="primary" block @click="overlayClass = true"> 背景层 class </mp-button>
+    <mp-button status="primary" block @click="overlayStyle = true"> 背景层 style </mp-button>
   </mp-space>
 
-  <mp-popup mask-class="popup-example-custom-overlay" v-model:open="maskClass">
+  <mp-popup overlay-class="popup-example-custom-overlay" v-model:open="overlayClass">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>
   </mp-popup>
 
-  <mp-popup :mask-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}" v-model:open="maskStyle">
+  <mp-popup :overlay-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}" v-model:open="overlayStyle">
     <div class="popup-example-block">
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>
@@ -148,29 +148,29 @@
 | ---------------------- | --------------------------------------------------------- | ------------------------------ | -------- |
 | `v-model:open`         | 是否显示弹出层                                            | _boolean_                      | `false`  |
 | `position`             | 弹出位置，可选值为 `top` `bottom` `right` `left` `center` | _string_                       | `center` |
-| `mask`                 | 是否显示遮罩层                                            | _boolean_                      | `true`   |
-| `mask-class`           | 自定义遮罩层的 class                                      | _string_                       | `-`      |
-| `mask-style`           | 自定义遮罩层的 style                                      | _object_                       | `-`      |
+| `overlay`              | 是否显示背景层                                            | _boolean_                      | `true`   |
+| `overlay-class`        | 自定义背景层的 class                                      | _string_                       | `-`      |
+| `overlay-style`        | 自定义背景层的 style                                      | _object_                       | `-`      |
 | `default-style`        | 是否启用默认样式                                          | _boolean_                      | `true`   |
 | `transition`           | 过渡动画的名称                                            | _string_                       | `-`      |
 | `lock-scroll`          | 是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动    | _boolean_                      | `true`   |
-| `mask-closable`        | 是否点击遮罩层关闭弹出层                                  | _boolean_                      | `true`   |
+| `overlay-closable`     | 是否点击背景层关闭弹出层                                  | _boolean_                      | `true`   |
 | `esc-to-close`         | 是否支持键盘 ESC 关闭弹出层                               | _boolean_                      | `true`   |
-| `popupContainer`       | 弹出层挂载的位置                                          | _TeleportProps['to'] \| false_ | `body`   |
+| `popup-container`       | 弹出层挂载的位置                                          | _TeleportProps['to'] \| false_ | `body`   |
 | `safe-area`            | 是否开启底部安全区适配                                    | _boolean_                      | `false`  |
 | `safe-area-top`        | 是否开启顶部安全区适配                                    | _boolean_                      | `false`  |
 | `z-index` _**3.3.10**_ | 元素 z-index                                              | _number_                       | `-`      |
 
 ### 事件
 
-| 事件名       | 说明                     | 参数            |
-| ------------ | ------------------------ | --------------- |
-| `open`       | 打开弹出层时触发         | `-`             |
-| `opened`     | 打开弹出层动画结束时触发 | `-`             |
-| `close`      | 关闭弹出层时触发         | `-`             |
-| `closed`     | 关闭弹出层动画结束时触发 | `-`             |
-| `click-mask` | 点击遮罩层时触发         | `MouseEvent`    |
-| `key-escape` | 按下 ESC 时触发          | `KeyboardEvent` |
+| 事件名          | 说明                     | 参数            |
+| --------------- | ------------------------ | --------------- |
+| `open`          | 打开弹出层时触发         | `-`             |
+| `opened`        | 打开弹出层动画结束时触发 | `-`             |
+| `close`         | 关闭弹出层时触发         | `-`             |
+| `closed`        | 关闭弹出层动画结束时触发 | `-`             |
+| `click-overlay` | 点击背景层时触发         | `MouseEvent`    |
+| `key-escape`    | 按下 ESC 时触发          | `KeyboardEvent` |
 
 ### 插槽
 

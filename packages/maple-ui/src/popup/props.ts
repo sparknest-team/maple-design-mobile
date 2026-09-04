@@ -10,18 +10,18 @@ export const props = {
   },
   transition: String,
   // Internal override used by composed overlays such as Dialog.
-  maskTransition: String,
-  mask: {
+  overlayTransition: String,
+  overlay: {
     type: Boolean,
     default: true,
   },
-  maskClass: String,
-  maskStyle: Object,
+  overlayClass: String,
+  overlayStyle: Object,
   lockScroll: {
     type: Boolean,
     default: true,
   },
-  maskClosable: {
+  overlayClosable: {
     type: Boolean,
     default: true,
   },

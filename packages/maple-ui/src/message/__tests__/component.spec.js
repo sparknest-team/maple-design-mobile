@@ -21,7 +21,7 @@ test('message style', async () => {
       :elevation="5"
       :duration="500"
       loading-type="wave"
-      loading-size="large"
+      loading-size="lg"
       content="test message"
       forbid-click
       lock-scroll

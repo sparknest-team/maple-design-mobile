@@ -103,7 +103,7 @@ describe('test cell component props', () => {
         extraClass: 'test-extra-class',
       },
       slots: {
-        extra: 'information',
+        extra: 'info-circle-fill',
       },
     })
 
@@ -164,11 +164,11 @@ describe('test cell component slots', () => {
   test('cell extra slots', () => {
     const wrapper = mount(VarCell, {
       slots: {
-        extra: 'information',
+        extra: 'info-circle-fill',
       },
     })
 
-    expect(wrapper.find('.mp-cell__extra').text()).toContain('information')
+    expect(wrapper.find('.mp-cell__extra').text()).toContain('info-circle-fill')
     wrapper.unmount()
   })
 })

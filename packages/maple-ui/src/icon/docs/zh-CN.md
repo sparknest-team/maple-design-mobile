@@ -3,29 +3,27 @@
 ## 介绍
 
 基于 SVG Vue 组件的图标库。
-图标源自 [Material Design Icon](https://materialdesignicons.com/)。
-
 ## 推荐用法
 
 配置 `MapleResolver()` 后，推荐使用模板标签自动按需导入。`m-icon-*` 是 Resolver 的图标命名空间，实际仍只会从 `@maplejs/icons-vue` 加载对应的单个图标：
 
 ```html
 <mp-icon size="40" color="red">
-  <m-icon-checkbox-marked-circle />
+  <m-icon-checkbox-marked-circle-fill />
 </mp-icon>
 ```
 
 也可以手动导入独立图标组件：
 
 ```ts
-import { IconCheckboxMarkedCircle } from '@maplejs/icons-vue'
+import { IconCheckboxMarkedCircleFill } from '@maplejs/icons-vue'
 ```
 
 手动导入时，同样推荐通过 `<mp-icon>` 容器统一控制尺寸、颜色、动画和交互区域：
 
 ```html
 <mp-icon size="40" color="red">
-  <IconCheckboxMarkedCircle />
+  <IconCheckboxMarkedCircleFill />
 </mp-icon>
 ```
 
@@ -38,12 +36,12 @@ import { IconCheckboxMarkedCircle } from '@maplejs/icons-vue'
 ```ts
 // main.ts
 import { createApp } from 'vue'
-import { IconCheckboxMarkedCircle, IconInformation } from '@maplejs/icons-vue'
+import { IconCheckboxMarkedCircleFill, IconInfoCircleFill } from '@maplejs/icons-vue'
 import App from './App.vue'
 
 const app = createApp(App)
-app.component('IconCheckboxMarkedCircle', IconCheckboxMarkedCircle)
-app.component('IconInformation', IconInformation)
+app.component('IconCheckboxMarkedCircleFill', IconCheckboxMarkedCircleFill)
+app.component('IconInfoCircleFill', IconInfoCircleFill)
 app.mount('#app')
 ```
 
@@ -64,10 +62,10 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 ```html
 <template>
   <mp-icon size="40" color="red">
-    <m-icon-checkbox-marked-circle />
+    <m-icon-checkbox-marked-circle-fill />
   </mp-icon>
   <mp-icon size="40" color="red">
-    <m-icon-information />
+    <m-icon-info-circle-fill />
   </mp-icon>
 </template>
 ```
@@ -76,9 +74,9 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 
 ```html
 <template>
-  <mp-icon size="20"><m-icon-checkbox-marked-circle /></mp-icon>
-  <mp-icon size="28"><m-icon-checkbox-marked-circle /></mp-icon>
-  <mp-icon size="36"><m-icon-checkbox-marked-circle /></mp-icon>
+  <mp-icon size="20"><m-icon-checkbox-marked-circle-fill /></mp-icon>
+  <mp-icon size="28"><m-icon-checkbox-marked-circle-fill /></mp-icon>
+  <mp-icon size="36"><m-icon-checkbox-marked-circle-fill /></mp-icon>
 </template>
 ```
 
@@ -86,8 +84,8 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 
 ```html
 <template>
-  <mp-icon size="28" color="var(--mp-color-primary)"><m-icon-checkbox-marked-circle /></mp-icon>
-  <mp-icon size="28" color="var(--mp-color-success)"><m-icon-checkbox-marked-circle /></mp-icon>
+  <mp-icon size="28" color="var(--mp-color-primary)"><m-icon-checkbox-marked-circle-fill /></mp-icon>
+  <mp-icon size="28" color="var(--mp-color-success)"><m-icon-checkbox-marked-circle-fill /></mp-icon>
 </template>
 ```
 
@@ -96,7 +94,7 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 ```html
 <template>
   <mp-icon size="28" color="var(--mp-color-primary)" @click="Message.success('点击成功')">
-    <m-icon-checkbox-marked-circle />
+    <m-icon-checkbox-marked-circle-fill />
   </mp-icon>
 </template>
 ```
@@ -109,10 +107,10 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 <script setup>
   import { ref } from 'vue'
 
-  const name = ref('information')
+  const name = ref('info-circle-fill')
 
   function toggle() {
-    name.value = name.value === 'information' ? 'checkbox-marked-circle' : 'information'
+    name.value = name.value === 'info-circle-fill' ? 'checkbox-marked-circle-fill' : 'info-circle-fill'
   }
 </script>
 
@@ -163,8 +161,23 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 | `name`            | 图标名称           | _string_           | `-`    |
 | `size`            | 尺寸               | _string \| number_ | `-`    |
 | `color`           | 图标颜色           | _string_           | `-`    |
+| `rotate`          | 旋转角度           | _number_           | `-`    |
+| `spin`            | 是否持续旋转       | _boolean_          | `false` |
 | `animation-class` | 过渡动画类名       | _string_           | `-`    |
 | `transition`      | 过渡动画时间（ms） | _string \| number_ | `0`    |
+
+### 独立 SVG 图标属性
+
+| 参数              | 说明       | 类型                                       | 默认值    |
+| ----------------- | ---------- | ------------------------------------------ | --------- |
+| `size`            | 尺寸       | _string \| number_                          | `-`       |
+| `color`           | 图标颜色   | _string_                                   | `-`       |
+| `rotate`          | 旋转角度   | _number_                                   | `-`       |
+| `spin`            | 是否旋转   | _boolean_                                  | `false`   |
+| `title`           | 无障碍标题 | _string_                                   | `-`       |
+| `stroke-width`    | 线宽       | _number_                                   | `4`       |
+| `stroke-linecap`  | 端点类型   | _'butt' \| 'round' \| 'square'_            | `'butt'`  |
+| `stroke-linejoin` | 拐角类型   | _'bevel' \| 'inherit' \| 'miter' \| 'round'_ | `'miter'` |
 
 ### 事件
 

@@ -41,7 +41,9 @@ export async function compileTypes() {
     }
 
     if (directives.includes(folder)) {
-      directiveDeclares.push(`v${name}: typeof import('${libraryName}')['_${name}Component']`)
+      const directiveExport = folder === 'loading' ? 'vLoading' : `_${name}Component`
+      const directiveName = folder === 'loading' ? 'MpLoading' : name
+      directiveDeclares.push(`v${directiveName}: typeof import('${libraryName}')['${directiveExport}']`)
     } else {
       componentDeclares.push(`${pascalCase(namespace)}${name}: typeof import('${libraryName}')['_${name}Component']`)
     }

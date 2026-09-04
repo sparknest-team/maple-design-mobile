@@ -37,7 +37,7 @@ onThemeChange()
 
   <app-type>{{ t('custom') }}</app-type>
   <mp-divider type="dashed">
-    <m-icon-heart-outline style="margin: 0 16px; color: var(--mp-color-danger)" />
+    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
   </mp-divider>
 
   <app-type>{{ t('color') }}</app-type>

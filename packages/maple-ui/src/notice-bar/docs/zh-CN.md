@@ -53,7 +53,7 @@
 | `text` | 通知文本 | `string` | `-` |
 | `type` | 类型 | `info \| success \| warning \| danger` | `warning` |
 | `mode` | `closeable` 时显示关闭按钮 | `closeable` | `-` |
-| `icon` | 左侧图标名，空字符串隐藏 | `string` | `information-outline` |
+| `icon` | 左侧图标名，空字符串隐藏 | `string` | `info-circle` |
 | `color` | 文字颜色 | `string` | `-` |
 | `background` | 背景色 | `string` | `-` |
 | `scrollable` | 是否滚动 | `boolean` | `false` |

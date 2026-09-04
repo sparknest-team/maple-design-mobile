@@ -76,24 +76,24 @@ Create a container that can pop up from top, bottom, left, right and center. `po
 <script setup>
   import { ref } from 'vue'
 
-  const maskClass = ref(false)
-  const maskStyle = ref(false)
+  const overlayClass = ref(false)
+  const overlayStyle = ref(false)
 </script>
 
 <template>
   <mp-space direction="column" :size="[10, 0]">
-    <mp-button status="primary" block @click="maskClass = true"> Overlay Class </mp-button>
-    <mp-button status="primary" block @click="maskStyle = true"> Overlay Style </mp-button>
+    <mp-button status="primary" block @click="overlayClass = true"> Overlay Class </mp-button>
+    <mp-button status="primary" block @click="overlayStyle = true"> Overlay Style </mp-button>
   </mp-space>
 
-  <mp-popup mask-class="popup-example-custom-overlay" v-model:open="maskClass">
+  <mp-popup overlay-class="popup-example-custom-overlay" v-model:open="overlayClass">
     <div class="popup-example-block">
       As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
       on the carpet.
     </div>
   </mp-popup>
 
-  <mp-popup :mask-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}" v-model:open="maskStyle">
+  <mp-popup :overlay-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}" v-model:open="overlayStyle">
     <div class="popup-example-block">
       As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
       on the carpet.
@@ -156,29 +156,29 @@ Create a container that can pop up from top, bottom, left, right and center. `po
 | ---------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------- |
 | `v-model:open`         | Whether to display the Popup                                                                                  | _boolean_                      | `false`  |
 | `position`             | Popup position with optional value of `top` `bottom` `right` `left` `center`                                  | _string_                       | `center` |
-| `mask`                 | Whether to display the overlay                                                                                | _boolean_                      | `true`   |
-| `mask-class`           | Custom overlay class                                                                                          | _string_                       | `-`      |
-| `mask-style`           | Custom overlay style                                                                                          | _object_                       | `-`      |
+| `overlay`              | Whether to display the overlay                                                                                | _boolean_                      | `true`   |
+| `overlay-class`        | Custom overlay class                                                                                          | _string_                       | `-`      |
+| `overlay-style`        | Custom overlay style                                                                                          | _object_                       | `-`      |
 | `default-style`        | Whether to enable the default style                                                                           | _boolean_                      | `true`   |
 | `transition`           | Transition animation name                                                                                     | _string_                       | `-`      |
 | `lock-scroll`          | Whether to disable scrolling penetration, scrolling the Popup when disabled will not cause the body to scroll | _boolean_                      | `true`   |
-| `mask-closable`        | Whether to click the overlay to close the Popup                                                               | _boolean_                      | `true`   |
+| `overlay-closable`     | Whether to click the overlay to close the Popup                                                               | _boolean_                      | `true`   |
 | `esc-to-close`         | Whether to support keyboard ESC to close the popup                                                            | _boolean_                      | `true`   |
-| `popupContainer`       | The location of the Popup to mount                                                                            | _TeleportProps['to'] \| false_ | `body`   |
+| `popup-container`       | The location of the Popup to mount                                                                            | _TeleportProps['to'] \| false_ | `body`   |
 | `safe-area`            | Whether to enable bottom safety zone adaptation                                                               | _boolean_                      | `false`  |
 | `safe-area-top`        | Whether to enable top safety zone adaptation                                                                  | _boolean_                      | `false`  |
 | `z-index` _**3.3.10**_ | The zIndex of element                                                                                         | _number_                       | `-`      |
 
 ### Events
 
-| Event        | Description                                   | Arguments       |
-| ------------ | --------------------------------------------- | --------------- |
-| `open`       | Triggered when the Popup is open              | `-`             |
-| `opened`     | Triggered when the Popup open-animation ends  | `-`             |
-| `close`      | Triggered when the Popup is close             | `-`             |
-| `closed`     | Triggered when the Popup close-animation ends | `-`             |
-| `click-mask` | Triggered when you click the mask             | `MouseEvent`    |
-| `key-escape` | Triggered when pressing ESC                   | `KeyboardEvent` |
+| Event           | Description                                   | Arguments       |
+| --------------- | --------------------------------------------- | --------------- |
+| `open`          | Triggered when the Popup is open              | `-`             |
+| `opened`        | Triggered when the Popup open-animation ends  | `-`             |
+| `close`         | Triggered when the Popup is close             | `-`             |
+| `closed`        | Triggered when the Popup close-animation ends | `-`             |
+| `click-overlay` | Triggered when you click the overlay          | `MouseEvent`    |
+| `key-escape`    | Triggered when pressing ESC                   | `KeyboardEvent` |
 
 ### Slots
 

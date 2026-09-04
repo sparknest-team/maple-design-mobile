@@ -30,7 +30,7 @@ watchLang(use)
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-rate v-model="scores.score" />
-  <mp-rate v-model="scores.score" icon="thumb-up" empty-icon="thumb-up-outline" />
+  <mp-rate v-model="scores.score" icon="thumb-up-fill" empty-icon="thumb-up" />
 
   <app-type>{{ t('customTotalRating') }}</app-type>
   <mp-rate v-model="scores.score1" :count="8" />
@@ -38,8 +38,8 @@ watchLang(use)
   <app-type>{{ t('customRatingIconStyle') }}</app-type>
   <mp-rate
     v-model="scores.score3"
-    icon="heart"
-    empty-icon="heart-outline"
+    icon="heart-fill"
+    empty-icon="heart"
     color="var(--mp-color-danger)"
     empty-color="var(--mp-color-danger)"
   />
@@ -52,9 +52,9 @@ watchLang(use)
   <mp-rate
     v-model="scores.score6"
     :count="8"
-    icon="heart"
+    icon="heart-fill"
     half-icon="heart-half-full"
-    empty-icon="heart-outline"
+    empty-icon="heart"
     color="var(--mp-color-danger)"
     allow-half
     style="margin-top: 4px"

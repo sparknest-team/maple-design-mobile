@@ -19,12 +19,12 @@ The cell is a single display item in the list.
 <template>
   <mp-cell icon="fire" title="This is Cell">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
   <mp-cell icon="fire" title="This is Cell">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
 </template>
@@ -36,7 +36,7 @@ The cell is a single display item in the list.
 <template>
   <mp-cell icon="fire" title="This is Cell" description="Description">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
   <mp-cell title="This is Cell" description="Description" />
@@ -61,17 +61,17 @@ import { ref } from 'vue'
 const items = ref([
   {
     name: 'Vue2',
-    icon: 'star',
+    icon: 'star-fill',
     enabled: false,
   },
   {
     name: 'Vue3',
-    icon: 'heart',
+    icon: 'heart-fill',
     enabled: false,
   },
   {
     name: 'React',
-    icon: 'close-circle',
+    icon: 'close-circle-fill',
     enabled: false,
   },
 ])

@@ -79,13 +79,13 @@ function handleAutoLoadingClick() {
   <app-type>{{ t('roundButton') }}</app-type>
   <mp-space :size="['2.666vmin', '2.666vmin']">
     <mp-button round icon-container>
-      <m-icon-bookmark />
+      <m-icon-bookmark-fill />
     </mp-button>
     <mp-button status="primary" round icon-container>
       <m-icon-plus />
     </mp-button>
     <mp-button status="info" round icon-container>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </mp-button>
     <mp-button status="success" round icon-container>
       <m-icon-check />
@@ -94,7 +94,7 @@ function handleAutoLoadingClick() {
       <m-icon-warning />
     </mp-button>
     <mp-button status="danger" round icon-container>
-      <m-icon-window-close />
+      <m-icon-close />
     </mp-button>
   </mp-space>
 
@@ -170,7 +170,7 @@ function handleAutoLoadingClick() {
         <m-icon-warning />
       </mp-button>
       <mp-button status="info" icon-container>
-        <m-icon-information />
+        <m-icon-info-circle-fill />
       </mp-button>
       <mp-button status="success" icon-container>
         <m-icon-check />
@@ -210,7 +210,7 @@ function handleAutoLoadingClick() {
         <m-icon-warning />
       </mp-button>
       <mp-button status="info" icon-container>
-        <m-icon-information />
+        <m-icon-info-circle-fill />
       </mp-button>
       <mp-button status="success" icon-container>
         <m-icon-check />

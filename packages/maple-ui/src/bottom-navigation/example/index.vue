@@ -5,7 +5,7 @@ import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const basicUsage = ref(0)
-const matchByName = ref('home')
+const matchByName = ref('home-fill')
 const showBadge = ref(0)
 const badgeProps = {
   type: 'primary',
@@ -33,69 +33,69 @@ function handleClick(active) {
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-bottom-navigation v-model:active="basicUsage">
-    <mp-bottom-navigation-item :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" />
-    <mp-bottom-navigation-item :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('matchByName') }}</app-type>
   <mp-bottom-navigation v-model:active="matchByName">
-    <mp-bottom-navigation-item name="home" :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item name="search" :label="t('label')" icon="magnify" />
-    <mp-bottom-navigation-item name="heart" :label="t('label')" icon="heart" />
-    <mp-bottom-navigation-item name="user" :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item name="home-fill" :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item name="search" :label="t('label')" icon="search" />
+    <mp-bottom-navigation-item name="heart-fill" :label="t('label')" icon="heart-fill" />
+    <mp-bottom-navigation-item name="user" :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('showBadge') }}</app-type>
   <mp-bottom-navigation v-model:active="showBadge">
-    <mp-bottom-navigation-item :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" badge />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" :badge="badgeProps" />
-    <mp-bottom-navigation-item :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" badge />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" :badge="badgeProps" />
+    <mp-bottom-navigation-item :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('customColor') }}</app-type>
   <mp-bottom-navigation v-model:active="customColor" active-color="var(--mp-color-warning)">
-    <mp-bottom-navigation-item :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" />
-    <mp-bottom-navigation-item :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('changeEvent') }}</app-type>
   <mp-bottom-navigation v-model:active="changeEvent" @change="handleChange">
-    <mp-bottom-navigation-item :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" />
-    <mp-bottom-navigation-item :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('clickEvent') }}</app-type>
   <mp-bottom-navigation v-model:active="clickEvent">
-    <mp-bottom-navigation-item :label="t('label')" icon="home" @click="handleClick" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" @click="handleClick" />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" @click="handleClick" />
-    <mp-bottom-navigation-item :label="t('label')" icon="account-circle" @click="handleClick" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" @click="handleClick" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" @click="handleClick" />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" @click="handleClick" />
+    <mp-bottom-navigation-item :label="t('label')" icon="user-circle-fill" @click="handleClick" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('fab') }}</app-type>
   <mp-bottom-navigation v-model:active="fab" style="margin-top: 10px" @fab-click="isEven = !isEven">
     <template #fab>
-      <m-icon-heart />
+      <m-icon-heart-fill />
     </template>
-    <mp-bottom-navigation-item :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" />
-    <mp-bottom-navigation-item :label="t('label')" icon="bell" />
-    <mp-bottom-navigation-item v-if="!isEven" :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="bell-fill" />
+    <mp-bottom-navigation-item v-if="!isEven" :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 
   <app-type>{{ t('variant') }}</app-type>
   <mp-bottom-navigation v-model:active="variant" variant>
-    <mp-bottom-navigation-item :label="t('label')" icon="home" />
-    <mp-bottom-navigation-item :label="t('label')" icon="magnify" />
-    <mp-bottom-navigation-item :label="t('label')" icon="heart" />
-    <mp-bottom-navigation-item :label="t('label')" icon="account-circle" />
+    <mp-bottom-navigation-item :label="t('label')" icon="home-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="search" />
+    <mp-bottom-navigation-item :label="t('label')" icon="heart-fill" />
+    <mp-bottom-navigation-item :label="t('label')" icon="user-circle-fill" />
   </mp-bottom-navigation>
 </template>

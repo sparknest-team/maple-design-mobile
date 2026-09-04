@@ -22,7 +22,7 @@
     <mp-button status="primary">内容插槽</mp-button>
     
     <template #content>
-      <m-icon-star />
+      <m-icon-star-fill />
     </template>
   </mp-tooltip>
 </template>
@@ -63,7 +63,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placement">
       <mp-button status="primary">
-        <m-icon-star />
+        <m-icon-star-fill />
       </mp-button>
     </mp-tooltip>
   </div>
@@ -187,7 +187,7 @@ import { Message } from '@maplejs/maple-ui'
 | `strategy`  | 定位方式，可选值为 `absolute` `fixed` | _string_    | `absolute`    |
 | `offset-x` | x 轴偏移量， 相对于 `Tooltip` 对齐后的位置 | _number \| string_   | `0` |
 | `offset-y` | y 轴偏移量， 相对于 `Tooltip` 对齐后的位置 | _number \| string_   | `0` |
-| `popupContainer` | 挂载的位置 | _TeleportProps['to'] \| false_ | `body`    |
+| `popup-container` | 挂载的位置 | _TeleportProps['to'] \| false_ | `body`    |
 | `same-width` | 是否与触发元素同宽 | _boolean_ | `false`  |
 | `disabled` | 是否禁用 Tooltip | _boolean_      | `false`   |
 | `trigger` | 触发方式，可选值为 `click` `hover` `manual` | _string_       | `hover`   |

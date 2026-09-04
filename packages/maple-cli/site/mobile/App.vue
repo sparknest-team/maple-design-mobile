@@ -3,6 +3,7 @@
     <header class="mobile-page-header">
       <mp-page-header
         class="app-bar mobile-page-header__content"
+        :show-back="showBackIcon"
         :title="bigCamelizeComponentName"
         v-on="showBackIcon ? { back } : {}"
       >
@@ -26,7 +27,7 @@
             text-color="#fff"
             @click.stop="showThemeMenu = true"
           >
-            <mp-icon :size="28" class="palette"><MIconPalette /></mp-icon>
+            <mp-icon :size="28" class="palette-fill"><MIconPaletteFill /></mp-icon>
             <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
           </mp-button>
           <mp-button
@@ -85,7 +86,7 @@ import config from '@config'
 import {
   IconChevronDown as MIconChevronDown,
   IconGithub as MIconGithub,
-  IconPalette as MIconPalette,
+  IconPaletteFill as MIconPaletteFill,
   IconTranslate as MIconTranslate,
 } from '@maplejs/icons-vue'
 import {
@@ -101,7 +102,7 @@ import { useRoute } from 'vue-router'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
-  components: { MIconGithub, MIconPalette, MIconChevronDown, MIconTranslate },
+  components: { MIconGithub, MIconPaletteFill, MIconChevronDown, MIconTranslate },
   setup() {
     const bigCamelizeComponentName: Ref<string> = ref('')
     const route = useRoute()

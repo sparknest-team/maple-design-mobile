@@ -36,7 +36,7 @@ const empty = ref(false)
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="success" block @click="success = true">成功</mp-button>
     <mp-button status="warning" block @click="warning = true">警告</mp-button>
     <mp-button status="info" block @click="info = true">信息</mp-button>

@@ -64,7 +64,7 @@ const current = ref(2)
     <mp-step>
       步骤1
       <template #icon="{ status }">
-        <m-icon-heart v-if="status === 'finish'" />
+        <m-icon-heart-fill v-if="status === 'finish'" />
         <span v-else>1</span>
       </template>
     </mp-step>

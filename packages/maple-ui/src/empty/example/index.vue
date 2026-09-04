@@ -16,7 +16,7 @@ onThemeChange()
   <mp-space direction="column" :size="24">
     <mp-empty>
       <template #image>
-        <m-icon-alert-circle-outline />
+        <m-icon-alert-circle />
       </template>
       {{ t('customCopy') }}
     </mp-empty>

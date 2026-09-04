@@ -60,11 +60,11 @@ export default defineConfig({
 ```vue
 <template>
   <mp-button>确认</mp-button>
-  <mp-icon-information :size="32" />
+  <mp-icon-info-circle-fill :size="32" />
 </template>
 ```
 
-`MpButton` 从 `@maplejs/maple-ui` 引入，`MpIconInformation` 从 `@maplejs/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
+`MpButton` 从 `@maplejs/maple-ui` 引入，`MpIconInfoCircleFill` 从 `@maplejs/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
 
 #### Vue CLI
 ```js

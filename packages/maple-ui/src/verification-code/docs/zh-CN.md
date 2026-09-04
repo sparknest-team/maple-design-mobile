@@ -40,7 +40,7 @@ const value = ref('')
 
 ```html
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-verification-code v-model="digitValue" type="digit" />
     <mp-verification-code v-model="textValue" type="text" />
     <mp-verification-code v-model="mixedValue" type="alphanumeric" />

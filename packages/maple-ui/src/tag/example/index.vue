@@ -81,7 +81,7 @@ function removeTag(tag) {
       {{ t('complete') }}
     </mp-tag>
     <mp-tag status="info">
-      <template #icon><m-icon-information /></template>
+      <template #icon><m-icon-info-circle-fill /></template>
       {{ t('infoTag') }}
     </mp-tag>
   </mp-space>

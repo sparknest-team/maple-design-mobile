@@ -19,7 +19,7 @@ Customize the illustration with the `image` slot or default slot copy. Use `imag
 ```html
 <mp-empty>
   <template #image>
-    <m-icon-alert-circle-outline />
+    <m-icon-alert-circle />
   </template>
   No data, please reload!!
 </mp-empty>

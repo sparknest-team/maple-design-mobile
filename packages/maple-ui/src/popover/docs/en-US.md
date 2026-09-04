@@ -63,7 +63,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-popover :placement="placement">
       <mp-button status="primary">
-        <m-icon-star />
+        <m-icon-star-fill />
       </mp-button>
       <template #content>
         <mp-cell>Option</mp-cell>
@@ -227,7 +227,7 @@ it is recommended to wrap a `block` element.
 | `strategy`       | Popover position strategy, optional value is `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x`      | The x-axis offset, relative to the popover-aligned position                                                                     | _number \| string_           | `0` |
 | `offset-y`      | The y-axis offset, relative to the popover-aligned position                                                                     | _number \| string_           | `0` |
-| `popupContainer`      | The location of the popover mount                                                                                               | _TeleportProps['to'] \| false_ | `body`            |
+| `popup-container`      | The location of the popover mount                                                                                               | _TeleportProps['to'] \| false_ | `body`            |
 | `disabled`      | Whether to disable the popover                                                                                                  | _boolean_            | `false`           |
 | `trigger`       | Popover trigger method, optional value is `click` `hover` `manual` `contextMenu`  | _string_  | `click`           |
 | `reference` | The trigger element associated with the popover, the `string` type is the descendant element selector of the popover component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_ | `-` |

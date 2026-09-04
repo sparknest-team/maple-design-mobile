@@ -1,4 +1,4 @@
-import { defineComponent, Teleport, Transition } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, ref, Teleport, Transition, watch } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
 import { useLock } from '../context/lock'
@@ -14,50 +14,85 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  emits: ['update:open', 'key-escape', 'click'],
+  emits: ['update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click'],
   setup(props, { slots, attrs, emit }) {
-    const { zIndex } = useZIndex(() => props.open, 3)
-    const { onStackTop } = useStack(() => props.open, zIndex)
+    const localOpen = ref(props.defaultOpen)
+    const mergedOpen = computed({
+      get: () => props.open ?? localOpen.value,
+      set: (value: boolean) => {
+        if (props.open === undefined) {
+          localOpen.value = value
+        }
+        emit('update:open', value)
+      },
+    })
+    const rendered = ref(mergedOpen.value)
+    const shouldRender = computed(() => mergedOpen.value || (!props.unmountOnClose && rendered.value))
+    const { zIndex: managedZIndex } = useZIndex(() => mergedOpen.value, 3)
+    const zIndex = computed(() => props.zIndex ?? managedZIndex.value)
+    const { onStackTop } = useStack(() => mergedOpen.value, zIndex)
     const { disabled } = useTeleport()
 
     useLock(
-      () => props.open,
+      () => mergedOpen.value,
       () => props.lockScroll,
     )
 
     useEventListener(() => window, 'keydown', handleKeydown)
 
+    watch(
+      mergedOpen,
+      (open) => {
+        if (open) {
+          rendered.value = true
+          emit('open')
+        } else {
+          emit('close')
+        }
+      },
+      { immediate: mergedOpen.value },
+    )
+
+    onMounted(() => {
+      if (mergedOpen.value) {
+        nextTick(() => emit('opened'))
+      }
+    })
+
     function handleKeydown(event: KeyboardEvent) {
-      if (!onStackTop() || event.key !== 'Escape' || !props.open) {
+      if (!onStackTop() || event.key !== 'Escape' || !mergedOpen.value) {
         return
       }
 
-      emit('key-escape')
+      emit('key-escape', event)
 
       if (!props.escToClose) {
         return
       }
 
       preventDefault(event)
-      emit('update:open', false)
+      mergedOpen.value = false
     }
 
-    function handleClickOverlay() {
-      emit('click')
-      emit('update:open', false)
+    function handleClickOverlay(event: MouseEvent) {
+      emit('click', event)
+      if (props.overlayClosable) {
+        mergedOpen.value = false
+      }
     }
 
     function renderOverlay() {
       return (
         <div
           class={n()}
+          v-show={mergedOpen.value}
           style={{
             zIndex: zIndex.value - 2,
           }}
           {...attrs}
         >
           <div
-            class={n('overlay')}
+            class={n('backdrop')}
             role="presentation"
             style={{
               zIndex: zIndex.value - 1,
@@ -77,7 +112,15 @@ export default defineComponent({
     }
 
     function renderTransitionOverlay() {
-      return <Transition name={n('--fade')}>{props.open && renderOverlay()}</Transition>
+      return (
+        <Transition
+          name={n('--fade')}
+          onAfterEnter={(...args: any[]) => emit('opened', ...args)}
+          onAfterLeave={(...args: any[]) => emit('closed', ...args)}
+        >
+          {shouldRender.value && renderOverlay()}
+        </Transition>
+      )
     }
 
     return () => {

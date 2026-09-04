@@ -1,13 +1,13 @@
 <template>
-  <mp-popup
+  <mp-overlay
     v-model:open="mergedOpen"
     mp-image-preview-cover
     :class="n('popup')"
-    :transition="n('$-fade')"
-    :mask-closable="maskClosable"
+    :overlay-closable="overlayClosable"
     :esc-to-close="escToClose"
     :lock-scroll="lockScroll"
     :popup-container="popupContainer"
+    :unmount-on-close="false"
     @open="$emit('open')"
     @opened="$emit('opened')"
     @close="$emit('close')"
@@ -22,9 +22,11 @@
       @pointerdown="onPointerDown"
       @pointermove="onPointerMove"
       @pointerup="onPointerUp"
-      @pointercancel="onPointerUp"
+      @pointercancel="onPointerCancel"
+      @click="onOverlayClick"
       @dblclick="onDoubleClick"
     >
+      <div :class="n('backdrop')" data-image-preview-backdrop />
       <slot name="image" v-bind="{ src, scale, rotate, translateX, translateY, moving, previewedImgProps }">
         <div :class="n('image-frame')">
           <img
@@ -33,12 +35,17 @@
             data-image-preview-image
             :src="src"
             :alt="previewedImgProps?.alt || src"
-            :class="[previewedImgProps?.class, n('image'), { [n('image-moving')]: moving }]"
+            :class="[
+              previewedImgProps?.class,
+              n('image'),
+              { [n('image-moving')]: moving, [n('--prevent')]: imagePreventDefault },
+            ]"
             :style="[
               previewedImgProps?.style,
               { transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(${scale})` },
             ]"
             :draggable="false"
+            @click.stop
             @dragstart.prevent
             @contextmenu="imagePreventDefault && $event.preventDefault()"
           />
@@ -71,18 +78,18 @@
       mp-image-preview-cover
       @click="close"
     >
-      <slot name="close-icon"><MIconCloseCircle /></slot>
+      <slot name="close-icon"><MIconCloseCircleFill /></slot>
     </mp-icon>
     <div v-if="$slots.overlay" :class="n('overlay')" data-image-preview-overlay><slot name="overlay" /></div>
     <div v-if="$slots.extra" :class="n('extra')"><slot name="extra" /></div>
-  </mp-popup>
+  </mp-overlay>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, toRefs } from 'vue'
-import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
+import { IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
-import MpPopup from '../popup'
+import MpOverlay from '../overlay'
 import { createNamespace } from '../utils/components'
 import type { ImagePreviewActionName } from './api'
 import { usePreviewController } from './composables/usePreviewController'
@@ -92,7 +99,7 @@ const { name, n } = createNamespace('image-preview')
 
 export default defineComponent({
   name,
-  components: { MIconCloseCircle, MpIcon, MpPopup },
+  components: { MIconCloseCircleFill, MpIcon, MpOverlay },
   inheritAttrs: false,
   props: imagePreviewProps,
   emits: ['update:open', 'openChange', 'open', 'opened', 'close', 'closed', 'keyEscape', 'longPress', 'prev', 'next'],
@@ -111,13 +118,12 @@ export default defineComponent({
       keyboard: refs.keyboard,
       draggable: refs.draggable,
       keepDragOffset: refs.keepDragOffset,
-      closeOnImageTap: refs.closeOnImageTap,
+      overlayClosable: refs.overlayClosable,
       onOpenChange: (open) => {
         emit('update:open', open)
         emit('openChange', open)
         props.onOpenChange?.(open)
       },
-      onKeyEscape: () => emit('keyEscape'),
       onLongPress: () => emit('longPress'),
       onPrev: () => emit('prev'),
       onNext: () => emit('next'),

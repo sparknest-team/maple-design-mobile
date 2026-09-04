@@ -366,7 +366,7 @@ const files = ref([
     />
     <mp-uploader hide-list v-model="files">
       <mp-button round status="primary">
-        <m-icon-upload :size="28" />
+        <m-icon-upload-fill :size="28" />
       </mp-button>
     </mp-uploader>
   </mp-space>
@@ -405,7 +405,7 @@ const files = ref([
   <mp-uploader v-model="files">
     <template #remove-button="{ remove }">
       <div class="custom-remove-button">
-        <m-icon-window-close color="#fff" @click.stop="remove"></m-icon-window-close>
+        <m-icon-close color="#fff" @click.stop="remove"></m-icon-close>
       </div>
     </template>
   </mp-uploader>
@@ -435,7 +435,7 @@ const files = ref([
 | `disabled` | 是否禁用 | _boolean_ | `false` |
 | `elevation`| 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效 | _string \| number \| boolean_|   `true`    |
 | `removable` | 是否可以删除 | _boolean_ | `true` |
-| `maxFiles` | 最大文件个数 | _string \| number_ | `-` |
+| `max-files` | 最大文件个数 | _string \| number_ | `-` |
 | `max-file-size` | 最大文件大小，单位为 `byte` | _string \| number_ | `-` |
 | `previewed` | 是否允许预览 | _boolean_ | `true` |
 | `prevent-default-preview` | 阻止默认预览行为 | _boolean_ | `false` |

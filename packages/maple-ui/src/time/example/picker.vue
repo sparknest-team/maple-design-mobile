@@ -54,7 +54,7 @@ onThemeChange()
   <app-type>{{ t('actions') }}</app-type>
   <mp-time-picker v-model="dates.date6" presentation="clock">
     <template #actions>
-      <mp-space size="small">
+      <mp-space size="sm">
         <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
         <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
       </mp-space>

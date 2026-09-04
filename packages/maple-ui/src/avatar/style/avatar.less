@@ -6,7 +6,7 @@
   --mp-avatar-border: 2px solid var(--mp-color-bg-2);
   --mp-avatar-trigger-size: 20px;
   --mp-avatar-trigger-background: var(--mp-color-fill-2);
-  --mp-avatar-trigger-mask-background: rgba(0, 0, 0, 0.6);
+  --mp-avatar-trigger-overlay-background: rgba(0, 0, 0, 0.6);
   --mp-avatar-hover-transform: scale(1.1);
 }
 
@@ -26,13 +26,13 @@
 
   &--circle,
   &--circle &__image,
-  &--circle &__trigger-icon-mask {
+  &--circle &__trigger-icon-overlay {
     border-radius: 50%;
   }
 
   &--square,
   &--square &__image,
-  &--square &__trigger-icon-mask {
+  &--square &__trigger-icon-overlay {
     border-radius: var(--mp-avatar-square-border-radius);
   }
 
@@ -90,14 +90,14 @@
     border-radius: 50%;
   }
 
-  &__trigger-icon-mask {
+  &__trigger-icon-overlay {
     position: absolute;
     inset: 0;
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--mp-avatar-trigger-mask-background);
+    background: var(--mp-avatar-trigger-overlay-background);
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -106,7 +106,7 @@
     cursor: pointer;
   }
 
-  &--with-trigger:hover &__trigger-icon-mask {
+  &--with-trigger:hover &__trigger-icon-overlay {
     opacity: 1;
   }
 }

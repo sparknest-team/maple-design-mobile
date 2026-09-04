@@ -339,7 +339,7 @@ export default defineComponent({
     <slot v-if="internalStatus === 'loading'" name="loading">
       <div :class="n('loading')">
         <span :class="n('loading-text')">{{ (pt ? pt : t)('infiniteScrollLoadingText') }}</span>
-        <mp-loading size="mini" :radius="10" />
+        <mp-loading size="xs" :radius="10" />
       </div>
     </slot>
 

@@ -6,7 +6,7 @@
 
     <header v-if="showHeading()" :class="n()">
       <div :class="n('main')">
-        <button v-if="hasBackHandler()" type="button" :class="n('back')" aria-label="Back" @click="handleBack">
+        <button v-if="showBack" type="button" :class="n('back')" aria-label="Back" @click="handleBack">
           <slot name="back"><MIconChevronLeft /></slot>
         </button>
         <div v-if="$slots.avatar" :class="n('avatar')">
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from 'vue'
+import { defineComponent } from 'vue'
 import { IconChevronLeft as MIconChevronLeft } from '@maplejs/icons-vue'
 import { createNamespace } from '../utils/components'
 import { pageHeaderProps } from './props'
@@ -46,17 +46,15 @@ export default defineComponent({
     back: (_event: MouseEvent) => true,
   },
   setup(props, { emit, slots }) {
-    const instance = getCurrentInstance()
-    const hasBackHandler = () => Boolean(instance?.vnode.props?.onBack)
     const showHeading = () =>
-      hasBackHandler() ||
+      props.showBack ||
       Boolean(
         slots.avatar || slots.title || props.title || slots.subtitle || props.subtitle || slots.extra || props.extra,
       )
 
     const handleBack = (event: MouseEvent) => emit('back', event)
 
-    return { n, hasBackHandler, showHeading, handleBack }
+    return { n, showHeading, handleBack }
   },
 })
 </script>

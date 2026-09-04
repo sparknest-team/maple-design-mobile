@@ -36,7 +36,7 @@ document.documentElement.removeAttribute('maple-theme')
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="primary" block @click="StyleProvider(null)">Light</mp-button>
     <mp-button status="primary" block @click="StyleProvider(Themes.dark)">Dark</mp-button>
     <mp-button status="primary" block @click="StyleProvider(Themes.md3Light)">MD3 Light</mp-button>

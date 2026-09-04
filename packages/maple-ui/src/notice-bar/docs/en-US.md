@@ -40,7 +40,7 @@ Display temporary system notices or campaign messages.
 | `text` | Notice text | `string` | `-` |
 | `type` | Tone | `info \| success \| warning \| danger` | `warning` |
 | `mode` | `closeable` shows close icon | `closeable` | `-` |
-| `icon` | Left icon name | `string` | `information-outline` |
+| `icon` | Left icon name | `string` | `info-circle` |
 | `color` | Text color | `string` | `-` |
 | `background` | Background color | `string` | `-` |
 | `scrollable` | Enable marquee | `boolean` | `false` |

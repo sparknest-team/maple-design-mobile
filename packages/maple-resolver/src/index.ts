@@ -21,7 +21,12 @@ const mapleFunctions = [
   'StyleProvider',
   'LoadingBar',
 ]
-const mapleDirectives = ['Ripple', 'Lazy', 'Hover']
+const mapleDirectives: Record<string, string> = {
+  Hover: '_HoverComponent',
+  Lazy: '_LazyComponent',
+  MpLoading: 'vLoading',
+  Ripple: '_RippleComponent',
+}
 const mapleIcons = new Set<string>(iconNames)
 
 // Keep this list aligned with the public `_XComponent` exports from Maple UI.
@@ -256,10 +261,14 @@ export function MapleResolver(options: MapleResolverOptions = {}) {
     {
       type: 'directive' as const,
       resolve(name: string) {
-        if (options.directives === false || !mapleDirectives.includes(name)) {
+        if (options.directives === false || !mapleDirectives[name]) {
           return
         }
-        return resolveMapleComponent(name, options)
+        const styleName = name === 'MpLoading' ? 'Loading' : name
+        return {
+          ...resolveMapleComponent(styleName, options),
+          name: mapleDirectives[name],
+        }
       },
     },
   ]

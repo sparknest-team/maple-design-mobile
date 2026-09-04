@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
-import { mount } from '@vue/test-utils'
+import { DOMWrapper, mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
-import Overlay from '..'
+import Overlay, { overlayProps } from '..'
 import { triggerKeyboard } from '../../utils/test'
 import VarOverlay from '../Overlay'
 
@@ -10,11 +10,40 @@ test('overlay plugin', () => {
   expect(app.component(Overlay.name)).toBeTruthy()
 })
 
+test('overlay canonical props', () => {
+  expect(overlayProps).toHaveProperty('overlayClosable')
+  expect(overlayProps).not.toHaveProperty('maskClosable')
+})
+
+test('overlay supports uncontrolled open and ignores content clicks', async () => {
+  const wrapper = mount(VarOverlay, {
+    props: { defaultOpen: true, popupContainer: false },
+    slots: { default: 'content' },
+  })
+
+  await wrapper.get('.mp-overlay__content').trigger('click')
+  expect(wrapper.emitted('update:open')).toBeUndefined()
+})
+
+test('overlay can preserve mounted content after closing', async () => {
+  const wrapper = mount(VarOverlay, {
+    props: { defaultOpen: true, popupContainer: false, unmountOnClose: false },
+    slots: { default: '<span data-overlay-content>content</span>' },
+  })
+
+  expect(wrapper.emitted('open')).toHaveLength(1)
+  await wrapper.get('.mp-overlay__backdrop').trigger('click')
+  await wrapper.vm.$nextTick()
+  expect(wrapper.emitted('close')).toHaveLength(1)
+  expect(wrapper.find('[data-overlay-content]').exists()).toBe(true)
+  expect(wrapper.get('.mp-overlay').isVisible()).toBe(false)
+})
+
 const Wrapper = {
   components: {
     [VarOverlay.name]: VarOverlay,
   },
-  props: ['onClick'],
+  props: ['onClick', 'overlayClosable'],
   data: () => ({
     open: false,
   }),
@@ -30,8 +59,9 @@ test('overlay show', async () => {
   expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
 
   await wrapper.setData({ open: true })
-  expect(wrapper.find('.mp-overlay').isVisible()).toBeTruthy()
-  expect(wrapper.html()).toMatchSnapshot()
+  const overlay = new DOMWrapper(document.body.querySelector('.mp-overlay'))
+  expect(overlay.isVisible()).toBeTruthy()
+  expect(overlay.html()).toMatchSnapshot()
 
   await wrapper.setData({ open: false })
   expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
@@ -50,13 +80,15 @@ test('overlay click on clickOverlay', async () => {
 
   await wrapper.setData({ open: true })
 
-  await wrapper.find('.mp-overlay__overlay').trigger('click')
+  await new DOMWrapper(document.body.querySelector('.mp-overlay__backdrop')).trigger('click')
   expect(onClick).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.open).toBe(false)
 
   await wrapper.setData({ open: true })
-  await wrapper.setProps({ maskClosable: false })
-  await wrapper.find('.mp-overlay__overlay').trigger('click')
+  await wrapper.setProps({ overlayClosable: false })
+  await new DOMWrapper(document.body.querySelector('.mp-overlay__backdrop')).trigger('click')
   expect(onClick).toHaveBeenCalledTimes(2)
+  expect(wrapper.vm.open).toBe(true)
 
   wrapper.unmount()
 })
@@ -75,6 +107,7 @@ test('overlay keyboard escape', async () => {
 
   await triggerKeyboard(window, 'keydown', { key: 'Escape' })
   expect(onKeyEscape).toBeCalledTimes(1)
+  expect(onKeyEscape.mock.calls[0][0]).toBeInstanceOf(KeyboardEvent)
   expect(onUpdateShow).toBeCalledWith(false)
 
   wrapper.unmount()

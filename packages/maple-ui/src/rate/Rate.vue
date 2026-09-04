@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { IconStar, IconStarHalfFull, IconStarOutline } from '@maplejs/icons-vue'
+import { IconStar, IconStarFill, IconStarHalfFull } from '@maplejs/icons-vue'
 import { call, toNumber } from '@maplejs/maple-shared'
 import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
@@ -64,8 +64,8 @@ export default defineComponent({
       if (name === 'star-half-full') {
         return IconStarHalfFull
       }
-      if (name === 'star-outline') {
-        return IconStarOutline
+      if (name === 'star-fill') {
+        return IconStarFill
       }
       return undefined
     }

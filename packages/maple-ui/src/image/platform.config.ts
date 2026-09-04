@@ -5,8 +5,7 @@ export const imagePlatformConfig = {
   defaultPreview: true,
   enableRipple: true,
   toolbarActions: [] as string[],
-  closeOnImageTap: true,
   defaultClosable: true,
-  defaultMaskClosable: true,
+  defaultOverlayClosable: true,
   defaultLoop: false,
 }

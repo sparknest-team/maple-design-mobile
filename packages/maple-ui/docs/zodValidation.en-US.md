@@ -46,7 +46,7 @@ function handleSubmit(valid) {
 
 <template>
   <mp-form ref="form" :model="user" @submit="handleSubmit">
-    <mp-space direction="column" size="large">
+    <mp-space direction="column" size="lg">
       <mp-form-item field="name" :rules="z.string().min(1, 'Name required')">
         <mp-input placeholder="Name" v-model="user.name" />
       </mp-form-item>

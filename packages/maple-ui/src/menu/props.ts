@@ -1,9 +1,10 @@
 import { VNode, VNodeChild, type ExtractPropTypes, type PropType } from 'vue'
 import { triggerProps, type TriggerPlacement } from '../trigger'
 import { pickProps } from '../utils/components'
+import { componentSizes, type ComponentSize } from '../utils/constants'
 import { type FieldNames } from '../utils/options'
 
-export type MenuSize = 'normal' | 'mini' | 'small' | 'large'
+export type MenuSize = ComponentSize
 
 export type MenuOptionLabelRender = (option: MenuOption, checked: boolean) => VNodeChild
 
@@ -37,7 +38,8 @@ export const props = {
   },
   size: {
     type: String as PropType<MenuSize>,
-    default: 'normal',
+    default: 'md',
+    validator: (value: unknown): value is MenuSize => componentSizes.includes(value as MenuSize),
   },
   multiple: Boolean,
   popupMaxHeight: {

@@ -17,6 +17,10 @@ test('dialog plugins', () => {
 
 describe('dialog props', () => {
   test('shared defaults', () => {
+    expect(dialogProps).toHaveProperty('overlay')
+    expect(dialogProps).toHaveProperty('overlayClosable')
+    expect(dialogProps).not.toHaveProperty('mask')
+    expect(dialogProps).not.toHaveProperty('maskClosable')
     expect(dialogProps.defaultOpen.default).toBe(false)
     expect(dialogProps.titleAlign.default).toBe('center')
     expect(dialogProps.messageAlign.default).toBe('left')
@@ -87,11 +91,11 @@ describe('dialog actions', () => {
     expect(cancelWrapper.emitted('cancel')?.[0]?.[0]).toBeInstanceOf(Event)
   })
 
-  test('uses click-mask and close action', async () => {
+  test('uses click-overlay and close action', async () => {
     const beforeClose = vi.fn((_action, done) => done())
-    const wrapper = mountDialog({ maskClosable: true, beforeClose })
+    const wrapper = mountDialog({ overlayClosable: true, beforeClose })
     await wrapper.get('.mp-popup__overlay').trigger('click')
-    expect(wrapper.emitted('click-mask')).toHaveLength(1)
+    expect(wrapper.emitted('click-overlay')).toHaveLength(1)
     expect(beforeClose).toHaveBeenCalledWith('close', expect.any(Function), expect.any(Object))
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
   })

@@ -32,10 +32,9 @@ export function usePlatform() {
 
   const defaults = computed(() => ({
     closable: isFinePointer.value,
-    maskClosable: isFinePointer.value,
+    overlayClosable: isFinePointer.value,
     wheelZoom: isFinePointer.value,
     keyboard: isFinePointer.value,
-    closeOnImageTap: isTouchPrimary.value,
   }))
 
   return {

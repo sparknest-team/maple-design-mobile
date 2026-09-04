@@ -65,13 +65,13 @@ const trigger = ref('click')
    
   <mp-fab status="primary" :trigger="trigger">
     <mp-button status="info" icon-container>
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-button>
     <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle />
+      <m-icon-checkbox-marked-circle-fill />
     </mp-button>
     <mp-button status="warning" icon-container>
-      <m-icon-bell />
+      <m-icon-bell-fill />
     </mp-button>
     <mp-button status="danger" icon-container>
       <m-icon-delete />
@@ -171,13 +171,13 @@ function toggle() {
    
   <mp-fab v-model:active="active" status="primary">
     <mp-button status="info" icon-container>
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-button>
     <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle />
+      <m-icon-checkbox-marked-circle-fill />
     </mp-button>
     <mp-button status="warning" icon-container>
-      <m-icon-bell />
+      <m-icon-bell-fill />
     </mp-button>
     <mp-button status="danger" icon-container>
       <m-icon-delete />
@@ -191,13 +191,13 @@ function toggle() {
 <template>
   <mp-fab>
     <mp-button status="info" icon-container>
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-button>
     <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle />
+      <m-icon-checkbox-marked-circle-fill />
     </mp-button>
     <mp-button status="warning" icon-container>
-      <m-icon-bell />
+      <m-icon-bell-fill />
     </mp-button>
     <mp-button status="danger" icon-container>
       <m-icon-delete />
@@ -205,7 +205,7 @@ function toggle() {
     
     <template #trigger="{ active }">
       <mp-button class="trigger" status="primary" round>
-        <m-icon-heart v-if="active" :size="24" />
+        <m-icon-heart-fill v-if="active" :size="24" />
         <m-icon-heart-half-full v-else :size="24" />
       </mp-button>
     </template>
@@ -255,7 +255,7 @@ function toggle() {
 | `left` | Same as css left, for custom trigger position | _string \| number_ | `-` |
 | `right` | Same as css right, for custom trigger position | _string \| number_ | `-` |
 | `safe-area` | Whether to enable bottom safe area adaptation	 | _boolean_ | `false` |
-| `popupContainer` | element to which the component mounts | _TeleportProps['to'] \| false_ | `body` |
+| `popup-container` | element to which the component mounts | _TeleportProps['to'] \| false_ | `body` |
 | `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
 
 ### Events

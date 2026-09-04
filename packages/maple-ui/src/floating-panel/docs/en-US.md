@@ -56,7 +56,7 @@ By default, both the head area and the content area of a FloatingPanel can be dr
 | `content-draggable` | Whether to allow to drag panel content area | _boolean_ | `true`  |
 | `duration`          | Transition duration which unit is `ms` | _number \| string_ | `300`  |
 | `elevation`         | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
-| `popupContainer`          | The location of the ejector layer mount              | _TeleportProps['to'] \| false_ | `body`  |
+| `popup-container`          | The location of the ejector layer mount              | _TeleportProps['to'] \| false_ | `body`  |
 | `safe-area`         | Whether to enable bottom safe area adaptation | _boolean_ | `false`  |
 
 ### Events

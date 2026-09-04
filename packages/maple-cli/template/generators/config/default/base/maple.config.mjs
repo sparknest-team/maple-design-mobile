@@ -21,7 +21,7 @@ export default defineConfig({
         text: {
           'zh-CN': '基本介绍',
         },
-        doc: 'home',
+        doc: 'home-fill',
         type: 3,
       },
       {

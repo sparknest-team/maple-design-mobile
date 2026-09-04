@@ -46,7 +46,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-date v-model="year" type="year" placeholder="选择年" />
     <mp-date v-model="month" type="month" placeholder="选择月" />
     <mp-date v-model="date" type="date" placeholder="选择日" />

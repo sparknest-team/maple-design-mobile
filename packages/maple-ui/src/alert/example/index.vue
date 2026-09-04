@@ -20,7 +20,7 @@ onThemeChange()
   <mp-alert :message="t('alertText')" />
 
   <app-type>{{ t('type') }}</app-type>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-alert :title="t('alertTitle')" :message="t('alertText')" />
     <mp-alert :title="t('alertTitle')" :message="t('alertText')" type="success" />
     <mp-alert :title="t('alertTitle')" :message="t('alertText')" type="warning" />
@@ -29,7 +29,7 @@ onThemeChange()
   </mp-space>
 
   <app-type>{{ t('variant') }}</app-type>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select v-model="type" variant="outlined" size="sm" :options="options" />
     <mp-alert :title="t('alertTitle')" :message="t('alertText')" :type="type" />
     <mp-alert variant="tonal" :title="t('alertTitle')" :message="t('alertText')" :type="type" />
@@ -48,7 +48,7 @@ onThemeChange()
   <app-type>{{ t('customIcon') }}</app-type>
   <mp-alert :title="t('alertTitle')" :message="t('alertText')">
     <template #icon>
-      <m-icon-heart />
+      <m-icon-heart-fill />
     </template>
   </mp-alert>
 
@@ -71,7 +71,7 @@ onThemeChange()
     @close="showCloseIcon = false"
   >
     <template #close-icon>
-      <m-icon-window-close />
+      <m-icon-close />
     </template>
   </mp-alert>
 </template>

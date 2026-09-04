@@ -64,6 +64,8 @@ export default {
   const index = `\
 export { default, version, install, ${publicComponents.join(', ')} } from './maple-vue'
 ${tokenExports.join('\n')}
+export { vLoading } from './loading'
+export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
 `
 

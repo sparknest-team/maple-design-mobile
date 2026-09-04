@@ -1,6 +1,5 @@
 import type { ImgHTMLAttributes, PropType } from 'vue'
 import type { ImageInteraction, ImagePreviewActionName } from './api'
-import { imagePlatformConfig } from './platform.config'
 
 export const imagePreviewProps = {
   src: String,
@@ -10,9 +9,8 @@ export const imagePreviewProps = {
   popupContainer: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
   lockScroll: { type: Boolean, default: true },
   closable: { type: Boolean, default: true },
-  maskClosable: { type: Boolean, default: true },
+  overlayClosable: { type: Boolean, default: true },
   escToClose: { type: Boolean, default: true },
-  closeOnImageTap: { type: Boolean, default: imagePlatformConfig.closeOnImageTap },
   imagePreventDefault: Boolean,
   defaultScale: { type: Number, default: 1 },
   minScale: { type: Number, default: 0.5 },

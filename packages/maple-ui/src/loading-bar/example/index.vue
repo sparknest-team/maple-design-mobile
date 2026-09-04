@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { LoadingBar } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const hasCustomStyle = ref(false)

@@ -4,16 +4,16 @@
 
 ### 基本使用
 
-绑定 `back` 事件时显示返回按钮。
+通过 `show-back` 属性显示返回按钮。
 
 ```html
-<mp-page-header title="标题" subtitle="页面说明" @back="router.back()" />
+<mp-page-header show-back title="标题" subtitle="页面说明" @back="router.back()" />
 ```
 
 ### 完整结构
 
 ```html
-<mp-page-header title="标题" @back="router.back()">
+<mp-page-header show-back title="标题" @back="router.back()">
   <template #header><mp-breadcrumb>...</mp-breadcrumb></template>
   <template #avatar><mp-avatar>M</mp-avatar></template>
   <template #extra><mp-button>操作</mp-button></template>
@@ -26,17 +26,18 @@
 
 ### 属性
 
-| 参数       | 说明         | 类型     | 默认值 |
-| ---------- | ------------ | -------- | ------ |
-| `title`    | 主标题       | _string_ | `-`    |
-| `subtitle` | 次标题       | _string_ | `-`    |
-| `extra`    | 右侧附加内容 | _string_ | `-`    |
+| 参数       | 说明             | 类型      | 默认值  |
+| ---------- | ---------------- | --------- | ------- |
+| `show-back` | 是否显示返回按钮 | _boolean_ | `false` |
+| `title`    | 主标题           | _string_  | `-`     |
+| `subtitle` | 次标题           | _string_  | `-`     |
+| `extra`    | 右侧附加内容     | _string_  | `-`     |
 
 ### 事件
 
 | 名称   | 说明                                         | 参数         |
 | ------ | -------------------------------------------- | ------------ |
-| `back` | 点击返回按钮时触发；绑定该事件后显示返回按钮 | `MouseEvent` |
+| `back` | 点击返回按钮时触发 | `MouseEvent` |
 
 ### 插槽
 

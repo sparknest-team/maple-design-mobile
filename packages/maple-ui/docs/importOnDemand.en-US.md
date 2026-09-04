@@ -60,11 +60,11 @@ The same resolver selects the UI or icon package from the component name; no sec
 ```vue
 <template>
   <mp-button>Confirm</mp-button>
-  <mp-icon-information :size="32" />
+  <mp-icon-info-circle-fill :size="32" />
 </template>
 ```
 
-`MpButton` is imported from `@maplejs/maple-ui`, while `MpIconInformation` is imported from `@maplejs/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
+`MpButton` is imported from `@maplejs/maple-ui`, while `MpIconInfoCircleFill` is imported from `@maplejs/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
 
 #### Vue CLI
 ```js

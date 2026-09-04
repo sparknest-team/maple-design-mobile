@@ -4,6 +4,8 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import { t, use } from './locale'
 
 const loading = ref(false)
+const simpleDirectiveLoading = ref(false)
+const configuredDirectiveLoading = ref(false)
 
 watchLang(use)
 onThemeChange()
@@ -30,11 +32,12 @@ onThemeChange()
 
   <app-type>{{ t('size') }}</app-type>
   <mp-space align="center" justify="space-between">
-    <mp-loading size="small" />
-    <mp-loading type="cube" size="small" />
-    <mp-loading type="wave" size="small" />
-    <mp-loading type="rect" size="small" />
-    <mp-loading type="disappear" size="small" />
+    <mp-loading size="sm" />
+    <mp-loading type="cube" size="sm" />
+    <mp-loading type="wave" size="sm" />
+    <mp-loading type="rect" size="sm" />
+    <mp-loading type="disappear" size="sm" />
+    <mp-loading :size="32" />
   </mp-space>
 
   <app-type>{{ t('wrap') }}</app-type>
@@ -44,6 +47,26 @@ onThemeChange()
   <mp-loading tip="LOADING" :loading="loading">
     <mp-card :title="t('cardTitle')" :description="t('cardDesc')" />
   </mp-loading>
+
+  <app-type>{{ t('directive') }}</app-type>
+  <mp-space direction="vertical">
+    <app-type>{{ t('simpleDirective') }}</app-type>
+    <mp-switch v-model="simpleDirectiveLoading" />
+    <mp-card v-mp-loading="simpleDirectiveLoading" :title="t('cardTitle')" :description="t('directiveDesc')" />
+
+    <app-type>{{ t('configuredDirective') }}</app-type>
+    <mp-switch v-model="configuredDirectiveLoading" />
+    <mp-card
+      v-mp-loading="{
+        loading: configuredDirectiveLoading,
+        tip: t('loadingText'),
+        color: 'var(--mp-color-primary)',
+        background: 'color-mix(in srgb, var(--mp-color-bg-white) 72%, transparent)',
+      }"
+      :title="t('cardTitle')"
+      :description="t('directiveDesc')"
+    />
+  </mp-space>
 </template>
 
 <style>

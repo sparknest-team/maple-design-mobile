@@ -15,7 +15,7 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  emits: ['update:open', 'open', 'close', 'opened', 'route-change', 'key-escape', 'closed', 'click-mask'],
+  emits: ['update:open', 'open', 'close', 'opened', 'route-change', 'key-escape', 'closed', 'click-overlay'],
   setup(props, { slots, attrs, emit }) {
     const rendered = useInitialized(() => props.open, true)
     const { zIndex } = useZIndex(() => props.open, 3)
@@ -51,11 +51,11 @@ export default defineComponent({
     useRouteListener(() => emit('route-change'))
 
     function hidePopup(event: MouseEvent) {
-      const { maskClosable } = props
+      const { overlayClosable } = props
 
-      emit('click-mask', event)
+      emit('click-overlay', event)
 
-      if (!maskClosable) {
+      if (!overlayClosable) {
         return
       }
 
@@ -63,15 +63,15 @@ export default defineComponent({
     }
 
     function renderOverlay() {
-      const { maskClass = '', maskStyle } = props
+      const { overlayClass = '', overlayStyle } = props
 
       return (
         <div
-          class={classes(n('overlay'), maskClass)}
+          class={classes(n('overlay'), overlayClass)}
           role="presentation"
           style={{
             zIndex: normalizedZIndex.value - 1,
-            ...maskStyle,
+            ...overlayStyle,
           }}
           onClick={hidePopup}
         />
@@ -103,16 +103,16 @@ export default defineComponent({
     function renderPopup() {
       return (
         <Transition
-          name={props.maskTransition || n('$-fade')}
+          name={props.overlayTransition || n('$-fade')}
           onAfterEnter={(...args: any[]) => emit('opened', ...args)}
           onAfterLeave={(...args: any[]) => emit('closed', ...args)}
         >
           <div
-            class={classes(n('$--box'), n(), [!props.mask, n('--pointer-events-none')])}
+            class={classes(n('$--box'), n(), [!props.overlay, n('--pointer-events-none')])}
             style={{ zIndex: normalizedZIndex.value - 2 }}
             v-show={props.open}
           >
-            {props.mask && renderOverlay()}
+            {props.overlay && renderOverlay()}
             <Transition name={props.transition || n(`$-pop-${props.position}`)}>{renderContent()}</Transition>
           </div>
         </Transition>

@@ -402,7 +402,7 @@
           </div>
           <div v-else :class="n('list-header')">
             <div :class="n('list-title')">{{ listTitleText }}</div>
-            <mp-icon :class="n('list-close')" mp-select-cover @click="handleListClose"><MIconWindowClose /></mp-icon>
+            <mp-icon :class="n('list-close')" mp-select-cover @click="handleListClose"><MIconClose /></mp-icon>
           </div>
 
           <div :class="n('list-options')">
@@ -432,11 +432,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
-import {
-  IconCheck as MIconCheck,
-  IconMenuDown as MIconMenuDown,
-  IconWindowClose as MIconWindowClose,
-} from '@maplejs/icons-vue'
+import { IconCheck as MIconCheck, IconClose as MIconClose, IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
 import { assert, call, doubleRaf, isArray, isEmpty, isFunction, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
 import MpButton from '../button'
@@ -465,7 +461,7 @@ export default defineComponent({
   name,
   components: {
     MIconMenuDown,
-    MIconWindowClose,
+    MIconClose,
     MIconCheck,
     MpIcon,
     MpTrigger,

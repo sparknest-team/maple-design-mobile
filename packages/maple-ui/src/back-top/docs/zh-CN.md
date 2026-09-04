@@ -85,7 +85,7 @@ const lists = [...Array(40).keys()]
 | 参数                  | 说明                                        | 类型   | 默认值          |
 |---------------------|-------------------------------------------|------|--------------|
 | `target-container`            | 触发滚动的对象，未设置时会监听最近的可滚动祖先 | _string \| HTMLElement_ | `-` |
-| `popupContainer`          | 是否挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative` | _boolean_ | `true` |
+| `popup-container`          | 是否挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative` | _boolean_ | `true` |
 | `visible-height` | 滚动高度达到此参数值才出现                             | _string \| number_      | `200` |
 | `bottom`            | 距离视口底部的距离                       | _string \| number_      | `-` |
 | `right`             | 距离视口右侧的距离                       | _string \| number_      | `-` |

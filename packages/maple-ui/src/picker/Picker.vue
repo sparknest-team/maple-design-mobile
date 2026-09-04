@@ -8,10 +8,10 @@
             onOpened: () => $emit('opened'),
             onClose: () => $emit('close'),
             onClosed: () => $emit('closed'),
-            onClickMask: (event) => $emit('click-mask', event),
+            onClickOverlay: handlePopupOverlayClick,
             onRouteChange: () => $emit('route-change'),
-            onKeyEscape: (event) => $emit('key-escape', event),
-            maskClosable,
+            onKeyEscape: handlePopupKeyEscape,
+            overlayClosable,
             escToClose,
             popupContainer,
             open,
@@ -166,7 +166,7 @@ export default defineComponent({
     'opened',
     'close',
     'closed',
-    'click-mask',
+    'click-overlay',
     'route-change',
     'key-escape',
   ],
@@ -317,6 +317,14 @@ export default defineComponent({
 
     function handlePopupUpdateShow(value: boolean) {
       emit('update:open', value)
+    }
+
+    function handlePopupOverlayClick(event: MouseEvent) {
+      emit('click-overlay', event)
+    }
+
+    function handlePopupKeyEscape(event: KeyboardEvent) {
+      emit('key-escape', event)
     }
 
     function clampTranslate(scrollColumn: ScrollColumn) {
@@ -515,6 +523,8 @@ export default defineComponent({
       getOptionKey,
       getValue,
       handlePopupUpdateShow,
+      handlePopupOverlayClick,
+      handlePopupKeyEscape,
       handleTouchstart,
       handleTouchmove,
       handleTouchend,

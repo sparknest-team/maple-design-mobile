@@ -37,8 +37,8 @@
               }
             },
             {
-              "name": "mask",
-              "description": "是否显示遮罩层",
+              "name": "overlay",
+              "description": "是否显示背景层",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -46,8 +46,8 @@
               }
             },
             {
-              "name": "mask-class",
-              "description": "自定义遮罩层的 class",
+              "name": "overlay-class",
+              "description": "自定义背景层的 class",
               "default": "-",
               "value": {
                 "type": "string",
@@ -55,8 +55,8 @@
               }
             },
             {
-              "name": "mask-style",
-              "description": "自定义遮罩层的 style",
+              "name": "overlay-style",
+              "description": "自定义背景层的 style",
               "default": "-",
               "value": {
                 "type": "object",
@@ -82,8 +82,8 @@
               }
             },
             {
-              "name": "mask-closable",
-              "description": "是否点击遮罩层关闭动作面板",
+              "name": "overlay-closable",
+              "description": "是否点击背景层关闭动作面板",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -140,8 +140,8 @@
               "description": "关闭动作面板动画结束时触发"
             },
             {
-              "name": "click-mask",
-              "description": "点击遮罩层时触发"
+              "name": "click-overlay",
+              "description": "点击背景层时触发"
             },
             {
               "name": "key-escape",
@@ -549,7 +549,7 @@
               "description": "交互图标展示方式",
               "default": "'button'",
               "value": {
-                "type": "`'button' | 'mask'`",
+                "type": "`'button' | 'overlay'`",
                 "kind": "expression"
               }
             },
@@ -3270,7 +3270,7 @@
             {
               "name": "active-icon",
               "description": "激活时触发器图标",
-              "default": "window-close",
+              "default": "close",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -5337,7 +5337,7 @@
             {
               "name": "icon",
               "description": "左侧图标名，空字符串隐藏",
-              "default": "information-outline",
+              "default": "info-circle",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -5509,7 +5509,7 @@
             },
             {
               "name": "hide-on-click-outside",
-              "description": "点击遮罩是否关闭",
+              "description": "点击背景层是否关闭",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -5517,8 +5517,8 @@
               }
             },
             {
-              "name": "mask",
-              "description": "是否显示遮罩",
+              "name": "overlay",
+              "description": "是否显示背景层",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -5526,8 +5526,8 @@
               }
             },
             {
-              "name": "mask-class",
-              "description": "遮罩类名",
+              "name": "overlay-class",
+              "description": "背景层类名",
               "default": "-",
               "value": {
                 "type": "`string`",
@@ -5535,8 +5535,8 @@
               }
             },
             {
-              "name": "mask-style",
-              "description": "遮罩样式",
+              "name": "overlay-style",
+              "description": "背景层样式",
               "default": "-",
               "value": {
                 "type": "`object`",
@@ -5621,7 +5621,7 @@
           "attributes": [
             {
               "name": "v-model:open",
-              "description": "是否显示遮罩层",
+              "description": "是否显示背景层",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -5629,8 +5629,17 @@
               }
             },
             {
-              "name": "lock-scroll",
-              "description": "是否禁止滚动穿透，禁止时滚动遮罩层不会引发 body 的滚动",
+              "name": "default-open",
+              "description": "非受控模式下是否默认显示",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "overlay-closable",
+              "description": "点击背景区域是否关闭",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -5638,9 +5647,18 @@
               }
             },
             {
-              "name": "popupContainer",
-              "description": "遮罩层挂载的位置",
-              "default": "-",
+              "name": "lock-scroll",
+              "description": "是否禁止滚动穿透，禁止时滚动背景层不会引发 body 的滚动",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "背景层挂载的位置",
+              "default": "'body'",
               "value": {
                 "type": "TeleportProps['to'] | false",
                 "kind": "expression"
@@ -5648,10 +5666,19 @@
             },
             {
               "name": "esc-to-close",
-              "description": "是否支持键盘 ESC 关闭遮罩层",
+              "description": "是否支持键盘 ESC 关闭背景层",
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "z-index",
+              "description": "自定义层级",
+              "default": "-",
+              "value": {
+                "type": "number",
                 "kind": "expression"
               }
             }
@@ -5659,7 +5686,7 @@
           "events": [
             {
               "name": "click",
-              "description": "点击遮罩层时触发"
+              "description": "点击背景层时触发"
             },
             {
               "name": "key-escape",
@@ -5669,13 +5696,22 @@
           "slots": [
             {
               "name": "default",
-              "description": "遮罩层内容"
+              "description": "背景层内容"
             }
           ]
         },
         {
           "name": "mp-page-header",
           "attributes": [
+            {
+              "name": "showBack",
+              "description": "是否显示返回按钮",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
             {
               "name": "title",
               "description": "主标题",
@@ -5707,7 +5743,7 @@
           "events": [
             {
               "name": "back",
-              "description": "点击返回按钮时触发；绑定该事件后显示返回按钮"
+              "description": "点击返回按钮时触发"
             }
           ],
           "slots": [
@@ -6436,8 +6472,8 @@
               }
             },
             {
-              "name": "mask",
-              "description": "是否显示遮罩层",
+              "name": "overlay",
+              "description": "是否显示背景层",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -6445,8 +6481,8 @@
               }
             },
             {
-              "name": "mask-class",
-              "description": "自定义遮罩层的 class",
+              "name": "overlay-class",
+              "description": "自定义背景层的 class",
               "default": "-",
               "value": {
                 "type": "string",
@@ -6454,8 +6490,8 @@
               }
             },
             {
-              "name": "mask-style",
-              "description": "自定义遮罩层的 style",
+              "name": "overlay-style",
+              "description": "自定义背景层的 style",
               "default": "-",
               "value": {
                 "type": "object",
@@ -6490,8 +6526,8 @@
               }
             },
             {
-              "name": "mask-closable",
-              "description": "是否点击遮罩层关闭弹出层",
+              "name": "overlay-closable",
+              "description": "是否点击背景层关闭弹出层",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -6562,8 +6598,8 @@
               "description": "关闭弹出层动画结束时触发"
             },
             {
-              "name": "click-mask",
-              "description": "点击遮罩层时触发"
+              "name": "click-overlay",
+              "description": "点击背景层时触发"
             },
             {
               "name": "key-escape",
@@ -6900,7 +6936,7 @@
             {
               "name": "icon",
               "description": "选中整个图标时的图标样式",
-              "default": "star",
+              "default": "star-fill",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -6918,7 +6954,7 @@
             {
               "name": "empty-icon",
               "description": "未选中时图标的样式",
-              "default": "star-outline",
+              "default": "star-fill",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -7266,7 +7302,7 @@
             {
               "name": "search-icon",
               "description": "搜索图标名称",
-              "default": "magnify",
+              "default": "search",
               "value": {
                 "type": "string",
                 "kind": "expression"

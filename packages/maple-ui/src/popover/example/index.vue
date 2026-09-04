@@ -56,7 +56,7 @@ function closeMenu() {
   <div class="placement-container">
     <mp-popover :placement="placementValue">
       <mp-button status="primary">
-        <m-icon-star />
+        <m-icon-star-fill />
       </mp-button>
       <template #content>
         <mp-cell>{{ t('menuOption') }}</mp-cell>

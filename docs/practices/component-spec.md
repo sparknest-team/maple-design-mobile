@@ -137,6 +137,7 @@ export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
 要求：
 - 每个 prop 上方写中文 JSDoc。
+- TypeScript 中的多词 prop 和事件键使用 camelCase；Vue 模板与文档 Props / Events 表中的属性名和事件名必须展示为 kebab-case（如 `maxLength` 对应 `max-length`，`update:modelValue` 对应 `update:model-value`）。命令式配置对象、类型字段和 JavaScript/TypeScript 示例仍使用 camelCase。
 - 普通通知事件不进入 props，统一在组件的 `emits` 中声明并通过 `emit` 触发，例如 `click`、`change`、`open`、`closed`、`update:modelValue`。
 - 只有返回值、Promise 或 `done` 回调会控制组件后续行为的控制回调，才允许使用 `defineListenerProp<...>()`，并采用 `beforeXxx` / `request` 等控制语义名称；不使用 `onBeforeXxx`。
 - `Button` 的 `onClick` / `onTouchstart` 是明确例外：组件会消费其 Promise 返回值驱动 `autoLoading`；`Uploader` 的文件拦截与自定义选择回调同样属于控制回调。

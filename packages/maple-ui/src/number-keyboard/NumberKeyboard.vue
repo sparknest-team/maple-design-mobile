@@ -3,11 +3,11 @@
     v-model:open="open"
     position="bottom"
     :class="n('popup-radius')"
-    :mask="mask"
-    :mask-class="maskClass"
-    :mask-style="maskStyle"
+    :overlay="overlay"
+    :overlay-class="overlayClass"
+    :overlay-style="overlayStyle"
     :lock-scroll="lockScroll"
-    :mask-closable="effectiveCloseOnClickOverlay"
+    :overlay-closable="effectiveCloseOnClickOverlay"
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
     :safe-area="safeArea"
@@ -134,7 +134,7 @@ export default defineComponent({
         return false
       }
 
-      return props.maskClosable ?? true
+      return props.overlayClosable ?? true
     })
 
     const closeText = computed(() => props.closeButtonText ?? t('cascaderPickerDoneButtonText'))

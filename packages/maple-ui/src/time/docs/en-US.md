@@ -31,7 +31,7 @@ For time ranges, use [`TimeRange`](/en-US/time-range). For panel-only, use [`Tim
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-time v-model="time" format="24hr" placeholder="24hr" />
     <mp-time v-model="timeWithSeconds" format="24hr" use-seconds placeholder="With seconds" />
   </mp-space>
@@ -259,7 +259,7 @@ Use `min`, `max` and `disabled-time` prop to allow the maximum and minimum time.
 <template>
   <mp-time-picker v-model="date">
     <template #actions>
-      <mp-space size="small">
+      <mp-space size="sm">
         <mp-button status="primary" variant="text">ACTION</mp-button>
         <mp-button status="primary" variant="text">ACTION</mp-button>
       </mp-space>

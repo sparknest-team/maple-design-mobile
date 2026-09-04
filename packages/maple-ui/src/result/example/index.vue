@@ -23,7 +23,7 @@ onThemeChange()
   </mp-result>
 
   <app-type>{{ t('type') }}</app-type>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="success" block @click="success = true">{{ t('success') }}</mp-button>
     <mp-button status="warning" block @click="warning = true">{{ t('warning') }}</mp-button>
     <mp-button status="info" block @click="info = true">{{ t('info') }}</mp-button>

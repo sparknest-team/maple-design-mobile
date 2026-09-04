@@ -61,7 +61,7 @@ Use `description` or the default slot. Control position with `text-align`.
   <mp-divider description="Start" text-align="start" />
   <mp-divider description="End" text-align="end" />
   <mp-divider>
-    <m-icon-heart-outline style="margin: 0 16px; color: var(--mp-color-danger)" />
+    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
   </mp-divider>
 </template>
 ```

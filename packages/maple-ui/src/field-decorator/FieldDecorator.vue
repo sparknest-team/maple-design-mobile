@@ -55,7 +55,9 @@
 
       <div :class="classes(n('icon'), [!hint, n('--icon-non-hint')])">
         <slot v-if="clearable && !isEmpty(value)" name="clear-icon" :clear="handleClear">
-          <mp-icon :class="n('clear-icon')" mp-field-decorator-cover @click="handleClear"><MIconCloseCircle /></mp-icon>
+          <mp-icon :class="n('clear-icon')" mp-field-decorator-cover @click="handleClear"
+            ><MIconCloseCircleFill
+          /></mp-icon>
         </slot>
         <slot name="suffix" />
       </div>
@@ -118,7 +120,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onUpdated, ref, watch } from 'vue'
-import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
+import { IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import { call, doubleRaf, getStyle, isEmpty } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize } from '@maplejs/maple-use'
 import { useCarouselResizeDispatcher } from '../carousel/provide'
@@ -132,7 +134,7 @@ const { name, n, classes } = createNamespace('field-decorator')
 export default defineComponent({
   name,
   components: {
-    MIconCloseCircle,
+    MIconCloseCircleFill,
     MpIcon,
   },
   props,

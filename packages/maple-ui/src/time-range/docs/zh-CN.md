@@ -277,7 +277,7 @@
 <template>
   <mp-time-range-picker v-model="range">
     <template #actions>
-      <mp-space size="small">
+      <mp-space size="sm">
         <mp-button status="primary" variant="text">操作</mp-button>
         <mp-button status="primary" variant="text">操作</mp-button>
       </mp-space>

@@ -17,7 +17,7 @@ const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
     <mp-avatar :size="40">CD</mp-avatar>
     <mp-avatar :size="48" shape="square">Cedar</mp-avatar>
     <mp-avatar :size="56" color="#00bebe">
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-avatar>
   </mp-space>
 
@@ -137,8 +137,8 @@ const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
     <mp-avatar image-url="cat.jpg" :alt="t('editAvatar')" :size="56">
       <template #trigger-icon><m-icon-image /></template>
     </mp-avatar>
-    <mp-avatar image-url="cat2.jpg" :alt="t('changeAvatar')" :size="56" trigger-type="mask">
-      <template #trigger-icon><m-icon-camera /></template>
+    <mp-avatar image-url="cat2.jpg" :alt="t('changeAvatar')" :size="56" trigger-type="overlay">
+      <template #trigger-icon><m-icon-camera-fill /></template>
     </mp-avatar>
   </mp-space>
 </template>

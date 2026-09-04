@@ -4,7 +4,7 @@ import { describe, expect, test, vi } from 'vitest'
 import AvatarGroup from '../../avatar/AvatarGroup.vue'
 import { props as avatarGroupProps } from '../../avatar/group-props'
 import Avatar from '../Avatar.vue'
-import { props as avatarProps } from '../props'
+import { props as avatarProps, avatarTriggerTypes } from '../props'
 
 const avatarPropNames = [
   'shape',
@@ -78,11 +78,12 @@ describe('Avatar', () => {
   })
 
   test('renders trigger icon variants', () => {
+    expect(avatarTriggerTypes).toEqual(['button', 'overlay'])
     const wrapper = mount(Avatar, {
-      props: { triggerType: 'mask' },
+      props: { triggerType: 'overlay' },
       slots: { 'trigger-icon': 'edit' },
     })
-    expect(wrapper.find('.mp-avatar__trigger-icon-mask').exists()).toBe(true)
+    expect(wrapper.find('.mp-avatar__trigger-icon-overlay').exists()).toBe(true)
   })
 
   test('applies color, bordered and lazy', () => {

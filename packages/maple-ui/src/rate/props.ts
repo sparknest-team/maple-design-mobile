@@ -10,11 +10,11 @@ export const props = {
   color: String,
   icon: {
     type: String,
-    default: 'star',
+    default: 'star-fill',
   },
   emptyIcon: {
     type: String,
-    default: 'star-outline',
+    default: 'star',
   },
   halfIcon: {
     type: String,

@@ -16,7 +16,7 @@ const options = computed(() => [
   { label: t('play'), value: 'play', disabled: true },
 ])
 const cascadeOptions = computed(() => [
-  { label: t('home'), value: 'home' },
+  { label: t('home-fill'), value: 'home-fill' },
   {
     label: t('product'),
     value: 'product',

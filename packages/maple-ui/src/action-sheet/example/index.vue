@@ -1,12 +1,13 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { ActionSheet, Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const rawActions = [
   {
     name: 'Item 01',
-    icon: 'account-circle',
+    icon: 'user-circle-fill',
   },
   {
     name: 'Item 02',
@@ -20,7 +21,7 @@ const rawActions = [
 const rawDisabledActions = [
   {
     name: 'Item 01',
-    icon: 'account-circle',
+    icon: 'user-circle-fill',
   },
   {
     name: 'Item 02',
@@ -35,7 +36,7 @@ const rawDisabledActions = [
 const rawCustomStyleActions = [
   {
     name: 'Item 01',
-    icon: 'account-circle',
+    icon: 'user-circle-fill',
     color: 'var(--mp-color-success)',
   },
   {
@@ -96,7 +97,7 @@ function disableCloseOnClickAction() {
     actions: [
       {
         name: 'Item 01',
-        icon: 'account-circle',
+        icon: 'user-circle-fill',
       },
       {
         name: 'Item 02',

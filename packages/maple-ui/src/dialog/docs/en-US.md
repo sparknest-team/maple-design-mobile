@@ -163,14 +163,14 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 | `confirm-button-props` / `cancel-button-props`       | Button props, including colors             | `ButtonProps`                                 | `-`              |
 | `confirm-button-loading` / `cancel-button-loading`   | Loading state                              | `boolean`                                     | `false`          |
 | `confirm-button-disabled` / `cancel-button-disabled` | Disabled state                             | `boolean`                                     | `false`          |
-| `mask`                                               | Show mask                                  | `boolean`                                     | `true`           |
-| `mask-class` / `dialog-class` / `body-class`         | Custom classes                             | `string \| any[]`                             | `-`              |
-| `mask-style` / `dialog-style` / `body-style`         | Custom styles                              | `StyleValue`                                  | `-`              |
-| `mask-closable` / `esc-to-close` / `lock-scroll`     | Close/scroll behavior                      | `boolean`                                     | `true`           |
+| `overlay`                                            | Show overlay                               | `boolean`                                     | `true`           |
+| `overlay-class` / `dialog-class` / `body-class`      | Custom classes                             | `string \| any[]`                             | `-`              |
+| `overlay-style` / `dialog-style` / `body-style`      | Custom styles                              | `StyleValue`                                  | `-`              |
+| `overlay-closable` / `esc-to-close` / `lock-scroll`  | Close/scroll behavior                      | `boolean`                                     | `true`           |
 | `popup-container`                                    | Teleport target; `false` disables teleport | `string \| HTMLElement \| false`              | `'body'`         |
 | `hide-title` / `unmount-on-close`                    | Rendering behavior                         | `boolean`                                     | `false`          |
 | `draggable` / `fullscreen`                           | Layout modes                               | `boolean`                                     | `false`          |
-| `mask-animation-name` / `dialog-animation-name`      | Transition names                           | `string`                                      | library defaults |
+| `overlay-animation-name` / `dialog-animation-name`   | Transition names                           | `string`                                      | library defaults |
 | `aria-label`                                         | Accessible name without a visible title    | `string`                                      | `-`              |
 | `close-button-aria-label`                            | Close button label                         | `string`                                      | `'Close dialog'` |
 | `z-index`                                            | Stack level                                | `number`                                      | automatic        |
@@ -183,7 +183,7 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 | `update:open`                          | `boolean`       |
 | `open` / `opened` / `close` / `closed` | `-`             |
 | `confirm` / `cancel`                   | `Event`         |
-| `click-mask`                           | `MouseEvent`    |
+| `click-overlay`                        | `MouseEvent`    |
 | `key-escape`                           | `KeyboardEvent` |
 
 | Slot                | Slot props                   |
@@ -191,23 +191,23 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 | `default` / `title` | `-`                          |
 | `footer`            | `confirm`, `cancel`, `close` |
 
-The component exposes `confirm()`, `cancel()`, and `close()`. Close button, mask, Escape, and programmatic close use `close` semantics and do not emit `cancel`.
+The component exposes `confirm()`, `cancel()`, and `close()`. Close button, overlay, Escape, and programmatic close use `close` semantics and do not emit `cancel`.
 
 ### Functional API
 
 Opening methods accept `DialogConfig | string` and return `Promise<DialogAction | void> & DialogReturn`.
 All functional dialogs use the compact layout (`simple: true`) and hide the top-right close button (`closable: false`) by default. Call options or global defaults can explicitly override either value.
 
-| Method                                                       | Behavior                                     |
-| ------------------------------------------------------------ | -------------------------------------------- |
-| `Dialog.open(config)`                                        | General dialog                               |
-| `Dialog.confirm(config)`                                     | Warning type and simple layout               |
-| `Dialog.alert(config)`                                       | No cancel button; mask/Escape close disabled |
-| `Dialog.info/success/warning/error(config)`                  | Semantic one-button dialog                   |
-| `Dialog.close()`                                             | Close the latest functional dialog           |
-| `Dialog.setDefaultOptions(config)` / `resetDefaultOptions()` | Manage functional defaults                   |
+| Method                                                       | Behavior                                        |
+| ------------------------------------------------------------ | ----------------------------------------------- |
+| `Dialog.open(config)`                                        | General dialog                                  |
+| `Dialog.confirm(config)`                                     | Warning type and simple layout                  |
+| `Dialog.alert(config)`                                       | No cancel button; overlay/Escape close disabled |
+| `Dialog.info/success/warning/error(config)`                  | Semantic one-button dialog                      |
+| `Dialog.close()`                                             | Close the latest functional dialog              |
+| `Dialog.setDefaultOptions(config)` / `resetDefaultOptions()` | Manage functional defaults                      |
 
-`DialogConfig` uses camelCase component props and also supports renderable `content`, `title`, `message`, and `footer`, plus lifecycle and interaction callbacks including `onClickMask`. `DialogReturn` exposes `close()` and `update(config)`. The same service is available as `this.$dialog` after installation.
+`DialogConfig` uses camelCase component props and also supports renderable `content`, `title`, `message`, and `footer`, plus lifecycle and interaction callbacks including `onClickOverlay`. `DialogReturn` exposes `close()` and `update(config)`. The same service is available as `this.$dialog` after installation.
 
 ```ts
 type DialogAction = 'confirm' | 'cancel' | 'close'

@@ -172,7 +172,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
 
-    <mp-menu size="small" v-model="valueSmall">
+    <mp-menu size="sm" v-model="valueSmall">
       <mp-button status="primary"> {{ valueSmall ? valueSmall : '小型尺寸' }} </mp-button>
 
       <template #content>
@@ -182,7 +182,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
 
-    <mp-menu size="mini" v-model="valueMini">
+    <mp-menu size="xs" v-model="valueMini">
       <mp-button status="primary"> {{ valueMini ? valueMini : '迷你尺寸' }} </mp-button>
 
       <template #content>
@@ -192,7 +192,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
       </template>
     </mp-menu>
 
-    <mp-menu size="large" v-model="valueLarge">
+    <mp-menu size="lg" v-model="valueLarge">
       <mp-button status="primary"> {{ valueLarge ? valueLarge : '大型尺寸' }} </mp-button>
 
       <template #content>
@@ -359,12 +359,12 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
     <template #content>
       <mp-menu-option label="吃饭">
         <template #icon>
-          <m-icon-star :size="18" />
+          <m-icon-star-fill :size="18" />
         </template>
       </mp-menu-option>
       <mp-menu-option label="睡觉">
         <template #icon>
-          <m-icon-star :size="18" />
+          <m-icon-star-fill :size="18" />
         </template>
       </mp-menu-option>
     </template>
@@ -571,7 +571,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 | `v-model`                  | 绑定的值                                                                                             | _any \| any[]_                             | `-`        |
 | `v-model:open`             | 是否显示菜单                                                                                         | _boolean_                                  | `-`        |
 | `default-open`             | 非受控模式下默认是否显示菜单                                                                         | _boolean_                                  | `false`    |
-| `size`                     | 菜单尺寸，可选值 `normal` `mini` `small` `large`                                                     | _string_                                   | `normal`   |
+| `size`                     | 菜单尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                            | _string_                                   | `md`       |
 | `multiple`                 | 是否多选                                                                                             | _boolean_                                  | `false`    |
 | `popup-max-height`         | 弹出层最大高度。`true` 使用默认高度，`false` 不限制，传入 `number` 为像素值                          | _boolean \| number_                        | `true`     |
 | `auto-fit-popup-width`     | 是否与触发元素同宽                                                                                   | _boolean_                                  | `false`    |
@@ -711,15 +711,17 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 
 | 变量名                              | 默认值                       |
 | ----------------------------------- | ---------------------------- |
-| `--menu-option-normal-height`       | `38px`                       |
-| `--menu-option-small-height`        | `30px`                       |
-| `--menu-option-mini-height`         | `24px`                       |
-| `--menu-option-large-height`        | `46px`                       |
+| `--menu-option-md-height`           | `38px`                       |
+| `--menu-option-sm-height`           | `30px`                       |
+| `--menu-option-xs-height`           | `24px`                       |
+| `--menu-option-lg-height`           | `46px`                       |
+| `--menu-option-xl-height`           | `54px`                       |
 | `--menu-option-padding`             | `0 12px`                     |
-| `--menu-option-normal-font-size`    | `var(--font-size-md)`        |
-| `--menu-option-small-font-size`     | `var(--font-size-sm)`        |
-| `--menu-option-mini-font-size`      | `var(--font-size-xs)`        |
-| `--menu-option-large-font-size`     | `var(--font-size-lg)`        |
+| `--menu-option-md-font-size`        | `var(--font-size-md)`        |
+| `--menu-option-sm-font-size`        | `var(--font-size-sm)`        |
+| `--menu-option-xs-font-size`        | `var(--font-size-xs)`        |
+| `--menu-option-lg-font-size`        | `var(--font-size-lg)`        |
+| `--menu-option-xl-font-size`        | `var(--font-size-lg)`        |
 | `--menu-option-selected-background` | `var(--color-primary)`       |
 | `--menu-option-selected-text-color` | `var(--color-primary)`       |
 | `--menu-option-bg-hover`            | `var(--color-fill-3)`        |
@@ -770,4 +772,3 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 | --------- | -------- | ---- |
 | `title`   | 分组标题 | `-`  |
 | `default` | 分组内容 | `-`  |
-

@@ -47,7 +47,7 @@ export default defineConfig({
 <template>
   <mp-button status="primary">确认</mp-button>
   <mp-icon size="40" color="red">
-    <m-icon-information />
+    <m-icon-info-circle-fill />
   </mp-icon>
 </template>
 ```
@@ -55,7 +55,7 @@ export default defineConfig({
 Resolver 会分别生成：
 
 ```ts
-import { IconInformation } from '@maplejs/icons-vue/icon-information'
+import { IconInfoCircleFill } from '@maplejs/icons-vue/icon-info-circle-fill'
 import { _ButtonComponent, _IconComponent } from '@maplejs/maple-ui'
 import '@maplejs/maple-ui/button/style'
 import '@maplejs/maple-ui/icon/style'
@@ -65,16 +65,16 @@ import '@maplejs/maple-ui/icon/style'
 
 #### 动态名称与显式注册
 
-`<mp-icon name="information" />` 只会查询显式注册到 Vue 应用的图标，不会在内部导入图标全集。建议只注册动态场景实际需要的图标：
+`<mp-icon name="info-circle-fill" />` 只会查询显式注册到 Vue 应用的图标，不会在内部导入图标全集。建议只注册动态场景实际需要的图标：
 
 ```ts
 // main.ts
 import { createApp } from 'vue'
-import { IconInformation, IconWarning } from '@maplejs/icons-vue'
+import { IconInfoCircleFill, IconWarning } from '@maplejs/icons-vue'
 import App from './App.vue'
 
 const app = createApp(App)
-app.component('IconInformation', IconInformation)
+app.component('IconInfoCircleFill', IconInfoCircleFill)
 app.component('IconWarning', IconWarning)
 app.mount('#app')
 ```
@@ -95,16 +95,16 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 
 ```html
 <script setup lang="ts">
-  import { IconDelete, IconMagnify, IconPlus, IconShare } from '@maplejs/icons-vue'
+  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maplejs/icons-vue'
 </script>
 
 <template>
   <!-- 直接使用 SVG 图标时不会自动提供业务布局属性 -->
   <!-- 请根据使用场景设置宽高、间距等属性 -->
   <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconShare style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconShareFill style="width: 1em; height: 1em; margin-right: 8px" />
   <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconMagnify style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconSearch style="width: 1em; height: 1em; margin-right: 8px" />
 </template>
 ```
 
@@ -122,7 +122,7 @@ Message.success('保存成功')
 
 #### 自动引入指令
 
-同一个 `MapleResolver()` 也支持 `v-ripple`、`v-lazy` 和 `v-hover`，无需额外 Resolver。可通过 `MapleResolver({ directives: false })` 关闭。
+同一个 `MapleResolver()` 也支持 `v-ripple`、`v-lazy`、`v-hover` 和 `v-mp-loading`，无需额外 Resolver。加载指令使用 `mp-` 前缀，避免与其他组件库的同名指令冲突。可通过 `MapleResolver({ directives: false })` 关闭。
 
 ### 手动按需引入
 
@@ -130,14 +130,14 @@ Message.success('保存成功')
 
 ```html
 <script setup lang="ts">
-  import { IconInformation } from '@maplejs/icons-vue/icon-information'
+  import { IconInfoCircleFill } from '@maplejs/icons-vue/icon-info-circle-fill'
   import { Button } from '@maplejs/maple-ui'
   import '@maplejs/maple-ui/button/style'
 </script>
 
 <template>
-  <Button status="primary">确认</Button>
-  <IconInformation :size="24" />
+  <button status="primary">确认</button>
+  <IconInfoCircleFill :size="24" />
 </template>
 ```
 

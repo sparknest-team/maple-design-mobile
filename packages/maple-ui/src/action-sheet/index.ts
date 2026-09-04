@@ -20,19 +20,19 @@ export interface ActionSheetOptions {
   actions?: ActionItem[]
   open?: boolean
   title?: string
-  mask?: boolean
-  maskClass?: string
-  maskStyle?: Record<string, any>
+  overlay?: boolean
+  overlayClass?: string
+  overlayStyle?: Record<string, any>
   lockScroll?: boolean
   closeOnClickAction?: boolean
-  maskClosable?: boolean
+  overlayClosable?: boolean
   escToClose?: boolean
   safeArea?: boolean
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
   onClosed?: () => void
-  onClickMask?: (event: MouseEvent) => void
+  onClickOverlay?: (event: MouseEvent) => void
   onSelect?: (action: ActionItem) => void
   onKeyEscape?: (event: KeyboardEvent) => void
   // internal

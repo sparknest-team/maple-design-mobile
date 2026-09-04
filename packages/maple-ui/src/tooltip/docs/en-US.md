@@ -23,7 +23,7 @@ and changes the display position of the tooltip by controlling the placement and
     <mp-button status="primary">Content Slot</mp-button>
     
     <template #content>
-      <m-icon-star />
+      <m-icon-star-fill />
     </template>
   </mp-tooltip>
 </template>
@@ -64,7 +64,7 @@ const placementOptions = [
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placement">
       <mp-button status="primary">
-        <m-icon-star />
+        <m-icon-star-fill />
       </mp-button>
     </mp-tooltip>
   </div>
@@ -188,7 +188,7 @@ In the `disabled` state, the tooltip will not be opened.
 | `strategy`       | Tooltip position strategy, optional value is `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x` | The x-axis offset, relative to the tooltip-aligned position    | _number \| string_   | `0` |
 | `offset-y` | The y-axis offset, relative to the tooltip-aligned position    | _number \| string_   | `0` |
-| `popupContainer` | The location of the tooltip mount                                                     | _TeleportProps['to'] \| false_ | `body`    |
+| `popup-container` | The location of the tooltip mount                                                     | _TeleportProps['to'] \| false_ | `body`    |
 | `same-width`    | Whether to same width as trigger element                   | _boolean_ | `false`           |
 | `disabled` | Whether to disable the tooltip                                                      | _boolean_            | `false`   |
 | `trigger` | Tooltip trigger method, optional value is `click` `hover` `manual` | _string_  | `hover`   |

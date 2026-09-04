@@ -96,7 +96,7 @@ function reloadImage() {
   </mp-space>
 
   <app-type>{{ t('loadingState') }}</app-type>
-  <mp-button size="small" @click="reloadImage">{{ t('reload') }}</mp-button>
+  <mp-button size="sm" @click="reloadImage">{{ t('reload') }}</mp-button>
   <mp-space :size="['4vmin', '4vmin']">
     <mp-image show-loader width="28vmin" :src="`/cat.jpg?reload=${reloadKey}`" preview-disabled />
     <mp-image width="28vmin" :src="`/cat.jpg?reload=${reloadKey}`" preview-disabled>
@@ -133,6 +133,25 @@ function reloadImage() {
   <app-type>{{ t('previewProps') }}</app-type>
   <mp-image width="28vmin" src="/cat.jpg" :preview-props="{ closable: true, scaleStep: 1 }" />
   <div class="image-example-tip">{{ t('clickImagePreview') }}</div>
+
+  <app-type>{{ t('overlayClosable') }}</app-type>
+  <mp-space :size="['4vmin', '4vmin']">
+    <mp-image
+      width="28vmin"
+      height="28vmin"
+      object-fit="cover"
+      src="/cat.jpg"
+      :preview-props="{ overlayClosable: true }"
+    />
+    <mp-image
+      width="28vmin"
+      height="28vmin"
+      object-fit="cover"
+      src="/cat2.jpg"
+      :preview-props="{ overlayClosable: false }"
+    />
+  </mp-space>
+  <div class="image-example-tip">{{ t('overlayClosableTip') }}</div>
 
   <app-type>{{ t('popupContainer') }}</app-type>
   <div id="maple-image-preview-container" class="image-example-popup-container">

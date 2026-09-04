@@ -3,29 +3,27 @@
 ## Introduction
 
 SVG Vue component icon library.
-Icons are sourced from [Material Design Icon](https://materialdesignicons.com/).
-
 ## Recommended Usage
 
 After configuring `MapleResolver()`, use template tags for automatic on-demand imports. `m-icon-*` is the Resolver's icon namespace; only the corresponding individual icon is loaded from `@maplejs/icons-vue`:
 
 ```html
 <mp-icon size="40" color="red">
-  <m-icon-checkbox-marked-circle />
+  <m-icon-checkbox-marked-circle-fill />
 </mp-icon>
 ```
 
 You can also import a standalone icon component manually:
 
 ```ts
-import { IconCheckboxMarkedCircle } from '@maplejs/icons-vue'
+import { IconCheckboxMarkedCircleFill } from '@maplejs/icons-vue'
 ```
 
 For manual imports, the `<mp-icon>` wrapper is still recommended when size, color, animation, or the interaction area should be controlled consistently:
 
 ```html
 <mp-icon size="40" color="red">
-  <IconCheckboxMarkedCircle />
+  <IconCheckboxMarkedCircleFill />
 </mp-icon>
 ```
 
@@ -38,12 +36,12 @@ Use `<mp-icon :name>` only when the icon name must be decided at runtime. `name`
 ```ts
 // main.ts
 import { createApp } from 'vue'
-import { IconCheckboxMarkedCircle, IconInformation } from '@maplejs/icons-vue'
+import { IconCheckboxMarkedCircleFill, IconInfoCircleFill } from '@maplejs/icons-vue'
 import App from './App.vue'
 
 const app = createApp(App)
-app.component('IconCheckboxMarkedCircle', IconCheckboxMarkedCircle)
-app.component('IconInformation', IconInformation)
+app.component('IconCheckboxMarkedCircleFill', IconCheckboxMarkedCircleFill)
+app.component('IconInfoCircleFill', IconInfoCircleFill)
 app.mount('#app')
 ```
 
@@ -64,10 +62,10 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 ```html
 <template>
   <mp-icon size="40" color="red">
-    <m-icon-checkbox-marked-circle />
+    <m-icon-checkbox-marked-circle-fill />
   </mp-icon>
   <mp-icon size="40" color="red">
-    <m-icon-information />
+    <m-icon-info-circle-fill />
   </mp-icon>
 </template>
 ```
@@ -76,9 +74,9 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 
 ```html
 <template>
-  <mp-icon size="20"><m-icon-checkbox-marked-circle /></mp-icon>
-  <mp-icon size="28"><m-icon-checkbox-marked-circle /></mp-icon>
-  <mp-icon size="36"><m-icon-checkbox-marked-circle /></mp-icon>
+  <mp-icon size="20"><m-icon-checkbox-marked-circle-fill /></mp-icon>
+  <mp-icon size="28"><m-icon-checkbox-marked-circle-fill /></mp-icon>
+  <mp-icon size="36"><m-icon-checkbox-marked-circle-fill /></mp-icon>
 </template>
 ```
 
@@ -86,8 +84,8 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 
 ```html
 <template>
-  <mp-icon size="28" color="var(--mp-color-primary)"><m-icon-checkbox-marked-circle /></mp-icon>
-  <mp-icon size="28" color="var(--mp-color-success)"><m-icon-checkbox-marked-circle /></mp-icon>
+  <mp-icon size="28" color="var(--mp-color-primary)"><m-icon-checkbox-marked-circle-fill /></mp-icon>
+  <mp-icon size="28" color="var(--mp-color-success)"><m-icon-checkbox-marked-circle-fill /></mp-icon>
 </template>
 ```
 
@@ -96,7 +94,7 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 ```html
 <template>
   <mp-icon size="28" color="var(--mp-color-primary)" @click="Message.success('Click success')">
-    <m-icon-checkbox-marked-circle />
+    <m-icon-checkbox-marked-circle-fill />
   </mp-icon>
 </template>
 ```
@@ -109,10 +107,10 @@ Set `transition` (in ms) to enable the icon-switch animation.
 <script setup>
   import { ref } from 'vue'
 
-  const name = ref('information')
+  const name = ref('info-circle-fill')
 
   function toggle() {
-    name.value = name.value === 'information' ? 'checkbox-marked-circle' : 'information'
+    name.value = name.value === 'info-circle-fill' ? 'checkbox-marked-circle-fill' : 'info-circle-fill'
   }
 </script>
 
@@ -163,8 +161,23 @@ The list obtains every icon name from `iconNames` and resolves its SVG component
 | `name`            | icon name                              | _string_           | `-`     |
 | `size`            | icon size                              | _string \| number_ | `-`     |
 | `color`           | Icon color                             | _string_           | `-`     |
+| `rotate`          | Rotation angle                         | _number_           | `-`     |
+| `spin`            | Whether to spin continuously           | _boolean_          | `false` |
 | `animation-class` | Name of the transition animation class | _string_           | `-`     |
 | `transition`      | Transition animation time(ms)          | _string \| number_ | `0`     |
+
+### Standalone SVG Icon Props
+
+| Prop              | Description      | Type                                       | Default   |
+| ----------------- | ---------------- | ------------------------------------------ | --------- |
+| `size`            | Icon size        | _string \| number_                          | `-`       |
+| `color`           | Icon color       | _string_                                   | `-`       |
+| `rotate`          | Rotation angle   | _number_                                   | `-`       |
+| `spin`            | Whether to spin  | _boolean_                                  | `false`   |
+| `title`           | Accessible title | _string_                                   | `-`       |
+| `stroke-width`    | Stroke width     | _number_                                   | `4`       |
+| `stroke-linecap`  | Stroke line cap  | _'butt' \| 'round' \| 'square'_            | `'butt'`  |
+| `stroke-linejoin` | Stroke line join | _'bevel' \| 'inherit' \| 'miter' \| 'round'_ | `'miter'` |
 
 ### Events
 

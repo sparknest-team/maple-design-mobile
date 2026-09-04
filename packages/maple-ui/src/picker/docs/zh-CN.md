@@ -400,7 +400,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="primary" @click="resetValues">values: {{ values }} 点击重置</mp-button>
     <mp-picker :columns="columns" v-model="values" @change="handleChange" />
   </mp-space>
@@ -446,10 +446,10 @@
 | `cancelButtonText`          | 取消按钮文字                                      | _string_                                                                                   | `取消`       |
 | `confirmButtonTextColor`    | 确认按钮文字颜色                                  | _string_                                                                                   | `-`          |
 | `cancelButtonTextColor`     | 取消按钮文字颜色                                  | _string_                                                                                   | `-`          |
-| `maskClosable`              | 是否点击遮罩层关闭弹出层                          | _boolean_                                                                                  | `true`       |
+| `overlayClosable`           | 是否点击背景层关闭弹出层                          | _boolean_                                                                                  | `true`       |
 | `escToClose`                | 是否支持键盘 ESC 关闭选择器                       | _boolean_                                                                                  | `true`       |
 | `safeArea`                  | 是否开启底部安全区适配                            | _boolean_                                                                                  | `false`      |
-| `onClickMask`               | 遮罩层点击回调                                    | _(event: MouseEvent) => void_                                                              | `-`          |
+| `onClickOverlay`            | 背景层点击回调                                    | _(event: MouseEvent) => void_                                                              | `-`          |
 | `onOpen`                    | 弹出层开启回调                                    | _() => void_                                                                               | `-`          |
 | `onOpened`                  | 弹出层开启动画结束回调                            | _() => void_                                                                               | `-`          |
 | `onClose`                   | 弹出层关闭回调                                    | _() => void_                                                                               | `-`          |

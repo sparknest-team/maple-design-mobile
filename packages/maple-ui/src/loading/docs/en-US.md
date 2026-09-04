@@ -19,6 +19,7 @@ Loading component for performing animations when data is loaded.
 ```
 
 ### Color
+
 ```html
 <template>
   <mp-space align="center" justify="space-between">
@@ -36,11 +37,12 @@ Loading component for performing animations when data is loaded.
 ```html
 <template>
   <mp-space align="center" justify="space-between">
-    <mp-loading size="small" />
-    <mp-loading type="cube" size="small" />
-    <mp-loading type="wave" size="small" />
-    <mp-loading type="rect" size="small" />
-    <mp-loading type="disappear" size="small" />
+    <mp-loading size="sm" />
+    <mp-loading type="cube" size="sm" />
+    <mp-loading type="wave" size="sm" />
+    <mp-loading type="rect" size="sm" />
+    <mp-loading type="disappear" size="sm" />
+    <mp-loading :size="32" />
   </mp-space>
 </template>
 ```
@@ -49,50 +51,102 @@ Loading component for performing animations when data is loaded.
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const loading = ref(false)
+  const loading = ref(false)
 </script>
 
 <template>
-  <mp-button @click="loading = !loading" style="margin-bottom: 8px">
-    {{ loading ? 'Open' : 'Close' }}
-  </mp-button>
+  <mp-button @click="loading = !loading" style="margin-bottom: 8px"> {{ loading ? 'Open' : 'Close' }} </mp-button>
   <mp-loading tip="LOADING" :loading="loading">
-    <mp-card 
+    <mp-card
       title="Intro"
-      description="Maple is a Material design mobile component library developed based on Vue3, developed and maintained by partners in the community." 
+      description="Maple is a Material design mobile component library developed based on Vue3, developed and maintained by partners in the community."
     />
   </mp-loading>
 </template>
 ```
 
+### Loading Directive
+
+```html
+<script setup>
+  import { ref } from 'vue'
+
+  const loading = ref(false)
+</script>
+
+<template>
+  <!-- Basic usage -->
+  <mp-switch v-model="loading" />
+  <mp-card v-mp-loading="loading" title="Loading Card">
+    v-mp-loading renders a Loading overlay inside the current container without changing its content structure.
+  </mp-card>
+
+  <!-- Advanced options -->
+  <mp-card v-mp-loading="{ loading, tip: 'Loading...', color: 'var(--mp-color-primary)' }" title="Loading Card">
+    v-mp-loading renders a Loading overlay inside the current container without changing its content structure.
+  </mp-card>
+</template>
+```
+
+`v-mp-loading` accepts a boolean shorthand or a `{ loading, tip, type, size, radius, color, fullscreen, background }` options object. In object form, `loading` controls the loading state and `tip` matches the `Loading` component prop.
+
+#### Registration
+
+`v-mp-loading` renders its indicator with Maple's built-in `Loading` component. The `mp-` prefix avoids collisions with directives from other component libraries. Register it using any one of these approaches.
+
+```ts
+// 1. Full installation registers both Loading and v-mp-loading.
+import MapleVue from '@maplejs/maple-ui'
+
+app.use(MapleVue)
+```
+
+```ts
+// 2. On-demand Loading installation also registers both.
+import { Loading } from '@maplejs/maple-ui'
+
+app.use(Loading)
+```
+
+```ts
+// 3. Register only the directive.
+import { vLoading } from '@maplejs/maple-ui'
+
+app.directive('mp-loading', vLoading)
+```
+
+With `MapleResolver()`, `unplugin-vue-components` resolves `v-mp-loading` automatically. Set `directives: false` to disable directive resolution.
+
+> Wrapper mode applies `opacity: 0.38` to its default-slot content. Because the directive preserves the host DOM, it inserts the built-in Loading VNode and uses an equivalent translucent background overlay instead.
+
 ## API
 
 ### Props
 
-| prop     | Description                                             | Type     | Default  |
-| -------- |---------------------------------------------------------| -------- |----------|
-| `color`  | Loading color                                           | _string_ | `-`      |
-| `type`   | Can be set to `circle` `wave` `cube` `rect` `disappear` | _string_ | `circle` |
-| `size`   | Can be set to `large` `normal` `small` `mini`           | _string_ | `normal` |
-| `tip`   | Tip of the loading                       | _string_ | `-`      |
-| `loading`| Specify whether loading is active                       | _boolean_ | `false`  |
-| `radius` | Set radius size when the `type` is `circle`             | _string \| number_  | `-` |
+| prop      | Description                                             | Type               | Default  |
+| --------- | ------------------------------------------------------- | ------------------ | -------- |
+| `color`   | Loading color                                           | _string_           | `-`      |
+| `type`    | Can be set to `circle` `wave` `cube` `rect` `disappear` | _string_           | `circle` |
+| `size`    | Can be set to `xs` `sm` `md` `lg` `xl`, or a number     | _string \| number_ | `md`     |
+| `tip`     | Tip of the loading                                      | _string_           | `-`      |
+| `loading` | Specify whether loading is active                       | _boolean_          | `false`  |
+| `radius`  | Set radius size when the `type` is `circle`             | _string \| number_ | `-`      |
 
 ### Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Content wrapped in loading | `-` |
-| `tip`    | Tip of the loading | `-` |
+| Name      | Description                | SlotProps |
+| --------- | -------------------------- | --------- |
+| `default` | Content wrapped in loading | `-`       |
+| `tip`     | Tip of the loading         | `-`       |
 
 ### Style Variables
 
 Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider)
 
-| Variable | Default |
-| --- | --- |
+| Variable                | Default                |
+| ----------------------- | ---------------------- |
 | `--loading-color`       | `var(--color-primary)` |
 | `--loading-opacity`     | `0.38`                 |
 | `--loading-desc-margin` | `8px 0 0`              |

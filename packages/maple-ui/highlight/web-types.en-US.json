@@ -37,7 +37,7 @@
               }
             },
             {
-              "name": "mask",
+              "name": "overlay",
               "description": "Whether to display the overlay",
               "default": "true",
               "value": {
@@ -46,7 +46,7 @@
               }
             },
             {
-              "name": "mask-class",
+              "name": "overlay-class",
               "description": "Custom overlay class",
               "default": "-",
               "value": {
@@ -55,7 +55,7 @@
               }
             },
             {
-              "name": "mask-style",
+              "name": "overlay-style",
               "description": "Custom overlay style",
               "default": "-",
               "value": {
@@ -82,7 +82,7 @@
               }
             },
             {
-              "name": "mask-closable",
+              "name": "overlay-closable",
               "description": "Whether to click the overlay to close the action sheet",
               "default": "true",
               "value": {
@@ -140,8 +140,8 @@
               "description": "Triggered when an action sheet close-animation ends"
             },
             {
-              "name": "click-mask",
-              "description": "Triggered when clicking the mask"
+              "name": "click-overlay",
+              "description": "Triggered when clicking the overlay"
             },
             {
               "name": "key-escape",
@@ -518,7 +518,7 @@
               "description": "Trigger icon presentation",
               "default": "'button'",
               "value": {
-                "type": "`'button' | 'mask'`",
+                "type": "`'button' | 'overlay'`",
                 "kind": "expression"
               }
             },
@@ -3208,8 +3208,8 @@
               }
             },
             {
-              "name": "mask",
-              "description": "Show mask",
+              "name": "overlay",
+              "description": "Show overlay",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -3217,7 +3217,7 @@
               }
             },
             {
-              "name": "mask-class / dialog-class / body-class",
+              "name": "overlay-class / dialog-class / body-class",
               "description": "Custom classes",
               "default": "-",
               "value": {
@@ -3226,7 +3226,7 @@
               }
             },
             {
-              "name": "mask-style / dialog-style / body-style",
+              "name": "overlay-style / dialog-style / body-style",
               "description": "Custom styles",
               "default": "-",
               "value": {
@@ -3235,7 +3235,7 @@
               }
             },
             {
-              "name": "mask-closable / esc-to-close / lock-scroll",
+              "name": "overlay-closable / esc-to-close / lock-scroll",
               "description": "Close/scroll behavior",
               "default": "true",
               "value": {
@@ -3271,7 +3271,7 @@
               }
             },
             {
-              "name": "mask-animation-name / dialog-animation-name",
+              "name": "overlay-animation-name / dialog-animation-name",
               "description": "Transition names",
               "default": "library defaults",
               "value": {
@@ -3719,7 +3719,7 @@
             {
               "name": "active-icon",
               "description": "trigger icon when active",
-              "default": "window-close",
+              "default": "close",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -5747,7 +5747,7 @@
             {
               "name": "icon",
               "description": "Left icon name",
-              "default": "information-outline",
+              "default": "info-circle",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -5927,7 +5927,7 @@
               }
             },
             {
-              "name": "mask",
+              "name": "overlay",
               "description": "Show overlay",
               "default": "true",
               "value": {
@@ -5936,7 +5936,7 @@
               }
             },
             {
-              "name": "mask-class",
+              "name": "overlay-class",
               "description": "Overlay class",
               "default": "-",
               "value": {
@@ -5945,7 +5945,7 @@
               }
             },
             {
-              "name": "mask-style",
+              "name": "overlay-style",
               "description": "Overlay style",
               "default": "-",
               "value": {
@@ -6039,6 +6039,24 @@
               }
             },
             {
+              "name": "default-open",
+              "description": "Whether to display by default in uncontrolled mode",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "overlay-closable",
+              "description": "Whether clicking the backdrop closes the Overlay",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "lock-scroll",
               "description": "Whether to disable scrolling penetration, scrolling the Overlay when disabled will not cause the body to scroll",
               "default": "true",
@@ -6048,9 +6066,9 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location of the Overlay to mount",
-              "default": "-",
+              "default": "'body'",
               "value": {
                 "type": "TeleportProps['to'] | false",
                 "kind": "expression"
@@ -6064,6 +6082,15 @@
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "z-index",
+              "description": "Custom stack level",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
@@ -6073,7 +6100,7 @@
             },
             {
               "name": "key-escape",
-              "description": "Triggered when click keyboard ESC"
+              "description": "Triggered when pressing keyboard ESC"
             }
           ],
           "slots": [
@@ -6086,6 +6113,15 @@
         {
           "name": "mp-page-header",
           "attributes": [
+            {
+              "name": "showBack",
+              "description": "Whether to show back",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
             {
               "name": "title",
               "description": "Main title",
@@ -6117,7 +6153,7 @@
           "events": [
             {
               "name": "back",
-              "description": "Emitted when back is clicked; attaching it displays the back control"
+              "description": "Emitted when back is clicked"
             }
           ],
           "slots": [
@@ -6846,7 +6882,7 @@
               }
             },
             {
-              "name": "mask",
+              "name": "overlay",
               "description": "Whether to display the overlay",
               "default": "true",
               "value": {
@@ -6855,7 +6891,7 @@
               }
             },
             {
-              "name": "mask-class",
+              "name": "overlay-class",
               "description": "Custom overlay class",
               "default": "-",
               "value": {
@@ -6864,7 +6900,7 @@
               }
             },
             {
-              "name": "mask-style",
+              "name": "overlay-style",
               "description": "Custom overlay style",
               "default": "-",
               "value": {
@@ -6900,7 +6936,7 @@
               }
             },
             {
-              "name": "mask-closable",
+              "name": "overlay-closable",
               "description": "Whether to click the overlay to close the Popup",
               "default": "true",
               "value": {
@@ -6972,8 +7008,8 @@
               "description": "Triggered when the Popup close-animation ends"
             },
             {
-              "name": "click-mask",
-              "description": "Triggered when you click the mask"
+              "name": "click-overlay",
+              "description": "Triggered when you click the overlay"
             },
             {
               "name": "key-escape",
@@ -7540,7 +7576,7 @@
             {
               "name": "search-icon",
               "description": "Search icon name",
-              "default": "magnify",
+              "default": "search",
               "value": {
                 "type": "string",
                 "kind": "expression"

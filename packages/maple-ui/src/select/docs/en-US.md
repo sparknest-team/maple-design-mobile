@@ -59,7 +59,7 @@ Display and select the content through the drop-down menu.
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select placeholder="Please select one the options" v-model="value">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
@@ -243,7 +243,7 @@ Display and select the content through the drop-down menu.
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select variant="outlined" placeholder="Please select one the options" v-model="value">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
@@ -390,7 +390,7 @@ Set `presentation` to `picker` to use a bottom-sheet wheel picker.
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select
       presentation="picker"
       placeholder="Please select an option"
@@ -454,7 +454,7 @@ Single: tap to select and close. Multiple: tap to toggle draft selection, **Done
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select presentation="list" placeholder="Please select an option" v-model="listValue" :options="listOptions" />
     <mp-select
       presentation="list"

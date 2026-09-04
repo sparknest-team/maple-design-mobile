@@ -35,7 +35,7 @@ onThemeChange()
   <app-type>{{ t('actions') }}</app-type>
   <mp-time-range-picker v-model="ranges.actions">
     <template #actions>
-      <mp-space size="small">
+      <mp-space size="sm">
         <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
         <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
       </mp-space>

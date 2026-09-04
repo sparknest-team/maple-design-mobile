@@ -59,7 +59,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select placeholder="请选择一个选项" v-model="value">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
@@ -244,7 +244,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select variant="outlined" placeholder="请选择一个选项" v-model="value">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
@@ -391,7 +391,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select presentation="picker" placeholder="请选择一个选项" v-model="pickerValue" :options="pickerOptions" />
   </mp-space>
 </template>
@@ -450,7 +450,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-select presentation="list" placeholder="请选择一个选项" v-model="listValue" :options="listOptions" />
     <mp-select
       presentation="list"

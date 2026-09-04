@@ -4,12 +4,12 @@
     :class="n('popup')"
     mp-dialog-cover
     :open="computedOpen"
-    :mask="mask"
-    :mask-class="maskClass"
-    :mask-style="maskStyle"
-    :mask-transition="maskAnimationName"
+    :overlay="overlay"
+    :overlay-class="overlayClass"
+    :overlay-style="overlayStyle"
+    :overlay-transition="overlayAnimationName"
     :lock-scroll="lockScroll"
-    :mask-closable="false"
+    :overlay-closable="false"
     :esc-to-close="false"
     :popup-container="popupContainer"
     :transition="dialogAnimationName"
@@ -22,7 +22,7 @@
     @opened="handleOpened"
     @key-escape="handleKeyEscape"
     @route-change="close"
-    @click-mask="handleClickMask"
+    @click-overlay="handleClickOverlay"
   >
     <div
       ref="dialogRef"
@@ -42,8 +42,8 @@
       >
         <div v-if="$slots.title || title" :class="n('title-content')">
           <mp-icon v-if="type" :class="n('title-icon')" :size="20">
-            <MIconInformation v-if="type === 'info'" />
-            <MIconCheckboxMarkedCircle v-else-if="type === 'success'" />
+            <MIconInfoCircleFill v-if="type === 'info'" />
+            <MIconCheckboxMarkedCircleFill v-else-if="type === 'success'" />
             <MIconWarning v-else-if="type === 'warning'" />
             <MIconError v-else />
           </mp-icon>
@@ -56,7 +56,7 @@
           :class="n('close-button')"
           @click="handleClose"
         >
-          <MIconWindowClose />
+          <MIconClose />
         </button>
       </div>
 
@@ -93,11 +93,11 @@
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, ref, useSlots, watch, type CSSProperties } from 'vue'
 import {
-  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
+  IconClose as MIconClose,
   IconError as MIconError,
-  IconInformation as MIconInformation,
+  IconInfoCircleFill as MIconInfoCircleFill,
   IconWarning as MIconWarning,
-  IconWindowClose as MIconWindowClose,
 } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpButton from '../button'
@@ -118,7 +118,7 @@ const emit = defineEmits<{
   (event: 'update:open', value: boolean): void
   (event: 'open' | 'opened' | 'close' | 'closed'): void
   (event: 'confirm' | 'cancel', value?: Event): void
-  (event: 'click-mask', value?: Event): void
+  (event: 'click-overlay', value?: Event): void
   (event: 'key-escape', value?: KeyboardEvent): void
 }>()
 const slots = useSlots()
@@ -243,9 +243,9 @@ function handleConfirm(event?: Event) {
 function handleCancel(event?: Event) {
   requestClose('cancel', event)
 }
-function handleClickMask(event?: Event) {
-  emit('click-mask', event)
-  if (props.maskClosable) {
+function handleClickOverlay(event?: Event) {
+  emit('click-overlay', event)
+  if (props.overlayClosable) {
     handleClose(event)
   }
 }

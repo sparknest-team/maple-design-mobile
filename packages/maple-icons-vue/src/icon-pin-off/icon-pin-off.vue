@@ -6,12 +6,15 @@
     :style="style"
     fill="currentColor"
     :aria-hidden="!props.title"
+    :stroke-width="props.strokeWidth"
+    :stroke-linecap="props.strokeLinecap"
+    :stroke-linejoin="props.strokeLinejoin"
     role="img"
     @click="emit('click', $event)"
   >
     <title v-if="props.title">{{ props.title }}</title>
     <path
-      d="M2 5.27 3.28 4 20 20.72 18.73 22l-5.93-5.93V22h-1.6v-6H6v-2l2-2v-.73zM16 12l2 2v2h-.18L8 6.18V4H7V2h10v2h-1z"
+      d="M8 6.2V4H7V2h10v2h-1v8l2 2v2h-.2L14 12.2V4h-4v4.2zm12 14.5L18.7 22l-5.9-5.9V22h-1.6v-6H6v-2l2-2v-.7l-6-6L3.3 4zM8.8 14h1.8l-.9-.9z"
     />
   </svg>
 </template>
@@ -21,14 +24,32 @@ import { computed, type CSSProperties } from 'vue'
 
 defineOptions({ name: 'MIconPinOff' })
 
-const props = defineProps<{ size?: string | number; color?: string; rotate?: number; spin?: boolean; title?: string }>()
+const props = withDefaults(
+  defineProps<{
+    size?: string | number
+    color?: string
+    rotate?: number
+    spin?: boolean
+    title?: string
+    strokeWidth?: number
+    strokeLinecap?: 'butt' | 'round' | 'square'
+    strokeLinejoin?: 'bevel' | 'inherit' | 'miter' | 'round'
+  }>(),
+  {
+    strokeWidth: 4,
+    strokeLinecap: 'butt',
+    strokeLinejoin: 'miter',
+  },
+)
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const numericSizeRE = /^-?(?:\d+|\d*\.\d+)$/
 const style = computed<CSSProperties>(() => ({
   width: '1em',
   height: '1em',
   flexShrink: 0,
   color: props.color,
-  fontSize: typeof props.size === 'number' ? `${props.size}px` : props.size,
+  fontSize:
+    typeof props.size === 'number' || numericSizeRE.test(props.size?.trim() ?? '') ? `${props.size}px` : props.size,
   transform: props.rotate ? `rotate(${props.rotate}deg)` : undefined,
 }))
 </script>

@@ -26,7 +26,7 @@ Alerts display brief messages for the user without interrupting their use.
 
 ```html
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-alert 
       title="Pride And Prejudice" 
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
@@ -59,7 +59,7 @@ Alerts display brief messages for the user without interrupting their use.
 
 ```html
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-alert 
       title="Pride And Prejudice" 
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
@@ -87,7 +87,7 @@ Alerts display brief messages for the user without interrupting their use.
     message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
   >
     <template #icon>
-      <m-icon-heart />
+      <m-icon-heart-fill />
     </template>
   </mp-alert>
 </template>
@@ -119,7 +119,7 @@ const show = ref(true)
 <template>
   <mp-alert title="Pride And Prejudice" message="…" closable>
     <template #close-icon>
-      <m-icon-window-close />
+      <m-icon-close />
     </template>
   </mp-alert>
 </template>

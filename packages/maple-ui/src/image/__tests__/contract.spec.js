@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
+import Overlay from '../../overlay/Overlay'
 import { imagePreviewGroupProps } from '../groupProps'
 import Image from '../Image.vue'
 import ImagePreview from '../ImagePreview.vue'
@@ -29,10 +30,17 @@ describe('image api contract', () => {
       expect(imagePreviewGroupProps).toHaveProperty(key)
     }
     expect(imagePreviewGroupProps).not.toHaveProperty('previewProps')
+    expect(imagePreviewProps).not.toHaveProperty('closeOnImageTap')
+    expect(imagePreviewProps).not.toHaveProperty('maskClosable')
+    expect(imagePreviewProps).toHaveProperty('overlayClosable')
   })
 
   it('supports single-image transforms', async () => {
     const wrapper = mount(ImagePreview, { props: { src: 'a.jpg', defaultOpen: true, popupContainer: false } })
+    expect(wrapper.findComponent(Overlay).props()).toMatchObject({
+      overlayClosable: true,
+      unmountOnClose: false,
+    })
     wrapper.vm.zoomTo(2)
     wrapper.vm.rotateRight()
     expect([wrapper.vm.scale, wrapper.vm.rotate]).toEqual([2, 90])
@@ -44,9 +52,24 @@ describe('image api contract', () => {
     wrapper.unmount()
   })
 
-  it('closes the preview when the image is clicked by default', async () => {
-    const wrapper = mount(ImagePreview, { props: { src: 'a.jpg', defaultOpen: true, popupContainer: false } })
+  it('delegates Escape closing to Overlay exactly once', async () => {
+    const wrapper = mount(ImagePreview, {
+      props: { src: 'a.jpg', defaultOpen: true, popupContainer: false },
+    })
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted('keyEscape')).toHaveLength(1)
+    expect(wrapper.emitted('update:open')).toEqual([[false]])
+    wrapper.unmount()
+  })
+
+  it('keeps the preview open when pointer capture retargets its click and closes on overlay click', async () => {
+    const wrapper = mount(ImagePreview, {
+      props: { src: 'a.jpg', defaultOpen: true, popupContainer: false, imagePreventDefault: true },
+    })
     const image = wrapper.find('[data-image-preview-image]')
+    const stage = wrapper.find('[data-image-preview-stage]')
+    expect(image.classes()).toContain('mp-image-preview--prevent')
     await image.trigger('pointerdown', {
       button: 0,
       pointerId: 3,
@@ -61,7 +84,64 @@ describe('image api contract', () => {
       clientX: 20,
       clientY: 20,
     })
+    await stage.trigger('click')
     await wrapper.vm.$nextTick()
+    expect(wrapper.vm.mergedOpen).toBe(true)
+    await stage.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.mergedOpen).toBe(false)
+    wrapper.unmount()
+  })
+
+  it('honors Image previewProps.overlayClosable', async () => {
+    const closableWrapper = mount(Image, {
+      props: {
+        src: 'a.jpg',
+        defaultPreviewOpen: true,
+        previewProps: { overlayClosable: true },
+        popupContainer: false,
+      },
+    })
+    await closableWrapper.find('img').trigger('load')
+    await closableWrapper.vm.$nextTick()
+    await closableWrapper.find('[data-image-preview-image]').trigger('click')
+    expect(closableWrapper.findComponent(ImagePreview).vm.mergedOpen).toBe(true)
+    await closableWrapper.find('[data-image-preview-stage]').trigger('click')
+    await closableWrapper.vm.$nextTick()
+    expect(closableWrapper.emitted('update:previewOpen')?.at(-1)).toEqual([false])
+    closableWrapper.unmount()
+
+    const persistentWrapper = mount(Image, {
+      props: {
+        src: 'a.jpg',
+        defaultPreviewOpen: true,
+        previewProps: { overlayClosable: false },
+        popupContainer: false,
+      },
+    })
+    await persistentWrapper.find('img').trigger('load')
+    await persistentWrapper.vm.$nextTick()
+    await persistentWrapper.find('[data-image-preview-stage]').trigger('click')
+    await persistentWrapper.vm.$nextTick()
+    expect(persistentWrapper.findComponent(Overlay).props('overlayClosable')).toBe(false)
+    expect(persistentWrapper.findComponent(ImagePreview).vm.mergedOpen).toBe(true)
+    persistentWrapper.unmount()
+  })
+
+  it('closes a group only when clicking outside its images', async () => {
+    const wrapper = mount(ImagePreviewGroup, {
+      props: {
+        images: ['a.jpg', 'b.jpg'],
+        defaultOpen: true,
+        popupContainer: false,
+        imagePreventDefault: true,
+      },
+    })
+    const image = wrapper.find('[data-image-preview-image]')
+    expect(image.classes()).toContain('mp-image-preview--prevent')
+    await image.trigger('click')
+    expect(wrapper.vm.mergedOpen).toBe(true)
+    await wrapper.find('[data-image-preview-stage]').trigger('click')
     expect(wrapper.vm.mergedOpen).toBe(false)
     wrapper.unmount()
   })
@@ -171,6 +251,59 @@ describe('image api contract', () => {
     ).toBe(true)
     wrapper.unmount()
     vi.useRealTimers()
+  })
+
+  it('does not treat cancelled group gestures as a double tap', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(ImagePreviewGroup, {
+      props: {
+        images: ['a.jpg', 'b.jpg'],
+        defaultOpen: true,
+        loop: true,
+        popupContainer: false,
+      },
+    })
+    const stage = wrapper.find('[data-image-preview-stage]')
+    for (const pointerId of [10, 11]) {
+      await stage.trigger('pointerdown', {
+        button: 0,
+        pointerId,
+        pointerType: 'touch',
+        clientX: 40,
+        clientY: 40,
+      })
+      await stage.trigger('pointercancel', {
+        pointerId,
+        pointerType: 'touch',
+        clientX: 40,
+        clientY: 40,
+      })
+    }
+    vi.advanceTimersByTime(321)
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(ImagePreview).vm.scale).toBe(1)
+    expect(wrapper.vm.mergedOpen).toBe(true)
+    wrapper.unmount()
+    vi.useRealTimers()
+  })
+
+  it('does not zoom when navigation controls emit a double click', async () => {
+    const wrapper = mount(ImagePreviewGroup, {
+      props: {
+        images: ['a.jpg', 'b.jpg'],
+        defaultOpen: true,
+        loop: true,
+        popupContainer: false,
+      },
+    })
+    const nextArrow = wrapper.find('.mp-image-preview__arrow--right')
+    await nextArrow.trigger('click')
+    await nextArrow.trigger('click')
+    await nextArrow.trigger('dblclick')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(ImagePreview).vm.scale).toBe(1)
+    expect(wrapper.vm.mergedCurrent).toBe(0)
+    wrapper.unmount()
   })
 
   it('opens embedded preview from Image', async () => {

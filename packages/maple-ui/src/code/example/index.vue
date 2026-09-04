@@ -23,7 +23,7 @@ onThemeChange((theme) => {
   <mp-highlighter-provider :highlighter="{ codeToHtml }" :theme="rootTheme">
     <app-type>{{ t('basicUsage') }}</app-type>
 
-    <mp-space direction="column" size="large">
+    <mp-space direction="column" size="lg">
       <mp-code code="console.log('Hello Maple UI')" language="javascript" />
       <mp-code code="print('Hello Maple UI')" language="python" />
       <mp-code code="console.log('Hello Maple UI')" language="javascript" :theme="customTheme" />

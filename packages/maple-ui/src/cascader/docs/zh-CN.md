@@ -47,7 +47,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-cascader placeholder="请选择地区" v-model="value" :options="options" />
     <mp-cascader placeholder="非路径模式" v-model="value2" :options="options" :path-mode="false" />
     <mp-cascader placeholder="严格选择模式" v-model="value3" :options="options" check-strictly />
@@ -140,7 +140,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-cascader presentation="picker" placeholder="请选择地区" v-model="value" :options="options" />
     <mp-cascader
       presentation="picker"
@@ -195,7 +195,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-cascader presentation="list" placeholder="请选择地区" v-model="value" :options="options" />
     <mp-cascader presentation="list" placeholder="List 多选" v-model="multipleValue" :options="options" multiple tag />
   </mp-space>

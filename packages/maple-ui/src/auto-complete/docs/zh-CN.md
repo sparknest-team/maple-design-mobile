@@ -41,7 +41,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-auto-complete placeholder="请输入文本" :options="options" v-model="value" />
     <mp-auto-complete readonly placeholder="只读" :options="options2" v-model="value2" />
     <mp-auto-complete disabled placeholder="禁用" :options="options3" v-model="value3" />
@@ -126,7 +126,7 @@
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-auto-complete variant="outlined" placeholder="请输入文本" :options="options" v-model="value" />
     <mp-auto-complete variant="outlined" readonly placeholder="只读" :options="options2" v-model="value2" />
     <mp-auto-complete variant="outlined" disabled placeholder="禁用" :options="options3" v-model="value3" />
@@ -195,7 +195,7 @@
 | `placeholder`  | 占位符                                                                                                       | _string_                                   | `-`        |
 | `options`      | 指定可选项                                                                                                   | _AutoCompleteOption[]_                     | `[]`       |
 | `field-names`  | 自定义 `options` 字段映射                                                                                    | _{ label?, value?, children?, disabled? }_ | `-`        |
-| `maxLength`    | 最大长度                                                                                                     | _string \| number_                         | `-`        |
+| `max-length`    | 最大长度                                                                                                     | _string \| number_                         | `-`        |
 | `readonly`     | 是否只读                                                                                                     | _boolean_                                  | `false`    |
 | `disabled`     | 是否禁用                                                                                                     | _boolean_                                  | `false`    |
 | `enterkeyhint` | 定制回车键样式，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                                   | `-`        |

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { Message, Picker } from '@maplejs/maple-ui'
 import area from '../../../json/area.json'
 import { t, use } from './locale'
 
@@ -168,7 +169,7 @@ function handleChange(values, indexes) {
   <mp-picker :columns="columns5" @change="handleChange" />
 
   <app-type>{{ t('twoWayBinding') }}</app-type>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="primary" @click="values = ['A', 'B', 'C']">values: {{ values }} {{ t('reset') }}</mp-button>
     <mp-picker v-model="values" :columns="columns2" @change="handleChange" />
   </mp-space>

@@ -61,7 +61,7 @@ Form date-range **field** that opens [`DateRangePicker`](/en-US/date-range-picke
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-date-range v-model="yearRange" type="year" placeholder="Select year range" clearable />
     <mp-date-range v-model="monthRange" type="month" placeholder="Select month range" clearable />
   </mp-space>

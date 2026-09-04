@@ -59,7 +59,7 @@ export const props = {
   },
   searchIcon: {
     type: String,
-    default: 'magnify',
+    default: 'search',
   },
   ...pickProps(inputProps, [
     'type',

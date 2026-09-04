@@ -16,14 +16,14 @@ test('action-sheet styles', () => {
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
           iconSize: '30px',
           color: '#4caf50',
           className: 'customClass',
         },
         {
           name: 'Item 02',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
           disabled: true,
         },
       ],

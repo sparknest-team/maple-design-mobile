@@ -20,7 +20,7 @@ onThemeChange()
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <app-type>{{ t('basicUsage') }}</app-type>
     <mp-time v-model="time" :placeholder="t('placeholder')" clearable />
 

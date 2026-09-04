@@ -10,12 +10,12 @@ const values = reactive({
   bottom: false,
   left: false,
   right: false,
-  maskClass: false,
-  maskStyle: false,
+  overlayClass: false,
+  overlayStyle: false,
   event: false,
 })
 
-const { center, top, bottom, left, right, maskClass, maskStyle, event } = toRefs(values)
+const { center, top, bottom, left, right, overlayClass, overlayStyle, event } = toRefs(values)
 
 watchLang(use)
 onThemeChange()
@@ -47,19 +47,19 @@ onThemeChange()
     <div class="block">{{ t('text') }}</div>
   </mp-popup>
 
-  <app-type>{{ t('maskStyle') }}</app-type>
+  <app-type>{{ t('overlayStyle') }}</app-type>
 
   <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button status="primary" block @click="maskClass = true">{{ t('maskClass') }}</mp-button>
-    <mp-button status="primary" block @click="maskStyle = true">{{ t('overlayStyles') }}</mp-button>
+    <mp-button status="primary" block @click="overlayClass = true">{{ t('overlayClass') }}</mp-button>
+    <mp-button status="primary" block @click="overlayStyle = true">{{ t('overlayStyles') }}</mp-button>
   </mp-space>
 
-  <mp-popup v-model:open="maskClass" mask-class="custom-overlay">
+  <mp-popup v-model:open="overlayClass" overlay-class="custom-overlay">
     <div class="block">{{ t('text') }}</div>
   </mp-popup>
   <mp-popup
-    v-model:open="maskStyle"
-    :mask-style="{
+    v-model:open="overlayStyle"
+    :overlay-style="{
       backgroundColor: 'rgba(0, 0, 0, 0.3)',
     }"
   >

@@ -47,7 +47,7 @@ Cascading selection via dropdown menu or bottom popup picker.
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-cascader placeholder="Please select a region" v-model="value" :options="options" />
     <mp-cascader placeholder="Non-path mode" v-model="value2" :options="options" :path-mode="false" />
     <mp-cascader placeholder="Strict mode" v-model="value3" :options="options" check-strictly />
@@ -140,7 +140,7 @@ Multiple uses a temporary cart: **Cancel** discards edits, **Add** appends the c
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-cascader presentation="picker" placeholder="Please select a region" v-model="value" :options="options" />
     <mp-cascader
       presentation="picker"
@@ -195,7 +195,7 @@ Single: selecting a confirmable node commits and closes. Multiple: tap a confirm
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-cascader presentation="list" placeholder="Please select a region" v-model="value" :options="options" />
     <mp-cascader
       presentation="list"

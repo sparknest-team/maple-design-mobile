@@ -9,7 +9,7 @@ watchLang(use)
 onThemeChange()
 
 const routes = computed(() => [
-  { path: '/', to: { query: { breadcrumb: 'home' } }, label: t('level1') },
+  { path: '/', to: { query: { breadcrumb: 'home-fill' } }, label: t('level1') },
   { path: '/channel', to: { query: { breadcrumb: 'channel' } }, label: t('channel') },
   { path: '/news', to: { query: { breadcrumb: 'news' } }, label: t('news') },
 ])
@@ -51,7 +51,7 @@ const maxRoutes = computed(() => [
 
   <app-type>{{ t('customIcon') }}</app-type>
   <mp-breadcrumb>
-    <mp-breadcrumb-item><m-icon-home /></mp-breadcrumb-item>
+    <mp-breadcrumb-item><m-icon-home-fill /></mp-breadcrumb-item>
     <mp-breadcrumb-item><m-icon-link /> {{ t('channel') }}</mp-breadcrumb-item>
     <mp-breadcrumb-item>{{ t('news') }}</mp-breadcrumb-item>
   </mp-breadcrumb>

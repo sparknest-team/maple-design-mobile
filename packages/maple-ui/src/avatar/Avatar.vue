@@ -18,7 +18,7 @@
       <template v-if="imageUrl">
         <slot v-if="hasError" name="error">
           <img v-if="error" :src="error" role="img" :alt="alt" :style="imageStyle" />
-          <MIconCloseCircle v-else />
+          <MIconCloseCircleFill v-else />
         </slot>
         <template v-else>
           <img
@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, nextTick, onMounted, onUpdated, ref, type CSSProperties } from 'vue'
-import { IconCloseCircle as MIconCloseCircle, IconLoading as MIconLoading } from '@maplejs/icons-vue'
+import { IconCloseCircleFill as MIconCloseCircleFill, IconLoading as MIconLoading } from '@maplejs/icons-vue'
 import Lazy, { type LazyHTMLElement } from '../lazy'
 import { createNamespace } from '../utils/components'
 import { avatarGroupInjectionKey } from './context'
@@ -68,7 +68,7 @@ const { name, n, classes } = createNamespace('avatar')
 
 export default defineComponent({
   name,
-  components: { MIconCloseCircle, MIconLoading },
+  components: { MIconCloseCircleFill, MIconLoading },
   directives: { Lazy },
   props,
   emits: {

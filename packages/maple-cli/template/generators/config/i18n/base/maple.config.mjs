@@ -22,7 +22,7 @@ export default defineConfig({
           'zh-CN': '基本介绍',
           'en-US': 'Basic Introduce',
         },
-        doc: 'home',
+        doc: 'home-fill',
         type: 3,
       },
       {

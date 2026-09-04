@@ -2,7 +2,7 @@
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import {
   IconArrowDown as MIconArrowDown,
-  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconRefresh as MIconRefresh,
 } from '@maplejs/icons-vue'
 import { getRect, getScrollTop, isNumber, isString, preventDefault, toNumber } from '@maplejs/maple-shared'
@@ -16,12 +16,12 @@ const { name, n, classes } = createNamespace('pull-refresh')
 
 const ICON_TRANSITION = 150
 
-type PullRefreshIconName = 'arrow-down' | 'refresh' | 'checkbox-marked-circle'
+type PullRefreshIconName = 'arrow-down' | 'refresh' | 'checkbox-marked-circle-fill'
 
 export default defineComponent({
   name,
   components: {
-    MIconCheckboxMarkedCircle,
+    MIconCheckboxMarkedCircleFill,
     MIconRefresh,
     MIconArrowDown,
     MpIcon,
@@ -61,7 +61,7 @@ export default defineComponent({
         if (newValue === false) {
           isEnd.value = true
           refreshStatus.value = 'success'
-          iconName.value = 'checkbox-marked-circle'
+          iconName.value = 'checkbox-marked-circle-fill'
           setTimeout(() => {
             distance.value = controlPosition.value
             reset()
@@ -216,7 +216,7 @@ export default defineComponent({
         :transition="ICON_TRANSITION"
         :class="classes(n('icon'), [refreshStatus === 'loading', n('icon--spin')])"
       >
-        <MIconCheckboxMarkedCircle v-if="iconName === 'checkbox-marked-circle'" />
+        <MIconCheckboxMarkedCircleFill v-if="iconName === 'checkbox-marked-circle-fill'" />
         <MIconRefresh v-else-if="iconName === 'refresh'" />
         <MIconArrowDown v-else />
       </mp-icon>

@@ -29,7 +29,7 @@ import { codeToHtml } from 'shiki'
 
 <template>
   <mp-highlighter-provider :highlighter="{ codeToHtml }" theme="vitesse-light">
-    <mp-space direction="column" size="large">
+    <mp-space direction="column" size="lg">
       <mp-code code="console.log('Hello Maple UI')" language="javascript" />
       <mp-code code="print('Hello Maple UI')" language="python" />
       <mp-code code="console.log('Hello Maple UI')" language="javascript" theme="github-light" />

@@ -93,7 +93,7 @@ const defaultOptionsValue: MessageOptions = {
   vertical: false,
   contentClass: undefined,
   loadingType: 'circle',
-  loadingSize: 'normal',
+  loadingSize: 'md',
   lockScroll: false,
   popupContainer: 'body',
   forbidClick: false,

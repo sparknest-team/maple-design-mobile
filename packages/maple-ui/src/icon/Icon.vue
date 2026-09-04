@@ -1,10 +1,13 @@
 <template>
   <span
-    :class="classes(n(), [animateInProgress, animationClass == null ? n('--shrinking') : animationClass])"
+    :class="
+      classes(n(), [animateInProgress, animationClass == null ? n('--shrinking') : animationClass], [spin, n('--spin')])
+    "
     :style="{
       color,
       'transition-duration': `${toNumber(transition)}ms`,
       fontSize: toSizeUnit(size),
+      rotate: rotate ? `${rotate}deg` : undefined,
     }"
     @click="emit('click', $event)"
   >
@@ -32,7 +35,8 @@ export default defineComponent({
     const animateInProgress = ref(false)
     const iconComponent = computed(() => {
       const componentName = `Icon${pascalCase(nextName.value ?? '')}`
-      return instance?.appContext.components[componentName]
+      const components = instance?.appContext.components
+      return components?.[componentName] ?? components?.[`M${componentName}`]
     })
 
     watch(() => props.name, handleNameChange, { immediate: true })

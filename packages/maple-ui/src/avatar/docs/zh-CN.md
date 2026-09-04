@@ -14,7 +14,7 @@
   <mp-avatar :size="40">CD</mp-avatar>
   <mp-avatar :size="48" shape="square">Cedar</mp-avatar>
   <mp-avatar :size="56" color="#00bebe">
-    <m-icon-account-circle />
+    <m-icon-user-circle-fill />
   </mp-avatar>
 </mp-space>
 ```
@@ -61,9 +61,9 @@
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const text = ref('Maple')
+  const text = ref('Maple')
 </script>
 
 <template>
@@ -191,15 +191,15 @@ const text = ref('Maple')
 
 ### 交互图标
 
-使用 `trigger-icon` 插槽添加交互入口，`trigger-type` 支持独立按钮和悬浮遮罩两种形式。
+使用 `trigger-icon` 插槽添加交互入口，`trigger-type` 支持独立按钮和悬浮背景层两种形式。
 
 ```html
 <mp-space align="center" :size="24">
   <mp-avatar image-url="cat.jpg" alt="编辑头像" :size="56">
     <template #trigger-icon><m-icon-image /></template>
   </mp-avatar>
-  <mp-avatar image-url="cat2.jpg" alt="更换头像" :size="56" trigger-type="mask">
-    <template #trigger-icon><m-icon-camera /></template>
+  <mp-avatar image-url="cat2.jpg" alt="更换头像" :size="56" trigger-type="overlay">
+    <template #trigger-icon><m-icon-camera-fill /></template>
   </mp-avatar>
 </mp-space>
 ```
@@ -217,7 +217,7 @@ const text = ref('Maple')
 | `alt`                | 图片替代文本               | _string_                                                   | `''`       |
 | `size`               | 头像宽高，单位为 px        | _number_                                                   | `40`       |
 | `auto-fix-font-size` | 是否自动缩放过长的文字内容 | _boolean_                                                  | `true`     |
-| `trigger-type`       | 交互图标展示方式           | `'button' \| 'mask'`                                       | `'button'` |
+| `trigger-type`       | 交互图标展示方式           | `'button' \| 'overlay'`                                    | `'button'` |
 | `trigger-icon-style` | 交互图标的自定义样式       | _CSSProperties_                                            | `-`        |
 | `object-fit`         | 图片填充方式               | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`  |
 | `color`              | 头像背景色                 | _string_                                                   | `-`        |
@@ -272,21 +272,20 @@ const text = ref('Maple')
 
 ### 属性
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `shape` | 子头像形状 | `'circle' \| 'square'` | `'circle'` |
-| `size` | 子头像宽高，单位为 px | _number_ | `40` |
-| `auto-fix-font-size` | 是否自动缩放子头像中的文字 | _boolean_ | `true` |
-| `max-count` | 最多直接展示的头像数，`0` 表示不限 | _number_ | `0` |
-| `z-index-ascend` | 头像层级是否按顺序递增 | _boolean_ | `false` |
-| `max-style` | 数量汇总头像的自定义样式 | _CSSProperties_ | `-` |
-| `max-popover-props` | 汇总 Popover 的属性 | _PopoverProps_ | `-` |
-| `offset` | 组内头像的重叠偏移量 | _number \| string_ | `-` |
-| `vertical` | 是否纵向堆叠 | _boolean_ | `false` |
+| 参数                 | 说明                               | 类型                   | 默认值     |
+| -------------------- | ---------------------------------- | ---------------------- | ---------- |
+| `shape`              | 子头像形状                         | `'circle' \| 'square'` | `'circle'` |
+| `size`               | 子头像宽高，单位为 px              | _number_               | `40`       |
+| `auto-fix-font-size` | 是否自动缩放子头像中的文字         | _boolean_              | `true`     |
+| `max-count`          | 最多直接展示的头像数，`0` 表示不限 | _number_               | `0`        |
+| `z-index-ascend`     | 头像层级是否按顺序递增             | _boolean_              | `false`    |
+| `max-style`          | 数量汇总头像的自定义样式           | _CSSProperties_        | `-`        |
+| `max-popover-props`  | 汇总 Popover 的属性                | _PopoverProps_         | `-`        |
+| `offset`             | 组内头像的重叠偏移量               | _number \| string_     | `-`        |
+| `vertical`           | 是否纵向堆叠                       | _boolean_              | `false`    |
 
 ### 插槽
 
-| 名称 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 头像列表 | `-` |
-
+| 名称      | 说明     | 参数 |
+| --------- | -------- | ---- |
+| `default` | 头像列表 | `-`  |

@@ -98,7 +98,7 @@ function createDialogMethod(defaultMethodConfig: Partial<DialogConfig> = {}) {
                 config.onClose?.()
                 resolveAction('close')
               },
-              onClickMask: config.onClickMask,
+              onClickOverlay: config.onClickOverlay,
               onKeyEscape: config.onKeyEscape,
               onClosed: () => {
                 config.onClosed?.()
@@ -127,7 +127,7 @@ function createDialogMethod(defaultMethodConfig: Partial<DialogConfig> = {}) {
 const methods: DialogMethod = {
   open: createDialogMethod(),
   confirm: createDialogMethod({ type: 'warning' }),
-  alert: createDialogMethod({ cancelButton: false, maskClosable: false, escToClose: false }),
+  alert: createDialogMethod({ cancelButton: false, overlayClosable: false, escToClose: false }),
   info: createDialogMethod({ type: 'info', cancelButton: false }),
   success: createDialogMethod({ type: 'success', cancelButton: false }),
   warning: createDialogMethod({ type: 'warning', cancelButton: false }),

@@ -6,6 +6,7 @@ withInstall(Overlay)
 withPropsDefaultsSetter(Overlay, overlayProps)
 
 export { overlayProps }
+export type { OverlayProps } from './props'
 
 export type OverlayInstance = InstanceType<typeof Overlay>
 export const _OverlayComponent = Overlay

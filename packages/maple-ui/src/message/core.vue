@@ -15,9 +15,9 @@
     >
       <div v-if="showIconSlot" :class="n('icon')">
         <mp-icon v-if="type && type !== 'loading' && type !== 'normal'">
-          <MIconCheckboxMarkedCircle v-if="type === 'success'" />
+          <MIconCheckboxMarkedCircleFill v-if="type === 'success'" />
           <MIconWarning v-else-if="type === 'warning'" />
-          <MIconInformation v-else-if="type === 'info'" />
+          <MIconInfoCircleFill v-else-if="type === 'info'" />
           <MIconError v-else />
         </mp-icon>
         <mp-loading
@@ -43,7 +43,7 @@
           size="sm"
           @click="handleClose"
         >
-          <mp-icon :size="18"><MIconWindowClose /></mp-icon>
+          <mp-icon :size="18"><MIconClose /></mp-icon>
         </mp-button>
       </div>
     </div>
@@ -53,11 +53,11 @@
 <script lang="ts">
 import { computed, defineComponent, ref, useSlots, watch, type ComputedRef, type Ref } from 'vue'
 import {
-  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
+  IconClose as MIconClose,
   IconError as MIconError,
-  IconInformation as MIconInformation,
+  IconInfoCircleFill as MIconInfoCircleFill,
   IconWarning as MIconWarning,
-  IconWindowClose as MIconWindowClose,
 } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
@@ -75,11 +75,11 @@ const { n, classes } = createNamespace('message')
 export default defineComponent({
   name: createNamespace('message-core').name,
   components: {
-    MIconCheckboxMarkedCircle,
+    MIconCheckboxMarkedCircleFill,
     MIconWarning,
-    MIconInformation,
+    MIconInfoCircleFill,
     MIconError,
-    MIconWindowClose,
+    MIconClose,
     MpLoading,
     MpIcon,
     MpButton,

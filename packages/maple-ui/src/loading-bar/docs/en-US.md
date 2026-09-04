@@ -34,7 +34,7 @@ function setStyle() {
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="primary" block @click="LoadingBar.start()">Start</mp-button>
     <mp-button status="primary" block @click="LoadingBar.finish()">Finish</mp-button>
     <mp-button status="primary" block @click="LoadingBar.error()">Error</mp-button>

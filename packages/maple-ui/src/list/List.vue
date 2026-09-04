@@ -53,7 +53,7 @@ export default defineComponent({
     </div>
 
     <div v-if="loading" :class="n('loading')">
-      <mp-loading size="mini" :radius="10" />
+      <mp-loading size="xs" :radius="10" />
     </div>
 
     <div v-if="$slots.footer" :class="n('footer')">

@@ -36,7 +36,7 @@ onThemeChange()
     <mp-button status="primary">{{ t('contentSlot') }}</mp-button>
 
     <template #content>
-      <m-icon-star />
+      <m-icon-star-fill />
     </template>
   </mp-tooltip>
 
@@ -47,7 +47,7 @@ onThemeChange()
   <div class="placement-container">
     <mp-tooltip content="Tooltip" :placement="placementValue">
       <mp-button status="primary">
-        <m-icon-star />
+        <m-icon-star-fill />
       </mp-button>
     </mp-tooltip>
   </div>

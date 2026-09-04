@@ -30,7 +30,7 @@
         @keydown.space.prevent.stop="handleKeyboardActivation"
       >
         <slot name="close-icon">
-          <mp-icon><MIconCloseCircle /></mp-icon>
+          <mp-icon><MIconCloseCircleFill /></mp-icon>
         </slot>
       </span>
     </span>
@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, type CSSProperties } from 'vue'
-import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
+import { IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { tagProps } from './props'

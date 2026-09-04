@@ -1,137 +1,361 @@
 export const iconNames = [
-  'account-circle-outline',
-  'account-circle',
-  'alert-circle-outline',
-  'alert-outline',
+  'alert-circle',
+  'alert',
+  'align-center',
+  'align-left',
+  'align-right',
+  'alipay-circle',
+  'apps',
+  'archive',
   'arrow-down',
-  'arrow-up-bold-box-outline',
+  'arrow-fall',
+  'arrow-left',
+  'arrow-right',
+  'arrow-rise',
+  'arrow-up-bold-box-fill',
   'arrow-up-bold-box',
+  'arrow-up',
+  'at',
+  'attachment',
+  'background-color',
+  'backward',
+  'bar-chart',
   'barcode-scan',
-  'bell-outline',
+  'bell-fill',
   'bell',
-  'bookmark-outline',
+  'bold',
+  'book',
+  'bookmark-fill',
   'bookmark',
+  'branch',
+  'brush',
+  'bug',
+  'bulb',
+  'bytedance-color',
   'cake-variant',
-  'calendar-month-outline',
+  'calendar-clock',
+  'calendar-month-fill',
   'calendar-month',
-  'camera-outline',
+  'calendar',
+  'camera-fill',
   'camera',
-  'card-account-details-outline',
+  'card-account-details-fill',
   'card-account-details',
-  'cart-outline',
+  'caret-down',
+  'caret-left',
+  'caret-right',
+  'caret-up',
+  'cart-fill',
   'cart',
-  'cellphone',
-  'chat-processing-outline',
+  'chat-processing-fill',
   'chat-processing',
-  'check-circle-outline',
+  'check-circle-fill',
+  'check-circle',
+  'check-square',
   'check',
-  'checkbox-blank-outline',
-  'checkbox-marked-circle-outline',
+  'checkbox-blank',
+  'checkbox-marked-circle-fill',
   'checkbox-marked-circle',
-  'checkbox-marked-outline',
+  'checkbox-marked-fill',
   'checkbox-marked',
   'chevron-down',
   'chevron-left',
   'chevron-right',
   'chevron-up',
-  'close-box-outline',
+  'chinese-fill',
+  'clock-circle',
+  'close-box-fill',
   'close-box',
-  'close-circle-outline',
+  'close-circle-fill',
   'close-circle',
+  'close',
+  'cloud-download',
+  'cloud',
+  'code-block',
   'code-json',
-  'cog-outline',
-  'cog',
-  'content-copy',
+  'code-sandbox',
+  'code-square',
+  'code',
+  'codepen',
+  'command',
+  'common',
+  'compass',
+  'computer',
+  'copy',
+  'copyright',
+  'customer-service',
+  'dashboard',
   'delete',
-  'dots-vertical',
-  'download-outline',
+  'desktop',
+  'dice',
+  'double-down',
+  'double-left',
+  'double-right',
+  'double-up',
+  'down-circle',
+  'down',
+  'download-fill',
   'download',
-  'email-outline',
+  'drag-arrow',
+  'drag-dot-vertical',
+  'drag-dot',
+  'drive-file',
+  'ear',
+  'edit',
+  'email-fill',
   'email',
+  'empty-default',
+  'empty',
+  'english-fill',
+  'eraser',
+  'error-network',
+  'error-unknown',
   'error',
-  'file-document-outline',
+  'exclamation-circle-fill',
+  'exclamation-circle',
+  'exclamation-polygon-fill',
+  'exclamation',
+  'expand',
+  'experiment',
+  'export',
+  'eye-fill',
+  'eye-invisible',
+  'eye',
+  'face-frown-fill',
+  'face-meh-fill',
+  'face-smile-fill',
+  'facebook-circle-fill',
+  'facebook-square-fill',
+  'facebook',
+  'file-audio',
+  'file-document',
+  'file-image',
+  'file-pdf',
+  'file-video',
+  'file',
+  'filter',
+  'find-replace',
   'fire',
+  'folder-add',
+  'folder-delete',
+  'folder',
+  'font-color',
   'format-list-checkbox',
+  'formula',
+  'forward',
+  'fullscreen-exit',
+  'fullscreen',
+  'gift',
   'github',
+  'gitlab',
+  'google-circle-fill',
+  'google',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'h7',
+  'heart-fill',
   'heart-half-full',
-  'heart-outline',
   'heart',
-  'help-circle-outline',
-  'help-circle',
+  'highlight',
   'history',
-  'home-outline',
+  'home-fill',
   'home',
-  'image-outline',
+  'id-card',
+  'image-close',
+  'image-fill',
   'image',
-  'information-outline',
-  'information',
+  'import',
+  'info-circle-fill',
+  'info-circle',
+  'info',
+  'interaction',
+  'italic',
+  'language',
+  'lark-color',
+  'launch',
+  'layers',
+  'layout',
+  'left-circle',
+  'left',
+  'line-height',
   'link',
+  'list',
+  'live-broadcast',
   'loading',
-  'lock-outline',
+  'location-fill',
+  'location-radius-fill',
+  'location-radius',
+  'location',
+  'lock-fill',
   'lock',
-  'magnify-minus-outline',
-  'magnify-minus',
-  'magnify-plus-outline',
-  'magnify-plus',
-  'magnify',
-  'map-marker-outline',
-  'map-marker-radius-outline',
-  'map-marker-radius',
-  'map-marker',
+  'loop',
+  'man',
   'menu-down',
+  'menu-fold',
   'menu-left',
   'menu-open',
   'menu-right',
+  'menu-unfold',
   'menu-up',
   'menu',
-  'message-processing-outline',
-  'message-text-outline',
-  'minus-box-outline',
+  'message-banned',
+  'message-processing',
+  'message-text',
+  'message',
+  'mind-mapping',
+  'minus-box-fill',
   'minus-box',
-  'minus-circle-outline',
+  'minus-circle-fill',
   'minus-circle',
   'minus',
+  'mobile',
+  'moon-fill',
+  'moon',
+  'more-vertical',
   'more',
+  'mosaic',
+  'music',
+  'mute-fill',
+  'mute',
+  'nav',
   'notebook',
-  'palette-outline',
+  'notification-close',
+  'notification',
+  'oblique-line',
+  'ordered-list',
+  'original-size',
+  'palette-fill',
   'palette',
-  'phone-outline',
+  'paste',
+  'pause-circle-fill',
+  'pause-circle',
+  'pause',
+  'pen-fill',
+  'pen',
+  'phone-fill',
   'phone',
-  'pin-off-outline',
+  'pin-fill',
+  'pin-off-fill',
   'pin-off',
-  'pin-outline',
   'pin',
-  'play-circle-outline',
+  'play-arrow-fill',
+  'play-arrow',
+  'play-circle-fill',
   'play-circle',
-  'plus-circle-outline',
+  'plus-circle-fill',
   'plus-circle',
   'plus',
   'power',
-  'qrcode-scan',
+  'poweroff',
+  'printer',
+  'public',
+  'pushpin',
+  'qq-circle-fill',
+  'qq-zone',
+  'qq',
+  'qr-code-scan',
+  'qr-code',
+  'question-circle-fill',
+  'question-circle',
+  'question',
+  'quote',
   'radio-blank',
   'radio-marked',
+  'record-stop',
+  'record',
+  'redo',
   'refresh',
-  'share-outline',
+  'relation',
+  'reply',
+  'right-circle',
+  'right',
+  'robot-add',
+  'robot',
+  'rotate-left',
+  'rotate-right',
+  'safe',
+  'save',
+  'scan',
+  'schedule',
+  'scissor',
+  'search',
+  'select-all',
+  'send',
+  'settings-fill',
+  'settings',
+  'shake',
+  'share-alt',
+  'share-external',
+  'share-fill',
+  'share-internal',
   'share',
-  'shopping-outline',
+  'shopping-fill',
   'shopping',
+  'shrink',
+  'skin',
+  'skip-next-fill',
+  'skip-next',
+  'skip-previous-fill',
+  'skip-previous',
+  'sort-ascending',
+  'sort-descending',
+  'sort',
+  'sound-fill',
+  'sound',
+  'stamp',
+  'star-fill',
   'star-half-full',
-  'star-outline',
   'star',
-  'tag-outline',
+  'stop',
+  'storage',
+  'strikethrough',
+  'subscribe-add',
+  'subscribe',
+  'subscribed',
+  'success-submitted',
+  'sun-fill',
+  'sun',
+  'swap',
+  'sync',
+  'tag-fill',
   'tag',
-  'thumb-down-outline',
+  'tags',
+  'thumb-down-fill',
   'thumb-down',
-  'thumb-up-outline',
+  'thumb-up-fill',
   'thumb-up',
+  'thunderbolt',
+  'tiktok-color',
+  'to-bottom',
+  'to-left',
+  'to-right',
+  'to-top',
+  'tool',
   'translate',
-  'trash-can-outline',
+  'trash-can-fill',
   'trash-can',
+  'trophy',
+  'twitter-circle-fill',
   'twitter',
-  'upload-outline',
+  'underline',
+  'undo',
+  'unlock',
+  'unordered-list',
+  'up-circle',
+  'up',
+  'upload-fill',
   'upload',
-  'view-outline',
-  'view',
+  'user-add',
+  'user-circle-fill',
+  'user-circle',
+  'user-group',
+  'user',
+  'video-camera',
+  'voice',
   'warning',
   'weather-cloudy',
   'weather-lightning',
@@ -139,145 +363,377 @@ export const iconNames = [
   'weather-pouring',
   'weather-rainy',
   'weather-snowy',
+  'wechat-pay',
+  'wechat',
+  'weibo-circle-fill',
+  'weibo',
   'white-balance-sunny',
   'wifi',
-  'window-close',
-  'wrench',
+  'woman',
+  'xigua-color',
   'xml',
+  'zoom-in-fill',
+  'zoom-in',
+  'zoom-out-fill',
+  'zoom-out',
 ] as const
-export { IconAccountCircleOutline } from './icon-account-circle-outline'
-export { IconAccountCircle } from './icon-account-circle'
-export { IconAlertCircleOutline } from './icon-alert-circle-outline'
-export { IconAlertOutline } from './icon-alert-outline'
+export { IconAlertCircle } from './icon-alert-circle'
+export { IconAlert } from './icon-alert'
+export { IconAlignCenter } from './icon-align-center'
+export { IconAlignLeft } from './icon-align-left'
+export { IconAlignRight } from './icon-align-right'
+export { IconAlipayCircle } from './icon-alipay-circle'
+export { IconApps } from './icon-apps'
+export { IconArchive } from './icon-archive'
 export { IconArrowDown } from './icon-arrow-down'
-export { IconArrowUpBoldBoxOutline } from './icon-arrow-up-bold-box-outline'
+export { IconArrowFall } from './icon-arrow-fall'
+export { IconArrowLeft } from './icon-arrow-left'
+export { IconArrowRight } from './icon-arrow-right'
+export { IconArrowRise } from './icon-arrow-rise'
+export { IconArrowUpBoldBoxFill } from './icon-arrow-up-bold-box-fill'
 export { IconArrowUpBoldBox } from './icon-arrow-up-bold-box'
+export { IconArrowUp } from './icon-arrow-up'
+export { IconAt } from './icon-at'
+export { IconAttachment } from './icon-attachment'
+export { IconBackgroundColor } from './icon-background-color'
+export { IconBackward } from './icon-backward'
+export { IconBarChart } from './icon-bar-chart'
 export { IconBarcodeScan } from './icon-barcode-scan'
-export { IconBellOutline } from './icon-bell-outline'
+export { IconBellFill } from './icon-bell-fill'
 export { IconBell } from './icon-bell'
-export { IconBookmarkOutline } from './icon-bookmark-outline'
+export { IconBold } from './icon-bold'
+export { IconBook } from './icon-book'
+export { IconBookmarkFill } from './icon-bookmark-fill'
 export { IconBookmark } from './icon-bookmark'
+export { IconBranch } from './icon-branch'
+export { IconBrush } from './icon-brush'
+export { IconBug } from './icon-bug'
+export { IconBulb } from './icon-bulb'
+export { IconBytedanceColor } from './icon-bytedance-color'
 export { IconCakeVariant } from './icon-cake-variant'
-export { IconCalendarMonthOutline } from './icon-calendar-month-outline'
+export { IconCalendarClock } from './icon-calendar-clock'
+export { IconCalendarMonthFill } from './icon-calendar-month-fill'
 export { IconCalendarMonth } from './icon-calendar-month'
-export { IconCameraOutline } from './icon-camera-outline'
+export { IconCalendar } from './icon-calendar'
+export { IconCameraFill } from './icon-camera-fill'
 export { IconCamera } from './icon-camera'
-export { IconCardAccountDetailsOutline } from './icon-card-account-details-outline'
+export { IconCardAccountDetailsFill } from './icon-card-account-details-fill'
 export { IconCardAccountDetails } from './icon-card-account-details'
-export { IconCartOutline } from './icon-cart-outline'
+export { IconCaretDown } from './icon-caret-down'
+export { IconCaretLeft } from './icon-caret-left'
+export { IconCaretRight } from './icon-caret-right'
+export { IconCaretUp } from './icon-caret-up'
+export { IconCartFill } from './icon-cart-fill'
 export { IconCart } from './icon-cart'
-export { IconCellphone } from './icon-cellphone'
-export { IconChatProcessingOutline } from './icon-chat-processing-outline'
+export { IconChatProcessingFill } from './icon-chat-processing-fill'
 export { IconChatProcessing } from './icon-chat-processing'
-export { IconCheckCircleOutline } from './icon-check-circle-outline'
+export { IconCheckCircleFill } from './icon-check-circle-fill'
+export { IconCheckCircle } from './icon-check-circle'
+export { IconCheckSquare } from './icon-check-square'
 export { IconCheck } from './icon-check'
-export { IconCheckboxBlankOutline } from './icon-checkbox-blank-outline'
-export { IconCheckboxMarkedCircleOutline } from './icon-checkbox-marked-circle-outline'
+export { IconCheckboxBlank } from './icon-checkbox-blank'
+export { IconCheckboxMarkedCircleFill } from './icon-checkbox-marked-circle-fill'
 export { IconCheckboxMarkedCircle } from './icon-checkbox-marked-circle'
-export { IconCheckboxMarkedOutline } from './icon-checkbox-marked-outline'
+export { IconCheckboxMarkedFill } from './icon-checkbox-marked-fill'
 export { IconCheckboxMarked } from './icon-checkbox-marked'
 export { IconChevronDown } from './icon-chevron-down'
 export { IconChevronLeft } from './icon-chevron-left'
 export { IconChevronRight } from './icon-chevron-right'
 export { IconChevronUp } from './icon-chevron-up'
-export { IconCloseBoxOutline } from './icon-close-box-outline'
+export { IconChineseFill } from './icon-chinese-fill'
+export { IconClockCircle } from './icon-clock-circle'
+export { IconCloseBoxFill } from './icon-close-box-fill'
 export { IconCloseBox } from './icon-close-box'
-export { IconCloseCircleOutline } from './icon-close-circle-outline'
+export { IconCloseCircleFill } from './icon-close-circle-fill'
 export { IconCloseCircle } from './icon-close-circle'
+export { IconClose } from './icon-close'
+export { IconCloudDownload } from './icon-cloud-download'
+export { IconCloud } from './icon-cloud'
+export { IconCodeBlock } from './icon-code-block'
 export { IconCodeJson } from './icon-code-json'
-export { IconCogOutline } from './icon-cog-outline'
-export { IconCog } from './icon-cog'
-export { IconContentCopy } from './icon-content-copy'
+export { IconCodeSandbox } from './icon-code-sandbox'
+export { IconCodeSquare } from './icon-code-square'
+export { IconCode } from './icon-code'
+export { IconCodepen } from './icon-codepen'
+export { IconCommand } from './icon-command'
+export { IconCommon } from './icon-common'
+export { IconCompass } from './icon-compass'
+export { IconComputer } from './icon-computer'
+export { IconCopy } from './icon-copy'
+export { IconCopyright } from './icon-copyright'
+export { IconCustomerService } from './icon-customer-service'
+export { IconDashboard } from './icon-dashboard'
 export { IconDelete } from './icon-delete'
-export { IconDotsVertical } from './icon-dots-vertical'
-export { IconDownloadOutline } from './icon-download-outline'
+export { IconDesktop } from './icon-desktop'
+export { IconDice } from './icon-dice'
+export { IconDoubleDown } from './icon-double-down'
+export { IconDoubleLeft } from './icon-double-left'
+export { IconDoubleRight } from './icon-double-right'
+export { IconDoubleUp } from './icon-double-up'
+export { IconDownCircle } from './icon-down-circle'
+export { IconDown } from './icon-down'
+export { IconDownloadFill } from './icon-download-fill'
 export { IconDownload } from './icon-download'
-export { IconEmailOutline } from './icon-email-outline'
+export { IconDragArrow } from './icon-drag-arrow'
+export { IconDragDotVertical } from './icon-drag-dot-vertical'
+export { IconDragDot } from './icon-drag-dot'
+export { IconDriveFile } from './icon-drive-file'
+export { IconEar } from './icon-ear'
+export { IconEdit } from './icon-edit'
+export { IconEmailFill } from './icon-email-fill'
 export { IconEmail } from './icon-email'
+export { IconEmptyDefault } from './icon-empty-default'
+export { IconEmpty } from './icon-empty'
+export { IconEnglishFill } from './icon-english-fill'
+export { IconEraser } from './icon-eraser'
+export { IconErrorNetwork } from './icon-error-network'
+export { IconErrorUnknown } from './icon-error-unknown'
 export { IconError } from './icon-error'
-export { IconFileDocumentOutline } from './icon-file-document-outline'
+export { IconExclamationCircleFill } from './icon-exclamation-circle-fill'
+export { IconExclamationCircle } from './icon-exclamation-circle'
+export { IconExclamationPolygonFill } from './icon-exclamation-polygon-fill'
+export { IconExclamation } from './icon-exclamation'
+export { IconExpand } from './icon-expand'
+export { IconExperiment } from './icon-experiment'
+export { IconExport } from './icon-export'
+export { IconEyeFill } from './icon-eye-fill'
+export { IconEyeInvisible } from './icon-eye-invisible'
+export { IconEye } from './icon-eye'
+export { IconFaceFrownFill } from './icon-face-frown-fill'
+export { IconFaceMehFill } from './icon-face-meh-fill'
+export { IconFaceSmileFill } from './icon-face-smile-fill'
+export { IconFacebookCircleFill } from './icon-facebook-circle-fill'
+export { IconFacebookSquareFill } from './icon-facebook-square-fill'
+export { IconFacebook } from './icon-facebook'
+export { IconFileAudio } from './icon-file-audio'
+export { IconFileDocument } from './icon-file-document'
+export { IconFileImage } from './icon-file-image'
+export { IconFilePdf } from './icon-file-pdf'
+export { IconFileVideo } from './icon-file-video'
+export { IconFile } from './icon-file'
+export { IconFilter } from './icon-filter'
+export { IconFindReplace } from './icon-find-replace'
 export { IconFire } from './icon-fire'
+export { IconFolderAdd } from './icon-folder-add'
+export { IconFolderDelete } from './icon-folder-delete'
+export { IconFolder } from './icon-folder'
+export { IconFontColor } from './icon-font-color'
 export { IconFormatListCheckbox } from './icon-format-list-checkbox'
+export { IconFormula } from './icon-formula'
+export { IconForward } from './icon-forward'
+export { IconFullscreenExit } from './icon-fullscreen-exit'
+export { IconFullscreen } from './icon-fullscreen'
+export { IconGift } from './icon-gift'
 export { IconGithub } from './icon-github'
+export { IconGitlab } from './icon-gitlab'
+export { IconGoogleCircleFill } from './icon-google-circle-fill'
+export { IconGoogle } from './icon-google'
+export { IconH1 } from './icon-h1'
+export { IconH2 } from './icon-h2'
+export { IconH3 } from './icon-h3'
+export { IconH4 } from './icon-h4'
+export { IconH5 } from './icon-h5'
+export { IconH6 } from './icon-h6'
+export { IconH7 } from './icon-h7'
+export { IconHeartFill } from './icon-heart-fill'
 export { IconHeartHalfFull } from './icon-heart-half-full'
-export { IconHeartOutline } from './icon-heart-outline'
 export { IconHeart } from './icon-heart'
-export { IconHelpCircleOutline } from './icon-help-circle-outline'
-export { IconHelpCircle } from './icon-help-circle'
+export { IconHighlight } from './icon-highlight'
 export { IconHistory } from './icon-history'
-export { IconHomeOutline } from './icon-home-outline'
+export { IconHomeFill } from './icon-home-fill'
 export { IconHome } from './icon-home'
-export { IconImageOutline } from './icon-image-outline'
+export { IconIdCard } from './icon-id-card'
+export { IconImageClose } from './icon-image-close'
+export { IconImageFill } from './icon-image-fill'
 export { IconImage } from './icon-image'
-export { IconInformationOutline } from './icon-information-outline'
-export { IconInformation } from './icon-information'
+export { IconImport } from './icon-import'
+export { IconInfoCircleFill } from './icon-info-circle-fill'
+export { IconInfoCircle } from './icon-info-circle'
+export { IconInfo } from './icon-info'
+export { IconInteraction } from './icon-interaction'
+export { IconItalic } from './icon-italic'
+export { IconLanguage } from './icon-language'
+export { IconLarkColor } from './icon-lark-color'
+export { IconLaunch } from './icon-launch'
+export { IconLayers } from './icon-layers'
+export { IconLayout } from './icon-layout'
+export { IconLeftCircle } from './icon-left-circle'
+export { IconLeft } from './icon-left'
+export { IconLineHeight } from './icon-line-height'
 export { IconLink } from './icon-link'
+export { IconList } from './icon-list'
+export { IconLiveBroadcast } from './icon-live-broadcast'
 export { IconLoading } from './icon-loading'
-export { IconLockOutline } from './icon-lock-outline'
+export { IconLocationFill } from './icon-location-fill'
+export { IconLocationRadiusFill } from './icon-location-radius-fill'
+export { IconLocationRadius } from './icon-location-radius'
+export { IconLocation } from './icon-location'
+export { IconLockFill } from './icon-lock-fill'
 export { IconLock } from './icon-lock'
-export { IconMagnifyMinusOutline } from './icon-magnify-minus-outline'
-export { IconMagnifyMinus } from './icon-magnify-minus'
-export { IconMagnifyPlusOutline } from './icon-magnify-plus-outline'
-export { IconMagnifyPlus } from './icon-magnify-plus'
-export { IconMagnify } from './icon-magnify'
-export { IconMapMarkerOutline } from './icon-map-marker-outline'
-export { IconMapMarkerRadiusOutline } from './icon-map-marker-radius-outline'
-export { IconMapMarkerRadius } from './icon-map-marker-radius'
-export { IconMapMarker } from './icon-map-marker'
+export { IconLoop } from './icon-loop'
+export { IconMan } from './icon-man'
 export { IconMenuDown } from './icon-menu-down'
+export { IconMenuFold } from './icon-menu-fold'
 export { IconMenuLeft } from './icon-menu-left'
 export { IconMenuOpen } from './icon-menu-open'
 export { IconMenuRight } from './icon-menu-right'
+export { IconMenuUnfold } from './icon-menu-unfold'
 export { IconMenuUp } from './icon-menu-up'
 export { IconMenu } from './icon-menu'
-export { IconMessageProcessingOutline } from './icon-message-processing-outline'
-export { IconMessageTextOutline } from './icon-message-text-outline'
-export { IconMinusBoxOutline } from './icon-minus-box-outline'
+export { IconMessageBanned } from './icon-message-banned'
+export { IconMessageProcessing } from './icon-message-processing'
+export { IconMessageText } from './icon-message-text'
+export { IconMessage } from './icon-message'
+export { IconMindMapping } from './icon-mind-mapping'
+export { IconMinusBoxFill } from './icon-minus-box-fill'
 export { IconMinusBox } from './icon-minus-box'
-export { IconMinusCircleOutline } from './icon-minus-circle-outline'
+export { IconMinusCircleFill } from './icon-minus-circle-fill'
 export { IconMinusCircle } from './icon-minus-circle'
 export { IconMinus } from './icon-minus'
+export { IconMobile } from './icon-mobile'
+export { IconMoonFill } from './icon-moon-fill'
+export { IconMoon } from './icon-moon'
+export { IconMoreVertical } from './icon-more-vertical'
 export { IconMore } from './icon-more'
+export { IconMosaic } from './icon-mosaic'
+export { IconMusic } from './icon-music'
+export { IconMuteFill } from './icon-mute-fill'
+export { IconMute } from './icon-mute'
+export { IconNav } from './icon-nav'
 export { IconNotebook } from './icon-notebook'
-export { IconPaletteOutline } from './icon-palette-outline'
+export { IconNotificationClose } from './icon-notification-close'
+export { IconNotification } from './icon-notification'
+export { IconObliqueLine } from './icon-oblique-line'
+export { IconOrderedList } from './icon-ordered-list'
+export { IconOriginalSize } from './icon-original-size'
+export { IconPaletteFill } from './icon-palette-fill'
 export { IconPalette } from './icon-palette'
-export { IconPhoneOutline } from './icon-phone-outline'
+export { IconPaste } from './icon-paste'
+export { IconPauseCircleFill } from './icon-pause-circle-fill'
+export { IconPauseCircle } from './icon-pause-circle'
+export { IconPause } from './icon-pause'
+export { IconPenFill } from './icon-pen-fill'
+export { IconPen } from './icon-pen'
+export { IconPhoneFill } from './icon-phone-fill'
 export { IconPhone } from './icon-phone'
-export { IconPinOffOutline } from './icon-pin-off-outline'
+export { IconPinFill } from './icon-pin-fill'
+export { IconPinOffFill } from './icon-pin-off-fill'
 export { IconPinOff } from './icon-pin-off'
-export { IconPinOutline } from './icon-pin-outline'
 export { IconPin } from './icon-pin'
-export { IconPlayCircleOutline } from './icon-play-circle-outline'
+export { IconPlayArrowFill } from './icon-play-arrow-fill'
+export { IconPlayArrow } from './icon-play-arrow'
+export { IconPlayCircleFill } from './icon-play-circle-fill'
 export { IconPlayCircle } from './icon-play-circle'
-export { IconPlusCircleOutline } from './icon-plus-circle-outline'
+export { IconPlusCircleFill } from './icon-plus-circle-fill'
 export { IconPlusCircle } from './icon-plus-circle'
 export { IconPlus } from './icon-plus'
 export { IconPower } from './icon-power'
-export { IconQrcodeScan } from './icon-qrcode-scan'
+export { IconPoweroff } from './icon-poweroff'
+export { IconPrinter } from './icon-printer'
+export { IconPublic } from './icon-public'
+export { IconPushpin } from './icon-pushpin'
+export { IconQqCircleFill } from './icon-qq-circle-fill'
+export { IconQqZone } from './icon-qq-zone'
+export { IconQq } from './icon-qq'
+export { IconQrCodeScan } from './icon-qr-code-scan'
+export { IconQrCode } from './icon-qr-code'
+export { IconQuestionCircleFill } from './icon-question-circle-fill'
+export { IconQuestionCircle } from './icon-question-circle'
+export { IconQuestion } from './icon-question'
+export { IconQuote } from './icon-quote'
 export { IconRadioBlank } from './icon-radio-blank'
 export { IconRadioMarked } from './icon-radio-marked'
+export { IconRecordStop } from './icon-record-stop'
+export { IconRecord } from './icon-record'
+export { IconRedo } from './icon-redo'
 export { IconRefresh } from './icon-refresh'
-export { IconShareOutline } from './icon-share-outline'
+export { IconRelation } from './icon-relation'
+export { IconReply } from './icon-reply'
+export { IconRightCircle } from './icon-right-circle'
+export { IconRight } from './icon-right'
+export { IconRobotAdd } from './icon-robot-add'
+export { IconRobot } from './icon-robot'
+export { IconRotateLeft } from './icon-rotate-left'
+export { IconRotateRight } from './icon-rotate-right'
+export { IconSafe } from './icon-safe'
+export { IconSave } from './icon-save'
+export { IconScan } from './icon-scan'
+export { IconSchedule } from './icon-schedule'
+export { IconScissor } from './icon-scissor'
+export { IconSearch } from './icon-search'
+export { IconSelectAll } from './icon-select-all'
+export { IconSend } from './icon-send'
+export { IconSettingsFill } from './icon-settings-fill'
+export { IconSettings } from './icon-settings'
+export { IconShake } from './icon-shake'
+export { IconShareAlt } from './icon-share-alt'
+export { IconShareExternal } from './icon-share-external'
+export { IconShareFill } from './icon-share-fill'
+export { IconShareInternal } from './icon-share-internal'
 export { IconShare } from './icon-share'
-export { IconShoppingOutline } from './icon-shopping-outline'
+export { IconShoppingFill } from './icon-shopping-fill'
 export { IconShopping } from './icon-shopping'
+export { IconShrink } from './icon-shrink'
+export { IconSkin } from './icon-skin'
+export { IconSkipNextFill } from './icon-skip-next-fill'
+export { IconSkipNext } from './icon-skip-next'
+export { IconSkipPreviousFill } from './icon-skip-previous-fill'
+export { IconSkipPrevious } from './icon-skip-previous'
+export { IconSortAscending } from './icon-sort-ascending'
+export { IconSortDescending } from './icon-sort-descending'
+export { IconSort } from './icon-sort'
+export { IconSoundFill } from './icon-sound-fill'
+export { IconSound } from './icon-sound'
+export { IconStamp } from './icon-stamp'
+export { IconStarFill } from './icon-star-fill'
 export { IconStarHalfFull } from './icon-star-half-full'
-export { IconStarOutline } from './icon-star-outline'
 export { IconStar } from './icon-star'
-export { IconTagOutline } from './icon-tag-outline'
+export { IconStop } from './icon-stop'
+export { IconStorage } from './icon-storage'
+export { IconStrikethrough } from './icon-strikethrough'
+export { IconSubscribeAdd } from './icon-subscribe-add'
+export { IconSubscribe } from './icon-subscribe'
+export { IconSubscribed } from './icon-subscribed'
+export { IconSuccessSubmitted } from './icon-success-submitted'
+export { IconSunFill } from './icon-sun-fill'
+export { IconSun } from './icon-sun'
+export { IconSwap } from './icon-swap'
+export { IconSync } from './icon-sync'
+export { IconTagFill } from './icon-tag-fill'
 export { IconTag } from './icon-tag'
-export { IconThumbDownOutline } from './icon-thumb-down-outline'
+export { IconTags } from './icon-tags'
+export { IconThumbDownFill } from './icon-thumb-down-fill'
 export { IconThumbDown } from './icon-thumb-down'
-export { IconThumbUpOutline } from './icon-thumb-up-outline'
+export { IconThumbUpFill } from './icon-thumb-up-fill'
 export { IconThumbUp } from './icon-thumb-up'
+export { IconThunderbolt } from './icon-thunderbolt'
+export { IconTiktokColor } from './icon-tiktok-color'
+export { IconToBottom } from './icon-to-bottom'
+export { IconToLeft } from './icon-to-left'
+export { IconToRight } from './icon-to-right'
+export { IconToTop } from './icon-to-top'
+export { IconTool } from './icon-tool'
 export { IconTranslate } from './icon-translate'
-export { IconTrashCanOutline } from './icon-trash-can-outline'
+export { IconTrashCanFill } from './icon-trash-can-fill'
 export { IconTrashCan } from './icon-trash-can'
+export { IconTrophy } from './icon-trophy'
+export { IconTwitterCircleFill } from './icon-twitter-circle-fill'
 export { IconTwitter } from './icon-twitter'
-export { IconUploadOutline } from './icon-upload-outline'
+export { IconUnderline } from './icon-underline'
+export { IconUndo } from './icon-undo'
+export { IconUnlock } from './icon-unlock'
+export { IconUnorderedList } from './icon-unordered-list'
+export { IconUpCircle } from './icon-up-circle'
+export { IconUp } from './icon-up'
+export { IconUploadFill } from './icon-upload-fill'
 export { IconUpload } from './icon-upload'
-export { IconViewOutline } from './icon-view-outline'
-export { IconView } from './icon-view'
+export { IconUserAdd } from './icon-user-add'
+export { IconUserCircleFill } from './icon-user-circle-fill'
+export { IconUserCircle } from './icon-user-circle'
+export { IconUserGroup } from './icon-user-group'
+export { IconUser } from './icon-user'
+export { IconVideoCamera } from './icon-video-camera'
+export { IconVoice } from './icon-voice'
 export { IconWarning } from './icon-warning'
 export { IconWeatherCloudy } from './icon-weather-cloudy'
 export { IconWeatherLightning } from './icon-weather-lightning'
@@ -285,8 +741,16 @@ export { IconWeatherNight } from './icon-weather-night'
 export { IconWeatherPouring } from './icon-weather-pouring'
 export { IconWeatherRainy } from './icon-weather-rainy'
 export { IconWeatherSnowy } from './icon-weather-snowy'
+export { IconWechatPay } from './icon-wechat-pay'
+export { IconWechat } from './icon-wechat'
+export { IconWeiboCircleFill } from './icon-weibo-circle-fill'
+export { IconWeibo } from './icon-weibo'
 export { IconWhiteBalanceSunny } from './icon-white-balance-sunny'
 export { IconWifi } from './icon-wifi'
-export { IconWindowClose } from './icon-window-close'
-export { IconWrench } from './icon-wrench'
+export { IconWoman } from './icon-woman'
+export { IconXiguaColor } from './icon-xigua-color'
 export { IconXml } from './icon-xml'
+export { IconZoomInFill } from './icon-zoom-in-fill'
+export { IconZoomIn } from './icon-zoom-in'
+export { IconZoomOutFill } from './icon-zoom-out-fill'
+export { IconZoomOut } from './icon-zoom-out'

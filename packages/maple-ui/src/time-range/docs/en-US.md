@@ -233,7 +233,7 @@ Form field: [`TimeRange`](/en-US/time-range). Single time panel: [`TimePicker`](
 <template>
   <mp-time-range-picker v-model="range">
     <template #actions>
-      <mp-space size="small">
+      <mp-space size="sm">
         <mp-button status="primary" variant="text">Action</mp-button>
         <mp-button status="primary" variant="text">Action</mp-button>
       </mp-space>

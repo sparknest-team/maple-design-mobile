@@ -15,7 +15,7 @@ const score = ref(3)
 
 <template>
   <mp-rate v-model="score"/>
-  <mp-rate v-model="score" icon="thumb-up" empty-icon="thumb-up-outline"/>
+  <mp-rate v-model="score" icon="thumb-up-fill" empty-icon="thumb-up"/>
 </template>
 ```
 
@@ -49,8 +49,8 @@ const score = ref(3)
 
 <template>
   <mp-rate
-    icon="heart" 
-    empty-icon="heart-outline" 
+    icon="heart-fill" 
+    empty-icon="heart" 
     color="red" 
     empty-color="red"
     v-model="score"
@@ -90,9 +90,9 @@ const score = ref(3.5)
   <mp-rate allow-half :count="8" v-model="score" />
   <mp-rate
     allow-half
-    icon="heart"
+    icon="heart-fill"
     half-icon="heart-half-full"
-    empty-icon="heart-outline"
+    empty-icon="heart"
     color="red"
     :count="8"
     v-model="score"
@@ -171,7 +171,7 @@ function handleChange(score) {
 | `color`          | The color of the icon when selected  | _string_ | `-` |
 | `icon`           | The icon style when the entire icon is selected  | _string_ | `star` |
 | `empty-color`    | The color of the icon when unchecked | _string_ | `#bdbdbd` |
-| `empty-icon`     | Style of the icon when unchecked | _string_ | `star-outline` |
+| `empty-icon`     | Style of the icon when unchecked | _string_ | `star` |
 | `size`           | Icon size, default unit is `px` | _number \| string_ | `-` |
 | `gap`            | Icon spacing, default unit is `px` | _number \| string_ | `-` |
 | `allow-half`           | Whether half selection is allowed | _boolean_ | `false` |

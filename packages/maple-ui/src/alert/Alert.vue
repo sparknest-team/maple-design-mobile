@@ -20,8 +20,8 @@
       <div v-if="showIconNode" :class="n('icon')">
         <slot name="icon">
           <mp-icon v-if="type !== 'default'">
-            <MIconInformation v-if="type === 'info'" />
-            <MIconCheckboxMarkedCircle v-else-if="type === 'success'" />
+            <MIconInfoCircleFill v-if="type === 'info'" />
+            <MIconCheckboxMarkedCircleFill v-else-if="type === 'success'" />
             <MIconWarning v-else-if="type === 'warning'" />
             <MIconError v-else />
           </mp-icon>
@@ -43,7 +43,7 @@
 
       <div v-if="closable" tabindex="-1" role="button" aria-label="Close" :class="n('close-icon')" @click="handleClose">
         <slot name="close-icon">
-          <mp-icon mp-alert-cover><MIconWindowClose /></mp-icon>
+          <mp-icon mp-alert-cover><MIconClose /></mp-icon>
         </slot>
       </div>
     </div>
@@ -53,11 +53,11 @@
 <script lang="ts" setup>
 import { computed, ref, useSlots, type CSSProperties } from 'vue'
 import {
-  IconCheckboxMarkedCircle as MIconCheckboxMarkedCircle,
+  IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
+  IconClose as MIconClose,
   IconError as MIconError,
-  IconInformation as MIconInformation,
+  IconInfoCircleFill as MIconInfoCircleFill,
   IconWarning as MIconWarning,
-  IconWindowClose as MIconWindowClose,
 } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpIcon from '../icon'

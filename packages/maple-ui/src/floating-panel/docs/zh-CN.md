@@ -57,7 +57,7 @@ const anchor = ref(100)
 | `content-draggable` | 是否允许拖拽面板内容       | _boolean_ | `true`  |
 | `duration`          | 动画时长，单位为 `ms`          | _number \| string_ | `300`  |
 | `elevation`         | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级                                                            | _string \| number \| boolean_ | `true`            |
-| `popupContainer`          | 弹出层挂载的位置              | _TeleportProps['to'] \| false_ | `body`  |
+| `popup-container`          | 弹出层挂载的位置              | _TeleportProps['to'] \| false_ | `body`  |
 | `safe-area`         | 是否开启底部安全区适配        | _boolean_ | `false`  |
 
 ### 事件

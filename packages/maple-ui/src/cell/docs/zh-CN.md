@@ -19,12 +19,12 @@
 <template>
   <mp-cell icon="fire" title="这是单元格">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
   <mp-cell icon="fire" title="这是单元格">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
 </template>
@@ -36,7 +36,7 @@
 <template>
   <mp-cell icon="fire" title="这是单元格" description="描述">
     <template #extra>
-      <m-icon-information />
+      <m-icon-info-circle-fill />
     </template>
   </mp-cell>
   <mp-cell title="这是单元格" description="描述" />
@@ -61,17 +61,17 @@ import { ref } from 'vue'
 const items = ref([
   {
     name: 'Vue2',
-    icon: 'star',
+    icon: 'star-fill',
     enabled: false,
   },
   {
     name: 'Vue3',
-    icon: 'heart',
+    icon: 'heart-fill',
     enabled: false,
   },
   {
     name: 'React',
-    icon: 'close-circle',
+    icon: 'close-circle-fill',
     enabled: false,
   },
 ])

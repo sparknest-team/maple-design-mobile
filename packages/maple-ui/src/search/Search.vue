@@ -66,7 +66,7 @@
             <mp-registered-icon
               :class="n('search-icon')"
               :name="searchIcon"
-              :fallback="searchIcon === 'magnify' ? IconMagnify : undefined"
+              :fallback="searchIcon === 'search' ? IconSearch : undefined"
               @click="handleSearch"
             />
           </slot>
@@ -78,7 +78,7 @@
               :class="classes(n('clear-icon'), 'mp-field-decorator__clear-icon')"
               mp-field-decorator-cover
               @click="handleClearIconClick(clear, $event)"
-              ><MIconCloseCircle
+              ><MIconCloseCircleFill
             /></mp-icon>
           </slot>
         </template>
@@ -96,7 +96,7 @@
       :style="popupStyle"
       position="top"
       transition="mp-fade"
-      :mask="false"
+      :overlay="false"
       safe-area-top
       @update:open="handlePopupVisibleChange"
     >
@@ -153,7 +153,7 @@
                 :class="classes(n('clear-icon'), 'mp-field-decorator__clear-icon')"
                 mp-field-decorator-cover
                 @click="handleClearIconClick(clear, $event)"
-                ><MIconCloseCircle
+                ><MIconCloseCircleFill
               /></mp-icon>
             </slot>
           </template>
@@ -177,7 +177,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
-import { IconMagnify, IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
+import { IconSearch, IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
@@ -195,7 +195,7 @@ const { name, n, classes } = createNamespace('search')
 export default defineComponent({
   name,
   components: {
-    MIconCloseCircle,
+    MIconCloseCircleFill,
     MpIcon,
     MpRegisteredIcon,
     MpInput,
@@ -488,7 +488,7 @@ export default defineComponent({
       historyMenuVisible,
       n,
       classes,
-      IconMagnify,
+      IconSearch,
       handleFocus,
       handleBlur,
       handleInput,

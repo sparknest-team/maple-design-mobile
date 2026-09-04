@@ -1,8 +1,9 @@
 import { type PropType } from 'vue'
+import { type ComponentSize } from '../utils/constants'
 
 export type LoadingType = 'circle' | 'wave' | 'cube' | 'rect' | 'disappear'
 
-export type LoadingSize = 'normal' | 'mini' | 'small' | 'large'
+export type LoadingSize = ComponentSize | number
 
 export const props = {
   type: {
@@ -11,8 +12,8 @@ export const props = {
   },
   radius: [String, Number],
   size: {
-    type: String as PropType<LoadingSize>,
-    default: 'normal',
+    type: [String, Number] as PropType<LoadingSize>,
+    default: 'md',
   },
   color: String,
   tip: String,

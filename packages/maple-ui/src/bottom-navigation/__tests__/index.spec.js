@@ -20,10 +20,10 @@ const Wrapper = {
       <template #fab>
         <span>home</span>
       </template>
-      <mp-bottom-navigation-item label="tag 1" icon="home" name="home" :badge="{ dot: true, value: 10 }" />
-      <mp-bottom-navigation-item label="tag 2" icon="magnify" />
-      <mp-bottom-navigation-item label="tag 3" icon="heart" />
-      <mp-bottom-navigation-item label="tag 4" icon="account-circle" />
+      <mp-bottom-navigation-item label="tag 1" icon="home-fill" name="home-fill" :badge="{ dot: true, value: 10 }" />
+      <mp-bottom-navigation-item label="tag 2" icon="search" />
+      <mp-bottom-navigation-item label="tag 3" icon="heart-fill" />
+      <mp-bottom-navigation-item label="tag 4" icon="user-circle-fill" />
     </mp-bottom-navigation>
   `,
 }
@@ -53,8 +53,8 @@ describe('test bottom-navigation events', () => {
       },
       template: `
         <mp-bottom-navigation v-model:active="active" @change="handleChange">
-          <mp-bottom-navigation-item label="tag 1" icon="home" />
-          <mp-bottom-navigation-item label="tag 2" icon="magnify" />
+          <mp-bottom-navigation-item label="tag 1" icon="home-fill" />
+          <mp-bottom-navigation-item label="tag 2" icon="search" />
         </mp-bottom-navigation>
       `,
     })
@@ -88,8 +88,8 @@ describe('test bottom-navigation events', () => {
       },
       template: `
         <mp-bottom-navigation v-model:active="active">
-          <mp-bottom-navigation-item label="tag 1" icon="home" />
-          <mp-bottom-navigation-item label="tag 2" icon="magnify" @click="handleClick" />
+          <mp-bottom-navigation-item label="tag 1" icon="home-fill" />
+          <mp-bottom-navigation-item label="tag 2" icon="search" @click="handleClick" />
         </mp-bottom-navigation>
       `,
     })
@@ -123,8 +123,8 @@ describe('test bottom-navigation events', () => {
       },
       template: `
         <mp-bottom-navigation v-model:active="active" :before-change="handleBeforeChange">
-          <mp-bottom-navigation-item label="tag 1" icon="home" />
-          <mp-bottom-navigation-item label="tag 2" icon="magnify" />
+          <mp-bottom-navigation-item label="tag 1" icon="home-fill" />
+          <mp-bottom-navigation-item label="tag 2" icon="search" />
         </mp-bottom-navigation>
       `,
     })
@@ -163,8 +163,8 @@ describe('test bottom-navigation events', () => {
           <template #fab>
             <span>home</span>
           </template>
-          <mp-bottom-navigation-item label="tag 1" icon="home" />
-          <mp-bottom-navigation-item label="tag 2" icon="magnify" />
+          <mp-bottom-navigation-item label="tag 1" icon="home-fill" />
+          <mp-bottom-navigation-item label="tag 2" icon="search" />
         </mp-bottom-navigation>
       `,
     })
@@ -305,10 +305,10 @@ describe('test bottom-navigation component props', () => {
       }),
       template: `
 <mp-bottom-navigation :variant="variant">
-  <mp-bottom-navigation-item label="tag 1" icon="home" name="home" :badge="{ dot: true, value: 10 }" />
-  <mp-bottom-navigation-item label="tag 2" icon="magnify" />
-  <mp-bottom-navigation-item label="tag 3" icon="heart" />
-  <mp-bottom-navigation-item label="tag 4" icon="account-circle" />
+  <mp-bottom-navigation-item label="tag 1" icon="home-fill" name="home-fill" :badge="{ dot: true, value: 10 }" />
+  <mp-bottom-navigation-item label="tag 2" icon="search" />
+  <mp-bottom-navigation-item label="tag 3" icon="heart-fill" />
+  <mp-bottom-navigation-item label="tag 4" icon="user-circle-fill" />
 </mp-bottom-navigation>
       `,
     })

@@ -65,7 +65,7 @@
         @mouseleave="isOpenThemeMenu = false"
         v-if="themes.length > 1"
       >
-        <mp-icon :size="28"><MIconPalette /></mp-icon>
+        <mp-icon :size="28"><MIconPaletteFill /></mp-icon>
         <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
@@ -122,7 +122,7 @@ import {
   IconCodeJson as MIconCodeJson,
   IconGithub as MIconGithub,
   IconHistory as MIconHistory,
-  IconPalette as MIconPalette,
+  IconPaletteFill as MIconPaletteFill,
   IconTranslate as MIconTranslate,
 } from '@maplejs/icons-vue'
 import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maplejs/maple-cli/client'
@@ -130,7 +130,7 @@ import { useRouter } from 'vue-router'
 import { removeEmpty } from '../../utils'
 
 export default defineComponent({
-  components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPalette, MIconTranslate },
+  components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill, MIconTranslate },
   name: 'AppHeader',
   props: {
     language: {

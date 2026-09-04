@@ -31,7 +31,7 @@ describe('test rate component props', () => {
   })
 
   test('rate icon', async () => {
-    const iconComponents = createRegisteredIconComponents(['thumb-up'])
+    const iconComponents = createRegisteredIconComponents(['thumb-up-fill'])
     const wrapper = mount(VarRate, {
       props: {
         modelValue: 1,
@@ -45,9 +45,9 @@ describe('test rate component props', () => {
     expect(wrapper.findAll('.mp-rate__content-icon svg').length).toBe(5)
 
     await wrapper.setProps({
-      icon: 'thumb-up',
+      icon: 'thumb-up-fill',
     })
-    expect(wrapper.findAll('.mp-icon-thumb-up').length).toBe(1)
+    expect(wrapper.findAll('.mp-icon-thumb-up-fill').length).toBe(1)
 
     wrapper.unmount()
   })
@@ -71,7 +71,7 @@ describe('test rate component props', () => {
   })
 
   test('rate emptyIcon', async () => {
-    const iconComponents = createRegisteredIconComponents(['thumb-up-outline'])
+    const iconComponents = createRegisteredIconComponents(['thumb-up'])
     const wrapper = mount(VarRate, {
       global: {
         components: iconComponents,
@@ -82,9 +82,9 @@ describe('test rate component props', () => {
     expect(wrapper.findAll('.mp-rate--primary').length).toBe(0)
 
     await wrapper.setProps({
-      emptyIcon: 'thumb-up-outline',
+      emptyIcon: 'thumb-up',
     })
-    expect(wrapper.findAll('.mp-icon-thumb-up-outline').length).toBe(5)
+    expect(wrapper.findAll('.mp-icon-thumb-up').length).toBe(5)
 
     wrapper.unmount()
   })

@@ -163,7 +163,7 @@ export async function release(options: ReleaseOptions) {
     const { exec } = await import('tinyexec')
     await exec('git', ['add', '.'])
     await exec('git', ['commit', '-m', `chore(release): ${version}`])
-    await exec('git', ['tag', `v${version}`])
+    await exec('git', ['tag-fill', `v${version}`])
     await exec('git', ['push', remote, '--follow-tags'])
     gitSpinner.success({ text: `Released v${version} to ${remote}` })
   } catch (err) {

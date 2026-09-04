@@ -1,123 +1,235 @@
 [
   {
-    "fileName": "icon-account-circle-outline",
-    "componentName": "IconAccountCircleOutline"
+    "fileName": "icon-alert-circle",
+    "componentName": "IconAlertCircle"
   },
   {
-    "fileName": "icon-account-circle",
-    "componentName": "IconAccountCircle"
+    "fileName": "icon-alert",
+    "componentName": "IconAlert"
   },
   {
-    "fileName": "icon-alert-circle-outline",
-    "componentName": "IconAlertCircleOutline"
+    "fileName": "icon-align-center",
+    "componentName": "IconAlignCenter"
   },
   {
-    "fileName": "icon-alert-outline",
-    "componentName": "IconAlertOutline"
+    "fileName": "icon-align-left",
+    "componentName": "IconAlignLeft"
+  },
+  {
+    "fileName": "icon-align-right",
+    "componentName": "IconAlignRight"
+  },
+  {
+    "fileName": "icon-alipay-circle",
+    "componentName": "IconAlipayCircle"
+  },
+  {
+    "fileName": "icon-apps",
+    "componentName": "IconApps"
+  },
+  {
+    "fileName": "icon-archive",
+    "componentName": "IconArchive"
   },
   {
     "fileName": "icon-arrow-down",
     "componentName": "IconArrowDown"
   },
   {
-    "fileName": "icon-arrow-up-bold-box-outline",
-    "componentName": "IconArrowUpBoldBoxOutline"
+    "fileName": "icon-arrow-fall",
+    "componentName": "IconArrowFall"
+  },
+  {
+    "fileName": "icon-arrow-left",
+    "componentName": "IconArrowLeft"
+  },
+  {
+    "fileName": "icon-arrow-right",
+    "componentName": "IconArrowRight"
+  },
+  {
+    "fileName": "icon-arrow-rise",
+    "componentName": "IconArrowRise"
+  },
+  {
+    "fileName": "icon-arrow-up-bold-box-fill",
+    "componentName": "IconArrowUpBoldBoxFill"
   },
   {
     "fileName": "icon-arrow-up-bold-box",
     "componentName": "IconArrowUpBoldBox"
   },
   {
+    "fileName": "icon-arrow-up",
+    "componentName": "IconArrowUp"
+  },
+  {
+    "fileName": "icon-at",
+    "componentName": "IconAt"
+  },
+  {
+    "fileName": "icon-attachment",
+    "componentName": "IconAttachment"
+  },
+  {
+    "fileName": "icon-background-color",
+    "componentName": "IconBackgroundColor"
+  },
+  {
+    "fileName": "icon-backward",
+    "componentName": "IconBackward"
+  },
+  {
+    "fileName": "icon-bar-chart",
+    "componentName": "IconBarChart"
+  },
+  {
     "fileName": "icon-barcode-scan",
     "componentName": "IconBarcodeScan"
   },
   {
-    "fileName": "icon-bell-outline",
-    "componentName": "IconBellOutline"
+    "fileName": "icon-bell-fill",
+    "componentName": "IconBellFill"
   },
   {
     "fileName": "icon-bell",
     "componentName": "IconBell"
   },
   {
-    "fileName": "icon-bookmark-outline",
-    "componentName": "IconBookmarkOutline"
+    "fileName": "icon-bold",
+    "componentName": "IconBold"
+  },
+  {
+    "fileName": "icon-book",
+    "componentName": "IconBook"
+  },
+  {
+    "fileName": "icon-bookmark-fill",
+    "componentName": "IconBookmarkFill"
   },
   {
     "fileName": "icon-bookmark",
     "componentName": "IconBookmark"
   },
   {
+    "fileName": "icon-branch",
+    "componentName": "IconBranch"
+  },
+  {
+    "fileName": "icon-brush",
+    "componentName": "IconBrush"
+  },
+  {
+    "fileName": "icon-bug",
+    "componentName": "IconBug"
+  },
+  {
+    "fileName": "icon-bulb",
+    "componentName": "IconBulb"
+  },
+  {
+    "fileName": "icon-bytedance-color",
+    "componentName": "IconBytedanceColor"
+  },
+  {
     "fileName": "icon-cake-variant",
     "componentName": "IconCakeVariant"
   },
   {
-    "fileName": "icon-calendar-month-outline",
-    "componentName": "IconCalendarMonthOutline"
+    "fileName": "icon-calendar-clock",
+    "componentName": "IconCalendarClock"
+  },
+  {
+    "fileName": "icon-calendar-month-fill",
+    "componentName": "IconCalendarMonthFill"
   },
   {
     "fileName": "icon-calendar-month",
     "componentName": "IconCalendarMonth"
   },
   {
-    "fileName": "icon-camera-outline",
-    "componentName": "IconCameraOutline"
+    "fileName": "icon-calendar",
+    "componentName": "IconCalendar"
+  },
+  {
+    "fileName": "icon-camera-fill",
+    "componentName": "IconCameraFill"
   },
   {
     "fileName": "icon-camera",
     "componentName": "IconCamera"
   },
   {
-    "fileName": "icon-card-account-details-outline",
-    "componentName": "IconCardAccountDetailsOutline"
+    "fileName": "icon-card-account-details-fill",
+    "componentName": "IconCardAccountDetailsFill"
   },
   {
     "fileName": "icon-card-account-details",
     "componentName": "IconCardAccountDetails"
   },
   {
-    "fileName": "icon-cart-outline",
-    "componentName": "IconCartOutline"
+    "fileName": "icon-caret-down",
+    "componentName": "IconCaretDown"
+  },
+  {
+    "fileName": "icon-caret-left",
+    "componentName": "IconCaretLeft"
+  },
+  {
+    "fileName": "icon-caret-right",
+    "componentName": "IconCaretRight"
+  },
+  {
+    "fileName": "icon-caret-up",
+    "componentName": "IconCaretUp"
+  },
+  {
+    "fileName": "icon-cart-fill",
+    "componentName": "IconCartFill"
   },
   {
     "fileName": "icon-cart",
     "componentName": "IconCart"
   },
   {
-    "fileName": "icon-cellphone",
-    "componentName": "IconCellphone"
-  },
-  {
-    "fileName": "icon-chat-processing-outline",
-    "componentName": "IconChatProcessingOutline"
+    "fileName": "icon-chat-processing-fill",
+    "componentName": "IconChatProcessingFill"
   },
   {
     "fileName": "icon-chat-processing",
     "componentName": "IconChatProcessing"
   },
   {
-    "fileName": "icon-check-circle-outline",
-    "componentName": "IconCheckCircleOutline"
+    "fileName": "icon-check-circle-fill",
+    "componentName": "IconCheckCircleFill"
+  },
+  {
+    "fileName": "icon-check-circle",
+    "componentName": "IconCheckCircle"
+  },
+  {
+    "fileName": "icon-check-square",
+    "componentName": "IconCheckSquare"
   },
   {
     "fileName": "icon-check",
     "componentName": "IconCheck"
   },
   {
-    "fileName": "icon-checkbox-blank-outline",
-    "componentName": "IconCheckboxBlankOutline"
+    "fileName": "icon-checkbox-blank",
+    "componentName": "IconCheckboxBlank"
   },
   {
-    "fileName": "icon-checkbox-marked-circle-outline",
-    "componentName": "IconCheckboxMarkedCircleOutline"
+    "fileName": "icon-checkbox-marked-circle-fill",
+    "componentName": "IconCheckboxMarkedCircleFill"
   },
   {
     "fileName": "icon-checkbox-marked-circle",
     "componentName": "IconCheckboxMarkedCircle"
   },
   {
-    "fileName": "icon-checkbox-marked-outline",
-    "componentName": "IconCheckboxMarkedOutline"
+    "fileName": "icon-checkbox-marked-fill",
+    "componentName": "IconCheckboxMarkedFill"
   },
   {
     "fileName": "icon-checkbox-marked",
@@ -140,184 +252,540 @@
     "componentName": "IconChevronUp"
   },
   {
-    "fileName": "icon-close-box-outline",
-    "componentName": "IconCloseBoxOutline"
+    "fileName": "icon-chinese-fill",
+    "componentName": "IconChineseFill"
+  },
+  {
+    "fileName": "icon-clock-circle",
+    "componentName": "IconClockCircle"
+  },
+  {
+    "fileName": "icon-close-box-fill",
+    "componentName": "IconCloseBoxFill"
   },
   {
     "fileName": "icon-close-box",
     "componentName": "IconCloseBox"
   },
   {
-    "fileName": "icon-close-circle-outline",
-    "componentName": "IconCloseCircleOutline"
+    "fileName": "icon-close-circle-fill",
+    "componentName": "IconCloseCircleFill"
   },
   {
     "fileName": "icon-close-circle",
     "componentName": "IconCloseCircle"
   },
   {
+    "fileName": "icon-close",
+    "componentName": "IconClose"
+  },
+  {
+    "fileName": "icon-cloud-download",
+    "componentName": "IconCloudDownload"
+  },
+  {
+    "fileName": "icon-cloud",
+    "componentName": "IconCloud"
+  },
+  {
+    "fileName": "icon-code-block",
+    "componentName": "IconCodeBlock"
+  },
+  {
     "fileName": "icon-code-json",
     "componentName": "IconCodeJson"
   },
   {
-    "fileName": "icon-cog-outline",
-    "componentName": "IconCogOutline"
+    "fileName": "icon-code-sandbox",
+    "componentName": "IconCodeSandbox"
   },
   {
-    "fileName": "icon-cog",
-    "componentName": "IconCog"
+    "fileName": "icon-code-square",
+    "componentName": "IconCodeSquare"
   },
   {
-    "fileName": "icon-content-copy",
-    "componentName": "IconContentCopy"
+    "fileName": "icon-code",
+    "componentName": "IconCode"
+  },
+  {
+    "fileName": "icon-codepen",
+    "componentName": "IconCodepen"
+  },
+  {
+    "fileName": "icon-command",
+    "componentName": "IconCommand"
+  },
+  {
+    "fileName": "icon-common",
+    "componentName": "IconCommon"
+  },
+  {
+    "fileName": "icon-compass",
+    "componentName": "IconCompass"
+  },
+  {
+    "fileName": "icon-computer",
+    "componentName": "IconComputer"
+  },
+  {
+    "fileName": "icon-copy",
+    "componentName": "IconCopy"
+  },
+  {
+    "fileName": "icon-copyright",
+    "componentName": "IconCopyright"
+  },
+  {
+    "fileName": "icon-customer-service",
+    "componentName": "IconCustomerService"
+  },
+  {
+    "fileName": "icon-dashboard",
+    "componentName": "IconDashboard"
   },
   {
     "fileName": "icon-delete",
     "componentName": "IconDelete"
   },
   {
-    "fileName": "icon-dots-vertical",
-    "componentName": "IconDotsVertical"
+    "fileName": "icon-desktop",
+    "componentName": "IconDesktop"
   },
   {
-    "fileName": "icon-download-outline",
-    "componentName": "IconDownloadOutline"
+    "fileName": "icon-dice",
+    "componentName": "IconDice"
+  },
+  {
+    "fileName": "icon-double-down",
+    "componentName": "IconDoubleDown"
+  },
+  {
+    "fileName": "icon-double-left",
+    "componentName": "IconDoubleLeft"
+  },
+  {
+    "fileName": "icon-double-right",
+    "componentName": "IconDoubleRight"
+  },
+  {
+    "fileName": "icon-double-up",
+    "componentName": "IconDoubleUp"
+  },
+  {
+    "fileName": "icon-down-circle",
+    "componentName": "IconDownCircle"
+  },
+  {
+    "fileName": "icon-down",
+    "componentName": "IconDown"
+  },
+  {
+    "fileName": "icon-download-fill",
+    "componentName": "IconDownloadFill"
   },
   {
     "fileName": "icon-download",
     "componentName": "IconDownload"
   },
   {
-    "fileName": "icon-email-outline",
-    "componentName": "IconEmailOutline"
+    "fileName": "icon-drag-arrow",
+    "componentName": "IconDragArrow"
+  },
+  {
+    "fileName": "icon-drag-dot-vertical",
+    "componentName": "IconDragDotVertical"
+  },
+  {
+    "fileName": "icon-drag-dot",
+    "componentName": "IconDragDot"
+  },
+  {
+    "fileName": "icon-drive-file",
+    "componentName": "IconDriveFile"
+  },
+  {
+    "fileName": "icon-ear",
+    "componentName": "IconEar"
+  },
+  {
+    "fileName": "icon-edit",
+    "componentName": "IconEdit"
+  },
+  {
+    "fileName": "icon-email-fill",
+    "componentName": "IconEmailFill"
   },
   {
     "fileName": "icon-email",
     "componentName": "IconEmail"
   },
   {
+    "fileName": "icon-empty-default",
+    "componentName": "IconEmptyDefault"
+  },
+  {
+    "fileName": "icon-empty",
+    "componentName": "IconEmpty"
+  },
+  {
+    "fileName": "icon-english-fill",
+    "componentName": "IconEnglishFill"
+  },
+  {
+    "fileName": "icon-eraser",
+    "componentName": "IconEraser"
+  },
+  {
+    "fileName": "icon-error-network",
+    "componentName": "IconErrorNetwork"
+  },
+  {
+    "fileName": "icon-error-unknown",
+    "componentName": "IconErrorUnknown"
+  },
+  {
     "fileName": "icon-error",
     "componentName": "IconError"
   },
   {
-    "fileName": "icon-file-document-outline",
-    "componentName": "IconFileDocumentOutline"
+    "fileName": "icon-exclamation-circle-fill",
+    "componentName": "IconExclamationCircleFill"
+  },
+  {
+    "fileName": "icon-exclamation-circle",
+    "componentName": "IconExclamationCircle"
+  },
+  {
+    "fileName": "icon-exclamation-polygon-fill",
+    "componentName": "IconExclamationPolygonFill"
+  },
+  {
+    "fileName": "icon-exclamation",
+    "componentName": "IconExclamation"
+  },
+  {
+    "fileName": "icon-expand",
+    "componentName": "IconExpand"
+  },
+  {
+    "fileName": "icon-experiment",
+    "componentName": "IconExperiment"
+  },
+  {
+    "fileName": "icon-export",
+    "componentName": "IconExport"
+  },
+  {
+    "fileName": "icon-eye-fill",
+    "componentName": "IconEyeFill"
+  },
+  {
+    "fileName": "icon-eye-invisible",
+    "componentName": "IconEyeInvisible"
+  },
+  {
+    "fileName": "icon-eye",
+    "componentName": "IconEye"
+  },
+  {
+    "fileName": "icon-face-frown-fill",
+    "componentName": "IconFaceFrownFill"
+  },
+  {
+    "fileName": "icon-face-meh-fill",
+    "componentName": "IconFaceMehFill"
+  },
+  {
+    "fileName": "icon-face-smile-fill",
+    "componentName": "IconFaceSmileFill"
+  },
+  {
+    "fileName": "icon-facebook-circle-fill",
+    "componentName": "IconFacebookCircleFill"
+  },
+  {
+    "fileName": "icon-facebook-square-fill",
+    "componentName": "IconFacebookSquareFill"
+  },
+  {
+    "fileName": "icon-facebook",
+    "componentName": "IconFacebook"
+  },
+  {
+    "fileName": "icon-file-audio",
+    "componentName": "IconFileAudio"
+  },
+  {
+    "fileName": "icon-file-document",
+    "componentName": "IconFileDocument"
+  },
+  {
+    "fileName": "icon-file-image",
+    "componentName": "IconFileImage"
+  },
+  {
+    "fileName": "icon-file-pdf",
+    "componentName": "IconFilePdf"
+  },
+  {
+    "fileName": "icon-file-video",
+    "componentName": "IconFileVideo"
+  },
+  {
+    "fileName": "icon-file",
+    "componentName": "IconFile"
+  },
+  {
+    "fileName": "icon-filter",
+    "componentName": "IconFilter"
+  },
+  {
+    "fileName": "icon-find-replace",
+    "componentName": "IconFindReplace"
   },
   {
     "fileName": "icon-fire",
     "componentName": "IconFire"
   },
   {
+    "fileName": "icon-folder-add",
+    "componentName": "IconFolderAdd"
+  },
+  {
+    "fileName": "icon-folder-delete",
+    "componentName": "IconFolderDelete"
+  },
+  {
+    "fileName": "icon-folder",
+    "componentName": "IconFolder"
+  },
+  {
+    "fileName": "icon-font-color",
+    "componentName": "IconFontColor"
+  },
+  {
     "fileName": "icon-format-list-checkbox",
     "componentName": "IconFormatListCheckbox"
+  },
+  {
+    "fileName": "icon-formula",
+    "componentName": "IconFormula"
+  },
+  {
+    "fileName": "icon-forward",
+    "componentName": "IconForward"
+  },
+  {
+    "fileName": "icon-fullscreen-exit",
+    "componentName": "IconFullscreenExit"
+  },
+  {
+    "fileName": "icon-fullscreen",
+    "componentName": "IconFullscreen"
+  },
+  {
+    "fileName": "icon-gift",
+    "componentName": "IconGift"
   },
   {
     "fileName": "icon-github",
     "componentName": "IconGithub"
   },
   {
-    "fileName": "icon-heart-half-full",
-    "componentName": "IconHeartHalfFull"
+    "fileName": "icon-gitlab",
+    "componentName": "IconGitlab"
   },
   {
-    "fileName": "icon-heart-outline",
-    "componentName": "IconHeartOutline"
+    "fileName": "icon-google-circle-fill",
+    "componentName": "IconGoogleCircleFill"
+  },
+  {
+    "fileName": "icon-google",
+    "componentName": "IconGoogle"
+  },
+  {
+    "fileName": "icon-h1",
+    "componentName": "IconH1"
+  },
+  {
+    "fileName": "icon-h2",
+    "componentName": "IconH2"
+  },
+  {
+    "fileName": "icon-h3",
+    "componentName": "IconH3"
+  },
+  {
+    "fileName": "icon-h4",
+    "componentName": "IconH4"
+  },
+  {
+    "fileName": "icon-h5",
+    "componentName": "IconH5"
+  },
+  {
+    "fileName": "icon-h6",
+    "componentName": "IconH6"
+  },
+  {
+    "fileName": "icon-h7",
+    "componentName": "IconH7"
+  },
+  {
+    "fileName": "icon-heart-fill",
+    "componentName": "IconHeartFill"
+  },
+  {
+    "fileName": "icon-heart-half-full",
+    "componentName": "IconHeartHalfFull"
   },
   {
     "fileName": "icon-heart",
     "componentName": "IconHeart"
   },
   {
-    "fileName": "icon-help-circle-outline",
-    "componentName": "IconHelpCircleOutline"
-  },
-  {
-    "fileName": "icon-help-circle",
-    "componentName": "IconHelpCircle"
+    "fileName": "icon-highlight",
+    "componentName": "IconHighlight"
   },
   {
     "fileName": "icon-history",
     "componentName": "IconHistory"
   },
   {
-    "fileName": "icon-home-outline",
-    "componentName": "IconHomeOutline"
+    "fileName": "icon-home-fill",
+    "componentName": "IconHomeFill"
   },
   {
     "fileName": "icon-home",
     "componentName": "IconHome"
   },
   {
-    "fileName": "icon-image-outline",
-    "componentName": "IconImageOutline"
+    "fileName": "icon-id-card",
+    "componentName": "IconIdCard"
+  },
+  {
+    "fileName": "icon-image-close",
+    "componentName": "IconImageClose"
+  },
+  {
+    "fileName": "icon-image-fill",
+    "componentName": "IconImageFill"
   },
   {
     "fileName": "icon-image",
     "componentName": "IconImage"
   },
   {
-    "fileName": "icon-information-outline",
-    "componentName": "IconInformationOutline"
+    "fileName": "icon-import",
+    "componentName": "IconImport"
   },
   {
-    "fileName": "icon-information",
-    "componentName": "IconInformation"
+    "fileName": "icon-info-circle-fill",
+    "componentName": "IconInfoCircleFill"
+  },
+  {
+    "fileName": "icon-info-circle",
+    "componentName": "IconInfoCircle"
+  },
+  {
+    "fileName": "icon-info",
+    "componentName": "IconInfo"
+  },
+  {
+    "fileName": "icon-interaction",
+    "componentName": "IconInteraction"
+  },
+  {
+    "fileName": "icon-italic",
+    "componentName": "IconItalic"
+  },
+  {
+    "fileName": "icon-language",
+    "componentName": "IconLanguage"
+  },
+  {
+    "fileName": "icon-lark-color",
+    "componentName": "IconLarkColor"
+  },
+  {
+    "fileName": "icon-launch",
+    "componentName": "IconLaunch"
+  },
+  {
+    "fileName": "icon-layers",
+    "componentName": "IconLayers"
+  },
+  {
+    "fileName": "icon-layout",
+    "componentName": "IconLayout"
+  },
+  {
+    "fileName": "icon-left-circle",
+    "componentName": "IconLeftCircle"
+  },
+  {
+    "fileName": "icon-left",
+    "componentName": "IconLeft"
+  },
+  {
+    "fileName": "icon-line-height",
+    "componentName": "IconLineHeight"
   },
   {
     "fileName": "icon-link",
     "componentName": "IconLink"
   },
   {
+    "fileName": "icon-list",
+    "componentName": "IconList"
+  },
+  {
+    "fileName": "icon-live-broadcast",
+    "componentName": "IconLiveBroadcast"
+  },
+  {
     "fileName": "icon-loading",
     "componentName": "IconLoading"
   },
   {
-    "fileName": "icon-lock-outline",
-    "componentName": "IconLockOutline"
+    "fileName": "icon-location-fill",
+    "componentName": "IconLocationFill"
+  },
+  {
+    "fileName": "icon-location-radius-fill",
+    "componentName": "IconLocationRadiusFill"
+  },
+  {
+    "fileName": "icon-location-radius",
+    "componentName": "IconLocationRadius"
+  },
+  {
+    "fileName": "icon-location",
+    "componentName": "IconLocation"
+  },
+  {
+    "fileName": "icon-lock-fill",
+    "componentName": "IconLockFill"
   },
   {
     "fileName": "icon-lock",
     "componentName": "IconLock"
   },
   {
-    "fileName": "icon-magnify-minus-outline",
-    "componentName": "IconMagnifyMinusOutline"
+    "fileName": "icon-loop",
+    "componentName": "IconLoop"
   },
   {
-    "fileName": "icon-magnify-minus",
-    "componentName": "IconMagnifyMinus"
-  },
-  {
-    "fileName": "icon-magnify-plus-outline",
-    "componentName": "IconMagnifyPlusOutline"
-  },
-  {
-    "fileName": "icon-magnify-plus",
-    "componentName": "IconMagnifyPlus"
-  },
-  {
-    "fileName": "icon-magnify",
-    "componentName": "IconMagnify"
-  },
-  {
-    "fileName": "icon-map-marker-outline",
-    "componentName": "IconMapMarkerOutline"
-  },
-  {
-    "fileName": "icon-map-marker-radius-outline",
-    "componentName": "IconMapMarkerRadiusOutline"
-  },
-  {
-    "fileName": "icon-map-marker-radius",
-    "componentName": "IconMapMarkerRadius"
-  },
-  {
-    "fileName": "icon-map-marker",
-    "componentName": "IconMapMarker"
+    "fileName": "icon-man",
+    "componentName": "IconMan"
   },
   {
     "fileName": "icon-menu-down",
     "componentName": "IconMenuDown"
+  },
+  {
+    "fileName": "icon-menu-fold",
+    "componentName": "IconMenuFold"
   },
   {
     "fileName": "icon-menu-left",
@@ -332,6 +800,10 @@
     "componentName": "IconMenuRight"
   },
   {
+    "fileName": "icon-menu-unfold",
+    "componentName": "IconMenuUnfold"
+  },
+  {
     "fileName": "icon-menu-up",
     "componentName": "IconMenuUp"
   },
@@ -340,24 +812,36 @@
     "componentName": "IconMenu"
   },
   {
-    "fileName": "icon-message-processing-outline",
-    "componentName": "IconMessageProcessingOutline"
+    "fileName": "icon-message-banned",
+    "componentName": "IconMessageBanned"
   },
   {
-    "fileName": "icon-message-text-outline",
-    "componentName": "IconMessageTextOutline"
+    "fileName": "icon-message-processing",
+    "componentName": "IconMessageProcessing"
   },
   {
-    "fileName": "icon-minus-box-outline",
-    "componentName": "IconMinusBoxOutline"
+    "fileName": "icon-message-text",
+    "componentName": "IconMessageText"
+  },
+  {
+    "fileName": "icon-message",
+    "componentName": "IconMessage"
+  },
+  {
+    "fileName": "icon-mind-mapping",
+    "componentName": "IconMindMapping"
+  },
+  {
+    "fileName": "icon-minus-box-fill",
+    "componentName": "IconMinusBoxFill"
   },
   {
     "fileName": "icon-minus-box",
     "componentName": "IconMinusBox"
   },
   {
-    "fileName": "icon-minus-circle-outline",
-    "componentName": "IconMinusCircleOutline"
+    "fileName": "icon-minus-circle-fill",
+    "componentName": "IconMinusCircleFill"
   },
   {
     "fileName": "icon-minus-circle",
@@ -368,56 +852,144 @@
     "componentName": "IconMinus"
   },
   {
+    "fileName": "icon-mobile",
+    "componentName": "IconMobile"
+  },
+  {
+    "fileName": "icon-moon-fill",
+    "componentName": "IconMoonFill"
+  },
+  {
+    "fileName": "icon-moon",
+    "componentName": "IconMoon"
+  },
+  {
+    "fileName": "icon-more-vertical",
+    "componentName": "IconMoreVertical"
+  },
+  {
     "fileName": "icon-more",
     "componentName": "IconMore"
+  },
+  {
+    "fileName": "icon-mosaic",
+    "componentName": "IconMosaic"
+  },
+  {
+    "fileName": "icon-music",
+    "componentName": "IconMusic"
+  },
+  {
+    "fileName": "icon-mute-fill",
+    "componentName": "IconMuteFill"
+  },
+  {
+    "fileName": "icon-mute",
+    "componentName": "IconMute"
+  },
+  {
+    "fileName": "icon-nav",
+    "componentName": "IconNav"
   },
   {
     "fileName": "icon-notebook",
     "componentName": "IconNotebook"
   },
   {
-    "fileName": "icon-palette-outline",
-    "componentName": "IconPaletteOutline"
+    "fileName": "icon-notification-close",
+    "componentName": "IconNotificationClose"
+  },
+  {
+    "fileName": "icon-notification",
+    "componentName": "IconNotification"
+  },
+  {
+    "fileName": "icon-oblique-line",
+    "componentName": "IconObliqueLine"
+  },
+  {
+    "fileName": "icon-ordered-list",
+    "componentName": "IconOrderedList"
+  },
+  {
+    "fileName": "icon-original-size",
+    "componentName": "IconOriginalSize"
+  },
+  {
+    "fileName": "icon-palette-fill",
+    "componentName": "IconPaletteFill"
   },
   {
     "fileName": "icon-palette",
     "componentName": "IconPalette"
   },
   {
-    "fileName": "icon-phone-outline",
-    "componentName": "IconPhoneOutline"
+    "fileName": "icon-paste",
+    "componentName": "IconPaste"
+  },
+  {
+    "fileName": "icon-pause-circle-fill",
+    "componentName": "IconPauseCircleFill"
+  },
+  {
+    "fileName": "icon-pause-circle",
+    "componentName": "IconPauseCircle"
+  },
+  {
+    "fileName": "icon-pause",
+    "componentName": "IconPause"
+  },
+  {
+    "fileName": "icon-pen-fill",
+    "componentName": "IconPenFill"
+  },
+  {
+    "fileName": "icon-pen",
+    "componentName": "IconPen"
+  },
+  {
+    "fileName": "icon-phone-fill",
+    "componentName": "IconPhoneFill"
   },
   {
     "fileName": "icon-phone",
     "componentName": "IconPhone"
   },
   {
-    "fileName": "icon-pin-off-outline",
-    "componentName": "IconPinOffOutline"
+    "fileName": "icon-pin-fill",
+    "componentName": "IconPinFill"
+  },
+  {
+    "fileName": "icon-pin-off-fill",
+    "componentName": "IconPinOffFill"
   },
   {
     "fileName": "icon-pin-off",
     "componentName": "IconPinOff"
   },
   {
-    "fileName": "icon-pin-outline",
-    "componentName": "IconPinOutline"
-  },
-  {
     "fileName": "icon-pin",
     "componentName": "IconPin"
   },
   {
-    "fileName": "icon-play-circle-outline",
-    "componentName": "IconPlayCircleOutline"
+    "fileName": "icon-play-arrow-fill",
+    "componentName": "IconPlayArrowFill"
+  },
+  {
+    "fileName": "icon-play-arrow",
+    "componentName": "IconPlayArrow"
+  },
+  {
+    "fileName": "icon-play-circle-fill",
+    "componentName": "IconPlayCircleFill"
   },
   {
     "fileName": "icon-play-circle",
     "componentName": "IconPlayCircle"
   },
   {
-    "fileName": "icon-plus-circle-outline",
-    "componentName": "IconPlusCircleOutline"
+    "fileName": "icon-plus-circle-fill",
+    "componentName": "IconPlusCircleFill"
   },
   {
     "fileName": "icon-plus-circle",
@@ -432,8 +1004,56 @@
     "componentName": "IconPower"
   },
   {
-    "fileName": "icon-qrcode-scan",
-    "componentName": "IconQrcodeScan"
+    "fileName": "icon-poweroff",
+    "componentName": "IconPoweroff"
+  },
+  {
+    "fileName": "icon-printer",
+    "componentName": "IconPrinter"
+  },
+  {
+    "fileName": "icon-public",
+    "componentName": "IconPublic"
+  },
+  {
+    "fileName": "icon-pushpin",
+    "componentName": "IconPushpin"
+  },
+  {
+    "fileName": "icon-qq-circle-fill",
+    "componentName": "IconQqCircleFill"
+  },
+  {
+    "fileName": "icon-qq-zone",
+    "componentName": "IconQqZone"
+  },
+  {
+    "fileName": "icon-qq",
+    "componentName": "IconQq"
+  },
+  {
+    "fileName": "icon-qr-code-scan",
+    "componentName": "IconQrCodeScan"
+  },
+  {
+    "fileName": "icon-qr-code",
+    "componentName": "IconQrCode"
+  },
+  {
+    "fileName": "icon-question-circle-fill",
+    "componentName": "IconQuestionCircleFill"
+  },
+  {
+    "fileName": "icon-question-circle",
+    "componentName": "IconQuestionCircle"
+  },
+  {
+    "fileName": "icon-question",
+    "componentName": "IconQuestion"
+  },
+  {
+    "fileName": "icon-quote",
+    "componentName": "IconQuote"
   },
   {
     "fileName": "icon-radio-blank",
@@ -444,92 +1064,368 @@
     "componentName": "IconRadioMarked"
   },
   {
+    "fileName": "icon-record-stop",
+    "componentName": "IconRecordStop"
+  },
+  {
+    "fileName": "icon-record",
+    "componentName": "IconRecord"
+  },
+  {
+    "fileName": "icon-redo",
+    "componentName": "IconRedo"
+  },
+  {
     "fileName": "icon-refresh",
     "componentName": "IconRefresh"
   },
   {
-    "fileName": "icon-share-outline",
-    "componentName": "IconShareOutline"
+    "fileName": "icon-relation",
+    "componentName": "IconRelation"
+  },
+  {
+    "fileName": "icon-reply",
+    "componentName": "IconReply"
+  },
+  {
+    "fileName": "icon-right-circle",
+    "componentName": "IconRightCircle"
+  },
+  {
+    "fileName": "icon-right",
+    "componentName": "IconRight"
+  },
+  {
+    "fileName": "icon-robot-add",
+    "componentName": "IconRobotAdd"
+  },
+  {
+    "fileName": "icon-robot",
+    "componentName": "IconRobot"
+  },
+  {
+    "fileName": "icon-rotate-left",
+    "componentName": "IconRotateLeft"
+  },
+  {
+    "fileName": "icon-rotate-right",
+    "componentName": "IconRotateRight"
+  },
+  {
+    "fileName": "icon-safe",
+    "componentName": "IconSafe"
+  },
+  {
+    "fileName": "icon-save",
+    "componentName": "IconSave"
+  },
+  {
+    "fileName": "icon-scan",
+    "componentName": "IconScan"
+  },
+  {
+    "fileName": "icon-schedule",
+    "componentName": "IconSchedule"
+  },
+  {
+    "fileName": "icon-scissor",
+    "componentName": "IconScissor"
+  },
+  {
+    "fileName": "icon-search",
+    "componentName": "IconSearch"
+  },
+  {
+    "fileName": "icon-select-all",
+    "componentName": "IconSelectAll"
+  },
+  {
+    "fileName": "icon-send",
+    "componentName": "IconSend"
+  },
+  {
+    "fileName": "icon-settings-fill",
+    "componentName": "IconSettingsFill"
+  },
+  {
+    "fileName": "icon-settings",
+    "componentName": "IconSettings"
+  },
+  {
+    "fileName": "icon-shake",
+    "componentName": "IconShake"
+  },
+  {
+    "fileName": "icon-share-alt",
+    "componentName": "IconShareAlt"
+  },
+  {
+    "fileName": "icon-share-external",
+    "componentName": "IconShareExternal"
+  },
+  {
+    "fileName": "icon-share-fill",
+    "componentName": "IconShareFill"
+  },
+  {
+    "fileName": "icon-share-internal",
+    "componentName": "IconShareInternal"
   },
   {
     "fileName": "icon-share",
     "componentName": "IconShare"
   },
   {
-    "fileName": "icon-shopping-outline",
-    "componentName": "IconShoppingOutline"
+    "fileName": "icon-shopping-fill",
+    "componentName": "IconShoppingFill"
   },
   {
     "fileName": "icon-shopping",
     "componentName": "IconShopping"
   },
   {
-    "fileName": "icon-star-half-full",
-    "componentName": "IconStarHalfFull"
+    "fileName": "icon-shrink",
+    "componentName": "IconShrink"
   },
   {
-    "fileName": "icon-star-outline",
-    "componentName": "IconStarOutline"
+    "fileName": "icon-skin",
+    "componentName": "IconSkin"
+  },
+  {
+    "fileName": "icon-skip-next-fill",
+    "componentName": "IconSkipNextFill"
+  },
+  {
+    "fileName": "icon-skip-next",
+    "componentName": "IconSkipNext"
+  },
+  {
+    "fileName": "icon-skip-previous-fill",
+    "componentName": "IconSkipPreviousFill"
+  },
+  {
+    "fileName": "icon-skip-previous",
+    "componentName": "IconSkipPrevious"
+  },
+  {
+    "fileName": "icon-sort-ascending",
+    "componentName": "IconSortAscending"
+  },
+  {
+    "fileName": "icon-sort-descending",
+    "componentName": "IconSortDescending"
+  },
+  {
+    "fileName": "icon-sort",
+    "componentName": "IconSort"
+  },
+  {
+    "fileName": "icon-sound-fill",
+    "componentName": "IconSoundFill"
+  },
+  {
+    "fileName": "icon-sound",
+    "componentName": "IconSound"
+  },
+  {
+    "fileName": "icon-stamp",
+    "componentName": "IconStamp"
+  },
+  {
+    "fileName": "icon-star-fill",
+    "componentName": "IconStarFill"
+  },
+  {
+    "fileName": "icon-star-half-full",
+    "componentName": "IconStarHalfFull"
   },
   {
     "fileName": "icon-star",
     "componentName": "IconStar"
   },
   {
-    "fileName": "icon-tag-outline",
-    "componentName": "IconTagOutline"
+    "fileName": "icon-stop",
+    "componentName": "IconStop"
+  },
+  {
+    "fileName": "icon-storage",
+    "componentName": "IconStorage"
+  },
+  {
+    "fileName": "icon-strikethrough",
+    "componentName": "IconStrikethrough"
+  },
+  {
+    "fileName": "icon-subscribe-add",
+    "componentName": "IconSubscribeAdd"
+  },
+  {
+    "fileName": "icon-subscribe",
+    "componentName": "IconSubscribe"
+  },
+  {
+    "fileName": "icon-subscribed",
+    "componentName": "IconSubscribed"
+  },
+  {
+    "fileName": "icon-success-submitted",
+    "componentName": "IconSuccessSubmitted"
+  },
+  {
+    "fileName": "icon-sun-fill",
+    "componentName": "IconSunFill"
+  },
+  {
+    "fileName": "icon-sun",
+    "componentName": "IconSun"
+  },
+  {
+    "fileName": "icon-swap",
+    "componentName": "IconSwap"
+  },
+  {
+    "fileName": "icon-sync",
+    "componentName": "IconSync"
+  },
+  {
+    "fileName": "icon-tag-fill",
+    "componentName": "IconTagFill"
   },
   {
     "fileName": "icon-tag",
     "componentName": "IconTag"
   },
   {
-    "fileName": "icon-thumb-down-outline",
-    "componentName": "IconThumbDownOutline"
+    "fileName": "icon-tags",
+    "componentName": "IconTags"
+  },
+  {
+    "fileName": "icon-thumb-down-fill",
+    "componentName": "IconThumbDownFill"
   },
   {
     "fileName": "icon-thumb-down",
     "componentName": "IconThumbDown"
   },
   {
-    "fileName": "icon-thumb-up-outline",
-    "componentName": "IconThumbUpOutline"
+    "fileName": "icon-thumb-up-fill",
+    "componentName": "IconThumbUpFill"
   },
   {
     "fileName": "icon-thumb-up",
     "componentName": "IconThumbUp"
   },
   {
+    "fileName": "icon-thunderbolt",
+    "componentName": "IconThunderbolt"
+  },
+  {
+    "fileName": "icon-tiktok-color",
+    "componentName": "IconTiktokColor"
+  },
+  {
+    "fileName": "icon-to-bottom",
+    "componentName": "IconToBottom"
+  },
+  {
+    "fileName": "icon-to-left",
+    "componentName": "IconToLeft"
+  },
+  {
+    "fileName": "icon-to-right",
+    "componentName": "IconToRight"
+  },
+  {
+    "fileName": "icon-to-top",
+    "componentName": "IconToTop"
+  },
+  {
+    "fileName": "icon-tool",
+    "componentName": "IconTool"
+  },
+  {
     "fileName": "icon-translate",
     "componentName": "IconTranslate"
   },
   {
-    "fileName": "icon-trash-can-outline",
-    "componentName": "IconTrashCanOutline"
+    "fileName": "icon-trash-can-fill",
+    "componentName": "IconTrashCanFill"
   },
   {
     "fileName": "icon-trash-can",
     "componentName": "IconTrashCan"
   },
   {
+    "fileName": "icon-trophy",
+    "componentName": "IconTrophy"
+  },
+  {
+    "fileName": "icon-twitter-circle-fill",
+    "componentName": "IconTwitterCircleFill"
+  },
+  {
     "fileName": "icon-twitter",
     "componentName": "IconTwitter"
   },
   {
-    "fileName": "icon-upload-outline",
-    "componentName": "IconUploadOutline"
+    "fileName": "icon-underline",
+    "componentName": "IconUnderline"
+  },
+  {
+    "fileName": "icon-undo",
+    "componentName": "IconUndo"
+  },
+  {
+    "fileName": "icon-unlock",
+    "componentName": "IconUnlock"
+  },
+  {
+    "fileName": "icon-unordered-list",
+    "componentName": "IconUnorderedList"
+  },
+  {
+    "fileName": "icon-up-circle",
+    "componentName": "IconUpCircle"
+  },
+  {
+    "fileName": "icon-up",
+    "componentName": "IconUp"
+  },
+  {
+    "fileName": "icon-upload-fill",
+    "componentName": "IconUploadFill"
   },
   {
     "fileName": "icon-upload",
     "componentName": "IconUpload"
   },
   {
-    "fileName": "icon-view-outline",
-    "componentName": "IconViewOutline"
+    "fileName": "icon-user-add",
+    "componentName": "IconUserAdd"
   },
   {
-    "fileName": "icon-view",
-    "componentName": "IconView"
+    "fileName": "icon-user-circle-fill",
+    "componentName": "IconUserCircleFill"
+  },
+  {
+    "fileName": "icon-user-circle",
+    "componentName": "IconUserCircle"
+  },
+  {
+    "fileName": "icon-user-group",
+    "componentName": "IconUserGroup"
+  },
+  {
+    "fileName": "icon-user",
+    "componentName": "IconUser"
+  },
+  {
+    "fileName": "icon-video-camera",
+    "componentName": "IconVideoCamera"
+  },
+  {
+    "fileName": "icon-voice",
+    "componentName": "IconVoice"
   },
   {
     "fileName": "icon-warning",
@@ -560,6 +1456,22 @@
     "componentName": "IconWeatherSnowy"
   },
   {
+    "fileName": "icon-wechat-pay",
+    "componentName": "IconWechatPay"
+  },
+  {
+    "fileName": "icon-wechat",
+    "componentName": "IconWechat"
+  },
+  {
+    "fileName": "icon-weibo-circle-fill",
+    "componentName": "IconWeiboCircleFill"
+  },
+  {
+    "fileName": "icon-weibo",
+    "componentName": "IconWeibo"
+  },
+  {
     "fileName": "icon-white-balance-sunny",
     "componentName": "IconWhiteBalanceSunny"
   },
@@ -568,15 +1480,31 @@
     "componentName": "IconWifi"
   },
   {
-    "fileName": "icon-window-close",
-    "componentName": "IconWindowClose"
+    "fileName": "icon-woman",
+    "componentName": "IconWoman"
   },
   {
-    "fileName": "icon-wrench",
-    "componentName": "IconWrench"
+    "fileName": "icon-xigua-color",
+    "componentName": "IconXiguaColor"
   },
   {
     "fileName": "icon-xml",
     "componentName": "IconXml"
+  },
+  {
+    "fileName": "icon-zoom-in-fill",
+    "componentName": "IconZoomInFill"
+  },
+  {
+    "fileName": "icon-zoom-in",
+    "componentName": "IconZoomIn"
+  },
+  {
+    "fileName": "icon-zoom-out-fill",
+    "componentName": "IconZoomOutFill"
+  },
+  {
+    "fileName": "icon-zoom-out",
+    "componentName": "IconZoomOut"
   }
 ]

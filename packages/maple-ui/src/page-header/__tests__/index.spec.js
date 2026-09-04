@@ -21,19 +21,24 @@ describe('page header', () => {
     expect(wrapper.find('.mp-page-header__extra').text()).toBe('Extra')
   })
 
-  test('shows back only when a listener is provided', async () => {
+  test('shows back when showBack is true and emits back when clicked', async () => {
     const onBack = vi.fn()
     const wrapper = mount(MpPageHeader, { props: { title: 'Title' } })
 
     expect(wrapper.find('.mp-page-header__back').exists()).toBe(false)
-    await wrapper.setProps({ onBack })
+    await wrapper.setProps({ showBack: true, onBack })
     await wrapper.find('.mp-page-header__back').trigger('click')
     expect(onBack).toHaveBeenCalledOnce()
   })
 
+  test('shows back without a listener', () => {
+    const wrapper = mount(MpPageHeader, { props: { showBack: true } })
+    expect(wrapper.find('.mp-page-header__back').exists()).toBe(true)
+  })
+
   test('supports a custom back slot', () => {
     const wrapper = mount(MpPageHeader, {
-      props: { onBack: () => undefined },
+      props: { showBack: true },
       slots: { back: () => 'Custom back' },
     })
 

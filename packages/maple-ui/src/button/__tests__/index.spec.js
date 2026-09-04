@@ -78,7 +78,7 @@ describe('test button component props', () => {
   })
 
   test('button loading size', () => {
-    ;['large', 'normal', 'small', 'mini'].forEach((size) => {
+    ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
       ;['circle', 'wave', 'cube', 'rect', 'disappear'].forEach(async (type) => {
         const onClick = vi.fn()
         const onTouchstart = vi.fn()

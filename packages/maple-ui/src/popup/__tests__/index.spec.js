@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
-import Popup from '..'
+import Popup, { popupProps } from '..'
 import { triggerKeyboard } from '../../utils/test'
 import VarPopup from '../Popup'
 
@@ -10,11 +10,18 @@ test('popup plugin', () => {
   expect(app.component(Popup.name)).toBeTruthy()
 })
 
+test('popup canonical overlay props', () => {
+  expect(popupProps).toHaveProperty('overlay')
+  expect(popupProps).toHaveProperty('overlayClosable')
+  expect(popupProps).not.toHaveProperty('mask')
+  expect(popupProps).not.toHaveProperty('maskClosable')
+})
+
 const Wrapper = {
   components: {
     [VarPopup.name]: VarPopup,
   },
-  props: ['maskClosable', 'onOpen', 'onClose', 'onClickMask', 'defaultStyle'],
+  props: ['overlayClosable', 'onOpen', 'onClose', 'onClickOverlay', 'defaultStyle'],
   data: () => ({
     open: false,
   }),
@@ -75,27 +82,27 @@ test('popup zIndex', async () => {
   wrapper.unmount()
 })
 
-test('popup close on clickMask', async () => {
+test('popup close on clickOverlay', async () => {
   const onClose = vi.fn()
-  const onClickMask = vi.fn()
+  const onClickOverlay = vi.fn()
 
   const wrapper = mount(Wrapper, {
     props: {
       onClose,
-      onClickMask,
+      onClickOverlay,
     },
   })
 
   await wrapper.setData({ open: true })
 
   await wrapper.find('.mp-popup__overlay').trigger('click')
-  expect(onClickMask).toHaveBeenCalledTimes(1)
+  expect(onClickOverlay).toHaveBeenCalledTimes(1)
   expect(onClose).toHaveBeenCalledTimes(1)
 
   await wrapper.setData({ open: true })
-  await wrapper.setProps({ maskClosable: false })
+  await wrapper.setProps({ overlayClosable: false })
   await wrapper.find('.mp-popup__overlay').trigger('click')
-  expect(onClickMask).toHaveBeenCalledTimes(2)
+  expect(onClickOverlay).toHaveBeenCalledTimes(2)
   expect(onClose).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
@@ -157,11 +164,11 @@ test('popup safeAreaTop prop', async () => {
   wrapper.unmount()
 })
 
-test('popup maskClass prop', () => {
+test('popup overlayClass prop', () => {
   const wrapper = mount(Wrapper, {
     props: {
       open: true,
-      maskClass: 'test-class',
+      overlayClass: 'test-class',
     },
   })
 
@@ -170,11 +177,11 @@ test('popup maskClass prop', () => {
   wrapper.unmount()
 })
 
-test('popup maskStyle prop', () => {
+test('popup overlayStyle prop', () => {
   const wrapper = mount(Wrapper, {
     props: {
       open: true,
-      maskStyle: {
+      overlayStyle: {
         background: 'red',
       },
     },

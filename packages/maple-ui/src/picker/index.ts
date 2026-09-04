@@ -20,11 +20,11 @@ interface PickerOptions {
   confirmButtonTextColor?: string
   cancelButtonTextColor?: string
   safeArea?: boolean
-  maskClosable?: boolean
+  overlayClosable?: boolean
   escToClose?: boolean
   popupContainer?: TeleportProps['to']
   dynamic?: boolean
-  onClickMask?: (event: MouseEvent) => void
+  onClickOverlay?: (event: MouseEvent) => void
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void

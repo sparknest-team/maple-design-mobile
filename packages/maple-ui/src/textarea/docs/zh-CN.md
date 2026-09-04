@@ -33,7 +33,7 @@
 | `v-model`        | 绑定值                     | _string_                         | `-`        |
 | `placeholder`    | 占位符                     | _string_                         | `-`        |
 | `rows`           | 显示行数                   | _string \| number_               | `8`        |
-| `maxLength`      | 最大输入长度               | _string \| number_               | `-`        |
+| `max-length`      | 最大输入长度               | _string \| number_               | `-`        |
 | `size`           | 尺寸                       | `xs \| sm \| md \| lg \| xl`     | `md`       |
 | `variant`        | 外观                       | `filled \| outlined \| standard` | `standard` |
 | `readonly`       | 是否只读                   | _boolean_                        | `false`    |

@@ -85,13 +85,13 @@ function toggleActions() {
     :elevation="elevation"
   >
     <mp-button status="info" icon-container :disabled="disabled">
-      <m-icon-account-circle />
+      <m-icon-user-circle-fill />
     </mp-button>
     <mp-button status="success" icon-container :disabled="disabled">
-      <m-icon-checkbox-marked-circle />
+      <m-icon-checkbox-marked-circle-fill />
     </mp-button>
     <mp-button status="warning" icon-container :disabled="disabled">
-      <m-icon-bell />
+      <m-icon-bell-fill />
     </mp-button>
     <mp-button status="danger" icon-container :disabled="disabled">
       <m-icon-delete />

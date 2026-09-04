@@ -86,7 +86,7 @@ onThemeChange((theme) => {
     inactive-color="var(--mp-color-white)"
   >
     <mp-tab>
-      <m-icon-information class="icon" />
+      <m-icon-info-circle-fill class="icon" />
       <div>{{ t('option') }}1</div>
     </mp-tab>
     <mp-tab>

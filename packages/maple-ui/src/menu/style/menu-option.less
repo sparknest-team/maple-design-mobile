@@ -1,13 +1,15 @@
 :root {
-  --mp-menu-option-normal-height: 38px;
-  --mp-menu-option-small-height: 30px;
-  --mp-menu-option-mini-height: 24px;
-  --mp-menu-option-large-height: 46px;
+  --mp-menu-option-md-height: 38px;
+  --mp-menu-option-sm-height: 30px;
+  --mp-menu-option-xs-height: 24px;
+  --mp-menu-option-lg-height: 46px;
+  --mp-menu-option-xl-height: 54px;
   --mp-menu-option-padding: 0 12px;
-  --mp-menu-option-normal-font-size: var(--mp-font-size-md);
-  --mp-menu-option-small-font-size: var(--mp-font-size-sm);
-  --mp-menu-option-mini-font-size: var(--mp-font-size-xs);
-  --mp-menu-option-large-font-size: var(--mp-font-size-lg);
+  --mp-menu-option-md-font-size: var(--mp-font-size-md);
+  --mp-menu-option-sm-font-size: var(--mp-font-size-sm);
+  --mp-menu-option-xs-font-size: var(--mp-font-size-xs);
+  --mp-menu-option-lg-font-size: var(--mp-font-size-lg);
+  --mp-menu-option-xl-font-size: var(--mp-font-size-lg);
   --mp-menu-option-selected-background: var(--mp-color-primary);
   --mp-menu-option-selected-text-color: var(--mp-color-primary);
   --mp-menu-option-bg-hover: var(--mp-color-fill-3);
@@ -66,24 +68,29 @@
     padding-right: 0;
   }
 
-  &--normal {
-    height: var(--mp-menu-option-normal-height);
-    font-size: var(--mp-menu-option-normal-font-size);
+  &--md {
+    height: var(--mp-menu-option-md-height);
+    font-size: var(--mp-menu-option-md-font-size);
   }
 
-  &--large {
-    height: var(--mp-menu-option-large-height);
-    font-size: var(--mp-menu-option-large-font-size);
+  &--lg {
+    height: var(--mp-menu-option-lg-height);
+    font-size: var(--mp-menu-option-lg-font-size);
   }
 
-  &--small {
-    height: var(--mp-menu-option-small-height);
-    font-size: var(--mp-menu-option-small-font-size);
+  &--xl {
+    height: var(--mp-menu-option-xl-height);
+    font-size: var(--mp-menu-option-xl-font-size);
   }
 
-  &--mini {
-    height: var(--mp-menu-option-mini-height);
-    font-size: var(--mp-menu-option-mini-font-size);
+  &--sm {
+    height: var(--mp-menu-option-sm-height);
+    font-size: var(--mp-menu-option-sm-font-size);
+  }
+
+  &--xs {
+    height: var(--mp-menu-option-xs-height);
+    font-size: var(--mp-menu-option-xs-font-size);
   }
 
   &--selected-background {

@@ -40,10 +40,10 @@ export interface DialogConfig {
   cancelButtonLoading?: boolean
   confirmButtonDisabled?: boolean
   cancelButtonDisabled?: boolean
-  mask?: boolean
-  maskClass?: string
-  maskStyle?: CSSProperties
-  maskClosable?: boolean
+  overlay?: boolean
+  overlayClass?: string
+  overlayStyle?: CSSProperties
+  overlayClosable?: boolean
   escToClose?: boolean
   lockScroll?: boolean
   popupContainer?: string | HTMLElement | false
@@ -55,7 +55,7 @@ export interface DialogConfig {
   unmountOnClose?: boolean
   draggable?: boolean
   fullscreen?: boolean
-  maskAnimationName?: string
+  overlayAnimationName?: string
   dialogAnimationName?: string
   ariaLabel?: string
   closeButtonAriaLabel?: string
@@ -67,7 +67,7 @@ export interface DialogConfig {
   onClosed?: () => void
   onConfirm?: (event?: Event) => void
   onCancel?: (event?: Event) => void
-  onClickMask?: (event?: Event) => void
+  onClickOverlay?: (event?: Event) => void
   onKeyEscape?: (event?: KeyboardEvent) => void
 }
 
@@ -83,7 +83,7 @@ export type DialogUpdateConfig = Omit<
   | 'onClosed'
   | 'onConfirm'
   | 'onCancel'
-  | 'onClickMask'
+  | 'onClickOverlay'
   | 'onKeyEscape'
 > & { title?: string; message?: string }
 

@@ -1,6 +1,8 @@
 import type { ExtractPropTypes, VNode } from 'vue'
 
 export const pageHeaderProps = {
+  /** 是否显示返回按钮 */
+  showBack: Boolean,
   /** 主标题 */
   title: String,
   /** 次标题 */

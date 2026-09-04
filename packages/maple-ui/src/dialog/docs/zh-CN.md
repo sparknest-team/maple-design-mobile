@@ -173,10 +173,10 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 | `confirm-button-props` / `cancel-button-props`       | 按钮配置，颜色等也从这里传      | `ButtonProps`                                 | `-`               |
 | `confirm-button-loading` / `cancel-button-loading`   | 按钮 loading                    | `boolean`                                     | `false`           |
 | `confirm-button-disabled` / `cancel-button-disabled` | 禁用按钮                        | `boolean`                                     | `false`           |
-| `mask`                                               | 是否显示遮罩                    | `boolean`                                     | `true`            |
-| `mask-class` / `dialog-class` / `body-class`         | 自定义 class                    | `string \| any[]`                             | `-`               |
-| `mask-style` / `dialog-style` / `body-style`         | 自定义 style                    | `StyleValue`                                  | `-`               |
-| `mask-closable`                                      | 点击遮罩关闭                    | `boolean`                                     | `true`            |
+| `overlay`                                            | 是否显示背景层                  | `boolean`                                     | `true`            |
+| `overlay-class` / `dialog-class` / `body-class`      | 自定义 class                    | `string \| any[]`                             | `-`               |
+| `overlay-style` / `dialog-style` / `body-style`      | 自定义 style                    | `StyleValue`                                  | `-`               |
+| `overlay-closable`                                   | 点击背景层关闭                  | `boolean`                                     | `true`            |
 | `esc-to-close`                                       | ESC 关闭                        | `boolean`                                     | `true`            |
 | `lock-scroll`                                        | 打开时锁定背景滚动              | `boolean`                                     | `true`            |
 | `popup-container`                                    | 挂载位置，`false` 禁用 teleport | `string \| HTMLElement \| false`              | `'body'`          |
@@ -184,7 +184,7 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 | `unmount-on-close`                                   | 关闭动画后卸载                  | `boolean`                                     | `false`           |
 | `draggable`                                          | 允许拖动，`fullscreen` 时无效   | `boolean`                                     | `false`           |
 | `fullscreen`                                         | 全屏显示                        | `boolean`                                     | `false`           |
-| `mask-animation-name`                                | 遮罩动画名                      | `string`                                      | `'mp-fade'`       |
+| `overlay-animation-name`                             | 背景层动画名                    | `string`                                      | `'mp-fade'`       |
 | `dialog-animation-name`                              | 对话框动画名                    | `string`                                      | `'mp-pop-center'` |
 | `aria-label`                                         | 无可见标题时的无障碍名称        | `string`                                      | `-`               |
 | `close-button-aria-label`                            | 关闭按钮无障碍名称              | `string`                                      | `'Close dialog'`  |
@@ -200,10 +200,10 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 | `close` / `closed` | 开始关闭 / 关闭动画结束 | `-`             |
 | `confirm`          | 确认关闭成功            | `Event`         |
 | `cancel`           | 取消关闭成功            | `Event`         |
-| `click-mask`       | 点击遮罩                | `MouseEvent`    |
+| `click-overlay`    | 点击背景层              | `MouseEvent`    |
 | `key-escape`       | 按下 ESC                | `KeyboardEvent` |
 
-关闭按钮、遮罩、ESC 和 `close()` 的 action 都是 `close`，不会额外触发 `cancel`。
+关闭按钮、背景层、ESC 和 `close()` 的 action 都是 `close`，不会额外触发 `cancel`。
 
 ### Slots 与实例方法
 
@@ -220,17 +220,17 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 所有打开方法都接受 `DialogConfig | string`，返回 `Promise<DialogAction | void> & DialogReturn`。
 所有函数式 Dialog 默认使用简洁布局（`simple: true`）并隐藏右上角关闭按钮（`closable: false`），仍可通过传入参数或全局默认配置显式覆盖。
 
-| 方法                                        | 默认行为                          |
-| ------------------------------------------- | --------------------------------- |
-| `Dialog.open(config)`                       | 普通对话框                        |
-| `Dialog.confirm(config)`                    | `type: 'warning'`、简洁布局       |
-| `Dialog.alert(config)`                      | 无取消按钮，不允许遮罩或 ESC 关闭 |
-| `Dialog.info/success/warning/error(config)` | 对应类型、无取消按钮、简洁布局    |
-| `Dialog.close()`                            | 关闭最近打开的函数式对话框        |
-| `Dialog.setDefaultOptions(config)`          | 设置函数式默认配置                |
-| `Dialog.resetDefaultOptions()`              | 重置函数式默认配置                |
+| 方法                                        | 默认行为                            |
+| ------------------------------------------- | ----------------------------------- |
+| `Dialog.open(config)`                       | 普通对话框                          |
+| `Dialog.confirm(config)`                    | `type: 'warning'`、简洁布局         |
+| `Dialog.alert(config)`                      | 无取消按钮，不允许背景层或 ESC 关闭 |
+| `Dialog.info/success/warning/error(config)` | 对应类型、无取消按钮、简洁布局      |
+| `Dialog.close()`                            | 关闭最近打开的函数式对话框          |
+| `Dialog.setDefaultOptions(config)`          | 设置函数式默认配置                  |
+| `Dialog.resetDefaultOptions()`              | 重置函数式默认配置                  |
 
-`DialogConfig` 与组件 Props 一致（camelCase），并额外支持可渲染的 `content`、`title`、`message`、`footer`，以及 `onOpen`、`onOpened`、`onClose`、`onClosed`、`onConfirm`、`onCancel`、`onClickMask`、`onKeyEscape` 回调。
+`DialogConfig` 与组件 Props 一致（camelCase），并额外支持可渲染的 `content`、`title`、`message`、`footer`，以及 `onOpen`、`onOpened`、`onClose`、`onClosed`、`onConfirm`、`onCancel`、`onClickOverlay`、`onKeyEscape` 回调。
 
 `DialogReturn.close()` 关闭当前对话框；`DialogReturn.update(config)` 更新可变配置。安装后也可通过 `this.$dialog` 调用相同 API。
 

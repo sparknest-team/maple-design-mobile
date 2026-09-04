@@ -19,7 +19,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -52,7 +52,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -88,7 +88,7 @@ The option is passed `disabled` to leave the action in the disabled state.
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -124,7 +124,7 @@ Passing in `CloseOnClickAction` disallows the action of `ActionSheet` closing au
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
         },
         {
           name: 'Item 02',
@@ -159,7 +159,7 @@ Options provide parameters to configure the style. See the `Action` data structu
       actions: [
         {
           name: 'Item 01',
-          icon: 'account-circle',
+          icon: 'user-circle-fill',
           color: 'var(--color-success)',
         },
         {
@@ -197,7 +197,7 @@ Options provide parameters to configure the style. See the `Action` data structu
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -231,7 +231,7 @@ Options provide parameters to configure the style. See the `Action` data structu
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -265,7 +265,7 @@ Options provide parameters to configure the style. See the `Action` data structu
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -300,7 +300,7 @@ Options provide parameters to configure the style. See the `Action` data structu
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
     },
     {
       name: 'Item 02',
@@ -334,7 +334,7 @@ Options provide parameters to configure the style. See the `Action` data structu
   const actions = ref([
     {
       name: 'Item 01',
-      icon: 'account-circle',
+      icon: 'user-circle-fill',
       color: 'var(--color-success)',
     },
     {
@@ -369,27 +369,27 @@ Options provide parameters to configure the style. See the `Action` data structu
 | `v-model:open`          | Whether to display the action sheet                                                                            | _boolean_                      | `false`      |
 | `actions`               | Action list                                                                                                    | _Actions_                      | `[]`         |
 | `title`                 | Action sheet title                                                                                             | _string_                       | `Select One` |
-| `mask`                  | Whether to display the overlay                                                                                 | _boolean_                      | `true`       |
-| `mask-class`            | Custom overlay class                                                                                           | _string_                       | `-`          |
-| `mask-style`            | Custom overlay style                                                                                           | _object_                       | `-`          |
+| `overlay`               | Whether to display the overlay                                                                                 | _boolean_                      | `true`       |
+| `overlay-class`         | Custom overlay class                                                                                           | _string_                       | `-`          |
+| `overlay-style`         | Custom overlay style                                                                                           | _object_                       | `-`          |
 | `lock-scroll`           | Whether to disable scrolling penetration, scrolling the Dialog when disabled will not cause the body to scroll | _boolean_                      | `true`       |
 | `close-on-click-action` | Whether to close the actions sheet when clicking action                                                        | _boolean_                      | `true`       |
-| `mask-closable`         | Whether to click the overlay to close the action sheet                                                         | _boolean_                      | `true`       |
+| `overlay-closable`      | Whether to click the overlay to close the action sheet                                                         | _boolean_                      | `true`       |
 | `esc-to-close`          | Whether to support keyboard ESC to close the action sheet                                                      | _boolean_                      | `true`       |
 | `safe-area`             | Whether to enable bottom safety zone adaptation                                                                | _boolean_                      | `false`      |
-| `popupContainer`        | The location of the action sheet to mount                                                                      | _TeleportProps['to'] \| false_ | `body`       |
+| `popup-container`        | The location of the action sheet to mount                                                                      | _TeleportProps['to'] \| false_ | `body`       |
 
 ### Events
 
-| Event        | Description                                         | Arguments        |
-| ------------ | --------------------------------------------------- | ---------------- |
-| `select`     | Triggered when selecting an action sheet            | `action: Action` |
-| `open`       | Triggered when opening an action sheet              | `-`              |
-| `opened`     | Triggered when an action sheet open-animation ends  | `-`              |
-| `close`      | Triggered when closing an action sheet              | `-`              |
-| `closed`     | Triggered when an action sheet close-animation ends | `-`              |
-| `click-mask` | Triggered when clicking the mask                    | `MouseEvent`     |
-| `key-escape` | Triggered when pressing ESC                         | `KeyboardEvent`  |
+| Event           | Description                                         | Arguments        |
+| --------------- | --------------------------------------------------- | ---------------- |
+| `select`        | Triggered when selecting an action sheet            | `action: Action` |
+| `open`          | Triggered when opening an action sheet              | `-`              |
+| `opened`        | Triggered when an action sheet open-animation ends  | `-`              |
+| `close`         | Triggered when closing an action sheet              | `-`              |
+| `closed`        | Triggered when an action sheet close-animation ends | `-`              |
+| `click-overlay` | Triggered when clicking the overlay                 | `MouseEvent`     |
+| `key-escape`    | Triggered when pressing ESC                         | `KeyboardEvent`  |
 
 ### Methods
 
@@ -407,12 +407,12 @@ Options provide parameters to configure the style. See the `Action` data structu
 | Option               | Description                                                                                                          | Type                          | Default      |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ------------ |
 | `title`              | Action sheet title                                                                                                   | _string_                      | `Select One` |
-| `mask`               | Whether to display the overlay                                                                                       | _boolean_                     | `true`       |
-| `maskClass`          | Custom overlay class                                                                                                 | _string_                      | `-`          |
-| `maskStyle`          | Custom overlay style                                                                                                 | _object_                      | `-`          |
+| `overlay`            | Whether to display the overlay                                                                                       | _boolean_                     | `true`       |
+| `overlayClass`       | Custom overlay class                                                                                                 | _string_                      | `-`          |
+| `overlayStyle`       | Custom overlay style                                                                                                 | _object_                      | `-`          |
 | `lockScroll`         | Whether to disable scrolling penetration, scrolling the action sheet when disabled will not cause the body to scroll | _boolean_                     | `true`       |
 | `closeOnClickAction` | Whether to close the actions sheet when clicking action                                                              | _boolean_                     | `true`       |
-| `maskClosable`       | Whether to click the overlay to close the action sheet                                                               | _boolean_                     | `true`       |
+| `overlayClosable`    | Whether to click the overlay to close the action sheet                                                               | _boolean_                     | `true`       |
 | `escToClose`         | Whether to support keyboard ESC to close the action sheet                                                            | _boolean_                     | `true`       |
 | `safe-area`          | Whether to enable bottom safety zone adaptation                                                                      | _boolean_                     | `false`      |
 | `onOpen`             | Action sheet open callback                                                                                           | _() => void_                  | `-`          |
@@ -420,7 +420,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 | `onClose`            | Action sheet close callback                                                                                          | _() => void_                  | `-`          |
 | `onClosed`           | Action sheet close-animation ends callback                                                                           | _() => void_                  | `-`          |
 | `onSelect`           | Action sheet click action callback                                                                                   | _(action: Action) => void_    | `-`          |
-| `onClickMask`        | Click mask callback                                                                                                  | _(event: MouseEvent) => void_ | `-`          |
+| `onClickOverlay`     | Click overlay callback                                                                                               | _(event: MouseEvent) => void_ | `-`          |
 | `onKeyEscape`        | Triggered when click keyboard ESC                                                                                    | _() => void_                  | `-`          |
 
 ### ActionSheet Action

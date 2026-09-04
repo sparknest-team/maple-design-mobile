@@ -46,7 +46,7 @@ onThemeChange()
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <app-type>{{ t('placeholder') }}</app-type>
     <mp-cascader v-model="menuValue" :placeholder="t('placeholder')" :options="options" />
     <app-type>{{ t('placeholderPathMode') }}</app-type>

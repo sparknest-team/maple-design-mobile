@@ -37,7 +37,7 @@
       mp-button-cover
       :color="loadingColor"
       :type="loadingType"
-      :size="loadingSize || loadingSizeMap[states.size]"
+      :size="loadingSize || states.size"
       :radius="loadingRadius"
     />
     <div :class="classes(n('content'), [loading || pending, n('--hidden')])">
@@ -66,14 +66,6 @@ defineOptions({
 })
 
 const { n, classes } = createNamespace('button')
-
-const loadingSizeMap = {
-  xs: 'mini',
-  sm: 'small',
-  md: 'normal',
-  lg: 'large',
-  xl: 'large',
-} as const
 
 const props = defineProps(buttonProps)
 

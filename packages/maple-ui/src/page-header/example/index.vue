@@ -11,13 +11,13 @@ const handleBack = () => Message.info(t('back'))
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-page-header :title="t('title')" :subtitle="t('details')" @back="handleBack" />
+  <mp-page-header show-back :title="t('title')" :subtitle="t('details')" @back="handleBack" />
 
   <app-type>{{ t('complete') }}</app-type>
-  <mp-page-header @back="handleBack">
+  <mp-page-header show-back @back="handleBack">
     <template #header>
       <mp-breadcrumb>
-        <mp-breadcrumb-item>{{ t('home') }}</mp-breadcrumb-item>
+        <mp-breadcrumb-item>{{ t('home-fill') }}</mp-breadcrumb-item>
         <mp-breadcrumb-item>{{ t('details') }}</mp-breadcrumb-item>
       </mp-breadcrumb>
     </template>

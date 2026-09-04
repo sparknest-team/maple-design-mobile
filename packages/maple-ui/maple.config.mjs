@@ -910,5 +910,5 @@ export default defineConfig({
     ],
   },
   copy: [],
-  directives: ['ripple', 'lazy', 'hover'],
+  directives: ['ripple', 'lazy', 'hover', 'loading'],
 })

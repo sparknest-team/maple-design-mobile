@@ -4,16 +4,16 @@ Displays the current page title, context, and related actions. The API follows N
 
 ### Basic usage
 
-The back control is shown when a `back` listener is attached.
+Use the `show-back` prop to display the back control.
 
 ```html
-<mp-page-header title="Title" subtitle="Description" @back="router.back()" />
+<mp-page-header show-back title="Title" subtitle="Description" @back="router.back()" />
 ```
 
 ### Complete structure
 
 ```html
-<mp-page-header title="Title" @back="router.back()">
+<mp-page-header show-back title="Title" @back="router.back()">
   <template #header><mp-breadcrumb>...</mp-breadcrumb></template>
   <template #avatar><mp-avatar>M</mp-avatar></template>
   <template #extra><mp-button>Action</mp-button></template>
@@ -26,17 +26,18 @@ The back control is shown when a `back` listener is attached.
 
 ### Props
 
-| Prop       | Description                | Type     | Default |
-| ---------- | -------------------------- | -------- | ------- |
-| `title`    | Main title                 | _string_ | `-`     |
-| `subtitle` | Subtitle                   | _string_ | `-`     |
-| `extra`    | Extra content on the right | _string_ | `-`     |
+| Prop       | Description                | Type      | Default |
+| ---------- | -------------------------- | --------- | ------- |
+| `show-back` | Whether to show back       | _boolean_ | `false` |
+| `title`    | Main title                 | _string_  | `-`     |
+| `subtitle` | Subtitle                   | _string_  | `-`     |
+| `extra`    | Extra content on the right | _string_  | `-`     |
 
 ### Events
 
 | Event  | Description                                                          | Arguments    |
 | ------ | -------------------------------------------------------------------- | ------------ |
-| `back` | Emitted when back is clicked; attaching it displays the back control | `MouseEvent` |
+| `back` | Emitted when back is clicked | `MouseEvent` |
 
 ### Slots
 

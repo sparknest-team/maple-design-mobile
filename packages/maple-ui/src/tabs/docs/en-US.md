@@ -143,7 +143,7 @@ const active = ref(0)
     v-model:active="active"
   >
     <mp-tab>
-      <m-icon-information class="tabs-example-icon" />
+      <m-icon-info-circle-fill class="tabs-example-icon" />
       <div>Option1</div>
     </mp-tab>
     <mp-tab>

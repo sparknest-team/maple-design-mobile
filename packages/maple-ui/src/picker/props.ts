@@ -51,5 +51,5 @@ export const props = {
   cancelButtonTextColor: String,
   // dynamic internal
   dynamic: Boolean,
-  ...pickProps(popupProps, ['open', 'maskClosable', 'escToClose', 'popupContainer', 'safeArea']),
+  ...pickProps(popupProps, ['open', 'overlayClosable', 'escToClose', 'popupContainer', 'safeArea']),
 }

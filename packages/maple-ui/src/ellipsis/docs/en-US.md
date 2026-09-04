@@ -34,7 +34,7 @@ const expand = ref(false)
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="primary" @click="expand = !expand">Toggle</mp-button>
     <mp-ellipsis style="max-width: 170px" v-model:expand="expand">
       I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!

@@ -5,9 +5,9 @@ export default {
   abovePopup: '上方弹出',
   leftPopup: '左侧弹出',
   rightPopup: '右侧弹出',
-  maskStyle: '遮罩层样式',
-  maskClass: '遮罩层class',
-  overlayStyles: '遮罩层样式',
+  overlayStyle: '背景层样式',
+  overlayClass: '背景层class',
+  overlayStyles: '背景层样式',
   event: '注册事件',
   text: '素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。',
 }

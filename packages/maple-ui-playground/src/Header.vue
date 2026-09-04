@@ -159,7 +159,7 @@ async function setMapleVersion(v: string) {
         style="width: 210px"
         :offset-y="8"
         variant="outlined"
-        size="small"
+        size="sm"
         placeholder="Maple Version"
       >
         <mp-option v-for="v in mapleVersions" :key="v" :label="`${v === 'preview' ? '' : 'v'}${v}`" :value="v" />
@@ -169,7 +169,7 @@ async function setMapleVersion(v: string) {
         style="width: 210px"
         :offset-y="8"
         variant="outlined"
-        size="small"
+        size="sm"
         placeholder="Vue Version"
       >
         <mp-option v-for="v in vueVersions" :key="v" :label="`v${v}`" :value="v" />

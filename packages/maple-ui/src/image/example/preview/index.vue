@@ -33,8 +33,8 @@ let previewHandle
 const menuShow = ref(false)
 
 const actions = computed(() => [
-  { name: t('operate'), icon: 'wrench' },
-  { name: t('operate'), icon: 'wrench' },
+  { name: t('operate'), icon: 'tool' },
+  { name: t('operate'), icon: 'tool' },
 ])
 
 watchLang(use)
@@ -95,8 +95,8 @@ function openDataGroup() {
     <mp-button status="primary" block @click="previewWithCallback">{{ t('callBack') }}</mp-button>
     <mp-button status="primary" block @click="previewWithHandle">{{ t('previewWithHandle') }}</mp-button>
     <mp-space :size="['2vmin', '2vmin']">
-      <mp-button size="small" @click="nextPreviewImage">{{ t('nextImage') }}</mp-button>
-      <mp-button size="small" @click="closePreview">{{ t('closePreview') }}</mp-button>
+      <mp-button size="sm" @click="nextPreviewImage">{{ t('nextImage') }}</mp-button>
+      <mp-button size="sm" @click="closePreview">{{ t('closePreview') }}</mp-button>
     </mp-space>
 
     <h2 class="image-preview-category">{{ t('multiplePreview') }}</h2>
@@ -145,7 +145,7 @@ function openDataGroup() {
     <mp-button status="warning" block @click="customCloseVisible = true">{{ t('customCloseIcon') }}</mp-button>
     <mp-image-preview-group v-model:open="customCloseVisible" :images="images">
       <template #close-icon>
-        <m-icon-window-close :size="24" color="#fff" @click="customCloseVisible = false" />
+        <m-icon-close :size="24" color="#fff" @click="customCloseVisible = false" />
       </template>
     </mp-image-preview-group>
 

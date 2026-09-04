@@ -9,7 +9,7 @@ export const props = {
   background: String,
   icon: {
     type: String,
-    default: 'information-outline',
+    default: 'info-circle',
   },
   type: {
     type: String as PropType<NoticeBarType>,

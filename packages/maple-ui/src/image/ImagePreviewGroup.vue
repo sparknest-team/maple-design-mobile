@@ -32,10 +32,16 @@
             data-image-preview-image
             :src="image"
             :alt="previewedImgProps?.alt || image"
-            :class="[previewedImgProps?.class, 'mp-image-preview__image']"
+            :class="[
+              previewedImgProps?.class,
+              'mp-image-preview__image',
+              { 'mp-image-preview--prevent': imagePreventDefault },
+            ]"
             :style="[previewedImgProps?.style, slideImageStyle(index, scale, rotate, translateX, translateY)]"
             :draggable="false"
+            @click.stop
             @dragstart.prevent
+            @contextmenu="imagePreventDefault && $event.preventDefault()"
           />
         </div>
       </div>

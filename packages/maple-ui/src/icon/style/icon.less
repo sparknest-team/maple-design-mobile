@@ -29,4 +29,14 @@
     transform: scale(0);
     transition-property: transform;
   }
+
+  &--spin {
+    animation: mp-icon-spin 1s infinite linear;
+  }
+}
+
+@keyframes mp-icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

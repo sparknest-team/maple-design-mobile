@@ -417,7 +417,7 @@
           </div>
           <div v-else :class="n('list-header')">
             <div :class="n('list-title')">{{ listTitleText }}</div>
-            <mp-icon :class="n('list-close')" mp-cascader-cover @click="handleListClose"><MIconWindowClose /></mp-icon>
+            <mp-icon :class="n('list-close')" mp-cascader-cover @click="handleListClose"><MIconClose /></mp-icon>
           </div>
 
           <div v-if="multiple && pickerDraftLabels.length" :class="n('picker-draft')">
@@ -476,8 +476,8 @@ import { computed, defineComponent, ref, watch } from 'vue'
 import {
   IconCheck as MIconCheck,
   IconChevronRight as MIconChevronRight,
+  IconClose as MIconClose,
   IconMenuDown as MIconMenuDown,
-  IconWindowClose as MIconWindowClose,
 } from '@maplejs/icons-vue'
 import { call, doubleRaf, isArray, isEmpty, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener, useVModel } from '@maplejs/maple-use'
@@ -506,7 +506,7 @@ export default defineComponent({
   components: {
     MIconMenuDown,
     MIconChevronRight,
-    MIconWindowClose,
+    MIconClose,
     MIconCheck,
     MpIcon,
     MpTrigger,

@@ -119,16 +119,24 @@ test('distinguishes the icon wrapper from standalone SVG icons', () => {
     name: '_IconComponent',
     sideEffects: ['@maplejs/maple-ui/icon/style'],
   })
-  assert.deepEqual(components.resolve('MIconInformation'), {
-    from: '@maplejs/icons-vue/icon-information',
-    name: 'IconInformation',
+  assert.deepEqual(components.resolve('MIconInfoCircleFill'), {
+    from: '@maplejs/icons-vue/icon-info-circle-fill',
+    name: 'IconInfoCircleFill',
   })
   assert.deepEqual(components.resolve('MIconMore'), {
     from: '@maplejs/icons-vue/icon-more',
     name: 'IconMore',
   })
+  assert.deepEqual(components.resolve('MIconCaretUp'), {
+    from: '@maplejs/icons-vue/icon-caret-up',
+    name: 'IconCaretUp',
+  })
+  assert.deepEqual(components.resolve('MIconCheckCircleFill'), {
+    from: '@maplejs/icons-vue/icon-check-circle-fill',
+    name: 'IconCheckCircleFill',
+  })
   assert.throws(() => components.resolve('MIconNotExists'), /Unknown icon component <m-icon-not-exists>/)
-  assert.equal(components.resolve('MpIconInformation'), undefined)
+  assert.equal(components.resolve('MpIconInfoCircleFill'), undefined)
 })
 
 test('resolves programmatic APIs and directives', () => {
@@ -149,12 +157,19 @@ test('resolves programmatic APIs and directives', () => {
   assert.equal(autoImports.resolve('Locale')?.name, 'Locale')
   assert.equal(autoImports.resolve('Locale')?.sideEffects, undefined)
   assert.equal(directives.resolve('Ripple')?.name, '_RippleComponent')
+  assert.deepEqual(directives.resolve('MpLoading'), {
+    from: '@maplejs/maple-ui',
+    name: 'vLoading',
+    sideEffects: ['@maplejs/maple-ui/loading/style'],
+  })
+  assert.equal(directives.resolve('Loading'), undefined)
 })
 
 test('can disable styles and directives', () => {
   const [noStyleComponents, noDirectives] = MapleResolver({ importStyle: false, directives: false })
   assert.equal(noStyleComponents.resolve('MpButton')?.sideEffects, undefined)
   assert.equal(noDirectives.resolve('Ripple'), undefined)
+  assert.equal(noDirectives.resolve('MpLoading'), undefined)
 })
 
 test('can disable programmatic API resolution', () => {

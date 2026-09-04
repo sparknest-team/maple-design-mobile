@@ -41,7 +41,7 @@ test('menu-option plugin', () => {
 })
 
 test('menu size', () => {
-  ;['normal', 'mini', 'small', 'large'].forEach((size) => {
+  ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
     const root = document.createElement('div')
     const wrapper = mount(VarMenu, {
       props: {

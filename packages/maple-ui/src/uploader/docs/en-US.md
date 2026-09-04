@@ -367,7 +367,7 @@ const files = ref([
     />
     <mp-uploader hide-list v-model="files">
       <mp-button round status="primary">
-        <m-icon-upload :size="28" />
+        <m-icon-upload-fill :size="28" />
       </mp-button>
     </mp-uploader>
   </mp-space>
@@ -406,7 +406,7 @@ const files = ref([
   <mp-uploader v-model="files">
     <template #remove-button="{ remove }">
       <div class="custom-remove-button">
-        <m-icon-window-close color="#fff" @click.stop="remove"></m-icon-window-close>
+        <m-icon-close color="#fff" @click.stop="remove"></m-icon-close>
       </div>
     </template>
   </mp-uploader>
@@ -436,7 +436,7 @@ const files = ref([
 | `disabled` | Whether the disabled | _boolean_ | `false` |
 | `elevation`| Elevation level, options `true` `false` and level of `0-24`, not in simple mode | _string \| number \| boolean_|  `true` |
 | `removable` | Whether the removable | _boolean_ | `true` |
-| `maxFiles` | Maximum number of files | _string \| number_ | `-` |
+| `max-files` | Maximum number of files | _string \| number_ | `-` |
 | `max-file-size`   | Maximum file size, the unit is `byte` | _string \| number_ | `-` |
 | `previewed` | Whether to allow preview | _boolean_ | `true` |
 | `prevent-default-preview` | Prevent default preview behavior | _boolean_ | `false` |

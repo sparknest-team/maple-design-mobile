@@ -46,7 +46,7 @@ export const props = {
   },
   activeIcon: {
     type: String,
-    default: 'window-close',
+    default: 'close',
   },
   inactiveIconSize: pickProps(iconProps, 'size'),
   activeIconSize: pickProps(iconProps, 'size'),

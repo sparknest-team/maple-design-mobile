@@ -14,7 +14,7 @@ Avatars are circular by default. Use the default slot to show text or an icon wh
   <mp-avatar :size="40">CD</mp-avatar>
   <mp-avatar :size="48" shape="square">Cedar</mp-avatar>
   <mp-avatar :size="56" color="#00bebe">
-    <m-icon-account-circle />
+    <m-icon-user-circle-fill />
   </mp-avatar>
 </mp-space>
 ```
@@ -61,9 +61,9 @@ Long text is scaled to the avatar width by default. Change the input to see it u
 
 ```html
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const text = ref('Maple')
+  const text = ref('Maple')
 </script>
 
 <template>
@@ -191,15 +191,15 @@ Set `hoverable` to scale the avatar on hover.
 
 ### Trigger Icon
 
-Use the `trigger-icon` slot for an action entry. `trigger-type` supports a corner button or a hover mask.
+Use the `trigger-icon` slot for an action entry. `trigger-type` supports a corner button or a hover overlay.
 
 ```html
 <mp-space align="center" :size="24">
   <mp-avatar image-url="cat.jpg" alt="Edit avatar" :size="56">
     <template #trigger-icon><m-icon-image /></template>
   </mp-avatar>
-  <mp-avatar image-url="cat2.jpg" alt="Change avatar" :size="56" trigger-type="mask">
-    <template #trigger-icon><m-icon-camera /></template>
+  <mp-avatar image-url="cat2.jpg" alt="Change avatar" :size="56" trigger-type="overlay">
+    <template #trigger-icon><m-icon-camera-fill /></template>
   </mp-avatar>
 </mp-space>
 ```
@@ -217,7 +217,7 @@ Use the `trigger-icon` slot for an action entry. `trigger-type` supports a corne
 | `alt`                | Image alternative text          | _string_                                                   | `''`       |
 | `size`               | Avatar width and height in px   | _number_                                                   | `40`       |
 | `auto-fix-font-size` | Automatically scales long text  | _boolean_                                                  | `true`     |
-| `trigger-type`       | Trigger icon presentation       | `'button' \| 'mask'`                                       | `'button'` |
+| `trigger-type`       | Trigger icon presentation       | `'button' \| 'overlay'`                                    | `'button'` |
 | `trigger-icon-style` | Custom trigger icon style       | _CSSProperties_                                            | `-`        |
 | `object-fit`         | Image fitting mode              | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`  |
 | `color`              | Avatar background color         | _string_                                                   | `-`        |
@@ -272,21 +272,20 @@ Use the `trigger-icon` slot for an action entry. `trigger-type` supports a corne
 
 ### Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `shape` | Child avatar shape | `'circle' \| 'square'` | `'circle'` |
-| `size` | Child avatar width and height in px | _number_ | `40` |
-| `auto-fix-font-size` | Automatically scales child text | _boolean_ | `true` |
-| `max-count` | Maximum visible avatars; `0` means unlimited | _number_ | `0` |
-| `z-index-ascend` | Uses ascending avatar stacking order | _boolean_ | `false` |
-| `max-style` | Custom summary avatar style | _CSSProperties_ | `-` |
-| `max-popover-props` | Summary Popover props | _PopoverProps_ | `-` |
-| `offset` | Overlap offset between avatars | _number \| string_ | `-` |
-| `vertical` | Stacks avatars vertically | _boolean_ | `false` |
+| Prop                 | Description                                  | Type                   | Default    |
+| -------------------- | -------------------------------------------- | ---------------------- | ---------- |
+| `shape`              | Child avatar shape                           | `'circle' \| 'square'` | `'circle'` |
+| `size`               | Child avatar width and height in px          | _number_               | `40`       |
+| `auto-fix-font-size` | Automatically scales child text              | _boolean_              | `true`     |
+| `max-count`          | Maximum visible avatars; `0` means unlimited | _number_               | `0`        |
+| `z-index-ascend`     | Uses ascending avatar stacking order         | _boolean_              | `false`    |
+| `max-style`          | Custom summary avatar style                  | _CSSProperties_        | `-`        |
+| `max-popover-props`  | Summary Popover props                        | _PopoverProps_         | `-`        |
+| `offset`             | Overlap offset between avatars               | _number \| string_     | `-`        |
+| `vertical`           | Stacks avatars vertically                    | _boolean_              | `false`    |
 
 ### Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Avatar list | `-` |
-
+| Name      | Description | SlotProps |
+| --------- | ----------- | --------- |
+| `default` | Avatar list | `-`       |

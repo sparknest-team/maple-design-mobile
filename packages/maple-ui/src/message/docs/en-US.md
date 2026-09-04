@@ -26,7 +26,7 @@ Message('This is a message')
 ```ts
 Message.info({
   content: 'This is a message',
-  icon: () => h(Icon, { name: 'heart' }),
+  icon: () => h(Icon, { name: 'heart-fill' }),
 })
 ```
 
@@ -89,7 +89,7 @@ Declarative `mp-message` is Maple-only. See Chinese docs for full examples: basi
 | `forbid-click` | Block click through | _boolean_ | `false` |
 | `lock-scroll` | Lock scroll | _boolean_ | `false` |
 | `elevation` | Elevation | _boolean \| string \| number_ | `true` |
-| `popupContainer` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
+| `popup-container` | Teleport target | _TeleportProps['to'] \| false_ | `body` |
 
 ### Methods
 

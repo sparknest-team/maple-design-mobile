@@ -24,6 +24,8 @@ export default {
   previewSrc: '预览大图',
   controlledPreview: '受控预览',
   previewProps: '预览配置透传',
+  overlayClosable: '点击背景层关闭',
+  overlayClosableTip: '左图开启：点击图片外关闭；右图关闭：只能使用关闭按钮。点击图片本身均不会关闭。',
   popupContainer: '自定义预览挂载节点',
   openPreview: '打开预览',
   clickImagePreview: '点击图片预览',

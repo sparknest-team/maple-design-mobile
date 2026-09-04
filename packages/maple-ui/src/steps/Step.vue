@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
-import { IconCheck, IconWindowClose as IconClose } from '@maplejs/icons-vue'
+import { IconCheck, IconClose } from '@maplejs/icons-vue'
 import { createNamespace } from '../utils/components'
 import { stepsInjectionKey } from './context'
 import { stepProps } from './props'

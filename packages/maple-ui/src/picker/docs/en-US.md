@@ -400,7 +400,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-button status="primary" @click="resetValues">values: {{ values }} Click Reset</mp-button>
     <mp-picker :columns="columns" v-model="values" @change="handleChange" />
   </mp-space>
@@ -446,10 +446,10 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 | `cancelButtonText`          | Cancel button text                                                 | _string_                                                                                   | `Cancel`     |
 | `confirmButtonTextColor`    | Confirm button text color                                          | _string_                                                                                   | `-`          |
 | `cancelButtonTextColor`     | Cancel button text color                                           | _string_                                                                                   | `-`          |
-| `maskClosable`              | Whether to click the overlay to close the picker                   | _boolean_                                                                                  | `true`       |
+| `overlayClosable`           | Whether to click the overlay to close the picker                   | _boolean_                                                                                  | `true`       |
 | `escToClose`                | Whether to support keyboard ESC to close the picker                | _boolean_                                                                                  | `true`       |
 | `safeArea`                  | Whether to enable bottom safety zone adaptation                    | _boolean_                                                                                  | `false`      |
-| `onClickMask`               | Click mask callback                                                | _(event: MouseEvent) => void_                                                              | `-`          |
+| `onClickOverlay`            | Click overlay callback                                             | _(event: MouseEvent) => void_                                                              | `-`          |
 | `onOpen`                    | Popup open callback                                                | _() => void_                                                                               | `-`          |
 | `onOpened`                  | Popup open-animation ends callback                                 | _() => void_                                                                               | `-`          |
 | `onClose`                   | Popup close callback                                               | _() => void_                                                                               | `-`          |

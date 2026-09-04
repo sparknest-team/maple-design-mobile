@@ -85,7 +85,7 @@ Customize the button content with the default slot and listen to clicks with `@c
 | Prop | Description                                                                                             | Type   | Default |
 | ----- |---------------------------------------------------------------------------------------------------------|--------|-------|
 | `target-container` | The target to trigger scroll. When unset, the nearest scrollable ancestor is detected automatically. | _string \| HTMLElement_     | `-` |
-| `popupContainer` | Whether to mount to body. When `false`, the button is positioned relative to its parent, which should have `position: relative`. | _boolean_ | `true` |
+| `popup-container` | Whether to mount to body. When `false`, the button is positioned relative to its parent, which should have `position: relative`. | _boolean_ | `true` |
 | `visible-height` | The button will not show until the scroll height reaches this value                                     | _string \| number_ | `200` |
 | `bottom`            | Distance from the bottom of the viewport                                                              | _string \| number_ | `-` |
 | `right`            | Distance from the right of the viewport                                                               | _string \| number_ | `-` |

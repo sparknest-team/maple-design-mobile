@@ -41,7 +41,7 @@ Autocomplete function of input field.
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-auto-complete placeholder="Please enter text" :options="options" v-model="value" />
     <mp-auto-complete readonly placeholder="Readonly" :options="options2" v-model="value2" />
     <mp-auto-complete disabled placeholder="Disabled" :options="options3" v-model="value3" />
@@ -126,7 +126,7 @@ Autocomplete function of input field.
 </script>
 
 <template>
-  <mp-space direction="column" size="large">
+  <mp-space direction="column" size="lg">
     <mp-auto-complete variant="outlined" placeholder="Please enter text" :options="options" v-model="value" />
     <mp-auto-complete variant="outlined" readonly placeholder="Readonly" :options="options2" v-model="value2" />
     <mp-auto-complete variant="outlined" disabled placeholder="Disabled" :options="options3" v-model="value3" />
@@ -201,7 +201,7 @@ Autocomplete function of input field.
 | `placeholder`  | placeholder                                                                                                                | _string_                                   | `-`        |
 | `options`      | Specifies options                                                                                                          | _AutoCompleteOption[]_                     | `[]`       |
 | `field-names`  | Custom field mapping for `options`                                                                                         | _{ label?, value?, children?, disabled? }_ | `-`        |
-| `maxLength`    | Maxlength                                                                                                                  | _string \| number_                         | `-`        |
+| `max-length`    | Maxlength                                                                                                                  | _string \| number_                         | `-`        |
 | `readonly`     | Whether the readonly                                                                                                       | _boolean_                                  | `false`    |
 | `disabled`     | Whether the disabled                                                                                                       | _boolean_                                  | `false`    |
 | `enterkeyhint` | Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                                   | `-`        |
