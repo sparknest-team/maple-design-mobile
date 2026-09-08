@@ -1,5 +1,5 @@
 <template>
-  <app-type>{{ pack.basicUsage }}</app-type>
+  <app-type>{{ t('basicUsage') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="value" clearable placeholder="请输入" />
     <mp-input-number v-model="errorValue" clearable error placeholder="error" />
@@ -7,13 +7,13 @@
     <mp-input-number v-model="errorDisabledValue" clearable error disabled placeholder="error disabled" />
   </div>
 
-  <app-type>{{ pack.range }}</app-type>
+  <app-type>{{ t('range') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="rangeValue" :min="2" :max="10" clearable placeholder="请输入" />
     <mp-input-number v-model="rangeDisabledValue" :min="2" :max="10" clearable disabled placeholder="disabled" />
   </div>
 
-  <app-type>{{ pack.mode }}</app-type>
+  <app-type>{{ t('mode') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="stackedValue" clearable placeholder="stacked" />
     <mp-input-number v-model="splitValue" clearable mode="button" placeholder="button" />
@@ -21,7 +21,7 @@
     <mp-input-number v-model="splitDisabledValue" clearable mode="button" disabled placeholder="button disabled" />
   </div>
 
-  <app-type>{{ pack.size }}</app-type>
+  <app-type>{{ t('size') }}</app-type>
   <div class="input-number-example">
     <mp-input-number size="xs" placeholder="xs" />
     <mp-input-number size="sm" placeholder="sm" />
@@ -33,7 +33,7 @@
     <mp-input-number size="lg" mode="button" placeholder="lg button" />
   </div>
 
-  <app-type>{{ pack.stepAndPrecision }}</app-type>
+  <app-type>{{ t('stepAndPrecision') }}</app-type>
   <div class="input-number-example">
     <mp-input-number
       v-model="precisionValue"
@@ -46,11 +46,13 @@
     <mp-input-number :step="1.22" clearable placeholder="请输入" :default-value="1.2" />
   </div>
 
-  <app-type>{{ pack.prefixAndSuffix }}</app-type>
+  <app-type>{{ t('prefixAndSuffix') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="prefixValue" clearable placeholder="请输入">
+      <template #prepend>金额</template>
       <template #prefix>+86</template>
       <template #suffix><span>RMB</span></template>
+      <template #append>含税</template>
     </mp-input-number>
     <mp-input-number v-model="prefixSplitValue" clearable mode="button" placeholder="请输入">
       <template #prefix>
@@ -60,7 +62,7 @@
     </mp-input-number>
   </div>
 
-  <app-type>{{ pack.customIcon }}</app-type>
+  <app-type>{{ t('customIcon') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="customIconValue" clearable placeholder="Please enter something">
       <template #plus>
@@ -72,7 +74,7 @@
     </mp-input-number>
   </div>
 
-  <app-type>{{ pack.format }}</app-type>
+  <app-type>{{ t('format') }}</app-type>
   <div class="input-number-example">
     <mp-input-number
       v-model="formatValue"
@@ -84,22 +86,38 @@
     />
   </div>
 
-  <app-type>{{ pack.hideControls }}</app-type>
+  <app-type>{{ t('hideControls') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="inputOnlyValue" mode="input" clearable placeholder="请输入数量" />
   </div>
 
-  <app-type>{{ pack.modelEvent }}</app-type>
+  <app-type>{{ t('modelEvent') }}</app-type>
   <div class="input-number-example">
     <mp-input-number v-model="modelEventValue" :min="10" :max="100" model-event="input" placeholder="Please Enter" />
     <div class="input-number-example__value">value: {{ modelEventValue }}</div>
+  </div>
+
+  <app-type>{{ t('eventsAndClear') }}</app-type>
+  <div class="input-number-example">
+    <mp-input-number
+      v-model="eventValue"
+      clearable
+      model-event="input"
+      placeholder="输入后失焦提交 change"
+      @input="handleInput"
+      @change="handleChange"
+      @clear="handleClear"
+    />
+    <div class="input-number-example__value">{{ lastEvent }}</div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { AppType } from '@maplejs/maple-cli/client'
-import { pack } from './locale'
+import { AppType, watchLang } from '@maplejs/maple-cli/client'
+import { t, use } from './locale'
+
+watchLang(use)
 
 const value = ref()
 const errorValue = ref()
@@ -118,6 +136,20 @@ const customIconValue = ref()
 const formatValue = ref()
 const inputOnlyValue = ref(1)
 const modelEventValue = ref(15)
+const eventValue = ref(12)
+const lastEvent = ref('-')
+
+function handleInput(value, inputValue) {
+  lastEvent.value = `input: ${inputValue} (${value ?? 'undefined'})`
+}
+
+function handleChange(value) {
+  lastEvent.value = `change: ${value ?? 'undefined'}`
+}
+
+function handleClear() {
+  lastEvent.value = 'clear'
+}
 
 function formatter(value) {
   const values = value.split('.')

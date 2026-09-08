@@ -9,4 +9,5 @@ export default {
   format: 'Format',
   hideControls: 'Input Mode',
   modelEvent: 'Update On Input',
+  eventsAndClear: 'Events And Clearing',
 }
