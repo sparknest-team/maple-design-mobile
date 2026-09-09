@@ -23,6 +23,8 @@
 
 ### 介绍
 
+本地开发与 npm 包、文档站点的统一构建命令见 [构建说明](./BUILDING.md)。
+
 Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 `maplejs` 组织维护。
 
 ### 特性

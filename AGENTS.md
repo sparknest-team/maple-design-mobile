@@ -56,6 +56,9 @@ packages/
 | 用途 | 命令 |
 | --- | --- |
 | 安装依赖 | `pnpm i` |
+| 构建 npm 包（根目录含依赖包） | `pnpm build` / `pnpm build:lib` |
+| 构建文档 | `pnpm build:doc` |
+| 构建 npm 包及文档 | `pnpm build:all` |
 | 静态检查（不自动修改） | `pnpm lint:check` |
 | 跑指定包单测 | `pnpm --dir packages/maple-ui exec vitest run --config ../maple-cli/lib/node/config/vitest.config.js` |
 | 跑指定组件 | `... vitest run src/<component>` |

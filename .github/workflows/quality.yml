@@ -35,5 +35,5 @@ jobs:
         # this flag after the baseline reaches zero.
         continue-on-error: true
       - run: pnpm test
-      - run: pnpm build
+      - run: pnpm build:all
       - run: pnpm package:check

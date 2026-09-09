@@ -5,7 +5,7 @@ import { x } from 'tinyexec'
 const CWD = process.cwd()
 
 export function createTask(cwd, command = 'build') {
-  return () => x('pnpm', [command], { nodeOptions: { cwd } })
+  return () => x('pnpm', [command], { nodeOptions: { cwd }, throwOnError: true })
 }
 
 export async function runTask(taskName, task) {
@@ -17,6 +17,7 @@ export async function runTask(taskName, task) {
   } catch (e) {
     s.error({ text: `Build ${taskName} failed!` })
     console.error(e.toString())
+    throw e
   }
 }
 
@@ -38,7 +39,7 @@ export const buildIcons = createTask(resolve(CWD, './packages/maple-icons-vue'))
 
 export const buildToucheEmulator = createTask(resolve(CWD, './packages/maple-touch-emulator'))
 
-export const buildUI = createTask(resolve(CWD, './packages/maple-ui'), 'compile')
+export const buildUI = createTask(resolve(CWD, './packages/maple-ui'), 'build:lib')
 
 export async function runTaskQueue() {
   const start = performance.now()
