@@ -6,7 +6,14 @@ withInstall(Textarea)
 withPropsDefaultsSetter(Textarea, textareaProps)
 
 export type TextareaInstance = InstanceType<typeof Textarea>
-export type { TextareaProps } from './props'
+export type {
+  TextareaAutoSize,
+  TextareaMaxLength,
+  TextareaProps,
+  TextareaVariant,
+  WordLength,
+  WordSlice,
+} from './props'
 export { textareaProps }
 export const _TextareaComponent = Textarea
 export default Textarea

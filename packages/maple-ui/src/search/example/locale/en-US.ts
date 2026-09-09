@@ -11,6 +11,8 @@ export default {
   cancel: 'Cancel',
   search: 'Search',
   reset: 'Reset',
+  result: 'Latest Search Result',
+  change: 'Latest Committed Value',
   deviceId: 'Device ID',
   deviceName: 'Device Name',
   deviceDesc: 'Device Description',

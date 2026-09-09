@@ -11,6 +11,8 @@ export default {
   cancel: '取消',
   search: '搜索',
   reset: '重置',
+  result: '最近一次搜索结果',
+  change: '最近一次提交值',
   deviceId: '设备ID',
   deviceName: '设备名称',
   deviceDesc: '设备描述',

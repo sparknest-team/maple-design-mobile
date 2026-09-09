@@ -7,6 +7,7 @@
 }
 
 .mp-textarea {
+  position: relative;
   text-align: left;
 
   .mp-field-decorator__controller {
@@ -37,6 +38,11 @@
     &::placeholder {
       color: var(--mp-textarea-placeholder-color);
     }
+  }
+
+  &__mirror {
+    position: absolute;
+    visibility: hidden;
   }
 
   &--disabled {

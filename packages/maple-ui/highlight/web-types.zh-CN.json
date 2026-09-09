@@ -4675,173 +4675,20 @@
           "name": "mp-input",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "绑定值",
+              "name": "focus",
+              "description": "聚焦",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`-`",
                 "kind": "expression"
               }
             },
             {
-              "name": "type",
-              "description": "输入类型，可选值为 `text` `password` `number` `tel` `email`",
-              "default": "text",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "占位符，也可作为浮动提示文字",
+              "name": "blur",
+              "description": "失焦",
               "default": "-",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "尺寸，可选值为 `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "ComponentSize",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "外观，可选值为 `filled` `outlined` `standard`",
-              "default": "standard",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hint",
-              "description": "是否将 placeholder 用作浮动提示文字",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "line",
-              "description": "是否显示分割线",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max-length",
-              "description": "最大输入长度并显示字数统计",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "是否只读",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "clearable",
-              "description": "是否可清除",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autofocus",
-              "description": "是否自动聚焦",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "enterkeyhint",
-              "description": "移动端回车键提示",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autocomplete",
-              "description": "原生自动填充策略",
-              "default": "off",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "aria-label",
-              "description": "输入框无障碍标签",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "input-attrs",
-              "description": "透传给原生 input 的属性",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "文字颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "focus-color",
-              "description": "聚焦颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "blur-color",
-              "description": "失焦颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`-`",
                 "kind": "expression"
               }
             }
@@ -4856,10 +4703,6 @@
               "description": "失焦时触发"
             },
             {
-              "name": "click",
-              "description": "点击时触发"
-            },
-            {
               "name": "clear",
               "description": "清除时触发"
             },
@@ -4869,25 +4712,29 @@
             },
             {
               "name": "change",
-              "description": "值提交变更时触发"
+              "description": "仅在失焦或按下 Enter 时提交变更"
+            },
+            {
+              "name": "press-enter",
+              "description": "按下 Enter 时触发"
             },
             {
               "name": "keydown",
-              "description": "按键时触发"
+              "description": "按键时触发（兼容性事件）"
             }
           ],
           "slots": [
             {
               "name": "prefix",
-              "description": "前缀"
+              "description": "前缀内容"
             },
             {
               "name": "suffix",
-              "description": "后缀"
+              "description": "后缀内容"
             },
             {
               "name": "clear-icon",
-              "description": "清除图标"
+              "description": "清除图标或按钮"
             }
           ]
         },
@@ -5050,7 +4897,7 @@
           ],
           "events": [
             {
-              "name": "update:model-value",
+              "name": "update:modelValue",
               "description": "绑定值变化时触发"
             },
             {
@@ -7531,6 +7378,15 @@
               }
             },
             {
+              "name": "default-value",
+              "description": "非受控默认关键词",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "v-model:model-field",
               "description": "当前搜索字段",
               "default": "-",
@@ -7540,17 +7396,8 @@
               }
             },
             {
-              "name": "v-model:search-text",
-              "description": "搜索关键词，兼容字段搜索命名",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:search-field",
-              "description": "当前搜索字段，兼容字段搜索命名",
+              "name": "default-field",
+              "description": "非受控默认字段",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7559,28 +7406,10 @@
             },
             {
               "name": "v-model:model",
-              "description": "表单数据对象，字段搜索模式下会按字段写入关键词",
+              "description": "字段搜索模式下按字段写入的对象",
               "default": "-",
               "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-value",
-              "description": "默认搜索关键词",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-field",
-              "description": "默认搜索字段",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "Record<string, unknown>",
                 "kind": "expression"
               }
             },
@@ -7594,8 +7423,17 @@
               }
             },
             {
+              "name": "select-style",
+              "description": "字段选择器样式",
+              "default": "-",
+              "value": {
+                "type": "StyleValue",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "recent-searches",
-              "description": "搜索历史列表，点击输入框时会完整展示",
+              "description": "受控搜索历史",
               "default": "[]",
               "value": {
                 "type": "string[]",
@@ -7604,7 +7442,7 @@
             },
             {
               "name": "max-search-history-count",
-              "description": "生成下一份搜索历史时保留的最大数量",
+              "description": "生成下一份历史时保留的最大数量",
               "default": "5",
               "value": {
                 "type": "number",
@@ -7613,10 +7451,73 @@
             },
             {
               "name": "history-popup",
-              "description": "是否通过全屏 Popup 展示历史，设为 `false` 时使用同宽 Menu",
+              "description": "是否使用全屏 Popup 展示历史",
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-button",
+              "description": "是否显示公共搜索按钮",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "button-text",
+              "description": "公共搜索按钮文字",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "button-props",
+              "description": "公共搜索按钮属性",
+              "default": "-",
+              "value": {
+                "type": "ButtonProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "是否处于加载状态；加载时禁止提交",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "是否可清除",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "输入框风格，可选 `filled` `outlined` `standard`",
+              "default": "outlined",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "输入框尺寸",
+              "default": "md",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             },
@@ -7626,6 +7527,24 @@
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "是否只读",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -7640,7 +7559,7 @@
             },
             {
               "name": "shape",
-              "description": "内层搜索框形状，可选值为 `round` `square`",
+              "description": "内层搜索框形状，可选 `round` `square`",
               "default": "round",
               "value": {
                 "type": "string",
@@ -7667,7 +7586,7 @@
             },
             {
               "name": "show-action",
-              "description": "是否显示右侧操作按钮",
+              "description": "是否显示移动端操作按钮",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -7676,7 +7595,7 @@
             },
             {
               "name": "action-text",
-              "description": "右侧操作按钮文本",
+              "description": "移动端操作按钮文字",
               "default": "取消",
               "value": {
                 "type": "string",
@@ -7685,7 +7604,7 @@
             },
             {
               "name": "action-type",
-              "description": "右侧操作按钮类型，可选值为 `cancel` `search`",
+              "description": "移动端操作类型，可选 `cancel` `search`",
               "default": "cancel",
               "value": {
                 "type": "string",
@@ -7702,34 +7621,7 @@
               }
             },
             {
-              "name": "clearable",
-              "description": "是否可清除",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "是否只读",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "最大长度",
               "default": "-",
               "value": {
@@ -7739,7 +7631,7 @@
             },
             {
               "name": "enterkeyhint",
-              "description": "定制回车键样式",
+              "description": "虚拟键盘回车键提示",
               "default": "search",
               "value": {
                 "type": "string",
@@ -7749,27 +7641,76 @@
           ],
           "events": [
             {
-              "name": "search",
-              "description": "点击搜索图标、右侧搜索按钮或键盘搜索键时触发"
+              "name": "update:modelValue",
+              "description": "关键词更新时触发"
             },
             {
-              "name": "cancel",
-              "description": "点击取消按钮时触发"
+              "name": "update:modelField",
+              "description": "字段更新时触发"
+            },
+            {
+              "name": "update:model",
+              "description": "字段表单更新时触发"
             },
             {
               "name": "input",
-              "description": "输入时触发"
+              "description": "输入期间触发"
             },
             {
               "name": "change",
-              "description": "搜索字段或关键词变化时触发"
+              "description": "失焦、Enter 提交或切换字段时触发"
             },
             {
               "name": "clear",
               "description": "清除时触发"
+            },
+            {
+              "name": "search",
+              "description": "点击图标/按钮、按 Enter 或选择历史时触发"
+            },
+            {
+              "name": "focus",
+              "description": "聚焦时触发"
+            },
+            {
+              "name": "blur",
+              "description": "失焦时触发"
+            },
+            {
+              "name": "cancel",
+              "description": "点击移动端取消按钮时触发"
             }
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "prefix",
+              "description": "输入框前缀；提供后将替换默认搜索图标"
+            },
+            {
+              "name": "suffix",
+              "description": "输入框后缀"
+            },
+            {
+              "name": "clear-icon",
+              "description": "清除图标"
+            },
+            {
+              "name": "button-default",
+              "description": "公共搜索按钮内容"
+            },
+            {
+              "name": "button-icon",
+              "description": "公共搜索按钮图标"
+            },
+            {
+              "name": "label",
+              "description": "左侧标签"
+            },
+            {
+              "name": "action",
+              "description": "移动端操作按钮内容"
+            }
+          ]
         },
         {
           "name": "mp-select",
@@ -9590,16 +9531,34 @@
           "attributes": [
             {
               "name": "v-model",
-              "description": "绑定值",
+              "description": "受控绑定值",
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "非受控模式初始值",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-modifiers",
+              "description": "v-model 修饰符；支持 `trim`",
+              "default": "{}",
+              "value": {
+                "type": "object",
                 "kind": "expression"
               }
             },
             {
               "name": "placeholder",
-              "description": "占位符",
+              "description": "占位提示文字",
               "default": "-",
               "value": {
                 "type": "string",
@@ -9607,44 +9566,26 @@
               }
             },
             {
-              "name": "rows",
-              "description": "显示行数",
-              "default": "8",
+              "name": "variant",
+              "description": "`filled | outlined | standard`",
+              "default": "outlined",
               "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "maxLength",
-              "description": "最大输入长度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
+                "type": "string",
                 "kind": "expression"
               }
             },
             {
               "name": "size",
-              "description": "尺寸",
+              "description": "`xs | sm | md | lg | xl`",
               "default": "md",
               "value": {
-                "type": "`xs | sm | md | lg | xl`",
+                "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "variant",
-              "description": "外观",
-              "default": "standard",
-              "value": {
-                "type": "`filled | outlined | standard`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "是否只读",
+              "name": "clearable",
+              "description": "是否允许清空",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9661,8 +9602,8 @@
               }
             },
             {
-              "name": "clearable",
-              "description": "是否可清除",
+              "name": "readonly",
+              "description": "是否只读",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9670,11 +9611,83 @@
               }
             },
             {
-              "name": "resize",
-              "description": "是否允许垂直拖动调整尺寸",
+              "name": "error",
+              "description": "是否显示错误状态",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rows",
+              "description": "原生可见行数",
+              "default": "-",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "resize",
+              "description": "是否允许纵向拖动调整尺寸",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-size",
+              "description": "自动高度，可设置最小/最大行数",
+              "default": "false",
+              "value": {
+                "type": "boolean | { minRows?: number; maxRows?: number }",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-length",
+              "description": "最大长度；对象形式可启用仅错误模式",
+              "default": "0",
+              "value": {
+                "type": "number | { length: number; errorOnly?: boolean }",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-word-limit",
+              "description": "是否显示字数统计",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-length",
+              "description": "自定义长度计算方法",
+              "default": "-",
+              "value": {
+                "type": "(value: string) => number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-slice",
+              "description": "自定义截取方法",
+              "default": "-",
+              "value": {
+                "type": "(value: string, maxLength: number) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "无可见标签时提供的可访问名称",
+              "default": "-",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             },
@@ -9688,38 +9701,109 @@
               }
             },
             {
+              "name": "enterkeyhint",
+              "description": "虚拟键盘回车键提示",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "textarea-attrs",
-              "description": "透传给原生 textarea 的属性",
+              "description": "内部 textarea 元素的补充原生属性",
               "default": "-",
               "value": {
                 "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint",
+              "description": "是否使用移动端浮动 placeholder",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "line",
+              "description": "是否显示装饰线",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "自定义文字颜色",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "自定义聚焦颜色",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "自定义失焦颜色",
+              "default": "-",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
-              "name": "focus",
-              "description": "聚焦时触发"
-            },
-            {
-              "name": "blur",
-              "description": "失焦时触发"
-            },
-            {
               "name": "input",
-              "description": "输入时触发"
+              "description": "IME 完成后的用户输入"
             },
             {
               "name": "change",
-              "description": "值变化时触发"
+              "description": "失焦提交且值变化时触发"
+            },
+            {
+              "name": "keydown",
+              "description": "用户按键时触发；Enter 不提交 change"
             },
             {
               "name": "clear",
-              "description": "清空时触发"
+              "description": "用户清空时触发，不伴随 input/change"
+            },
+            {
+              "name": "focus",
+              "description": "获得焦点时触发"
+            },
+            {
+              "name": "blur",
+              "description": "失去焦点时触发"
             }
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "prefix",
+              "description": "前缀元素"
+            },
+            {
+              "name": "suffix",
+              "description": "后缀元素"
+            },
+            {
+              "name": "clear-icon",
+              "description": "清除图标或按钮"
+            }
+          ]
         },
         {
           "name": "mp-themes",
