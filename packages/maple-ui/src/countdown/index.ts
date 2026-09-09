@@ -9,6 +9,6 @@ export { countdownProps }
 
 export type CountdownInstance = InstanceType<typeof Countdown>
 export type { CountdownProps, TimeData } from './props'
-export const _CountdownComponent = Countdown
+export const _CountdownComponent: typeof Countdown = Countdown
 
 export default Countdown

@@ -2,7 +2,7 @@
   <div :class="n()">
     <div v-if="$slots.default" :class="classes(n('content'), [loading, n('content--active')])">
       <slot />
-      <div v-if="loading" :class="n('content-mask')"></div>
+      <div v-if="loading" :class="n('content-overlay')"></div>
     </div>
     <div v-if="isShow" :class="classes(n('$--box'), n('body'), [$slots.default, n('inside')])">
       <div v-if="type === 'circle'" :class="n('circle')">
@@ -65,7 +65,7 @@ export default defineComponent({
       disappear: 3,
     }
 
-    const sizeClass = (element: string) => (typeof props.size === 'string' ? n(`${element}--${props.size}`) : undefined)
+    const sizeClass = (element: string) => n(`${element}--${typeof props.size === 'number' ? 'numeric' : props.size}`)
     const sizeStyle = (size: unknown) => {
       if (typeof size !== 'number') {
         return undefined

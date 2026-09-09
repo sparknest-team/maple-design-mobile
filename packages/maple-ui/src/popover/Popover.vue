@@ -1,31 +1,11 @@
 <template>
-  <mp-trigger
+  <Trigger
     ref="triggerRef"
-    :open="$props.open"
-    :disabled="disabled"
+    v-bind="triggerBindings"
     :trigger="trigger"
-    :reference="reference"
-    :placement="placement"
-    :strategy="strategy"
-    :offset-x="offsetX"
-    :offset-y="offsetY"
-    :popup-container="popupContainer"
-    :same-width="sameWidth"
-    :popup-class="
-      classes(
-        n('content'),
-        n('$--box'),
-        popoverClass,
-        [defaultStyle, n('--background-color')],
-        [defaultStyle, formatElevation(elevation, 3)],
-      )
-    "
-    :close-on-click-reference="closeOnClickReference"
-    :esc-to-close="escToClose"
-    :align-point="alignPoint"
-    :cascade-optimization="cascadeOptimization"
-    :animation-name="n()"
+    :unmount-on-close="unmountOnClose"
     @update:open="$emit('update:open', $event)"
+    @open-change="$emit('open-change', $event)"
     @open="$emit('open')"
     @opened="$emit('opened')"
     @close="$emit('close')"
@@ -33,42 +13,36 @@
     @click-outside="$emit('click-outside', $event)"
   >
     <slot />
-    <template #content><slot name="content" /></template>
-  </mp-trigger>
+    <template #content>
+      <div v-if="title || $slots.title" :class="titleClass">
+        <slot name="title">{{ title }}</slot>
+      </div>
+      <div :class="bodyClass">
+        <slot name="content">{{ content }}</slot>
+      </div>
+    </template>
+  </Trigger>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import MpTrigger, { type TriggerInstance } from '../trigger'
-import { createNamespace, formatElevation } from '../utils/components'
-import { props } from './props'
-
-const { name, n, classes } = createNamespace('popover')
+import { defineComponent } from 'vue'
+import Trigger from '../trigger'
+import { useTriggerWrapper } from '../trigger/wrapper'
+import { createNamespace } from '../utils/components'
+import { useAppearance } from './platform'
+import { popoverProps } from './props'
 
 export default defineComponent({
-  name,
-  props,
-  emits: ['update:open', 'open', 'opened', 'close', 'closed', 'click-outside'],
-  components: { MpTrigger },
-  setup() {
-    const triggerRef = ref<TriggerInstance>()
-    const open = () => triggerRef.value?.open()
-    const close = () => triggerRef.value?.close()
-    const resize = () => triggerRef.value?.resize()
-    const setReference = (...args: Parameters<TriggerInstance['setReference']>) =>
-      triggerRef.value?.setReference(...args)
-    const allowClose = () => triggerRef.value?.allowClose()
-
+  name: createNamespace('popover').name,
+  inheritAttrs: false,
+  components: { Trigger },
+  props: popoverProps,
+  emits: ['update:open', 'open-change', 'open', 'opened', 'close', 'closed', 'click-outside'],
+  setup(props, { attrs }) {
+    const appearance = useAppearance(props)
     return {
-      triggerRef,
-      allowClose,
-      formatElevation,
-      n,
-      classes,
-      resize,
-      open,
-      close,
-      setReference,
+      ...appearance,
+      ...useTriggerWrapper(props, attrs, () => appearance.triggerBindings.value),
     }
   },
 })

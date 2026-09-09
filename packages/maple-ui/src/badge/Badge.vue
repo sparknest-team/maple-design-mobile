@@ -1,122 +1,104 @@
-<script lang="ts">
-import { computed, defineComponent, type CSSProperties } from 'vue'
+<script setup lang="ts">
+import { computed, useSlots, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
+import { useBadgeDirection } from './platform'
 import { badgeProps } from './props'
 
-const { name, n, classes } = createNamespace('badge')
-
-export default defineComponent({
-  name,
-  props: badgeProps,
-  setup(props, { slots }) {
-    const computedMode = computed(() => (!slots.default && !props.description ? 'inline' : props.mode))
-    const dotComputed = computed(() => (typeof props.content === 'undefined' ? true : props.dot))
-    const countValue = computed(() => (typeof props.content === 'number' ? props.content : null))
-    const hasCount = computed(() => countValue.value !== null)
-    const showValue = computed(() => {
-      if (!props.show) {
-        return false
+defineOptions({ name: createNamespace('badge').name })
+const { n, classes } = createNamespace('badge')
+const props = defineProps(badgeProps)
+const slots = useSlots()
+const direction = useBadgeDirection()
+const computedMode = computed(() => (!slots.default && !props.description ? 'inline' : props.mode))
+const dotComputed = computed(() => props.content === undefined || props.dot)
+const countValue = computed(() => (typeof props.content === 'number' ? props.content : null))
+const showValue = computed(() => props.show && (countValue.value === null || props.showZero || countValue.value > 0))
+const wrapperClass = computed(() =>
+  classes(
+    n(),
+    [computedMode.value === 'floating', n(`--position-${props.position}`)],
+    [computedMode.value === 'inline', n(`--inline-position-${props.inlinePosition}`)],
+    n(`--mode-${computedMode.value}`),
+    [dotComputed.value, n('--dot')],
+    n(`--size-${props.size}`),
+    n(`--status-${props.status}`),
+    n(`--variant-${props.variant}`),
+  ),
+)
+const contentWrapperStyle = computed<CSSProperties>(() => {
+  const style: CSSProperties = {}
+  if (computedMode.value === 'floating') {
+    // position denotes a physical corner; logical margins would reverse offsets in RTL.
+    const pos = props.position
+    if (props.offsetX) {
+      if (pos.includes('left')) {
+        style.marginLeft = `${props.offsetX}px`
+      } else {
+        style.marginRight = `${props.offsetX}px`
       }
-      if (hasCount.value) {
-        return props.showZero ? true : !!(countValue.value && countValue.value > 0)
-      }
-      return true
-    })
-
-    const wrapperClass = computed(() =>
-      classes(
-        n(),
-        [computedMode.value === 'floating' && props.position, n(`--position-${props.position}`)],
-        [computedMode.value === 'inline' && props.inlinePosition, n(`--inline-position-${props.inlinePosition}`)],
-        [computedMode.value, n(`--mode-${computedMode.value}`)],
-        [dotComputed.value, n('--dot')],
-        [props.size, n(`--size-${props.size}`)],
-        [props.status, n(`--status-${props.status}`)],
-        [props.variant, n(`--variant-${props.variant}`)],
-      ),
-    )
-
-    const contentWrapperStyle = computed<CSSProperties>(() => {
-      const style: CSSProperties = {}
-      if (computedMode.value === 'floating') {
-        const pos = props.position
-        if (props.offsetX) {
-          if (pos === 'top-left' || pos === 'bottom-left') {
-            style.marginInlineStart = `${props.offsetX}px`
-          } else if (pos === 'top-right' || pos === 'bottom-right') {
-            style.marginInlineEnd = `${props.offsetX}px`
-          }
-        }
-        if (props.offsetY) {
-          if (pos === 'top-left' || pos === 'top-right') {
-            style.marginBlockStart = `${props.offsetY}px`
-          } else if (pos === 'bottom-left' || pos === 'bottom-right') {
-            style.marginBlockEnd = `${props.offsetY}px`
-          }
-        }
-      } else if (props.offsetY) {
-        if (props.inlinePosition === 'start') {
-          style.marginBlockStart = `${props.offsetY}px`
-        } else if (props.inlinePosition === 'end') {
-          style.marginBlockEnd = `${props.offsetY}px`
-        }
-      }
-      return style
-    })
-
-    const contentStyle = computed<CSSProperties>(() => {
-      const style: CSSProperties = {}
-      if (props.color) {
-        style.backgroundColor = props.color
-      }
-      if (props.textColor) {
-        style.color = props.textColor
-      }
-      return style
-    })
-
-    const renderedContent = computed(() => {
-      if (typeof props.content === 'string') {
-        return props.content
-      }
-      if (props.max && hasCount.value && countValue.value && countValue.value > props.max) {
-        return `${props.max}+`
-      }
-      return countValue.value
-    })
-
-    return {
-      n,
-      classes,
-      computedMode,
-      dotComputed,
-      showValue,
-      wrapperClass,
-      contentWrapperStyle,
-      contentStyle,
-      renderedContent,
     }
-  },
+    if (props.offsetY) {
+      if (pos.startsWith('top')) {
+        style.marginTop = `${props.offsetY}px`
+      } else if (pos.startsWith('bottom')) {
+        style.marginBottom = `${props.offsetY}px`
+      } else {
+        style.marginTop = `${props.offsetY}px`
+      }
+    }
+  } else if (props.offsetY) {
+    style[props.inlinePosition === 'start' ? 'marginBlockStart' : 'marginBlockEnd'] = `${props.offsetY}px`
+  }
+  return style
+})
+const contentStyle = computed<CSSProperties>(() => {
+  const style: CSSProperties = {}
+  if (props.color) {
+    if (props.variant === 'outline') {
+      style.borderColor = props.color
+      style.color = props.color
+      style.backgroundColor = 'transparent'
+    } else {
+      style.backgroundColor = props.color
+    }
+  }
+  if (props.textColor) {
+    style.color = props.textColor
+  }
+  return style
+})
+const renderedContent = computed(() => {
+  if (typeof props.content === 'string') {
+    return props.content
+  }
+  if (props.max && countValue.value !== null && countValue.value > props.max) {
+    return `${props.max}+`
+  }
+  return countValue.value
 })
 </script>
 
 <template>
-  <span :class="wrapperClass">
-    <div :class="n('wrapper')">
+  <span :class="wrapperClass" :dir="direction">
+    <span :class="n('wrapper')">
       <template v-if="showValue">
-        <span v-if="$slots.content" :class="classes(n('custom-dot'), n('content-wrapper'))">
+        <span
+          v-if="$slots.content"
+          :class="classes(n('custom-dot'), n('content-wrapper'))"
+          :style="contentWrapperStyle"
+        >
           <slot name="content" />
         </span>
         <span v-else-if="dotComputed" :class="n('content-wrapper')" :style="contentWrapperStyle">
-          <div :class="n('dot-content')" :style="contentStyle" />
+          <span :class="n('dot-content')" :style="contentStyle" />
         </span>
-        <span v-else-if="typeof content !== 'undefined'" :class="n('content-wrapper')" :style="contentWrapperStyle">
+        <span v-else-if="content !== undefined" :class="n('content-wrapper')" :style="contentWrapperStyle">
           <span :class="n('content')" :style="contentStyle">{{ renderedContent }}</span>
         </span>
       </template>
       <span v-if="$slots.default || description" :class="n('description-wrapper')">
         <slot>{{ description }}</slot>
       </span>
-    </div>
+    </span>
   </span>
 </template>

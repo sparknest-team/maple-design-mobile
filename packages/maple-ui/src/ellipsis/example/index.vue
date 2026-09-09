@@ -28,7 +28,7 @@ onThemeChange()
   }}</mp-ellipsis>
 
   <app-type>{{ t('tooltip') }}</app-type>
-  <mp-ellipsis style="max-width: 50vmin" :tooltip="{ type: 'primary', sameWidth: false }">
+  <mp-ellipsis style="max-width: 50vmin" :tooltip="{ type: 'primary', autoFitPopupWidth: false }">
     {{ t('text') }}
 
     <template #tooltip-content>

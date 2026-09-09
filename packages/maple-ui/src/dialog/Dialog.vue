@@ -26,6 +26,7 @@
   >
     <div
       ref="dialogRef"
+      data-modal-focus-root
       role="dialog"
       aria-modal="true"
       tabindex="-1"
@@ -33,7 +34,6 @@
       :class="dialogClasses"
       :style="mergedDialogStyle"
       v-bind="$attrs"
-      @keydown="handleFocusTrap"
     >
       <div
         v-if="!hideTitle && ($slots.title || title || closable)"
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onBeforeUnmount, ref, useSlots, watch, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, ref, useSlots, watch, type CSSProperties } from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -134,7 +134,6 @@ const confirmButtonLoading = ref(false)
 const cancelButtonLoading = ref(false)
 const confirmButtonDisabled = ref(false)
 const cancelButtonDisabled = ref(false)
-let previouslyFocused: HTMLElement | null = null
 let removeDragListeners: (() => void) | undefined
 
 const beforeCloseRefs: DialogBeforeCloseRefs = {
@@ -182,8 +181,6 @@ watch(
     internalOpen.value = open
     if (open) {
       mounted.value = true
-      previouslyFocused =
-        typeof document !== 'undefined' && document.activeElement instanceof HTMLElement ? document.activeElement : null
     }
   },
   { immediate: true },
@@ -256,42 +253,21 @@ function handleKeyEscape(event?: KeyboardEvent) {
   }
 }
 function handleOpened() {
-  nextTick(() => dialogRef.value?.focus())
+  if (!computedOpen.value) {
+    return
+  }
   emit('opened')
 }
 function handleClosed() {
+  if (computedOpen.value) {
+    return
+  }
   if (props.unmountOnClose) {
     mounted.value = false
   }
   dragX.value = 0
   dragY.value = 0
-  previouslyFocused?.focus()
-  previouslyFocused = null
   emit('closed')
-}
-function handleFocusTrap(event: KeyboardEvent) {
-  if (event.key !== 'Tab' || !dialogRef.value) {
-    return
-  }
-  const focusable = Array.from(
-    dialogRef.value.querySelectorAll<HTMLElement>(
-      'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])',
-    ),
-  ).filter((element) => !element.hasAttribute('disabled'))
-  if (!focusable.length) {
-    event.preventDefault()
-    dialogRef.value.focus()
-    return
-  }
-  const first = focusable[0]
-  const last = focusable[focusable.length - 1]
-  if (event.shiftKey && document.activeElement === first) {
-    event.preventDefault()
-    last.focus()
-  } else if (!event.shiftKey && document.activeElement === last) {
-    event.preventDefault()
-    first.focus()
-  }
 }
 function handlePointerDown(event: PointerEvent) {
   if (!props.draggable || props.fullscreen || event.button !== 0) {
@@ -315,7 +291,6 @@ function handlePointerDown(event: PointerEvent) {
 
 onBeforeUnmount(() => {
   removeDragListeners?.()
-  previouslyFocused?.focus()
 })
 defineExpose({ close, confirm: handleConfirm, cancel: handleCancel })
 </script>

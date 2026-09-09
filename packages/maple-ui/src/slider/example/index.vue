@@ -74,10 +74,10 @@ function handleChange(v) {
   <app-type>{{ t('vertical') }}</app-type>
   <mp-space justify="space-around">
     <div style="height: 300px">
-      <mp-slider v-model="values.value12" direction="vertical" />
+      <mp-slider v-model="values.value12" orientation="vertical" />
     </div>
     <div style="height: 300px">
-      <mp-slider v-model="values.value13" range label-visible="always" direction="vertical" />
+      <mp-slider v-model="values.value13" range label-visible="always" orientation="vertical" />
     </div>
   </mp-space>
 </template>

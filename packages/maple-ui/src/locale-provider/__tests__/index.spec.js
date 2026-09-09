@@ -1,4 +1,4 @@
-import { createApp, h } from 'vue'
+import { createApp, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import DatePicker from '../../date/DatePicker.vue'
@@ -33,6 +33,7 @@ test('localeProvider locale', async () => {
         h('div', [h(Dialog, { open: true, popupContainer: container }), h(DatePicker, { modelValue: '2021-04-08' })]),
     },
   })
+  await nextTick()
   expect(container.innerHTML).toMatchSnapshot()
   expect(wrapper.html()).toMatchSnapshot()
   expect(container.innerHTML).contains('确认')

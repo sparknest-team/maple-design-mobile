@@ -132,7 +132,7 @@ const empty = ref(false)
 
 | 参数            | 说明                                                              | 类型       | 默认值       |
 |---------------|-----------------------------------------------------------------|----------|-----------|
-| `status`        | 结果状态，可选值为 `info` `success` `warning` `danger` `question` `empty` | _string_ | `success` |
+| `status` | info / success / warning / danger / question / empty / 403 / 404 / 500 | _ResultStatus_ | `info` |
 | `title`       | 标题                                                              | _string_ | `-`       |
 | `subtitle` | 描述                                                              | _string_ | `-`       |
 | `image-size`  | 图片尺寸                                                            | _string \| number_   | `-`  |
@@ -181,5 +181,4 @@ const empty = ref(false)
 | `--result-subtitle-font-size`   | `14px`                     |
 | `--result-subtitle-color`       | `rgba(0, 0, 0, 0.6)`       |
 | `--result-subtitle-line-height` | `1.6`                      |
-
 

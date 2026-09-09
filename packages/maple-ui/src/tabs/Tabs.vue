@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="sticky ? n('$-sticky') : Transition"
+    :is="sticky ? n('$-affix') : Transition"
     :ref="sticky ? 'stickyComponent' : undefined"
     :css-mode="sticky ? stickyCssMode : undefined"
     :offset-top="sticky ? offsetTop : undefined"
@@ -59,7 +59,7 @@
 import { computed, defineComponent, onActivated, ref, Transition, watch } from 'vue'
 import { call, clamp, doubleRaf, isNumber } from '@maplejs/maple-shared'
 import { onWindowResize } from '@maplejs/maple-use'
-import MpSticky from '../sticky'
+import MpAffix from '../affix'
 import { createNamespace, formatElevation } from '../utils/components'
 import { scrollTo, toSizeUnit } from '../utils/elements'
 import { linear } from '../utils/shared'
@@ -71,7 +71,7 @@ const { name, n, classes } = createNamespace('tabs')
 
 export default defineComponent({
   name,
-  components: { MpSticky },
+  components: { MpAffix },
   inheritAttrs: false,
   props,
   emits: ['update:active', 'click', 'change'],
@@ -86,10 +86,10 @@ export default defineComponent({
     const activeColor = computed(() => props.activeColor)
     const inactiveColor = computed(() => props.inactiveColor)
     const disabledColor = computed(() => props.disabledColor)
-    const layoutDirection = computed(() => (props.vertical ? 'vertical' : 'horizontal'))
+    const layoutDirection = computed(() => props.orientation)
     const itemDirection = computed(() => (props.itemVertical ? 'vertical' : 'horizontal'))
     const itemVertical = computed(() => props.itemVertical)
-    const stickyComponent = ref<null | typeof MpSticky>(null)
+    const stickyComponent = ref<null | typeof MpAffix>(null)
     const indicatorPosition = computed<string>(() => (props.indicatorPosition === 'reverse' ? '-reverse' : ''))
     const { tabList, bindTabList, length } = useTabList()
 
@@ -161,7 +161,7 @@ export default defineComponent({
         return
       }
 
-      if (!props.vertical) {
+      if (props.orientation !== 'vertical') {
         indicatorWidth.value = `${el.offsetWidth}px`
         indicatorX.value = `${el.offsetLeft}px`
       } else {
@@ -178,7 +178,7 @@ export default defineComponent({
       const scroller: HTMLElement = scrollerEl.value as HTMLElement
       const el = element.value as HTMLElement
 
-      if (!props.vertical) {
+      if (props.orientation !== 'vertical') {
         const left: number = el.offsetLeft + el.offsetWidth / 2 - scroller.offsetWidth / 2
         scrollTo(scroller, {
           left,
@@ -206,9 +206,9 @@ export default defineComponent({
     }
 
     // expose
-    async function resizeSticky() {
+    async function resizeAffix() {
       if (props.sticky && stickyComponent.value) {
-        await stickyComponent.value.resize()
+        await stickyComponent.value.updatePosition()
       }
     }
 
@@ -227,10 +227,10 @@ export default defineComponent({
       classes,
       resize,
       variant: computed(() => props.variant),
-      vertical: computed(() => props.vertical),
+      vertical: computed(() => props.orientation === 'vertical'),
       layoutDirection,
       itemDirection,
-      resizeSticky,
+      resizeAffix,
       formatElevation,
     }
   },

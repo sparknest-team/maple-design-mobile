@@ -149,13 +149,17 @@ const Dialog = Object.assign(MpDialog, {
 withInstall(MpDialog, Dialog, {
   setup(app) {
     Dialog._context = app._context
-    app.config.globalProperties.$dialog = Object.fromEntries(
-      Object.entries(methods).map(([name, method]) => [
-        name,
-        (config?: DialogConfig | string) => method(config, app._context),
-      ]),
-    )
-    Object.assign(app.config.globalProperties.$dialog, {
+    const bind = (method: DialogMethod['open']) => (config?: DialogConfig | string) => method(config, app._context)
+    const boundMethods: DialogMethod = {
+      open: bind(methods.open),
+      confirm: bind(methods.confirm),
+      alert: bind(methods.alert),
+      info: bind(methods.info),
+      success: bind(methods.success),
+      warning: bind(methods.warning),
+      error: bind(methods.error),
+    }
+    app.config.globalProperties.$dialog = Object.assign(boundMethods, {
       close: Dialog.close,
       setDefaultOptions: Dialog.setDefaultOptions,
       resetDefaultOptions: Dialog.resetDefaultOptions,
@@ -177,7 +181,7 @@ export type {
 } from './types'
 export type { DialogProps } from './props'
 export type DialogInstance = InstanceType<typeof MpDialog>
-export const _DialogComponent = MpDialog
+export const _DialogComponent: typeof MpDialog = MpDialog
 export { Dialog }
 
 export default Dialog

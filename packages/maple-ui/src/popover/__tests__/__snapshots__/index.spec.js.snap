@@ -1,63 +1,47 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`popover click trigger 1`] = `"<div data-v-app=""><button class="reference">reference</button><!--teleport start--><!--teleport end--></div><div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; transform-origin: top left;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover click trigger 1`] = `"<div data-v-app=""><button class="reference">reference</button><!--teleport start--><!--teleport end--></div><div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover click trigger 2`] = `"<div data-v-app=""><button class="reference">reference</button><!--teleport start--><!--teleport end--></div><div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover click trigger 2`] = `"<div data-v-app=""><button class="reference">reference</button><!--teleport start--><!--teleport end--></div><div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; display: none;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0; display: none;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover default style 1`] = `"<transition-stub name="mp-popover" appear="false" persisted="true" css="true"><div class="mp-trigger__popup mp-popover__content mp--box" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div></transition-stub>"`;
+exports[`popover default style 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom"><transition-stub name="mp-popover" appear="true" persisted="false" css="true"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0; display: none;"><div class="mp-trigger__content mp-popover__content mp--box"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></transition-stub></div>"`;
 
-exports[`popover elevation 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; transform-origin: top left;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover elevation 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover elevation 2`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--10" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; transform-origin: top left;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover elevation 2`] = `"<div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--10"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover hover the popover content 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover hover the popover content 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; display: none;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0; display: none;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover hover trigger and events 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; transform-origin: top left;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover hover trigger and events 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover hover trigger and events 2`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;" data-popper-placement="bottom-start"></div>"`;
+exports[`popover hover trigger and events 2`] = `"<div class="mp-trigger__popup" style="z-index: 2000; position: absolute; left: 0px; top: 0px; margin: 0px; display: none;" trigger-placement="bottom" data-popper-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0; display: none;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover manual trigger 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover manual trigger 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0; display: none;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover offset 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover offset 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;" trigger-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0; display: none;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;
 
-exports[`popover placement 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 1`] = `""`;
 
-exports[`popover placement 2`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 2`] = `""`;
 
-exports[`popover placement 3`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 3`] = `""`;
 
-exports[`popover placement 4`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 4`] = `""`;
 
-exports[`popover placement 5`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 5`] = `""`;
 
-exports[`popover placement 6`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 6`] = `""`;
 
-exports[`popover placement 7`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 7`] = `""`;
 
-exports[`popover placement 8`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 8`] = `""`;
 
-exports[`popover placement 9`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 9`] = `""`;
 
-exports[`popover placement 10`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 10`] = `""`;
 
-exports[`popover placement 11`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 11`] = `""`;
 
-exports[`popover placement 12`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
+exports[`popover placement 12`] = `""`;
 
-exports[`popover placement 13`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 14`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 15`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 16`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 17`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 18`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 19`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover placement 20`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; display: none; position: absolute; left: 0px; top: 0px; margin: 0px;"></div>"`;
-
-exports[`popover same width 1`] = `"<div class="mp-trigger__popup mp-popover__content mp--box mp-popover--background-color mp-elevation--3" style="z-index: 2000; width: 0px;"></div>"`;
+exports[`popover same width 1`] = `"<div class="mp-trigger__popup" style="z-index: 2000; width: 0px;" trigger-placement="bottom"><div class="mp-trigger__popup-wrapper" style="position: relative; transform-origin: 50% 0;"><div class="mp-trigger__content mp-popover__content mp--box mp-popover--background-color mp-elevation--3"><!--v-if--><div class="mp-popover__body"></div></div><!----></div></div>"`;

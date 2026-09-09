@@ -1,194 +1,318 @@
 # Switch
 
-### Intro
+The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
 
-Switching Selector.
+## Examples
 
-### Basic Usage
+### Controlled and default value
 
 ```html
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-
-const value = ref(true)
+const enabled = ref(false)
 </script>
 
 <template>
-  <mp-switch v-model="value" />
+  <mp-space wrap
+    ><mp-switch v-model="enabled" aria-label="Enable notifications" /><output>{{ enabled }}</output
+    ><mp-switch default-checked aria-label="Initially enabled"
+  /></mp-space>
+</template>
+```
+
+### Four variants
+
+```html
+<script setup lang="ts">
+const variants = ['circle', 'round', 'line', 'md3'] as const
+</script>
+
+<template>
+  <mp-space wrap
+    ><label v-for="variant in variants" :key="variant"
+      >{{ variant }} <mp-switch :variant="variant" :aria-label="variant" /></label
+  ></mp-space>
+</template>
+```
+
+### Three sizes
+
+```html
+<script setup lang="ts">
+const sizes = ['sm', 'md', 'lg'] as const
+</script>
+
+<template>
+  <mp-space wrap
+    ><label v-for="size in sizes" :key="size">{{ size }} <mp-switch :size="size" :aria-label="size" /></label
+  ></mp-space>
 </template>
 ```
 
 ### Disabled
 
 ```html
-<template>
-  <mp-switch v-model="value" disabled />
-</template>
-```
-
-### Readonly
-
-```html
-<template>
-  <mp-switch v-model="value" readonly />
-</template>
-```
-
-### Custom Color
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(true)
+<script setup lang="ts">
+const variants = ['circle', 'round', 'line', 'md3'] as const
 </script>
 
 <template>
-  <mp-switch v-model="value" checked-color="var(--color-warning)" unchecked-color="var(--color-info)" />
+  <mp-space wrap
+    ><template v-for="variant in variants" :key="variant"
+      ><mp-switch :variant="variant" disabled :aria-label="variant + ' off'" /><mp-switch
+        :variant="variant"
+        default-checked
+        disabled
+        :aria-label="variant + ' on'" /></template
+  ></mp-space>
 </template>
 ```
 
-### Size
-
-Use `size` prop to change size of Switch.
+### Read only
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(true)
+<script setup lang="ts">
+const variants = ['circle', 'round', 'line', 'md3'] as const
 </script>
 
 <template>
-  <mp-switch v-model="value" :size="15" />
-  <mp-switch v-model="value" />
-  <mp-switch v-model="value" :size="25" />
+  <mp-space wrap
+    ><template v-for="variant in variants" :key="variant"
+      ><mp-switch :variant="variant" readonly :aria-label="variant + ' off'" /><mp-switch
+        :variant="variant"
+        default-checked
+        readonly
+        :aria-label="variant + ' on'" /></template
+  ></mp-space>
 </template>
 ```
 
 ### Loading
 
 ```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(true)
+<script setup lang="ts">
+const variants = ['circle', 'round', 'line', 'md3'] as const
 </script>
 
 <template>
-  <mp-switch v-model="true" loading />
+  <mp-space wrap
+    ><template v-for="variant in variants" :key="variant"
+      ><mp-switch :variant="variant" loading :aria-label="variant + ' off'" /><mp-switch
+        :variant="variant"
+        default-checked
+        loading
+        :aria-label="variant + ' on'" /></template
+  ></mp-space>
 </template>
 ```
 
-### Validate Value
-
-Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
-
-### Asynchronous Change
-
-In some scenarios, you may need to wait for the server to return successfully before making changes.
-`lazy-change` prevents binding value updates on the component itself.
-Register `before-change` events for manual updates.
+### Custom colors
 
 ```html
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-
-const value = ref(true)
-
-function handleBeforeChange(value, change) {
-  setTimeout(() => change(value), 500)
-}
+const enabled = ref(false)
 </script>
 
 <template>
-  <mp-switch 
-    lazy-change
-    v-model="value"
-    :before-change="handleBeforeChange"
+  <mp-switch
+    v-model="enabled"
+    checked-color="#005f73"
+    unchecked-color="#9b2226"
+    aria-label="Custom color switch"
   />
 </template>
 ```
 
-### Variant
+### Custom text
 
 ```html
-<script setup>
-import { ref } from 'vue'
+<template>
+  <mp-space wrap
+    ><mp-switch checked-text="ON" unchecked-text="OFF" aria-label="Text props" /><mp-switch
+      variant="round"
+      aria-label="Text slots"
+      ><template #checked>ON</template><template #unchecked>OFF</template></mp-switch
+    ></mp-space
+  >
+</template>
+```
 
-const value = ref(true)
+### Custom icons
+
+```html
+<script setup lang="ts">
+const variants = ['circle', 'round', 'line', 'md3'] as const
 </script>
 
 <template>
-  <mp-switch variant v-model="value" />
+  <mp-space wrap
+    ><mp-switch v-for="variant in variants" :key="variant" :variant="variant" :aria-label="variant"
+      ><template #checked-icon>✓</template><template #unchecked-icon>×</template></mp-switch
+    ></mp-space
+  >
+</template>
+```
+
+### Ripple and handle elevation
+
+```html
+<template>
+  <mp-space wrap
+    ><mp-switch :ripple="false" :handle-elevation="false" aria-label="No ripple or shadow" /><mp-switch
+      :handle-elevation="4"
+      aria-label="Elevated handle"
+  /></mp-space>
+</template>
+```
+
+### Custom values and events
+
+```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('disabled')
+const lastChange = ref('—')
+</script>
+
+<template>
+  <mp-space direction="column"
+    ><mp-switch
+      v-model="value"
+      checked-value="enabled"
+      unchecked-value="disabled"
+      aria-label="String value"
+      @change="lastChange = String($event)"
+    /><output aria-live="polite">Value: {{ value }}; change: {{ lastChange }}</output></mp-space
+  >
+</template>
+```
+
+### Async allow, deny and rejection
+
+```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const result = ref('Ready')
+const wait = () => new Promise<void>((resolve) => setTimeout(resolve, 500))
+async function allow() {
+  await wait()
+  result.value = 'Allowed'
+  return true
+}
+async function deny() {
+  await wait()
+  result.value = 'Blocked'
+  return false
+}
+async function reject() {
+  await wait()
+  result.value = 'Rejected'
+  throw new Error('Demo rejection')
+}
+</script>
+
+<template>
+  <mp-space direction="column">
+    <label>Allow after 500ms <mp-switch :before-change="allow" aria-label="Async allow" /></label>
+    <label>Return false <mp-switch :before-change="deny" aria-label="Async deny" /></label>
+    <label>Reject Promise <mp-switch :before-change="reject" aria-label="Async rejection" /></label>
+    <output aria-live="polite">{{ result }}</output>
+  </mp-space>
+</template>
+```
+
+### Focus and event order
+
+```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref(false)
+const events = ref<string[]>([])
+function record(name: string) {
+  events.value = [...events.value.slice(-7), name]
+}
+</script>
+
+<template>
+  <p>Use Tab to focus, then Space or Enter to toggle.</p>
+  <mp-switch
+    v-model="value"
+    size="md"
+    aria-label="Event sequence"
+    @focus="record('focus')"
+    @blur="record('blur')"
+    @click="record('click')"
+    @update:model-value="record(`update: ${$event}`)"
+    @change="record(`change: ${$event}`)"
+  />
+  <p aria-live="polite">{{ events.join(' → ') || 'No events yet' }}</p>
+  <mp-button @click="events = []">Clear events</mp-button>
 </template>
 ```
 
 ## API
 
+<!-- same-source-api:start -->
 ### Props
 
-| Prop             | Description | Type | Default |
-|------------------| -------------- | -------- | ---------- |
-| `v-model`        | Check status of Switch	| _any_ | `false` |
-| `checked-value`   | The value when the switch is turned on	| _any_ | `true` |
-| `unchecked-value` | The value when the switch is turned off	| _any_ | `false` |
-| `disabled`       | Whether to disable switch| _boolean_ | `false` |
-| `readonly`       | Whether to readonly switch | _boolean_ | `false` |
-| `loading`        | Whether to show loading icon | _boolean_ | `false` |
-| `ripple`         | Whether to open ripple | _boolean_ | `true` |
-| `handle-elevation` | The elevation of handle button | _boolean_ | `true` |
-| `checked-color`  | Background color when open | _string_ | `-` |
-| `unchecked-color` | Background color when close | _string_ | `-` |
-| `loading-color`  | Color of loading icon | _string_ | `-` |
-| `size`           | Size of switch | _string \| number_ | `-` |
-| `lazy-change`    | Whether to allow the `before-change` event to be triggered | _boolean_  | `false` |
-| `variant` ***3.2.3*** | Variant mode | _boolean_ | `false` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| model-value | Controlled value; omit for internal state | string / number / boolean | undefined |
+| default-checked | Initial uncontrolled checked state; initialization only | boolean | false |
+| checked-value | Checked value | string / number / boolean | true |
+| unchecked-value | Unchecked value | string / number / boolean | false |
+| variant | Appearance | circle / round / line / md3 | circle |
+| size | Size; omitted value follows platform rules below | sm / md / lg | undefined |
+| disabled | Disable interaction, including inherited form disabled state | boolean | false |
+| readonly | Read only; focus and click remain available without toggling | boolean | false |
+| loading | Loading; blocks clicks and changes | boolean | false |
+| before-change | Change interceptor, not an event | (nextValue: SwitchValue) => boolean / void / Promise<boolean / void> | — |
+| checked-text | Checked label | string | — |
+| unchecked-text | Unchecked label | string | — |
+| checked-color | Checked track color | string | — |
+| unchecked-color | Unchecked track color | string | — |
+| loading-color | Spinner color | string | — |
+| ripple | Click ripple | boolean | true |
+| handle-elevation | Thumb shadow; true means level 2; numbers are truncated and clamped to 0–24 | boolean / number | true |
 
 ### Events
 
-| Event | Description | arguments |
-| ----- | -------------- | -------- |
-| `click` | Emitted when component is clicked | `event: Event` |
-| `change` | Emitted when check status changed | `value: any` |
-| `before-change` | Triggered before a change event (`lazy-change` mode only) | `value: any` <br> `change: (value: any) => void` |
-
-### Style Variables
-
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
-
-| Variable | Default |
+| Event | Arguments and timing |
 | --- | --- |
-| `--switch-track-background` | `#fff` |
-| `--switch-track-active-background` | `var(--color-primary)` |
-| `--switch-track-error-background` | `var(--color-danger)` |
-| `--switch-ripple-color` | `var(--color-primary)` |
-| `--switch-handle-background` | `var(--color-on-primary)` |
-| `--switch-handle-color` | `var(--color-primary)` |
-| `--switch-handle-active-color` | `var(--color-on-primary)` |
-| `--switch-handle-active-background` | `var(--color-primary)` |
-| `--switch-handle-error-background` | `var(--color-danger)` |
-| `--switch-disabled-opacity` | `var(--opacity-disabled)` |
-| `--switch-variant-width` | `52px` |
-| `--switch-variant-height` | `32px` |
-| `--switch-variant-track-border-color` | `#888` |
-| `--switch-variant-track-background` | `var(--color-surface-container-highest)` |
-| `--switch-variant-handle-width` | `24px` |
-| `--switch-variant-handle-height` | `24px` |
-| `--switch-variant-handle-color` | `var(--color-on-primary)` |
-| `--switch-variant-handle-active-color` | `var(--color-primary)` |
-| `--switch-variant-handle-background` | `#888` |
-| `--switch-variant-handle-active-background` | `var(--color-on-primary)` |
-| `--switch-width` | `40px` |
-| `--switch-height` | `24px` |
-| `--switch-track-width` | `38px` |
-| `--switch-track-height` | `14.4px` |
-| `--switch-track-border-radius` | `calc(20px * 2 / 3)` |
-| `--switch-handle-width` | `20px` |
-| `--switch-handle-height` | `20px` |
-| `--switch-ripple-size` | `40px` |
-| `--switch-ripple-left` | `-10px` |
-| `--switch-ripple-active-left` | `10px` |
-| `--switch-loading-size` | `16px` |
-| `--switch-variant-ripple-left` | `-4px` |
-| `--switch-variant-ripple-active-left` | `16px` |
+| click | `(event: Event)`, before interception |
+| update:model-value | `(nextValue: SwitchValue)`, before change after an accepted toggle |
+| change | `(nextValue: SwitchValue, event: Event)`, once per committed toggle |
+| focus | `(event: FocusEvent)`, when focused |
+| blur | `(event: FocusEvent)`, when blurred |
+
+### Slots
+
+| Slot | Description | Arguments |
+| --- | --- | --- |
+| checked | Checked label; overrides checked-text; hidden for line/sm | — |
+| unchecked | Unchecked label; overrides unchecked-text; hidden for line/sm | — |
+| checked-icon | Checked thumb icon; replaced while loading | — |
+| unchecked-icon | Unchecked thumb icon; replaced while loading | — |
+
+### Methods
+
+No public methods.
+
+### Platform notes
+
+Props, event arguments and slots match. Cedar inherits form/global size (xs/sm map to sm, lg/xl to lg); Maple defaults to md. Both inherit form disabled state; Maple also inherits Form readonly, while Cedar uses component readonly. Platform form adapters remain distinct.
+
+before-change returning false, throwing or rejecting cancels the toggle; other successful results allow it. Pending promises enable loading and block duplicate input. Unmounting, KeepAlive deactivation, external value updates and disabled/readonly/loading changes invalidate pending results. Controlled state changes only when the parent updates model-value. External updates do not emit change. Enter and Space toggle without key-repeat changes. Disabled/loading suppress click and changes; readonly permits click without running the interceptor.
+<!-- same-source-api:end -->
+
+## Types and styling
+
+Root and component entries export SwitchProps, SwitchVariant, SwitchSize, SwitchValue, SwitchBeforeChange and SwitchInstance.
+Tokens use --mp-switch-* (Cedar: --c-switch-*). width/height/handle-size default to 40/24/16px; md3-width/md3-height/md3-handle-size to 52/32/24px.
+size-sm-scale=.8, size-lg-scale=1.2; hit-area=0px expands the click target without altering layout. Full tokens are in style/token.less.
+
+## Migration
+
+Maple standard becomes line; omitted variant now means circle. Remove lazy-change and return a result or Promise from before-change instead of calling change(value).
+The change notification now includes the original event as its second argument. Custom colors target the track; thumb colors use tokens.

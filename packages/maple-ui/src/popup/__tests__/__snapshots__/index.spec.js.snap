@@ -5,7 +5,7 @@ exports[`popup show 1`] = `
   <div class="mp--box mp-popup" style="z-index: 1998; display: none;">
     <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
-      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" role="dialog" aria-modal="true">
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true">
         <!---->
       </div>
     </transition-stub>
@@ -18,7 +18,7 @@ exports[`popup show 2`] = `
   <div class="mp--box mp-popup" style="z-index: 1998;">
     <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
-      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000;" role="dialog" aria-modal="true"> default slot content </div>
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000;" tabindex="-1" role="dialog" aria-modal="true"> default slot content </div>
     </transition-stub>
   </div>
 </transition-stub>"
@@ -29,7 +29,7 @@ exports[`popup show 3`] = `
   <div class="mp--box mp-popup" style="z-index: 1998; display: none;">
     <div class="mp-popup__overlay" role="presentation" style="z-index: 1999;"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="false" css="true">
-      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" role="dialog" aria-modal="true"> default slot content </div>
+      <div class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true"> default slot content </div>
     </transition-stub>
   </div>
 </transition-stub>"

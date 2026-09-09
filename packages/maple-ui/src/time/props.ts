@@ -3,11 +3,13 @@ import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
 import { pickProps } from '../utils/components'
+import { popupContainerProp } from '../utils/popup-container'
 import { props as timePickerPropsSource, type DisabledTime, type Format } from './picker-props'
 
 export type TimePresentation = 'clock' | 'picker'
 
 export const props = {
+  popupContainer: popupContainerProp,
   modelValue: {
     type: String,
     default: undefined,
@@ -55,4 +57,4 @@ export const props = {
   ]),
 }
 
-export type TimeProps = ExtractPropTypes<typeof props>
+export type TimeProps = import('vue').ExtractPublicPropTypes<typeof props>

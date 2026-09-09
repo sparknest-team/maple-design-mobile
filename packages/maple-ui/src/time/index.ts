@@ -22,7 +22,8 @@ export type TimePickerInstance = InstanceType<typeof TimePicker>
 export type { TimeProps } from './props'
 export type { DisabledTime, Format, Time as TimeValue, TimePickerPresentation } from './picker-props'
 
-export const _TimeComponent = Time
-export const _TimePickerComponent = TimePicker
+export const _TimeComponent: typeof Time = Time
+export const _TimePickerComponent: typeof TimePicker = TimePicker
 
 export default Time
+export type TimePickerProps = import('vue').ExtractPublicPropTypes<typeof import('./picker-props').props>

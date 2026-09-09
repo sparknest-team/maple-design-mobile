@@ -151,7 +151,8 @@ const LoadingBar: LoadingBar = {
 
 export { loadingBarProps }
 
-export type LoadingBarInstance = InstanceType<typeof LoadingBar>
-export const _LoadingBarComponent = LoadingBar
+export type LoadingBarInstance = typeof LoadingBar
+export const _LoadingBarComponent: typeof LoadingBar = LoadingBar
 
 export default LoadingBar
+export type LoadingBarProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

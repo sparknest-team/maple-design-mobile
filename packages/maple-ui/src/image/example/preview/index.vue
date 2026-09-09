@@ -179,7 +179,7 @@ function openDataGroup() {
       @open="handleLifecycle('open')"
       @opened="handleLifecycle('opened')"
       @closed="handleLifecycle('closed')"
-      @key-escape="handleLifecycle('keyEscape')"
+      @key-escape="handleLifecycle('key-escape')"
     />
 
     <app-type>{{ t('popupContainer') }}</app-type>

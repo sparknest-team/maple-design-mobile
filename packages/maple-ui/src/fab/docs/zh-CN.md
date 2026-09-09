@@ -4,6 +4,12 @@
 
 悬浮动作按钮组件，按下可显示一组动作按钮。
 
+右侧示例提供实时预览区，初始展开动作，点击动作后弹出 Message 并收起。调整方向时会将按钮移到可容纳菜单的一侧，避免菜单跑出屏幕。hover 适合鼠标操作，触摸设备建议使用 click。
+
+预览使用 `fixed=false`、`popup-container=false`，定位在预览容器内。开启拖拽后改为屏幕固定定位；拖拽使用触摸手势。默认挂载到 body，也可以显式指定容器。
+
+预览区随页面正常滚动，不吸顶覆盖控制项或屏幕上的 Fab。开启拖拽后按钮离开预览区，显示在屏幕所选角落；关闭拖拽则返回预览区。
+
 ### 主题色按钮
 
 ```html
@@ -270,7 +276,7 @@ function toggle() {
 | `right` | 同 css right，用于自定义触发器位置 | _string \| number_ | `-` |
 | `safe-area` | 是否开启底部安全区适配	 | _boolean_ | `false` |
 | `popup-container` | 组件挂载的元素 | _TeleportProps['to'] \| false_ | `body` |
-| `elevation`      | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级 | _string \| number \| boolean_ | `true`            |
+| `elevation`      | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级 | _number \| boolean_ | `true`            |
 
 ### 事件
 

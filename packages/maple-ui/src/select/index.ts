@@ -27,7 +27,8 @@ export type {
 
 export type SelectInstance = InstanceType<typeof _Select>
 export type OptionInstance = InstanceType<typeof Option>
-export const _SelectComponent = Select
-export const _OptionComponent = Option
+export const _SelectComponent: typeof Select = Select
+export const _OptionComponent: typeof Option = Option
 
 export default Select
+export type OptionProps = import('vue').ExtractPublicPropTypes<typeof import('./option-props').props>

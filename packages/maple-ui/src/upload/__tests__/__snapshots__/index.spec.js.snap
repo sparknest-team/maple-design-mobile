@@ -1,0 +1,100 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`upload disabled 1`] = `
+"<div class="mp-upload mp--box">
+  <div class="mp-upload__file-list">
+    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <!--v-if-->
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`upload disabled 2`] = `
+"<div class="mp-upload mp--box">
+  <div class="mp-upload__file-list">
+    <div class="mp-upload__file mp-elevation--2">
+      <div class="mp-upload__file-name">cat.png</div>
+      <div class="mp-upload__file-close"><span class="mp-icon mp-upload__file-close-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6z"></path></svg></span></div><img role="img" class="mp-upload__file-cover" src="blob:upload-0" alt="cat.png">
+      <div class="mp-upload__file-indicator">
+        <div class="mp-upload__progress" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2 mp-upload--disabled"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*" disabled=""><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <!--v-if-->
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`upload hideList 1`] = `
+"<div class="mp-upload mp--box">
+  <div class="mp-upload__file-list">
+    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <!--v-if-->
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`upload length over maxFiles in multiple mode 1`] = `
+"<div class="mp-upload mp--box">
+  <div class="mp-upload__file-list">
+    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <div class="mp-upload__length">0 / 1</div>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`upload progress 1`] = `
+"<div class="mp-upload mp--box">
+  <div class="mp-upload__file-list">
+    <div class="mp-upload__file mp-elevation--2 mp-upload--loading">
+      <div class="mp-upload__file-name">progress</div>
+      <div class="mp-upload__file-close"><span class="mp-icon mp-upload__file-close-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6z"></path></svg></span></div>
+      <!--v-if-->
+      <div class="mp-upload__file-indicator">
+        <div class="mp-upload__progress" style="width: 40%;"></div>
+      </div>
+    </div>
+    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <!--v-if-->
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`upload remove button slot 1`] = `
+"<div class="mp-upload mp--box">
+  <div class="mp-upload__file-list">
+    <div class="mp-upload__file mp-elevation--2">
+      <div class="mp-upload__file-name">https://maplejs.org/cat.jpg</div>remove<img role="img" class="mp-upload__file-cover" src="https://maplejs.org/cat.jpg">
+      <div class="mp-upload__file-indicator">
+        <div class="mp-upload__progress"></div>
+      </div>
+    </div>
+    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
+      <div class="mp-hover-overlay"></div>
+    </div>
+  </div>
+  <!--v-if-->
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;

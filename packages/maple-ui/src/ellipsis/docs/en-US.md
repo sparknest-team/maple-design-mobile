@@ -62,7 +62,7 @@ const expand = ref(false)
 
 ```html
 <template>
-  <mp-ellipsis style="max-width: 50vw" :tooltip="{ type: 'primary', sameWidth: false }">
+  <mp-ellipsis style="max-width: 50vw" :tooltip="{ type: 'primary', autoFitPopupWidth: false }">
     I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
 
     <template #tooltip-content>
@@ -81,7 +81,7 @@ const expand = ref(false)
 | `v-model:expand` | Whether to expand | _boolean_  | `false` |
 | `expand-trigger` | Expand trigger method, optional value `click` | _string_ | `-` |
 | `line-clamp` | Maximum number of display lines, see [line-clamp](https://caniuse.com/?search=line-clamp) for compatibility | _string_ | `-` |
-| `tooltip` | Tooltip component props, for deep customization. For more convenience, `sameWidth` defaults to `true` here | _boolean \| TooltipProps_ | `true` |
+| `tooltip` | Tooltip component props, for deep customization. For more convenience, `autoFitPopupWidth` defaults to `true` here | _boolean \| TooltipProps_ | `true` |
 
 ### Slots
 

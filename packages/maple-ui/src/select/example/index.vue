@@ -18,20 +18,20 @@ const standardValue14 = ref()
 const standardValue15 = ref([])
 const standardValue16 = ref()
 
-const outlinedValue = ref()
-const outlinedValue2 = ref()
-const outlinedValue3 = ref()
-const outlinedValue4 = ref()
-const outlinedValue5 = ref()
-const outlinedValue6 = ref()
-const outlinedValue7 = ref()
-const outlinedValue8 = ref()
-const outlinedValue9 = ref([])
-const outlinedValue10 = ref([])
-const outlinedValue13 = ref()
-const outlinedValue14 = ref()
-const outlinedValue15 = ref([])
-const outlinedValue16 = ref()
+const outlineValue = ref()
+const outlineValue2 = ref()
+const outlineValue3 = ref()
+const outlineValue4 = ref()
+const outlineValue5 = ref()
+const outlineValue6 = ref()
+const outlineValue7 = ref()
+const outlineValue8 = ref()
+const outlineValue9 = ref([])
+const outlineValue10 = ref([])
+const outlineValue13 = ref()
+const outlineValue14 = ref()
+const outlineValue15 = ref([])
+const outlineValue16 = ref()
 
 const pickerValue = ref()
 const pickerValue2 = ref()
@@ -86,20 +86,20 @@ watchLang((lang) => {
   standardValue15.value = []
   standardValue16.value = undefined
 
-  outlinedValue.value = undefined
-  outlinedValue2.value = undefined
-  outlinedValue3.value = undefined
-  outlinedValue4.value = undefined
-  outlinedValue5.value = undefined
-  outlinedValue6.value = undefined
-  outlinedValue7.value = undefined
-  outlinedValue8.value = undefined
-  outlinedValue9.value = []
-  outlinedValue10.value = []
-  outlinedValue13.value = undefined
-  outlinedValue14.value = undefined
-  outlinedValue15.value = []
-  outlinedValue16.value = undefined
+  outlineValue.value = undefined
+  outlineValue2.value = undefined
+  outlineValue3.value = undefined
+  outlineValue4.value = undefined
+  outlineValue5.value = undefined
+  outlineValue6.value = undefined
+  outlineValue7.value = undefined
+  outlineValue8.value = undefined
+  outlineValue9.value = []
+  outlineValue10.value = []
+  outlineValue13.value = undefined
+  outlineValue14.value = undefined
+  outlineValue15.value = []
+  outlineValue16.value = undefined
 
   pickerValue.value = undefined
   pickerValue2.value = undefined
@@ -220,37 +220,37 @@ watchLang((lang) => {
     />
   </mp-space>
 
-  <app-type style="margin-top: 10vmin">{{ t('outlined') }}</app-type>
+  <app-type style="margin-top: 10vmin">{{ t('outline') }}</app-type>
   <mp-space direction="column" :size="['6vmin', 0]">
-    <mp-select v-model="outlinedValue" variant="outlined" :placeholder="t('placeholder')">
+    <mp-select v-model="outlineValue" variant="outline" :placeholder="t('placeholder')">
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
     </mp-select>
-    <mp-select v-model="outlinedValue2" variant="outlined" :placeholder="t('relation')">
+    <mp-select v-model="outlineValue2" variant="outline" :placeholder="t('relation')">
       <mp-option :label="t('eat')" :value="1" />
       <mp-option :label="t('sleep')" :value="2" />
     </mp-select>
-    <div class="relation">{{ t('currentSelect') }} {{ outlinedValue2 }}</div>
-    <mp-select v-model="outlinedValue3" variant="outlined" :placeholder="t('readonly')" readonly>
+    <div class="relation">{{ t('currentSelect') }} {{ outlineValue2 }}</div>
+    <mp-select v-model="outlineValue3" variant="outline" :placeholder="t('readonly')" readonly>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
     </mp-select>
-    <mp-select v-model="outlinedValue4" variant="outlined" :placeholder="t('disabled')" disabled>
+    <mp-select v-model="outlineValue4" variant="outline" :placeholder="t('disabled')" disabled>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
     </mp-select>
-    <mp-select v-model="outlinedValue5" variant="outlined" :placeholder="t('clearable')" clearable>
+    <mp-select v-model="outlineValue5" variant="outline" :placeholder="t('clearable')" clearable>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
     </mp-select>
-    <mp-select v-model="outlinedValue6" variant="outlined" :placeholder="t('clearIconSlot')" clearable>
+    <mp-select v-model="outlineValue6" variant="outline" :placeholder="t('clearIconSlot')" clearable>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <template #clear-icon="{ clear }">
         <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
-    <mp-select v-model="outlinedValue7" variant="outlined" :placeholder="t('customIcon')">
+    <mp-select v-model="outlineValue7" variant="outline" :placeholder="t('customIcon')">
       <template #default>
         <mp-option :label="t('eat')">
           <m-icon-cake-variant class="selected-icon" />
@@ -262,9 +262,9 @@ watchLang((lang) => {
         </mp-option>
       </template>
       <template #selected>
-        <m-icon-cake-variant v-if="outlinedValue7 === t('eat')" class="selected-icon" />
+        <m-icon-cake-variant v-if="outlineValue7 === t('eat')" class="selected-icon" />
         <m-icon-weather-night v-else class="selected-icon" />
-        <span>{{ outlinedValue7 }}</span>
+        <span>{{ outlineValue7 }}</span>
       </template>
       <template #prefix>
         <m-icon-github class="prefix" />
@@ -276,7 +276,7 @@ watchLang((lang) => {
         <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
-    <mp-select v-model="outlinedValue8" variant="outlined" :placeholder="t('customIconSize')">
+    <mp-select v-model="outlineValue8" variant="outline" :placeholder="t('customIconSize')">
       <template #default>
         <mp-option :label="t('eat')">
           <m-icon-cake-variant class="selected-icon" />
@@ -288,9 +288,9 @@ watchLang((lang) => {
         </mp-option>
       </template>
       <template #selected>
-        <m-icon-cake-variant v-if="outlinedValue8 === t('eat')" class="selected-icon" size="8vmin" />
+        <m-icon-cake-variant v-if="outlineValue8 === t('eat')" class="selected-icon" size="8vmin" />
         <m-icon-weather-night v-else class="selected-icon" size="8vmin" />
-        <span>{{ outlinedValue8 }}</span>
+        <span>{{ outlineValue8 }}</span>
       </template>
       <template #prefix>
         <m-icon-github class="prefix" size="8vmin" />
@@ -302,33 +302,33 @@ watchLang((lang) => {
         <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
-    <mp-select v-model="outlinedValue9" variant="outlined" :placeholder="t('multiple')" multiple>
+    <mp-select v-model="outlineValue9" variant="outline" :placeholder="t('multiple')" multiple>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <mp-option :label="t('play')" />
       <mp-option :label="t('coding')" />
     </mp-select>
-    <mp-select v-model="outlinedValue10" variant="outlined" :placeholder="t('tagMultiple')" tag multiple>
+    <mp-select v-model="outlineValue10" variant="outline" :placeholder="t('tagMultiple')" tag multiple>
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
       <mp-option :label="t('play')" />
       <mp-option :label="t('coding')" />
     </mp-select>
-    <mp-select v-model="outlinedValue13" variant="outlined" size="sm" :placeholder="t('smallSize')">
+    <mp-select v-model="outlineValue13" variant="outline" size="sm" :placeholder="t('smallSize')">
       <mp-option :label="t('eat')" />
       <mp-option :label="t('sleep')" />
     </mp-select>
-    <mp-select v-model="outlinedValue14" variant="outlined" :placeholder="t('selectOptions')" :options="options" />
+    <mp-select v-model="outlineValue14" variant="outline" :placeholder="t('selectOptions')" :options="options" />
     <mp-select
-      v-model="outlinedValue15"
-      variant="outlined"
+      v-model="outlineValue15"
+      variant="outline"
       :placeholder="t('selectOptionsMultiple')"
       :options="options"
       multiple
     />
     <mp-select
-      v-model="outlinedValue16"
-      variant="outlined"
+      v-model="outlineValue16"
+      variant="outline"
       :placeholder="t('customFields')"
       :options="keyOptions"
       :field-names="{ label: 'name', value: 'id' }"

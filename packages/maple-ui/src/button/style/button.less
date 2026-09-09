@@ -16,24 +16,10 @@
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
 
-  &:active {
-    box-shadow:
-      0 3px 5px -1px var(--mp-shadow-key-umbra-opacity),
-      0 5px 8px 0 var(--mp-shadow-key-penumbra-opacity),
-      0 1px 14px 0 var(--mp-shadow-key-ambient-opacity);
-  }
-
   &__content {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-  }
-
-  &__loading[mp-button-cover] {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   // === variant=default × status: filled ===
@@ -236,7 +222,7 @@
   &--round {
     padding: var(--mp-button-round-padding);
     border-radius: 50%;
-    height: auto;
+    flex-shrink: 0;
   }
 
   &--block {
@@ -256,5 +242,110 @@
     color: var(--mp-button-disabled-text-color);
     cursor: not-allowed;
     box-shadow: none !important;
+  }
+}
+
+// Interaction, layout and loading contract shared by both libraries.
+.mp-button {
+  display: inline-flex;
+  box-sizing: border-box;
+  text-decoration: none;
+  gap: var(--mp-button-content-gap);
+  line-height: var(--mp-button-line-height);
+  &--stacked {
+    flex-direction: column;
+    gap: var(--mp-button-stacked-gap);
+    border-radius: var(--mp-button-stacked-border-radius);
+    padding-block: var(--mp-button-stacked-padding);
+  }
+  &--focus:focus-visible {
+    outline: var(--mp-button-focus-width) solid var(--mp-button-focus-color);
+    outline-offset: var(--mp-button-focus-offset);
+  }
+  &--icon {
+    position: relative;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  &--icon-container {
+    padding: var(--mp-button-icon-container-padding);
+  }
+  &--icon-container-secondary {
+    color: var(--mp-button-secondary-icon-color);
+    background: var(--mp-button-secondary-icon-container-color);
+  }
+  &--icon-container-tertiary {
+    color: var(--mp-button-tertiary-icon-color);
+    background: var(--mp-button-tertiary-icon-container-color);
+  }
+  &__loading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  &--loading-fill > &__loading {
+    position: absolute;
+    inset: 0;
+  }
+  &--loading-line > &__loading {
+    position: absolute;
+    inset: auto 0 0;
+    height: var(--mp-button-loading-line-height);
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  &__loading-line {
+    width: var(--mp-button-loading-line-width);
+    height: 100%;
+    background: currentColor;
+    animation: mp-button-loading-line var(--mp-button-loading-duration) linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &__loading-line {
+      animation: none;
+      width: 100%;
+      opacity: var(--mp-button-loading-static-opacity);
+    }
+  }
+}
+@keyframes mp-button-loading-line {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+// Shape dimensions follow the selected size; empty text must not stretch icons.
+.mp-button {
+  .shape-size(@size, @name) {
+    &--size-@{size}&--round {
+      width: var(~'--mp-button-@{name}-height');
+      height: var(~'--mp-button-@{name}-height');
+      min-width: var(~'--mp-button-@{name}-height');
+      padding: 0;
+    }
+    &--size-@{size}&--stacked:not(&--round) {
+      height: var(~'--mp-button-@{name}-stacked-height');
+      min-width: var(~'--mp-button-@{name}-stacked-height');
+    }
+  }
+  .shape-size(xs, mini);
+  .shape-size(sm, small);
+  .shape-size(md, normal);
+  .shape-size(lg, large);
+  .shape-size(xl, xl);
+  &--icon > &__loading {
+    position: absolute;
+    inset: 0;
+  }
+  &--loading-default > &--icon > :not(&__loading) {
+    visibility: hidden;
+  }
+  &__content {
+    line-height: 1;
   }
 }

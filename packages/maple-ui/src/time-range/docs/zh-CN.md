@@ -155,7 +155,7 @@
 | `disabled`                | 是否禁用                                                                                               | _boolean_                         | `false`    |
 | `readonly`                | 是否只读                                                                                               | _boolean_                         | `false`    |
 | `size`                    | 尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                  | _ComponentSize_                   | `md`       |
-| `variant`                 | 风格，可选值 `filled` `standard` `outlined`                                                            | _string_                          | `standard` |
+| `variant`                 | 风格，可选值 `filled` `standard` `outline`                                                            | _string_                          | `standard` |
 
 ### 事件
 
@@ -303,7 +303,7 @@
 | `time-picker-props` | 透传给 `mp-time-picker`（clock 模式）                                                                       | _Partial\<TimePickerProps\>_  | `{}`     |
 | `picker-props`      | 透传给 `mp-picker`（picker 模式）                                                                           | _Partial\<PickerProps\>_      | `{}`     |
 | `readonly`          | 是否只读                                                                                                    | _boolean_                     | `false`  |
-| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级                                                          | _string \| number \| boolean_ | `false`  |
+| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级                                                          | _number \| boolean_ | `false`  |
 
 ### TimeRangePicker DisabledTime
 

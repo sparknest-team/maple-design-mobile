@@ -1,5 +1,5 @@
 import { type PropType } from 'vue'
-import { stickyProps } from '../sticky'
+import { affixProps } from '../affix'
 import { pickProps } from '../utils/components'
 
 export type TabsScrollable = 'auto' | 'always'
@@ -18,7 +18,10 @@ export const props = {
     default: 0,
   },
   /** @zh 整体朝向是否垂直 */
-  vertical: Boolean,
+  orientation: {
+    type: String as PropType<'horizontal' | 'vertical'>,
+    default: 'horizontal',
+  },
   /** @zh 内部选项的 flex 方向是否垂直 */
   itemVertical: Boolean,
   variant: {
@@ -37,7 +40,7 @@ export const props = {
   indicatorColor: String,
   indicatorSize: [String, Number],
   elevation: {
-    type: [Boolean, String, Number],
+    type: [Boolean, Number],
     default: false,
   },
   scrollable: {
@@ -56,7 +59,7 @@ export const props = {
   },
   safeArea: Boolean,
   sticky: Boolean,
-  stickyCssMode: pickProps(stickyProps, 'cssMode'),
-  stickyZIndex: pickProps(stickyProps, 'zIndex'),
-  offsetTop: pickProps(stickyProps, 'offsetTop'),
+  stickyCssMode: pickProps(affixProps, 'cssMode'),
+  stickyZIndex: pickProps(affixProps, 'zIndex'),
+  offsetTop: pickProps(affixProps, 'offsetTop'),
 }

@@ -1,4 +1,6 @@
 export default {
+  hoverable: '悬浮态底色',
+  keyboardFocus: 'Tab 键聚焦',
   basic: '基础用法',
   semanticStatus: '语义状态',
   defaultLink: '默认链接',

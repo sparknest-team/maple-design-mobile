@@ -125,7 +125,8 @@ describe('test progress component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-progress__circle').attributes('style')).toContain('width: 20px; height: 20px;')
+    expect(wrapper.find('.mp-progress__circle').attributes('style')).toContain('width: 20px;')
+    expect(wrapper.find('.mp-progress__circle').attributes('style')).toContain('aspect-ratio: 1;')
     wrapper.unmount()
   })
 
@@ -169,5 +170,12 @@ test('progress component default slots', () => {
   })
 
   expect(wrapper.find('.mp-progress__line-label').element.textContent).toBe('This is default slots')
+  wrapper.unmount()
+})
+
+test('circle geometry retains fractional percentages', () => {
+  const wrapper = mount(Progress, { props: { mode: 'circle', percent: 12.5 } })
+  const path = wrapper.get('.mp-progress__circle-certain')
+  expect(Number(path.attributes('stroke-dashoffset')) / Number(path.attributes('stroke-dasharray'))).toBeCloseTo(0.875)
   wrapper.unmount()
 })

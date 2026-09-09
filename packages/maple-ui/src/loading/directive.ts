@@ -44,7 +44,7 @@ const DirectiveLoading = defineComponent({
           loading: true,
         },
         {
-          // Force the same content/mask/body rendering branch used by
+          // Force the same content/overlay/body rendering branch used by
           // <mp-loading :loading="true">...</mp-loading> without moving DOM
           // nodes that are owned by the host component.
           default: () => h('span', { class: 'mp-loading-directive__placeholder', 'aria-hidden': 'true' }),
@@ -72,12 +72,21 @@ function getOptions(value: boolean | LoadingDirectiveOptions): LoadingRenderOpti
 function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | LoadingDirectiveOptions>) {
   const options = reactive<LoadingRenderOptions>(getOptions(binding.value))
   const container = document.createElement('div')
+  // The overlay is inside the host: consume clicks before they reach Card/ancestors.
+  container.addEventListener(
+    'click',
+    (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+    },
+    true,
+  )
   const fullscreen = options.fullscreen === true
   const restorePosition = !fullscreen && getComputedStyle(el).position === 'static'
 
   container.className = fullscreen ? 'mp-loading-directive mp-loading-directive--fullscreen' : 'mp-loading-directive'
   if (options.background) {
-    container.style.setProperty('--mp-loading-mask-background', options.background)
+    container.style.setProperty('--mp-loading-overlay-background', options.background)
   }
 
   const vnode = h(DirectiveLoading, { options })
@@ -126,9 +135,9 @@ export const vLoading: Directive<LoadingElement, boolean | LoadingDirectiveOptio
     } else if (typeof binding.value === 'object' && el[INSTANCE_KEY]) {
       Object.assign(el[INSTANCE_KEY].options, getOptions(binding.value))
       if (binding.value.background) {
-        el[INSTANCE_KEY].container.style.setProperty('--mp-loading-mask-background', binding.value.background)
+        el[INSTANCE_KEY].container.style.setProperty('--mp-loading-overlay-background', binding.value.background)
       } else {
-        el[INSTANCE_KEY].container.style.removeProperty('--mp-loading-mask-background')
+        el[INSTANCE_KEY].container.style.removeProperty('--mp-loading-overlay-background')
       }
     }
   },

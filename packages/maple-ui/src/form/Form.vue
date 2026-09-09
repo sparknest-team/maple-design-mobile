@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, onBeforeUnmount, onDeactivated } from 'vue'
 import { call, find, normalizeToArray, preventDefault } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTop, scrollTo, toPxNum } from '../utils/elements'
@@ -34,13 +34,23 @@ export default defineComponent({
     }
 
     bindFormItems(formProvider)
+    let pendingScroll: ReturnType<typeof setTimeout> | undefined
+    const cancelScroll = () => clearTimeout(pendingScroll)
+    onBeforeUnmount(cancelScroll)
+    onDeactivated(cancelScroll)
 
     function scroll(formItemElement: HTMLElement) {
       // wait form-details animation end
-      setTimeout(() => {
+      cancelScroll()
+      pendingScroll = setTimeout(() => {
+        if (!formItemElement.isConnected) {
+          return
+        }
         const scroller = getParentScroller(formItemElement)
         const scrollerTop = scroller === window ? 0 : getTop(scroller as HTMLElement)
-        const top = getTop(formItemElement) - scrollerTop - toPxNum(props.scrollToErrorOffsetY)
+        const parsedOffset = toPxNum(props.scrollToErrorOffsetY)
+        const offset = Number.isFinite(parsedOffset) ? parsedOffset : 0
+        const top = getTop(formItemElement) - scrollerTop - offset
 
         scrollTo(scroller, {
           top,

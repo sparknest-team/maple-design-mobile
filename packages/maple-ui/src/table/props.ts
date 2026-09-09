@@ -7,7 +7,7 @@ export const props = {
     type: [Number, String],
   },
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
 }

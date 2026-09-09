@@ -13,7 +13,7 @@ import VarOption from '../../select/Option.vue'
 import VarSelect from '../../select/Select'
 import VarSlider from '../../slider/Slider'
 import VarSwitch from '../../switch/Switch'
-import VarUploader from '../../uploader/Uploader'
+import VarUpload from '../../upload/Upload'
 import { delay, mockScrollTo, trigger } from '../../utils/test'
 import VarForm from '../Form'
 
@@ -49,7 +49,7 @@ const Wrapper = {
     [VarCheckbox.name]: VarCheckbox,
     [VarCounter.name]: VarCounter,
     [VarRate.name]: VarRate,
-    [VarUploader.name]: VarUploader,
+    [VarUpload.name]: VarUpload,
     [VarSwitch.name]: VarSwitch,
     [VarSlider.name]: VarSlider,
     [VarAutoComplete.name]: VarAutoComplete,
@@ -384,7 +384,7 @@ test('form with rate', async () => {
   wrapper.unmount()
 })
 
-test('form with uploader', async () => {
+test('form with upload', async () => {
   const onAfterRead = vi.fn()
 
   const createEvent = (filename) => ({
@@ -406,8 +406,8 @@ test('form with uploader', async () => {
     template: `
       <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v.length > 0 || 'You must upload one file at least']">
-          <mp-uploader
-            ref="uploader"
+          <mp-upload
+            ref="upload"
             v-model="model.value"
             @after-read="onAfterRead"
           />
@@ -418,13 +418,13 @@ test('form with uploader', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.vm.$refs.uploader.handleChange(createEvent('cat.png'))
+  await wrapper.vm.$refs.upload.handleChange(createEvent('cat.png'))
   expect(onAfterRead).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ disabled: false, readonly: true })
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.vm.$refs.uploader.handleChange(createEvent('cat.png'))
+  await wrapper.vm.$refs.upload.handleChange(createEvent('cat.png'))
   expect(onAfterRead).toHaveBeenCalledTimes(0)
 
   const { form } = wrapper.vm.$refs
@@ -461,13 +461,13 @@ test('form with switch', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.find('.mp-switch__block').trigger('click')
+  await wrapper.find('[role="switch"]').trigger('click')
   expect(wrapper.vm.model.value).toBe(false)
   expect(onChange).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ disabled: false, readonly: true })
 
-  await wrapper.find('.mp-switch__block').trigger('click')
+  await wrapper.find('[role="switch"]').trigger('click')
   expect(wrapper.vm.model.value).toBe(false)
   expect(onChange).toHaveBeenCalledTimes(0)
 
@@ -477,7 +477,7 @@ test('form with switch', async () => {
 
   await wrapper.setData({ disabled: false, readonly: false })
 
-  await wrapper.find('.mp-switch__block').trigger('click')
+  await wrapper.find('[role="switch"]').trigger('click')
   expect(wrapper.vm.model.value).toBe(true)
   expect(onChange).toHaveBeenCalledTimes(1)
 

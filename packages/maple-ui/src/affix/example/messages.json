@@ -1,0 +1,18 @@
+{
+  "zh-CN": {
+    "basic": "基础用法",
+    "top": "顶部偏移",
+    "bottom": "底部偏移",
+    "container": "指定滚动容器",
+    "fix-change": "吸附状态变化",
+    "controls": "禁用、CSS 模式与手动更新"
+  },
+  "en-US": {
+    "basic": "Basic usage",
+    "top": "Top offset",
+    "bottom": "Bottom offset",
+    "container": "Scroll container",
+    "fix-change": "Change event",
+    "controls": "Disabled, CSS mode and manual update"
+  }
+}

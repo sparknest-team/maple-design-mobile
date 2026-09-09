@@ -1,190 +1,167 @@
 <template>
-  <div v-hover:desktop="hover" :class="classes(n(), n(`--variant-${variant}`))">
-    <div
-      :class="classes(n('block'), [disabled || formDisabled, n('--disabled')], [isChecked, n('block--active')])"
-      :style="styleComputed.switch"
-      role="switch"
-      :aria-checked="isChecked"
-      :aria-disabled="disabled || formDisabled || undefined"
-      :aria-busy="loading || undefined"
-      :tabindex="disabled || formDisabled ? -1 : 0"
-      @click="switchChecked"
-      @keydown.enter.prevent="switchChecked"
-      @keydown.space.prevent="switchChecked"
-      @focus="isFocusing = true"
-      @blur="isFocusing = false"
-    >
-      <div
-        :style="styleComputed.track"
-        :class="
-          classes(n('track'), [isChecked, n('track--active')], [mergedError && variant !== 'md3', n('track--error')])
-        "
-      ></div>
-      <div
-        v-ripple="{
-          disabled: !ripple || disabled || loading || formDisabled || readonly || formReadonly,
-        }"
-        :class="classes(n('ripple'), [isChecked, n('ripple--active')])"
-        :style="styleComputed.ripple"
-      >
-        <div
-          :style="styleComputed.handle"
-          :class="
-            classes(
-              n('handle'),
-              formatElevation(handleElevation, 2),
-              [isChecked, n('handle--active')],
-              [mergedError && variant !== 'md3', n('handle--error')],
-              [hovering, n('handle--hover')],
-            )
-          "
-        >
-          <span
-            v-if="loading"
-            :class="n('loading')"
-            :style="{
-              width: radius,
-              height: radius,
-            }"
-          >
-            <svg viewBox="25 25 50 50">
-              <circle cx="50" cy="50" r="20" fill="none"></circle>
-            </svg>
-          </span>
-        </div>
-
-        <mp-hover-overlay
-          :hovering="hovering && !disabled && !formDisabled"
-          :focusing="isFocusing && !disabled && !formDisabled"
-        />
-      </div>
-    </div>
-  </div>
+  <button
+    type="button"
+    role="switch"
+    :class="
+      classes(
+        n(),
+        n('--variant-' + variant),
+        n('--size-' + platform.size.value),
+        [checked, n('--checked')],
+        [busy, n('--loading')],
+        [platform.disabled.value, n('--disabled')],
+        [platform.error.value, n('--error')],
+      )
+    "
+    :style="style"
+    :aria-checked="checked"
+    :aria-busy="busy || undefined"
+    :aria-readonly="platform.readonly.value || undefined"
+    :aria-disabled="platform.disabled.value || undefined"
+    :disabled="platform.disabled.value || busy"
+    @click="toggle"
+    @keydown.enter.prevent="keyboardToggle"
+    @keydown.space.prevent="keyboardToggle"
+    @focus="focus"
+    @blur="blur"
+  >
+    <span :class="n('track')" aria-hidden="true"></span>
+    <span v-if="variant !== 'line' && platform.size.value !== 'sm'" :class="n('text')">
+      <slot v-if="checked" name="checked">{{ checkedText }}</slot>
+      <slot v-else name="unchecked">{{ uncheckedText }}</slot>
+    </span>
+    <span :class="n('handle')" :style="handleStyle">
+      <span v-if="ripple && rippleKey" :key="rippleKey" :class="n('ripple')" aria-hidden="true"></span>
+      <svg v-if="busy" :class="n('loading')" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="42 15" />
+      </svg>
+      <slot v-else-if="checked" name="checked-icon" />
+      <slot v-else name="unchecked-icon" />
+    </span>
+  </button>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { call } from '@maplejs/maple-shared'
-import { useFormItem } from '../form/item-provide'
-import { useForm } from '../form/provide'
-import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
-import Ripple from '../ripple'
-import { createNamespace, formatElevation } from '../utils/components'
-import { multiplySizeUnit } from '../utils/elements'
-import { props } from './props'
+<script setup lang="ts">
+import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, watch, type CSSProperties } from 'vue'
+import { createNamespace } from '../utils/components'
+import { useSwitchPlatform } from './platform'
+import { switchProps, type SwitchValue } from './props'
 
-const { name, n, classes } = createNamespace('switch')
-
-type StyleProps = {
-  width: string
-  height: string
-  left: string
-  borderRadius: string
-  backgroundColor: string
-  color: string
+defineOptions({ name: createNamespace('switch').name })
+const props = defineProps(switchProps)
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: SwitchValue): void
+  (event: 'change', value: SwitchValue, originalEvent: Event): void
+  (event: 'click', originalEvent: Event): void
+  (event: 'focus' | 'blur', originalEvent: FocusEvent): void
+}>()
+const { n, classes } = createNamespace('switch')
+const platform = useSwitchPlatform(props)
+const internal = ref<SwitchValue>(props.defaultChecked ? props.checkedValue : props.uncheckedValue)
+const current = computed(() => (props.modelValue === undefined ? internal.value : props.modelValue))
+const checked = computed(() => current.value === props.checkedValue)
+const pending = ref(false)
+const busy = computed(() => props.loading || pending.value)
+const rippleKey = ref(0)
+let active = true
+let generation = 0
+function cancelPending() {
+  generation++
+  pending.value = false
 }
+onBeforeUnmount(() => {
+  active = false
+  cancelPending()
+})
+onDeactivated(() => {
+  active = false
+  cancelPending()
+})
+onActivated(() => {
+  active = true
+})
+watch(
+  () => [
+    props.modelValue,
+    props.checkedValue,
+    props.uncheckedValue,
+    props.loading,
+    platform.disabled.value,
+    platform.readonly.value,
+  ],
+  cancelPending,
+  { flush: 'sync' },
+)
 
-export default defineComponent({
-  name,
-  components: {
-    MpHoverOverlay,
-  },
-  directives: { Ripple, Hover },
-  props,
-  emits: ['click', 'change', 'update:modelValue'],
-  setup(props, { emit }) {
-    const isFocusing = ref(false)
-    const { form } = useForm()
-    const { mergedError, eventHandlers } = useFormItem()
-    const { hovering, handleHovering } = useHoverOverlay()
-
-    const isChecked = computed(() => props.modelValue === props.checkedValue)
-
-    const styleComputed = computed<Record<string, Partial<StyleProps>>>(() => {
-      const { size, checkedColor, uncheckedColor, loadingColor, variant } = props
-      const isMd3 = variant === 'md3'
-
-      return {
-        handle: {
-          width: multiplySizeUnit(size),
-          height: multiplySizeUnit(size),
-          backgroundColor: isChecked.value ? checkedColor : uncheckedColor,
-          color: loadingColor,
-        },
-        ripple: {
-          left: isChecked.value ? multiplySizeUnit(size, 0.5) : `-${multiplySizeUnit(size, isMd3 ? 1 / 3 : 0.5)}`,
-          color: isChecked.value ? checkedColor : uncheckedColor || 'currentColor',
-          width: multiplySizeUnit(size, 2),
-          height: multiplySizeUnit(size, 2),
-        },
-        track: {
-          width: multiplySizeUnit(size, isMd3 ? 13 / 6 : 1.9),
-          height: multiplySizeUnit(size, isMd3 ? 4 / 3 : 0.72),
-          borderRadius: multiplySizeUnit(size, 2 / 3),
-          filter: isChecked.value || mergedError.value ? undefined : `brightness(${isMd3 ? 1 : 0.6})`,
-          backgroundColor: isChecked.value ? checkedColor : uncheckedColor,
-          borderWidth: isMd3 && !isChecked.value ? multiplySizeUnit(size, 1 / 12) : undefined,
-        },
-        switch: {
-          width: multiplySizeUnit(size, isMd3 ? 13 / 6 : 2),
-          height: multiplySizeUnit(size, isMd3 ? 4 / 3 : 1.2),
-        },
-      }
-    })
-
-    const radius = computed(() => multiplySizeUnit(props.size, 0.8))
-
-    function switchChecked(event: Event) {
-      const { disabled, loading, readonly, checkedValue, uncheckedValue, lazyChange, beforeChange } = props
-
-      if (disabled || form?.disabled.value) {
-        return
-      }
-
-      emit('click', event)
-
-      if (loading || readonly || form?.readonly.value) {
-        return
-      }
-
-      const newValue = isChecked.value ? uncheckedValue : checkedValue
-
-      if (lazyChange) {
-        call(beforeChange, newValue, (value) => {
-          emit('update:modelValue', value)
-          eventHandlers.value.onChange?.()
-        })
+async function toggle(event: Event) {
+  if (!active || busy.value || platform.disabled.value) {
+    return
+  }
+  emit('click', event)
+  if (platform.readonly.value) {
+    return
+  }
+  if (props.ripple) {
+    rippleKey.value++
+  }
+  const next = checked.value ? props.uncheckedValue : props.checkedValue
+  const version = ++generation
+  try {
+    if (props.beforeChange) {
+      const result = props.beforeChange(next)
+      let permitted: boolean | void
+      if (result && typeof (result as Promise<unknown>).then === 'function') {
+        pending.value = true
+        permitted = await result
       } else {
-        emit('change', newValue)
-        emit('update:modelValue', newValue)
-        eventHandlers.value.onChange?.()
+        permitted = result as boolean | void
       }
-    }
-
-    function hover(value: boolean) {
-      if (props.disabled || form?.disabled.value) {
+      if (permitted === false) {
         return
       }
-
-      handleHovering(value)
     }
-
-    return {
-      isChecked,
-      hovering,
-      isFocusing,
-      radius,
-      styleComputed,
-      mergedError,
-      formDisabled: form?.disabled,
-      formReadonly: form?.readonly,
-      n,
-      classes,
-      formatElevation,
-      multiplySizeUnit,
-      switchChecked,
-      hover,
+    if (!active || version !== generation || props.loading || platform.disabled.value || platform.readonly.value) {
+      return
     }
-  },
+    if (props.modelValue === undefined) {
+      internal.value = next
+    }
+    emit('update:modelValue', next)
+    emit('change', next, event)
+    platform.notify('onChange', event)
+  } catch {
+    // Throwing/rejected interceptors cancel the transition, without leaking an unhandled rejection.
+  } finally {
+    if (version === generation) {
+      pending.value = false
+    }
+  }
+}
+function keyboardToggle(event: KeyboardEvent) {
+  if (!event.repeat) {
+    void toggle(event)
+  }
+}
+function focus(event: FocusEvent) {
+  emit('focus', event)
+  platform.notify('onFocus', event)
+}
+function blur(event: FocusEvent) {
+  emit('blur', event)
+  platform.notify('onBlur', event)
+}
+const style = computed<CSSProperties>(() => ({
+  '--mp-switch-current-track': checked.value ? props.checkedColor : props.uncheckedColor,
+  '--mp-switch-loading-color': props.loadingColor,
+}))
+const handleStyle = computed<CSSProperties>(() => {
+  const value = props.handleElevation
+  const level =
+    value === true
+      ? 2
+      : typeof value === 'number' && Number.isFinite(value)
+        ? Math.max(0, Math.min(24, Math.trunc(value)))
+        : 0
+  return { boxShadow: level ? '0 ' + level / 2 + 'px ' + (level + 1) + 'px var(--mp-switch-shadow-color)' : 'none' }
 })
 </script>

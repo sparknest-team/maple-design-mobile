@@ -1,0 +1,8 @@
+import '../../style/index.less'
+import '../../carousel/style'
+import '../../hover/style'
+import '../../icon/style'
+import '../../image/style'
+import '../../popup/style'
+import '../../ripple/style'
+import './index.less'

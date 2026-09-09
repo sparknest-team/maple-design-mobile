@@ -1,25 +1,27 @@
 <template>
-  <div :class="classes(n(direction), n('$--box'))">
+  <div :class="classes(n(orientation), n('$--box'))">
     <div
       ref="sliderEl"
-      :class="classes(n(`${direction}-block`), [isDisabled, n('--disabled')], [mergedError, n(`${direction}--error`)])"
+      :class="
+        classes(n(`${orientation}-block`), [isDisabled, n('--disabled')], [mergedError, n(`${orientation}--error`)])
+      "
       @click="handleClick"
     >
-      <div :class="n(`${direction}-track`)">
+      <div :class="n(`${orientation}-track`)">
         <div
-          :class="n(`${direction}-track-background`)"
+          :class="n(`${orientation}-track-background`)"
           :style="{
             background: trackColor,
             height: isVertical ? '100%' : toSizeUnit(trackHeight),
             width: isVertical ? toSizeUnit(trackHeight) : '100%',
           }"
         ></div>
-        <div :class="n(`${direction}-track-fill`)" :style="getFillStyle"></div>
+        <div :class="n(`${orientation}-track-fill`)" :style="getFillStyle"></div>
       </div>
       <div
         v-for="item in thumbList"
         :key="item.enumValue"
-        :class="n(`${direction}-thumb`)"
+        :class="n(`${orientation}-thumb`)"
         :style="thumbStyle(item)"
         :tabindex="isDisabled ? undefined : '0'"
         role="slider"
@@ -36,16 +38,16 @@
         <slot name="button" :current-value="item.text">
           <div
             v-hover:desktop="(value: boolean) => hover(value, item)"
-            :class="n(`${direction}-thumb-block`)"
+            :class="n(`${orientation}-thumb-block`)"
             :style="{
               background: thumbColor,
             }"
           ></div>
           <div
             :class="
-              classes(n(`${direction}-thumb-ripple`), [
+              classes(n(`${orientation}-thumb-ripple`), [
                 thumbsProps[item.enumValue].active,
-                n(`${direction}-thumb-ripple--active`),
+                n(`${orientation}-thumb-ripple--active`),
               ])
             "
             :style="{
@@ -56,7 +58,10 @@
           </div>
           <div
             :class="
-              classes(n(`${direction}-thumb-label`), [showLabel(item.enumValue), n(`${direction}-thumb-label--active`)])
+              classes(n(`${orientation}-thumb-label`), [
+                showLabel(item.enumValue),
+                n(`${orientation}-thumb-label--active`),
+              ])
             "
             :style="{
               background: labelColor,
@@ -113,7 +118,7 @@ export default defineComponent({
     const unitWidth = computed(() => (maxDistance.value / scope.value) * toNumber(props.step))
     const isDisabled = computed(() => props.disabled || form?.disabled.value)
     const isReadonly = computed(() => props.readonly || form?.readonly.value)
-    const isVertical = computed(() => props.direction === 'vertical')
+    const isVertical = computed(() => props.orientation === 'vertical')
     const focusingFirst = ref(false)
     const focusingSecond = ref(false)
     const { form } = useForm()

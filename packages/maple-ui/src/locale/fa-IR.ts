@@ -112,6 +112,9 @@ export default {
   // pagination
   paginationItem: '',
   paginationPage: 'صفحه',
+  paginationNavigation: 'صفحه‌بندی',
+  paginationPrevious: 'صفحه قبل',
+  paginationNext: 'صفحه بعد',
   paginationJump: 'برو به',
   paginationTotal: 'Total: {0}',
   // time-picker

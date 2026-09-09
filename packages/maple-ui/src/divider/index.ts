@@ -16,6 +16,6 @@ export type {
 } from './props'
 
 export type DividerInstance = InstanceType<typeof Divider>
-export const _DividerComponent = Divider
+export const _DividerComponent: typeof Divider = Divider
 
 export default Divider

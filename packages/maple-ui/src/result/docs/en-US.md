@@ -136,7 +136,7 @@ Please try not to modify the background color to be transparent or translucent, 
 
 | Prop          | Description                                                              | Type     | Default   |
 |---------------|--------------------------------------------------------------------------|----------|-----------|
-| `status`        | Image type, options `info` `success` `warning` `danger` `question` `empty` | _string_ | `success` |
+| `status` | info / success / warning / danger / question / empty / 403 / 404 / 500 | _ResultStatus_ | `info` |
 | `title`       | The title of Result                                                      | _string_ | `-`       |
 | `subtitle` | The description of Result                                                | _string_ | `-`       |
 | `image-size`  | Image Size                                                               | _string \| number_   | `-`  |
@@ -181,4 +181,3 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--result-subtitle-font-size`   | `14px`                     |
 | `--result-subtitle-color`       | `rgba(0, 0, 0, 0.6)`       |
 | `--result-subtitle-line-height` | `1.6`                      |
-

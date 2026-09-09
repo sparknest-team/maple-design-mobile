@@ -28,8 +28,8 @@ packages/maple-ui/src/<component>/
   props.ts                   # 集中放 props 与类型定义
   provide.ts                 # 可选：父子上下文 (useChildren / useParent)
   style/
-    index.ts                 # `import './index.less'`（按需入口）
-    index.less               # 聚合本地 less + 依赖
+    index.ts                 # 基础样式 + 依赖组件样式 + 自身 Less（按需入口）
+    index.less               # 只聚合自身 Less、纯变量和 mixin
     <name>.less              # 主样式（BEM），可多个文件
   __tests__/index.spec.js    # 单测
   __tests__/__snapshots__/   # vitest 快照
@@ -109,7 +109,7 @@ n('$--box')   // 'mp--box'            ← 全局共享类
 
 ### 3.3 文件命名
 
-- 组件文件：PascalCase（`Space.tsx`、`Button.vue`、`BottomNavigation.vue`）
+- 组件文件：PascalCase（`Space.tsx`、`Button.vue`、`TabBar.vue`）
 - 样式文件：放在 `style/` 下；实现文件**只用 kebab-case**（如 `field-decorator.less`、`hover-overlay.less`）；`index.less` 聚合，`token.less` 声明组件 CSS 变量
 - 示例文件：`example/index.vue`
 - 测试文件：`__tests__/index.spec.js`
@@ -140,7 +140,7 @@ export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 - TypeScript 中的多词 prop 和事件键使用 camelCase；Vue 模板与文档 Props / Events 表中的属性名和事件名必须展示为 kebab-case（如 `maxLength` 对应 `max-length`，`update:modelValue` 对应 `update:model-value`）。命令式配置对象、类型字段和 JavaScript/TypeScript 示例仍使用 camelCase。
 - 普通通知事件不进入 props，统一在组件的 `emits` 中声明并通过 `emit` 触发，例如 `click`、`change`、`open`、`closed`、`update:modelValue`。
 - 只有返回值、Promise 或 `done` 回调会控制组件后续行为的控制回调，才允许使用 `defineListenerProp<...>()`，并采用 `beforeXxx` / `request` 等控制语义名称；不使用 `onBeforeXxx`。
-- `Button` 的 `onClick` / `onTouchstart` 是明确例外：组件会消费其 Promise 返回值驱动 `autoLoading`；`Uploader` 的文件拦截与自定义选择回调同样属于控制回调。
+- `Button` 的 `onClick` / `onTouchstart`，以及 `SplitButton` 透传给 Button 的 `onClick`，是明确例外：组件会消费其 Promise 返回值驱动 `autoLoading`；`Uploader` 的文件拦截与自定义选择回调同样属于控制回调。
 - `ComponentSize` / `SemanticStatus` / `Orientation` 从 `utils/constants.ts` 复用，禁止组件重复声明。
 - 通用 prop 必须保持统一语义：`size` / `block` / `disabled` / `loading` / `direction` / `align` / `justify` / `wrap` 等，详见 `space` / `button` 实现。
 - 父子继承的布尔 prop（如 `disabled`）默认值用 `default: undefined`。
@@ -217,6 +217,8 @@ export default Space
 ```
 
 ### 7.2 强制规则
+
+- 按需样式采用 Arco / Element Plus 的静态模块入口模式：公共基础与组件依赖在 `style/index.ts` 中 import，Less 不重复内嵌依赖组件或全局主题。发布入口保留相同依赖图，由构建工具按模块去重；详见 `design-ui/standards/styling-and-bem.md`。
 
 - **所有 CSS 自定义属性必须以 `--mp-` 开头**，例如 `--mp-button-padding`、`--mp-space-size-md-row-gap`。
 - 全局工具类放在 `style/common.less`（`mp--box` / `mp--flex` / `mp--lock` 等），不要在组件样式中再定义。

@@ -585,7 +585,7 @@ Pass options as an array and map fields with `field-names`. Cascade selection us
 | `trigger`                  | Menu trigger method, optional value is `click` `hover` `manual` `contextMenu`                                                                                                  | _string_                                   | `click`    |
 | `align-point`              | Whether the popup follows the mouse (used with `contextMenu`)                                                                                                                  | _boolean_                                  | `false`    |
 | `reference`                | The trigger element associated with the menu, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_                    | `-`        |
-| `elevation`                | Elevation level, options `true` `false` and level of `0-24`                                                                                                                    | _string \| number \| boolean_              | `true`     |
+| `elevation`                | Elevation level, options `true` `false` and level of `0-24`                                                                                                                    | _number \| boolean_              | `true`     |
 | `popup-class`              | Class of the floating layer                                                                                                                                                    | _ClassName_                                | `-`        |
 | `close-on-click-reference` | Whether to close the menu when clicking the reference element                                                                                                                  | _boolean_                                  | `false`    |
 | `options`                  | Specifies options                                                                                                                                                              | _MenuOption[]_                             | `[]`       |
@@ -634,14 +634,6 @@ Used by items in the `options` array.
 | `left`               | Left center position                    |
 | `left-start`         | Left top position                       |
 | `left-end`           | Left bottom position                    |
-| `cover-top`          | Top center position, overlay trigger    |
-| `cover-top-start`    | Top left position, overlay trigger      |
-| `cover-top-end`      | Top right position, overlay trigger     |
-| `cover-bottom`       | Bottom center position, overlay trigger |
-| `cover-bottom-start` | Bottom left position, overlay trigger   |
-| `cover-bottom-end`   | Bottom right position, overlay trigger  |
-| `cover-left`         | Left center position, overlay trigger   |
-| `cover-right`        | Right center position, overlay trigger  |
 
 ### Methods
 
@@ -772,3 +764,22 @@ Here are the CSS variables used by the component. Styles can be customized using
 | --------- | ------------- | --------- |
 | `title`   | Group title   | `-`       |
 | `default` | Group content | `-`       |
+
+覆盖触发元素使用 `cover`，placement 仅使用标准十二方位。迁移：旧 cover-top → bottom + cover；cover-bottom → top + cover；cover-left → right + cover；cover-right → left + cover；start/end 后缀保留。默认 cover=false。
+
+### Selection and keyboard contract
+
+Options and content slots use the same controlled selection state. Multiple mode treats an omitted modelValue as an empty array. Branch selection includes enabled descendants even before their submenu opens, excludes disabled subtrees, and preserves selected values absent from asynchronous options. Clicking a mixed branch clears that branch.
+
+`update:modelValue` is emitted before `select(value, option, event)`. The update carries the complete array in multiple mode; select carries the clicked value and original option object. Rejected updates do not alter rows or checkboxes. Single selection requests closing only when hideOnSelect is true, and focus returns only after closing is accepted.
+
+Up/Down and Home/End navigate enabled items in the current panel; Right enters a submenu, Left or Escape returns. Escape closes one layer per keypress. Inputs retain native Home/End caret navigation.
+
+
+## Shared Menu implementation
+
+Menu, Option, Group, Submenu and the internal panel now have independent copies of the same component bodies, props, selection, recursion and keyboard logic. Native styling and Trigger parameter/default adapters remain local.
+
+`Menu.Submenu` / `MenuSubmenu` is public, with default/content/icon/suffix/footer slots and open/defaultOpen/trigger/placement/disabled props. It exposes open(), close() and allowClose(); Menu exposes open(), close(), resize() and setReference(reference?). MenuSubmenuProps and MenuSubmenuInstance are exported.
+
+Menu and Submenu support unmount-on-close (Maple default false; Cedar default true). Submenu trigger defaults remain hover on Maple and click on Cedar. Root close-on-click-reference defaults remain false on Maple and true on Cedar. Controlled changes remain requests. ArrowRight opens, ArrowLeft/Escape closes one layer and restores focus; Space selects once on keyup. Options and content slots can be combined.

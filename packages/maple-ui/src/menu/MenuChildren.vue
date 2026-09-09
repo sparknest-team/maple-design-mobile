@@ -1,183 +1,130 @@
 <template>
-  <mp-trigger
-    ref="menu"
-    v-model:open="open"
-    trigger="hover"
-    placement="right-start"
-    cascade-optimization
-    :disabled="disabled"
-    :popup-container="false"
-    :close-on-click-reference="false"
-  >
-    <mp-menu-option
-      ref="trigger"
-      children-trigger
-      :label="option[labelKey]"
-      :value="option[valueKey]"
-      :option="option"
-      :ripple="option.ripple"
-      :disabled="Boolean(option[disabledKey])"
-      :highlight="highlightOptions.some((_option) => _option[valueKey] === option[valueKey])"
-      @key-arrow-x="handleArrowRight"
-      @mouseenter="handleMouseenter"
-    />
-
-    <template v-if="options.length" #content>
-      <div ref="menuOptions">
-        <template v-for="menuOption in options" :key="menuOption[valueKey]">
-          <mp-menu-children
-            v-if="menuOption[childrenKey]"
-            ref="menuChildren"
-            :parent-show="open"
-            :option="menuOption"
-            :options="menuOption[childrenKey]"
-            :field-names="fieldNames"
-            :highlight-options="highlightOptions"
-            :disabled="Boolean(menuOption[disabledKey])"
-            @key-arrow-x="handleArrowLeft"
-            @key-arrow-right-open="allowChildrenClose(menuOption)"
-            @mouseenter="allowChildrenClose(menuOption)"
-          />
-          <mp-menu-option
-            v-else
-            :label="menuOption[labelKey]"
-            :value="menuOption[valueKey]"
-            :option="menuOption"
-            :ripple="menuOption.ripple"
-            :disabled="Boolean(menuOption[disabledKey])"
-            @key-arrow-x="handleArrowLeft"
-            @mouseenter="allowChildrenClose()"
-          />
-        </template>
-      </div>
+  <MenuView :options="viewOptions">
+    <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
+      <slot :name="slotName" v-bind="slotProps || {}" />
     </template>
-  </mp-trigger>
+  </MenuView>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, watch, type PropType } from 'vue'
-import { raf } from '@maplejs/maple-shared'
+<script setup lang="ts">
+import { computed, h, inject, nextTick, ref, watch } from 'vue'
 import type { TriggerInstance } from '../trigger'
-import MpTrigger from '../trigger/Trigger.vue'
-import { createNamespace, pickProps } from '../utils/components'
-import { focusChildElementByKey } from '../utils/elements'
-import { useFieldNames, type FieldNames } from '../utils/options'
-import MpMenuOption from './MenuOption.vue'
-import { type MenuOptionKeyArrowX } from './option-props'
-import { props as menuProps, type MenuOption } from './props'
+import { useTriggerState } from '../trigger/state'
+import { createNamespace } from '../utils/components'
+import { useMenuKeyboard } from './keyboard'
+import { useMenuLevel } from './level'
+import MenuOption from './MenuOption.vue'
+import MenuPanel from './MenuPanel.vue'
+import MenuOptions from './options'
+import { submenuTriggerAppearance, Trigger } from './platform'
+import MenuView from './render'
+import { createMenuTree, menuSelectionKey } from './selection'
+import { menuSubmenuProps } from './submenu-props'
 
-const { name } = createNamespace('menu-children')
-
-export default defineComponent({
-  name,
-  components: {
-    MpTrigger,
-    MpMenuOption,
-  },
-  props: {
-    parentShow: Boolean,
-    disabled: Boolean,
-    option: {
-      type: Object as PropType<MenuOption>,
-      required: true,
-    },
-    highlightOptions: pickProps(menuProps, 'options'),
-    ...pickProps(menuProps, ['options']),
-    fieldNames: Object as PropType<FieldNames>,
-  },
-  emits: ['key-arrow-x', 'key-arrow-right-open', 'mouseenter'],
-  setup(props, { emit }) {
-    const open = ref(false)
-    const menu = ref<TriggerInstance>()
-    const trigger = ref<InstanceType<typeof MpMenuOption>>()
-    const menuOptions = ref<HTMLElement>()
-    const menuChildren = ref<{ option: MenuOption; allowClose(): void; close(): void }[]>()
-    const fieldNames = useFieldNames(props)
-    const labelKey = computed(() => fieldNames.value.label)
-    const valueKey = computed(() => fieldNames.value.value)
-    const childrenKey = computed(() => fieldNames.value.children)
-    const disabledKey = computed(() => fieldNames.value.disabled)
-
-    watch(
-      () => props.parentShow,
-      (value) => {
-        if (!value) {
-          open.value = false
-        }
-      },
-      { immediate: true },
-    )
-
-    async function handleArrowRight(key: MenuOptionKeyArrowX) {
-      emit('key-arrow-x', key)
-
-      if (key !== 'ArrowRight') {
-        return
-      }
-
-      emit('key-arrow-right-open')
-      menu.value?.open()
-      await raf()
-      focusChildElementByKey(menu.value!.$el, menuOptions.value!, 'ArrowDown')
-    }
-
-    function handleArrowLeft(key: MenuOptionKeyArrowX) {
-      if (key !== 'ArrowLeft') {
-        return
-      }
-
-      allowClose()
-      close()
-      trigger.value?.$el.focus()
-    }
-
-    function close() {
-      menu.value?.close()
-    }
-
-    function allowClose() {
-      menu.value?.allowClose()
-    }
-
-    function allowChildrenClose(option?: MenuOption) {
-      menuChildren.value?.forEach((child) => {
-        child.allowClose()
-
-        if (option == null) {
-          child.close()
-          return
-        }
-
-        if (child.option[valueKey.value] === option[valueKey.value]) {
-          // skip active option
-          return
-        }
-
-        child.close()
-      })
-    }
-
-    function handleMouseenter() {
-      emit('mouseenter')
-    }
-
-    return {
-      open,
-      menu,
-      trigger,
-      menuOptions,
-      menuChildren,
-      labelKey,
-      valueKey,
-      childrenKey,
-      disabledKey,
-      close,
-      handleArrowLeft,
-      handleArrowRight,
-      handleMouseenter,
-      allowClose,
-      allowChildrenClose,
-    }
-  },
+defineOptions({ name: createNamespace('menu-submenu').name })
+const props = defineProps(menuSubmenuProps)
+const emit = defineEmits(['update:open', 'open-change', 'key-arrow-x', 'key-arrow-right-open', 'mouseenter'])
+const state = useTriggerState(props, emit)
+const computedOpen = state.visible
+const menu = ref<TriggerInstance>()
+const panel = ref<InstanceType<typeof MenuPanel>>()
+const selection = inject(menuSelectionKey, undefined)
+const disabled = computed(() => props.disabled || !!selection?.disabled.value)
+function close() {
+  state.request(false)
+}
+function allowClose() {
+  menu.value?.allowClose?.()
+}
+const branch = { close, allowClose, focus: () => menu.value?.focusReference?.() }
+const { activate } = useMenuLevel(computedOpen, branch)
+function open() {
+  if (!disabled.value) {
+    activate()
+    state.request(true)
+  }
+}
+const keyboard = useMenuKeyboard({
+  reference: () => menu.value?.getReference?.(),
+  panel: () => panel.value?.panel,
+  visible: () => computedOpen.value,
+  disabled: () => disabled.value,
+  isTopLayer: (event) => menu.value?.isTopLayer?.(event) ?? false,
+  restoreFocus: () => menu.value?.focusReference?.(),
+  openKey: 'ArrowRight',
+  open,
+  close,
 })
+watch(
+  () => props.parentShow,
+  (value) => {
+    if (value === false) {
+      close()
+    }
+  },
+)
+async function handleArrow(key: 'ArrowLeft' | 'ArrowRight') {
+  emit('key-arrow-x', key)
+  if (key === 'ArrowRight') {
+    emit('key-arrow-right-open')
+    open()
+    await nextTick()
+    if (computedOpen.value) {
+      keyboard.focus('ArrowDown')
+    }
+  }
+}
+function handleMouseenter() {
+  activate()
+  emit('mouseenter')
+}
+const viewOptions = computed(() => {
+  const names = createMenuTree([], props.fieldNames).names
+  const raw = props.option
+  const value = raw?.[names.value] !== undefined ? raw[names.value] : raw?.[names.label]
+  const highlight =
+    selection
+      ?.ancestors(selection.tree.value.flat.find((node) => selection.isSelected(node.value))?.value)
+      .includes(raw!) ?? false
+  return {
+    kind: 'submenu',
+    triggerComponent: Trigger,
+    triggerRef: menu,
+    triggerProps: {
+      ...submenuTriggerAppearance(),
+      open: computedOpen.value,
+      trigger: props.trigger,
+      placement: props.placement,
+      unmountOnClose: props.unmountOnClose,
+      disabled: disabled.value,
+      escToClose: false,
+      onOpenChange: (value: boolean) => {
+        if (value) {
+          activate()
+        }
+        state.request(value)
+      },
+    },
+    reference: (slots: any) =>
+      h(
+        MenuOption,
+        {
+          ...props.optionProps,
+          ...(raw ? { label: raw[names.label], value, option: raw, ripple: raw.ripple } : {}),
+          active: computedOpen.value,
+          highlight,
+          childrenTrigger: true,
+          uninjectContext: !raw && !props.selectable,
+          disabled: disabled.value,
+          'onKey-arrow-x': handleArrow,
+          onMouseenter: handleMouseenter,
+        },
+        slots,
+      ),
+    panelComponent: MenuPanel,
+    panelProps: { ref: panel, submenu: true },
+    items: () => h(MenuOptions, { options: props.options, fieldNames: props.fieldNames }),
+  }
+})
+defineExpose({ open, close, allowClose, menu, panel, computedOpen })
 </script>

@@ -58,6 +58,7 @@ import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
+import { calendarMonthDays } from '../../utils/picker-data'
 import {
   WEEK_HEADER,
   type Choose,
@@ -146,7 +147,7 @@ export default defineComponent({
         preview: { previewMonth, previewYear },
       }: { preview: Preview } = props
 
-      const monthNum = dayjs(`${previewYear}-${previewMonth}`).daysInMonth()
+      const monthNum = calendarMonthDays(Number(previewYear), Number(previewMonth))
       const firstDayToWeek = dayjs(`${previewYear}-${previewMonth}-01`).day()
       const index = sortWeekList.value.findIndex((week: Week) => week === `${firstDayToWeek}`)
       days.value = [...Array(index).fill(-1), ...Array.from(Array(monthNum + 1).keys())].filter((value) => value)

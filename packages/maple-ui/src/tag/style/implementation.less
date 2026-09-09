@@ -1,0 +1,219 @@
+@colors: red, orangered, orange, gold, lime, green, cyan, blue, brand, purple, pinkpurple, magenta, gray;
+
+.mp-tag {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: var(~'--mp-tag-size-md');
+  padding: var(~'--mp-tag-padding-vertical') var(~'--mp-tag-padding-horizontal');
+  color: var(~'--mp-tag-default-text-color');
+  font-weight: var(~'--mp-tag-text-font-weight');
+  font-size: var(~'--mp-tag-size-md-font-size');
+  line-height: calc(
+    var(~'--mp-tag-size-md') - var(~'--mp-tag-border-width') * 2 - var(~'--mp-tag-padding-vertical') * 2
+  );
+  vertical-align: middle;
+  border: var(~'--mp-tag-border-width') var(~'--mp-tag-border-type') transparent;
+  border-radius: var(~'--mp-tag-border-radius');
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &--round {
+    border-radius: var(~'--mp-tag-round-radius');
+  }
+
+  &--checkable {
+    cursor: pointer;
+    transition: all var(~'--mp-transition-duration-1') var(~'--mp-transition-timing-function-linear');
+  }
+
+  &--checkable:hover {
+    background-color: var(~'--mp-tag-bg-not-checked-hover');
+  }
+
+  &--checked {
+    background-color: var(~'--mp-tag-default-bg');
+    border-color: var(~'--mp-tag-default-border-color');
+  }
+
+  &--checkable--checked:hover {
+    background-color: var(~'--mp-tag-default-bg-hover');
+    border-color: var(~'--mp-tag-default-border-color-hover');
+  }
+
+  // Size
+  &--size-xs {
+    height: var(~'--mp-tag-size-xs');
+    font-size: var(~'--mp-tag-size-xs-font-size');
+    line-height: calc(var(~'--mp-tag-size-xs') - var(~'--mp-tag-border-width') * 2);
+  }
+
+  &--size-sm {
+    height: var(~'--mp-tag-size-sm');
+    font-size: var(~'--mp-tag-size-sm-font-size');
+    line-height: calc(var(~'--mp-tag-size-sm') - var(~'--mp-tag-border-width') * 2);
+  }
+
+  &--size-md {
+    height: var(~'--mp-tag-size-md');
+    font-size: var(~'--mp-tag-size-md-font-size');
+    line-height: calc(var(~'--mp-tag-size-md') - var(~'--mp-tag-border-width') * 2);
+  }
+
+  &--size-lg {
+    height: var(~'--mp-tag-size-lg');
+    font-size: var(~'--mp-tag-size-lg-font-size');
+    line-height: calc(var(~'--mp-tag-size-lg') - var(~'--mp-tag-border-width') * 2);
+  }
+
+  &--size-xl {
+    height: var(~'--mp-tag-size-xl');
+    font-size: var(~'--mp-tag-size-xl-font-size');
+    line-height: calc(var(~'--mp-tag-size-xl') - var(~'--mp-tag-border-width') * 2);
+  }
+
+  &--hide {
+    display: none;
+  }
+
+  &--loading {
+    cursor: default;
+    opacity: 0.8;
+  }
+
+  &__icon {
+    margin-right: var(~'--mp-tag-icon-margin-right');
+    color: var(~'--mp-tag-default-icon-color');
+  }
+
+  &__text {
+    overflow: hidden;
+    min-width: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  each(@colors, {
+    &&--checked&--@{value} {
+      color: var(~'--mp-tag-@{value}-text-color');
+      background-color: var(~'--mp-tag-@{value}-bg');
+      border: var(~'--mp-tag-border-width') var(~'--mp-tag-border-type') var(~'--mp-tag-@{value}-border-color');
+
+    }
+
+    &&--checkable&--checked&--@{value}&:hover {
+      background-color: var(~'--mp-tag-@{value}-bg-hover');
+      border-color: var(~'--mp-tag-@{value}-border-color-hover');
+    }
+
+    &&--checked&--@{value} &__icon,
+    &&--checked&--@{value} &__close-btn,
+    &&--checked&--@{value} &__loading-icon {
+      color: var(~'--mp-tag-@{value}-icon-color');
+    }
+  });
+
+  &&--custom-color {
+    color: var(~'--mp-tag-custom-text-color');
+  }
+
+  & &__close-btn {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: var(~'--mp-tag-close-margin-left');
+    font-size: var(~'--mp-tag-close-font-size');
+
+    > svg {
+      position: relative;
+    }
+  }
+
+  & &__loading-icon {
+    margin-left: var(~'--mp-tag-close-margin-left');
+    font-size: var(~'--mp-tag-close-font-size');
+  }
+
+  // === variant=default × status: filled ===
+  .tagFilledStatus(@status, @colorVar) {
+    &--variant-default&--status-@{status} {
+      color: var(~'--mp-tag-status-@{status}-text-color');
+      background-color: var(~'--mp-tag-status-@{status}-bg-color');
+      border-color: transparent;
+    }
+  }
+  .tagFilledStatus(primary, primary);
+  .tagFilledStatus(secondary, gray);
+  .tagFilledStatus(tertiary, gray);
+  .tagFilledStatus(info, blue);
+  .tagFilledStatus(success, green);
+  .tagFilledStatus(warning, orange);
+  .tagFilledStatus(danger, red);
+
+  // === variant=outline ===
+  &--variant-outline {
+    background-color: transparent;
+    color: var(~'--mp-tag-variant-outline-default-color');
+    border: var(~'--mp-tag-border-width') var(~'--mp-tag-border-type')
+      var(~'--mp-tag-variant-outline-default-border-color');
+  }
+  .tagOutlineStatus(@status, @colorVar) {
+    &--variant-outline&--status-@{status} {
+      color: var(~'--mp-tag-variant-outline-status-@{status}-color');
+      background-color: transparent;
+      border: var(~'--mp-tag-border-width') var(~'--mp-tag-border-type')
+        var(~'--mp-tag-variant-outline-status-@{status}-color');
+    }
+  }
+  .tagOutlineStatus(primary, primary);
+  .tagOutlineStatus(secondary, gray);
+  .tagOutlineStatus(tertiary, gray);
+  .tagOutlineStatus(info, blue);
+  .tagOutlineStatus(success, green);
+  .tagOutlineStatus(warning, orange);
+  .tagOutlineStatus(danger, red);
+}
+
+:root[maple-theme='dark'] {
+  .mp-tag--checked {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  each(@colors, {
+    .mp-tag--checked.mp-tag--@{value} {
+      background-color: ~'rgba(var(--mp-@{value}-6), 0.2)';
+
+    }
+
+    .mp-tag--checkable.mp-tag--checked.mp-tag--@{value}:hover {
+      background-color: ~'rgba(var(--mp-@{value}-6), 0.35)';
+    }
+  });
+}
+
+.mp-tag--rtl {
+  direction: rtl;
+
+  .mp-tag {
+    &__icon {
+      margin-right: 0;
+      margin-left: var(~'--mp-tag-icon-margin-right');
+    }
+
+    &__close-btn,
+    &__loading-icon {
+      margin-right: var(~'--mp-tag-close-margin-left');
+      margin-left: 0;
+    }
+  }
+}
+
+.mp-tag-fade-enter-active,
+.mp-tag-fade-leave-active {
+  transition: opacity 0.15s linear;
+}
+.mp-tag-fade-enter-from,
+.mp-tag-fade-leave-to {
+  opacity: 0;
+}

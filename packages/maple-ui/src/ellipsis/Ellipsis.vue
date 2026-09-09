@@ -48,11 +48,11 @@ export default defineComponent({
 
       if (props.tooltip === true) {
         return {
-          sameWidth: true,
+          autoFitPopupWidth: true,
         }
       }
 
-      return { sameWidth: true, ...props.tooltip }
+      return { autoFitPopupWidth: true, ...props.tooltip }
     })
 
     function handleClick() {

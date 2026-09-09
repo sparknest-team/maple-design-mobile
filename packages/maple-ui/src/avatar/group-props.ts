@@ -2,7 +2,7 @@ import type { CSSProperties, ExtractPropTypes, PropType } from 'vue'
 import { props as popoverProps } from '../popover/props'
 import { props as avatarProps } from './props'
 
-export type PopoverProps = ExtractPropTypes<typeof popoverProps>
+export type PopoverProps = import('vue').ExtractPublicPropTypes<typeof popoverProps>
 
 export const props = {
   shape: avatarProps.shape,
@@ -16,4 +16,4 @@ export const props = {
   vertical: Boolean,
 }
 
-export type AvatarGroupProps = ExtractPropTypes<typeof props>
+export type AvatarGroupProps = import('vue').ExtractPublicPropTypes<typeof props>

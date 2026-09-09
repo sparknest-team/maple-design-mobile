@@ -4,7 +4,7 @@ import type { CollapseName } from './props'
 export const collapseItemProps = {
   name: {
     type: [String, Number] as PropType<CollapseName>,
-    required: true,
+    required: true as const,
   },
   title: String,
   disabled: Boolean,

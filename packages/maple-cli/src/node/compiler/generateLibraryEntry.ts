@@ -2,12 +2,55 @@ import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pascalCase } from '@maplejs/maple-shared'
+import ts from 'typescript'
 import { SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs, getVersion } from '../shared/fsUtils.js'
 
+// Follow exports rather than scraping type names: re-exports and child Props count too.
+function publicContractExports(dirs: string[]) {
+  const entries = dirs
+    .map((dir) => INDEX_FILES.map((file) => resolve(SRC_DIR, dir, file)).find(existsSync))
+    .filter((file): file is string => Boolean(file))
+  const program = ts.createProgram(entries, {
+    moduleResolution: ts.ModuleResolutionKind.NodeJs,
+    jsx: ts.JsxEmit.Preserve,
+    skipLibCheck: true,
+  })
+  const checker = program.getTypeChecker()
+  const used = new Set<string>(['LoadingDirectiveOptions', ...dirs.map(pascalCase)])
+  return entries.flatMap((file) => {
+    const source = program.getSourceFile(file)
+    const symbol = source && checker.getSymbolAtLocation(source)
+    if (!symbol) {
+      return []
+    }
+    const runtime: string[] = [],
+      types: string[] = []
+    for (const exported of checker.getExportsOfModule(symbol)) {
+      const name = exported.name
+      if (used.has(name)) {
+        continue
+      }
+      const original = exported.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(exported) : exported
+      if (/^[a-z].*Props$/.test(name)) {
+        runtime.push(name)
+        used.add(name)
+      } else if (original.flags & ts.SymbolFlags.Type && /^[A-Z]/.test(name) && !['Props', 'Instance'].includes(name)) {
+        types.push(name)
+        used.add(name)
+      }
+    }
+    const dir = dirs.find((dir) => INDEX_FILES.some((index) => resolve(SRC_DIR, dir, index) === file))!
+    return [
+      runtime.length ? `export { ${runtime.join(', ')} } from './${dir}'` : '',
+      types.length ? `export type { ${types.join(', ')} } from './${dir}'` : '',
+    ].filter(Boolean)
+  })
+}
+
 const INDEX_FILES = ['index.ts', 'index.tsx', 'index.js']
 
-async function exportedComponentTokens(dir: string) {
+export async function exportedComponentTokens(dir: string) {
   for (const file of INDEX_FILES) {
     const path = resolve(SRC_DIR, dir, file)
     if (!existsSync(path)) {
@@ -54,11 +97,17 @@ export {
   ${publicComponents.join(',\n  ')}
 }
 
-export default {
+export interface MapleLibrary {
+  version: string
+  install: typeof install
+  ${publicComponents.map((name) => `${name}: typeof ${name}`).join('\n  ')}
+}
+const library: MapleLibrary = {
   version,
   install,
   ${publicComponents.join(',\n  ')}
 }
+export default library
 `
 
   const index = `\
@@ -67,6 +116,8 @@ ${tokenExports.join('\n')}
 export { vLoading } from './loading'
 export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
+${publicContractExports(publicDirs).join('\n')}
+export type { PopupContainer } from './utils/popup-container'
 `
 
   await writeFile(resolve(SRC_DIR, 'maple-vue.ts'), mapleVue)

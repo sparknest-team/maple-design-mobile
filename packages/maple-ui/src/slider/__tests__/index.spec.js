@@ -29,7 +29,7 @@ describe('test slider props', () => {
     expect(wrapper.find('.mp-slider__horizontal').exists()).toBe(true)
 
     await wrapper.setProps({
-      direction: 'vertical',
+      orientation: 'vertical',
     })
     expect(wrapper.find('.mp-slider__vertical').exists()).toBe(true)
 

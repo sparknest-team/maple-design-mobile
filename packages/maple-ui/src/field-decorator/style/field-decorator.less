@@ -122,7 +122,7 @@
     }
   }
 
-  &--outlined,
+  &--outline,
   &--filled {
     .mp-field-decorator__line,
     .mp-field-decorator__state-line {
@@ -136,7 +136,7 @@
       left: 0;
       pointer-events: none;
       border-radius: var(--mp-field-border-radius);
-      border: var(--mp-field-variant-standard-line-size) solid var(--mp-field-variant-outlined-border-color);
+      border: var(--mp-field-variant-standard-line-size) solid var(--mp-field-variant-outline-border-color);
       overflow: hidden;
       margin: 0;
 
@@ -165,19 +165,19 @@
     &:hover {
       .mp-field-decorator__state-line:not(.mp-field-decorator--state-line-disabled) {
         opacity: 1;
-        border-color: var(--mp-field-variant-outlined-border-color-hover);
+        border-color: var(--mp-field-variant-outline-border-color-hover);
       }
     }
 
     .mp-field-decorator--state-line-focus {
       opacity: 1;
       border-width: var(--mp-field-variant-standard-line-size-focus);
-      border-color: var(--mp-field-variant-outlined-border-color-focus);
+      border-color: var(--mp-field-variant-outline-border-color-focus);
     }
 
     .mp-field-decorator--state-line-error {
       opacity: 1;
-      border-color: var(--mp-field-variant-outlined-border-color-error) !important;
+      border-color: var(--mp-field-variant-outline-border-color-error) !important;
     }
 
     .mp-field-decorator--state-line-disabled {
@@ -186,11 +186,11 @@
 
     .mp-field-decorator--line-disabled {
       border-radius: var(--mp-field-border-radius);
-      border: var(--mp-field-variant-standard-line-size) solid var(--mp-field-variant-outlined-border-color-disabled);
+      border: var(--mp-field-variant-standard-line-size) solid var(--mp-field-variant-outline-border-color-disabled);
     }
 
     .mp-field-decorator--line-error {
-      border-color: var(--mp-field-variant-outlined-border-color-error) !important;
+      border-color: var(--mp-field-variant-outline-border-color-error) !important;
     }
   }
 
@@ -234,7 +234,7 @@
   .size(xl, var(--mp-field-size-xl-height), 20px, 4px);
 
   &--standard,
-  &--outlined,
+  &--outline,
   &--filled {
     .mp-field-decorator__placeholder,
     .mp-field-decorator--hint-center {
@@ -249,7 +249,7 @@
     }
   }
 
-  &--outlined,
+  &--outline,
   &--filled {
     .mp-field-decorator__controller {
       padding-right: var(--mp-field-padding-x);

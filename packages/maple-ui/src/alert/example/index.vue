@@ -22,18 +22,18 @@ onThemeChange()
   <app-type>{{ t('type') }}</app-type>
   <mp-space direction="column" size="lg">
     <mp-alert :title="t('alertTitle')" :message="t('alertText')" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" type="success" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" type="warning" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" type="danger" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" type="default" />
+    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="success" />
+    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="warning" />
+    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="danger" />
+    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="default" />
   </mp-space>
 
   <app-type>{{ t('variant') }}</app-type>
   <mp-space direction="column" size="lg">
-    <mp-select v-model="type" variant="outlined" size="sm" :options="options" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" :type="type" />
-    <mp-alert variant="tonal" :title="t('alertTitle')" :message="t('alertText')" :type="type" />
-    <mp-alert variant="outlined" :title="t('alertTitle')" :message="t('alertText')" :type="type" />
+    <mp-select v-model="type" variant="outline" size="sm" :options="options" />
+    <mp-alert :title="t('alertTitle')" :message="t('alertText')" :status="type" />
+    <mp-alert variant="tonal" :title="t('alertTitle')" :message="t('alertText')" :status="type" />
+    <mp-alert variant="outline" :title="t('alertTitle')" :message="t('alertText')" :status="type" />
   </mp-space>
 
   <app-type>{{ t('center') }}</app-type>

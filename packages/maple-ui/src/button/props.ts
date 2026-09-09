@@ -1,134 +1,79 @@
-import { type ButtonHTMLAttributes, type ExtractPropTypes, type PropType } from 'vue'
-import { loadingProps } from '../loading'
-import { defineListenerProp, pickProps } from '../utils/components'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { LoadingSize, LoadingType } from '../loading/props'
+import { componentSizes, semanticStatuses } from '../utils/constants'
 import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
-/**
- * 按钮主题色（与 Cedar Design Web 对齐的 Status 集合）
- */
-/**
- * 按钮变体
- */
-export type ButtonVariant = 'default' | 'text' | 'outline' | 'tonal'
+export const buttonVariants = ['default', 'text', 'outline', 'tonal'] as const
+export const buttonHtmlTypes = ['button', 'submit', 'reset'] as const
+export const buttonComponents = ['button', 'a'] as const
+export const buttonLoadingModes = ['default', 'fill', 'line'] as const
+export type ButtonVariant = (typeof buttonVariants)[number]
+export type ButtonLoadingMode = (typeof buttonLoadingModes)[number]
+export type ButtonHandler = (event: Event) => void | Promise<unknown>
 
-/**
- * 按钮尺寸
- */
 export const buttonProps = {
-  /**
-   * 按钮主题色
-   */
-  status: String as PropType<SemanticStatus>,
-  /**
-   * 按钮变体
-   */
-  variant: String as PropType<ButtonVariant>,
-  /**
-   * 按钮尺寸
-   */
-  size: String as PropType<ComponentSize>,
-  /**
-   * 原生按钮类型：button | submit | reset
-   */
+  /** 主题色，省略时继承按钮组 */
+  status: { type: String as PropType<SemanticStatus>, validator: (v: SemanticStatus) => semanticStatuses.includes(v) },
+  /** 外观，省略时继承按钮组 */
+  variant: { type: String as PropType<ButtonVariant>, validator: (v: ButtonVariant) => buttonVariants.includes(v) },
+  /** 五档尺寸，省略时继承按钮组 */
+  size: { type: String as PropType<ComponentSize>, validator: (v: ComponentSize) => componentSizes.includes(v) },
+  /** 原生按钮类型 */
   htmlType: {
-    type: String as PropType<ButtonHTMLAttributes['type']>,
+    type: String as PropType<(typeof buttonHtmlTypes)[number]>,
     default: 'button',
+    validator: (v: (typeof buttonHtmlTypes)[number]) => buttonHtmlTypes.includes(v),
   },
-  /**
-   * 渲染的根标签
-   */
+  /** 根元素 */
   component: {
-    type: String as PropType<'button' | 'a'>,
+    type: String as PropType<(typeof buttonComponents)[number]>,
     default: 'button',
+    validator: (v: (typeof buttonComponents)[number]) => buttonComponents.includes(v),
   },
-  /**
-   * 是否为加载中状态
-   */
-  loading: Boolean,
-  /**
-   * 是否为圆角胶囊形按钮
-   */
+  /** 圆形按钮 */
   round: Boolean,
-  /**
-   * 是否占满父容器宽度
-   */
+  /** 占满可用宽度 */
   block: Boolean,
-  /**
-   * 是否禁用，未显式设置时由父 ButtonGroup 决定
-   */
-  disabled: {
-    type: Boolean,
-    default: undefined,
+  /** 外部加载状态，阻止点击 */
+  loading: Boolean,
+  /** 加载动画，与 Loading.type 一致 */
+  loadingType: { type: String as PropType<LoadingType>, default: 'circle' },
+  /** 加载布局：行内、覆盖或底部进度线 */
+  loadingMode: {
+    type: String as PropType<ButtonLoadingMode>,
+    default: 'default',
+    validator: (v: ButtonLoadingMode) => buttonLoadingModes.includes(v),
   },
-  /**
-   * 是否堆叠（图标在文字上方）
-   */
-  stacked: {
-    type: Boolean,
-    default: undefined,
-  },
-  /**
-   * 是否自动 loading（onClick 返回 Promise 时自动维持）
-   */
+  /** 加载指示器尺寸，省略时使用按钮尺寸 */
+  loadingSize: [String, Number] as PropType<LoadingSize>,
+  /** 加载颜色 */
+  loadingColor: { type: String, default: 'currentColor' },
+  /** circle 加载指示器半径 */
+  loadingRadius: [String, Number],
+  /** 等待事件处理函数返回的 Promise，并阻止重复操作 */
   autoLoading: Boolean,
-  /**
-   * 是否仅作为图标容器（调整内边距）
-   */
+  /** 图标容器外观 */
   iconContainer: Boolean,
-  /**
-   * 是否启用水波纹（移动端默认开启）
-   */
-  ripple: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * 是否可聚焦（移动端默认开启）
-   */
-  focusable: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * 自定义背景色
-   */
-  color: String,
-  /**
-   * 自定义文字色
-   */
+  /** 禁用，省略时继承按钮组 */
+  disabled: { type: Boolean, default: undefined },
+  /** 点击水波 */
+  ripple: { type: Boolean, default: true },
+  /** 允许顺序键盘聚焦 */
+  focusable: { type: Boolean, default: true },
+  /** 原生自动聚焦 */
+  autofocus: Boolean,
+  /** 自定义文字色 */
   textColor: String,
-  /**
-   * 海拔阴影：true 默认层级、false 关闭、0..24 数字层级
-   */
-  elevation: {
-    type: [Boolean, Number, String],
-    default: true,
-  },
-  /**
-   * loading 指示器圆角半径
-   */
-  loadingRadius: [Number, String],
-  /**
-   * loading 指示器类型
-   */
-  loadingType: pickProps(loadingProps, 'type'),
-  /**
-   * loading 指示器尺寸
-   */
-  loadingSize: {
-    ...pickProps(loadingProps, 'size'),
-    default: undefined,
-  },
-  /**
-   * loading 指示器颜色
-   */
-  loadingColor: {
-    ...pickProps(loadingProps, 'color'),
-    default: 'currentColor',
-  },
-
-  onClick: defineListenerProp<(e: Event) => void | Promise<any>>(),
-  onTouchstart: defineListenerProp<(e: Event) => void | Promise<any>>(),
+  /** 自定义背景／变体基色 */
+  color: String,
+  /** 阴影；true 为等级 2，false 为无，数字 0～24 */
+  elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: true },
+  /** 图标文字纵向排列，省略时继承按钮组 */
+  stacked: { type: Boolean, default: undefined },
+  // Explicit listener props retain Promise results for autoLoading. Vue emit() discards returns.
+  onClick: [Function, Array] as PropType<ButtonHandler | ButtonHandler[]>,
+  onTouchstart: [Function, Array] as PropType<ButtonHandler | ButtonHandler[]>,
 }
-
-export type ButtonProps = ExtractPropTypes<typeof buttonProps>
+export type ButtonProps = ExtractPublicPropTypes<typeof buttonProps>
+export { buttonGroupProps } from './group-props'
+export type { ButtonGroupProps } from './group-props'

@@ -89,7 +89,7 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     characterDelta: -2,
   },
   sticky: {
-    path: '/sticky',
+    path: '/affix',
   },
   progress: {
     path: '/progress',
@@ -252,8 +252,8 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     attrs: ['type=""'],
     characterDelta: -2,
   },
-  uploader: {
-    path: '/uploader',
+  upload: {
+    path: '/upload',
     attrs: ['v-model=""'],
     closeSelf: true,
     characterDelta: -3,
@@ -287,11 +287,11 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
   space: {
     path: '/space',
   },
-  'bottom-navigation': {
-    path: '/bottom-navigation',
+  'tab-bar': {
+    path: '/tab-bar',
   },
-  'bottom-navigation-item': {
-    path: '/bottom-navigation',
+  'tab-bar-item': {
+    path: '/tab-bar',
     attrs: ['label=""'],
     closeSelf: true,
     characterDelta: -3,

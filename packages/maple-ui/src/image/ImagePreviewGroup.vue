@@ -12,8 +12,8 @@
     @opened="$emit('opened')"
     @close="$emit('close')"
     @closed="$emit('closed')"
-    @key-escape="$emit('keyEscape')"
-    @long-press="$emit('longPress', mergedCurrent)"
+    @key-escape="$emit('key-escape')"
+    @long-press="$emit('long-press', mergedCurrent)"
   >
     <template #image="{ scale, rotate, translateX, translateY, moving, previewedImgProps }">
       <div
@@ -101,13 +101,13 @@ export default defineComponent({
     'update:open',
     'update:current',
     'change',
-    'openChange',
+    'open-change',
     'open',
     'opened',
     'close',
     'closed',
-    'keyEscape',
-    'longPress',
+    'key-escape',
+    'long-press',
   ],
   setup(props, { emit }) {
     const previousIndex = ref(props.defaultCurrent)
@@ -119,7 +119,7 @@ export default defineComponent({
       defaultCurrent: props.defaultCurrent,
       onOpenChange: (open) => {
         emit('update:open', open)
-        emit('openChange', open)
+        emit('open-change', open)
         props.onOpenChange?.(open)
       },
       onCurrentChange: (index) => {

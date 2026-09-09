@@ -1,4 +1,5 @@
-import { defineComponent, ref, Transition, watch } from 'vue'
+import { computed, defineComponent, ref, Transition, watch } from 'vue'
+import { IconClose, IconPlus } from '@maplejs/icons-vue'
 import { call, isBoolean } from '@maplejs/maple-shared'
 import { useClickOutside, useVModel } from '@maplejs/maple-use'
 import Button from '../button'
@@ -6,6 +7,7 @@ import Drag from '../drag'
 import Icon from '../icon'
 import { createNamespace, flatFragment } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { resolvePopupContainer } from '../utils/popup-container'
 import { props } from './props'
 import './style'
 
@@ -18,6 +20,7 @@ export default defineComponent({
   emits: ['click', 'close', 'open', 'opened', 'closed', 'update:active'],
   setup(props, { slots, attrs, emit }) {
     const isActive = useVModel(props, 'active', { emit, eventName: 'update:active' })
+    const popupContainer = computed(() => resolvePopupContainer(props.popupContainer))
     const host = ref<null | HTMLElement>(null)
     const dragRef = ref<InstanceType<typeof Drag> | null>(null)
 
@@ -86,6 +89,9 @@ export default defineComponent({
         return props.open ? slots.trigger({ active: isActive.value }) : null
       }
 
+      const iconName = isActive.value ? props.activeIcon : props.inactiveIcon
+      const builtinIcon = iconName === 'plus' ? IconPlus : iconName === 'close' ? IconClose : undefined
+
       return (
         <Button
           v-show={props.open}
@@ -104,6 +110,16 @@ export default defineComponent({
             size={isActive.value ? props.activeIconSize : props.inactiveIconSize}
             transition={200}
             animationClass={n('--trigger-icon-animation')}
+            v-slots={
+              builtinIcon
+                ? {
+                    default: () => {
+                      const BuiltinIcon = builtinIcon
+                      return <BuiltinIcon />
+                    },
+                  }
+                : undefined
+            }
           />
         </Button>
       )
@@ -124,7 +140,7 @@ export default defineComponent({
             right: toSizeUnit(props.right),
           }}
           zIndex={props.zIndex}
-          popupContainer={props.popupContainer}
+          popupContainer={props.popupContainer === false ? false : popupContainer.value}
           disabled={props.disabled || !props.drag || !props.fixed}
           direction={dragProps.direction}
           attraction={dragProps.attraction}

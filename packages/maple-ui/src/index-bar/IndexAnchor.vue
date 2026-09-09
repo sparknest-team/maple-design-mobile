@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="sticky ? n('$-sticky') : Transition"
+    :is="sticky ? n('$-affix') : Transition"
     ref="anchorEl"
     :offset-top="sticky ? stickyOffsetTop : null"
     :z-index="sticky ? zIndex : null"
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, Transition, type RendererNode } from 'vue'
-import MpSticky from '../sticky'
+import MpAffix from '../affix'
 import { createNamespace } from '../utils/components'
 import { props } from './anchor-props'
 import { useIndexBar, type IndexAnchorProvider } from './anchor-provide'
@@ -24,7 +24,7 @@ const { name, n, classes } = createNamespace('index-anchor')
 
 export default defineComponent({
   name,
-  components: { MpSticky },
+  components: { MpAffix },
   inheritAttrs: false,
   props,
   setup(props) {

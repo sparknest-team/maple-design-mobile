@@ -1,87 +1,49 @@
 <template>
-  <component
-    :is="tag"
-    v-bind="linkProps"
+  <a
+    v-bind="$attrs"
+    :href="blocked ? undefined : href"
+    :target="blocked ? undefined : target"
+    :rel="blocked ? undefined : rel"
     :class="
       classes(
         n(),
-        n('$--box'),
-        n('$--inline-flex'),
-        n(`--${status}`),
-        [underline !== 'none', n(`--underline-${underline}`)],
-        [disabled || loading, n('--disabled')],
+        n('--status-' + status),
+        n('--underline-' + underline),
+        [disabled, n('--disabled')],
         [loading, n('--loading')],
-        [isFocusing && !inMobile(), n('--focusing')],
+        [!hoverable, n('--hoverless')],
       )
     "
-    :aria-disabled="disabled || loading || undefined"
+    :aria-disabled="blocked || undefined"
     :aria-busy="loading || undefined"
-    :tabindex="disabled || loading ? -1 : undefined"
+    :tabindex="blocked ? -1 : ($attrs.tabindex as number | string | undefined)"
     @click="handleClick"
-    @focus="isFocusing = true"
-    @blur="isFocusing = false"
   >
-    <span v-if="loading || showIcon" :class="n('icon')" aria-hidden="true">
-      <MIconLoading v-if="loading" />
-      <slot v-else name="icon"><MIconLink /></slot>
+    <span v-if="loading || icon || $slots.icon" :class="n('icon')" aria-hidden="true">
+      <icon-loading v-if="loading" :class="n('spinner')" />
+      <slot v-else name="icon"><icon-link /></slot>
     </span>
     <slot />
-  </component>
+  </a>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { IconLink as MIconLink, IconLoading as MIconLoading } from '@maplejs/icons-vue'
-import { inMobile } from '@maplejs/maple-shared'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { createNamespace } from '../utils/components'
-import { props } from './props'
+import { IconLink, IconLoading } from './platform'
+import { linkProps } from './props'
 
-const { name, n, classes } = createNamespace('link')
+defineOptions({ name: createNamespace('link').name, inheritAttrs: false })
+const props = defineProps(linkProps)
+const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const { n, classes } = createNamespace('link')
+const blocked = computed(() => props.disabled || props.loading)
 
-export default defineComponent({
-  name,
-  components: {
-    MIconLoading,
-    MIconLink,
-  },
-  props,
-  emits: ['click'],
-  setup(props, { emit, slots }) {
-    const isFocusing = ref(false)
-    const tag = 'a'
-    const linkProps = computed(() => {
-      const { disabled, loading, href, target, rel } = props
-
-      if (disabled || loading) {
-        return {}
-      }
-
-      if (href) {
-        return { href, target, rel }
-      }
-
-      return {}
-    })
-
-    function handleClick(e: Event) {
-      if (props.disabled || props.loading) {
-        e.preventDefault()
-        return
-      }
-
-      emit('click', e)
-    }
-
-    return {
-      tag,
-      linkProps,
-      showIcon: computed(() => props.icon || Boolean(slots.icon)),
-      isFocusing,
-      inMobile,
-      n,
-      classes,
-      handleClick,
-    }
-  },
-})
+function handleClick(event: MouseEvent) {
+  if (blocked.value) {
+    event.preventDefault()
+    return
+  }
+  emit('click', event)
+}
 </script>

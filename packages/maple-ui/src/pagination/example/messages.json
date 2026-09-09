@@ -1,0 +1,30 @@
+{
+  "zh-CN": {
+    "basic": "基础与双向绑定",
+    "more-page-size": "更多页码与省略跳转",
+    "show-page-size": "每页条数与公共选择器配置",
+    "show-jumper": "跳转与前后缀插槽",
+    "size": "五档尺寸与阴影",
+    "simple": "简洁模式",
+    "show-total": "自定义总数插槽",
+    "all": "完整功能交互",
+    "custom-page-button": "自定义分页按钮与样式",
+    "disabled": "禁用与单页隐藏",
+    "auto-adjust": "数据变化与自动调整",
+    "responsive": "容器宽度与窄屏布局"
+  },
+  "en-US": {
+    "basic": "Basic and two-way binding",
+    "more-page-size": "Page window and ellipsis",
+    "show-page-size": "Page size and shared selector options",
+    "show-jumper": "Jumper and prefix/suffix slots",
+    "size": "Five sizes and elevation",
+    "simple": "Simple mode",
+    "show-total": "Custom total slot",
+    "all": "Full feature controls",
+    "custom-page-button": "Custom page slots and styles",
+    "disabled": "Disabled and hide on single page",
+    "auto-adjust": "Data changes and auto adjustment",
+    "responsive": "Container width and compact layout"
+  }
+}

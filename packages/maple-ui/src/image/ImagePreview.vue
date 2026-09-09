@@ -12,7 +12,7 @@
     @opened="$emit('opened')"
     @close="$emit('close')"
     @closed="$emit('closed')"
-    @key-escape="$emit('keyEscape')"
+    @key-escape="$emit('key-escape')"
   >
     <div
       :class="n('stage')"
@@ -102,7 +102,18 @@ export default defineComponent({
   components: { MIconCloseCircleFill, MpIcon, MpOverlay },
   inheritAttrs: false,
   props: imagePreviewProps,
-  emits: ['update:open', 'openChange', 'open', 'opened', 'close', 'closed', 'keyEscape', 'longPress', 'prev', 'next'],
+  emits: [
+    'update:open',
+    'open-change',
+    'open',
+    'opened',
+    'close',
+    'closed',
+    'key-escape',
+    'long-press',
+    'prev',
+    'next',
+  ],
   setup(props, { emit }) {
     const refs = toRefs(props)
     const controller = usePreviewController({
@@ -121,10 +132,10 @@ export default defineComponent({
       overlayClosable: refs.overlayClosable,
       onOpenChange: (open) => {
         emit('update:open', open)
-        emit('openChange', open)
+        emit('open-change', open)
         props.onOpenChange?.(open)
       },
-      onLongPress: () => emit('longPress'),
+      onLongPress: () => emit('long-press'),
       onPrev: () => emit('prev'),
       onNext: () => emit('next'),
     })

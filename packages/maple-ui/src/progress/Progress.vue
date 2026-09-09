@@ -9,7 +9,7 @@
     <div v-if="mode === 'line'" :class="n('line')">
       <div
         :class="classes(n('line-block'), [track, n('line-background')])"
-        :style="{ height: toSizeUnit(strokeWidth), background: trackColor }"
+        :style="{ height: resolvedStroke, background: trackColor }"
       >
         <div v-if="indeterminate" :class="n('line-indeterminate')">
           <div :class="classes(n(`line--${status}`))" :style="{ background: progressColor }"></div>
@@ -22,16 +22,17 @@
         ></div>
       </div>
       <div v-if="showText" :class="classes(n('line-label'), [textClass, textClass])">
-        <slot>
-          {{ lineProps.roundValue }}
-        </slot>
+        <slot name="text" :percent="lineProps.value"
+          ><slot :percent="lineProps.value">{{ lineProps.roundValue }}</slot></slot
+        >
       </div>
     </div>
 
     <div
       v-if="mode === 'circle'"
+      ref="circleEl"
       :class="classes(n('circle'), [indeterminate, n('circle-indeterminate')])"
-      :style="{ width: toSizeUnit(size), height: toSizeUnit(size) }"
+      :style="{ width: dimensions.diameter, height: 'auto', aspectRatio: '1' }"
     >
       <svg :class="n('circle-svg')" :viewBox="circleProps.viewBox">
         <defs v-if="isPlainObject(color)">
@@ -71,24 +72,26 @@
       </svg>
 
       <div v-if="showText" :class="classes(n('circle-label'), textClass)">
-        <slot>
-          {{ circleProps.roundValue }}
-        </slot>
+        <slot name="text" :percent="circleProps.value"
+          ><slot :percent="circleProps.value">{{ circleProps.roundValue }}</slot></slot
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { clamp, isPlainObject, toNumber } from '@maplejs/maple-shared'
+import { computed, defineComponent, ref } from 'vue'
+import { isPlainObject } from '@maplejs/maple-shared'
 import { useClientId } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
 import { toPxNum, toSizeUnit } from '../utils/elements'
+import { normalizePercent } from './percent'
 import { props } from './props'
+import { positiveLength, resolveProgressSize } from './size'
+import { useCircleSize } from './use-circle-size'
 
 const MAX = 100
-const MIN = 0
 const RADIUS = 20
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
@@ -99,10 +102,18 @@ export default defineComponent({
   props,
   setup(props) {
     const id = useClientId()
+    const circleEl = ref<HTMLElement>()
+    const dimensions = computed(() => resolveProgressSize(props.size, props.mode))
+    const resolvedStroke = computed(() => positiveLength(props.strokeWidth, dimensions.value.stroke))
+    const { diameter: measuredDiameter, strokeWidth: measuredStroke } = useCircleSize(
+      circleEl,
+      () => dimensions.value.diameter,
+      () => resolvedStroke.value,
+    )
     const lineProps = computed(() => {
-      const percent = toNumber(props.percent)
-      const width = clamp(percent, MIN, MAX)
-      const roundValue = clamp(Math.round(percent), MIN, MAX)
+      const percent = normalizePercent(props.percent)
+      const width = percent
+      const roundValue = percent
 
       return {
         width: `${width}%`,
@@ -112,11 +123,13 @@ export default defineComponent({
     })
 
     const circleProps = computed(() => {
-      const { size, strokeWidth: strokeWidthProp, percent } = props
+      const percent = normalizePercent(props.percent)
+      const size = measuredDiameter.value
+      const strokeWidthProp = measuredStroke.value
 
       const diameter = (RADIUS / (1 - toPxNum(strokeWidthProp) / toPxNum(size))) * 2
       const viewBox = `0 0 ${diameter} ${diameter}`
-      const roundValue = clamp(Math.round(toNumber(percent)), MIN, MAX)
+      const roundValue = percent
       const strokeOffset = `${((MAX - roundValue) / MAX) * CIRCUMFERENCE}`
       const strokeWidth = (toPxNum(strokeWidthProp) / toPxNum(size)) * diameter
 
@@ -124,7 +137,7 @@ export default defineComponent({
       const beginPositionY = -RADIUS
       const endPositionX = 0
       const endPositionY = -2 * RADIUS
-      const path = `M ${diameter / 2} ${diameter / 2} m ${beginPositionX} ${beginPositionY} a ${RADIUS} ${RADIUS} 
+      const path = `M ${diameter / 2} ${diameter / 2} m ${beginPositionX} ${beginPositionY} a ${RADIUS} ${RADIUS}
         0 1 1 ${endPositionX} ${-endPositionY} a ${RADIUS} ${RADIUS} 0 1 1 ${-endPositionX} ${endPositionY}`
 
       return {
@@ -133,7 +146,7 @@ export default defineComponent({
         strokeOffset,
         roundValue: `${roundValue}%`,
         path,
-        value: clamp(toNumber(percent), MIN, MAX),
+        value: percent,
       }
     })
 
@@ -152,6 +165,9 @@ export default defineComponent({
 
     return {
       id,
+      circleEl,
+      dimensions,
+      resolvedStroke,
       lineProps,
       CIRCUMFERENCE,
       RADIUS,

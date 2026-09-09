@@ -15,7 +15,7 @@
 
 - Dialog/Popup/ActionSheet：modal 语义、焦点管理、关闭后恢复焦点。
 - Tooltip/Popover：trigger 与浮层通过 ARIA 关系关联。
-- Tabs/BottomNavigation：选中状态、键盘导航和清晰的 accessible name。
+- Tabs/TabBar：选中状态、键盘导航和清晰的 accessible name。
 - Checkbox/Radio/Switch：键盘切换、checked/indeterminate 状态。
 - Input/FieldDecorator/Form：label、hint、error 与控件关联。
 - Select/Menu/Picker：读屏状态通知和完整键盘导航。

@@ -32,9 +32,9 @@ export const props = {
   showNextDay: Boolean,
   readonly: Boolean,
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: false,
   },
 }
 
-export type TimeRangePickerProps = ExtractPropTypes<typeof props>
+export type TimeRangePickerProps = import('vue').ExtractPublicPropTypes<typeof props>

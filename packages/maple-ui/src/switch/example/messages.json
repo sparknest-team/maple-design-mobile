@@ -1,0 +1,32 @@
+{
+  "zh-CN": {
+    "basic": "双向绑定与默认值",
+    "type": "四种变体",
+    "size": "三种尺寸",
+    "disabled": "禁用",
+    "readonly": "只读",
+    "loading": "加载中",
+    "custom-color": "自定义颜色",
+    "custom-text": "自定义文字",
+    "custom-icon": "自定义图标",
+    "custom": "水波与滑块阴影",
+    "custom-value": "自定义值与事件",
+    "switch-interception": "异步允许、阻止与异常",
+    "events": "焦点与事件顺序"
+  },
+  "en-US": {
+    "basic": "Controlled and default value",
+    "type": "Four variants",
+    "size": "Three sizes",
+    "disabled": "Disabled",
+    "readonly": "Read only",
+    "loading": "Loading",
+    "custom-color": "Custom colors",
+    "custom-text": "Custom text",
+    "custom-icon": "Custom icons",
+    "custom": "Ripple and handle elevation",
+    "custom-value": "Custom values and events",
+    "switch-interception": "Async allow, deny and rejection",
+    "events": "Focus and event order"
+  }
+}

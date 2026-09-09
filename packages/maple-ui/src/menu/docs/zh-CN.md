@@ -585,7 +585,7 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 | `trigger`                  | 菜单触发方式，可选值为 `click` `hover` `manual` `contextMenu`                                        | _string_                                   | `click`    |
 | `align-point`              | 弹出层是否跟随鼠标（配合 `contextMenu`）                                                             | _boolean_                                  | `false`    |
 | `reference`                | 菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_                    | `-`        |
-| `elevation`                | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级                                                   | _string \| number \| boolean_              | `true`     |
+| `elevation`                | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级                                                   | _number \| boolean_              | `true`     |
 | `popup-class`              | 弹出层的 class                                                                                       | _ClassName_                                | `-`        |
 | `close-on-click-reference` | 是否在点击菜单触发元素后关闭菜单                                                                     | _boolean_                                  | `false`    |
 | `options`                  | 指定可选项                                                                                           | _MenuOption[]_                             | `[]`       |
@@ -634,14 +634,6 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 | `left`               | 左侧中心位置             |
 | `left-start`         | 左侧上方位置             |
 | `left-end`           | 左侧下方位置             |
-| `cover-top`          | 顶部中心位置, 覆盖触发器 |
-| `cover-top-start`    | 顶部左侧位置, 覆盖触发器 |
-| `cover-top-end`      | 顶部右侧位置, 覆盖触发器 |
-| `cover-bottom`       | 底部中心位置, 覆盖触发器 |
-| `cover-bottom-start` | 底部左侧位置, 覆盖触发器 |
-| `cover-bottom-end`   | 底部右侧位置, 覆盖触发器 |
-| `cover-left`         | 左侧位置, 覆盖触发器     |
-| `cover-right`        | 右侧位置, 覆盖触发器     |
 
 ### 方法
 
@@ -772,3 +764,36 @@ Maple 使用 Popper 枚举。与 Cedar `bl / bottom / br / tl / top / tr` 对应
 | --------- | -------- | ---- |
 | `title`   | 分组标题 | `-`  |
 | `default` | 分组内容 | `-`  |
+
+覆盖触发元素使用 `cover`，placement 仅使用标准十二方位。迁移：旧 cover-top → bottom + cover；cover-bottom → top + cover；cover-left → right + cover；cover-right → left + cover；start/end 后缀保留。默认 cover=false。
+
+## 基础交互迁移
+
+底层 Trigger 已统一状态、节点和弹层事件处理。本组件保留原有触发默认与零悬停延迟，trigger 也可使用数组组合 hover/focus/click/manual/contextMenu。mouseEnterDelay、mouseLeaveDelay 可显式设置；完整底层契约见 Trigger 文档。
+
+### 选择与键盘契约
+
+`options` 与 content 插槽接入同一选择控制器。`multiple` 时 modelValue 缺省按空数组处理；选择分支按完整选项树联动未禁用后代，不依赖子菜单是否展开。部分选中分支再次点击取消选择，禁用分支及后代不参与联动。异步 options 暂时未包含的已选值会保留。
+
+先派发 `update:modelValue`（多选返回数组），再派发 `select(value, option, event)`；select 的 value 始终是本次操作的单个选项值，option 保留 options 原对象。父组件不更新 modelValue 时，行和复选框均维持原选中态。单选且 hideOnSelect=true 才请求关闭，父级接受关闭后才恢复焦点。
+
+上下键、Home/End 在当前菜单层跳过禁用项并循环导航；关闭时在触发元素按上下键可打开菜单。右键进入子菜单，左键或 Escape 返回，Escape 一次只关闭一层。输入框保留 Home/End 的原生光标行为。
+
+迁移提示：不再依赖 Menu 内部导入 Select 的 provider，也不应依赖“select 先于 update:modelValue”或本地复选框提前改变的旧行为。对外组件名、插槽、options/fieldNames、多选返回值及选中事件参数维持兼容。
+
+
+## 同源主体与子菜单
+
+Menu、MenuOption、MenuGroup、MenuSubmenu 和内部面板使用对应的同源主体，各库独立发布；保留本库的原生样式及交互默认值。`options` 递归与 `content` 插槽可混用，子菜单共享选择上下文和同层关闭逻辑。
+
+| 新增/对齐 API | 说明 | 默认值 |
+| --- | --- | --- |
+| `Menu.Submenu` / `MenuSubmenu` | 公开子菜单；`default` 为触发项，`content` 为子项，支持 icon/suffix/footer 插槽 | — |
+| `unmount-on-close` | Menu 与 MenuSubmenu 关闭后卸载内容 | `false` |
+| 子菜单 `trigger` | 支持 click/hover/focus/contextMenu，与根菜单相同的触发类型 | `hover` |
+| `close-on-click-reference` | 根菜单打开时再次点击参考元素是否关闭 | `false` |
+| `setReference(reference?)` | 根菜单设置外部参考元素；不传恢复默认参考元素 | — |
+
+根菜单提供 open/close/resize/setReference 方法；子菜单提供 open/close/allowClose 方法。导出 MenuOptionProps、MenuGroupProps、MenuSubmenuProps、MenuSubmenuInstance。根菜单统一分发 open/opened/close/closed、click-outside 和 key-escape；`update:open` 与 `open-change` 仍是请求，父级拒绝更新时不修改受控状态。
+
+ArrowRight 展开并聚焦子项，ArrowLeft/Escape 关闭当前层并恢复焦点；空格键松开时选择一次。函数 label 接收原始 option 和 checked，无 label/value 的插槽选项回退到文本。原有 select(value, option, event) 与 MenuOption click 事件保持兼容。

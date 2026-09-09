@@ -190,3 +190,9 @@ function fullscreen() {
 | `--skeleton-row-height` | `12px` |
 | `--skeleton-row-border-radius` | `10px` |
 | `--skeleton-row-margin-top` | `10px` |
+
+## 同源实现与平台边界
+
+两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
+
+Skeleton、SkeletonLine、SkeletonShape 均采用独立复制的源码；各库骨架主题和尺寸 token 独立维护。

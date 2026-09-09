@@ -65,7 +65,7 @@
 
     <template v-if="line">
       <fieldset
-        v-if="variant === 'outlined' || variant === 'filled'"
+        v-if="variant === 'outline' || variant === 'filled'"
         :class="classes(n('line'), [isError, n('--line-error')], [formDisabled || disabled, n('--line-disabled')])"
       >
         <legend
@@ -80,7 +80,7 @@
         </legend>
       </fieldset>
       <fieldset
-        v-if="variant === 'outlined' || variant === 'filled'"
+        v-if="variant === 'outline' || variant === 'filled'"
         :class="
           classes(
             n('state-line'),
@@ -211,7 +211,7 @@ export default defineComponent({
       middleOffsetWidth.value = `${middleEl.value!.offsetWidth}px`
       middleOffsetHeight.value = `${middleEl.value!.offsetHeight}px`
 
-      if ((props.variant === 'outlined' || props.variant === 'filled') && placeholderTextEl.value) {
+      if ((props.variant === 'outline' || props.variant === 'filled') && placeholderTextEl.value) {
         const placeholderTextStyle = getStyle(placeholderTextEl.value)
         legendWidth.value = `calc(${placeholderTextStyle.width} * 0.75 + var(--mp-field-current-placeholder-space) * 2)`
       }

@@ -14,7 +14,7 @@ const maxLengthValue = ref('Maple')
 const customClearValue = ref('Clear me')
 const trimValue = ref('')
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
-const variants = ['filled', 'outlined', 'standard']
+const variants = ['filled', 'outline', 'standard']
 const sizeValues = reactive(
   Object.fromEntries(sizes.flatMap((size) => variants.map((variant) => [`${size}-${variant}`, '']))),
 )
@@ -34,7 +34,7 @@ onThemeChange()
   <app-type>{{ t('variant') }}</app-type>
   <mp-space direction="column" :size="[12, 0]">
     <mp-input variant="filled" :placeholder="t('filled')" />
-    <mp-input variant="outlined" :placeholder="t('outlined')" />
+    <mp-input variant="outline" :placeholder="t('outline')" />
     <mp-input variant="standard" :placeholder="t('standard')" />
   </mp-space>
 
@@ -42,13 +42,13 @@ onThemeChange()
   <div class="input-example__caption">{{ t('hintEnabled') }}</div>
   <mp-space direction="column" :size="[12, 0]">
     <mp-input variant="filled" :placeholder="t('username')" />
-    <mp-input variant="outlined" :placeholder="t('username')" />
+    <mp-input variant="outline" :placeholder="t('username')" />
     <mp-input variant="standard" :placeholder="t('username')" />
   </mp-space>
   <div class="input-example__caption">{{ t('hintDisabled') }}</div>
   <mp-space direction="column" :size="[12, 0]">
     <mp-input variant="filled" :hint="false" :placeholder="t('username')" />
-    <mp-input variant="outlined" :hint="false" :placeholder="t('username')" />
+    <mp-input variant="outline" :hint="false" :placeholder="t('username')" />
     <mp-input variant="standard" :hint="false" :placeholder="t('username')" />
   </mp-space>
 

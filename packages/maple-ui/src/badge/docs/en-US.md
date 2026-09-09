@@ -1,208 +1,364 @@
 # Badge
 
-A red dot, number, or text that appears on an icon or text to indicate new or pending content. Examples match Cedar Design Web, with a more compact mobile layout.
-
-> ⚠️ **BREAKING**: Aligned with PC `CBadge`. Old API is not compatible. Migration:
-
-| Old API | New API |
-| --- | --- |
-| `type="primary"` etc. | `status="primary"` etc. |
-| `type="floating\|inline"` (layout) | `mode="floating\|inline"` |
-| `value` | `content` |
-| `max-value` | `max` |
-| `hidden` | `show` (inverted) |
-| `position="right-top"` | `position="top-right"` |
-| `position="right-bottom"` | `position="bottom-right"` |
-| `position="left-top"` | `position="top-left"` |
-| `position="left-bottom"` | `position="bottom-left"` |
-| `slot="value"` | `slot="content"` |
-| `icon` / `namespace` | _removed (use `slot="content"`)_ |
+The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
 
 ## Examples
 
-### Basic Usage
-
-Set `content` or the `content` slot to show a badge.
+### Basic usage
 
 ```html
-<mp-space wrap align="center" :size="16">
-  <mp-badge :content="9">
-    <mp-avatar shape="square" :size="40">
-      <m-icon-user-circle-fill />
-    </mp-avatar>
-  </mp-badge>
-  <mp-badge :content="9" dot>
-    <mp-avatar shape="square" :size="40">
-      <m-icon-user-circle-fill />
-    </mp-avatar>
-  </mp-badge>
-  <mp-badge>
-    <template #content>
-      <m-icon-history />
-    </template>
-    <mp-avatar shape="square" :size="40">
-      <m-icon-user-circle-fill />
-    </mp-avatar>
-  </mp-badge>
-</mp-space>
+<template>
+  <mp-space wrap :size="24"
+    ><mp-badge :content="9"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge :content="9" dot
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge
+      ><template #content><span aria-label="New activity">!</span></template
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ></mp-space
+  >
+</template>
 ```
 
-### Inline
-
-When both the default slot and `description` are empty, the badge becomes inline. You can also set `mode`. Use `description` for the label.
+### Inline and standalone
 
 ```html
-<mp-badge :content="1000" />
-<mp-badge :content="1000" dot />
-<mp-badge :content="1000" mode="inline" description="Description" />
-<mp-badge :content="1000" mode="inline" description="Description" inline-position="start" />
+<script setup lang="ts">
+const positions = ['start', 'end'] as const
+</script>
+
+<template>
+  <mp-space direction="column" :size="16">
+    <mp-space wrap><mp-badge :content="1000" /><mp-badge :content="1000" dot /></mp-space>
+    <mp-space v-for="position in positions" :key="position" wrap>
+      <mp-badge mode="inline" :inline-position="position" :content="9" description="Messages" />
+      <mp-badge mode="inline" :inline-position="position" dot :content="9" description="Messages" />
+    </mp-space>
+  </mp-space>
+</template>
 ```
 
-### Dot
-
-Set `dot` to show only a red dot. Use `offset-x` / `offset-y` to nudge the position.
+### Dot badges
 
 ```html
-<mp-badge :content="9" dot :offset-x="6" :offset-y="-2">
-  <a href="#">Link</a>
-</mp-badge>
-<mp-badge :content="9" dot :offset-x="2" :offset-y="-2">
-  <m-icon-bell-fill />
-</mp-badge>
+<template>
+  <mp-space wrap :size="24"
+    ><mp-badge dot :content="1"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge dot :content="1" :offset-x="6" :offset-y="-2"
+      ><a href="#" @click.prevent>Messages</a></mp-badge
+    ></mp-space
+  >
+</template>
 ```
 
-### Custom Content
-
-Set `content` for text badges. With `mode="inline"` the badge sits in a row with the wrapped content.
+### Custom content
 
 ```html
-<mp-badge content="NEW">
-  <mp-avatar shape="square" :size="40">
-    <m-icon-user-circle-fill />
-  </mp-avatar>
-</mp-badge>
-<mp-badge content="HOT" mode="inline" inline-position="end">
-  <mp-avatar shape="square" :size="40">
-    <m-icon-user-circle-fill />
-  </mp-avatar>
-</mp-badge>
+<template>
+  <mp-space wrap :size="24"
+    ><mp-badge content="NEW"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge content="HOT" mode="inline" inline-position="start"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge content="HOT" mode="inline" inline-position="end"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ></mp-space
+  >
+</template>
 ```
 
-### Max
-
-`max` caps the numeric value and appends `+`. Default is `99`. `content` of `0` is hidden unless `show-zero` is on.
+### Maximum and zero
 
 ```html
-<mp-badge :max="10" :content="0">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
-<mp-badge :max="10" :content="100">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
-<mp-badge :content="100">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
-<mp-badge :max="999" :content="1000">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
+<template>
+  <mp-space wrap :size="24"
+    ><mp-badge :content="0"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge :content="0" show-zero
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge :content="100" :max="10"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge :content="100"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ><mp-badge :content="1000" :max="999"
+      ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+        >Inbox</span
+      ></mp-badge
+    ></mp-space
+  >
+</template>
 ```
 
-### Status and Color
-
-Use `status` and `color` for semantic or custom colors, and `text-color` for the content color.
+### Statuses and colors
 
 ```html
-<mp-badge color="#F53F3F" description="#F53F3F" mode="inline" inline-position="end" />
-<mp-badge status="success" description="Success" mode="inline" />
-<mp-badge status="danger" content="Danger" />
-<mp-badge description="red #7BC616" content="1" color="red" text-color="#7BC616" />
+<script setup lang="ts">
+const statuses = [
+  'default',
+  'primary',
+  'secondary',
+  'tertiary',
+  'info',
+  'success',
+  'warning',
+  'danger',
+] as const
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-space wrap
+      ><mp-badge
+        v-for="status in statuses"
+        :key="status"
+        :status="status"
+        mode="inline"
+        :description="status"
+        :content="1"
+    /></mp-space>
+    <mp-space wrap
+      ><mp-badge v-for="status in statuses" :key="status" :status="status" :content="status"
+    /></mp-space>
+    <mp-space wrap
+      ><mp-badge color="#7816ff" text-color="#ffffff" content="Purple" /><mp-badge
+        color="#005f73"
+        text-color="#ffffff"
+        content="Teal"
+    /></mp-space>
+  </mp-space>
+</template>
 ```
 
-### Size
-
-Sizes: `xs`, `sm`, `md`, `lg`, `xl`. Works with dots, numbers, and floating badges.
+### Five sizes
 
 ```html
-<mp-badge dot :content="1" size="xs" mode="inline" description="Description" />
-<mp-badge :content="1" size="md" mode="inline" description="Description" />
-<mp-badge :content="1" size="lg">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
+<script setup lang="ts">
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+</script>
+
+<template>
+  <mp-space direction="column" :size="24">
+    <mp-space wrap
+      ><mp-badge v-for="size in sizes" :key="size" :size="size" :content="1" mode="inline" :description="size"
+    /></mp-space>
+    <mp-space wrap
+      ><mp-badge
+        v-for="size in sizes"
+        :key="size"
+        :size="size"
+        :content="1"
+        dot
+        mode="inline"
+        :description="size"
+    /></mp-space>
+    <mp-space wrap :size="24"
+      ><mp-badge v-for="size in sizes" :key="size" :size="size" :content="1"
+        ><span
+          style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+          >Inbox</span
+        ></mp-badge
+      ></mp-space
+    >
+    <mp-space wrap :size="24"
+      ><mp-badge v-for="size in sizes" :key="size" :size="size" :content="1" dot
+        ><span
+          style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+          >Inbox</span
+        ></mp-badge
+      ></mp-space
+    >
+  </mp-space>
+</template>
 ```
 
-### Position
-
-Floating mode supports four corners (`top-right`, `top-left`, `bottom-right`, `bottom-left`). Inline mode uses `inline-position` `start` / `end`. Nudge with `offset-x` / `offset-y`.
+### Positions and offsets
 
 ```html
-<mp-badge :content="100" position="top-right" :offset-x="offsetX" :offset-y="offsetY">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
-<mp-badge :content="100" mode="inline" inline-position="start">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
+<script setup lang="ts">
+import { ref } from 'vue'
+const offset = ref(0)
+const dot = ref(false)
+const positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right'] as const
+const inlinePositions = ['start', 'end'] as const
+</script>
+
+<template>
+  <mp-space direction="column" :size="24">
+    <mp-space wrap
+      ><mp-button @click="offset++">Offset +1</mp-button><mp-button @click="offset--">Offset -1</mp-button
+      ><mp-button @click="offset = 0">Reset</mp-button><mp-switch v-model="dot" aria-label="Toggle dot"
+    /></mp-space>
+    <output aria-live="polite">Offset: {{ offset }}px</output>
+    <mp-space wrap :size="32"
+      ><mp-badge
+        v-for="position in positions"
+        :key="position"
+        :position="position"
+        :content="100"
+        :dot="dot"
+        :offset-x="offset"
+        :offset-y="offset"
+        ><span style="display: inline-block; padding: 12px; border: 1px solid currentColor">{{
+          position
+        }}</span></mp-badge
+      ></mp-space
+    >
+    <mp-space wrap :size="24"
+      ><mp-badge
+        v-for="position in inlinePositions"
+        :key="position"
+        mode="inline"
+        :inline-position="position"
+        :content="9"
+        :dot="dot"
+        :offset-y="offset"
+        :description="position"
+    /></mp-space>
+  </mp-space>
+</template>
 ```
 
-### Show and Hide
-
-`show` toggles visibility. `show-zero` controls whether `content` of `0` is shown.
+### Show and hide
 
 ```html
-<mp-switch v-model="show" />
-<mp-input-number v-model="content" size="sm" />
-<mp-badge :content="0" :show-zero="true" :show="show" description="show-zero true" />
-<mp-badge :content="content" :show="show" description="Description" />
-<mp-badge :content="content" :show="show" description="Description" dot />
+<script setup lang="ts">
+import { ref } from 'vue'
+const show = ref(true)
+const content = ref(1)
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-space wrap
+      ><mp-switch v-model="show" aria-label="Show badge" /><mp-button @click="content++">Add</mp-button
+      ><mp-button @click="content = Math.max(0, content - 1)">Subtract</mp-button></mp-space
+    >
+    <mp-badge :content="0" :show="show" show-zero description="show-zero true" />
+    <mp-badge :content="0" :show="show" :show-zero="false" description="show-zero false" />
+    <mp-badge :content="content" :show="show" description="Messages" />
+    <mp-badge :content="content" :show="show" dot description="Activity" />
+  </mp-space>
+</template>
 ```
 
-### Variant
-
-Variants: `outline` and `default`.
+### Solid and outline
 
 ```html
-<mp-badge variant="outline" content="1" status="success">
-  <mp-avatar shape="square" :size="40" />
-</mp-badge>
-<mp-badge variant="outline" content="1" status="danger" mode="inline" description="Description" />
+<script setup lang="ts">
+const variants = ['default', 'outline'] as const
+const statuses = ['default', 'success', 'warning', 'danger', 'primary', 'info'] as const
+</script>
+
+<template>
+  <mp-space direction="column" :size="24">
+    <mp-space v-for="variant in variants" :key="variant" wrap :size="24">
+      <mp-badge v-for="status in statuses" :key="status" :variant="variant" :status="status" :content="1"
+        ><span
+          style="display: inline-block; padding: 12px; border: 1px solid currentColor; border-radius: 4px"
+          >Inbox</span
+        ></mp-badge
+      >
+    </mp-space>
+    <mp-space wrap
+      ><mp-badge
+        v-for="status in statuses"
+        :key="status"
+        :status="status"
+        variant="outline"
+        mode="inline"
+        :content="1"
+        :description="status"
+    /></mp-space>
+    <mp-space wrap
+      ><mp-badge
+        v-for="status in statuses"
+        :key="status"
+        :status="status"
+        variant="outline"
+        mode="inline"
+        dot
+        :content="1"
+        :description="status"
+    /></mp-space>
+  </mp-space>
+</template>
 ```
 
 ## API
 
+<!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `description` | Description text (shown beside content when `mode=inline`; floating uses default slot) | `string` | `-` |
-| `dot` | Show as a red dot | `boolean` | `false` |
-| `max` | Max numeric value; overflow shows `${max}+` | `number` | `99` |
-| `show` | Whether to show the badge | `boolean` | `true` |
-| `show-zero` | Show when `content` is `0` | `boolean` | `false` |
-| `offset-x` | Horizontal offset (px) | `number` | `0` |
-| `offset-y` | Vertical offset (px) | `number` | `0` |
-| `color` | Custom background color | `string` | `-` |
-| `text-color` | Custom text color | `string` | `-` |
-| `content` | Badge content | `string \| number` | `-` |
-| `mode` | Layout mode: `floating` / `inline` | `BadgeMode` | `'floating'` |
-| `position` | Position when floating | `BadgePosition` | `'top-right'` |
-| `inline-position` | Position when inline | `BadgeInlinePosition` | `'end'` |
-| `size` | Size | `BadgeSize` | `'md'` |
-| `status` | Semantic color | `BadgeStatus` | `'default'` |
-| `variant` | Variant | `BadgeVariant` | `'default'` |
+| description | Fallback description text | `string` | `-` |
+| content | Badge content | `number \| string` | `-` |
+| max | Numeric overflow shows max+; strings are not capped | `number` | `99` |
+| dot | Display a dot | `boolean` | `false` |
+| offset-x | Horizontal offset; ignored in inline mode | `number` | `0` |
+| offset-y | Vertical offset | `number` | `0` |
+| color | Custom color; outline uses it for border and text | `string` | `-` |
+| text-color | Content text color | `string` | `-` |
+| mode | Layout mode | `'floating' \| 'inline'` | `floating` |
+| position | Physical floating position, unchanged in RTL | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
+| inline-position | Logical inline position | `'start' \| 'end'` | `end` |
+| size | Size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
+| status | Semantic status | `SemanticStatus` | `danger` |
+| show | Show the badge | `boolean` | `true` |
+| show-zero | Show numeric zero | `boolean` | `false` |
+| variant | Appearance | `'outline' \| 'default'` | `default` |
+
+### Events
+
+No component-defined events.
 
 ### Slots
 
-| Name | Description |
-| --- | --- |
-| `default` | Wrapped content (`mode=floating`) |
-| `content` | Custom badge content (overrides `content` prop) |
+| Slot | Description | Arguments |
+| --- | --- | --- |
+| default | Wrapped content; overrides description | — |
+| content | Custom badge content | — |
+
+### Methods
+
+No public methods.
+
+### Platform notes
+
+Props and slots match. Without a default slot or description, the badge becomes standalone inline content. Omitted content displays a dot. Direction, theme and CSS prefix come from each platform.
+<!-- same-source-api:end -->
 
 ## Types
 
 ```ts
-type BadgeStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary'
+type SemanticStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary' | 'secondary' | 'tertiary'
 type BadgeVariant = 'default' | 'outline'
 type BadgeMode = 'floating' | 'inline'
-type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+type BadgePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right'
 type BadgeInlinePosition = 'start' | 'end'
 type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
@@ -238,3 +394,5 @@ type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 | `--mp-badge-status-{status}-bg-color` |
 | `--mp-badge-status-{status}-text-color` |
 | `--mp-badge-variant-outline-status-{status}-text-color` |
+
+The default `status="danger"` uses a red background with white text. Explicit `status="default"` uses neutral colors. All five sizes (`xs | sm | md | lg | xl`) are implemented.

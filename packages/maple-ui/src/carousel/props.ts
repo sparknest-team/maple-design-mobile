@@ -106,4 +106,4 @@ export const props = {
   },
 }
 
-export type CarouselProps = ExtractPropTypes<typeof props>
+export type CarouselProps = import('vue').ExtractPublicPropTypes<typeof props>

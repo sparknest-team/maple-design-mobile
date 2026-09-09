@@ -1,3 +1,4 @@
+// Based on ant-design responsiveObserve; each library owns its subscriptions.
 export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
 export type BreakpointMap = Partial<Record<Breakpoint, string>>
 export type ScreenMap = Partial<Record<Breakpoint, boolean>>
@@ -103,6 +104,8 @@ const responsiveObserve: {
         }
       }
     })
+    this.matchHandlers = {}
+    screens = {}
   },
   register() {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -121,6 +124,9 @@ const responsiveObserve: {
           },
           screen,
         )
+      }
+      if (this.matchHandlers[matchMediaQuery]) {
+        return
       }
       const mql = window.matchMedia(matchMediaQuery)
       if (mql.addEventListener) {

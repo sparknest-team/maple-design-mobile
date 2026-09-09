@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes(n('$--box'), n(), [animation, n('--animation')])" :aria-busy="loading">
+  <div :class="classes(n(), [animation, n('--animation')])" :aria-busy="loading">
     <template v-if="loading">
       <div v-if="fullscreen" :class="n('fullscreen')" :style="{ zIndex: toNumber(fullscreenZIndex) }">
         <span :class="n('shimmer')" />
@@ -13,7 +13,10 @@
             <div
               v-if="avatar"
               :class="n('avatar')"
-              :style="{ width: toSizeUnit(avatarSize), height: toSizeUnit(avatarSize) }"
+              :style="{
+                width: toSizeUnit(avatarSize),
+                height: toSizeUnit(avatarSize),
+              }"
             >
               <span :class="n('shimmer')" />
             </div>

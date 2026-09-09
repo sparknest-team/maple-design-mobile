@@ -7,6 +7,6 @@ withPropsDefaultsSetter(SplitButton, splitButtonProps)
 
 export type SplitButtonInstance = InstanceType<typeof SplitButton>
 export type { SplitButtonProps } from './props'
-export { splitButtonProps }
-export const _SplitButtonComponent = SplitButton
+export { splitButtonProps, SplitButton }
+export const _SplitButtonComponent: typeof SplitButton = SplitButton
 export default SplitButton

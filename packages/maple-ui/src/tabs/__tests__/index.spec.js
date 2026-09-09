@@ -20,7 +20,7 @@ const Wrapper = {
   props: [
     'onClick',
     'onChange',
-    'vertical',
+    'orientation',
     'itemVertical',
     'fixedBottom',
     'color',
@@ -80,12 +80,12 @@ describe('test tabs component props', () => {
   test('tabs vertical', async () => {
     const wrapper = mount(Wrapper, {
       props: {
-        vertical: false,
+        orientation: 'horizontal',
       },
     })
 
     expect(wrapper.find('.mp-tabs--layout-horizontal').exists()).toBe(true)
-    await wrapper.setProps({ vertical: true })
+    await wrapper.setProps({ orientation: 'vertical' })
     expect(wrapper.find('.mp-tabs--layout-vertical').exists()).toBe(true)
     wrapper.unmount()
   })

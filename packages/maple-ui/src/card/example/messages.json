@@ -1,0 +1,26 @@
+{
+  "zh-CN": {
+    "basic": "基础用法与副标题",
+    "no-padding": "自定义标题区域",
+    "hoverable": "悬浮样式",
+    "variant": "变体与阴影",
+    "image": "图片与三种布局",
+    "size": "尺寸",
+    "tooltip": "长标题与提示",
+    "slots": "内容插槽",
+    "ripple": "水波与点击事件",
+    "floating": "全屏展开与关闭"
+  },
+  "en-US": {
+    "basic": "Basic usage and subtitle",
+    "no-padding": "Custom header",
+    "hoverable": "Hover style",
+    "variant": "Variants and elevation",
+    "image": "Images and directions",
+    "size": "Sizes",
+    "tooltip": "Long title and tooltip",
+    "slots": "Content slots",
+    "ripple": "Ripple and click",
+    "floating": "Floating and close"
+  }
+}

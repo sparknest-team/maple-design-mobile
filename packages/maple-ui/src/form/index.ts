@@ -26,7 +26,9 @@ export { useFormItem } from './item-provide'
 
 export type FormInstance = InstanceType<typeof _Form>
 export type FormItemInstance = InstanceType<typeof FormItem>
-export const _FormComponent = Form
-export const _FormItemComponent = FormItem
+export const _FormComponent: typeof Form = Form
+export const _FormItemComponent: typeof FormItem = FormItem
 
 export default Form
+export type FormProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type FormItemProps = import('vue').ExtractPublicPropTypes<typeof import('./item-props').props>

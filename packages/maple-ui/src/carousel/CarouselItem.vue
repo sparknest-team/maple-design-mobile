@@ -44,7 +44,7 @@ export default defineComponent({
     })
 
     const itemStyle = computed(() => {
-      const style: Record<string, string> = {}
+      const style: Record<string, string | undefined> = {}
 
       if (effect.value === 'slide') {
         if (!vertical.value) {

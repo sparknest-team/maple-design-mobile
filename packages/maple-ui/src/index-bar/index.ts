@@ -19,7 +19,9 @@ export { indexBarProps, indexAnchorProps, IndexBar, IndexAnchor }
 
 export type IndexBarInstance = InstanceType<typeof _IndexBar>
 export type IndexAnchorInstance = InstanceType<typeof IndexAnchor>
-export const _IndexBarComponent = IndexBar
-export const _IndexAnchorComponent = IndexAnchor
+export const _IndexBarComponent: typeof IndexBar = IndexBar
+export const _IndexAnchorComponent: typeof IndexAnchor = IndexAnchor
 
 export default IndexBar
+export type IndexBarProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type IndexAnchorProps = import('vue').ExtractPublicPropTypes<typeof import('./anchor-props').props>

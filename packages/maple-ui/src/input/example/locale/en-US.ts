@@ -13,7 +13,7 @@ export default {
   modelModifier: 'Model Modifier',
   nativeAttrs: 'Native Attributes',
   filled: 'Filled',
-  outlined: 'Outlined',
+  outline: 'Outlined',
   standard: 'Standard',
   normalSize: 'Normal size',
   smallSize: 'Small size',

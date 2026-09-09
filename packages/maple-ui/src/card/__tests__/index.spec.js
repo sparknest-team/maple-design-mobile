@@ -101,30 +101,30 @@ describe('test card component props', () => {
   test('card outline', async () => {
     const wrapper = mount(VarCard)
 
-    expect(wrapper.find('.mp-card--outline').exists()).toBe(false)
+    expect(wrapper.find('.mp-card--variant-outline').exists()).toBe(false)
 
     await wrapper.setProps({
-      outline: true,
+      variant: 'outline',
     })
-    expect(wrapper.find('.mp-card--outline').exists()).toBe(true)
-    expect(wrapper.find('.mp-elevation--1').exists()).toBe(true)
+    expect(wrapper.find('.mp-card--variant-outline').exists()).toBe(true)
+    expect(wrapper.find('.mp-elevation--1').exists()).toBe(false)
 
     wrapper.unmount()
   })
 
-  test('card outlined variant', async () => {
+  test('card outline variant', async () => {
     const wrapper = mount(VarCard, {
       props: {
-        variant: 'outlined',
+        variant: 'outline',
       },
     })
 
-    expect(wrapper.find('.mp-card--outline').exists()).toBe(true)
+    expect(wrapper.find('.mp-card--variant-outline').exists()).toBe(true)
 
     await wrapper.setProps({
-      variant: 'standard',
+      variant: 'default',
     })
-    expect(wrapper.find('.mp-card--outline').exists()).toBe(false)
+    expect(wrapper.find('.mp-card--variant-outline').exists()).toBe(false)
 
     wrapper.unmount()
   })
@@ -132,16 +132,16 @@ describe('test card component props', () => {
   test('card filled variant', async () => {
     const wrapper = mount(VarCard, {
       props: {
-        variant: 'filled',
+        variant: 'tonal',
       },
     })
 
-    expect(wrapper.find('.mp-card--filled').exists()).toBe(true)
+    expect(wrapper.find('.mp-card--variant-tonal').exists()).toBe(true)
 
     await wrapper.setProps({
-      variant: 'standard',
+      variant: 'default',
     })
-    expect(wrapper.find('.mp-card--filled').exists()).toBe(false)
+    expect(wrapper.find('.mp-card--variant-tonal').exists()).toBe(false)
 
     wrapper.unmount()
   })
@@ -247,15 +247,15 @@ describe('test card component props', () => {
     wrapper.unmount()
   })
 
-  test('card layout', async () => {
+  test('card direction', async () => {
     const wrapper = mount(VarCard)
 
-    expect(wrapper.find('.mp-card--layout-row').exists()).toBe(false)
+    expect(wrapper.find('.mp-card--direction-row').exists()).toBe(false)
 
     await wrapper.setProps({
-      layout: 'row',
+      direction: 'row',
     })
-    expect(wrapper.find('.mp-card--layout-row').exists()).toBe(true)
+    expect(wrapper.find('.mp-card--direction-row').exists()).toBe(true)
 
     wrapper.unmount()
   })
@@ -265,7 +265,7 @@ describe('test card component slots', () => {
   test('card image slot', () => {
     const wrapper = mount(VarCard, {
       slots: {
-        image: '<img src="https://maplejs.org/cat.jpg" alt="cat" />',
+        cover: '<img src="https://maplejs.org/cat.jpg" alt="cat" />',
       },
     })
 
@@ -325,7 +325,7 @@ describe('test card component slots', () => {
   test('card extra slot', () => {
     const wrapper = mount(VarCard, {
       slots: {
-        extra: '<span>extra</span>',
+        footer: '<span>extra</span>',
       },
     })
 
@@ -344,7 +344,7 @@ describe('test card component slots', () => {
     expect(wrapper.html()).toMatchSnapshot()
 
     await wrapper.setProps({
-      layout: 'row',
+      direction: 'row',
     })
     expect(wrapper.html()).toMatchSnapshot()
 

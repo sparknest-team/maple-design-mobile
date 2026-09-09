@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Ellipsis, ellipsisProps)
 export { ellipsisProps }
 
 export type EllipsisInstance = InstanceType<typeof Ellipsis>
-export const _EllipsisComponent = Ellipsis
+export const _EllipsisComponent: typeof Ellipsis = Ellipsis
 
 export default Ellipsis
+export type EllipsisProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

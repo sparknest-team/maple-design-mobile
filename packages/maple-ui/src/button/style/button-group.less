@@ -1,17 +1,21 @@
 .mp-button-group {
   display: inline-flex;
-  border-radius: var(--mp-button-border-radius);
+  border-radius: var(--mp-button-group-border-radius);
   max-width: 100%;
-  overflow: auto;
+  box-sizing: border-box;
+  align-items: stretch;
+  overflow: visible;
 
-  .mp-button {
+  > .mp-button {
+    border-radius: var(--mp-button-group-border-radius);
+    flex-shrink: 0;
     &:active {
       box-shadow: none;
     }
   }
 
   &--horizontal {
-    .mp-button {
+    > .mp-button {
       &:first-child {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -29,7 +33,7 @@
   }
 
   &--horizontal&--variant-text {
-    .mp-button {
+    > .mp-button {
       border-right: thin solid currentColor;
 
       &:last-child {
@@ -39,7 +43,7 @@
   }
 
   &--horizontal&--variant-outline {
-    .mp-button {
+    > .mp-button {
       &:not(:first-child) {
         border-left: none;
       }
@@ -49,7 +53,7 @@
   &--vertical {
     flex-direction: column;
 
-    .mp-button {
+    > .mp-button {
       &:first-child {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
@@ -67,7 +71,7 @@
   }
 
   &--vertical&--variant-text {
-    .mp-button {
+    > .mp-button {
       border-bottom: thin solid currentColor;
 
       &:last-child {
@@ -77,7 +81,7 @@
   }
 
   &--vertical&--variant-outline {
-    .mp-button {
+    > .mp-button {
       &:not(:first-child) {
         border-top: none;
       }

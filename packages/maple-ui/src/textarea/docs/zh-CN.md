@@ -21,7 +21,7 @@
 ### 外边框与字数限制
 
 ```html
-<mp-textarea v-model="value" variant="outlined" :max-length="100" clearable />
+<mp-textarea v-model="value" variant="outline" :max-length="100" clearable />
 ```
 
 ## API
@@ -35,7 +35,7 @@
 | `rows`           | 显示行数                   | _string \| number_               | `8`        |
 | `max-length`      | 最大输入长度               | _string \| number_               | `-`        |
 | `size`           | 尺寸                       | `xs \| sm \| md \| lg \| xl`     | `md`       |
-| `variant`        | 外观                       | `filled \| outlined \| standard` | `standard` |
+| `variant`        | 外观                       | `filled \| outline \| standard` | `standard` |
 | `readonly`       | 是否只读                   | _boolean_                        | `false`    |
 | `disabled`       | 是否禁用                   | _boolean_                        | `false`    |
 | `clearable`      | 是否可清除                 | _boolean_                        | `false`    |

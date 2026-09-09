@@ -32,7 +32,7 @@ UnoCSS and Tailwind share the same class names; enable one generator per app.
 
 | Kind | Common classes |
 | --- | --- |
-| Mode | `mp-relative` `mp-absolute` `mp-fixed` `mp-sticky` `mp-static` |
+| Mode | `mp-relative` `mp-absolute` `mp-fixed` `mp-affix` `mp-static` |
 | Edges | `mp-inset-0` `mp-top-0` `mp-right-0` `mp-bottom-0` `mp-left-0` |
 | Stacking | `mp-z-0` `mp-z-10` `mp-z-20` `mp-z-50` |
 

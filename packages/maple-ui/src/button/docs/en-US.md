@@ -1,427 +1,342 @@
 # Button
 
-### Intro
+Both libraries use the same implementation and examples; package prefixes, themes and registration stay local.
 
-Button component for triggering actions.
+## Examples
 
-### Theme Color Button
+### Eight statuses
 
 ```html
+<script setup lang="ts">
+const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger'] as const
+</script>
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button>Default Button</mp-button>
-    <mp-button status="primary">Primary Button</mp-button>
-    <mp-button status="info">Info Button</mp-button>
-    <mp-button status="success">Success Button</mp-button>
-    <mp-button status="warning">Warning Button</mp-button>
-    <mp-button status="danger">Danger Button</mp-button>
-  </mp-space>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-button v-for="status in statuses" :key="status" :status="status">{{ status }}</mp-button>
+  </div>
 </template>
 ```
 
-### Text Button
+### Four variants
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const variants = ['default', 'text', 'outline', 'tonal'] as const
+const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger'] as const
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<typeof sizes[number]>('md')
+const variant = ref<typeof variants[number]>('default')
+const component = ref<'button' | 'a'>('button')
+const disabled = ref(false)
+const loading = ref(false)
+const clicks = ref(0)
+</script>
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button variant="outline" status="primary">Outline Button</mp-button>
-    <mp-button variant="text" status="primary">Plain Text Button</mp-button>
-  </mp-space>
+  <div class="demo-panel">
+    <div class="demo-controls">
+      <div class="demo-control"><span class="demo-label">Size</span><mp-radio-group v-model="size"><mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
+      <div class="demo-control"><span class="demo-label">Variant</span><mp-radio-group v-model="variant"><mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
+      <div class="demo-control"><span class="demo-label">Tag</span><mp-radio-group v-model="component"><mp-radio value="button">button</mp-radio><mp-radio value="a">a</mp-radio></mp-radio-group></div>
+      <div class="demo-toggles"><span class="demo-toggle"><mp-switch v-model="disabled" aria-label="Disabled" />Disabled</span><span class="demo-toggle"><mp-switch v-model="loading" aria-label="Loading" />Loading</span></div>
+    </div>
+    <div class="demo-preview" data-button-preview>
+      <mp-button v-for="status in statuses" :key="status" :variant="variant" :status="status" :size="size" :component="component" :disabled="disabled" :loading="loading" @click="clicks++">{{ status }}</mp-button>
+    </div>
+    <div aria-live="polite">Clicks: {{ clicks }}</div>
+  </div>
+</template>
+
+<style scoped>
+.demo-panel { display: grid; gap: 20px; }
+.demo-controls { display: grid; gap: 16px; }
+.demo-control { display: grid; gap: 8px; }
+.demo-label { font-size: 13px; opacity: .7; }
+.demo-toggles, .demo-preview { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.demo-toggle { display: inline-flex; align-items: center; gap: 8px; }
+.demo-preview { min-height: 64px; padding-block: 8px; }
+</style>
+```
+
+### Five sizes
+
+```html
+<script setup lang="ts">
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+</script>
+<template>
+  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+    <mp-button v-for="size in sizes" :key="size" :size="size">{{ size }}</mp-button>
+  </div>
 </template>
 ```
 
-### Disabled Status
+### Disabled buttons and links
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const clicks = ref(0)
+</script>
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button disabled>Disabled Status</mp-button>
-    <mp-button disabled variant="outline">Disabled Status</mp-button>
-    <mp-button disabled variant="text">Disabled Status</mp-button>
-  </mp-space>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-button disabled @click="clicks++">Disabled button</mp-button>
+    <mp-button component="a" href="#blocked-button-link" disabled @click="clicks++">Disabled link</mp-button>
+    <mp-button component="a" href="#blocked-button-link" loading @click="clicks++">Loading link</mp-button>
+  </div>
+  <p aria-live="polite">Blocked clicks: {{ clicks }}</p>
 </template>
 ```
 
-### Loading Status
+### Loading layouts and animations
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const modes = ['default', 'fill', 'line'] as const
+const types = ['circle', 'wave', 'cube', 'rect', 'disappear'] as const
+const variants = ['default', 'tonal', 'outline', 'text'] as const
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 20] as const
+const size = ref<typeof sizes[number]>('sm')
+const mode = ref<typeof modes[number]>('default')
+const variant = ref<typeof variants[number]>('default')
+</script>
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button loading status="primary"> Loading Status </mp-button>
-    <mp-button loading status="info" loading-type="rect"> Loading Status </mp-button>
-    <mp-button loading status="success" loading-type="disappear"> Loading Status </mp-button>
-    <mp-button loading status="danger" loading-type="cube"> Loading Status </mp-button>
-    <mp-button loading status="warning" loading-type="wave"> Loading Status </mp-button>
-  </mp-space>
+  <div class="demo-panel">
+    <div class="demo-controls">
+      <div class="demo-control"><span class="demo-label">Loading size</span><mp-radio-group v-model="size"><mp-radio v-for="value in sizes" :key="value" :value="value">{{ typeof value === 'number' ? `${value}px` : value }}</mp-radio></mp-radio-group></div>
+      <div class="demo-control"><span class="demo-label">Loading mode</span><mp-radio-group v-model="mode"><mp-radio v-for="value in modes" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
+      <div class="demo-control"><span class="demo-label">Variant</span><mp-radio-group v-model="variant"><mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
+    </div>
+    <div class="demo-preview" :data-loading-size="size">
+      <mp-button v-for="type in types" :key="type" loading :size="size === 'xl' ? 'xl' : size === 'lg' ? 'lg' : 'md'" :loading-type="type" :loading-size="size" :loading-mode="mode" :variant="variant" status="primary">{{ type }}</mp-button>
+    </div>
+    <div class="demo-control"><span class="demo-label">Custom color / radius</span><div><mp-button loading loading-color="#e05279" :loading-radius="8">Custom spinner</mp-button></div></div>
+  </div>
 </template>
+
+<style scoped>
+.demo-panel { display: grid; gap: 20px; }
+.demo-controls { display: grid; gap: 16px; }
+.demo-control { display: grid; gap: 8px; }
+.demo-label { font-size: 13px; opacity: .7; }
+.demo-toggles, .demo-preview { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.demo-toggle { display: inline-flex; align-items: center; gap: 8px; }
+.demo-preview { min-height: 64px; padding-block: 8px; }
+</style>
 ```
 
-### Button Size
+### Sync, async and rejection recovery
 
 ```html
-<template>
-  <mp-space align="center" :size="[10, 10]">
-    <mp-button status="primary">Normal Button</mp-button>
-    <mp-button status="success" size="sm">Small Button</mp-button>
-    <mp-button status="warning" size="xs">Mini Button</mp-button>
-    <mp-button status="danger" size="lg">Large Button</mp-button>
-  </mp-space>
-</template>
-```
-
-### Block Button
-
-```html
-<template>
-  <mp-button block status="primary">Block Button</mp-button>
-</template>
-```
-
-### Custom Color
-
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-button color="#66bb6a" text-color="#fff">Background/Text Color</mp-button>
-    <mp-button color="linear-gradient(to right bottom, #6750A4, #D0BCFF)" text-color="#fff"> Linear Gradient Color </mp-button>
-  </mp-space>
-</template>
-```
-
-### Round Button
-
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-button status="primary" round icon-container>
-      <m-icon-plus />
-    </mp-button>
-    <mp-button status="info" round icon-container>
-      <m-icon-info-circle-fill />
-    </mp-button>
-    <mp-button status="success" round icon-container>
-      <m-icon-check />
-    </mp-button>
-    <mp-button status="warning" round icon-container>
-      <m-icon-warning />
-    </mp-button>
-    <mp-button status="danger" round icon-container>
-      <m-icon-close />
-    </mp-button>
-  </mp-space>
-</template>
-```
-
-### Events
-
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-
-function handleClick() {
-  Message.success('Click Success')
-}
-
-function handleTouchstart() {
-  Message.success('Touchstart Success')
-}
-
-function handleAutoLoadingClick() {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 2000)
-  })
+<script setup lang="ts">
+import { ref } from 'vue'
+const message = ref('Ready')
+function sync() { message.value = 'Synchronous: no loading' }
+async function run(fail = false) {
+  message.value = 'Pending: duplicate clicks are blocked'
+  await new Promise(resolve => setTimeout(resolve, 800))
+  message.value = fail ? 'Rejected: loading released' : 'Resolved: loading released'
+  if (fail) throw new Error('Demo rejection')
 }
 </script>
-
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button status="success" @click="handleClick">Click</mp-button>
-    <mp-button status="success" @touchstart="handleTouchstart">TouchStart</mp-button>
-    <mp-button status="success" @click="handleAutoLoadingClick" auto-loading>AutoLoading</mp-button>
-  </mp-space>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-button auto-loading @click="sync">Sync</mp-button>
+    <mp-button auto-loading @click="() => run()">Resolve</mp-button>
+    <mp-button auto-loading @click="() => run(true)">Reject</mp-button>
+  </div>
+  <p aria-live="polite">{{ message }}</p>
 </template>
 ```
 
-
-### Theme Color Button Group
+### Block buttons
 
 ```html
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button-group status="default">
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  
-    <mp-button-group status="primary">
-      <mp-button status="primary">Button</mp-button>
-      <mp-button status="primary">Button</mp-button>
-      <mp-button status="primary">Button</mp-button>
-    </mp-button-group>
-  </mp-space>
+  <mp-button block status="primary">Full width</mp-button>
 </template>
 ```
 
-### Button Group Size
+### Colors, ripple and elevation
 
 ```html
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button-group status="primary" size="md">
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  
-    <mp-button-group status="primary" size="lg">
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  </mp-space>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-button color="#6750a4" text-color="white" :elevation="6">Custom filled</mp-button>
+    <mp-button color="linear-gradient(to bottom right, #6750a4, #d0bcff)" text-color="white">Gradient</mp-button>
+    <mp-button color="#6750a4" variant="text">Custom text</mp-button>
+    <mp-button color="#6750a4" variant="outline">Custom outline</mp-button>
+    <mp-button color="#6750a4" variant="tonal">Custom tonal</mp-button>
+    <mp-button :ripple="false" :elevation="false">No ripple or shadow</mp-button>
+  </div>
 </template>
 ```
 
-### Split Button
+### Icon slots and round buttons
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<typeof sizes[number]>('md')
+const items = [{'status': 'default', 'path': 'M12 5v14M5 12h14', 'label': 'Add'}, {'status': 'primary', 'path': 'm4 12 7-7v4h9v6h-9v4z', 'label': 'Reply'}, {'status': 'info', 'path': 'M12 11v6M12 7v1', 'label': 'Info'}, {'status': 'success', 'path': 'm5 12 4 4L19 6', 'label': 'Confirm'}, {'status': 'warning', 'path': 'M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13', 'label': 'Delete'}, {'status': 'danger', 'path': 'M6 6l12 12M6 18 18 6', 'label': 'Close'}] as const
+</script>
 <template>
-  <mp-popover placement="bottom" same-width :offset-y="6">
-    <mp-button-group status="primary">
-      <mp-button @click.stop>Split Button</mp-button>
-      <mp-button style="padding: 0 6px;">
-        <m-icon-menu-down :size="24" />
-      </mp-button>
-    </mp-button-group>
-
-    <template #content>
-      <mp-cell ripple>Split Button</mp-cell>
-      <mp-cell ripple>Split Button</mp-cell>
-      <mp-cell ripple>Split Button</mp-cell>
-    </template>
-  </mp-popover>
+  <div style="display: grid; gap: 8px; margin-bottom: 20px"><span style="font-size: 13px; opacity: .7">Size</span><mp-radio-group v-model="size"><mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-button v-for="item in items" :key="item.label" :status="item.status" :size="size" round icon-container :aria-label="item.label"><template #icon><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path :d="item.path" /></svg></template></mp-button>
+  </div>
 </template>
 ```
 
-### Button Group Mode
+### Stacked icon and text
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<typeof sizes[number]>('md')
+const items = [{'status': 'default', 'path': 'M12 5v14M5 12h14', 'label': 'Add'}, {'status': 'primary', 'path': 'm4 12 7-7v4h9v6h-9v4z', 'label': 'Reply'}, {'status': 'info', 'path': 'M12 11v6M12 7v1', 'label': 'Info'}, {'status': 'success', 'path': 'm5 12 4 4L19 6', 'label': 'Confirm'}, {'status': 'warning', 'path': 'M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13', 'label': 'Delete'}, {'status': 'danger', 'path': 'M6 6l12 12M6 18 18 6', 'label': 'Close'}] as const
+</script>
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button-group status="primary" variant="text">
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  
-    <mp-button-group status="primary" variant="outline">
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-
-    <mp-button-group mode="icon-container">
-      <mp-button status="warning">
-        <m-icon-warning />
-      </mp-button>
-      <mp-button status="info">
-        <m-icon-info-circle-fill />
-      </mp-button>
-      <mp-button status="success">
-        <m-icon-check />
-      </mp-button>
-    </mp-button-group>
-  
-    <mp-button-group status="primary">
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  </mp-space>
+  <div style="display: grid; gap: 8px; margin-bottom: 20px"><span style="font-size: 13px; opacity: .7">Size</span><mp-radio-group v-model="size"><mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-button v-for="item in items" :key="item.label" :status="item.status" :size="size" stacked :aria-label="item.label"><template #icon><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path :d="item.path" /></svg></template>{{ item.label }}</mp-button>
+  </div>
 </template>
 ```
 
-### Custom Button Group Color
+### Group inheritance and overrides
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger'] as const
+const variants = ['default', 'tonal', 'outline', 'text'] as const
+const action = ref('Ready')
+const pending = ref(false)
+async function save() { action.value = 'Saving'; await new Promise(resolve => setTimeout(resolve, 800)); action.value = 'Saved' }
+</script>
 <template>
-  <mp-button-group status="primary" color="linear-gradient(to bottom right, #6750A4, #D0BCFF)">
-    <mp-button>Button</mp-button>
-    <mp-button>Button</mp-button>
-    <mp-button>Button</mp-button>
-  </mp-button-group>
+  <p>Sizes</p>
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px">
+    <mp-button-group v-for="size in sizes" :key="size" :size="size" status="primary"><mp-button>{{ size }}</mp-button><mp-button>Next</mp-button></mp-button-group>
+  </div>
+  <p>Themes</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px">
+    <mp-button-group v-for="status in statuses" :key="status" :status="status"><mp-button>{{ status }}</mp-button><mp-button>Next</mp-button></mp-button-group>
+  </div>
+  <p>Horizontal / vertical variants</p>
+  <div v-for="vertical in [false, true]" :key="String(vertical)" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; margin-bottom: 16px">
+    <mp-button-group v-for="variant in variants" :key="variant" :variant="variant" :vertical="vertical" status="primary"><mp-button>{{ variant }}</mp-button><mp-button>Next</mp-button><mp-button>Last</mp-button></mp-button-group>
+  </div>
+  <p>Inheritance / individual overrides</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px">
+    <mp-button-group status="primary"><mp-button>Default</mp-button><mp-button status="success">Success</mp-button><mp-button variant="outline">Outline</mp-button><mp-button disabled>Off</mp-button></mp-button-group>
+    <mp-button-group disabled><mp-button>Disabled</mp-button><mp-button :disabled="false">Enabled override</mp-button></mp-button-group>
+  </div>
+  <p>Custom colors / gradient</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px">
+    <mp-button-group color="#6750a4" text-color="white"><mp-button>Custom</mp-button><mp-button>Next</mp-button></mp-button-group>
+    <mp-button-group color="linear-gradient(to bottom right, #6750a4, #d0bcff)" text-color="white"><mp-button>Gradient</mp-button><mp-button>Next</mp-button></mp-button-group>
+    <mp-button-group variant="outline" text-color="#6750a4"><mp-button>Outline</mp-button><mp-button>Next</mp-button></mp-button-group>
+  </div>
+  <p>Icons / stacked / independent loading</p>
+  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px"><mp-switch v-model="pending" aria-label="Group loading" />Loading preview</div>
+  <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px">
+    <mp-button-group v-for="stacked in [false, true]" :key="String(stacked)" :stacked="stacked" status="primary">
+      <mp-button :loading="pending" auto-loading @click="save"><template #icon><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg></template>Save</mp-button>
+      <mp-button @click="action = 'Edited'"><template #icon><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 16 12-12 4 4L8 20H4z" /></svg></template>Edit</mp-button>
+    </mp-button-group>
+    <mp-button-group><mp-button v-for="status in ['warning', 'info', 'success'] as const" :key="status" icon-container :status="status" :aria-label="status"><template #icon><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg></template></mp-button></mp-button-group>
+  </div>
+  <p aria-live="polite">{{ action }}</p>
 </template>
 ```
 
-### Vertical Button Group
+### Native form, focus and touch events
 
 ```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('Editable')
+const submissions = ref(0)
+const event = ref('Use Tab, Enter or touch')
+</script>
 <template>
-  <mp-space :size="[10, 10]">
-    <mp-button-group status="primary" variant="text" vertical>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  
-    <mp-button-group status="primary" variant="outline" vertical>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-
-    <mp-button-group mode="icon-container" vertical>
-      <mp-button status="warning">
-        <m-icon-warning />
-      </mp-button>
-      <mp-button status="info">
-        <m-icon-info-circle-fill />
-      </mp-button>
-      <mp-button status="success">
-        <m-icon-check />
-      </mp-button>
-    </mp-button-group>
-    
-    <mp-button-group status="primary" vertical>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-      <mp-button>Button</mp-button>
-    </mp-button-group>
-  </mp-space>
+  <form @submit.prevent="submissions++" @reset.prevent="value = 'Editable'" style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-input v-model="value" aria-label="Example field" placeholder="Example field" style="width: 100%; max-width: 280px" />
+    <mp-button html-type="submit">Submit</mp-button>
+    <mp-button html-type="reset">Reset</mp-button>
+    <mp-button :focusable="false">Skip Tab</mp-button>
+    <mp-button @touchstart="event = 'touchstart'" @focus="event = 'focus'" @blur="event = 'blur'" @click="event = 'click'">Event target</mp-button>
+  </form>
+  <p aria-live="polite">Submissions: {{ submissions }}; {{ event }}</p>
 </template>
 ```
 
 ## API
 
+<!-- same-source-api:start -->
 ### Props
 
-#### Button Props
-
-| Prop             | Description                                                                             | Type      | Default        |
-|------------------|-----------------------------------------------------------------------------------------|-----------|----------------|
-| `type`           | Button type, Can be set to `default` `primary` `info` `success` `warning` `danger`      | _string_  | `default`      |
-| `native-type`    | Native button type, Can be set to `button` `submit` `reset` | _string_  | `button`       |
-| `size`           | Button size, Can be set to `normal` `mini` `small` `large`                              | _string_  | `normal`       |
-| `loading`        | Loading status                                                                          | _boolean_ | `false`        |
-| `loading-radius` | Loading radius, Can only be used when `loading-type="circle"`                           | _string  \| number_        | `-`      |
-| `loading-type`   | Loading type, Can be set to `circle` `wave` `cube` `rect` `disappear`                   | _string_  | `circle`       |
-| `loading-size`   | Loading size, Can be set to `large` `normal` `small` `mini`                             | _string_  | `-`       |
-| `loading-color`  | Loading color                                                                           | _string_  | `currentColor` |
-| `auto-loading`   | Autoload mode for easy handling of asynchronous tasks                                   | _boolean_ | `false`        |
-| `round`          | Whether to be round button                                                              | _boolean_ | `false`        |
-| `block`          | Whether to be block button                                                              | _boolean_ | `false`        |
-| `text`           | Whether to be text button                                                               | _boolean_ | `false`        |
-| `icon-container` | Whether to serve as an icon container                                                        | _boolean_ | `false`        |
-| `outline`        | Whether to be outline button                                                            | _boolean_ | `false`        |
-| `disabled`       | Whether to disable button                                                               | _boolean_ | `false`        |
-| `ripple`         | Whether to be ripple button                                                             | _boolean_ | `true`         |
-| `focusable` ***3.3.13*** | Whether to be focus button                                                        | _boolean_ | `true`         |
-| `text-color`     | Button Text color                                                                       | _string_  | `-`            |
-| `color`          | Button background color                                                                 | _string_  | `-`            |
-| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
-
-
-#### ButtonGroup Props
-
-| Prop             | Description                                                                             | Type      | Default        |
-|--------------|------------------------------------------------------------------------------------------|----------|-----------|
-| `type`       | Button Group type, can be set to `default` `primary` `info` `success` `warning` `danger` | _string_ | `default` |
-| `size`       | Button Group size, can be set to `normal` `mini` `small` `large`                         | _string_ | `normal`  |
-| `mode`       | Button Group mode, can be set to `normal` `text` `outline` `icon-container`              | _string_ | `normal`  |
-| `vertical`   | Whether to be vertical button  group                                                     | _boolean_ | `false`   |
-| `elevation` | Elevation of Button Group, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
-| `color`      | Button Group background color                                                            | _string_ | `-`       |
-| `text-color`     | Button Group Text color                                                                  | _string_  | `-`            |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| status | Semantic color; inherits group, otherwise default | `SemanticStatus` | `undefined` |
+| variant | Appearance; inherits group, otherwise default | `default / text / outline / tonal` | `undefined` |
+| size | Size; inherits group, otherwise md | `xs / sm / md / lg / xl` | `undefined` |
+| html-type | Native button type | `button / submit / reset` | `button` |
+| component | Root tag; link attributes fall through | `button / a` | `button` |
+| round | Round button | `boolean` | `false` |
+| block | Full available width | `boolean` | `false` |
+| loading | Loading; blocks activation and navigation | `boolean` | `false` |
+| loading-type | Spinner animation; same as Loading.type | `circle / wave / cube / rect / disappear` | `circle` |
+| loading-mode | Inline, covering, or bottom progress line | `default / fill / line` | `default` |
+| loading-size | Spinner size; inherits button size, or xs when replacing an inline icon | `ComponentSize / number` | `undefined` |
+| loading-color | Loading indicator color | `string` | `currentColor` |
+| loading-radius | Circle spinner radius | `string / number` | `undefined` |
+| auto-loading | Wait for click/touchstart Promise results; sync callbacks do not flash loading | `boolean` | `false` |
+| icon-container | Icon container appearance | `boolean` | `false` |
+| disabled | Disabled; inherits group, explicit false overrides | `boolean` | `undefined` |
+| ripple | Click ripple | `boolean` | `true` |
+| focusable | Allow sequential Tab focus; does not prevent programmatic focus | `boolean` | `true` |
+| autofocus | Native autofocus | `boolean` | `false` |
+| text-color | Custom text color | `string` | `undefined` |
+| color | Custom background or variant base color | `string` | `undefined` |
+| elevation | Default variant shadow; true=2, false=off, rounded/clamped 0–24; group owns grouped elevation | `boolean / number` | `true` |
+| stacked | Stack icon and text; inherits group when omitted | `boolean` | `undefined` |
 
 ### Events
 
-#### Button Events
+| Event | Arguments and behavior |
+| --- | --- |
+| click | `(event: Event) => void / Promise<unknown>` |
+| touchstart | `(event: Event) => void / Promise<unknown>` |
 
-| Event        | Description                                                                                          | Arguments      |
-| ------------ | ---------------------------------------------------------------------------------------------------- | -------------- |
-| `click`      | Triggered when the button is clicked. Not triggered when `loading` or `disabled` status is `true`    | `event: Event` |
-| `touchstart` | Triggered when the button is touchstart, Not triggered when `loading` or `disabled` status is `true` | `event: Event` |
-
-### Slots
-
-#### Button Slots
-
-| Name | Description | SlotProps |
-| --------- | -------------- | --------- |
-| `default` | Button content | `-`       |
-
-#### ButtonGroup Slots
-
-| Name | Description | SlotProps |
-| --------- | -------------- | --------- |
-| `default` | Button Group content | `-`       |
-
-### Style Variables
-
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
-
-#### Button Variables
-
-| Variable                       | Default                      |
-| ------------------------------ | ---------------------------- |
-| `--button-default-text-color` | `#555` |
-| `--button-primary-text-color` | `var(--color-white)` |
-| `--button-danger-text-color` | `var(--color-white)` |
-| `--button-success-text-color` | `var(--color-white)` |
-| `--button-warning-text-color` | `var(--color-white)` |
-| `--button-info-text-color` | `var(--color-white)` |
-| `--button-default-color` | `#f5f5f5` |
-| `--button-primary-color` | `var(--color-primary)`|
-| `--button-danger-color` |  `var(--color-danger)`|
-| `--button-success-color` | `var(--color-success)`|
-| `--button-warning-color` |  `var(--color-warning)`|
-| `--button-info-color` | `var(--color-info)`|
-| `--button-default-icon-color` | `#555` |
-| `--button-primary-icon-color` | `var(--color-white)` |
-| `--button-danger-icon-color` | `var(--color-white)` |
-| `--button-success-icon-color` | `var(--color-white)` |
-| `--button-warning-icon-color` | `var(--color-white)` |
-| `--button-info-icon-color` | `var(--color-white)` |
-| `--button-default-icon-container-color` | `#f5f5f5` |
-| `--button-primary-icon-container-color` | `var(--color-primary)` |
-| `--button-danger-icon-container-color` | `var(--color-danger)` |
-| `--button-success-icon-container-color` | `var(--color-success)` |
-| `--button-warning-icon-container-color` | `var(--color-warning)` |
-| `--button-info-icon-container-color` | `var(--color-info)` |
-| `--button-disabled-color` | `var(--color-disabled)`|
-| `--button-disabled-text-color` | `var(--color-text-disabled)` |
-| `--button-border-radius` | `4px` |
-| `--button-mini-padding` | `0 9px` |
-| `--button-small-padding` | `0 11px` |
-| `--button-normal-padding` | `0 15px` |
-| `--button-large-padding` | `0 22px` |
-| `--button-round-padding` | `6px` |
-| `--button-mini-height` | `20px` |
-| `--button-small-height` | `28px` |
-| `--button-normal-height` | `36px` |
-| `--button-large-height` | `44px` |
-| `--button-mini-font-size` | `var(--font-size-xs)` |
-| `--button-small-font-size` | `var(--font-size-sm)` |
-| `--button-normal-font-size` | `var(--font-size-md)` |
-| `--button-large-font-size` | `var(--font-size-lg)` |
-
-## API
-
-### Props
-
-| Prop           | Description                                                                                       | Type       | Default       |
-|--------------|------------------------------------------------------------------------------------------|----------|-----------|
-| `type`       | Button Group type, can be set to `default` `primary` `info` `success` `warning` `danger` | _string_ | `default` |
-| `size`       | Button Group size, can be set to `normal` `mini` `small` `large`                         | _string_ | `normal`  |
-| `mode`       | Button Group mode, can be set to `normal` `text` `outline`                               | _string_ | `normal`  |
-| `vertical`   | Whether to be vertical button  group                                                     | _boolean_ | `false`   |
-| `elevation` | Elevation of Button Group, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
-| `color`      | Button Group background color                                                            | _string_ | `-`       |
-| `text-color`    | Button Group Text color                                                                  | _string_  | `-`            |
+Handlers may return promises and multiple listeners are supported. With auto-loading, all listeners must settle before unblocking, including after rejection. Unmounting or KeepAlive deactivation invalidates pending completion. Listener return values are read directly; events are not dispatched a second time. Native focus/blur attributes fall through. Disabled/busy clicks prevent navigation and propagation.
 
 ### Slots
 
-| Name | Description          | SlotProps |
-| ----- |----------------------| -------- |
-| `default` | Button Group content | `-` |
+| Slot | Description | Arguments |
+| --- | --- | --- |
+| default | Button label; retained while loading | — |
+| icon | Leading icon; above label when stacked | — |
+
+### Methods
+
+No custom public methods.
+<!-- same-source-api:end -->
+
+## ButtonGroup
+
+Props: size=md, status=default, variant=default, color/text-color=undefined, disabled/stacked/vertical=false, elevation=true. Uses the default slot and exposes buttonGroupProvider (reactive group configuration). No custom events.
+
+## Migration
+
+Cedar loading-type=default/fill/line becomes loading-mode=default/fill/line; loading-type now selects spinner animation. Maple uses loading-mode=fill to retain the previous covering layout. Both default ripple and focusable to true. CSS tokens now use the shared Button token names (with --c-/--mp- prefixes); see style/token.less.
+
+## Types
+
+ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。

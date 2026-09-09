@@ -70,7 +70,7 @@
 | `overlay-style`         | 背景层样式                 | `object`                    | `-`        |
 | `lock-scroll`           | 是否锁定背景滚动           | `boolean`                   | `true`     |
 | `esc-to-close`          | 按 Esc 是否关闭            | `boolean`                   | `true`     |
-| `popup-container`        | 挂载节点                   | `string \| object \| false` | `body`     |
+| `popup-container`        | 挂载节点                   | `string \| HTMLElement \| false` | `body`     |
 | `safe-area`             | 是否开启底部安全区         | `boolean`                   | `true`     |
 
 ### 事件

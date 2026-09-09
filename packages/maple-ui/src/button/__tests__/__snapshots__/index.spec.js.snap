@@ -1,121 +1,143 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test button component props > button focusable 1`] = `
-"<button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-elevation--2" tabindex="-1" type="button">
+"<button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-elevation--2" type="button" tabindex="-1">
   <!--v-if-->
-  <div class="mp-button__content"></div>
+  <!--v-if-->
+  <!--v-if-->
   <div class="mp-hover-overlay"></div>
 </button>"
 `;
 
 exports[`test button group component props > button group color and text-color 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" style="color: red; background: yellow;" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" style="color: red; background: yellow;" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" style="color: red; background: yellow;" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" style="color: red; background: yellow;" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" style="color: red; background: yellow;" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" style="color: red; background: yellow;" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;
 
 exports[`test button group component props > button group elevation 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--10"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--10"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;
 
 exports[`test button group component props > button group icon-container mode 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-button--icon-container mp-button--icon-container-default" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--icon-container mp-button--icon-container-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-button--icon-container mp-button--icon-container-default" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--icon-container mp-button--icon-container-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex mp-button--icon-container mp-button--icon-container-default" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--icon-container mp-button--icon-container-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;
 
 exports[`test button group component props > button group outline mode 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-outline mp-button-group--horizontal"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-outline mp--inline-flex" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-outline mp-button-group--horizontal"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-outline mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-outline mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;
 
 exports[`test button group component props > button group text mode 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-text mp-button-group--horizontal"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-text mp-button-group--horizontal"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-text" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-text" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-text mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-text" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;
 
 exports[`test button group component props > button group type and size 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp--box mp-button--size-lg mp-button--status-primary mp-button--variant-default mp--inline-flex" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-lg mp-button--status-primary mp-button--variant-default mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-lg mp-button--status-primary mp-button--variant-default mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;
 
 exports[`test button group component slots > button group default slot 1`] = `
-"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" type="button">
+"<div class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp--box mp-button--size-md mp-button--status-default mp-button--variant-default mp--inline-flex" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
     <!--v-if-->
-    <div class="mp-button__content"></div>
+    <!--v-if-->
+    <!--v-if-->
     <div class="mp-hover-overlay"></div>
   </button></div>"
 `;

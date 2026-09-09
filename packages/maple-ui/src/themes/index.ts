@@ -7,6 +7,6 @@ import { toViewport } from './toViewport'
 
 const Themes = { dark, md3Light, md3Dark, toViewport, toRem, convert }
 
-export const _ThemesComponent = null
+export const _ThemesComponent: null = null
 
 export default Themes

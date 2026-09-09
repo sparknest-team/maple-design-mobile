@@ -8,5 +8,5 @@ withPropsDefaultsSetter(Textarea, textareaProps)
 export type TextareaInstance = InstanceType<typeof Textarea>
 export type { TextareaProps } from './props'
 export { textareaProps }
-export const _TextareaComponent = Textarea
+export const _TextareaComponent: typeof Textarea = Textarea
 export default Textarea

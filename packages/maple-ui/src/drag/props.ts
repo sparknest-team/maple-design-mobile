@@ -1,4 +1,5 @@
 import { type PropType, type TeleportProps } from 'vue'
+import { popupContainerProp } from '../utils/popup-container'
 
 export type DragDirection = 'x' | 'y' | 'xy'
 
@@ -31,8 +32,5 @@ export const props = {
     type: [Number, String],
     default: 90,
   },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
 }

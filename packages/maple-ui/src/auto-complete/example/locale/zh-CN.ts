@@ -1,6 +1,6 @@
 export default {
   standard: '标准外观',
-  outlined: '外边框外观',
+  outline: '外边框外观',
   smallSize: '小尺寸',
   maxLength: '最大长度',
   disabled: '禁用',

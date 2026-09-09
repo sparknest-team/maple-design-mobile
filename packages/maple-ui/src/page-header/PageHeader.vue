@@ -7,7 +7,7 @@
     <header v-if="showHeading()" :class="n()">
       <div :class="n('main')">
         <button v-if="showBack" type="button" :class="n('back')" aria-label="Back" @click="handleBack">
-          <slot name="back"><MIconChevronLeft /></slot>
+          <slot name="back"><BackIcon /></slot>
         </button>
         <div v-if="$slots.avatar" :class="n('avatar')">
           <slot name="avatar" />
@@ -29,32 +29,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { IconChevronLeft as MIconChevronLeft } from '@maplejs/icons-vue'
+<script setup lang="ts">
+import { useSlots } from 'vue'
 import { createNamespace } from '../utils/components'
+import { BackIcon } from './platform'
 import { pageHeaderProps } from './props'
 
-const { name, n } = createNamespace('page-header')
-
-export default defineComponent({
-  name,
-  components: { MIconChevronLeft },
-  inheritAttrs: false,
-  props: pageHeaderProps,
-  emits: {
-    back: (_event: MouseEvent) => true,
-  },
-  setup(props, { emit, slots }) {
-    const showHeading = () =>
-      props.showBack ||
-      Boolean(
-        slots.avatar || slots.title || props.title || slots.subtitle || props.subtitle || slots.extra || props.extra,
-      )
-
-    const handleBack = (event: MouseEvent) => emit('back', event)
-
-    return { n, showHeading, handleBack }
-  },
-})
+defineOptions({ name: createNamespace('page-header').name, inheritAttrs: false })
+const { n } = createNamespace('page-header')
+const props = defineProps(pageHeaderProps)
+const slots = useSlots()
+const emit = defineEmits<{ back: [event: MouseEvent] }>()
+const showHeading = () =>
+  props.showBack ||
+  Boolean(slots.avatar || slots.title || props.title || slots.subtitle || props.subtitle || slots.extra || props.extra)
+const handleBack = (event: MouseEvent) => emit('back', event)
 </script>

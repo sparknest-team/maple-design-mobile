@@ -21,7 +21,7 @@ describe('test link component props', () => {
         props: { status },
       })
 
-      expect(wrapper.find('a').classes()).toContain('mp-link--' + status)
+      expect(wrapper.find('a').classes()).toContain('mp-link--status-' + status)
       wrapper.unmount()
     })
   })

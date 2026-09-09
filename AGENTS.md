@@ -56,7 +56,8 @@ packages/
 | 用途 | 命令 |
 | --- | --- |
 | 安装依赖 | `pnpm i` |
-| 跑指定包单测 | `cd packages/maple-ui && npx vitest run --config /Users/shuaimeng/Workspace/maple-design-mobile/packages/maple-cli/lib/node/config/vitest.config.js` |
+| 静态检查（不自动修改） | `pnpm lint:check` |
+| 跑指定包单测 | `pnpm --dir packages/maple-ui exec vitest run --config ../maple-cli/lib/node/config/vitest.config.js` |
 | 跑指定组件 | `... vitest run src/<component>` |
 | 更新快照 | 上述命令加 `-u` |
 
@@ -88,6 +89,8 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 
 ### 测试
 
+- 测试文件显式从 `vitest` 导入 `describe` / `it` / `test` / `expect` / `vi` / 生命周期函数；Vitest 的 `globals: true` 不代表 ESLint 识别这些全局变量。
+- AI 交付前必须运行 `pnpm lint:check` 和受影响的测试；涉及类型时再运行 `pnpm typecheck`。报告实际结果，未运行或失败不能声称验证通过；不要通过跳过 Git hooks 或关闭规则规避错误。
 - 预存在失败：`result/imageSize`、`form/zod`（与本人改动无关）。
 - vitest 必须显式指定 `--config` 指向 `maple-cli/lib/node/config/vitest.config.js`，否则没有默认配置。
 

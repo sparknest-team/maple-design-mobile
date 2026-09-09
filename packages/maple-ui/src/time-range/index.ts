@@ -22,7 +22,7 @@ export type TimeRangePickerInstance = InstanceType<typeof TimeRangePicker>
 export type { TimeRangeProps, TimeRangePresentation } from './props'
 export type { TimeRangePickerProps, TimeRangePickerPresentation } from './picker-props'
 
-export const _TimeRangeComponent = TimeRange
-export const _TimeRangePickerComponent = TimeRangePicker
+export const _TimeRangeComponent: typeof TimeRange = TimeRange
+export const _TimeRangePickerComponent: typeof TimeRangePicker = TimeRangePicker
 
 export default TimeRange

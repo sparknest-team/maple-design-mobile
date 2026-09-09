@@ -245,28 +245,28 @@
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-select variant="outlined" placeholder="请选择一个选项" v-model="value">
+    <mp-select variant="outline" placeholder="请选择一个选项" v-model="value">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="文本关联值" v-model="value2">
+    <mp-select variant="outline" placeholder="文本关联值" v-model="value2">
       <mp-option label="吃饭" :value="1" />
       <mp-option label="睡觉" :value="2" />
     </mp-select>
     <div class="relation">当前选择的是: {{ value2 }}</div>
-    <mp-select variant="outlined" placeholder="只读" readonly v-model="value3">
+    <mp-select variant="outline" placeholder="只读" readonly v-model="value3">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="禁用" disabled v-model="value4">
+    <mp-select variant="outline" placeholder="禁用" disabled v-model="value4">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="可清除" clearable v-model="value5">
+    <mp-select variant="outline" placeholder="可清除" clearable v-model="value5">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="使用插槽自定义清除图标" clearable v-model="value6">
+    <mp-select variant="outline" placeholder="使用插槽自定义清除图标" clearable v-model="value6">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <template #clear-icon="{ clear }">
@@ -274,7 +274,7 @@
       </template>
     </mp-select>
 
-    <mp-select variant="outlined" placeholder="自定义图标" v-model="value7">
+    <mp-select variant="outline" placeholder="自定义图标" v-model="value7">
       <template #default>
         <mp-option label="吃饭">
           <m-icon-cake-variant class="selected-icon" />
@@ -300,7 +300,7 @@
         <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
-    <mp-select variant="outlined" placeholder="自定义图标尺寸" v-model="value8">
+    <mp-select variant="outline" placeholder="自定义图标尺寸" v-model="value8">
       <template #default>
         <mp-option label="吃饭">
           <m-icon-cake-variant class="selected-icon" />
@@ -327,26 +327,26 @@
       </template>
     </mp-select>
 
-    <mp-select variant="outlined" placeholder="多选" multiple v-model="value9">
+    <mp-select variant="outline" placeholder="多选" multiple v-model="value9">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="标签风格的多选" tag multiple v-model="value10">
+    <mp-select variant="outline" placeholder="标签风格的多选" tag multiple v-model="value10">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select variant="outlined" size="sm" placeholder="小尺寸" v-model="value13">
+    <mp-select variant="outline" size="sm" placeholder="小尺寸" v-model="value13">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="选项式 API" v-model="value14" :options="options" />
-    <mp-select variant="outlined" placeholder="选项式 API（多选）" v-model="value15" :options="options" multiple />
+    <mp-select variant="outline" placeholder="选项式 API" v-model="value14" :options="options" />
+    <mp-select variant="outline" placeholder="选项式 API（多选）" v-model="value15" :options="options" multiple />
     <mp-select
-      variant="outlined"
+      variant="outline"
       placeholder="自定义字段"
       v-model="value16"
       :options="keyOptions"
@@ -477,7 +477,7 @@
 | --------------------------- | --------------------------------------------------- | ------------------------------------------ | ----------- |
 | `v-model`                   | 绑定的值                                            | _any \| any[]_                             | `-`         |
 | `size`                      | 选择框尺寸，可选值 `xs` `sm` `md` `lg` `xl`         | _ComponentSize_                            | `md`        |
-| `variant`                   | 选择框风格, 可选值为 `filled` `outlined` `standard` | _string_                                   | `standard`  |
+| `variant`                   | 选择框风格, 可选值为 `filled` `outline` `standard` | _string_                                   | `standard`  |
 | `presentation` _**3.18.0**_ | 展示模式，可选值为 `menu` `picker` `list`           | _string_                                   | `menu`      |
 | `show` _**3.18.0**_         | 显隐受控                                            | _boolean_                                  | `undefined` |
 | `placeholder`               | 占位符                                              | _string_                                   | `-`         |
@@ -495,6 +495,7 @@
 | `options` _**3.3.4**_       | 指定可选项                                          | _SelectOption[]_                           | `[]`        |
 | `field-names`               | 自定义 `options` 字段映射                           | _{ label?, value?, children?, disabled? }_ | `-`         |
 | `picker-props` _**3.18.0**_ | picker 模式透传给 `mp-picker` 的属性                | _Partial\<PickerProps\>_                   | `{}`        |
+| auto-fit-popup-width | 菜单是否与触发框等宽；false 时按内容自适应（菜单展示模式）。 | `boolean` | `true` |
 | `popup-props` _**3.18.0**_  | 透传给弹窗的属性                                    | _Partial\<PopupProps\>_                    | `{}`        |
 
 校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。

@@ -3,12 +3,12 @@ import { componentSizes, type ComponentSize } from '../utils/constants'
 
 export type FieldDecoratorSize = ComponentSize
 
-export type FieldDecoratorVariant = 'filled' | 'outlined' | 'standard'
+export type FieldDecoratorVariant = 'filled' | 'outline' | 'standard'
 
 export const props = {
   value: {
     type: null,
-    required: true,
+    required: true as const,
   },
   id: {
     type: String,

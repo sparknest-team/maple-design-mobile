@@ -50,5 +50,5 @@ export const textareaProps = {
   ]),
 }
 
-export type TextareaProps = ExtractPropTypes<typeof textareaProps>
+export type TextareaProps = import('vue').ExtractPublicPropTypes<typeof textareaProps>
 export const props = textareaProps

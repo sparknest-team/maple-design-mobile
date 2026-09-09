@@ -77,7 +77,8 @@ export default defineComponent({
     MaybeVNode,
   },
   props,
-  setup(props) {
+  emits: ['update:modelValue', 'change', 'finish', 'input', 'click', 'paste'],
+  setup(props, { emit }) {
     const slots = useSlots()
     const rootEl = ref<HTMLElement | null>(null)
     const inputRefs = ref<Array<InstanceType<typeof MpInput> | null>>([])
@@ -237,7 +238,7 @@ export default defineComponent({
         return
       }
 
-      call(props.onFinish, value)
+      emit('finish', value)
     }
 
     function updateValue(value: string, index: number) {
@@ -250,8 +251,8 @@ export default defineComponent({
         innerValue.value = value
       }
 
-      call(props['onUpdate:modelValue'], value)
-      call(props.onChange, value)
+      emit('update:modelValue', value)
+      emit('change', value)
       eventHandlers.value.onChange?.()
       eventHandlers.value.onInput?.()
       maybeEmitFinish(value)
@@ -285,8 +286,8 @@ export default defineComponent({
           innerValue.value = ''
         }
 
-        call(props['onUpdate:modelValue'], '')
-        call(props.onChange, '')
+        emit('update:modelValue', '')
+        emit('change', '')
       }
     }
 
@@ -384,7 +385,7 @@ export default defineComponent({
       const cell = target?.closest(`.${n('cell')}`) as HTMLElement | null
       const indexAttr = cell?.dataset.index
 
-      call(props.onClick, event)
+      emit('click', event)
 
       if (indexAttr == null) {
         return
@@ -414,7 +415,7 @@ export default defineComponent({
       const valueChars = getValueChars()
       const crossTargetIndex = index > valueChars.length
 
-      call(props.onInput, inputChars[inputChars.length - 1] ?? '', index, event)
+      emit('input', inputChars[inputChars.length - 1] ?? '', index, event)
 
       if (inputChars.length === 0) {
         if (crossTargetIndex) {
@@ -457,7 +458,7 @@ export default defineComponent({
       const transformedValue = props.pasteTransform ? props.pasteTransform(text) : text
       const result = transformByType(transformedValue)
 
-      call(props.onPaste, result, event)
+      emit('paste', result, event)
 
       if (!result) {
         syncAllCellDisplayValues()

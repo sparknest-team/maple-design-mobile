@@ -1,4 +1,6 @@
 :root {
+  --mp-popover-title-font-weight: 600;
+  --mp-popover-title-content-gap: 8px;
   --mp-popover-background-color: var(--mp-color-fill-2);
   --mp-popover-border-radius: 2px;
 }
@@ -23,4 +25,11 @@
   &--background-color {
     background: var(--mp-popover-background-color);
   }
+}
+
+.mp-popover__title {
+  font-weight: var(--mp-popover-title-font-weight);
+}
+.mp-popover__title + .mp-popover__body {
+  margin-top: var(--mp-popover-title-content-gap);
 }

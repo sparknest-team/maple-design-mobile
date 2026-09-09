@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "paths": {
+      "@maplejs/maple-ui": [
+        "./types-generated/index.d.ts"
+      ]
+    },
+    "rootDir": ".",
+    "moduleResolution": "Bundler",
+    "module": "ESNext"
+  },
+  "include": [
+    "type-tests/aligned-api.ts",
+    "type-tests/foundation-api.ts"
+  ]
+}

@@ -6,6 +6,7 @@ import { popupProps } from '../popup'
 import { props as timePickerPropsSource } from '../time/picker-props'
 import type { DisabledTime } from '../time/picker-props'
 import { pickProps } from '../utils/components'
+import { popupContainerProp } from '../utils/popup-container'
 import { props as dateRangePickerPropsSource } from './picker-props'
 import type { DateRangePickerPresentation, DateRangePickerType } from './picker-props'
 
@@ -13,6 +14,7 @@ export type DateRangeType = DateRangePickerType
 export type DateRangePresentation = DateRangePickerPresentation
 
 export const props = {
+  popupContainer: popupContainerProp,
   modelValue: {
     type: Array as PropType<string[]>,
     default: () => [],
@@ -74,4 +76,4 @@ export const props = {
   ]),
 }
 
-export type DateRangeProps = ExtractPropTypes<typeof props>
+export type DateRangeProps = import('vue').ExtractPublicPropTypes<typeof props>

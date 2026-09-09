@@ -1,5 +1,5 @@
 import { toNumber } from '@maplejs/maple-shared'
-import { hours24, hoursAmpm } from './picker-props'
+import { clockHour } from '../utils/picker-data'
 import type { AmPm, DisabledTime } from './picker-props'
 
 type DisableProps = {
@@ -17,13 +17,8 @@ type DisableProps = {
 export const notConvert = (format: string, ampm: AmPm | undefined): boolean => format === '24hr' || ampm === 'am'
 
 export const convertHour = (format: string, ampm: AmPm | undefined, hour: string) => {
-  const index = hoursAmpm.findIndex((hourAmpm) => toNumber(hourAmpm) === toNumber(hour))
-  const getHour = notConvert(format, ampm) ? hour : hours24[index]
-
-  return {
-    hourStr: getHour,
-    hourNum: toNumber(getHour),
-  }
+  const hourNum = clockHour(toNumber(hour), format === '24hr' ? undefined : ampm)
+  return { hourStr: String(hourNum).padStart(2, '0'), hourNum }
 }
 
 export const getNumberTime = (time: string) => {

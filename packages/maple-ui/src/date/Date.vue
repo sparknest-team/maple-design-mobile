@@ -166,7 +166,10 @@ export default defineComponent({
       return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
     })
     const datePickerBindingProps = computed(() => ({ ...props.datePickerProps }))
-    const popupBindingProps = computed(() => ({ ...props.popupProps }))
+    const popupBindingProps = computed(() => ({
+      ...props.popupProps,
+      popupContainer: props.popupContainer !== undefined ? props.popupContainer : props.popupProps?.popupContainer,
+    }))
     const titleText = computed(() => props.datePickerProps?.hint ?? (pt ? pt : t)('pickerTitle'))
     const cancelButtonText = computed(() => (pt ? pt : t)('pickerCancelButtonText'))
     const confirmButtonText = computed(() => (pt ? pt : t)('pickerConfirmButtonText'))

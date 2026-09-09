@@ -199,3 +199,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--rate-disabled-color` | `var(--color-text-disabled)` |
 | `--rate-error-color` | `var(--color-danger)`        |
 | `--rate-action-padding` | `4px`                        |
+
+尺寸与跨端迁移约定见仓库根目录 `API-MIGRATION.md`。只支持文档列出的档位，不代表支持全部 ComponentSize。

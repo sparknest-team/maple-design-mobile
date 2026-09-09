@@ -29,9 +29,13 @@ export type TabsInstance = InstanceType<typeof _Tabs>
 export type TabInstance = InstanceType<typeof Tab>
 export type TabItemInstance = InstanceType<typeof TabItem>
 export type TabsItemsInstance = InstanceType<typeof TabsItems>
-export const _TabsComponent = Tabs
-export const _TabComponent = Tab
-export const _TabItemComponent = TabItem
-export const _TabsItemsComponent = TabsItems
+export const _TabsComponent: typeof Tabs = Tabs
+export const _TabComponent: typeof Tab = Tab
+export const _TabItemComponent: typeof TabItem = TabItem
+export const _TabsItemsComponent: typeof TabsItems = TabsItems
 
 export default Tabs
+export type TabsProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type TabProps = import('vue').ExtractPublicPropTypes<typeof import('./tab-props').props>
+export type TabItemProps = import('vue').ExtractPublicPropTypes<typeof import('./tab-item-props').props>
+export type TabsItemsProps = import('vue').ExtractPublicPropTypes<typeof import('./tabs-items-props').props>

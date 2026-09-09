@@ -1,72 +1,48 @@
-<template>
-  <mp-menu
-    :model-value="pageSize"
-    placement="cover-top"
-    :disabled="disabled"
-    v-bind="selectProps"
-    @update:model-value="handleChange"
-  >
-    <li :class="classes(n('size'), [disabled, n('item--disabled')])">
-      <div :class="classes(n('size--open'), [disabled, n('size--open--disabled')])">
-        <span>{{ pageSize }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}</span>
-        <mp-icon :class="n('size--open-icon')" mp-pagination-cover><MIconMenuDown /></mp-icon>
-      </div>
-    </li>
-
-    <template #content>
-      <mp-menu-option v-for="(option, index) in sizeOptions" :key="index" :value="option">
-        {{ option }}{{ (pt ? pt : t)('paginationItem') }} / {{ (pt ? pt : t)('paginationPage') }}
-      </mp-menu-option>
-    </template>
-  </mp-menu>
-</template>
-
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
-import MpIcon from '../icon'
-import { t } from '../locale'
-import { injectLocaleProvider } from '../locale-provider/provide'
-import MpMenu from '../menu'
-import MpMenuOption from '../menu/MenuOption.vue'
+<script setup lang="ts">
+import { computed } from 'vue'
+import type { PropType } from 'vue'
 import { createNamespace } from '../utils/components'
+import type { ComponentSize } from '../utils/constants'
+import PaginationSelect from './page-select.vue'
+import { usePaginationLocale } from './platform'
+import type { PaginationPageSizeProps } from './types'
 
-const { n, classes } = createNamespace('pagination')
-
-export default defineComponent({
-  name: createNamespace('pagination-options').name,
-  components: {
-    MIconMenuDown,
-    MpMenu,
-    MpMenuOption,
-    MpIcon,
-  },
-  props: {
-    sizeOptions: {
-      type: Array as PropType<number[]>,
-      required: true,
-    },
-    pageSize: Number,
-    disabled: Boolean,
-    selectProps: {
-      type: Object as PropType<Record<string, any>>,
-    },
-  },
-  emits: ['change'],
-  setup(props, { emit }) {
-    const { t: pt } = injectLocaleProvider()
-
-    const handleChange = (value: number | string) => {
-      emit('change', Number(value))
-    }
-
-    return {
-      n,
-      classes,
-      t,
-      pt,
-      handleChange,
-    }
-  },
+defineOptions({ name: createNamespace('pagination-options').name })
+const props = defineProps({
+  pageSize: Number,
+  sizeOptions: { type: Array as PropType<number[]>, required: true },
+  size: String as PropType<ComponentSize>,
+  disabled: Boolean,
+  selectProps: Object as PropType<PaginationPageSizeProps>,
 })
+const emit = defineEmits<{ (event: 'change', value: number): void }>()
+const { n } = createNamespace('pagination')
+const text = usePaginationLocale()
+const options = computed(() =>
+  props.sizeOptions
+    .filter((value) => Number.isInteger(value) && value > 0)
+    .map((value) => ({ value, label: text.value.count(value) })),
+)
+function change(value: unknown) {
+  if (
+    !props.disabled &&
+    !props.selectProps?.disabled &&
+    typeof value === 'number' &&
+    options.value.some((option) => option.value === value)
+  ) {
+    emit('change', value)
+  }
+}
 </script>
+<template>
+  <span :class="n('options')"
+    ><PaginationSelect
+      :config="selectProps"
+      :model-value="pageSize"
+      :options="options"
+      :size="size"
+      :disabled="disabled || selectProps?.disabled"
+      :label="text.perPage"
+      @update:model-value="change"
+  /></span>
+</template>

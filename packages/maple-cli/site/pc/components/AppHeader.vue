@@ -84,31 +84,16 @@
           </div>
         </transition>
       </div>
-      <div
+      <select
+        v-if="Object.keys(nonEmptyLanguages).length > 1"
         class="maple-site-header__language"
-        @mouseenter="isOpenLanguageMenu = true"
-        @mouseleave="isOpenLanguageMenu = false"
-        v-if="languages"
+        :aria-label="language === 'en-US' ? 'Language' : '语言'"
+        :value="language"
+        @change="handleLanguageChange(($event.target as HTMLSelectElement).value)"
+        style="color: inherit; background: transparent; border: 0; font: inherit; cursor: pointer"
       >
-        <mp-icon :size="26"><MIconTranslate /></mp-icon>
-        <mp-icon><MIconChevronDown /></mp-icon>
-        <transition name="fade">
-          <div
-            class="maple-site-header__animation-list mp-elevation--5"
-            v-show="isOpenLanguageMenu"
-            :style="{ pointerEvents: isOpenLanguageMenu ? 'auto' : 'none' }"
-          >
-            <mp-cell
-              v-for="(value, key) in nonEmptyLanguages"
-              v-ripple
-              :key="key"
-              :class="{ 'maple-site-header__animation-list--active': language === key }"
-              @click="handleLanguageChange(key)"
-              >{{ value }}
-            </mp-cell>
-          </div>
-        </transition>
-      </div>
+        <option v-for="(value, key) in nonEmptyLanguages" :key="key" :value="key">{{ value }}</option>
+      </select>
     </div>
   </div>
 </template>
@@ -156,7 +141,6 @@ export default defineComponent({
     const darkMode: Ref<boolean> = ref(config?.pc?.header?.darkMode ?? false)
     const currentTheme = ref(getBrowserTheme('site'))
 
-    const isOpenLanguageMenu: Ref<boolean> = ref(false)
     const isOpenThemeMenu: Ref<boolean> = ref(false)
     const isOpenVersionsMenu: Ref<boolean> = ref(false)
     const router = useRouter()
@@ -168,9 +152,8 @@ export default defineComponent({
     }
 
     const handleLanguageChange = (language: string) => {
-      const { menuName } = getPCLocationInfo()
-      router.replace(`/${language}/${menuName}`)
-      isOpenLanguageMenu.value = false
+      const current = router.currentRoute.value
+      router.push({ path: current.path.replace(/^\/[^/]+/, `/${language}`), query: current.query, hash: current.hash })
     }
 
     const setCurrentTheme = (theme: Theme) => {
@@ -204,7 +187,6 @@ export default defineComponent({
       changelog,
       ai,
       github,
-      isOpenLanguageMenu,
       isOpenVersionsMenu,
       isOpenThemeMenu,
       darkMode,

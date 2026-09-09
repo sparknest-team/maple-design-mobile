@@ -21,7 +21,7 @@ test('v-mp-loading renders the built-in loading component without changing conte
 
   expect(wrapper.find('.mp-loading-directive .mp-loading').exists()).toBe(true)
   expect(wrapper.find('.mp-loading-directive .mp-loading__content--active').exists()).toBe(true)
-  expect(wrapper.find('.mp-loading-directive .mp-loading__content-mask').exists()).toBe(true)
+  expect(wrapper.find('.mp-loading-directive .mp-loading__content-overlay').exists()).toBe(true)
   expect(wrapper.find('.mp-loading-directive .mp-loading__inside').exists()).toBe(true)
   expect(wrapper.find('.mp-loading-directive').element.firstElementChild).toBe(wrapper.find('.mp-loading').element)
   expect(wrapper.find('.mp-loading-directive').element.parentElement).toBe(wrapper.element)
@@ -104,9 +104,9 @@ describe('test loading component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-loading__content-mask').exists()).toBe(true)
+    expect(wrapper.find('.mp-loading__content-overlay').exists()).toBe(true)
     await wrapper.setProps({ loading: false })
-    expect(wrapper.find('.mp-loading__content-mask').exists()).toBe(false)
+    expect(wrapper.find('.mp-loading__content-overlay').exists()).toBe(false)
     wrapper.unmount()
   })
 
@@ -153,4 +153,20 @@ describe('test loading component slots', () => {
     expect(wrapper.find('.mp-loading__tip').element.textContent).toBe('This is tip slots')
     wrapper.unmount()
   })
+})
+
+test('directive updates and clears the overlay background token', async () => {
+  const Host = defineComponent({
+    directives: { 'mp-loading': vLoading },
+    data: () => ({ options: { loading: true, background: 'blue' } }),
+    template: '<div v-mp-loading="options">content</div>',
+  })
+  const wrapper = mount(Host)
+  const overlay = wrapper.find('.mp-loading-directive').element
+  expect(overlay.style.getPropertyValue('--mp-loading-overlay-background')).toBe('blue')
+  await wrapper.setData({ options: { loading: true, background: 'red' } })
+  expect(overlay.style.getPropertyValue('--mp-loading-overlay-background')).toBe('red')
+  await wrapper.setData({ options: { loading: true, background: '' } })
+  expect(overlay.style.getPropertyValue('--mp-loading-overlay-background')).toBe('')
+  wrapper.unmount()
 })

@@ -47,7 +47,7 @@ test('option default slot', () => {
 })
 
 test('select variant', () => {
-  ;['standard', 'outlined'].forEach((variant) => {
+  ;['standard', 'outline'].forEach((variant) => {
     const wrapper = mount(VarSelect, {
       props: {
         value: '',
@@ -64,7 +64,7 @@ test('select variant', () => {
         break
       }
 
-      case 'outlined': {
+      case 'outline': {
         expect(wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('legend')).toBeTruthy()
         break
       }
@@ -515,7 +515,7 @@ test('select keyboard close menu by escape', async () => {
   await triggerKeyboard(window, 'keydown', { key: 'Enter' })
   expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
   await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
 
   wrapper.unmount()
   document.body.innerHTML = ''

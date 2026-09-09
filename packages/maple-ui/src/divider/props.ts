@@ -65,4 +65,4 @@ export const dividerProps = {
 
 export const props = dividerProps
 
-export type DividerProps = ExtractPropTypes<typeof dividerProps>
+export type DividerProps = import('vue').ExtractPublicPropTypes<typeof dividerProps>

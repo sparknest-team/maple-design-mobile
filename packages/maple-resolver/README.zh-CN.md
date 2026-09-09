@@ -37,12 +37,13 @@ pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver, MapleStyleImports } from '@maplejs/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
+    MapleStyleImports(),
     components({
       resolvers: [MapleResolver()]
     }),
@@ -144,3 +145,7 @@ function handleClick() {
   <mp-button @click="handleClick">说你好</mp-button>
 </template>
 ```
+
+## 显式 import 自动样式（Vite）
+
+MapleResolver 为模板组件和未声明的函数标识符提供解析；已经手动 import 的函数不会再次触发自动导入。配套 MapleStyleImports() 在 Vue/TypeScript 编译后处理来自 @maplejs/maple-ui 的具名值导入，复用 resolver 的样式映射。支持 Message 别名、普通组件、去重及 importStyle:false；跳过类型、命名空间和默认导入。它是 Vite 插件，不要放进 resolvers 数组。Maple CLI 文档开发已内置该插件，应用项目按上方 Vite 示例配置。更改 CLI 插件配置后需重启开发服务。

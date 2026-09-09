@@ -73,6 +73,8 @@ const routes = [
 
 通过 `max-count` 限制展示数量，超出部分折叠为省略号；可用 `#more-icon` 自定义省略图标。
 
+Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 `trigger="click"`。
+
 ```html
 <script setup>
 const maxRoutes = [
@@ -133,7 +135,7 @@ import { Message } from '@maplejs/maple-ui'
 | --- | --- | --- | --- |
 | `separator` | 分隔符 | _string \| number_ | `/` |
 | `max-count` | 最多展示的正常面包屑项数量，不包含 more；`0` 表示不限制 | _number_ | `0` |
-| `routes` | 路径数据（无默认插槽时生效） | _BreadcrumbRoute[]_ | `-` |
+| `routes` | 路径数据（非空时优先；为空时使用默认插槽） | _BreadcrumbRoute[]_ | `-` |
 
 #### BreadcrumbItem Props
 
@@ -151,7 +153,7 @@ import { Message } from '@maplejs/maple-ui'
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `click` | 点击时触发（省略项不触发） | `event: MouseEvent` |
-| `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute` |
+| `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute, event?: Event` |
 
 ### 插槽
 
@@ -215,7 +217,7 @@ interface BreadcrumbRoute {
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `click` | 点击时触发（省略项不触发） | `event: MouseEvent` |
-| `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute` |
+| `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute, event?: Event` |
 
 ### 插槽
 
@@ -225,3 +227,13 @@ interface BreadcrumbRoute {
 | `separator` | 自定义分隔符 |
 | `droplist` | 自定义下拉菜单 |
 
+
+## 同源实现与平台边界
+
+Breadcrumb 与 BreadcrumbItem 在 Cedar / Maple 中独立复制维护，主体、Props、上下文、类型、关键样式及配对测试纳入 `design-ui/bin/copied-components-check.mjs`。图标、安装入口、菜单实现和主题 token 由各库本地提供。
+
+- 非空 `routes` 优先于默认插槽；空数组回退到插槽。默认路由渲染仅前面的项目带链接，最后一项标记 `aria-current="page"`；`item-render` 自行控制链接。
+- 分隔符优先级：子项插槽 → 子项属性 → 父级插槽 → 父级属性；支持 `0` 和空字符串。
+- `max-count` 沿用现有边界：总数大于 `max-count + 1` 才折叠；保留首项和尾部项目，省略位置不触发原项的点击、链接或下拉菜单。
+- 内置下拉选择派发 `select(route, event)`。动态增删、重排及 SSR 会同步计算索引和分隔符。
+- Cedar 项内容新增 `__content` 包装，属性透传到该内容节点；Maple 原有主题变量继续通过 token 映射生效。

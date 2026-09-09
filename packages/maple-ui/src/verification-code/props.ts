@@ -33,7 +33,7 @@ export const props = {
   },
   variant: {
     type: String as PropType<FieldDecoratorVariant>,
-    default: 'outlined',
+    default: 'outline',
   },
   disabled: Boolean,
   masked: Boolean,
@@ -61,12 +61,6 @@ export const props = {
   formatter: Function as PropType<VerificationCodeFormatter>,
   ariaLabel: String,
   ...pickProps(fieldDecoratorProps, ['textColor', 'focusColor', 'blurColor']),
-  onChange: defineListenerProp<(value: string) => void>(),
-  onFinish: defineListenerProp<(value: string) => void>(),
-  onInput: defineListenerProp<(inputValue: string, index: number, ev: Event) => void>(),
-  onClick: defineListenerProp<(e: Event) => void>(),
-  onPaste: defineListenerProp<(value: string, e: ClipboardEvent) => void>(),
-  'onUpdate:modelValue': defineListenerProp<(value: string) => void>(),
 }
 
-export type VerificationCodeProps = ExtractPropTypes<typeof props>
+export type VerificationCodeProps = import('vue').ExtractPublicPropTypes<typeof props>

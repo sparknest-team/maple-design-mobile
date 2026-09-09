@@ -109,3 +109,9 @@
 | `--mp-divider-text-padding` | `8px` |
 | `--mp-divider-text-align-inset` | `24px` |
 | `--mp-divider-orientation-*-size-*-{xs\|sm\|md\|lg\|xl}` | 预设尺寸 token |
+
+## 同源实现与平台边界
+
+两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
+
+动态增删默认插槽会同步更新带文字样式；opacity=0 生效；hairline 优先于 thickness，并输出 aria-orientation。

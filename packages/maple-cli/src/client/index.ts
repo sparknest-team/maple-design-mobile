@@ -172,3 +172,5 @@ export function getMobileIndex() {
 }
 
 export { AppType, StyleProvider }
+
+export { normalizeLanguage, getSavedLanguage, saveLanguage, createDemoMessages } from './language'

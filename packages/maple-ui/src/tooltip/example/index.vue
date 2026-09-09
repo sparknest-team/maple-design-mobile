@@ -57,19 +57,19 @@ onThemeChange()
     <mp-tooltip content="Tooltip">
       <mp-button>{{ t('defaultTooltip') }}</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="primary" content="Tooltip">
+    <mp-tooltip status="primary" content="Tooltip">
       <mp-button status="primary">{{ t('primaryTooltip') }}</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="info" content="Tooltip">
+    <mp-tooltip status="info" content="Tooltip">
       <mp-button status="info">{{ t('infoTooltip') }}</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="success" content="Tooltip">
+    <mp-tooltip status="success" content="Tooltip">
       <mp-button status="success">{{ t('successTooltip') }}</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="warning" content="Tooltip">
+    <mp-tooltip status="warning" content="Tooltip">
       <mp-button status="warning">{{ t('warningTooltip') }}</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="danger" content="Tooltip">
+    <mp-tooltip status="danger" content="Tooltip">
       <mp-button status="danger">{{ t('dangerTooltip') }}</mp-button>
     </mp-tooltip>
   </mp-space>

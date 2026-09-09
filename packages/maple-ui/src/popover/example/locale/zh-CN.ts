@@ -5,7 +5,7 @@ export default {
   menuOption: '选项',
   bottomAlignment: '底部对齐',
   offset: '偏移量',
-  sameWidth: '与触发元素同宽',
+  autoFitPopupWidth: '与触发元素同宽',
   events: '注册事件',
   disabled: '禁用气泡卡片',
   placement: '弹出位置',

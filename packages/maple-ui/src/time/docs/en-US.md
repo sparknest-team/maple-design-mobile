@@ -97,7 +97,7 @@ Hour, minute, and second wheels are used by default. Set `presentation="clock"` 
 | `disabled`          | Disabled                                                | _boolean_                    | `false`    |
 | `readonly`          | Readonly                                                | _boolean_                    | `false`    |
 | `size`              | Size: `xs` `sm` `md` `lg` `xl`                          | _ComponentSize_              | `md`       |
-| `variant`           | Variant: `filled` `standard` `outlined`                 | _string_                     | `standard` |
+| `variant`           | Variant: `filled` `standard` `outline`                 | _string_                     | `standard` |
 
 ### Events
 
@@ -281,7 +281,7 @@ Use `min`, `max` and `disabled-time` prop to allow the maximum and minimum time.
 | `color`         | Picker color                                                                                                       | _string_                      | `-`           |
 | `title-color`   | Color of picker title. If not specified it will use the color defined by `color` prop or the default picker color. | _string_                      | `-`           |
 | `hint`          | Picker hint                                                                                                        | _string_                      | `SELECT TIME` |
-| `elevation`     | Elevation level, options `true` `false` and level of `0-24`                                                        | _string \| number \| boolean_ | `false`       |
+| `elevation`     | Elevation level, options `true` `false` and level of `0-24`                                                        | _number \| boolean_ | `false`       |
 | `min`           | Minimum allowed time (ISO 8601 format)                                                                             | _string_                      | `-`           |
 | `max`           | Maximum allowed time (ISO 8601 format)                                                                             | _string_                      | `-`           |
 | `disabled-time` | Disabled time filter (callback returns true to disable)                                                            | _DisabledTime_                | `-`           |

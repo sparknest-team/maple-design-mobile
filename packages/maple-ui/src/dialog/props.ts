@@ -1,6 +1,7 @@
 import type { CSSProperties, PropType, StyleValue } from 'vue'
 import { buttonProps } from '../button/props'
 import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/components'
+import { popupContainerProp } from '../utils/popup-container'
 import type { DialogAction, DialogBeforeCloseRefs, DialogMessageAlign, DialogTitleAlign, DialogType } from './types'
 
 export const DIALOG_TYPE_ICON: Record<DialogType, string> = {
@@ -40,10 +41,7 @@ export const dialogProps = {
   overlayClosable: { type: Boolean, default: true },
   escToClose: { type: Boolean, default: true },
   lockScroll: { type: Boolean, default: true },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
   dialogClass: [String, Array] as PropType<string | any[]>,
   dialogStyle: Object as PropType<CSSProperties>,
   bodyClass: [String, Array] as PropType<string | any[]>,

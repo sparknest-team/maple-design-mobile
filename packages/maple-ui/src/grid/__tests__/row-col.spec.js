@@ -1,13 +1,14 @@
 import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import Grid, { Col, Row } from '..'
+import Col from '../../col'
+import VarCol from '../../col/Col.vue'
+import Row from '../../row'
+import VarRow from '../../row/Row.vue'
 import { delay } from '../../utils/test'
-import VarCol from '../Col.vue'
-import VarRow from '../Row.vue'
 
 test('row and col use', () => {
-  const app = createApp({}).use(Grid)
+  const app = createApp({}).use(Row).use(Col)
   expect(app.component(Row.name)).toBeTruthy()
   expect(app.component(Col.name)).toBeTruthy()
 })

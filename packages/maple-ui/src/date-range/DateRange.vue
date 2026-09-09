@@ -167,7 +167,10 @@ export default defineComponent({
     const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
     const timePickerBindingProps = computed(() => ({ ...props.timePickerProps }))
     const dateRangePickerBindingProps = computed(() => ({ ...props.dateRangePickerProps }))
-    const popupBindingProps = computed(() => ({ ...props.popupProps }))
+    const popupBindingProps = computed(() => ({
+      ...props.popupProps,
+      popupContainer: props.popupContainer !== undefined ? props.popupContainer : props.popupProps?.popupContainer,
+    }))
     const titleText = computed(
       () => props.datePickerProps?.hint ?? props.pickerProps?.title ?? (pt ? pt : t)('pickerTitle'),
     )

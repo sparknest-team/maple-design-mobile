@@ -109,7 +109,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location of the action sheet to mount",
               "default": "body",
               "value": {
@@ -160,10 +160,90 @@
           ]
         },
         {
+          "name": "mp-affix",
+          "attributes": [
+            {
+              "name": "offset-top",
+              "description": "Distance from the scroll container top; accepts CSS lengths",
+              "default": "0",
+              "value": {
+                "type": "`number / string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-bottom",
+              "description": "Distance from the bottom; takes precedence over offset-top, including 0",
+              "default": "undefined",
+              "value": {
+                "type": "`number / string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "target",
+              "description": "Scroller or selector; finds nearest scrolling ancestor when omitted, falling back to window",
+              "default": "undefined",
+              "value": {
+                "type": "`string / HTMLElement / Window`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "target-container",
+              "description": "Extra outer scroller to listen to; omitted means no extra listener, and it is not a clipping boundary",
+              "default": "undefined",
+              "value": {
+                "type": "`string / HTMLElement / Window`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "z-index",
+              "description": "Stacking level",
+              "default": "10",
+              "value": {
+                "type": "`number / string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disable affixing",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "css-mode",
+              "description": "Use native position: sticky, subject to ancestor overflow and container boundaries",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "description": "`(fixed: boolean, offset: number)`, when fixed state changes; offset is the threshold while fixed, otherwise distance to the corresponding container edge; disabling reports 0"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Content to affix"
+            }
+          ]
+        },
+        {
           "name": "mp-alert",
           "attributes": [
             {
-              "name": "type",
+              "name": "status",
               "description": "Type, optional values are `info`, `success`, `warning`, `danger`, `default`",
               "default": "info",
               "value": {
@@ -173,7 +253,7 @@
             },
             {
               "name": "variant",
-              "description": "Variant, optional values are `standard` `outlined` `tonal`",
+              "description": "Variant, optional values are `standard` `outline` `tonal`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -212,7 +292,7 @@
               "description": "Elevation, optional values are true, false, and levels from 0-24",
               "default": "false",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -281,7 +361,7 @@
             },
             {
               "name": "variant",
-              "description": "Input variants, The optional value is `filled` `standard` `outlined`",
+              "description": "Input variants, The optional value is `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -325,7 +405,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "Maxlength",
               "default": "-",
               "value": {
@@ -415,9 +495,9 @@
               }
             },
             {
-              "name": "get-show",
+              "name": "should-open",
               "description": "Determine whether the menu is displayed according to the input value",
-              "default": "-",
+              "default": "Non-empty input",
               "value": {
                 "type": "(v: string) => boolean",
                 "kind": "expression"
@@ -646,11 +726,11 @@
               }
             },
             {
-              "name": "popupContainer",
-              "description": "Whether to mount to body. When `false`, the button is positioned relative to its parent, which should have `position: relative`.",
-              "default": "true",
+              "name": "popup-container",
+              "description": "Mount target; omitted values use body. When `false`, the button is positioned relative to its parent, which should have `position: relative`.",
+              "default": "body",
               "value": {
-                "type": "boolean",
+                "type": "string | HTMLElement | false",
                 "kind": "expression"
               }
             },
@@ -686,7 +766,7 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -718,79 +798,7 @@
           "attributes": [
             {
               "name": "description",
-              "description": "Description text (shown beside content when `mode=inline`; floating uses default slot)",
-              "default": "-",
-              "value": {
-                "type": "`string`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "dot",
-              "description": "Show as a red dot",
-              "default": "false",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "Max numeric value; overflow shows `${max}+`",
-              "default": "99",
-              "value": {
-                "type": "`number`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show",
-              "description": "Whether to show the badge",
-              "default": "true",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-zero",
-              "description": "Show when `content` is `0`",
-              "default": "false",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "Horizontal offset (px)",
-              "default": "0",
-              "value": {
-                "type": "`number`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "Vertical offset (px)",
-              "default": "0",
-              "value": {
-                "type": "`number`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Custom background color",
-              "default": "-",
-              "value": {
-                "type": "`string`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Custom text color",
+              "description": "Fallback description text",
               "default": "-",
               "value": {
                 "type": "`string`",
@@ -802,193 +810,155 @@
               "description": "Badge content",
               "default": "-",
               "value": {
-                "type": "`string | number`",
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Numeric overflow shows max+; strings are not capped",
+              "default": "99",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "dot",
+              "description": "Display a dot",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "Horizontal offset; ignored in inline mode",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "Vertical offset",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Custom color; outline uses it for border and text",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "Content text color",
+              "default": "-",
+              "value": {
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "mode",
-              "description": "Layout mode: `floating` / `inline`",
-              "default": "'floating'",
+              "description": "Layout mode",
+              "default": "floating",
               "value": {
-                "type": "`BadgeMode`",
+                "type": "`'floating' | 'inline'`",
                 "kind": "expression"
               }
             },
             {
               "name": "position",
-              "description": "Position when floating",
-              "default": "'top-right'",
+              "description": "Physical floating position, unchanged in RTL",
+              "default": "top-right",
               "value": {
-                "type": "`BadgePosition`",
+                "type": "`'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right'`",
                 "kind": "expression"
               }
             },
             {
               "name": "inline-position",
-              "description": "Position when inline",
-              "default": "'end'",
+              "description": "Logical inline position",
+              "default": "end",
               "value": {
-                "type": "`BadgeInlinePosition`",
+                "type": "`'start' | 'end'`",
                 "kind": "expression"
               }
             },
             {
               "name": "size",
               "description": "Size",
-              "default": "'md'",
+              "default": "md",
               "value": {
-                "type": "`BadgeSize`",
+                "type": "`'xs' | 'sm' | 'md' | 'lg' | 'xl'`",
                 "kind": "expression"
               }
             },
             {
               "name": "status",
-              "description": "Semantic color",
-              "default": "'default'",
+              "description": "Semantic status",
+              "default": "danger",
               "value": {
-                "type": "`BadgeStatus`",
+                "type": "`SemanticStatus`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show",
+              "description": "Show the badge",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-zero",
+              "description": "Show numeric zero",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "variant",
-              "description": "Variant",
-              "default": "'default'",
+              "description": "Appearance",
+              "default": "default",
               "value": {
-                "type": "`BadgeVariant`",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Wrapped content (`mode=floating`)"
-            },
-            {
-              "name": "content",
-              "description": "Custom badge content (overrides `content` prop)"
-            }
-          ]
-        },
-        {
-          "name": "mp-bottom-navigation",
-          "attributes": [
-            {
-              "name": "v-model:active",
-              "description": "Identifier of current tab",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fixed",
-              "description": "Whether to fixed bottom",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "border",
-              "description": "Whether to show border",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area",
-              "description": "Whether to enable bottom safe area adaptation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index",
-              "description": "Z-index",
-              "default": "1",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-color",
-              "description": "Color of active tab item",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inactive-color",
-              "description": "Color of inactive tab item",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "Whether to generate placeholder elements of the same height at the bottom (`fixed` required)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fab-props",
-              "description": "Fab button props",
-              "default": "{ type: 'primary' }",
-              "value": {
-                "type": "ButtonProps",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "Variant mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`'outline' | 'default'`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
-              "name": "before-change",
-              "description": "The callback function before switching labels, which returns falsy value to prevent switching, supports the return of promise"
+              "name": "default",
+              "description": "Wrapped content; overrides description"
             },
             {
-              "name": "change",
-              "description": "Triggered when switching labels"
-            },
-            {
-              "name": "fab-click",
-              "description": "Triggered when clicking fab button"
+              "name": "content",
+              "description": "Custom badge content"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Content of bottom navigation"
+              "description": "Wrapped content; overrides description"
             },
             {
-              "name": "fab",
-              "description": "Support for inserting a custom Fab button into a component"
+              "name": "content",
+              "description": "Custom badge content"
             }
           ]
         },
@@ -1056,182 +1026,209 @@
           "name": "mp-button",
           "attributes": [
             {
-              "name": "type",
-              "description": "Button type, Can be set to `default` `primary` `info` `success` `warning` `danger`",
-              "default": "default",
+              "name": "status",
+              "description": "Semantic color; inherits group, otherwise default",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`SemanticStatus`",
                 "kind": "expression"
               }
             },
             {
-              "name": "native-type",
-              "description": "Native button type, Can be set to `button` `submit` `reset`",
-              "default": "button",
+              "name": "variant",
+              "description": "Appearance; inherits group, otherwise default",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`default / text / outline / tonal`",
                 "kind": "expression"
               }
             },
             {
               "name": "size",
-              "description": "Button size, Can be set to `normal` `mini` `small` `large`",
-              "default": "normal",
+              "description": "Size; inherits group, otherwise md",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`xs / sm / md / lg / xl`",
                 "kind": "expression"
               }
             },
             {
-              "name": "loading",
-              "description": "Loading status",
-              "default": "false",
+              "name": "html-type",
+              "description": "Native button type",
+              "default": "button",
               "value": {
-                "type": "boolean",
+                "type": "`button / submit / reset`",
                 "kind": "expression"
               }
             },
             {
-              "name": "loading-radius",
-              "description": "Loading radius, Can only be used when `loading-type=\"circle\"`",
-              "default": "-",
+              "name": "component",
+              "description": "Root tag; link attributes fall through",
+              "default": "button",
               "value": {
-                "type": "string  | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-type",
-              "description": "Loading type, Can be set to `circle` `wave` `cube` `rect` `disappear`",
-              "default": "circle",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-size",
-              "description": "Loading size, Can be set to `large` `normal` `small` `mini`",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-color",
-              "description": "Loading color",
-              "default": "currentColor",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-loading",
-              "description": "Autoload mode for easy handling of asynchronous tasks",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`button / a`",
                 "kind": "expression"
               }
             },
             {
               "name": "round",
-              "description": "Whether to be round button",
+              "description": "Round button",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "block",
-              "description": "Whether to be block button",
+              "description": "Full available width",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "text",
-              "description": "Whether to be text button",
+              "name": "loading",
+              "description": "Loading; blocks activation and navigation",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-type",
+              "description": "Spinner animation; same as Loading.type",
+              "default": "circle",
+              "value": {
+                "type": "`circle / wave / cube / rect / disappear`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-mode",
+              "description": "Inline, covering, or bottom progress line",
+              "default": "default",
+              "value": {
+                "type": "`default / fill / line`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-size",
+              "description": "Spinner size; inherits button size, or xs when replacing an inline icon",
+              "default": "undefined",
+              "value": {
+                "type": "`ComponentSize / number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-color",
+              "description": "Loading indicator color",
+              "default": "currentColor",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-radius",
+              "description": "Circle spinner radius",
+              "default": "undefined",
+              "value": {
+                "type": "`string / number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-loading",
+              "description": "Wait for click/touchstart Promise results; sync callbacks do not flash loading",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "icon-container",
-              "description": "Whether to serve as an icon container",
+              "description": "Icon container appearance",
               "default": "false",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "outline",
-              "description": "Whether to be outline button",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled",
-              "description": "Whether to disable button",
-              "default": "false",
+              "description": "Disabled; inherits group, explicit false overrides",
+              "default": "undefined",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "ripple",
-              "description": "Whether to be ripple button",
+              "description": "Click ripple",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "focusable",
-              "description": "Whether to be focus button",
+              "description": "Allow sequential Tab focus; does not prevent programmatic focus",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autofocus",
+              "description": "Native autofocus",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "text-color",
-              "description": "Button Text color",
-              "default": "-",
+              "description": "Custom text color",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "color",
-              "description": "Button background color",
-              "default": "-",
+              "description": "Custom background or variant base color",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
+              "description": "Default variant shadow; true=2, false=off, rounded/clamped 0–24; group owns grouped elevation",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "`boolean / number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "stacked",
+              "description": "Stack icon and text; inherits group when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
@@ -1239,17 +1236,21 @@
           "events": [
             {
               "name": "click",
-              "description": "Triggered when the button is clicked. Not triggered when `loading` or `disabled` status is `true`"
+              "description": "`(event: Event) => void / Promise<unknown>`"
             },
             {
               "name": "touchstart",
-              "description": "Triggered when the button is touchstart, Not triggered when `loading` or `disabled` status is `true`"
+              "description": "`(event: Event) => void / Promise<unknown>`"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Button content"
+              "description": "Button label; retained while loading"
+            },
+            {
+              "name": "icon",
+              "description": "Leading icon; above label when stacked"
             }
           ]
         },
@@ -1258,136 +1259,172 @@
           "attributes": [
             {
               "name": "variant",
-              "description": "The variant of Card, optional value is `standard` `outlined` `filled`",
-              "default": "standard",
+              "description": "Appearance",
+              "default": "default",
               "value": {
-                "type": "string",
+                "type": "`default / outline / tonal`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Density; omitted value follows platform rules below",
+              "default": "undefined",
+              "value": {
+                "type": "`sm / md`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "direction",
+              "description": "Cover and body layout",
+              "default": "column",
+              "value": {
+                "type": "`row / column / row-reverse`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hoverable",
+              "description": "Hover styling",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "title-style",
+              "description": "Title row styles",
+              "default": "undefined",
+              "value": {
+                "type": "`CSSProperties`",
                 "kind": "expression"
               }
             },
             {
               "name": "title",
-              "description": "The title of Card",
-              "default": "-",
+              "description": "Title",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "subtitle",
-              "description": "The subtitle of Card",
-              "default": "-",
+              "description": "Subtitle",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "description",
-              "description": "The description of Card",
-              "default": "-",
+              "description": "Description",
+              "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
+              "name": "top-divider",
+              "description": "Top divider",
+              "default": "false",
               "value": {
-                "type": "string | number | boolean",
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "bottom-divider",
+              "description": "Bottom divider",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "src",
-              "description": "The src of Image",
-              "default": "-",
+              "description": "Cover image URL; cover slot takes precedence",
+              "default": "undefined",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "layout",
-              "description": "Arrangement mode, options `row` `column`",
-              "default": "column",
-              "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "fit",
-              "description": "Fill mode, options `fill` `contain` `cover` `none` `scale-down`",
+              "description": "Cover image fit",
               "default": "cover",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "outline",
-              "description": "Whether to be outline card",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "alt",
-              "description": "Image alt text, the same as the native attribute of the `img` tag",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`fill / contain / cover / none / scale-down`",
                 "kind": "expression"
               }
             },
             {
               "name": "image-height",
-              "description": "Height of Image",
-              "default": "-",
+              "description": "Image height; numbers use px",
+              "default": "undefined",
               "value": {
-                "type": "string | number",
+                "type": "`string / number`",
                 "kind": "expression"
               }
             },
             {
               "name": "image-width",
-              "description": "Width of Image",
-              "default": "-",
+              "description": "Image width; numbers use px",
+              "default": "undefined",
               "value": {
-                "type": "string | number",
+                "type": "`string / number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "alt",
+              "description": "Image alternative text",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Shadow for default variant; true means level 1, false disables it, numeric levels 0–24",
+              "default": "true",
+              "value": {
+                "type": "`boolean / number`",
                 "kind": "expression"
               }
             },
             {
               "name": "ripple",
-              "description": "Whether to enable ripple",
+              "description": "Click ripple",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "v-model:floating",
-              "description": "Whether to full screen",
+              "name": "floating",
+              "description": "Fullscreen state; supports v-model:floating",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "floating-duration",
-              "description": "Time to full screen(ms)",
+              "description": "Fullscreen transition duration in ms",
               "default": "250",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             }
@@ -1395,41 +1432,53 @@
           "events": [
             {
               "name": "click",
-              "description": "Triggered when the card is click"
+              "description": "`(event: Event)`, when the card is clicked"
+            },
+            {
+              "name": "update:floating",
+              "description": "`(value: boolean)`, built-in close requests false; the parent controls opening"
             }
           ],
           "slots": [
             {
-              "name": "image",
-              "description": "Custom image"
+              "name": "default",
+              "description": "Body"
             },
             {
-              "name": "default",
-              "description": "Custom content"
+              "name": "cover",
+              "description": "Cover; overrides src"
+            },
+            {
+              "name": "header",
+              "description": "Entire header; overrides title, title-action and subtitle"
             },
             {
               "name": "title",
-              "description": "Custom title"
+              "description": "Title"
+            },
+            {
+              "name": "title-action",
+              "description": "Title action"
             },
             {
               "name": "subtitle",
-              "description": "Custom subtitle"
+              "description": "Subtitle"
             },
             {
               "name": "description",
-              "description": "Custom description"
+              "description": "Description"
+            },
+            {
+              "name": "footer",
+              "description": "Footer actions"
             },
             {
               "name": "floating-content",
-              "description": "Content displayed when floating"
-            },
-            {
-              "name": "extra",
-              "description": "Custom bottom content"
+              "description": "Expanded content; column layout only"
             },
             {
               "name": "close-button",
-              "description": "Custom close button"
+              "description": "Custom close button; update floating yourself"
             }
           ]
         },
@@ -1822,7 +1871,7 @@
             },
             {
               "name": "variant",
-              "description": "Variant, optional `filled` `standard` `outlined`",
+              "description": "Variant, optional `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -2162,6 +2211,12 @@
           "slots": []
         },
         {
+          "name": "mp-col",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-collapse",
           "attributes": [
             {
@@ -2250,7 +2305,7 @@
               "description": "Elevation; `true` `false` or a level from `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             }
@@ -2486,7 +2541,7 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`, not in simple mode",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -2777,7 +2832,7 @@
             },
             {
               "name": "variant",
-              "description": "Variant: `filled` `standard` `outlined`",
+              "description": "Variant: `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -3019,7 +3074,7 @@
             },
             {
               "name": "variant",
-              "description": "Variant: `filled` `standard` `outlined`",
+              "description": "Variant: `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -3470,7 +3525,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location where the dragged element is mounted",
               "default": "body",
               "value": {
@@ -3524,7 +3579,7 @@
             },
             {
               "name": "tooltip",
-              "description": "Tooltip component props, for deep customization. For more convenience, `sameWidth` defaults to `true` here",
+              "description": "Tooltip component props, for deep customization. For more convenience, `autoFitPopupWidth` defaults to `true` here",
               "default": "true",
               "value": {
                 "type": "boolean | TooltipProps",
@@ -3719,7 +3774,7 @@
             {
               "name": "active-icon",
               "description": "trigger icon when active",
-              "default": "close",
+              "default": "window-close",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -3825,7 +3880,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "element to which the component mounts",
               "default": "body",
               "value": {
@@ -3838,7 +3893,7 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             }
@@ -3920,12 +3975,12 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location of the ejector layer mount",
               "default": "body",
               "value": {
@@ -4143,6 +4198,24 @@
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rotate",
+              "description": "Rotation angle",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "spin",
+              "description": "Whether to spin continuously",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -4654,7 +4727,7 @@
             },
             {
               "name": "variant",
-              "description": "`filled` `outlined` or `standard`",
+              "description": "`filled` `outline` or `standard`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -5050,6 +5123,15 @@
               }
             },
             {
+              "name": "hoverable",
+              "description": "Enable padded hover/active backgrounds",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "disabled",
               "description": "Whether to disable link",
               "default": "false",
@@ -5078,7 +5160,7 @@
             },
             {
               "name": "href",
-              "description": "Same as native hyperlink's `href`, Have higher priority than `to`",
+              "description": "Same as the native `href` attribute",
               "default": "-",
               "value": {
                 "type": "string",
@@ -5217,10 +5299,10 @@
             },
             {
               "name": "size",
-              "description": "Can be set to `large` `normal` `small` `mini`",
-              "default": "normal",
+              "description": "Can be set to `xs` `sm` `md` `lg` `xl`, or a number",
+              "default": "md",
               "value": {
-                "type": "string",
+                "type": "string | number",
                 "kind": "expression"
               }
             },
@@ -5380,8 +5462,8 @@
             },
             {
               "name": "size",
-              "description": "Menu size, optional values `normal` `mini` `small` `large`",
-              "default": "normal",
+              "description": "Menu size, optional values `xs` `sm` `md` `lg` `xl`",
+              "default": "md",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -5509,7 +5591,7 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -5612,11 +5694,11 @@
               }
             },
             {
-              "name": "type",
-              "description": "`success` `warning` `info` `error` `loading` `normal`",
-              "default": "-",
+              "name": "status",
+              "description": "info / success / warning / danger / loading / default",
+              "default": "info",
               "value": {
-                "type": "string",
+                "type": "MessageStatus",
                 "kind": "expression"
               }
             },
@@ -5697,12 +5779,12 @@
               "description": "Elevation",
               "default": "true",
               "value": {
-                "type": "boolean | string | number",
+                "type": "boolean | number",
                 "kind": "expression"
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "Teleport target",
               "default": "body",
               "value": {
@@ -5864,7 +5946,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "Max input length",
               "default": "Infinity",
               "value": {
@@ -5972,11 +6054,11 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "Teleport target",
               "default": "body",
               "value": {
-                "type": "`string | object | false`",
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
@@ -6066,6 +6148,15 @@
               }
             },
             {
+              "name": "unmount-on-close",
+              "description": "Whether to unmount slot content after closing",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "popup-container",
               "description": "The location of the Overlay to mount",
               "default": "'body'",
@@ -6101,6 +6192,22 @@
             {
               "name": "key-escape",
               "description": "Triggered when pressing keyboard ESC"
+            },
+            {
+              "name": "open",
+              "description": "Triggered when opening starts"
+            },
+            {
+              "name": "opened",
+              "description": "Triggered after opening transition"
+            },
+            {
+              "name": "close",
+              "description": "Triggered when closing starts"
+            },
+            {
+              "name": "closed",
+              "description": "Triggered after closing transition"
             }
           ],
           "slots": [
@@ -6114,7 +6221,7 @@
           "name": "mp-page-header",
           "attributes": [
             {
-              "name": "showBack",
+              "name": "show-back",
               "description": "Whether to show back",
               "default": "false",
               "value": {
@@ -6196,228 +6303,254 @@
           "attributes": [
             {
               "name": "total",
-              "description": "Total number of data items (required)",
-              "default": "-",
+              "description": "Total records (required)",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
-              "name": "v-model:current",
-              "description": "Current page",
-              "default": "-",
+              "name": "current",
+              "description": "Current page; v-model:current",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-current",
-              "description": "Default current page",
+              "description": "Initial uncontrolled page",
               "default": "1",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
-              "name": "v-model:page-size",
-              "description": "Number of items per page",
-              "default": "-",
+              "name": "page-size",
+              "description": "Page size; v-model:page-size",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-page-size",
-              "description": "Default page size (uncontrolled)",
+              "description": "Initial uncontrolled page size",
               "default": "10",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled",
-              "description": "Whether to disable pagination",
+              "description": "Disable all interactions",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "hide-on-single-page",
-              "description": "Whether to hide pagination when there is only one page",
+              "description": "Hide with at most one page",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "simple",
-              "description": "Whether to use simple mode",
+              "description": "Explicit simple mode",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-total",
-              "description": "Whether to show total",
+              "description": "Show total",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-more",
-              "description": "Whether to show the more button",
+              "description": "Append forward jump in full mode",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-jumper",
-              "description": "Whether to show the jumper input",
+              "description": "Show separate jumper in full mode; simple mode includes input",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-page-size",
-              "description": "Whether to show the page size selector",
+              "description": "Show page size selector",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "page-size-options",
-              "description": "Options for the page size selector",
+              "description": "Positive integer size options",
               "default": "[10, 20, 30, 40, 50]",
               "value": {
-                "type": "number[]",
+                "type": "`number[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "page-size-props",
-              "description": "Props passed to the page size selector",
-              "default": "-",
+              "description": "Shared selector configuration; cannot override value, options or size",
+              "default": "—",
               "value": {
-                "type": "object",
+                "type": "`PaginationPageSizeProps`",
                 "kind": "expression"
               }
             },
             {
               "name": "size",
-              "description": "Pagination size",
-              "default": "md",
+              "description": "Size of all controls",
+              "default": "'md'",
               "value": {
-                "type": "ComponentSize",
+                "type": "`'xs' / 'sm' / 'md' / 'lg' / 'xl'`",
                 "kind": "expression"
               }
             },
             {
               "name": "page-item-style",
-              "description": "Style of page items",
-              "default": "-",
+              "description": "Base numeric page style",
+              "default": "—",
               "value": {
-                "type": "CSSProperties",
+                "type": "`CSSProperties`",
                 "kind": "expression"
               }
             },
             {
               "name": "active-page-item-style",
-              "description": "Style of the active page item",
-              "default": "-",
+              "description": "Additional active numeric page style",
+              "default": "—",
               "value": {
-                "type": "CSSProperties",
+                "type": "`CSSProperties`",
                 "kind": "expression"
               }
             },
             {
               "name": "base-size",
-              "description": "Base count for ellipsis calculation: `baseSize + 2 * bufferSize`",
+              "description": "Base threshold for ellipsis in full mode",
               "default": "6",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "buffer-size",
-              "description": "Number of pages shown on each side of the current page when ellipsis is shown",
+              "description": "Pages on either side of current page",
               "default": "2",
               "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-adjust",
-              "description": "Whether to auto-adjust the current page when page size changes",
-              "default": "true",
-              "value": {
-                "type": "boolean",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "elevation",
-              "description": "Elevation level: `true`, `false`, or `0-24`",
+              "description": "Page button shadow; true uses level 2",
+              "default": "false",
+              "value": {
+                "type": "`boolean / number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "responsive",
+              "description": "Automatically use simple mode by container width",
               "default": "true",
               "value": {
-                "type": "boolean | string | number",
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "compact-breakpoint",
+              "description": "Maximum container width for compact mode, in px",
+              "default": "480",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-adjust",
+              "description": "Preserve first record on size change; clamp after total shrinks",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
+              "name": "update:current",
+              "description": "Request current page update"
+            },
+            {
               "name": "change",
-              "description": "Emitted when the page changes"
+              "description": "Committed page change; paired with update:current"
+            },
+            {
+              "name": "update:page-size",
+              "description": "Request page size update"
             },
             {
               "name": "page-size-change",
-              "description": "Emitted when the page size changes"
+              "description": "Committed size change; paired with update:page-size"
             }
           ],
           "slots": [
             {
               "name": "total",
-              "description": "Total text"
+              "description": "Total"
             },
             {
               "name": "page-item",
-              "description": "Page item"
+              "description": "Numeric page"
             },
             {
               "name": "page-item-step",
-              "description": "Step item"
+              "description": "Previous / next"
             },
             {
               "name": "page-item-ellipsis",
-              "description": "Ellipsis item"
+              "description": "Ellipsis jump"
             },
             {
               "name": "jumper-prepend",
-              "description": "Jumper prefix"
+              "description": "Separate jumper prefix"
             },
             {
               "name": "jumper-append",
-              "description": "Jumper suffix"
+              "description": "Separate jumper suffix"
             }
           ]
         },
@@ -6431,11 +6564,20 @@
           "name": "mp-paper",
           "attributes": [
             {
+              "name": "bordered",
+              "description": "Show a border independently of elevation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "elevation",
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "false",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -6694,7 +6836,7 @@
             {
               "name": "placement",
               "description": "Popover popup placement",
-              "default": "cover-top-start",
+              "default": "bottom",
               "value": {
                 "type": "Placement",
                 "kind": "expression"
@@ -6728,7 +6870,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location of the popover mount",
               "default": "body",
               "value": {
@@ -6768,12 +6910,12 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "same-width",
+              "name": "auto-fit-popup-width",
               "description": "Whether to same width as trigger element",
               "default": "false",
               "value": {
@@ -6954,7 +7096,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location of the Popup to mount",
               "default": "body",
               "value": {
@@ -7037,8 +7179,8 @@
             },
             {
               "name": "status",
-              "description": "Progress type, Can be set to `default` `primary` `info` `success` `warning` `danger`",
-              "default": "primary",
+              "description": "default / primary / secondary / tertiary / info / success / warning / danger",
+              "default": "default",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -7046,19 +7188,19 @@
             },
             {
               "name": "percent",
-              "description": "Completion value",
+              "description": "Percentage, 0–100; numeric strings accepted; decimal precision retained",
               "default": "0",
               "value": {
-                "type": "string | number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
             {
               "name": "stroke-width",
-              "description": "Width of the progress bar",
-              "default": "4",
+              "description": "显式线宽优先于 size 的预设厚度",
+              "default": "按 size 档位",
               "value": {
-                "type": "string | number",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
@@ -7118,10 +7260,10 @@
             },
             {
               "name": "size",
-              "description": "Size of progress (only supports circle progress)",
-              "default": "40",
+              "description": "circle 外径 / line 轨道厚度；数字按 px，字符串可用 CSS 长度",
+              "default": "md",
               "value": {
-                "type": "string | number",
+                "type": "`ComponentSize | number | string`",
                 "kind": "expression"
               }
             },
@@ -7240,7 +7382,7 @@
               "description": "Fired when refresh starts"
             },
             {
-              "name": "update:modelValue",
+              "name": "update:model-value",
               "description": "Fired when loading status changes"
             }
           ],
@@ -7329,10 +7471,10 @@
           "attributes": [
             {
               "name": "status",
-              "description": "Image type, options `info` `success` `warning` `danger` `question` `empty`",
-              "default": "success",
+              "description": "info / success / warning / danger / question / empty / 403 / 404 / 500",
+              "default": "info",
               "value": {
-                "type": "string",
+                "type": "ResultStatus",
                 "kind": "expression"
               }
             },
@@ -7395,6 +7537,12 @@
         },
         {
           "name": "mp-ripple",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
+          "name": "mp-row",
           "attributes": [],
           "events": [],
           "slots": []
@@ -7494,7 +7642,7 @@
             },
             {
               "name": "history-popup",
-              "description": "Whether history is shown in a full-screen Popup; when `false`, a same-width Menu is used",
+              "description": "Whether history is shown in a full-screen Popup; when `false`, a auto-fit-popup-width Menu is used",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -7576,7 +7724,7 @@
             {
               "name": "search-icon",
               "description": "Search icon name",
-              "default": "search",
+              "default": "magnify",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -7610,7 +7758,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "Max length",
               "default": "-",
               "value": {
@@ -7675,7 +7823,7 @@
             },
             {
               "name": "variant",
-              "description": "Select variant, The optional value is `filled` `outlined` `standard`",
+              "description": "Select variant, The optional value is `filled` `outline` `standard`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -7836,6 +7984,15 @@
               }
             },
             {
+              "name": "auto-fit-popup-width",
+              "description": "Whether the menu matches the trigger width; false fits content (menu presentation).",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "popup-props _**3.18.0**_",
               "description": "Props passed to popup",
               "default": "{}",
@@ -7954,6 +8111,15 @@
               }
             },
             {
+              "name": "animation",
+              "description": "Whether to enable the shimmer animation",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "title",
               "description": "Whether to display the title",
               "default": "false",
@@ -8049,6 +8215,10 @@
             {
               "name": "default",
               "description": "Content not loaded"
+            },
+            {
+              "name": "template",
+              "description": "Custom loading placeholder"
             }
           ]
         },
@@ -8191,7 +8361,7 @@
               }
             },
             {
-              "name": "direction",
+              "name": "orientation",
               "description": "Direction of slider, Can be set to `vertical horizontal`",
               "default": "horizontal",
               "value": {
@@ -8235,7 +8405,7 @@
             },
             {
               "name": "justify",
-              "description": "Main axis arrangement, Can be set to `flex-start` `flex-end` `center` `space-around` `space-between`",
+              "description": "Main axis arrangement, Can be set to `flex-start` `flex-end` `center` `space-around` `space-between` `space-evenly`",
               "default": "flex-start",
               "value": {
                 "type": "string",
@@ -8253,8 +8423,8 @@
             },
             {
               "name": "size",
-              "description": "Spacing, can be set to `mini` `small` `normal` `large` or `[Vertical, Horizontal]`(Support length unit)",
-              "default": "normal",
+              "description": "Spacing, can be set to `xs` `sm` `md` `lg` `xl` or `[Vertical, Horizontal]`(Support length unit)",
+              "default": "md",
               "value": {
                 "type": "string | number | [string | number, string | number]",
                 "kind": "expression"
@@ -8263,16 +8433,16 @@
             {
               "name": "wrap",
               "description": "Whether to exceed the line break",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "inline",
-              "description": "Is it an inline element",
-              "default": "false",
+              "name": "block",
+              "description": "Use flex instead of inline-flex",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -8284,6 +8454,10 @@
             {
               "name": "default",
               "description": "Content of space"
+            },
+            {
+              "name": "split",
+              "description": "Separator between effective children"
             }
           ]
         },
@@ -8439,7 +8613,7 @@
               "description": "Menu popup class",
               "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "string | array | object",
                 "kind": "expression"
               }
             },
@@ -8707,8 +8881,8 @@
               }
             },
             {
-              "name": "direction",
-              "description": "Layout direction",
+              "name": "orientation",
+              "description": "Layout orientation",
               "default": "horizontal",
               "value": {
                 "type": "'horizontal' | 'vertical'",
@@ -8783,68 +8957,6 @@
             {
               "name": "error-icon",
               "description": "Error status icon"
-            }
-          ]
-        },
-        {
-          "name": "mp-sticky",
-          "attributes": [
-            {
-              "name": "offset-top",
-              "description": "Sticky offset top",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index",
-              "description": "Sticky z-index",
-              "default": "10",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "css-mode",
-              "description": "Enable native `css sticky` mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Disable sticky, when set to `true`, the element will return to the document flow",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "target",
-              "description": "Scroll container, defaults to the nearest scrollable parent",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement | Window",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Emitted when the fixed state changes"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Sticky content"
             }
           ]
         },
@@ -8975,35 +9087,62 @@
           "name": "mp-switch",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "Check status of Switch",
+              "name": "model-value",
+              "description": "Controlled value; omit for internal state",
+              "default": "undefined",
+              "value": {
+                "type": "string / number / boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-checked",
+              "description": "Initial uncontrolled checked state; initialization only",
               "default": "false",
               "value": {
-                "type": "any",
+                "type": "boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "checked-value",
-              "description": "The value when the switch is turned on",
+              "description": "Checked value",
               "default": "true",
               "value": {
-                "type": "any",
+                "type": "string / number / boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "unchecked-value",
-              "description": "The value when the switch is turned off",
+              "description": "Unchecked value",
               "default": "false",
               "value": {
-                "type": "any",
+                "type": "string / number / boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Appearance",
+              "default": "circle",
+              "value": {
+                "type": "circle / round / line / md3",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Size; omitted value follows platform rules below",
+              "default": "undefined",
+              "value": {
+                "type": "sm / md / lg",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled",
-              "description": "Whether to disable switch",
+              "description": "Disable interaction, including inherited form disabled state",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9012,7 +9151,7 @@
             },
             {
               "name": "readonly",
-              "description": "Whether to readonly switch",
+              "description": "Read only; focus and click remain available without toggling",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9021,7 +9160,7 @@
             },
             {
               "name": "loading",
-              "description": "Whether to show loading icon",
+              "description": "Loading; blocks clicks and changes",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9029,8 +9168,62 @@
               }
             },
             {
+              "name": "before-change",
+              "description": "Change interceptor, not an event",
+              "default": "—",
+              "value": {
+                "type": "(nextValue: SwitchValue) => boolean / void / Promise<boolean / void>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "checked-text",
+              "description": "Checked label",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unchecked-text",
+              "description": "Unchecked label",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "checked-color",
+              "description": "Checked track color",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unchecked-color",
+              "description": "Unchecked track color",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-color",
+              "description": "Spinner color",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "ripple",
-              "description": "Whether to open ripple",
+              "description": "Click ripple",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -9039,55 +9232,154 @@
             },
             {
               "name": "handle-elevation",
-              "description": "The elevation of handle button",
+              "description": "Thumb shadow; true means level 2; numbers are truncated and clamped to 0–24",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "boolean / number",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "`(event: Event)`, before interception"
+            },
+            {
+              "name": "update:model-value",
+              "description": "`(nextValue: SwitchValue)`, before change after an accepted toggle"
+            },
+            {
+              "name": "change",
+              "description": "`(nextValue: SwitchValue, event: Event)`, once per committed toggle"
+            },
+            {
+              "name": "focus",
+              "description": "`(event: FocusEvent)`, when focused"
+            },
+            {
+              "name": "blur",
+              "description": "`(event: FocusEvent)`, when blurred"
+            }
+          ],
+          "slots": [
+            {
+              "name": "checked",
+              "description": "Checked label; overrides checked-text; hidden for line/sm"
+            },
+            {
+              "name": "unchecked",
+              "description": "Unchecked label; overrides unchecked-text; hidden for line/sm"
+            },
+            {
+              "name": "checked-icon",
+              "description": "Checked thumb icon; replaced while loading"
+            },
+            {
+              "name": "unchecked-icon",
+              "description": "Unchecked thumb icon; replaced while loading"
+            }
+          ]
+        },
+        {
+          "name": "mp-tab-bar",
+          "attributes": [
+            {
+              "name": "v-model:active",
+              "description": "Selected name or index; controlled when provided",
+              "default": "undefined",
+              "value": {
+                "type": "number | string",
                 "kind": "expression"
               }
             },
             {
-              "name": "checked-color",
-              "description": "Background color when open",
+              "name": "default-active",
+              "description": "Initial uncontrolled selection; read once",
+              "default": "0",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-change",
+              "description": "Guard selection; truthy permits, falsy/throw/rejection cancels. Only the latest request may commit",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "(active: number | string) => boolean | Promise&lt;boolean&gt;",
                 "kind": "expression"
               }
             },
             {
-              "name": "unchecked-color",
-              "description": "Background color when close",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-color",
-              "description": "Color of loading icon",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Size of switch",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lazy-change",
-              "description": "Whether to allow the `before-change` event to be triggered",
+              "name": "fixed",
+              "description": "Whether to fixed bottom",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "border",
+              "description": "Whether to show border",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "safe-area",
+              "description": "Whether to enable bottom safe area adaptation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "z-index",
+              "description": "Z-index",
+              "default": "1",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "active-color",
+              "description": "Color of active tab item",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "inactive-color",
+              "description": "Color of inactive tab item",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Whether to generate placeholder elements of the same height at the bottom (`fixed` required)",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fab-props",
+              "description": "Fab button props",
+              "default": "{ status: 'primary' }",
+              "value": {
+                "type": "ButtonProps",
                 "kind": "expression"
               }
             },
@@ -9103,19 +9395,24 @@
           ],
           "events": [
             {
-              "name": "click",
-              "description": "Emitted when component is clicked"
-            },
-            {
               "name": "change",
-              "description": "Emitted when check status changed"
+              "description": "Triggered when switching labels"
             },
             {
-              "name": "before-change",
-              "description": "Triggered before a change event (`lazy-change` mode only)"
+              "name": "fab-click",
+              "description": "Triggered when clicking fab button"
             }
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "default",
+              "description": "Content of bottom navigation"
+            },
+            {
+              "name": "fab",
+              "description": "Support for inserting a custom Fab button into a component"
+            }
+          ]
         },
         {
           "name": "mp-table",
@@ -9134,7 +9431,7 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -9173,11 +9470,11 @@
               }
             },
             {
-              "name": "vertical",
-              "description": "The layout direction of the tabs, optional value of `horizontal` `vertical`",
+              "name": "orientation",
+              "description": "组件整体朝向",
               "default": "horizontal",
               "value": {
-                "type": "string",
+                "type": "`horizontal | vertical`",
                 "kind": "expression"
               }
             },
@@ -9258,7 +9555,7 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`",
               "default": "false",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -9282,7 +9579,7 @@
             },
             {
               "name": "sticky-z-index",
-              "description": "Sticky layouts z-index",
+              "description": "Affix layouts z-index",
               "default": "10",
               "value": {
                 "type": "number",
@@ -9667,7 +9964,7 @@
             },
             {
               "name": "variant",
-              "description": "Variant: `filled` `standard` `outlined`",
+              "description": "Variant: `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -9900,7 +10197,7 @@
             },
             {
               "name": "variant",
-              "description": "`filled` | `standard` | `outlined`",
+              "description": "`filled` | `standard` | `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -9977,7 +10274,7 @@
               }
             },
             {
-              "name": "type",
+              "name": "status",
               "description": "Tooltip type, can be set to `default` `primary` `info` `success` `warning` `danger`",
               "default": "default",
               "value": {
@@ -10022,7 +10319,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "The location of the tooltip mount",
               "default": "body",
               "value": {
@@ -10031,7 +10328,7 @@
               }
             },
             {
-              "name": "same-width",
+              "name": "auto-fit-popup-width",
               "description": "Whether to same width as trigger element",
               "default": "false",
               "value": {
@@ -10135,14 +10432,14 @@
           "slots": []
         },
         {
-          "name": "mp-uploader",
+          "name": "mp-upload",
           "attributes": [
             {
               "name": "v-model",
               "description": "File list",
               "default": "[]",
               "value": {
-                "type": "MpFile[]",
+                "type": "UploadFileItem[]",
                 "kind": "expression"
               }
             },
@@ -10196,13 +10493,13 @@
               "description": "Elevation level, options `true` `false` and level of `0-24`, not in simple mode",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "removable",
-              "description": "Whether the removable",
+              "name": "show-remove-button",
+              "description": "Whether the showRemoveButton",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -10210,7 +10507,7 @@
               }
             },
             {
-              "name": "maxFiles",
+              "name": "max-files",
               "description": "Maximum number of files",
               "default": "-",
               "value": {
@@ -10228,7 +10525,7 @@
               }
             },
             {
-              "name": "previewed",
+              "name": "preview",
               "description": "Whether to allow preview",
               "default": "true",
               "value": {
@@ -10255,9 +10552,9 @@
               }
             },
             {
-              "name": "hide-list",
-              "description": "Whether to hide the file list",
-              "default": "false",
+              "name": "show-file-list",
+              "description": "Whether to show the file list",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -10265,23 +10562,15 @@
             },
             {
               "name": "resolve-type",
-              "description": "The file preprocessing type, can be set to `default` `file` `data-url` (`default`, the image type contains dataURL and File object, other types contain only File object. `file`, which contains only File object. `data-url`, all file types contain dataURL and File object)",
-              "default": "default",
+              "description": "object-url: Blob URL; file: File only; data-url: Base64 URL",
+              "default": "object-url",
               "value": {
-                "type": "string",
+                "type": "UploadResolveType",
                 "kind": "expression"
               }
             }
           ],
           "events": [
-            {
-              "name": "before-add",
-              "description": "Triggered before the event `before-read` to filter the file list"
-            },
-            {
-              "name": "before-read",
-              "description": "Triggered returns a false value before a file is read to prevent the file from being read(support promise)"
-            },
             {
               "name": "after-read",
               "description": "Triggered after the file is read"
@@ -10291,16 +10580,12 @@
               "description": "Triggered when the file size limit is exceeded"
             },
             {
-              "name": "before-remove",
-              "description": "Triggered before file deletion, return false value to prevent file deletion (support promise)"
-            },
-            {
               "name": "remove",
               "description": "Triggered when deleting a file. There is a true value to prevent deleting a file (support promise)"
             },
             {
               "name": "preview",
-              "description": "Triggered when a file is previewed"
+              "description": "Triggered when a file is preview"
             },
             {
               "name": "click-action",
@@ -10374,8 +10659,8 @@
             },
             {
               "name": "variant",
-              "description": "`standard` `outlined` (Maple)",
-              "default": "outlined",
+              "description": "`standard` `outline` (Maple)",
+              "default": "outline",
               "value": {
                 "type": "string",
                 "kind": "expression"

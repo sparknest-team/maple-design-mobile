@@ -96,7 +96,7 @@ onThemeChange()
         <mp-rate v-model="formData.score" />
       </mp-form-item>
       <mp-form-item field="license" :rules="[(v) => !!v || t('licenseMessage')]">
-        <mp-switch v-model="formData.license" variant />
+        <mp-switch v-model="formData.license" variant="md3" />
       </mp-form-item>
       <mp-form-item field="count" :rules="[(v) => v > 10 || t('countMessage')]">
         <mp-counter v-model="formData.count" />
@@ -105,7 +105,7 @@ onThemeChange()
         <mp-slider v-model="formData.range" />
       </mp-form-item>
       <mp-form-item field="files" :rules="[(v) => v.length >= 1 || t('filesMessage')]">
-        <mp-uploader v-model="formData.files" />
+        <mp-upload v-model="formData.files" />
       </mp-form-item>
     </mp-space>
 

@@ -47,4 +47,4 @@ export const pullRefreshProps = {
   target: [String, Object] as PropType<string | HTMLElement>,
 }
 
-export type PullRefreshProps = ExtractPropTypes<typeof pullRefreshProps>
+export type PullRefreshProps = import('vue').ExtractPublicPropTypes<typeof pullRefreshProps>

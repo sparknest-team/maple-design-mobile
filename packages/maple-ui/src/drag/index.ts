@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Drag, dragProps)
 export { dragProps }
 
 export type DragInstance = InstanceType<typeof Drag>
-export const _DragComponent = Drag
+export const _DragComponent: typeof Drag = Drag
 
 export default Drag
+export type DragProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

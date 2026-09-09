@@ -85,11 +85,11 @@ const lists = [...Array(40).keys()]
 | 参数                  | 说明                                        | 类型   | 默认值          |
 |---------------------|-------------------------------------------|------|--------------|
 | `target-container`            | 触发滚动的对象，未设置时会监听最近的可滚动祖先 | _string \| HTMLElement_ | `-` |
-| `popup-container`          | 是否挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative` | _boolean_ | `true` |
+| `popup-container`          | 挂载目标；省略时挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative` | _string \| HTMLElement \| false_ | `body` |
 | `visible-height` | 滚动高度达到此参数值才出现                             | _string \| number_      | `200` |
 | `bottom`            | 距离视口底部的距离                       | _string \| number_      | `-` |
 | `right`             | 距离视口右侧的距离                       | _string \| number_      | `-` |
-| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _string \| number \| boolean_|   `true`    |
+| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _number \| boolean_|   `true`    |
 | `duration`          | 回到顶部所需时间（ms）                              | _number_ | `300`        |
 
 ### 事件

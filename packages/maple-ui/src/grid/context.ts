@@ -1,18 +1,18 @@
-import type { InjectionKey } from 'vue'
+import type { ComputedRef, InjectionKey, Ref } from 'vue'
 import type { GridItemData } from './types'
 
-export type GridContext = Readonly<{
-  overflow: boolean
-  displayIndexList: number[]
-  cols: number
-  colGap: number
-}>
-
+export interface GridRecord {
+  id: symbol
+  data: ComputedRef<GridItemData>
+  element: Ref<HTMLElement | undefined>
+}
+export interface GridContext {
+  cols: ComputedRef<number>
+  colGap: ComputedRef<number>
+  overflow: ComputedRef<boolean>
+  visible: (id: symbol) => boolean
+  register: (record: GridRecord) => void
+  remove: (id: symbol) => void
+  reorder: () => void
+}
 export const GRID_CONTEXT_KEY: InjectionKey<GridContext> = Symbol('GRID_CONTEXT_KEY')
-
-export type GridDataCollector = Readonly<{
-  collectItemData: (index: number, itemData: GridItemData) => void
-  removeItemData: (index: number) => void
-}>
-
-export const GRID_DATA_COLLECTOR_KEY: InjectionKey<GridDataCollector> = Symbol('GRID_DATA_COLLECTOR_KEY')

@@ -30,38 +30,22 @@
             <mp-icon :size="28" class="palette-fill"><MIconPaletteFill /></mp-icon>
             <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
           </mp-button>
-          <mp-button
-            v-if="languages"
+          <select
+            v-if="Object.keys(nonEmptyLanguages).length > 1"
             class="i18n-button"
-            text
-            color="transparent"
-            text-color="#fff"
-            @click.stop="showMenu = true"
+            :aria-label="language === 'en-US' ? 'Language' : '语言'"
+            :value="language"
+            @change="changeLanguage(($event.target as HTMLSelectElement).value)"
+            style="color: inherit; background: transparent; border: 0; font: inherit; cursor: pointer"
           >
-            <mp-icon class="i18n"><MIconTranslate /></mp-icon>
-            <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
-          </mp-button>
+            <option v-for="(value, key) in nonEmptyLanguages" :key="key" :value="key">{{ value }}</option>
+          </select>
         </template>
       </mp-page-header>
     </header>
     <div class="router-view__block">
       <router-view />
     </div>
-
-    <transition name="site-menu">
-      <div class="settings mp-elevation--3" v-if="showMenu">
-        <mp-cell
-          v-for="(value, key) in nonEmptyLanguages"
-          :key="key"
-          class="mobile-language-cell"
-          :class="[language === key && 'mobile-language-cell--active']"
-          v-ripple
-          @click="changeLanguage(key)"
-        >
-          {{ value }}
-        </mp-cell>
-      </div>
-    </transition>
 
     <transition name="site-menu">
       <div class="theme-settings mp-elevation--3" v-if="showThemeMenu">
@@ -98,7 +82,7 @@ import {
   type Theme,
 } from '@maplejs/maple-cli/client'
 import { pascalCase } from '@maplejs/maple-shared'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
@@ -106,8 +90,8 @@ export default defineComponent({
   setup() {
     const bigCamelizeComponentName: Ref<string> = ref('')
     const route = useRoute()
+    const router = useRouter()
     const showBackIcon: Ref<boolean> = ref(false)
-    const showMenu: Ref<boolean> = ref(false)
     const showThemeMenu: Ref<boolean> = ref(false)
     const language: Ref<string> = ref('')
     const languages: Ref<Record<string, string>> = ref(config?.mobile?.header?.i18n ?? {})
@@ -120,10 +104,7 @@ export default defineComponent({
 
     const changeLanguage = (lang: string) => {
       language.value = lang
-      showMenu.value = false
-      window.location.href = `${getMobileIndex()}#${route.path}?language=${language.value}&replace=${
-        route.query.replace
-      }`
+      router.push({ path: route.path, query: { ...route.query, language: lang }, hash: route.hash })
 
       if (!isPhone() && inIframe()) {
         ;(window.top as any).scrollToMenu(redirect.slice(1))
@@ -175,7 +156,6 @@ export default defineComponent({
     setTheme(currentTheme.value)
 
     document.body.addEventListener('click', () => {
-      showMenu.value = false
       showThemeMenu.value = false
     })
 
@@ -183,7 +163,6 @@ export default defineComponent({
       bigCamelizeComponentName,
       showBackIcon,
       github,
-      showMenu,
       languages,
       themes,
       language,

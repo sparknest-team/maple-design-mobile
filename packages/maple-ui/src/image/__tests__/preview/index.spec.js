@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { expect, test, vi } from 'vitest'
-import { delay, trigger, triggerDrag } from '../../../utils/test'
+import { delay, trigger } from '../../../utils/test'
 import { ImagePreview, imagePreview } from '../../index'
 
 test('image preview plugin', () => {
@@ -25,7 +25,7 @@ test('image preview functional show & close', async () => {
   expect(onOpen).toHaveBeenCalledTimes(1)
   await delay(300)
   expect(onOpened).toHaveBeenCalledTimes(1)
-  expect(document.querySelector('.mp-popup').style.display).toBe('')
+  expect(document.querySelector('.mp-image-preview__popup').style.display).toBe('')
 
   imagePreview.close()
 
@@ -33,7 +33,7 @@ test('image preview functional show & close', async () => {
   expect(onClose).toHaveBeenCalledTimes(1)
   await delay(300)
   expect(onClosed).toHaveBeenCalledTimes(1)
-  expect(document.querySelector('.mp-popup')).toBeFalsy()
+  expect(document.querySelector('.mp-image-preview__popup')).toBeFalsy()
 })
 
 test('image preview onChange callback', async () => {
@@ -45,12 +45,11 @@ test('image preview onChange callback', async () => {
   })
   await delay(200)
 
-  const track = document.querySelector('.mp-carousel__track')
-  await triggerDrag(track, -100, 0)
-  expect(onChange).toHaveBeenLastCalledWith(1)
+  await trigger(document.querySelector('[aria-label="Next image"]'), 'click')
+  expect(onChange).toHaveBeenLastCalledWith(1, 0)
 
-  await triggerDrag(track, 100, 0)
-  expect(onChange).toHaveBeenLastCalledWith(0)
+  await trigger(document.querySelector('[aria-label="Previous image"]'), 'click')
+  expect(onChange).toHaveBeenLastCalledWith(0, 1)
 
   imagePreview.close()
   await delay(16)
@@ -63,7 +62,7 @@ test('image preview closable', async () => {
   await delay(200)
   await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
   await delay(300)
-  expect(document.querySelector('.mp-popup')).toBeFalsy()
+  expect(document.querySelector('.mp-image-preview__popup')).toBeFalsy()
 })
 
 test('image preview setDefaultOptions and resetDefaultOptions', async () => {
@@ -73,7 +72,7 @@ test('image preview setDefaultOptions and resetDefaultOptions', async () => {
   await delay(200)
   await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
   await delay(300)
-  expect(document.querySelector('.mp-popup')).toBeFalsy()
+  expect(document.querySelector('.mp-image-preview__popup')).toBeFalsy()
 
   imagePreview.resetDefaultOptions()
   await delay(16)
@@ -104,11 +103,17 @@ test('image preview onLongPress callback', async () => {
   })
 
   await delay(200)
-  await trigger(document.querySelector('.mp-image-preview__zoom-container'), 'touchstart')
+  const image = document.querySelector('[data-image-preview-image]')
+  const pointer = (type) =>
+    Object.assign(new MouseEvent(type, { bubbles: true, button: 0, clientX: 20, clientY: 20 }), {
+      pointerId: 1,
+      pointerType: 'touch',
+    })
+  image.dispatchEvent(pointer('pointerdown'))
   await delay(550)
-  await trigger(document.querySelector('.mp-image-preview__zoom-container'), 'touchend')
+  image.dispatchEvent(pointer('pointerup'))
   expect(onLongPress).toBeCalledTimes(1)
-  expect(onLongPress).toHaveBeenCalledWith(0)
+  expect(onLongPress).toHaveBeenCalledWith()
 
   imagePreview.close()
 })

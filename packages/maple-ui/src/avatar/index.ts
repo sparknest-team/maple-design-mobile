@@ -21,7 +21,7 @@ export type { AvatarGroupProps } from './group-props'
 
 export type AvatarInstance = InstanceType<typeof _Avatar>
 export type AvatarGroupInstance = InstanceType<typeof AvatarGroup>
-export const _AvatarComponent = Avatar
-export const _AvatarGroupComponent = AvatarGroup
+export const _AvatarComponent: typeof Avatar = Avatar
+export const _AvatarGroupComponent: typeof AvatarGroup = AvatarGroup
 
 export default Avatar

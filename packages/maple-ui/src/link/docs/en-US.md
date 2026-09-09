@@ -66,10 +66,20 @@ Link component for hyperlink to web pages.
     target="_blank" 
     underline="none"
   >
-    <mp-button status="primary">To Home</mp-button>
+    To Home
   </mp-link>
 </template>
 ```
+
+### Hover background
+
+Both platforms support hoverable (false by default). It adds padding and hover/active backgrounds without changing underline. Keyboard focus uses :focus-visible independently of hoverable.
+
+```html
+<mp-link hoverable href="#link">Hover / keyboard focus</mp-link>
+```
+
+The implementation, Props, styles and tests are independently maintained copies. Only prefixes, local icons and theme tokens differ; no runtime core or instances are shared. Disabled/loading links remove href/target/rel, suppress click and leave the Tab order even with an explicit tabindex. Loading takes precedence over dynamic icon slots.
 
 ## API
 
@@ -79,10 +89,11 @@ Link component for hyperlink to web pages.
 |--------------|-----------------------------------------------------------------------------------|----------|----------|
 | `status`       | Semantic status: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
 | `underline`  | Underline, Can be set to `always` `hover` `none`                                  | _string_ | `none` |
+| `hoverable` | Enable padded hover/active backgrounds | _boolean_ | `false` |
 | `disabled`   | Whether to disable link                                                           | _boolean_ | `false`  |
 | `loading`    | Loading state; navigation and click are disabled                                  | _boolean_ | `false`  |
 | `icon`       | Whether to show the default link icon                                              | _boolean_ | `false`  |
-| `href`       | Same as native hyperlink's `href`, Have higher priority than `to`                 | _string_ | `-`      |
+| `href`       | Same as the native `href` attribute                 | _string_ | `-`      |
 | `rel`        | Same as the native `rel` attribute                                            | _string_ | `-`      |
 | `target`     | Same as the native `target` attribute                                             | _string_ | `-`      |
 
@@ -90,7 +101,7 @@ Link component for hyperlink to web pages.
 
 | Event        | Description                                                                                   | Arguments      |
 | ------------ |-----------------------------------------------------------------------------------------------| -------------- |
-| `click`      | Triggered when the link is clicked | `event: Event` |
+| `click`      | Triggered when the link is clicked | `event: MouseEvent` |
 
 ### Slots
 
@@ -114,3 +125,22 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--link-disabled-color` | `var(--color-text-disabled)` |
 | `--link-font-size` | `var(--font-size-md)` |
 | `--link-focus-opacity` | `0.8` |
+
+### Copied style contract
+
+Internal classes use `mp-link--status-*`, `mp-link--underline-*` and `mp-link__icon`. Migrate old selectors such as `mp-link--primary`; prefer CSS variables. Existing color/icon/focus variables are retained as aliases for the copied styles.
+
+| Variable | Default |
+| --- | --- |
+| `--link-bg-hover` | `var(--color-fill-2)` |
+| `--link-bg-active` | `var(--color-fill-3)` |
+| `--link-padding-horizontal` | `0.25em` |
+| `--link-padding-vertical` | `1px` |
+| `--link-focus-width` | `2px` |
+| `--link-focus-offset` | `2px` |
+| `--link-focus-color` | `currentColor` |
+| `--link-spin-duration` | `1s` |
+
+```ts
+import type { LinkProps, LinkUnderline, LinkInstance } from '@maplejs/maple-ui'
+```

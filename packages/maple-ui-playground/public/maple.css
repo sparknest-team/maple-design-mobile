@@ -2234,7 +2234,7 @@
 .mp-loading__content--active {
   opacity: var(--mp-loading-opacity);
 }
-.mp-loading__content-mask {
+.mp-loading__content-overlay {
   position: absolute;
   left: 0;
   right: 0;

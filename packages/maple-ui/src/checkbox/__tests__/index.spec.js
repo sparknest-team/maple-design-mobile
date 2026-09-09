@@ -243,7 +243,7 @@ test('checkbox group checkAll & inverseAll methods', async () => {
   })
 
   await delay(16)
-  const { checkboxGroup } = wrapper.vm.$refs
+  const checkboxGroup = wrapper.vm.$refs['checkbox-group']
 
   checkboxGroup.inverseAll()
   await delay(16)

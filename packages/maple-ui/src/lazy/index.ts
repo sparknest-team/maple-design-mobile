@@ -223,7 +223,7 @@ const Lazy: Directive & Plugin = {
   },
 }
 
-export type LazyInstance = InstanceType<typeof Lazy>
-export const _LazyComponent = Lazy
+export type LazyInstance = typeof Lazy
+export const _LazyComponent: typeof Lazy = Lazy
 
 export default Lazy

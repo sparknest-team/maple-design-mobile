@@ -8,6 +8,8 @@ withPropsDefaultsSetter(Progress, progressProps)
 export { progressProps }
 
 export type ProgressInstance = InstanceType<typeof Progress>
-export const _ProgressComponent = Progress
+export const _ProgressComponent: typeof Progress = Progress
 
 export default Progress
+export type ProgressProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type { ProgressSize, ProgressStatus, ProgressMode } from './props'

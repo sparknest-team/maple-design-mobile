@@ -1,6 +1,6 @@
 export default {
   '--mp-card-border-radius': '12px',
-  '--mp-card-background': 'var(--mp-color-bg-1)',
+  '--mp-card-background': 'var(--mp-color-bg-2)',
   '--mp-card-filled-background': 'var(--mp-color-fill-3)',
   '--mp-card-image-height': '188px',
   '--mp-card-title-color': '#1D1B20',

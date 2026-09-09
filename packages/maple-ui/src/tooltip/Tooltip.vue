@@ -1,21 +1,11 @@
 <template>
-  <mp-trigger
+  <Trigger
     ref="triggerRef"
-    :open="$props.open"
-    :disabled="disabled"
+    v-bind="triggerBindings"
     :trigger="trigger"
-    :reference="reference"
-    :placement="placement"
-    :strategy="strategy"
-    :offset-x="offsetX"
-    :offset-y="offsetY"
-    :popup-container="popupContainer"
-    :same-width="sameWidth"
-    :close-on-click-reference="closeOnClickReference"
-    :esc-to-close="escToClose"
-    :popup-class="classes(n('tooltip'), n('$--box'))"
-    :animation-name="n()"
+    :unmount-on-close="unmountOnClose"
     @update:open="$emit('update:open', $event)"
+    @open-change="$emit('open-change', $event)"
     @open="$emit('open')"
     @opened="$emit('opened')"
     @close="$emit('close')"
@@ -24,46 +14,32 @@
   >
     <slot />
     <template #content>
-      <div
-        :style="{ background: color, color: textColor }"
-        :class="classes(n('content-container'), n(`--${type}`))"
-        role="tooltip"
-      >
+      <div v-bind="contentBindings" role="tooltip">
         <slot name="content">{{ content }}</slot>
       </div>
     </template>
-  </mp-trigger>
+  </Trigger>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import MpTrigger, { type TriggerInstance } from '../trigger'
+import { defineComponent } from 'vue'
+import Trigger from '../trigger'
+import { useTriggerWrapper } from '../trigger/wrapper'
 import { createNamespace } from '../utils/components'
-import { props } from './props'
-
-const { name, n, classes } = createNamespace('tooltip')
+import { useAppearance } from './platform'
+import { tooltipProps } from './props'
 
 export default defineComponent({
-  name,
-  props,
-  emits: ['update:open', 'open', 'opened', 'close', 'closed', 'click-outside'],
-  components: { MpTrigger },
-  setup() {
-    const triggerRef = ref<TriggerInstance>()
-    const open = () => triggerRef.value?.open()
-    const close = () => triggerRef.value?.close()
-    const resize = () => triggerRef.value?.resize()
-    const setReference = (...args: Parameters<TriggerInstance['setReference']>) =>
-      triggerRef.value?.setReference(...args)
-
+  name: createNamespace('tooltip').name,
+  inheritAttrs: false,
+  components: { Trigger },
+  props: tooltipProps,
+  emits: ['update:open', 'open-change', 'open', 'opened', 'close', 'closed', 'click-outside'],
+  setup(props, { attrs }) {
+    const appearance = useAppearance(props)
     return {
-      triggerRef,
-      n,
-      classes,
-      resize,
-      open,
-      close,
-      setReference,
+      ...appearance,
+      ...useTriggerWrapper(props, attrs, () => appearance.triggerBindings.value),
     }
   },
 })

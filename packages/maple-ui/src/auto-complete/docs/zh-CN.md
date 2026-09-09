@@ -70,7 +70,7 @@
     <mp-auto-complete placeholder="最大长度" :max-length="10" :options="options9" v-model="value9" />
     <mp-auto-complete
       placeholder="自定义菜单显示时机"
-      :get-show="(value) => value.length > 3"
+      :should-open="(value) => value.length > 3"
       :options="options10"
       v-model="value10"
     />
@@ -127,12 +127,12 @@
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-auto-complete variant="outlined" placeholder="请输入文本" :options="options" v-model="value" />
-    <mp-auto-complete variant="outlined" readonly placeholder="只读" :options="options2" v-model="value2" />
-    <mp-auto-complete variant="outlined" disabled placeholder="禁用" :options="options3" v-model="value3" />
-    <mp-auto-complete variant="outlined" clearable placeholder="可清除" :options="options4" v-model="value4" />
+    <mp-auto-complete variant="outline" placeholder="请输入文本" :options="options" v-model="value" />
+    <mp-auto-complete variant="outline" readonly placeholder="只读" :options="options2" v-model="value2" />
+    <mp-auto-complete variant="outline" disabled placeholder="禁用" :options="options3" v-model="value3" />
+    <mp-auto-complete variant="outline" clearable placeholder="可清除" :options="options4" v-model="value4" />
     <mp-auto-complete
-      variant="outlined"
+      variant="outline"
       clearable
       placeholder="使用插槽自定义清除图标"
       :options="options5"
@@ -142,7 +142,7 @@
         <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="显示图标" :options="options7" v-model="value7">
+    <mp-auto-complete variant="outline" placeholder="显示图标" :options="options7" v-model="value7">
       <template #prefix>
         <m-icon-github class="prefix" />
       </template>
@@ -150,7 +150,7 @@
         <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="自定义图标尺寸" :options="options8" v-model="value8">
+    <mp-auto-complete variant="outline" placeholder="自定义图标尺寸" :options="options8" v-model="value8">
       <template #prefix>
         <m-icon-github class="prefix" :size="28" />
       </template>
@@ -158,15 +158,15 @@
         <m-icon-github class="suffix" :size="42" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="最大长度" :max-length="10" :options="options9" v-model="value9" />
+    <mp-auto-complete variant="outline" placeholder="最大长度" :max-length="10" :options="options9" v-model="value9" />
     <mp-auto-complete
-      variant="outlined"
+      variant="outline"
       placeholder="自定义菜单显示时机"
-      :get-show="(value) => value.length > 3"
+      :should-open="(value) => value.length > 3"
       :options="options10"
       v-model="value10"
     />
-    <mp-auto-complete variant="outlined" size="sm" placeholder="小尺寸" :options="options11" v-model="value11" />
+    <mp-auto-complete variant="outline" size="sm" placeholder="小尺寸" :options="options11" v-model="value11" />
   </mp-space>
 </template>
 
@@ -190,7 +190,7 @@
 | 参数           | 说明                                                                                                         | 类型                                       | 默认值     |
 | -------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ---------- |
 | `v-model`      | 绑定的值                                                                                                     | _string_                                   | `-`        |
-| `variant`      | 输入框风格, 可选值为 `filled` `standard` `outlined`                                                          | _string_                                   | `standard` |
+| `variant`      | 输入框风格, 可选值为 `filled` `standard` `outline`                                                          | _string_                                   | `standard` |
 | `size`         | 输入框尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                  | _ComponentSize_                            | `md`       |
 | `placeholder`  | 占位符                                                                                                       | _string_                                   | `-`        |
 | `options`      | 指定可选项                                                                                                   | _AutoCompleteOption[]_                     | `[]`       |
@@ -205,7 +205,7 @@
 | `text-color`   | 文字颜色                                                                                                     | _string_                                   | `-`        |
 | `focus-color`  | 聚焦时的主要颜色                                                                                             | _string_                                   | `-`        |
 | `blur-color`   | 失焦时的主要颜色                                                                                             | _string_                                   | `-`        |
-| `get-show`     | 根据输入值决定是否显示菜单                                                                                   | _(v: string) => boolean_                   | `-`        |
+| `should-open`     | 根据输入值决定是否显示菜单                                                                                   | _(v: string) => boolean_                   | 输入非空        |
 
 校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
@@ -250,3 +250,9 @@
 | 变量名                            | 默认值  |
 | --------------------------------- | ------- |
 | `--auto-complete-options-padding` | `6px 0` |
+
+### 展开与过滤
+
+`should-open(inputValue)` 只控制是否允许展开，默认要求输入非空。`filter-option` 默认 `true`，按标签（缺省时按 value）忽略大小写匹配；`strict` 默认 `false`，设为 `true` 时区分大小写。`filter-option=false` 保留全部候选，适合服务端筛选；传入 `(inputValue, option) => boolean` 可自定义过滤（输入为空时保留全部候选）。禁用、只读、未聚焦或过滤后没有候选时不会展开。
+
+迁移：将 `get-show` 更名为 `should-open`；如需保留旧版不执行本地过滤的行为，同时设置 `:filter-option="false"`。

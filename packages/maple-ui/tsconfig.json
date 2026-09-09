@@ -1,6 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@maplejs/maple-ui": ["./src/index.ts"],
+      "rattail": ["./node_modules/rattail", "../maple-shared/node_modules/rattail"]
+    },
     "allowSyntheticDefaultImports": true,
     "jsxImportSource": "vue",
     "jsx": "preserve",

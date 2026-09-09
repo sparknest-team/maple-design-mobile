@@ -1,277 +1,132 @@
-# Grid 栅格
+# Grid
 
-### 介绍
+CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布局使用 Row / Col。
 
-基于 CSS Grid 的布局组件，支持折叠，并且可以设置后缀节点（后缀节点会显示在一行的结尾）。
+> **布局怎么选**
+>
+> - Grid + GridItem：适合表单分栏、卡片网格，需要统一列宽、跨列、响应式列数或折叠行与后缀时使用。
+> - Row + Col：适合 24 栏 Flex 布局，需要水平/垂直对齐、控制换行、固定宽度与自适应宽度组合，或响应式排序时使用。Row 控制整行，Col 控制列宽、偏移和排序。
+> - Space：适合按钮、标签、文字等简单排列，只需要间距、方向和对齐时使用；更自由的宽度分配可使用原生 Flex。
 
-> `Grid.Row` / `Grid.Col`（模板标签 `mp-row` / `mp-col`）为 24 栏 Flex 栅格，见本页后文。
+## 案例
 
-断点与 PC 端 Cedar 对齐：
-
-| 断点 | 媒体查询 |
-| --- | --- |
-| `xs` | `max-width: 575px` |
-| `sm` | `min-width: 576px` |
-| `md` | `min-width: 768px` |
-| `lg` | `min-width: 992px` |
-| `xl` | `min-width: 1200px` |
-| `xxl` | `min-width: 1600px` |
-
-### 基础用法
-
-支持折叠与后缀节点。后缀节点的默认插槽可拿到 `{ overflow }`，用于判断折叠后是否有溢出内容。
+### 列数、跨列与偏移
 
 ```html
-<script setup>
+<template><div>
+  <mp-grid :cols="4" :col-gap="12" :row-gap="12"><mp-grid-item v-for="i in 8" :key="i" class="cell">{{ i }}</mp-grid-item></mp-grid>
+  <mp-grid :cols="4" :col-gap="12" :row-gap="12"><mp-grid-item :span="2" class="cell">span 2</mp-grid-item><mp-grid-item :offset="1" class="cell soft">offset 1</mp-grid-item><mp-grid-item :span="4" class="cell">span 4</mp-grid-item></mp-grid>
+</div></template>
+
+<style scoped>
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
+.soft { opacity: .7; }
+</style>
+```
+
+### 折叠行数与后缀插槽
+
+```html
+<script setup lang="ts">
 import { ref } from 'vue'
-
-const collapsed = ref(false)
+const collapsed = ref(true)
+const rows = ref(1)
 </script>
-
-<template>
-  <mp-switch v-model="collapsed" />
-  <mp-grid :cols="3" :col-gap="12" :row-gap="16" :collapsed="collapsed">
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item :offset="1">item | offset - 1</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item :span="3">item | span - 3</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item suffix>
-      <template #default="{ overflow }">suffix | overflow: {{ overflow }}</template>
-    </mp-grid-item>
+<template><div>
+  <div class="controls"><mp-switch v-model="collapsed" aria-label="Collapsed" />Collapsed<mp-radio-group v-model="rows"><mp-radio :value="1">1 row</mp-radio><mp-radio :value="2">2 rows</mp-radio></mp-radio-group></div>
+  <mp-grid :cols="4" :col-gap="12" :row-gap="12" :collapsed="collapsed" :collapsed-rows="rows">
+    <mp-grid-item v-for="i in 9" :key="i" class="cell">{{ i }}</mp-grid-item>
+    <mp-grid-item suffix v-slot="{ overflow }"><mp-button block variant="outline" @click="collapsed = !collapsed">{{ overflow ? 'More' : 'Less' }}</mp-button></mp-grid-item>
   </mp-grid>
-</template>
+</div></template>
+
+<style scoped>
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
+.soft { opacity: .7; }
+</style>
 ```
 
-### 响应式布局
-
-`cols`、`row-gap`、`col-gap`、`span`、`offset` 均支持响应式对象写法：`{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }`。
+### 响应式列数、间距与跨列
 
 ```html
-<template>
-  <mp-grid :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }" :col-gap="12" :row-gap="16">
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item>item</mp-grid-item>
-    <mp-grid-item :span="{ xl: 4, xxl: 6 }" suffix>suffix</mp-grid-item>
+<template><div>
+  <p>xs: 1 column · sm: 2 columns · md: 4 columns</p>
+  <mp-grid :cols="{ xs: 1, sm: 2, md: 4 }" :col-gap="{ xs: 8, md: 16 }" :row-gap="{ xs: 8, md: 16 }">
+    <mp-grid-item :span="{ xs: 1, md: 2 }" class="cell">Responsive span</mp-grid-item><mp-grid-item v-for="i in 6" :key="i" class="cell soft">{{ i }}</mp-grid-item>
   </mp-grid>
-</template>
+</div></template>
+
+<style scoped>
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
+.soft { opacity: .7; }
+</style>
 ```
 
-## API
+### 动态插入、删除与排序
 
-### Grid Props
+```html
+<script setup lang="ts">
+import { ref } from 'vue'
+const items = ref([1, 2, 3, 4, 5])
+let next = 6
+</script>
+<template><div>
+  <div class="controls"><mp-button @click="items.unshift(next++)">Insert first</mp-button><mp-button :disabled="!items.length" @click="items.shift()">Remove first</mp-button><mp-button @click="items.reverse()">Reverse</mp-button></div>
+  <mp-grid :cols="3" :col-gap="12" :row-gap="12" collapsed><mp-grid-item v-for="i in items" :key="i" class="cell">{{ i }}</mp-grid-item><mp-grid-item suffix v-slot="{ overflow }" class="cell soft">{{ overflow ? '…' : 'End' }}</mp-grid-item></mp-grid>
+</div></template>
 
-| 参数 | 说明 | 类型 | 默认值 |
+<style scoped>
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
+.soft { opacity: .7; }
+</style>
+```
+
+<!-- same-source-api:start -->
+### Props
+
+| 属性 | 说明 | Type | Default |
 | --- | --- | --- | --- |
-| `cols` | 每一行展示的列数 | `number \| ResponsiveValue` | `24` |
-| `row-gap` | 行与行之间的间距（px） | `number \| ResponsiveValue` | `0` |
-| `col-gap` | 列与列之间的间距（px） | `number \| ResponsiveValue` | `0` |
-| `collapsed` | 是否折叠 | `boolean` | `false` |
-| `collapsed-rows` | 折叠时显示的行数 | `number` | `1` |
+| cols | 每行列数，最少为 1 | `number / ResponsiveValue` | `24` |
+| row-gap | 行间距（px） | `number / ResponsiveValue` | `0` |
+| col-gap | 列间距（px） | `number / ResponsiveValue` | `0` |
+| collapsed | 折叠超出的行 | `boolean` | `false` |
+| collapsed-rows | 折叠时保留行数，最少为 1 | `number` | `1` |
 
-### GridItem Props
+### Events
 
-| 参数 | 说明 | 类型 | 默认值 |
+| Event | Description |
+| --- | --- |
+
+### Slots
+
+| Slot | Description |
+| --- | --- |
+| default | 布局内容 |
+
+### Methods
+
+| Method | Description |
+| --- | --- |
+<!-- same-source-api:end -->
+
+## 响应式与可访问性
+
+断点基于浏览器视口：xs 为基础值，sm ≥576、md ≥768、lg ≥992、xl ≥1200、xxl ≥1600px；从最大匹配断点向下取已配置值。SSR 首屏使用 xs，挂载后响应视口；Grid 折叠和动态排序在挂载后计算。组件为布局容器，不增加键盘快捷键；内容语义及可聚焦元素由调用者提供。没有公开方法和专用主题 Token。
+
+## GridItem
+
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `span` | 跨越的格数 | `number \| ResponsiveValue` | `1` |
-| `offset` | 左侧的间隔格数 | `number \| ResponsiveValue` | `0` |
-| `suffix` | 是否是后缀元素 | `boolean` | `false` |
+| span | 跨越格数 | number / ResponsiveValue | 1 |
+| offset | 左侧留空格数 | number / ResponsiveValue | 0 |
+| suffix | 行末后缀 | boolean | false |
 
-### GridItem Slots
+默认插槽参数 `{ overflow: boolean }` 表示折叠是否隐藏了内容；没有自定义事件或公开方法。
 
-| 名称 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 格子内容 | `{ overflow: boolean }` |
+## 导入
 
-## 类型定义
-
-### ResponsiveValue
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `xxl` | >= 1600px 响应式配置 | `number` | `-` |
-| `xl` | >= 1200px 响应式配置 | `number` | `-` |
-| `lg` | >= 992px 响应式配置 | `number` | `-` |
-| `md` | >= 768px 响应式配置 | `number` | `-` |
-| `sm` | >= 576px 响应式配置 | `number` | `-` |
-| `xs` | < 576px 响应式配置 | `number` | `-` |
-
-```ts
-import type { GridProps, GridItemProps, ResponsiveValue } from '@maplejs/maple-ui'
-```
-
-## Row / Col 24 栏栅格
-
-### 基础用法
-
-`<mp-row/>` 将一行划分为 24 栏，`<mp-col/>` 通过 `span` 设置占位，`gutter` 设置间距。
-
-```html
-<template>
-  <mp-row :gutter="[10, 10]">
-    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
-    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
-    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
-  </mp-row>
-</template>
-```
-
-### 栅格偏移
-
-```html
-<template>
-  <mp-row :gutter="[10, 10]">
-    <mp-col :span="16" :offset="8"><div class="item">offset: 8 span: 16</div></mp-col>
-  </mp-row>
-</template>
-```
-
-### 水平布局
-
-通过 `justify` 设置水平对齐：`start` `center` `end` `space-around` `space-between`。
-
-```html
-<template>
-  <mp-row justify="center" :gutter="[20, 10]">
-    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
-    <mp-col :span="8"><div class="item">span: 8</div></mp-col>
-  </mp-row>
-</template>
-```
-
-### 垂直布局
-
-通过 `align` 设置垂直对齐：`start` `center` `end` `stretch`。
-
-```html
-<template>
-  <mp-row align="center" :gutter="10">
-    <mp-col :span="6"><div class="item" style="height: 48px">48</div></mp-col>
-    <mp-col :span="6"><div class="item" style="height: 72px">72</div></mp-col>
-  </mp-row>
-</template>
-```
-
-### 排序
-
-通过 `order` 调整列顺序。
-
-```html
-<template>
-  <mp-row>
-    <mp-col :span="6" :order="4"><div class="item">1 order-4</div></mp-col>
-    <mp-col :span="6" :order="3"><div class="item">2 order-3</div></mp-col>
-    <mp-col :span="6" :order="2"><div class="item">3 order-2</div></mp-col>
-    <mp-col :span="6" :order="1"><div class="item">4 order-1</div></mp-col>
-  </mp-row>
-</template>
-```
-
-### 响应式布局
-
-```html
-<template>
-  <mp-row :gutter="10">
-    <mp-col :xs="8" :sm="6" :md="4" :lg="3" :xl="2" :xxl="1">
-      <div class="item">1</div>
-    </mp-col>
-    <mp-col :xs="4" :sm="6" :md="8" :lg="9" :xl="10" :xxl="11">
-      <div class="item">2</div>
-    </mp-col>
-  </mp-row>
-</template>
-```
-
-### 属性内嵌响应式
-
-`span`、`offset`、`order` 可写在断点对象中。
-
-```html
-<template>
-  <mp-row :gutter="10">
-    <mp-col
-      :xs="{ span: 12, offset: 6 }"
-      :sm="{ span: 6 }"
-      :md="{ span: 4, offset: 4 }"
-      :lg="{ span: 3, offset: 3 }"
-      :xl="{ span: 2, offset: 2 }"
-      :xxl="{ span: 1, offset: 1 }"
-    >
-      <div class="item">1</div>
-    </mp-col>
-  </mp-row>
-</template>
-```
-
-### Flex 用法
-
-```html
-<template>
-  <mp-row>
-    <mp-col flex="100px"><div class="item">100px</div></mp-col>
-    <mp-col flex="auto"><div class="item">auto</div></mp-col>
-  </mp-row>
-  <mp-row>
-    <mp-col :flex="3"><div class="item">3 / 12</div></mp-col>
-    <mp-col :flex="4"><div class="item">4 / 12</div></mp-col>
-    <mp-col :flex="5"><div class="item">5 / 12</div></mp-col>
-  </mp-row>
-</template>
-```
-
-## API
-
-### Row Props
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `gutter` | 栅格间隔（px）。支持响应式对象，或 `[水平, 垂直]` | `number \| ResponsiveValue \| [number \| ResponsiveValue, number \| ResponsiveValue]` | `0` |
-| `justify` | 水平对齐 | `'start' \| 'center' \| 'end' \| 'space-around' \| 'space-between'` | `'start'` |
-| `align` | 竖直对齐 | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` |
-| `wrap` | Col 是否换行 | `boolean` | `true` |
-| `div` | 仅作为普通 div，不附带栅格样式 | `boolean` | `false` |
-
-### Col Props
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `span` | 栅格占位格数 | `number` | `24` |
-| `offset` | 左侧间隔格数 | `number` | `-` |
-| `order` | 排序 | `number` | `-` |
-| `xs` | `< 576px` | `number \| { span?, offset?, order? }` | `-` |
-| `sm` | `≥ 576px` | 同上 | `-` |
-| `md` | `≥ 768px` | 同上 | `-` |
-| `lg` | `≥ 992px` | 同上 | `-` |
-| `xl` | `≥ 1200px` | 同上 | `-` |
-| `xxl` | `≥ 1600px` | 同上 | `-` |
-| `flex` | flex 布局属性 | `number \| string \| 'initial' \| 'auto' \| 'none'` | `-` |
-
-### Row Events
-
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `click` | 点击时触发 | `event: Event` |
-
-### Col Events
-
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `click` | 点击时触发 | `event: Event` |
-
-### ResponsiveValue
-
-| 参数 | 说明 | 类型 |
-| --- | --- | --- |
-| `xxl` | ≥ 1600px | `number` |
-| `xl` | ≥ 1200px | `number` |
-| `lg` | ≥ 992px | `number` |
-| `md` | ≥ 768px | `number` |
-| `sm` | ≥ 576px | `number` |
-| `xs` | < 576px | `number` |
+Grid 仅包含 Grid.Item；Row、Col 是独立组件，拥有独立源码、样式、菜单、文档和 Demo。已移除 Grid.Row/Grid.Col、Grid 入口的 Row/Col 转导出以及 GridRowInstance/GridColInstance。请从库根入口或独立 row/col 入口导入；安装 Grid 不再自动注册 Row/Col。

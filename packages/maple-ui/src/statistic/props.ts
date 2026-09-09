@@ -95,4 +95,4 @@ export const statisticProps = {
   },
 }
 
-export type StatisticProps = ExtractPropTypes<typeof statisticProps>
+export type StatisticProps = import('vue').ExtractPublicPropTypes<typeof statisticProps>

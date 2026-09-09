@@ -15,6 +15,6 @@ export type {
 } from './props'
 
 export type VerificationCodeInstance = InstanceType<typeof VerificationCode>
-export const _VerificationCodeComponent = VerificationCode
+export const _VerificationCodeComponent: typeof VerificationCode = VerificationCode
 
 export default VerificationCode

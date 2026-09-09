@@ -230,7 +230,7 @@ describe('test image component props', () => {
     await wrapper.find('img').trigger('click')
 
     expect(wrapper.findComponent(ImagePreview).props('popupContainer')).toBe(false)
-    expect(wrapper.emitted('previewOpenChange')?.[0]).toEqual([true])
+    expect(wrapper.emitted('preview-open-change')?.[0]).toEqual([true])
     wrapper.unmount()
   })
 

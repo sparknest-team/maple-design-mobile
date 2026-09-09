@@ -8,14 +8,21 @@
   >
     <mp-trigger
       v-if="presentation === 'menu'"
+      ref="triggerRef"
       v-model:open="open"
-      same-width
+      :unmount-on-close="false"
+      trigger="click"
+      :popup-container="popupContainer !== undefined ? popupContainer : popupProps?.popupContainer"
+      :auto-fit-popup-width="autoFitPopupWidth"
       close-on-click-reference
       :esc-to-close="false"
       :popup-class="variant === 'standard' && mergedHint ? n('--standard-menu-margin') : undefined"
       :offset-y="offsetY"
       :disabled="formReadonly || readonly || formDisabled || disabled"
       :placement="placement"
+      :cover="
+        typeof popupProps.cover === 'boolean' ? popupProps.cover : $props.placement == null && variant !== 'outline'
+      "
       @click-outside="handleClickOutside"
     >
       <mp-field-decorator
@@ -445,7 +452,7 @@ import { injectLocaleProvider } from '../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../picker'
 import MpPopup from '../popup'
 import MpTag from '../tag'
-import MpTrigger from '../trigger'
+import MpTrigger, { type TriggerInstance } from '../trigger'
 import { createNamespace, MaybeVNode } from '../utils/components'
 import { focusChildElementByKey, toPxNum } from '../utils/elements'
 import { normalizeSelectOptionsToPickerColumns, useFieldNames } from '../utils/options'
@@ -531,7 +538,10 @@ export default defineComponent({
       return labels.value
     })
     const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
-    const popupBindingProps = computed(() => ({ ...props.popupProps }))
+    const popupBindingProps = computed(() => ({
+      ...props.popupProps,
+      popupContainer: props.popupContainer !== undefined ? props.popupContainer : props.popupProps?.popupContainer,
+    }))
     const pickerTitleText = computed(() => props.pickerProps?.title ?? translate('pickerTitle'))
     const pickerCancelText = computed(() => props.pickerProps?.cancelButtonText ?? translate('pickerCancelButtonText'))
     const pickerAddText = computed(() => translate('cascaderPickerAddButtonText'))
@@ -539,7 +549,8 @@ export default defineComponent({
     const listTitleText = computed(() => props.pickerProps?.title ?? translate('pickerTitle'))
     const presentation = computed(() => props.presentation)
     const menuEl = ref<HTMLElement | null>(null)
-    const placement = computed(() => props.placement ?? (props.variant === 'outlined' ? 'bottom' : 'cover-top'))
+    const triggerRef = ref<TriggerInstance>()
+    const placement = computed(() => props.placement ?? 'bottom')
     const mergedHint = computed(() => {
       if (hasOuterLabel.value) {
         return false
@@ -599,6 +610,10 @@ export default defineComponent({
       const { disabled, readonly } = props
 
       if (form?.disabled.value || form?.readonly.value || disabled || readonly || !isFocusing.value) {
+        return
+      }
+
+      if (open.value && props.presentation === 'menu' && !triggerRef.value?.isTopLayer(event)) {
         return
       }
 
@@ -968,6 +983,7 @@ export default defineComponent({
       disabledKey,
       isEmptyModelValue,
       menuEl,
+      triggerRef,
       placement,
       cursor,
       placeholderColor,

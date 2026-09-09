@@ -1,26 +1,17 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
-import { MenuOption } from './props'
+import type { PropType } from 'vue'
+import type { MenuOptionData } from './types'
 
 export type MenuOptionKeyArrowX = 'ArrowLeft' | 'ArrowRight'
-
 export const props = {
-  label: {
-    type: [String, Number, Function, Object] as PropType<any>,
-  },
-  value: {
-    type: [String, Number, Object] as PropType<any>,
-    default: undefined,
-  },
+  label: { type: [String, Number, Boolean, Function, Object, Array] as PropType<any>, default: undefined },
+  value: { type: [String, Number, Boolean, Object] as PropType<any>, default: undefined },
   disabled: Boolean,
-  ripple: {
-    type: Boolean,
-    default: true,
-  },
-  // internal start
-  option: Object as PropType<MenuOption>,
+  ripple: { type: Boolean, default: true },
+  option: Object as PropType<MenuOptionData>,
   childrenTrigger: Boolean,
   highlight: Boolean,
-  // internal end
+  active: Boolean,
+  uninjectContext: Boolean,
 }
-
-export type MenuOptionProps = ExtractPropTypes<typeof props>
+export const menuOptionProps = props
+export type MenuOptionProps = import('vue').ExtractPublicPropTypes<typeof props>

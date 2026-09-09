@@ -1,4 +1,19 @@
 import { defineConfig } from '@maplejs/maple-cli'
+import { readFileSync } from 'node:fs'
+
+const componentReuse = JSON.parse(readFileSync(new URL('./component-reuse.json', import.meta.url), 'utf8'))
+const markReuse = (item) => {
+  const reuse = componentReuse[item.doc]
+  if (!reuse || item.type !== 2) return item
+  return {
+    ...item,
+    text: {
+      ...item.text,
+      'zh-CN': `${item.text['zh-CN']} [${reuse.label}]`,
+      'en-US': `${item.text['en-US']} [${reuse.en}]`,
+    },
+  }
+}
 
 export default defineConfig({
   useMobile: true,
@@ -16,6 +31,11 @@ export default defineConfig({
           'en-US': 'Developer Guide',
         },
         type: 1,
+      },
+      {
+        text: { 'zh-CN': '跨端复用标记说明', 'en-US': 'Cross-platform reuse guide' },
+        doc: 'componentReuse',
+        type: 3,
       },
       {
         text: {
@@ -286,12 +306,14 @@ export default defineConfig({
         doc: 'grid',
         type: 2,
       },
+      { text: { 'zh-CN': 'Row 行', 'en-US': 'Row' }, doc: 'row', type: 2 },
+      { text: { 'zh-CN': 'Col 列', 'en-US': 'Col' }, doc: 'col', type: 2 },
       {
         text: {
-          'zh-CN': 'Sticky 粘性布局',
-          'en-US': 'Sticky',
+          'zh-CN': 'Affix 粘性布局',
+          'en-US': 'Affix',
         },
-        doc: 'sticky',
+        doc: 'affix',
         type: 2,
       },
       {
@@ -367,10 +389,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'BottomNavigation 底部导航栏',
-          'en-US': 'BottomNavigation',
+          'zh-CN': 'TabBar 底部标签栏',
+          'en-US': 'TabBar',
         },
-        doc: 'bottom-navigation',
+        doc: 'tab-bar',
         type: 2,
       },
       {
@@ -552,10 +574,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Uploader 文件上传',
-          'en-US': 'Uploader',
+          'zh-CN': 'Upload 文件上传',
+          'en-US': 'Upload',
         },
-        doc: 'uploader',
+        doc: 'upload',
         type: 2,
       },
       {
@@ -907,7 +929,7 @@ export default defineConfig({
         doc: 'hover',
         type: 2,
       },
-    ],
+    ].map(markReuse),
   },
   copy: [],
   directives: ['ripple', 'lazy', 'hover', 'loading'],

@@ -1,9 +1,10 @@
 <template>
-  <transition :name="n('$-fade')">
+  <transition :name="n() + '-fade'">
     <span
       v-if="computedShow"
-      :class="rootClass"
-      :style="rootStyle"
+      v-bind="$attrs"
+      :class="cls"
+      :style="style"
       :role="checkable ? 'checkbox' : undefined"
       :aria-checked="checkable ? computedChecked : undefined"
       :tabindex="checkable ? 0 : undefined"
@@ -11,114 +12,113 @@
       @keydown.enter.prevent="handleKeyboardActivation"
       @keydown.space.prevent="handleKeyboardActivation"
     >
-      <span v-if="$slots.icon" :class="n('icon')">
+      <span v-if="$slots.icon" :class="classes(n('icon'))">
         <slot name="icon" />
       </span>
-      <span v-if="nowrap" :class="n('text')">
+      <span v-if="nowrap" :class="classes(n('text'))">
         <slot />
       </span>
       <slot v-else />
-      <span v-if="loading" :class="n('loading-icon')" aria-hidden="true" />
       <span
-        v-else-if="closable"
+        v-if="closable && !loading"
         role="button"
-        aria-label="Close"
+        aria-label="IconClose"
         tabindex="0"
-        :class="n('close-btn')"
+        :class="classes(n('close-btn'))"
         @click.stop="handleClose"
         @keydown.enter.prevent.stop="handleKeyboardActivation"
         @keydown.space.prevent.stop="handleKeyboardActivation"
       >
         <slot name="close-icon">
-          <mp-icon><MIconCloseCircleFill /></mp-icon>
+          <icon-close />
         </slot>
+      </span>
+      <span v-if="loading" :class="classes(n('loading-icon'))">
+        <icon-loading />
       </span>
     </span>
   </transition>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed, ref, type CSSProperties } from 'vue'
-import { IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
-import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
+import { IconClose, IconLoading, useTagPlatform } from './platform'
 import { tagProps } from './props'
+import { TAG_COLORS } from './types'
 
-defineOptions({
-  name: createNamespace('tag').name,
-})
-
-const { n, classes } = createNamespace('tag')
-
+defineOptions({ name: createNamespace('tag').name, inheritAttrs: false })
 const props = defineProps(tagProps)
 const emit = defineEmits<{
-  (e: 'update:show', show: boolean): void
-  (e: 'update:checked', checked: boolean): void
-  (e: 'close', ev: MouseEvent): void
-  (e: 'check', checked: boolean, ev: MouseEvent): void
+  'update:show': [show: boolean]
+  'update:checked': [checked: boolean]
+  close: [event: MouseEvent]
+  check: [checked: boolean, event: MouseEvent]
 }>()
+const { n, classes } = createNamespace('tag')
+const { mergedSize, rtl } = useTagPlatform(props)
+const isBuiltInColor = computed(() => props.color && TAG_COLORS.includes(props.color as any))
+const isCustomColor = computed(() => props.color && !TAG_COLORS.includes(props.color as any))
+const _show = ref(props.defaultShow)
+const _checked = ref(props.defaultChecked)
+const computedShow = computed(() => props.show ?? _show.value)
+const computedChecked = computed(() => (props.checkable ? (props.checked ?? _checked.value) : true))
 
-const innerShow = ref(props.defaultShow)
-const innerChecked = ref(props.defaultChecked)
+const handleClose = (ev: MouseEvent) => {
+  if (props.loading) {
+    return
+  }
+  _show.value = false
+  emit('update:show', false)
+  emit('close', ev)
+}
 
-const computedShow = computed(() => props.show ?? innerShow.value)
-const computedChecked = computed(() => (props.checkable ? (props.checked ?? innerChecked.value) : true))
+const handleClick = (ev: MouseEvent) => {
+  if (props.checkable && !props.loading) {
+    const newChecked = !computedChecked.value
+    _checked.value = newChecked
+    emit('update:checked', newChecked)
+    emit('check', newChecked, ev)
+  }
+}
 
-const rootClass = computed(() =>
-  classes(
+const handleKeyboardActivation = (ev: KeyboardEvent) => {
+  ;(ev.currentTarget as HTMLElement).click()
+}
+
+const cls = computed(() => {
+  return classes(
     n(),
-    n(`--size-${props.size}`),
-    n(`--status-${props.status}`),
+    n(`--size-${mergedSize.value}`),
     n(`--variant-${props.variant}`),
+    [props.status && !isBuiltInColor.value && !isCustomColor.value, n(`--status-${props.status}`)],
     [props.loading, n('--loading')],
-    [props.closable, n('--closable')],
+    [!computedShow.value, n('--hide')],
+    [isBuiltInColor.value, n(`--${props.color}`)],
     [props.checkable, n('--checkable')],
     [computedChecked.value, n('--checked')],
     [props.nowrap, n('--nowrap')],
     [props.round, n('--round')],
-  ),
-)
-
-const rootStyle = computed<CSSProperties | undefined>(() => {
-  if (!props.color && !props.textColor) {
-    return undefined
-  }
-
-  if (props.variant === 'outline') {
-    return {
-      color: props.textColor || props.color,
-      borderColor: props.color,
-      backgroundColor: 'transparent',
-    }
-  }
-
-  return {
-    background: props.color,
-    color: props.textColor,
-    borderColor: props.color,
-  }
+    [isCustomColor.value, n('--custom-color')],
+    [rtl.value, n('--rtl')],
+  )
 })
 
-function handleClose(e: MouseEvent) {
-  if (props.loading) {
-    return
+const style = computed(() => {
+  if (isCustomColor.value || props.textColor) {
+    if (props.variant === 'outline') {
+      return {
+        color: props.textColor || props.color,
+        borderColor: props.color,
+        backgroundColor: 'transparent',
+      } as CSSProperties
+    }
+    return {
+      background: props.color,
+      color: props.textColor,
+      borderColor: props.color,
+    } as CSSProperties
   }
-  innerShow.value = false
-  emit('update:show', false)
-  emit('close', e)
-}
-
-function handleClick(e: MouseEvent) {
-  if (!props.checkable || props.loading) {
-    return
-  }
-  const next = !computedChecked.value
-  innerChecked.value = next
-  emit('update:checked', next)
-  emit('check', next, e)
-}
-
-function handleKeyboardActivation(e: KeyboardEvent) {
-  ;(e.currentTarget as HTMLElement).click()
-}
+  return undefined
+})
 </script>

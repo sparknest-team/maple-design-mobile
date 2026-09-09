@@ -6,7 +6,7 @@ import { t, use } from './locale/index'
 
 const show = ref(false)
 const trigger = ref('click')
-const placementValue = ref('cover-top-start')
+const placementValue = ref('bottom-start')
 const placementOptions = ref([
   'top',
   'top-start',
@@ -20,14 +20,6 @@ const placementOptions = ref([
   'left',
   'left-start',
   'left-end',
-  'cover-top',
-  'cover-top-start',
-  'cover-top-end',
-  'cover-bottom',
-  'cover-bottom-start',
-  'cover-bottom-end',
-  'cover-left',
-  'cover-right',
 ])
 
 watchLang(use)
@@ -76,9 +68,9 @@ function closeMenu() {
     </template>
   </mp-popover>
 
-  <app-type>{{ t('sameWidth') }}</app-type>
-  <mp-popover same-width>
-    <mp-button status="primary">{{ t('sameWidth') }}</mp-button>
+  <app-type>{{ t('autoFitPopupWidth') }}</app-type>
+  <mp-popover auto-fit-popup-width>
+    <mp-button status="primary">{{ t('autoFitPopupWidth') }}</mp-button>
 
     <template #content>
       <mp-cell>{{ t('menuOption') }}</mp-cell>

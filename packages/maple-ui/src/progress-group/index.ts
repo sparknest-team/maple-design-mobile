@@ -7,5 +7,5 @@ withPropsDefaultsSetter(ProgressGroup, progressGroupProps)
 export type ProgressGroupInstance = InstanceType<typeof ProgressGroup>
 export type { ProgressGroupItem, ProgressGroupMode, ProgressGroupOrientation, ProgressGroupProps } from './props'
 export { progressGroupProps }
-export const _ProgressGroupComponent = ProgressGroup
+export const _ProgressGroupComponent: typeof ProgressGroup = ProgressGroup
 export default ProgressGroup

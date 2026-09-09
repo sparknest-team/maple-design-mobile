@@ -158,7 +158,7 @@ const form = ref({ code: '' })
 | `length` | 验证码位数 | _number_ | `6` |
 | `size` | 尺寸，可选值为 `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
 | `type` | 输入类型，可选值为 `digit` `text` `alphanumeric`（Maple） | _string_ | `digit` |
-| `variant` | 风格，可选值为 `standard` `outlined`（Maple） | _string_ | `outlined` |
+| `variant` | 风格，可选值为 `standard` `outline`（Maple） | _string_ | `outline` |
 | `masked` | 是否密码模式 | _boolean_ | `false` |
 | `mask-symbol` | 掩码字符（Maple） | _string_ | `•` |
 | `disabled` | 是否禁用 | _boolean_ | `false` |

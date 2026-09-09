@@ -99,7 +99,7 @@ const current = ref(1)
 
 ### Vertical
 
-Change the display direction via the `direction` attribute.
+Change the display orientation via the `orientation` attribute.
 
 ```html
 <script setup>
@@ -109,7 +109,7 @@ const current = ref(1)
 </script>
 
 <template>
-  <mp-steps direction="vertical" :current="current">
+  <mp-steps orientation="vertical" :current="current">
     <mp-step>Step1</mp-step>
     <mp-step>Step2</mp-step>
     <mp-step>Step3</mp-step>
@@ -129,7 +129,7 @@ const current = ref(1)
 | `current` | Current step (controlled, 1-based) | _number_ | `-` |
 | `default-current` | Default current step (uncontrolled) | _number_ | `1` |
 | `type` | Display type | _'default' \| 'arrow' \| 'dot' \| 'navigation'_ | `default` |
-| `direction` | Layout direction | _'horizontal' \| 'vertical'_ | `horizontal` |
+| `orientation` | Layout orientation | _'horizontal' \| 'vertical'_ | `horizontal` |
 | `content-placement` | Content position relative to the indicator | _'right' \| 'bottom'_ | `right` |
 | `status` | Status of the current step | _'wait' \| 'process' \| 'finish' \| 'error'_ | `process` |
 | `size` | Steps size | _'sm' \| 'md'_ | `md` |

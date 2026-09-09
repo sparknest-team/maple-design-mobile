@@ -209,7 +209,8 @@ export { hoverOverlayProps, HoverOverlay }
 
 export type HoverOverlayInstance = InstanceType<typeof HoverOverlay>
 export type HoverInstance = typeof Hover
-export const _HoverComponent = Hover
-export const _HoverOverlayComponent = HoverOverlay
+export const _HoverComponent: typeof Hover = Hover
+export const _HoverOverlayComponent: typeof HoverOverlay = HoverOverlay
 
 export default Hover
+export type HoverOverlayProps = import('vue').ExtractPublicPropTypes<typeof import('./overlay-props').props>

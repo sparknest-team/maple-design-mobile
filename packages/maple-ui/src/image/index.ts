@@ -49,7 +49,7 @@ export type {
   UserImagePreviewOptions,
 } from './api'
 
-export const _ImageComponent = ImageFamily
-export const _ImagePreviewComponent = ImagePreview
-export const _ImagePreviewGroupComponent = ImagePreviewGroup
+export const _ImageComponent: typeof ImageFamily = ImageFamily
+export const _ImagePreviewComponent: typeof ImagePreview = ImagePreview
+export const _ImagePreviewGroupComponent: typeof ImagePreviewGroup = ImagePreviewGroup
 export default ImageFamily

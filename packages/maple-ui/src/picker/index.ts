@@ -128,6 +128,7 @@ withPropsDefaultsSetter(Picker, pickerProps)
 export { pickerProps }
 
 export type PickerInstance = InstanceType<typeof VarPicker>
-export const _PickerComponent = VarPicker
+export const _PickerComponent: typeof VarPicker = VarPicker
 
 export default Picker
+export type PickerProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

@@ -1,14 +1,18 @@
 import { createApp } from 'vue'
 import config from '@config'
+import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maplejs/maple-cli/client'
+import { Locale } from '@maplejs/maple-ui'
 import routes from '@mobile-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { inIframe, isPhone } from '../utils'
 import App from './App.vue'
 import '@maplejs/maple-touch-emulator'
-import '@maple-theme'
+import '@maple-foundation'
 
 const redirect = config?.mobile?.redirect
-const defaultLanguage = config?.defaultLanguage
+const defaultLanguage = getSavedLanguage(normalizeLanguage(config?.defaultLanguage))
+Locale.add('zh-CN', Locale.zhCN)
+Locale.add('en-US', Locale.enUS)
 
 redirect &&
   routes.push({
@@ -29,7 +33,10 @@ const router = createRouter({
 
 router.beforeEach((to: any) => {
   const { path, hash, query } = to
-  const language = query.language ?? defaultLanguage
+  const language = normalizeLanguage(query.language, defaultLanguage)
+  if (query.language !== language) return { path, hash, query: { ...query, language }, replace: true }
+  Locale.use(language)
+  saveLanguage(language)
   const replace = query.replace
 
   if (!isPhone() && !inIframe()) {

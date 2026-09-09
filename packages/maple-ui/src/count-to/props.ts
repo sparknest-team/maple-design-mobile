@@ -44,4 +44,4 @@ export const countToProps = {
   },
 }
 
-export type CountToProps = ExtractPropTypes<typeof countToProps>
+export type CountToProps = import('vue').ExtractPublicPropTypes<typeof countToProps>

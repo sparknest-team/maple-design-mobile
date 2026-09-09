@@ -1,4 +1,5 @@
 import type { ImgHTMLAttributes, PropType } from 'vue'
+import { popupContainerProp } from '../utils/popup-container'
 import type { ImageFit, ImagePreviewProps } from './api'
 
 export const imageProps = {
@@ -27,7 +28,7 @@ export const imageProps = {
   previewOpen: { type: Boolean, default: undefined },
   defaultPreviewOpen: { type: Boolean, default: false },
   previewProps: Object as PropType<Partial<ImagePreviewProps>>,
-  popupContainer: [String, Object, Boolean] as PropType<string | HTMLElement | false>,
+  popupContainer: popupContainerProp,
 }
 
 export const props = imageProps

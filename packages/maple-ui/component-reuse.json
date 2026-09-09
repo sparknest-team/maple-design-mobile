@@ -1,0 +1,357 @@
+{
+  "affix": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "现有 copied-components-check 已验证主体、Props、样式及契约测试的规范化一致性；保留各库 platform、命名空间及安装入口。"
+  },
+  "badge": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "现有 copied-components-check 已验证主体、Props、样式及契约测试的规范化一致性；保留各库 platform、命名空间及安装入口。"
+  },
+  "card": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "现有 copied-components-check 已验证主体、Props、样式及契约测试的规范化一致性；保留各库 platform、命名空间及安装入口。"
+  },
+  "switch": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "现有 copied-components-check 已验证主体、Props、样式及契约测试的规范化一致性；保留各库 platform、命名空间及安装入口。"
+  },
+  "space": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "独立同源复制已复核：主体、Props、子节点展开、主样式、五档尺寸 token 与配对测试一致。两端默认 wrap=false、size=md、block=true；Maple 内置主题同步 Cedar 间距。不共享核心或实例，仅保留本地安装和命名空间适配。"
+  },
+  "divider": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。动态增删默认插槽会同步更新带文字样式；opacity=0 生效；hairline 优先于 thickness，并输出 aria-orientation。"
+  },
+  "alert": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。关闭按钮支持键盘操作，close 只触发一次，closed 在离场动画完成后触发。Maple 内部关闭类由 __close-icon 调整为 __close-btn；默认图标资源由各库本地适配。"
+  },
+  "tag": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。两端保留独立的 show/checked 状态，受控值由调用方更新；保留淡出效果，class/style 显式透传给实际标签。尺寸配置、RTL 上下文及图标资源由各库本地适配，移动端触控尺寸保留在 token 中。"
+  },
+  "count-to": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。动画在卸载及 KeepAlive 停用时暂停，重新激活后恢复；各实例的数值和动画状态独立。"
+  },
+  "countdown": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。SSR 输出初始格式化时间。暂停时修改 format 会更新显示；结束事件每轮只触发一次，reset 后可开始新一轮；卸载清理动画帧。"
+  },
+  "statistic": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。默认插槽动态出现/消失时同步切换占位文字；动画在卸载及 KeepAlive 停用时暂停。"
+  },
+  "skeleton": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。Skeleton、SkeletonLine、SkeletonShape 均采用独立复制的源码；各库骨架主题和尺寸 token 独立维护。"
+  },
+  "steps": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。Steps 和 Step 的主体、Props、上下文协议与样式同源复制；注入 Symbol 分别定义在各库，不跨库共享。保留四种 type 和原有状态/事件契约。"
+  },
+  "page-header": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。返回按钮统一使用原生 button，支持键盘触发并派发 back(MouseEvent)。Cedar 内部类名由 c-page-header-xxx 调整为 c-page-header__xxx；图标资源仍由本库提供。"
+  },
+  "icon": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。只解析本应用已注册的图标；连续切换 name 会取消过期定时器，卸载后不再执行切换。各库注册前缀和历史 spin 类由本地适配保留，图标资源不跨库引用。"
+  },
+  "avatar": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "主组件/Group Props 同名，但图片加载分支、缩放和分组索引实现不同；统一缓存图片 load/error 及分组折叠行为。"
+  },
+  "button": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "共同契约补齐后选择 Maple：Button/ButtonGroup、Props、交互逻辑、样式和 12 组 demo 已复制对齐并纳入检查；注册入口和命名空间各自保留。竞赛证据见 button-race.json。"
+  },
+  "breadcrumb": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成 Breadcrumb / BreadcrumbItem 独立源码复制；主体、Props、上下文、类型、关键样式及配对测试纳入一致性检查。双端组件测试与 SSR 通过；图标、安装入口、Menu 和主题 token 本地适配。统一非空 routes 优先、分隔符优先级与 select(route, event)，修复空 routes 和省略项菜单行为。"
+  },
+  "collapse": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Maple 多 elevation；可作为主题扩展，需统一展开/分页状态、子项事件及受控默认值行为。"
+  },
+  "pagination": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "统一主体 SFC、23 项 Props、4 个事件、6 个插槽、分页状态与按钮和布局；12 组 demo 对齐。Locale、Input、Select 使用显式平台适配，480px 容器自动简洁模式；同源检查覆盖 13 个实现文件。"
+  },
+  "empty": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Empty 的 icon/inConfigProvider 为 Cedar 特有，Result 的 animation/imageSize 为 Maple 特有；统一资源插槽、尺寸及配置读取。"
+  },
+  "result": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Empty 的 icon/inConfigProvider 为 Cedar 特有，Result 的 animation/imageSize 为 Maple 特有；统一资源插槽、尺寸及配置读取。"
+  },
+  "link": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "以 Cedar 原生链接与 hoverable 为基础，补齐键盘焦点、加载动画、动态图标插槽及禁用属性透传；主体、Props、主样式和配对测试独立复制并验证，保留本地图标和主题 token。"
+  },
+  "loading": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Loading 的 dot/hideIcon 等表现能力仍需复核与适配；统一默认值及插槽后再同源对齐渲染。"
+  },
+  "grid": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。"
+  },
+  "input-number": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "17 个 Props 同名，主要 input/change 载荷接近；文本解析、精度、长按步进、表单注入与内部 Input 依赖仍需适配。"
+  },
+  "ellipsis": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "4 个 Props 和 update:expand 接近；受控展开策略及 Tooltip 触发依赖不同，先统一展开状态和触控提示行为。"
+  },
+  "progress": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。"
+  },
+  "progress-group": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。"
+  },
+  "back-top": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，扩展选项需明确兼容。"
+  },
+  "watermark": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，扩展选项需明确兼容。"
+  },
+  "checkbox": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "defaultChecked/defaultValue、uninjectGroupContext 与 readonly/ripple/颜色不同，Group 的 disabled/fieldNames/variant 也有差异；先统一值模型、键盘组导航及表单注入。"
+  },
+  "radio": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "defaultChecked/defaultValue、uninjectGroupContext 与 readonly/ripple/颜色不同，Group 的 disabled/fieldNames/variant 也有差异；先统一值模型、键盘组导航及表单注入。"
+  },
+  "rate": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "可同源对齐命中计算、范围/步长与值模型；Rate 的 grading 与图标扩展、Slider 的 marks/showInput/showTicks 与触控标签/颜色不同，统一 pointer 交互后再同源对齐主体。"
+  },
+  "slider": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "可同源对齐命中计算、范围/步长与值模型；Rate 的 grading 与图标扩展、Slider 的 marks/showInput/showTicks 与触控标签/颜色不同，统一 pointer 交互后再同源对齐主体。"
+  },
+  "input": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
+  },
+  "textarea": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
+  },
+  "verification-code": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
+  },
+  "search": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
+  },
+  "infinite-scroll": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。"
+  },
+  "list": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。"
+  },
+  "image": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Image/Preview/PreviewGroup Props 同名且已有配对契约基础；同源对齐加载和预览控制器，工具栏、键鼠缩放、触控缩放及弹层生命周期要逐项验证。"
+  },
+  "overlay": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。"
+  },
+  "dialog": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。"
+  },
+  "style-provider": {
+    "label": "待适配",
+    "en": "Adapt (planned)",
+    "reason": "主 Props 同名；主题 token 名称、默认配置及包内全局状态必须通过适配注入，避免跨库共享响应式单例。"
+  },
+  "select": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。"
+  },
+  "cascader": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。"
+  },
+  "auto-complete": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。"
+  },
+  "date": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "date-range": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "time": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "time-range": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "date-picker": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "date-range-picker": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "time-picker": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "time-range-picker": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+  },
+  "menu": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+  },
+  "popover": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+  },
+  "tooltip": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+  },
+  "trigger": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+  },
+  "split-button": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-08 完成独立同源复制：主体、21 项 Props、样式依赖入口和契约测试纳入一致性检查；统一异步点击、受控状态、禁用优先级、向下箭头及 open/close/resize。Cedar Menu 补齐浮层类名和屏幕轴偏移适配；两端 Menu 保留独立平台实现，无跨库运行时或实例共享。"
+  },
+  "form": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "Cedar 有 rules、栅格标签和 size，Maple 有 readonly，FormItem 导出与注入不同；先同源对齐校验任务、字段注册和重置，布局与错误呈现分开。"
+  },
+  "tabs": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "Tabs 有编辑/新增与 sticky/safeArea 差异；Carousel 有键盘 aria 与 centeredSlides/effect 差异；同源对齐索引、切换/自动播放状态机，导航和手势保留适配。"
+  },
+  "carousel": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "Tabs 有编辑/新增与 sticky/safeArea 差异；Carousel 有键盘 aria 与 centeredSlides/effect 差异；同源对齐索引、切换/自动播放状态机，导航和手势保留适配。"
+  },
+  "message": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 队列和悬停计时与移动 open/position/forbidClick/lockScroll 等不同；同源对齐队列/计时逻辑前先核对函数式返回句柄与关闭时序。"
+  },
+  "upload": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "PC 有 action/customRequest/headers/自动上传等完整请求能力，移动主要负责文件选择和展示；先同源对齐文件模型、校验和预览，不能直接替换上传管线。"
+  },
+  "table": {
+    "label": "独立",
+    "en": "Separate",
+    "reason": "Cedar 42 个 Props（列、选择、树、分页、虚拟滚动等），Maple 仅 3 个容器 Props；语义层级不同，不建议对齐整个 Table。"
+  },
+  "popup": {
+    "label": "逻辑待同源",
+    "en": "Logic copies (planned)",
+    "reason": "异名候选：同源对齐可见状态、placement、遮罩、滚动锁和关闭原因；Drawer 的桌面尺寸/焦点管理与 Popup 的触控、安全区及转场需保留适配。"
+  },
+  "row": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。"
+  },
+  "col": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。"
+  },
+  "paper": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "Cedar 新增 Paper；两端底层表面主体、Props、样式、token 和契约测试独立复制并验证。bordered 与 elevation 独立，无 variant、无默认 padding；保留尺寸、圆角与可选水波，不共享核心或实例。"
+  }
+}

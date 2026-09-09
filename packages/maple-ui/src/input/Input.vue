@@ -98,6 +98,7 @@ import MpFieldDecorator from '../field-decorator'
 import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import { createNamespace } from '../utils/components'
+import { useInputComposition } from '../utils/input-composition'
 import { props, type InputType } from './props'
 
 const { name, n, classes } = createNamespace('input')
@@ -113,7 +114,8 @@ export default defineComponent({
     const id = useClientId()
     const el = ref<HTMLInputElement | null>(null)
     const isFocusing = ref(false)
-    const isComposing = ref(false)
+    const composition = useInputComposition()
+    const isComposing = composition.isComposing
     const { form } = useForm()
     const { mergedError, eventHandlers, hasOuterLabel } = useFormItem()
     const cursor = computed(() => (props.disabled || props.readonly ? '' : 'text'))
@@ -201,23 +203,22 @@ export default defineComponent({
     }
 
     function handleCompositionStart() {
-      isComposing.value = true
+      composition.start()
     }
 
     function handleCompositionEnd(e: Event) {
-      if (!isComposing.value) {
-        return
+      if (composition.end(e)) {
+        commitInput(e)
       }
-
-      isComposing.value = false
-      e.target!.dispatchEvent(new Event('input'))
     }
 
     function handleInput(e: Event) {
-      if (isComposing.value) {
-        return
+      if (composition.accepts(e)) {
+        commitInput(e)
       }
+    }
 
+    function commitInput(e: Event) {
       const value = updateValue(e)
 
       emit('update:modelValue', value)

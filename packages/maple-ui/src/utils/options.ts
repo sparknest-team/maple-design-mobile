@@ -1,5 +1,6 @@
 import { computed, type ComputedRef } from 'vue'
 import { type PickerColumnOption } from '../picker/props'
+import { resolveOptionFields } from './option-data'
 
 export interface FieldNames {
   label?: string
@@ -20,12 +21,7 @@ export interface FieldNameProps {
 }
 
 export function useFieldNames(props: FieldNameProps, defaults?: Partial<FieldNameMap>): ComputedRef<FieldNameMap> {
-  return computed(() => ({
-    label: props.fieldNames?.label ?? defaults?.label ?? 'label',
-    value: props.fieldNames?.value ?? defaults?.value ?? 'value',
-    children: props.fieldNames?.children ?? defaults?.children ?? 'children',
-    disabled: props.fieldNames?.disabled ?? defaults?.disabled ?? 'disabled',
-  }))
+  return computed(() => resolveOptionFields(props.fieldNames, defaults))
 }
 
 export interface NormalizableOption {

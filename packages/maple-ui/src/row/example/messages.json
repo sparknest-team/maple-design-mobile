@@ -1,0 +1,16 @@
+{
+  "zh-CN": {
+    "basic": "24 栏基础布局",
+    "gutter": "双向间距与响应式间距",
+    "alignment": "水平与垂直对齐",
+    "wrap": "换行与普通容器模式",
+    "nested": "嵌套与间距隔离"
+  },
+  "en-US": {
+    "basic": "24-column layout",
+    "gutter": "Two-axis and responsive gutters",
+    "alignment": "Horizontal and vertical alignment",
+    "wrap": "Wrapping and plain container mode",
+    "nested": "Nested rows and isolated gutters"
+  }
+}

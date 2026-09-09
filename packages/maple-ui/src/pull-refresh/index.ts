@@ -9,6 +9,6 @@ export type PullRefreshInstance = InstanceType<typeof PullRefresh>
 export type { PullRefreshProps, PullRefreshStatus } from './props'
 export { pullRefreshProps }
 
-export const _PullRefreshComponent = PullRefresh
+export const _PullRefreshComponent: typeof PullRefresh = PullRefresh
 
 export default PullRefresh

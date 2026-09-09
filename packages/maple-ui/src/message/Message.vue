@@ -1,8 +1,5 @@
 <template>
-  <Teleport
-    :to="popupContainer === false ? undefined : popupContainer"
-    :disabled="disabled || popupContainer === false"
-  >
+  <Teleport :to="popupTarget" :disabled="disabled || popupContainer === false">
     <transition :name="`${n()}-fade`" @after-enter="$emit('opened')" @after-leave="$emit('closed')">
       <mp-message-core
         v-bind="$props"
@@ -26,6 +23,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespace, useTeleport } from '../utils/components'
+import { usePopupContainer } from '../utils/popup-container'
 import MpMessageCore from './core.vue'
 import { props } from './props'
 
@@ -36,10 +34,12 @@ export default defineComponent({
   components: { MpMessageCore },
   props,
   emits: ['update:open', 'open', 'opened', 'close', 'closed'],
-  setup() {
+  setup(props) {
+    const popupTarget = usePopupContainer(() => props.popupContainer)
     const { disabled } = useTeleport()
 
     return {
+      popupTarget,
       disabled,
       n,
     }

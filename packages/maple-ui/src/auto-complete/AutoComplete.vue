@@ -8,6 +8,7 @@
   >
     <mp-menu
       v-model:open="isShowMenu"
+      :popup-container="popupContainer"
       :auto-fit-popup-width="true"
       auto-complete-cover
       trigger="manual"
@@ -83,18 +84,26 @@ import MpInput from '../input'
 import MpMenu from '../menu'
 import MpMenuOption from '../menu/MenuOption.vue'
 import { createNamespace } from '../utils/components'
+import { matchesOptionText } from '../utils/option-data'
 import { useFieldNames } from '../utils/options'
 import { props, type AutoCompleteOption } from './props'
 
 const { name, n } = createNamespace('auto-complete')
 
+type RegisteredComponents = {
+  MpInput: typeof MpInput
+  MpMenu: typeof MpMenu
+  MpMenuOption: typeof MpMenuOption
+}
+const registeredComponents: RegisteredComponents = {
+  MpInput,
+  MpMenu,
+  MpMenuOption,
+}
+
 export default defineComponent({
   name,
-  components: {
-    MpInput,
-    MpMenu,
-    MpMenuOption,
-  },
+  components: registeredComponents,
   props,
   emits: ['input', 'clear', 'click', 'change', 'focus', 'blur', 'update:modelValue'],
   setup(props, { emit }) {
@@ -111,6 +120,23 @@ export default defineComponent({
     const fieldNames = useFieldNames(props)
     const labelKey = computed(() => fieldNames.value.label)
     const valueKey = computed(() => fieldNames.value.value)
+    const filteredOptions = computed(() => {
+      const inputValue = value.value ?? ''
+      if (!inputValue || props.filterOption === false) {
+        return props.options
+      }
+      return props.options.filter((option) => {
+        if (typeof props.filterOption === 'function') {
+          return props.filterOption(inputValue, option)
+        }
+        const label = option[labelKey.value] ?? option[valueKey.value] ?? ''
+        if (typeof label !== 'string' && typeof label !== 'number') {
+          return false
+        }
+        const text = String(label)
+        return matchesOptionText(text, inputValue, props.strict)
+      })
+    })
 
     let clearing = false
 
@@ -129,7 +155,19 @@ export default defineComponent({
       },
     )
 
-    watch(() => [props.options, isFocusing.value], changeMenuState)
+    watch(
+      () => [
+        filteredOptions.value,
+        value.value,
+        isFocusing.value,
+        props.shouldOpen,
+        props.disabled,
+        props.readonly,
+        form?.disabled.value,
+        form?.readonly.value,
+      ],
+      changeMenuState,
+    )
 
     useEventListener(() => window, 'keydown', handleKeydown)
 
@@ -199,13 +237,11 @@ export default defineComponent({
     }
 
     function changeMenuState() {
-      if (isFocusing.value) {
-        isShowMenu.value = getShowMenu(value.value!)
-      }
+      isShowMenu.value = isFocusing.value && getShowMenu(value.value ?? '')
 
       // when the menu is closed, the options are not updated, avoiding the flicker of the menu
       if (isShowMenu.value) {
-        viewOptions.value = props.options
+        viewOptions.value = filteredOptions.value
       }
     }
 
@@ -259,7 +295,7 @@ export default defineComponent({
         return false
       }
 
-      return props.options.length > 0 && (props.getShow != null ? props.getShow(newValue) : newValue.length > 0)
+      return filteredOptions.value.length > 0 && props.shouldOpen(newValue)
     }
 
     return {

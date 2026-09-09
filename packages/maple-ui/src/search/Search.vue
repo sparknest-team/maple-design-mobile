@@ -176,7 +176,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, ref, shallowRef, watch } from 'vue'
 import { IconSearch, IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpIcon from '../icon'
@@ -192,17 +192,28 @@ import type { SearchResult } from './result'
 
 const { name, n, classes } = createNamespace('search')
 
+type RegisteredComponents = {
+  MIconCloseCircleFill: typeof MIconCloseCircleFill
+  MpIcon: typeof MpIcon
+  MpRegisteredIcon: typeof MpRegisteredIcon
+  MpInput: typeof MpInput
+  MpMenu: typeof MpMenu
+  MpPopup: typeof MpPopup
+  MpSelect: typeof MpSelect
+}
+const registeredComponents: RegisteredComponents = {
+  MIconCloseCircleFill,
+  MpIcon,
+  MpRegisteredIcon,
+  MpInput,
+  MpMenu,
+  MpPopup,
+  MpSelect,
+}
+
 export default defineComponent({
   name,
-  components: {
-    MIconCloseCircleFill,
-    MpIcon,
-    MpRegisteredIcon,
-    MpInput,
-    MpMenu,
-    MpPopup,
-    MpSelect,
-  },
+  components: registeredComponents,
   props,
   emits: [
     'focus',
@@ -219,9 +230,11 @@ export default defineComponent({
     'cancel',
   ],
   setup(props, { emit }) {
-    const input = ref<InstanceType<typeof MpInput> | null>(null)
-    const select = ref<InstanceType<typeof MpSelect> | null>(null)
-    const historyMenu = ref<InstanceType<typeof MpMenu> | null>(null)
+    const input = shallowRef<{ focus(): void; blur(): void } | null>(null)
+    const select = shallowRef<{ focus(): void; blur(): void } | null>(null)
+    const historyMenu = shallowRef<{ resize(): void; close(): void; setReference(element: HTMLElement): void } | null>(
+      null,
+    )
     const fieldRef = ref<HTMLElement>()
     const value = ref(props.defaultValue)
     const field = ref(props.defaultField || props.fields[0]?.value)

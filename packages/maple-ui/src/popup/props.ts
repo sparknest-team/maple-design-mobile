@@ -1,4 +1,5 @@
 import { type PropType, type TeleportProps } from 'vue'
+import { popupContainerProp } from '../utils/popup-container'
 
 export type PopupPosition = 'top' | 'bottom' | 'right' | 'left' | 'center'
 
@@ -36,9 +37,6 @@ export const props = {
   zIndex: Number,
   safeArea: Boolean,
   safeAreaTop: Boolean,
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
   // internal for Dialog
 }

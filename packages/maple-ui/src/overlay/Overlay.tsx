@@ -1,10 +1,12 @@
-import { computed, defineComponent, nextTick, onMounted, ref, Teleport, Transition, watch } from 'vue'
+import { computed, defineComponent, ref, Teleport, Transition } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
 import { useLock } from '../context/lock'
 import { useStack } from '../context/stack'
 import { useZIndex } from '../context/zIndex'
 import { createNamespace, useTeleport } from '../utils/components'
+import { usePopupContainer } from '../utils/popup-container'
+import { usePopupTransition } from '../utils/popup-transition'
 import { props } from './props'
 import './style'
 
@@ -26,41 +28,27 @@ export default defineComponent({
         emit('update:open', value)
       },
     })
-    const rendered = ref(mergedOpen.value)
-    const shouldRender = computed(() => mergedOpen.value || (!props.unmountOnClose && rendered.value))
+    const transition = usePopupTransition(
+      () => mergedOpen.value,
+      () => props.unmountOnClose,
+      (event) => emit(event),
+    )
+    const { shouldRender } = transition
     const { zIndex: managedZIndex } = useZIndex(() => mergedOpen.value, 3)
     const zIndex = computed(() => props.zIndex ?? managedZIndex.value)
     const { onStackTop } = useStack(() => mergedOpen.value, zIndex)
     const { disabled } = useTeleport()
+    const popupTarget = usePopupContainer(() => props.popupContainer)
 
     useLock(
-      () => mergedOpen.value,
+      () => mergedOpen.value || transition.leaving.value,
       () => props.lockScroll,
     )
 
     useEventListener(() => window, 'keydown', handleKeydown)
 
-    watch(
-      mergedOpen,
-      (open) => {
-        if (open) {
-          rendered.value = true
-          emit('open')
-        } else {
-          emit('close')
-        }
-      },
-      { immediate: mergedOpen.value },
-    )
-
-    onMounted(() => {
-      if (mergedOpen.value) {
-        nextTick(() => emit('opened'))
-      }
-    })
-
     function handleKeydown(event: KeyboardEvent) {
-      if (!onStackTop() || event.key !== 'Escape' || !mergedOpen.value) {
+      if (!onStackTop(event) || event.key !== 'Escape' || !mergedOpen.value) {
         return
       }
 
@@ -75,6 +63,9 @@ export default defineComponent({
     }
 
     function handleClickOverlay(event: MouseEvent) {
+      if (!onStackTop(event)) {
+        return
+      }
       emit('click', event)
       if (props.overlayClosable) {
         mergedOpen.value = false
@@ -113,11 +104,7 @@ export default defineComponent({
 
     function renderTransitionOverlay() {
       return (
-        <Transition
-          name={n('--fade')}
-          onAfterEnter={(...args: any[]) => emit('opened', ...args)}
-          onAfterLeave={(...args: any[]) => emit('closed', ...args)}
-        >
+        <Transition name={n('--fade')} onAfterEnter={transition.opened} onAfterLeave={transition.closed}>
           {shouldRender.value && renderOverlay()}
         </Transition>
       )
@@ -126,9 +113,9 @@ export default defineComponent({
     return () => {
       const { popupContainer } = props
 
-      if (popupContainer) {
+      if (popupContainer !== false) {
         return (
-          <Teleport to={popupContainer} disabled={disabled.value}>
+          <Teleport to={popupTarget.value} disabled={disabled.value}>
             {renderTransitionOverlay()}
           </Teleport>
         )

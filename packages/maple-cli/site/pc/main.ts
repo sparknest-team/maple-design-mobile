@@ -1,13 +1,17 @@
 import { createApp } from 'vue'
 import config from '@config'
+import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maplejs/maple-cli/client'
+import { Locale } from '@maplejs/maple-ui'
 import routes from '@pc-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import CodeExample from './components/code-example'
 import '@maplejs/maple-touch-emulator'
-import '@maple-theme'
+import '@maple-foundation'
 
-const defaultLanguage = config?.defaultLanguage
+const defaultLanguage = getSavedLanguage(normalizeLanguage(config?.defaultLanguage))
+Locale.add('zh-CN', Locale.zhCN)
+Locale.add('en-US', Locale.enUS)
 const redirect = config?.pc?.redirect
 const mobileRedirect = config?.mobile?.redirect
 
@@ -34,6 +38,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to: any, from: any) => {
+  const language = normalizeLanguage(to.path.split('/')[1], defaultLanguage)
+  Locale.use(language)
+  saveLanguage(language)
   if (to.fullPath === from.fullPath) {
     return false
   }

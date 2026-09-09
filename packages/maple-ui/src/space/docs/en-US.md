@@ -2,7 +2,7 @@
 
 ### Intro
 
-The component library provides two auxiliary layout components,
+The component library provides a layout component,
 `<mp-space>`,
 so that you can do flex layout more efficiently.
 
@@ -34,7 +34,7 @@ so that you can do flex layout more efficiently.
 
 ```html
 <template>
-  <mp-space :size="[20, 20]">
+  <mp-space wrap :size="[20, 20]">
     <mp-button>Button1</mp-button>
     <mp-button>Button2</mp-button>
     <mp-button>Button3</mp-button>
@@ -96,11 +96,11 @@ so that you can do flex layout more efficiently.
 | Prop        | Description                                                                                             | Type     | Default |
 |-------------|---------------------------------------------------------------------------------------------------------|----------|---------|
 | `direction` | Layout direction, can be set to `row` `column`                                                          | _string_ | `row`   |
-| `justify`   | Main axis arrangement, Can be set to `flex-start` `flex-end` `center` `space-around` `space-between`             | _string_ | `flex-start` |
+| `justify`   | Main axis arrangement, Can be set to `flex-start` `flex-end` `center` `space-around` `space-between` `space-evenly` | _string_ | `flex-start` |
 | `align`     | Cross axis arrangement, Can be set to `stretch` `center` `flex-start` `flex-end` `baseline`. Inferred when omitted (`row` → `center`, `column` → `stretch`) | _string_ | `-`     |
-| `size`      | Spacing, can be set to `mini` `small` `normal` `large` or `[Vertical, Horizontal]`(Support length unit) | _string \| number \| [string \| number, string \| number]_ |`normal`|
-| `wrap`      | Whether to exceed the line break                                                                        | _boolean_ | `true`  |
-| `inline`    | Is it an inline element                                                                                 | _boolean_ | `false` |
+| `size`      | Spacing, can be set to `xs` `sm` `md` `lg` `xl` or `[Vertical, Horizontal]`(Support length unit) | _string \| number \| [string \| number, string \| number]_ |`md`|
+| `wrap`      | Whether to exceed the line break                                                                        | _boolean_ | `false`  |
+| `block` | Use flex instead of inline-flex | _boolean_ | `true` |
 
 ### Slots
 
@@ -108,17 +108,25 @@ so that you can do flex layout more efficiently.
 |-----------|------------------|-----------|
 | `default` | Content of space | `-`       |
 
-### Style Variables
+| `split` | Separator between effective children | `-` |
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+### Style Variables
 
 | Variable | Default |
 | --- | --- |
-| `--space-size-mini-y`  | `4px`        |
-| `--space-size-mini-x`  | `4px`        |
-| `--space-size-small-y` | `6px`        |
-| `--space-size-small-x` | `6px`        |
-| `--space-size-normal-y` | `8px`        |
-| `--space-size-normal-x` | `12px`       |
-| `--space-size-large-y` | `12px`       |
-| `--space-size-large-x` | `20px`       |
+| `--mp-space-size-xs-row-gap` | `4px` |
+| `--mp-space-size-xs-column-gap` | `4px` |
+| `--mp-space-size-sm-row-gap` | `8px` |
+| `--mp-space-size-sm-column-gap` | `6px` |
+| `--mp-space-size-md-row-gap` | `12px` |
+| `--mp-space-size-md-column-gap` | `8px` |
+| `--mp-space-size-lg-row-gap` | `16px` |
+| `--mp-space-size-lg-column-gap` | `12px` |
+| `--mp-space-size-xl-row-gap` | `24px` |
+| `--mp-space-size-xl-column-gap` | `16px` |
+
+## Independent source copies
+
+Both libraries independently maintain the rendering, Props, child flattening, styles, spacing tokens and tests. No runtime core or instances are shared. Both default to size=md, wrap=false, block=true and direction=row. Maple users relying on implicit wrapping must explicitly add wrap.
+
+Numbers and numeric strings use px; CSS lengths and expressions are preserved. A tuple always means [rowGap, columnGap], regardless of direction. Tuple entries are lengths, not preset names. All five presets are supported and match Cedar, including built-in Maple themes. Override CSS variables for custom spacing.

@@ -9,6 +9,6 @@ export { emptyProps }
 
 export type EmptyInstance = InstanceType<typeof Empty>
 export type { EmptyImageSize, EmptyProps } from './props'
-export const _EmptyComponent = Empty
+export const _EmptyComponent: typeof Empty = Empty
 
 export default Empty

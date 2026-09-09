@@ -22,7 +22,8 @@ export type DatePickerInstance = InstanceType<typeof DatePicker>
 export type { DateProps, DateType } from './props'
 export type { DatePickerPresentation } from './picker-props'
 
-export const _DateComponent = Date
-export const _DatePickerComponent = DatePicker
+export const _DateComponent: typeof Date = Date
+export const _DatePickerComponent: typeof DatePicker = DatePicker
 
 export default Date
+export type DatePickerProps = import('vue').ExtractPublicPropTypes<typeof import('./picker-props').props>

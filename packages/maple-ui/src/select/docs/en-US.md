@@ -244,28 +244,28 @@ Display and select the content through the drop-down menu.
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-select variant="outlined" placeholder="Please select one the options" v-model="value">
+    <mp-select variant="outline" placeholder="Please select one the options" v-model="value">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Label relation value" v-model="value2">
+    <mp-select variant="outline" placeholder="Label relation value" v-model="value2">
       <mp-option label="Eat" :value="1" />
       <mp-option label="Sleep" :value="2" />
     </mp-select>
     <div class="relation">The current selection is: {{ value2 }}</div>
-    <mp-select variant="outlined" placeholder="Readonly" readonly v-model="value3">
+    <mp-select variant="outline" placeholder="Readonly" readonly v-model="value3">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Disabled" disabled v-model="value4">
+    <mp-select variant="outline" placeholder="Disabled" disabled v-model="value4">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Clearable" clearable v-model="value5">
+    <mp-select variant="outline" placeholder="Clearable" clearable v-model="value5">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Use the clear icon slot" clearable v-model="value6">
+    <mp-select variant="outline" placeholder="Use the clear icon slot" clearable v-model="value6">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <template #clear-icon="{ clear }">
@@ -273,7 +273,7 @@ Display and select the content through the drop-down menu.
       </template>
     </mp-select>
 
-    <mp-select variant="outlined" placeholder="Custom Icon" v-model="value7">
+    <mp-select variant="outline" placeholder="Custom Icon" v-model="value7">
       <template #default>
         <mp-option label="Eat">
           <m-icon-cake-variant class="selected-icon" />
@@ -299,7 +299,7 @@ Display and select the content through the drop-down menu.
         <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
-    <mp-select variant="outlined" placeholder="Custom Icon Size" v-model="value8">
+    <mp-select variant="outline" placeholder="Custom Icon Size" v-model="value8">
       <template #default>
         <mp-option label="Eat">
           <m-icon-cake-variant class="selected-icon" />
@@ -326,26 +326,26 @@ Display and select the content through the drop-down menu.
       </template>
     </mp-select>
 
-    <mp-select variant="outlined" placeholder="Multiple Selection" multiple v-model="value9">
+    <mp-select variant="outline" placeholder="Multiple Selection" multiple v-model="value9">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <mp-option label="Play game" />
       <mp-option label="Coding" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Multiple choice with tag style" tag multiple v-model="value10">
+    <mp-select variant="outline" placeholder="Multiple choice with tag style" tag multiple v-model="value10">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
       <mp-option label="Play game" />
       <mp-option label="Coding" />
     </mp-select>
-    <mp-select variant="outlined" size="sm" placeholder="Small Size" v-model="value13">
+    <mp-select variant="outline" size="sm" placeholder="Small Size" v-model="value13">
       <mp-option label="Eat" />
       <mp-option label="Sleep" />
     </mp-select>
-    <mp-select variant="outlined" placeholder="Options API" v-model="value14" :options="options" />
-    <mp-select variant="outlined" placeholder="Options API" v-model="value15" :options="options" multiple />
+    <mp-select variant="outline" placeholder="Options API" v-model="value14" :options="options" />
+    <mp-select variant="outline" placeholder="Options API" v-model="value15" :options="options" multiple />
     <mp-select
-      variant="outlined"
+      variant="outline"
       placeholder="Custom Fields"
       v-model="value16"
       :options="keyOptions"
@@ -481,7 +481,7 @@ Single: tap to select and close. Multiple: tap to toggle draft selection, **Done
 | --------------------------- | -------------------------------------------------------------------- | ------------------------------------------ | ----------- |
 | `v-model`                   | The value of the binding                                             | _any \| any[]_                             | `-`         |
 | `size`                      | Select size: `xs` `sm` `md` `lg` `xl`                                | _ComponentSize_                            | `md`        |
-| `variant`                   | Select variant, The optional value is `filled` `outlined` `standard` | _string_                                   | `standard`  |
+| `variant`                   | Select variant, The optional value is `filled` `outline` `standard` | _string_                                   | `standard`  |
 | `presentation` _**3.18.0**_ | Display mode, optional values `menu` `picker` `list`                 | _string_                                   | `menu`      |
 | `show` _**3.18.0**_         | Visibility control                                                   | _boolean_                                  | `undefined` |
 | `placeholder`               | placeholder                                                          | _string_                                   | `-`         |
@@ -499,6 +499,7 @@ Single: tap to select and close. Multiple: tap to toggle draft selection, **Done
 | `options` _**3.3.4**_       | Specifies options                                                    | _SelectOption[]_                           | `[]`        |
 | `field-names`               | Custom field mapping for `options`                                   | _{ label?, value?, children?, disabled? }_ | `-`         |
 | `picker-props` _**3.18.0**_ | Props passed to `mp-picker` in picker mode                           | _Partial\<PickerProps\>_                   | `{}`        |
+| auto-fit-popup-width | Whether the menu matches the trigger width; false fits content (menu presentation). | `boolean` | `true` |
 | `popup-props` _**3.18.0**_  | Props passed to popup                                                | _Partial\<PopupProps\>_                    | `{}`        |
 
 Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
@@ -622,4 +623,3 @@ Here are the CSS variables used by the component. Styles can be customized using
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Options to display the content | `selected: boolean` selected or not |
-

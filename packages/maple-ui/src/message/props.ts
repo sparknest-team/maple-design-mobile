@@ -2,12 +2,13 @@ import { type PropType, type TeleportProps } from 'vue'
 import type { SlotType } from '.'
 import { loadingProps } from '../loading'
 import { pickProps } from '../utils/components'
-import type { MessagePosition, MessageType } from './index'
+import { popupContainerProp } from '../utils/popup-container'
+import type { MessagePosition, MessageStatus } from './index'
 
 export type { MessagePosition }
 
 export const props = {
-  type: String as PropType<MessageType>,
+  status: { type: String as PropType<MessageStatus>, default: 'info' },
   position: {
     type: String as PropType<MessagePosition>,
     default: 'top',
@@ -19,7 +20,7 @@ export const props = {
     default: 3000,
   },
   elevation: {
-    type: [Boolean, String, Number],
+    type: [Boolean, Number],
     default: true,
   },
   vertical: Boolean,
@@ -32,10 +33,7 @@ export const props = {
   },
   lockScroll: Boolean,
   open: Boolean,
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
   forbidClick: Boolean,
   showIcon: {
     type: Boolean,

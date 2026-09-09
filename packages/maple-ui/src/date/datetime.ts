@@ -2,6 +2,7 @@ import { toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import type { PickerColumnOption } from '../picker/props'
 import type { DisabledTime } from '../time/picker-props'
+import { calendarMonthDays, unitSequence } from '../utils/picker-data'
 import { padStart } from '../utils/shared'
 
 export function pad(value: number) {
@@ -58,8 +59,8 @@ export function joinDateParts(values: (string | number)[], type: 'year' | 'month
   if (type === 'month') {
     return `${year}-${month}`
   }
-  const maxDay = dayjs(`${year}-${month}-01`).daysInMonth()
-  const day = pad(Math.min(toNumber(values[2] ?? 1), maxDay))
+  const maxDay = calendarMonthDays(Number(year), Number(month))
+  const day = pad(Math.max(1, Math.min(toNumber(values[2] ?? 1), maxDay)))
   return `${year}-${month}-${day}`
 }
 
@@ -76,8 +77,8 @@ export function parseDateTimeParts(value: string, useSeconds: boolean) {
 export function joinDateTimeParts(values: (string | number)[], useSeconds: boolean) {
   const year = `${toNumber(values[0])}`
   const month = pad(toNumber(values[1] ?? 1))
-  const maxDay = dayjs(`${year}-${month}-01`).daysInMonth()
-  const day = pad(Math.min(toNumber(values[2] ?? 1), maxDay))
+  const maxDay = calendarMonthDays(Number(year), Number(month))
+  const day = pad(Math.max(1, Math.min(toNumber(values[2] ?? 1), maxDay)))
   const hour = pad(toNumber(values[3] ?? 0))
   const minute = pad(toNumber(values[4] ?? 0))
   if (useSeconds) {
@@ -130,33 +131,39 @@ type BuildColumnsOptions = {
 }
 
 function buildTimeColumns(useSeconds: boolean, disabledTime?: DisabledTime): PickerColumnOption[][] {
-  const hours: PickerColumnOption[] = Array.from({ length: 24 }, (_, index) => {
-    if (disabledTime?.hours && disabledTime.hours(index)) {
-      return null
-    }
-    const text = pad(index)
-    return { text, value: text }
-  }).filter(Boolean) as PickerColumnOption[]
+  const hours: PickerColumnOption[] = unitSequence(24)
+    .map((index) => {
+      if (disabledTime?.hours && disabledTime.hours(index)) {
+        return null
+      }
+      const text = pad(index)
+      return { text, value: text }
+    })
+    .filter(Boolean) as PickerColumnOption[]
 
-  const minutes: PickerColumnOption[] = Array.from({ length: 60 }, (_, index) => {
-    if (disabledTime?.minutes && disabledTime.minutes(index)) {
-      return null
-    }
-    const text = pad(index)
-    return { text, value: text }
-  }).filter(Boolean) as PickerColumnOption[]
+  const minutes: PickerColumnOption[] = unitSequence(60)
+    .map((index) => {
+      if (disabledTime?.minutes && disabledTime.minutes(index)) {
+        return null
+      }
+      const text = pad(index)
+      return { text, value: text }
+    })
+    .filter(Boolean) as PickerColumnOption[]
 
   if (!useSeconds) {
     return [hours, minutes]
   }
 
-  const seconds: PickerColumnOption[] = Array.from({ length: 60 }, (_, index) => {
-    if (disabledTime?.seconds && disabledTime.seconds(index)) {
-      return null
-    }
-    const text = pad(index)
-    return { text, value: text }
-  }).filter(Boolean) as PickerColumnOption[]
+  const seconds: PickerColumnOption[] = unitSequence(60)
+    .map((index) => {
+      if (disabledTime?.seconds && disabledTime.seconds(index)) {
+        return null
+      }
+      const text = pad(index)
+      return { text, value: text }
+    })
+    .filter(Boolean) as PickerColumnOption[]
 
   return [hours, minutes, seconds]
 }
@@ -225,7 +232,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
       return { text: monthValue, value: monthValue }
     })
 
-    const daysInMonth = dayjs(`${year}-${pad(month)}-01`).daysInMonth()
+    const daysInMonth = calendarMonthDays(Number(year), Number(month))
     const days: PickerColumnOption[] = Array.from({ length: daysInMonth }, (_, index) => {
       const dayValue = pad(index + 1)
       const dateValue = `${year}-${pad(month)}-${dayValue}`
@@ -281,7 +288,7 @@ export function buildDateOrDateTimeColumns(options: BuildColumnsOptions): Picker
     return [years, months]
   }
 
-  const daysInMonth = dayjs(`${year}-${pad(month)}-01`).daysInMonth()
+  const daysInMonth = calendarMonthDays(Number(year), Number(month))
   const days: PickerColumnOption[] = Array.from({ length: daysInMonth }, (_, index) => {
     const dayValue = pad(index + 1)
     const dateValue = `${year}-${pad(month)}-${dayValue}`

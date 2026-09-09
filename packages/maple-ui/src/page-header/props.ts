@@ -1,17 +1,29 @@
 import type { ExtractPropTypes, VNode } from 'vue'
 
 export const pageHeaderProps = {
-  /** 是否显示返回按钮 */
+  /**
+   * @zh 是否显示返回按钮
+   * @en Whether to show the back button
+   */
   showBack: Boolean,
-  /** 主标题 */
+  /**
+   * @zh 页头的主标题
+   * @en Main title
+   */
   title: String,
-  /** 次标题 */
+  /**
+   * @zh 页头的次标题
+   * @en Subtitle
+   */
   subtitle: String,
-  /** 右侧附加内容 */
+  /**
+   * @zh 右侧附加内容
+   * @en Extra content on the right
+   */
   extra: String,
 }
 
-export type PageHeaderProps = ExtractPropTypes<typeof pageHeaderProps>
+export type PageHeaderProps = import('vue').ExtractPublicPropTypes<typeof pageHeaderProps>
 
 export interface PageHeaderSlots {
   header?: () => VNode[]

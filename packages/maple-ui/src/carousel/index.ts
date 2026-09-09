@@ -31,7 +31,8 @@ export type {
 
 export type CarouselInstance = InstanceType<typeof _Carousel>
 export type CarouselItemInstance = InstanceType<typeof CarouselItem>
-export const _CarouselComponent = Carousel
-export const _CarouselItemComponent = CarouselItem
+export const _CarouselComponent: typeof Carousel = Carousel
+export const _CarouselItemComponent: typeof CarouselItem = CarouselItem
 
 export default Carousel
+export type CarouselItemProps = import('vue').ExtractPublicPropTypes<typeof import('./item-props').carouselItemProps>

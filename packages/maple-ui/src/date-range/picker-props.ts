@@ -39,9 +39,9 @@ export const props = {
   },
   readonly: Boolean,
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: false,
   },
 }
 
-export type DateRangePickerProps = ExtractPropTypes<typeof props>
+export type DateRangePickerProps = import('vue').ExtractPublicPropTypes<typeof props>

@@ -1,4 +1,5 @@
 import { TeleportProps, type PropType } from 'vue'
+import { popupContainerProp } from '../utils/popup-container'
 
 export const props = {
   anchor: Number,
@@ -12,12 +13,9 @@ export const props = {
     default: 300,
   },
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
   safeArea: Boolean,
 }

@@ -1,0 +1,125 @@
+.mp-pagination {
+  --mp-pagination-control-size: var(--mp-pagination-size-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mp-pagination-gap);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  color: var(--mp-pagination-text-color);
+  font-size: var(--mp-pagination-font-size);
+  line-height: normal;
+  &__list,
+  &__simple-wrap,
+  &__controls,
+  &__jumper {
+    display: flex;
+    align-items: center;
+    gap: var(--mp-pagination-item-gap);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+  }
+  &__list {
+    list-style: none;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: var(--mp-pagination-focus-space);
+    > li {
+      display: flex;
+      flex: none;
+    }
+  }
+  &__controls {
+    flex-wrap: wrap;
+    gap: var(--mp-pagination-gap);
+    max-width: 100%;
+  }
+  &__simple-wrap {
+    max-width: 100%;
+  }
+  &__total,
+  &__page-count,
+  &__jumper-prepend,
+  &__jumper-append {
+    white-space: nowrap;
+  }
+  &__page-count {
+    font-variant-numeric: tabular-nums;
+  }
+  &__item {
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--mp-pagination-control-size);
+    height: var(--mp-pagination-control-size);
+    padding: 0 var(--mp-pagination-item-padding);
+    border: 0;
+    border-radius: var(--mp-pagination-item-border-radius);
+    background: var(--mp-pagination-item-background);
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    svg {
+      width: var(--mp-pagination-icon-size);
+      height: var(--mp-pagination-icon-size);
+    }
+    &:hover:not(:disabled) {
+      background: var(--mp-pagination-hover-background);
+    }
+    &--active,
+    &--active:hover:not(:disabled) {
+      background: var(--mp-pagination-active-background);
+      color: var(--mp-pagination-active-color);
+    }
+    &:focus-visible {
+      outline: var(--mp-pagination-focus-width) solid var(--mp-pagination-focus-color);
+      outline-offset: var(--mp-pagination-focus-offset);
+    }
+    &:disabled {
+      color: var(--mp-pagination-disabled-color);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    &--active:disabled {
+      background: var(--mp-pagination-disabled-background);
+    }
+  }
+  &__input {
+    min-height: var(--mp-pagination-control-size);
+    width: var(--mp-pagination-input-width);
+    min-width: 0;
+    flex: none;
+    input {
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+  &__options {
+    width: var(--mp-pagination-select-width);
+    max-width: 100%;
+    flex: none;
+    > * {
+      width: 100%;
+      min-height: var(--mp-pagination-control-size);
+    }
+  }
+  &--compact &__input,
+  &--compact &__options > * {
+    min-height: ~'max(var(--mp-pagination-control-size), var(--mp-pagination-touch-size))';
+  }
+}
+.pagination-size(@size) {
+  .mp-pagination--size-@{size} {
+    --mp-pagination-control-size: var(~'--mp-pagination-size-@{size}');
+  }
+}
+.pagination-size(xs);
+.pagination-size(sm);
+.pagination-size(md);
+.pagination-size(lg);
+.pagination-size(xl);

@@ -151,3 +151,13 @@ app.directive('mp-loading', vLoading)
 | `--loading-opacity`     | `0.38`                 |
 | `--loading-desc-margin` | `8px 0 0`              |
 | `--loading-desc-color`  | `var(--color-primary)` |
+
+加载指令的遮罩会阻止点击默认行为和冒泡，点击遮罩不会触发 Card 或父级的普通 `@click`；关闭加载后恢复正常点击。遮罩不会禁用底层控件的键盘操作，如需完全禁止操作，请同时设置控件的 `disabled`。
+
+### 覆盖层样式
+
+| 变量 | 说明 |
+| --- | --- |
+| `--mp-loading-overlay-background` | 指令覆盖层背景色；background 选项可覆盖该值。 |
+
+内容覆盖层类名：`.mp-loading__content-overlay`。

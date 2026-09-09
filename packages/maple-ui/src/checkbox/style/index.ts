@@ -1,1 +1,5 @@
+import '../../style/index.less'
+import '../../hover/style'
+import '../../icon/style'
+import '../../ripple/style'
 import './index.less'

@@ -24,7 +24,7 @@ export type ComponentProps = {
   showCurrent: boolean
   multiple: boolean
   range: boolean
-  buttonElevation: boolean | string | number
+  buttonElevation: boolean | number
 }
 
 export type PanelBtnDisabled = {
@@ -76,11 +76,11 @@ export const props = {
   color: String,
   titleColor: String,
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: false,
   },
   buttonElevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
   firstDayOfWeek: {

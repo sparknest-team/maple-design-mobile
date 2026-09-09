@@ -1,14 +1,17 @@
-import type { App, Component, TeleportProps, VNode } from 'vue'
+import type { App, Component, VNode } from 'vue'
 import { reactive, TransitionGroup } from 'vue'
 import { call, isFunction, isPlainObject, isString } from '@maplejs/maple-shared'
 import context from '../context'
 import type { LoadingSize, LoadingType } from '../loading/props'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
+import type { PopupContainer } from '../utils/popup-container'
 import VarMessageCore from './core.vue'
 import VarMessage from './Message.vue'
 import { props as messageProps } from './props'
 
 export type MessageType = 'success' | 'warning' | 'info' | 'error' | 'loading' | 'normal'
+export type MessageStatus = 'success' | 'warning' | 'info' | 'danger' | 'loading' | 'default'
+export const MESSAGE_STATUSES: MessageStatus[] = ['success', 'warning', 'info', 'danger', 'loading', 'default']
 
 export const MESSAGE_TYPE: Array<MessageType> = ['loading', 'success', 'warning', 'info', 'error', 'normal']
 
@@ -22,7 +25,7 @@ export interface MessageReturn {
 
 export interface MessageOptions {
   id?: string | number
-  type?: MessageType
+  status?: MessageStatus
   content?: SlotType
   icon?: SlotType
   action?: SlotType
@@ -32,7 +35,7 @@ export interface MessageOptions {
   lockScroll?: boolean
   contentClass?: string
   duration?: number
-  elevation?: boolean | string | number
+  elevation?: boolean | number
   vertical?: boolean
   forbidClick?: boolean
   showIcon?: boolean
@@ -42,7 +45,7 @@ export interface MessageOptions {
   onOpened?: () => void
   onClosed?: () => void
   // internal
-  popupContainer?: TeleportProps['to']
+  popupContainer?: PopupContainer
   open?: boolean
 }
 
@@ -83,7 +86,7 @@ let isMount = false
 let unmount: () => void
 
 const defaultOptionsValue: MessageOptions = {
-  type: undefined,
+  status: 'info',
   content: '',
   icon: '',
   action: '',
@@ -139,7 +142,7 @@ const TransitionGroupHost = {
     return () => {
       const messageList = uniqMessageOptions.map(({ id, reactiveMessageOptions, _update }: UniqMessageOptions) => {
         const transitionGroupEl = document.querySelector('.mp-message-group')
-        if (reactiveMessageOptions.forbidClick || reactiveMessageOptions.type === 'loading') {
+        if (reactiveMessageOptions.forbidClick || reactiveMessageOptions.status === 'loading') {
           ;(transitionGroupEl as HTMLElement)?.classList.add('mp-pointer-auto')
         } else {
           ;(transitionGroupEl as HTMLElement)?.classList.remove('mp-pointer-auto')
@@ -190,7 +193,7 @@ const TransitionGroupHost = {
   },
 }
 
-function resolveDuration(type: MessageType | undefined, duration: number | undefined) {
+function resolveDuration(type: MessageStatus | undefined, duration: number | undefined) {
   if (duration != null) {
     return duration
   }
@@ -212,7 +215,7 @@ const Message: Message = function (options?: MessageOptions | string): MessageRe
     ...messageOptions,
     id,
     duration: resolveDuration(
-      messageOptions.type ?? defaultOptions.type,
+      messageOptions.status ?? defaultOptions.status,
       messageOptions.duration ?? defaultOptions.duration,
     ),
   })
@@ -235,15 +238,16 @@ const Message: Message = function (options?: MessageOptions | string): MessageRe
 } as Message
 
 MESSAGE_TYPE.forEach((type) => {
+  const status: MessageStatus = type === 'error' ? 'danger' : type === 'normal' ? 'default' : type
   Message[type] = (options: MessageOptions | string): MessageReturn => {
     let nextOptions: MessageOptions
 
     if (isPlainObject(options)) {
-      nextOptions = { ...options, type }
+      nextOptions = { ...options, status }
     } else {
       nextOptions = {
         content: options,
-        type,
+        status,
       }
     }
 
@@ -337,7 +341,9 @@ withPropsDefaultsSetter(Message, messageProps)
 
 export { messageProps }
 
-export const _MessageComponent = VarMessage
+export const _MessageComponent: typeof VarMessage = VarMessage
 export type MessageInstance = InstanceType<typeof VarMessage>
 
 export default Message
+
+export type MessageProps = Omit<import('vue').ExtractPublicPropTypes<typeof import('./props').props>, '_update'>

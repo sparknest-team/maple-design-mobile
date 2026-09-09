@@ -48,9 +48,9 @@ export const buttonGroupProps = {
    * 海拔阴影
    */
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
 }
 
-export type ButtonGroupProps = ExtractPropTypes<typeof buttonGroupProps>
+export type ButtonGroupProps = import('vue').ExtractPublicPropTypes<typeof buttonGroupProps>

@@ -124,7 +124,7 @@ const show = ref(false)
 | `length` | Number of cells | _number_ | `6` |
 | `size` | Size: `xs` `sm` `md` `lg` `xl` | _string_ | `md` |
 | `type` | `digit` `text` `alphanumeric` (Maple) | _string_ | `digit` |
-| `variant` | `standard` `outlined` (Maple) | _string_ | `outlined` |
+| `variant` | `standard` `outline` (Maple) | _string_ | `outline` |
 | `masked` | Mask mode | _boolean_ | `false` |
 | `mask-symbol` | Mask character (Maple) | _string_ | `•` |
 | `disabled` | Disabled | _boolean_ | `false` |

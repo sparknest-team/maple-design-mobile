@@ -104,7 +104,7 @@ onThemeChange((theme) => {
     v-model:active="active6"
     class="vertical-tabs"
     elevation
-    vertical
+    orientation="vertical"
     color="var(--mp-color-primary)"
     active-color="var(--mp-color-white)"
     inactive-color="var(--mp-color-white)"
@@ -175,7 +175,7 @@ onThemeChange((theme) => {
     elevation
     class="vertical-tabs"
     indicator-position="reverse"
-    vertical
+    orientation="vertical"
     color="var(--mp-color-primary)"
     active-color="var(--mp-color-white)"
     inactive-color="var(--mp-color-white)"

@@ -15,7 +15,7 @@
 
 ```html
 <mp-input variant="filled" placeholder="填充外观" />
-<mp-input variant="outlined" placeholder="描边外观" />
+<mp-input variant="outline" placeholder="描边外观" />
 <mp-input variant="standard" placeholder="标准外观" />
 ```
 
@@ -25,11 +25,11 @@
 
 ```html
 <mp-input variant="filled" placeholder="用户名" />
-<mp-input variant="outlined" placeholder="用户名" />
+<mp-input variant="outline" placeholder="用户名" />
 <mp-input variant="standard" placeholder="用户名" />
 
 <mp-input variant="filled" :hint="false" placeholder="用户名" />
-<mp-input variant="outlined" :hint="false" placeholder="用户名" />
+<mp-input variant="outline" :hint="false" placeholder="用户名" />
 <mp-input variant="standard" :hint="false" placeholder="用户名" />
 ```
 
@@ -47,7 +47,7 @@
 
 ```html
 <template v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
-  <mp-input v-for="variant in ['filled', 'outlined', 'standard']" :key="variant" :size="size" :variant="variant" />
+  <mp-input v-for="variant in ['filled', 'outline', 'standard']" :key="variant" :size="size" :variant="variant" />
 </template>
 ```
 
@@ -103,7 +103,7 @@
 | `type`         | 输入类型，可选值为 `text` `password` `number` `tel` `email` | _string_           | `text`     |
 | `placeholder`  | 占位符，也可作为浮动提示文字                                | _string_           | `-`        |
 | `size`         | 尺寸，可选值为 `xs` `sm` `md` `lg` `xl`                     | _ComponentSize_    | `md`       |
-| `variant`      | 外观，可选值为 `filled` `outlined` `standard`               | _string_           | `standard` |
+| `variant`      | 外观，可选值为 `filled` `outline` `standard`               | _string_           | `standard` |
 | `hint`         | 是否将 placeholder 用作浮动提示文字                         | _boolean_          | `true`     |
 | `line`         | 是否显示分割线                                              | _boolean_          | `true`     |
 | `max-length`   | 最大输入长度并显示字数统计                                  | _string \| number_ | `-`        |

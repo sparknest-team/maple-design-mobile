@@ -39,4 +39,4 @@ export const gridProps = {
   },
 }
 
-export type GridProps = ExtractPropTypes<typeof gridProps>
+export type GridProps = import('vue').ExtractPublicPropTypes<typeof gridProps>

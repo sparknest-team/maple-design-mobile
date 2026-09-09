@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Code, codeProps)
 export { codeProps }
 
 export type CodeInstance = InstanceType<typeof Code>
-export const _CodeComponent = Code
+export const _CodeComponent: typeof Code = Code
 
 export default Code
+export type CodeProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

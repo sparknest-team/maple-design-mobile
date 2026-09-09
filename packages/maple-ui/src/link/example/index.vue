@@ -45,6 +45,12 @@ onThemeChange()
     <mp-link status="primary" underline="none">{{ t('notUseUnderline') }}</mp-link>
   </mp-space>
 
+  <app-type>{{ t('hoverable') }}</app-type>
+  <mp-space :size="['2.666vmin', '2.666vmin']">
+    <mp-link hoverable href="#link">{{ t('hoverable') }}</mp-link>
+    <mp-link href="#link">{{ t('keyboardFocus') }}</mp-link>
+  </mp-space>
+
   <app-type>{{ t('disabledStatus') }}</app-type>
   <mp-link disabled>{{ t('disabledStatus') }}</mp-link>
 

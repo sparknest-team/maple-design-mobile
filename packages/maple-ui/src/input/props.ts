@@ -48,4 +48,4 @@ export const props = {
   // internal end
 }
 
-export type InputProps = ExtractPropTypes<typeof props>
+export type InputProps = import('vue').ExtractPublicPropTypes<typeof props>

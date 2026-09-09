@@ -5,7 +5,7 @@
 ## 职责
 
 - variant / size / floating hint / line / clear / prefix / suffix
-- outlined/filled 的 fieldset 边框，standard 下划线
+- outline/filled 的 fieldset 边框，standard 下划线
 
 ## 消费者
 

@@ -115,7 +115,7 @@
 | `disabled`          | 是否禁用                                    | _boolean_                    | `false`    |
 | `readonly`          | 是否只读                                    | _boolean_                    | `false`    |
 | `size`              | 尺寸，可选值 `xs` `sm` `md` `lg` `xl`       | _ComponentSize_              | `md`       |
-| `variant`           | 风格，可选值 `filled` `standard` `outlined` | _string_                     | `standard` |
+| `variant`           | 风格，可选值 `filled` `standard` `outline` | _string_                     | `standard` |
 
 ### 事件
 
@@ -271,7 +271,7 @@
 | `color`         | 选择器的颜色                                                    | _string_                      | `-`        |
 | `title-color`   | 选择器标题栏背景色，如果未指定，将使用 `color` 属性或默认颜色。 | _string_                      | `-`        |
 | `hint`          | 选择器提示语                                                    | _string_                      | `选择时间` |
-| `elevation`     | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级              | _string \| number \| boolean_ | `false`    |
+| `elevation`     | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级              | _number \| boolean_ | `false`    |
 | `min`           | 允许的最小时间（ISO 8601格式）                                  | _string_                      | `-`        |
 | `max`           | 允许的最大时间（ISO 8601格式）                                  | _string_                      | `-`        |
 | `disabled-time` | 禁用的时间（回调返回 true 表示禁用）                            | _DisabledTime_                | `-`        |

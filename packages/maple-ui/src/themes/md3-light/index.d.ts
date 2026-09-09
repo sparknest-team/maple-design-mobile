@@ -1,4 +1,4 @@
-import { StyleVars } from '../../../types'
+import { StyleVars } from '../../../types/styleVars'
 
 declare const md3Light: StyleVars
 

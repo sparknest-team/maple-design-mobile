@@ -60,6 +60,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import { call, isArray, toNumber } from '@maplejs/maple-shared'
+import { buildTimeOnlyColumns, joinTimeParts, parseTimeParts } from '../date/datetime'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
@@ -72,38 +73,6 @@ import { props } from './picker-props'
 import { isTimeRangeNextDay } from './picker-utils'
 
 const { name, n, classes } = createNamespace('time-range-picker')
-
-function pad(value: number) {
-  return padStart(`${value}`, 2, '0')
-}
-
-function buildColumn(count: number, filter?: (value: number) => boolean): PickerColumnOption[] {
-  return Array.from({ length: count }, (_, index) => {
-    if (filter && filter(index)) {
-      return null
-    }
-    const text = pad(index)
-    return { text, value: text }
-  }).filter(Boolean) as PickerColumnOption[]
-}
-
-function parseTimeParts(time: string, useSeconds: boolean) {
-  const [hour = '00', minute = '00', second = '00'] = time.split(':')
-  const parts = [pad(toNumber(hour)), pad(toNumber(minute))]
-  if (useSeconds) {
-    parts.push(pad(toNumber(second)))
-  }
-  return parts
-}
-
-function joinTimeParts(values: (string | number)[], useSeconds: boolean) {
-  const hour = pad(toNumber(values[0]))
-  const minute = pad(toNumber(values[1]))
-  if (useSeconds) {
-    return `${hour}:${minute}:${pad(toNumber(values[2] ?? 0))}`
-  }
-  return `${hour}:${minute}`
-}
 
 export default defineComponent({
   name,
@@ -142,14 +111,7 @@ export default defineComponent({
 
     const pickerColumns = computed(() => {
       const { disabledTime, useSeconds } = props
-      const columns: PickerColumnOption[][] = [
-        buildColumn(24, disabledTime?.hours ? (hour) => !!disabledTime.hours?.(hour) : undefined),
-        buildColumn(60, disabledTime?.minutes ? (minute) => !!disabledTime.minutes?.(minute) : undefined),
-      ]
-      if (useSeconds) {
-        columns.push(buildColumn(60, disabledTime?.seconds ? (second) => !!disabledTime.seconds?.(second) : undefined))
-      }
-      return columns
+      return buildTimeOnlyColumns(useSeconds, disabledTime)
     })
 
     const pickerValue = computed(() => {

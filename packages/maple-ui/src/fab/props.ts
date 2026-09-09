@@ -3,6 +3,7 @@ import { dragProps } from '../drag'
 import { iconProps } from '../icon'
 import { ExtractPublicPropTypes, pickProps } from '../utils/components'
 import type { SemanticStatus } from '../utils/constants'
+import { popupContainerProp } from '../utils/popup-container'
 
 export type FabPosition = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom'
 
@@ -63,12 +64,9 @@ export const props = {
   left: [Number, String],
   right: [Number, String],
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
   safeArea: Boolean,
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
 }

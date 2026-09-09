@@ -3,7 +3,9 @@
 exports[`result snapshot 1`] = `
 "<div class="mp-result mp--box">
   <div class="mp-result__image-container">
-    <div class="mp-result__image mp-result__success" style="width: calc(var(--mp-result-image-size) * 0.9); height: calc(var(--mp-result-image-size) * 0.9); border-width: calc(var(--mp-result-image-size) * 0.05);"><span class="mp-result__success-cover-left"></span><span class="mp-result__success-line mp-result__success-line-tip" style="animation-duration: 760ms; border-radius: calc(calc(var(--mp-result-image-size) * 0.05) * 0.625);"></span><span class="mp-result__success-line mp-result__success-line-long" style="animation-duration: 770ms; border-radius: calc(calc(var(--mp-result-image-size) * 0.05) * 0.625);"></span><span class="mp-result__success-circle" style="left: -calc(var(--mp-result-image-size) * 0.05); top: -calc(var(--mp-result-image-size) * 0.05); border-width: calc(var(--mp-result-image-size) * 0.05);"></span><span class="mp-result__success-line-fix"></span><span class="mp-result__success-cover-right" style="animation-duration: 4250ms;"></span></div>
+    <div class="mp-result__image mp-result__info" style="width: calc(var(--mp-result-image-size) * 0.9); height: calc(var(--mp-result-image-size) * 0.9); border-width: calc(var(--mp-result-image-size) * 0.05);"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 3.6 20 20" border-size="calc(var(--mp-result-image-size) * 0.05)" animation="true">
+        <path d="M11,9H13V7H11M11,20H13V11H11V20Z"></path>
+      </svg></div>
   </div>
   <!--v-if-->
   <!--v-if-->

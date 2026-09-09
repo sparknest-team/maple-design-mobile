@@ -1,4 +1,13 @@
 export default {
+  preview: '实时预览',
+  previewHint: '点击悬浮按钮展开或收起，点击动作按钮查看提示。下方参数实时生效。',
+  dragHint: '拖拽模式：按钮位于屏幕角落，可用触摸拖动；关闭拖拽回到预览区。',
+  hiddenState: '按钮已隐藏',
+  expandedState: '动作已展开',
+  collapsedState: '动作已收起',
+  profile: '查看用户',
+  complete: '标记完成',
+  notify: '发送提醒',
   type: '主题色按钮',
   trigger: '触发方式',
   direction: '动作菜单弹出方向',

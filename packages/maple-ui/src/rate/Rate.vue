@@ -16,7 +16,7 @@
           :transition="0"
           :name="getCurrentState(value).name"
           :fallback="getDefaultIcon(getCurrentState(value).name)"
-          :style="{ fontSize: toSizeUnit(size) }"
+          :style="{ fontSize: positiveLength(size, '') }"
         />
 
         <mp-hover-overlay :hovering="hovering && value === currentHoveringValue && !disabled && !formDisabled" />
@@ -36,6 +36,7 @@ import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { positiveLength } from '../utils/size-length'
 import { props } from './props'
 
 const { name, n } = createNamespace('rate')
@@ -165,6 +166,7 @@ export default defineComponent({
       handleClick,
       createHoverHandler,
       toSizeUnit,
+      positiveLength,
       toNumber,
       n,
     }

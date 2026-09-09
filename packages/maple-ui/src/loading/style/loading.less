@@ -4,7 +4,7 @@
   --mp-loading-desc-margin: 8px 0 0;
   --mp-loading-desc-color: var(--mp-color-primary);
   // 与包裹模式的 content opacity: 0.38 互补，使 v-mp-loading 的视觉效果一致。
-  --mp-loading-mask-background: color-mix(in srgb, var(--mp-color-bg-white) 62%, transparent);
+  --mp-loading-overlay-background: color-mix(in srgb, var(--mp-color-bg-white) 62%, transparent);
   --mp-loading-directive-z-index: 2000;
 }
 
@@ -19,7 +19,7 @@
   > .mp-loading {
     width: 100%;
     height: 100%;
-    background: var(--mp-loading-mask-background);
+    background: var(--mp-loading-overlay-background);
   }
 
   .mp-loading__content {
@@ -65,7 +65,7 @@
       opacity: var(--mp-loading-opacity);
     }
 
-    &-mask {
+    &-overlay {
       position: absolute;
       left: 0;
       right: 0;
@@ -550,5 +550,37 @@
         opacity: 0;
       }
     }
+  }
+}
+
+// Numeric sizes scale every animation primitive with its container.
+.mp-loading {
+  &__wave-item--numeric {
+    flex: 0 0 12%;
+    width: 12%;
+    height: 100%;
+    margin-left: 8%;
+  }
+  &__wave-item--numeric:first-child {
+    margin-left: 0;
+  }
+  &__cube-item--numeric {
+    flex: 0 0 18%;
+    width: 18%;
+    height: 18%;
+    margin-left: 8%;
+  }
+  &__cube-item--numeric:first-child {
+    margin-left: 0;
+  }
+  &__rect-item--numeric {
+    flex: 0 0 12.5%;
+    width: 12.5%;
+    height: 90%;
+  }
+  &__disappear-item--numeric {
+    flex: 0 0 24%;
+    width: 24%;
+    height: 24%;
   }
 }

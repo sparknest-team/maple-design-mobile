@@ -1,28 +1,15 @@
 import type { CSSProperties } from 'vue'
 
 export const PAGE_ITEM_TYPES = ['page', 'more', 'previous', 'next'] as const
-
 export type PageItemType = (typeof PAGE_ITEM_TYPES)[number]
+export type PageListItem =
+  { type: 'page'; key: number; pageNumber: number } | { type: 'more'; key: string; step: number }
 
-export interface PaginationProps {
-  total?: number | string
-  current?: number | string
-  defaultCurrent?: number
-  pageSize?: number | string
-  defaultPageSize?: number
+/** 两端条数选择器支持的公共配置；分页值、选项和尺寸由 Pagination 管理。 */
+export interface PaginationPageSizeProps {
   disabled?: boolean
-  hideOnSinglePage?: boolean
-  simple?: boolean
-  showTotal?: boolean
-  showMore?: boolean
-  showJumper?: boolean
-  showPageSize?: boolean
-  pageSizeOptions?: number[]
-  pageSizeProps?: Record<string, any>
-  pageItemStyle?: CSSProperties
-  activePageItemStyle?: CSSProperties
-  baseSize?: number
-  bufferSize?: number
-  autoAdjust?: boolean
-  elevation?: boolean | string | number
+  placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
+  popupContainer?: string | HTMLElement | false
+  class?: string
+  style?: CSSProperties
 }

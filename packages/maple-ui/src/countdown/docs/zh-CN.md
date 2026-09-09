@@ -183,3 +183,9 @@ function handleEnd() {
 |-----------------------------| --- |
 | `--mp-countdown-text-color`     | `var(--mp-color-text)`                |
 | `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` |
+
+## 同源实现与平台边界
+
+两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
+
+SSR 输出初始格式化时间。暂停时修改 format 会更新显示；结束事件每轮只触发一次，reset 后可开始新一轮；卸载清理动画帧。

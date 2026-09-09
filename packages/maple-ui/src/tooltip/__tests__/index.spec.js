@@ -120,7 +120,7 @@ test('tooltip type', () => {
 
     const wrapper = mountTooltip({
       props: {
-        type,
+        status: type,
         popupContainer: root,
       },
     })
@@ -220,7 +220,7 @@ test('tooltip hover the tooltip list', async () => {
 
   const wrapper = mountTooltip({
     props: {
-      open: true,
+      defaultOpen: true,
       trigger: 'hover',
       popupContainer: root,
     },

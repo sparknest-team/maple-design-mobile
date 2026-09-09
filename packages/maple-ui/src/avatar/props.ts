@@ -38,4 +38,4 @@ export const props = {
   hoverable: Boolean,
 }
 
-export type AvatarProps = ExtractPropTypes<typeof props>
+export type AvatarProps = import('vue').ExtractPublicPropTypes<typeof props>

@@ -1,5 +1,6 @@
 import { type PropType, type TeleportProps } from 'vue'
 import type { ExtractPublicPropTypes } from '../utils/components'
+import { popupContainerProp } from '../utils/popup-container'
 
 export const props = {
   open: { type: Boolean, default: undefined },
@@ -16,10 +17,7 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
+  popupContainer: popupContainerProp,
   escToClose: {
     type: Boolean,
     default: true,

@@ -3,11 +3,13 @@ import { fieldDecoratorProps } from '../field-decorator'
 import { popupProps } from '../popup'
 import type { DisabledTime } from '../time/picker-props'
 import { pickProps } from '../utils/components'
+import { popupContainerProp } from '../utils/popup-container'
 import { props as datePickerPropsSource } from './picker-props'
 
 export type DateType = 'year' | 'month' | 'date'
 
 export const props = {
+  popupContainer: popupContainerProp,
   modelValue: {
     type: [String, Array] as PropType<string | string[]>,
     default: undefined,
@@ -55,4 +57,4 @@ export const props = {
   ]),
 }
 
-export type DateProps = ExtractPropTypes<typeof props>
+export type DateProps = import('vue').ExtractPublicPropTypes<typeof props>

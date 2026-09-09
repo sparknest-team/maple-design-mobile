@@ -3,8 +3,10 @@
   --mp-progress-track-color: #d8d8d8;
   --mp-progress-label-color: #555;
   --mp-progress-background: var(--mp-color-primary);
-  --mp-progress-default-color: #f5f5f5;
+  --mp-progress-default-color: var(--mp-color-primary);
   --mp-progress-primary-color: var(--mp-color-primary);
+  --mp-progress-secondary-color: var(--mp-color-secondary);
+  --mp-progress-tertiary-color: var(--mp-color-tertiary);
   --mp-progress-danger-color: var(--mp-color-danger);
   --mp-progress-success-color: var(--mp-color-success);
   --mp-progress-warning-color: var(--mp-color-warning);
@@ -87,6 +89,12 @@
     &--primary {
       background-color: var(--mp-progress-primary-color);
     }
+    &--secondary {
+      background-color: var(--mp-progress-secondary-color);
+    }
+    &--tertiary {
+      background-color: var(--mp-progress-tertiary-color);
+    }
 
     &--warning {
       background-color: var(--mp-progress-warning-color);
@@ -167,6 +175,12 @@
 
     &--primary {
       stroke: var(--mp-progress-primary-color);
+    }
+    &--secondary {
+      stroke: var(--mp-progress-secondary-color);
+    }
+    &--tertiary {
+      stroke: var(--mp-progress-tertiary-color);
     }
 
     &--warning {

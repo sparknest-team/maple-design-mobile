@@ -58,7 +58,7 @@ describe('image api contract', () => {
     })
     window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await wrapper.vm.$nextTick()
-    expect(wrapper.emitted('keyEscape')).toHaveLength(1)
+    expect(wrapper.emitted('key-escape')).toHaveLength(1)
     expect(wrapper.emitted('update:open')).toEqual([[false]])
     wrapper.unmount()
   })

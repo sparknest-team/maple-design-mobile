@@ -14,7 +14,7 @@ test('message style', async () => {
   const template = `
      <mp-message
       v-model:open="open"
-      type="error"
+      status="danger"
       position="center"
       content-class="test-message"
       vertical

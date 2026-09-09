@@ -7,6 +7,12 @@ withPropsDefaultsSetter(AutoComplete, autoCompleteProps)
 
 export type AutoCompleteInstance = InstanceType<typeof AutoComplete>
 export { autoCompleteProps }
-export const _AutoCompleteComponent = AutoComplete
+export type {
+  AutoCompleteProps,
+  AutoCompleteOption,
+  AutoCompleteOptionLabel,
+  AutoCompleteOptionLabelRender,
+} from './props'
+export const _AutoCompleteComponent: typeof AutoComplete = AutoComplete
 
 export default AutoComplete

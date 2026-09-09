@@ -1,4 +1,6 @@
 :root {
+  --mp-tooltip-size-xs-padding: 4px 8px;
+  --mp-tooltip-size-xs-font-size: 12px;
   --mp-tooltip-opacity: 0.9;
   --mp-tooltip-border-radius: 4px;
   --mp-tooltip-font-size: 14px;
@@ -96,4 +98,25 @@
   &__tooltip[data-popper-placement='left-end'] &__content-container {
     transform: translateX(calc(-1 * var(--mp-tooltip-offset)));
   }
+}
+
+.mp-tooltip--xs {
+  padding: var(--mp-tooltip-size-xs-padding);
+  font-size: var(--mp-tooltip-size-xs-font-size);
+}
+.mp-tooltip__arrow {
+  opacity: var(--mp-tooltip-opacity);
+}
+// Keep the arrow with the translated content without replacing its rotation.
+.mp-tooltip__tooltip[data-popper-placement^='top'] .mp-tooltip__arrow {
+  translate: 0 calc(-1 * var(--mp-tooltip-offset));
+}
+.mp-tooltip__tooltip[data-popper-placement^='bottom'] .mp-tooltip__arrow {
+  translate: 0 var(--mp-tooltip-offset);
+}
+.mp-tooltip__tooltip[data-popper-placement^='left'] .mp-tooltip__arrow {
+  translate: calc(-1 * var(--mp-tooltip-offset)) 0;
+}
+.mp-tooltip__tooltip[data-popper-placement^='right'] .mp-tooltip__arrow {
+  translate: var(--mp-tooltip-offset) 0;
 }

@@ -32,7 +32,7 @@ UnoCSS 与 Tailwind **类名相同**，项目里二选一配置即可。
 
 | 类型 | 常用类 |
 | --- | --- |
-| 方式 | `mp-relative` `mp-absolute` `mp-fixed` `mp-sticky` `mp-static` |
+| 方式 | `mp-relative` `mp-absolute` `mp-fixed` `mp-affix` `mp-static` |
 | 边距 | `mp-inset-0` `mp-top-0` `mp-right-0` `mp-bottom-0` `mp-left-0` |
 | 层级 | `mp-z-0` `mp-z-10` `mp-z-20` `mp-z-50` |
 

@@ -1,4 +1,13 @@
 export default {
+  preview: 'Live preview',
+  previewHint: 'Toggle the floating button and click an action for feedback. Controls below update the preview.',
+  dragHint: 'Drag mode: the button floats in the viewport. Drag with touch; turn off to return to the preview.',
+  hiddenState: 'Button hidden',
+  expandedState: 'Actions expanded',
+  collapsedState: 'Actions collapsed',
+  profile: 'View profile',
+  complete: 'Mark complete',
+  notify: 'Send reminder',
   type: 'Theme Color Button',
   trigger: 'Trigger Method',
   direction: 'Action Menu Popup Direction',

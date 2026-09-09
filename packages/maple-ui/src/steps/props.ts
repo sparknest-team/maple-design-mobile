@@ -1,5 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { ComponentSize, Orientation } from '../utils/constants'
+import type { ComponentSize } from '../utils/constants'
+import type { Orientation } from './platform'
 
 export const STEPS_TYPES = ['default', 'arrow', 'dot', 'navigation'] as const
 export type StepsType = (typeof STEPS_TYPES)[number]
@@ -18,7 +19,7 @@ export const stepsProps = {
     validator: (value: unknown): value is StepsType => STEPS_TYPES.includes(value as StepsType),
   },
   /** 排列方向 */
-  direction: {
+  orientation: {
     type: String as PropType<Orientation>,
     default: 'horizontal' as Orientation,
   },
@@ -73,5 +74,5 @@ export const stepProps = {
   internalNextStatus: String as PropType<StepStatus>,
 }
 
-export type StepsProps = ExtractPropTypes<typeof stepsProps>
-export type StepProps = ExtractPropTypes<typeof publicStepProps>
+export type StepsProps = import('vue').ExtractPublicPropTypes<typeof stepsProps>
+export type StepProps = import('vue').ExtractPublicPropTypes<typeof publicStepProps>

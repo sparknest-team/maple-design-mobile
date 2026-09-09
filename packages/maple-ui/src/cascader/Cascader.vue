@@ -8,12 +8,17 @@
   >
     <mp-trigger
       v-if="presentation === 'menu'"
+      ref="triggerRef"
       v-model:open="open"
-      same-width
+      :unmount-on-close="false"
+      trigger="click"
+      :popup-container="popupContainer !== undefined ? popupContainer : popupProps?.popupContainer"
+      auto-fit-popup-width
       close-on-click-reference
       :esc-to-close="false"
       :disabled="formReadonly || readonly || formDisabled || disabled"
       :placement="placement"
+      :cover="typeof popupProps.cover === 'boolean' ? popupProps.cover : variant !== 'outline'"
       @click-outside="handleClickOutside"
     >
       <mp-field-decorator
@@ -493,10 +498,12 @@ import { injectLocaleProvider } from '../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../picker'
 import MpPopup from '../popup'
 import MpTag from '../tag'
-import MpTrigger from '../trigger'
+import MpTrigger, { type TriggerInstance } from '../trigger'
 import { createNamespace, MaybeVNode } from '../utils/components'
 import { focusChildElementByKey, toPxNum } from '../utils/elements'
+import { sameOptionValue } from '../utils/option-data'
 import { useFieldNames } from '../utils/options'
+import { collectTreePaths, findTreePath } from '../utils/tree-data'
 import { props, type CascaderOption } from './props'
 
 const { name, n, classes } = createNamespace('cascader')
@@ -541,7 +548,8 @@ export default defineComponent({
     const optionChildrenKey = computed(() => fieldNames.value.children)
     const optionDisabledKey = computed(() => fieldNames.value.disabled)
     const menuEl = ref<HTMLElement | null>(null)
-    const placement = computed(() => (props.variant === 'outlined' ? 'bottom' : 'cover-top'))
+    const triggerRef = ref<TriggerInstance>()
+    const placement = computed(() => 'bottom' as const)
     const mergedHint = computed(() => (hasOuterLabel.value ? false : props.hint))
     const placeholderColor = computed(() => {
       const { blurColor, focusColor } = props
@@ -560,7 +568,10 @@ export default defineComponent({
     const isEmptyModelValue = computed(() => isEmpty(props.modelValue))
 
     const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
-    const popupBindingProps = computed(() => ({ ...props.popupProps }))
+    const popupBindingProps = computed(() => ({
+      ...props.popupProps,
+      popupContainer: props.popupContainer !== undefined ? props.popupContainer : props.popupProps?.popupContainer,
+    }))
     const pickerTitleText = computed(() => props.pickerProps?.title ?? (pt ? pt : t)('pickerTitle'))
     const pickerCancelText = computed(
       () => props.pickerProps?.cancelButtonText ?? (pt ? pt : t)('pickerCancelButtonText'),
@@ -735,7 +746,7 @@ export default defineComponent({
 
     function enhanceOptions(options: CascaderOption[], fieldNameMap: any, parent?: CascaderOption) {
       return options.map((option) => {
-        const enhanced = { ...option, _parent: parent, _raw: option }
+        const enhanced: CascaderOption = { ...option, _parent: parent, _raw: option }
         const children = option[fieldNameMap.children]
         if (isArray(children) && children.length) {
           enhanced[fieldNameMap.children] = enhanceOptions(children, fieldNameMap, enhanced)
@@ -756,32 +767,11 @@ export default defineComponent({
         return []
       }
 
-      function findLeaf(list: CascaderOption[]): CascaderOption | undefined {
-        for (const option of list) {
-          if (option[fieldNameMap.value] === target) {
-            return option
-          }
-          const children = option[fieldNameMap.children]
-          if (isArray(children) && children.length) {
-            const found = findLeaf(children)
-            if (found) {
-              return found
-            }
-          }
-        }
-      }
-
-      const leaf = findLeaf(options)
-      if (!leaf) {
-        return []
-      }
-      const path: any[] = []
-      let current: any = leaf
-      while (current) {
-        path.unshift(current[fieldNameMap.value])
-        current = current._parent
-      }
-      return path
+      return findTreePath(
+        options,
+        (option) => option[fieldNameMap.children],
+        (option) => sameOptionValue(option[fieldNameMap.value], target),
+      ).map((option) => option[fieldNameMap.value])
     }
 
     function getLabelsByPath(path: any[], options: CascaderOption[], fieldNameMap: any): string[] {
@@ -854,17 +844,17 @@ export default defineComponent({
     }
 
     function pathEquals(a: any[], b: any[]) {
-      return isArray(a) && isArray(b) && a.length === b.length && a.every((item, index) => item === b[index])
+      return (
+        isArray(a) && isArray(b) && a.length === b.length && a.every((item, index) => sameOptionValue(item, b[index]))
+      )
     }
 
     function collectLeafPaths(option: CascaderOption, basePath: any[]): any[][] {
-      const children = option[fieldNames.value.children]
-      if (!isArray(children) || children.length === 0) {
-        return [basePath]
-      }
-      return children.flatMap((child: CascaderOption) =>
-        collectLeafPaths(child, [...basePath, child[fieldNames.value.value]]),
-      )
+      return collectTreePaths(
+        [option],
+        (node) => node[fieldNames.value.children],
+        (node) => !!node[fieldNames.value.disabled],
+      ).map((path) => [...basePath, ...path.slice(1).map((node) => node[fieldNames.value.value])])
     }
 
     function isPathSelected(path: any[]) {
@@ -1286,7 +1276,7 @@ export default defineComponent({
         return
       }
       const currentValues = (props.modelValue ?? []).filter(isArray)
-      const changedModelValue = currentValues.filter((_, i) => i !== index)
+      const changedModelValue = currentValues.filter((_: unknown, i: number) => i !== index)
       emit('update:modelValue', changedModelValue)
       emit('close', changedModelValue)
       emit('change', changedModelValue)
@@ -1298,6 +1288,10 @@ export default defineComponent({
       if (form?.disabled.value || form?.readonly.value || disabled || readonly || !isFocusing.value) {
         return
       }
+      if (open.value && props.presentation === 'menu' && !triggerRef.value?.isTopLayer(event)) {
+        return
+      }
+
       const { key } = event
       if (key === ' ' && !open.value) {
         preventDefault(event)
@@ -1363,6 +1357,7 @@ export default defineComponent({
       displayLabels,
       isEmptyModelValue,
       menuEl,
+      triggerRef,
       placement,
       cursor,
       placeholderColor,

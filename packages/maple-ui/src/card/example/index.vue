@@ -1,74 +1,62 @@
-<script setup>
-import { ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+<script setup lang="ts">
+import { AppType, createDemoMessages, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoBasic from './demos/basic.vue'
+import DemoFloating from './demos/floating.vue'
+import DemoHoverable from './demos/hoverable.vue'
+import DemoImage from './demos/image.vue'
+import DemoNoPadding from './demos/no-padding.vue'
+import DemoRipple from './demos/ripple.vue'
+import DemoSize from './demos/size.vue'
+import DemoSlots from './demos/slots.vue'
+import DemoTooltip from './demos/tooltip.vue'
+import DemoVariant from './demos/variant.vue'
+import messages from './messages.json'
 
-const floating = ref(false)
+const { t, use } = createDemoMessages(messages)
 
 watchLang(use)
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-card :title="t('title')" :description="t('description')" />
-
-  <app-type>{{ t('showSubtitle') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('subtitle')" :description="t('description')" />
-
-  <app-type>{{ t('showImage') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('subtitle')" :description="t('description')" src="cat.jpg" />
-
-  <app-type>{{ t('useSlot') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('subtitle')" :description="t('description')" src="cat.jpg">
-    <template #extra>
-      <mp-space>
-        <mp-button status="primary">{{ t('action1') }}</mp-button>
-        <mp-button status="primary">{{ t('action2') }}</mp-button>
-      </mp-space>
-    </template>
-  </mp-card>
-
-  <app-type>{{ t('horizontal') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('description')" layout="row" src="cat.jpg">
-    <template #extra>
-      <mp-button variant="text" round>
-        <m-icon-star-fill />
-      </mp-button>
-      <mp-button round variant="text">
-        <m-icon-heart-fill />
-      </mp-button>
-    </template>
-  </mp-card>
-
-  <app-type>{{ t('showRipple') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('subtitle')" :description="t('description')" ripple />
-
-  <app-type>{{ t('floating') }}</app-type>
-  <mp-card v-model:floating="floating" :title="t('title')" :subtitle="t('subtitle')" src="cat.jpg">
-    <template #extra>
-      <mp-button status="primary" @click="floating = true">{{ t('floating') }}</mp-button>
-    </template>
-
-    <template #floating-content>
-      <mp-divider type="dashed" size-y="32px"></mp-divider>
-      <div class="card-example-text">
-        {{ t('description') }}
-      </div>
-    </template>
-  </mp-card>
-
-  <app-type>{{ t('outline') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('subtitle')" variant="outlined" :description="t('description')" />
-
-  <app-type>{{ t('filled') }}</app-type>
-  <mp-card :title="t('title')" :subtitle="t('subtitle')" variant="filled" :description="t('description')" />
+  <section data-demo="basic">
+    <app-type>{{ t('basic') }}</app-type
+    ><DemoBasic />
+  </section>
+  <section data-demo="no-padding">
+    <app-type>{{ t('no-padding') }}</app-type
+    ><DemoNoPadding />
+  </section>
+  <section data-demo="hoverable">
+    <app-type>{{ t('hoverable') }}</app-type
+    ><DemoHoverable />
+  </section>
+  <section data-demo="variant">
+    <app-type>{{ t('variant') }}</app-type
+    ><DemoVariant />
+  </section>
+  <section data-demo="image">
+    <app-type>{{ t('image') }}</app-type
+    ><DemoImage />
+  </section>
+  <section data-demo="size">
+    <app-type>{{ t('size') }}</app-type
+    ><DemoSize />
+  </section>
+  <section data-demo="tooltip">
+    <app-type>{{ t('tooltip') }}</app-type
+    ><DemoTooltip />
+  </section>
+  <section data-demo="slots">
+    <app-type>{{ t('slots') }}</app-type
+    ><DemoSlots />
+  </section>
+  <section data-demo="ripple">
+    <app-type>{{ t('ripple') }}</app-type
+    ><DemoRipple />
+  </section>
+  <section data-demo="floating">
+    <app-type>{{ t('floating') }}</app-type
+    ><DemoFloating />
+  </section>
 </template>
-
-<style scoped lang="less">
-.card-example-text {
-  padding: 0 16px 16px;
-  font-size: 14px;
-  line-height: 28px;
-}
-</style>

@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, nextTick } from 'vue'
 import { doubleRaf } from '@maplejs/maple-shared'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
@@ -17,7 +17,7 @@ test('popover plugin', () => {
   expect(app.component(Popover.name)).toBeTruthy()
 })
 
-test('popover content slot', () => {
+test('popover content slot', async () => {
   const root = document.createElement('div')
   const wrapper = mountPopover({
     props: {
@@ -29,6 +29,7 @@ test('popover content slot', () => {
     },
   })
 
+  await nextTick()
   expect(root.querySelector('.mp-popover__content')?.textContent).toBe('Popover content')
   wrapper.unmount()
 })
@@ -47,14 +48,6 @@ test('popover placement', () => {
     'left',
     'left-start',
     'left-end',
-    'cover-top',
-    'cover-top-start',
-    'cover-top-end',
-    'cover-bottom',
-    'cover-bottom-start',
-    'cover-bottom-end',
-    'cover-left',
-    'cover-right',
   ].forEach((placement) => {
     const { mockRestore } = mockStubs()
 
@@ -168,7 +161,7 @@ test('popover close on escape', async () => {
   const wrapper = mountPopover({
     props: {
       popupContainer: root,
-      open: true,
+      defaultOpen: true,
       onClose,
     },
   })
@@ -226,7 +219,7 @@ test('popover hover the popover content', async () => {
 
   mountPopover({
     props: {
-      open: true,
+      defaultOpen: true,
       trigger: 'hover',
       popupContainer: root,
     },
@@ -249,7 +242,7 @@ test('popover same width', async () => {
   mount(VarPopover, {
     props: {
       open: true,
-      sameWidth: true,
+      autoFitPopupWidth: true,
       trigger: 'hover',
       popupContainer: root,
     },

@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Cell, cellProps)
 export { cellProps }
 
 export type CellInstance = InstanceType<typeof Cell>
-export const _CellComponent = Cell
+export const _CellComponent: typeof Cell = Cell
 
 export default Cell
+export type CellProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

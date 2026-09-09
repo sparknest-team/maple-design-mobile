@@ -13,7 +13,7 @@ export default {
   modelModifier: '输入修饰符',
   nativeAttrs: '原生属性',
   filled: '填充外观',
-  outlined: '描边外观',
+  outline: '描边外观',
   standard: '标准外观',
   normalSize: '常规尺寸',
   smallSize: '小尺寸',

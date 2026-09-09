@@ -26,7 +26,7 @@ const Wrapper = {
     open: false,
   }),
   template: `
-    <mp-popup v-model:open="open" v-bind="$props" :popup-container="null">
+    <mp-popup v-model:open="open" v-bind="$props" :popup-container="false">
       default slot content
     </mp-popup>
   `,

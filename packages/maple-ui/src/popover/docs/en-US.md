@@ -26,7 +26,7 @@ and changes the display position of the popover by controlling the placement and
 <script setup>
 import { ref } from 'vue'
 
-const placement = ref('cover-top-start')
+const placement = ref('bottom-start')
 const placementOptions = [
   'top',
   'top-start',
@@ -40,14 +40,6 @@ const placementOptions = [
   'left',
   'left-start',
   'left-end',
-  'cover-top',
-  'cover-top-start',
-  'cover-top-end',
-  'cover-bottom',
-  'cover-bottom-start',
-  'cover-bottom-end',
-  'cover-left',
-  'cover-right',
 ]
 </script>
 
@@ -104,11 +96,11 @@ The offset of the Popover popup can be set with `offset-x` and `offset-y`.
 
 ### Same Width As Trigger Element
 
-Use `same-width` to make the popover and trigger the same width.
+Use `auto-fit-popup-width` to make the popover and trigger the same width.
 
 ```html
 <template>
-  <mp-popover same-width>
+  <mp-popover auto-fit-popup-width>
     <mp-button status="primary">Same width as trigger element</mp-button>
     
     <template #content>
@@ -223,7 +215,7 @@ it is recommended to wrap a `block` element.
 | Prop            | Description                                                                                                                  | Type              | Default           |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------|----------------------|-------------------|
 | `v-model:open`  | Whether to show the popover                                                                                                     | _boolean_             | `false`         |
-| `placement`     | Popover popup placement                                                                                                         | _Placement_          | `cover-top-start` |
+| `placement`     | Popover popup placement                                                                                                         | _Placement_          | `bottom` |
 | `strategy`       | Popover position strategy, optional value is `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x`      | The x-axis offset, relative to the popover-aligned position                                                                     | _number \| string_           | `0` |
 | `offset-y`      | The y-axis offset, relative to the popover-aligned position                                                                     | _number \| string_           | `0` |
@@ -231,8 +223,8 @@ it is recommended to wrap a `block` element.
 | `disabled`      | Whether to disable the popover                                                                                                  | _boolean_            | `false`           |
 | `trigger`       | Popover trigger method, optional value is `click` `hover` `manual` `contextMenu`  | _string_  | `click`           |
 | `reference` | The trigger element associated with the popover, the `string` type is the descendant element selector of the popover component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_ | `-` |
-| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
-| `same-width`    | Whether to same width as trigger element                                                                                     | _boolean_ | `false`           |
+| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _number \| boolean_|   `true`    |
+| `auto-fit-popup-width`    | Whether to same width as trigger element                                                                                     | _boolean_ | `false`           |
 | `default-style` | Whether to enable default styles                                                                                             | _boolean_ | `true`            |
 | `popover-class` | Class of the popover                                                    | _string_             | `-`            |
 | `close-on-click-reference` | Whether to close the popover when clicking the reference element | _boolean_ | `false` |
@@ -255,14 +247,7 @@ it is recommended to wrap a `block` element.
 | `left` | Left center position                    |
 | `left-start` | Top left position                       |
 | `left-end` | Bottom left position                    |
-| `cover-top` | Top center position, overlay trigger    |
-| `cover-top-start` | Top left position, overlay trigger      |
-| `cover-top-end` | Top right position, overlay trigger     |
-| `cover-bottom` | Bottom center position, overlay trigger |
-| `cover-bottom-start` | Bottom left position, overlay trigger   |
-| `cover-bottom-end` | Bottom right position, overlay trigger  |
-| `cover-left` | Left center position, overlay trigger   |
-| `cover-right` | Right center position, overlay trigger |
+| `bottom` | Top left position, overlay trigger      |
 
 ### Methods
 
@@ -298,3 +283,18 @@ Here are the CSS variables used by the component. Styles can be customized using
 | --- | --- |
 | `--popover-background-color` | `var(--color-fill-2)` |
 | `--popover-border-radius` | `2px` |
+
+覆盖触发元素使用 `cover`，placement 仅使用标准十二方位。迁移：旧 cover-top → bottom + cover；cover-bottom → top + cover；cover-left → right + cover；cover-right → left + cover；start/end 后缀保留。默认 cover=false。
+
+## Foundation contract alignment
+
+`open` is controlled; use `default-open` for an initially open uncontrolled popup, or accept updates through `v-model:open`. SVG icons and fragment component roots work directly as trigger elements. Only the state and reference foundations are aligned in this batch; positioning and full API alignment remain pending.
+
+`unmountOnClose` defaults to false to retain hidden content. Set it to true to unmount after leave completes.
+
+## Shared component body
+
+Tooltip/Popover use independent copies of the same component body. Trigger owns controlled/uncontrolled state and lifecycle; update:open precedes open-change, actual changes emit open/close, and transition completion emits opened/closed. Initial open also emits open once. Interaction/render props and open/close/resize/allowClose/getReference/setReference/focusReference are forwarded explicitly. setReference() restores the slot reference.
+
+Platform defaults remain unchanged. Maple uses bottom placement, zero delay, no arrow and retained content; Tooltip defaults to hover and Popover to click. Cedar uses top, hover, 100 ms delay, arrows and unmounting. Pass explicit props when matching behavior is required.
+Popover supports title/content props and slots. Its content now has title/body children; update CSS that assumes slot nodes are direct children of the outer panel.

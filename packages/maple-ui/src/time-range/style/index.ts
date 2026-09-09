@@ -1,1 +1,8 @@
+import '../../style/index.less'
+import '../../button/style'
+import '../../field-decorator/style'
+import '../../icon/style'
+import '../../picker/style'
+import '../../popup/style'
+import '../../time/style'
 import './index.less'

@@ -22,7 +22,7 @@ onThemeChange()
   </mp-space>
 
   <app-type>{{ t('space') }}</app-type>
-  <mp-space :size="[20, 20]">
+  <mp-space wrap :size="[20, 20]">
     <mp-button>Button1</mp-button>
     <mp-button>Button2</mp-button>
     <mp-button>Button3</mp-button>
@@ -53,5 +53,10 @@ onThemeChange()
   <mp-space justify="space-between" :size="['2.666vmin', '2.666vmin']">
     <mp-button>Button1</mp-button>
     <mp-button>Button2</mp-button>
+  </mp-space>
+  <app-type>xs / sm / md / lg / xl</app-type>
+  <mp-space v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :size="size" wrap>
+    <span>{{ size }}</span
+    ><span>Item 1</span><span>Item 2</span>
   </mp-space>
 </template>

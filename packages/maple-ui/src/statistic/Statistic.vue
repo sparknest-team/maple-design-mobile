@@ -1,4 +1,3 @@
-<!-- @sync-with: cedar-ui/src/statistic/statistic.vue -->
 <template>
   <div :class="classes(n())">
     <div v-if="title || $slots.title" :class="n('title')">
@@ -6,12 +5,12 @@
     </div>
     <div :class="n('content')">
       <div :class="valueClass" :style="valueStyle">
-        <span v-if="showPlaceholder">{{ placeholder }}</span>
+        <span v-if="showPlaceholder()">{{ placeholder }}</span>
         <template v-else>
           <span v-if="prefix || $slots.prefix" :class="n('prefix')">
             <slot name="prefix">{{ prefix }}</slot>
           </span>
-          <slot v-if="renderDefaultSlot" />
+          <slot v-if="renderDefaultSlot()" />
           <template v-else-if="formatValue.isNumber">
             <span :class="n('value-integer')">{{ formatValue.integer }}</span>
             <span v-if="formatValue.decimal" :class="n('value-decimal')">.{{ formatValue.decimal }}</span>
@@ -32,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, useSlots, watch } from 'vue'
+import { computed, onActivated, onDeactivated, onMounted, onUnmounted, useSlots, watch } from 'vue'
 import { useMotion } from '@maplejs/maple-use'
 import dayjs from 'dayjs'
 import { createNamespace } from '../utils/components'
@@ -61,6 +60,7 @@ function roundTo(value: number, precision: number) {
 
 const {
   value: motionValue,
+  state: motionState,
   reset: resetMotion,
   start: startMotion,
   pause: pauseMotion,
@@ -70,8 +70,8 @@ const {
   duration: () => props.animationDuration,
 })
 
-const showPlaceholder = computed(() => props.value === undefined && !slots.default)
-const renderDefaultSlot = computed(() => props.value === undefined && Boolean(slots.default))
+const showPlaceholder = () => props.value === undefined && !slots.default
+const renderDefaultSlot = () => props.value === undefined && Boolean(slots.default)
 const valueClass = computed(() => classes(n('value'), [props.tabularNums, n('value--tabular-nums')]))
 
 const innerValue = computed(() => {
@@ -148,4 +148,16 @@ watch(
     }
   },
 )
+let resumeOnActivate = false
+onDeactivated(() => {
+  resumeOnActivate = motionState.value === 'running'
+  pauseMotion()
+})
+onActivated(() => {
+  if (resumeOnActivate && props.start && props.animation) {
+    resumeOnActivate = false
+    startMotion()
+  }
+})
+onUnmounted(pauseMotion)
 </script>

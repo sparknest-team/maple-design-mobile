@@ -1,5 +1,5 @@
 <template>
-  <mp-button-group
+  <ButtonGroup
     :class="n()"
     :status="status"
     :size="size"
@@ -9,11 +9,15 @@
     :disabled="disabled"
     :elevation="elevation"
   >
-    <mp-button v-bind="buttonProps" :auto-loading="autoLoading" @click.stop="handleClick">
+    <Button
+      v-bind="{ ...buttonProps, onClick: clickHandlers }"
+      :auto-loading="autoLoading"
+      :disabled="disabled || buttonProps?.disabled"
+    >
       <slot />
-    </mp-button>
+    </Button>
 
-    <mp-menu
+    <Menu
       ref="menuRef"
       v-model:open="computedOpen"
       :disabled="disabled"
@@ -27,55 +31,69 @@
       :hide-on-select="hideOnSelect"
       @select="handleSelect"
     >
-      <mp-button v-bind="triggerButtonProps" icon-container :aria-expanded="computedOpen" aria-haspopup="menu">
-        <slot name="icon" :open="computedOpen">
-          <m-icon-menu-down />
-        </slot>
-      </mp-button>
+      <Button
+        v-bind="triggerButtonProps"
+        :disabled="disabled || triggerButtonProps?.disabled"
+        icon-container
+        :aria-expanded="computedOpen"
+        aria-haspopup="menu"
+      >
+        <template #icon>
+          <slot name="icon" :open="computedOpen">
+            <IconMenuDown />
+          </slot>
+        </template>
+      </Button>
 
       <template #content>
         <slot name="content" />
       </template>
-    </mp-menu>
-  </mp-button-group>
+    </Menu>
+  </ButtonGroup>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { IconMenuDown as MIconMenuDown } from '@maplejs/icons-vue'
-import MpButton from '../button'
-import MpButtonGroup from '../button/ButtonGroup.vue'
-import MpMenu, { type MenuInstance } from '../menu'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { IconMenuDown } from '@maplejs/icons-vue'
+import Button, { ButtonGroup, type ButtonHandler } from '../button'
+import Menu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
 
-const { name, n } = createNamespace('split-button')
+defineOptions({
+  name: createNamespace('split-button').name,
+})
 
-export default defineComponent({
-  name,
-  components: { MIconMenuDown, MpButton, MpButtonGroup, MpMenu },
-  props: splitButtonProps,
-  emits: ['update:open', 'open-change', 'click', 'select'],
-  setup(props, { emit }) {
-    const uncontrolledOpen = ref(props.defaultOpen)
-    const menuRef = ref<MenuInstance>()
-    const computedOpen = computed({
-      get: () => props.open ?? uncontrolledOpen.value,
-      set: (open: boolean) => {
-        uncontrolledOpen.value = open
-        emit('update:open', open)
-        emit('open-change', open)
-      },
-    })
+const props = defineProps(splitButtonProps)
+const emit = defineEmits(['update:open', 'open-change', 'select'])
 
-    const handleClick = (event: Event) => emit('click', event)
-    const handleSelect = (value: unknown, option: Record<string, unknown>, event: Event) =>
-      emit('select', value, option, event)
-    const open = () => menuRef.value?.open()
-    const close = () => menuRef.value?.close()
-    const resize = () => menuRef.value?.resize()
+const { n } = createNamespace('split-button')
+const menuRef = ref<MenuInstance>()
+const clickHandlers = computed(() =>
+  [props.buttonProps?.onClick, props.onClick]
+    .flat()
+    .filter((handler): handler is ButtonHandler => typeof handler === 'function'),
+)
 
-    return { n, menuRef, computedOpen, handleClick, handleSelect, open, close, resize }
+const uncontrolledOpen = ref(props.defaultOpen)
+const computedOpen = computed({
+  get: () => props.open ?? uncontrolledOpen.value,
+  set: (open: boolean) => {
+    uncontrolledOpen.value = open
+    emit('update:open', open)
+    emit('open-change', open)
   },
 })
+
+const handleSelect = (value: unknown, option: Record<string, unknown>, event: Event) =>
+  emit('select', value, option, event)
+
+const open = () => {
+  if (!props.disabled) {
+    menuRef.value?.open()
+  }
+}
+const close = () => menuRef.value?.close()
+const resize = () => menuRef.value?.resize()
+defineExpose({ open, close, resize })
 </script>

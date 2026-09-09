@@ -22,8 +22,8 @@ export type {
   SkeletonSize,
 } from './props'
 export { SkeletonLine, SkeletonShape }
-export const _SkeletonComponent = Skeleton
-export const _SkeletonLineComponent = SkeletonLine
-export const _SkeletonShapeComponent = SkeletonShape
+export const _SkeletonComponent: typeof Skeleton = Skeleton
+export const _SkeletonLineComponent: typeof SkeletonLine = SkeletonLine
+export const _SkeletonShapeComponent: typeof SkeletonShape = SkeletonShape
 
 export default Skeleton

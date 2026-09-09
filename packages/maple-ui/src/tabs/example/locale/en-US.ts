@@ -7,7 +7,7 @@ export default {
   tabsVerticalLayout: 'Tabs Vertical Layout',
   viewRelation: 'View Relation',
   option: 'Option',
-  stickyLayout: 'Sticky Layout',
+  stickyLayout: 'Affix Layout',
   indicatorPosition: 'Indicator Position Reverse',
   text:
     'The way she came into the place.\n' +

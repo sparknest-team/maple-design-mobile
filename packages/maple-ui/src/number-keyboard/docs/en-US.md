@@ -70,7 +70,7 @@ Use `extra-key` to add characters such as `.` on the bottom-left key.
 | `overlay-style`         | Overlay style                    | `object`                    | `-`        |
 | `lock-scroll`           | Lock background scroll           | `boolean`                   | `true`     |
 | `esc-to-close`          | Close on Escape                  | `boolean`                   | `true`     |
-| `popup-container`        | Teleport target                  | `string \| object \| false` | `body`     |
+| `popup-container`        | Teleport target                  | `string \| HTMLElement \| false` | `body`     |
 | `safe-area`             | Enable bottom safe area          | `boolean`                   | `true`     |
 
 ### Events

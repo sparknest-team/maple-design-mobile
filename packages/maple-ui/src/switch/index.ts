@@ -6,9 +6,10 @@ withInstall(Switch)
 withPropsDefaultsSetter(Switch, switchProps)
 
 export { switchProps }
-export type { SwitchVariant } from './props'
+export type { SwitchVariant, SwitchSize, SwitchValue, SwitchBeforeChange } from './props'
 
 export type SwitchInstance = InstanceType<typeof Switch>
-export const _SwitchComponent = Switch
+export const _SwitchComponent: typeof Switch = Switch
 
 export default Switch
+export type SwitchProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

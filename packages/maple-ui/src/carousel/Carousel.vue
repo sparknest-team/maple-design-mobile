@@ -231,7 +231,7 @@ export default defineComponent({
 
     const slideSize = computed(() => {
       if (props.slidesPerView === 'auto') {
-        return 'auto'
+        return size.value
       }
       return size.value / Math.max(1, toNumber(props.slidesPerView))
     })
@@ -239,7 +239,7 @@ export default defineComponent({
     const currentIndexModel = useVModel(props, 'current', { emit, eventName: 'update:current' })
 
     const activeIndex = computed({
-      get: () => (props.current !== undefined ? currentIndexModel.value : index.value),
+      get: () => currentIndexModel.value ?? index.value,
       set: (val: number) => {
         if (props.current !== undefined) {
           currentIndexModel.value = val

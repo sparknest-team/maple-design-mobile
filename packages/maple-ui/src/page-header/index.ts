@@ -9,6 +9,6 @@ export { pageHeaderProps }
 export type { PageHeaderProps, PageHeaderSlots } from './props'
 
 export type PageHeaderInstance = InstanceType<typeof PageHeader>
-export const _PageHeaderComponent = PageHeader
+export const _PageHeaderComponent: typeof PageHeader = PageHeader
 
 export default PageHeader

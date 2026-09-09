@@ -112,6 +112,7 @@ withPropsDefaultsSetter(ActionSheet, actionSheetProps)
 export { actionSheetProps }
 
 export type ActionSheetInstance = InstanceType<typeof VarActionSheet>
-export const _ActionSheetComponent = VarActionSheet
+export const _ActionSheetComponent: typeof VarActionSheet = VarActionSheet
 
 export default ActionSheet
+export type ActionSheetProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

@@ -1,4 +1,5 @@
 export default {
+  bordered: 'Border / Border with shadow',
   basicUsage: 'Basic Usage',
   ripple: 'Ripple Effect',
   round: 'Rounded Paper',

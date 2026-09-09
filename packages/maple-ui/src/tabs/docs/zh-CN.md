@@ -176,7 +176,7 @@ const active = ref(0)
   <mp-tabs
     class="tabs-example-vertical"
     elevation
-    vertical
+    orientation="vertical"
     color="var(--color-primary)"
     active-color="var(--color-white)"
     inactive-color="var(--color-white)"
@@ -294,7 +294,7 @@ const active = ref(0)
     class="tabs-example-vertical"
     elevation
     indicator-position="reverse"
-    vertical
+    orientation="vertical"
     color="var(--color-primary)"
     active-color="var(--color-white)"
     inactive-color="var(--color-white)"
@@ -324,7 +324,7 @@ const active = ref(0)
 | 参数                 | 说明                                     | 类型       | 默认值          |
 |--------------------|----------------------------------------|----------|--------------|
 | `v-model:active`   | 激活的选项卡标识, 优先匹配 name，其次是 index          | _string_ | `default`    |
-| `vertical` | 选项卡组的布局方向，可选值为 `horizontal` `vertical` | _string_ | `horizontal` |
+| orientation | 组件整体朝向 | `horizontal \| vertical` | `horizontal` |
 | `item-vertical`   | 选项卡的布局方向，可选值为 `horizontal` `vertical`  | _string_ | `horizontal` |
 | `fixed-bottom`     | 是否固定在窗口底部, 可用做底部导航                     | _boolean_ | `false`      |
 | `color`            | 选项卡的背景颜色                               | _string_ | `-`       |
@@ -333,7 +333,7 @@ const active = ref(0)
 | `disabled-color`   | 选项卡禁用时的主要颜色                            | _string_ | `-`    |
 | `indicator-color`  | 选项卡激活指示器的颜色                            | _string_ | `-`    |
 | `indicator-size`   | 选项卡激活指示器的尺寸                            | _string \| number_      | `2px`        |
-| `elevation` | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _string \| number \| boolean_|   `false`    |
+| `elevation` | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _number \| boolean_|   `false`    |
 | `sticky`           | 是否启用粘性布局                               | _boolean_ | `false`      |
 | `sticky-css-mode`  | 是否启用粘性布局的原生 css sticky 模式              | _boolean_ | `false`      |
 | `sticky-z-index`   | 粘性布局的层级                                | _number_ | `10`         |
@@ -371,7 +371,7 @@ const active = ref(0)
 | 方法名            | 说明                     | 参数 | 返回值             |
 |----------------|------------------------| ---- |-----------------|
 | `resize`       | 产生位置大小变化时可以调用此方法重绘选项卡组 | `-`  | `-`             |
-| `resizeSticky` | 产生位置大小变化时可以调用此方法重绘粘性布局 | `-`  | `Promise<void>` |
+| `resizeAffix` | 产生位置大小变化时可以调用此方法重绘粘性布局 | `-`  | `Promise<void>` |
 
 #### TabsItems Methods
 

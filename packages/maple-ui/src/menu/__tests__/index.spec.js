@@ -1,4 +1,4 @@
-import { createApp, Fragment, h } from 'vue'
+import { createApp, Fragment, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Menu from '..'
@@ -7,7 +7,7 @@ import MenuOption from '../../menu/MenuOption.vue'
 import { delay, mockStubs, trigger, triggerKeyboard } from '../../utils/test'
 import VarMenu from '../Menu'
 
-test('menu plugin', () => {
+test('menu plugin', async () => {
   const app = createApp({}).use(Menu)
   expect(app.component(Menu.name)).toBeTruthy()
 })
@@ -27,6 +27,7 @@ test('menu cedar-compatible api', async () => {
       content: () => h(VarMenuOption, { label: 'Option' }),
     },
   })
+  await nextTick()
 
   expect(root.querySelector('.mp-menu-option')).toBeTruthy()
   wrapper.vm.close()
@@ -35,13 +36,13 @@ test('menu cedar-compatible api', async () => {
   wrapper.unmount()
 })
 
-test('menu-option plugin', () => {
+test('menu-option plugin', async () => {
   const app = createApp({}).use(Menu)
   expect(app.component(MenuOption.name)).toBeTruthy()
 })
 
-test('menu size', () => {
-  ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
+test('menu size', async () => {
+  for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
     const root = document.createElement('div')
     const wrapper = mount(VarMenu, {
       props: {
@@ -54,14 +55,15 @@ test('menu size', () => {
         content: () => h(VarMenuOption, { label: 'Option' }),
       },
     })
+    await nextTick()
 
     expect(root.innerHTML).toMatchSnapshot()
     expect(root.querySelector(`.mp-menu-option--${size}`)).toBeTruthy()
     wrapper.unmount()
-  })
+  }
 })
 
-test('menu popupMaxHeight', () => {
+test('menu popupMaxHeight', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
@@ -74,6 +76,7 @@ test('menu popupMaxHeight', () => {
       content: () => h(VarMenuOption, { label: 'Option' }),
     },
   })
+  await nextTick()
   expect(root.innerHTML).toMatchSnapshot()
   expect(root.querySelector('.mp-menu--max-height')).toBeTruthy()
   wrapper.unmount()
@@ -95,6 +98,7 @@ test('menu modelValue', async () => {
       content: () => h(Fragment, [h(VarMenuOption, { label: 'Option 1' }), h(VarMenuOption, { label: 'Option 2' })]),
     },
   })
+  await nextTick()
 
   await trigger(root.querySelector('.mp-menu-option'), 'click')
   expect(wrapper.vm.modelValue).toBe('Option 1')
@@ -119,6 +123,7 @@ test('menu multiple', async () => {
       content: () => h(Fragment, [h(VarMenuOption, { label: 'Option 1' }), h(VarMenuOption, { label: 'Option 2' })]),
     },
   })
+  await nextTick()
 
   await delay(0)
   await trigger(root.querySelector('.mp-menu-option'), 'click')
@@ -140,6 +145,7 @@ test('menu hideOnSelect', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1' }),
     },
   })
+  await nextTick()
 
   await trigger(root.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateShow).toBeCalledTimes(1)
@@ -168,6 +174,7 @@ test('menu-option disabled', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1', disabled: true }),
     },
   })
+  await nextTick()
 
   expect(root.innerHTML).toMatchSnapshot()
   await trigger(root.querySelector('.mp-menu-option'), 'click')
@@ -189,6 +196,7 @@ test('menu value mapping', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
+  await nextTick()
 
   expect(root.innerHTML).toMatchSnapshot()
   await trigger(root.querySelector('.mp-menu-option'), 'click')
@@ -197,7 +205,7 @@ test('menu value mapping', async () => {
   wrapper.unmount()
 })
 
-test('menu-option default slot', () => {
+test('menu-option default slot', async () => {
   const root = document.createElement('div')
   const wrapper = mount(VarMenu, {
     props: {
@@ -209,6 +217,7 @@ test('menu-option default slot', () => {
       content: () => h(VarMenuOption, { label: 'Option 1' }, { default: () => h('div', 'option slot') }),
     },
   })
+  await nextTick()
 
   expect(root.innerHTML).toMatchSnapshot()
   wrapper.unmount()
@@ -226,6 +235,7 @@ test('menu methods', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1' }),
     },
   })
+  await nextTick()
   await delay(0)
   wrapper.vm.open()
   await delay(0)
@@ -253,6 +263,7 @@ test('menu keyboard ArrowDown and Enter', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
+  await nextTick()
 
   await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
   await trigger(root.querySelector('.mp-menu-option'), 'focus')
@@ -279,6 +290,7 @@ test('menu keyboard ArrowUp and Enter', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
+  await nextTick()
 
   await triggerKeyboard(window, 'keydown', { key: 'ArrowUp' })
   await trigger(root.querySelector('.mp-menu-option'), 'focus')
@@ -305,6 +317,7 @@ test('menu keyboard Escape', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
+  await nextTick()
 
   await triggerKeyboard(window, 'keydown', { key: 'Escape' })
   expect(onUpdateShow).toBeCalledTimes(1)
@@ -339,6 +352,7 @@ test('menu options api', async () => {
       default: () => h('div', 'trigger'),
     },
   })
+  await nextTick()
 
   await trigger(root.querySelector('.mp-menu-option'), 'click')
   expect(root.querySelector('.container').textContent).toBe('Option 2')
@@ -376,6 +390,7 @@ test('menu multiple options api', async () => {
       default: () => h('div', 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   await trigger(root.querySelector('.mp-menu-option'), 'click')
@@ -410,6 +425,7 @@ test('menu field-names label', async () => {
       default: () => h('div', 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   await trigger(root.querySelector('.mp-menu-option'), 'click')
@@ -447,6 +463,7 @@ test('menu field-names value', async () => {
       default: () => h('div', 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   await trigger(root.querySelector('.mp-menu-option'), 'click')
@@ -496,6 +513,7 @@ test('menu cascade', async () => {
       default: () => h('button', { class: 'trigger' }, 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   expect(root.innerHTML).toMatchSnapshot()
@@ -564,6 +582,7 @@ test('menu cascade multiple mode', async () => {
       default: () => h('button', { class: 'trigger' }, 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   expect(root.innerHTML).toMatchSnapshot()
@@ -651,6 +670,7 @@ test('menu cascade menu open and close', async () => {
       default: () => h('button', { class: 'trigger' }, 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   expect(root.innerHTML).toMatchSnapshot()
@@ -663,7 +683,7 @@ test('menu cascade menu open and close', async () => {
   const option1 = options[0]
   const option2 = options[1]
   const option21 = options[2]
-  const option2Menu = menus[1]
+  const option2Menu = menus[1].querySelector('.mp-trigger__popup-wrapper')
   await trigger(option2, 'focus')
   expect(option2Menu.style.display).toBe('none')
   await triggerKeyboard(window, 'keydown', { key: 'ArrowRight' })
@@ -718,6 +738,7 @@ test('menu cascade fieldNames', async () => {
       default: () => h('button', { class: 'trigger' }, 'trigger'),
     },
   })
+  await nextTick()
 
   await delay(0)
   const button = wrapper.find('.trigger')
@@ -743,6 +764,7 @@ test('menu controlled open false closes menu', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1' }),
     },
   })
+  await nextTick()
 
   await delay(0)
   expect(wrapper.vm.computedOpen).toBe(true)
@@ -766,6 +788,7 @@ test('menu select emits value option event', async () => {
       content: () => h(VarMenuOption, { label: 'Option 1', value: 1 }),
     },
   })
+  await nextTick()
 
   await trigger(root.querySelector('.mp-menu-option'), 'click')
   expect(onSelect).toBeCalledTimes(1)
@@ -788,6 +811,7 @@ test('menu default placement is bottom', async () => {
       content: () => h(VarMenuOption, { label: 'Option' }),
     },
   })
+  await nextTick()
 
   await delay(300)
   expect(root.querySelector('[data-popper-placement]')?.getAttribute('data-popper-placement')).toBe('bottom')
@@ -810,6 +834,7 @@ test('menu contextMenu trigger', async () => {
       content: () => h(VarMenuOption, { label: 'Option' }),
     },
   })
+  await nextTick()
 
   await wrapper.trigger('contextmenu')
   await delay(300)

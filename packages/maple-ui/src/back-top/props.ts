@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { popupContainerProp } from '../utils/popup-container'
 
 export const props = {
   visibleHeight: {
@@ -11,13 +12,10 @@ export const props = {
   },
   right: [Number, String],
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
   bottom: [Number, String],
   targetContainer: [String, Object] as PropType<string | HTMLElement>,
-  popupContainer: {
-    type: Boolean,
-    default: true,
-  },
+  popupContainer: popupContainerProp,
 }

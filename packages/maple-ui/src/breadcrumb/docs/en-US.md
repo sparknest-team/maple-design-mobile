@@ -2,7 +2,7 @@
 
 ### Intro
 
-Identify the page location in a hierarchy and navigate upward when needed. The API aligns with Cedar Design Web core features (`routes` / `max-count` / separator slots). Sticky positioning is not included for mobile.
+Identify the page location in a hierarchy and navigate upward when needed. The API aligns with Cedar Design Web core features (`routes` / `max-count` / separator slots). Affix positioning is not included for mobile.
 
 ### Basic Usage
 
@@ -213,3 +213,8 @@ See [Breadcrumb](#/en-US/breadcrumb).
 | `separator` | Custom separator |
 | `droplist` | Custom dropdown menu |
 
+## Same-source implementation
+
+Breadcrumb and BreadcrumbItem are maintained as independent source copies in Cedar and Maple. Non-empty routes take precedence over the default slot; empty routes fall back to slot items. Item separator slot/prop overrides the parent separator slot/prop. Collapsed items cannot activate their original link or dropdown. The select event provides `(route, event)`. Icons, Menu, installation and theme tokens remain local.
+
+An SVG icon can be used directly as the Tooltip trigger element. Use `trigger="click"` for touch interaction.

@@ -1,0 +1,30 @@
+{
+  "zh-CN": {
+    "basic": "八种主题色",
+    "variants": "四种变体",
+    "size": "五档尺寸",
+    "disabled": "禁用与链接拦截",
+    "loading": "加载布局与动画",
+    "auto-loading": "同步、异步与失败恢复",
+    "block": "块级按钮",
+    "custom-color": "颜色、水波与阴影",
+    "round": "图标插槽与圆形按钮",
+    "stacked": "图标文字堆叠",
+    "button-group": "按钮组继承与覆盖",
+    "native-events": "原生表单、焦点与触摸事件"
+  },
+  "en-US": {
+    "basic": "Eight statuses",
+    "variants": "Four variants",
+    "size": "Five sizes",
+    "disabled": "Disabled buttons and links",
+    "loading": "Loading layouts and animations",
+    "auto-loading": "Sync, async and rejection recovery",
+    "block": "Block buttons",
+    "custom-color": "Colors, ripple and elevation",
+    "round": "Icon slots and round buttons",
+    "stacked": "Stacked icon and text",
+    "button-group": "Group inheritance and overrides",
+    "native-events": "Native form, focus and touch events"
+  }
+}

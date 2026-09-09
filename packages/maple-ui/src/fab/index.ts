@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Fab, fabProps)
 export { fabProps }
 
 export type FabInstance = InstanceType<typeof Fab>
-export const _FabComponent = Fab
+export const _FabComponent: typeof Fab = Fab
 
 export default Fab
+export type FabProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

@@ -29,9 +29,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
-import { IconCheck, IconClose } from '@maplejs/icons-vue'
 import { createNamespace } from '../utils/components'
 import { stepsInjectionKey } from './context'
+import { IconCheck, IconClose } from './platform'
 import { stepProps } from './props'
 
 const { name } = createNamespace('step')
@@ -51,7 +51,7 @@ export default defineComponent({
     const active = computed(() => props.internalIndex === steps?.current.value)
     const showTail = computed(() =>
       Boolean(
-        steps?.showLine.value && (steps.contentPlacement.value === 'bottom' || steps.direction.value === 'vertical'),
+        steps?.showLine.value && (steps.contentPlacement.value === 'bottom' || steps.orientation.value === 'vertical'),
       ),
     )
     const slotScope = computed(() => ({

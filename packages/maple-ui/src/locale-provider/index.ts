@@ -7,6 +7,7 @@ withPropsDefaultsSetter(LocaleProvider, localeProviderProps)
 
 export type LocaleProviderInstance = InstanceType<typeof LocaleProvider>
 export { localeProviderProps }
-export const _LocaleProviderComponent = LocaleProvider
+export const _LocaleProviderComponent: typeof LocaleProvider = LocaleProvider
 
 export default LocaleProvider
+export type LocaleProviderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

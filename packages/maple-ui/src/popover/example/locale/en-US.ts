@@ -5,7 +5,7 @@ export default {
   menuOption: 'Option',
   bottomAlignment: 'Bottom Alignment',
   offset: 'Offset',
-  sameWidth: 'Same Width As Trigger Element',
+  autoFitPopupWidth: 'Same Width As Trigger Element',
   events: 'Events',
   disabled: 'Disabled',
   placement: 'Placement',

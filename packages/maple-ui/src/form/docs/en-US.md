@@ -99,7 +99,7 @@ const emailSuggestions = computed(() =>
         <mp-rate v-model="formData.score" />
       </mp-form-item>
       <mp-form-item field="license" :rules="v => !!v || 'You must turn on'">
-        <mp-switch variant v-model="formData.license" />
+        <mp-switch variant="md3" v-model="formData.license" />
       </mp-form-item>
       <mp-form-item field="count" :rules="v => v > 10 || 'It has to be greater than 10'">
         <mp-counter v-model="formData.count" />
@@ -108,7 +108,7 @@ const emailSuggestions = computed(() =>
         <mp-slider v-model="formData.range" />
       </mp-form-item>
       <mp-form-item field="files" :rules="v => v.length >= 1 || 'Upload at least one picture'">
-        <mp-uploader v-model="formData.files" />
+        <mp-upload v-model="formData.files" />
       </mp-form-item>
 
       <mp-space direction="column" :size="[14, 0]">
@@ -460,4 +460,3 @@ const formData = reactive({
 type FormItemValidateTrigger = 'change' | 'input' | 'focus' | 'blur' | 'clear'
 type FormItemLayout = 'vertical' | 'horizontal'
 ```
-

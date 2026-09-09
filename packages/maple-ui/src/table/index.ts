@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Table, tableProps)
 export { tableProps }
 
 export type TableInstance = InstanceType<typeof Table>
-export const _TableComponent = Table
+export const _TableComponent: typeof Table = Table
 
 export default Table
+export type TableProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

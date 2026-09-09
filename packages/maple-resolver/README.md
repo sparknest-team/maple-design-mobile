@@ -37,12 +37,13 @@ pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver, MapleStyleImports } from '@maplejs/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
+    MapleStyleImports(),
     components({
       resolvers: [MapleResolver()]
     }),
@@ -146,3 +147,7 @@ function handleClick() {
   <mp-button @click="handleClick">Say Hello</mp-button>
 </template>
 ```
+
+## Explicit-import styles (Vite)
+
+MapleStyleImports() handles named value imports from @maplejs/maple-ui after Vue/TypeScript compilation, using the same style mapping as MapleResolver. It supports aliases, components, deduplication and importStyle:false. Type-only, namespace and default imports are excluded. Add it to Vite plugins, not the resolvers array. Maple CLI docs include it by default; restart the dev server after updating CLI plugins.

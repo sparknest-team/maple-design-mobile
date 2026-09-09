@@ -20,36 +20,36 @@ Alerts display brief messages for the user without interrupting their use.
 </template>
 ```
 
-### Type 
+### Type
 
 `type`: `info` / `success` / `warning` / `danger` / `default`. `default` has no built-in icon; use `#icon` to customize.
 
 ```html
 <template>
   <mp-space direction="column" size="lg">
-    <mp-alert 
-      title="Pride And Prejudice" 
+    <mp-alert
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
     />
-    <mp-alert 
-      title="Pride And Prejudice" 
+    <mp-alert
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
-      type="success"
+      status="success"
     />
-    <mp-alert 
-      title="Pride And Prejudice" 
+    <mp-alert
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
-      type="warning"
+      status="warning"
     />
-    <mp-alert 
-      title="Pride And Prejudice" 
+    <mp-alert
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
-      type="danger"
+      status="danger"
     />
-    <mp-alert 
-      title="Pride And Prejudice" 
+    <mp-alert
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
-      type="default"
+      status="default"
     />
   </mp-space>
 </template>
@@ -60,18 +60,18 @@ Alerts display brief messages for the user without interrupting their use.
 ```html
 <template>
   <mp-space direction="column" size="lg">
-    <mp-alert 
-      title="Pride And Prejudice" 
-      message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
-    />
-    <mp-alert 
-      variant="tonal"
-      title="Pride And Prejudice" 
+    <mp-alert
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
     />
     <mp-alert
-      variant="outlined"
-      title="Pride And Prejudice" 
+      variant="tonal"
+      title="Pride And Prejudice"
+      message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
+    />
+    <mp-alert
+      variant="outline"
+      title="Pride And Prejudice"
       message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
     />
   </mp-space>
@@ -82,8 +82,8 @@ Alerts display brief messages for the user without interrupting their use.
 
 ```html
 <template>
-  <mp-alert 
-    title="Pride And Prejudice" 
+  <mp-alert
+    title="Pride And Prejudice"
     message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
   >
     <template #icon>
@@ -103,9 +103,9 @@ const show = ref(true)
 </script>
 
 <template>
-  <mp-alert 
+  <mp-alert
     v-if="open"
-    title="Pride And Prejudice" 
+    title="Pride And Prejudice"
     message="I can't say exactly when, where, what expression I saw on your face, or what words I heard, that made me fall in love with you."
     closable
     @close="show = false"
@@ -144,13 +144,13 @@ const show = ref(true)
 
 | Prop | Description | Type | Default |
 | ---- | ---- | ---- | ---- |
-| `type` | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _string_ | `info` | 
-| `variant`   | Variant, optional values are `standard` `outlined` `tonal` | _string_ | `standard` |
-| `color` | Background color | string | `-` | 
-| `title` | Title | string | `-` | 
-| `message` | Message | string | `-` | 
-| `elevation` | Elevation, optional values are true, false, and levels from 0-24 | _string \| number \| boolean_ | `false` | 
-| `closeable` | Whether the alert is closeable | boolean | `false` | 
+| status | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _string_ | `info` |
+| `variant`   | Variant, optional values are `standard` `outline` `tonal` | _string_ | `standard` |
+| `color` | Background color | string | `-` |
+| `title` | Title | string | `-` |
+| `message` | Message | string | `-` |
+| `elevation` | Elevation, optional values are true, false, and levels from 0-24 | _number \| boolean_ | `false` |
+| `closeable` | Whether the alert is closeable | boolean | `false` |
 
 ### Slots
 

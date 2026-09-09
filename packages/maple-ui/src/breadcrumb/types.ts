@@ -1,14 +1,17 @@
 export interface BreadcrumbRoute {
   /**
-   * 面包屑名称
+   * @zh 面包屑名称
+   * @en Breadcrumb name
    */
   label: string
   /**
-   * 跳转路径（`a` 的 `href`）
+   * @zh 跳转路径 (`a`标签的`href`)
+   * @en Jump path (`a` tag `href` value)
    */
   path: string
   /**
-   * 下拉菜单展示项（预留，需配合菜单组件使用）
+   * @zh 下拉菜单展示项
+   * @en Dropdown menu items
    */
   children?: BreadcrumbRoute[]
 }

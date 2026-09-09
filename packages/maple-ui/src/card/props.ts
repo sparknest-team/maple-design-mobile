@@ -1,44 +1,44 @@
-import type { PropType } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes, PropType } from 'vue'
+import type { ComponentSize } from '../utils/constants'
 
+export const cardVariants = ['default', 'outline', 'tonal'] as const
+export const cardSizes = ['sm', 'md'] as const
+export const cardDirections = ['row', 'column', 'row-reverse'] as const
+export type CardVariant = (typeof cardVariants)[number]
+export type CardSize = Extract<ComponentSize, 'sm' | 'md'>
+export type CardDirection = (typeof cardDirections)[number]
 export type CardFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 
-export type CardLayout = 'row' | 'column'
-
-export type CardVariant = 'standard' | 'outlined' | 'filled'
-
-export const props = {
-  src: String,
-  fit: {
-    type: String as PropType<CardFit>,
-    default: 'cover',
-  },
-  imageHeight: [String, Number],
-  imageWidth: [String, Number],
+export const cardProps = {
+  /** 视觉变体 */
   variant: {
     type: String as PropType<CardVariant>,
-    default: 'standard',
+    default: 'default',
+    validator: (v: CardVariant) => cardVariants.includes(v),
   },
-  layout: {
-    type: String as PropType<CardLayout>,
+  /** 内容密度；仅实现 sm/md */
+  size: { type: String as PropType<CardSize>, validator: (v: CardSize) => cardSizes.includes(v) },
+  /** 封面与正文排列 */
+  direction: {
+    type: String as PropType<CardDirection>,
     default: 'column',
+    validator: (v: CardDirection) => cardDirections.includes(v),
   },
-  floating: Boolean,
-  floatingDuration: {
-    type: Number,
-    default: 250,
-  },
-  alt: String,
+  hoverable: Boolean,
+  titleStyle: Object as PropType<CSSProperties>,
   title: String,
   subtitle: String,
   description: String,
-  elevation: {
-    type: [Boolean, Number, String],
-    default: true,
-  },
+  topDivider: Boolean,
+  bottomDivider: Boolean,
+  src: String,
+  fit: { type: String as PropType<CardFit>, default: 'cover' },
+  imageHeight: [String, Number],
+  imageWidth: [String, Number],
+  alt: String,
+  elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: true },
   ripple: Boolean,
-
-  /**
-   * @deprecated use outlined variant instead
-   */
-  outline: Boolean,
+  floating: Boolean,
+  floatingDuration: { type: Number, default: 250 },
 }
+export type CardProps = ExtractPublicPropTypes<typeof cardProps>

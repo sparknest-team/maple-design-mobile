@@ -1,102 +1,11 @@
-:root {
-  --mp-badge-font-weight: 500;
-
-  // description size
-  --mp-badge-description-size-xs-font-size: 12px;
-  --mp-badge-description-size-sm-font-size: 12px;
-  --mp-badge-description-size-md-font-size: 14px;
-  --mp-badge-description-size-lg-font-size: 16px;
-  --mp-badge-description-size-xl-font-size: 18px;
-  --mp-badge-description-text-color: var(--mp-color-text-1);
-
-  // size: font-size
-  --mp-badge-size-xs-font-size: 12px;
-  --mp-badge-size-sm-font-size: 12px;
-  --mp-badge-size-md-font-size: 12px;
-  --mp-badge-size-lg-font-size: 14px;
-  --mp-badge-size-xl-font-size: 16px;
-  // size: scale
-  --mp-badge-size-xs-scale: 0.6667;
-  --mp-badge-size-sm-scale: 0.8333;
-  --mp-badge-size-md-scale: 1;
-  --mp-badge-size-lg-scale: 1;
-  --mp-badge-size-xl-scale: 1;
-  // size: dot
-  --mp-badge-size-xs-dot-width: 4px;
-  --mp-badge-size-sm-dot-width: 5px;
-  --mp-badge-size-md-dot-width: 6px;
-  --mp-badge-size-lg-dot-width: 7px;
-  --mp-badge-size-xl-dot-width: 8px;
-  --mp-badge-size-xs-dot-height: 4px;
-  --mp-badge-size-sm-dot-height: 5px;
-  --mp-badge-size-md-dot-height: 6px;
-  --mp-badge-size-lg-dot-height: 7px;
-  --mp-badge-size-xl-dot-height: 8px;
-  // size: inline space
-  --mp-badge-size-xs-space: 0px;
-  --mp-badge-size-sm-space: 2px;
-  --mp-badge-size-md-space: 6px;
-  --mp-badge-size-lg-space: 6px;
-  --mp-badge-size-xl-space: 8px;
-  // size: padding
-  --mp-badge-size-xs-padding: 0 6px;
-  --mp-badge-size-sm-padding: 0 6px;
-  --mp-badge-size-md-padding: 0 8px;
-  --mp-badge-size-lg-padding: 0 8px;
-  --mp-badge-size-xl-padding: 0 10px;
-  // size: height
-  --mp-badge-size-xs-height: 20px;
-  --mp-badge-size-sm-height: 20px;
-  --mp-badge-size-md-height: 24px;
-  --mp-badge-size-lg-height: 28px;
-  --mp-badge-size-xl-height: 32px;
-  // size: border-radius
-  --mp-badge-size-xs-border-radius: 20px;
-  --mp-badge-size-sm-border-radius: 20px;
-  --mp-badge-size-md-border-radius: 24px;
-  --mp-badge-size-lg-border-radius: 28px;
-  --mp-badge-size-xl-border-radius: 32px;
-
-  // status
-  --mp-badge-bg-color: #ef4444;
-  --mp-badge-text-color: #ffffff;
-  --mp-badge-status-default-bg-color: #e0e0e0;
-  --mp-badge-status-default-text-color: #1d1b20;
-  --mp-badge-status-info-bg-color: var(--mp-color-info);
-  --mp-badge-status-info-text-color: var(--mp-color-white);
-  --mp-badge-status-success-bg-color: var(--mp-color-success);
-  --mp-badge-status-success-text-color: var(--mp-color-white);
-  --mp-badge-status-warning-bg-color: var(--mp-color-warning);
-  --mp-badge-status-warning-text-color: var(--mp-color-white);
-  --mp-badge-status-danger-bg-color: var(--mp-color-danger);
-  --mp-badge-status-danger-text-color: var(--mp-color-white);
-  --mp-badge-status-primary-bg-color: var(--mp-color-primary);
-  --mp-badge-status-primary-text-color: var(--mp-color-white);
-  --mp-badge-status-secondary-bg-color: rgb(var(--mp-gray-6));
-  --mp-badge-status-secondary-text-color: var(--mp-color-white);
-  --mp-badge-status-tertiary-bg-color: rgb(var(--mp-gray-7));
-  --mp-badge-status-tertiary-text-color: var(--mp-color-white);
-
-  // variant=outline
-  --mp-badge-variant-outline-bg-color: transparent;
-  --mp-badge-variant-outline-text-color: #ef4444;
-  --mp-badge-variant-outline-status-info-text-color: var(--mp-color-info);
-  --mp-badge-variant-outline-status-success-text-color: var(--mp-color-success);
-  --mp-badge-variant-outline-status-warning-text-color: var(--mp-color-warning);
-  --mp-badge-variant-outline-status-danger-text-color: var(--mp-color-danger);
-  --mp-badge-variant-outline-status-primary-text-color: var(--mp-color-primary);
-  --mp-badge-variant-outline-status-default-text-color: #1d1b20;
-  --mp-badge-variant-outline-status-secondary-text-color: rgb(var(--mp-gray-6));
-  --mp-badge-variant-outline-status-tertiary-text-color: rgb(var(--mp-gray-7));
-  --mp-badge-border-color: var(--mp-color-bg-2);
-  --mp-badge-offset: 2px;
-  --mp-badge-ring-width: 2px;
-}
+@import './token.less';
 
 .mp-badge {
   position: relative;
   display: inline-block;
   line-height: 1;
+
+  box-sizing: border-box;
 
   // floating layout
   &--mode-floating &__content-wrapper {
@@ -136,6 +45,16 @@
     left: var(--mp-badge-offset);
   }
 
+  &--position-left &__content-wrapper {
+    top: 50%;
+    left: var(--mp-badge-offset);
+    transform: translate(-50%, -50%);
+  }
+  &--position-right &__content-wrapper {
+    top: 50%;
+    right: var(--mp-badge-offset);
+    transform: translate(50%, -50%);
+  }
   &__custom-dot {
     background-color: var(--mp-badge-border-color);
   }
@@ -150,6 +69,7 @@
   }
 
   &__dot-content {
+    display: block;
     background-color: var(--mp-badge-bg-color);
     border-radius: 50%;
     box-shadow: 0 0 0 var(--mp-badge-ring-width) var(--mp-badge-border-color);

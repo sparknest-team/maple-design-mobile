@@ -11,7 +11,7 @@ test('input plugin', () => {
 })
 
 test('input variant', () => {
-  ;['filled', 'outlined', 'standard'].forEach((variant) => {
+  ;['filled', 'outline', 'standard'].forEach((variant) => {
     const wrapper = mount(VarInput, {
       props: {
         modelValue: 'text',
@@ -29,7 +29,7 @@ test('input variant', () => {
       }
 
       case 'filled':
-      case 'outlined': {
+      case 'outline': {
         expect(wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('legend')).toBeTruthy()
         break
       }

@@ -7,6 +7,7 @@ withPropsDefaultsSetter(HighlighterProvider, highlighterProviderProps)
 
 export type HighlighterProviderInstance = InstanceType<typeof HighlighterProvider>
 export { highlighterProviderProps }
-export const _HighlighterProviderComponent = HighlighterProvider
+export const _HighlighterProviderComponent: typeof HighlighterProvider = HighlighterProvider
 
 export default HighlighterProvider
+export type HighlighterProviderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

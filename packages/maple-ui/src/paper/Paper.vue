@@ -4,51 +4,28 @@
     :class="
       classes(
         n(),
-        n('$--box'),
         formatElevation(elevation, 2),
-        [n('--cursor')],
+        [bordered, n('--bordered')],
         [round, n('--round')],
-        [inline, n('$--inline-flex')],
+        [inline, n('--inline')],
+        [ripple, n('--interactive')],
       )
     "
-    :style="{
-      width: toSizeUnit(width),
-      height: toSizeUnit(height),
-      'border-radius': toSizeUnit(radius),
-    }"
-    @click="handleClick"
+    :style="{ width: toSizeUnit(width), height: toSizeUnit(height), borderRadius: toSizeUnit(radius) }"
+    @click="emit('click', $event)"
   >
     <slot />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { call } from '@maplejs/maple-shared'
-import Ripple from '../ripple'
+<script setup lang="ts">
+import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { props } from './props'
+import { paperProps } from './props'
 
-const { name, n, classes } = createNamespace('paper')
-
-export default defineComponent({
-  name,
-  directives: { Ripple },
-  props,
-  emits: ['click'],
-  setup(props, { emit }) {
-    function handleClick(e: Event) {
-      emit('click', e)
-    }
-
-    return {
-      n,
-      classes,
-      formatElevation,
-      toSizeUnit,
-      handleClick,
-    }
-  },
-})
+defineOptions({ name: createNamespace('paper').name })
+defineProps(paperProps)
+const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const { n, classes } = createNamespace('paper')
 </script>

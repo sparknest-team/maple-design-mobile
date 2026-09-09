@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mp-sticky css-mode>
+    <mp-affix css-mode>
       <panel-header
         ref="headerEl"
         type="year"
@@ -10,7 +10,7 @@
         :disabled="panelBtnDisabled"
         @check-date="checkDate"
       />
-    </mp-sticky>
+    </mp-affix>
 
     <transition :name="`${nDate()}${reverse ? '-reverse' : ''}-translatex`">
       <ul ref="panel" :key="panelKey" :class="n()">
@@ -48,8 +48,8 @@ import {
 import { toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
 import dayjs from 'dayjs/esm/index.js'
+import MpAffix from '../../affix'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
-import MpSticky from '../../sticky'
 import { createNamespace } from '../../utils/components'
 import { type Choose, type ComponentProps, type PanelBtnDisabled } from '../picker-props'
 import PanelHeader from './panel-header.vue'
@@ -61,7 +61,7 @@ export default defineComponent({
   name: createNamespace('year-picker-panel').name,
   components: {
     MpButton,
-    MpSticky,
+    MpAffix,
     PanelHeader,
   },
   props: {

@@ -1,0 +1,26 @@
+.mp-paper {
+  box-sizing: border-box;
+  background: var(--mp-paper-background);
+  border-radius: var(--mp-paper-border-radius);
+  transition: background-color var(--mp-paper-transition-duration);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+
+  &--bordered {
+    border: var(--mp-paper-border-width) solid var(--mp-paper-border-color);
+  }
+  &--round {
+    border-radius: 50%;
+  }
+  &--inline {
+    display: inline-flex;
+  }
+  &--interactive {
+    cursor: pointer;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-paper {
+    transition: none;
+  }
+}

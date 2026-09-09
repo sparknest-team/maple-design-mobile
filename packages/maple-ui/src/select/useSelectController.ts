@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import { isEmpty } from '@maplejs/maple-shared'
+import { sameOptionValue } from '../utils/option-data'
 import { type OptionProvider } from './option-provide'
 
 export interface UseSelectControllerOptions {
@@ -23,13 +24,17 @@ export function useSelectController(options: UseSelectControllerOptions) {
 
   watch(modelValueGetter, syncOptions, { deep: true })
   watch(optionProvidersLengthGetter, syncOptions)
+  watch(() => optionProvidersGetter().map((option) => [option.value.value, option.label.value]), syncOptions, {
+    deep: true,
+    immediate: true,
+  })
 
   function computeLabel() {
     const multiple = multipleGetter()
     const modelValue = modelValueGetter()
 
     if (multiple) {
-      labels.value = (modelValue as unknown as any[]).map(findLabel)
+      labels.value = (Array.isArray(modelValue) ? modelValue : []).map(findLabel)
     }
 
     if (!multiple && !isEmpty(modelValue)) {
@@ -44,10 +49,10 @@ export function useSelectController(options: UseSelectControllerOptions) {
   function findLabel(targetValue: any) {
     const options = optionProvidersGetter()
 
-    let option = options.find(({ value }) => value.value === targetValue)
+    let option = options.find(({ value }) => sameOptionValue(value.value, targetValue))
 
     if (!option) {
-      option = options.find(({ label }) => label.value === targetValue)
+      option = options.find(({ label }) => sameOptionValue(label.value, targetValue))
     }
 
     return option?.label.value ?? ''
@@ -74,12 +79,12 @@ export function useSelectController(options: UseSelectControllerOptions) {
     if (multiple) {
       options.forEach((option) =>
         option.sync(
-          modelValue.includes(getOptionProviderKey(option)),
+          Array.isArray(modelValue) && modelValue.some((value) => sameOptionValue(value, getOptionProviderKey(option))),
           optionIsIndeterminate ? optionIsIndeterminate(option) : undefined,
         ),
       )
     } else {
-      options.forEach((option) => option.sync(modelValue === getOptionProviderKey(option)))
+      options.forEach((option) => option.sync(sameOptionValue(modelValue, getOptionProviderKey(option))))
     }
 
     computeLabel()

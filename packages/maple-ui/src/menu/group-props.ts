@@ -1,7 +1,3 @@
-import { type ExtractPropTypes } from 'vue'
-
-export const props = {
-  title: String,
-}
-
-export type MenuGroupProps = ExtractPropTypes<typeof props>
+export const props = { title: String }
+export const menuGroupProps = props
+export type MenuGroupProps = import('vue').ExtractPublicPropTypes<typeof props>

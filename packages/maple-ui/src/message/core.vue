@@ -7,21 +7,21 @@
           n(`wrapper-${position}`),
           formatElevation(elevation, 4),
           [vertical, n('vertical')],
-          [type && MESSAGE_TYPE.includes(type), n(`wrapper-${type}`)],
+          [status && MESSAGE_STATUSES.includes(status), n(`wrapper-${status}`)],
           [closable, n('wrapper--closable')],
         )
       "
       :style="{ zIndex }"
     >
       <div v-if="showIconSlot" :class="n('icon')">
-        <mp-icon v-if="type && type !== 'loading' && type !== 'normal'">
-          <MIconCheckboxMarkedCircleFill v-if="type === 'success'" />
-          <MIconWarning v-else-if="type === 'warning'" />
-          <MIconInfoCircleFill v-else-if="type === 'info'" />
+        <mp-icon v-if="status && status !== 'loading' && status !== 'default'">
+          <MIconCheckboxMarkedCircleFill v-if="status === 'success'" />
+          <MIconWarning v-else-if="status === 'warning'" />
+          <MIconInfoCircleFill v-else-if="status === 'info'" />
           <MIconError v-else />
         </mp-icon>
         <mp-loading
-          v-if="type === 'loading'"
+          v-if="status === 'loading'"
           :type="loadingType"
           :size="loadingSize"
           :color="loadingColor"
@@ -67,7 +67,7 @@ import { useZIndex } from '../context/zIndex'
 import MpIcon from '../icon'
 import MpLoading from '../loading'
 import { createNamespace, formatElevation } from '../utils/components'
-import { MESSAGE_TYPE } from './index'
+import { MESSAGE_STATUSES } from './index'
 import { props } from './props'
 
 const { n, classes } = createNamespace('message')
@@ -97,8 +97,8 @@ export default defineComponent({
     )
 
     const isForbidClick: ComputedRef<boolean> = computed(() => {
-      const { type, forbidClick } = props
-      return type === 'loading' || forbidClick
+      const { status, forbidClick } = props
+      return status === 'loading' || forbidClick
     })
 
     const showIconSlot = computed(() => {
@@ -106,11 +106,11 @@ export default defineComponent({
         return false
       }
 
-      if (props.type === 'normal' && !slots.icon) {
+      if (props.status === 'default' && !slots.icon) {
         return false
       }
 
-      return Boolean((props.type && props.type !== 'normal') || slots.icon)
+      return Boolean((props.status && props.status !== 'default') || slots.icon)
     })
 
     function handleClose() {
@@ -158,7 +158,7 @@ export default defineComponent({
     })
 
     return {
-      MESSAGE_TYPE,
+      MESSAGE_STATUSES,
       zIndex,
       showIconSlot,
       isForbidClick,

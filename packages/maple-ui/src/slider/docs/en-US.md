@@ -193,7 +193,7 @@ const value2 = ref(50)
 
 ### Vertical
 
-Set the `direction` attribute value to `vertical` to make the slider display vertically.
+Set the `orientation` attribute value to `vertical` to make the slider display vertically.
 
 ```html
 <script setup>
@@ -206,10 +206,10 @@ const value2 = ref([7, 64])
 <template>
   <mp-space justify="space-around">
     <div style="height: 300px">
-      <mp-slider v-model="value1" direction="vertical" />
+      <mp-slider v-model="value1" orientation="vertical" />
     </div>
     <div style="height: 300px">
-      <mp-slider v-model="value2" range label-visible="always" direction="vertical" />
+      <mp-slider v-model="value2" range label-visible="always" orientation="vertical" />
     </div>
   </mp-space>
 </template>
@@ -236,7 +236,7 @@ const value2 = ref([7, 64])
 | `thumb-color`   | Background color of thumb                                                | _string_ | `-`               |
 | `disabled`| Whether to disable slider                                                | _boolean_  | `false` |
 | `readonly`| Whether to readonly slider                                               | _boolean_  | `false` |
-| `direction` | Direction of slider, Can be set to `vertical horizontal`                           | _string_ | `horizontal` |
+| `orientation` | Direction of slider, Can be set to `vertical horizontal`                           | _string_ | `horizontal` |
 ### Events
 
 | Event | Description | arguments |

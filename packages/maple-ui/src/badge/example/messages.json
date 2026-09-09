@@ -1,0 +1,26 @@
+{
+  "zh-CN": {
+    "basic": "基础用法",
+    "inline": "内联与独立展示",
+    "dot": "小圆点",
+    "content": "自定义内容",
+    "max": "最大值与零值",
+    "color": "状态和颜色",
+    "size": "五种尺寸",
+    "position": "位置与偏移",
+    "show": "显示与隐藏",
+    "variant": "实心与描边"
+  },
+  "en-US": {
+    "basic": "Basic usage",
+    "inline": "Inline and standalone",
+    "dot": "Dot badges",
+    "content": "Custom content",
+    "max": "Maximum and zero",
+    "color": "Statuses and colors",
+    "size": "Five sizes",
+    "position": "Positions and offsets",
+    "show": "Show and hide",
+    "variant": "Solid and outline"
+  }
+}

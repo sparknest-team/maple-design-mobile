@@ -1,10 +1,13 @@
-import { computed, defineComponent, nextTick, onMounted, Teleport, Transition, watch } from 'vue'
+import { computed, defineComponent, ref, Teleport, Transition } from 'vue'
 import { call, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener, useInitialized } from '@maplejs/maple-use'
+import { useEventListener } from '@maplejs/maple-use'
 import { useLock } from '../context/lock'
 import { useStack } from '../context/stack'
 import { useZIndex } from '../context/zIndex'
 import { createNamespace, useRouteListener, useTeleport } from '../utils/components'
+import { useModalFocus } from '../utils/modal-focus'
+import { usePopupContainer } from '../utils/popup-container'
+import { usePopupTransition } from '../utils/popup-transition'
 import { props } from './props'
 import { usePopupItems } from './provide'
 import './style'
@@ -17,31 +20,30 @@ export default defineComponent({
   props,
   emits: ['update:open', 'open', 'close', 'opened', 'route-change', 'key-escape', 'closed', 'click-overlay'],
   setup(props, { slots, attrs, emit }) {
-    const rendered = useInitialized(() => props.open, true)
+    const transition = usePopupTransition(
+      () => props.open,
+      () => false,
+      (event) => emit(event),
+    )
+    const { rendered, leaving } = transition
     const { zIndex } = useZIndex(() => props.open, 3)
     const normalizedZIndex = computed(() => props.zIndex ?? zIndex.value)
     const { onStackTop } = useStack(() => props.open, normalizedZIndex)
+    const contentRef = ref<HTMLElement>()
+    const { focus, restore } = useModalFocus(
+      () => contentRef.value?.querySelector<HTMLElement>('[data-modal-focus-root]') ?? contentRef.value,
+      () => props.open,
+      onStackTop,
+      () => props.lockScroll,
+    )
     const { disabled } = useTeleport()
+    const popupTarget = usePopupContainer(() => props.popupContainer)
     const { bindPopupItems } = usePopupItems()
 
     useLock(
-      () => props.open,
+      () => props.open || leaving.value,
       () => props.lockScroll,
     )
-
-    watch(
-      () => props.open,
-      (newValue: boolean) => {
-        newValue ? emit('open') : emit('close')
-      },
-      { immediate: props.open },
-    )
-
-    onMounted(() => {
-      if (props.open) {
-        nextTick(() => emit('opened'))
-      }
-    })
 
     bindPopupItems({ open: computed(() => props.open) })
 
@@ -51,6 +53,9 @@ export default defineComponent({
     useRouteListener(() => emit('route-change'))
 
     function hidePopup(event: MouseEvent) {
+      if (!onStackTop(event)) {
+        return
+      }
       const { overlayClosable } = props
 
       emit('click-overlay', event)
@@ -90,6 +95,8 @@ export default defineComponent({
             [props.safeAreaTop, n('--safe-area-top')],
           )}
           style={{ zIndex: normalizedZIndex.value }}
+          ref={contentRef}
+          tabindex={-1}
           role="dialog"
           aria-modal="true"
           {...attrs}
@@ -104,8 +111,18 @@ export default defineComponent({
       return (
         <Transition
           name={props.overlayTransition || n('$-fade')}
-          onAfterEnter={(...args: any[]) => emit('opened', ...args)}
-          onAfterLeave={(...args: any[]) => emit('closed', ...args)}
+          onAfterEnter={() => {
+            if (props.open) {
+              focus()
+              transition.opened()
+            }
+          }}
+          onAfterLeave={() => {
+            if (!props.open) {
+              restore()
+              transition.closed()
+            }
+          }}
         >
           <div
             class={classes(n('$--box'), n(), [!props.overlay, n('--pointer-events-none')])}
@@ -120,7 +137,7 @@ export default defineComponent({
     }
 
     function handleKeydown(event: KeyboardEvent) {
-      if (!onStackTop() || event.key !== 'Escape' || !props.open) {
+      if (!onStackTop(event) || event.key !== 'Escape' || !props.open) {
         return
       }
 
@@ -137,9 +154,9 @@ export default defineComponent({
     return () => {
       const { popupContainer } = props
 
-      if (popupContainer) {
+      if (popupContainer !== false) {
         return (
-          <Teleport to={popupContainer} disabled={disabled.value}>
+          <Teleport to={popupTarget.value} disabled={disabled.value}>
             {renderPopup()}
           </Teleport>
         )

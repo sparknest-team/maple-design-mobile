@@ -3,89 +3,41 @@
     <slot />
   </trigger-reference>
 
-  <Teleport
-    :to="popupContainer === false ? undefined : popupContainer"
-    :disabled="teleportDisabled || popupContainer === false"
-  >
-    <transition :name="animationName" @after-enter="$emit('opened')" @after-leave="handleClosed">
-      <div
-        v-show="show"
-        ref="popover"
-        :class="[n('popup'), popupClass]"
-        :style="{
-          ...popupStyle,
-          zIndex,
-          width: sameWidth ? toSizeUnit(Math.ceil(referenceSize.width)) : popupStyle?.width,
-        }"
-        @click.stop
-        @mouseenter="handlePopoverMouseenter"
-        @mouseleave="handlePopoverMouseleave"
-      >
-        <slot name="content" />
-      </div>
-    </transition>
+  <Teleport :to="popupTarget" :disabled="teleportDisabled || popupContainer === false">
+    <trigger-popup :options="popupOptions">
+      <template #content><slot name="content" /></template>
+    </trigger-popup>
   </Teleport>
 </template>
 
 <script lang="ts">
-import { cloneVNode, defineComponent, Fragment, type ComponentPublicInstance, type PropType, type VNode } from 'vue'
-import { isArray } from '@maplejs/maple-shared'
+import { computed, defineComponent, type PropType } from 'vue'
 import { createNamespace, useTeleport } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { usePopupContainer } from '../utils/popup-container'
+import { getTransformOrigin } from './geometry'
+import TriggerPopup, { type TriggerPopupOptions } from './popup'
 import { triggerProps } from './props'
+import { useTriggerReference, type TriggerElement } from './reference'
+import { useTriggerRender } from './render'
 import { useFloatingTrigger } from './useFloatingTrigger'
 
 const { name, n } = createNamespace('trigger')
 
-function toElement(value: Element | ComponentPublicInstance | null): HTMLElement | undefined {
-  if (value instanceof HTMLElement) {
-    return value
-  }
-
-  const element = value?.$el
-  return element instanceof HTMLElement ? element : undefined
-}
-
-function bindFirstElement(
-  vnodes: VNode[],
-  referenceRef: (value: Element | ComponentPublicInstance | null) => void,
-): boolean {
-  for (let index = 0; index < vnodes.length; index++) {
-    const vnode = vnodes[index]
-
-    if (typeof vnode.type === 'string' || typeof vnode.type === 'object' || typeof vnode.type === 'function') {
-      vnodes[index] = cloneVNode(vnode, { ref: referenceRef }, true)
-      return true
-    }
-
-    if (vnode.type === Fragment && isArray(vnode.children)) {
-      const children = [...vnode.children] as VNode[]
-      if (bindFirstElement(children, referenceRef)) {
-        vnodes[index] = cloneVNode(vnode, undefined)
-        vnodes[index].children = children
-        return true
-      }
-    }
-  }
-
-  return false
-}
-
 const TriggerReference = defineComponent({
-  name: 'MpTriggerReference',
+  name: createNamespace('trigger-reference').name,
   props: {
     setReference: {
-      type: Function as PropType<(element?: HTMLElement) => void>,
+      type: Function as PropType<(element?: TriggerElement) => void>,
       required: true,
     },
   },
   setup(props, { slots }) {
-    const referenceRef = (value: Element | ComponentPublicInstance | null) => props.setReference(toElement(value))
+    const { nodes } = useTriggerReference(props.setReference)
 
     return () => {
-      const children = slots.default?.() ?? []
-      bindFirstElement(children, referenceRef)
-      return children
+      nodes.value = slots.default?.() ?? []
+      return nodes.value
     }
   },
 })
@@ -93,10 +45,11 @@ const TriggerReference = defineComponent({
 export default defineComponent({
   name,
   inheritAttrs: false,
-  components: { TriggerReference },
+  components: { TriggerReference, TriggerPopup },
   props: triggerProps,
-  emits: ['update:open', 'open', 'opened', 'close', 'closed', 'click-outside'],
+  emits: ['update:open', 'open-change', 'open', 'opened', 'close', 'closed', 'click-outside'],
   setup(props, { emit }) {
+    const popupTarget = usePopupContainer(() => props.popupContainer)
     const { disabled: teleportDisabled } = useTeleport()
     const {
       popover,
@@ -105,8 +58,13 @@ export default defineComponent({
       zIndex,
       handlePopoverMouseenter,
       handlePopoverMouseleave,
-      handleClosed,
+      handlePopoverFocus,
+      handlePopoverBlur,
+      actualPlacement,
+      arrowStyle,
       getReference,
+      focusReference,
+      isTopLayer,
       setDefaultReference,
       setAllowClose,
       open,
@@ -115,9 +73,44 @@ export default defineComponent({
       setReference,
     } = useFloatingTrigger(props, emit)
 
+    const renderState = useTriggerRender(show, () => props.unmountOnClose, emit)
+    const setPopup = (element: any) => {
+      popover.value = element
+    }
+    const popupOptions = computed<TriggerPopupOptions>(() => ({
+      rendered: renderState.rendered.value,
+      displayed: renderState.displayed.value,
+      visible: show.value,
+      animating: renderState.animating.value,
+      placement: actualPlacement.value,
+      setPopup,
+      popupClass: [n('popup'), props.popupClass],
+      wrapperClass: n('popup-wrapper'),
+      contentClass: [n('content'), props.contentClass],
+      arrowClass: [n('arrow'), props.arrowClass],
+      popupStyle: {
+        ...props.popupStyle,
+        zIndex: zIndex.value,
+        width: props.autoFitPopupWidth ? toSizeUnit(referenceSize.value.width) : props.popupStyle?.width,
+      },
+      wrapperStyle: { transformOrigin: getTransformOrigin(actualPlacement.value) },
+      contentStyle: props.contentStyle,
+      arrowStyle: { ...arrowStyle.value, ...props.arrowStyle },
+      showArrow: props.showArrow,
+      animationName: props.animationName,
+      duration: props.duration,
+      hooks: renderState.hooks,
+      handlers: {
+        onMouseenter: handlePopoverMouseenter,
+        onMouseleave: handlePopoverMouseleave,
+        onFocusin: handlePopoverFocus,
+        onFocusout: handlePopoverBlur,
+      },
+    }))
     const allowClose = () => setAllowClose(true)
 
     return {
+      popupTarget,
       popover,
       referenceSize,
       show,
@@ -127,9 +120,13 @@ export default defineComponent({
       toSizeUnit,
       handlePopoverMouseenter,
       handlePopoverMouseleave,
-      handleClosed,
+      handlePopoverFocus,
+      handlePopoverBlur,
+      popupOptions,
       allowClose,
       getReference,
+      focusReference,
+      isTopLayer,
       setDefaultReference,
       open,
       close,

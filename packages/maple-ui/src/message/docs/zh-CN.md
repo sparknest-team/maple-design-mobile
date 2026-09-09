@@ -252,7 +252,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <mp-message v-model:open="open" closable :duration="0" type="info">这是一条消息提示</mp-message>
+  <mp-message v-model:open="open" closable :duration="0" status="info">这是一条消息提示</mp-message>
 </template>
 ```
 
@@ -263,12 +263,12 @@ const show = ref(false)
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `v-model:open` | 是否显示 | _boolean_ | `false` |
-| `type` | 类型：`success` `warning` `info` `error` `loading` `normal` | _string_ | `-` |
+| `status` | info / success / warning / danger / loading / default | _MessageStatus_ | `info` |
 | `position` | 位置：`top` `center` `bottom` | _string_ | `top` |
 | `content` | 内容 | _string_ | `-` |
 | `content-class` | 内容 class | _string_ | `-` |
 | `duration` | 显示时长（ms），`0` 不自动关闭 | _number_ | `3000` |
-| `elevation` | 海拔 | _boolean \| string \| number_ | `true` |
+| `elevation` | 海拔 | _boolean \| number_ | `true` |
 | `vertical` | 垂直布局 | _boolean_ | `false` |
 | `show-icon` | 是否显示图标 | _boolean_ | `true` |
 | `closable` | 是否显示关闭按钮 | _boolean_ | `false` |
@@ -303,7 +303,7 @@ const show = ref(false)
 | --- | --- | --- | --- |
 | `id` | 唯一 id，相同则更新 | _string \| number_ | 自动生成 |
 | `content` | 内容 | _string \| VNode \| () => VNode_ | `-` |
-| `type` | 类型 | _MessageType_ | `-` |
+| `status` | info / success / warning / danger / loading / default | _MessageStatus_ | `info` |
 | `position` | 位置（Mobile 含 `center`） | _MessagePosition_ | `top` |
 | `duration` | 时长，`loading` 默认 `0` | _number_ | `3000` |
 | `showIcon` | 是否显示图标 | _boolean_ | `true` |

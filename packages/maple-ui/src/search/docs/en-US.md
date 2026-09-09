@@ -30,7 +30,7 @@ Search is used to enter keywords and trigger queries in lists, result pages, or 
 </template>
 ```
 
-Set `history-popup="false"` to show history in a same-width Menu instead of the full-screen Popup.
+Set `history-popup="false"` to show history in a auto-fit-popup-width Menu instead of the full-screen Popup.
 
 ```html
 <mp-search v-model="value" :recent-searches="recentSearches" :history-popup="false" @search="handleSearch" />
@@ -127,7 +127,7 @@ Clicking the input opens a full-screen Popup search panel with the complete hist
 | `fields`                   | Search field options                                                                     | _SearchField[]_    | `[]`      |
 | `recent-searches`          | Search history list shown fully                                                          | _string[]_         | `[]`      |
 | `max-search-history-count` | Max items kept when generating next history                                              | _number_           | `5`       |
-| `history-popup`            | Whether history is shown in a full-screen Popup; when `false`, a same-width Menu is used | _boolean_          | `true`    |
+| `history-popup`            | Whether history is shown in a full-screen Popup; when `false`, a auto-fit-popup-width Menu is used | _boolean_          | `true`    |
 | `placeholder`              | Placeholder                                                                              | _string_           | `-`       |
 | `label`                    | Left label                                                                               | _string_           | `-`       |
 | `shape`                    | Inner search field shape, can be `round` `square`                                        | _string_           | `round`   |

@@ -41,8 +41,8 @@ const mapleComponents = new Set([
   'AvatarGroup',
   'BackTop',
   'Badge',
-  'BottomNavigation',
-  'BottomNavigationItem',
+  'TabBar',
+  'TabBarItem',
   'Breadcrumb',
   'BreadcrumbItem',
   'Button',
@@ -131,7 +131,7 @@ const mapleComponents = new Set([
   'Space',
   'Step',
   'Steps',
-  'Sticky',
+  'Affix',
   'StyleProvider',
   'SwipeCell',
   'Switch',
@@ -151,7 +151,7 @@ const mapleComponents = new Set([
   'TimeRangePicker',
   'Tooltip',
   'Trigger',
-  'Uploader',
+  'Upload',
   'VerificationCode',
   'Watermark',
 ])
@@ -159,8 +159,8 @@ const mapleComponents = new Set([
 const styleDirAliases: Record<string, string> = {
   imagePreview: 'image',
   CollapseItem: 'collapse',
-  Row: 'grid',
-  Col: 'grid',
+  Row: 'row',
+  Col: 'col',
   GridItem: 'grid',
   ImagePreview: 'image',
   ImagePreviewGroup: 'image',
@@ -168,7 +168,7 @@ const styleDirAliases: Record<string, string> = {
   AvatarGroup: 'avatar',
   ButtonGroup: 'button',
   BreadcrumbItem: 'breadcrumb',
-  BottomNavigationItem: 'bottom-navigation',
+  TabBarItem: 'tab-bar',
   Tab: 'tabs',
   TabItem: 'tabs',
   TabsItems: 'tabs',
@@ -272,4 +272,66 @@ export function MapleResolver(options: MapleResolverOptions = {}) {
       },
     },
   ]
+}
+
+/**
+ * Add styles for explicit named imports after Vue/TypeScript compilation.
+ * Component/auto-import resolvers alone only handle imports they generate.
+ */
+export function MapleStyleImports(options: Pick<MapleResolverOptions, 'importStyle'> = {}) {
+  return {
+    name: 'maple:explicit-import-styles',
+    enforce: 'post' as const,
+    transform(this: { parse: (code: string) => unknown }, code: string, id: string) {
+      if (
+        options.importStyle === false ||
+        !/\.(?:[cm]?[jt]sx?|vue|md)(?:\?|$)/.test(id) ||
+        /[?&](?:type=style|raw(?:&|$)|url(?:&|$))/.test(id) ||
+        !code.includes('@maplejs/maple-ui')
+      ) {
+        return
+      }
+      const ast = this.parse(code) as {
+        body: Array<{
+          type: string
+          source?: { value: string }
+          specifiers?: Array<{
+            type: string
+            imported?: { name?: string; value?: string }
+          }>
+        }>
+      }
+      const existing = new Set(
+        ast.body.filter((node) => node.type === 'ImportDeclaration').map((node) => node.source?.value),
+      )
+      const styles = new Set<string>()
+      for (const node of ast.body) {
+        if (node.type !== 'ImportDeclaration' || node.source?.value !== '@maplejs/maple-ui') {
+          continue
+        }
+        for (const specifier of node.specifiers ?? []) {
+          if (specifier.type !== 'ImportSpecifier') {
+            continue
+          }
+          const imported = specifier.imported?.name ?? specifier.imported?.value ?? ''
+          const name = imported.replace(/^_(.+)Component$/, '$1')
+          if (!mapleComponents.has(name) && !mapleFunctions.includes(name)) {
+            continue
+          }
+          for (const style of getStyleSideEffects(name, true) ?? []) {
+            if (!existing.has(style)) {
+              styles.add(style)
+            }
+          }
+        }
+      }
+      if (!styles.size) {
+        return
+      }
+      return {
+        code: code + '\n' + [...styles].map((style) => 'import ' + JSON.stringify(style) + ';').join('\n'),
+        map: null,
+      }
+    },
+  }
 }

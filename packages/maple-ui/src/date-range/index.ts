@@ -22,7 +22,7 @@ export type DateRangePickerInstance = InstanceType<typeof DateRangePicker>
 export type { DateRangeProps, DateRangeType, DateRangePresentation } from './props'
 export type { DateRangePickerProps, DateRangePickerPresentation, DateRangePickerType } from './picker-props'
 
-export const _DateRangeComponent = DateRange
-export const _DateRangePickerComponent = DateRangePicker
+export const _DateRangeComponent: typeof DateRange = DateRange
+export const _DateRangePickerComponent: typeof DateRangePicker = DateRangePicker
 
 export default DateRange

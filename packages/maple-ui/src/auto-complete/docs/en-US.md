@@ -70,7 +70,7 @@ Autocomplete function of input field.
     <mp-auto-complete placeholder="Maxlength" :max-length="10" :options="options9" v-model="value9" />
     <mp-auto-complete
       placeholder="Custom Menu Show Timing"
-      :get-show="(value) => value.length > 3"
+      :should-open="(value) => value.length > 3"
       :options="options10"
       v-model="value10"
     />
@@ -127,12 +127,12 @@ Autocomplete function of input field.
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-auto-complete variant="outlined" placeholder="Please enter text" :options="options" v-model="value" />
-    <mp-auto-complete variant="outlined" readonly placeholder="Readonly" :options="options2" v-model="value2" />
-    <mp-auto-complete variant="outlined" disabled placeholder="Disabled" :options="options3" v-model="value3" />
-    <mp-auto-complete variant="outlined" clearable placeholder="Clearable" :options="options4" v-model="value4" />
+    <mp-auto-complete variant="outline" placeholder="Please enter text" :options="options" v-model="value" />
+    <mp-auto-complete variant="outline" readonly placeholder="Readonly" :options="options2" v-model="value2" />
+    <mp-auto-complete variant="outline" disabled placeholder="Disabled" :options="options3" v-model="value3" />
+    <mp-auto-complete variant="outline" clearable placeholder="Clearable" :options="options4" v-model="value4" />
     <mp-auto-complete
-      variant="outlined"
+      variant="outline"
       clearable
       placeholder="Use the clear icon slot"
       :options="options5"
@@ -142,7 +142,7 @@ Autocomplete function of input field.
         <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="Display Icon" :options="options7" v-model="value7">
+    <mp-auto-complete variant="outline" placeholder="Display Icon" :options="options7" v-model="value7">
       <template #prefix>
         <m-icon-github class="prefix" />
       </template>
@@ -150,7 +150,7 @@ Autocomplete function of input field.
         <m-icon-github class="suffix" />
       </template>
     </mp-auto-complete>
-    <mp-auto-complete variant="outlined" placeholder="Custom Icon Size" :options="options8" v-model="value8">
+    <mp-auto-complete variant="outline" placeholder="Custom Icon Size" :options="options8" v-model="value8">
       <template #prefix>
         <m-icon-github class="prefix" :size="28" />
       </template>
@@ -159,20 +159,20 @@ Autocomplete function of input field.
       </template>
     </mp-auto-complete>
     <mp-auto-complete
-      variant="outlined"
+      variant="outline"
       placeholder="Maxlength"
       :max-length="10"
       :options="options9"
       v-model="value9"
     />
     <mp-auto-complete
-      variant="outlined"
+      variant="outline"
       placeholder="Custom Menu Show Timing"
-      :get-show="(value) => value.length > 3"
+      :should-open="(value) => value.length > 3"
       :options="options10"
       v-model="value10"
     />
-    <mp-auto-complete variant="outlined" size="sm" placeholder="Small Size" :options="options11" v-model="value11" />
+    <mp-auto-complete variant="outline" size="sm" placeholder="Small Size" :options="options11" v-model="value11" />
   </mp-space>
 </template>
 
@@ -196,7 +196,7 @@ Autocomplete function of input field.
 | Prop           | Description                                                                                                                | Type                                       | Default    |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ---------- |
 | `v-model`      | The value of the binding                                                                                                   | _string_                                   | `-`        |
-| `variant`      | Input variants, The optional value is `filled` `standard` `outlined`                                                       | _string_                                   | `standard` |
+| `variant`      | Input variants, The optional value is `filled` `standard` `outline`                                                       | _string_                                   | `standard` |
 | `size`         | Input size: `xs` `sm` `md` `lg` `xl`                                                                                       | _ComponentSize_                            | `md`       |
 | `placeholder`  | placeholder                                                                                                                | _string_                                   | `-`        |
 | `options`      | Specifies options                                                                                                          | _AutoCompleteOption[]_                     | `[]`       |
@@ -211,7 +211,7 @@ Autocomplete function of input field.
 | `text-color`   | Text color                                                                                                                 | _string_                                   | `-`        |
 | `focus-color`  | The primary color in focus                                                                                                 | _string_                                   | `-`        |
 | `blur-color`   | The primary color in blur                                                                                                  | _string_                                   | `-`        |
-| `get-show`     | Determine whether the menu is displayed according to the input value                                                       | _(v: string) => boolean_                   | `-`        |
+| `should-open`     | Determine whether the menu is displayed according to the input value                                                       | _(v: string) => boolean_                   | Non-empty input        |
 
 Validation rules are now configured on `mp-form-item`, see [Form](#/en-US/form).
 
@@ -256,3 +256,9 @@ Here are the CSS variables used by the component. Styles can be customized using
 | Variable                          | Default |
 | --------------------------------- | ------- |
 | `--auto-complete-options-padding` | `6px 0` |
+
+### Opening and filtering
+
+`should-open(inputValue)` only permits opening and defaults to non-empty input. `filter-option` defaults to `true`: match the label (falling back to value), ignoring case. `strict` defaults to `false`; set it to `true` for case-sensitive matching. Set `filter-option=false` for server-filtered results, or supply `(inputValue, option) => boolean` (empty input preserves all options). Disabled, readonly, unfocused, or empty-result menus cannot open.
+
+Migration: rename `get-show` to `should-open`; set `:filter-option="false"` to preserve the previous no-local-filtering behavior.

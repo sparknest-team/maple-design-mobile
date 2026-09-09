@@ -10,6 +10,6 @@ export type { CascaderProps, CascaderOption, CascaderPresentation } from './prop
 
 export { cascaderProps }
 
-export const _CascaderComponent = Cascader
+export const _CascaderComponent: typeof Cascader = Cascader
 
 export default Cascader

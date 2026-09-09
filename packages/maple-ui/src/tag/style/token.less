@@ -1,0 +1,242 @@
+:root {
+  // default(filled): bg = color-2 (浅)，text = color-6 (深)，border 透明
+  --mp-tag-status-primary-bg-color: rgb(var(~'--mp-primary-2'));
+  --mp-tag-status-primary-text-color: rgb(var(~'--mp-primary-6'));
+  --mp-tag-status-secondary-bg-color: rgb(var(~'--mp-gray-2'));
+  --mp-tag-status-secondary-text-color: rgb(var(~'--mp-gray-7'));
+  --mp-tag-status-tertiary-bg-color: rgb(var(~'--mp-gray-1'));
+  --mp-tag-status-tertiary-text-color: rgb(var(~'--mp-gray-6'));
+  --mp-tag-status-info-bg-color: rgb(var(~'--mp-blue-2'));
+  --mp-tag-status-info-text-color: rgb(var(~'--mp-blue-6'));
+  --mp-tag-status-success-bg-color: rgb(var(~'--mp-green-2'));
+  --mp-tag-status-success-text-color: rgb(var(~'--mp-green-6'));
+  --mp-tag-status-warning-bg-color: rgb(var(~'--mp-orange-2'));
+  --mp-tag-status-warning-text-color: rgb(var(~'--mp-orange-6'));
+  --mp-tag-status-danger-bg-color: rgb(var(~'--mp-red-2'));
+  --mp-tag-status-danger-text-color: rgb(var(~'--mp-red-6'));
+
+  // outline: 透明背景 + 同色文字与描边
+  --mp-tag-variant-outline-status-primary-color: rgb(var(~'--mp-primary-6'));
+  --mp-tag-variant-outline-status-secondary-color: rgb(var(~'--mp-gray-7'));
+  --mp-tag-variant-outline-status-tertiary-color: rgb(var(~'--mp-gray-6'));
+  --mp-tag-variant-outline-status-info-color: rgb(var(~'--mp-blue-6'));
+  --mp-tag-variant-outline-status-success-color: rgb(var(~'--mp-green-6'));
+  --mp-tag-variant-outline-status-warning-color: rgb(var(~'--mp-orange-6'));
+  --mp-tag-variant-outline-status-danger-color: rgb(var(~'--mp-red-6'));
+  --mp-tag-variant-outline-default-color: var(~'--mp-color-text-1');
+  --mp-tag-variant-outline-default-border-color: var(~'--mp-color-border-2');
+
+  --mp-tag-border-width: 1px;
+  --mp-tag-border-type: solid;
+  --mp-tag-padding-horizontal: var(~'--mp-spacing-4');
+  --mp-tag-padding-vertical: 0;
+  --mp-tag-icon-margin-right: var(~'--mp-spacing-2');
+  --mp-tag-text-font-weight: var(~'--mp-font-weight-500');
+  --mp-tag-border-radius: var(~'--mp-border-radius-sm');
+  --mp-tag-round-radius: 100px;
+  --mp-tag-size-xs: var(~'--mp-size-4');
+  --mp-tag-size-sm: var(~'--mp-size-5');
+  --mp-tag-size-md: var(~'--mp-size-6');
+  --mp-tag-size-lg: var(~'--mp-size-7');
+  --mp-tag-size-xl: var(~'--mp-size-8');
+  --mp-tag-size-xs-font-size: var(~'--mp-font-size-body-1');
+  --mp-tag-size-sm-font-size: var(~'--mp-font-size-body-1');
+  --mp-tag-size-md-font-size: var(~'--mp-font-size-body-1');
+  --mp-tag-size-lg-font-size: var(~'--mp-font-size-body-3');
+  --mp-tag-size-xl-font-size: var(~'--mp-font-size-body-3');
+  --mp-tag-bg-not-checked-hover: var(~'--mp-color-fill-2');
+  --mp-tag-custom-text-color: var(~'--mp-color-white');
+  --mp-tag-custom-icon-bg-hover: rgba(255, 255, 255, 0.2);
+  --mp-tag-default-bg: var(~'--mp-color-fill-2');
+  --mp-tag-default-bg-hover: var(~'--mp-color-fill-3');
+  --mp-tag-default-icon-color: var(~'--mp-color-text-2');
+  --mp-tag-default-text-color: var(~'--mp-color-text-1');
+  --mp-tag-default-border-color: transparent;
+  --mp-tag-default-border-color-hover: transparent;
+  --mp-tag-red-bg: rgb(var(~'--mp-red-1'));
+  --mp-tag-red-bg-hover: rgb(var(~'--mp-red-2'));
+  --mp-tag-red-border-color: transparent;
+  --mp-tag-red-border-color-hover: transparent;
+  --mp-tag-red-icon-color: rgb(var(~'--mp-red-6'));
+  --mp-tag-red-icon-bg-hover: rgb(var(~'--mp-red-2'));
+  --mp-tag-red-text-color: rgb(var(~'--mp-red-6'));
+  --mp-tag-orangered-bg: rgb(var(~'--mp-orangered-1'));
+  --mp-tag-orangered-bg-hover: rgb(var(~'--mp-orangered-2'));
+  --mp-tag-orangered-border-color: transparent;
+  --mp-tag-orangered-border-color-hover: transparent;
+  --mp-tag-orangered-icon-color: rgb(var(~'--mp-orangered-6'));
+  --mp-tag-orangered-icon-bg-hover: rgb(var(~'--mp-orangered-2'));
+  --mp-tag-orangered-text-color: rgb(var(~'--mp-orangered-6'));
+  --mp-tag-orange-bg: rgb(var(~'--mp-orange-1'));
+  --mp-tag-orange-bg-hover: rgb(var(~'--mp-orange-2'));
+  --mp-tag-orange-border-color: transparent;
+  --mp-tag-orange-border-color-hover: transparent;
+  --mp-tag-orange-icon-color: rgb(var(~'--mp-orange-6'));
+  --mp-tag-orange-icon-bg-hover: rgb(var(~'--mp-orange-2'));
+  --mp-tag-orange-text-color: rgb(var(~'--mp-orange-6'));
+  --mp-tag-gold-bg: rgb(var(~'--mp-gold-1'));
+  --mp-tag-gold-bg-hover: rgb(var(~'--mp-gold-3'));
+  --mp-tag-gold-border-color: transparent;
+  --mp-tag-gold-border-color-hover: transparent;
+  --mp-tag-gold-icon-color: rgb(var(~'--mp-gold-6'));
+  --mp-tag-gold-icon-bg-hover: rgb(var(~'--mp-gold-2'));
+  --mp-tag-gold-text-color: rgb(var(~'--mp-gold-6'));
+  --mp-tag-lime-bg: rgb(var(~'--mp-lime-1'));
+  --mp-tag-lime-bg-hover: rgb(var(~'--mp-lime-2'));
+  --mp-tag-lime-border-color: transparent;
+  --mp-tag-lime-border-color-hover: transparent;
+  --mp-tag-lime-icon-color: rgb(var(~'--mp-lime-6'));
+  --mp-tag-lime-icon-bg-hover: rgb(var(~'--mp-lime-2'));
+  --mp-tag-lime-text-color: rgb(var(~'--mp-lime-6'));
+  --mp-tag-green-bg: rgb(var(~'--mp-green-1'));
+  --mp-tag-green-bg-hover: rgb(var(~'--mp-green-2'));
+  --mp-tag-green-border-color: transparent;
+  --mp-tag-green-border-color-hover: transparent;
+  --mp-tag-green-icon-color: rgb(var(~'--mp-green-6'));
+  --mp-tag-green-icon-bg-hover: rgb(var(~'--mp-green-2'));
+  --mp-tag-green-text-color: rgb(var(~'--mp-green-6'));
+  --mp-tag-cyan-bg: rgb(var(~'--mp-cyan-1'));
+  --mp-tag-cyan-bg-hover: rgb(var(~'--mp-cyan-2'));
+  --mp-tag-cyan-border-color: transparent;
+  --mp-tag-cyan-border-color-hover: transparent;
+  --mp-tag-cyan-icon-color: rgb(var(~'--mp-cyan-6'));
+  --mp-tag-cyan-icon-bg-hover: rgb(var(~'--mp-cyan-2'));
+  --mp-tag-cyan-text-color: rgb(var(~'--mp-cyan-6'));
+  --mp-tag-blue-bg: rgb(var(~'--mp-blue-1'));
+  --mp-tag-blue-bg-hover: rgb(var(~'--mp-blue-2'));
+  --mp-tag-blue-border-color: transparent;
+  --mp-tag-blue-border-color-hover: transparent;
+  --mp-tag-blue-icon-color: rgb(var(~'--mp-blue-6'));
+  --mp-tag-blue-icon-bg-hover: rgb(var(~'--mp-blue-2'));
+  --mp-tag-blue-text-color: rgb(var(~'--mp-blue-6'));
+  --mp-tag-brand-bg: rgb(var(~'--mp-brand-1'));
+  --mp-tag-brand-bg-hover: rgb(var(~'--mp-brand-2'));
+  --mp-tag-brand-border-color: transparent;
+  --mp-tag-brand-border-color-hover: transparent;
+  --mp-tag-brand-icon-color: rgb(var(~'--mp-brand-6'));
+  --mp-tag-brand-icon-bg-hover: rgb(var(~'--mp-brand-2'));
+  --mp-tag-brand-text-color: rgb(var(~'--mp-brand-6'));
+  --mp-tag-purple-bg: rgb(var(~'--mp-purple-1'));
+  --mp-tag-purple-bg-hover: rgb(var(~'--mp-purple-2'));
+  --mp-tag-purple-border-color: transparent;
+  --mp-tag-purple-border-color-hover: transparent;
+  --mp-tag-purple-icon-color: rgb(var(~'--mp-purple-6'));
+  --mp-tag-purple-icon-bg-hover: rgb(var(~'--mp-purple-2'));
+  --mp-tag-purple-text-color: rgb(var(~'--mp-purple-6'));
+  --mp-tag-pinkpurple-bg: rgb(var(~'--mp-pinkpurple-1'));
+  --mp-tag-pinkpurple-bg-hover: rgb(var(~'--mp-pinkpurple-2'));
+  --mp-tag-pinkpurple-border-color: transparent;
+  --mp-tag-pinkpurple-border-color-hover: transparent;
+  --mp-tag-pinkpurple-icon-color: rgb(var(~'--mp-pinkpurple-6'));
+  --mp-tag-pinkpurple-icon-bg-hover: rgb(var(~'--mp-pinkpurple-2'));
+  --mp-tag-pinkpurple-text-color: rgb(var(~'--mp-pinkpurple-6'));
+  --mp-tag-magenta-bg: rgb(var(~'--mp-magenta-1'));
+  --mp-tag-magenta-bg-hover: rgb(var(~'--mp-magenta-2'));
+  --mp-tag-magenta-border-color: transparent;
+  --mp-tag-magenta-border-color-hover: transparent;
+  --mp-tag-magenta-icon-color: rgb(var(~'--mp-magenta-6'));
+  --mp-tag-magenta-icon-bg-hover: rgb(var(~'--mp-magenta-2'));
+  --mp-tag-magenta-text-color: rgb(var(~'--mp-magenta-6'));
+  --mp-tag-gray-bg: rgb(var(~'--mp-gray-2'));
+  --mp-tag-gray-bg-hover: rgb(var(~'--mp-gray-3'));
+  --mp-tag-gray-border-color: transparent;
+  --mp-tag-gray-border-color-hover: transparent;
+  --mp-tag-gray-icon-color: rgb(var(~'--mp-gray-6'));
+  --mp-tag-gray-icon-bg-hover: rgb(var(~'--mp-gray-3'));
+  --mp-tag-gray-text-color: rgb(var(~'--mp-gray-6'));
+  --mp-tag-icon-hover-size: var(~'--mp-size-3');
+  --mp-tag-icon-hover-bg-size: var(~'--mp-size-4');
+  --mp-tag-close-margin-left: var(~'--mp-spacing-2');
+  --mp-tag-close-font-size: var(~'--mp-font-size-body-1');
+}
+
+:root {
+  --mp-tag-border-width: 1px;
+  --mp-tag-border-radius: 4px;
+  --mp-tag-round-radius: 100px;
+  --mp-tag-padding: 0 10px;
+  --mp-tag-icon-margin: 6px;
+  --mp-tag-font-weight: 500;
+
+  // size（移动端触控高度略高于 PC）
+  --mp-tag-size-xs-height: 24px;
+  --mp-tag-size-sm-height: 28px;
+  --mp-tag-size-md-height: 32px;
+  --mp-tag-size-lg-height: 36px;
+  --mp-tag-size-xl-height: 40px;
+  --mp-tag-size-xs-padding: 0 6px;
+  --mp-tag-size-sm-padding: 0 8px;
+  --mp-tag-size-md-padding: 0 10px;
+  --mp-tag-size-lg-padding: 0 12px;
+  --mp-tag-size-xl-padding: 0 14px;
+  --mp-tag-size-xs-icon-margin: 4px;
+  --mp-tag-size-sm-icon-margin: 5px;
+  --mp-tag-size-md-icon-margin: 6px;
+  --mp-tag-size-lg-icon-margin: 6px;
+  --mp-tag-size-xl-icon-margin: 8px;
+  --mp-tag-size-xs-font-size: 12px;
+  --mp-tag-size-sm-font-size: 12px;
+  --mp-tag-size-md-font-size: 14px;
+  --mp-tag-size-lg-font-size: 14px;
+  --mp-tag-size-xl-font-size: 16px;
+
+  // default
+  --mp-tag-status-default-color: #f5f5f5;
+  --mp-tag-status-default-text-color: #555;
+  --mp-tag-status-default-border-color: #d9d9d9;
+
+  // primary
+  --mp-tag-status-primary-color: var(--mp-color-primary);
+  --mp-tag-status-primary-text-color: var(--mp-color-white);
+  --mp-tag-status-primary-border-color: var(--mp-color-primary);
+
+  // info
+  --mp-tag-status-info-color: var(--mp-color-info);
+  --mp-tag-status-info-text-color: var(--mp-color-white);
+  --mp-tag-status-info-border-color: var(--mp-color-info);
+
+  // success
+  --mp-tag-status-success-color: var(--mp-color-success);
+  --mp-tag-status-success-text-color: var(--mp-color-white);
+  --mp-tag-status-success-border-color: var(--mp-color-success);
+
+  // warning
+  --mp-tag-status-warning-color: var(--mp-color-warning);
+  --mp-tag-status-warning-text-color: var(--mp-color-white);
+  --mp-tag-status-warning-border-color: var(--mp-color-warning);
+
+  // danger
+  --mp-tag-status-danger-color: var(--mp-color-danger);
+  --mp-tag-status-danger-text-color: var(--mp-color-white);
+  --mp-tag-status-danger-border-color: var(--mp-color-danger);
+
+  // secondary
+  --mp-tag-status-secondary-color: rgb(var(--mp-gray-6));
+  --mp-tag-status-secondary-text-color: var(--mp-color-white);
+  --mp-tag-status-secondary-border-color: rgb(var(--mp-gray-6));
+
+  // tertiary
+  --mp-tag-status-tertiary-color: rgb(var(--mp-gray-7));
+  --mp-tag-status-tertiary-text-color: var(--mp-color-white);
+  --mp-tag-status-tertiary-border-color: rgb(var(--mp-gray-7));
+}
+
+:root {
+  --mp-tag-size-xs: var(--mp-tag-size-xs-height);
+  --mp-tag-size-sm: var(--mp-tag-size-sm-height);
+  --mp-tag-size-md: var(--mp-tag-size-md-height);
+  --mp-tag-size-lg: var(--mp-tag-size-lg-height);
+  --mp-tag-size-xl: var(--mp-tag-size-xl-height);
+  --mp-tag-padding-horizontal: 10px;
+  --mp-tag-icon-margin-right: var(--mp-tag-icon-margin);
+  --mp-tag-text-font-weight: var(--mp-tag-font-weight);
+  --mp-tag-close-margin-left: var(--mp-tag-icon-margin);
+  --mp-tag-close-font-size: var(--mp-tag-size-md-font-size);
+  --mp-tag-status-primary-bg-color: var(--mp-tag-status-primary-color);
+  --mp-tag-status-secondary-bg-color: var(--mp-tag-status-secondary-color);
+  --mp-tag-status-tertiary-bg-color: var(--mp-tag-status-tertiary-color);
+  --mp-tag-status-info-bg-color: var(--mp-tag-status-info-color);
+  --mp-tag-status-success-bg-color: var(--mp-tag-status-success-color);
+  --mp-tag-status-warning-bg-color: var(--mp-tag-status-warning-color);
+  --mp-tag-status-danger-bg-color: var(--mp-tag-status-danger-color);
+}

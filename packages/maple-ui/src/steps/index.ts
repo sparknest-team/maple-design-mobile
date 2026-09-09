@@ -22,8 +22,8 @@ export type { StepsProps, StepProps, StepStatus, StepsType, StepsSize, StepsCont
 export { stepsProps, stepProps }
 export { _StepsStep as Step }
 
-export const _StepsComponent = Steps
-export const _StepComponent = _StepsStep
+export const _StepsComponent: typeof Steps = Steps
+export const _StepComponent: typeof _StepsStep = _StepsStep
 
 export { Steps }
 

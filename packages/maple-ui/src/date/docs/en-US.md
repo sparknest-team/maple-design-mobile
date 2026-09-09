@@ -132,7 +132,7 @@ Enable `show-time` for date+time (aligned with Cedar).
 | `disabled`          | Disabled                                                          | _boolean_                    | `false`    |
 | `readonly`          | Readonly                                                          | _boolean_                    | `false`    |
 | `size`              | Size: `xs` `sm` `md` `lg` `xl`                                    | _ComponentSize_              | `md`       |
-| `variant`           | Variant: `filled` `standard` `outlined`                           | _string_                     | `standard` |
+| `variant`           | Variant: `filled` `standard` `outline`                           | _string_                     | `standard` |
 
 ### Events
 
@@ -299,7 +299,7 @@ Enable `show-time` for date+time. `presentation` controls the UI:
 | `color`             | Picker color                                                                                  | _string_                      | `-`           |
 | `title-color`       | Color of picker title. If not specified it will use `color` prop or the default picker color. | _string_                      | `-`           |
 | `hint`              | Picker hint                                                                                   | _string_                      | `SELECT DATE` |
-| `elevation`         | Elevation level, options `true` `false` and level of `0-24`                                   | _string \| number \| boolean_ | `false`       |
+| `elevation`         | Elevation level, options `true` `false` and level of `0-24`                                   | _number \| boolean_ | `false`       |
 | `button-elevation`  | Elevation level of Button                                                                     | _string \| number \| boolean_ | `true`        |
 | `first-day-of-week` | Sets the first day of the week, starting with 0 for Sunday.                                   | _string \| number_            | `0`           |
 | `min`               | Minimum allowed date/month (ISO 8601 format)                                                  | _string_                      | `-`           |

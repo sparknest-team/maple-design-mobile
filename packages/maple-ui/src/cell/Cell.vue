@@ -1,7 +1,7 @@
 <template>
   <div
     v-ripple="{ disabled: !ripple }"
-    :class="classes(n(), [border, n('--border')], [n('--cursor')])"
+    :class="classes(n(), [border, n('--border')], n('--cursor'))"
     :style="borderOffsetStyles"
     @click="handleClick"
   >

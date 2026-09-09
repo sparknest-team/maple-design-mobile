@@ -1,22 +1,20 @@
 import { Comment, computed, defineComponent, Fragment, toRefs, type VNode } from 'vue'
-import { isArray, isNumeric } from '@maplejs/maple-shared'
-import { createNamespace, flatFragment } from '../utils/components'
+import { createNamespace } from '../utils/components'
+import { componentSizes } from '../utils/constants'
 import { padStartFlex, toSizeUnit } from '../utils/elements'
+import { flatChildren } from './children'
 import { spaceProps as props, type SpaceSize } from './props'
-import './style'
 
-const isInternalSize = (size: any) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(size)
+const isInternalSize = (size: SpaceSize) => componentSizes.some((value) => value === size)
 
 const { name, n, classes } = createNamespace('space')
 
-function getSize(size: SpaceSize, internal: boolean): string[] {
-  return internal
+function getSize(size: SpaceSize, isInternalSize: boolean): string[] {
+  return isInternalSize
     ? [`var(--mp-space-size-${size}-row-gap)`, `var(--mp-space-size-${size}-column-gap)`]
-    : isArray(size)
+    : Array.isArray(size)
       ? (size.map(toSizeUnit) as string[])
-      : isNumeric(size)
-        ? [toSizeUnit(size) as string, toSizeUnit(size) as string]
-        : [`var(--mp-space-size-${size}-row-gap)`, `var(--mp-space-size-${size}-column-gap)`]
+      : [toSizeUnit(size) as string, toSizeUnit(size) as string]
 }
 
 export default defineComponent({
@@ -25,6 +23,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const { block, justify, align, wrap, direction, size } = toRefs(props)
 
+    // 将 size 转为 CSS gap 值
     const gapStyle = computed(() => {
       const [rowGap, columnGap] = getSize(size.value, isInternalSize(size.value))
       return `${rowGap} ${columnGap}`
@@ -32,14 +31,14 @@ export default defineComponent({
 
     return () => {
       const rawChildren = (slots.default?.() ?? []) as VNode[]
-      const children = (flatFragment(rawChildren) as any[]).filter(
+      const children = (flatChildren(rawChildren) as any[]).filter(
         (node) => !(node && typeof node === 'object' && (node as VNode).type === Comment),
       )
       const hasSplit = !!slots.split
 
       return (
         <div
-          class={classes(n(), n('$--box'), [block.value, n('--block')])}
+          class={classes(n(), [block.value, n('--block')])}
           style={{
             gap: gapStyle.value,
             flexDirection: direction.value,

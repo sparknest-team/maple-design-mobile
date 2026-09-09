@@ -10,6 +10,12 @@ onThemeChange()
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-paper :elevation="2" width="25vmin" height="25vmin" />
 
+  <app-type>{{ t('bordered') }}</app-type>
+  <mp-space wrap>
+    <mp-paper bordered width="25vmin" height="25vmin" />
+    <mp-paper bordered :elevation="2" width="25vmin" height="25vmin" />
+  </mp-space>
+
   <app-type>{{ t('ripple') }}</app-type>
   <mp-paper :elevation="2" ripple width="25vmin" height="25vmin" />
 

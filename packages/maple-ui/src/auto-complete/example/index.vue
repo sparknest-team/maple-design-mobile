@@ -14,16 +14,16 @@ const { value: standardValue9, options: standardOptions9 } = useAutoComplete()
 const { value: standardValue10, options: standardOptions10 } = useAutoComplete()
 const { value: standardValue11, options: standardOptions11 } = useAutoComplete()
 
-const { value: outlinedValue, options: outlinedOptions } = useAutoComplete()
-const { value: outlinedValue2, options: outlinedOptions2 } = useAutoComplete()
-const { value: outlinedValue3, options: outlinedOptions3 } = useAutoComplete()
-const { value: outlinedValue4, options: outlinedOptions4 } = useAutoComplete()
-const { value: outlinedValue5, options: outlinedOptions5 } = useAutoComplete()
-const { value: outlinedValue7, options: outlinedOptions7 } = useAutoComplete()
-const { value: outlinedValue8, options: outlinedOptions8 } = useAutoComplete()
-const { value: outlinedValue9, options: outlinedOptions9 } = useAutoComplete()
-const { value: outlinedValue10, options: outlinedOptions10 } = useAutoComplete()
-const { value: outlinedValue11, options: outlinedOptions11 } = useAutoComplete()
+const { value: outlineValue, options: outlineOptions } = useAutoComplete()
+const { value: outlineValue2, options: outlineOptions2 } = useAutoComplete()
+const { value: outlineValue3, options: outlineOptions3 } = useAutoComplete()
+const { value: outlineValue4, options: outlineOptions4 } = useAutoComplete()
+const { value: outlineValue5, options: outlineOptions5 } = useAutoComplete()
+const { value: outlineValue7, options: outlineOptions7 } = useAutoComplete()
+const { value: outlineValue8, options: outlineOptions8 } = useAutoComplete()
+const { value: outlineValue9, options: outlineOptions9 } = useAutoComplete()
+const { value: outlineValue10, options: outlineOptions10 } = useAutoComplete()
+const { value: outlineValue11, options: outlineOptions11 } = useAutoComplete()
 
 watchLang(use)
 
@@ -83,57 +83,57 @@ function useAutoComplete() {
     <mp-auto-complete
       v-model="standardValue10"
       :placeholder="t('customMenuShowTiming')"
-      :get-show="(value) => value.length > 3"
+      :should-open="(value) => value.length > 3"
       :options="standardOptions10"
     />
     <mp-auto-complete v-model="standardValue11" size="sm" :placeholder="t('smallSize')" :options="standardOptions11" />
   </mp-space>
 
-  <app-type style="margin-top: 10vmin">{{ t('outlined') }}</app-type>
+  <app-type style="margin-top: 10vmin">{{ t('outline') }}</app-type>
   <mp-space direction="column" :size="['6vmin', 0]">
     <mp-auto-complete
-      v-model="outlinedValue"
-      variant="outlined"
+      v-model="outlineValue"
+      variant="outline"
       :placeholder="t('placeholder')"
-      :options="outlinedOptions"
+      :options="outlineOptions"
     />
     <mp-auto-complete
-      v-model="outlinedValue2"
-      variant="outlined"
+      v-model="outlineValue2"
+      variant="outline"
       readonly
       :placeholder="t('readonly')"
-      :options="outlinedOptions2"
+      :options="outlineOptions2"
     />
     <mp-auto-complete
-      v-model="outlinedValue3"
-      variant="outlined"
+      v-model="outlineValue3"
+      variant="outline"
       disabled
       :placeholder="t('disabled')"
-      :options="outlinedOptions3"
+      :options="outlineOptions3"
     />
     <mp-auto-complete
-      v-model="outlinedValue4"
-      variant="outlined"
+      v-model="outlineValue4"
+      variant="outline"
       clearable
       :placeholder="t('clearable')"
-      :options="outlinedOptions4"
+      :options="outlineOptions4"
     />
     <mp-auto-complete
-      v-model="outlinedValue5"
-      variant="outlined"
+      v-model="outlineValue5"
+      variant="outline"
       clearable
       :placeholder="t('clearIconSlot')"
-      :options="outlinedOptions5"
+      :options="outlineOptions5"
     >
       <template #clear-icon="{ clear }">
         <m-icon-error @click="clear" />
       </template>
     </mp-auto-complete>
     <mp-auto-complete
-      v-model="outlinedValue7"
-      variant="outlined"
+      v-model="outlineValue7"
+      variant="outline"
       :placeholder="t('displayIcon')"
-      :options="outlinedOptions7"
+      :options="outlineOptions7"
     >
       <template #prefix>
         <m-icon-github class="prefix" />
@@ -143,10 +143,10 @@ function useAutoComplete() {
       </template>
     </mp-auto-complete>
     <mp-auto-complete
-      v-model="outlinedValue8"
-      variant="outlined"
+      v-model="outlineValue8"
+      variant="outline"
       :placeholder="t('customIconSize')"
-      :options="outlinedOptions8"
+      :options="outlineOptions8"
     >
       <template #prefix>
         <m-icon-github class="prefix" size="8vmin" />
@@ -156,25 +156,25 @@ function useAutoComplete() {
       </template>
     </mp-auto-complete>
     <mp-auto-complete
-      v-model="outlinedValue9"
-      variant="outlined"
+      v-model="outlineValue9"
+      variant="outline"
       :placeholder="t('maxLength')"
       :max-length="10"
-      :options="outlinedOptions9"
+      :options="outlineOptions9"
     />
     <mp-auto-complete
-      v-model="outlinedValue10"
-      variant="outlined"
+      v-model="outlineValue10"
+      variant="outline"
       :placeholder="t('customMenuShowTiming')"
-      :get-show="(value) => value.length > 3"
-      :options="outlinedOptions10"
+      :should-open="(value) => value.length > 3"
+      :options="outlineOptions10"
     />
     <mp-auto-complete
-      v-model="outlinedValue11"
-      variant="outlined"
+      v-model="outlineValue11"
+      variant="outline"
       size="sm"
       :placeholder="t('smallSize')"
-      :options="outlinedOptions11"
+      :options="outlineOptions11"
     />
   </mp-space>
 </template>

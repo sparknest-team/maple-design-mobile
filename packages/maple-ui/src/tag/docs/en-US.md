@@ -25,7 +25,7 @@ Set the theme color with `status`. Options match Button: `default` `primary` `se
 
 ### Outline
 
-Use `variant="outline"` for the outlined style.
+Use `variant="outline"` for the outline style.
 
 ```html
 <template>

@@ -14,6 +14,7 @@ export { loadingProps, vLoading }
 export type { LoadingDirectiveOptions } from './directive'
 
 export type LoadingInstance = InstanceType<typeof Loading>
-export const _LoadingComponent = Loading
+export const _LoadingComponent: typeof Loading = Loading
 
 export default Loading
+export type LoadingProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

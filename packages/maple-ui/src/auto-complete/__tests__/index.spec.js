@@ -9,6 +9,51 @@ test('auto-complete plugin', () => {
   expect(app.component(AutoComplete.name)).toBeTruthy()
 })
 
+test('opening policy and option filtering are independent and reactive', async () => {
+  const filterOption = vi.fn((input, option) => option.value === 'Apple')
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        { label: 'Apple', value: 'Apple' },
+        { label: 'Banana', value: 'Banana' },
+      ],
+      shouldOpen: () => false,
+      filterOption,
+    },
+  })
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
+  await wrapper.setProps({ shouldOpen: () => true })
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
+  expect(document.querySelectorAll('.mp-menu-option')).toHaveLength(1)
+  expect(filterOption).toHaveBeenCalledWith('a', expect.objectContaining({ value: 'Apple' }))
+  await wrapper.setProps({ filterOption: () => false })
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
+  await wrapper.setProps({ filterOption: false })
+  expect(document.querySelectorAll('.mp-menu-option')).toHaveLength(2)
+  await wrapper.setProps({ disabled: true })
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
+  wrapper.unmount()
+})
+
+test('default filtering is case-insensitive and strict is case-sensitive', async () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'APPLE',
+      options: [
+        { label: 'Apple', value: 'a' },
+        { label: 'Banana', value: 'b' },
+      ],
+    },
+  })
+  await wrapper.trigger('focusin')
+  expect(document.querySelectorAll('.mp-menu-option')).toHaveLength(1)
+  await wrapper.setProps({ strict: true })
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
+  wrapper.unmount()
+})
+
 test('auto-complete modelValue', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(AutoComplete, {
@@ -29,6 +74,7 @@ test('auto-complete options', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       'onUpdate:modelValue': onUpdateModelValue,
       options: [
         {
@@ -43,19 +89,20 @@ test('auto-complete options', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option 1')
   wrapper.unmount()
 })
 
-test('auto-complete getShow', async () => {
+test('auto-complete shouldOpen', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       options: [
         {
           value: 'Option 1',
@@ -66,19 +113,19 @@ test('auto-complete getShow', async () => {
           label: 'Option 2',
         },
       ],
-      getShow: (value) => value === 'b',
+      shouldOpen: (value) => value === 'b',
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.find('input').trigger('blur')
 
   await wrapper.setProps({ modelValue: 'b' })
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   wrapper.unmount()
 })
@@ -88,6 +135,7 @@ test('auto-complete options custom key', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       fieldNames: { label: 'name', value: 'id' },
       'onUpdate:modelValue': onUpdateModelValue,
       options: [
@@ -103,9 +151,9 @@ test('auto-complete options custom key', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option Id 1')
@@ -143,6 +191,7 @@ test('auto-complete maxLength for handle auto complete', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       maxLength: 3,
       options: [
         {
@@ -158,9 +207,9 @@ test('auto-complete maxLength for handle auto complete', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Opt')
@@ -175,6 +224,7 @@ test('auto-complete disabled', async () => {
     props: {
       disabled: true,
       modelValue: 'a',
+      filterOption: false,
       options: [
         {
           value: 'Option 1',
@@ -192,9 +242,9 @@ test('auto-complete disabled', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
 
   await wrapper.trigger('click')
   expect(onClick).not.toHaveBeenCalled()
@@ -209,6 +259,7 @@ test('auto-complete readonly', async () => {
     props: {
       readonly: true,
       modelValue: 'a',
+      filterOption: false,
       options: [
         {
           value: 'Option 1',
@@ -226,9 +277,9 @@ test('auto-complete readonly', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
 
   await wrapper.trigger('click')
   expect(onClick).toBeCalledTimes(1)
@@ -242,6 +293,7 @@ test('auto-complete clearable', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       clearable: true,
       onClear,
       'onUpdate:modelValue': onUpdateModelValue,
@@ -323,7 +375,7 @@ test('auto-complete size', () => {
 test('auto-complete variant', () => {
   const wrapper = mount(AutoComplete, {
     props: {
-      variant: 'outlined',
+      variant: 'outline',
     },
   })
 
@@ -348,6 +400,7 @@ test('auto-complete click outside', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       options: [
         {
           value: 'Option 1',
@@ -361,12 +414,12 @@ test('auto-complete click outside', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await trigger(document, 'click')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
 
   wrapper.unmount()
 })
@@ -376,6 +429,7 @@ test('auto-complete select option by keyboard', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       'onUpdate:modelValue': onUpdateModelValue,
       options: [
         {
@@ -390,9 +444,9 @@ test('auto-complete select option by keyboard', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
   await trigger(document.querySelector('.mp-menu-option'), 'focus')
@@ -406,6 +460,7 @@ test('auto-complete close menu by keyboard tab', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       options: [
         {
           value: 'Option 1',
@@ -419,12 +474,12 @@ test('auto-complete close menu by keyboard tab', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await triggerKeyboard(window, 'keydown', { key: 'Tab' })
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
 
   wrapper.unmount()
 })
@@ -434,6 +489,7 @@ test('auto-complete handle same value by option', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       options: [
         {
           value: 'a',
@@ -444,9 +500,9 @@ test('auto-complete handle same value by option', async () => {
     },
   })
 
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('none')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.trigger('focusin')
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await trigger(document.querySelector('.mp-menu-option'), 'click')
   expect(onChange).toHaveBeenCalledTimes(0)
@@ -478,6 +534,7 @@ test('auto-complete clear-icon scoped clear method', async () => {
   const wrapper = mount(AutoComplete, {
     props: {
       modelValue: 'a',
+      filterOption: false,
       clearable: true,
       onClear,
     },

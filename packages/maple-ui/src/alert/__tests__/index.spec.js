@@ -11,15 +11,15 @@ test('alert plugin', () => {
 
 describe('alert props', () => {
   test('type modifier', () => {
-    ;['info', 'success', 'warning', 'danger', 'default'].forEach((type) => {
-      const wrapper = mount(VarAlert, { props: { type } })
-      expect(wrapper.find('.mp-alert').classes()).toContain(`mp-alert--${type}`)
+    ;['info', 'success', 'warning', 'danger', 'default'].forEach((status) => {
+      const wrapper = mount(VarAlert, { props: { status } })
+      expect(wrapper.find('.mp-alert').classes()).toContain(`mp-alert--${status}`)
       wrapper.unmount()
     })
   })
 
   test('variant modifier', () => {
-    ;['standard', 'tonal', 'outlined'].forEach((variant) => {
+    ;['standard', 'tonal', 'outline'].forEach((variant) => {
       const wrapper = mount(VarAlert, { props: { variant } })
       expect(wrapper.find('.mp-alert').classes()).toContain(`mp-alert--${variant}`)
       wrapper.unmount()
@@ -27,27 +27,27 @@ describe('alert props', () => {
   })
 
   test('default type hides built-in icon', () => {
-    const wrapper = mount(VarAlert, { props: { type: 'default' } })
+    const wrapper = mount(VarAlert, { props: { status: 'default' } })
     expect(wrapper.find('.mp-alert__icon').exists()).toBe(false)
   })
 
   test('default type shows custom icon slot', () => {
     const wrapper = mount(VarAlert, {
-      props: { type: 'default' },
+      props: { status: 'default' },
       slots: { icon: '<i class="custom-icon" />' },
     })
     expect(wrapper.find('.mp-alert__icon .custom-icon').exists()).toBe(true)
   })
 
   test('showIcon=false hides icon', () => {
-    const wrapper = mount(VarAlert, { props: { type: 'info', showIcon: false } })
+    const wrapper = mount(VarAlert, { props: { status: 'info', showIcon: false } })
     expect(wrapper.find('.mp-alert__icon').exists()).toBe(false)
   })
 
   test('closable click triggers onClose', async () => {
     const onClose = vi.fn()
     const wrapper = mount(VarAlert, { props: { closable: true, onClose } })
-    await wrapper.find('.mp-alert__close-icon').trigger('click')
+    await wrapper.find('.mp-alert__close-btn').trigger('click')
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 

@@ -109,7 +109,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "动作面板挂载的位置",
               "default": "body",
               "value": {
@@ -160,20 +160,26 @@
           ]
         },
         {
+          "name": "mp-affix",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-alert",
           "attributes": [
             {
-              "name": "type",
+              "name": "status",
               "description": "类型，可选值为 `info` / `success` / `warning` / `danger` / `default`",
               "default": "info",
               "value": {
-                "type": "AlertType",
+                "type": "AlertStatus",
                 "kind": "expression"
               }
             },
             {
               "name": "variant",
-              "description": "变体，可选值为 `standard` / `outlined` / `tonal`",
+              "description": "变体，可选值为 `standard` / `outline` / `tonal`",
               "default": "standard",
               "value": {
                 "type": "AlertVariant",
@@ -248,7 +254,7 @@
               "description": "海拔高度，可选值为 `true` / `false` 和 `0-24`",
               "default": "false",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             }
@@ -259,7 +265,7 @@
               "description": "点击关闭按钮时触发"
             },
             {
-              "name": "after-close",
+              "name": "closed",
               "description": "关闭过渡结束后触发"
             }
           ],
@@ -312,7 +318,7 @@
             },
             {
               "name": "variant",
-              "description": "输入框风格, 可选值为 `filled` `standard` `outlined`",
+              "description": "输入框风格, 可选值为 `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -356,7 +362,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "最大长度",
               "default": "-",
               "value": {
@@ -446,9 +452,9 @@
               }
             },
             {
-              "name": "get-show",
+              "name": "should-open",
               "description": "根据输入值决定是否显示菜单",
-              "default": "-",
+              "default": "输入非空",
               "value": {
                 "type": "(v: string) => boolean",
                 "kind": "expression"
@@ -677,11 +683,11 @@
               }
             },
             {
-              "name": "popupContainer",
-              "description": "是否挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative`",
-              "default": "true",
+              "name": "popup-container",
+              "description": "挂载目标；省略时挂载到 body；设为 `false` 时按钮相对父级定位，父级需 `position: relative`",
+              "default": "body",
               "value": {
-                "type": "boolean",
+                "type": "string | HTMLElement | false",
                 "kind": "expression"
               }
             },
@@ -717,7 +723,7 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -751,125 +757,6 @@
           "slots": []
         },
         {
-          "name": "mp-bottom-navigation",
-          "attributes": [
-            {
-              "name": "v-model:active",
-              "description": "选中标签的名称或者索引值",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fixed",
-              "description": "是否固定在底部",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "border",
-              "description": "是否显示外边框",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area",
-              "description": "是否开启底部安全区适配",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index",
-              "description": "元素 z-index",
-              "default": "1",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-color",
-              "description": "选中标签的颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inactive-color",
-              "description": "未选中标签的颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "是否在底部生成相同高度的占位元素(需设置 `fixed`)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fab-props",
-              "description": "悬浮按钮属性",
-              "default": "{ type: 'primary' }",
-              "value": {
-                "type": "ButtonProps",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "变体模式",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "before-change",
-              "description": "切换标签前的回调函数，返回假值可阻止切换，支持返回 Promise"
-            },
-            {
-              "name": "change",
-              "description": "切换标签时触发"
-            },
-            {
-              "name": "fab-click",
-              "description": "悬浮按钮点击时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "底部导航栏内容"
-            },
-            {
-              "name": "fab",
-              "description": "支持在组件中插入一个自定义的 fab 按钮"
-            }
-          ]
-        },
-        {
           "name": "mp-breadcrumb",
           "attributes": [
             {
@@ -892,7 +779,7 @@
             },
             {
               "name": "routes",
-              "description": "路径数据（无默认插槽时生效）",
+              "description": "路径数据（非空时优先；为空时使用默认插槽）",
               "default": "-",
               "value": {
                 "type": "BreadcrumbRoute[]",
@@ -931,384 +818,15 @@
         },
         {
           "name": "mp-button",
-          "attributes": [
-            {
-              "name": "status",
-              "description": "主题色，可选值 `default` `primary` `info` `success` `warning` `danger` `secondary` `contrast`",
-              "default": "default",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "变体，可选值 `default` `text` `outline` `tonal`",
-              "default": "default",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "尺寸，可选值 `xs` `sm` `md` `lg`",
-              "default": "md",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "html-type",
-              "description": "原生按钮类型，可选值 `button` `submit` `reset`",
-              "default": "button",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "component",
-              "description": "渲染的根标签，可选值 `button` `a`",
-              "default": "button",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading",
-              "description": "加载状态",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-radius",
-              "description": "loading 的半径",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-type",
-              "description": "loading 的类型，可选值 `circle` `wave` `cube` `rect` `disappear`",
-              "default": "circle",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-size",
-              "description": "loading 的尺寸",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading-color",
-              "description": "loading 的颜色",
-              "default": "currentColor",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-loading",
-              "description": "自动 loading 模式，方便处理异步任务",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "round",
-              "description": "是否是圆形按钮",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "block",
-              "description": "是否是块级元素",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "icon-container",
-              "description": "是否作为图标容器",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "禁用状态，未设置时由父 ButtonGroup 决定",
-              "default": "undefined",
-              "value": {
-                "type": "boolean | undefined",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "stacked",
-              "description": "是否堆叠（图标在文字上方）",
-              "default": "undefined",
-              "value": {
-                "type": "boolean | undefined",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "是否使用水波纹",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "focusable",
-              "description": "是否可以被聚焦",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "文字颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "背景颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值 `true`、`false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "点击按钮时触发，在 `loading` 或 `disabled` 状态为 `true` 时不触发"
-            },
-            {
-              "name": "touchstart",
-              "description": "触摸手指压下按钮时触发，在 `loading` 或 `disabled` 状态为 `true` 时不触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "按钮内容"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-card",
-          "attributes": [
-            {
-              "name": "variant",
-              "description": "卡片外观，可选值 `standard` `outlined` `filled`",
-              "default": "standard",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "title",
-              "description": "卡片标题",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "subtitle",
-              "description": "卡片副标题",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "description",
-              "description": "卡片描述",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "src",
-              "description": "图片地址",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "layout",
-              "description": "排列方式，可选值为 `row` `column`",
-              "default": "column",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fit",
-              "description": "填充模式，可选值为 `fill` `contain` `cover` `none` `scale-down`",
-              "default": "cover",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "alt",
-              "description": "替代文本，和 img 标签原生属性一致",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image-height",
-              "description": "图片高度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "image-width",
-              "description": "图片宽度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "是否开启水波",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:floating",
-              "description": "是否开启全屏",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "floating-duration",
-              "description": "开关全屏所需时间（ms）",
-              "default": "250",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "点击卡片时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "image",
-              "description": "自定义图片"
-            },
-            {
-              "name": "default",
-              "description": "自定义内容"
-            },
-            {
-              "name": "title",
-              "description": "自定义标题"
-            },
-            {
-              "name": "subtitle",
-              "description": "自定义副标题"
-            },
-            {
-              "name": "description",
-              "description": "自定义描述"
-            },
-            {
-              "name": "floating-content",
-              "description": "漂浮时显示的正文内容"
-            },
-            {
-              "name": "extra",
-              "description": "自定义底部内容"
-            },
-            {
-              "name": "close-button",
-              "description": "自定义关闭按钮"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-carousel",
@@ -1699,7 +1217,7 @@
             },
             {
               "name": "variant",
-              "description": "选择框风格，可选值 `filled` `standard` `outlined`",
+              "description": "选择框风格，可选值 `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -2039,6 +1557,12 @@
           "slots": []
         },
         {
+          "name": "mp-col",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-collapse",
           "attributes": [
             {
@@ -2127,7 +1651,7 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             }
@@ -2363,7 +1887,7 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -2654,7 +2178,7 @@
             },
             {
               "name": "variant",
-              "description": "风格，可选值 `filled` `standard` `outlined`",
+              "description": "风格，可选值 `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -2896,7 +2420,7 @@
             },
             {
               "name": "variant",
-              "description": "风格，可选值 `filled` `standard` `outlined`",
+              "description": "风格，可选值 `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -3094,7 +2618,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "拖拽元素挂载的位置",
               "default": "body",
               "value": {
@@ -3148,7 +2672,7 @@
             },
             {
               "name": "tooltip",
-              "description": "Tooltip 组件配置，用于深度定制。为了更方便使用，`sameWidth` 在这里默认为 `true`",
+              "description": "Tooltip 组件配置，用于深度定制。为了更方便使用，`autoFitPopupWidth` 在这里默认为 `true`",
               "default": "true",
               "value": {
                 "type": "boolean | TooltipProps",
@@ -3270,7 +2794,7 @@
             {
               "name": "active-icon",
               "description": "激活时触发器图标",
-              "default": "close",
+              "default": "window-close",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -3376,7 +2900,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "组件挂载的元素",
               "default": "body",
               "value": {
@@ -3389,7 +2913,7 @@
               "description": "海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             }
@@ -3471,12 +2995,12 @@
               "description": "海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "弹出层挂载的位置",
               "default": "body",
               "value": {
@@ -3694,6 +3218,24 @@
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rotate",
+              "description": "旋转角度",
+              "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "spin",
+              "description": "是否持续旋转",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -4205,7 +3747,7 @@
             },
             {
               "name": "variant",
-              "description": "外观，可选值为 `filled` `outlined` `standard`",
+              "description": "外观，可选值为 `filled` `outline` `standard`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -4601,6 +4143,15 @@
               }
             },
             {
+              "name": "hoverable",
+              "description": "是否显示带内边距的悬浮/按下底色",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "disabled",
               "description": "禁用状态",
               "default": "false",
@@ -4768,10 +4319,10 @@
             },
             {
               "name": "size",
-              "description": "loading 的大小，可选值为 `large` `normal` `small` `mini`",
-              "default": "normal",
+              "description": "loading 的大小，可选值为 `xs` `sm` `md` `lg` `xl`，也支持数字",
+              "default": "md",
               "value": {
-                "type": "string",
+                "type": "string | number",
                 "kind": "expression"
               }
             },
@@ -4931,8 +4482,8 @@
             },
             {
               "name": "size",
-              "description": "菜单尺寸，可选值 `normal` `mini` `small` `large`",
-              "default": "normal",
+              "description": "菜单尺寸，可选值 `xs` `sm` `md` `lg` `xl`",
+              "default": "md",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -5060,7 +4611,7 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -5163,11 +4714,11 @@
               }
             },
             {
-              "name": "type",
-              "description": "类型：`success` `warning` `info` `error` `loading` `normal`",
-              "default": "-",
+              "name": "status",
+              "description": "info / success / warning / danger / loading / default",
+              "default": "info",
               "value": {
-                "type": "string",
+                "type": "MessageStatus",
                 "kind": "expression"
               }
             },
@@ -5212,7 +4763,7 @@
               "description": "海拔",
               "default": "true",
               "value": {
-                "type": "boolean | string | number",
+                "type": "boolean | number",
                 "kind": "expression"
               }
             },
@@ -5262,7 +4813,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "挂载位置",
               "default": "body",
               "value": {
@@ -5454,7 +5005,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "最大输入长度",
               "default": "Infinity",
               "value": {
@@ -5562,11 +5113,11 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "挂载节点",
               "default": "body",
               "value": {
-                "type": "`string | object | false`",
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
@@ -5656,6 +5207,15 @@
               }
             },
             {
+              "name": "unmount-on-close",
+              "description": "关闭后是否卸载插槽内容",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "popup-container",
               "description": "背景层挂载的位置",
               "default": "'body'",
@@ -5691,6 +5251,22 @@
             {
               "name": "key-escape",
               "description": "点击键盘 ESC 时触发"
+            },
+            {
+              "name": "open",
+              "description": "开始打开时触发"
+            },
+            {
+              "name": "opened",
+              "description": "打开动画结束时触发"
+            },
+            {
+              "name": "close",
+              "description": "开始关闭时触发"
+            },
+            {
+              "name": "closed",
+              "description": "关闭动画结束时触发"
             }
           ],
           "slots": [
@@ -5704,7 +5280,7 @@
           "name": "mp-page-header",
           "attributes": [
             {
-              "name": "showBack",
+              "name": "show-back",
               "description": "是否显示返回按钮",
               "default": "false",
               "value": {
@@ -5783,233 +5359,9 @@
         },
         {
           "name": "mp-pagination",
-          "attributes": [
-            {
-              "name": "total",
-              "description": "数据总数（必填）",
-              "default": "-",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:current",
-              "description": "当前页数",
-              "default": "-",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-current",
-              "description": "默认当前页数",
-              "default": "1",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:page-size",
-              "description": "每页条数",
-              "default": "-",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-page-size",
-              "description": "默认每页条数（非受控）",
-              "default": "10",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "禁用分页",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-on-single-page",
-              "description": "只有一页时是否隐藏分页",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "simple",
-              "description": "是否使用简洁模式",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-total",
-              "description": "是否展示总数",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-more",
-              "description": "是否展示更多按钮",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-jumper",
-              "description": "是否展示跳转输入框",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-page-size",
-              "description": "是否展示每页条数选择器",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "page-size-options",
-              "description": "每页条数选择器选项",
-              "default": "[10, 20, 30, 40, 50]",
-              "value": {
-                "type": "number[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "page-size-props",
-              "description": "透传给条数选择器的属性",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "尺寸",
-              "default": "md",
-              "value": {
-                "type": "ComponentSize",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "page-item-style",
-              "description": "分页按钮样式",
-              "default": "-",
-              "value": {
-                "type": "CSSProperties",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-page-item-style",
-              "description": "当前分页按钮样式",
-              "default": "-",
-              "value": {
-                "type": "CSSProperties",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "base-size",
-              "description": "计算显示省略的基础个数，显示省略的个数为 `baseSize + 2 * bufferSize`",
-              "default": "6",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "buffer-size",
-              "description": "显示省略号时，当前页码左右显示的页码个数",
-              "default": "2",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-adjust",
-              "description": "是否在改变数据条数时自动调整页码",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "boolean | string | number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "页码改变时触发"
-            },
-            {
-              "name": "page-size-change",
-              "description": "每页条数改变时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "total",
-              "description": "总数"
-            },
-            {
-              "name": "page-item",
-              "description": "分页按钮"
-            },
-            {
-              "name": "page-item-step",
-              "description": "分页按钮（步）"
-            },
-            {
-              "name": "page-item-ellipsis",
-              "description": "分页按钮（省略）"
-            },
-            {
-              "name": "jumper-prepend",
-              "description": "跳转前缀"
-            },
-            {
-              "name": "jumper-append",
-              "description": "跳转后缀"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-palette",
@@ -6019,83 +5371,9 @@
         },
         {
           "name": "mp-paper",
-          "attributes": [
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级",
-              "default": "false",
-              "value": {
-                "type": "string | number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "是否启用水波效果",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "radius",
-              "description": "纸张圆角",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "width",
-              "description": "纸张宽度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "height",
-              "description": "纸张高度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "round",
-              "description": "是否启用圆形纸张",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inline",
-              "description": "是否使用行内纸张",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "点击纸张时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "纸张内容"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-picker",
@@ -6284,7 +5562,7 @@
             {
               "name": "placement",
               "description": "气泡卡片弹出位置",
-              "default": "cover-top-start",
+              "default": "bottom",
               "value": {
                 "type": "Placement",
                 "kind": "expression"
@@ -6318,7 +5596,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "气泡卡片挂载的位置",
               "default": "body",
               "value": {
@@ -6358,12 +5636,12 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "same-width",
+              "name": "auto-fit-popup-width",
               "description": "是否与触发元素同宽",
               "default": "false",
               "value": {
@@ -6544,7 +5822,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "弹出层挂载的位置",
               "default": "body",
               "value": {
@@ -6627,8 +5905,8 @@
             },
             {
               "name": "status",
-              "description": "类型，可选值为 `default` `primary` `info` `success` `warning` `danger`",
-              "default": "primary",
+              "description": "default / primary / secondary / tertiary / info / success / warning / danger",
+              "default": "default",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -6636,19 +5914,19 @@
             },
             {
               "name": "percent",
-              "description": "`progress` 的进度",
+              "description": "Percentage, 0–100; numeric strings accepted; decimal precision retained",
               "default": "0",
               "value": {
-                "type": "string | number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
             {
               "name": "stroke-width",
-              "description": "`progress` 的线宽",
-              "default": "4",
+              "description": "显式线宽优先于 size 的预设厚度",
+              "default": "按 size 档位",
               "value": {
-                "type": "string | number",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
@@ -6708,10 +5986,10 @@
             },
             {
               "name": "size",
-              "description": "`progress` 的尺寸（仅支持环形进度条）",
-              "default": "40",
+              "description": "circle 外径 / line 轨道厚度；数字按 px，字符串可用 CSS 长度",
+              "default": "md",
               "value": {
-                "type": "string | number",
+                "type": "`ComponentSize | number | string`",
                 "kind": "expression"
               }
             },
@@ -6830,7 +6108,7 @@
               "description": "触发刷新时"
             },
             {
-              "name": "update:modelValue",
+              "name": "update:model-value",
               "description": "加载状态变化时"
             }
           ],
@@ -6936,7 +6214,7 @@
             {
               "name": "icon",
               "description": "选中整个图标时的图标样式",
-              "default": "star-fill",
+              "default": "star",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -6954,7 +6232,7 @@
             {
               "name": "empty-icon",
               "description": "未选中时图标的样式",
-              "default": "star-fill",
+              "default": "star",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -7055,10 +6333,10 @@
           "attributes": [
             {
               "name": "status",
-              "description": "结果状态，可选值为 `info` `success` `warning` `danger` `question` `empty`",
-              "default": "success",
+              "description": "info / success / warning / danger / question / empty / 403 / 404 / 500",
+              "default": "info",
               "value": {
-                "type": "string",
+                "type": "ResultStatus",
                 "kind": "expression"
               }
             },
@@ -7121,6 +6399,12 @@
         },
         {
           "name": "mp-ripple",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
+          "name": "mp-row",
           "attributes": [],
           "events": [],
           "slots": []
@@ -7302,7 +6586,7 @@
             {
               "name": "search-icon",
               "description": "搜索图标名称",
-              "default": "search",
+              "default": "magnify",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -7336,7 +6620,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "最大长度",
               "default": "-",
               "value": {
@@ -7401,7 +6685,7 @@
             },
             {
               "name": "variant",
-              "description": "选择框风格, 可选值为 `filled` `outlined` `standard`",
+              "description": "选择框风格, 可选值为 `filled` `outline` `standard`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -7562,6 +6846,15 @@
               }
             },
             {
+              "name": "auto-fit-popup-width",
+              "description": "菜单是否与触发框等宽；false 时按内容自适应（菜单展示模式）。",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "popup-props _**3.18.0**_",
               "description": "透传给弹窗的属性",
               "default": "{}",
@@ -7680,6 +6973,15 @@
               }
             },
             {
+              "name": "animation",
+              "description": "是否开启流光动画",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "title",
               "description": "是否显示标题",
               "default": "false",
@@ -7775,6 +7077,10 @@
             {
               "name": "default",
               "description": "非加载状态下的内容"
+            },
+            {
+              "name": "template",
+              "description": "自定义加载占位模板"
             }
           ]
         },
@@ -7917,7 +7223,7 @@
               }
             },
             {
-              "name": "direction",
+              "name": "orientation",
               "description": "显示方向，可选值为 `vertical horizontal`",
               "default": "horizontal",
               "value": {
@@ -7989,7 +7295,7 @@
             {
               "name": "wrap",
               "description": "是否超出换行",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -8169,7 +7475,7 @@
               "description": "菜单浮层类名",
               "default": "undefined",
               "value": {
-                "type": "string",
+                "type": "string | array | object",
                 "kind": "expression"
               }
             },
@@ -8437,7 +7743,7 @@
               }
             },
             {
-              "name": "direction",
+              "name": "orientation",
               "description": "显示方向",
               "default": "horizontal",
               "value": {
@@ -8513,68 +7819,6 @@
             {
               "name": "error-icon",
               "description": "错误状态图标"
-            }
-          ]
-        },
-        {
-          "name": "mp-sticky",
-          "attributes": [
-            {
-              "name": "offset-top",
-              "description": "吸顶距离",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index",
-              "description": "吸顶时的层级",
-              "default": "10",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "css-mode",
-              "description": "开启原生 `css sticky` 模式",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "禁用吸顶, 设置为 `true` 时, 元素会回到文档流中",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "target",
-              "description": "滚动容器，默认自动查找最近可滚动父元素",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement | Window",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "固定状态发生改变时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "粘性布局的内容"
             }
           ]
         },
@@ -8703,46 +7947,43 @@
         },
         {
           "name": "mp-switch",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
+          "name": "mp-tab-bar",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "开关选中状态",
-              "default": "false",
+              "name": "v-model:active",
+              "description": "当前选中名称或索引；传入时为受控模式",
+              "default": "undefined",
               "value": {
-                "type": "any",
+                "type": "number | string",
                 "kind": "expression"
               }
             },
             {
-              "name": "checked-value",
-              "description": "开关打开时的值",
-              "default": "true",
+              "name": "default-active",
+              "description": "非受控初始选中值，仅初始化时读取",
+              "default": "0",
               "value": {
-                "type": "any",
+                "type": "number | string",
                 "kind": "expression"
               }
             },
             {
-              "name": "unchecked-value",
-              "description": "开关关闭时的值",
-              "default": "false",
+              "name": "before-change",
+              "description": "切换前校验；返回真值允许，假值、抛错或 Promise 拒绝取消；仅最后一次请求可生效",
+              "default": "-",
               "value": {
-                "type": "any",
+                "type": "(active: number | string) => boolean | Promise&lt;boolean&gt;",
                 "kind": "expression"
               }
             },
             {
-              "name": "disabled",
-              "description": "是否禁用",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "是否只读",
+              "name": "fixed",
+              "description": "是否固定在底部",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -8750,8 +7991,8 @@
               }
             },
             {
-              "name": "loading",
-              "description": "是否为加载状态",
+              "name": "border",
+              "description": "是否显示外边框",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -8759,26 +8000,26 @@
               }
             },
             {
-              "name": "ripple",
-              "description": "是否启用水波纹",
-              "default": "true",
+              "name": "safe-area",
+              "description": "是否开启底部安全区适配",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "handle-elevation",
-              "description": "控制按钮的海拔效果",
-              "default": "true",
+              "name": "z-index",
+              "description": "元素 z-index",
+              "default": "1",
               "value": {
-                "type": "boolean",
+                "type": "number | string",
                 "kind": "expression"
               }
             },
             {
-              "name": "checked-color",
-              "description": "打开状态下的颜色",
+              "name": "active-color",
+              "description": "选中标签的颜色",
               "default": "-",
               "value": {
                 "type": "string",
@@ -8786,8 +8027,8 @@
               }
             },
             {
-              "name": "loading-color",
-              "description": "加载图标的颜色",
+              "name": "inactive-color",
+              "description": "未选中标签的颜色",
               "default": "-",
               "value": {
                 "type": "string",
@@ -8795,29 +8036,20 @@
               }
             },
             {
-              "name": "unchecked-color",
-              "description": "关闭状态下的颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "switch 的大小",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lazy-change",
-              "description": "是否允许触发 `before-change` 事件",
+              "name": "placeholder",
+              "description": "是否在底部生成相同高度的占位元素(需设置 `fixed`)",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fab-props",
+              "description": "悬浮按钮属性",
+              "default": "{ status: 'primary' }",
+              "value": {
+                "type": "ButtonProps",
                 "kind": "expression"
               }
             },
@@ -8833,19 +8065,24 @@
           ],
           "events": [
             {
-              "name": "click",
-              "description": "点击时触发"
-            },
-            {
               "name": "change",
-              "description": "开关状态切换时触发"
+              "description": "切换标签时触发"
             },
             {
-              "name": "before-change",
-              "description": "变更之前(仅限 `lazy-change` 模式)触发"
+              "name": "fab-click",
+              "description": "悬浮按钮点击时触发"
             }
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "default",
+              "description": "底部导航栏内容"
+            },
+            {
+              "name": "fab",
+              "description": "支持在组件中插入一个自定义的 fab 按钮"
+            }
+          ]
         },
         {
           "name": "mp-table",
@@ -8864,7 +8101,7 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -8903,11 +8140,11 @@
               }
             },
             {
-              "name": "vertical",
-              "description": "选项卡组的布局方向，可选值为 `horizontal` `vertical`",
+              "name": "orientation",
+              "description": "组件整体朝向",
               "default": "horizontal",
               "value": {
-                "type": "string",
+                "type": "`horizontal | vertical`",
                 "kind": "expression"
               }
             },
@@ -8988,7 +8225,7 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
               "default": "false",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
@@ -9267,7 +8504,7 @@
               }
             },
             {
-              "name": "maxLength",
+              "name": "max-length",
               "description": "最大输入长度",
               "default": "-",
               "value": {
@@ -9289,7 +8526,7 @@
               "description": "外观",
               "default": "standard",
               "value": {
-                "type": "`filled | outlined | standard`",
+                "type": "`filled | outline | standard`",
                 "kind": "expression"
               }
             },
@@ -9527,7 +8764,7 @@
             },
             {
               "name": "variant",
-              "description": "风格，可选值 `filled` `standard` `outlined`",
+              "description": "风格，可选值 `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -9740,7 +8977,7 @@
             },
             {
               "name": "variant",
-              "description": "风格，可选值 `filled` `standard` `outlined`",
+              "description": "风格，可选值 `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -9817,7 +9054,7 @@
               }
             },
             {
-              "name": "type",
+              "name": "status",
               "description": "类型，可选值为 `default` `primary` `info` `success` `warning` `danger`",
               "default": "default",
               "value": {
@@ -9862,7 +9099,7 @@
               }
             },
             {
-              "name": "popupContainer",
+              "name": "popup-container",
               "description": "挂载的位置",
               "default": "body",
               "value": {
@@ -9871,7 +9108,7 @@
               }
             },
             {
-              "name": "same-width",
+              "name": "auto-fit-popup-width",
               "description": "是否与触发元素同宽",
               "default": "false",
               "value": {
@@ -9971,14 +9208,14 @@
           "slots": []
         },
         {
-          "name": "mp-uploader",
+          "name": "mp-upload",
           "attributes": [
             {
               "name": "v-model",
               "description": "文件列表",
               "default": "[]",
               "value": {
-                "type": "MpFile[]",
+                "type": "UploadFileItem[]",
                 "kind": "expression"
               }
             },
@@ -10032,12 +9269,12 @@
               "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效",
               "default": "true",
               "value": {
-                "type": "string | number | boolean",
+                "type": "number | boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "removable",
+              "name": "show-remove-button",
               "description": "是否可以删除",
               "default": "true",
               "value": {
@@ -10046,7 +9283,7 @@
               }
             },
             {
-              "name": "maxFiles",
+              "name": "max-files",
               "description": "最大文件个数",
               "default": "-",
               "value": {
@@ -10064,7 +9301,7 @@
               }
             },
             {
-              "name": "previewed",
+              "name": "preview",
               "description": "是否允许预览",
               "default": "true",
               "value": {
@@ -10091,9 +9328,9 @@
               }
             },
             {
-              "name": "hide-list",
-              "description": "是否隐藏文件列表",
-              "default": "false",
+              "name": "show-file-list",
+              "description": "是否显示文件列表",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -10101,23 +9338,15 @@
             },
             {
               "name": "resolve-type",
-              "description": "文件预处理类型，可选值为 `default` `file` `data-url`（`default`，图片文件包含 dataURL 编码和 File 对象，其他类型仅包含 File 对象。`file`，仅包含 File 对象。`data-url`，所有文件类型都包含 dataURL 编码和 File 对象）",
-              "default": "default",
+              "description": "object-url: Blob URL; file: File only; data-url: Base64 URL",
+              "default": "object-url",
               "value": {
-                "type": "string",
+                "type": "UploadResolveType",
                 "kind": "expression"
               }
             }
           ],
           "events": [
-            {
-              "name": "before-add",
-              "description": "`before-read` 前触发，对文件列表进行过滤"
-            },
-            {
-              "name": "before-read",
-              "description": "文件读取前触发，返回假值阻止文件读取(支持 promise)"
-            },
             {
               "name": "after-read",
               "description": "文件读取后触发"
@@ -10125,10 +9354,6 @@
             {
               "name": "oversize",
               "description": "文件超过限制大小时触发"
-            },
-            {
-              "name": "before-remove",
-              "description": "文件删除前触发，返回假值阻止文件删除(支持 promise)"
             },
             {
               "name": "remove",
@@ -10210,8 +9435,8 @@
             },
             {
               "name": "variant",
-              "description": "风格，可选值为 `standard` `outlined`（Maple）",
-              "default": "outlined",
+              "description": "风格，可选值为 `standard` `outline`（Maple）",
+              "default": "outline",
               "value": {
                 "type": "string",
                 "kind": "expression"

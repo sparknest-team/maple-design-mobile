@@ -5,8 +5,6 @@ import avatar from './avatar'
 import avatarGroup from './avatarGroup'
 import backTop from './backTop'
 import badge from './badge'
-import bottomNavigation from './bottomNavigation'
-import bottomNavigationItem from './bottomNavigationItem'
 import breadcrumbItem from './breadcrumb-item'
 import button from './button'
 import card from './card'
@@ -59,13 +57,15 @@ import space from './space'
 import statistic from './statistic'
 import switchThemes from './switch'
 import tab from './tab'
+import tabBar from './tab-bar'
+import tabBarItem from './tab-bar-item'
 import table from './table'
 import tabs from './tabs'
 import tag from './tag'
 import textarea from './textarea'
 import timePicker from './timePicker'
 import tooltip from './tooltip'
-import uploader from './uploader'
+import upload from './upload'
 import watermark from './watermark'
 
 export default {
@@ -124,8 +124,8 @@ export default {
   ...watermark,
   ...collapse,
   ...result,
-  ...bottomNavigation,
-  ...bottomNavigationItem,
+  ...tabBar,
+  ...tabBarItem,
   ...message,
   ...actionSheet,
   ...dialog,
@@ -139,7 +139,7 @@ export default {
   ...counter,
   ...switchThemes,
   ...slider,
-  ...uploader,
+  ...upload,
   ...timePicker,
   ...datePicker,
   ...rate,

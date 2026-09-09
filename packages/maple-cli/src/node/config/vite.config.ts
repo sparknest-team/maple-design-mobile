@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { isArray } from '@maplejs/maple-shared'
 import { copy, html, inlineCss, markdown } from '@maplejs/maple-vite-plugins'
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver, MapleStyleImports } from '@maplejs/resolver'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -45,6 +45,7 @@ export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
   const resolverOptions = { importStyle: true }
 
   const plugins = [
+    MapleStyleImports(resolverOptions),
     vue({
       include: [/\.vue$/, /\.md$/],
     }),
@@ -113,6 +114,7 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
         ...Object.entries(resolveAlias).map(([find, replacement]) => ({ find, replacement })),
         { find: '@config', replacement: SITE_CONFIG },
         { find: '@maple-theme', replacement: resolve(SRC_DIR, 'style/theme/css-variables.less') },
+        { find: '@maple-foundation', replacement: resolve(SRC_DIR, 'style/index.less') },
         { find: '@pc-routes', replacement: SITE_PC_ROUTES },
         { find: '@mobile-routes', replacement: SITE_MOBILE_ROUTES },
         {

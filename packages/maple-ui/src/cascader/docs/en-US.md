@@ -232,7 +232,7 @@ Single: selecting a confirmable node commits and closes. Multiple: tap a confirm
 | `readonly`        | Readonly state                                                                                                                   | _boolean_                | `false`     |
 | `loading`         | Loading state                                                                                                                    | _boolean_                | `false`     |
 | `size`            | Size: `xs` `sm` `md` `lg` `xl`                                                                                                   | _ComponentSize_          | `md`        |
-| `variant`         | Variant, optional `filled` `standard` `outlined`                                                                                 | _string_                 | `standard`  |
+| `variant`         | Variant, optional `filled` `standard` `outline`                                                                                 | _string_                 | `standard`  |
 | `tag`             | Tag style (multi-select only)                                                                                                    | _boolean_                | `false`     |
 | `separator`       | Multi-select separator                                                                                                           | _string_                 | `,`         |
 | `close-on-select` | Auto close on select (menu single-select only; multiple never auto-closes)                                                       | _boolean_                | `true`      |

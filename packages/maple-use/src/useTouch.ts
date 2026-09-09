@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
 import { getScrollTop } from '@maplejs/maple-shared'
 
 export type TouchDirection = 'horizontal' | 'vertical'
@@ -32,7 +32,14 @@ export function useTouch() {
 
   let draggingAnimationFrame: number | null = null
 
+  const cancelFrame = () => {
+    if (draggingAnimationFrame !== null && typeof window !== 'undefined') {
+      window.cancelAnimationFrame(draggingAnimationFrame)
+    }
+    draggingAnimationFrame = null
+  }
   const resetTouch = () => {
+    cancelFrame()
     startX.value = 0
     startY.value = 0
     deltaX.value = 0
@@ -53,6 +60,9 @@ export function useTouch() {
   const startTouch = (event: TouchEvent) => {
     resetTouch()
 
+    if (!event.touches.length) {
+      return
+    }
     const { clientX: x, clientY: y } = event.touches[0]
 
     startX.value = x
@@ -69,6 +79,9 @@ export function useTouch() {
   }
 
   const moveTouch = (event: TouchEvent) => {
+    if (!event.touches.length) {
+      return
+    }
     const { clientX: x, clientY: y } = event.touches[0]
 
     dragging.value = true
@@ -91,7 +104,13 @@ export function useTouch() {
   const endTouch = () => {
     touching.value = false
 
+    cancelFrame()
+    if (typeof window === 'undefined') {
+      dragging.value = false
+      return
+    }
     draggingAnimationFrame = window.requestAnimationFrame(() => {
+      draggingAnimationFrame = null
       dragging.value = false
     })
   }
@@ -107,6 +126,9 @@ export function useTouch() {
     const offsetBottom = Math.abs(scrollHeight - scrollTop - clientHeight)
     return deltaY.value < 0 && offsetBottom <= offset
   }
+
+  onBeforeUnmount(resetTouch)
+  onDeactivated(resetTouch)
 
   return {
     startX,

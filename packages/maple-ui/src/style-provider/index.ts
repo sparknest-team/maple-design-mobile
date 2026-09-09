@@ -56,6 +56,9 @@ function omitUnchangedStyleVars(styleVars: StyleVars): StyleVars {
 }
 
 function StyleProvider(styleVars: StyleVars | null) {
+  if (typeof document === 'undefined') {
+    return
+  }
   if (styleVars == null) {
     removeStyle()
     syncDocumentTheme(null)
@@ -86,6 +89,7 @@ withPropsDefaultsSetter(StyleProvider, styleProviderProps)
 export { styleProviderProps }
 
 export type StyleProviderInstance = InstanceType<typeof VarStyleProvider>
-export const _StyleProviderComponent = VarStyleProvider
+export const _StyleProviderComponent: typeof VarStyleProvider = VarStyleProvider
 
 export default StyleProvider
+export type StyleProviderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

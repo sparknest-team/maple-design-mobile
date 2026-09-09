@@ -30,7 +30,7 @@ export const collapseProps = {
     default: true,
   },
   elevation: {
-    type: [Boolean, String, Number],
+    type: [Boolean, Number],
     default: true,
   },
   expandIconPosition: {

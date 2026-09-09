@@ -29,7 +29,7 @@ export interface ThumbsListProps {
 
 export type SliderLabel = 'always' | 'normal' | 'never'
 
-export type SliderDirection = 'horizontal' | 'vertical'
+export type SliderOrientation = 'horizontal' | 'vertical'
 
 export const props = {
   modelValue: {
@@ -62,8 +62,8 @@ export const props = {
   thumbSize: [String, Number],
   disabled: Boolean,
   readonly: Boolean,
-  direction: {
-    type: String as PropType<SliderDirection>,
+  orientation: {
+    type: String as PropType<SliderOrientation>,
     default: 'horizontal',
   },
 }

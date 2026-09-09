@@ -18,7 +18,7 @@ export const props = {
   inputTextSize: [String, Number],
   buttonSize: [String, Number],
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: true,
   },
   decimalLength: [String, Number],

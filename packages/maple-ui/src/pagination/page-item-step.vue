@@ -1,103 +1,40 @@
-<template>
-  <component :is="simple ? 'span' : 'li'" v-ripple="{ disabled: mergedDisabled }" :class="cls" @click="handleClick">
-    <slot :type="isNext ? 'next' : 'previous'">
-      <mp-icon>
-        <MIconChevronRight v-if="isNext" />
-        <MIconChevronLeft v-else />
-      </mp-icon>
-    </slot>
-  </component>
-</template>
-
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { IconChevronLeft as MIconChevronLeft, IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
-import MpIcon from '../icon'
-import Ripple from '../ripple'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { createNamespace, formatElevation } from '../utils/components'
+import { IconNext, IconPrevious, usePaginationLocale } from './platform'
 import { getLegalPage } from './utils'
 
-const { n, classes } = createNamespace('pagination')
-
-export default defineComponent({
-  name: createNamespace('pagination-item-step').name,
-  components: {
-    MIconChevronRight,
-    MIconChevronLeft,
-    MpIcon,
-  },
-  directives: { Ripple },
-  props: {
-    pages: {
-      type: Number,
-      required: true,
-    },
-    current: {
-      type: Number,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    simple: {
-      type: Boolean,
-      default: false,
-    },
-    elevation: {
-      type: [Boolean, Number, String],
-      default: true,
-    },
-  },
-  emits: ['click'],
-  setup(props, { emit }) {
-    const isNext = props.type === 'next'
-
-    const mergedDisabled = computed(() => {
-      if (props.disabled) {
-        return true
-      }
-      if (!props.pages) {
-        return true
-      }
-      if (isNext && props.current === props.pages) {
-        return true
-      }
-      return !isNext && props.current <= 1
-    })
-
-    const nextPage = computed(() =>
-      getLegalPage(props.current + (isNext ? 1 : -1), {
-        min: 1,
-        max: props.pages,
-      }),
-    )
-
-    const handleClick = () => {
-      if (!mergedDisabled.value) {
-        emit('click', nextPage.value)
-      }
-    }
-
-    const cls = computed(() =>
-      classes(
-        n('item'),
-        isNext ? n('next') : n('prev'),
-        [mergedDisabled.value, n('item--disabled')],
-        [props.simple, n('item--simple'), formatElevation(props.elevation, 2)],
-      ),
-    )
-
-    return {
-      cls,
-      isNext,
-      mergedDisabled,
-      handleClick,
-    }
-  },
+defineOptions({ name: createNamespace('pagination-step').name })
+const props = defineProps({
+  current: { type: Number, required: true },
+  pages: { type: Number, required: true },
+  type: { type: String, required: true },
+  disabled: Boolean,
+  elevation: [Boolean, Number],
 })
+const emit = defineEmits<{ (event: 'click', page: number): void }>()
+const { n, classes } = createNamespace('pagination')
+const next = computed(() => props.type === 'next')
+const blocked = computed(
+  () => props.disabled || props.pages === 0 || (next.value ? props.current >= props.pages : props.current <= 1),
+)
+const text = usePaginationLocale()
+function click() {
+  if (!blocked.value) {
+    emit('click', getLegalPage(props.current + (next.value ? 1 : -1), { min: 1, max: props.pages }))
+  }
+}
 </script>
+<template>
+  <button
+    type="button"
+    :class="classes(n('item'), n(type), formatElevation(elevation, 2))"
+    :disabled="blocked"
+    :aria-label="next ? text.next : text.previous"
+    @click="click"
+  >
+    <slot :type="next ? 'next' : 'previous'"
+      ><IconNext v-if="next" aria-hidden="true" /><IconPrevious v-else aria-hidden="true"
+    /></slot>
+  </button>
+</template>

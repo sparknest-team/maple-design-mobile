@@ -129,7 +129,7 @@ Form date-range **field** that opens [`DateRangePicker`](/en-US/date-range-picke
 | `disabled`                | Disabled                                                          | _boolean_                         | `false`    |
 | `readonly`                | Readonly                                                          | _boolean_                         | `false`    |
 | `size`                    | Size: `xs` `sm` `md` `lg` `xl`                                    | _ComponentSize_                   | `md`       |
-| `variant`                 | Variant: `filled` `standard` `outlined`                           | _string_                          | `standard` |
+| `variant`                 | Variant: `filled` `standard` `outline`                           | _string_                          | `standard` |
 
 ### Events
 
@@ -259,7 +259,7 @@ Form field: [`DateRange`](/en-US/date-range). Single date panel: [`DatePicker`](
 | `picker-props`      | Props for `mp-picker` (picker)                                    | _Partial\<PickerProps\>_      | `{}`     |
 | `time-picker-props` | Props for `mp-time-picker` (calendar + show-time)                 | _Partial\<TimePickerProps\>_  | `{}`     |
 | `readonly`          | Whether readonly                                                  | _boolean_                     | `false`  |
-| `elevation`         | Elevation                                                         | _string \| number \| boolean_ | `false`  |
+| `elevation`         | Elevation                                                         | _number \| boolean_ | `false`  |
 
 ### Events
 

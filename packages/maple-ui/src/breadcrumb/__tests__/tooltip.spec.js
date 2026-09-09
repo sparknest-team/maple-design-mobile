@@ -1,0 +1,43 @@
+import { h, nextTick } from 'vue'
+import { IconMore } from '@maplejs/icons-vue'
+import { mount } from '@vue/test-utils'
+import { expect, test } from 'vitest'
+import Breadcrumb from '..'
+import Tooltip from '../../tooltip'
+
+for (const trigger of ['hover', 'click']) {
+  test(`breadcrumb omitted items SVG tooltip opens with ${trigger}`, async () => {
+    const root = document.createElement('div')
+    document.body.appendChild(root)
+    const routes = ['Home', 'A', 'B', 'C', 'D', 'Post'].map((label, index) => ({ label, path: `/${index}` }))
+    const wrapper = mount(Breadcrumb, {
+      attachTo: root,
+      props: { routes, maxCount: 3 },
+      slots: {
+        'more-icon': ({ omittedItems }) =>
+          h(
+            Tooltip,
+            {
+              trigger,
+              popupContainer: false,
+              content: omittedItems.map((item) => item.label).join(' / '),
+            },
+            { default: () => h(IconMore, { class: 'more-reference' }) },
+          ),
+      },
+    })
+    try {
+      const tooltip = wrapper.findComponent(Tooltip)
+      const popup = tooltip.get('[role="tooltip"]').element.closest('[trigger-placement]')
+      expect(popup.style.display).toBe('none')
+      await wrapper.get('.more-reference').trigger(trigger === 'hover' ? 'mouseenter' : 'click')
+      await nextTick()
+      expect(popup.style.display).not.toBe('none')
+      expect(tooltip.get('[role="tooltip"]').text()).toBe('A / B / C')
+      expect(tooltip.emitted('open')).toHaveLength(1)
+    } finally {
+      wrapper.unmount()
+      root.remove()
+    }
+  })
+}

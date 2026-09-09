@@ -1,4 +1,3 @@
-<!-- @sync-with: cedar-ui/src/countdown/countdown.vue -->
 <template>
   <div :class="n()">
     <slot v-bind="timeData">{{ showTime }}</slot>

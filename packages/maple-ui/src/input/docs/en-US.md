@@ -15,7 +15,7 @@ Use Input for single-line text entry. It supports multiple variants, floating hi
 
 ```html
 <mp-input variant="filled" placeholder="Filled" />
-<mp-input variant="outlined" placeholder="Outlined" />
+<mp-input variant="outline" placeholder="Outlined" />
 <mp-input variant="standard" placeholder="Standard" />
 ```
 
@@ -25,11 +25,11 @@ Use Input for single-line text entry. It supports multiple variants, floating hi
 
 ```html
 <mp-input variant="filled" placeholder="Username" />
-<mp-input variant="outlined" placeholder="Username" />
+<mp-input variant="outline" placeholder="Username" />
 <mp-input variant="standard" placeholder="Username" />
 
 <mp-input variant="filled" :hint="false" placeholder="Username" />
-<mp-input variant="outlined" :hint="false" placeholder="Username" />
+<mp-input variant="outline" :hint="false" placeholder="Username" />
 <mp-input variant="standard" :hint="false" placeholder="Username" />
 ```
 
@@ -47,7 +47,7 @@ Use Input for single-line text entry. It supports multiple variants, floating hi
 
 ```html
 <template v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
-  <mp-input v-for="variant in ['filled', 'outlined', 'standard']" :key="variant" :size="size" :variant="variant" />
+  <mp-input v-for="variant in ['filled', 'outline', 'standard']" :key="variant" :size="size" :variant="variant" />
 </template>
 ```
 
@@ -101,7 +101,7 @@ Use Input for single-line text entry. It supports multiple variants, floating hi
 | `type`         | `text` `password` `number` `tel` or `email` | _string_           | `text`     |
 | `placeholder`  | Placeholder or floating hint text           | _string_           | `-`        |
 | `size`         | `xs` `sm` `md` `lg` or `xl`                 | _ComponentSize_    | `md`       |
-| `variant`      | `filled` `outlined` or `standard`           | _string_           | `standard` |
+| `variant`      | `filled` `outline` or `standard`           | _string_           | `standard` |
 | `hint`         | Use the placeholder as a floating hint      | _boolean_          | `true`     |
 | `line`         | Show the separator line                     | _boolean_          | `true`     |
 | `max-length`   | Maximum length and character counter        | _string \| number_ | `-`        |

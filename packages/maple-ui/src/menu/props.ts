@@ -1,84 +1,54 @@
-import { VNode, VNodeChild, type ExtractPropTypes, type PropType } from 'vue'
-import { triggerProps, type TriggerPlacement } from '../trigger'
-import { pickProps } from '../utils/components'
-import { componentSizes, type ComponentSize } from '../utils/constants'
-import { type FieldNames } from '../utils/options'
+import type { PropType } from 'vue'
+import {
+  componentSizes,
+  menuDefaults,
+  rootPlatformProps,
+  triggerPropDefaults,
+  type ComponentSize,
+  type MenuPosition,
+  type MenuReference,
+} from './platform'
+import type { MenuFieldNames } from './selection'
+import type { MenuOptionData, MenuValue } from './types'
 
+export type { MenuOptionData as MenuOption, MenuOptionLabel, MenuOptionLabelRender } from './types'
 export type MenuSize = ComponentSize
-
-export type MenuOptionLabelRender = (option: MenuOption, checked: boolean) => VNodeChild
-
-export type MenuOptionLabel = string | VNode | MenuOptionLabelRender
-
-export interface MenuOption {
-  label?: MenuOptionLabel
-  value?: any
-  children?: MenuOption[]
-  disabled?: boolean
-  ripple?: boolean
-  [key: PropertyKey]: any
-
-  _parent?: MenuOption
-  _children?: MenuOption[]
-  _rawOption?: MenuOption
-}
-
-export const props = {
-  modelValue: {
-    type: [String, Number, Boolean, Array] as PropType<any>,
-    default: undefined,
-  },
-  options: {
-    type: Array as PropType<MenuOption[]>,
-    default: () => [],
-  },
-  fieldNames: {
-    type: Object as PropType<FieldNames>,
-    default: undefined,
-  },
-  size: {
-    type: String as PropType<MenuSize>,
-    default: 'md',
-    validator: (value: unknown): value is MenuSize => componentSizes.includes(value as MenuSize),
-  },
+export const menuProps = {
+  options: { type: Array as PropType<MenuOptionData[]>, default: () => [] },
+  fieldNames: Object as PropType<MenuFieldNames>,
+  modelValue: { type: [String, Number, Boolean, Object, Array] as PropType<MenuValue>, default: undefined },
   multiple: Boolean,
-  popupMaxHeight: {
-    type: [Boolean, Number] as PropType<boolean | number>,
-    default: true,
+  size: {
+    type: String as PropType<ComponentSize>,
+    default: 'md',
+    validator: (value: unknown) => componentSizes.includes(value as ComponentSize),
   },
-  hideOnSelect: {
-    type: Boolean,
-    default: true,
-  },
-  autoFitPopupWidth: Boolean,
-  open: {
-    type: Boolean,
-    default: undefined,
-  },
+  open: { type: Boolean, default: undefined },
   defaultOpen: Boolean,
-  elevation: {
-    type: [Boolean, String, Number],
-    default: true,
+  unmountOnClose: { type: Boolean, default: menuDefaults.unmountOnClose },
+  trigger: {
+    type: [String, Array] as PropType<
+      'click' | 'hover' | 'focus' | 'contextMenu' | ('click' | 'hover' | 'focus' | 'contextMenu')[]
+    >,
+    default: 'click',
   },
-  ...pickProps(triggerProps, [
-    'disabled',
-    'trigger',
-    'reference',
-    'strategy',
-    'offsetX',
-    'offsetY',
-    'popupContainer',
-    'popupClass',
-    'closeOnClickReference',
-    'alignPoint',
-  ]),
-  placement: {
-    type: String as PropType<TriggerPlacement>,
-    default: 'bottom',
-  },
-
-  // internal start
-  // internal end
+  placement: { type: String as PropType<MenuPosition>, default: 'bottom' },
+  reference: { type: [String, Object] as PropType<MenuReference>, default: undefined },
+  ...rootPlatformProps,
+  popupContainer: triggerPropDefaults.popupContainer,
+  popupClass: [String, Array, Object],
+  offsetX: { type: [String, Number], default: 0 },
+  offsetY: { type: [String, Number], default: 0 },
+  mouseEnterDelay: { type: Number, default: 0 },
+  mouseLeaveDelay: { type: Number, default: 0 },
+  closeOnClickReference: { type: Boolean, default: menuDefaults.closeOnClickReference },
+  cover: Boolean,
+  popupMaxHeight: { type: [Boolean, Number], default: true },
+  hideOnSelect: { type: Boolean, default: true },
+  autoFitPopupWidth: Boolean,
+  disabled: Boolean,
+  alignPoint: Boolean,
+  elevation: { type: [Boolean, Number], default: true },
 }
-
-export type MenuProps = ExtractPropTypes<typeof props>
+export const props = menuProps
+export type MenuProps = import('vue').ExtractPublicPropTypes<typeof menuProps>

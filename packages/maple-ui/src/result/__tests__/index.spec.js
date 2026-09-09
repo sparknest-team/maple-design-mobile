@@ -17,12 +17,16 @@ test('result snapshot', () => {
 
 describe('test result component props', () => {
   test('result status', () => {
-    ;['info', 'success', 'warning', 'danger', 'question', 'empty'].forEach((status) => {
+    ;['info', 'success', 'warning', 'danger', 'question', 'empty', '403', '404', '500'].forEach((status) => {
       const wrapper = mount(VarResult, {
         props: { status },
       })
 
       expect(wrapper.find('.mp-result__image').classes()).toContain('mp-result__' + status)
+      expect(wrapper.find('.mp-result__image').element.children.length).toBeGreaterThan(0)
+      if (['403', '404', '500'].includes(status)) {
+        expect(wrapper.find('svg').exists()).toBe(true)
+      }
       wrapper.unmount()
     })
   })

@@ -1,0 +1,200 @@
+.mp-link {
+  display: inline-flex;
+  box-sizing: border-box;
+  font-family: inherit;
+  align-items: center;
+  justify-content: center;
+  padding: var(~'--mp-link-padding-vertical') var(~'--mp-link-padding-horizontal');
+  color: var(~'--mp-link-text-color');
+  font-size: var(~'--mp-link-font-size');
+  line-height: var(~'--mp-link-line-height');
+  text-decoration: none;
+  background-color: transparent;
+  border-radius: var(~'--mp-link-border-radius');
+  cursor: pointer;
+  transition: all var(--mp-link-transition-duration) linear;
+
+  &:hover {
+    color: var(~'--mp-link-text-color-hover');
+    background-color: var(~'--mp-link-bg-hover');
+  }
+
+  &:active {
+    color: var(~'--mp-link-text-color-active');
+    background-color: var(~'--mp-link-bg-active');
+    transition: none;
+  }
+
+  &&--hoverless {
+    display: inline;
+    padding: 0;
+    background-color: unset;
+
+    &:active,
+    &:hover {
+      background-color: unset;
+    }
+  }
+
+  &&--underline-always {
+    text-decoration: underline;
+  }
+
+  &&--underline-hover:hover {
+    text-decoration: underline;
+  }
+
+  &--status-default {
+    color: var(~'--mp-link-text-color-default');
+
+    &:hover,
+    &:active {
+      color: var(~'--mp-link-text-color-default');
+    }
+  }
+
+  &--status-primary {
+    color: var(~'--mp-link-text-color-primary');
+
+    &:hover,
+    &:active {
+      color: var(~'--mp-link-text-color-primary');
+    }
+  }
+
+  &--status-secondary {
+    color: var(~'--mp-link-text-color-secondary');
+
+    &:hover,
+    &:active {
+      color: var(~'--mp-link-text-color-secondary');
+    }
+  }
+
+  &--status-tertiary {
+    color: var(~'--mp-link-text-color-tertiary');
+
+    &:hover,
+    &:active {
+      color: var(~'--mp-link-text-color-tertiary');
+    }
+  }
+
+  &--status-info {
+    color: var(~'--mp-link-text-color-info');
+
+    &:hover,
+    &:active {
+      color: var(~'--mp-link-text-color-info');
+    }
+  }
+
+  &&--disabled {
+    color: var(~'--mp-link-text-color-disabled');
+    background: none;
+    cursor: not-allowed;
+  }
+
+  &&--loading {
+    color: var(~'--mp-link-text-color-loading');
+    background: none;
+    cursor: default;
+  }
+
+  // 不同状态
+  &--status-success {
+    color: var(~'--mp-link-text-color-success');
+
+    &:hover {
+      color: var(~'--mp-link-text-color-success-hover');
+    }
+
+    &:active {
+      color: var(~'--mp-link-text-color-success-active');
+    }
+  }
+
+  &--status-success&--disabled {
+    color: var(~'--mp-link-text-color-success-disabled');
+  }
+
+  &--status-success&--loading {
+    color: var(~'--mp-link-text-color-success-loading');
+  }
+
+  &--status-danger {
+    color: var(~'--mp-link-text-color-error');
+
+    &:hover {
+      color: var(~'--mp-link-text-color-error-hover');
+    }
+
+    &:active {
+      color: var(~'--mp-link-text-color-error-active');
+    }
+  }
+
+  &--status-danger&--disabled {
+    color: var(~'--mp-link-text-color-error-disabled');
+  }
+
+  &--status-danger&--loading {
+    color: var(~'--mp-link-text-color-error-loading');
+  }
+
+  &--status-warning {
+    color: var(~'--mp-link-text-color-warning');
+
+    &:hover {
+      color: var(~'--mp-link-text-color-warning-hover');
+    }
+
+    &:active {
+      color: var(~'--mp-link-text-color-warning-active');
+    }
+  }
+
+  &--status-warning&--disabled {
+    color: var(~'--mp-link-text-color-warning-disabled');
+  }
+
+  &--status-warning&--loading {
+    color: var(~'--mp-link-text-color-warning-loading');
+  }
+
+  // 链接图标
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: var(~'--mp-link-margin-icon-right');
+    font-size: var(~'--mp-link-size-icon');
+    vertical-align: middle;
+  }
+
+  &&--disabled,
+  &&--loading {
+    color: var(~'--mp-link-text-color-disabled');
+  }
+}
+
+.mp-link:focus-visible {
+  outline: var(--mp-link-focus-width) solid var(--mp-link-focus-color);
+  outline-offset: var(--mp-link-focus-offset);
+  opacity: var(--mp-link-focus-opacity);
+}
+.mp-link .mp-link__spinner {
+  animation: link-spin var(--mp-link-spin-duration) linear infinite;
+}
+@keyframes link-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-link {
+    transition: none;
+  }
+  .mp-link .mp-link__spinner {
+    animation: none;
+  }
+}

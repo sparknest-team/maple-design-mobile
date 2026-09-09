@@ -132,7 +132,7 @@
 | `disabled`          | 是否禁用                                                              | _boolean_                    | `false`    |
 | `readonly`          | 是否只读                                                              | _boolean_                    | `false`    |
 | `size`              | 尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                 | _ComponentSize_              | `md`       |
-| `variant`           | 风格，可选值 `filled` `standard` `outlined`                           | _string_                     | `standard` |
+| `variant`           | 风格，可选值 `filled` `standard` `outline`                           | _string_                     | `standard` |
 
 ### 事件
 
@@ -299,7 +299,7 @@
 | `color`             | 选择器的颜色                                                   | _string_                      | `-`         |
 | `title-color`       | 标题背景色。如果未指定，将使用 `color` 属性或默认颜色。        | _string_                      | `-`         |
 | `hint`              | 选择器提示语                                                   | _string_                      | `选择日期`  |
-| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级             | _string \| number \| boolean_ | `false`     |
+| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级             | _number \| boolean_ | `false`     |
 | `button-elevation`  | Button 的海拔高度                                              | _string \| number \| boolean_ | `true`      |
 | `first-day-of-week` | 设置一周的第一天，从周日的 0 开始。                            | _string \| number_            | `0`         |
 | `min`               | 允许的最小日期/月份（ISO 8601格式）                            | _string_                      | `-`         |

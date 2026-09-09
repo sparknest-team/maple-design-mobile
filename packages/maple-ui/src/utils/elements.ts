@@ -266,7 +266,7 @@ const focusableSelector = ['button', 'input', 'select', 'textarea', '[tabindex]'
   .join(', ')
 
 export function focusChildElementByKey(
-  referenceElement: HTMLElement,
+  referenceElement: HTMLElement | SVGElement,
   parentElement: HTMLElement,
   key: 'ArrowDown' | 'ArrowUp',
   beforeFocus?: (

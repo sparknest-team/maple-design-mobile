@@ -1,4 +1,5 @@
 export default {
+  bordered: '边框 / 边框与阴影',
   basicUsage: '基本使用',
   ripple: '水波效果',
   round: '圆形纸张',

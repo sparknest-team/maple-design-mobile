@@ -62,7 +62,7 @@ const expand = ref(false)
 
 ```html
 <template>
-  <mp-ellipsis style="max-width: 170px" :tooltip="{ type: 'primary', sameWidth: false }">
+  <mp-ellipsis style="max-width: 170px" :tooltip="{ type: 'primary', autoFitPopupWidth: false }">
     其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
 
     <template #tooltip-content>
@@ -81,7 +81,7 @@ const expand = ref(false)
 | `v-model:expand` | 是否展开 | _boolean_  | `false` |
 | `expand-trigger` | 展开触发方式，可选值 `click` | _string_  | `-` |
 | `line-clamp` | 最大显示行数，兼容性见 [line-clamp](https://caniuse.com/?search=line-clamp) | _string_  | `-` |
-| `tooltip` | Tooltip 组件配置，用于深度定制。为了更方便使用，`sameWidth` 在这里默认为 `true` | _boolean \| TooltipProps_  | `true` |
+| `tooltip` | Tooltip 组件配置，用于深度定制。为了更方便使用，`autoFitPopupWidth` 在这里默认为 `true` | _boolean \| TooltipProps_  | `true` |
 
 ### 插槽
 

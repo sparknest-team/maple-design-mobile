@@ -5,6 +5,9 @@ import { popupProps } from '../popup'
 import { type TriggerPlacement } from '../trigger'
 import { pickProps } from '../utils/components'
 import { type FieldNames } from '../utils/options'
+import { popupContainerProp } from '../utils/popup-container'
+
+export type SelectProps = import('vue').ExtractPublicPropTypes<typeof props>
 
 export type SelectPresentation = 'menu' | 'picker' | 'list'
 
@@ -23,6 +26,9 @@ export interface SelectOption {
 }
 
 export const props = {
+  /** 下拉菜单是否与触发框等宽；false 时按内容自适应。 */
+  autoFitPopupWidth: { type: Boolean, default: true },
+  popupContainer: popupContainerProp,
   modelValue: {
     type: [String, Number, Boolean, Array] as PropType<any>,
     default: undefined,
@@ -48,7 +54,7 @@ export const props = {
     default: () => ({}),
   },
   popupProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>>>,
+    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>> & { cover?: boolean }>,
     default: () => ({}),
   },
   multiple: Boolean,

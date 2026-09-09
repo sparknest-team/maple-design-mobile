@@ -32,4 +32,4 @@ export const countdownProps = {
   },
 }
 
-export type CountdownProps = ExtractPropTypes<typeof countdownProps>
+export type CountdownProps = import('vue').ExtractPublicPropTypes<typeof countdownProps>

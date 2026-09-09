@@ -6,10 +6,10 @@ withInstall(Alert)
 withPropsDefaultsSetter(Alert, alertProps)
 
 export type AlertInstance = InstanceType<typeof Alert>
-export type { AlertProps, AlertType, AlertVariant } from './props'
+export type { AlertProps, AlertStatus, AlertVariant } from './props'
 
 export { alertProps }
 
-export const _AlertComponent = Alert
+export const _AlertComponent: typeof Alert = Alert
 
 export default Alert

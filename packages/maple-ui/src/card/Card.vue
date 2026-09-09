@@ -5,10 +5,13 @@
     :class="
       classes(
         n(),
-        [isRow, n('--layout-row')],
-        [variant === 'outlined' || outline, n('--outline')],
-        [variant === 'filled', n('--filled')],
-        [variant === 'standard' || outline, formatElevation(elevation, 1)],
+        [isRow, n('--direction-row')],
+        [direction === 'row-reverse', n('--direction-row-reverse')],
+        n(`--size-${mergedSize}`),
+        n(`--variant-${variant}`),
+        [hoverable, n('--hoverable')],
+
+        [variant === 'default', formatElevation(elevation, 1)],
       )
     "
     :style="{
@@ -27,13 +30,13 @@
         overflow: floaterOverflow,
         position: floaterPosition,
         zIndex: floated ? zIndex : undefined,
-        background: outline && !floated ? 'transparent' : undefined,
+        background: variant === 'outline' && !floated ? 'transparent' : undefined,
         transition: floated
           ? `background-color ${floatingDuration}ms, color ${floatingDuration}ms, width ${floatingDuration}ms, height ${floatingDuration}ms, top ${floatingDuration}ms, left ${floatingDuration}ms`
           : undefined,
       }"
     >
-      <slot name="image">
+      <slot name="cover">
         <img
           v-if="src"
           :class="n('image')"
@@ -48,20 +51,27 @@
       </slot>
 
       <div :class="n('container')">
-        <slot name="title" :slot-class="n('title')">
-          <div v-if="title" :class="n('title')">{{ title }}</div>
+        <slot name="header">
+          <div v-if="title || $slots.title || $slots['title-action']" :class="n('title')" :style="titleStyle">
+            <slot name="title" :slot-class="n('title-text')">
+              <span v-if="title" :class="n('title-text')">{{ title }}</span>
+            </slot>
+            <span v-if="$slots['title-action']" :class="n('title-action')"><slot name="title-action" /></span>
+          </div>
+          <slot name="subtitle" :slot-class="n('subtitle')">
+            <div v-if="subtitle" :class="n('subtitle')">{{ subtitle }}</div>
+          </slot>
         </slot>
-        <slot name="subtitle" :slot-class="n('subtitle')">
-          <div v-if="subtitle" :class="n('subtitle')">{{ subtitle }}</div>
-        </slot>
+        <BaseDivider v-if="topDivider" :class="n('divider')" />
         <div v-if="$slots.default" :class="n('content')">
           <slot />
         </div>
         <slot name="description" :slot-class="n('description')">
           <div v-if="description" :class="n('description')">{{ description }}</div>
         </slot>
-        <div v-if="$slots.extra" :class="n('footer')">
-          <slot name="extra" />
+        <BaseDivider v-if="bottomDivider" :class="n('divider')" />
+        <div v-if="$slots.footer" :class="n('footer')">
+          <slot name="footer" />
         </div>
         <div
           v-if="$slots['floating-content'] && !isRow"
@@ -86,9 +96,14 @@
         }"
       >
         <slot name="close-button">
-          <mp-button mp-card-cover :class="classes(n('close-button'), n('$-elevation--6'))" @click.stop="close">
-            <mp-icon mp-card-cover :class="n('close-button-icon')"><MIconClose /></mp-icon>
-          </mp-button>
+          <BaseButton
+            data-card-cover
+            :class="classes(n('close-button'), n('$-elevation--6'))"
+            aria-label="Close"
+            @click.stop="close"
+          >
+            <BaseIcon data-card-cover :class="n('close-button-icon')"><MIconClose /></BaseIcon>
+          </BaseButton>
         </slot>
       </div>
     </div>
@@ -103,171 +118,164 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+<script setup lang="ts">
+import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue'
 import { IconClose as MIconClose } from '@maplejs/icons-vue'
-import { call, doubleRaf, getRect } from '@maplejs/maple-shared'
-import MpButton from '../button'
+import { doubleRaf, getRect } from '@maplejs/maple-shared'
+import BaseButton from '../button'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'
-import MpIcon from '../icon'
-import Ripple from '../ripple'
+import BaseDivider from '../divider'
+import BaseIcon from '../icon'
+import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { props } from './props'
+import { useCardSize } from './platform'
+import { cardProps } from './props'
 
-const { name, n, classes } = createNamespace('card')
-
+defineOptions({ name: createNamespace('card').name })
+const { n, classes } = createNamespace('card')
+const props = defineProps(cardProps)
+const emit = defineEmits<{ click: [event: Event]; 'update:floating': [value: boolean] }>()
+const mergedSize = useCardSize(() => props.size)
 const RIPPLE_DELAY = 500
+const card = ref<null | HTMLElement>(null)
+const cardFloater = ref<null | HTMLElement>(null)
+const holderWidth = ref('auto')
+const holderHeight = ref('auto')
+const floaterWidth = ref('100%')
+const floaterHeight = ref('100%')
+const floaterTop = ref('auto')
+const floaterLeft = ref('auto')
+const floaterPosition = ref<'static' | 'absolute' | 'fixed' | 'relative' | 'sticky' | undefined>(undefined)
+const floaterOverflow = ref('hidden')
+const contentHeight = ref('0px')
+const opacity = ref('0')
+const isRow = computed(() => props.direction !== 'column')
+const showFloatingButtons = ref(false)
+const floated = ref(false)
+const { zIndex } = useZIndex(() => props.floating && !isRow.value, 1)
 
-export default defineComponent({
-  name,
-  directives: { Ripple },
-  components: {
-    MIconClose,
-    MpIcon,
-    MpButton,
+let generation = 0
+let active = true
+let dropdownFloaterTop = 'auto'
+let dropdownFloaterLeft = 'auto'
+let dropper: ReturnType<typeof setTimeout> | undefined
+const floater = shallowRef<ReturnType<typeof setTimeout> | null>(null)
+
+useLock(
+  () => props.floating,
+  () => !isRow.value,
+)
+
+watch(
+  () => props.floating && !isRow.value,
+  (value) => {
+    nextTick(() => {
+      if (!active) {
+        return
+      }
+      if (value) {
+        floating()
+      } else if (floater.value !== null || floated.value) {
+        dropdown()
+      }
+    })
   },
-  props,
-  emits: ['click', 'update:floating'],
-  setup(props, { emit }) {
-    const card = ref<null | HTMLElement>(null)
-    const cardFloater = ref<null | HTMLElement>(null)
-    const holderWidth = ref('auto')
-    const holderHeight = ref('auto')
-    const floaterWidth = ref('100%')
-    const floaterHeight = ref('100%')
-    const floaterTop = ref('auto')
-    const floaterLeft = ref('auto')
-    const floaterPosition = ref<'static' | 'absolute' | 'fixed' | 'relative' | 'sticky' | undefined>(undefined)
-    const floaterOverflow = ref('hidden')
-    const contentHeight = ref('0px')
-    const opacity = ref('0')
-    const isRow = computed(() => props.layout === 'row')
-    const showFloatingButtons = ref(false)
-    const floated = ref(false)
-    const { zIndex } = useZIndex(() => props.floating, 1)
+  { immediate: true },
+)
 
-    let dropdownFloaterTop = 'auto'
-    let dropdownFloaterLeft = 'auto'
-    let dropper: any = null
-    const floater: any = ref(null)
+function floating() {
+  const currentGeneration = ++generation
+  clearTimeout(floater.value ?? undefined)
+  clearTimeout(dropper)
 
-    useLock(
-      () => props.floating,
-      () => !isRow.value,
-    )
+  floater.value = null
 
-    watch(
-      () => props.floating,
-      (value) => {
-        if (isRow.value) {
-          return
-        }
-
-        nextTick(() => {
-          value ? floating() : dropdown()
-        })
-      },
-      { immediate: true },
-    )
-
-    function floating() {
-      clearTimeout(floater.value)
-      clearTimeout(dropper)
-
-      floater.value = null
-
-      floater.value = setTimeout(
-        async () => {
-          const { width, height, left, top } = getRect(card.value!)
-          holderWidth.value = toSizeUnit(width)!
-          holderHeight.value = toSizeUnit(height)!
-          floaterWidth.value = holderWidth.value
-          floaterHeight.value = holderHeight.value
-          floaterTop.value = toSizeUnit(top)!
-          floaterLeft.value = toSizeUnit(left)!
-          floaterPosition.value = 'fixed'
-          dropdownFloaterTop = floaterTop.value
-          dropdownFloaterLeft = floaterLeft.value
-          showFloatingButtons.value = true
-
-          await doubleRaf()
-
-          floaterTop.value = '0'
-          floaterLeft.value = '0'
-          floaterWidth.value = '100vw'
-          floaterHeight.value = '100vh'
-          contentHeight.value = 'auto'
-          opacity.value = '1'
-          floaterOverflow.value = 'auto'
-          floated.value = true
-        },
-        props.ripple ? RIPPLE_DELAY : 0,
-      )
-    }
-
-    function dropdown() {
-      clearTimeout(dropper)
-      clearTimeout(floater.value)
-      floater.value = null
-
+  floater.value = setTimeout(
+    async () => {
+      if (!card.value || currentGeneration !== generation) {
+        return
+      }
+      const { width, height, left, top } = getRect(card.value)
+      holderWidth.value = toSizeUnit(width)!
+      holderHeight.value = toSizeUnit(height)!
       floaterWidth.value = holderWidth.value
       floaterHeight.value = holderHeight.value
-      floaterTop.value = dropdownFloaterTop
-      floaterLeft.value = dropdownFloaterLeft
-      contentHeight.value = '0px'
-      opacity.value = '0'
-      showFloatingButtons.value = false
+      floaterTop.value = toSizeUnit(top)!
+      floaterLeft.value = toSizeUnit(left)!
+      floaterPosition.value = 'fixed'
+      dropdownFloaterTop = floaterTop.value
+      dropdownFloaterLeft = floaterLeft.value
+      showFloatingButtons.value = true
 
-      dropper = setTimeout(() => {
-        holderWidth.value = 'auto'
-        holderHeight.value = 'auto'
-        floaterWidth.value = '100%'
-        floaterHeight.value = '100%'
-        floaterTop.value = 'auto'
-        floaterLeft.value = 'auto'
-        dropdownFloaterTop = 'auto'
-        dropdownFloaterLeft = 'auto'
-        floaterOverflow.value = 'hidden'
-        floaterPosition.value = undefined
-        floated.value = false
-      }, props.floatingDuration)
-    }
+      await doubleRaf()
+      if (!card.value || currentGeneration !== generation) {
+        return
+      }
 
-    function close() {
-      emit('update:floating', false)
-    }
+      floaterTop.value = '0'
+      floaterLeft.value = '0'
+      floaterWidth.value = '100vw'
+      floaterHeight.value = '100vh'
+      contentHeight.value = 'auto'
+      opacity.value = '1'
+      floaterOverflow.value = 'auto'
+      floated.value = true
+    },
+    props.ripple ? RIPPLE_DELAY : 0,
+  )
+}
 
-    function handleClick(e: Event) {
-      emit('click', e)
-    }
+function dropdown() {
+  generation++
+  clearTimeout(dropper)
+  clearTimeout(floater.value ?? undefined)
+  floater.value = null
 
-    return {
-      card,
-      cardFloater,
-      holderWidth,
-      holderHeight,
-      floater,
-      floaterWidth,
-      floaterHeight,
-      floaterTop,
-      floaterLeft,
-      floaterPosition,
-      floaterOverflow,
-      contentHeight,
-      opacity,
-      zIndex,
-      isRow,
-      showFloatingButtons,
-      floated,
-      n,
-      classes,
-      toSizeUnit,
-      close,
-      formatElevation,
-      handleClick,
-    }
-  },
+  floaterWidth.value = holderWidth.value
+  floaterHeight.value = holderHeight.value
+  floaterTop.value = dropdownFloaterTop
+  floaterLeft.value = dropdownFloaterLeft
+  contentHeight.value = '0px'
+  opacity.value = '0'
+  showFloatingButtons.value = false
+
+  dropper = setTimeout(() => {
+    holderWidth.value = 'auto'
+    holderHeight.value = 'auto'
+    floaterWidth.value = '100%'
+    floaterHeight.value = '100%'
+    floaterTop.value = 'auto'
+    floaterLeft.value = 'auto'
+    dropdownFloaterTop = 'auto'
+    dropdownFloaterLeft = 'auto'
+    floaterOverflow.value = 'hidden'
+    floaterPosition.value = undefined
+    floated.value = false
+  }, props.floatingDuration)
+}
+
+function close() {
+  emit('update:floating', false)
+}
+
+function handleClick(e: Event) {
+  emit('click', e)
+}
+
+onBeforeUnmount(cleanup)
+onDeactivated(cleanup)
+onActivated(() => {
+  active = true
+  if (props.floating && !isRow.value) {
+    floating()
+  }
 })
+function cleanup() {
+  active = false
+  clearTimeout(floater.value ?? undefined)
+  clearTimeout(dropper)
+  generation++
+}
 </script>

@@ -87,7 +87,7 @@ test('ellipsis tooltip equals true', () => {
     },
   })
 
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ sameWidth: true })
+  expect(wrapper.vm.tooltipProps).toStrictEqual({ autoFitPopupWidth: true })
   wrapper.unmount()
 })
 
@@ -99,14 +99,14 @@ test('ellipsis tooltip equals object', async () => {
     },
   })
 
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ sameWidth: true, type: 'primary' })
+  expect(wrapper.vm.tooltipProps).toStrictEqual({ autoFitPopupWidth: true, type: 'primary' })
 
   await wrapper.setProps({
     tooltip: {
       type: 'info',
     },
   })
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ sameWidth: true, type: 'info' })
+  expect(wrapper.vm.tooltipProps).toStrictEqual({ autoFitPopupWidth: true, type: 'info' })
 
   await wrapper.setProps({
     tooltip: {

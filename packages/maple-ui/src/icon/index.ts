@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Icon, iconProps)
 export { iconProps }
 
 export type Instance = InstanceType<typeof Icon>
-export const _IconComponent = Icon
+export const _IconComponent: typeof Icon = Icon
 
 export default Icon
+export type IconProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

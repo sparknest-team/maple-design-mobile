@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!teleport || disabled">
+  <teleport :to="popupTarget" :disabled="!teleport || disabled">
     <div
       ref="backTopEl"
       :class="classes(n(), [show, n('--active')], [!teleport, n('--inline')])"
@@ -27,6 +27,7 @@ import { onSmartUnmounted } from '@maplejs/maple-use'
 import MpButton from '../button'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTarget, scrollTo, toPxNum, toSizeUnit } from '../utils/elements'
+import { usePopupContainer } from '../utils/popup-container'
 import { easeInOutCubic } from '../utils/shared'
 import { throttleByRaf } from '../utils/throttle-by-raf'
 import { props } from './props'
@@ -49,7 +50,8 @@ export default defineComponent({
 
     let scroller: HTMLElement | Window
 
-    const teleport = computed(() => props.popupContainer)
+    const teleport = computed(() => props.popupContainer !== false)
+    const popupTarget = usePopupContainer(() => props.popupContainer)
 
     const handleScroll = throttleByRaf(() => {
       setBackTopVisibility()
@@ -59,9 +61,7 @@ export default defineComponent({
       setScroller()
       addScrollerEventListener()
       setBackTopVisibility()
-      if (props.popupContainer) {
-        disabled.value = false
-      }
+      disabled.value = false
     })
 
     onActivated(addScrollerEventListener)
@@ -104,6 +104,7 @@ export default defineComponent({
     }
 
     return {
+      popupTarget,
       teleport,
       disabled,
       show,

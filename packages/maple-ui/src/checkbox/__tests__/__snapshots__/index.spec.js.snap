@@ -7,7 +7,7 @@ exports[`checkbox group field-names label 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -20,7 +20,7 @@ exports[`checkbox group field-names label 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -33,7 +33,7 @@ exports[`checkbox group field-names label 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -53,7 +53,7 @@ exports[`checkbox group field-names value 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -66,7 +66,7 @@ exports[`checkbox group field-names value 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -79,7 +79,7 @@ exports[`checkbox group field-names value 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -99,7 +99,7 @@ exports[`checkbox group label is VNode 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -114,7 +114,7 @@ exports[`checkbox group label is VNode 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -129,7 +129,7 @@ exports[`checkbox group label is VNode 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -151,7 +151,7 @@ exports[`checkbox group label is function 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -164,7 +164,7 @@ exports[`checkbox group label is function 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -177,7 +177,7 @@ exports[`checkbox group label is function 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -197,7 +197,7 @@ exports[`checkbox group label is function 2`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -209,7 +209,7 @@ exports[`checkbox group label is function 2`] = `
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="m10 17-5-5 1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path>
           </svg>
@@ -223,7 +223,7 @@ exports[`checkbox group label is function 2`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -243,7 +243,7 @@ exports[`checkbox group label is function 3`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -255,7 +255,7 @@ exports[`checkbox group label is function 3`] = `
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="m10 17-5-5 1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path>
           </svg>
@@ -268,7 +268,7 @@ exports[`checkbox group label is function 3`] = `
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="m10 17-5-5 1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path>
           </svg>
@@ -289,7 +289,7 @@ exports[`checkbox group label is function 4`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -301,7 +301,7 @@ exports[`checkbox group label is function 4`] = `
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0">
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="m10 17-5-5 1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path>
           </svg>
@@ -315,7 +315,7 @@ exports[`checkbox group label is function 4`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -336,7 +336,7 @@ exports[`checkbox group layout direction 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -349,7 +349,7 @@ exports[`checkbox group layout direction 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -369,7 +369,7 @@ exports[`checkbox group options 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -382,7 +382,7 @@ exports[`checkbox group options 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -395,7 +395,7 @@ exports[`checkbox group options 1`] = `
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
           <!--v-if-->
-          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+          <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
             <!--v-if-->
             <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
           </svg>
@@ -411,7 +411,7 @@ exports[`checkbox group options 1`] = `
 exports[`checkbox indeterminate 1`] = `
 "<div class="mp-checkbox__wrap">
   <div class="mp-checkbox">
-    <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img" mp-checkbox-cover="">
+    <div class="mp-checkbox__action mp-checkbox--checked" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
         <!--v-if-->
         <path d="M17 13H7v-2h10m2-8H5c-1.11 0-2 .89-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5a2 2 0 0 0-2-2"></path>
       </svg>

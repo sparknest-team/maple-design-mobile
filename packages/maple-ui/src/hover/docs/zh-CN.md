@@ -50,7 +50,7 @@ function handleHover(hovering) {
 <template>
   <div class="image-container" v-hover="handleHover">
     <mp-image src="https://maplejs.org/tree.jpeg" />
-    <div class="image-mask" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
+    <div class="image-overlay" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
   </div>
 </template>
 
@@ -62,7 +62,7 @@ function handleHover(hovering) {
   border-radius: 6px;
 }
 
-.image-mask {
+.image-overlay {
   display: flex;
   align-items: center;
   justify-content: center;

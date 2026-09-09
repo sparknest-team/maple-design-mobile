@@ -1,82 +1,74 @@
-<script lang="ts" setup>
-import { computed, provide, reactive, toRefs, watchEffect } from 'vue'
+<script setup lang="ts">
+import { computed, onMounted, onUpdated, provide, ref, shallowRef } from 'vue'
 import { createNamespace } from '../utils/components'
-import { GRID_CONTEXT_KEY, GRID_DATA_COLLECTOR_KEY } from './context'
+import { GRID_CONTEXT_KEY, type GridRecord } from './context'
 import { useResponsiveState } from './hook/use-responsive-state'
 import { gridProps } from './props'
-import type { GridItemData } from './types'
 import { setItemVisible } from './utils'
 
-defineOptions({
-  name: createNamespace('grid').name,
-})
-
-const { n } = createNamespace('grid')
-
+defineOptions({ name: createNamespace('grid').name })
 const props = defineProps(gridProps)
-const { cols: propCols, rowGap: propRowGap, colGap: propColGap, collapsedRows, collapsed } = toRefs(props)
-
-const cols = useResponsiveState(propCols, 24)
-const colGap = useResponsiveState(propColGap, 0)
-const rowGap = useResponsiveState(propRowGap, 0)
-
-const style = computed(() => [
-  {
-    gap: `${rowGap.value}px ${colGap.value}px`,
-    'grid-template-columns': `repeat(${cols.value}, minmax(0px, 1fr))`,
-  },
-])
-
-const itemDataMap = reactive<Map<number, GridItemData>>(new Map())
-const itemDataList = computed(() => {
-  const list: GridItemData[] = []
-  for (const [index, itemData] of itemDataMap.entries()) {
-    list[index] = itemData
-  }
-  return list
-})
-
-const gridContext = reactive<{
-  overflow: boolean
-  displayIndexList: number[]
-  cols: number
-  colGap: number
-}>({
-  overflow: false,
-  displayIndexList: [],
-  cols: cols.value,
-  colGap: colGap.value,
-})
-
-watchEffect(() => {
-  gridContext.cols = cols.value
-  gridContext.colGap = colGap.value
-})
-
-watchEffect(() => {
-  const displayInfo = setItemVisible({
+const { n } = createNamespace('grid')
+const rawCols = useResponsiveState(
+  computed(() => props.cols),
+  24,
+)
+const cols = computed(() => Math.max(1, Math.floor(rawCols.value) || 1))
+const rawColGap = useResponsiveState(
+  computed(() => props.colGap),
+  0,
+)
+const rawRowGap = useResponsiveState(
+  computed(() => props.rowGap),
+  0,
+)
+const colGap = computed(() => Math.max(0, rawColGap.value))
+const records = shallowRef<GridRecord[]>([])
+const mounted = ref(false)
+const layout = computed(() =>
+  setItemVisible({
     cols: cols.value,
-    collapsed: collapsed.value,
-    collapsedRows: collapsedRows.value,
-    itemDataList: itemDataList.value,
+    collapsed: props.collapsed,
+    collapsedRows: props.collapsedRows,
+    itemDataList: records.value.map((record) => record.data.value),
+  }),
+)
+const reorder = () => {
+  const sorted = [...records.value].sort((a, b) => {
+    if (!a.element.value || !b.element.value) {
+      return 0
+    }
+    const position = a.element.value.compareDocumentPosition(b.element.value)
+    return position & 4 ? -1 : position & 2 ? 1 : 0
   })
-  gridContext.overflow = displayInfo.overflow
-  gridContext.displayIndexList = displayInfo.displayIndexList
-})
-
-provide(GRID_CONTEXT_KEY, gridContext)
-provide(GRID_DATA_COLLECTOR_KEY, {
-  collectItemData(index, itemData) {
-    itemDataMap.set(index, itemData)
+  if (sorted.some((record, i) => record !== records.value[i])) {
+    records.value = sorted
+  }
+}
+provide(GRID_CONTEXT_KEY, {
+  cols,
+  colGap,
+  overflow: computed(() => layout.value.overflow),
+  visible: (id) =>
+    !mounted.value || layout.value.displayIndexList.includes(records.value.findIndex((record) => record.id === id)),
+  register: (record) => {
+    records.value = [...records.value, record]
   },
-  removeItemData(index) {
-    itemDataMap.delete(index)
+  remove: (id) => {
+    records.value = records.value.filter((record) => record.id !== id)
   },
+  reorder,
 })
+onMounted(() => {
+  reorder()
+  mounted.value = true
+})
+onUpdated(reorder)
+const style = computed(() => ({
+  gap: `${Math.max(0, rawRowGap.value)}px ${colGap.value}px`,
+  gridTemplateColumns: `repeat(${cols.value}, minmax(0px, 1fr))`,
+}))
 </script>
-
 <template>
-  <div :class="n()" :style="style">
-    <slot />
-  </div>
+  <div :class="n()" :style="style"><slot /></div>
 </template>

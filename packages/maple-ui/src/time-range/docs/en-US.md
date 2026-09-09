@@ -113,7 +113,7 @@ When the end time is earlier than the start (overnight), enable `show-next-day` 
 | `disabled`                | Disabled                                                                                                                  | _boolean_                         | `false`    |
 | `readonly`                | Readonly                                                                                                                  | _boolean_                         | `false`    |
 | `size`                    | `xs` `sm` `md` `lg` `xl`                                                                                                  | _ComponentSize_                   | `md`       |
-| `variant`                 | `filled` \| `standard` \| `outlined`                                                                                      | _string_                          | `standard` |
+| `variant`                 | `filled` \| `standard` \| `outline`                                                                                      | _string_                          | `standard` |
 
 ### Events
 
@@ -259,7 +259,7 @@ Form field: [`TimeRange`](/en-US/time-range). Single time panel: [`TimePicker`](
 | `time-picker-props` | Props passed to `mp-time-picker` (clock)                                                                                                                      | _Partial\<TimePickerProps\>_  | `{}`     |
 | `picker-props`      | Props passed to `mp-picker` (picker)                                                                                                                          | _Partial\<PickerProps\>_      | `{}`     |
 | `readonly`          | Whether readonly                                                                                                                                              | _boolean_                     | `false`  |
-| `elevation`         | Elevation: `true` `false` or `0-24`                                                                                                                           | _string \| number \| boolean_ | `false`  |
+| `elevation`         | Elevation: `true` `false` or `0-24`                                                                                                                           | _number \| boolean_ | `false`  |
 
 ### TimeRangePicker DisabledTime
 

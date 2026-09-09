@@ -29,7 +29,7 @@ onThemeChange()
   <app-type>{{ t('functionBinding') }}</app-type>
   <div v-hover="handleHover" class="image-container">
     <mp-image src="tree.jpeg" />
-    <div class="image-mask" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
+    <div class="image-overlay" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ onThemeChange()
   border-radius: 6px;
 }
 
-.image-mask {
+.image-overlay {
   display: flex;
   align-items: center;
   justify-content: center;

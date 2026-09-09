@@ -57,7 +57,7 @@ test('message type', async () => {
 
   Message.error('test message')
   await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-error')).toBeTruthy()
+  expect(document.body.querySelector('.mp-message__wrapper-danger')).toBeTruthy()
   Message.clear()
   await delay(200)
 
@@ -78,7 +78,7 @@ test('message type', async () => {
 
   Message.normal('test message')
   await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-normal')).toBeTruthy()
+  expect(document.body.querySelector('.mp-message__wrapper-default')).toBeTruthy()
   Message.clear()
 })
 

@@ -1,10 +1,20 @@
-import { createApp, Fragment, h } from 'vue'
+import { createApp, Fragment, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Button, { ButtonGroup } from '..'
-import { delay, trigger } from '../../utils/test'
+import { delay } from '../../utils/test'
 import VarButton from '../Button.vue'
 import VarButtonGroup from '../ButtonGroup.vue'
+
+// Create events in the element's DOM realm (Node may also expose CustomEvent).
+function trigger(wrapper, eventName) {
+  const element = wrapper.element ?? wrapper
+  const event = (element.ownerDocument ?? document).createEvent('CustomEvent')
+  event.initCustomEvent(eventName, true, true, {})
+  Object.assign(event, { touches: [{ clientX: 0, clientY: 0, target: element }] })
+  element.dispatchEvent(event)
+  return nextTick()
+}
 
 test('button plugin', () => {
   const app = createApp({}).use(Button)
@@ -57,47 +67,26 @@ describe('test button component props', () => {
     wrapper.unmount()
   })
 
-  test('button loading type', () => {
-    ;['circle', 'wave', 'cube', 'rect', 'disappear'].forEach(async (type) => {
-      const onClick = vi.fn()
-      const onTouchstart = vi.fn()
-      const wrapper = mount(VarButton, {
-        props: {
-          loading: true,
-          loadingType: type,
-        },
-      })
-
+  test('button loading type', async () => {
+    for (const type of ['circle', 'wave', 'cube', 'rect', 'disappear']) {
+      const wrapper = mount(VarButton, { props: { loading: true, loadingType: type } })
       await trigger(wrapper, 'click')
       await trigger(wrapper, 'touchstart')
       expect(wrapper.find('.mp-loading__' + type).exists()).toBe(true)
-      expect(onClick).toHaveBeenCalledTimes(0)
-      expect(onTouchstart).toHaveBeenCalledTimes(0)
       wrapper.unmount()
-    })
+    }
   })
 
-  test('button loading size', () => {
-    ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
-      ;['circle', 'wave', 'cube', 'rect', 'disappear'].forEach(async (type) => {
-        const onClick = vi.fn()
-        const onTouchstart = vi.fn()
-        const wrapper = mount(VarButton, {
-          props: {
-            loading: true,
-            loadingSize: size,
-            loadingType: type,
-          },
-        })
-
+  test('button loading size', async () => {
+    for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
+      for (const type of ['circle', 'wave', 'cube', 'rect', 'disappear']) {
+        const wrapper = mount(VarButton, { props: { loading: true, loadingSize: size, loadingType: type } })
         await trigger(wrapper, 'click')
         await trigger(wrapper, 'touchstart')
         expect(wrapper.find(`.mp-loading__${type}--${size}`).exists()).toBe(type !== 'circle')
-        expect(onClick).toHaveBeenCalledTimes(0)
-        expect(onTouchstart).toHaveBeenCalledTimes(0)
         wrapper.unmount()
-      })
-    })
+      }
+    }
   })
 
   test('button auto loading', async () => {

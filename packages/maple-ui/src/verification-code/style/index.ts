@@ -1,1 +1,5 @@
+import '../../style/index.less'
+import '../../field-decorator/style'
+import '../../icon/style'
+import '../../input/style'
 import './index.less'

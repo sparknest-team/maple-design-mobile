@@ -1,30 +1,18 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import { delay, mockImageNaturalSize, mockOffset, trigger, triggerDrag } from '../../../utils/test'
-import VarImagePreview from '../../ImagePreview.vue'
-import { ImagePreview } from '../../index'
+import { delay } from '../../../utils/test'
+import { ImagePreview, ImagePreviewGroup } from '../../index'
 
-mockImageNaturalSize(1440, 1080)
-mockOffset({ offsetWidth: 375, offsetHeight: 815 })
-
-const doubleTouch = async (element) => {
-  await trigger(element, 'touchstart')
-  await trigger(element, 'touchend')
-  await trigger(element, 'touchstart')
-  await trigger(element, 'touchend')
-}
-
-const expectTap = async (element, wrapper) => {
-  // tap touch
-  await trigger(element, 'touchstart')
-  await trigger(element, 'touchend')
-  // tap delay wait double touch
-  await delay(200)
-  expect(element.element.style.transform).toBe('scale(1) translate(0px, 0px)')
-  expect(element.element.style.transitionDuration).toBeFalsy()
-  await delay(300)
-  expect(wrapper.find('.mp-popup').isVisible()).toBe(false)
+const images = ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg']
+const mountPreview = (props = {}) =>
+  mount(ImagePreview, {
+    props: { src: images[0], popupContainer: false, open: true, ...props },
+  })
+const pointer = { button: 0, pointerId: 1, pointerType: 'touch', clientX: 20, clientY: 20 }
+async function tap(image) {
+  await image.trigger('pointerdown', pointer)
+  await image.trigger('pointerup', pointer)
 }
 
 test('image preview component plugin', () => {
@@ -32,281 +20,139 @@ test('image preview component plugin', () => {
   expect(app.component(ImagePreview.name)).toBeTruthy()
 })
 
-describe('test image preview component props', () => {
-  test('image preview open', async () => {
-    const onUpdateOpen = vi.fn((value) => wrapper.setProps({ open: value }))
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        'onUpdate:open': onUpdateOpen,
-      },
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-
-    await wrapper.setProps({
-      open: true,
-    })
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.unmount()
+describe('single-image preview contract', () => {
+  test('controlled open and lifecycle', async () => {
+    const wrapper = mountPreview({ open: false })
+    try {
+      await wrapper.setProps({ open: true })
+      expect(wrapper.emitted('open')).toHaveLength(1)
+      expect(wrapper.find('[data-image-preview-image]').attributes('src')).toBe(images[0])
+      await wrapper.setProps({ open: false })
+      expect(wrapper.emitted('close')).toHaveLength(1)
+    } finally {
+      wrapper.unmount()
+    }
   })
-
-  test('image preview images', async () => {
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg'],
-        open: true,
-      },
-    })
-
-    expect(wrapper.findAll('.mp-image-preview__zoom-container').length).toBe(1)
-
-    await wrapper.setProps({
-      images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
-    })
-    expect(wrapper.findAll('.mp-image-preview__zoom-container').length).toBe(2)
-
-    wrapper.unmount()
+  test('src changes the image without leaking collection props', async () => {
+    const wrapper = mountPreview()
+    try {
+      await wrapper.setProps({ src: images[1] })
+      expect(wrapper.findAll('[data-image-preview-image]')).toHaveLength(1)
+      expect(wrapper.get('[data-image-preview-image]').attributes('src')).toBe(images[1])
+      expect(wrapper.props()).not.toHaveProperty('images')
+    } finally {
+      wrapper.unmount()
+    }
   })
-
-  test('image preview imagePreventDefault', async () => {
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg'],
-        imagePreventDefault: true,
-        open: true,
-      },
-    })
-
-    await delay(200)
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('.mp-image-preview--prevent').isVisible()).toBe(true)
-
-    wrapper.unmount()
+  test('imagePreventDefault and closable affect the rendered controls', async () => {
+    const wrapper = mountPreview({ imagePreventDefault: true })
+    try {
+      expect(wrapper.find('.mp-image-preview--prevent').exists()).toBe(true)
+      expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(true)
+      await wrapper.setProps({ closable: false })
+      expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(false)
+    } finally {
+      wrapper.unmount()
+    }
   })
-
-  test('image preview current', async () => {
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
-        current: 1,
-        open: true,
-      },
-    })
-
-    await delay(200)
-    expect(wrapper.html()).toMatchSnapshot()
-    expect(wrapper.find('.mp-image-preview__indicators').text()).toBe('2 / 2')
-
-    wrapper.unmount()
+  test('double touch toggles zoom without closing', async () => {
+    const wrapper = mountPreview()
+    try {
+      const image = wrapper.get('[data-image-preview-image]')
+      await tap(image)
+      await tap(image)
+      expect(wrapper.vm.scale).toBeGreaterThan(1)
+      await tap(image)
+      await tap(image)
+      expect(wrapper.vm.scale).toBe(1)
+      expect(wrapper.emitted('update:open')).toBeUndefined()
+    } finally {
+      wrapper.unmount()
+    }
   })
-
-  test('image preview closable', async () => {
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
-        open: true,
-      },
-    })
-
-    expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(true)
-
-    await wrapper.setProps({
-      closable: false,
-    })
-    expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(false)
-
-    wrapper.unmount()
+  test('pointer drag changes translation at zoomed scale', async () => {
+    const wrapper = mountPreview()
+    try {
+      wrapper.vm.zoomTo(2)
+      const image = wrapper.get('[data-image-preview-image]')
+      await image.trigger('pointerdown', pointer)
+      await image.trigger('pointermove', { ...pointer, clientX: 100, clientY: 40 })
+      expect(wrapper.vm.translateX).toBe(80)
+      expect(wrapper.vm.translateY).toBe(20)
+      await image.trigger('pointerup', { ...pointer, clientX: 100, clientY: 40 })
+      expect(wrapper.vm.moving).toBe(false)
+    } finally {
+      wrapper.unmount()
+    }
   })
-
-  test('image preview zoom', async () => {
-    const onUpdateOpen = vi.fn((value) => wrapper.setProps({ open: value }))
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        open: true,
-        images: ['https://maplejs.org/cat.jpg'],
-        'onUpdate:open': onUpdateOpen,
-      },
-    })
-
-    const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')
-
-    await doubleTouch(zoomContainer)
-    expect(zoomContainer.element.style.transform).toBe('scale(2) translate(0px, 0px)')
-    await delay(250)
-    expect(zoomContainer.element.style.transitionTimingFunction).toBe('linear')
-    expect(zoomContainer.element.style.transitionDuration).toBe('0s')
-
-    // double touch
-    await doubleTouch(zoomContainer)
-    expect(zoomContainer.element.style.transform).toBe('scale(1) translate(0px, 0px)')
-    expect(zoomContainer.element.style.transitionDuration).toBeFalsy()
-
-    // zoom in
-    await doubleTouch(zoomContainer)
-    await delay(250)
-    await expectTap(zoomContainer, wrapper)
-    wrapper.unmount()
+  test('image click stays open; overlay click requests closing', async () => {
+    const wrapper = mountPreview()
+    try {
+      await wrapper.get('[data-image-preview-image]').trigger('click')
+      expect(wrapper.emitted('update:open')).toBeUndefined()
+      await wrapper.get('[data-image-preview-backdrop]').trigger('click')
+      expect(wrapper.emitted('update:open')).toEqual([[false]])
+    } finally {
+      wrapper.unmount()
+    }
   })
-
-  test('image preview zoom move', async () => {
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        open: true,
-        images: ['https://maplejs.org/cat.jpg'],
-      },
-    })
-
-    const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')
-
-    // move to right limit
-    await doubleTouch(zoomContainer)
-    await triggerDrag(zoomContainer, -100, 0)
-    await delay(220)
-    expect(zoomContainer.element.style.transform).toBe('scale(2) translate(-93.75px, 0px)')
-
-    // tap touch
-    await trigger(zoomContainer, 'touchstart')
-    await trigger(zoomContainer, 'touchend')
-    await delay(220)
-    expect(zoomContainer.element.style.transform).toBe('scale(1) translate(0px, 0px)')
-
-    // move to left limit
-    await doubleTouch(zoomContainer)
-    await triggerDrag(zoomContainer, 100, 0)
-    await delay(220)
-    expect(zoomContainer.element.style.transform).toBe('scale(2) translate(93.75px, 0px)')
-
-    wrapper.unmount()
-  })
-})
-
-describe('test image preview component events', () => {
-  test('image preview tap', async () => {
-    const onUpdateOpen = vi.fn((value) => wrapper.setProps({ open: value }))
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        open: true,
-        images: ['https://maplejs.org/cat.jpg'],
-        'onUpdate:open': onUpdateOpen,
-      },
-    })
-
-    const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')
-    await expectTap(zoomContainer, wrapper)
-
-    wrapper.unmount()
-  })
-
-  test('image preview onLongPress', async () => {
+  test('long press is a notification without a collection index', async () => {
     const onLongPress = vi.fn()
-    const wrapper = mount(VarImagePreview, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg'],
-        onLongPress,
-        open: true,
-      },
-    })
-
-    const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')
-    await trigger(zoomContainer, 'touchstart')
-    await delay(550)
-    await trigger(zoomContainer, 'touchend')
-    expect(onLongPress).toBeCalledTimes(1)
-    expect(onLongPress).toHaveBeenCalledWith(0)
-
-    wrapper.unmount()
+    const wrapper = mountPreview({ onLongPress })
+    try {
+      const image = wrapper.get('[data-image-preview-image]')
+      await image.trigger('pointerdown', pointer)
+      await delay(520)
+      await image.trigger('pointerup', pointer)
+      expect(onLongPress).toHaveBeenCalledTimes(1)
+      expect(onLongPress).toHaveBeenCalledWith()
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  test.each([2, 3, 0.5])('zoomTo(%s) obeys the scale bounds', async (scale) => {
+    const wrapper = mountPreview()
+    try {
+      wrapper.vm.zoomTo(scale)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.scale).toBe(Math.max(0.5, scale))
+      expect(wrapper.get('[data-image-preview-image]').attributes('style')).toContain(
+        'scale(' + Math.max(0.5, scale) + ')',
+      )
+    } finally {
+      wrapper.unmount()
+    }
   })
 })
 
-describe('test image preview component methods', () => {
-  test('image preview next & prev & to method', async () => {
-    const Wrapper = {
-      components: {
-        [VarImagePreview.name]: VarImagePreview,
-      },
-      template: `
-        <mp-image-preview ref="imagePreviewRef">
-        </mp-image-preview>
-      `,
+describe('collection state belongs to ImagePreviewGroup', () => {
+  test('renders current image and reacts to the images input', async () => {
+    const wrapper = mount(ImagePreviewGroup, { props: { images, current: 1, open: true, popupContainer: false } })
+    try {
+      expect(wrapper.findComponent(ImagePreview).props('src')).toBe(images[1])
+      expect(wrapper.get('.mp-image-preview__indicators').text()).toBe('2 / 2')
+      await wrapper.setProps({ images: [images[0]], current: 0 })
+      expect(wrapper.findComponent(ImagePreview).props('src')).toBe(images[0])
+      expect(wrapper.find('.mp-image-preview__indicators').exists()).toBe(false)
+    } finally {
+      wrapper.unmount()
     }
-    const wrapper = mount(Wrapper, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
-        open: true,
-      },
-    })
-
-    await delay(50)
-    const {
-      imagePreviewRef: { prev, next, to },
-    } = wrapper.vm.$refs
-
-    to(1)
-    await delay(100)
-    expect(wrapper.find('.mp-image-preview__indicators').text()).toBe('2 / 2')
-
-    prev()
-    await delay(100)
-    expect(wrapper.find('.mp-image-preview__indicators').text()).toBe('1 / 2')
-
-    next()
-    await delay(100)
-    expect(wrapper.find('.mp-image-preview__indicators').text()).toBe('2 / 2')
-
-    to(0)
-    await delay(100)
-    expect(wrapper.find('.mp-image-preview__indicators').text()).toBe('1 / 2')
-
-    wrapper.unmount()
   })
-
-  test('image preview zoom method', async () => {
-    const Wrapper = {
-      components: {
-        [VarImagePreview.name]: VarImagePreview,
-      },
-      template: `
-        <mp-image-preview ref="imagePreviewRef">
-        </mp-image-preview>
-      `,
+  test('to, prev and next update the group, not the single preview', async () => {
+    const wrapper = mount(ImagePreviewGroup, { props: { images, open: true, popupContainer: false } })
+    try {
+      for (const [action, expected] of [
+        [() => wrapper.vm.to(1), '2 / 2'],
+        [() => wrapper.vm.prev(), '1 / 2'],
+        [() => wrapper.vm.next(), '2 / 2'],
+        [() => wrapper.vm.to(0), '1 / 2'],
+      ]) {
+        action()
+        await wrapper.vm.$nextTick()
+        expect(wrapper.get('.mp-image-preview__indicators').text()).toBe(expected)
+      }
+    } finally {
+      wrapper.unmount()
     }
-    const wrapper = mount(Wrapper, {
-      props: {
-        popupContainer: null,
-        images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
-        open: true,
-      },
-    })
-    const zoomContainer = wrapper.find('.mp-image-preview__zoom-container')
-
-    await delay(50)
-    const {
-      imagePreviewRef: { zoom },
-    } = wrapper.vm.$refs
-
-    zoom(2)
-    await delay(100)
-    expect(zoomContainer.element.style.transform).toBe('scale(2) translate(0px, 0px)')
-
-    zoom(3)
-    await delay(100)
-    expect(zoomContainer.element.style.transform).toBe('scale(3) translate(0px, 0px)')
-
-    zoom(0.5)
-    await delay(100)
-    expect(zoomContainer.element.style.transform).toBe('scale(1) translate(0px, 0px)')
-
-    wrapper.unmount()
   })
 })

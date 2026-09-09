@@ -1,15 +1,14 @@
 <template>
-  <transition name="mp-zoom-in-top" @after-leave="handleAfterLeave">
+  <transition :name="transitionName" @after-leave="handleAfterLeave">
     <div
       v-if="visible"
       role="alert"
       :class="
         classes(
           n(),
-          n('$--box'),
-          n(`--${type}`),
+          n(`--${status}`),
           n(`--${variant}`),
-          [hasTitle, n('--with-title')],
+          [hasTitle(), n('--with-title')],
           [banner, n('--banner')],
           [center, n('--center')],
           formatElevation(elevation, 2),
@@ -17,19 +16,17 @@
       "
       :style="rootStyle"
     >
-      <div v-if="showIconNode" :class="n('icon')">
+      <div v-if="showIconNode()" :class="n('icon')">
         <slot name="icon">
-          <mp-icon v-if="type !== 'default'">
-            <MIconInfoCircleFill v-if="type === 'info'" />
-            <MIconCheckboxMarkedCircleFill v-else-if="type === 'success'" />
-            <MIconWarning v-else-if="type === 'warning'" />
-            <MIconError v-else />
-          </mp-icon>
+          <icon-check-circle-fill v-if="status === 'success'" />
+          <icon-exclamation-circle-fill v-else-if="status === 'warning'" />
+          <icon-close-circle-fill v-else-if="status === 'danger'" />
+          <icon-info-circle-fill v-else-if="status === 'info'" />
         </slot>
       </div>
 
       <div :class="n('body')">
-        <div v-if="hasTitle" :class="n('title')">
+        <div v-if="hasTitle()" :class="n('title')">
           <slot name="title">{{ title }}</slot>
         </div>
         <div :class="n('content')">
@@ -41,9 +38,20 @@
         <slot name="action" />
       </div>
 
-      <div v-if="closable" tabindex="-1" role="button" aria-label="Close" :class="n('close-icon')" @click="handleClose">
+      <div
+        v-if="closable"
+        tabindex="0"
+        role="button"
+        aria-label="Close"
+        :class="n('close-btn')"
+        @click="handleClose"
+        @keydown.enter.prevent="handleKeyboardClose"
+        @keydown.space.prevent="handleKeyboardClose"
+      >
         <slot name="close-icon">
-          <mp-icon mp-alert-cover><MIconClose /></mp-icon>
+          <span>
+            <icon-close />
+          </span>
         </slot>
       </div>
     </div>
@@ -52,16 +60,15 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots, type CSSProperties } from 'vue'
-import {
-  IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
-  IconClose as MIconClose,
-  IconError as MIconError,
-  IconInfoCircleFill as MIconInfoCircleFill,
-  IconWarning as MIconWarning,
-} from '@maplejs/icons-vue'
-import { call } from '@maplejs/maple-shared'
-import MpIcon from '../icon'
 import { createNamespace, formatElevation } from '../utils/components'
+import {
+  IconCheckCircleFill,
+  IconClose,
+  IconCloseCircleFill,
+  IconExclamationCircleFill,
+  IconInfoCircleFill,
+  transitionName,
+} from './platform'
 import { alertProps } from './props'
 
 defineOptions({
@@ -70,33 +77,43 @@ defineOptions({
 
 const { n, classes } = createNamespace('alert')
 const props = defineProps(alertProps)
-const emit = defineEmits(['close', 'after-close'])
+const emit = defineEmits<{
+  (event: 'close', value: MouseEvent): void
+  (event: 'closed'): void
+}>()
 const slots = useSlots()
 
 const visible = ref(true)
 
-const hasTitle = computed(() => Boolean(props.title || slots.title))
+const hasTitle = () => Boolean(props.title || slots.title)
 
-const showIconNode = computed(() => {
+const showIconNode = () => {
   if (!props.showIcon) {
     return false
   }
   if (slots.icon) {
     return true
   }
-  return props.type !== 'default'
-})
+  return props.status !== 'default'
+}
 
 const rootStyle = computed<CSSProperties>(() => {
   return props.color ? { backgroundColor: props.color } : {}
 })
 
-function handleClose(e: Event) {
+function handleClose(e: MouseEvent) {
+  if (!visible.value) {
+    return
+  }
   visible.value = false
   emit('close', e)
 }
 
+function handleKeyboardClose(event: KeyboardEvent) {
+  ;(event.currentTarget as HTMLElement).click()
+}
+
 function handleAfterLeave() {
-  emit('after-close')
+  emit('closed')
 }
 </script>

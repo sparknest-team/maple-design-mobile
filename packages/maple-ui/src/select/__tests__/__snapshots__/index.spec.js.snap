@@ -10,7 +10,7 @@ exports[`select focus & blur methods 1`] = `
           <div class="mp-select__label">
             <!--v-if-->
           </div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -38,7 +38,7 @@ exports[`select focus & blur methods 2`] = `
           <div class="mp-select__label">
             <!--v-if-->
           </div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -64,7 +64,7 @@ exports[`select hint to be false 1`] = `
       <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
         <div class="mp-select__select" style="text-align: left;">
           <div class="mp-select__label"><span></span></div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -92,7 +92,7 @@ exports[`select size 1`] = `
           <div class="mp-select__label">
             <!--v-if-->
           </div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -120,7 +120,7 @@ exports[`select variant 1`] = `
           <div class="mp-select__label">
             <!--v-if-->
           </div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -140,7 +140,7 @@ exports[`select variant 1`] = `
 
 exports[`select variant 2`] = `
 "<div class="mp-select" tabindex="0" value="">
-  <div class="mp-field-decorator mp--box mp-field-decorator--outlined">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: pointer; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -148,7 +148,7 @@ exports[`select variant 2`] = `
           <div class="mp-select__label">
             <!--v-if-->
           </div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -178,7 +178,7 @@ exports[`test select component slots > select clear icon slot 1`] = `
       <div class="mp-field-decorator__middle">
         <div class="mp-select__select" style="text-align: left;">
           <div class="mp-select__label"><span></span></div>
-          <!--v-if--><span class="mp-icon mp-select__arrow mp-select--arrow-rotate" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow mp-select--arrow-rotate" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
@@ -202,11 +202,11 @@ exports[`test select component slots > select prefix slot 1`] = `
       <div class="mp-field-decorator__middle">
         <div class="mp-select__select" style="text-align: left;">
           <div class="mp-select__label"><span></span></div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
-      <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
+      <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
     </div>
     <!--v-if-->
     <div class="mp-field-decorator__line">
@@ -226,11 +226,11 @@ exports[`test select component slots > select suffix slot 1`] = `
       <div class="mp-field-decorator__middle">
         <div class="mp-select__select" style="text-align: left;">
           <div class="mp-select__label"><span></span></div>
-          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
+          <!--v-if--><span class="mp-icon mp-select__arrow" style="transition-duration: 300ms;" mp-select-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m7 10 5 5 5-5z"></path></svg></span>
         </div>
       </div>
       <!--v-if-->
-      <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span>suffix</div>
+      <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span>suffix</div>
     </div>
     <!--v-if-->
     <div class="mp-field-decorator__line">

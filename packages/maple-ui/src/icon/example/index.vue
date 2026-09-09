@@ -137,7 +137,7 @@ function resolveIcon(name) {
     v-model.trim="searchText"
     class="icon-example__search"
     size="sm"
-    variant="outlined"
+    variant="outline"
     :placeholder="t('searchIcon')"
     clearable
   >

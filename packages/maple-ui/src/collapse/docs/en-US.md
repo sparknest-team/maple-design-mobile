@@ -95,7 +95,7 @@ Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mod
 | `divider`                    | Whether to show dividers                                 | _boolean_                     | `true`   |
 | `offset`                     | Whether expanded panels have a gap                       | _boolean_                     | `false`  |
 | `destroy-on-hide`            | Destroy content when hidden                              | _boolean_                     | `false`  |
-| `elevation`                  | Elevation; `true` `false` or a level from `0-24`         | _string \| number \| boolean_ | `true`   |
+| `elevation`                  | Elevation; `true` `false` or a level from `0-24`         | _number \| boolean_ | `true`   |
 
 #### CollapseItem Props
 

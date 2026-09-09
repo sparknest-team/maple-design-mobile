@@ -1,11 +1,11 @@
 import type { App } from 'vue'
 import ActionSheet from './action-sheet'
+import Affix from './affix'
 import Alert from './alert'
 import AutoComplete from './auto-complete'
 import Avatar from './avatar'
 import BackTop from './back-top'
 import Badge from './badge'
-import BottomNavigation from './bottom-navigation'
 import Breadcrumb from './breadcrumb'
 import Button from './button'
 import Card from './card'
@@ -14,6 +14,7 @@ import Cascader from './cascader'
 import Cell from './cell'
 import Checkbox from './checkbox'
 import Code from './code'
+import Col from './col'
 import Collapse from './collapse'
 import Context from './context'
 import CountTo from './count-to'
@@ -65,19 +66,20 @@ import Radio from './radio'
 import Rate from './rate'
 import Result from './result'
 import Ripple from './ripple'
+import Row from './row'
 import Search from './search'
 import Select from './select'
 import Signature from './signature'
-import Skeleton, { SkeletonLine, SkeletonShape } from './skeleton'
+import Skeleton from './skeleton'
 import Slider from './slider'
 import Space from './space'
 import SplitButton from './split-button'
 import Statistic from './statistic'
 import Steps from './steps'
-import Sticky from './sticky'
 import StyleProvider from './style-provider'
 import SwipeCell from './swipe-cell'
 import Switch from './switch'
+import TabBar from './tab-bar'
 import Table from './table'
 import Tabs from './tabs'
 import Tag from './tag'
@@ -87,7 +89,7 @@ import Time from './time'
 import TimeRange from './time-range'
 import Tooltip from './tooltip'
 import Trigger from './trigger'
-import Uploader from './uploader'
+import Upload from './upload'
 import VerificationCode from './verification-code'
 import Watermark from './watermark'
 
@@ -96,12 +98,12 @@ export const version = '1.0.3'
 function install(app: App) {
   const plugins = [
     ActionSheet,
+    Affix,
     Alert,
     AutoComplete,
     Avatar,
     BackTop,
     Badge,
-    BottomNavigation,
     Breadcrumb,
     Button,
     Card,
@@ -110,6 +112,7 @@ function install(app: App) {
     Cell,
     Checkbox,
     Code,
+    Col,
     Collapse,
     Context,
     CountTo,
@@ -161,6 +164,7 @@ function install(app: App) {
     Rate,
     Result,
     Ripple,
+    Row,
     Search,
     Select,
     Signature,
@@ -170,10 +174,10 @@ function install(app: App) {
     SplitButton,
     Statistic,
     Steps,
-    Sticky,
     StyleProvider,
     SwipeCell,
     Switch,
+    TabBar,
     Table,
     Tabs,
     Tag,
@@ -183,7 +187,7 @@ function install(app: App) {
     TimeRange,
     Tooltip,
     Trigger,
-    Uploader,
+    Upload,
     VerificationCode,
     Watermark,
   ]
@@ -197,12 +201,12 @@ function install(app: App) {
 export {
   install,
   ActionSheet,
+  Affix,
   Alert,
   AutoComplete,
   Avatar,
   BackTop,
   Badge,
-  BottomNavigation,
   Breadcrumb,
   Button,
   Card,
@@ -211,6 +215,7 @@ export {
   Cell,
   Checkbox,
   Code,
+  Col,
   Collapse,
   Context,
   CountTo,
@@ -262,21 +267,20 @@ export {
   Rate,
   Result,
   Ripple,
+  Row,
   Search,
   Select,
   Signature,
   Skeleton,
-  SkeletonLine,
-  SkeletonShape,
   Slider,
   Space,
   SplitButton,
   Statistic,
   Steps,
-  Sticky,
   StyleProvider,
   SwipeCell,
   Switch,
+  TabBar,
   Table,
   Tabs,
   Tag,
@@ -286,21 +290,118 @@ export {
   TimeRange,
   Tooltip,
   Trigger,
-  Uploader,
+  Upload,
   VerificationCode,
   Watermark,
 }
 
-export default {
+export interface MapleLibrary {
+  version: string
+  install: typeof install
+  ActionSheet: typeof ActionSheet
+  Affix: typeof Affix
+  Alert: typeof Alert
+  AutoComplete: typeof AutoComplete
+  Avatar: typeof Avatar
+  BackTop: typeof BackTop
+  Badge: typeof Badge
+  Breadcrumb: typeof Breadcrumb
+  Button: typeof Button
+  Card: typeof Card
+  Carousel: typeof Carousel
+  Cascader: typeof Cascader
+  Cell: typeof Cell
+  Checkbox: typeof Checkbox
+  Code: typeof Code
+  Col: typeof Col
+  Collapse: typeof Collapse
+  Context: typeof Context
+  CountTo: typeof CountTo
+  Countdown: typeof Countdown
+  Counter: typeof Counter
+  Date: typeof Date
+  DateRange: typeof DateRange
+  Dialog: typeof Dialog
+  Divider: typeof Divider
+  Drag: typeof Drag
+  Ellipsis: typeof Ellipsis
+  Empty: typeof Empty
+  Fab: typeof Fab
+  FieldDecorator: typeof FieldDecorator
+  FloatingPanel: typeof FloatingPanel
+  Form: typeof Form
+  FormDetails: typeof FormDetails
+  Grid: typeof Grid
+  HighlighterProvider: typeof HighlighterProvider
+  Hover: typeof Hover
+  Icon: typeof Icon
+  Image: typeof Image
+  IndexBar: typeof IndexBar
+  InfiniteScroll: typeof InfiniteScroll
+  Input: typeof Input
+  InputNumber: typeof InputNumber
+  Lazy: typeof Lazy
+  Link: typeof Link
+  List: typeof List
+  Loading: typeof Loading
+  LoadingBar: typeof LoadingBar
+  Locale: typeof Locale
+  LocaleProvider: typeof LocaleProvider
+  Menu: typeof Menu
+  Message: typeof Message
+  NoticeBar: typeof NoticeBar
+  NumberKeyboard: typeof NumberKeyboard
+  Overlay: typeof Overlay
+  PageHeader: typeof PageHeader
+  Pagination: typeof Pagination
+  Paper: typeof Paper
+  Picker: typeof Picker
+  Popover: typeof Popover
+  Popup: typeof Popup
+  Progress: typeof Progress
+  ProgressGroup: typeof ProgressGroup
+  PullRefresh: typeof PullRefresh
+  Radio: typeof Radio
+  Rate: typeof Rate
+  Result: typeof Result
+  Ripple: typeof Ripple
+  Row: typeof Row
+  Search: typeof Search
+  Select: typeof Select
+  Signature: typeof Signature
+  Skeleton: typeof Skeleton
+  Slider: typeof Slider
+  Space: typeof Space
+  SplitButton: typeof SplitButton
+  Statistic: typeof Statistic
+  Steps: typeof Steps
+  StyleProvider: typeof StyleProvider
+  SwipeCell: typeof SwipeCell
+  Switch: typeof Switch
+  TabBar: typeof TabBar
+  Table: typeof Table
+  Tabs: typeof Tabs
+  Tag: typeof Tag
+  Textarea: typeof Textarea
+  Themes: typeof Themes
+  Time: typeof Time
+  TimeRange: typeof TimeRange
+  Tooltip: typeof Tooltip
+  Trigger: typeof Trigger
+  Upload: typeof Upload
+  VerificationCode: typeof VerificationCode
+  Watermark: typeof Watermark
+}
+const library: MapleLibrary = {
   version,
   install,
   ActionSheet,
+  Affix,
   Alert,
   AutoComplete,
   Avatar,
   BackTop,
   Badge,
-  BottomNavigation,
   Breadcrumb,
   Button,
   Card,
@@ -309,6 +410,7 @@ export default {
   Cell,
   Checkbox,
   Code,
+  Col,
   Collapse,
   Context,
   CountTo,
@@ -360,21 +462,20 @@ export default {
   Rate,
   Result,
   Ripple,
+  Row,
   Search,
   Select,
   Signature,
   Skeleton,
-  SkeletonLine,
-  SkeletonShape,
   Slider,
   Space,
   SplitButton,
   Statistic,
   Steps,
-  Sticky,
   StyleProvider,
   SwipeCell,
   Switch,
+  TabBar,
   Table,
   Tabs,
   Tag,
@@ -384,7 +485,8 @@ export default {
   TimeRange,
   Tooltip,
   Trigger,
-  Uploader,
+  Upload,
   VerificationCode,
   Watermark,
 }
+export default library

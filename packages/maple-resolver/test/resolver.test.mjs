@@ -78,7 +78,7 @@ test('resolves UI components with their styles', () => {
   assert.deepEqual(components.resolve('MpRow'), {
     from: '@maplejs/maple-ui',
     name: '_RowComponent',
-    sideEffects: ['@maplejs/maple-ui/grid/style'],
+    sideEffects: ['@maplejs/maple-ui/row/style'],
   })
 
   assert.deepEqual(components.resolve('MpImagePreview'), {
@@ -175,4 +175,13 @@ test('can disable styles and directives', () => {
 test('can disable programmatic API resolution', () => {
   const [components] = MapleResolver({ autoImport: false })
   assert.equal(components.resolve('Message'), undefined)
+})
+
+
+test('Row and Col resolve independent styles', () => {
+  for (const name of ['Row', 'Col']) {
+    const resolved = components.resolve('Mp' + name)
+    assert.equal(resolved.name, '_' + name + 'Component')
+    assert.deepEqual(resolved.sideEffects, ['@maplejs/maple-ui/' + name.toLowerCase() + '/style'])
+  }
 })

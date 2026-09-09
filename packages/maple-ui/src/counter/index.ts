@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Counter, counterProps)
 export { counterProps }
 
 export type CounterInstance = InstanceType<typeof Counter>
-export const _CounterComponent = Counter
+export const _CounterComponent: typeof Counter = Counter
 
 export default Counter
+export type CounterProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

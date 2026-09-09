@@ -20,28 +20,30 @@
   "license": "MIT",
   "author": "shuai.meng",
   "sideEffects": [
+    "src/**/style/*",
     "es/**/style/*",
     "lib/**/style/*",
     "es/style.mjs",
     "lib/style.js",
-    "*.css"
+    "*.css",
+    "*.less"
   ],
   "main": "lib/index.js",
   "jsdelivr": "umd/maple.js",
   "unpkg": "umd/maple.js",
   "module": "es/index.mjs",
-  "typings": "types/index.d.ts",
+  "typings": "types-generated/index.d.ts",
   "style": "es/maple.css",
   "exports": {
     ".": {
-      "types": "./types/index.d.ts",
+      "types": "./types-generated/index.d.ts",
       "import": "./es/index.mjs",
       "require": "./lib/index.js"
     },
     "./style": "./es/maple.css",
     "./package.json": "./package.json",
     "./*": {
-      "types": "./types/*.d.ts",
+      "types": "./types-generated/*/index.d.ts",
       "import": "./es/*/index.mjs",
       "require": "./lib/*/index.js"
     },
@@ -56,9 +58,12 @@
     "es",
     "umd",
     "highlight",
-    "types"
+    "types",
+    "types-generated"
   ],
   "scripts": {
+    "typecheck": "vue-tsc -p tsconfig.declaration.json --emitDeclarationOnly false --noEmit",
+    "typecheck:contracts": "tsc -p tsconfig.contracts.json",
     "build": "maple-cli build",
     "compile": "maple-cli compile",
     "compile:style-vars": "maple-cli compile:style-vars",
@@ -70,6 +75,7 @@
     "test:watch": "maple-cli test -w -cov"
   },
   "dependencies": {
+    "rattail": "1.0.17",
     "@maplejs/maple-shared": "workspace:*",
     "@maplejs/maple-use": "workspace:*",
     "@popperjs/core": "^2.11.8",
@@ -89,7 +95,7 @@
     "jsdom": "catalog:",
     "live-server": "catalog:",
     "shiki": "^1.29.2",
-    "typescript": "catalog:",
+    "typescript": "5.6.3",
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:",

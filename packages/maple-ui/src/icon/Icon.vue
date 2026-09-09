@@ -1,77 +1,81 @@
 <template>
-  <span
-    :class="
-      classes(n(), [animateInProgress, animationClass == null ? n('--shrinking') : animationClass], [spin, n('--spin')])
-    "
-    :style="{
-      color,
-      'transition-duration': `${toNumber(transition)}ms`,
-      fontSize: toSizeUnit(size),
-      rotate: rotate ? `${rotate}deg` : undefined,
-    }"
-    @click="emit('click', $event)"
-  >
+  <span :class="cls" :style="innerStyle" @click="emit('click', $event)">
     <slot v-if="$slots.default" />
-    <component :is="iconComponent" v-else />
+    <component :is="iconComponent" v-else-if="iconComponent" />
   </span>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, getCurrentInstance, nextTick, ref, watch } from 'vue'
-import { pascalCase, toNumber } from '@maplejs/maple-shared'
+<script setup lang="ts">
+import type { CSSProperties } from 'vue'
+import { computed, getCurrentInstance, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { props } from './props'
+import { registeredPrefix, spinClass } from './platform'
+import { iconProps } from './props'
 
-const { name, n, classes } = createNamespace('icon')
-
-export default defineComponent({
-  name,
-  props,
-  emits: ['click'],
-  setup(props, { emit }) {
-    const instance = getCurrentInstance()
-    const nextName = ref<string | undefined>('')
-    const animateInProgress = ref(false)
-    const iconComponent = computed(() => {
-      const componentName = `Icon${pascalCase(nextName.value ?? '')}`
-      const components = instance?.appContext.components
-      return components?.[componentName] ?? components?.[`M${componentName}`]
-    })
-
-    watch(() => props.name, handleNameChange, { immediate: true })
-
-    async function handleNameChange(newName?: string, oldName?: string) {
-      const { transition } = props
-
-      if (oldName == null || toNumber(transition) === 0) {
-        nextName.value = newName
-        return
-      }
-
-      animateInProgress.value = true
-
-      await nextTick()
-
-      setTimeout(() => {
-        if (oldName != null) {
-          nextName.value = newName
-        }
-
-        animateInProgress.value = false
-      }, toNumber(transition))
-    }
-
-    return {
-      nextName,
-      iconComponent,
-      animateInProgress,
-      n,
-      classes,
-      toNumber,
-      toSizeUnit,
-      emit,
-    }
-  },
+defineOptions({
+  name: createNamespace('icon').name,
 })
+
+const props = defineProps(iconProps)
+const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const instance = getCurrentInstance()
+const prefixCls = createNamespace('icon').n()
+const nextName = ref<string>()
+const animateInProgress = ref(false)
+
+const iconComponent = computed(() => {
+  if (!nextName.value) {
+    return undefined
+  }
+  const componentName = `Icon${nextName.value
+    .split('-')
+    .filter(Boolean)
+    .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+    .join('')}`
+  const components = instance?.appContext.components
+  return components?.[componentName] ?? components?.[`${registeredPrefix}${componentName}`]
+})
+
+const innerStyle = computed(() => {
+  const styles: CSSProperties = {}
+  if (props.size != null) {
+    styles.fontSize = toSizeUnit(props.size)
+  }
+  if (props.rotate) {
+    styles.rotate = `${props.rotate}deg`
+  }
+  if (props.color) {
+    styles.color = props.color
+  }
+  styles.transitionDuration = `${Number(props.transition) || 0}ms`
+  return styles
+})
+
+const cls = computed(() => [
+  prefixCls,
+  {
+    [spinClass]: props.spin,
+    [props.animationClass ?? `${prefixCls}--shrinking`]: animateInProgress.value,
+  },
+])
+
+watch(
+  () => props.name,
+  (newName, oldName, onCleanup) => {
+    animateInProgress.value = false
+    const duration = Math.max(0, Number(props.transition) || 0)
+    if (oldName == null || !Number.isFinite(duration) || duration === 0) {
+      nextName.value = newName
+      return
+    }
+    animateInProgress.value = true
+    const timer = setTimeout(() => {
+      nextName.value = newName
+      animateInProgress.value = false
+    }, duration)
+    onCleanup(() => clearTimeout(timer))
+  },
+  { immediate: true },
+)
 </script>

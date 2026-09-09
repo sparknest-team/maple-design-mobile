@@ -177,7 +177,7 @@ const active = ref(0)
   <mp-tabs
     class="tabs-example-vertical"
     elevation
-    vertical
+    orientation="vertical"
     color="var(--color-primary)"
     active-color="var(--color-white)"
     inactive-color="var(--color-white)"
@@ -234,7 +234,7 @@ const active = ref(0)
 </template>
 ```
 
-### Sticky Layout
+### Affix Layout
 
 ```html
 <script setup>
@@ -294,7 +294,7 @@ const active = ref(0)
     class="tabs-example-vertical"
     elevation
     indicator-position="reverse"
-    vertical
+    orientation="vertical"
     color="var(--color-primary)"
     active-color="var(--color-white)"
     inactive-color="var(--color-white)"
@@ -324,7 +324,7 @@ const active = ref(0)
 | Prop               | Description                                                                  | Type     | Default      |
 |--------------------|------------------------------------------------------------------------------|----------|--------------|
 | `v-model:active`   | The `active` tab identifier matches `name` first, followed by `index`        | _string_ | `index`      |
-| `vertical` | The layout direction of the tabs, optional value of `horizontal` `vertical`  | _string_ | `horizontal` |
+| orientation | 组件整体朝向 | `horizontal \| vertical` | `horizontal` |
 | `item-vertical`   | The layout direction of the tab, optional value of `horizontal` `vertical`   | _string_ | `horizontal` |
 | `fixed-bottom`     | Whether fixed to the bottom of the window, can be used for bottom navigation | _boolean_ | `false`      |
 | `color`            | The background color of the tabs                                             | _string_ | `-`       |
@@ -333,10 +333,10 @@ const active = ref(0)
 | `disabled-color`   | The primary color that the tab is disabled                                   | _string_ | `-`    |
 | `indicator-color`  | The tab activates the color of the indicator                                 | _string_ | `-`    |
 | `indicator-size`   | Tab activates the size of the indicator                                      | _string \| number_      | `2px`        |
-| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `false`    |
+| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _number \| boolean_|   `false`    |
 | `sticky`           | Whether to enable sticky layouts                                             | _boolean_ | `false`      |
 | `sticky-css-mode`  | Whether to enable sticky layouts native css sticky mode                      | _boolean_ | `false`      |
-| `sticky-z-index`   | Sticky layouts z-index                                                       | _number_ | `10`          |
+| `sticky-z-index`   | Affix layouts z-index                                                       | _number_ | `10`          |
 | `safe-area`        | Whether to enable bottom safe area adaptation                                | _boolean_ | `false`      |
 | `offset-top`       | Distance offset top                                                          | _string \| number_      | `0`          |
 | `scrollable`       | Whether to enable scrollable, optional value of `auto` `always`              | _string_ | `auto`      |
@@ -371,7 +371,7 @@ const active = ref(0)
 | Method   | Description                                                                         | Arguments | Return |
 | -------- |-------------------------------------------------------------------------------------| --------- | ------ |
 | `resize` | Call this method to redraw when a tabs changes position size                | `-`       | `-`    |
-| `resizeSticky` | Call this method to redraw when a tabs sticky layouts changes position size | `-`  | `Promise<void>` |
+| `resizeAffix` | Call this method to redraw when a tabs sticky layouts changes position size | `-`  | `Promise<void>` |
 
 #### TabsItems Methods
 

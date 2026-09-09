@@ -4,7 +4,7 @@ import { AppType, onThemeChange } from '@maplejs/maple-cli/client'
 
 const basicValue = ref('')
 const filledValue = ref('')
-const outlinedValue = ref('')
+const outlineValue = ref('')
 const standardValue = ref('')
 const hintValue = ref('')
 const noHintValue = ref('')
@@ -22,7 +22,7 @@ onThemeChange()
   <app-type>外观</app-type>
   <mp-space direction="column" :size="[16, 0]">
     <mp-textarea v-model="filledValue" :rows="3" variant="filled" placeholder="填充外观" />
-    <mp-textarea v-model="outlinedValue" :rows="3" variant="outlined" placeholder="描边外观" />
+    <mp-textarea v-model="outlineValue" :rows="3" variant="outline" placeholder="描边外观" />
     <mp-textarea v-model="standardValue" :rows="3" variant="standard" placeholder="标准外观" />
   </mp-space>
 
@@ -35,7 +35,7 @@ onThemeChange()
   <app-type>尺寸</app-type>
   <template v-for="size in sizes" :key="size">
     <div class="textarea-example__caption">{{ size }}</div>
-    <mp-textarea v-model="sizeValues[size]" :rows="2" :size="size" variant="outlined" :placeholder="`${size} 尺寸`" />
+    <mp-textarea v-model="sizeValues[size]" :rows="2" :size="size" variant="outline" :placeholder="`${size} 尺寸`" />
   </template>
 
   <app-type>字数限制与调整高度</app-type>
@@ -46,7 +46,7 @@ onThemeChange()
     placeholder="最多输入 100 个字符"
     resize
     :rows="4"
-    variant="outlined"
+    variant="outline"
   />
 
   <app-type>状态</app-type>

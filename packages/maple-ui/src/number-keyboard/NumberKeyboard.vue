@@ -86,7 +86,7 @@ const { name, n, classes } = createNamespace('number-keyboard')
 
 type KeyType = 'number' | 'extra' | 'delete' | 'close' | 'blank'
 
-interface KeyConfig {
+export interface KeyConfig {
   text?: string
   type: KeyType
   wider?: boolean

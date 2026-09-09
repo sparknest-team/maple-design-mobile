@@ -112,6 +112,9 @@ export default {
   // pagination
   paginationItem: '条',
   paginationPage: '页',
+  paginationNavigation: '分页',
+  paginationPrevious: '上一页',
+  paginationNext: '下一页',
   paginationJump: '前往',
   paginationTotal: '共 {0} 条',
   // time-picker

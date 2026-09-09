@@ -1,4 +1,3 @@
-<!-- @sync-with: cedar-ui/src/count-to/count-to.vue -->
 <template>
   <div :class="n()">
     <slot :value="displayValue">{{ displayValue }}</slot>
@@ -6,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, watch } from 'vue'
+import { computed, onActivated, onDeactivated, onMounted, onUnmounted, watch } from 'vue'
 import { floor, toNumber } from '@maplejs/maple-shared'
 import { useMotion } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
@@ -22,6 +21,7 @@ const emit = defineEmits<{ (event: 'end'): void }>()
 
 const {
   value: motionValue,
+  state: motionState,
   reset: resetMotion,
   start,
   pause,
@@ -46,6 +46,18 @@ function reset() {
 
 watch(() => [props.from, props.to, props.duration], reset)
 onMounted(reset)
+let resumeOnActivate = false
+onDeactivated(() => {
+  resumeOnActivate = motionState.value === 'running'
+  pause()
+})
+onActivated(() => {
+  if (resumeOnActivate) {
+    resumeOnActivate = false
+    start()
+  }
+})
+onUnmounted(pause)
 
 defineExpose({
   start,

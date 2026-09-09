@@ -225,7 +225,7 @@
 | `readonly`        | 是否只读                                                                                                       | _boolean_                | `false`     |
 | `loading`         | 是否加载中                                                                                                     | _boolean_                | `false`     |
 | `size`            | 选择框尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                    | _ComponentSize_          | `md`        |
-| `variant`         | 选择框风格，可选值 `filled` `standard` `outlined`                                                              | _string_                 | `standard`  |
+| `variant`         | 选择框风格，可选值 `filled` `standard` `outline`                                                              | _string_                 | `standard`  |
 | `tag`             | 是否使用标签风格（仅多选）                                                                                     | _boolean_                | `false`     |
 | `separator`       | 多选展示分隔符                                                                                                 | _string_                 | `,`         |
 | `close-on-select` | 选中后是否自动关闭（仅 menu 单选模式，多选不会自动关闭）                                                       | _boolean_                | `true`      |

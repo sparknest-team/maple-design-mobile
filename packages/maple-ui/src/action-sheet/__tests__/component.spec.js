@@ -12,7 +12,7 @@ test('action-sheet component plugin', () => {
 test('action-sheet styles', () => {
   const wrapper = mount(VarActionSheet, {
     props: {
-      popupContainer: null,
+      popupContainer: false,
       actions: [
         {
           name: 'Item 01',

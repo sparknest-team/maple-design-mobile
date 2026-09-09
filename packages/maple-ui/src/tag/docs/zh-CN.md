@@ -219,3 +219,9 @@ type TagVariant = 'default' | 'outline'
 | `--mp-tag-status-{status}-color` | 各状态背景色 |
 | `--mp-tag-status-{status}-text-color` | 各状态文字色 |
 | `--mp-tag-status-{status}-border-color` | 各状态边框色（outline 时生效） |
+
+## 同源实现与平台边界
+
+两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
+
+两端保留独立的 show/checked 状态，受控值由调用方更新；保留淡出效果，class/style 显式透传给实际标签。尺寸配置、RTL 上下文及图标资源由各库本地适配，移动端触控尺寸保留在 token 中。

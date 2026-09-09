@@ -10,6 +10,6 @@ export { statisticProps }
 export type StatisticInstance = InstanceType<typeof Statistic>
 export type { StatisticProps } from './props'
 
-export const _StatisticComponent = Statistic
+export const _StatisticComponent: typeof Statistic = Statistic
 
 export default Statistic

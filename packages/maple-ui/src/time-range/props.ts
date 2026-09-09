@@ -4,11 +4,13 @@ import { pickerProps as pickerPropsSource } from '../picker'
 import { popupProps } from '../popup'
 import { props as timePickerPropsSource, type DisabledTime, type Format } from '../time/picker-props'
 import { pickProps } from '../utils/components'
+import { popupContainerProp } from '../utils/popup-container'
 import { props as timeRangePickerPropsSource } from './picker-props'
 
 export type TimeRangePresentation = 'clock' | 'picker'
 
 export const props = {
+  popupContainer: popupContainerProp,
   modelValue: {
     type: Array as PropType<string[]>,
     default: () => [],
@@ -65,4 +67,4 @@ export const props = {
   ]),
 }
 
-export type TimeRangeProps = ExtractPropTypes<typeof props>
+export type TimeRangeProps = import('vue').ExtractPublicPropTypes<typeof props>

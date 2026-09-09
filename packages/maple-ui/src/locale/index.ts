@@ -42,6 +42,9 @@ export type Message = {
   // pagination
   paginationItem: string
   paginationPage: string
+  paginationNavigation?: string
+  paginationPrevious?: string
+  paginationNext?: string
   paginationJump: string
   paginationTotal: string
   // time-picker

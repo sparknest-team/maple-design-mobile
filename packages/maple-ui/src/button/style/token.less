@@ -1,12 +1,12 @@
 // Component tokens for button
 :root {
-  --mp-button-default-text-color: #555;
+  --mp-button-default-text-color: var(--mp-color-text-1);
   --mp-button-primary-text-color: var(--mp-color-white);
   --mp-button-danger-text-color: var(--mp-color-white);
   --mp-button-success-text-color: var(--mp-color-white);
   --mp-button-warning-text-color: var(--mp-color-white);
   --mp-button-info-text-color: var(--mp-color-white);
-  --mp-button-default-color: #f5f5f5;
+  --mp-button-default-color: var(--mp-color-bg-2);
   --mp-button-primary-color: var(--mp-color-primary);
   --mp-button-danger-color: var(--mp-color-danger);
   --mp-button-success-color: var(--mp-color-success);
@@ -16,18 +16,18 @@
   --mp-button-secondary-text-color: var(--mp-color-white);
   --mp-button-tertiary-color: rgb(var(--mp-gray-7));
   --mp-button-tertiary-text-color: var(--mp-color-white);
-  --mp-button-default-icon-color: #555;
-  --mp-button-primary-icon-color: var(--mp-color-white);
-  --mp-button-danger-icon-color: var(--mp-color-white);
-  --mp-button-success-icon-color: var(--mp-color-white);
-  --mp-button-warning-icon-color: var(--mp-color-white);
-  --mp-button-info-icon-color: var(--mp-color-white);
-  --mp-button-default-icon-container-color: #f5f5f5;
-  --mp-button-primary-icon-container-color: var(--mp-color-primary);
-  --mp-button-danger-icon-container-color: var(--mp-color-danger);
-  --mp-button-success-icon-container-color: var(--mp-color-success);
-  --mp-button-warning-icon-container-color: var(--mp-color-warning);
-  --mp-button-info-icon-container-color: var(--mp-color-info);
+  --mp-button-default-icon-color: var(--mp-color-text-1);
+  --mp-button-primary-icon-color: var(--mp-button-primary-color);
+  --mp-button-danger-icon-color: var(--mp-button-danger-color);
+  --mp-button-success-icon-color: var(--mp-button-success-color);
+  --mp-button-warning-icon-color: var(--mp-button-warning-color);
+  --mp-button-info-icon-color: var(--mp-button-info-color);
+  --mp-button-default-icon-container-color: var(--mp-color-bg-2);
+  --mp-button-primary-icon-container-color: color-mix(in srgb, var(--mp-button-primary-color) 16%, transparent);
+  --mp-button-danger-icon-container-color: color-mix(in srgb, var(--mp-button-danger-color) 16%, transparent);
+  --mp-button-success-icon-container-color: color-mix(in srgb, var(--mp-button-success-color) 16%, transparent);
+  --mp-button-warning-icon-container-color: color-mix(in srgb, var(--mp-button-warning-color) 16%, transparent);
+  --mp-button-info-icon-container-color: color-mix(in srgb, var(--mp-button-info-color) 16%, transparent);
   --mp-button-disabled-color: var(--mp-color-disabled);
   --mp-button-disabled-text-color: var(--mp-color-text-disabled);
   --mp-button-border-radius: 4px;
@@ -47,4 +47,34 @@
   --mp-button-normal-font-size: var(--mp-font-size-md);
   --mp-button-large-font-size: var(--mp-font-size-lg);
   --mp-button-xl-font-size: var(--mp-font-size-xl, 18px);
+}
+
+:root {
+  --mp-button-content-gap: 6px;
+  --mp-button-line-height: 1.2;
+  --mp-button-stacked-height: 48px;
+  --mp-button-focus-width: 2px;
+  --mp-button-focus-color: currentColor;
+  --mp-button-focus-offset: 2px;
+  --mp-button-icon-container-padding: 6px;
+  --mp-button-loading-line-height: 3px;
+  --mp-button-loading-line-width: 40%;
+  --mp-button-loading-duration: 1s;
+  --mp-button-loading-static-opacity: 0.5;
+  --mp-button-secondary-icon-color: var(--mp-button-secondary-text-color);
+  --mp-button-secondary-icon-container-color: var(--mp-button-secondary-color);
+  --mp-button-tertiary-icon-color: var(--mp-button-tertiary-text-color);
+  --mp-button-tertiary-icon-container-color: var(--mp-button-tertiary-color);
+}
+
+:root {
+  --mp-button-mini-stacked-height: 36px;
+  --mp-button-small-stacked-height: 44px;
+  --mp-button-normal-stacked-height: var(--mp-button-stacked-height);
+  --mp-button-large-stacked-height: 56px;
+  --mp-button-xl-stacked-height: 64px;
+  --mp-button-stacked-gap: 4px;
+  --mp-button-stacked-padding: 4px;
+  --mp-button-stacked-border-radius: 4px;
+  --mp-button-group-border-radius: 4px;
 }

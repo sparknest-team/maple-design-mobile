@@ -119,7 +119,7 @@ export default defineComponent({
     Ripple,
   },
   props,
-  emits: ['update:previewOpen', 'previewOpenChange', 'click', 'load', 'error'],
+  emits: ['update:previewOpen', 'preview-open-change', 'click', 'load', 'error'],
   setup(props, { emit, slots }) {
     const loadStatus = ref<'loading' | 'loaded' | 'error'>('loading')
     const isLoading = computed(() => loadStatus.value === 'loading')
@@ -141,7 +141,7 @@ export default defineComponent({
         }
 
         emit('update:previewOpen', value)
-        emit('previewOpenChange', value)
+        emit('preview-open-change', value)
       },
     })
 

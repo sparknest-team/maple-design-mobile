@@ -1,29 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`test switch component props > variant mode 1`] = `
-"<div class="mp-switch mp-switch--variant-false">
-  <div class="mp-switch__block mp-switch__block--active" role="switch" aria-checked="true" tabindex="0">
-    <div class="mp-switch__track mp-switch__track--active"></div>
-    <div class="mp-switch__ripple mp-switch__ripple--active">
-      <div class="mp-switch__handle mp-elevation--2 mp-switch__handle--active">
-        <!--v-if-->
-      </div>
-      <div class="mp-hover-overlay"></div>
-    </div>
-  </div>
-</div>"
-`;
-
-exports[`test switch component props > variant mode 2`] = `
-"<div class="mp-switch mp-switch--variant-true">
-  <div class="mp-switch__block mp-switch__block--active" role="switch" aria-checked="true" tabindex="0">
-    <div class="mp-switch__track mp-switch__track--active"></div>
-    <div class="mp-switch__ripple mp-switch__ripple--active">
-      <div class="mp-switch__handle mp-elevation--2 mp-switch__handle--active">
-        <!--v-if-->
-      </div>
-      <div class="mp-hover-overlay"></div>
-    </div>
-  </div>
-</div>"
-`;
+exports[`renders the common contract 1`] = `"<button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md" aria-checked="false"><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button>"`;

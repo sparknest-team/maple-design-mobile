@@ -282,7 +282,7 @@ function toggleAll() {
 | `divider`                    | 是否显示分割线                                     | _boolean_                         | `true`         |
 | `offset`                     | 展开面板是否显示间距                               | _boolean_                         | `false`        |
 | `destroy-on-hide`            | 是否在隐藏时销毁内容                               | _boolean_                         | `false`        |
-| `elevation`                  | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _string \| number \| boolean_     | `true`         |
+| `elevation`                  | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _number \| boolean_     | `true`         |
 
 #### CollapseItem Props
 

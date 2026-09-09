@@ -102,7 +102,7 @@ describe('test index-bar component props', () => {
     })
 
     await delay(100)
-    expect(wrapper.find('.mp-sticky').exists()).toBeFalsy()
+    expect(wrapper.find('.mp-affix').exists()).toBeFalsy()
 
     wrapper.unmount()
   })
@@ -118,7 +118,7 @@ describe('test index-bar component props', () => {
     await wrapper.trigger('scroll')
     await delay(100)
 
-    expect(wrapper.find('.mp-sticky__wrapper').attributes('style')).toContain('top: 36px;')
+    expect(wrapper.find('.mp-affix__wrapper').attributes('style')).toContain('top: 36px;')
 
     wrapper.unmount()
   })
@@ -152,12 +152,12 @@ describe('test index-bar component props', () => {
     })
 
     await delay(100)
-    expect(wrapper.find('.mp-sticky').attributes('style')).toContain('z-index: 2;')
+    expect(wrapper.find('.mp-affix').attributes('style')).toContain('z-index: 2;')
 
     await wrapper.setProps({
       zIndex: 4,
     })
-    expect(wrapper.find('.mp-sticky').attributes('style')).toContain('z-index: 4;')
+    expect(wrapper.find('.mp-affix').attributes('style')).toContain('z-index: 4;')
 
     wrapper.unmount()
   })

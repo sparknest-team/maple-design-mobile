@@ -9,6 +9,7 @@ export type InputNumberInstance = InstanceType<typeof InputNumber>
 export type { InputNumberMode, InputNumberModelEvent, InputNumberSize } from './props'
 export { inputNumberProps }
 
-export const _InputNumberComponent = InputNumber
+export const _InputNumberComponent: typeof InputNumber = InputNumber
 
 export default InputNumber
+export type InputNumberProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

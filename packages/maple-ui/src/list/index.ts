@@ -18,7 +18,7 @@ export type { ListProps, ListSize } from './props'
 
 export type ListInstance = InstanceType<typeof _List>
 export type ListItemInstance = InstanceType<typeof ListItem>
-export const _ListComponent = List
-export const _ListItemComponent = ListItem
+export const _ListComponent: typeof List = List
+export const _ListItemComponent: typeof ListItem = ListItem
 
 export default List

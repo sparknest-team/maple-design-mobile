@@ -148,7 +148,7 @@ export default defineComponent({
     const mergedDisabled = computed(() => Boolean(form?.disabled.value || props.disabled))
     const mergedError = computed(() => Boolean(formMergedError.value || props.error))
     const inputSize = computed(() => props.size)
-    const inputVariant = computed(() => 'outlined')
+    const inputVariant = computed(() => 'outline' as const)
     const mergedPrecision = computed(() => {
       if (isNumber(props.precision)) {
         const decimal = `${props.step}`.split('.')[1]

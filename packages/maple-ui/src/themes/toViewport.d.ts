@@ -1,3 +1,3 @@
-import { Themes } from '../../types'
+import { Themes } from '../../types/themes'
 
 declare const toViewport: Themes['toViewport']

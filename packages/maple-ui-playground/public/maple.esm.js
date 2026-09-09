@@ -6079,7 +6079,7 @@ function Vg(e, n, o, t, a, s) {
                       'div',
                       {
                         key: 0,
-                        class: d(e.n('content-mask')),
+                        class: d(e.n('content-overlay')),
                       },
                       null,
                       2,

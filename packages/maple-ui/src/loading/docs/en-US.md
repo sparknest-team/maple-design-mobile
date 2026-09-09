@@ -151,3 +151,13 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--loading-opacity`     | `0.38`                 |
 | `--loading-desc-margin` | `8px 0 0`              |
 | `--loading-desc-color`  | `var(--color-primary)` |
+
+The directive overlay prevents the default click action and stops click propagation, so clicking the overlay does not invoke a Card or ancestor click handler. Normal clicks resume when loading ends. Keyboard interaction with underlying controls is not disabled; use disabled on those controls when necessary.
+
+### Overlay styling
+
+| Token | Description |
+| --- | --- |
+| `--mp-loading-overlay-background` | Directive overlay background; the background option overrides this value. |
+
+Content overlay class：`.mp-loading__content-overlay`。

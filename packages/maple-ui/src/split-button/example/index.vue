@@ -1,43 +1,41 @@
-<script setup>
+<script setup lang="ts">
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
+import AsyncActionDemo from './async-action.vue'
+import BasicDemo from './basic.vue'
+import ControlledDemo from './controlled.vue'
+import CustomIconDemo from './custom-icon.vue'
+import DisabledDemo from './disabled.vue'
 import { t, use } from './locale'
+import PopupDemo from './popup.vue'
+import SizesDemo from './sizes.vue'
+import VariantsDemo from './variants.vue'
 
 watchLang(use)
 onThemeChange()
-
-const publish = () => Message(t('publish'))
-const handleSelect = (_value, option) => Message(String(option.label))
 </script>
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-split-button status="primary" placement="bottom-end" @click="publish" @select="handleSelect">
-    {{ t('publish') }}
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" />
-      <mp-menu-option :label="t('saveAndPublish')" />
-    </template>
-  </mp-split-button>
+  <BasicDemo />
+
+  <app-type>{{ t('variants') }}</app-type>
+  <VariantsDemo />
+
+  <app-type>{{ t('sizes') }}</app-type>
+  <SizesDemo />
 
   <app-type>{{ t('disabled') }}</app-type>
-  <mp-split-button disabled status="primary" placement="bottom-end">
-    {{ t('disabled') }}
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" />
-      <mp-menu-option :label="t('saveAndPublish')" />
-    </template>
-  </mp-split-button>
+  <DisabledDemo />
+
+  <app-type>{{ t('asyncAction') }}</app-type>
+  <AsyncActionDemo />
 
   <app-type>{{ t('customIcon') }}</app-type>
-  <mp-split-button status="primary" placement="bottom-end" @click="publish" @select="handleSelect">
-    {{ t('publish') }}
-    <template #icon="{ open }">
-      <m-icon-menu-down :style="{ transform: open ? 'rotate(180deg)' : undefined }" />
-    </template>
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" />
-      <mp-menu-option :label="t('saveAndPublish')" />
-    </template>
-  </mp-split-button>
+  <CustomIconDemo />
+
+  <app-type>{{ t('controlled') }}</app-type>
+  <ControlledDemo />
+
+  <app-type>{{ t('popup') }}</app-type>
+  <PopupDemo />
 </template>

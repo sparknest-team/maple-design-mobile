@@ -4,6 +4,12 @@
 
 The floating action button component, press to display a group of action buttons.
 
+The live preview starts expanded. Actions show a Message and collapse the menu. Changing direction moves the button to a compatible edge. Use click on touch devices; hover is intended for a mouse.
+
+The preview uses `fixed=false` and `popup-container=false`. Drag mode switches to viewport positioning and uses touch gestures. The default popup target is body.
+
+The preview scrolls with the page instead of covering the controls or floating button. Drag mode moves the button to the selected viewport corner; switching it off returns the button to the preview.
+
 ### Theme Color Button
 
 ```html
@@ -256,7 +262,7 @@ function toggle() {
 | `right` | Same as css right, for custom trigger position | _string \| number_ | `-` |
 | `safe-area` | Whether to enable bottom safe area adaptation	 | _boolean_ | `false` |
 | `popup-container` | element to which the component mounts | _TeleportProps['to'] \| false_ | `body` |
-| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
+| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _number \| boolean_|   `true`    |
 
 ### Events
 

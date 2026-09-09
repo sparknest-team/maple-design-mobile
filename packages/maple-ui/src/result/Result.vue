@@ -10,7 +10,7 @@
             borderWidth: borderSize,
           }"
         >
-          <component :is="status" :border-size="borderSize" :animation="animation" />
+          <component :is="statusComponent" :border-size="borderSize" :animation="animation" />
         </div>
       </div>
     </slot>
@@ -30,6 +30,9 @@
 import { computed, defineComponent } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import Forbidden from './403'
+import NotFound from './404'
+import ServerError from './500'
 import Danger from './Danger.vue'
 import Empty from './Empty.vue'
 import Info from './Info.vue'
@@ -52,6 +55,20 @@ export default defineComponent({
   },
   props,
   setup(props) {
+    const statusComponent = computed(
+      () =>
+        ({
+          info: Info,
+          success: Success,
+          warning: Warning,
+          danger: Danger,
+          question: Question,
+          empty: Empty,
+          '403': Forbidden,
+          '404': NotFound,
+          '500': ServerError,
+        })[props.status],
+    )
     const circleSize = computed(
       () => `calc(${props.imageSize ? toSizeUnit(props.imageSize) : 'var(--mp-result-image-size)'} * 0.9)`,
     )
@@ -60,6 +77,7 @@ export default defineComponent({
     )
 
     return {
+      statusComponent,
       circleSize,
       borderSize,
       n,

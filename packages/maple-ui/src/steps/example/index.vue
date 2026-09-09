@@ -56,7 +56,7 @@ function next() {
   <mp-radio-group v-model="verticalStatus" class="status-switch">
     <mp-radio v-for="status in statuses" :key="status" :value="status">{{ status }}</mp-radio>
   </mp-radio-group>
-  <mp-steps direction="vertical" :current="current" :status="verticalStatus">
+  <mp-steps orientation="vertical" :current="current" :status="verticalStatus">
     <mp-step>{{ t('first') }}</mp-step>
     <mp-step>{{ t('second') }}</mp-step>
     <mp-step>{{ t('third') }}</mp-step>

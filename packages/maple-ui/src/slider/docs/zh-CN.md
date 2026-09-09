@@ -193,7 +193,7 @@ const value2 = ref(50)
 
 ### 垂直方向
 
-通过设置 `direction` 属性值为 `vertical` 来让滑块垂直显示。
+通过设置 `orientation` 属性值为 `vertical` 来让滑块垂直显示。
 
 ```html
 <script setup>
@@ -206,10 +206,10 @@ const value2 = ref([7, 64])
 <template>
  <mp-space justify="space-around">
     <div style="height: 300px">
-      <mp-slider v-model="value1" direction="vertical" />
+      <mp-slider v-model="value1" orientation="vertical" />
     </div>
     <div style="height: 300px">
-      <mp-slider v-model="value2" range label-visible="always" direction="vertical" />
+      <mp-slider v-model="value2" range label-visible="always" orientation="vertical" />
     </div>
   </mp-space>
 </template>
@@ -237,7 +237,7 @@ const value2 = ref([7, 64])
 | `thumb-color`      | 滑块的背景颜色                           | _string_ | `-`               |
 | `disabled`         | 是否禁用                              | _boolean_ | `false`           |
 | `readonly`         | 是否只读                              | _boolean_ | `false`           |
-| `direction`        | 显示方向，可选值为 `vertical horizontal`        | _string_ | `horizontal` |
+| `orientation`        | 显示方向，可选值为 `vertical horizontal`        | _string_ | `horizontal` |
 
 ### 事件
 

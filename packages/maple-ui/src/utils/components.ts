@@ -5,6 +5,7 @@ import {
   Fragment,
   h,
   onActivated,
+  onBeforeUnmount,
   onDeactivated,
   ref,
   type App,
@@ -27,6 +28,7 @@ import {
 } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
 import type { SafeParseReturnType, ZodType } from 'zod'
+import { createRequestGuard } from './async-request'
 
 export type ListenerProp<F> = F | F[]
 
@@ -179,39 +181,46 @@ export function isZodResult(result: unknown): result is SafeParseReturnType<any,
 }
 
 export function useValidation() {
+  const validation = createRequestGuard()
+  onBeforeUnmount(() => validation.invalidate())
   const errorMessage: Ref<string> = ref('')
 
   const validate = async (ruleOrRules: any | any[], value: any, apis?: any): Promise<boolean> => {
+    const isCurrent = validation.begin()
     const rules = normalizeToArray(ruleOrRules).filter((rule) => isZodRule(rule) || isFunction(rule))
 
     const results = await Promise.all(
       rules.map((rule) => (isZodRule(rule) ? rule.safeParseAsync(value) : rule(value, apis))),
     )
 
-    resetValidation()
-
-    return !results.some((result) => {
+    let message = ''
+    const valid = !results.some((result) => {
       if (isZodResult(result)) {
         if (result.success === false) {
-          errorMessage.value = result.error.issues[0].message
+          message = result.error.issues[0].message
           return true
         }
       } else if (result !== true) {
-        errorMessage.value = String(result)
+        message = String(result)
         return true
       }
 
       return false
     })
+    if (isCurrent()) {
+      errorMessage.value = message
+    }
+    return valid
   }
 
   const resetValidation = () => {
+    validation.invalidate()
     errorMessage.value = ''
   }
 
   const validateWithTrigger = async <T>(validateTrigger: T[], trigger: T, rules: any, value: any, apis?: any) => {
     if (validateTrigger.includes(trigger)) {
-      ;(await validate(rules, value, apis)) && (errorMessage.value = '')
+      await validate(rules, value, apis)
     }
   }
 
@@ -244,7 +253,14 @@ export function useTeleport() {
   }
 }
 
-export const createNamespace = createNamespaceFn('mp')
+export type NamespaceClass = string | null | undefined
+export interface ComponentNamespace {
+  name: string
+  n(suffix?: string): string
+  classes(...names: (NamespaceClass | [unknown, NamespaceClass, NamespaceClass?])[]): NamespaceClass[]
+}
+// Keep published SFC declarations independent of rattail's private installation path.
+export const createNamespace: (name: string) => ComponentNamespace = createNamespaceFn('mp')
 
 export function defineListenerProp<F>(fallback?: any) {
   return {
@@ -253,16 +269,14 @@ export function defineListenerProp<F>(fallback?: any) {
   }
 }
 
-export function formatElevation(elevation: number | boolean | string, defaultLevel?: number) {
-  if (elevation === false) {
+export function formatElevation(elevation: number | boolean | string | undefined, defaultLevel?: number) {
+  if (elevation === false || elevation == null) {
     return null
   }
 
-  if (elevation === true && defaultLevel) {
-    elevation = defaultLevel
-  }
-
-  return `mp-elevation--${elevation}`
+  const level = elevation === true ? (defaultLevel ?? 0) : Number(elevation)
+  const normalized = Number.isFinite(level) ? Math.min(24, Math.max(0, Math.round(level))) : (defaultLevel ?? 0)
+  return `mp-elevation--${normalized}`
 }
 
 export const MaybeVNode = defineComponent({

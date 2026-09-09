@@ -66,12 +66,12 @@ test('paper inline', async () => {
     },
   })
 
-  expect(wrapper.find('.mp--inline-flex').exists()).toBeFalsy()
+  expect(wrapper.find('.mp-paper--inline').exists()).toBeFalsy()
 
   await wrapper.setProps({
     inline: true,
   })
-  expect(wrapper.find('.mp--inline-flex').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-paper--inline').exists()).toBeTruthy()
   wrapper.unmount()
 })
 

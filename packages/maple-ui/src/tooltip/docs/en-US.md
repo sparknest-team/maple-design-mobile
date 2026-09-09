@@ -88,19 +88,19 @@ const placementOptions = [
     <mp-tooltip content="Tooltip">
       <mp-button>Default</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="primary" content="Tooltip">
+    <mp-tooltip status="primary" content="Tooltip">
       <mp-button status="primary">Primary</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="info" content="Tooltip">
+    <mp-tooltip status="info" content="Tooltip">
       <mp-button status="info">Info</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="success" content="Tooltip">
+    <mp-tooltip status="success" content="Tooltip">
       <mp-button status="success">Success</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="warning" content="Tooltip">
+    <mp-tooltip status="warning" content="Tooltip">
       <mp-button status="warning">Warning</mp-button>
     </mp-tooltip>
-    <mp-tooltip type="danger" content="Tooltip">
+    <mp-tooltip status="danger" content="Tooltip">
       <mp-button status="danger">Danger</mp-button>
     </mp-tooltip>
   </mp-space>
@@ -183,13 +183,13 @@ In the `disabled` state, the tooltip will not be opened.
 | `content` | Display content | _string_              | `-`       |
 | `color`          | Tooltip background color                                                            | _string_  | `-`       |
 | `text-color`  ***3.5.0***   | Tooltip text color                                                                  | _string_  | `-`       |
-| `type`           | Tooltip type, can be set to `default` `primary` `info` `success` `warning` `danger` | _string_  | `default` |
+| `status`           | Tooltip type, can be set to `default` `primary` `info` `success` `warning` `danger` | _string_  | `default` |
 | `placement` | Tooltip popup placement                                        | _Placement_          | `bottom`     |
 | `strategy`       | Tooltip position strategy, optional value is `absolute` `fixed` | _string_              | `absolute`           |
 | `offset-x` | The x-axis offset, relative to the tooltip-aligned position    | _number \| string_   | `0` |
 | `offset-y` | The y-axis offset, relative to the tooltip-aligned position    | _number \| string_   | `0` |
 | `popup-container` | The location of the tooltip mount                                                     | _TeleportProps['to'] \| false_ | `body`    |
-| `same-width`    | Whether to same width as trigger element                   | _boolean_ | `false`           |
+| `auto-fit-popup-width`    | Whether to same width as trigger element                   | _boolean_ | `false`           |
 | `disabled` | Whether to disable the tooltip                                                      | _boolean_            | `false`   |
 | `trigger` | Tooltip trigger method, optional value is `click` `hover` `manual` | _string_  | `hover`   |
 | `reference` | The trigger element associated with the tooltip, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node | _string \| HTMLElement_ | `-` |
@@ -263,3 +263,16 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--tooltip-success-text-color` | `var(--color-white)` |
 | `--tooltip-warning-text-color` | `var(--color-white)` |
 | `--tooltip-danger-text-color` | `var(--color-white)` |
+
+## Foundation contract alignment
+
+`open` is controlled; use `default-open` for an initially open uncontrolled popup, or accept updates through `v-model:open`. SVG icons and fragment component roots work directly as trigger elements. Only the state and reference foundations are aligned in this batch; positioning and full API alignment remain pending.
+
+`unmountOnClose` defaults to false to retain hidden content. Set it to true to unmount after leave completes.
+
+## Shared component body
+
+Tooltip/Popover use independent copies of the same component body. Trigger owns controlled/uncontrolled state and lifecycle; update:open precedes open-change, actual changes emit open/close, and transition completion emits opened/closed. Initial open also emits open once. Interaction/render props and open/close/resize/allowClose/getReference/setReference/focusReference are forwarded explicitly. setReference() restores the slot reference.
+
+Platform defaults remain unchanged. Maple uses bottom placement, zero delay, no arrow and retained content; Tooltip defaults to hover and Popover to click. Cedar uses top, hover, 100 ms delay, arrows and unmounting. Pass explicit props when matching behavior is required.
+Tooltip supports backgroundColor (color remains compatible), textColor and xs. Content owns role="tooltip".

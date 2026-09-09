@@ -1,4 +1,6 @@
 export default {
+  hoverable: 'Hover Background',
+  keyboardFocus: 'Focus with Tab',
   basic: 'Basic Usage',
   semanticStatus: 'Semantic Status',
   defaultLink: 'Default Link',

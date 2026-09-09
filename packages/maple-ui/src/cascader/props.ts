@@ -4,6 +4,7 @@ import { pickerProps } from '../picker'
 import { popupProps } from '../popup'
 import { pickProps } from '../utils/components'
 import { type FieldNames } from '../utils/options'
+import { popupContainerProp } from '../utils/popup-container'
 
 export type CascaderPresentation = 'menu' | 'picker' | 'list'
 
@@ -17,6 +18,7 @@ export interface CascaderOption {
 }
 
 export const props = {
+  popupContainer: popupContainerProp,
   modelValue: {
     type: [String, Number, Boolean, Array] as PropType<any>,
     default: undefined,
@@ -64,7 +66,7 @@ export const props = {
     default: () => ({}),
   },
   popupProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>>>,
+    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>> & { cover?: boolean }>,
     default: () => ({}),
   },
   loading: Boolean,
@@ -81,4 +83,4 @@ export const props = {
   ]),
 }
 
-export type CascaderProps = ExtractPropTypes<typeof props>
+export type CascaderProps = import('vue').ExtractPublicPropTypes<typeof props>

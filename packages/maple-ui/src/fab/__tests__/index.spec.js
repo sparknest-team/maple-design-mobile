@@ -1,5 +1,5 @@
 import { createApp, Fragment, h } from 'vue'
-import { mount } from '@vue/test-utils'
+import { DOMWrapper, mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Fab from '..'
 import { delay, mockStubs, trigger, triggerDrag } from '../../utils/test'
@@ -291,7 +291,8 @@ test('fab events and fragment default slots and click outside close', async () =
 
   const button = container.querySelector('.mp-button')
   expect(container.innerHTML).toMatchSnapshot()
-  await trigger(button, 'click')
+  // Test Utils timestamps synthetic clicks after Vue's listener attachment tick.
+  await new DOMWrapper(button).trigger('click')
 
   expect(onOpen).toBeCalledTimes(1)
   expect(onUpdateActive).toBeCalledWith(true)

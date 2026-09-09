@@ -8,6 +8,7 @@ withPropsDefaultsSetter(Signature, signatureProps)
 export { signatureProps }
 
 export type SignatureInstance = InstanceType<typeof Signature>
-export const _SignatureComponent = Signature
+export const _SignatureComponent: typeof Signature = Signature
 
 export default Signature
+export type SignatureProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

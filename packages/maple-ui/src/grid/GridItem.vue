@@ -1,99 +1,44 @@
-<script lang="ts" setup>
-import { computed, inject, onUnmounted, ref, toRefs, watchEffect } from 'vue'
+<script setup lang="ts">
+import { computed, inject, onBeforeUnmount, onUpdated, ref } from 'vue'
 import { createNamespace } from '../utils/components'
-import { GRID_CONTEXT_KEY, GRID_DATA_COLLECTOR_KEY } from './context'
-import { useIndex } from './hook/use-index'
+import { GRID_CONTEXT_KEY } from './context'
 import { useResponsiveState } from './hook/use-responsive-state'
 import { gridItemProps } from './item-props'
 import { resolveItemData } from './utils'
 
-defineOptions({
-  name: createNamespace('grid-item').name,
-})
-
-const { n } = createNamespace('grid-item')
-
+defineOptions({ name: createNamespace('grid-item').name })
 const props = defineProps(gridItemProps)
-
-const domRef = ref<HTMLElement>()
-const { computedIndex } = useIndex({
-  itemRef: domRef,
-  selector: `.${n()}`,
-})
-
-const gridContext = inject(GRID_CONTEXT_KEY, {
-  overflow: false,
-  displayIndexList: [],
-  cols: 24,
-  colGap: 0,
-})
-const gridDataCollector = inject(GRID_DATA_COLLECTOR_KEY)
-
-const visible = computed(() => gridContext?.displayIndexList?.includes(computedIndex.value))
-const { span: propSpan, offset: propOffset } = toRefs(props)
-const rSpan = useResponsiveState(propSpan, 1)
-const rOffset = useResponsiveState(propOffset, 0)
-
-const itemData = computed(() =>
-  resolveItemData(gridContext.cols, {
-    ...props,
-    span: rSpan.value,
-    offset: rOffset.value,
-  }),
+const { n } = createNamespace('grid-item')
+const grid = inject(GRID_CONTEXT_KEY, undefined)
+const element = ref<HTMLElement>()
+const id = Symbol('grid-item')
+const span = useResponsiveState(
+  computed(() => props.span),
+  1,
 )
-
-const offsetStyle = computed(() => {
-  const { offset, span } = itemData.value
-  const { colGap } = gridContext
-  if (offset > 0) {
-    const oneSpan = `(100% - ${colGap * (span - 1)}px) / ${span}`
-    return {
-      'margin-left': `calc((${oneSpan} * ${offset}) + ${colGap * offset}px)`,
-    }
-  }
-  return {}
-})
-
-const columnStart = computed(() => {
-  const { suffix, span } = itemData.value
-  const { cols } = gridContext
-  if (suffix) {
-    return `${cols - span + 1}`
-  }
-  return `span ${span}`
-})
-
+const offset = useResponsiveState(
+  computed(() => props.offset),
+  0,
+)
+const data = computed(() =>
+  resolveItemData(grid?.cols.value ?? 24, { span: span.value, offset: offset.value, suffix: props.suffix }),
+)
+grid?.register({ id, data, element })
+onBeforeUnmount(() => grid?.remove(id))
+onUpdated(() => grid?.reorder())
+const overflow = computed(() => grid?.overflow.value ?? false)
 const style = computed(() => {
-  const { span } = itemData.value
-  if (domRef.value) {
-    return [
-      {
-        'grid-column': `${columnStart.value} / span ${span}`,
-      },
-      offsetStyle.value,
-      !visible.value || span === 0 ? { display: 'none' } : {},
-    ]
-  }
-  return []
-})
-
-const overflow = computed(() => gridContext.overflow)
-
-watchEffect(() => {
-  if (computedIndex.value !== -1) {
-    gridDataCollector?.collectItemData(computedIndex.value, itemData.value)
-  }
-})
-
-onUnmounted(() => {
-  if (computedIndex.value !== -1) {
-    gridDataCollector?.removeItemData(computedIndex.value)
+  const { span, offset, suffix } = data.value
+  const cols = grid?.cols.value ?? 24,
+    gap = grid?.colGap.value ?? 0
+  return {
+    gridColumn: span === 0 ? undefined : `${suffix ? cols - span + 1 : `span ${span}`} / span ${span}`,
+    marginLeft:
+      offset && span ? `calc(((100% - ${gap * (span - 1)}px) / ${span} * ${offset}) + ${gap * offset}px)` : undefined,
+    display: span === 0 || (grid && !grid.visible(id)) ? 'none' : undefined,
   }
 })
 </script>
-
 <template>
-  <div ref="domRef" :class="n()" :style="style">
-    <slot :overflow="overflow ?? false" />
-  </div>
+  <div ref="element" :class="n()" :style="style"><slot :overflow="overflow" /></div>
 </template>

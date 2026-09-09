@@ -1,25 +1,36 @@
 import { type PropType, type TeleportProps } from 'vue'
 import type { PositioningStrategy } from '@popperjs/core'
 import type { NeededPopperPlacement, Reference, TriggerEvent } from '../trigger'
+import { triggerProps } from '../trigger/props'
+import { popupContainerProp } from '../utils/popup-container'
 
 export type Placement = NeededPopperPlacement
 
-export type TooltipType = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
+export type TooltipStatus = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
 
 export const props = {
-  type: {
-    type: String as PropType<TooltipType>,
+  ...triggerProps,
+  backgroundColor: String,
+  xs: Boolean,
+  animationName: { type: String, default: undefined },
+  unmountOnClose: { type: Boolean, default: false },
+  status: {
+    type: String as PropType<TooltipStatus>,
     default: 'default',
   },
   color: String,
   textColor: String,
   content: String,
-  open: Boolean,
+  open: { type: Boolean, default: undefined },
+  defaultOpen: Boolean,
   disabled: Boolean,
   trigger: {
-    type: String as PropType<TriggerEvent>,
+    type: [String, Array] as PropType<TriggerEvent | TriggerEvent[]>,
     default: 'hover',
   },
+  mouseEnterDelay: { type: Number, default: 0 },
+  mouseLeaveDelay: { type: Number, default: 0 },
+  focusDelay: { type: Number, default: 0 },
   reference: [String, Object] as PropType<Reference>,
   placement: {
     type: String as PropType<Placement>,
@@ -37,14 +48,13 @@ export const props = {
     type: [Number, String],
     default: 0,
   },
-  popupContainer: {
-    type: [String, Object, Boolean] as PropType<TeleportProps['to'] | false>,
-    default: 'body',
-  },
-  sameWidth: Boolean,
+  popupContainer: popupContainerProp,
+  autoFitPopupWidth: Boolean,
   closeOnClickReference: Boolean,
   escToClose: {
     type: Boolean,
     default: true,
   },
 }
+
+export const tooltipProps = props

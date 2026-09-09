@@ -31,7 +31,7 @@ export const props = {
   },
   pickerProps: Object as PropType<Record<string, unknown>>,
   elevation: {
-    type: [Boolean, Number, String],
+    type: [Boolean, Number],
     default: false,
   },
   hint: String,

@@ -1,8 +1,9 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
-import { componentSizes, semanticStatuses, type ComponentSize, type SemanticStatus } from '../utils/constants'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { componentSizes, semanticStatuses } from '../utils/constants'
+import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
 export const badgeModes = ['floating', 'inline'] as const
-export const badgePositions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'] as const
+export const badgePositions = ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'left', 'right'] as const
 export const badgeInlinePositions = ['start', 'end'] as const
 export const badgeVariants = ['default', 'outline'] as const
 
@@ -45,7 +46,7 @@ export const badgeProps = {
   },
   status: {
     type: String as PropType<SemanticStatus>,
-    default: 'default',
+    default: 'danger',
     validator: (value: unknown): value is SemanticStatus => semanticStatuses.includes(value as SemanticStatus),
   },
   variant: {
@@ -55,4 +56,4 @@ export const badgeProps = {
   },
 }
 
-export type BadgeProps = ExtractPropTypes<typeof badgeProps>
+export type BadgeProps = ExtractPublicPropTypes<typeof badgeProps>
