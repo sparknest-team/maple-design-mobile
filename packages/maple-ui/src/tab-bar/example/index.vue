@@ -52,6 +52,11 @@ function handleChange(active) {
 function handleClick(active) {
   Message.success(`clicked ${active}`)
 }
+
+function handlePublish() {
+  Message.success(t('published'))
+  draft.value = ''
+}
 </script>
 
 <template>
@@ -250,10 +255,7 @@ function handleClick(active) {
     v-model:open="composerOpen"
     :title="t('publish')"
     :confirm-button-text="t('publish')"
-    @confirm="
-      Message.success(t('published'))
-      draft = ''
-    "
+    @confirm="handlePublish"
   >
     <p>{{ t('composerDescription') }}</p>
     <mp-textarea v-model="draft" :placeholder="t('draftPlaceholder')" :aria-label="t('draftPlaceholder')" />

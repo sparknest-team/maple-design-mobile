@@ -13,14 +13,6 @@ import messages from './messages.json'
 
 const { t, use } = createDemoMessages(messages)
 
-const { t, use } = createDemoMessages(messages)
-
-const { t, use } = createDemoMessages(messages)
-
-const { t, use } = createDemoMessages(messages)
-
-const { t, use } = createDemoMessages(messages)
-
 watchLang(use)
 onThemeChange()
 </script>

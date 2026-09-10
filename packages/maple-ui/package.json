@@ -64,11 +64,9 @@
   "scripts": {
     "typecheck": "vue-tsc -p tsconfig.declaration.json --emitDeclarationOnly false --noEmit",
     "typecheck:contracts": "tsc -p tsconfig.contracts.json",
-    "build": "pnpm build:lib",
+    "build": "pnpm build:lib && pnpm build:doc",
     "build:lib": "maple-cli compile",
-    "build:doc": "maple-cli build",
-    "build:all": "pnpm build:lib && pnpm build:doc",
-    "compile": "pnpm build:lib",
+    "build:doc": "node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build",
     "compile:style-vars": "maple-cli compile:style-vars",
     "create": "maple-cli create -i",
     "dev": "maple-cli dev",
