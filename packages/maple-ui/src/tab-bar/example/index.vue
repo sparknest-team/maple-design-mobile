@@ -1,24 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import {
-  IconBellFill as MIconBellFill,
-  IconHeartFill as MIconHeartFill,
-  IconHomeFill as MIconHomeFill,
-  IconPlus as MIconPlus,
-  IconSearch as MIconSearch,
-  IconUserCircleFill as MIconUserCircleFill,
-} from '@maplejs/icons-vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import {
-  Message,
-  Button as MpButton,
-  Dialog as MpDialog,
-  Icon as MpIcon,
-  Space as MpSpace,
-  Switch as MpSwitch,
-  Textarea as MpTextarea,
-} from '@maplejs/maple-ui'
-import { TabBar as MpTabBar, TabBarItem as MpTabBarItem } from '..'
+import { Message } from '@maplejs/maple-ui'
 import AsyncChangeDemo from './demos/async-change.vue'
 import CustomLabelDemo from './demos/custom-label.vue'
 import NumericNameDemo from './demos/numeric-name.vue'

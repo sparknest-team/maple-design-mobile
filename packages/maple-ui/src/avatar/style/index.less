@@ -1,3 +1,157 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './avatar';
-@import './avatar-group';
+@import './token.less';
+
+.mp-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(~'--mp-avatar-size-default');
+  height: var(~'--mp-avatar-size-default');
+  overflow: visible;
+  color: var(~'--mp-avatar-text-color');
+  font-size: var(~'--mp-avatar-font-size-text');
+  line-height: 1;
+  vertical-align: middle;
+  background-color: var(~'--mp-avatar-bg');
+
+  &--circle,
+  &--circle &__image,
+  &--circle &__trigger-icon-overlay {
+    border-radius: var(~'--mp-avatar-circle-border-radius');
+  }
+
+  &--square,
+  &--square &__image,
+  &--square &__trigger-icon-overlay {
+    border-radius: var(~'--mp-avatar-square-border-radius');
+  }
+
+  &--bordered {
+    border: var(~'--mp-avatar-border-width') solid var(~'--mp-avatar-border-color');
+  }
+
+  &--hoverable {
+    transition: transform var(~'--mp-avatar-motion-duration') var(~'--mp-bezier');
+
+    &:hover {
+      transform: var(~'--mp-avatar-hover-transform');
+      cursor: pointer;
+    }
+  }
+
+  &__text {
+    display: inline-block;
+    max-width: 100%;
+    padding-inline: var(~'--mp-avatar-text-padding-inline');
+    font-weight: var(~'--mp-avatar-font-weight-text');
+    white-space: nowrap;
+    transform-origin: center;
+  }
+
+  &__image {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    img,
+    picture {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__image-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__trigger-icon-button {
+    position: absolute;
+    inset-inline-end: calc(-1 * var(~'--mp-avatar-spacing-trigger-button-right'));
+    bottom: calc(-1 * var(~'--mp-avatar-spacing-trigger-button-bottom'));
+    z-index: var(~'--mp-avatar-z-index-trigger');
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(~'--mp-avatar-size-trigger-button');
+    height: var(~'--mp-avatar-size-trigger-button');
+    color: var(~'--mp-avatar-trigger-icon-button');
+    font-size: var(~'--mp-avatar-size-trigger-icon');
+    background-color: var(~'--mp-avatar-trigger-button-bg');
+    border-radius: var(~'--mp-avatar-trigger-button-border-radius');
+    transition: background-color var(~'--mp-avatar-motion-duration') var(~'--mp-bezier');
+  }
+
+  &__trigger-icon-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: var(~'--mp-avatar-z-index-overlay');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(~'--mp-avatar-trigger-overlay-icon');
+    font-size: var(~'--mp-avatar-trigger-overlay-font-size');
+    background-color: var(~'--mp-avatar-trigger-overlay-bg');
+    opacity: 0;
+    transition: opacity var(~'--mp-avatar-motion-duration') var(~'--mp-bezier');
+  }
+
+  &--with-trigger {
+    cursor: pointer;
+  }
+
+  &--with-trigger:hover &__trigger-icon-overlay {
+    z-index: var(~'--mp-avatar-z-index-overlay-hover');
+    opacity: 1;
+  }
+
+  &--with-trigger:hover &__trigger-icon-button {
+    background-color: var(~'--mp-avatar-trigger-button-bg-hover');
+  }
+}
+
+.mp-avatar-group {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+
+  > .mp-avatar,
+  > .mp-popover > .mp-avatar {
+    border: var(~'--mp-avatar-group-item-border-width') solid var(~'--mp-avatar-group-item-border');
+  }
+
+  > :not(:first-child) {
+    margin-inline-start: var(~'--mp-avatar-group-offset');
+  }
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > :not(:first-child) {
+      margin-inline-start: 0;
+      margin-block-start: var(~'--mp-avatar-group-offset');
+    }
+  }
+
+  &__max-count-avatar {
+    color: var(~'--mp-avatar-max-count-text-color');
+    font-size: var(~'--mp-avatar-font-size-max-count');
+    cursor: default;
+  }
+
+  &__popover {
+    display: flex;
+    gap: var(~'--mp-avatar-group-popover-item-spacing');
+  }
+}

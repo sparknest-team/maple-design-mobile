@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { TabBar as MpTabBar, TabBarItem as MpTabBarItem } from '../..'
 import { t } from '../locale'
 
 const active = ref('home')

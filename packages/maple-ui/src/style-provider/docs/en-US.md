@@ -1,67 +1,43 @@
-# Style Provider
+# StyleProvider
 
-### Intro
+Independent source copies in Cedar and Maple use identical behavior, installation and defaults.
 
-Style variables can be easily mounted through the StyleProvider component. The component provides two calling methods: `component calling` and `functional calling`.
+## Local variables
 
-### Component Call
+Use `<mp-style-provider :style-vars="vars" tag="section">`. Variables follow DOM inheritance; nested providers override ancestors. Passing null clears only the local override. Content moved outside the provider by popupContainer does not inherit its variables. Local providers never change the document theme.
 
-Component calls can have a scope of custom component styles, Scope contamination is avoided.
-Note that some elements sent outside the StyleProvider using the `popupContainer` will not work.
+## Global variables
 
-```html
-<script setup>
-import { ref, reactive } from 'vue'
-
-const state = reactive({
-  score: 5,
-  license: true,
-})
-
-const successTheme = {
-  '--rate-primary-color': 'var(--color-success)',
-  '--button-primary-color': 'var(--color-success)',
-  '--switch-handle-active-background': 'var(--color-success)',
-  '--switch-track-active-background': 'var(--color-success)',
-}
-
-const styleVars = ref(null)
-
-function toggleTheme() {
-  styleVars.value = styleVars.value ? null : successTheme
-}
-</script>
-
-<template>
-  <mp-style-provider :style-vars="styleVars">
-    <mp-rate v-model="state.score" />
-    <mp-switch v-model="state.license" />
-    <mp-button 
-      style="margin-top: 10px" status="primary"
-      block
-      @click="toggleTheme"
-    >
-      Toggle Theme
-    </mp-button>
-  </mp-style-provider>
-</template>
+```ts
+import { StyleProvider, Themes } from '@maplejs/maple-ui'
+StyleProvider.setStyleVars(Themes.dark)
+StyleProvider.setStyleVars({ '--mp-color-scheme': 'light' })
+StyleProvider.setStyleVars(null)
 ```
 
-### Function Call
+Calls replace previous overrides rather than merge. Unchanged baseline values are omitted. Dark sets html[maple-theme="dark"]; light removes the attribute. Without color-scheme the current attribute is preserved. Null removes only Maple's style and theme attribute. Global calls are no-ops during SSR.
+Keys accept full CSS names or camelCase (mpColorScheme); the library prefix is not automatically added. Values are strings; dimensions need explicit units.
 
-A functional call is to update variables directly on `:root`, which is suitable for situations where a global update style is required. Details see [Theme Customization](#/en-US/themes).
+## Installation and defaults
+
+```ts
+app.use(StyleProvider)
+StyleProvider.setPropsDefaults({
+  tag: 'section',
+  styleVars: () => ({ '--mp-demo-color': 'teal' }),
+})
+```
+
+Configure defaults through this single component entry before mounting; existing instances are not updated. Explicit props win. Variable objects are copied per instance; factories and null are also supported. Each library owns its defaults.
+Installation registers MpStyleProvider without changing application configuration. Use app.component for custom aliases.
 
 ## API
 
-### Props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| style-vars | Local CSS variables; null clears local overrides | `Record<string, string> \| null` | `{}` |
+| tag | Wrapper tag | `string` | `div` |
 
-| Prop         | Description   | Type                     | Default | 
-|--------------|---------------|--------------------------|---------| 
-| `style-vars` | CSS variables | _Record<string, string>_ | `{}`    |
-| `tag`        | Tag name      | _string_                 | `div`   |
-
-### Slots
-
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Component content | `-` |
+The default slot holds content. No events or component-specific tokens.
+Exported types: StyleVars, StyleProviderProps, StyleProviderDefaults, StyleProviderInstance.
+StyleProvider is the only public component entry. Runtime exports also include styleProviderProps and the resolver-only _StyleProviderComponent.

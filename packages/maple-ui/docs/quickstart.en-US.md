@@ -114,6 +114,27 @@ createApp(App).use(Maple).mount('#app')
 
 Standalone SVG icons are not globally registered by the UI package. Import them explicitly or use `MapleResolver()`.
 
+### Set Global Component Defaults
+
+Every component provides `setPropsDefaults` for changing the defaults of declarative instances created afterward. Call it before mounting the application:
+
+```ts
+import { Button, StyleProvider } from '@maplejs/maple-ui'
+
+Button.setPropsDefaults({
+  status: 'primary',
+  variant: 'tonal',
+  size: 'lg',
+})
+
+// Other components use the same API
+StyleProvider.setPropsDefaults({
+  tag: 'section',
+})
+```
+
+Explicit component props take precedence. Existing mounted instances are not updated; object and array defaults are copied per instance.
+
 ### TypeScript
 
 ```json

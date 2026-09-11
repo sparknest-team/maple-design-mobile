@@ -6,7 +6,7 @@ The labels mean: Same source (verified copies), Same source (planned copies), Ad
 
 审计日期：2026-09-08。基于当前工作区源码（包含正在进行的 API 对齐改动），不是发布版本保证。标记规则更新：2026-09-08；已完成原待同源 11 组组件及 Link / Paper 的独立复制与双端验证；待适配和逻辑待同源仍为候选。
 
-已同源 24 组；待同源 0 组；待适配 25 组；逻辑待同源 21 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
+已同源 26 组；待同源 0 组；待适配 23 组；逻辑待同源 21 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
 
 ## 菜单标记
 
@@ -47,7 +47,7 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | steps | steps | 已同源 | 2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。Steps 和 Step 的主体、Props、上下文协议与样式同源复制；注入 Symbol 分别定义在各库，不跨库共享。保留四种 type 和原有状态/事件契约。 |
 | page-header | page-header | 已同源 | 2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。返回按钮统一使用原生 button，支持键盘触发并派发 back(MouseEvent)。Cedar 内部类名由 c-page-header-xxx 调整为 c-page-header__xxx；图标资源仍由本库提供。 |
 | icon | icon | 已同源 | 2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。只解析本应用已注册的图标；连续切换 name 会取消过期定时器，卸载后不再执行切换。各库注册前缀和历史 spin 类由本地适配保留，图标资源不跨库引用。 |
-| avatar | avatar | 待适配 | 主组件/Group Props 同名，但图片加载分支、缩放和分组索引实现不同；统一缓存图片 load/error 及分组折叠行为。 |
+| avatar | avatar | 已同源 | 2026-09-11 完成独立源码复制；Avatar/AvatarGroup 主体、Props、图片 load/error、文字缩放与分组折叠纳入一致性检查。size 支持 CSS 长度；ObjectFit 更名为 AvatarObjectFit。图标、Popover、安装入口与 token 前缀由各库适配。 |
 | button | button | 已同源 | 共同契约补齐后选择 Maple：Button/ButtonGroup、Props、交互逻辑、样式和 12 组 demo 已复制对齐并纳入检查；注册入口和命名空间各自保留。竞赛证据见 button-race.json。 |
 | breadcrumb | breadcrumb | 已同源 | 2026-09-08 完成 Breadcrumb / BreadcrumbItem 独立源码复制；主体、Props、上下文、类型、关键样式及配对测试纳入一致性检查。双端组件测试与 SSR 通过；图标、安装入口、Menu 和主题 token 本地适配。统一非空 routes 优先、分隔符优先级与 select(route, event)，修复空 routes 和省略项菜单行为。 |
 | collapse | collapse | 待适配 | Maple 多 elevation；可作为主题扩展，需统一展开/分页状态、子项事件及受控默认值行为。 |
@@ -76,7 +76,7 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | image | image | 待适配 | Image/Preview/PreviewGroup Props 同名且已有配对契约基础；同源对齐加载和预览控制器，工具栏、键鼠缩放、触控缩放及弹层生命周期要逐项验证。 |
 | overlay | overlay | 待适配 | Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。 |
 | dialog | dialog | 待适配 | Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。 |
-| style-provider | style-provider | 待适配 | 主 Props 同名；主题 token 名称、默认配置及包内全局状态必须通过适配注入，避免跨库共享响应式单例。 |
+| style-provider | style-provider | 已同源 | 主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。 |
 | select | select | 逻辑待同源 | PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。 |
 | cascader | cascader | 逻辑待同源 | PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。 |
 | auto-complete | auto-complete | 逻辑待同源 | PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。 |
@@ -88,7 +88,7 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | date-range-picker | date-range-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
 | time-picker | time-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
 | time-range-picker | time-range-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
-| menu | menu | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
+| dropdown-menu | dropdown-menu | Same source (verified) | 2026-09-11 independently copied from Cedar DropdownMenu: selection/level/keyboard/options and the shared renderer stay aligned; platform differences live in platform.ts. Command menus are single-select only; every submenu level shares submenu-trigger and defaults to click on mobile. The old Menu / MenuGroup / MenuSubmenu components are removed with no aliases. |
 | popover | popover | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
 | tooltip | tooltip | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
 | trigger | trigger | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
@@ -173,7 +173,7 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | linkProps | 9 / 9 | — | — |
 | listProps | 8 / 5 | `maxHeight`, `scrollbar`, `virtualListProps` | — |
 | loadingProps | 8 / 6 | `dot`, `hideIcon` | — |
-| menuProps | 18 / 25 | — | `closeOnClickReference`, `elevation`, `mouseEnterDelay`, `mouseLeaveDelay`, `reference`, `size`, `strategy` |
+| dropdownMenuProps | 25 / 25 | — | — |
 | messageProps | 7 / 18 | `closeButtonAriaLabel`, `resetOnHover`, `resetOnUpdate` | `_update`, `content`, `contentClass`, `elevation`, `forbidClick`, `loadingColor`, `loadingRadius`, `loadingSize`, `loadingType`, `lockScroll`, `open`, `popupContainer`, `position`, `vertical` |
 | overlayProps | 8 / 8 | — | — |
 | pageHeaderProps | 4 / 4 | — | — |
@@ -219,4 +219,4 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 
 ## 仅 Maple 根入口存在的 Props 导出
 
-`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `fieldDecoratorProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `menuGroupProps`, `menuOptionProps`, `noticeBarProps`, `numberKeyboardProps`, `optionProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `searchProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`, `tabItemProps`, `tabProps`, `tabsItemsProps`
+`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `fieldDecoratorProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `menuOptionProps`, `noticeBarProps`, `numberKeyboardProps`, `optionProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `searchProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`, `tabItemProps`, `tabProps`, `tabsItemsProps`

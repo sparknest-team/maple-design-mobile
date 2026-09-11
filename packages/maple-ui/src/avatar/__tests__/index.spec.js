@@ -1,10 +1,8 @@
 import { Fragment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import AvatarGroup from '../../avatar/AvatarGroup.vue'
-import { props as avatarGroupProps } from '../../avatar/group-props'
-import Avatar from '../Avatar.vue'
-import { props as avatarProps, avatarTriggerTypes } from '../props'
+import { Avatar, AvatarGroup, avatarGroupProps, avatarProps } from '../index'
+import { avatarTriggerTypes } from '../props'
 
 const avatarPropNames = [
   'shape',
@@ -84,9 +82,10 @@ describe('Avatar', () => {
       slots: { 'trigger-icon': 'edit' },
     })
     expect(wrapper.find('.mp-avatar__trigger-icon-overlay').exists()).toBe(true)
+    expect(wrapper.classes()).toContain('mp-avatar--with-trigger')
   })
 
-  test('applies color, bordered and lazy', () => {
+  test('applies color, bordered, css size and lazy', () => {
     const wrapper = mount(Avatar, {
       props: {
         color: '#00bebe',
@@ -95,6 +94,7 @@ describe('Avatar', () => {
         imageUrl: '/avatar.png',
         lazy: true,
         hoverable: true,
+        size: '3rem',
       },
     })
 
@@ -102,6 +102,8 @@ describe('Avatar', () => {
     expect(wrapper.classes()).toContain('mp-avatar--hoverable')
     expect(wrapper.attributes('style')).toContain('background-color')
     expect(wrapper.attributes('style')).toContain('border-color')
+    expect(wrapper.attributes('style')).toContain('width: 3rem')
+    expect(wrapper.get('img').attributes('loading')).toBe('lazy')
   })
 })
 
@@ -121,9 +123,10 @@ describe('AvatarGroup', () => {
     const wrapper = mount(AvatarGroup, {
       props: { maxCount: 2 },
       slots: { default: avatars },
-      global: { stubs: { MpPopover: { template: '<div><slot /></div>' } } },
+      global: { stubs: { MpPopover: { template: '<div class="mp-popover"><slot /></div>' } } },
     })
     expect(wrapper.text()).toContain('+2')
+    expect(wrapper.findAll('.mp-avatar')).toHaveLength(3)
   })
 
   test('stacks vertically and applies offset', () => {

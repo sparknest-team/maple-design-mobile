@@ -25,6 +25,7 @@ import DateRange from './date-range'
 import Dialog from './dialog'
 import Divider from './divider'
 import Drag from './drag'
+import DropdownMenu from './dropdown-menu'
 import Ellipsis from './ellipsis'
 import Empty from './empty'
 import Fab from './fab'
@@ -48,7 +49,6 @@ import Loading from './loading'
 import LoadingBar from './loading-bar'
 import Locale from './locale'
 import LocaleProvider from './locale-provider'
-import Menu from './menu'
 import Message from './message'
 import NoticeBar from './notice-bar'
 import NumberKeyboard from './number-keyboard'
@@ -123,6 +123,7 @@ function install(app: App) {
     Dialog,
     Divider,
     Drag,
+    DropdownMenu,
     Ellipsis,
     Empty,
     Fab,
@@ -146,7 +147,6 @@ function install(app: App) {
     LoadingBar,
     Locale,
     LocaleProvider,
-    Menu,
     Message,
     NoticeBar,
     NumberKeyboard,
@@ -226,6 +226,7 @@ export {
   Dialog,
   Divider,
   Drag,
+  DropdownMenu,
   Ellipsis,
   Empty,
   Fab,
@@ -249,7 +250,6 @@ export {
   LoadingBar,
   Locale,
   LocaleProvider,
-  Menu,
   Message,
   NoticeBar,
   NumberKeyboard,
@@ -324,6 +324,7 @@ export interface MapleLibrary {
   Dialog: typeof Dialog
   Divider: typeof Divider
   Drag: typeof Drag
+  DropdownMenu: typeof DropdownMenu
   Ellipsis: typeof Ellipsis
   Empty: typeof Empty
   Fab: typeof Fab
@@ -347,7 +348,6 @@ export interface MapleLibrary {
   LoadingBar: typeof LoadingBar
   Locale: typeof Locale
   LocaleProvider: typeof LocaleProvider
-  Menu: typeof Menu
   Message: typeof Message
   NoticeBar: typeof NoticeBar
   NumberKeyboard: typeof NumberKeyboard
@@ -421,6 +421,7 @@ const library: MapleLibrary = {
   Dialog,
   Divider,
   Drag,
+  DropdownMenu,
   Ellipsis,
   Empty,
   Fab,
@@ -444,7 +445,6 @@ const library: MapleLibrary = {
   LoadingBar,
   Locale,
   LocaleProvider,
-  Menu,
   Message,
   NoticeBar,
   NumberKeyboard,

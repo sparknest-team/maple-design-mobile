@@ -116,12 +116,12 @@ export function installMapleUI() {
   const theme = parent.document.documentElement.getAttribute('theme')
 
   if (theme) {
-    MapleUI.StyleProvider(themeMap[theme])
+    MapleUI.StyleProvider.setStyleVars(themeMap[theme])
   }
 
   window.addEventListener('message', ({ data }) => {
     if (data.action === 'theme-change') {
-      MapleUI.StyleProvider(themeMap[data.value])
+      MapleUI.StyleProvider.setStyleVars(themeMap[data.value])
     }
   })
 

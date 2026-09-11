@@ -75,9 +75,9 @@
     "reason": "2026-09-08 完成独立源码复制；主体、Props、关键样式和配对测试纳入一致性检查，双端组件测试及 SSR 通过。只解析本应用已注册的图标；连续切换 name 会取消过期定时器，卸载后不再执行切换。各库注册前缀和历史 spin 类由本地适配保留，图标资源不跨库引用。"
   },
   "avatar": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "主组件/Group Props 同名，但图片加载分支、缩放和分组索引实现不同；统一缓存图片 load/error 及分组折叠行为。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-11 完成独立源码复制；Avatar/AvatarGroup 主体、Props、图片 load/error、文字缩放与分组折叠纳入一致性检查。size 支持 CSS 长度；ObjectFit 更名为 AvatarObjectFit。图标、Popover、安装入口与 token 前缀由各库适配。"
   },
   "button": {
     "label": "已同源",
@@ -220,9 +220,9 @@
     "reason": "Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。"
   },
   "style-provider": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "主 Props 同名；主题 token 名称、默认配置及包内全局状态必须通过适配注入，避免跨库共享响应式单例。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。"
   },
   "select": {
     "label": "逻辑待同源",
@@ -279,10 +279,10 @@
     "en": "Logic copies (planned)",
     "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
   },
-  "menu": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+  "dropdown-menu": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。"
   },
   "popover": {
     "label": "逻辑待同源",

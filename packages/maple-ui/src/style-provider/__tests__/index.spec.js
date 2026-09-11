@@ -3,20 +3,14 @@ import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import { delay } from '../../utils/test'
 import StyleProvider from '../index'
-import VarStyleProvider from '../StyleProvider'
 
 test('styleProvider component plugin', () => {
   const app = createApp({}).use(StyleProvider)
-  expect(app.component(StyleProvider.Component.name)).toBeTruthy()
-})
-
-test('styleProvider plugin', () => {
-  const app = createApp({}).use(VarStyleProvider)
-  expect(app.component(VarStyleProvider.name)).toBeTruthy()
+  expect(app.component(StyleProvider.name)).toBeTruthy()
 })
 
 test('styleProvider functional', async () => {
-  StyleProvider({
+  StyleProvider.setStyleVars({
     '--mp-cell-font-size': '30px',
   })
 
@@ -29,7 +23,7 @@ test('styleProvider functional omits unchanged vars', async () => {
   baseline.textContent = ':root { --mp-diff-same: 1px; --mp-diff-other: 2px; }'
   document.head.appendChild(baseline)
 
-  StyleProvider({
+  StyleProvider.setStyleVars({
     '--mp-diff-same': '1px',
     '--mp-diff-changed': '3px',
   })
@@ -42,12 +36,12 @@ test('styleProvider functional omits unchanged vars', async () => {
   expect(injected.textContent).toContain('--mp-diff-changed:3px')
   expect(getComputedStyle(document.documentElement).getPropertyValue('--mp-diff-changed').trim()).toBe('3px')
 
-  StyleProvider(null)
+  StyleProvider.setStyleVars(null)
   baseline.remove()
 })
 
 test('styleProvider component', async () => {
-  const wrapper = mount(VarStyleProvider)
+  const wrapper = mount(StyleProvider)
 
   const el = wrapper.find('.mp-style-provider')
   expect(el.exists()).toBe(true)
@@ -64,7 +58,7 @@ test('styleProvider component', async () => {
 })
 
 test('styleProvider tag', () => {
-  const wrapper = mount(VarStyleProvider, { props: { tag: 'span' } })
+  const wrapper = mount(StyleProvider, { props: { tag: 'span' } })
   expect(wrapper.html()).toMatchSnapshot()
 
   wrapper.unmount()

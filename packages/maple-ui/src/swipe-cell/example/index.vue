@@ -18,19 +18,3 @@
     </mp-swipe-cell>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import SwipeCell from '..'
-import Button from '../../button'
-import Cell from '../../cell'
-
-export default defineComponent({
-  name: 'SwipeCellExample',
-  components: {
-    [Button.name]: Button,
-    [Cell.name]: Cell,
-    [SwipeCell.name]: SwipeCell,
-  },
-})
-</script>

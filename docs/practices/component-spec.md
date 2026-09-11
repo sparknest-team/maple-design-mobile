@@ -111,7 +111,7 @@ n('$--box')   // 'mp--box'            ← 全局共享类
 
 - 组件文件：PascalCase（`Space.tsx`、`Button.vue`、`TabBar.vue`）
 - 样式文件：放在 `style/` 下；实现文件**只用 kebab-case**（如 `field-decorator.less`、`hover-overlay.less`）；`index.less` 聚合，`token.less` 声明组件 CSS 变量
-- 示例文件：`example/index.vue`
+- 示例文件：`example/index.vue`。模板里的 `mp-*` / `m-icon-*` / 指令（`v-ripple`、`v-lazy`、`v-mp-loading`）禁止手动 `import` 组件或指令，由文档站 `MapleResolver` 解析。脚本里只允许函数式 API（`Message`、`Dialog`、`Picker`、`ActionSheet`、`LoadingBar`、`imagePreview`、`Locale`）以及 `Form.useForm` 这类组合式入口；类型可用 `import type`
 - 测试文件：`__tests__/index.spec.js`
 - 类型名：标准 PascalCase（`SpaceSize`、`ButtonVariant`，**不是** `Spacesize`）
 
@@ -319,6 +319,7 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 - ❌ 将 `click` / `change` / `open` / `update:*` 等普通事件声明为 `onXxx` prop
 - ❌ 同一事件同时通过 props 回调和 `emit` 分发
 - ❌ 残留 `console.log`
+- ❌ 示例里 `import { Button } from '@maplejs/maple-ui'` 或 `import Button from '../../button'` 再注册到模板（应用 resolver）
 
 ---
 

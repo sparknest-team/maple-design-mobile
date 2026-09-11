@@ -19,39 +19,19 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
-import VerificationCode from '..'
-import NumberKeyboard from '../../number-keyboard'
 
-export default defineComponent({
-  name: 'VerificationCodeExample',
-  components: {
-    [VerificationCode.name]: VerificationCode,
-    [NumberKeyboard.name]: NumberKeyboard,
-  },
-  setup() {
-    const value = ref('')
-    const maskedValue = ref('')
-    const sepValue = ref('')
-    const keyboardValue = ref('')
-    const showKeyboard = ref(false)
+const value = ref('')
+const maskedValue = ref('')
+const sepValue = ref('')
+const keyboardValue = ref('')
+const showKeyboard = ref(false)
 
-    function handleFinish(code) {
-      Message.success(`输入完成：${code}`)
-    }
-
-    return {
-      value,
-      maskedValue,
-      sepValue,
-      keyboardValue,
-      showKeyboard,
-      handleFinish,
-    }
-  },
-})
+function handleFinish(code) {
+  Message.success(`输入完成：${code}`)
+}
 </script>
 
 <style>

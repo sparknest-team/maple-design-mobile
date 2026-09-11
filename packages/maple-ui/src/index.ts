@@ -28,6 +28,7 @@ export {
   Dialog,
   Divider,
   Drag,
+  DropdownMenu,
   Ellipsis,
   Empty,
   Fab,
@@ -51,7 +52,6 @@ export {
   LoadingBar,
   Locale,
   LocaleProvider,
-  Menu,
   Message,
   NoticeBar,
   NumberKeyboard,
@@ -121,6 +121,7 @@ export { _DateComponent, _DatePickerComponent } from './date'
 export { _DateRangeComponent, _DateRangePickerComponent } from './date-range'
 export { _DialogComponent } from './dialog'
 export { _DividerComponent } from './divider'
+export { _DropdownMenuComponent, _MenuOptionComponent } from './dropdown-menu'
 export { _DragComponent } from './drag'
 export { _EllipsisComponent } from './ellipsis'
 export { _EmptyComponent } from './empty'
@@ -145,7 +146,6 @@ export { _LoadingComponent } from './loading'
 export { _LoadingBarComponent } from './loading-bar'
 export { _LocaleComponent } from './locale'
 export { _LocaleProviderComponent } from './locale-provider'
-export { _MenuComponent, _MenuOptionComponent, _MenuGroupComponent, _MenuSubmenuComponent } from './menu'
 export { _MessageComponent } from './message'
 export { _NoticeBarComponent } from './notice-bar'
 export { _NumberKeyboardComponent } from './number-keyboard'
@@ -176,7 +176,7 @@ export { _StepsComponent, _StepComponent } from './steps'
 export { _StyleProviderComponent } from './style-provider'
 export { _SwipeCellComponent } from './swipe-cell'
 export { _SwitchComponent } from './switch'
-export { _TabBarComponent, _TabBarItemComponent } from './tab-bar'
+export { TabBarItem, _TabBarComponent, _TabBarItemComponent } from './tab-bar'
 export { _TableComponent } from './table'
 export { _TabsComponent, _TabComponent, _TabItemComponent, _TabsItemsComponent } from './tabs'
 export { _TagComponent } from './tag'
@@ -217,7 +217,7 @@ export type {
   AvatarProps,
   AvatarShape,
   AvatarTriggerType,
-  ObjectFit,
+  AvatarObjectFit,
   AvatarGroupProps,
   AvatarInstance,
   AvatarGroupInstance,
@@ -337,6 +337,23 @@ export type {
   DividerSizePreset,
   DividerInstance,
 } from './divider'
+export { dropdownMenuProps, menuOptionProps } from './dropdown-menu'
+export type {
+  DropdownMenuProps,
+  DropdownMenuOption,
+  DropdownMenuFieldNames,
+  DropdownMenuPosition,
+  DropdownMenuSize,
+  DropdownMenuSubmenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuRenderContext,
+  DropdownMenuInstance,
+  MenuValue,
+  MenuOptionLabel,
+  MenuOptionLabelRender,
+  MenuOptionProps,
+  MenuOptionInstance,
+} from './dropdown-menu'
 export { dragProps } from './drag'
 export type { DragInstance, DragProps } from './drag'
 export { ellipsisProps } from './ellipsis'
@@ -402,19 +419,6 @@ export { loadingBarProps } from './loading-bar'
 export type { LoadingBarInstance, LoadingBarProps } from './loading-bar'
 export { localeProviderProps } from './locale-provider'
 export type { LocaleProviderInstance, LocaleProviderProps } from './locale-provider'
-export { menuProps, menuOptionProps, menuGroupProps, menuSubmenuProps } from './menu'
-export type {
-  MenuProps,
-  MenuOptionData,
-  MenuFieldNames,
-  MenuOptionProps,
-  MenuGroupProps,
-  MenuInstance,
-  MenuOptionInstance,
-  MenuGroupInstance,
-  MenuSubmenuInstance,
-  MenuSubmenuProps,
-} from './menu'
 export { messageProps } from './message'
 export type {
   MessageType,
@@ -522,7 +526,7 @@ export type {
   StepsContentPlacement,
 } from './steps'
 export { styleProviderProps } from './style-provider'
-export type { StyleVars, StyleProviderInstance, StyleProviderProps } from './style-provider'
+export type { StyleVars, StyleProviderInstance, StyleProviderProps, StyleProviderDefaults } from './style-provider'
 export { swipeCellProps } from './swipe-cell'
 export type {
   SwipeCellBeforeCloseArgs,

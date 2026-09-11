@@ -1,172 +1,167 @@
 <template>
   <div
-    ref="avatarElement"
+    ref="itemRef"
     :class="
       classes(
         n(),
-        n('$--box'),
         n(`--${mergedShape}`),
-        [bordered, n('--bordered')],
-        [hoverable, n('--hoverable')],
+        [props.bordered, n('--bordered')],
+        [props.hoverable, n('--hoverable')],
         [hasTriggerIcon, n('--with-trigger')],
       )
     "
     :style="outerStyle"
     @click="handleClick"
   >
-    <span ref="contentElement" :class="n(imageUrl ? 'image' : 'text')" :style="contentStyle">
-      <template v-if="imageUrl">
+    <span ref="contentRef" :class="n(showImage ? 'image' : 'text')" :style="contentStyle">
+      <template v-if="props.imageUrl">
         <slot v-if="hasError" name="error">
-          <img v-if="error" :src="error" role="img" :alt="alt" :style="imageStyle" />
-          <MIconCloseCircleFill v-else />
+          <img v-if="props.error" :src="props.error" role="img" :alt="props.alt" :style="imageStyle" />
+          <span v-else :class="n('image-icon')"><ImageErrorIcon /></span>
         </slot>
         <template v-else>
           <img
-            v-if="lazy"
-            v-lazy="imageUrl"
+            v-show="isLoaded || props.lazy"
+            :src="props.imageUrl"
             role="img"
-            :alt="alt"
-            :style="imageStyle"
-            :lazy-loading="loading"
-            :lazy-error="error"
-            @load="handleLoad"
-          />
-          <img
-            v-else
-            v-show="isLoaded"
-            role="img"
-            :src="imageUrl"
-            :alt="alt"
+            :alt="props.alt"
+            :loading="props.lazy ? 'lazy' : undefined"
             :style="imageStyle"
             @load="handleLoad"
             @error="handleError"
           />
-          <template v-if="!lazy && !isLoaded">
-            <img v-if="loading" :src="loading" role="img" :alt="alt" :style="imageStyle" />
-            <slot v-else><MIconLoading /></slot>
+          <template v-if="!isLoaded">
+            <img v-if="props.loading" :src="props.loading" role="img" :alt="props.alt" :style="imageStyle" />
+            <span v-else :class="n('image-icon')">
+              <slot><ImageLoadingIcon /></slot>
+            </span>
           </template>
         </template>
       </template>
       <slot v-else />
     </span>
-
-    <span v-if="hasTriggerIcon" :class="n(`trigger-icon-${triggerType}`)" :style="triggerIconStyle">
+    <span v-if="hasTriggerIcon" :class="n(`trigger-icon-${props.triggerType}`)" :style="mergedTriggerIconStyle">
       <slot name="trigger-icon" />
     </span>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, inject, nextTick, onMounted, onUpdated, ref, type CSSProperties } from 'vue'
-import { IconCloseCircleFill as MIconCloseCircleFill, IconLoading as MIconLoading } from '@maplejs/icons-vue'
-import Lazy, { type LazyHTMLElement } from '../lazy'
+<script lang="ts" setup>
+import { computed, inject, nextTick, onMounted, ref, useSlots, watch, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
 import { avatarGroupInjectionKey } from './context'
-import { props } from './props'
+import { ImageErrorIcon, ImageLoadingIcon, toSizeUnit, useElementResize } from './platform'
+import { avatarProps } from './props'
 
-const { name, n, classes } = createNamespace('avatar')
+defineOptions({ name: createNamespace('avatar').name })
 
-export default defineComponent({
-  name,
-  components: { MIconCloseCircleFill, MIconLoading },
-  directives: { Lazy },
-  props,
-  emits: {
-    click: (_event: MouseEvent) => true,
-    load: () => true,
-    error: () => true,
+const props = defineProps(avatarProps)
+const emit = defineEmits<{
+  click: [event: MouseEvent]
+  load: []
+  error: []
+}>()
+const slots = useSlots()
+const { n, classes } = createNamespace('avatar')
+const group = inject(avatarGroupInjectionKey, undefined)
+const itemRef = ref<HTMLElement>()
+const contentRef = ref<HTMLElement>()
+const scale = ref(1)
+const isLoaded = ref(false)
+const hasError = ref(false)
+const slottedImage = ref(false)
+
+const mergedShape = computed(() => group?.shape.value ?? props.shape)
+const mergedSize = computed(() => group?.size.value ?? props.size)
+const mergedAutoFixFontSize = computed(() => group?.autoFixFontSize.value ?? props.autoFixFontSize)
+const hasTriggerIcon = computed(() => Boolean(slots['trigger-icon']))
+const showImage = computed(() => Boolean(props.imageUrl) || slottedImage.value)
+
+const outerStyle = computed<CSSProperties>(() => {
+  const style: CSSProperties = {}
+  const size = mergedSize.value
+  if (size != null && size !== '') {
+    const unit = toSizeUnit(size)
+    style.width = unit
+    style.height = unit
+    if (typeof size === 'number' || /^-?\d+(\.\d+)?$/.test(String(size))) {
+      style.fontSize = `${Number(size) / 2}px`
+    }
+  }
+  if (props.color) {
+    style.backgroundColor = props.color
+  }
+  if (props.borderColor) {
+    style.borderColor = props.borderColor
+  }
+  return style
+})
+
+const imageStyle = computed<CSSProperties>(() => ({ objectFit: props.objectFit }))
+const contentStyle = computed<CSSProperties>(() =>
+  showImage.value || scale.value === 1 ? {} : { transform: `scale(${scale.value})` },
+)
+
+const mergedTriggerIconStyle = computed<CSSProperties>(() => {
+  const style = { ...(props.triggerIconStyle ?? {}) }
+  if (props.triggerType === 'button' && !style.color && props.color) {
+    style.color = props.color
+  }
+  return style
+})
+
+function resetImage() {
+  isLoaded.value = false
+  hasError.value = false
+}
+
+function updateScale() {
+  if (!mergedAutoFixFontSize.value || showImage.value) {
+    scale.value = 1
+    return
+  }
+  nextTick(() => {
+    const avatarWidth = itemRef.value?.offsetWidth ?? 0
+    const contentWidth = contentRef.value?.scrollWidth ?? 0
+    scale.value = avatarWidth && contentWidth > avatarWidth ? avatarWidth / (contentWidth + 8) : 1
+  })
+}
+
+function handleClick(event: MouseEvent) {
+  emit('click', event)
+}
+
+function handleLoad() {
+  isLoaded.value = true
+  hasError.value = false
+  emit('load')
+}
+
+function handleError() {
+  hasError.value = true
+  emit('error')
+}
+
+function detectSlottedImage() {
+  const child = contentRef.value?.firstElementChild
+  slottedImage.value = Boolean(child && ['IMG', 'PICTURE'].includes(child.tagName))
+}
+
+watch(
+  () => props.imageUrl,
+  () => {
+    resetImage()
+    updateScale()
   },
-  setup(props, { emit, slots }) {
-    const group = inject(avatarGroupInjectionKey, undefined)
-    const avatarElement = ref<HTMLElement | null>(null)
-    const contentElement = ref<HTMLElement | null>(null)
-    const scale = ref(1)
-    const isLoaded = ref(false)
-    const hasError = ref(false)
-
-    const mergedShape = computed(() => group?.shape.value ?? props.shape)
-    const mergedSize = computed(() => group?.size.value ?? props.size)
-    const mergedAutoFixFontSize = computed(() => group?.autoFixFontSize.value ?? props.autoFixFontSize)
-    const hasTriggerIcon = computed(() => Boolean(slots['trigger-icon']))
-    const outerStyle = computed<CSSProperties>(() => {
-      const style: CSSProperties =
-        mergedSize.value == null
-          ? {}
-          : {
-              width: `${mergedSize.value}px`,
-              height: `${mergedSize.value}px`,
-              fontSize: `${mergedSize.value / 2}px`,
-            }
-      if (props.color) {
-        style.backgroundColor = props.color
-      }
-      if (props.borderColor) {
-        style.borderColor = props.borderColor
-      }
-      return style
-    })
-    const imageStyle = computed<CSSProperties>(() => ({ objectFit: props.objectFit }))
-    const contentStyle = computed<CSSProperties>(() => (props.imageUrl ? {} : { transform: `scale(${scale.value})` }))
-
-    function updateScale() {
-      if (!mergedAutoFixFontSize.value || props.imageUrl) {
-        return
-      }
-      nextTick(() => {
-        const avatarWidth = avatarElement.value?.offsetWidth ?? 0
-        const contentWidth = contentElement.value?.scrollWidth ?? 0
-        scale.value = avatarWidth && contentWidth > avatarWidth ? avatarWidth / (contentWidth + 8) : 1
-      })
-    }
-
-    function handleClick(event: MouseEvent) {
-      emit('click', event)
-    }
-
-    function handleLoad(event: Event) {
-      if (props.lazy) {
-        const el = event.currentTarget as LazyHTMLElement
-        if (el._lazy?.state === 'success') {
-          isLoaded.value = true
-          hasError.value = false
-          emit('load')
-        }
-        if (el._lazy?.state === 'error') {
-          hasError.value = true
-          emit('error')
-        }
-        return
-      }
-
-      isLoaded.value = true
-      hasError.value = false
-      emit('load')
-    }
-
-    function handleError() {
-      hasError.value = true
-      emit('error')
-    }
-
-    onMounted(updateScale)
-    onUpdated(updateScale)
-
-    return {
-      n,
-      classes,
-      avatarElement,
-      contentElement,
-      mergedShape,
-      outerStyle,
-      contentStyle,
-      imageStyle,
-      isLoaded,
-      hasError,
-      hasTriggerIcon,
-      handleClick,
-      handleLoad,
-      handleError,
-    }
-  },
+)
+watch([mergedSize, mergedAutoFixFontSize], updateScale)
+useElementResize(
+  () => [itemRef.value],
+  () => mergedAutoFixFontSize.value && !showImage.value,
+  () => updateScale(),
+)
+onMounted(() => {
+  detectSlottedImage()
+  updateScale()
 })
 </script>

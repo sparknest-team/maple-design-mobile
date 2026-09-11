@@ -130,7 +130,7 @@ import { Message } from '@maplejs/maple-ui'
 | `separator` | Separator (overrides parent) | _string \| number_ | `-` |
 | `href` | Link URL | _string_ | `-` |
 | `droplist` | Dropdown menu items | _BreadcrumbRoute['children']_ | `-` |
-| `dropdown-props` | Props passed to Menu | _MenuProps_ | `-` |
+| `dropdown-props` | Props passed to DropdownMenu | _DropdownMenuProps_ | `-` |
 
 ### Events
 
@@ -196,7 +196,7 @@ See [Breadcrumb](#/en-US/breadcrumb).
 | `separator` | Separator (overrides parent) | _string \| number_ | `-` |
 | `href` | Link URL | _string_ | `-` |
 | `droplist` | Dropdown items | _BreadcrumbRoute[]_ | `-` |
-| `dropdown-props` | Props passed to Menu | _MenuProps_ | `-` |
+| `dropdown-props` | Props passed to DropdownMenu | _DropdownMenuProps_ | `-` |
 
 ### Events
 

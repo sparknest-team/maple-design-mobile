@@ -1,6 +1,5 @@
 <script setup>
 import Form from '..'
-import MpIcon from '../../icon'
 
 const props = defineProps({
   modelValue: Boolean,

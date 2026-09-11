@@ -1,34 +1,18 @@
-<script setup>
-import { reactive, ref } from 'vue'
-import { AppType, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-const state = reactive({
-  score: 5,
-  license: true,
-})
-
-const styleVars = ref(null)
-
-const successTheme = {
-  '--mp-rate-primary-color': 'var(--mp-color-success)',
-  '--mp-button-primary-color': 'var(--mp-color-success)',
-  '--mp-switch-handle-active-background': 'var(--mp-color-success)',
-  '--mp-switch-track-active-background': 'var(--mp-color-success)',
-}
-
-watchLang(use)
-
-function toggleTheme() {
-  styleVars.value = styleVars.value ? null : successTheme
-}
+const active = ref(true)
 </script>
 
 <template>
-  <app-type>{{ t('componentCall') }}</app-type>
-  <mp-style-provider :style-vars="styleVars">
-    <mp-rate v-model="state.score" />
-    <mp-switch v-model="state.license" />
-    <mp-button style="margin-top: 10px" status="primary" block @click="toggleTheme">{{ t('toggleTheme') }}</mp-button>
-  </mp-style-provider>
+  <div>
+    <mp-button variant="outline" @click="active = !active">切换局部变量 / Toggle local variables</mp-button>
+    <mp-style-provider tag="section" :style-vars="active ? { '--mp-demo-color': 'teal' } : null">
+      <p style="color: var(--mp-demo-color, currentColor)">局部颜色 / Local color</p>
+      <mp-style-provider :style-vars="{ '--mp-demo-color': 'coral' }">
+        <p style="color: var(--mp-demo-color)">嵌套覆盖 / Nested override</p>
+      </mp-style-provider>
+    </mp-style-provider>
+    <p>外部不受影响 / Outside remains unchanged</p>
+  </div>
 </template>

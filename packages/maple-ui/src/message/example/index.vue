@@ -1,7 +1,7 @@
 <script setup>
-import { h, onBeforeUnmount, reactive, toRefs } from 'vue'
+import { h, onBeforeUnmount, reactive, resolveComponent, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Button, Icon, Message } from '@maplejs/maple-ui'
+import { Message } from '@maplejs/maple-ui'
 import { t, use } from './locale'
 
 const shows = reactive({
@@ -57,7 +57,7 @@ function createMessage(type) {
   if (type === 'icon') {
     Message.info({
       content: t('text'),
-      icon: () => h(Icon, { name: 'heart-fill', style: { paddingRight: '12px' } }),
+      icon: () => h(resolveComponent('MIconHeart'), { style: { paddingRight: '12px' } }),
     })
   }
 
@@ -65,7 +65,11 @@ function createMessage(type) {
     const customMessage = Message({
       content: 'Hello, Maple',
       action: () =>
-        h(Button, { size: 'sm', type: 'primary', onClick: () => customMessage.close() }, { default: () => t('close') }),
+        h(
+          resolveComponent('MpButton'),
+          { size: 'sm', type: 'primary', onClick: () => customMessage.close() },
+          { default: () => t('close') },
+        ),
     })
   }
 

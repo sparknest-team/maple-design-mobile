@@ -2,7 +2,7 @@ import { createSSRApp, Fragment, h, nextTick, ref } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import Menu from '../../menu'
+import DropdownMenu from '../../dropdown-menu'
 import { Breadcrumb, BreadcrumbItem } from '../index'
 
 const routes = ['Home', 'A', 'B', 'C', 'End'].map((label, index) => ({ label, path: `/${index}` }))
@@ -86,7 +86,7 @@ describe('Breadcrumb same source', () => {
 
   test('dropdown emits the selected route and original event', () => {
     const wrapper = mount(BreadcrumbItem, { props: { droplist: routes } })
-    const menu = wrapper.findComponent(Menu)
+    const menu = wrapper.findComponent(DropdownMenu)
     const event = new MouseEvent('click')
     menu.vm.$emit('select', '/1', {}, event)
     expect(wrapper.emitted('select')).toEqual([[routes[1], event]])

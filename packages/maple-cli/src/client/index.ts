@@ -126,7 +126,7 @@ const themeMap = {
 export function setTheme(theme: Theme) {
   const siteStyleVars = withSiteConfigNamespace(config[theme] || {})
   const styleVars = { ...siteStyleVars, ...(themeMap[theme] ?? {}) }
-  StyleProvider(styleVars)
+  StyleProvider.setStyleVars(styleVars)
   setColorScheme(theme)
 }
 

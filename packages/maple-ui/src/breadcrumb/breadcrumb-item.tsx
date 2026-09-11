@@ -1,5 +1,5 @@
 import { computed, defineComponent, ref } from 'vue'
-import Menu, { MenuOption } from '../menu'
+import DropdownMenu, { MenuOption } from '../dropdown-menu'
 import { createNamespace } from '../utils/components'
 import { IconDown, IconMore } from './platform'
 import { breadcrumbItemProps } from './props'
@@ -107,7 +107,7 @@ export default defineComponent({
       slots.droplist?.() ?? props.droplist?.map((item) => <MenuOption value={item.path}>{item.label}</MenuOption>)
 
     const renderDropdown = () => (
-      <Menu
+      <DropdownMenu
         {...props.dropdownProps}
         v-slots={{ content: renderDropdownContent }}
         open={dropdownVisible.value}
@@ -120,7 +120,7 @@ export default defineComponent({
         }}
       >
         {renderItem()}
-      </Menu>
+      </DropdownMenu>
     )
 
     return () => {

@@ -1,0 +1,24 @@
+:root {
+  --mp-dropdown-menu-group-title-height: 24px;
+  --mp-dropdown-menu-group-title-padding: 8px 12px 4px;
+  --mp-dropdown-menu-group-title-font-size: var(--mp-font-size-sm);
+  --mp-dropdown-menu-group-title-text-color: var(--mp-color-text-3);
+}
+
+.mp-dropdown-menu-group {
+  &__title {
+    box-sizing: border-box;
+    height: var(--mp-dropdown-menu-group-title-height);
+    padding: var(--mp-dropdown-menu-group-title-padding);
+    color: var(--mp-dropdown-menu-group-title-text-color);
+    font-size: var(--mp-dropdown-menu-group-title-font-size);
+    line-height: var(--mp-dropdown-menu-group-title-height);
+    cursor: default;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}

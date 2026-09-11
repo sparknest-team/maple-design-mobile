@@ -6,7 +6,7 @@
     @focusin="focus"
     @click="handleClick"
   >
-    <mp-menu
+    <mp-dropdown-menu
       v-model:open="isShowMenu"
       :popup-container="popupContainer"
       :auto-fit-popup-width="true"
@@ -70,7 +70,7 @@
           />
         </div>
       </template>
-    </mp-menu>
+    </mp-dropdown-menu>
   </div>
 </template>
 
@@ -78,11 +78,11 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { call, preventDefault, raf, toNumber } from '@maplejs/maple-shared'
 import { useClickOutside, useEventListener, useVModel } from '@maplejs/maple-use'
+import MpDropdownMenu from '../dropdown-menu'
+import MpMenuOption from '../dropdown-menu/MenuOption.vue'
 import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpInput from '../input'
-import MpMenu from '../menu'
-import MpMenuOption from '../menu/MenuOption.vue'
 import { createNamespace } from '../utils/components'
 import { matchesOptionText } from '../utils/option-data'
 import { useFieldNames } from '../utils/options'
@@ -92,12 +92,12 @@ const { name, n } = createNamespace('auto-complete')
 
 type RegisteredComponents = {
   MpInput: typeof MpInput
-  MpMenu: typeof MpMenu
+  MpDropdownMenu: typeof MpDropdownMenu
   MpMenuOption: typeof MpMenuOption
 }
 const registeredComponents: RegisteredComponents = {
   MpInput,
-  MpMenu,
+  MpDropdownMenu,
   MpMenuOption,
 }
 

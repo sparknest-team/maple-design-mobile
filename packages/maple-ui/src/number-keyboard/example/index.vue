@@ -14,27 +14,11 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
-import NumberKeyboard from '..'
+<script setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'NumberKeyboardExample',
-  components: {
-    [NumberKeyboard.name]: NumberKeyboard,
-  },
-  setup() {
-    const value = ref('')
-    const open = ref(false)
-    const customValue = ref('')
-    const showCustom = ref(false)
-
-    return {
-      value,
-      open,
-      customValue,
-      showCustom,
-    }
-  },
-})
+const value = ref('')
+const open = ref(false)
+const customValue = ref('')
+const showCustom = ref(false)
 </script>

@@ -577,10 +577,10 @@
             },
             {
               "name": "size",
-              "description": "Avatar width and height in px",
-              "default": "40",
+              "description": "Width and height; numbers are px, strings are CSS lengths",
+              "default": "-",
               "value": {
-                "type": "number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
@@ -3548,6 +3548,301 @@
           ]
         },
         {
+          "name": "mp-dropdown-menu",
+          "attributes": [
+            {
+              "name": "options",
+              "description": "Command tree",
+              "default": "[]",
+              "value": {
+                "type": "DropdownMenuOption[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "`label/value/children/disabled` field mapping",
+              "default": "-",
+              "value": {
+                "type": "DropdownMenuFieldNames",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model",
+              "description": "Active value",
+              "default": "-",
+              "value": {
+                "type": "MenuValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:open",
+              "description": "Whether the popup is visible",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Uncontrolled default visibility",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Option size",
+              "default": "'md'",
+              "value": {
+                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "Root menu trigger",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "submenu-trigger",
+              "description": "How every submenu level expands",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "Popup placement",
+              "default": "'bottom'",
+              "value": {
+                "type": "DropdownMenuPosition",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "Popper positioning strategy",
+              "default": "'absolute'",
+              "value": {
+                "type": "'absolute' | 'fixed'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "reference",
+              "description": "External trigger element",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Popup mount container",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-class",
+              "description": "Popup class name",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-max-height",
+              "description": "Default limit, pixel height, or unlimited",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "Horizontal offset",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "Vertical offset",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-enter-delay",
+              "description": "Hover open delay in ms",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-leave-delay",
+              "description": "Hover close delay in ms",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-click-reference",
+              "description": "Close when the trigger is clicked again",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "Unmount popup content on close",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-select",
+              "description": "Close the popup after activating a command",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Match the trigger width",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cover",
+              "description": "Popup covers the trigger",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-point",
+              "description": "Popup follows the pointer",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disable the menu",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Popup shadow level",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "Active value update request"
+            },
+            {
+              "name": "select",
+              "description": "A menu item was activated"
+            },
+            {
+              "name": "open-change",
+              "description": "Visibility update request"
+            },
+            {
+              "name": "open / opened",
+              "description": "Popup starts opening / finished opening"
+            },
+            {
+              "name": "close / closed",
+              "description": "Popup starts closing / finished closing"
+            },
+            {
+              "name": "click-outside",
+              "description": "Clicked outside the popup"
+            },
+            {
+              "name": "key-escape",
+              "description": "Escape was pressed"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Trigger element"
+            },
+            {
+              "name": "content",
+              "description": "Hand-written content, pairs with `MenuOption`"
+            },
+            {
+              "name": "footer",
+              "description": "Footer"
+            },
+            {
+              "name": "option-label",
+              "description": "Render every option's main content"
+            },
+            {
+              "name": "option-icon",
+              "description": "Render every option's icon"
+            },
+            {
+              "name": "option-extra",
+              "description": "Render every option's trailing content"
+            }
+          ]
+        },
+        {
           "name": "mp-ellipsis",
           "attributes": [
             {
@@ -5427,257 +5722,6 @@
             {
               "name": "default",
               "description": "Component content"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "The value of the binding",
-              "default": "-",
-              "value": {
-                "type": "any | any[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:open",
-              "description": "Whether the menu is open",
-              "default": "-",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-open",
-              "description": "Whether the menu is open by default in uncontrolled mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Menu size, optional values `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "multiple",
-              "description": "Whether to select multiple",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-max-height",
-              "description": "Maximum popup height. `true` uses the default height, `false` disables the limit, a `number` is a pixel value",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "Whether to same width as trigger element",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-on-select",
-              "description": "Whether to hide the menu after a menu item is selected (the menu never closes from selection in multi-select mode)",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placement",
-              "description": "Menu popup placement",
-              "default": "bottom",
-              "value": {
-                "type": "Placement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "strategy",
-              "description": "Menu position strategy, optional value is `absolute` `fixed`",
-              "default": "absolute",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "The x-axis offset, relative to the menu-aligned position",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "The y-axis offset, relative to the menu-aligned position",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "The location of the menu mount",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable the menu",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "Menu trigger method, optional value is `click` `hover` `manual` `contextMenu`",
-              "default": "click",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align-point",
-              "description": "Whether the popup follows the mouse (used with `contextMenu`)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "The trigger element associated with the menu, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-class",
-              "description": "Class of the floating layer",
-              "default": "-",
-              "value": {
-                "type": "ClassName",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "Whether to close the menu when clicking the reference element",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "options",
-              "description": "Specifies options",
-              "default": "[]",
-              "value": {
-                "type": "MenuOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "Custom field mapping for `options`",
-              "default": "-",
-              "value": {
-                "type": "{ label?, value?, children?, disabled? }",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "Triggered when the menu is opened"
-            },
-            {
-              "name": "opened",
-              "description": "Triggered when the open menu animation ends"
-            },
-            {
-              "name": "close",
-              "description": "Triggered when the menu is closed"
-            },
-            {
-              "name": "closed",
-              "description": "Triggered when the closing menu animation ends"
-            },
-            {
-              "name": "click-outside",
-              "description": "Triggered when clicking outside the menu"
-            },
-            {
-              "name": "select",
-              "description": "Triggered when the user selects a menu item. In controlled mode, whether the selected state changes depends on whether `v-model` is updated."
-            },
-            {
-              "name": "open-change",
-              "description": "Triggered when open state changes"
-            },
-            {
-              "name": "key-escape",
-              "description": "Triggered when Escape closes the menu"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Menu select trigger element"
-            },
-            {
-              "name": "content",
-              "description": "Menu options"
-            },
-            {
-              "name": "footer",
-              "description": "Menu footer"
             }
           ]
         },

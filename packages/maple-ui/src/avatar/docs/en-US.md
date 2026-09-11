@@ -1,45 +1,68 @@
 # Avatar
 
-Displays an avatar for a person or object using an image, text, icon, or avatar group. The examples match Cedar Design Web.
+Both libraries use the same implementation and examples; package prefixes, themes and registration stay local.
 
 ## Examples
 
-### Basic Usage
+### Basic usage
 
-Avatars are circular by default. Use the default slot to show text or an icon when there is no image.
+Avatars default to a circle at the default size. Use the default slot for text or icons, or pass an image.
 
 ```html
-<mp-space align="center" :size="16">
-  <mp-avatar :size="32">C</mp-avatar>
-  <mp-avatar :size="40">CD</mp-avatar>
-  <mp-avatar :size="48" shape="square">Cedar</mp-avatar>
-  <mp-avatar :size="56" color="#00bebe">
-    <m-icon-user-circle-fill />
-  </mp-avatar>
-</mp-space>
+<template>
+  <mp-space align="center" :size="16" wrap>
+    <mp-avatar>C</mp-avatar>
+    <mp-avatar>CD</mp-avatar>
+    <mp-avatar shape="square">Cedar</mp-avatar>
+    <mp-avatar color="#00bebe">U</mp-avatar>
+    <mp-avatar image-url="/cat.jpg" alt="一只猫" />
+  </mp-space>
+</template>
 ```
 
 ### Size
 
-`size` controls the avatar width and height in px. It works for both text and image avatars.
+`size` sets width and height. Numbers are px; strings are CSS lengths such as `3rem`. Text and image avatars both use it.
 
 ```html
-<mp-space direction="column" :size="16">
-  <mp-space align="center" :size="16">
-    <mp-avatar :size="24">A</mp-avatar>
-    <mp-avatar :size="32">B</mp-avatar>
-    <mp-avatar :size="40">C</mp-avatar>
-    <mp-avatar :size="48">D</mp-avatar>
-    <mp-avatar :size="64">E</mp-avatar>
+<template>
+  <mp-space direction="column" :size="20">
+    <mp-space align="flex-end" :size="16" wrap>
+      <mp-space v-for="size in numericSizes" :key="size" direction="column" align="center" :size="8">
+        <mp-avatar :size="size">{{ labels[size] }}</mp-avatar>
+        <span class="label">{{ size }}px</span>
+      </mp-space>
+    </mp-space>
+
+    <mp-space align="flex-end" :size="16" wrap>
+      <mp-space v-for="size in imageSizes" :key="size" direction="column" align="center" :size="8">
+        <mp-avatar image-url="/cat.jpg" :alt="`${size}px`" :size="size" />
+        <span class="label">{{ size }}px</span>
+      </mp-space>
+    </mp-space>
+
+    <mp-space align="flex-end" :size="16" wrap>
+      <mp-space v-for="size in cssSizes" :key="size" direction="column" align="center" :size="8">
+        <mp-avatar :size="size">Aa</mp-avatar>
+        <span class="label">{{ size }}</span>
+      </mp-space>
+    </mp-space>
   </mp-space>
-  <mp-space align="center" :size="16">
-    <mp-avatar image-url="cat.jpg" alt="A cat" :size="28" />
-    <mp-avatar image-url="cat.jpg" alt="A cat" :size="36" />
-    <mp-avatar image-url="cat.jpg" alt="A cat" :size="48" />
-    <mp-avatar image-url="cat.jpg" alt="A cat" :size="64" />
-    <mp-avatar image-url="cat.jpg" alt="A cat" :size="78" />
-  </mp-space>
-</mp-space>
+</template>
+
+<script lang="ts" setup>
+const numericSizes = [24, 32, 40, 48, 64] as const
+const labels = { 24: 'A', 32: 'B', 40: 'C', 48: 'D', 64: 'E' } as const
+const imageSizes = [28, 36, 48, 64, 78] as const
+const cssSizes = ['3rem', '2.5em', '48px'] as const
+</script>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
 ```
 
 ### Shape
@@ -47,245 +70,420 @@ Avatars are circular by default. Use the default slot to show text or an icon wh
 `shape` supports circle and square.
 
 ```html
-<mp-space align="center" :size="16">
-  <mp-avatar>C</mp-avatar>
-  <mp-avatar shape="square">S</mp-avatar>
-  <mp-avatar image-url="cat.jpg" alt="Circle image" />
-  <mp-avatar image-url="cat.jpg" alt="Square image" shape="square" />
-</mp-space>
+<template>
+  <mp-space align="flex-end" :size="16" wrap>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar>圆</mp-avatar>
+      <span class="label">circle</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar shape="square">方</mp-avatar>
+      <span class="label">square</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/cat.jpg" alt="圆形图片" />
+      <span class="label">circle · 图片</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/cat.jpg" alt="方形图片" shape="square" />
+      <span class="label">square · 图片</span>
+    </mp-space>
+  </mp-space>
+</template>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
 ```
 
-### Auto-fit Text
+### Auto-fit text
 
-Long text is scaled to the avatar width by default. Change the input to see it update live. Set `auto-fix-font-size` to `false` to keep the original font size.
+Long text scales to the avatar width by default. Edit the input to see it; set `autoFixFontSize` to `false` to keep the original size.
 
 ```html
-<script setup>
-  import { ref } from 'vue'
-
-  const text = ref('Maple')
-</script>
-
 <template>
   <mp-space direction="column" :size="16">
-    <mp-space align="center" :size="16">
-      <mp-avatar>{{ text }}</mp-avatar>
-      <mp-avatar shape="square">{{ text }}</mp-avatar>
-      <mp-avatar :auto-fix-font-size="false">{{ text }}</mp-avatar>
+    <mp-space align="center" :size="16" wrap>
+      <mp-space direction="column" align="center" :size="8">
+        <mp-avatar>{{ text }}</mp-avatar>
+        <span class="label">圆形 · 自适应</span>
+      </mp-space>
+      <mp-space direction="column" align="center" :size="8">
+        <mp-avatar shape="square">{{ text }}</mp-avatar>
+        <span class="label">方形 · 自适应</span>
+      </mp-space>
+      <mp-space direction="column" align="center" :size="8">
+        <mp-avatar :auto-fix-font-size="false">{{ text }}</mp-avatar>
+        <span class="label">关闭自适应</span>
+      </mp-space>
     </mp-space>
-    <mp-input v-model="text" placeholder="Enter text" />
+    <mp-input v-model="text" :style="{ width: '240px' }" placeholder="输入更长的文字看缩放" clearable />
+  </mp-space>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const text = ref('Cedar')
+</script>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
+```
+
+### Image avatar
+
+Set `imageUrl` and provide `alt`. You can also put `img` / `picture` in the default slot.
+
+```html
+<template>
+  <mp-space align="center" :size="16" wrap>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/cat.jpg" alt="一只猫" />
+      <span class="label">image-url</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/cat2.jpg" alt="一只猫" :size="48" shape="square" />
+      <span class="label">方形图片</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar :size="48">
+        <img src="/cat.jpg" alt="默认插槽中的图片" />
+      </mp-avatar>
+      <span class="label">默认插槽 img</span>
+    </mp-space>
+  </mp-space>
+</template>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
+```
+
+### Image fit
+
+`objectFit` controls how the image fills the avatar.
+
+```html
+<template>
+  <mp-space align="flex-end" :size="24" wrap>
+    <mp-space v-for="fit in fits" :key="fit" direction="column" align="center" :size="8">
+      <mp-avatar image-url="/cat.jpg" :alt="fit" :object-fit="fit" :size="56" />
+      <span class="label">{{ fit }}</span>
+    </mp-space>
+  </mp-space>
+</template>
+
+<script lang="ts" setup>
+const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
+</script>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
+```
+
+### Loading and fallback
+
+`lazy` enables lazy loading. `loading` is the placeholder. Failed loads can use an `error` image or the `error` slot.
+
+```html
+<template>
+  <mp-space align="flex-end" :size="24" wrap>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar lazy image-url="/cat.jpg" loading="/cat2.jpg" alt="懒加载与占位图" :size="48" />
+      <span class="label">lazy + loading</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/missing-avatar.jpg" error="/cat.jpg" alt="失败时回退到占位图" :size="48" />
+      <span class="label">error 图片</span>
+    </mp-space>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/missing-avatar.jpg" alt="失败插槽" :size="48">
+        <template #error>NA</template>
+      </mp-avatar>
+      <span class="label">error 插槽</span>
+    </mp-space>
+  </mp-space>
+</template>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
+```
+
+### Color and border
+
+`color` sets the background. `bordered` / `borderColor` control the outline.
+
+```html
+<template>
+  <mp-space align="center" :size="16" wrap>
+    <mp-avatar color="var(--mp-color-warning)">火</mp-avatar>
+    <mp-avatar color="var(--mp-color-danger)">Cedar</mp-avatar>
+    <mp-avatar color="#00bebe">CD</mp-avatar>
+    <mp-avatar color="#7b61ff" shape="square">A</mp-avatar>
+    <mp-avatar bordered>B</mp-avatar>
+    <mp-avatar bordered border-color="#00bebe" color="#e6fffb">C</mp-avatar>
   </mp-space>
 </template>
 ```
 
-### Image Avatar
+### Avatar group
 
-Set the image with `image-url` and provide accessible alternative text with `alt`.
+`AvatarGroup` stacks children. Use `bordered` for layered outlines, `maxCount` to fold extras into a Popover, `maxStyle` for the summary avatar, and `zIndexAscend` for stacking order. `shape` / `size` / `offset` apply to every child.
 
 ```html
-<mp-space align="center" :size="16">
-  <mp-avatar image-url="cat.jpg" alt="A cat" />
-  <mp-avatar image-url="cat2.jpg" alt="A cat" :size="48" shape="square" />
-</mp-space>
+<template>
+  <mp-space direction="column" :size="24">
+    <mp-space direction="column" :size="8">
+      <span class="label">默认叠层</span>
+      <mp-avatar-group>
+        <mp-avatar image-url="/cat.jpg" alt="用户一" bordered />
+        <mp-avatar image-url="/cat2.jpg" alt="用户二" bordered />
+        <mp-avatar image-url="/cat.jpg" alt="用户三" bordered />
+        <mp-avatar bordered>+2</mp-avatar>
+      </mp-avatar-group>
+    </mp-space>
+
+    <mp-space direction="column" :size="8">
+      <span class="label">max-count + max-style</span>
+      <mp-avatar-group
+        :max-count="3"
+        :size="48"
+        :max-style="{ backgroundColor: '#1d2129', color: '#fff' }"
+      >
+        <mp-avatar image-url="/cat.jpg" alt="用户一" />
+        <mp-avatar image-url="/cat2.jpg" alt="用户二" />
+        <mp-avatar color="#00bebe">A</mp-avatar>
+        <mp-avatar color="#f59e0b">B</mp-avatar>
+        <mp-avatar color="#ef4444">C</mp-avatar>
+      </mp-avatar-group>
+    </mp-space>
+
+    <mp-space direction="column" :size="8">
+      <span class="label">z-index-ascend</span>
+      <mp-avatar-group z-index-ascend>
+        <mp-avatar image-url="/cat.jpg" alt="用户一" />
+        <mp-avatar image-url="/cat2.jpg" alt="用户二" />
+        <mp-avatar color="#7b61ff">CD</mp-avatar>
+      </mp-avatar-group>
+    </mp-space>
+
+    <mp-space direction="column" :size="8">
+      <span class="label">shape="square" · offset="-16"</span>
+      <mp-avatar-group shape="square" :offset="-16" :size="40">
+        <mp-avatar image-url="/cat.jpg" alt="用户一" />
+        <mp-avatar image-url="/cat2.jpg" alt="用户二" />
+        <mp-avatar color="#00bebe">A</mp-avatar>
+        <mp-avatar color="#7b61ff">B</mp-avatar>
+      </mp-avatar-group>
+    </mp-space>
+  </mp-space>
+</template>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
 ```
 
-### Image Fit
+### Vertical group
 
-`object-fit` controls how the image fills the avatar.
-
-```html
-<mp-space align="center" :size="24">
-  <mp-avatar image-url="cat.jpg" alt="fill" object-fit="fill" :size="56" />
-  <mp-avatar image-url="cat.jpg" alt="contain" object-fit="contain" :size="56" />
-  <mp-avatar image-url="cat.jpg" alt="cover" object-fit="cover" :size="56" />
-  <mp-avatar image-url="cat.jpg" alt="none" object-fit="none" :size="56" />
-  <mp-avatar image-url="cat.jpg" alt="scale-down" object-fit="scale-down" :size="56" />
-</mp-space>
-```
-
-### Loading and Fallback
-
-`lazy` enables lazy loading, and `loading` sets a placeholder while the image loads. On failure, use the `error` image or the `error` slot.
+`vertical` stacks avatars in a column. `offset` is the overlap, in px when numeric.
 
 ```html
-<mp-space align="center" :size="16">
-  <mp-avatar lazy image-url="cat.jpg" loading="cat2.jpg" alt="Lazy load with placeholder" :size="48" />
-  <mp-avatar image-url="missing-avatar.jpg" error="cat.jpg" alt="Fallback image on error" :size="48" />
-  <mp-avatar image-url="missing-avatar.jpg" alt="Error slot" :size="48">
-    <template #error>NA</template>
-  </mp-avatar>
-</mp-space>
-```
+<template>
+  <mp-space align="flex-end" :size="32" wrap>
+    <mp-space direction="column" :size="8">
+      <span class="label">offset = -12</span>
+      <mp-avatar-group vertical :offset="-12">
+        <mp-avatar image-url="/cat.jpg" alt="用户一" bordered />
+        <mp-avatar image-url="/cat2.jpg" alt="用户二" bordered />
+        <mp-avatar image-url="/cat.jpg" alt="用户三" bordered />
+        <mp-avatar bordered>+2</mp-avatar>
+      </mp-avatar-group>
+    </mp-space>
+    <mp-space direction="column" :size="8">
+      <span class="label">offset = -20</span>
+      <mp-avatar-group vertical :offset="-20" :size="48">
+        <mp-avatar image-url="/cat.jpg" alt="用户一" bordered />
+        <mp-avatar image-url="/cat2.jpg" alt="用户二" bordered />
+        <mp-avatar color="#00bebe">A</mp-avatar>
+      </mp-avatar-group>
+    </mp-space>
+  </mp-space>
+</template>
 
-### Color and Border
-
-Use `color` for the background, including theme color variables. `bordered` / `border-color` control the outline.
-
-```html
-<mp-space align="center" :size="16">
-  <mp-avatar color="var(--mp-color-warning)">
-    <m-icon-fire />
-  </mp-avatar>
-  <mp-avatar color="var(--mp-color-danger)">Maple</mp-avatar>
-  <mp-avatar color="#00bebe">CD</mp-avatar>
-  <mp-avatar color="#7b61ff" shape="square">A</mp-avatar>
-  <mp-avatar bordered>B</mp-avatar>
-  <mp-avatar bordered border-color="#00bebe" color="#e6fffb">C</mp-avatar>
-</mp-space>
-```
-
-### Avatar Group
-
-`AvatarGroup` stacks child avatars. Use `bordered` for layered outlines, or `max-count` to collect extra avatars into a Popover. `z-index-ascend` uses ascending stacking order.
-
-```html
-<mp-space direction="column" :size="20">
-  <mp-avatar-group>
-    <mp-avatar image-url="cat.jpg" alt="User one" bordered />
-    <mp-avatar image-url="cat2.jpg" alt="User two" bordered />
-    <mp-avatar image-url="cat.jpg" alt="User three" bordered />
-    <mp-avatar bordered>+2</mp-avatar>
-  </mp-avatar-group>
-
-  <mp-avatar-group :max-count="3" :size="48">
-    <mp-avatar image-url="cat.jpg" alt="User one" />
-    <mp-avatar image-url="cat2.jpg" alt="User two" />
-    <mp-avatar color="#00bebe">A</mp-avatar>
-    <mp-avatar color="#f59e0b">B</mp-avatar>
-    <mp-avatar color="#ef4444">C</mp-avatar>
-  </mp-avatar-group>
-
-  <mp-avatar-group z-index-ascend>
-    <mp-avatar image-url="cat.jpg" alt="User one" />
-    <mp-avatar image-url="cat2.jpg" alt="User two" />
-    <mp-avatar color="#7b61ff">CD</mp-avatar>
-  </mp-avatar-group>
-</mp-space>
-```
-
-### Vertical Group
-
-`vertical` stacks avatars in a column, and `offset` controls the overlap.
-
-```html
-<mp-avatar-group vertical :offset="-12">
-  <mp-avatar image-url="cat.jpg" alt="User one" bordered />
-  <mp-avatar image-url="cat2.jpg" alt="User two" bordered />
-  <mp-avatar image-url="cat.jpg" alt="User three" bordered />
-  <mp-avatar bordered>+2</mp-avatar>
-</mp-avatar-group>
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
 ```
 
 ### Hoverable
 
-Set `hoverable` to scale the avatar on hover.
+`hoverable` scales the avatar on hover, alone or inside a group.
 
 ```html
-<mp-avatar-group>
-  <mp-avatar hoverable image-url="cat.jpg" alt="User one" bordered />
-  <mp-avatar hoverable image-url="cat2.jpg" alt="User two" bordered />
-  <mp-avatar hoverable image-url="cat.jpg" alt="User three" bordered />
-  <mp-avatar hoverable bordered>+2</mp-avatar>
-</mp-avatar-group>
+<template>
+  <mp-space direction="column" :size="24">
+    <mp-space align="center" :size="16" wrap>
+      <mp-avatar hoverable>H</mp-avatar>
+      <mp-avatar hoverable image-url="/cat.jpg" alt="悬停放大" />
+      <mp-avatar hoverable shape="square">方</mp-avatar>
+    </mp-space>
+    <mp-avatar-group>
+      <mp-avatar hoverable image-url="/cat.jpg" alt="用户一" bordered />
+      <mp-avatar hoverable image-url="/cat2.jpg" alt="用户二" bordered />
+      <mp-avatar hoverable image-url="/cat.jpg" alt="用户三" bordered />
+      <mp-avatar hoverable bordered>+2</mp-avatar>
+    </mp-avatar-group>
+  </mp-space>
+</template>
 ```
 
-### Trigger Icon
+### Trigger icon
 
-Use the `trigger-icon` slot for an action entry. `trigger-type` supports a corner button or a hover overlay.
+The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; clicks emit `click`.
 
 ```html
-<mp-space align="center" :size="24">
-  <mp-avatar image-url="cat.jpg" alt="Edit avatar" :size="56">
-    <template #trigger-icon><m-icon-image /></template>
-  </mp-avatar>
-  <mp-avatar image-url="cat2.jpg" alt="Change avatar" :size="56" trigger-type="overlay">
-    <template #trigger-icon><m-icon-camera-fill /></template>
-  </mp-avatar>
-</mp-space>
+<template>
+  <mp-space align="flex-end" :size="32" wrap>
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar image-url="/cat.jpg" alt="编辑头像" :size="56" @click="onClick('button')">
+        <template #trigger-icon>+</template>
+      </mp-avatar>
+      <span class="label">{{ last === 'button' ? 'click · button' : 'trigger-type="button"' }}</span>
+    </mp-space>
+
+    <mp-space direction="column" align="center" :size="8">
+      <mp-avatar
+        image-url="/cat2.jpg"
+        alt="更换头像"
+        :size="56"
+        trigger-type="overlay"
+        @click="onClick('overlay')"
+      >
+        <template #trigger-icon>+</template>
+      </mp-avatar>
+      <span class="label">{{ last === 'overlay' ? 'click · overlay' : 'trigger-type="overlay"' }}</span>
+    </mp-space>
+  </mp-space>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const last = ref('')
+
+function onClick(type: string) {
+  last.value = type
+}
+</script>
+
+<style scoped>
+.label {
+  color: var(--mp-color-text-3);
+  font-size: var(--mp-font-size-sm);
+}
+</style>
 ```
 
 ## API
 
+<!-- same-source-api:start -->
 ### Props
 
-#### Avatar Props
-
-| Prop                 | Description                     | Type                                                       | Default    |
-| -------------------- | ------------------------------- | ---------------------------------------------------------- | ---------- |
-| `shape`              | Avatar shape                    | `'circle' \| 'square'`                                     | `'circle'` |
-| `image-url`          | Image URL                       | _string_                                                   | `-`        |
-| `alt`                | Image alternative text          | _string_                                                   | `''`       |
-| `size`               | Avatar width and height in px   | _number_                                                   | `40`       |
-| `auto-fix-font-size` | Automatically scales long text  | _boolean_                                                  | `true`     |
-| `trigger-type`       | Trigger icon presentation       | `'button' \| 'overlay'`                                    | `'button'` |
-| `trigger-icon-style` | Custom trigger icon style       | _CSSProperties_                                            | `-`        |
-| `object-fit`         | Image fitting mode              | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`  |
-| `color`              | Avatar background color         | _string_                                                   | `-`        |
-| `bordered`           | Whether to show a border        | _boolean_                                                  | `false`    |
-| `border-color`       | Border color                    | _string_                                                   | `-`        |
-| `loading`            | Placeholder image while loading | _string_                                                   | `-`        |
-| `error`              | Fallback image on load failure  | _string_                                                   | `-`        |
-| `lazy`               | Whether to lazy-load the image  | _boolean_                                                  | `false`    |
-| `hoverable`          | Whether to enable hover scale   | _boolean_                                                  | `false`    |
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| shape | Avatar shape | `circle / square` | `circle` |
+| image-url | Image URL | `string` | `-` |
+| alt | Image alternative text | `string` | `''` |
+| size | Width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
+| auto-fix-font-size | Scale overflow text automatically | `boolean` | `true` |
+| trigger-type | How the action icon is shown | `button / overlay` | `button` |
+| trigger-icon-style | Custom style for the action icon | `CSSProperties` | `-` |
+| object-fit | Image fitting mode | `fill / contain / cover / none / scale-down` | `cover` |
+| color | Background color | `string` | `-` |
+| bordered | Whether to show a border | `boolean` | `false` |
+| border-color | Border color | `string` | `-` |
+| loading | Placeholder image while loading | `string` | `-` |
+| error | Fallback image on load failure | `string` | `-` |
+| lazy | Whether to lazy-load the image | `boolean` | `false` |
+| hoverable | Whether to scale on hover | `boolean` | `false` |
 
 ### Events
 
-#### Avatar Events
-
-| Event   | Description                          | Arguments           |
-| ------- | ------------------------------------ | ------------------- |
-| `click` | Emitted when the avatar is clicked   | `event: MouseEvent` |
-| `load`  | Emitted when the image loads         | `-`                 |
-| `error` | Emitted when the image fails to load | `-`                 |
+| 事件 | 说明 | 参数 |
+| --- | --- | --- |
+| click | Emitted when the avatar is clicked | `(event: MouseEvent) => void` |
+| load | Emitted when the image loads | `() => void` |
+| error | Emitted when the image fails to load | `() => void` |
 
 ### Slots
 
-#### Avatar Slots
+| 插槽 | 说明 |
+| --- | --- |
+| default | Text, icon, or loading content |
+| error | Fallback when the image fails |
+| trigger-icon | Action icon on the avatar |
 
-| Name           | Description                    |
-| -------------- | ------------------------------ |
-| `default`      | Text, icon, or loading content |
-| `error`        | Image error fallback           |
-| `trigger-icon` | Interactive icon on the avatar |
+### Methods
 
-#### AvatarGroup Props
+No public methods.
+<!-- same-source-api:end -->
 
-| Prop                 | Description                                  | Type                   | Default    |
-| -------------------- | -------------------------------------------- | ---------------------- | ---------- |
-| `shape`              | Child avatar shape                           | `'circle' \| 'square'` | `'circle'` |
-| `size`               | Child avatar width and height in px          | _number_               | `40`       |
-| `auto-fix-font-size` | Automatically scales child text              | _boolean_              | `true`     |
-| `max-count`          | Maximum visible avatars; `0` means unlimited | _number_               | `0`        |
-| `z-index-ascend`     | Uses ascending avatar stacking order         | _boolean_              | `false`    |
-| `max-style`          | Custom summary avatar style                  | _CSSProperties_        | `-`        |
-| `max-popover-props`  | Summary Popover props                        | _PopoverProps_         | `-`        |
-| `offset`             | Overlap offset between avatars               | _number \| string_     | `-`        |
-| `vertical`           | Stacks avatars vertically                    | _boolean_              | `false`    |
+### AvatarGroup Props
 
-#### AvatarGroup Slots
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| shape | Child avatar shape | `circle / square` | `circle` |
+| size | Child width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
+| auto-fix-font-size | Scale overflow text on children | `boolean` | `true` |
+| max-count | Maximum visible avatars; `0` means unlimited | `number` | `0` |
+| z-index-ascend | Use ascending stacking order | `boolean` | `false` |
+| max-style | Custom summary avatar style | `CSSProperties` | `-` |
+| max-popover-props | Summary Popover props | `PopoverProps` | `-` |
+| offset | Overlap offset | `number / string` | `-` |
+| vertical | Stack avatars vertically | `boolean` | `false` |
 
-| Name      | Description |
-| --------- | ----------- |
-| `default` | Avatar list |
+### AvatarGroup Slots
 
-## API
+| Slot | Description |
+| --- | --- |
+| default | Avatar list |
 
-### Props
+### Type Definitions
 
-| Prop                 | Description                                  | Type                   | Default    |
-| -------------------- | -------------------------------------------- | ---------------------- | ---------- |
-| `shape`              | Child avatar shape                           | `'circle' \| 'square'` | `'circle'` |
-| `size`               | Child avatar width and height in px          | _number_               | `40`       |
-| `auto-fix-font-size` | Automatically scales child text              | _boolean_              | `true`     |
-| `max-count`          | Maximum visible avatars; `0` means unlimited | _number_               | `0`        |
-| `z-index-ascend`     | Uses ascending avatar stacking order         | _boolean_              | `false`    |
-| `max-style`          | Custom summary avatar style                  | _CSSProperties_        | `-`        |
-| `max-popover-props`  | Summary Popover props                        | _PopoverProps_         | `-`        |
-| `offset`             | Overlap offset between avatars               | _number \| string_     | `-`        |
-| `vertical`           | Stacks avatars vertically                    | _boolean_              | `false`    |
-
-### Slots
-
-| Name      | Description | SlotProps |
-| --------- | ----------- | --------- |
-| `default` | Avatar list | `-`       |
+```ts
+import type {
+  AvatarGroupInstance,
+  AvatarGroupProps,
+  AvatarInstance,
+  AvatarProps,
+  AvatarObjectFit,
+  AvatarShape,
+  AvatarTriggerType,
+} from '@maplejs/maple-ui'
+```

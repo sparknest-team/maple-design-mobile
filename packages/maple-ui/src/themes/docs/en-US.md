@@ -27,7 +27,7 @@ document.documentElement.removeAttribute('maple-theme')
 
 ### StyleProvider
 
-`StyleProvider(Themes.dark)` also sets `html[maple-theme=dark]`; `StyleProvider(null)` clears it.
+`StyleProvider.setStyleVars(Themes.dark)` also sets `html[maple-theme=dark]`; `StyleProvider.setStyleVars(null)` clears it.
 
 ```html
 <!-- playground-ignore -->
@@ -37,10 +37,10 @@ document.documentElement.removeAttribute('maple-theme')
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-button status="primary" block @click="StyleProvider(null)">Light</mp-button>
-    <mp-button status="primary" block @click="StyleProvider(Themes.dark)">Dark</mp-button>
-    <mp-button status="primary" block @click="StyleProvider(Themes.md3Light)">MD3 Light</mp-button>
-    <mp-button status="primary" block @click="StyleProvider(Themes.md3Dark)">MD3 Dark</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(null)">Light</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.dark)">Dark</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Light)">MD3 Light</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Dark)">MD3 Dark</mp-button>
   </mp-space>
 </template>
 ```
@@ -72,6 +72,6 @@ body {
     '--mp-color-primary': 'rgb(var(--mp-primary-6))',
   }
 
-  StyleProvider(customTheme)
+  StyleProvider.setStyleVars(customTheme)
 </script>
 ```

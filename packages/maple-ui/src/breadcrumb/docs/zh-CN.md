@@ -144,7 +144,7 @@ import { Message } from '@maplejs/maple-ui'
 | `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
 | `href` | 跳转链接 | _string_ | `-` |
 | `droplist` | 下拉菜单内容 | _BreadcrumbRoute['children']_ | `-` |
-| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
+| `dropdown-props` | 下拉菜单属性 | _DropdownMenuProps_ | `-` |
 
 ### 事件
 
@@ -210,7 +210,7 @@ interface BreadcrumbRoute {
 | `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
 | `href` | 跳转链接 | _string_ | `-` |
 | `droplist` | 下拉菜单内容 | _BreadcrumbRoute[]_ | `-` |
-| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
+| `dropdown-props` | 下拉菜单属性 | _DropdownMenuProps_ | `-` |
 
 ### 事件
 

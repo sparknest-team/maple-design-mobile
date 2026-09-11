@@ -1,0 +1,30 @@
+{
+  "zh-CN": {
+    "basic": "基础用法",
+    "size": "尺寸",
+    "shape": "形状",
+    "auto-fix": "文字自适应",
+    "image": "图片头像",
+    "fit": "图片填充",
+    "fallback": "加载与回退",
+    "style": "颜色与边框",
+    "group": "头像组",
+    "group-vertical": "纵向头像组",
+    "hoverable": "头像可悬停",
+    "trigger": "交互图标"
+  },
+  "en-US": {
+    "basic": "Basic usage",
+    "size": "Size",
+    "shape": "Shape",
+    "auto-fix": "Auto-fit text",
+    "image": "Image avatar",
+    "fit": "Image fit",
+    "fallback": "Loading and fallback",
+    "style": "Color and border",
+    "group": "Avatar group",
+    "group-vertical": "Vertical group",
+    "hoverable": "Hoverable",
+    "trigger": "Trigger icon"
+  }
+}

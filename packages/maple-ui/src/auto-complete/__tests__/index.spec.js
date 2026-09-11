@@ -26,12 +26,12 @@ test('opening policy and option filtering are independent and reactive', async (
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.setProps({ shouldOpen: () => true })
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
-  expect(document.querySelectorAll('.mp-menu-option')).toHaveLength(1)
+  expect(document.querySelectorAll('.mp-dropdown-menu-option')).toHaveLength(1)
   expect(filterOption).toHaveBeenCalledWith('a', expect.objectContaining({ value: 'Apple' }))
   await wrapper.setProps({ filterOption: () => false })
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   await wrapper.setProps({ filterOption: false })
-  expect(document.querySelectorAll('.mp-menu-option')).toHaveLength(2)
+  expect(document.querySelectorAll('.mp-dropdown-menu-option')).toHaveLength(2)
   await wrapper.setProps({ disabled: true })
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   wrapper.unmount()
@@ -48,7 +48,7 @@ test('default filtering is case-insensitive and strict is case-sensitive', async
     },
   })
   await wrapper.trigger('focusin')
-  expect(document.querySelectorAll('.mp-menu-option')).toHaveLength(1)
+  expect(document.querySelectorAll('.mp-dropdown-menu-option')).toHaveLength(1)
   await wrapper.setProps({ strict: true })
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
   wrapper.unmount()
@@ -93,7 +93,7 @@ test('auto-complete options', async () => {
   await wrapper.trigger('focusin')
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
-  await trigger(document.querySelector('.mp-menu-option'), 'click')
+  await trigger(document.querySelector('.mp-dropdown-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option 1')
   wrapper.unmount()
 })
@@ -155,7 +155,7 @@ test('auto-complete options custom key', async () => {
   await wrapper.trigger('focusin')
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
-  await trigger(document.querySelector('.mp-menu-option'), 'click')
+  await trigger(document.querySelector('.mp-dropdown-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option Id 1')
   wrapper.unmount()
 })
@@ -211,7 +211,7 @@ test('auto-complete maxLength for handle auto complete', async () => {
   await wrapper.trigger('focusin')
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
-  await trigger(document.querySelector('.mp-menu-option'), 'click')
+  await trigger(document.querySelector('.mp-dropdown-menu-option'), 'click')
   expect(onUpdateModelValue).toHaveBeenCalledWith('Opt')
 
   wrapper.unmount()
@@ -449,7 +449,7 @@ test('auto-complete select option by keyboard', async () => {
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
   await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
-  await trigger(document.querySelector('.mp-menu-option'), 'focus')
+  await trigger(document.querySelector('.mp-dropdown-menu-option'), 'focus')
   await triggerKeyboard(window, 'keydown', { key: 'Enter' })
   expect(onUpdateModelValue).toHaveBeenCalledWith('Option 1')
 
@@ -504,7 +504,7 @@ test('auto-complete handle same value by option', async () => {
   await wrapper.trigger('focusin')
   expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('')
 
-  await trigger(document.querySelector('.mp-menu-option'), 'click')
+  await trigger(document.querySelector('.mp-dropdown-menu-option'), 'click')
   expect(onChange).toHaveBeenCalledTimes(0)
 
   wrapper.unmount()

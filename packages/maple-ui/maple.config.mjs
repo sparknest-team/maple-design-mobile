@@ -349,10 +349,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Menu 菜单选择器',
-          'en-US': 'Menu',
+          'zh-CN': 'DropdownMenu 下拉命令菜单',
+          'en-US': 'DropdownMenu',
         },
-        doc: 'menu',
+        doc: 'dropdown-menu',
         type: 2,
       },
       {

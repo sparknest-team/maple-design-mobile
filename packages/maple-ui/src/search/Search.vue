@@ -1,6 +1,6 @@
 <template>
   <div :class="classes(n(), n('$--box'), n(`--${shape}`), [disabled, n('--disabled')])" :style="{ background }">
-    <mp-menu
+    <mp-dropdown-menu
       v-if="!historyPopup && recentSearches.length"
       ref="historyMenu"
       :open="historyMenuVisible"
@@ -179,10 +179,10 @@
 import { computed, defineComponent, nextTick, ref, shallowRef, watch } from 'vue'
 import { IconSearch, IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
+import MpDropdownMenu from '../dropdown-menu'
 import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'
-import MpMenu from '../menu'
 import MpPopup from '../popup'
 import MpSelect from '../select'
 import { createNamespace } from '../utils/components'
@@ -197,7 +197,7 @@ type RegisteredComponents = {
   MpIcon: typeof MpIcon
   MpRegisteredIcon: typeof MpRegisteredIcon
   MpInput: typeof MpInput
-  MpMenu: typeof MpMenu
+  MpDropdownMenu: typeof MpDropdownMenu
   MpPopup: typeof MpPopup
   MpSelect: typeof MpSelect
 }
@@ -206,7 +206,7 @@ const registeredComponents: RegisteredComponents = {
   MpIcon,
   MpRegisteredIcon,
   MpInput,
-  MpMenu,
+  MpDropdownMenu,
   MpPopup,
   MpSelect,
 }

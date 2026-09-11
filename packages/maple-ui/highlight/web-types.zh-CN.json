@@ -534,10 +534,10 @@
             },
             {
               "name": "size",
-              "description": "头像宽高，单位为 px",
-              "default": "40",
+              "description": "头像宽高；数字为 px，字符串为 CSS 长度",
+              "default": "-",
               "value": {
-                "type": "number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
@@ -2641,6 +2641,301 @@
           ]
         },
         {
+          "name": "mp-dropdown-menu",
+          "attributes": [
+            {
+              "name": "options",
+              "description": "命令树",
+              "default": "[]",
+              "value": {
+                "type": "DropdownMenuOption[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "`label/value/children/disabled` 字段映射",
+              "default": "-",
+              "value": {
+                "type": "DropdownMenuFieldNames",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model",
+              "description": "当前激活值",
+              "default": "-",
+              "value": {
+                "type": "MenuValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:open",
+              "description": "浮层是否可见",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控默认可见状态",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "选项尺寸",
+              "default": "'md'",
+              "value": {
+                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "根菜单触发方式",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "submenu-trigger",
+              "description": "各级子菜单的展开方式，对所有层级统一生效",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "弹出位置",
+              "default": "'bottom'",
+              "value": {
+                "type": "DropdownMenuPosition",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "Popper 定位策略",
+              "default": "'absolute'",
+              "value": {
+                "type": "'absolute' | 'fixed'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "reference",
+              "description": "外部触发元素",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "浮层挂载容器",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-class",
+              "description": "浮层类名",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-max-height",
+              "description": "默认限制、自定义像素高度或不限高",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "水平偏移",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "垂直偏移",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-enter-delay",
+              "description": "悬停打开延迟（毫秒）",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-leave-delay",
+              "description": "悬停关闭延迟（毫秒）",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-click-reference",
+              "description": "再次点击触发元素时关闭",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "关闭时卸载浮层内容",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-select",
+              "description": "激活命令后关闭浮层",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "浮层宽度跟随触发元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cover",
+              "description": "浮层覆盖触发元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-point",
+              "description": "浮层跟随鼠标位置",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "禁用菜单",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "浮层阴影层级",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "当前激活值更新请求"
+            },
+            {
+              "name": "select",
+              "description": "用户激活菜单项"
+            },
+            {
+              "name": "open-change",
+              "description": "浮层显示状态更新请求"
+            },
+            {
+              "name": "open / opened",
+              "description": "浮层开始打开 / 打开完成"
+            },
+            {
+              "name": "close / closed",
+              "description": "浮层开始关闭 / 关闭完成"
+            },
+            {
+              "name": "click-outside",
+              "description": "点击浮层外部"
+            },
+            {
+              "name": "key-escape",
+              "description": "按下 Escape"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "触发元素"
+            },
+            {
+              "name": "content",
+              "description": "追加手写内容，适合与 `MenuOption` 组合"
+            },
+            {
+              "name": "footer",
+              "description": "页脚"
+            },
+            {
+              "name": "option-label",
+              "description": "统一渲染选项主内容"
+            },
+            {
+              "name": "option-icon",
+              "description": "统一渲染选项图标"
+            },
+            {
+              "name": "option-extra",
+              "description": "统一渲染选项右侧内容"
+            }
+          ]
+        },
+        {
           "name": "mp-ellipsis",
           "attributes": [
             {
@@ -4447,257 +4742,6 @@
             {
               "name": "default",
               "description": "组件内容"
-            }
-          ]
-        },
-        {
-          "name": "mp-menu",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "绑定的值",
-              "default": "-",
-              "value": {
-                "type": "any | any[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:open",
-              "description": "是否显示菜单",
-              "default": "-",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-open",
-              "description": "非受控模式下默认是否显示菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "菜单尺寸，可选值 `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "multiple",
-              "description": "是否多选",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-max-height",
-              "description": "弹出层最大高度。`true` 使用默认高度，`false` 不限制，传入 `number` 为像素值",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "是否与触发元素同宽",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-on-select",
-              "description": "选择菜单项时是否关闭菜单（多选模式下始终不关闭菜单）",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placement",
-              "description": "菜单弹出位置",
-              "default": "bottom",
-              "value": {
-                "type": "Placement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "strategy",
-              "description": "菜单定位方式，可选值为 `absolute` `fixed`",
-              "default": "absolute",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "x 轴偏移量，相对于菜单对齐后的位置",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "y 轴偏移量，相对于菜单对齐后的位置",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "菜单挂载的位置",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "菜单触发方式，可选值为 `click` `hover` `manual` `contextMenu`",
-              "default": "click",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align-point",
-              "description": "弹出层是否跟随鼠标（配合 `contextMenu`）",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-class",
-              "description": "弹出层的 class",
-              "default": "-",
-              "value": {
-                "type": "ClassName",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "是否在点击菜单触发元素后关闭菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "options",
-              "description": "指定可选项",
-              "default": "[]",
-              "value": {
-                "type": "MenuOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "自定义 `options` 字段映射",
-              "default": "-",
-              "value": {
-                "type": "{ label?, value?, children?, disabled? }",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "打开菜单时触发"
-            },
-            {
-              "name": "opened",
-              "description": "打开菜单动画结束时触发"
-            },
-            {
-              "name": "close",
-              "description": "关闭菜单时触发"
-            },
-            {
-              "name": "closed",
-              "description": "关闭菜单动画结束时触发"
-            },
-            {
-              "name": "click-outside",
-              "description": "点击菜单外部时触发"
-            },
-            {
-              "name": "select",
-              "description": "用户选择菜单项时触发；受控模式下是否产生选中态取决于 `v-model` 是否更新"
-            },
-            {
-              "name": "open-change",
-              "description": "菜单打开状态变化时触发"
-            },
-            {
-              "name": "key-escape",
-              "description": "按下 Escape 关闭菜单时触发"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "菜单关联的触发元素"
-            },
-            {
-              "name": "content",
-              "description": "菜单选项内容"
-            },
-            {
-              "name": "footer",
-              "description": "菜单页脚"
             }
           ]
         },

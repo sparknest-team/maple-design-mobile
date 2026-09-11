@@ -1,25 +1,15 @@
-<script lang="ts">
-import { defineComponent, h } from 'vue'
-import { call } from '@maplejs/maple-shared'
+<script setup lang="ts">
 import { createNamespace } from '../utils/components'
 import { formatStyleVars } from '../utils/elements'
-import { props } from './props'
+import { styleProviderProps } from './props'
 
-const { name, n } = createNamespace('style-provider')
-
-export default defineComponent({
-  name,
-  props,
-  setup(props, { slots }) {
-    return () =>
-      h(
-        props.tag,
-        {
-          class: n(),
-          style: formatStyleVars(props.styleVars),
-        },
-        call(slots.default),
-      )
-  },
-})
+defineOptions({ name: createNamespace('style-provider').name })
+const { n } = createNamespace('style-provider')
+const props = defineProps(styleProviderProps)
 </script>
+
+<template>
+  <component :is="props.tag" :class="n()" :style="formatStyleVars(props.styleVars)">
+    <slot />
+  </component>
+</template>

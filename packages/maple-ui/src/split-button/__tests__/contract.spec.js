@@ -4,7 +4,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import SplitButton from '..'
 import Button from '../../button'
-import Menu, { MenuOption } from '../../menu'
+import DropdownMenu, { MenuOption } from '../../dropdown-menu'
 
 const wrappers = []
 function render(props = {}, slots = {}) {
@@ -44,7 +44,7 @@ describe('SplitButton copied contract', () => {
     )
     await wrapper.findAll('button')[1].trigger('click')
     await new Promise((resolve) => setTimeout(resolve, 40))
-    document.querySelector('[data-menu-item]').click()
+    document.querySelector('[data-dropdown-menu-item]').click()
     await nextTick()
     expect(onSelect).toHaveBeenCalledTimes(1)
     expect(wrapper.findAll('button')[1].attributes('aria-expanded')).toBe('true')
@@ -106,7 +106,7 @@ describe('SplitButton copied contract', () => {
     expect(wrapper.text()).toContain('open:true')
     await new Promise((resolve) => setTimeout(resolve, 40))
     await nextTick()
-    const option = document.querySelector('[data-menu-item]')
+    const option = document.querySelector('[data-dropdown-menu-item]')
     expect(option).toBeTruthy()
     option.click()
     await nextTick()
@@ -127,7 +127,7 @@ describe('SplitButton copied contract', () => {
     expect(first.findAll('button')[1].attributes('aria-expanded')).toBe('true')
     expect(second.findAll('button')[1].attributes('aria-expanded')).toBe('false')
     first.vm.close()
-    const resize = vi.spyOn(first.findComponent(Menu).vm.$.exposed, 'resize')
+    const resize = vi.spyOn(first.findComponent(DropdownMenu).vm.$.exposed, 'resize')
     first.vm.resize()
     expect(resize).toHaveBeenCalledTimes(1)
     await nextTick()
@@ -157,7 +157,7 @@ describe('SplitButton copied contract', () => {
 
   test('forwards floating props and puts the default arrow in the icon slot', () => {
     const wrapper = render({ popupClass: 'custom-menu', offsetX: '12px', offsetY: -4, hideOnSelect: false })
-    expect(wrapper.findComponent(Menu).props()).toMatchObject({
+    expect(wrapper.findComponent(DropdownMenu).props()).toMatchObject({
       popupClass: 'custom-menu',
       offsetX: '12px',
       offsetY: -4,

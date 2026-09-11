@@ -49,10 +49,10 @@ test('resolves UI components with their styles', () => {
     sideEffects: ['@maplejs/maple-ui/skeleton/style'],
   })
 
-  assert.deepEqual(components.resolve('MpMenuGroup'), {
+  assert.deepEqual(components.resolve('MpMenuOption'), {
     from: '@maplejs/maple-ui',
-    name: '_MenuGroupComponent',
-    sideEffects: ['@maplejs/maple-ui/menu/style'],
+    name: '_MenuOptionComponent',
+    sideEffects: ['@maplejs/maple-ui/dropdown-menu/style'],
   })
 
   assert.deepEqual(components.resolve('MpInfiniteScroll'), {
@@ -176,7 +176,6 @@ test('can disable programmatic API resolution', () => {
   const [components] = MapleResolver({ autoImport: false })
   assert.equal(components.resolve('Message'), undefined)
 })
-
 
 test('Row and Col resolve independent styles', () => {
   for (const name of ['Row', 'Col']) {

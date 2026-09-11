@@ -1,70 +1,41 @@
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import { AppType } from '@maplejs/maple-cli/client'
-import MpFormItem from '..'
-import MpButton from '../../button'
-import MpForm from '../../form'
-import MpInput from '../../input'
-import MpSpace from '../../space'
+import type { FormInstance } from '@maplejs/maple-ui'
 
-export default defineComponent({
-  name: 'FormItemExample',
-  components: {
-    AppType,
-    MpForm,
-    MpFormItem,
-    MpInput,
-    MpButton,
-    MpSpace,
-  },
-  setup() {
-    const form = ref<InstanceType<typeof MpForm> | null>(null)
-    const horizontalForm = ref<InstanceType<typeof MpForm> | null>(null)
-    const noLabelForm = ref<InstanceType<typeof MpForm> | null>(null)
-    const formData = reactive({
-      username: '',
-      password: '',
-    })
-    const horizontalData = reactive({
-      username: '',
-      password: '',
-    })
-    const noLabelData = reactive({
-      username: '',
-      password: '',
-    })
-
-    function validateAll() {
-      form.value?.validate()
-      horizontalForm.value?.validate()
-      noLabelForm.value?.validate()
-    }
-
-    function clearValidateAll() {
-      form.value?.clearValidate()
-      horizontalForm.value?.clearValidate()
-      noLabelForm.value?.clearValidate()
-    }
-
-    function resetAll() {
-      form.value?.resetFields()
-      horizontalForm.value?.resetFields()
-      noLabelForm.value?.resetFields()
-    }
-
-    return {
-      form,
-      horizontalForm,
-      noLabelForm,
-      formData,
-      horizontalData,
-      noLabelData,
-      validateAll,
-      clearValidateAll,
-      resetAll,
-    }
-  },
+const form = ref<FormInstance | null>(null)
+const horizontalForm = ref<FormInstance | null>(null)
+const noLabelForm = ref<FormInstance | null>(null)
+const formData = reactive({
+  username: '',
+  password: '',
 })
+const horizontalData = reactive({
+  username: '',
+  password: '',
+})
+const noLabelData = reactive({
+  username: '',
+  password: '',
+})
+
+function validateAll() {
+  form.value?.validate()
+  horizontalForm.value?.validate()
+  noLabelForm.value?.validate()
+}
+
+function clearValidateAll() {
+  form.value?.clearValidate()
+  horizontalForm.value?.clearValidate()
+  noLabelForm.value?.clearValidate()
+}
+
+function resetAll() {
+  form.value?.resetFields()
+  horizontalForm.value?.resetFields()
+  noLabelForm.value?.resetFields()
+}
 </script>
 
 <template>

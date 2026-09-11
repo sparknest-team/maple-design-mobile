@@ -1,14 +1,11 @@
-// Menu root and slot submenus expose the same public controls.
+// DropdownMenu root and nested submenus expose the same public controls.
 import type {
-  MenuFieldNames,
-  MenuGroupProps,
-  MenuInstance,
-  MenuOptionData,
+  DropdownMenuFieldNames,
+  DropdownMenuInstance,
+  DropdownMenuOption,
+  DropdownMenuProps,
   MenuOptionProps,
-  MenuProps,
-  MenuSubmenuInstance,
-  MenuSubmenuProps,
-} from '@maplejs/maple-ui/menu'
+} from '@maplejs/maple-ui/dropdown-menu'
 import type { PopoverInstance, PopoverProps } from '@maplejs/maple-ui/popover'
 import type { TooltipInstance, TooltipProps } from '@maplejs/maple-ui/tooltip'
 import type { TriggerInstance, TriggerProps } from '@maplejs/maple-ui/trigger'
@@ -58,20 +55,23 @@ void renderProps
 const invalidDuration: TriggerProps = { duration: 'fast' }
 void invalidDuration
 
-const fields: MenuFieldNames = { label: 'text', value: 'id', children: 'items' }
-const menuOptions: MenuOptionData[] = [{ text: 'Branch', id: 'p', items: [{ text: 'Leaf', id: false }] }]
-const menuSelection: MenuProps = {
-  multiple: true,
-  modelValue: [],
+const fields: DropdownMenuFieldNames = { label: 'text', value: 'id', children: 'items' }
+const menuOptions: DropdownMenuOption[] = [{ text: 'Branch', id: 'p', items: [{ text: 'Leaf', id: false }] }]
+const menuSelection: DropdownMenuProps = {
+  modelValue: 'p',
   options: menuOptions,
   fieldNames: fields,
+  submenuTrigger: 'hover',
   popupContainer: false,
 }
 void menuSelection
 // @ts-expect-error options must be an array
-const invalidMenuOptions: MenuProps = { options: { value: 1 } }
+const invalidMenuOptions: DropdownMenuProps = { options: { value: 1 } }
 // @ts-expect-error field mapping names must be strings
-const invalidMenuFields: MenuProps = { fieldNames: { value: 42 } }
+const invalidMenuFields: DropdownMenuProps = { fieldNames: { value: 42 } }
+// @ts-expect-error submenu expansion is either click or hover
+const invalidSubmenuTrigger: DropdownMenuProps = { submenuTrigger: 'focus' }
+void invalidSubmenuTrigger
 void invalidMenuOptions
 void invalidMenuFields
 const restoreMenuReference = (trigger: TriggerInstance) => trigger.focusReference()
@@ -118,19 +118,12 @@ const invalidPopoverTrigger: PopoverProps = { trigger: 'longpress' }
 void invalidTooltipDuration
 void invalidPopoverTrigger
 
-const submenuProps: MenuSubmenuProps = { trigger: 'hover', open: true, unmountOnClose: false }
 const optionProps: MenuOptionProps = { label: () => 'rendered', value: false }
-const groupProps: MenuGroupProps = { title: 'Actions' }
-const menuMethods = (menu: MenuInstance, submenu: MenuSubmenuInstance) => {
+const menuMethods = (menu: DropdownMenuInstance) => {
   menu.open()
   menu.close()
   menu.resize()
   menu.setReference()
-  submenu.open()
-  submenu.close()
-  submenu.allowClose()
 }
-void submenuProps
 void optionProps
-void groupProps
 void menuMethods

@@ -27,7 +27,7 @@ document.documentElement.removeAttribute('maple-theme')
 
 ### StyleProvider 切换
 
-`StyleProvider(Themes.dark)` 会同步设置 `html[maple-theme=dark]`；`StyleProvider(null)` 移除属性并恢复默认。
+`StyleProvider.setStyleVars(Themes.dark)` 会同步设置 `html[maple-theme=dark]`；`StyleProvider.setStyleVars(null)` 移除属性并恢复默认。
 
 ```html
 <!-- playground-ignore -->
@@ -37,10 +37,10 @@ document.documentElement.removeAttribute('maple-theme')
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-button status="primary" block @click="StyleProvider(null)">亮色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider(Themes.dark)">暗色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider(Themes.md3Light)">MD3 亮色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider(Themes.md3Dark)">MD3 暗色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(null)">亮色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.dark)">暗色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Light)">MD3 亮色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Dark)">MD3 暗色</mp-button>
   </mp-space>
 </template>
 ```
@@ -72,7 +72,7 @@ body {
     '--mp-color-primary': 'rgb(var(--mp-primary-6))',
   }
 
-  StyleProvider(customTheme)
+  StyleProvider.setStyleVars(customTheme)
 </script>
 ```
 

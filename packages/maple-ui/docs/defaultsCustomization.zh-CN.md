@@ -14,7 +14,8 @@
 import { Button } from '@maplejs/maple-ui'
 
 Button.setPropsDefaults({
-  type: 'primary',
+  status: 'primary',
+  variant: 'tonal',
   elevation: 10
 })
 ```
@@ -33,6 +34,6 @@ Button.setPropsDefaults({
 <!-- playground-ignore -->
 <!-- App.vue -->
 <template>
-  <mp-button status="primary" :elevation="10">Hello</mp-button>
+  <mp-button status="primary" variant="tonal" :elevation="10">Hello</mp-button>
 </template>
 ```

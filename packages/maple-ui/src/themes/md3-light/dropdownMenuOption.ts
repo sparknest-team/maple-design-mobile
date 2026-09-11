@@ -1,0 +1,18 @@
+export default {
+  '--mp-dropdown-menu-option-text-color': 'var(--mp-color-text-1)',
+  '--mp-dropdown-menu-option-md-height': '38px',
+  '--mp-dropdown-menu-option-sm-height': '30px',
+  '--mp-dropdown-menu-option-xs-height': '24px',
+  '--mp-dropdown-menu-option-lg-height': '46px',
+  '--mp-dropdown-menu-option-xl-height': '54px',
+  '--mp-dropdown-menu-option-padding': '0 12px',
+  '--mp-dropdown-menu-option-md-font-size': 'var(--mp-font-size-md)',
+  '--mp-dropdown-menu-option-sm-font-size': 'var(--mp-font-size-sm)',
+  '--mp-dropdown-menu-option-xs-font-size': 'var(--mp-font-size-xs)',
+  '--mp-dropdown-menu-option-lg-font-size': 'var(--mp-font-size-lg)',
+  '--mp-dropdown-menu-option-xl-font-size': 'var(--mp-font-size-lg)',
+  '--mp-dropdown-menu-option-selected-background': 'var(--mp-color-primary)',
+  '--mp-dropdown-menu-option-selected-text-color': 'var(--mp-color-primary)',
+  '--mp-dropdown-menu-option-bg-hover': 'var(--mp-color-fill-3)',
+  '--mp-dropdown-menu-option-disabled-color': 'var(--mp-color-text-disabled)',
+}

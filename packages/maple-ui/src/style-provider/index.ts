@@ -1,95 +1,57 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { formatStyleVars } from '../utils/elements'
-import { props as styleProviderProps } from './props'
-import VarStyleProvider from './StyleProvider.vue'
-
-export type StyleVars = Record<string, string>
+import { styleProviderProps } from './props'
+import type { StyleVars } from './props'
+import _StyleProvider from './StyleProvider.vue'
 
 const styleId = 'maple-style-vars'
-const THEME_ATTR = 'maple-theme'
+const themeAttr = 'maple-theme'
 
 function removeStyle() {
-  const style = document.head.querySelector(`#${styleId}`)
-  if (style) {
-    document.head.removeChild(style)
+  document.head.querySelector(`#${styleId}`)?.remove()
+}
+
+function syncDocumentTheme(styles: StyleVars | null) {
+  const scheme = styles?.['--mp-color-scheme']
+  if (styles === null || scheme === 'light') {
+    document.documentElement.removeAttribute(themeAttr)
+  } else if (scheme === 'dark') {
+    document.documentElement.setAttribute(themeAttr, 'dark')
   }
 }
 
-function insertStyle(content: string) {
+function setStyleVars(styleVars: StyleVars | null) {
+  if (typeof document === 'undefined') {
+    return
+  }
+  const styles = styleVars === null ? null : formatStyleVars(styleVars)
+  syncDocumentTheme(styles)
+  removeStyle()
+  if (styles === null) {
+    return
+  }
+
+  const computed = typeof getComputedStyle === 'undefined' ? undefined : getComputedStyle(document.documentElement)
+  const declarations = Object.entries(styles)
+    .filter(([key, value]) => computed?.getPropertyValue(key).trim() !== String(value).trim())
+    .map(([key, value]) => `${key}:${value};`)
+    .join('')
+  if (!declarations) {
+    return
+  }
+
   const style = document.createElement('style')
   style.id = styleId
-  style.innerHTML = content
+  style.textContent = `:root:root {\n${declarations}\n}`
   document.head.appendChild(style)
 }
 
-function syncDocumentTheme(styleVars: StyleVars | null) {
-  if (typeof document === 'undefined') {
-    return
-  }
-  if (styleVars == null) {
-    document.documentElement.removeAttribute(THEME_ATTR)
-    return
-  }
-  const scheme = styleVars['--mp-color-scheme'] ?? styleVars['mp-color-scheme']
-  if (scheme === 'dark') {
-    document.documentElement.setAttribute(THEME_ATTR, 'dark')
-  } else if (scheme === 'light') {
-    document.documentElement.removeAttribute(THEME_ATTR)
-  }
-}
+const StyleProvider = Object.assign(withInstall(_StyleProvider), {
+  setStyleVars,
+})
 
-function omitUnchangedStyleVars(styleVars: StyleVars): StyleVars {
-  if (typeof document === 'undefined' || typeof getComputedStyle === 'undefined') {
-    return styleVars
-  }
-
-  const computed = getComputedStyle(document.documentElement)
-  const changed: StyleVars = {}
-
-  for (const [key, value] of Object.entries(styleVars)) {
-    if (computed.getPropertyValue(key).trim() !== String(value).trim()) {
-      changed[key] = value
-    }
-  }
-
-  return changed
-}
-
-function StyleProvider(styleVars: StyleVars | null) {
-  if (typeof document === 'undefined') {
-    return
-  }
-  if (styleVars == null) {
-    removeStyle()
-    syncDocumentTheme(null)
-    return
-  }
-
-  syncDocumentTheme(styleVars)
-  removeStyle()
-
-  const styles: StyleVars = omitUnchangedStyleVars(formatStyleVars(styleVars))
-  if (Object.keys(styles).length === 0) {
-    return
-  }
-
-  const content = Object.entries(styles).reduce((content, [key, value]) => {
-    content += `${key}:${value};`
-    return content
-  }, `:root:root {\n`)
-
-  insertStyle(`${content}\n}`)
-}
-
-StyleProvider.Component = VarStyleProvider
-withInstall(VarStyleProvider)
-withInstall(VarStyleProvider, StyleProvider)
-withPropsDefaultsSetter(StyleProvider, styleProviderProps)
-
-export { styleProviderProps }
-
-export type StyleProviderInstance = InstanceType<typeof VarStyleProvider>
-export const _StyleProviderComponent: typeof VarStyleProvider = VarStyleProvider
-
+export type StyleProviderInstance = InstanceType<typeof _StyleProvider>
+export type { StyleProviderProps, StyleProviderDefaults, StyleVars } from './props'
+export { StyleProvider, styleProviderProps }
+export const _StyleProviderComponent = StyleProvider
 export default StyleProvider
-export type StyleProviderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

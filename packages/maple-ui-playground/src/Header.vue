@@ -106,7 +106,7 @@ function getInitialTheme() {
 
 function syncTheme() {
   localStorage.setItem('maple-ui-playground-theme', props.theme)
-  StyleProvider(themeMap[props.theme as keyof typeof themeMap])
+  StyleProvider.setStyleVars(themeMap[props.theme as keyof typeof themeMap])
 
   props.theme.toLowerCase().includes('dark')
     ? document.documentElement.classList.add('dark')
@@ -175,14 +175,14 @@ async function setMapleVersion(v: string) {
         <mp-option v-for="v in vueVersions" :key="v" :label="`v${v}`" :value="v" />
       </mp-select>
 
-      <mp-menu v-model="currentTheme" placement="bottom" :offset-y="10">
+      <mp-dropdown-menu v-model="currentTheme" placement="bottom" :offset-y="10">
         <mp-button class="link-button" text round>
           <Palette />
         </mp-button>
         <template #content>
           <mp-menu-option v-for="t in themeOptions" :key="t.value" :label="t['en-US']" :value="t.value" />
         </template>
-      </mp-menu>
+      </mp-dropdown-menu>
 
       <mp-tooltip content="Copy Link">
         <mp-button class="link-button" text round @click="copyLink">

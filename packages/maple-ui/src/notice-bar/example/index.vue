@@ -6,15 +6,3 @@
     <mp-notice-bar style="margin-top: 12px" scrollable text="这是一条很长很长的通知，将会横向滚动播放。" />
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import NoticeBar from '..'
-
-export default defineComponent({
-  name: 'NoticeBarExample',
-  components: {
-    [NoticeBar.name]: NoticeBar,
-  },
-})
-</script>

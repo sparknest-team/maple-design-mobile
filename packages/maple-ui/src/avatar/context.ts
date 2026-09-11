@@ -3,8 +3,8 @@ import type { AvatarShape } from './props'
 
 export interface AvatarGroupContext {
   shape: ComputedRef<AvatarShape>
-  size: ComputedRef<number | undefined>
+  size: ComputedRef<number | string | undefined>
   autoFixFontSize: ComputedRef<boolean>
 }
 
-export const avatarGroupInjectionKey: InjectionKey<AvatarGroupContext> = Symbol('MapleAvatarGroup')
+export const avatarGroupInjectionKey: InjectionKey<AvatarGroupContext> = Symbol('AvatarGroup')

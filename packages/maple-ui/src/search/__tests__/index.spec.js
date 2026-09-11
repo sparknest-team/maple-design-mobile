@@ -223,7 +223,7 @@ test('search history menu', async () => {
   expect(popover.getAttribute('data-popper-placement')).toBe('bottom-start')
   expect(popover.classList.contains('mp-search__history-menu')).toBe(true)
 
-  document.body.querySelector('.mp-menu-option').click()
+  document.body.querySelector('.mp-dropdown-menu-option').click()
   await wrapper.vm.$nextTick()
   expect(onUpdateModelValue).lastCalledWith('Maple')
   expect(onSearch).lastCalledWith(

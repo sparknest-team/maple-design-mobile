@@ -1,6 +1,5 @@
 <script setup>
 import { AppType, watchLang } from '@maplejs/maple-cli/client'
-import vLazy from '..'
 import { t, use } from './locale'
 
 watchLang(use)

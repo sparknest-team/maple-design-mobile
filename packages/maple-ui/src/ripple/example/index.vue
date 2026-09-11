@@ -1,6 +1,5 @@
 <script setup>
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import vRipple from '..'
 import { t, use } from './locale'
 
 watchLang(use)

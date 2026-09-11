@@ -50,7 +50,10 @@ export function pickProps(props: any, propsKey: any): any {
     : props[propsKey]
 }
 
-export type ComponentWithInstall<T> = T & Plugin
+export type ComponentWithInstall<T> = T &
+  Plugin & {
+    setPropsDefaults: (defaults: Record<string, any>) => void
+  }
 
 export interface WithInstallOptions<InstallOptions = unknown> {
   components?: Component[]
@@ -74,9 +77,17 @@ export function withInstall<T = Component, InstallOptions = unknown>(
   options: WithInstallOptions<InstallOptions> = {},
 ): ComponentWithInstall<T> {
   const componentWithInstall = target ?? component
+  const components = options.components ?? [component]
+
+  withPropsDefaultsSetter(componentWithInstall, (component as any).props ?? {})
+  for (const item of components) {
+    if (item !== componentWithInstall) {
+      withPropsDefaultsSetter(item, (item as any).props ?? {})
+    }
+  }
 
   ;(componentWithInstall as ComponentWithInstall<T>).install = function (app: App, installOptions?: InstallOptions) {
-    for (const item of options.components ?? [component]) {
+    for (const item of components) {
       const name = options.resolveName?.(item, installOptions) ?? item.name
       if (name) {
         app.component(name, item)
@@ -88,8 +99,13 @@ export function withInstall<T = Component, InstallOptions = unknown>(
   return componentWithInstall as ComponentWithInstall<T>
 }
 
-export function withPropsDefaultsSetter(target: any, props: Record<string, any>) {
-  target.setPropsDefaults = function (defaults: Record<string, any>) {
+export function withPropsDefaultsSetter<T>(
+  target: T,
+  props: Record<string, any>,
+): T & {
+  setPropsDefaults: (defaults: Record<string, any>) => void
+} {
+  ;(target as any).setPropsDefaults = function (defaults: Record<string, any>) {
     Object.entries(defaults).forEach(([key, value]) => {
       const prop = props[key]
 
@@ -97,21 +113,32 @@ export function withPropsDefaultsSetter(target: any, props: Record<string, any>)
         return
       }
 
+      const type = isPlainObject(prop) ? prop.type : prop
+      const types = isArray(type) ? type : [type]
+      const defaultValue =
+        types.includes(Object) && (value === null || isPlainObject(value))
+          ? () => (value === null ? null : { ...value })
+          : types.includes(Array) && (value === null || isArray(value))
+            ? () => (value === null ? null : [...value])
+            : value
+
       if (isPlainObject(prop)) {
         // e.g. { type: String }
         props[key] = {
           ...prop,
-          default: value,
+          default: defaultValue,
         }
         return
       }
 
       props[key] = {
         type: prop,
-        default: value,
+        default: defaultValue,
       }
     })
   }
+
+  return target as T & { setPropsDefaults: (defaults: Record<string, any>) => void }
 }
 
 export function mount(component: Component): MountInstance {

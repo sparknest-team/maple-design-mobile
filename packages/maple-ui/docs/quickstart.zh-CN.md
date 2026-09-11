@@ -156,6 +156,27 @@ createApp(App).use(Maple).mount('#app')
 
 独立 SVG 图标不会随 UI 包全部注册；请继续显式导入，或使用 `MapleResolver()` 自动按需引入。
 
+### 全局设置组件默认值
+
+每个组件都提供 `setPropsDefaults`，用于统一修改之后创建的声明式组件默认值。请在应用挂载前调用：
+
+```ts
+import { Button, StyleProvider } from '@maplejs/maple-ui'
+
+Button.setPropsDefaults({
+  status: 'primary',
+  variant: 'tonal',
+  size: 'lg',
+})
+
+// 其他组件使用相同方式
+StyleProvider.setPropsDefaults({
+  tag: 'section',
+})
+```
+
+组件上显式传入的属性优先级更高。设置不会追溯更新已经挂载的实例；对象和数组默认值会按实例创建副本。
+
 ### TypeScript 配置
 
 确保自动生成的声明文件被 TypeScript 包含：
