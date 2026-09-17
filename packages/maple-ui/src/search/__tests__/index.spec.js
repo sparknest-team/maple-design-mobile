@@ -39,6 +39,22 @@ test('search render', () => {
   wrapper.unmount()
 })
 
+test('search keeps the default placeholder color on focus', async () => {
+  const wrapper = mount(VarSearch, {
+    props: {
+      placeholder: 'Search',
+    },
+  })
+  const input = wrapper.find('.mp-input__input')
+  const color = 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
+
+  expect(input.attributes('style')).toContain(`--mp-input-placeholder-color: ${color}`)
+  await input.trigger('focus')
+  expect(input.attributes('style')).toContain(`--mp-input-placeholder-color: ${color}`)
+
+  wrapper.unmount()
+})
+
 test('search events', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
   const onInput = vi.fn()
@@ -181,6 +197,7 @@ test('search history popup', async () => {
   expect(document.body.querySelector('.mp-search__popup').style.width).toBe('100vw')
   expect(document.body.querySelector('.mp-search__popup').style.height).toBe('100vh')
   expect(document.body.querySelector('.mp-search__popup .mp-search__action').textContent).toBe('取消')
+  expect(document.body.querySelector('.mp-search__history-menu')).toBeFalsy()
 
   document.body.querySelector('.mp-search__history-item').click()
   await wrapper.vm.$nextTick()
@@ -197,6 +214,38 @@ test('search history popup', async () => {
     expect.anything(),
   )
   expect(wrapper.vm.historyPopupVisible).toBe(false)
+
+  wrapper.unmount()
+})
+
+test.each([
+  ['cancel', (popup) => popup.querySelector('.mp-search__action').click()],
+  ['history selection', (popup) => popup.querySelector('.mp-search__history-item').click()],
+])('search history popup stays closed after %s restores focus', async (_, closePopup) => {
+  const wrapper = mount(VarSearch, {
+    attachTo: document.body,
+    props: {
+      modelValue: '',
+      recentSearches: ['Maple', 'Cedar'],
+    },
+  })
+
+  const input = wrapper.find('.mp-input__input')
+  await input.trigger('focus')
+  const popup = document.body.querySelector('.mp-search__popup')
+
+  closePopup(popup)
+  await wrapper.vm.$nextTick()
+  await input.trigger('focus')
+
+  expect(wrapper.vm.historyPopupVisible).toBe(false)
+  expect(wrapper.vm.historyPopupClosing).toBe(true)
+
+  wrapper.findComponent({ name: 'MpPopup' }).vm.$emit('closed')
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.vm.historyPopupVisible).toBe(false)
+  expect(wrapper.vm.historyPopupClosing).toBe(false)
 
   wrapper.unmount()
 })
@@ -238,6 +287,9 @@ test('search history menu', async () => {
     undefined,
   )
   expect(wrapper.vm.historyMenuVisible).toBe(false)
+
+  await wrapper.find('.mp-input__input').trigger('focus')
+  expect(wrapper.vm.historyMenuVisible).toBe(true)
 
   wrapper.unmount()
 })

@@ -6,195 +6,62 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ### Basic usage and subtitle
 
-```html
-<template>
-  <mp-space direction="column" style="width: 100%">
-    <mp-card title="Project overview" description="Keep the team informed." />
-    <mp-card
-      title="Project overview"
-      subtitle="Updated today"
-      description="Keep the team informed."
-      top-divider
-      bottom-divider
-    >
-      Release checklist and project updates.
-      <template #title-action><mp-button size="sm">More</mp-button></template>
-      <template #footer><mp-button status="primary">View details</mp-button></template>
-    </mp-card>
-  </mp-space>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ### Custom header
 
-```html
-<template>
-  <mp-card title="Fallback title">
-    <template #header
-      ><header style="padding: 16px">
-        <strong>Custom header</strong>
-        <p>Replaces the title and subtitle region.</p>
-      </header></template
-    >
-    Card content
-  </mp-card>
-</template>
+```demo
+../example/demos/no-padding.vue
 ```
 
 ### Hover style
 
-```html
-<template>
-  <mp-card hoverable title="Hover over this card" style="width: 100%; max-width: 360px"
-    >Hover feedback on pointer devices.</mp-card
-  >
-</template>
+```demo
+../example/demos/hoverable.vue
 ```
 
 ### Variants and elevation
 
-```html
-<script setup lang="ts">
-const variants = ['default', 'outline', 'tonal'] as const
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%">
-    <mp-card v-for="variant in variants" :key="variant" :variant="variant" :title="variant"
-      >Card content</mp-card
-    >
-    <mp-card :elevation="false" title="No elevation">Card content</mp-card>
-    <mp-card :elevation="4" title="Elevation 4">Card content</mp-card>
-  </mp-space>
-</template>
+```demo
+../example/demos/variant.vue
 ```
 
 ### Images and directions
 
-```html
-<script setup lang="ts">
-const imageSrc = `${import.meta.env.BASE_URL}cat.jpg`
-const directions = ['column', 'row', 'row-reverse'] as const
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%">
-    <mp-card
-      v-for="direction in directions"
-      :key="direction"
-      :direction="direction"
-      :title="direction"
-      :src="imageSrc"
-      alt="Cat"
-      :image-height="120"
-      :image-width="direction === 'column' ? '100%' : 100"
-      fit="cover"
-      >Card content</mp-card
-    >
-    <mp-card title="Custom cover"
-      ><template #cover
-        ><img :src="imageSrc" alt="Cat" style="width: 100%; height: 120px; object-fit: cover" /></template
-      >Cover slot overrides the image.</mp-card
-    >
-  </mp-space>
-</template>
+```demo
+../example/demos/image.vue
 ```
 
 ### Sizes
 
-```html
-<script setup lang="ts">
-const sizes = ['sm', 'md'] as const
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%">
-    <mp-card v-for="size in sizes" :key="size" :size="size" :title="size" subtitle="Content density"
-      >Card content</mp-card
-    >
-  </mp-space>
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### Long title and tooltip
 
-```html
-<script setup lang="ts">
-const title = 'Project overview with a long title that does not fit on one line'
-</script>
-
-<template>
-  <mp-card style="width: 100%; max-width: 280px">
-    <template #title
-      ><span class="long-title" :title="title">{{ title }}</span></template
-    >
-    <template #description
-      ><span class="long-title" :title="title">{{ title }}</span></template
-    >
-    Native title tooltip on pointer devices; the full text remains in the DOM.
-  </mp-card>
-</template>
-
-<style scoped>
-.long-title {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-</style>
+```demo
+../example/demos/tooltip.vue
 ```
 
 ### Content slots
 
-```html
-<template>
-  <mp-card top-divider bottom-divider>
-    <template #cover><div style="padding: 16px">Custom cover</div></template>
-    <template #title="{ slotClass }"><strong :class="slotClass">Custom title</strong></template>
-    <template #title-action><mp-button size="sm">More</mp-button></template>
-    <template #subtitle="{ slotClass }"><span :class="slotClass">Custom subtitle</span></template>
-    <template #description="{ slotClass }"><p :class="slotClass">Custom description</p></template>
-    Default content
-    <template #footer><mp-button status="primary">Confirm</mp-button></template>
-  </mp-card>
-</template>
+```demo
+../example/demos/slots.vue
 ```
-
 
 ### Ripple and click
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const clicks = ref(0)
-</script>
-
-<template>
-  <mp-card ripple title="Click this card" @click="clicks++"
-    >Clicks: <output aria-live="polite">{{ clicks }}</output></mp-card
-  >
-</template>
+```demo
+../example/demos/ripple.vue
 ```
 
 ### Floating and close
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const floating = ref(false)
-</script>
-
-<template>
-  <mp-card v-model:floating="floating" title="Project overview" :floating-duration="250">
-    Summary content
-    <template #footer><mp-button status="primary" @click="floating = true">Expand</mp-button></template>
-    <template #floating-content><p style="padding: 16px">Expanded project details.</p></template>
-    <template #close-button
-      ><mp-button aria-label="Close expanded card" @click.stop="floating = false">Close</mp-button></template
-    >
-  </mp-card>
-</template>
+```demo
+../example/demos/floating.vue
 ```
 
 ## API

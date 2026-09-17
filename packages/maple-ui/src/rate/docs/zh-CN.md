@@ -6,57 +6,25 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score"/>
-  <mp-rate v-model="score" icon="thumb-up-fill" empty-icon="thumb-up"/>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 自定义评分总数
 
 通过 `count` 属性设置评分总数。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score" :count="8"/>
-</template>
+```demo
+../example/demos/custom-total-rating.vue
 ```
-
 
 ### 自定义评分图标样式
 
 通过 `icon` 和 `empty-icon` 属性设置选中和未选中时的图标。
 通过 `color` 和 `empty-color` 属性设置选中和未选中时的颜色。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate 
-    icon="heart-fill" 
-    empty-icon="heart" 
-    color="red" 
-    empty-color="red"
-    v-model="score"
-  />
-</template>
+```demo
+../example/demos/custom-rating-icon-style.vue
 ```
 
 ### 自定义评分图标尺寸与间隔
@@ -64,41 +32,16 @@ const score = ref(3)
 通过 `size` 属性设置评分图标的尺寸。
 通过 `gap` 属性设置评分之间的间隔。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score" :size="28" :gap="8"/>
-</template>
+```demo
+../example/demos/custom-rating-icon-size-and-gap.vue
 ```
 
 ### 使用半星
 
 通过 `allow-half` 属性将评分设置为可半选，`half-icon` 属性设置半选时的样式。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3.5)
-</script>
-
-<template>
-  <mp-rate allow-half :count="8" v-model="score" />
-  <mp-rate
-    allow-half
-    icon="heart-fill"
-    half-icon="heart-half-full"
-    empty-icon="heart"
-    color="red"
-    :count="8"
-    v-model="score"
-  />
-</template>
+```demo
+../example/demos/half-star.vue
 ```
 
 ### 禁用与只读
@@ -106,59 +49,29 @@ const score = ref(3.5)
 通过 `disabled` 属性将评分设置为禁止点击状态，`disabled-color` 设置禁用时图标的颜色。
 通过 `readonly` 属性将评分设置为只读状态。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score" disabled/>
-  <mp-rate v-model="score" readonly/>
-</template>
+```demo
+../example/demos/disabled-and-readonly.vue
 ```
+
 ### 可清空
 
 通过 `clearable` 属性允许用户清空评分。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3.5)
-</script>
-
-<template>
-  <mp-rate v-model="score" clearable allow-half/>
-</template>
+```demo
+../example/demos/clearable.vue
 ```
 
 ### 监听事件
 
 通过调用 `change` 事件完成其他交互逻辑。
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
 
-const score = ref(3)
-
-function handleChange(score) {
-  Message({
-    content: `click ${score}`,
-    position: 'top'
-  })
-}
-</script>
-
-<template>
-  <mp-rate v-model="score" @change="handleChange"/>
-</template>
-```
 
 > 评分组件的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+
+```demo
+../example/demos/listen-event.vue
+```
 
 ## API
 

@@ -6,91 +6,70 @@
 
 ### 基础用法
 
-```html
-<mp-input v-model="value" placeholder="请输入内容" />
-<mp-input v-model="clearableValue" clearable placeholder="可清除文本" />
+```demo
+../example/demos/basic.vue
 ```
 
 ### 外观变体
 
-```html
-<mp-input variant="filled" placeholder="填充外观" />
-<mp-input variant="outline" placeholder="描边外观" />
-<mp-input variant="standard" placeholder="标准外观" />
+```demo
+../example/demos/variant.vue
 ```
 
 ### 提示文字
 
-`hint` 不依赖特定外观。开启时，placeholder 会在输入框聚焦或有值时作为提示文字上浮；关闭时保持原生占位符行为。
+`hint` 开启时，placeholder 会在聚焦或有值时上浮；关闭后保持原生占位符行为。
 
-```html
-<mp-input variant="filled" placeholder="用户名" />
-<mp-input variant="outline" placeholder="用户名" />
-<mp-input variant="standard" placeholder="用户名" />
-
-<mp-input variant="filled" :hint="false" placeholder="用户名" />
-<mp-input variant="outline" :hint="false" placeholder="用户名" />
-<mp-input variant="standard" :hint="false" placeholder="用户名" />
+```demo
+../example/demos/hint.vue
 ```
 
 ### 输入类型
 
-```html
-<mp-input type="text" placeholder="请输入文本" />
-<mp-input type="number" placeholder="请输入数字" />
-<mp-input type="tel" placeholder="请输入手机号" />
-<mp-input type="email" placeholder="请输入邮箱" />
-<mp-input type="password" placeholder="请输入密码" />
+```demo
+../example/demos/type.vue
 ```
 
 ### 尺寸
 
-```html
-<template v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
-  <mp-input v-for="variant in ['filled', 'outline', 'standard']" :key="variant" :size="size" :variant="variant" />
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### 状态
 
-```html
-<mp-input model-value="Maple Design" readonly /> <mp-input model-value="Maple Design" disabled />
+```demo
+../example/demos/state.vue
 ```
 
 ### 前缀和后缀
 
-```html
-<mp-input placeholder="请输入手机号"><template #prefix>+86</template></mp-input>
-<mp-input placeholder="请输入金额"><template #suffix>RMB</template></mp-input>
+```demo
+../example/demos/prefix-suffix.vue
 ```
 
 ### 字数限制
 
-```html
-<mp-input v-model="value" :max-length="10" clearable />
+```demo
+../example/demos/max-length.vue
 ```
 
 ### 自定义清除图标
 
-```html
-<mp-input v-model="value" clearable>
-  <template #clear-icon="{ clear }">
-    <m-icon-error @click="clear" />
-  </template>
-</mp-input>
+```demo
+../example/demos/custom-clear-icon.vue
 ```
 
-### 输入修饰符与原生属性
+### 输入修饰符
 
-```html
-<mp-input v-model.trim="value" />
-<mp-input
-  type="email"
-  autocomplete="email"
-  enterkeyhint="next"
-  aria-label="邮箱"
-  :input-attrs="{ name: 'email', autocapitalize: 'none' }"
-/>
+```demo
+../example/demos/model-modifier.vue
+```
+
+### 原生属性
+
+```demo
+../example/demos/native-attrs.vue
 ```
 
 ## API

@@ -2,7 +2,7 @@
 
 审计日期：2026-09-08。基于当前工作区源码（包含正在进行的 API 对齐改动），不是发布版本保证。标记规则更新：2026-09-08；已完成原待同源 11 组组件及 Link / Paper 的独立复制与双端验证；待适配和逻辑待同源仍为候选。
 
-已同源 26 组；待同源 0 组；待适配 23 组；逻辑待同源 21 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
+已同源 30 组；待同源 0 组；待适配 20 组；逻辑待同源 20 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
 
 ## 菜单标记
 
@@ -46,10 +46,10 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | avatar | avatar | 已同源 | 2026-09-11 完成独立源码复制；Avatar/AvatarGroup 主体、Props、图片 load/error、文字缩放与分组折叠纳入一致性检查。size 支持 CSS 长度；ObjectFit 更名为 AvatarObjectFit。图标、Popover、安装入口与 token 前缀由各库适配。 |
 | button | button | 已同源 | 共同契约补齐后选择 Maple：Button/ButtonGroup、Props、交互逻辑、样式和 12 组 demo 已复制对齐并纳入检查；注册入口和命名空间各自保留。竞赛证据见 button-race.json。 |
 | breadcrumb | breadcrumb | 已同源 | 2026-09-08 完成 Breadcrumb / BreadcrumbItem 独立源码复制；主体、Props、上下文、类型、关键样式及配对测试纳入一致性检查。双端组件测试与 SSR 通过；图标、安装入口、Menu 和主题 token 本地适配。统一非空 routes 优先、分隔符优先级与 select(route, event)，修复空 routes 和省略项菜单行为。 |
-| collapse | collapse | 待适配 | Maple 多 elevation；可作为主题扩展，需统一展开/分页状态、子项事件及受控默认值行为。 |
+| collapse | collapse | 已同源 | 2026-09-15 完成独立源码复制；Collapse/CollapseItem 主体 SFC、9 项公共 Props、change/toggleAll、键盘与 destroyOnHide 纳入一致性检查。去掉 Maple elevation；默认图标与尺寸 token 由各库 platform 适配。 |
 | pagination | pagination | 已同源 | 统一主体 SFC、23 项 Props、4 个事件、6 个插槽、分页状态与按钮和布局；12 组 demo 对齐。Locale、Input、Select 使用显式平台适配，480px 容器自动简洁模式；同源检查覆盖 13 个实现文件。 |
-| empty | empty | 待适配 | Empty 的 icon/inConfigProvider 为 Cedar 特有，Result 的 animation/imageSize 为 Maple 特有；统一资源插槽、尺寸及配置读取。 |
-| result | result | 待适配 | Empty 的 icon/inConfigProvider 为 Cedar 特有，Result 的 animation/imageSize 为 Maple 特有；统一资源插槽、尺寸及配置读取。 |
+| empty | empty | 已同源 | 2026-09-15 完成独立源码复制；主体 SFC、6 项 Props、click、image/default/extra 插槽与尺寸档位纳入一致性检查。去掉 icon/inConfigProvider；ConfigProvider 空状态、默认图标、locale 与尺寸 token 由各库 platform 适配。 |
+| result | result | 待适配 | Result 的 animation/imageSize 等仍为 Maple 特有；统一状态图形、缺省文案与资源插槽后再同源。 |
 | link | link | 已同源 | 以 Cedar 原生链接与 hoverable 为基础，补齐键盘焦点、加载动画、动态图标插槽及禁用属性透传；主体、Props、主样式和配对测试独立复制并验证，保留本地图标和主题 token。 |
 | loading | loading | 待适配 | Loading 的 dot/hideIcon 等表现能力仍需复核与适配；统一默认值及插槽后再同源对齐渲染。 |
 | grid | grid | 已同源 | Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。 |
@@ -69,7 +69,7 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | search | search | 待适配 | 输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。 |
 | infinite-scroll | infinite-scroll | 待适配 | InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。 |
 | list | list | 待适配 | InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。 |
-| image | image | 待适配 | Image/Preview/PreviewGroup Props 同名且已有配对契约基础；同源对齐加载和预览控制器，工具栏、键鼠缩放、触控缩放及弹层生命周期要逐项验证。 |
+| image | image | 已同源 | 2026-09-15 完成独立源码复制；Image/Preview/PreviewGroup 主体 SFC、加载回退、预览控制器与命令式 API 纳入一致性检查。去掉 platform.config；懒加载用原生 loading、图标/默认加载器/默认值由各库 platform 与 setPropsDefaults 适配。 |
 | overlay | overlay | 待适配 | Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。 |
 | dialog | dialog | 待适配 | Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。 |
 | style-provider | style-provider | 已同源 | 主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。 |
@@ -84,7 +84,7 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | date-range-picker | date-range-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
 | time-picker | time-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
 | time-range-picker | time-range-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
-| dropdown-menu | dropdown-menu | 已同源 | 2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。旧 Menu / MenuGroup / MenuSubmenu 已废弃，不再保留别名。 |
+| dropdown-menu | dropdown-menu | 已同源 | 2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。旧 Menu / MenuGroup / MenuSubmenu 已废弃，不再保留别名。 |
 | popover | popover | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
 | tooltip | tooltip | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
 | trigger | trigger | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
@@ -144,7 +144,7 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | checkboxProps | 6 / 9 | `defaultChecked`, `uninjectGroupContext` | `checkedColor`, `iconSize`, `readonly`, `ripple`, `uncheckedColor` |
 | colProps | 10 / 10 | — | — |
 | collapseItemProps | 5 / 5 | — | — |
-| collapseProps | 9 / 10 | — | `elevation` |
+| collapseProps | 9 / 9 | — | — |
 | countToProps | 6 / 6 | — | — |
 | countdownProps | 3 / 3 | — | — |
 | datePickerProps | 12 / 21 | `dayStartOfWeek`, `defaultValue`, `disabled`, `format`, `hideTrigger`, `mode`, `showNowBtn` | `buttonElevation`, `color`, `elevation`, `firstDayOfWeek`, `hint`, `max`, `min`, `multiple`, `presentation`, `range`, `readonly`, `showCurrent`, `titleColor`, `touchable`, `type`, `useSeconds` |
@@ -154,7 +154,7 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | dialogProps | 44 / 44 | — | — |
 | dividerProps | 10 / 10 | — | — |
 | ellipsisProps | 4 / 4 | — | — |
-| emptyProps | 8 / 6 | `icon`, `inConfigProvider` | — |
+| emptyProps | 6 / 6 | — | — |
 | formProps | 14 / 6 | `autoLabelWidth`, `id`, `labelAlign`, `labelColProps`, `labelColStyle`, `rules`, `size`, `wrapperColProps`, `wrapperColStyle` | `readonly` |
 | gridItemProps | 3 / 3 | — | — |
 | gridProps | 5 / 5 | — | — |
@@ -169,7 +169,7 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | linkProps | 9 / 9 | — | — |
 | listProps | 8 / 5 | `maxHeight`, `scrollbar`, `virtualListProps` | — |
 | loadingProps | 8 / 6 | `dot`, `hideIcon` | — |
-| dropdownMenuProps | 25 / 25 | — | — |
+| menuProps | 18 / 25 | — | `closeOnClickReference`, `elevation`, `mouseEnterDelay`, `mouseLeaveDelay`, `reference`, `size`, `strategy` |
 | messageProps | 7 / 18 | `closeButtonAriaLabel`, `resetOnHover`, `resetOnUpdate` | `_update`, `content`, `contentClass`, `elevation`, `forbidClick`, `loadingColor`, `loadingRadius`, `loadingSize`, `loadingType`, `lockScroll`, `open`, `popupContainer`, `position`, `vertical` |
 | overlayProps | 8 / 8 | — | — |
 | pageHeaderProps | 4 / 4 | — | — |
@@ -215,4 +215,4 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 
 ## 仅 Maple 根入口存在的 Props 导出
 
-`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `fieldDecoratorProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `menuOptionProps`, `noticeBarProps`, `numberKeyboardProps`, `optionProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `searchProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`, `tabItemProps`, `tabProps`, `tabsItemsProps`
+`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `fieldDecoratorProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `menuGroupProps`, `menuOptionProps`, `noticeBarProps`, `numberKeyboardProps`, `optionProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `searchProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`, `tabItemProps`, `tabProps`, `tabsItemsProps`

@@ -1,204 +1,65 @@
-<script setup>
-import { reactive, ref, toRefs } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import DemoBasic from './demos/basic.vue'
+import DemoControlled from './demos/controlled.vue'
+import DemoCustomStyle from './demos/custom-style.vue'
+import DemoEditable from './demos/editable.vue'
+import DemoIconsAndSlots from './demos/icons-and-slots.vue'
+import DemoLazyLoad from './demos/lazy-load.vue'
+import DemoNavContent from './demos/nav-content.vue'
+import DemoPosition from './demos/position.vue'
+import DemoScrollable from './demos/scrollable.vue'
+import DemoVariants from './demos/variants.vue'
 
-const actives = reactive({
-  active: 0,
-  active2: 0,
-  active3: 0,
-  active4: 0,
-  active5: 0,
-  active6: 0,
-  active7: 0,
-  active8: 0,
-  activeRelation: 0,
-})
-const { active, active2, active3, active4, active5, active6, active7, active8, activeRelation } = toRefs(actives)
-const currentTheme = ref()
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
-onThemeChange((theme) => {
-  currentTheme.value = theme
+watchLang((value) => {
+  language.value = value
 })
+onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-tabs v-model:active="active">
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('modifyStyle') }}</app-type>
-  <mp-tabs
-    v-model:active="active2"
-    elevation
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-tabs
-    v-model:active="active3"
-    elevation
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-    :disabled-color="currentTheme === 'darkTheme' ? '#bbb' : undefined"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab disabled>{{ t('disabled') }}</mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('enableScroll') }}</app-type>
-  <mp-tabs
-    v-model:active="active4"
-    elevation
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-    <mp-tab>{{ t('option') }}4</mp-tab>
-    <mp-tab>{{ t('option') }}5</mp-tab>
-    <mp-tab>{{ t('option') }}6</mp-tab>
-    <mp-tab>{{ t('option') }}7</mp-tab>
-    <mp-tab>{{ t('option') }}8</mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('tabVerticalLayout') }}</app-type>
-  <mp-tabs
-    v-model:active="active5"
-    elevation
-    item-vertical
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-  >
-    <mp-tab>
-      <m-icon-info-circle-fill class="icon" />
-      <div>{{ t('option') }}1</div>
-    </mp-tab>
-    <mp-tab>
-      <m-icon-warning class="icon" />
-      <div>{{ t('option') }}2</div>
-    </mp-tab>
-    <mp-tab>
-      <m-icon-error class="icon" />
-      <div>{{ t('option') }}3</div>
-    </mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('tabsVerticalLayout') }}</app-type>
-  <mp-tabs
-    v-model:active="active6"
-    class="vertical-tabs"
-    elevation
-    orientation="vertical"
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('viewRelation') }}</app-type>
-  <mp-tabs
-    v-model:active="activeRelation"
-    elevation
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-    offset-top="50"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <mp-tabs-items v-model:active="activeRelation" style="margin: 8px 0">
-    <mp-tab-item>
-      {{ t('text') }}
-    </mp-tab-item>
-    <mp-tab-item>
-      {{ t('text2') }}
-    </mp-tab-item>
-    <mp-tab-item>
-      {{ t('text3') }}
-    </mp-tab-item>
-  </mp-tabs-items>
-
-  <app-type>{{ t('stickyLayout') }}</app-type>
-  <mp-tabs
-    v-model:active="active7"
-    sticky
-    elevation
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-    offset-top="14.4vmin"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <app-type>{{ t('indicatorPosition') }}</app-type>
-  <mp-tabs
-    v-model:active="active8"
-    elevation
-    indicator-position="reverse"
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <mp-tabs
-    v-model:active="active8"
-    style="margin-top: 20px"
-    elevation
-    class="vertical-tabs"
-    indicator-position="reverse"
-    orientation="vertical"
-    color="var(--mp-color-primary)"
-    active-color="var(--mp-color-white)"
-    inactive-color="var(--mp-color-white)"
-  >
-    <mp-tab>{{ t('option') }}1</mp-tab>
-    <mp-tab>{{ t('option') }}2</mp-tab>
-    <mp-tab>{{ t('option') }}3</mp-tab>
-  </mp-tabs>
-
-  <div style="height: 120vh"></div>
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Simplest usage' : '最简单用法' }}</app-type>
+    <DemoBasic />
+  </section>
+  <section data-demo="nav-content">
+    <app-type>{{ english ? 'Navigation only' : '仅导航' }}</app-type>
+    <DemoNavContent />
+  </section>
+  <section data-demo="variants">
+    <app-type>{{ english ? 'Variants and sizes' : '变体与尺寸' }}</app-type>
+    <DemoVariants />
+  </section>
+  <section data-demo="scrollable">
+    <app-type>{{ english ? 'Scrolling and swipe gestures' : '横向滚动与手势切换' }}</app-type>
+    <DemoScrollable />
+  </section>
+  <section data-demo="position">
+    <app-type>{{ english ? 'Orientation and indicator position' : '方向与指示器位置' }}</app-type>
+    <DemoPosition />
+  </section>
+  <section data-demo="icons-and-slots">
+    <app-type>{{ english ? 'Icons and navigation slots' : '图标与导航插槽' }}</app-type>
+    <DemoIconsAndSlots />
+  </section>
+  <section data-demo="editable">
+    <app-type>{{ english ? 'Add and remove tabs' : '动态增删标签' }}</app-type>
+    <DemoEditable />
+  </section>
+  <section data-demo="controlled">
+    <app-type>{{ english ? 'Controlled tabs' : '受控切换' }}</app-type>
+    <DemoControlled />
+  </section>
+  <section data-demo="lazy-load">
+    <app-type>{{ english ? 'Lazy content mounting' : '按需挂载内容' }}</app-type>
+    <DemoLazyLoad />
+  </section>
+  <section data-demo="custom-style">
+    <app-type>{{ english ? 'Custom tab styles' : '自定义内部样式' }}</app-type>
+    <DemoCustomStyle />
+  </section>
 </template>
-
-<style lang="less" scoped>
-.vertical-tabs {
-  width: 80px;
-  height: 120px;
-}
-
-.icon {
-  margin-bottom: 5px;
-}
-
-.mp-tab-item {
-  color: var(--mp-color-text);
-}
-</style>

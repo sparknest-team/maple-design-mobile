@@ -1,124 +1,56 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import AnimationDemo from './demos/animation.vue'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CountdownDemo from './demos/countdown.vue'
+import CustomValueDemo from './demos/custom-value.vue'
+import ExtraDemo from './demos/extra.vue'
+import PrefixSuffixDemo from './demos/prefix-suffix.vue'
+import TabularNumsDemo from './demos/tabular-nums.vue'
 
-const started = ref(false)
-const values = [1111, 8888, 1010, 9090]
-const index = ref(0)
-const count = ref(values[0])
-let timer = 0
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-onMounted(() => {
-  timer = window.setInterval(() => {
-    index.value = (index.value + 1) % values.length
-    count.value = values[index.value]
-  }, 800)
-})
-
-onUnmounted(() => {
-  window.clearInterval(timer)
-})
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('downloads')" :value="125670" show-group-separator />
-    <mp-statistic :title="t('comments')" :extra="t('comparedToYesterday')" :value="40509" :precision="2" />
-    <mp-statistic :title="t('activeUsers')" value="1.28k" />
-  </mp-space>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('prefixSuffix') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('accountBalance')" :value="125670" prefix="$" show-group-separator />
-    <mp-statistic
-      :title="t('growthRate')"
-      :value="12.8"
-      :precision="1"
-      suffix="%"
-      :value-style="{ color: 'var(--mp-color-success)' }"
-    >
-      <template #prefix>▲</template>
-    </mp-statistic>
-    <mp-statistic
-      :title="t('bounceRate')"
-      :value="3.2"
-      :precision="1"
-      suffix="%"
-      :value-style="{ color: 'var(--mp-color-danger)' }"
-    >
-      <template #prefix>▼</template>
-    </mp-statistic>
-  </mp-space>
+  <section data-demo="prefix-suffix">
+    <app-type>{{ english ? 'Prefix / Suffix' : '前缀 / 后缀' }}</app-type>
+    <PrefixSuffixDemo />
+  </section>
 
-  <app-type>{{ t('tabularNums') }}</app-type>
-  <p class="statistic-example__hint">{{ t('tabularHint') }}</p>
-  <mp-space direction="column" size="lg">
-    <mp-statistic
-      :title="t('tabularOff')"
-      :value="count"
-      suffix="|"
-      :value-style="{ fontVariantNumeric: 'proportional-nums' }"
-    />
-    <mp-statistic :title="t('tabularOn')" :value="count" suffix="|" tabular-nums />
-  </mp-space>
+  <section data-demo="tabular-nums">
+    <app-type>{{ english ? 'Tabular Numbers' : '等宽数字' }}</app-type>
+    <TabularNumsDemo />
+  </section>
 
-  <app-type>{{ t('extra') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('revenue')" :value="9280" prefix="$" show-group-separator :extra="t('extraRevenue')" />
-    <mp-statistic :title="t('newUsers')" :value="1280" show-group-separator>
-      <template #extra>
-        <span style="color: var(--mp-color-success)">{{ t('extraLastWeek') }}</span>
-      </template>
-    </mp-statistic>
-  </mp-space>
+  <section data-demo="extra">
+    <app-type>{{ english ? 'Extra' : '额外信息' }}</app-type>
+    <ExtraDemo />
+  </section>
 
-  <app-type>{{ t('animation') }}</app-type>
-  <mp-space align="flex-end" size="lg">
-    <mp-statistic
-      :title="t('growthRate')"
-      :value="50.52"
-      :precision="2"
-      :value-from="0"
-      :start="started"
-      suffix="%"
-      animation
-    >
-      <template #prefix>▲</template>
-    </mp-statistic>
-    <mp-button status="primary" @click="started = true">{{ t('startText') }}</mp-button>
-  </mp-space>
+  <section data-demo="animation">
+    <app-type>{{ english ? 'Animation' : '数值动画' }}</app-type>
+    <AnimationDemo />
+  </section>
 
-  <app-type>{{ t('customValue') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('activeUsers')">
-      <mp-count-to :from="0" :to="125670" :duration="2000" />
-    </mp-statistic>
-    <mp-statistic :title="t('conversionRate')" suffix="%">
-      <mp-count-to :from="0" :to="36.8" :duration="2000" :precision="1" />
-    </mp-statistic>
-  </mp-space>
+  <section data-demo="custom-value">
+    <app-type>{{ english ? 'Custom Value' : '自定义数值' }}</app-type>
+    <CustomValueDemo />
+  </section>
 
-  <app-type>{{ t('countdown') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('countdown')">
-      <mp-countdown :time="2 * 60 * 60 * 1000" />
-    </mp-statistic>
-    <mp-statistic :title="t('campaign')">
-      <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-    </mp-statistic>
-  </mp-space>
+  <section data-demo="countdown">
+    <app-type>{{ english ? 'Countdown' : '倒计时' }}</app-type>
+    <CountdownDemo />
+  </section>
 </template>
-
-<style scoped>
-.statistic-example__hint {
-  margin: 0 0 12px;
-  color: var(--mp-color-text-3);
-  font-size: var(--mp-font-size-sm);
-  line-height: 1.5;
-}
-</style>

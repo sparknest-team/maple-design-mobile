@@ -4,202 +4,46 @@
 
 通过下拉菜单或底部弹窗的形式进行级联选择。
 
-### 基本使用
+### 请选择地区
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/placeholder.vue
+```
 
-  const value = ref([])
-  const value2 = ref('')
-  const value3 = ref([])
-  const value4 = ref()
-  const value5 = ref([])
+### 非路径模式
 
-  const options = ref([
-    {
-      label: '浙江省',
-      value: 'zhejiang',
-      children: [
-        {
-          label: '杭州市',
-          value: 'hangzhou',
-          children: [
-            { label: '西湖区', value: 'xihu' },
-            { label: '拱墅区', value: 'gongshu' },
-          ],
-        },
-        {
-          label: '宁波市',
-          value: 'ningbo',
-        },
-      ],
-    },
-    {
-      label: '江苏省',
-      value: 'jiangsu',
-      children: [
-        { label: '南京市', value: 'nanjing' },
-        { label: '苏州市', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-cascader placeholder="请选择地区" v-model="value" :options="options" />
-    <mp-cascader placeholder="非路径模式" v-model="value2" :options="options" :path-mode="false" />
-    <mp-cascader placeholder="严格选择模式" v-model="value3" :options="options" check-strictly />
-    <mp-cascader placeholder="级联多选" v-model="value5" :options="options" multiple tag />
-    <mp-cascader placeholder="Picker 模式" presentation="picker" v-model="value4" :options="options" />
-  </mp-space>
-</template>
+```demo
+../example/demos/placeholder-path-mode.vue
 ```
 
 ### 级联多选
 
-开启 `multiple` 后可选择多个路径，配合 `tag` 以标签形式展示。
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref([])
-
-  const options = ref([
-    {
-      label: '浙江省',
-      value: 'zhejiang',
-      children: [
-        {
-          label: '杭州市',
-          value: 'hangzhou',
-          children: [
-            { label: '西湖区', value: 'xihu' },
-            { label: '拱墅区', value: 'gongshu' },
-          ],
-        },
-        { label: '宁波市', value: 'ningbo' },
-      ],
-    },
-    {
-      label: '江苏省',
-      value: 'jiangsu',
-      children: [
-        { label: '南京市', value: 'nanjing' },
-        { label: '苏州市', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-cascader placeholder="请选择地区" v-model="value" :options="options" multiple tag />
-</template>
+```demo
+../example/demos/placeholder-multiple.vue
 ```
 
 ### Picker 模式
 
-单选时与 `mp-picker` 一致：取消 / 确认，确认即写入并关闭。
+```demo
+../example/demos/placeholder-picker.vue
+```
 
-多选时采用「临时购物车」交互：**取消** 丢弃本次编辑，**添加** 将当前滚轮路径加入已选列表（不关闭），**完成** 才提交并关闭。
+### Picker 多选
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref([])
-  const multipleValue = ref([])
-
-  const options = ref([
-    {
-      label: '浙江省',
-      value: 'zhejiang',
-      children: [
-        {
-          label: '杭州市',
-          value: 'hangzhou',
-          children: [
-            { label: '西湖区', value: 'xihu' },
-            { label: '拱墅区', value: 'gongshu' },
-          ],
-        },
-        { label: '宁波市', value: 'ningbo' },
-      ],
-    },
-    {
-      label: '江苏省',
-      value: 'jiangsu',
-      children: [
-        { label: '南京市', value: 'nanjing' },
-        { label: '苏州市', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-cascader presentation="picker" placeholder="请选择地区" v-model="value" :options="options" />
-    <mp-cascader
-      presentation="picker"
-      placeholder="Picker 多选"
-      v-model="multipleValue"
-      :options="options"
-      multiple
-      tag
-    />
-  </mp-space>
-</template>
+```demo
+../example/demos/placeholder-picker-multiple.vue
 ```
 
 ### List 模式
 
-将 `presentation` 设置为 `list`，弹窗内以导航面包屑 + 列表选择。当前级有下划线标识，选中项右侧显示对号。
+```demo
+../example/demos/placeholder-list.vue
+```
 
-单选：选到可确认节点后立即提交并关闭。多选：点击可确认节点即可勾选 / 取消勾选（草稿），「完成」提交，「取消」丢弃。
+### List 多选
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref([])
-  const multipleValue = ref([])
-
-  const options = ref([
-    {
-      label: '浙江省',
-      value: 'zhejiang',
-      children: [
-        {
-          label: '杭州市',
-          value: 'hangzhou',
-          children: [
-            { label: '西湖区', value: 'xihu' },
-            { label: '拱墅区', value: 'gongshu' },
-          ],
-        },
-        { label: '宁波市', value: 'ningbo' },
-      ],
-    },
-    {
-      label: '江苏省',
-      value: 'jiangsu',
-      children: [
-        { label: '南京市', value: 'nanjing' },
-        { label: '苏州市', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-cascader presentation="list" placeholder="请选择地区" v-model="value" :options="options" />
-    <mp-cascader presentation="list" placeholder="List 多选" v-model="multipleValue" :options="options" multiple tag />
-  </mp-space>
-</template>
+```demo
+../example/demos/placeholder-list-multiple.vue
 ```
 
 ## API

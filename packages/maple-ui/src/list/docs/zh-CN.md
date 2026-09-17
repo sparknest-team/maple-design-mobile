@@ -2,6 +2,25 @@
 
 纯展示型列表。分页加载请组合使用 `InfiniteScroll`。
 
+
+
+### basic usage
+
+```demo
+../example/demos/basic-usage.vue
+```
+
+### manual usage
+
+```demo
+../example/demos/manual-usage.vue
+```
+
+### states
+
+```demo
+../example/demos/states.vue
+```
 ## 基础用法
 
 ```html
@@ -77,11 +96,11 @@
 | `--mp-list-item-padding-lg` | `16px 20px`                |
 | `--mp-list-item-gap`        | `12px`                     |
 
-# 列表项 ListItem
+## 列表项 ListItem
 
 `List` 的展示型列表项，也可单独使用。
 
-## API
+### API
 
 ### 插槽
 

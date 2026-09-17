@@ -14,16 +14,20 @@
 .mp-index-bar {
   position: relative;
 
-  &__anchor-list {
+  &__anchor-list-container {
     position: fixed;
     right: var(--mp-index-bar-list-right);
     top: var(--mp-index-bar-list-top);
     left: var(--mp-index-bar-list-left);
     bottom: var(--mp-index-bar-list-bottom);
     transform: var(--mp-index-bar-list-transform);
+  }
+
+  &__anchor-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    background-color: transparent;
   }
 
   &__anchor-item {

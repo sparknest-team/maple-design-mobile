@@ -5,199 +5,60 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-popover>
-    <mp-button status="primary">基本使用</mp-button>
-    
-    <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 弹出位置
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const placement = ref('bottom-start')
-const placementOptions = [
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'right',
-  'right-start',
-  'right-end',
-  'left',
-  'left-start',
-  'left-end',
-]
-</script>
-
-<template>
-  <mp-select :hint="false" v-model="placement">
-    <mp-option 
-      v-for="(item, index) in placementOptions" 
-      :key="index"
-      :label="item" 
-    />
-  </mp-select>
-  
-  <div class="placement-container">
-    <mp-popover :placement="placement">
-      <mp-button status="primary">
-        <m-icon-star-fill />
-      </mp-button>
-      <template #content>
-        <mp-cell>选项</mp-cell>
-        <mp-cell>选项</mp-cell>
-        <mp-cell>选项</mp-cell>
-      </template>
-    </mp-popover>
-  </div>
-</template>
-
-<style>
-.placement-container {
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+```demo
+../example/demos/placement.vue
 ```
 
 ### 偏移量
 
 通过 `offset-x` 和 `offset-y` 设置 Popover 弹出的偏移量。
 
-```html
-<template>
-  <mp-popover offset-x="36px" offset-y="18px">
-    <mp-button status="primary">偏移量</mp-button>
-    
-    <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/offset.vue
 ```
 
 ### 与触发元素同宽
 
 通过 `auto-fit-popup-width` 使弹出的气泡卡片和触发元素的宽度相同。
 
-```html
-<template>
-  <mp-popover auto-fit-popup-width>
-    <mp-button status="primary">与触发元素同宽</mp-button>
-    
-    <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/auto-fit-popup-width.vue
 ```
 
 ### 触发方式
 
 通过 `trigger` 改变气泡卡片显示的触发方式，可选值为 `click`、`hover`、`manual`、`contextMenu`。
 
-```html
-<template>
-  <mp-popover trigger="hover">
-    <mp-button status="primary">触发方式</mp-button>
-    
-    <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/trigger.vue
 ```
 
 ### 注册事件
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-popover
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <mp-button status="primary">注册事件</mp-button>
-    
-    <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/events.vue
 ```
 
 ### 禁用
 
-在 `disabled` 状态下，气泡卡片将不再被打开。 
+在 `disabled` 状态下，气泡卡片将不再被打开。
 
-```html
-<template>
-  <mp-popover disabled>
-    <mp-button status="primary" disabled>禁用</mp-button>
-    
-    <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 双向绑定
 
 通过 `v-model:open` 进行双向绑定控制气泡卡片的显示和隐藏。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const show = ref(false)
-
-function closeMenu() {
-  show.value = false
-}
-</script>
-
-<template>
-  <mp-popover v-model:open="open">
-    <mp-button status="primary">双向绑定</mp-button>
-    
-    <template #content>
-      <mp-cell @click="closeMenu">选项</mp-cell>
-      <mp-cell @click="closeMenu">选项</mp-cell>
-      <mp-cell @click="closeMenu">选项</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/two-way-binding.vue
 ```
 
 ### 注意

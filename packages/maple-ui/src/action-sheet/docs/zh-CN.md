@@ -6,6 +6,19 @@
 `ActionSheet` 提供了函数式和组件式两种使用方式，两种使用效果和参数并没有本质区别。
 函数返回一个 `Promise`，选择时返回 `当前选择的 action`，点击背景层关闭返回 `close`。
 
+
+
+### 函数调用
+
+```demo
+../example/demos/function-call.vue
+```
+
+### 组件调用
+
+```demo
+../example/demos/component-call.vue
+```
 ## 函数调用
 
 ### 基本使用

@@ -6,661 +6,116 @@ Displays a collection of items that can be scrolled and swiped. Demos match Ceda
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-carousel class="carousel-example">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Forbid Loop
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :loop="false">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/forbid-loop.vue
 ```
 
 ### Autoplay
 
 Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :auto-play="2000">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/autoplay.vue
 ```
 
 ### Autoplay with Hover to Pause
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :auto-play="{ interval: 2000, hoverToPause: true }">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/autoplay-hover-pause.vue
 ```
 
 ### Vertical Carousel
 
-```html
-<template>
-  <mp-carousel class="carousel-example" direction="vertical">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### Navigation Arrows
 
 Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. Mobile default is `never`.
 
-```html
-<template>
-  <mp-carousel class="carousel-example" show-arrow="always">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <mp-carousel class="carousel-example" show-arrow="hover">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-  margin-top: 14px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/navigation.vue
 ```
 
 ### Slide Effect (Default)
 
-```html
-<template>
-  <mp-carousel class="carousel-example" effect="slide">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/effect-slide.vue
 ```
 
 ### Fade Effect
 
-```html
-<template>
-  <mp-carousel class="carousel-example" effect="fade">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/effect-fade.vue
 ```
 
 ### Card Effect
 
-```html
-<template>
-  <mp-carousel class="carousel-example" effect="card">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/effect-card.vue
 ```
 
 ### Multiple Slides Per View
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :slides-per-view="2.5" :space-between="10">
-    <mp-carousel-item v-for="i in 6" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-custom-slide {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a90d9;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-</style>
+```demo
+../example/demos/multi-slides.vue
 ```
 
 ### Centered Slides
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :slides-per-view="1.5" :space-between="10" centered-slides>
-    <mp-carousel-item v-for="i in 5" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-custom-slide {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a90d9;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-</style>
+```demo
+../example/demos/centered-slides.vue
 ```
 
 ### Indicator Types
 
 Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indicator`.
 
-```html
-<template>
-  <h4>Dot</h4>
-  <mp-carousel class="carousel-example" indicator-type="dot">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <h4>Line</h4>
-  <mp-carousel class="carousel-example" indicator-type="line">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <h4>Slider</h4>
-  <mp-carousel class="carousel-example" indicator-type="slider">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-  margin-top: 14px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/indicator-type.vue
 ```
 
 ### Indicator Position
 
-```html
-<template>
-  <h4>Top</h4>
-  <mp-carousel class="carousel-example" indicator-position="top">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <h4>Outer</h4>
-  <mp-carousel class="carousel-example" indicator-position="outer">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-  margin-top: 14px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/indicator-position.vue
 ```
 
 ### Trigger with Hover
 
-```html
-<template>
-  <mp-carousel class="carousel-example" trigger="hover">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/trigger-hover.vue
 ```
 
 ### Mousewheel Control
 
-```html
-<template>
-  <mp-carousel class="carousel-example" mousewheel>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/mousewheel.vue
 ```
 
 ### Keyboard Control
 
-```html
-<template>
-  <mp-carousel class="carousel-example" keyboard>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/keyboard.vue
 ```
 
 ### Custom Indicator
 
-```html
-<template>
-  <mp-carousel class="carousel-example">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-    <template #indicator="{ index, length, to }">
-      <div class="carousel-custom-indicators">
-        <div
-          v-for="(l, idx) in length"
-          :key="l"
-          class="carousel-custom-indicator"
-          :class="{ 'carousel-custom--active': idx === index }"
-          @click="to(idx)"
-        >{{ idx + 1 }}</div>
-      </div>
-    </template>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.carousel-custom-indicators {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-}
-
-.carousel-custom-indicator {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
-  font-size: 12px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.carousel-custom--active {
-  background: #4a90d9;
-}
-</style>
+```demo
+../example/demos/custom-indicator.vue
 ```
 
 ### Handle Change
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-carousel class="carousel-example" @change="(index) => Message(String(index))">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/handle-change.vue
 ```
 
 ## API

@@ -6,72 +6,20 @@
 
 ### 基本使用
 
-```html
-<template>
-  <div class="ripple-example-block mp-elevation--2" v-ripple>点击</div>
-</template>
-
-<style>
-.ripple-example-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s;
- background-color: var(--color-fill-3);
-}
-</style>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 自定义颜色
 
-```html
-<template>
-  <div class="ripple-example-block mp-elevation--2" v-ripple="{ color: 'var(--color-warning)' }">
-    点击
-  </div>
-</template>
-
-<style>
-.ripple-example-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s;
-  background-color: var(--color-fill-3);
-}
-</style>
+```demo
+../example/demos/custom-color.vue
 ```
 
 ### 禁用状态
 
-```html
-<template>
-  <div class="ripple-example-block mp-elevation--2" v-ripple="{ disabled: true }">
-    点击
-  </div>
-</template>
-
-<style>
-.ripple-example-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s;
-  background-color: var(--color-fill-3);
-}
-</style>
+```demo
+../example/demos/disabled-status.vue
 ```
 
 ## API

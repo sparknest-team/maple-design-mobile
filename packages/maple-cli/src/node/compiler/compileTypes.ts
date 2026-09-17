@@ -47,6 +47,7 @@ export async function compileTypes() {
     for (const token of await exportedComponentTokens(dir)) {
       // Loading exports both a Vue component and a directive; Hover exports a child component.
       if (
+        !token.endsWith('Component') ||
         nonComponents.has(token) ||
         (directives.includes(dir) &&
           dir !== 'loading' &&

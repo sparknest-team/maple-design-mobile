@@ -6,20 +6,14 @@
 
 通过 `show-back` 属性显示返回按钮。
 
-```html
-<mp-page-header show-back title="标题" subtitle="页面说明" @back="router.back()" />
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 完整结构
 
-```html
-<mp-page-header show-back title="标题" @back="router.back()">
-  <template #header><mp-breadcrumb>...</mp-breadcrumb></template>
-  <template #avatar><mp-avatar>M</mp-avatar></template>
-  <template #extra><mp-button>操作</mp-button></template>
-  页面摘要或统计信息
-  <template #footer>最近更新：今天</template>
-</mp-page-header>
+```demo
+../example/demos/complete.vue
 ```
 
 ## API

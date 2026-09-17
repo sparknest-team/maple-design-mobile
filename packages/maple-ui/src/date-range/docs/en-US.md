@@ -10,97 +10,44 @@ Form date-range **field** that opens [`DateRangePicker`](/en-US/date-range-picke
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-date-range v-model="range" placeholder="Please select a date range" clearable />
-</template>
+```demo
+../example/demos/en-US/basic-usage.vue
 ```
 
 ### Calendar Mode
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-12-31'])
-</script>
-
-<template>
-  <mp-date-range v-model="range" presentation="calendar" placeholder="Calendar date range" clearable />
-</template>
+```demo
+../example/demos/en-US/calendar-mode.vue
 ```
 
-### Date Time Range
+### Date Time
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-date-range v-model="range" show-time placeholder="Please select a date-time range" clearable />
-</template>
+```demo
+../example/demos/en-US/date-time.vue
 ```
 
 ### Type
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const yearRange = ref([])
-  const monthRange = ref([])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-date-range v-model="yearRange" type="year" placeholder="Select year range" clearable />
-    <mp-date-range v-model="monthRange" type="month" placeholder="Select month range" clearable />
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/type.vue
 ```
 
 ### Custom Separator
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/en-US/separator.vue
+```
 
-  const range = ref([])
-</script>
+### Disabled
 
-<template>
-  <mp-date-range v-model="range" separator=" to " placeholder="Custom separator" clearable />
-</template>
+```demo
+../example/demos/en-US/disabled.vue
 ```
 
 ### With FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    period: [],
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="period" label="Period" required>
-      <mp-date-range v-model="formData.period" placeholder="Please select" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/en-US/with-form-item.vue
 ```
 
 ## API
@@ -149,7 +96,7 @@ Form date-range **field** that opens [`DateRangePicker`](/en-US/date-range-picke
 | `focus` | Focus the field | `-`       | `-`    |
 | `blur`  | Blur the field  | `-`       | `-`    |
 
-# DateRangePicker
+## DateRangePicker
 
 > 源码已并入 `date-range/`，安装父组件时一并注册。静态成员：`DateRange.Picker`。
 
@@ -166,81 +113,35 @@ Form field: [`DateRange`](/en-US/date-range). Single date panel: [`DatePicker`](
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-01-15'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="range" />
-</template>
+```demo
+../example/demos/en-US/picker-basic.vue
 ```
 
 ### Calendar Mode
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-12-31'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="range" presentation="calendar" />
-</template>
+```demo
+../example/demos/en-US/picker-calendar.vue
 ```
 
 ### Date Time Range
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const clock = ref(['2025-01-15 10:29', '2025-01-16 11:29'])
-  const calendarPicker = ref(['2025-01-15 10:29', '2025-01-16 11:29'])
-  const picker = ref(['2025-01-15 10:29', '2025-01-16 11:29'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="clock" show-time presentation="calendarClock" />
-  <mp-date-range-picker v-model="calendarPicker" show-time presentation="calendarPicker" />
-  <mp-date-range-picker v-model="picker" show-time presentation="picker" />
-</template>
+```demo
+../example/demos/en-US/picker-date-time.vue
 ```
 
 ### Year / Month Range
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const yearRange = ref(['2020', '2024'])
-  const monthRange = ref(['2024-01', '2024-06'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="yearRange" presentation="picker" type="year" />
-  <mp-date-range-picker v-model="monthRange" presentation="picker" type="month" />
-</template>
+```demo
+../example/demos/en-US/picker-type.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-01-15'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="range" readonly />
-</template>
+```demo
+../example/demos/en-US/picker-readonly.vue
 ```
 
-## API
+### API
 
 ### Props
 

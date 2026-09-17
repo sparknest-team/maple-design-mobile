@@ -1,278 +1,86 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
 import AsyncChangeDemo from './demos/async-change.vue'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import ChangeEventDemo from './demos/change-event.vue'
+import ClickEventDemo from './demos/click-event.vue'
+import CustomColorDemo from './demos/custom-color.vue'
 import CustomLabelDemo from './demos/custom-label.vue'
+import FabDemo from './demos/fab.vue'
+import MatchByNameDemo from './demos/match-by-name.vue'
 import NumericNameDemo from './demos/numeric-name.vue'
+import ShowBadgeDemo from './demos/show-badge.vue'
 import UncontrolledDemo from './demos/uncontrolled.vue'
-import { t, use } from './locale'
+import VariantDemo from './demos/variant.vue'
 
-const basicUsage = ref(0)
-const matchByName = ref('home-fill')
-const showBadge = ref(0)
-const badgeVariant = ref(false)
-const badgeProps = {
-  status: 'primary',
-  content: 66,
-}
-const customColor = ref(0)
-const changeEvent = ref(0)
-const clickEvent = ref(0)
-const fab = ref(0)
-const isEven = ref(true)
-const composerOpen = ref(false)
-const draft = ref('')
-const variant = ref(0)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-function handleChange(active) {
-  Message.info(`changed to ${active}`)
-}
-
-function handleClick(active) {
-  Message.success(`clicked ${active}`)
-}
-
-function handlePublish() {
-  Message.success(t('published'))
-  draft.value = ''
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-tab-bar v-model:active="basicUsage">
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('matchByName') }}</app-type>
-  <mp-tab-bar v-model:active="matchByName">
-    <mp-tab-bar-item name="home-fill" :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item name="search" :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item name="heart-fill" :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item name="user" :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
+  <section data-demo="match-by-name">
+    <app-type>{{ english ? 'Match By Name' : '通过名称匹配' }}</app-type>
+    <MatchByNameDemo />
+  </section>
 
-  <app-type>{{ t('showBadge') }}</app-type>
-  <p>{{ t('badgeHelp') }}</p>
-  <mp-switch v-model="badgeVariant" :aria-label="t('variant')" /> {{ t('variant') }}
-  <mp-tab-bar v-model:active="showBadge" :variant="badgeVariant">
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')" badge>
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')" :badge="badgeProps">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')" :badge="{ content: 125, max: 99 }">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
+  <section data-demo="show-badge">
+    <app-type>{{ english ? 'Show Badge' : '徽标提示' }}</app-type>
+    <ShowBadgeDemo />
+  </section>
 
-  <app-type>{{ t('customColor') }}</app-type>
-  <mp-tab-bar v-model:active="customColor" active-color="var(--mp-color-warning)">
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
+  <section data-demo="custom-color">
+    <app-type>{{ english ? 'Custom Color' : '自定义颜色' }}</app-type>
+    <CustomColorDemo />
+  </section>
 
-  <app-type>{{ t('changeEvent') }}</app-type>
-  <mp-tab-bar v-model:active="changeEvent" @change="handleChange">
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
+  <section data-demo="change-event">
+    <app-type>{{ english ? 'Change Event' : '监听切换事件' }}</app-type>
+    <ChangeEventDemo />
+  </section>
 
-  <app-type>{{ t('clickEvent') }}</app-type>
-  <mp-tab-bar v-model:active="clickEvent">
-    <mp-tab-bar-item :label="t('label')" @click="handleClick">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')" @click="handleClick">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')" @click="handleClick">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')" @click="handleClick">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
+  <section data-demo="click-event">
+    <app-type>{{ english ? 'Click Event' : '监听点击事件' }}</app-type>
+    <ClickEventDemo />
+  </section>
 
-  <app-type>{{ t('fab') }}</app-type>
-  <p>{{ t('fabDescription') }}</p>
-  <mp-space wrap role="group" :aria-label="t('fabLayout')">
-    <mp-button :variant="isEven ? 'default' : 'outline'" :aria-pressed="isEven" @click="isEven = true">{{
-      t('fabCenter')
-    }}</mp-button>
-    <mp-button :variant="isEven ? 'outline' : 'default'" :aria-pressed="!isEven" @click="isEven = false">{{
-      t('fabRight')
-    }}</mp-button>
-  </mp-space>
-  <mp-tab-bar
-    v-model:active="fab"
-    style="margin-top: 40px"
-    :fab-props="{ 'aria-label': t('publish') }"
-    @fab-click="composerOpen = true"
-  >
-    <template #fab
-      ><mp-icon :size="24"><m-icon-plus /></mp-icon
-    ></template>
-    <mp-tab-bar-item :label="t('home')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('discover')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('favorites')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('messages')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-bell-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item v-if="!isEven" :label="t('profile')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-  <mp-dialog
-    v-model:open="composerOpen"
-    :title="t('publish')"
-    :confirm-button-text="t('publish')"
-    @confirm="handlePublish"
-  >
-    <p>{{ t('composerDescription') }}</p>
-    <mp-textarea v-model="draft" :placeholder="t('draftPlaceholder')" :aria-label="t('draftPlaceholder')" />
-  </mp-dialog>
+  <section data-demo="fab">
+    <app-type>{{ english ? 'Fab' : '悬浮按钮' }}</app-type>
+    <FabDemo />
+  </section>
 
-  <app-type>{{ t('variant') }}</app-type>
-  <mp-tab-bar v-model:active="variant" variant>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-home-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-search /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-heart-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="t('label')">
-      <template #icon
-        ><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon
-      ></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-  <app-type>{{ t('uncontrolled') }}</app-type>
-  <UncontrolledDemo />
-  <app-type>{{ t('numeric-name') }}</app-type>
-  <NumericNameDemo />
-  <app-type>{{ t('custom-label') }}</app-type>
-  <CustomLabelDemo />
-  <app-type>{{ t('async-change') }}</app-type>
-  <AsyncChangeDemo />
+  <section data-demo="variant">
+    <app-type>{{ english ? 'Variant' : '变体' }}</app-type>
+    <VariantDemo />
+  </section>
+
+  <section data-demo="uncontrolled">
+    <app-type>{{ english ? 'Uncontrolled selection' : '非受控初始选中' }}</app-type>
+    <UncontrolledDemo />
+  </section>
+
+  <section data-demo="numeric-name">
+    <app-type>{{ english ? 'Numeric names and reordering' : '数字名称与重排' }}</app-type>
+    <NumericNameDemo />
+  </section>
+
+  <section data-demo="custom-label">
+    <app-type>{{ english ? 'Custom selected label' : '自定义选中标签' }}</app-type>
+    <CustomLabelDemo />
+  </section>
+
+  <section data-demo="async-change">
+    <app-type>{{ english ? 'Async selection guards' : '异步切换与拦截' }}</app-type>
+    <AsyncChangeDemo />
+  </section>
 </template>

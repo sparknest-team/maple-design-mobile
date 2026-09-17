@@ -1,39 +1,50 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomAnimationCurveDemo from './demos/custom-animation-curve.vue'
+import CustomDurationDemo from './demos/custom-duration.vue'
+import CustomStyleDemo from './demos/custom-style.vue'
+import ManualControlDemo from './demos/manual-control.vue'
+import PrecisionDemo from './demos/precision.vue'
 
-const countToRef = ref()
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-count-to :to="123456" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('precision') }}</app-type>
-  <mp-count-to :to="123456" :precision="2" />
+  <section data-demo="precision">
+    <app-type>{{ english ? 'Precision' : '精度' }}</app-type>
+    <PrecisionDemo />
+  </section>
 
-  <app-type>{{ t('customDuration') }}</app-type>
-  <mp-count-to :to="123456" :duration="10000" />
+  <section data-demo="custom-duration">
+    <app-type>{{ english ? 'Custom Duration' : '自定义时长' }}</app-type>
+    <CustomDurationDemo />
+  </section>
 
-  <app-type>{{ t('customStyle') }}</app-type>
-  <mp-count-to :to="123456">
-    <template #default="{ value }">
-      {{ value.toLocaleString() }}
-    </template>
-  </mp-count-to>
+  <section data-demo="custom-style">
+    <app-type>{{ english ? 'Custom Styles' : '自定义样式' }}</app-type>
+    <CustomStyleDemo />
+  </section>
 
-  <app-type>{{ t('customAnimationCurve') }}</app-type>
-  <mp-count-to :to="123456" :timing-function="(v) => 1 - Math.pow(1 - v, 3)" />
+  <section data-demo="custom-animation-curve">
+    <app-type>{{ english ? 'Custom Animation Curve' : '自定义动画曲线' }}</app-type>
+    <CustomAnimationCurveDemo />
+  </section>
 
-  <app-type>{{ t('manualControl') }}</app-type>
-  <mp-count-to ref="countToRef" :to="123456" :auto-start="false" />
-  <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button status="primary" @click="countToRef.start()">{{ t('startText') }}</mp-button>
-    <mp-button @click="countToRef.pause()">{{ t('pauseText') }}</mp-button>
-    <mp-button @click="countToRef.reset()">{{ t('resetText') }}</mp-button>
-  </mp-row>
+  <section data-demo="manual-control">
+    <app-type>{{ english ? 'Manual Control' : '手动控制' }}</app-type>
+    <ManualControlDemo />
+  </section>
 </template>

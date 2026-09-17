@@ -10,51 +10,16 @@
 
 使用默认插槽传入触发元素，通过 `options` 定义命令。`type: 'divider'` 渲染分隔线。
 
-```html
-<script setup lang="ts">
-  const options = [
-    { label: '编辑', value: 'edit' },
-    { label: '复制', value: 'copy' },
-    { type: 'divider' },
-    { label: '删除', value: 'delete' },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button icon-container aria-label="更多操作">
-      <m-icon-more />
-    </mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/overflow-actions.vue
 ```
 
 ### 右键菜单
 
 在目标区域内点击鼠标右键触发，需要同时设置 `trigger="contextMenu"` 和 `align-point`。
 
-```html
-<template>
-  <mp-dropdown-menu trigger="contextMenu" align-point style="display: block">
-    <div class="dropdown-menu-example-area">右键点击</div>
-
-    <template #content>
-      <mp-menu-option label="Option 1" />
-      <mp-menu-option label="Option 2" />
-      <mp-menu-option label="Option 3" />
-    </template>
-  </mp-dropdown-menu>
-</template>
-
-<style>
-  .dropdown-menu-example-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 160px;
-    background-color: var(--mp-color-fill-2);
-  }
-</style>
+```demo
+../example/demos/context-menu.vue
 ```
 
 ### 与 SplitButton 组合
@@ -65,274 +30,70 @@
 
 可使用 `v-model` 管理当前激活值。激活命令时先触发 `update:model-value`，再触发 `select(value, option, event)`；`select` 表示激活菜单项，不表示表单值变化。
 
-```html
-<script setup lang="ts">
-  import { ref } from 'vue'
-
-  const selected = ref('edit')
-  const selectedLabel = ref('编辑')
-  const options = [
-    { label: '编辑', value: 'edit' },
-    { label: '复制', value: 'copy' },
-    { label: '删除', value: 'delete' },
-  ]
-
-  const handleSelect = (_value: unknown, option: { label?: string | number }) => {
-    selectedLabel.value = String(option.label ?? '')
-  }
-</script>
-
-<template>
-  <mp-space direction="column">
-    <mp-dropdown-menu v-model="selected" :options="options" @select="handleSelect">
-      <mp-button>{{ selectedLabel || '请选择操作' }}</mp-button>
-    </mp-dropdown-menu>
-    <span>当前值：{{ selected || '-' }}，最近选择：{{ selectedLabel || '-' }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/selection.vue
 ```
 
 ### 选项分组
 
 在 `options` 中使用 `{ type: 'group', children }` 分组，不需要额外的分组组件。分组只负责视觉分隔，不增加子项层级。
 
-```html
-<script setup lang="ts">
-  const options = [
-    {
-      type: 'group',
-      label: '文件操作',
-      children: [
-        { label: '新建', value: 'new' },
-        { label: '打开', value: 'open' },
-      ],
-    },
-    {
-      type: 'group',
-      label: '编辑操作',
-      children: [
-        { label: '复制', value: 'copy' },
-        { label: '粘贴', value: 'paste' },
-      ],
-    },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button>选项分组</mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/group.vue
 ```
 
 ### 多级菜单
 
 带 `children` 的普通选项自动成为子菜单。所有层级的子菜单共用 `submenu-trigger`，移动端默认点击展开；改成 `'hover'` 时同样对所有层级生效，不能逐项配置，避免同一棵菜单里出现两种展开方式。
 
-```html
-<script setup lang="ts">
-  const options = [
-    { label: '首页', value: 'home' },
-    {
-      label: '产品',
-      children: [
-        { label: '产品概览', value: 'overview' },
-        {
-          label: '解决方案',
-          children: [
-            { label: '企业版', value: 'enterprise' },
-            { label: '团队版', value: 'team' },
-          ],
-        },
-      ],
-    },
-    { label: '关于我们', value: 'about' },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button>多级菜单</mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/submenu.vue
 ```
 
 ### 自定义选项内容
 
 推荐直接在选项中传入 `icon`、`extra` 或 VNode；三者也可使用接收 `{ option, active, level }` 的渲染函数。需要统一渲染整组数据时，使用 `option-label`、`option-icon`、`option-extra` 作用域插槽。这个模式比为每项拼装模板更适合动态数据。
 
-```html
-<script setup lang="ts">
-  import { h } from 'vue'
-
-  const icon = (text: string) => h('span', { 'aria-hidden': 'true' }, text)
-  const options = [
-    { label: '编辑', value: 'edit', icon: icon('✎'), extra: '⌘ E' },
-    {
-      label: ({ active }: { active: boolean }) => h('strong', active ? '已复制' : '复制'),
-      value: 'copy',
-      icon: icon('⧉'),
-      extra: '⌘ C',
-    },
-    { label: '删除', value: 'delete', icon: icon('⌫'), extra: '⌫', disabled: true },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button>自定义选项内容</mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/option-content.vue
 ```
 
 ### 触发方式
 
-```html
-<template>
-  <mp-space>
-    <mp-dropdown-menu trigger="click">
-      <mp-button>点击触发</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu trigger="hover">
-      <mp-button>悬浮触发</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/trigger.vue
 ```
 
 ### 禁用状态
 
 `disabled` 加在菜单上禁用整个浮层，加在选项上只禁用该项及其后代。
 
-```html
-<template>
-  <mp-space>
-    <mp-dropdown-menu disabled>
-      <mp-button disabled>菜单禁用</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu>
-      <mp-button>选项禁用</mp-button>
-
-      <template #content>
-        <mp-menu-option label="可用选项" />
-        <mp-menu-option label="禁用选项" disabled />
-        <mp-menu-option label="另一个可用选项" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/disabled-state.vue
 ```
 
 ### 高度限制
 
-```html
-<script setup lang="ts">
-  const options = Array.from({ length: 8 }, (_, index) => `Option ${index + 1}`)
-</script>
-
-<template>
-  <mp-space>
-    <mp-dropdown-menu :popup-max-height="120">
-      <mp-button>限制为 120px</mp-button>
-
-      <template #content>
-        <mp-menu-option v-for="item in options" :key="item" :label="item" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu :popup-max-height="false">
-      <mp-button>不限制高度</mp-button>
-
-      <template #content>
-        <mp-menu-option v-for="item in options" :key="item" :label="item" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/popup-max-height.vue
 ```
 
 ### 受控打开状态
 
-```html
-<script setup lang="ts">
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column">
-    <mp-button @mousedown.stop @click.stop="open = !open">
-      {{ open ? '关闭菜单' : '打开菜单' }}
-    </mp-button>
-
-    <mp-dropdown-menu v-model:open="open">
-      <mp-button>菜单触发器</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/controlled.vue
 ```
 
 ### 页脚
 
-```html
-<template>
-  <mp-dropdown-menu>
-    <mp-button>页脚</mp-button>
-
-    <template #content>
-      <mp-menu-option label="Option 1" />
-      <mp-menu-option label="Option 2" />
-    </template>
-
-    <template #footer>
-      <div style="padding: 8px 12px">自定义页脚</div>
-    </template>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/footer.vue
 ```
 
 ### 弹出方向
 
-```html
-<template>
-  <mp-space>
-    <mp-dropdown-menu v-for="placement in placements" :key="placement" :placement="placement">
-      <mp-button>{{ placement }}</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-        <mp-menu-option label="Option 3" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
-
-<script setup lang="ts">
-  const placements = ['bottom-start', 'bottom', 'bottom-end', 'top-start', 'top', 'top-end']
-</script>
+```demo
+../example/demos/placement.vue
 ```
 
 ## API

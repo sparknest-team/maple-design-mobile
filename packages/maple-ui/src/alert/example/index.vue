@@ -1,77 +1,81 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import ActionDemo from './demos/action.vue'
+import AllowToCloseDemo from './demos/allow-to-close.vue'
+import BannerDemo from './demos/banner.vue'
+import CenterDemo from './demos/center.vue'
+import CustomCloseIconDemo from './demos/custom-close-icon.vue'
+import CustomIconDemo from './demos/custom-icon.vue'
+import MessageDemo from './demos/message.vue'
+import ShowIconDemo from './demos/show-icon.vue'
+import TitleDemo from './demos/title.vue'
+import TypeDemo from './demos/type.vue'
+import VariantDemo from './demos/variant.vue'
 
-const options = ['info', 'success', 'warning', 'danger', 'default'].map((value) => ({ label: value, value }))
-const show = ref(true)
-const showCloseIcon = ref(true)
 const type = ref('info')
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('title') }}</app-type>
-  <mp-alert :title="t('alertTitle')" />
+  <section data-demo="title">
+    <app-type>{{ english ? 'Title' : '标题' }}</app-type>
+    <TitleDemo />
+  </section>
 
-  <app-type>{{ t('message') }}</app-type>
-  <mp-alert :message="t('alertText')" />
+  <section data-demo="message">
+    <app-type>{{ english ? 'Message' : '信息' }}</app-type>
+    <MessageDemo />
+  </section>
 
-  <app-type>{{ t('type') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="success" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="warning" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="danger" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" status="default" />
-  </mp-space>
+  <section data-demo="type">
+    <app-type>{{ english ? 'Type' : '类型' }}</app-type>
+    <TypeDemo />
+  </section>
 
-  <app-type>{{ t('variant') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-select v-model="type" variant="outline" size="sm" :options="options" />
-    <mp-alert :title="t('alertTitle')" :message="t('alertText')" :status="type" />
-    <mp-alert variant="tonal" :title="t('alertTitle')" :message="t('alertText')" :status="type" />
-    <mp-alert variant="outline" :title="t('alertTitle')" :message="t('alertText')" :status="type" />
-  </mp-space>
+  <section data-demo="variant">
+    <app-type>{{ english ? 'Variant' : '变体' }}</app-type>
+    <VariantDemo />
+  </section>
 
-  <app-type>{{ t('center') }}</app-type>
-  <mp-alert :message="t('alertText')" center />
+  <section data-demo="center">
+    <app-type>{{ english ? 'Center' : '居中' }}</app-type>
+    <CenterDemo />
+  </section>
 
-  <app-type>{{ t('banner') }}</app-type>
-  <mp-alert :message="t('alertText')" banner />
+  <section data-demo="banner">
+    <app-type>{{ english ? 'Banner' : '通栏' }}</app-type>
+    <BannerDemo />
+  </section>
 
-  <app-type>{{ t('showIcon') }}</app-type>
-  <mp-alert :title="t('alertTitle')" :message="t('alertText')" :show-icon="false" />
+  <section data-demo="show-icon">
+    <app-type>{{ english ? 'Hide Icon' : '隐藏图标' }}</app-type>
+    <ShowIconDemo />
+  </section>
 
-  <app-type>{{ t('customIcon') }}</app-type>
-  <mp-alert :title="t('alertTitle')" :message="t('alertText')">
-    <template #icon>
-      <m-icon-heart-fill />
-    </template>
-  </mp-alert>
+  <section data-demo="custom-icon">
+    <app-type>{{ english ? 'Custom Icon' : '自定义图标' }}</app-type>
+    <CustomIconDemo />
+  </section>
 
-  <app-type>{{ t('action') }}</app-type>
-  <mp-alert :title="t('alertTitle')" :message="t('alertText')">
-    <template #action>
-      <mp-button size="xs" status="primary">{{ t('detail') }}</mp-button>
-    </template>
-  </mp-alert>
+  <section data-demo="action">
+    <app-type>{{ english ? 'Action' : '操作区' }}</app-type>
+    <ActionDemo />
+  </section>
 
-  <app-type>{{ t('allowToClose') }}</app-type>
-  <mp-alert v-if="show" :title="t('alertTitle')" :message="t('alertText')" closable @close="show = false" />
+  <section data-demo="allow-to-close">
+    <app-type>{{ english ? 'Allow to Close' : '允许关闭' }}</app-type>
+    <AllowToCloseDemo />
+  </section>
 
-  <app-type>{{ t('customCloseIcon') }}</app-type>
-  <mp-alert
-    v-if="showCloseIcon"
-    :title="t('alertTitle')"
-    :message="t('alertText')"
-    closable
-    @close="showCloseIcon = false"
-  >
-    <template #close-icon>
-      <m-icon-close />
-    </template>
-  </mp-alert>
+  <section data-demo="custom-close-icon">
+    <app-type>{{ english ? 'Custom Close Icon' : '自定义关闭图标' }}</app-type>
+    <CustomCloseIconDemo />
+  </section>
 </template>

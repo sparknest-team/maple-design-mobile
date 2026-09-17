@@ -1,124 +1,70 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import ActionDemo from './demos/action.vue'
+import BasicDemo from './demos/basic.vue'
+import EnActionDemo from './demos/en-US/action.vue'
+import EnBasicDemo from './demos/en-US/basic.vue'
+import EnFieldsDemo from './demos/en-US/fields.vue'
+import EnHistoryDemo from './demos/en-US/history.vue'
+import EnSearchButtonDemo from './demos/en-US/search-button.vue'
+import EnShapeDemo from './demos/en-US/shape.vue'
+import EnStateDemo from './demos/en-US/state.vue'
+import FieldsDemo from './demos/fields.vue'
+import HistoryDemo from './demos/history.vue'
+import SearchButtonDemo from './demos/search-button.vue'
+import ShapeDemo from './demos/shape.vue'
+import StateDemo from './demos/state.vue'
 
-const value = ref('')
-const actionValue = ref('')
-const searchButtonValue = ref('')
-const historyValue = ref('')
-const menuHistoryValue = ref('')
-const recentSearches = ref(['Maple', 'Cedar', 'InputNumber'])
-const menuRecentSearches = ref(['设备名称', '订单编号', '操作人'])
-const squareValue = ref('')
-const disabledValue = ref('Disabled')
-const modelField = ref('name')
-const model = reactive({})
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const fields = computed(() => [
-  {
-    value: 'id',
-    label: t('deviceId'),
-    placeholder: t('idPlaceholder'),
-  },
-  {
-    value: 'name',
-    label: t('deviceName'),
-    placeholder: t('namePlaceholder'),
-  },
-  {
-    value: 'desc',
-    label: t('deviceDesc'),
-    placeholder: t('descPlaceholder'),
-  },
-])
-
-function handleSearch(result) {
-  console.log('search', result)
-}
-
-function handleHistorySearch(result) {
-  recentSearches.value = result.recentSearches
-  handleSearch(result)
-}
-
-function handleMenuHistorySearch(result) {
-  menuRecentSearches.value = result.recentSearches
-  handleSearch(result)
-}
-
-function handleChange(value) {
-  console.log('change', value, model)
-}
-
-function reset() {
-  Object.keys(model).forEach((key) => {
-    delete model[key]
-  })
-}
-
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basic') }}</app-type>
-  <mp-search v-model="value" :label="t('label')" :placeholder="t('placeholder')" @search="handleSearch" />
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
+    <EnBasicDemo v-if="english" />
+    <BasicDemo v-else />
+  </section>
 
-  <app-type style="margin-top: 8vmin">{{ t('action') }}</app-type>
-  <mp-search v-model="actionValue" :placeholder="t('placeholder')" show-action :action-text="t('cancel')" />
+  <section data-demo="action">
+    <app-type>{{ english ? 'Cancel Button' : '取消按钮' }}</app-type>
+    <EnActionDemo v-if="english" />
+    <ActionDemo v-else />
+  </section>
 
-  <app-type style="margin-top: 8vmin">{{ t('searchButton') }}</app-type>
-  <mp-search
-    v-model="searchButtonValue"
-    :placeholder="t('placeholder')"
-    show-action
-    action-type="search"
-    :action-text="t('search')"
-    @search="handleSearch"
-  />
+  <section data-demo="search-button">
+    <app-type>{{ english ? 'Search Button' : '搜索按钮' }}</app-type>
+    <EnSearchButtonDemo v-if="english" />
+    <SearchButtonDemo v-else />
+  </section>
 
-  <mp-search
-    v-model="menuHistoryValue"
-    :placeholder="t('placeholder')"
-    :recent-searches="menuRecentSearches"
-    :history-popup="false"
-    show-action
-    action-type="search"
-    :action-text="t('search')"
-    @search="handleMenuHistorySearch"
-  />
+  <section data-demo="history">
+    <app-type>{{ english ? 'Search History' : '搜索历史' }}</app-type>
+    <EnHistoryDemo v-if="english" />
+    <HistoryDemo v-else />
+  </section>
 
-  <app-type style="margin-top: 8vmin">{{ t('history') }}</app-type>
-  <mp-search
-    v-model="historyValue"
-    :placeholder="t('placeholder')"
-    :recent-searches="recentSearches"
-    show-action
-    action-type="search"
-    :action-text="t('search')"
-    @search="handleHistorySearch"
-  />
+  <section data-demo="fields">
+    <app-type>{{ english ? 'Field Select' : '带下拉字段选择' }}</app-type>
+    <EnFieldsDemo v-if="english" />
+    <FieldsDemo v-else />
+  </section>
 
-  <app-type style="margin-top: 8vmin">{{ t('fields') }}</app-type>
-  <mp-space direction="column" :size="['3vmin', 0]">
-    <mp-search
-      v-model:model-field="modelField"
-      :model="model"
-      :fields="fields"
-      :select-style="{ minWidth: '28vmin' }"
-      show-action
-      action-type="search"
-      :action-text="t('search')"
-      @change="handleChange"
-      @search="handleSearch"
-    />
-    <mp-button variant="text" @click="reset">{{ t('reset') }}</mp-button>
-  </mp-space>
+  <section data-demo="shape">
+    <app-type>{{ english ? 'Search Shape' : '搜索框形状' }}</app-type>
+    <EnShapeDemo v-if="english" />
+    <ShapeDemo v-else />
+  </section>
 
-  <app-type style="margin-top: 8vmin">{{ t('shape') }}</app-type>
-  <mp-search v-model="squareValue" :placeholder="t('placeholder')" shape="square" />
-
-  <app-type style="margin-top: 8vmin">{{ t('state') }}</app-type>
-  <mp-search v-model="disabledValue" :placeholder="t('placeholder')" disabled />
+  <section data-demo="state">
+    <app-type>{{ english ? 'States' : '状态' }}</app-type>
+    <EnStateDemo v-if="english" />
+    <StateDemo v-else />
+  </section>
 </template>

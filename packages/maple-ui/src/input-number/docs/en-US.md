@@ -6,34 +6,62 @@ Input or adjust numbers in a range. `InputNumber` is the primary name aligned wi
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref(1)
-</script>
-
-<template>
-  <mp-input-number v-model="value" />
-</template>
+```demo
+../example/demos/demo-1.vue
 ```
 
 ### Range
 
-```html
-<mp-input-number v-model="value" :min="0" :max="10" />
+```demo
+../example/demos/demo-2.vue
 ```
 
 ### Step And Precision
 
-```html
-<mp-input-number v-model="value" :step="0.1" :precision="1" />
+```demo
+../example/demos/demo-5.vue
 ```
 
 ### Input Mode
 
-```html
-<mp-input-number v-model="value" mode="input" />
+```demo
+../example/demos/demo-9.vue
+```
+
+### Button mode
+
+```demo
+../example/demos/demo-3.vue
+```
+
+### Sizes
+
+```demo
+../example/demos/demo-4.vue
+```
+
+### Prefix and suffix
+
+```demo
+../example/demos/demo-6.vue
+```
+
+### Custom controls
+
+```demo
+../example/demos/demo-7.vue
+```
+
+### Formatting
+
+```demo
+../example/demos/demo-8.vue
+```
+
+### Model event
+
+```demo
+../example/demos/demo-10.vue
 ```
 
 ## API

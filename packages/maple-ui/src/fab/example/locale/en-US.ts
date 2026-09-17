@@ -1,4 +1,5 @@
 export default {
+  basic: 'Basic usage',
   preview: 'Live preview',
   previewHint: 'Toggle the floating button and click an action for feedback. Controls below update the preview.',
   dragHint: 'Drag mode: the button floats in the viewport. Drag with touch; turn off to return to the preview.',
@@ -23,5 +24,6 @@ export default {
   elevation: 'Elevation Effect',
   triggerToggle: 'Trigger Show/Hide',
   actionsToggle: 'Action Menu Expand/Collapse',
+  customTrigger: 'Custom trigger',
   toggle: 'Toggle',
 }

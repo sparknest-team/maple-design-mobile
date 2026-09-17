@@ -1,7 +1,17 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CheckboxGroupOptionsDemo from './demos/checkbox-group-options.vue'
+import CheckboxGroupDemo from './demos/checkbox-group.vue'
+import CustomFieldsDemo from './demos/custom-fields.vue'
+import DisabledDemo from './demos/disabled.vue'
+import IndeterminateDemo from './demos/indeterminate.vue'
+import MaxDemo from './demos/max.vue'
+import ReadonlyDemo from './demos/readonly.vue'
+import SetStateDemo from './demos/set-state.vue'
+import SetStyleDemo from './demos/set-style.vue'
+import VerticalDemo from './demos/vertical.vue'
 
 const values = reactive({
   value: false,
@@ -18,7 +28,6 @@ const values = reactive({
   optionsValue: [],
   fieldValue: [],
 })
-
 const {
   value,
   value2,
@@ -34,97 +43,68 @@ const {
   optionsValue,
   fieldValue,
 } = toRefs(values)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const options = computed(() => [
-  { label: t('eat'), value: 0 },
-  { label: t('sleep'), value: 1 },
-  { label: t('game'), value: 2, disabled: true },
-])
-
-const fieldOptions = computed(() => [
-  { name: t('eat'), id: 0 },
-  { name: t('sleep'), id: 1 },
-  { name: t('game'), id: 2 },
-])
-
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-checkbox v-model="value">{{ t('currentValue') }} {{ value }}</mp-checkbox>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('setState') }}</app-type>
-  <mp-checkbox v-model="value2" :value="1"> {{ t('currentValue') }} {{ value2 }} </mp-checkbox>
+  <section data-demo="set-state">
+    <app-type>{{ english ? 'Set State Value' : '设置状态值' }}</app-type>
+    <SetStateDemo />
+  </section>
 
-  <app-type>{{ t('setStyle') }}</app-type>
-  <mp-checkbox v-model="value3" unchecked-color="var(--mp-color-warning)" checked-color="var(--mp-color-danger)">
-    <template #unchecked-icon>
-      <m-icon-heart-half-full size="24px" />
-    </template>
-    <template #checked-icon>
-      <m-icon-heart-fill size="24px" />
-    </template>
-    <template #default> {{ t('currentValue') }} {{ value3 }} </template>
-  </mp-checkbox>
+  <section data-demo="set-style">
+    <app-type>{{ english ? 'Modify The Icon And Color' : '修改图标和颜色' }}</app-type>
+    <SetStyleDemo />
+  </section>
 
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-checkbox v-model="value4" disabled>{{ t('currentValue') }} {{ value4 }}</mp-checkbox>
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
+  </section>
 
-  <app-type>{{ t('readonly') }}</app-type>
-  <mp-checkbox v-model="value5" readonly>{{ t('currentValue') }} {{ value5 }}</mp-checkbox>
+  <section data-demo="readonly">
+    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
+    <ReadonlyDemo />
+  </section>
 
-  <app-type>{{ t('indeterminate') }}</app-type>
-  <mp-space :size="[0, 10]">
-    <mp-checkbox v-model="value10" v-model:indeterminate="indeterminate">
-      {{ t('indeterminateValue') }} {{ indeterminate }}
-    </mp-checkbox>
-    <mp-button status="primary" @click="indeterminate = !indeterminate">{{ t('toggle') }}</mp-button>
-  </mp-space>
+  <section data-demo="indeterminate">
+    <app-type>{{ english ? 'Indeterminate' : '不确定状态' }}</app-type>
+    <IndeterminateDemo />
+  </section>
 
-  <app-type>{{ t('checkboxGroup') }}</app-type>
-  <mp-checkbox-group ref="group" v-model="value6">
-    <mp-checkbox :value="0">{{ t('eat') }}</mp-checkbox>
-    <mp-checkbox :value="1">{{ t('sleep') }}</mp-checkbox>
-  </mp-checkbox-group>
-  <div class="relation">{{ t('currentValue') }} {{ value6 }}</div>
-  <mp-divider size-y="14px" />
-  <mp-space :size="[0, 10]">
-    <mp-button status="primary" @click="$refs.group.checkAll()">{{ t('checkAll') }}</mp-button>
-    <mp-button status="primary" @click="$refs.group.inverseAll()">{{ t('inverseAll') }}</mp-button>
-  </mp-space>
+  <section data-demo="checkbox-group">
+    <app-type>{{ english ? 'CheckboxGroup' : '复选框组' }}</app-type>
+    <CheckboxGroupDemo />
+  </section>
 
-  <app-type>{{ t('checkboxGroupOptions') }}</app-type>
-  <mp-checkbox-group v-model="optionsValue" :options="options" />
-  <div class="relation">{{ t('currentValue') }} {{ optionsValue }}</div>
+  <section data-demo="checkbox-group-options">
+    <app-type>{{ english ? 'Options API' : '选项式 API' }}</app-type>
+    <CheckboxGroupOptionsDemo />
+  </section>
 
-  <app-type>{{ t('customFields') }}</app-type>
-  <mp-checkbox-group v-model="fieldValue" :options="fieldOptions" :field-names="{ label: 'name', value: 'id' }" />
-  <div class="relation">{{ t('currentValue') }} {{ fieldValue }}</div>
+  <section data-demo="custom-fields">
+    <app-type>{{ english ? 'Custom Fields' : '自定义字段' }}</app-type>
+    <CustomFieldsDemo />
+  </section>
 
-  <app-type>{{ t('vertical') }}</app-type>
-  <mp-checkbox-group v-model="value9" direction="vertical">
-    <mp-checkbox :value="0">{{ t('eat') }}</mp-checkbox>
-    <mp-checkbox :value="1">{{ t('sleep') }}</mp-checkbox>
-  </mp-checkbox-group>
-  <div class="relation">{{ t('currentValue') }} {{ value9 }}</div>
+  <section data-demo="vertical">
+    <app-type>{{ english ? 'Vertical Direction' : '垂直布局' }}</app-type>
+    <VerticalDemo />
+  </section>
 
-  <app-type>{{ t('max') }}</app-type>
-  <mp-checkbox-group v-model="value11" :max="1">
-    <mp-checkbox :value="0">{{ t('eat') }}</mp-checkbox>
-    <mp-checkbox :value="1">{{ t('sleep') }}</mp-checkbox>
-  </mp-checkbox-group>
-
-  <div class="space"></div>
+  <section data-demo="max">
+    <app-type>{{ english ? 'Maximum Number Of Checked' : '最大选中数量' }}</app-type>
+    <MaxDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.relation {
-  margin-top: 10px;
-}
-
-.space {
-  height: 40px;
-}
-</style>

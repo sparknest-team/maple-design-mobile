@@ -2,6 +2,25 @@
 
 A presentational list. Compose it with `InfiniteScroll` for pagination.
 
+
+
+### basic usage
+
+```demo
+../example/demos/basic-usage.vue
+```
+
+### manual usage
+
+```demo
+../example/demos/manual-usage.vue
+```
+
+### states
+
+```demo
+../example/demos/states.vue
+```
 ## Basic Usage
 
 ```html
@@ -77,11 +96,11 @@ You can also provide list content directly. When both the default slot and `data
 | `--mp-list-item-padding-lg` | `16px 20px`                |
 | `--mp-list-item-gap`        | `12px`                     |
 
-# ListItem
+## ListItem
 
 A presentational item for `List`; it can also be used independently.
 
-## API
+### API
 
 ### Slots
 

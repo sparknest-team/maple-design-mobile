@@ -10,284 +10,48 @@ Examples use `Message.info(...)`, supported on both platforms. Selection closes 
 
 The main button publishes; the arrow opens related actions. Options have stable values and include a disabled action.
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  publish: 'Publish',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-split-button status="primary" placement="bottom-end" @click="publish" @select="handleSelect">
-    {{ t('publish') }}
-
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" value="draft" />
-      <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-      <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-    </template>
-  </mp-split-button>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Variants
 
 Compare default, outline, tonal and text variants.
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-const variants = ['default', 'outline', 'tonal', 'text'] as const
-</script>
-
-<template>
-  <mp-space wrap>
-    <mp-split-button
-      v-for="variant in variants"
-      :key="variant"
-      :variant="variant"
-      status="primary"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ variant }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/variants.vue
 ```
 
 ### Five sizes
 
 All five sizes are supported: xs, sm, md (default), lg and xl. Examples wrap on narrow screens.
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
-</script>
-
-<template>
-  <mp-space wrap align="center">
-    <mp-split-button
-      v-for="size in sizes"
-      :key="size"
-      :size="size"
-      status="primary"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ size }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/sizes.vue
 ```
 
 ### Disabled states
 
 Compare disabling the whole group, only the main button and only the menu button. Overall disabled cannot be overridden by disabled: false on either child.
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  allDisabled: 'All disabled',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-  mainDisabled: 'Main disabled',
-  triggerDisabled: 'Menu disabled',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-space wrap>
-    <mp-split-button
-      disabled
-      status="primary"
-      :button-props="{ disabled: false }"
-      :trigger-button-props="{ disabled: false }"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ t('allDisabled') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <mp-split-button status="primary" :button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ t('mainDisabled') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <mp-split-button
-      status="primary"
-      :trigger-button-props="{ disabled: true }"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ t('triggerDisabled') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Async action
 
 Return a Promise directly from @click. Auto-loading waits and prevents repeated clicks; the counter shows completed operations.
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  publish: 'Publish',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-  completed: 'Completed',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const completed = ref(0)
-const publish = async () => {
-  await new Promise<void>((resolve) => setTimeout(resolve, 800))
-  completed.value += 1
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-space direction="column" align="flex-start">
-    <mp-split-button status="primary" auto-loading @click="publish" @select="handleSelect">
-      {{ t('publish') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <span aria-live="polite">{{ t('completed') }}: {{ completed }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/async-action.vue
 ```
 
 ### Custom icon
 
 Rotate the same arrow icon on both platforms using the open slot parameter.
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  publish: 'Publish',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-split-button status="primary" @click="publish" @select="handleSelect">
-    {{ t('publish') }}
-    <template #icon="{ open }">
-      <m-icon-menu-down :style="{ transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 0.2s' }" />
-    </template>
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" value="draft" />
-      <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-      <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-    </template>
-  </mp-split-button>
-</template>
+```demo
+../example/demos/custom-icon.vue
 ```
 
 ### Controlled menu
@@ -296,100 +60,16 @@ Use `@click.stop` on external controls so the opening click is not also treated 
 
 Use v-model:open to synchronize external controls, the trigger and selection-driven closing.
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: 'Published successfully',
-  openMenu: 'Open menu',
-  closeMenu: 'Close menu',
-  publish: 'Publish',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-  opened: 'Open',
-  closed: 'Closed',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-const open = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" align="flex-start">
-    <mp-space wrap>
-      <mp-button @click.stop="open = true">{{ t('openMenu') }}</mp-button>
-      <mp-button @click.stop="open = false">{{ t('closeMenu') }}</mp-button>
-    </mp-space>
-    <mp-split-button v-model:open="open" status="primary" @click="publish" @select="handleSelect">
-      {{ t('publish') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <span aria-live="polite">{{ open ? t('opened') : t('closed') }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/controlled.vue
 ```
 
 ### Popup and repeated selection
 
 Use bottom-start, an 8px vertical offset and a 160px maximum height. With hide-on-select=false, repeated selections keep the menu open and display the latest value.
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  choose: 'Choose action',
-  saveNow: 'Save draft',
-  saveAndPublish: 'Save and publish',
-  unavailable: 'No permission',
-  lastAction: 'Last action',
-  none: 'No action yet',
-  popupHint: 'The menu stays open after selection. Click outside to close.',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const lastAction = ref('')
-const handleSelect = (value: unknown, option: { label?: unknown }) => {
-  lastAction.value = String(value)
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-space direction="column" align="flex-start">
-    <mp-split-button
-      status="primary"
-      placement="bottom-start"
-      :offset-y="8"
-      :popup-max-height="160"
-      :hide-on-select="false"
-      @click="lastAction = 'publish'"
-      @select="handleSelect"
-    >
-      {{ t('choose') }}
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <span aria-live="polite">{{ t('lastAction') }}: {{ lastAction || t('none') }}</span>
-    <span>{{ t('popupHint') }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/popup.vue
 ```
 
 ## API

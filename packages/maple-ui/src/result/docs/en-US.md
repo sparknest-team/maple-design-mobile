@@ -6,124 +6,16 @@ It is used to show the results to users.
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-result
-    title="Success"
-    subtitle="Hi, I'm a result description."
-  >
-    <template #footer>
-      <mp-button status="success">OK</mp-button>
-    </template>
-  </mp-result>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Status
 
 Result status, optional values are `info`, `success`, `warning`, `danger`, `question`, `empty`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const success = ref(false)
-const error = ref(false)
-const info = ref(false)
-const warning = ref(false)
-const question = ref(false)
-const empty = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button status="success" block @click="success = true">Success</mp-button>
-    <mp-button status="warning" block @click="warning = true">Warning</mp-button>
-    <mp-button status="info" block @click="info = true">Info</mp-button>
-    <mp-button status="danger" block @click="error = true">Error</mp-button>
-    <mp-button
-      color="var(--result-question-color)"
-      text-color="#fff"
-      block
-      @click="question = true"
-    >
-      Question
-    </mp-button>
-    <mp-button
-      color="var(--result-empty-color)"
-      text-color="#fff"
-      block
-      @click="empty = true"
-    >
-      Empty
-    </mp-button>
-  </mp-space>
-
-  <mp-popup :default-style="false" v-model:open="success">
-    <mp-result class="result" title="Success" subtitle="Hi, I'm a result description.">
-      <template #footer>
-        <mp-button status="success" @click="success = false">OK</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup :default-style="false" v-model:open="warning">
-    <mp-result class="result" status="warning" title="Warning" subtitle="Hi, I'm a result description.">
-      <template #footer>
-        <mp-button status="warning" @click="warning = false">OK</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup :default-style="false" v-model:open="info">
-    <mp-result class="result" status="info" title="Info" subtitle="Hi, I'm a result description.">
-      <template #footer>
-        <mp-button status="info" @click="info = false">OK</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup :default-style="false" v-model:open="error">
-    <mp-result class="result" status="danger" title="Error" subtitle="Hi, I'm a result description.">
-      <template #footer>
-        <mp-button status="danger" @click="error = false">OK</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup :default-style="false" v-model:open="question">
-    <mp-result class="result" status="question" title="Question" subtitle="Hi, I'm a result description.">
-      <template #footer>
-        <mp-button
-          color="var(--result-question-color)"
-          text-color="#fff"
-          @click="question = false"
-        >
-          OK
-        </mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup :default-style="false" v-model:open="empty">
-    <mp-result class="result" status="empty" title="Empty" subtitle="Hi, I'm a result description.">
-      <template #footer>
-        <mp-button
-          color="var(--result-empty-color)"
-          text-color="#fff"
-          @click="empty = false">
-          OK
-        </mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-</template>
-
-<style>
-.result {
-  width: 75vw !important;
-}
-</style>
+```demo
+../example/demos/type.vue
 ```
 
 ### Note When Modifying The Background Color

@@ -6,52 +6,27 @@ Code Block component, used for code highlighted
 
 ### Notes
 
-- Due to the size of the package, the component library does not have a built-in code highlighter. Please make sure to use the `HighlighterProvider` component to correctly set the highlighter
-- The component library recommends using [Shiki](https://shiki.tmrs.site/) as the highlighter. For the [themes](https://shiki.tmrs.site/themes) and detailed configuration, please refer to the documentation
+- `Code` does not bundle a syntax highlighter. Provide one that implements `codeToHtml` through `HighlighterProvider`.
+- Shiki is a recommended integration, not a required dependency. You do not need to install Shiki if your project already has a compatible highlighter.
 
-### Install Shiki
+### Optional: Use Shiki
 
-```shell
-# npm
-npm install shiki -S
-# yarn
-yarn add shiki
-# pnpm
-pnpm add shiki
-```
+If you choose [Shiki](https://shiki.tmrs.site/), install it in your application with `pnpm add shiki`, `npm install shiki`, or `yarn add shiki`. See the Shiki documentation for [available themes](https://shiki.tmrs.site/themes) and other configuration options.
+
+The examples below use Shiki only to demonstrate how highlighting is injected into `HighlighterProvider`; `Code` is not coupled to Shiki.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { codeToHtml } from 'shiki'
-</script>
-
-<template>
-  <mp-highlighter-provider :highlighter="{ codeToHtml }" theme="vitesse-light">
-    <mp-space direction="column" size="lg">
-      <mp-code code="console.log('Hello Maple UI')" language="javascript" />
-      <mp-code code="print('Hello Maple UI')" language="python" />
-      <mp-code code="console.log('Hello Maple UI')" language="javascript" theme="github-light" />
-    </mp-space>
-  </mp-highlighter-provider>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Word Wrap
 
 Set `word-wrap` to support automatic line wrapping when code overflows.
 
-```html
-<script setup>
-import { codeToHtml } from 'shiki'
-</script>
-
-<template>
-  <mp-highlighter-provider :highlighter="{ codeToHtml }" theme="vitesse-light">
-    <mp-code code="console.log('Hello Maple UI');console.log('Hello Maple UI');" language="javascript" word-wrap />
-  </mp-highlighter-provider>
-</template>
+```demo
+../example/demos/word-wrap.vue
 ```
 
 ## API
@@ -60,40 +35,40 @@ import { codeToHtml } from 'shiki'
 
 #### Code Props
 
-| Prop | Description | Type | Default |
-|------------------|-------------------------------------------------------------|-----------------|------------------|
-| `code`           | Code Snippet                                                      | _string_       | `-`              |
-| `language`       | Code Language                                                         | _string_       | `-`              |
-| `theme`          | Code Theme                                                         | _string_       | `-`              |
-| `word-wrap`          | Whether to support automatic line wrapping when code overflows                                                         | _boolean_       | `false`              |
-| `trim`           | Whether to remove the blank characters at the beginning and end of the code    | _boolean_      | `true`           |
+| Prop        | Description                                                                 | Type      | Default |
+| ----------- | --------------------------------------------------------------------------- | --------- | ------- |
+| `code`      | Code Snippet                                                                | _string_  | `-`     |
+| `language`  | Code Language                                                               | _string_  | `-`     |
+| `theme`     | Code Theme                                                                  | _string_  | `-`     |
+| `word-wrap` | Whether to support automatic line wrapping when code overflows              | _boolean_ | `false` |
+| `trim`      | Whether to remove the blank characters at the beginning and end of the code | _boolean_ | `true`  |
 
 #### HighlighterProvider Props
 
-| Prop | Description | Type | Default |
-|------------------|--------------------------------------------------------------|----------------|------------------|
-| `highlighter`    | Code Highlighter                                                       | `Highlighter`   | `-`              |
-| `theme`          | Code Theme                                                         | _string_       | `-`              |
-| `tag`            | Custom tag name                                                  | _string_       | `div`              |
+| Prop          | Description      | Type          | Default |
+| ------------- | ---------------- | ------------- | ------- |
+| `highlighter` | Code Highlighter | `Highlighter` | `-`     |
+| `theme`       | Code Theme       | _string_      | `-`     |
+| `tag`         | Custom tag name  | _string_      | `div`   |
 
 #### Highlighter
 
-| Prop | Description | Type | Default |
-| ------ | ------ | ------ | ------ |
-| `codeToHtml` | Highlighter function, component highlighter must implement this function | `(code: string, options: CodeToHtmlOptions) => Promise<string>` | `-`
+| Prop         | Description                                                              | Type                                                            | Default |
+| ------------ | ------------------------------------------------------------------------ | --------------------------------------------------------------- | ------- |
+| `codeToHtml` | Highlighter function, component highlighter must implement this function | `(code: string, options: CodeToHtmlOptions) => Promise<string>` | `-`     |
 
 #### CodeToHtmlOptions
 
-| Prop | Description | Type | Default |
-| ------ | ------ | ------ | ------ |
-| `lang` | Code Language | _string_ | `-` |
-| `theme` | Code Theme | _string_ | `-` |
+| Prop    | Description   | Type     | Default |
+| ------- | ------------- | -------- | ------- |
+| `lang`  | Code Language | _string_ | `-`     |
+| `theme` | Code Theme    | _string_ | `-`     |
 
 ### Style Variables
 
 Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
 
-| Variable | Default |
-| --- | --- |
-| `--code-line-height` | `1.7` |
-| `--code-font-size` | `14px` |
+| Variable                | Default |
+| ----------------------- | ------- |
+| `--mp-code-line-height` | `1.7`   |
+| `--mp-code-font-size`   | `14px`  |

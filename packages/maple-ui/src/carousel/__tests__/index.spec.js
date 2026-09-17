@@ -2,7 +2,7 @@ import { h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Carousel from '..'
-import CarouselItem from '../../carousel/CarouselItem.vue'
+import CarouselItem from '../CarouselItem.vue'
 
 describe('carousel', () => {
   it('renders items and exposes an accessible region', () => {

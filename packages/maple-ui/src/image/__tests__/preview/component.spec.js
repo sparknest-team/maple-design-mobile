@@ -48,9 +48,9 @@ describe('single-image preview contract', () => {
     const wrapper = mountPreview({ imagePreventDefault: true })
     try {
       expect(wrapper.find('.mp-image-preview--prevent').exists()).toBe(true)
-      expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(true)
+      expect(wrapper.find('[data-image-preview-close]').exists()).toBe(true)
       await wrapper.setProps({ closable: false })
-      expect(wrapper.find('.mp-image-preview__close-icon').exists()).toBe(false)
+      expect(wrapper.find('[data-image-preview-close]').exists()).toBe(false)
     } finally {
       wrapper.unmount()
     }
@@ -130,10 +130,10 @@ describe('collection state belongs to ImagePreviewGroup', () => {
     const wrapper = mount(ImagePreviewGroup, { props: { images, current: 1, open: true, popupContainer: false } })
     try {
       expect(wrapper.findComponent(ImagePreview).props('src')).toBe(images[1])
-      expect(wrapper.get('.mp-image-preview__indicators').text()).toBe('2 / 2')
+      expect(wrapper.get('.mp-image-preview__indicator').text()).toBe('2 / 2')
       await wrapper.setProps({ images: [images[0]], current: 0 })
       expect(wrapper.findComponent(ImagePreview).props('src')).toBe(images[0])
-      expect(wrapper.find('.mp-image-preview__indicators').exists()).toBe(false)
+      expect(wrapper.find('.mp-image-preview__indicator').exists()).toBe(false)
     } finally {
       wrapper.unmount()
     }
@@ -149,7 +149,7 @@ describe('collection state belongs to ImagePreviewGroup', () => {
       ]) {
         action()
         await wrapper.vm.$nextTick()
-        expect(wrapper.get('.mp-image-preview__indicators').text()).toBe(expected)
+        expect(wrapper.get('.mp-image-preview__indicator').text()).toBe(expected)
       }
     } finally {
       wrapper.unmount()

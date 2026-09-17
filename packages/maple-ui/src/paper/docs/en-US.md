@@ -6,56 +6,43 @@ An easier container using elevation and water effects.
 
 ### Basic Usage
 
-```html
-<template>
-   <mp-paper :elevation="2" :width="100" :height="100" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Ripple Effect
 
-```html
-<template>
-   <mp-paper :elevation="2" :width="100" :height="100" ripple />
-</template>
+```demo
+../example/demos/bordered.vue
 ```
 
 ### Rounded Paper
 
-```html
-<template>
-   <mp-paper :elevation="2" :width="100" :height="100" round />
-</template>
+```demo
+../example/demos/ripple.vue
 ```
 
 ### Custom Border Radius
 
-```html
-<template>
-   <mp-paper :elevation="2" :width="100" :height="100" :radius="8" />
-</template>
+```demo
+../example/demos/round.vue
 ```
 
 ### Use Slot
 
-```html
-<template>
-   <mp-paper :elevation="2">
-     <mp-cell>Paper</mp-cell>
-     <mp-cell>Paper</mp-cell>
-     <mp-cell>Paper</mp-cell>
-   </mp-paper>
-</template>
+```demo
+../example/demos/radius.vue
 ```
 
 ### Border
 
-```html
-<mp-paper bordered>Border</mp-paper>
-<mp-paper bordered :elevation="2" style="padding: 16px">Border and shadow</mp-paper>
-```
+
 
 Paper is a low-level surface, not a structured Card. It has no variant/status and no default padding. Borders and elevation are independent. Use it for custom panels, form sections or the surface inside a popup; positioning, focus and button semantics remain outside Paper.
+
+```demo
+../example/demos/slot.vue
+```
 
 ## API
 

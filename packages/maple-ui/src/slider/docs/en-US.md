@@ -6,213 +6,83 @@ Used to take values within a given range.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(3)
-</script>
-
-<template>
-  <mp-slider v-model="value" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Step Size
 
 Set step increment by `step`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(25)
-</script>
-
-<template>
-  <mp-slider v-model="value" :step="10" />
-</template>
+```demo
+../example/demos/step-size.vue
 ```
 
 ### Dual Thumbs
 
 Open the double slider mode through the `range` attribute. Make sure the `value` is an array.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([24, 50])
-
-function handleChange(value) {
-  console.log(value)
-}
-</script>
-
-<template>
-  <mp-slider v-model="value" range @change="handleChange" />
-</template>
+```demo
+../example/demos/dual-thumb.vue
 ```
 
 ### Range
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-slider v-model="value" :max="210" :min="-50" label-visible="always" />
-</template>
+```demo
+../example/demos/range.vue
 ```
 
 ### Disable
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(40)
-</script>
-
-<template>
-  <mp-slider v-model="value" disabled />
-</template>
+```demo
+../example/demos/disable.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(40)
-</script>
-
-<template>
-  <mp-slider v-model="value" readonly />
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### Slider Size
 
 Control the size of slider through `track-height` and `thumb-size`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([7, 64])
-</script>
-
-<template>
-  <mp-slider v-model="value" :track-height="4" :thumb-size="8" range />
-</template>
+```demo
+../example/demos/slider-size.vue
 ```
 
 ### Custom Style
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(20)
-</script>
-
-<template>
-  <mp-slider
-    v-model="value"
-    label-color="purple"
-    active-color="#e0732c"
-    track-color="#3a68b4"
-    thumb-color="#e25241"
-    label-text-color="#ededed"
-  />
-</template>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ### Custom Button
 
 The props such as `label-visible`, `label-text-color`, `thumb-size` are invalid when using slot custom buttons.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([5, 38])
-</script>
-
-<template>
-  <mp-slider v-model="value" range active-color="#52af77">
-    <template #button="{ currentValue }">
-      <div class="slider-example__block">{{ currentValue }}</div>
-    </template>
-  </mp-slider>
-</template>
-
-<style>
-.slider-example__block {
-  width: 24px;
-  border: 1px solid #52af77;
-  color: #52af77;
-  height: 24px;
-  margin: 0 -12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: #ebebeb 0 2px 2px;
-  border-radius: 50%;
-  font-size: 12px;
-  background-color: #fff;
-}
-</style>
+```demo
+../example/demos/custom-btn.vue
 ```
 
 ### Show Label
 Control the display of labels through the `label-visible` attribute.
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref(20)
-const value1 = ref(70)
-const value2 = ref(50)
-</script>
-
-<template>
-  <mp-slider v-model="value" label-visible="never" />
-  <mp-slider v-model="value1" />
-  <mp-slider v-model="value2" label-visible="always" />
-</template>
-```
 
 > For form validation of the slider, please use the [FormItem component](#/en-US/form-item).
+
+```demo
+../example/demos/show-label.vue
+```
 
 ### Vertical
 
 Set the `orientation` attribute value to `vertical` to make the slider display vertically.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value1 = ref(50)
-const value2 = ref([7, 64])
-</script>
-
-<template>
-  <mp-space justify="space-around">
-    <div style="height: 300px">
-      <mp-slider v-model="value1" orientation="vertical" />
-    </div>
-    <div style="height: 300px">
-      <mp-slider v-model="value2" range label-visible="always" orientation="vertical" />
-    </div>
-  </mp-space>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ## API

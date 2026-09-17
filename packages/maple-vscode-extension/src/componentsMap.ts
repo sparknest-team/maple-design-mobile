@@ -125,7 +125,10 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
   tabs: {
     path: '/tabs',
   },
-  tab: {
+  'tab-nav': {
+    path: '/tabs',
+  },
+  'tabs-navs': {
     path: '/tabs',
   },
   'tabs-items': {
@@ -316,7 +319,7 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
   },
   avatar: {
     path: '/avatar',
-    attrs: ['src=""'],
+    attrs: ['image-url=""'],
     closeSelf: true,
     characterDelta: -3,
   },

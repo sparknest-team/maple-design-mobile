@@ -6,110 +6,30 @@ and changes the display position of the popover by controlling the placement and
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-popover>
-    <mp-button status="primary">Basic Usage</mp-button>
-    
-    <template #content>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Placement
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const placement = ref('bottom-start')
-const placementOptions = [
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'right',
-  'right-start',
-  'right-end',
-  'left',
-  'left-start',
-  'left-end',
-]
-</script>
-
-<template>
-  <mp-select :hint="false" v-model="placement">
-    <mp-option 
-      v-for="(item, index) in placementOptions" 
-      :key="index"
-      :label="item" 
-    />
-  </mp-select>
-  
-  <div class="placement-container">
-    <mp-popover :placement="placement">
-      <mp-button status="primary">
-        <m-icon-star-fill />
-      </mp-button>
-      <template #content>
-        <mp-cell>Option</mp-cell>
-        <mp-cell>Option</mp-cell>
-        <mp-cell>Option</mp-cell>
-      </template>
-    </mp-popover>
-  </div>
-</template>
-
-<style>
-.placement-container {
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+```demo
+../example/demos/placement.vue
 ```
 
 ### Offset
 
 The offset of the Popover popup can be set with `offset-x` and `offset-y`.
 
-```html
-<template>
-  <mp-popover offset-x="36px" offset-y="18px">
-    <mp-button status="primary">Offset</mp-button>
-    
-    <template #content>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/offset.vue
 ```
 
 ### Same Width As Trigger Element
 
 Use `auto-fit-popup-width` to make the popover and trigger the same width.
 
-```html
-<template>
-  <mp-popover auto-fit-popup-width>
-    <mp-button status="primary">Same width as trigger element</mp-button>
-    
-    <template #content>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/auto-fit-popup-width.vue
 ```
 
 ### Trigger
@@ -117,89 +37,30 @@ Use `auto-fit-popup-width` to make the popover and trigger the same width.
 Use `trigger` to change the trigger method of popover display, 
 the optional values are `click` `hover` `manual` `contextMenu`
 
-```html
-<template>
-  <mp-popover trigger="hover">
-    <mp-button status="primary">Trigger</mp-button>
-    
-    <template #content>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/trigger.vue
 ```
 
 ### Events
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-popover
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <mp-button status="primary">Events</mp-button>
-    
-    <template #content>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/events.vue
 ```
 
 ### Disabled
 
 In the `disabled` state, the popover will no longer be opened.
 
-```html
-<template>
-  <mp-popover disabled>
-    <mp-button status="primary" disabled>Disabled</mp-button>
-    
-    <template #content>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-      <mp-cell>Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Two-way Binding
 
 Two-way binding control popover show and hide via `v-model:open`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const show = ref(false)
-
-function closeMenu() { 
-  show.value = false 
-}
-</script>
-
-<template>
-  <mp-popover v-model:open="open">
-    <mp-button status="primary">Two-way binding</mp-button>
-
-    <template #content>
-      <mp-cell @click="closeMenu">Option</mp-cell>
-      <mp-cell @click="closeMenu">Option</mp-cell>
-      <mp-cell @click="closeMenu">Option</mp-cell>
-    </template>
-  </mp-popover>
-</template>
+```demo
+../example/demos/two-way-binding.vue
 ```
 
 ### Notice

@@ -1,74 +1,38 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomContentDemo from './demos/custom-content.vue'
+import CustomPositionDemo from './demos/custom-position.vue'
+import TargetContainerDemo from './demos/target-container.vue'
 
-const lists = [...Array(40).keys()]
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-function handleClick() {
-  console.log('back to top')
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <div>
-    <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-    <mp-back-top :duration="300" />
-  </div>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('targetContainer') }}</app-type>
-  <p class="back-top-hint">{{ t('targetContainerHint') }}</p>
-  <div class="back-top-section">
-    <div id="target-scroll" class="back-top-section__scroll">
-      <mp-cell v-for="list in lists" :key="`target-${list}`">Scroll in container {{ list }}</mp-cell>
-    </div>
-    <mp-back-top
-      target-container="#target-scroll"
-      :visible-height="120"
-      :duration="300"
-      :popup-container="false"
-      right="16"
-      bottom="16"
-    />
-  </div>
+  <section data-demo="target-container">
+    <app-type>{{ english ? 'Target Container' : '指定滚动容器' }}</app-type>
+    <TargetContainerDemo />
+  </section>
 
-  <app-type>{{ t('customPosition') }}</app-type>
-  <div class="back-top-section">
-    <div id="position-scroll" class="back-top-section__scroll">
-      <mp-cell v-for="list in lists" :key="`position-${list}`">Scroll to bottom {{ list }}</mp-cell>
-    </div>
-    <mp-back-top target-container="#position-scroll" :duration="300" right="80" bottom="80" />
-  </div>
+  <section data-demo="custom-position">
+    <app-type>{{ english ? 'Custom Position' : '自定义位置' }}</app-type>
+    <CustomPositionDemo />
+  </section>
 
-  <app-type>{{ t('customContent') }}</app-type>
-  <div class="back-top-section">
-    <div id="content-scroll" class="back-top-section__scroll">
-      <mp-cell v-for="list in lists" :key="`custom-${list}`">Scroll to bottom {{ list }}</mp-cell>
-    </div>
-    <mp-back-top target-container="#content-scroll" :duration="300" @click="handleClick">
-      <mp-button status="primary" round>TOP</mp-button>
-    </mp-back-top>
-  </div>
+  <section data-demo="custom-content">
+    <app-type>{{ english ? 'Custom Content' : '自定义内容' }}</app-type>
+    <CustomContentDemo />
+  </section>
 </template>
-
-<style scoped>
-.back-top-section {
-  position: relative;
-}
-
-.back-top-hint {
-  margin: 0 0 8px;
-  color: var(--mp-color-text-secondary);
-  font-size: 14px;
-}
-
-.back-top-section__scroll {
-  height: 320px;
-  overflow: auto;
-  border: 1px solid var(--mp-border-color);
-  border-radius: 8px;
-}
-</style>

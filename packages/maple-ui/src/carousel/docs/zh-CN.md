@@ -6,661 +6,116 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-carousel class="carousel-example">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 禁止循环轮播
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :loop="false">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/forbid-loop.vue
 ```
 
 ### 开启自动播放
 
 通过 `auto-play` 开启自动播放。传入 `true` 使用默认间隔 3000ms；传入数字则作为间隔（毫秒）。
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :auto-play="2000">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/autoplay.vue
 ```
 
 ### 自动播放悬停暂停
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :auto-play="{ interval: 2000, hoverToPause: true }">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/autoplay-hover-pause.vue
 ```
 
 ### 垂直轮播
 
-```html
-<template>
-  <mp-carousel class="carousel-example" direction="vertical">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### 切换箭头
 
 通过 `show-arrow` 控制切换箭头的显示时机，支持 `always`、`hover`、`never`。移动端默认 `never`。
 
-```html
-<template>
-  <mp-carousel class="carousel-example" show-arrow="always">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <mp-carousel class="carousel-example" show-arrow="hover">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-  margin-top: 14px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/navigation.vue
 ```
 
 ### 滑动效果（默认）
 
-```html
-<template>
-  <mp-carousel class="carousel-example" effect="slide">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/effect-slide.vue
 ```
 
 ### 淡入淡出效果
 
-```html
-<template>
-  <mp-carousel class="carousel-example" effect="fade">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/effect-fade.vue
 ```
 
 ### 卡片效果
 
-```html
-<template>
-  <mp-carousel class="carousel-example" effect="card">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/effect-card.vue
 ```
 
 ### 多图同屏
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :slides-per-view="2.5" :space-between="10">
-    <mp-carousel-item v-for="i in 6" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-custom-slide {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a90d9;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-</style>
+```demo
+../example/demos/multi-slides.vue
 ```
 
 ### 居中当前滑块
 
-```html
-<template>
-  <mp-carousel class="carousel-example" :slides-per-view="1.5" :space-between="10" centered-slides>
-    <mp-carousel-item v-for="i in 5" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-custom-slide {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a90d9;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-</style>
+```demo
+../example/demos/centered-slides.vue
 ```
 
 ### 指示器类型
 
 通过 `indicator-type` 设置指示器类型，支持 `dot`、`line`、`slider`。隐藏指示器请使用 `indicator`。
 
-```html
-<template>
-  <h4>圆点</h4>
-  <mp-carousel class="carousel-example" indicator-type="dot">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <h4>线条</h4>
-  <mp-carousel class="carousel-example" indicator-type="line">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <h4>滑块</h4>
-  <mp-carousel class="carousel-example" indicator-type="slider">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-  margin-top: 14px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/indicator-type.vue
 ```
 
 ### 指示器位置
 
-```html
-<template>
-  <h4>顶部</h4>
-  <mp-carousel class="carousel-example" indicator-position="top">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <h4>外部</h4>
-  <mp-carousel class="carousel-example" indicator-position="outer">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-  margin-top: 14px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/indicator-position.vue
 ```
 
 ### 悬停触发
 
-```html
-<template>
-  <mp-carousel class="carousel-example" trigger="hover">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/trigger-hover.vue
 ```
 
 ### 鼠标滚轮控制
 
-```html
-<template>
-  <mp-carousel class="carousel-example" mousewheel>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/mousewheel.vue
 ```
 
 ### 键盘控制
 
-```html
-<template>
-  <mp-carousel class="carousel-example" keyboard>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/keyboard.vue
 ```
 
 ### 自定义指示器
 
-```html
-<template>
-  <mp-carousel class="carousel-example">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-    <template #indicator="{ index, length, to }">
-      <div class="carousel-custom-indicators">
-        <div
-          v-for="(l, idx) in length"
-          :key="l"
-          class="carousel-custom-indicator"
-          :class="{ 'carousel-custom--active': idx === index }"
-          @click="to(idx)"
-        >{{ idx + 1 }}</div>
-      </div>
-    </template>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.carousel-custom-indicators {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-}
-
-.carousel-custom-indicator {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
-  font-size: 12px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.carousel-custom--active {
-  background: #4a90d9;
-}
-</style>
+```demo
+../example/demos/custom-indicator.vue
 ```
 
 ### 监听切换
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-carousel class="carousel-example" @change="(index) => Message(String(index))">
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat2.jpg">
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-example-image" src="/cat3.jpg">
-    </mp-carousel-item>
-  </mp-carousel>
-</template>
-
-<style>
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-example-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/handle-change.vue
 ```
 
 ## API

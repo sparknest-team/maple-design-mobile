@@ -8,6 +8,13 @@
 
 局部变量按 DOM 继承，嵌套 Provider 可覆盖父级变量；传入 `null` 清除本层覆盖（仍会继承父级）。通过 `popupContainer` 移到 Provider 外的节点不继承局部变量。组件式调用不修改全局主题属性。
 
+
+
+### basic
+
+```demo
+../example/demos/basic.vue
+```
 ## 全局调用
 
 ```ts

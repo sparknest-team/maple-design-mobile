@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { join, resolve } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -20,6 +20,26 @@ const programmaticApis = new Set([
   'Form',
   'useFormItem',
 ])
+const singleSourceDemoComponents = new Set([
+  'breadcrumb',
+  'cascader',
+  'code',
+  'date',
+  'date-range',
+  'floating-panel',
+  'form',
+  'input',
+  'notice-bar',
+  'number-keyboard',
+  'progress-group',
+  'pull-refresh',
+  'search',
+  'skeleton',
+  'space',
+  'steps',
+  'time',
+  'verification-code',
+])
 const importRe = /(?:^|\n)import\s+(type\s+)?([\s\S]*?)\s+from\s+['"]([^'"]+)['"]/g
 
 function importedNames(clause) {
@@ -38,6 +58,27 @@ function importedNames(clause) {
 
 function checkResolverImports(filename, code) {
   const issues = []
+  if (filename.endsWith('/example/index.vue')) {
+    if (/createDemoMessages|from ['"]\.\/locale(?:\/index)?['"]|(?<![\w$])t\((['"])[^'"]+\1\)/.test(code)) {
+      issues.push(
+        'example entry must switch direct bilingual titles from watchLang; do not maintain a separate title locale',
+      )
+    }
+    if (/<app-type\b/.test(code) && !/\bAppType\b/.test(code)) {
+      issues.push('example entry renders <app-type> without importing AppType')
+    }
+  }
+  if (filename.includes('/example/demos/')) {
+    if (/from ['"]\.\.\/(?:\.\/)?locale(?:\/index)?['"]/.test(code)) {
+      issues.push('demo copy must be written directly; do not import component example locale')
+    }
+    if (/(?<![\w$])t\((['"])[^'"]+\1\)/.test(code)) {
+      issues.push('demo copy must be written directly; do not call a demo translation helper')
+    }
+    if (/\n\{\n[\s\S]*?\n\}\s*<\/script>/.test(code)) {
+      issues.push('demo script contains a stray top-level block; initialize state in declarations or lifecycle hooks')
+    }
+  }
   for (const match of code.matchAll(importRe)) {
     const isType = Boolean(match[1]) || match[2].trim().startsWith('type ')
     const from = match[3]
@@ -56,7 +97,10 @@ function checkResolverImports(filename, code) {
       issues.push(`do not deep-import "${from}"; use MapleResolver`)
       continue
     }
-    const localDemo = from.startsWith('./') || from.includes('locale') || from.includes('/json/')
+    const resolvedImport = resolve(dirname(filename), from)
+    const exampleRoot = filename.slice(0, filename.lastIndexOf('/example/') + '/example'.length)
+    const localExampleImport = !relative(exampleRoot, resolvedImport).startsWith('..')
+    const localDemo = from.startsWith('./') || from.includes('locale') || from.includes('/json/') || localExampleImport
     if (localDemo) {
       continue
     }
@@ -119,10 +163,70 @@ function check(directory) {
     }
   }
 }
+
+function checkDemoDocs(component, examples) {
+  const demos = join(examples, 'demos')
+  if (!existsSync(demos)) {
+    return
+  }
+
+  const collectDemoFiles = (directory, prefix = '') =>
+    readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+      const name = prefix ? `${prefix}/${entry.name}` : entry.name
+      return entry.isDirectory()
+        ? collectDemoFiles(join(directory, entry.name), name)
+        : entry.name.endsWith('.vue')
+          ? [name]
+          : []
+    })
+  const demoFiles = collectDemoFiles(demos).sort()
+
+  for (const language of ['zh-CN', 'en-US']) {
+    const filename = join(source, component, 'docs', `${language}.md`)
+    if (!existsSync(filename)) {
+      continue
+    }
+
+    const code = readFileSync(filename, 'utf8')
+    const references = [...code.matchAll(/\.\.\/example\/demos\/([^\s]+\.vue)/g)].map((match) => match[1])
+    const uniqueReferences = [...new Set(references)].sort()
+    const localizedFiles = demoFiles.filter((demo) => demo.startsWith(`${language}/`))
+    const expectedFiles = localizedFiles.length
+      ? localizedFiles
+      : demoFiles.filter((demo) => !/^(?:zh-CN|en-US)\//.test(demo))
+    const missing = expectedFiles.filter((demo) => !uniqueReferences.includes(demo))
+    const unknown = uniqueReferences.filter((demo) => !demoFiles.includes(demo))
+    const apiHeadingCount = code.match(/^## API$/gm)?.length ?? 0
+    const issues = []
+
+    if (references.length !== uniqueReferences.length) {
+      issues.push('contains duplicate demo references')
+    }
+    if (missing.length) {
+      issues.push(`does not expose demos: ${missing.join(', ')}`)
+    }
+    if (unknown.length) {
+      issues.push(`references missing demos: ${unknown.join(', ')}`)
+    }
+    if (apiHeadingCount > 1) {
+      issues.push('contains more than one top-level API section; nest subcomponent APIs below their component heading')
+    }
+    if (singleSourceDemoComponents.has(component) && /```(?:html|vue)\b/.test(code)) {
+      issues.push('contains a copied component example; use a demo SFC as the single source of truth')
+    }
+
+    if (issues.length) {
+      failures++
+      console.error(`${filename}\n${issues.join('\n')}`)
+    }
+  }
+}
+
 for (const component of readdirSync(source)) {
   const examples = join(source, component, 'example')
   if (existsSync(examples)) {
     check(examples)
+    checkDemoDocs(component, examples)
   }
 }
 console.info(`Checked ${count} demo SFCs; ${failures} failures`)

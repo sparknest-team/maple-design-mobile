@@ -1,36 +1,32 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomColorDemo from './demos/custom-color.vue'
+import DisabledStatusDemo from './demos/disabled-status.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <div v-ripple class="ripple-example__block mp-elevation--2">{{ t('click') }}</div>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('customColor') }}</app-type>
-  <div v-ripple="{ color: 'var(--mp-color-warning)' }" class="ripple-example__block mp-elevation--2">
-    {{ t('click') }}
-  </div>
+  <section data-demo="custom-color">
+    <app-type>{{ english ? 'Custom Color' : '自定义颜色' }}</app-type>
+    <CustomColorDemo />
+  </section>
 
-  <app-type>{{ t('disabledStatus') }}</app-type>
-  <div v-ripple="{ disabled: true }" class="ripple-example__block mp-elevation--2">{{ t('click') }}</div>
+  <section data-demo="disabled-status">
+    <app-type>{{ english ? 'Disabled Status' : '禁用状态' }}</app-type>
+    <DisabledStatusDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-@import '../../style/elevation.less';
-
-.ripple-example__block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  background-color: var(--mp-color-fill-3);
-  transition: background-color 0.25s;
-}
-</style>

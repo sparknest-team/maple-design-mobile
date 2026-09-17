@@ -158,7 +158,7 @@ export default defineComponent({
       }
 
       if (isFocusing.value) {
-        return focusColor || 'var(--mp-field-color-focus)'
+        return props.placeholderFocusColor || focusColor || 'var(--mp-field-color-focus)'
       }
 
       return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'

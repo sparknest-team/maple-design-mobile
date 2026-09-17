@@ -6,114 +6,30 @@ Display the current progress of an operation flow.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const value = ref(0)
-let timer
-
-onMounted(() => {
-  timer = window.setInterval(() => {
-    if (value.value >= 100) {
-      value.value = 0
-      return
-    }
-
-    value.value += 20
-  }, 1000)
-})
-
-onUnmounted(() => {
-  window.clearInterval(timer)
-})  
-</script>
-
-<template>
-  <mp-space direction="column" :size="[12, 12]">
-    <mp-progress :percent="20" />
-    <mp-progress :percent="value" :track="false" show-text />
-    <mp-progress :percent="100" show-text>success</mp-progress>
-  </mp-space>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Other Styles
 
 Set the stroke width, progress bar color and track color through the attributes of `status`, `stroke-width`, `color`, `track-color`.
 
-```html
-<template>
-  <mp-space direction="column" :size="[12, 12]">
-    <mp-progress :percent="40" color="linear-gradient(131.53deg, #3fecff 0%, #6149f6 100%)"/>
-    <mp-progress status="info" :percent="40" />
-    <mp-progress status="success" :percent="60" />
-    <mp-progress :percent="80" :stroke-width="8" color="#ff9f00" track-color="#f5cb90" />
-  </mp-space>
-</template>
+```demo
+../example/demos/style.vue
 ```
 
 ### Progress Circle
 
-```html
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const value = ref(0)
-let timer
-
-onMounted(() => {
-  timer = window.setInterval(() => {
-    if (value.value >= 100) {
-      value.value = 0
-      return
-    }
-
-    value.value += 20
-  }, 1000)
-})
-
-onUnmounted(() => {
-  window.clearInterval(timer)
-})  
-</script>
-
-<template>
-  <mp-space :size="[20, 20]">
-    <mp-progress 
-      mode="circle" 
-      :percent="100" 
-      :size="60"  
-      :color="{
-        '0%': '#3fecff',
-        '100%': '#6149f6',
-      }" 
-    />
-    <mp-progress mode="circle" :percent="75" :size="60" :track="false" />
-    <mp-progress mode="circle" show-text :percent="value" :stroke-width="5" :size="60" />
-    <mp-progress mode="circle" status="success" show-text :percent="100" :stroke-width="5" :size="60">
-      success
-    </mp-progress>
-  </mp-space>
-</template>
+```demo
+../example/demos/circle.vue
 ```
 
 ### Indeterminate Animation
 
 Enable indeterminate animation through the `indeterminate` attribute when loading progress is unknown.
 
-```html
-<template>
-  <mp-space direction="column" :size="[20, 20]">
-    <mp-progress indeterminate />
-    <mp-progress indeterminate status="info" />
-
-    <mp-space justify="space-between">
-      <mp-progress mode="circle" indeterminate :size="60" />
-      <mp-progress mode="circle" status="info" indeterminate :size="60" />
-    </mp-space>
-  </mp-space>
-</template>
+```demo
+../example/demos/indeterminate-progress.vue
 ```
 
 ## API

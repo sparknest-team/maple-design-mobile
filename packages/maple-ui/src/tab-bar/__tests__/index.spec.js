@@ -3,9 +3,9 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import TabBar from '..'
 import VarTabBarItem from '../../tab-bar/TabBarItem'
-import TabBarItem from '../../tab-bar/TabBarItem.vue'
 import { delay, trigger } from '../../utils/test'
 import VarTabBar from '../TabBar'
+import TabBarItem from '../TabBarItem.vue'
 
 const Wrapper = {
   components: {

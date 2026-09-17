@@ -1,71 +1,77 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicDemo from './demos/basic.vue'
+import DisabledStatusDemo from './demos/disabled-status.vue'
+import EnBasicDemo from './demos/en-US/basic.vue'
+import EnDisabledStatusDemo from './demos/en-US/disabled-status.vue'
+import EnHoverableDemo from './demos/en-US/hoverable.vue'
+import EnIconDemo from './demos/en-US/icon.vue'
+import EnLoadingDemo from './demos/en-US/loading.vue'
+import EnModeDemo from './demos/en-US/mode.vue'
+import EnSemanticStatusDemo from './demos/en-US/semantic-status.vue'
+import EnUnderlineDemo from './demos/en-US/underline.vue'
+import HoverableDemo from './demos/hoverable.vue'
+import IconDemo from './demos/icon.vue'
+import LoadingDemo from './demos/loading.vue'
+import ModeDemo from './demos/mode.vue'
+import SemanticStatusDemo from './demos/semantic-status.vue'
+import UnderlineDemo from './demos/underline.vue'
 
-const loading = ref(false)
-const handleClick = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-  }, 3000)
-}
-
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basic') }}</app-type>
-  <mp-link>{{ t('defaultLink') }}</mp-link>
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
+    <EnBasicDemo v-if="english" />
+    <BasicDemo v-else />
+  </section>
 
-  <app-type>{{ t('semanticStatus') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-link>{{ t('defaultLink') }}</mp-link>
-    <mp-link status="primary">{{ t('primaryLink') }}</mp-link>
-    <mp-link status="secondary">{{ t('secondaryLink') }}</mp-link>
-    <mp-link status="tertiary">{{ t('tertiaryLink') }}</mp-link>
-    <mp-link status="info">{{ t('infoLink') }}</mp-link>
-    <mp-link status="success">{{ t('successLink') }}</mp-link>
-    <mp-link status="warning">{{ t('warningLink') }}</mp-link>
-    <mp-link status="danger">{{ t('dangerLink') }}</mp-link>
-  </mp-space>
+  <section data-demo="semantic-status">
+    <app-type>{{ english ? 'Semantic status' : '语义状态' }}</app-type>
+    <EnSemanticStatusDemo v-if="english" />
+    <SemanticStatusDemo v-else />
+  </section>
 
-  <app-type>{{ t('mode') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-link status="primary" :href="t('hrefLink')" target="_blank" rel="noopener noreferrer">
-      {{ t('withHref') }}
-    </mp-link>
-  </mp-space>
+  <section data-demo="mode">
+    <app-type>{{ english ? 'Link mode' : '链接模式' }}</app-type>
+    <EnModeDemo v-if="english" />
+    <ModeDemo v-else />
+  </section>
 
-  <app-type>{{ t('underline') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-link status="primary" underline="always">{{ t('useUnderlineAlways') }}</mp-link>
-    <mp-link status="primary" underline="hover">{{ t('useUnderlineHove') }}</mp-link>
-    <mp-link status="primary" underline="none">{{ t('notUseUnderline') }}</mp-link>
-  </mp-space>
+  <section data-demo="underline">
+    <app-type>{{ english ? 'Underline' : '下划线' }}</app-type>
+    <EnUnderlineDemo v-if="english" />
+    <UnderlineDemo v-else />
+  </section>
 
-  <app-type>{{ t('hoverable') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-link hoverable href="#link">{{ t('hoverable') }}</mp-link>
-    <mp-link href="#link">{{ t('keyboardFocus') }}</mp-link>
-  </mp-space>
+  <section data-demo="hoverable">
+    <app-type>{{ english ? 'Hover background' : '悬浮态底色' }}</app-type>
+    <EnHoverableDemo v-if="english" />
+    <HoverableDemo v-else />
+  </section>
 
-  <app-type>{{ t('disabledStatus') }}</app-type>
-  <mp-link disabled>{{ t('disabledStatus') }}</mp-link>
+  <section data-demo="disabled-status">
+    <app-type>{{ english ? 'Disabled' : '禁用状态' }}</app-type>
+    <EnDisabledStatusDemo v-if="english" />
+    <DisabledStatusDemo v-else />
+  </section>
 
-  <app-type>{{ t('icon') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-link icon>{{ t('defaultIcon') }}</mp-link>
-    <mp-link>
-      <template #icon><m-icon-github /></template>
-      {{ t('customIcon') }}
-    </mp-link>
-  </mp-space>
+  <section data-demo="icon">
+    <app-type>{{ english ? 'Icon' : '图标' }}</app-type>
+    <EnIconDemo v-if="english" />
+    <IconDemo v-else />
+  </section>
 
-  <app-type>{{ t('loading') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-link loading>{{ t('loading') }}</mp-link>
-    <mp-link :loading="loading" @click="handleClick">{{ t('clickToLoad') }}</mp-link>
-  </mp-space>
+  <section data-demo="loading">
+    <app-type>{{ english ? 'Loading' : '加载中' }}</app-type>
+    <EnLoadingDemo v-if="english" />
+    <LoadingDemo v-else />
+  </section>
 </template>

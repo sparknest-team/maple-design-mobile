@@ -3,9 +3,9 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import Pagination from '..'
 import Select from '../../select'
-import PageStep from '../page-item-step.vue'
-import PageJumper from '../page-jumper.vue'
-import PageOptions from '../page-options.vue'
+import PageStep from '../PageItemStep.vue'
+import PageJumper from '../PageJumper.vue'
+import PageOptions from '../PageOptions.vue'
 import { paginationProps } from '../props'
 
 const wrappers = []

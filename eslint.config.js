@@ -7,6 +7,14 @@ export default defineConfig({
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/unified-signatures': 'off',
   },
+  overrides: [
+    {
+      files: ['packages/maple-ui/src/*/example/**/*.vue'],
+      rules: {
+        'no-undef': 'error',
+      },
+    },
+  ],
   ignores: [
     'packages/maple-cli/lib/**',
     'packages/maple-cli/site/**',

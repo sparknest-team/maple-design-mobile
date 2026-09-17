@@ -1,78 +1,56 @@
 <script setup>
-import { nextTick, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import CustomContentSlotDemo from './demos/custom-content-slot.vue'
+import CustomGapDemo from './demos/custom-gap.vue'
+import CustomOffsetDemo from './demos/custom-offset.vue'
+import CustomRotateDemo from './demos/custom-rotate.vue'
+import FullscreenDemo from './demos/fullscreen.vue'
+import ImageWatermarkDemo from './demos/image-watermark.vue'
+import TextWatermarkDemo from './demos/text-watermark.vue'
 
-const fullscreen = ref(false)
-const watermarkRef = ref(null)
-const watermarkRef2 = ref(null)
-const watermarkRef3 = ref(null)
-const watermarkRef4 = ref(null)
-const watermarkRef5 = ref(null)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const toggle = () => {
-  fullscreen.value = !fullscreen.value
-}
-
-watchLang(use)
-
-onThemeChange(() => {
-  nextTick(() => {
-    watermarkRef.value.resize()
-    watermarkRef2.value.resize()
-    watermarkRef3.value.resize()
-    watermarkRef4.value.resize()
-    watermarkRef5.value.resize()
-  })
+watchLang((value) => {
+  language.value = value
 })
+onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('textWatermark') }}</app-type>
-  <mp-watermark ref="watermarkRef" content="Maple">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
+  <section data-demo="text-watermark">
+    <app-type>{{ english ? 'Text Watermark' : '文字水印' }}</app-type>
+    <TextWatermarkDemo />
+  </section>
 
-  <app-type>{{ t('customGap') }}</app-type>
-  <mp-watermark ref="watermarkRef2" content="Maple" :gap="[40, 40]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
+  <section data-demo="custom-gap">
+    <app-type>{{ english ? 'Custom Gap' : '自定义间距' }}</app-type>
+    <CustomGapDemo />
+  </section>
 
-  <app-type>{{ t('customOffset') }}</app-type>
-  <mp-watermark ref="watermarkRef3" content="Maple" :offset="[20, 20]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
+  <section data-demo="custom-offset">
+    <app-type>{{ english ? 'Custom Offset' : '自定义偏移量' }}</app-type>
+    <CustomOffsetDemo />
+  </section>
 
-  <app-type>{{ t('customRotate') }}</app-type>
-  <mp-watermark ref="watermarkRef4" content="Maple" :rotate="22" :offset="[0, 20]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
+  <section data-demo="custom-rotate">
+    <app-type>{{ english ? 'Custom Rotate' : '自定义旋转角度' }}</app-type>
+    <CustomRotateDemo />
+  </section>
 
-  <app-type>{{ t('imageWatermark') }}</app-type>
-  <mp-watermark image="./logo.svg" :width="40" :height="40" :gap="[40, 40]" :offset="[10, 10]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
+  <section data-demo="image-watermark">
+    <app-type>{{ english ? 'Image Watermark' : '图片水印' }}</app-type>
+    <ImageWatermarkDemo />
+  </section>
 
-  <app-type>{{ t('fullscreen') }}</app-type>
+  <section data-demo="fullscreen">
+    <app-type>{{ english ? 'Fullscreen' : '全屏' }}</app-type>
+    <FullscreenDemo />
+  </section>
 
-  <mp-watermark ref="watermarkRef5" content="Maple UI" :fullscreen="fullscreen" z-index="99" :offset="[10, 10]">
-    <div class="watermark-wrapper">
-      <mp-button status="primary" @click="toggle">{{ t('toggle') }}</mp-button>
-    </div>
-  </mp-watermark>
-
-  <app-type>{{ t('customContentSlot') }}</app-type>
-  <mp-watermark :offset="[10, 10]">
-    <div class="watermark-wrapper"></div>
-    <template #content>
-      <span style="font-size: 20px; color: #7986cb">Maple UI</span>
-    </template>
-  </mp-watermark>
+  <section data-demo="custom-content-slot">
+    <app-type>{{ english ? 'Watermark Content Slot' : '自定义水印内容' }}</app-type>
+    <CustomContentSlotDemo />
+  </section>
 </template>
-
-<style scoped>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>

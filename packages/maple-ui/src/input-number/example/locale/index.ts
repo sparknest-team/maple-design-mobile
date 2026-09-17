@@ -1,8 +1,17 @@
-import { use } from '../../../locale'
+import { Locale } from '@maplejs/maple-ui'
 import enUS from './en-US'
 import zhCN from './zh-CN'
 
-export const pack = use({
-  'zh-CN': zhCN,
-  'en-US': enUS,
-})
+const { add, use: exampleUse, t, merge } = Locale.useLocale()
+
+const use = (lang: string) => {
+  Locale.use(lang)
+  exampleUse(lang)
+}
+
+Locale.add('zh-CN', Locale.zhCN)
+Locale.add('en-US', Locale.enUS)
+add('zh-CN', zhCN)
+add('en-US', enUS)
+
+export { add, t, merge, use }

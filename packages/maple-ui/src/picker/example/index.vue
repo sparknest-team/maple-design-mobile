@@ -1,176 +1,62 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message, Picker } from '@maplejs/maple-ui'
-import area from '../../../json/area.json'
-import { t, use } from './locale'
+import AreaPickerDemo from './demos/area-picker.vue'
+import CascadePickerDemo from './demos/cascade-picker.vue'
+import ColumnsCountDemo from './demos/columns-count.vue'
+import FunctionCallDemo from './demos/function-call.vue'
+import MultiplePickerDemo from './demos/multiple-picker.vue'
+import SinglePickerDemo from './demos/single-picker.vue'
+import TwoWayBindingDemo from './demos/two-way-binding.vue'
+import ValueMappingDemo from './demos/value-mapping.vue'
 
-const MpPicker = Picker.Component
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const columns = ref([[{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }]])
-const columns2 = ref([
-  [{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }],
-  [{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }],
-  [{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }],
-])
-const columns3 = ref([
-  {
-    text: '四川省',
-    children: [
-      {
-        text: '成都市',
-        children: [
-          {
-            text: '温江区',
-          },
-          {
-            text: '青羊区',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    text: '江苏省',
-    children: [
-      {
-        text: '无锡市',
-        children: [
-          {
-            text: '新吴区',
-          },
-          {
-            text: '滨湖区',
-          },
-        ],
-      },
-    ],
-  },
-])
-const columns4 = ref(area)
-const columns5 = ref([
-  [
-    { text: 'A', value: 1 },
-    { text: 'B', value: 2 },
-    { text: 'C', value: 3 },
-    { text: 'D', value: 4 },
-  ],
-  [
-    { text: 'A', value: 1 },
-    { text: 'B', value: 2 },
-    { text: 'C', value: 3 },
-    { text: 'D', value: 4 },
-  ],
-  [
-    { text: 'A', value: 1 },
-    { text: 'B', value: 2 },
-    { text: 'C', value: 3 },
-    { text: 'D', value: 4 },
-  ],
-])
-
-const values = ref(['A', 'B', 'C'])
-
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-async function picker() {
-  await Picker({
-    columns: columns.value,
-    onChange(values, indexes) {
-      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-    },
-  })
-}
-
-async function picker2() {
-  await Picker({
-    columns: columns2.value,
-    onChange(values, indexes) {
-      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-    },
-  })
-}
-
-async function picker3() {
-  await Picker({
-    cascade: true,
-    columns: columns3.value,
-    onChange(values, indexes) {
-      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-    },
-  })
-}
-
-async function picker4() {
-  await Picker({
-    columns: columns4.value,
-    cascade: true,
-    onChange(values, indexes) {
-      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-    },
-  })
-}
-
-async function picker5() {
-  await Picker({
-    columns: columns5.value,
-    onChange(values, indexes) {
-      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-    },
-  })
-}
-
-async function picker6() {
-  await Picker({
-    columns: columns4,
-    cascade: true,
-    columnsCount: 2,
-    onChange(values, indexes) {
-      Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-    },
-  })
-}
-
-function handleChange(values, indexes) {
-  Message(`values: ${values.toString()}, indexes: ${indexes.toString()}`)
-}
 </script>
 
 <template>
-  <app-type>{{ t('functionCall') }}</app-type>
-  <mp-space direction="column" :size="['3vmin', '4vmin']">
-    <mp-button status="primary" block @click="picker">{{ t('singlePicker') }}</mp-button>
-    <mp-button status="primary" block @click="picker2">{{ t('multiplePicker') }}</mp-button>
-    <mp-button status="primary" block @click="picker3">{{ t('cascadePicker') }}</mp-button>
-    <mp-button status="primary" block @click="picker4">{{ t('areaPicker') }}</mp-button>
-    <mp-button status="primary" block @click="picker6">{{ t('columnsCount') }}</mp-button>
-    <mp-button status="primary" block @click="picker5">{{ t('valueMapping') }}</mp-button>
-  </mp-space>
+  <section data-demo="function-call">
+    <app-type>{{ english ? 'Function Call' : '函数调用' }}</app-type>
+    <FunctionCallDemo />
+  </section>
 
-  <app-type>{{ t('componentCall') }}</app-type>
+  <section data-demo="single-picker">
+    <app-type>{{ english ? 'Single Column Picker' : '单列选择' }}</app-type>
+    <SinglePickerDemo />
+  </section>
 
-  <app-type>{{ t('singlePicker') }}</app-type>
-  <mp-picker :columns="columns" @change="handleChange" />
+  <section data-demo="multiple-picker">
+    <app-type>{{ english ? 'Multiple Column Picker' : '多列选择' }}</app-type>
+    <MultiplePickerDemo />
+  </section>
 
-  <app-type>{{ t('multiplePicker') }}</app-type>
-  <mp-picker :columns="columns2" @change="handleChange" />
+  <section data-demo="cascade-picker">
+    <app-type>{{ english ? 'Cascade Column Picker' : '级联选择' }}</app-type>
+    <CascadePickerDemo />
+  </section>
 
-  <app-type>{{ t('cascadePicker') }}</app-type>
-  <mp-picker :columns="columns3" cascade @change="handleChange" />
+  <section data-demo="area-picker">
+    <app-type>{{ english ? 'Area Picker' : '地区选择' }}</app-type>
+    <AreaPickerDemo />
+  </section>
 
-  <app-type>{{ t('areaPicker') }}</app-type>
-  <mp-picker :columns="columns4" cascade @change="handleChange" />
+  <section data-demo="columns-count">
+    <app-type>{{ english ? 'Columns Count' : '列数量' }}</app-type>
+    <ColumnsCountDemo />
+  </section>
 
-  <app-type>{{ t('columnsCount') }}</app-type>
-  <mp-picker :columns="columns4" cascade :columns-count="2" @change="handleChange" />
+  <section data-demo="value-mapping">
+    <app-type>{{ english ? 'Value Mapping' : '值映射' }}</app-type>
+    <ValueMappingDemo />
+  </section>
 
-  <app-type>{{ t('valueMapping') }}</app-type>
-  <mp-picker :columns="columns5" @change="handleChange" />
-
-  <app-type>{{ t('twoWayBinding') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-button status="primary" @click="values = ['A', 'B', 'C']">values: {{ values }} {{ t('reset') }}</mp-button>
-    <mp-picker v-model="values" :columns="columns2" @change="handleChange" />
-  </mp-space>
+  <section data-demo="two-way-binding">
+    <app-type>{{ english ? 'Two-way binding' : '双向绑定' }}</app-type>
+    <TwoWayBindingDemo />
+  </section>
 </template>

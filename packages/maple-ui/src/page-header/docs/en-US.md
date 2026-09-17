@@ -6,20 +6,14 @@ Displays the current page title, context, and related actions. The API follows N
 
 Use the `show-back` prop to display the back control.
 
-```html
-<mp-page-header show-back title="Title" subtitle="Description" @back="router.back()" />
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Complete structure
 
-```html
-<mp-page-header show-back title="Title" @back="router.back()">
-  <template #header><mp-breadcrumb>...</mp-breadcrumb></template>
-  <template #avatar><mp-avatar>M</mp-avatar></template>
-  <template #extra><mp-button>Action</mp-button></template>
-  Page summary or statistics
-  <template #footer>Updated today</template>
-</mp-page-header>
+```demo
+../example/demos/complete.vue
 ```
 
 ## API

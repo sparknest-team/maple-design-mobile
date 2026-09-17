@@ -7,461 +7,118 @@ Get the file upload server by listening for `after-read` events.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-
-function handleAfterRead(file) {
-  console.log(file)
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" @after-read="handleAfterRead"/>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### File Preview
 
 By analyzing the file URL suffix name to determine the file type, support image and video preview.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-0',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  },
-  {
-    uid: 'example-1',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-    thumbnailUrl: 'https://maplejs.org/cover.jpg'
-  }
-])
-</script>
-
-<template>
-  <mp-upload v-model="files"/>
-</template>
+```demo
+../example/demos/preview.vue
 ```
 
 ### Custom Preview
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Dialog } from '@maplejs/maple-ui'
-
-const files = ref([
-  {
-    uid: 'example-2',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  }
-])
-
-function handlePreview(file) {
-  Dialog({
-    title: 'Custom Preview',
-    message: file.url.slice(0, 100),
-  })
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" prevent-default-preview @preview="handlePreview"/>
-</template>
+```demo
+../example/demos/custom-preview.vue
 ```
 
 ### Upload State
 
 Three uploading states, `loading`, `success` and `error`, are provided, and tool functions are provided to quickly obtain files with corresponding states.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-3',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'uploading'
-  },
-  {
-    uid: 'example-4',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'success'
-  },
-  {
-    uid: 'example-5',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'error'
-  }
-])
-
-function handleAfterRead(file) {
-  file.status = 'uploading'
-
-  setTimeout(() => {
-    file.status = 'success'
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" @after-read="handleAfterRead"/>
-</template>
+```demo
+../example/demos/state.vue
 ```
 
 ### Use Progress
 
-```html
-<script setup>
-import { ref, onUnmounted } from 'vue'
-
-const files = ref([])
-let timer
-
-function handleAfterRead(file) {
-  file.status = 'uploading'
-
-  timer = window.setInterval(() => {
-    if (file.percent === 100) {
-      window.clearInterval(timer)
-      file.status = 'success'
-      return
-    }
-
-    file.percent += 10
-  }, 250)
-}
-
-onUnmounted(() => {
-  window.clearInterval(timer)
-})
-</script>
-
-<template>
-  <mp-upload v-model="files" @after-read="handleAfterRead"/>
-</template>
+```demo
+../example/demos/use-progress.vue
 ```
 
 ### File Maxlength
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload v-model="files" :max-files="1"/>
-</template>
+```demo
+../example/demos/max-files.vue
 ```
 
 ### File Size Limit
 
 If the limit is exceeded, the file will be blocked. You can get the file by listening for the `oversize` event.
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload v-model="files" :max-file-size="1024" @oversize="Message.warning('file size exceeds limit')" />
-</template>
+```demo
+../example/demos/max-file-size.vue
 ```
 
 ### File List Filter
 
 Use the beforeAdd prop to filter native File[] before reading; return File[] or Promise<File[]>.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-
-function handleBeforeFilter(files) {
-  return files.filter(file => file.name.endsWith('png'))
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" multiple :before-add="handleBeforeFilter" />
-</template>
-
+```demo
+../example/demos/before-add.vue
 ```
 
 ### Upload Preprocessing
 
 Operate on a file by registering the beforeRead prop that returns a false value to prevent the file from being read.
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const files = ref([])
-
-function handleBeforeRead(file) {
-  if (file.size <= 1 * 1024 * 1024) {
-    Message.success('the file is less than 1M, the upload is successful')
-    return true
-  } else {
-    Message.warning('the file is larger than 1M and cannot be uploaded')
-    return false
-  }
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" :before-read="handleBeforeRead"/>
-</template>
+```demo
+../example/demos/before-read.vue
 ```
 
 ### Upload Button Click Event
 
 By listen the `click-action` event, you can intercept the click behavior of the upload button, and manually trigger the browser to select the file through the `chooseFile` method in the callback.
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const files = ref([])
-
-function handleClickAction(chooseFile) {
-  Message.loading('delay 1s')
-
-  window.setTimeout(() => {
-    Message.clear()
-    chooseFile()
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" @click-action="handleClickAction" />
-</template>
+```demo
+../example/demos/click-action.vue
 ```
 
 ### Disabled
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload disabled v-model="files"/>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload readonly v-model="files"/>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### Remove Preprocessing
 
 Before deleting the file, the beforeRemove prop is triggered, and a falsy value is returned to prevent the delete operation.
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Dialog } from '@maplejs/maple-ui'
-
-const files = ref([
-  {
-    uid: 'example-6',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  }
-])
-
-async function handleBeforeRemove() {
-  const action = await Dialog({
-    title: 'Delete or not?',
-    message: 'Cannot be withdrawn after deletion'
-  })
-
-  return action === 'confirm'
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" :before-remove="handleBeforeRemove" />
-</template>
+```demo
+../example/demos/before-remove.vue
 ```
 
 ### Customize Upload Styles
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const files = ref()
-</script>
-
-<template>
-  <mp-upload v-model="files">
-    <mp-button status="primary">Upload</mp-button>
-  </mp-upload>
-</template>
-```
 
 > For form validation of the upload, please use the [FormItem component](#/en-US/form-item).
+
+```demo
+../example/demos/style.vue
+```
 
 ### Custom Render File List
 
 You can use the `show-file-list` to hide component files list, then you can render this list by custom.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-7',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'uploading',
-  },
-  {
-    uid: 'example-8',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'success',
-  },
-  {
-    uid: 'example-9',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'error',
-  },
-])
-</script>
-
-<template>
-  <mp-space>
-    <img
-      class="upload-example-file"
-      v-for="f in files"
-      :key="f.uid"
-      :src="f.thumbnailUrl"
-    />
-    <mp-upload :show-file-list="false" v-model="files">
-      <mp-button round status="primary">
-        <m-icon-upload-fill :size="28" />
-      </mp-button>
-    </mp-upload>
-  </mp-space>
-</template>
-
-<style>
-.upload-example-file {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 12px;
-  object-fit: cover;
-}
-</style>
+```demo
+../example/demos/custom-render.vue
 ```
 
 ### Custom Remove Button
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-10',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  },
-  {
-    uid: 'example-11',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-    thumbnailUrl: 'https://maplejs.org/cover.jpg'
-  }
-])
-</script>
-
-<template>
-  <mp-upload v-model="files">
-    <template #remove-button="{ remove }">
-      <div class="custom-remove-button">
-        <m-icon-close color="#fff" @click.stop="remove"></m-icon-close>
-      </div>
-    </template>
-  </mp-upload>
-</template>
-
-<style>
-.custom-remove-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-}
-</style>
+```demo
+../example/demos/remove-button-slot.vue
 ```
 
 ## API

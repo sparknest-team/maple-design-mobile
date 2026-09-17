@@ -1,79 +1,44 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import ListDemo from './demos/list.vue'
+import ShowBorderDemo from './demos/show-border.vue'
+import ShowDescDemo from './demos/show-desc.vue'
+import ShowIconDemo from './demos/show-icon.vue'
 
-const items = ref([
-  {
-    name: 'Vue2',
-    icon: 'star-fill',
-    enabled: false,
-  },
-  {
-    name: 'Vue3',
-    icon: 'heart-fill',
-    enabled: false,
-  },
-  {
-    name: 'React',
-    icon: 'close-circle-fill',
-    enabled: false,
-  },
-])
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const handleClick = (item) => {
-  item.enabled = !item.enabled
-}
-
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-cell> {{ t('content') }} </mp-cell>
-  <mp-cell> {{ t('content') }} </mp-cell>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('showIcon') }}</app-type>
-  <mp-cell icon="fire" :title="t('content')">
-    <template #extra>
-      <m-icon-info-circle-fill />
-    </template>
-  </mp-cell>
-  <mp-cell icon="fire" :title="t('content')">
-    <template #extra>
-      <m-icon-info-circle-fill />
-    </template>
-  </mp-cell>
+  <section data-demo="show-icon">
+    <app-type>{{ english ? 'Show Icon' : '显示图标' }}</app-type>
+    <ShowIconDemo />
+  </section>
 
-  <app-type>{{ t('showDesc') }}</app-type>
-  <mp-cell icon="fire" :title="t('content')" :description="t('description')">
-    <template #extra>
-      <m-icon-info-circle-fill />
-    </template>
-  </mp-cell>
-  <mp-cell :title="t('content')" :description="t('description')" />
+  <section data-demo="show-desc">
+    <app-type>{{ english ? 'Show Description' : '显示描述' }}</app-type>
+    <ShowDescDemo />
+  </section>
 
-  <app-type>{{ t('showBorder') }}</app-type>
-  <mp-cell border> {{ t('content') }} </mp-cell>
-  <mp-cell border> {{ t('content') }} </mp-cell>
+  <section data-demo="show-border">
+    <app-type>{{ english ? 'Show Border' : '显示边框' }}</app-type>
+    <ShowBorderDemo />
+  </section>
 
-  <app-type>{{ t('list') }}</app-type>
-  <mp-paper :elevation="2">
-    <mp-cell
-      v-for="(item, index) in items"
-      :key="item.name"
-      ripple
-      :icon="item.icon"
-      :border="index !== items.length - 1"
-      :border-offset="0"
-      @click="handleClick(item)"
-    >
-      {{ item.name }}
-
-      <template #extra>
-        <mp-switch v-model="item.enabled" @click.stop />
-      </template>
-    </mp-cell>
-  </mp-paper>
+  <section data-demo="list">
+    <app-type>{{ english ? 'Use As List Item' : '用作列表项' }}</app-type>
+    <ListDemo />
+  </section>
 </template>

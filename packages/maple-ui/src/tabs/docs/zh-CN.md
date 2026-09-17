@@ -1,511 +1,231 @@
-# 选项卡组
+# Tabs 标签页
 
-### 介绍
+导航与内容使用同一套 API，PC 和移动端通过主题变量保留视觉密度差异。
 
-使用 `Tabs`、`Tab` 实现选项卡组的切换。使用 `TabsItems`、`TabItem` 实现和选项卡组的视图联动。
+## 案例
 
-### 基本使用
+### 最简单用法
 
-```html
-<script setup>
-import { ref } from 'vue'
+最简单的写法只需要在 `Tabs` 中声明带 `title` 的 `TabPane`，导航与内容会自动生成。
 
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs v-model:active="active">
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-  </mp-tabs>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
-### 具名选项卡
+### 仅导航
 
-Tabs 默认通过 `active` 去匹配 Tab 的 `index` 来决定哪个选项卡被激活。
-您也可以通过给 Tab 设置 `name` 来命名选项卡，这时 Tabs 会优先匹配 `name`。
+只需要标签导航时，无需编写内容组件；直接在 `TabsNavs` 中声明 `TabNav` 即可。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const active = ref('选项1')
-</script>
-
-<template>
-  <mp-tabs v-model:active="active">
-    <mp-tab name="选项1">选项1</mp-tab>
-    <mp-tab name="选项2">选项2</mp-tab>
-    <mp-tab name="选项3">选项3</mp-tab>
-  </mp-tabs>
-</template>
+```demo
+../example/demos/nav-content.vue
 ```
 
-### 修改样式
+### 样式变体
 
-```html
-<script setup>
-import { ref } from 'vue'
+`variant` 控制导航外观；卡片和胶囊样式也使用相同的标签与内容结构。
 
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    elevation
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-  </mp-tabs>
-</template>
+```demo
+../example/demos/variants.vue
 ```
 
-### 禁用选项
+### 横向滚动与手势切换
 
-```html
-<script setup>
-import { ref } from 'vue'
+标签较多时导航可横向滚动：移动端直接拖动导航，PC 使用鼠标滚轮或触控板。开启 `swipeable` 后，还能在内容区域左右滑动切换；滑动会跳过禁用项。
 
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    elevation
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    disabled-color="#aaa"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab disabled>禁用选项</mp-tab>
-  </mp-tabs>
-</template>
+```demo
+../example/demos/scrollable.vue
 ```
 
-### 开启滚动
+### 方向与指示器位置
 
-在选项卡数量在 `四个以上` 时自动开启滚动，点击选项卡自动滚动到视口中央。
+通过选项切换横向、纵向布局和指示器所在方向；还可以交换 `TabsNavs` 与 `TabsItems` 的声明顺序，将导航放在内容的另一侧。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    elevation
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-    <mp-tab>选项4</mp-tab>
-    <mp-tab>选项5</mp-tab>
-    <mp-tab>选项6</mp-tab>
-    <mp-tab>选项7</mp-tab>
-    <mp-tab>选项8</mp-tab>
-  </mp-tabs>
-</template>
+```demo
+../example/demos/position.vue
 ```
 
-### 选项垂直布局
+### 图标与导航插槽
 
-```html
-<script setup>
-import { ref } from 'vue'
+TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
 
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    elevation
-    item-vertical
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>
-      <m-icon-info-circle-fill class="tabs-example-icon" />
-      <div>选项1</div>
-    </mp-tab>
-    <mp-tab>
-      <m-icon-warning class="tabs-example-icon" />
-      <div>选项2</div>
-    </mp-tab>
-    <mp-tab>
-      <m-icon-error class="tabs-example-icon" />
-      <div>选项3</div>
-    </mp-tab>
-  </mp-tabs>
-</template>
-
-<style>
-.tabs-example-icon {
-  margin-bottom: 5px;
-}
-</style>
+```demo
+../example/demos/icons-and-slots.vue
 ```
 
-### 容器垂直布局
+### 动态增删标签
 
-```html
-<script setup>
-import { ref } from 'vue'
+编辑模式支持增加和关闭标签，数据仍由使用者维护。
 
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    class="tabs-example-vertical"
-    elevation
-    orientation="vertical"
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-  </mp-tabs>
-</template>
-
-<style>
-.tabs-example-vertical {
-  width: 80px !important;
-  height: 120px !important;
-}
-</style>
+```demo
+../example/demos/editable.vue
 ```
 
-### 视图联动
+### 受控切换
 
-```html
-<script setup>
-import { ref } from 'vue'
+使用 `v-model:active` 时，父组件可以通过按钮切换当前页，也能读取用户点选后的值。
 
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    elevation
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-  </mp-tabs>
-
-  <mp-tabs-items v-model:active="active">
-    <mp-tab-item>
-      呜啦啦啦火车笛，随着奔腾的马蹄。 小妹妹吹着口琴，夕阳下美了剪影。 我用子弹写日记，介绍完了风景。
-      接下来换介绍我自己。 我虽然是个牛仔，在酒吧只点牛奶。 为什么不喝啤酒，因为啤酒伤身体。
-    </mp-tab-item>
-    <mp-tab-item>
-      很多人不长眼睛，嚣张都靠武器。 赤手空拳就缩成蚂蚁。 不用麻烦了，不用麻烦了。 不用麻烦，不用麻烦了，不用麻烦了。
-    </mp-tab-item>
-    <mp-tab-item>
-      你们一起上，我在赶时间。 每天决斗观众都累了，英雄也累了。 不用麻烦了，不用麻烦了。
-      副歌不长你们有几个，一起上好了。 正义呼唤我，美女需要我。 牛仔很忙的。
-    </mp-tab-item>
-  </mp-tabs-items>
-</template>
+```demo
+../example/demos/controlled.vue
 ```
 
-### 开启粘性布局
+### 按需挂载内容
 
-```html
-<script setup>
-import { ref } from 'vue'
+`lazy-load` 在首次打开面板时才挂载内容；`destroy-on-hide` 在离开面板时卸载内容，适合无需保留内部状态的页面。
 
-const active = ref(0)
-</script>
-
-<template>
-  <div class="sticky-example">
-    <mp-tabs
-      sticky
-      elevation
-      color="var(--color-primary)"
-      active-color="var(--color-white)"
-      inactive-color="var(--color-white)"
-      v-model:active="active"
-    >
-      <mp-tab>选项1</mp-tab>
-      <mp-tab>选项2</mp-tab>
-      <mp-tab>选项3</mp-tab>
-    </mp-tabs>
-  </div>
-</template>
-
-<style>
-.sticky-example {
-  height: 200vh;
-}
-</style>
-```
-
-### 指示器位置反转
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tabs
-    elevation
-    indicator-position="reverse"
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-  </mp-tabs>
-
-  <mp-tabs
-    class="tabs-example-vertical"
-    elevation
-    indicator-position="reverse"
-    orientation="vertical"
-    color="var(--color-primary)"
-    active-color="var(--color-white)"
-    inactive-color="var(--color-white)"
-    v-model:active="active"
-  >
-    <mp-tab>选项1</mp-tab>
-    <mp-tab>选项2</mp-tab>
-    <mp-tab>选项3</mp-tab>
-  </mp-tabs>
-</template>
-
-<style>
-.tabs-example-vertical {
-  width: 80px !important;
-  height: 120px !important;
-  margin-top: 20px;
-}
-</style>
+```demo
+../example/demos/lazy-load.vue
 ```
 
 ## API
 
-### 属性
+### Tabs Props
 
-#### Tabs Props
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| active | `string / number` | `undefined` | 当前选中 key；提供时受控 |
+| default-active | `string / number` | `undefined` | 非受控初值，省略选首个可用项 |
+| variant | `line / card / outline / plain / capsule / enclosed` | `line` | 视觉变体 |
+| size | `xs / sm / md / lg / xl` | `全局值或 md` | 尺寸 |
+| orientation | `horizontal / vertical` | `horizontal` | 导航方向 |
+| indicator-position | `normal / reverse` | `normal` | 指示器在内容侧或相反侧 |
+| editable | `boolean` | `false` | 允许关闭标签 |
+| show-add-button | `boolean` | `false` | 编辑模式显示新增按钮 |
+| auto-switch | `boolean` | `false` | 新增后切换最后一个可用标签 |
+| lazy-load | `boolean` | `false` | 首次激活挂载 |
+| destroy-on-hide | `boolean` | `false` | 隐藏即卸载内容 |
+| justify | `boolean` | `false` | 水平方向撑满容器高度 |
+| animation | `boolean` | `false` | 内容淡入动画 |
+| item-class | `string / object / array` | `undefined` | 每页内容内层类名，合并内置类名 |
+| item-style | `StyleValue` | `undefined` | 每页内容内层样式，支持字符串、对象和数组 |
+| item-wrapper-class | `string / object / array` | `undefined` | 每页内容外层容器类名，合并内置类名 |
+| item-wrapper-style | `StyleValue` | `undefined` | 每页内容外层容器样式，支持字符串、对象和数组 |
+| tab-class | `string / object / array` | `undefined` | 导航标签外层（含标题与关闭按钮）类名，合并内置类名 |
+| tab-style | `StyleValue` | `undefined` | 导航标签外层（含标题与关闭按钮）样式，支持字符串、对象和数组 |
+| hide-content | `boolean` | `false` | 隐藏内容区域 |
+| trigger | `click / hover` | `click` | 鼠标触发方式，触摸始终点击 |
+| scroll-position | `start / end / center / auto / number` | `auto` | 选中标签滚动位置，数字为起点偏移 |
+| scroll-buttons | `boolean / auto` | `auto` | 溢出时显示箭头，auto 在触摸设备隐藏 |
+| activation-mode | `automatic / manual` | `automatic` | 方向键是否立即选中 |
+| swipeable | `boolean` | `false` | 内容横向触摸切换；不循环 |
 
-| 参数                 | 说明                                     | 类型       | 默认值          |
-|--------------------|----------------------------------------|----------|--------------|
-| `v-model:active`   | 激活的选项卡标识, 优先匹配 name，其次是 index          | _string_ | `default`    |
-| orientation | 组件整体朝向 | `horizontal \| vertical` | `horizontal` |
-| `item-vertical`   | 选项卡的布局方向，可选值为 `horizontal` `vertical`  | _string_ | `horizontal` |
-| `fixed-bottom`     | 是否固定在窗口底部, 可用做底部导航                     | _boolean_ | `false`      |
-| `color`            | 选项卡的背景颜色                               | _string_ | `-`       |
-| `active-color`     | 选项卡激活的主要颜色                             | _string_ | `-`    |
-| `inactive-color`   | 选项卡未激活的主要颜色                            | _string_ | `-`    |
-| `disabled-color`   | 选项卡禁用时的主要颜色                            | _string_ | `-`    |
-| `indicator-color`  | 选项卡激活指示器的颜色                            | _string_ | `-`    |
-| `indicator-size`   | 选项卡激活指示器的尺寸                            | _string \| number_      | `2px`        |
-| `elevation` | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级 | _number \| boolean_|   `false`    |
-| `sticky`           | 是否启用粘性布局                               | _boolean_ | `false`      |
-| `sticky-css-mode`  | 是否启用粘性布局的原生 css sticky 模式              | _boolean_ | `false`      |
-| `sticky-z-index`   | 粘性布局的层级                                | _number_ | `10`         |
-| `safe-area`        | 是否开启底部安全区适配                            | _boolean_ | `false`      |
-| `offset-top`       | 吸顶距离                                   | _string \| number_      | `0`          |
-| `scrollable`       | 是否开启滚动，可选值为 `auto` `always`           | _string_       | `auto`          |
-| `indicator-position` | 选项卡激活指示器的位置，可选值为 `normal` `reverse`  | _string_ | `normal`     |
-#### Tab Props
+### Tabs Events
 
-| 参数       | 说明           | 类型               | 默认值  |
-| ---------- | -------------- | ------------------ | ------- |
-| `name`     | 选项卡的名字   | _string \| number_ | `-` |
-| `disabled` | 是否禁用选项卡 | _boolean_          | `false` |
-| `ripple`   | 是否启用水波效果 | _boolean_ | `true` |
-
-#### TabsItems Props
-
-| 参数             | 说明               | 类型               | 默认值  |
-| ---------------- | ------------------ | ------------------ | ------- |
-| `v-model:active` | 激活的选项卡的标识 | _string \| number_ | `-`     |
-| `can-swipe`      | 是否允许滑动切换   | _boolean_          | `true`  |
-| `animated`       | 是否启用内容切换动画 | _boolean_          | `true`  |
-| `loop`           | 是否允许循环切换   | _boolean_          | `false` |
-
-#### TabItem Props
-
-| 参数   | 说明       | 类型               | 默认值  |
-| ------ | ---------- | ------------------ | ------- |
-| `name` | 视图的名字 | _string \| number_ | `-` |
-
-### 方法
-
-#### Tabs Methods
-
-| 方法名            | 说明                     | 参数 | 返回值             |
-|----------------|------------------------| ---- |-----------------|
-| `resize`       | 产生位置大小变化时可以调用此方法重绘选项卡组 | `-`  | `-`             |
-| `resizeAffix` | 产生位置大小变化时可以调用此方法重绘粘性布局 | `-`  | `Promise<void>` |
-
-#### TabsItems Methods
-
-| 方法名     | 说明              | 参数 | 返回值 |
-| ---------- |-----------------| ---- | ------ |
-| `getCarousel` | 获取 `carousel` 组件实例 | `-`  | `-`    |
-
-### 事件
-
-#### Tabs Events
-
-| 事件名   | 说明                                                         | 参数                       |
-| -------- | ------------------------------------------------------------ | -------------------------- |
-| `click`  | 点击选项卡时触发, 在选项卡 `disabled` 状态为 `true` 时不触发 | `active: string \| number` |
-| `change` | 切换选项卡时触发                                             | `active: string \| number` |
-
-#### Tab Events
-
-| 事件名  | 说明                                                   | 参数                                           |
-| ------- | ------------------------------------------------------ | ---------------------------------------------- |
-| `click` | 点击选项卡时触发, 在 `disabled` 状态为 `true` 时不触发 | `active: string \| number` <br> `event: Event` |
-
-### 插槽
-
-#### Tabs Slots
-
-| 插槽名    | 说明           | 参数 |
-| --------- | -------------- | ---- |
-| `default` | 选项卡组的内容 | `-`  |
-
-#### Tab Slots
-
-| 插槽名    | 说明       | 参数 |
-| --------- | ---------- | ---- |
-| `default` | 选项卡内容 | `-`  |
-
-#### TabsItems Slots
-
-| 插槽名    | 说明         | 参数 |
-| --------- | ------------ | ---- |
-| `default` | 视图组的内容 | `-`  |
-
-#### TabItem Slots
-
-| 插槽名    | 说明       | 参数 |
-| --------- | ---------- | ---- |
-| `default` | 视图的内容 | `-`  |
-
-### 样式变量
-
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-#### Tabs Variables
-
-| 变量名                          | 默认值                 |
-| ------------------------------- | ---------------------- |
-| `--tabs-item-horizontal-height` | `44px`                 |
-| `--tabs-item-vertical-height`   | `66px`                 |
-| `--tabs-radius`                 | `2px`                  |
-| `--tabs-padding`                | `12px`                 |
-| `--tabs-indicator-size`         | `2px`                  |
-| `--tabs-indicator-border-radius`         | `0`                  |
-| `--tabs-indicator-background`   | `var(--color-primary)` |
-| `--tabs-background`             | `#fff`                 |
-| `--tabs-indicator-inner-size`             | `100%`                 |
-
-#### Tab Variables
-
-| 变量名                 | 默认值                       |
-| ---------------------- | ---------------------------- |
-| `--tab-padding`        | `12px`                       |
-| `--tab-active-color`   | `var(--color-primary)`       |
-| `--tab-inactive-color` | `#646566`                    |
-| `--tab-disabled-color` | `var(--color-text-disabled)` |
-| `--tab-font-size`      | `var(--font-size-md)`        |
-| `--tab-font-weight`    | `400`                        |
-| `--tab-active-font-size`      | `var(--font-size-md)`        |
-| `--tab-active-font-weight`    | `400`                        |
-
-## API
-
-### 属性
-
-| 参数 | 说明 | 类型 | 默认值 | 
-| --- | --- | --- | --- | 
-| `name` | 选项卡的名字 | _string \| number_ | `-` |
-| `disabled` | 是否禁用选项卡 | _boolean_ | `false` |
-| `ripple`   | 是否启用水波效果 | _boolean_ | `true` |
-
-### 事件
-
-| 事件名 | 说明 | 参数 |
+| 事件 | 参数 | 说明 |
 | --- | --- | --- |
-| `click` | 点击选项卡时触发, 在 `disabled` 状态为 `true` 时不触发 | `active: string | number, event: Event` |
+| update:active | key: string / number | 请求更新选中值 |
+| change | key: string / number | 选择不同可用项时通知；受控模式仍由父级更新 active |
+| tab-click | key, event: Event | 点击可用项，重复点击仍触发；hover/方向键/滑动不触发 |
+| add | event: Event | 请求增加标签；由使用者修改数据 |
+| delete | key, event: Event | 请求删除标签；由使用者修改数据 |
 
-### 插槽
+### TabPane Props
 
-| 插槽名 | 说明 | 参数 |
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| title | string | undefined | 导航标题 |
+| disabled | boolean | false | 禁止选择和关闭 |
+| closable | boolean | true | editable 模式显示关闭按钮 |
+| item-vertical | boolean | false | 图标文字垂直布局 |
+| lazy-load | boolean | undefined | 继承 Tabs，显式 false 可覆盖 |
+| destroy-on-hide | boolean | undefined | 继承 Tabs，显式 false 可覆盖 |
+
+### TabNav Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| title | string | undefined | 标题 |
+| disabled | boolean | false | 禁止选择和关闭 |
+| closable | boolean | true | editable 模式显示关闭按钮 |
+| item-vertical | boolean | false | 图标文字垂直布局 |
+
+TabNav 与 TabItem 使用同一个 Vue `key`，必须为字符串或数字，在同组内唯一。不要省略 key；不要混用 `1` 与 `'1'`。
+
+### TabItem Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| lazy-load | boolean | undefined | 继承 Tabs，显式 false 可覆盖 |
+| destroy-on-hide | boolean | undefined | 继承 Tabs，显式 false 可覆盖 |
+
+未激活的 panel 始终带 hidden，内部状态是否保留由上述属性决定。destroy-on-hide 优先于 lazy-load；active 内容始终挂载。TabsNavs 和 TabsItems 没有业务 Props。
+
+### Slots
+
+| 组件 | 插槽 | 说明 |
 | --- | --- | --- |
-| `default` | 选项卡内容 | `-` |
+| Tabs | default | TabPane 列表；或高级组合所需的 TabsNavs 与 TabsItems |
+| TabPane | default / title | 面板内容 / 自定义导航标题 |
+| TabsNavs | default | TabNav 列表 |
+| TabsNavs | prefix / suffix / add-icon | 导航前后附加区、新增图标 |
+| TabNav | title / default / icon | title 插槽或默认插槽为自定义标题；icon 为图标 |
+| TabsItems | default | TabItem 列表 |
+| TabItem | default | 面板内容 |
 
-## API
+### Expose
 
-### 属性
+`TabsNavs.resize(): void` 重新测量溢出并将选中标签滚入可见区域。尺寸变化有 ResizeObserver 自动监听。
 
-| 参数 | 说明 | 类型        | 默认值 | 
-| --- | --- |-----------| --- | 
-| `name` | 视图的名字 | _string \ | number_ | `-` |
+### 键盘与方向
 
-### 插槽
+方向键跳过禁用项并循环；Home/End 到首尾；可编辑标签按 Delete 请求关闭。horizontal 使用左右键，vertical 使用上下键。manual 模式只移动焦点，Enter/Space 通过原生 button 激活。使用 `dir="rtl"` 支持从右向左布局。TabsNavs 可传 `aria-label` 为导航命名。
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 视图的内容 | `-` |
+### 类型
 
-## API
+导出 TabsKey、TabsVariant、TabsTrigger、TabsIndicatorPosition、TabsScrollPosition、TabsActivationMode，以及六组件对应的 Props / Instance / 运行时 props / `_XxxComponent`。同一 props 定义用于两端。
 
-### 属性
+## 自定义内部样式
 
-| 参数 | 说明 | 类型 | 默认值 | 
-| --- | --- | --- | --- | 
-| `v-model:active` | 激活的选项卡的名字 | _string \| number_ | `-` |
-| `can-swipe` | 是否允许滑动切换 | _boolean_ | `true` |
-| `animated` | 是否启用内容切换动画 | _boolean_ | `true` |
-| `loop` | 是否允许循环切换 | _boolean_ | `false` |
+```demo
+../example/demos/custom-style.vue
+```
 
-### 插槽
+六个样式属性统一配置在 Tabs 上，对所有对应项生效。自定义类名与内置类名合并；内联样式可覆盖默认间距。`item-wrapper-*` 对应 role="tabpanel" 外层，`item-*` 对应实际内容内层，`tab-*` 对应导航标签外层。
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 视图组的内容 | `-` |
+内容间距使用 `item-style`，导航整体间距可通过 TabsNavs 的 `style` 或 CSS token 调整。
 
-### 方法
+## 样式变量
 
-| 方法名     | 说明              | 参数 | 返回值 |
-| ---------- |-----------------| ---- | ------ |
-| `getCarousel` | 获取 `carousel` 组件实例 | `-`  | `-`    |
+相同 token 后缀在两端意义一致，只有默认值不同。[完整跨端对比与设计依据](./comparison.md)。
+
+| 变量 | 默认值 |
+| --- | --- |
+| `--mp-tabs-background` | `var(--mp-color-bg-2)` |
+| `--mp-tabs-title-text-color` | `var(--mp-color-text-2)` |
+| `--mp-tabs-title-text-color-active` | `var(--mp-color-primary)` |
+| `--mp-tabs-title-text-color-disabled` | `var(--mp-color-text-disabled)` |
+| `--mp-tabs-muted-background` | `var(--mp-color-fill-2)` |
+| `--mp-tabs-border-color` | `var(--mp-color-border-1)` |
+| `--mp-tabs-hover-background` | `var(--mp-color-fill-2)` |
+| `--mp-tabs-nav-gap` | `4px` |
+| `--mp-tabs-tab-gap` | `4px` |
+| `--mp-tabs-header-padding` | `8px` |
+| `--mp-tabs-control-height` | `44px` |
+| `--mp-tabs-touch-target` | `44px` |
+| `--mp-tabs-border-width` | `1px` |
+| `--mp-tabs-focus-width` | `2px` |
+| `--mp-tabs-focus-offset` | `-3px` |
+| `--mp-tabs-radius` | `4px` |
+| `--mp-tabs-icon-gap` | `6px` |
+| `--mp-tabs-content-padding` | `12px` |
+| `--mp-tabs-indicator-size` | `2px` |
+| `--mp-tabs-indicator-radius` | `1px` |
+| `--mp-tabs-animation-duration` | `180ms` |
+| `--mp-tabs-active-font-weight` | `600` |
+| `--mp-tabs-group-padding` | `4px` |
+| `--mp-tabs-capsule-radius` | `12px` |
+| `--mp-tabs-active-shadow` | `none` |
+| `--mp-tabs-size-xs-tab-height` | `44px` |
+| `--mp-tabs-size-xs-tab-padding` | `4px 8px` |
+| `--mp-tabs-size-xs-tab-font-size` | `12px` |
+| `--mp-tabs-size-sm-tab-height` | `48px` |
+| `--mp-tabs-size-sm-tab-padding` | `6px 12px` |
+| `--mp-tabs-size-sm-tab-font-size` | `13px` |
+| `--mp-tabs-size-md-tab-height` | `52px` |
+| `--mp-tabs-size-md-tab-padding` | `8px 16px` |
+| `--mp-tabs-size-md-tab-font-size` | `14px` |
+| `--mp-tabs-size-lg-tab-height` | `56px` |
+| `--mp-tabs-size-lg-tab-padding` | `10px 20px` |
+| `--mp-tabs-size-lg-tab-font-size` | `16px` |
+| `--mp-tabs-size-xl-tab-height` | `60px` |
+| `--mp-tabs-size-xl-tab-padding` | `12px 24px` |
+| `--mp-tabs-size-xl-tab-font-size` | `18px` |

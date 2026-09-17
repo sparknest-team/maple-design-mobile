@@ -3,8 +3,8 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import IndexBar from '..'
 import VarIndexAnchor from '../../index-bar/IndexAnchor'
-import IndexAnchor from '../../index-bar/IndexAnchor.vue'
 import { delay, mockScrollTo } from '../../utils/test'
+import IndexAnchor from '../IndexAnchor.vue'
 import VarIndexBar from '../IndexBar'
 
 mockScrollTo()

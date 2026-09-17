@@ -1,38 +1,30 @@
 # SwipeCell
 
-### Intro
+## Intro
 
 Swipe a cell to reveal action buttons on either side.
 
+## Examples
+
 ### Basic Usage
 
-```html
-<template>
-  <mp-swipe-cell>
-    <template #right>
-      <mp-button status="danger" style="height: 100%">Delete</mp-button>
-    </template>
-    <mp-cell title="Swipe left" border />
-  </mp-swipe-cell>
-</template>
+Swipe left to reveal the right-side action.
+
+```demo
+../example/demos/basic.vue
 ```
 
 ### Both Sides
 
-```html
-<template>
-  <mp-swipe-cell>
-    <template #left>
-      <mp-button status="primary" style="height: 100%">Select</mp-button>
-    </template>
-    <mp-cell title="Swipe either side" border />
-    <template #right>
-      <mp-button status="danger" style="height: 100%">Delete</mp-button>
-    </template>
-  </mp-swipe-cell>
-</template>
+```demo
+../example/demos/both-sides.vue
 ```
 
+### Before Close
+
+```demo
+../example/demos/before-close.vue
+```
 ## API
 
 ### Props

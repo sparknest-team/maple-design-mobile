@@ -6,105 +6,44 @@ Used to enter or adjust numbers within a certain range.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter v-model="value"/>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Set Value Range
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter :min="0" :max="5" v-model="value"/>
-</template>
+```demo
+../example/demos/range.vue
 ```
 
 ### Set Step
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter :step="10" v-model="value"/>
-</template>
+```demo
+../example/demos/step.vue
 ```
 
 ### Decimal Length
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter :decimal-length="1" v-model="value" />
-</template>
+```demo
+../example/demos/to-fixed.vue
 ```
 
 ### Set Size
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter
-    input-text-size="18px"
-    input-width="50px"
-    button-size="36px"
-    v-model="value"
-  />
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### Disabled
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter disabled v-model="value"/>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter readonly v-model="value"/>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### Asynchronous Change
@@ -113,27 +52,13 @@ In some scenarios, you may need to wait for the server to return successfully be
 `lazy-change` prevents binding value updates on the component itself.
 Register `before-change` events for manual updates.
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref(0)
-
-function handleBeforeChange(value, change) {
-  setTimeout(() => change(value), 500)
-}
-</script>
-
-<template>
-  <mp-counter
-    lazy-change
-    v-model="value"
-    :before-change="handleBeforeChange"
-  />
-</template>
-```
 
 > For form validation of the counter, please use the [FormItem component](#/en-US/form-item).
+
+```demo
+../example/demos/lazy-change.vue
+```
 
 ## API
 

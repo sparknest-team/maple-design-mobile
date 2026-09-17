@@ -1,0 +1,65 @@
+<script setup>
+import { reactive, ref } from 'vue'
+
+const hideFooterOpen = ref(false)
+const hideTitleOpen = ref(false)
+const customBodyOpen = ref(false)
+const unmountOpen = ref(false)
+</script>
+
+<template>
+  <mp-button status="warning" block @click="hideFooterOpen = true">隐藏 Footer</mp-button>
+  <mp-dialog
+    v-model:open="hideFooterOpen"
+    type="info"
+    :footer="false"
+    title="兰亭序"
+    message="兰亭临帖 行书如行云流水"
+  />
+  <mp-button status="warning" block @click="hideTitleOpen = true">隐藏标题</mp-button>
+  <mp-dialog
+    v-model:open="hideTitleOpen"
+    type="warning"
+    hide-title
+    aria-label="兰亭序"
+    message="兰亭临帖 行书如行云流水"
+  />
+  <mp-button status="warning" block @click="customBodyOpen = true">自定义 body</mp-button>
+  <mp-dialog
+    v-model:open="customBodyOpen"
+    type="info"
+    title="兰亭序"
+    message-align="center"
+    body-class="dialog-demo__body--custom"
+    :body-style="{
+      padding: 0,
+      background: 'rgba(41, 121, 255, 0.08)',
+      borderRadius: '8px',
+    }"
+  >
+    <div class="dialog-demo__body-content">兰亭临帖 行书如行云流水</div>
+  </mp-dialog>
+  <mp-button status="warning" block @click="unmountOpen = true">关闭后卸载</mp-button>
+  <mp-dialog v-model:open="unmountOpen" unmount-on-close title="兰亭序" message="兰亭临帖 行书如行云流水" />
+</template>
+
+<style lang="less" scoped>
+.mp-button {
+  margin-bottom: 11px;
+}
+
+.dialog-demo__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+:deep(.dialog-demo__body--custom) {
+  font-weight: 500;
+}
+
+.dialog-demo__body-content {
+  padding: 16px 20px;
+}
+</style>

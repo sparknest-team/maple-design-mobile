@@ -6,111 +6,38 @@ A group of options for multiple choices.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox v-model="value">Current value: {{ value }}</mp-checkbox>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Set State Value
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-checkbox
-    :value="1"
-    v-model="value"
-  >
-    Current value: {{ value }}
-  </mp-checkbox>
-</template>
+```demo
+../example/demos/set-state.vue
 ```
 
 ### Modify The Icon And Color
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox
-    unchecked-color="var(--color-warning)" 
-    checked-color="var(--color-danger)"
-    v-model="value"
-  >
-    <template #unchecked-icon>
-      <m-icon-heart-half-full size="24px"/>
-    </template>
-    <template #checked-icon>
-      <m-icon-heart-fill size="24px"/>
-    </template>
-    <template #default>
-      Current value: {{ value }}
-    </template>
-  </mp-checkbox>
-</template>
+```demo
+../example/demos/set-style.vue
 ```
 
 ### Disabled
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox disabled v-model="value">Current value: {{ value }}</mp-checkbox>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox readonly v-model="value">Current value: {{ value }}</mp-checkbox>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### Indeterminate
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-const indeterminate = ref(true)
-</script>
-
-<template>
-  <mp-space :size="[0, 10]">
-    <mp-checkbox v-model="value" v-model:indeterminate="indeterminate">
-      Current value: {{ value }}
-    </mp-checkbox>
-    <mp-button status="primary" @click="indeterminate = !indeterminate">Toggle</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/indeterminate.vue
 ```
 
 ### CheckboxGroup
@@ -118,116 +45,43 @@ const indeterminate = ref(true)
 In the checkbox group, you must set the `value` to identify the `checkbox`,
 The checkbox group collects all checked identifiers.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group ref="group" v-model="value">
-    <mp-checkbox :value="0">Eat</mp-checkbox>
-    <mp-checkbox :value="1">Sleep</mp-checkbox>
-  </mp-checkbox-group>
-  <mp-space :size="[0, 10]">
-    <mp-button status="primary"
-      @click="$refs.group.checkAll()"
-    >
-      Check All
-    </mp-button>
-    <mp-button status="primary"
-      @click="$refs.group.inverseAll()"
-    >
-      Inverse All
-    </mp-button>
-  </mp-space>
-  <div>Current value: {{ value }}</div>
-</template>
+```demo
+../example/demos/checkbox-group.vue
 ```
 
 ### Options API
 
 Setting child elements via the `options` prop.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-const options = ref([
-  { label: 'Eat', value: 0 },
-  { label: 'Sleep', value: 1 },
-  { label: 'Game', value: 2, disabled: true },
-])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" :options="options" />
-  <div>Current value: {{ value }}</div>
-</template>
+```demo
+../example/demos/checkbox-group-options.vue
 ```
 
 ### Custom Fields
 
 Customize the format of the data in `options` through the `field-names` attribute.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-const options = ref([
-  { name: 'Eat', id: 0 },
-  { name: 'Sleep', id: 1 },
-  { name: 'Game', id: 2 },
-])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" :options="options"
-      :field-names="{ label: 'name', value: 'id' }" />
-  <div>Current value: {{ value }}</div>
-</template>
+```demo
+../example/demos/custom-fields.vue
 ```
 
 ### Vertical Direction
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" direction="vertical">
-    <mp-checkbox :value="0">Eat</mp-checkbox>
-    <mp-checkbox :value="1">Sleep</mp-checkbox>
-  </mp-checkbox-group>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### Maximum Number Of Checked
 
 In a checkbox group, you can limit the maximum number of selections by setting `max`.
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" :max="1">
-    <mp-checkbox :value="0">Eat</mp-checkbox>
-    <mp-checkbox :value="1">Sleep</mp-checkbox>
-  </mp-checkbox-group>
-</template>
-```
 
 > For form validation of checkbox and checkbox group, please use the [FormItem component](#/en-US/form-item).
+
+```demo
+../example/demos/max.vue
+```
 
 ## API
 
@@ -325,7 +179,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--checkbox-text-color` | `#555` |
 | `--checkbox-icon-size` | `24px` |
 
-## API
+### API
 
 ### Props
 

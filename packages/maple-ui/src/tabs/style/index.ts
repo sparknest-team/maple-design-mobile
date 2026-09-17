@@ -1,5 +1,2 @@
 import '../../style/index.less'
-import '../../carousel/style'
-import '../../ripple/style'
-import '../../affix/style'
 import './index.less'

@@ -6,149 +6,45 @@
 
 ### 文字水印
 
-```html
-<template>
-  <mp-watermark content="Maple">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/text-watermark.vue
 ```
 
 ### 自定义间距
 
-```html
-<template>
-  <mp-watermark content="Maple" :gap="[40, 40]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/custom-gap.vue
 ```
 
 ### 自定义偏移量
 
-```html
-<template>
-  <mp-watermark content="Maple" :offset="[20, 20]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/custom-offset.vue
 ```
 
 ### 自定义旋转角度
 
-```html
-<template>
-  <mp-watermark content="Maple" :rotate="22" :offset="[0, 20]">
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/custom-rotate.vue
 ```
 
 ### 图片水印
 
-```html
-<template>
-  <mp-watermark
-    image="./logo.svg"
-    :width="40" 
-    :height="40" 
-    :gap="[40, 40]" 
-    :offset="[10, 10]" 
-  >
-    <div class="watermark-wrapper"></div>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/image-watermark.vue
 ```
 
 ### 全屏
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const fullscreen = ref(false)
-
-const toggle = () => {
-  fullscreen.value = !fullscreen.value
-}
-</script>
-
-<template>
-  <mp-watermark 
-    content="Maple UI" 
-    :alpha="0.2" 
-    :fullscreen="fullscreen" 
-    :offset="[10, 10]"
-  >
-    <div class="watermark-wrapper">
-      <mp-button status="primary" @click="toggle">切换</mp-button>
-    </div>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/fullscreen.vue
 ```
 
 ### 自定义水印内容
 
-```html
-<template>
-  <mp-watermark :offset="[10, 10]">
-    <div class="watermark-wrapper"></div>
-    <template #content>
-      <span style="font-size: 20px; color: #7986cb">Maple UI</span>
-    </template>
-  </mp-watermark>
-</template>
-
-<style>
-.watermark-wrapper {
-  width: 100%;
-  height: 200px;
-}
-</style>
+```demo
+../example/demos/custom-content-slot.vue
 ```
-
 
 ## API
 

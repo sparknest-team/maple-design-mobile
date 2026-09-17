@@ -1,28 +1,25 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BackgroundImageLazyLoadDemo from './demos/background-image-lazy-load.vue'
+import BasicUsageDemo from './demos/basic-usage.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <img v-lazy="'cat.jpg'" class="lazy-example-cat" />
-  <img v-lazy="'cat.jpg'" class="lazy-example-cat" />
-  <img v-lazy="'cat.jpg'" class="lazy-example-cat" />
-  <img v-lazy="'cat.jpg'" class="lazy-example-cat" />
-  <img v-lazy="'cat.jpg'" class="lazy-example-cat" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('backgroundImageLazyLoad') }}</app-type>
-  <div v-lazy:background-image="'cat.jpg'" class="lazy-example-cat"></div>
+  <section data-demo="background-image-lazy-load">
+    <app-type>{{ english ? 'Background Image Lazy Load' : '背景图懒加载' }}</app-type>
+    <BackgroundImageLazyLoadDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.lazy-example-cat {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background-size: cover;
-  pointer-events: none;
-}
-</style>

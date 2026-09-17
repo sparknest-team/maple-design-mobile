@@ -8,60 +8,20 @@
 
 通过 `open` 控制背景层显示，默认点击背景区域会将 `open` 设置为 `false`。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="open = true">显示背景层</mp-button>
-  <mp-overlay v-model:open="open" />
-</template>
+```demo
+../example/demos/overlay-base.vue
 ```
 
 ### 嵌入内容
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="open = true">嵌入内容</mp-button>
-  <mp-overlay v-model:open="open">
-    <div class="overlay-content">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-overlay>
-</template>
-
-<style>
-  .overlay-content {
-    padding: 24px;
-    width: 312px;
-    border-radius: 28px;
-  }
-</style>
+```demo
+../example/demos/overlay-content.vue
 ```
 
 ### 点击事件
 
-```html
-<script setup>
-  import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="open = true">点击背景层</mp-button>
-  <mp-overlay v-model:open="open" @click="Message.success('click')" />
-</template>
+```demo
+../example/demos/click-event.vue
 ```
 
 ## API

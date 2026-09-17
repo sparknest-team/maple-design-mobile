@@ -1,96 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import TypeDemo from './demos/type.vue'
 
-const success = ref(false)
-const error = ref(false)
-const info = ref(false)
-const warning = ref(false)
-const question = ref(false)
-const empty = ref(false)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-result :title="t('success')" :subtitle="t('description')">
-    <template #footer>
-      <mp-button status="success" @click="success = false">{{ t('button') }}</mp-button>
-    </template>
-  </mp-result>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('type') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-button status="success" block @click="success = true">{{ t('success') }}</mp-button>
-    <mp-button status="warning" block @click="warning = true">{{ t('warning') }}</mp-button>
-    <mp-button status="info" block @click="info = true">{{ t('info') }}</mp-button>
-    <mp-button status="danger" block @click="error = true">{{ t('danger') }}</mp-button>
-    <mp-button color="var(--mp-result-question-color)" text-color="#fff" block @click="question = true">
-      {{ t('question') }}
-    </mp-button>
-    <mp-button color="var(--mp-result-empty-color)" text-color="#fff" block @click="empty = true">
-      {{ t('empty') }}
-    </mp-button>
-  </mp-space>
-
-  <mp-popup v-model:open="success" :default-style="false">
-    <mp-result class="result" :title="t('success')" :subtitle="t('description')">
-      <template #footer>
-        <mp-button status="success" @click="success = false">{{ t('button') }}</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup v-model:open="error" :default-style="false">
-    <mp-result class="result" status="danger" :title="t('danger')" :subtitle="t('description')">
-      <template #footer>
-        <mp-button status="danger" @click="error = false">{{ t('button') }}</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup v-model:open="warning" :default-style="false">
-    <mp-result class="result" status="warning" :title="t('warning')" :subtitle="t('description')">
-      <template #footer>
-        <mp-button status="warning" @click="warning = false">{{ t('button') }}</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup v-model:open="info" :default-style="false">
-    <mp-result class="result" status="info" :title="t('info')" :subtitle="t('description')">
-      <template #footer>
-        <mp-button status="info" @click="info = false">{{ t('button') }}</mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup v-model:open="question" :default-style="false">
-    <mp-result class="result" status="question" :title="t('question')" :subtitle="t('description')">
-      <template #footer>
-        <mp-button color="var(--mp-result-question-color)" text-color="#fff" @click="question = false"
-          >{{ t('button') }}
-        </mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
-
-  <mp-popup v-model:open="empty" :default-style="false">
-    <mp-result class="result" status="empty" :title="t('empty')" :subtitle="t('description')">
-      <template #footer>
-        <mp-button color="var(--mp-result-empty-color)" text-color="#fff" @click="empty = false"
-          >{{ t('button') }}
-        </mp-button>
-      </template>
-    </mp-result>
-  </mp-popup>
+  <section data-demo="type">
+    <app-type>{{ english ? 'Type' : '类型' }}</app-type>
+    <TypeDemo />
+  </section>
 </template>
-
-<style scoped>
-.result {
-  width: 75vmin;
-}
-</style>

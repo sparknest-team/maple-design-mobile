@@ -1,0 +1,56 @@
+<script setup>
+import { computed, reactive, toRefs } from 'vue'
+
+const values = reactive({
+  value: false,
+  value2: false,
+  value3: false,
+  value4: false,
+  value5: false,
+  value6: [],
+  value9: [],
+  value10: false,
+  value11: [],
+  group: null,
+  indeterminate: true,
+  optionsValue: [],
+  fieldValue: [],
+})
+const {
+  value,
+  value2,
+  value3,
+  value4,
+  value5,
+  value6,
+  value9,
+  group,
+  value10,
+  value11,
+  indeterminate,
+  optionsValue,
+  fieldValue,
+} = toRefs(values)
+</script>
+
+<template>
+  <mp-checkbox v-model="value3" unchecked-color="var(--mp-color-warning)" checked-color="var(--mp-color-danger)">
+    <template #unchecked-icon>
+      <m-icon-heart-half-full size="24px" />
+    </template>
+    <template #checked-icon>
+      <m-icon-heart-fill size="24px" />
+    </template>
+    <template #default> 当前的值: {{ value3 }} </template>
+  </mp-checkbox>
+</template>
+
+<style lang="less" scoped>
+.relation {
+  margin-top: 10px;
+}
+
+.space {
+  height: 40px;
+}
+</style>

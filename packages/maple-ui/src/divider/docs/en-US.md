@@ -1,81 +1,58 @@
 # Divider
 
-### Intro
+## Intro
 
 Separate content sections in lists or layouts. The API aligns with Cedar Design Web Divider.
 
+## Examples
+
 ### Basic Usage
 
-```html
-<template>
-  <mp-divider />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Type
 
 Set line style with `type`: `solid` `dashed` `dotted` `double`.
 
-```html
-<template>
-  <mp-divider />
-  <mp-divider type="dashed" />
-  <mp-divider type="dotted" />
-  <mp-divider type="double" :thickness="3" />
-</template>
+```demo
+../example/demos/type.vue
 ```
 
 ### Size & Inset
 
 Control spacing with `size-x` / `size-y`. Supports presets `xs` `sm` `md` `lg` `xl`, numbers, CSS units, or `[start, end]`.
 
-```html
-<template>
-  <mp-divider size-x="md" />
-  <mp-divider :size-x="36" size-y="lg" />
-  <mp-divider :size-x="[24, 0]" />
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### Vertical
 
-```html
-<template>
-  <div style="display: flex; align-items: center">
-    <span>Text</span>
-    <mp-divider orientation="vertical" />
-    <span>Text</span>
-    <mp-divider orientation="vertical" type="dashed" />
-    <span>Text</span>
-  </div>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### With Text
 
 Use `description` or the default slot. Control position with `text-align`.
 
-```html
-<template>
-  <mp-divider description="Description" />
-  <mp-divider description="Start" text-align="start" />
-  <mp-divider description="End" text-align="end" />
-  <mp-divider>
-    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
-  </mp-divider>
-</template>
+```demo
+../example/demos/with-desc.vue
 ```
 
-### Color & Thickness
+### Custom Content
 
-```html
-<template>
-  <mp-divider color="var(--mp-color-primary)" />
-  <mp-divider :thickness="3" color="#6750A4" />
-  <mp-divider hairline />
-</template>
+```demo
+../example/demos/custom.vue
 ```
 
+### Color, Thickness & Opacity
+
+```demo
+../example/demos/color.vue
+```
 ## API
 
 ### Props

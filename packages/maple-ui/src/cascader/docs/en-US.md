@@ -4,209 +4,46 @@
 
 Cascading selection via dropdown menu or bottom popup picker.
 
-### Basic Usage
+### Please select a region
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref([])
-  const value2 = ref('')
-  const value3 = ref([])
-  const value4 = ref()
-  const value5 = ref([])
-
-  const options = ref([
-    {
-      label: 'Zhejiang',
-      value: 'zhejiang',
-      children: [
-        {
-          label: 'Hangzhou',
-          value: 'hangzhou',
-          children: [
-            { label: 'Xihu', value: 'xihu' },
-            { label: 'Gongshu', value: 'gongshu' },
-          ],
-        },
-        {
-          label: 'Ningbo',
-          value: 'ningbo',
-        },
-      ],
-    },
-    {
-      label: 'Jiangsu',
-      value: 'jiangsu',
-      children: [
-        { label: 'Nanjing', value: 'nanjing' },
-        { label: 'Suzhou', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-cascader placeholder="Please select a region" v-model="value" :options="options" />
-    <mp-cascader placeholder="Non-path mode" v-model="value2" :options="options" :path-mode="false" />
-    <mp-cascader placeholder="Strict mode" v-model="value3" :options="options" check-strictly />
-    <mp-cascader placeholder="Multiple cascade" v-model="value5" :options="options" multiple tag />
-    <mp-cascader placeholder="Picker mode" presentation="picker" v-model="value4" :options="options" />
-  </mp-space>
-</template>
+```demo
+../example/demos/placeholder.vue
 ```
 
-### Multiple Cascade
+### Non-path mode
 
-Enable `multiple` to select multiple paths. Use `tag` to display selections as tags.
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref([])
-
-  const options = ref([
-    {
-      label: 'Zhejiang',
-      value: 'zhejiang',
-      children: [
-        {
-          label: 'Hangzhou',
-          value: 'hangzhou',
-          children: [
-            { label: 'Xihu', value: 'xihu' },
-            { label: 'Gongshu', value: 'gongshu' },
-          ],
-        },
-        { label: 'Ningbo', value: 'ningbo' },
-      ],
-    },
-    {
-      label: 'Jiangsu',
-      value: 'jiangsu',
-      children: [
-        { label: 'Nanjing', value: 'nanjing' },
-        { label: 'Suzhou', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-cascader placeholder="Please select a region" v-model="value" :options="options" multiple tag />
-</template>
+```demo
+../example/demos/placeholder-path-mode.vue
 ```
 
-### Picker Mode
+### Multiple cascade
 
-Single-select matches `mp-picker`: Cancel / Confirm, confirm writes and closes.
-
-Multiple uses a temporary cart: **Cancel** discards edits, **Add** appends the current wheel path to the draft list (keeps the sheet open), **Done** commits and closes.
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref([])
-  const multipleValue = ref([])
-
-  const options = ref([
-    {
-      label: 'Zhejiang',
-      value: 'zhejiang',
-      children: [
-        {
-          label: 'Hangzhou',
-          value: 'hangzhou',
-          children: [
-            { label: 'Xihu', value: 'xihu' },
-            { label: 'Gongshu', value: 'gongshu' },
-          ],
-        },
-        { label: 'Ningbo', value: 'ningbo' },
-      ],
-    },
-    {
-      label: 'Jiangsu',
-      value: 'jiangsu',
-      children: [
-        { label: 'Nanjing', value: 'nanjing' },
-        { label: 'Suzhou', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-cascader presentation="picker" placeholder="Please select a region" v-model="value" :options="options" />
-    <mp-cascader
-      presentation="picker"
-      placeholder="Picker multiple"
-      v-model="multipleValue"
-      :options="options"
-      multiple
-      tag
-    />
-  </mp-space>
-</template>
+```demo
+../example/demos/placeholder-multiple.vue
 ```
 
-### List Mode
+### Picker mode
 
-Set `presentation` to `list` for a bottom-sheet with breadcrumb navigation and a selectable list. The active level is underlined; selected items show a checkmark on the right.
+```demo
+../example/demos/placeholder-picker.vue
+```
 
-Single: selecting a confirmable node commits and closes. Multiple: tap a confirmable node to toggle draft selection, **Done** commits, **Cancel** discards.
+### Picker multiple
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/placeholder-picker-multiple.vue
+```
 
-  const value = ref([])
-  const multipleValue = ref([])
+### List mode
 
-  const options = ref([
-    {
-      label: 'Zhejiang',
-      value: 'zhejiang',
-      children: [
-        {
-          label: 'Hangzhou',
-          value: 'hangzhou',
-          children: [
-            { label: 'Xihu', value: 'xihu' },
-            { label: 'Gongshu', value: 'gongshu' },
-          ],
-        },
-        { label: 'Ningbo', value: 'ningbo' },
-      ],
-    },
-    {
-      label: 'Jiangsu',
-      value: 'jiangsu',
-      children: [
-        { label: 'Nanjing', value: 'nanjing' },
-        { label: 'Suzhou', value: 'suzhou' },
-      ],
-    },
-  ])
-</script>
+```demo
+../example/demos/placeholder-list.vue
+```
 
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-cascader presentation="list" placeholder="Please select a region" v-model="value" :options="options" />
-    <mp-cascader
-      presentation="list"
-      placeholder="List multiple"
-      v-model="multipleValue"
-      :options="options"
-      multiple
-      tag
-    />
-  </mp-space>
-</template>
+### List multiple
+
+```demo
+../example/demos/placeholder-list-multiple.vue
 ```
 
 ## API

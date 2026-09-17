@@ -6,100 +6,32 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-cell>这是单元格</mp-cell>
-  <mp-cell>这是单元格</mp-cell>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 显示图标
 
-```html
-<template>
-  <mp-cell icon="fire" title="这是单元格">
-    <template #extra>
-      <m-icon-info-circle-fill />
-    </template>
-  </mp-cell>
-  <mp-cell icon="fire" title="这是单元格">
-    <template #extra>
-      <m-icon-info-circle-fill />
-    </template>
-  </mp-cell>
-</template>
+```demo
+../example/demos/show-icon.vue
 ```
 
 ### 显示描述
 
-```html
-<template>
-  <mp-cell icon="fire" title="这是单元格" description="描述">
-    <template #extra>
-      <m-icon-info-circle-fill />
-    </template>
-  </mp-cell>
-  <mp-cell title="这是单元格" description="描述" />
-</template>
+```demo
+../example/demos/show-desc.vue
 ```
 
 ### 显示边框
 
-```html
-<template>
-  <mp-cell border>这是单元格</mp-cell>
-  <mp-cell border>这是单元格</mp-cell>
-</template>
+```demo
+../example/demos/show-border.vue
 ```
 
 ### 用作列表项
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const items = ref([
-  {
-    name: 'Vue2',
-    icon: 'star-fill',
-    enabled: false,
-  },
-  {
-    name: 'Vue3',
-    icon: 'heart-fill',
-    enabled: false,
-  },
-  {
-    name: 'React',
-    icon: 'close-circle-fill',
-    enabled: false,
-  },
-])
-
-const handleClick = (item) => {
-  item.enabled = !item.enabled
-}
-</script>
-
-<template>
-  <mp-paper :elevation="2">
-    <mp-cell
-      v-for="(item, index) in items"
-      :key="item.name"
-      ripple
-      :icon="item.icon"
-      :border="index !== items.length - 1"
-      :border-offset="0"
-      @click="handleClick(item)"
-    >
-      {{ item.name }}
-
-      <template #extra>
-        <mp-switch v-model="item.enabled" @click.stop />
-      </template>
-    </mp-cell>
-  </mp-paper>
-</template>
+```demo
+../example/demos/list.vue
 ```
 
 ## API

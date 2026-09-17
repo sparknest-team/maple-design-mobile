@@ -1,61 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomStyleDemo from './demos/custom-style.vue'
 
-const signature = ref('')
-const signatureRef = ref()
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const customStyleSignature = ref('')
-const customStyleSignatureRef = ref()
-
-watchLang(use)
-onThemeChange(() => {
-  signatureRef.value?.reset()
-  customStyleSignatureRef.value?.reset()
-  signature.value = ''
-  customStyleSignature.value = ''
+watchLang((value) => {
+  language.value = value
 })
-
-function confirmSignature() {
-  signature.value = signatureRef.value.confirm()
-}
-
-function resetSignature() {
-  signature.value = ''
-  signatureRef.value.reset()
-}
-
-function confirmCustomStyleSignature() {
-  customStyleSignature.value = customStyleSignatureRef.value.confirm()
-}
-
-function clearCustomStyleSignature() {
-  customStyleSignature.value = ''
-  customStyleSignatureRef.value.reset()
-}
+onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-signature ref="signatureRef" />
-  <mp-space class="gap">
-    <mp-button status="primary" @click="confirmSignature">{{ t('confirm') }}</mp-button>
-    <mp-button status="primary" @click="resetSignature">{{ t('reset') }}</mp-button>
-  </mp-space>
-  <img v-if="signature" class="gap" :src="signature" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('customStyle') }}</app-type>
-  <mp-signature ref="customStyleSignatureRef" style="color: var(--mp-color-primary)" :line-width="4" />
-  <mp-space class="gap">
-    <mp-button status="primary" @click="confirmCustomStyleSignature">{{ t('confirm') }}</mp-button>
-    <mp-button status="primary" @click="clearCustomStyleSignature">{{ t('reset') }}</mp-button>
-  </mp-space>
-  <img v-if="customStyleSignature" :src="customStyleSignature" class="gap" />
+  <section data-demo="custom-style">
+    <app-type>{{ english ? 'Custom Style' : '自定义样式' }}</app-type>
+    <CustomStyleDemo />
+  </section>
 </template>
-
-<style scoped>
-.gap {
-  margin-top: 10px !important;
-}
-</style>

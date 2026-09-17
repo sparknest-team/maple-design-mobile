@@ -6,170 +6,62 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-tooltip content="Tooltip">
-    <mp-button status="primary">基本使用</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 内容插槽
 
-```html
-<template>
-  <mp-tooltip>
-    <mp-button status="primary">内容插槽</mp-button>
-    
-    <template #content>
-      <m-icon-star-fill />
-    </template>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/content-slot.vue
 ```
 
 ### 弹出位置
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const placement = ref('top')
-const placementOptions = [
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'right',
-  'right-start',
-  'right-end',
-  'left',
-  'left-start',
-  'left-end',
-]
-</script>
-
-<template>
-  <mp-select :hint="false" v-model="placement">
-    <mp-option 
-      v-for="(item, index) in placementOptions" 
-      :key="index"
-      :label="item" 
-    />
-  </mp-select>
-  
-  <div class="placement-container">
-    <mp-tooltip content="Tooltip" :placement="placement">
-      <mp-button status="primary">
-        <m-icon-star-fill />
-      </mp-button>
-    </mp-tooltip>
-  </div>
-</template>
-
-<style>
-.placement-container {
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+```demo
+../example/demos/placement.vue
 ```
 
 ### 主题色
 
-```html
-<template>
-  <mp-space :size="[54, 10]">
-    <mp-tooltip content="Tooltip">
-      <mp-button>默认</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="primary" content="Tooltip">
-      <mp-button status="primary">主要</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="info" content="Tooltip">
-      <mp-button status="info">信息</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="success" content="Tooltip">
-      <mp-button status="success">成功</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="warning" content="Tooltip">
-      <mp-button status="warning">警告</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="danger" content="Tooltip">
-      <mp-button status="danger">危险</mp-button>
-    </mp-tooltip>
-  </mp-space>
-</template>
+```demo
+../example/demos/theme-color-tooltip.vue
 ```
 
 ### 自定义颜色
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" color="#d81b60" text-color="#fff">
-    <mp-button status="primary">自定义颜色</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/custom-color.vue
 ```
 
 ### 偏移量
 
 通过 `offset-x` 和 `offset-y` 设置 `Tooltip` 弹出的偏移量。
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" :offset-x="64" :offset-y="-10">
-    <mp-button status="primary">偏移量</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/offset.vue
 ```
 
 ### 触发方式
 
 通过 `trigger` 改变 `Tooltip` 显示的触发方式，可选值为 `click` 和 `hover`。
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" trigger="hover">
-    <mp-button status="primary">触发方式</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/trigger.vue
 ```
 
 ### 注册事件
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-tooltip
-    content="Tooltip"
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <mp-button status="primary">注册事件</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/events.vue
 ```
 
 ### 禁用提示
 
-在 `disabled` 状态下，`Tooltip` 将不再被打开。 
+在 `disabled` 状态下，`Tooltip` 将不再被打开。
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" disabled>
-    <mp-button status="primary">禁用提示</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ## API

@@ -1,45 +1,52 @@
 <template>
   <div class="mp-site-code-example">
     <div class="mp-site-code-example__toolbar">
-      <button
-        v-if="fold && !disabledFold"
-        type="button"
-        class="mp-site-code-example__toolbar-button"
-        :aria-label="height >= 0 ? 'Show Source' : 'Hide Source'"
-        :data-tooltip="height >= 0 ? 'Show Source' : 'Hide Source'"
-        @click="toggle"
-      >
-        <MIconXml class="mp-site-code-example__toolbar-icon" />
-      </button>
+      <div class="mp-site-code-example__toolbar-group">
+        <button
+          v-if="playground"
+          type="button"
+          class="mp-site-code-example__toolbar-button"
+          aria-label="Edit In Playground"
+          data-tooltip="Edit In Playground"
+          @click="toPlayground"
+        >
+          <MIconCodeJson class="mp-site-code-example__toolbar-icon" />
+        </button>
+      </div>
 
-      <button
-        v-if="clipboard"
-        :id="`clip-trigger-${cid}`"
-        :data-clipboard-target="`#clip-target-${cid}`"
-        type="button"
-        class="mp-site-code-example__toolbar-button"
-        aria-label="Copy Example Code"
-        data-tooltip="Copy Example Code"
-      >
-        <MIconCopy class="mp-site-code-example__toolbar-icon" />
-      </button>
+      <div class="mp-site-code-example__toolbar-group">
+        <button
+          v-if="clipboard"
+          :id="`clip-trigger-${cid}`"
+          :data-clipboard-target="`#clip-target-${cid}`"
+          type="button"
+          class="mp-site-code-example__toolbar-button"
+          aria-label="Copy Example Code"
+          data-tooltip="Copy Example Code"
+        >
+          <MIconCopy class="mp-site-code-example__toolbar-icon" />
+        </button>
 
-      <button
-        v-if="playground"
-        type="button"
-        class="mp-site-code-example__toolbar-button"
-        aria-label="Edit In Playground"
-        data-tooltip="Edit In Playground"
-        @click="toPlayground"
-      >
-        <MIconCodeJson class="mp-site-code-example__toolbar-icon" />
-      </button>
+        <button
+          v-if="fold && !disabledFold"
+          type="button"
+          class="mp-site-code-example__toolbar-button"
+          :aria-controls="`clip-target-${cid}`"
+          :aria-expanded="height < 0"
+          :aria-label="height >= 0 ? 'Show Source' : 'Hide Source'"
+          :data-tooltip="height >= 0 ? 'Show Source' : 'Hide Source'"
+          @click="toggle"
+        >
+          <MIconXml class="mp-site-code-example__toolbar-icon" />
+        </button>
+      </div>
     </div>
     <div
       :id="`clip-target-${cid}`"
       class="mp-site-code-example__code"
       :class="[disabledFold ? 'mp-site-code-example--scroller' : null]"
       ref="code"
+      :aria-hidden="height >= 0"
       :style="{
         height: height >= 0 ? `${height}px` : undefined,
       }"
@@ -87,7 +94,7 @@ export default defineComponent({
     let timer: any = null
 
     const toggle = async () => {
-      const foldHeight = fold.value.foldHeight
+      const foldHeight = fold.value?.foldHeight ?? 0
 
       if (height.value === foldHeight) {
         height.value = -1
@@ -126,8 +133,9 @@ export default defineComponent({
       })
 
       const { offsetHeight } = code.value as HTMLElement
-      disabledFold.value = offsetHeight - fold.value.foldHeight < offset
-      height.value = fold.value?.defaultFold ? fold.value?.foldHeight : -1
+      const foldHeight = fold.value?.foldHeight ?? 0
+      disabledFold.value = offsetHeight - foldHeight < offset
+      height.value = fold.value?.defaultFold && !disabledFold.value ? foldHeight : -1
     })
 
     return {

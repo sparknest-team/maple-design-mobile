@@ -1,0 +1,10 @@
+<template>
+  <mp-image
+    width="200"
+    src="invalid-image.jpg"
+    title="一只猫"
+    description="错误时仍显示底部信息"
+    hide-footer="never"
+    preview-disabled
+  />
+</template>

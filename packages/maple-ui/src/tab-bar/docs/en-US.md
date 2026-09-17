@@ -6,188 +6,40 @@ Display navigation and key actions at the bottom of the page.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tab-bar v-model:active="active">
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Match By Name
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-
-const active = ref('home-fill')
-</script>
-
-<template>
-  <mp-tab-bar v-model:active="active">
-    <mp-tab-bar-item name="home-fill" label="label">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item name="search" label="label">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item name="heart-fill" label="label">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item name="user" label="label">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/match-by-name.vue
 ```
 
 ### Show Badge
 
 TabBar badges default to size xs and extend outside the top-right edge of the icon. The badge object can override size, position, offsetX and offsetY. Dots, counts and max are supported in both standard and variant modes.
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref, reactive } from 'vue'
-
-const active = ref(0)
-const variant = ref(false)
-const badgeProps = reactive({
-  status: 'primary',
-  content: '66'
-})
-</script>
-
-<template>
-  <mp-switch v-model="variant" />
-  <mp-tab-bar v-model:active="active" :variant="variant">
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label" badge>
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label" :badge="badgeProps">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label" :badge="{ content: 125, max: 99 }">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/show-badge.vue
 ```
 
 ### Custom Color
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tab-bar active-color="var(--mp-color-warning)" v-model:active="active">
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/custom-color.vue
 ```
 
 ### Change Event
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const active = ref(0)
-
-function handleChange(active) {
-  Message.info(`changed to ${active}`)
-}
-</script>
-
-<template>
-  <mp-tab-bar v-model:active="active" @change="handleChange">
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/change-event.vue
 ```
 
 ### Click Event
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const active = ref(0)
-
-function handleClick(active) {
-  Message.success(`clicked ${active}`)
-}
-</script>
-
-<template>
-  <mp-tab-bar v-model:active="active">
-    <mp-tab-bar-item label="label" @click="handleClick">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label" @click="handleClick">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label" @click="handleClick">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label" @click="handleClick">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/click-event.vue
 ```
 
 ### Fab
@@ -196,163 +48,38 @@ Use the floating button for a primary action such as creating a post, taking a p
 
 The button is centered for an even number of tabs and right aligned for an odd number. Use the separate control to compare these layouts.
 
-```html
-<script setup>
-import { IconBellFill as MIconBellFill, IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconPlus as MIconPlus, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const active = ref(0)
-const isEven = ref(true)
-const composerOpen = ref(false)
-const draft = ref('')
-</script>
-
-<template>
-  <mp-space wrap role="group" :aria-label="'Floating button placement'">
-    <mp-button :variant="isEven ? 'default' : 'outline'" :aria-pressed="isEven" @click="isEven = true">4 tabs: centered</mp-button>
-    <mp-button :variant="isEven ? 'outline' : 'default'" :aria-pressed="!isEven" @click="isEven = false">5 tabs: right aligned</mp-button>
-  </mp-space>
-  <mp-tab-bar
-    v-model:active="active"
-    style="margin-top: 40px"
-    :fab-props="{ 'aria-label': 'Create post' }"
-    @fab-click="composerOpen = true"
-  >
-    <template #fab><mp-icon :size="24"><m-icon-plus /></mp-icon></template>
-    <mp-tab-bar-item :label="'Home'">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="'Explore'">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="'Saved'">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item :label="'Inbox'">
-      <template #icon><mp-icon :size="22"><m-icon-bell-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item v-if="!isEven" :label="'Profile'">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-  <mp-dialog
-    v-model:open="composerOpen"
-    :title="'Create post'"
-    :confirm-button-text="'Create post'"
-    @confirm="Message.success('Post action demo completed'); draft = ''"
-  >
-    <p>This is an interaction demo. Nothing is sent to a server.</p>
-    <mp-textarea v-model="draft" :placeholder="'Share your thoughts'" :aria-label="'Share your thoughts'" />
-  </mp-dialog>
-</template>
+```demo
+../example/demos/fab.vue
 ```
 
 ### Variant
 
-```html
-<script setup>
-import { IconHeartFill as MIconHeartFill, IconHomeFill as MIconHomeFill, IconSearch as MIconSearch, IconUserCircleFill as MIconUserCircleFill } from '@maplejs/icons-vue'
-import { ref } from 'vue'
-
-const active = ref(0)
-</script>
-
-<template>
-  <mp-tab-bar variant v-model:active="active">
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-home-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-search /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-heart-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-    <mp-tab-bar-item label="label">
-      <template #icon><mp-icon :size="22"><m-icon-user-circle-fill /></mp-icon></template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/variant.vue
 ```
 
 ### Uncontrolled selection
 
-```html
-<script setup>
-</script>
-<template>
-  <p>No v-model is needed. Saved is initially selected and tabs update on click. default-active is read only during initialization.</p>
-  <mp-tab-bar default-active="favorites">
-    <mp-tab-bar-item name="home" :label="'Home'" />
-    <mp-tab-bar-item name="favorites" :label="'Saved'" />
-    <mp-tab-bar-item name="profile" :label="'Profile'" />
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/uncontrolled.vue
 ```
 
 ### Numeric names and reordering
 
-```html
-<script setup>
-import { ref } from 'vue'
-const active = ref(0)
-const reversed = ref(false)
-</script>
-<template>
-  <p>Names 0, 10 and 20 are stable identifiers. Reordering preserves the selected name instead of selecting by position.</p>
-  <mp-button @click="reversed = !reversed">Reverse order</mp-button>
-  <mp-tab-bar v-model:active="active">
-    <mp-tab-bar-item v-for="id in (reversed ? [20, 10, 0] : [0, 10, 20])" :key="id" :name="id" :label="String(id)" />
-  </mp-tab-bar>
-  <p aria-live="polite">Selected: {{ active }}</p>
-</template>
+```demo
+../example/demos/numeric-name.vue
 ```
 
 ### Custom selected label
 
-```html
-<script setup>
-import { ref } from 'vue'
-const active = ref('home')
-const labels = {'home': 'Home', 'favorites': 'Saved', 'profile': 'Profile'}
-</script>
-<template>
-  <p>The default slot receives active for changing label weight and markers.</p>
-  <mp-tab-bar v-model:active="active">
-    <mp-tab-bar-item v-for="name in ['home', 'favorites', 'profile']" :key="name" :name="name">
-      <template #default="{ active: selected }">
-        <span :style="{ fontWeight: selected ? 700 : 400 }">{{ selected ? '● ' : '' }}{{ labels[name] }}</span>
-      </template>
-    </mp-tab-bar-item>
-  </mp-tab-bar>
-</template>
+```demo
+../example/demos/custom-label.vue
 ```
 
 ### Async selection guards
 
-```html
-<script setup>
-import { ref } from 'vue'
-const active = ref(0)
-async function beforeChange(value) {
-  if (value === 3) return false
-  if (value === 4) throw new Error('Demo: rejected selection')
-  await new Promise(resolve => setTimeout(resolve, value === 1 ? 1200 : 250))
-  return true
-}
-</script>
-<template>
-  <p>Click Slow (1.2s), then Fast (0.25s): only Fast is selected. Denied and Error preserve the current selection. Click the current tab to cancel a pending switch.</p>
-  <mp-tab-bar v-model:active="active" :before-change="beforeChange">
-    <mp-tab-bar-item :label="'Home'" />
-    <mp-tab-bar-item :label="'Slow'" />
-    <mp-tab-bar-item :label="'Fast'" />
-    <mp-tab-bar-item :label="'Denied'" />
-    <mp-tab-bar-item :label="'Error'" />
-  </mp-tab-bar>
-  <p aria-live="polite">Selected: {{ active }}</p>
-</template>
+```demo
+../example/demos/async-change.vue
 ```
 
 ## API

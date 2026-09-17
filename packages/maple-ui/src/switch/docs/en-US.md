@@ -6,249 +6,80 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ### Controlled and default value
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const enabled = ref(false)
-</script>
-
-<template>
-  <mp-space wrap
-    ><mp-switch v-model="enabled" aria-label="Enable notifications" /><output>{{ enabled }}</output
-    ><mp-switch default-checked aria-label="Initially enabled"
-  /></mp-space>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ### Four variants
 
-```html
-<script setup lang="ts">
-const variants = ['circle', 'round', 'line', 'md3'] as const
-</script>
-
-<template>
-  <mp-space wrap
-    ><label v-for="variant in variants" :key="variant"
-      >{{ variant }} <mp-switch :variant="variant" :aria-label="variant" /></label
-  ></mp-space>
-</template>
+```demo
+../example/demos/type.vue
 ```
 
 ### Three sizes
 
-```html
-<script setup lang="ts">
-const sizes = ['sm', 'md', 'lg'] as const
-</script>
-
-<template>
-  <mp-space wrap
-    ><label v-for="size in sizes" :key="size">{{ size }} <mp-switch :size="size" :aria-label="size" /></label
-  ></mp-space>
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### Disabled
 
-```html
-<script setup lang="ts">
-const variants = ['circle', 'round', 'line', 'md3'] as const
-</script>
-
-<template>
-  <mp-space wrap
-    ><template v-for="variant in variants" :key="variant"
-      ><mp-switch :variant="variant" disabled :aria-label="variant + ' off'" /><mp-switch
-        :variant="variant"
-        default-checked
-        disabled
-        :aria-label="variant + ' on'" /></template
-  ></mp-space>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Read only
 
-```html
-<script setup lang="ts">
-const variants = ['circle', 'round', 'line', 'md3'] as const
-</script>
-
-<template>
-  <mp-space wrap
-    ><template v-for="variant in variants" :key="variant"
-      ><mp-switch :variant="variant" readonly :aria-label="variant + ' off'" /><mp-switch
-        :variant="variant"
-        default-checked
-        readonly
-        :aria-label="variant + ' on'" /></template
-  ></mp-space>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### Loading
 
-```html
-<script setup lang="ts">
-const variants = ['circle', 'round', 'line', 'md3'] as const
-</script>
-
-<template>
-  <mp-space wrap
-    ><template v-for="variant in variants" :key="variant"
-      ><mp-switch :variant="variant" loading :aria-label="variant + ' off'" /><mp-switch
-        :variant="variant"
-        default-checked
-        loading
-        :aria-label="variant + ' on'" /></template
-  ></mp-space>
-</template>
+```demo
+../example/demos/loading.vue
 ```
 
 ### Custom colors
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const enabled = ref(false)
-</script>
-
-<template>
-  <mp-switch
-    v-model="enabled"
-    checked-color="#005f73"
-    unchecked-color="#9b2226"
-    aria-label="Custom color switch"
-  />
-</template>
+```demo
+../example/demos/custom-color.vue
 ```
 
 ### Custom text
 
-```html
-<template>
-  <mp-space wrap
-    ><mp-switch checked-text="ON" unchecked-text="OFF" aria-label="Text props" /><mp-switch
-      variant="round"
-      aria-label="Text slots"
-      ><template #checked>ON</template><template #unchecked>OFF</template></mp-switch
-    ></mp-space
-  >
-</template>
+```demo
+../example/demos/custom-text.vue
 ```
 
 ### Custom icons
 
-```html
-<script setup lang="ts">
-const variants = ['circle', 'round', 'line', 'md3'] as const
-</script>
-
-<template>
-  <mp-space wrap
-    ><mp-switch v-for="variant in variants" :key="variant" :variant="variant" :aria-label="variant"
-      ><template #checked-icon>✓</template><template #unchecked-icon>×</template></mp-switch
-    ></mp-space
-  >
-</template>
+```demo
+../example/demos/custom-icon.vue
 ```
 
 ### Ripple and handle elevation
 
-```html
-<template>
-  <mp-space wrap
-    ><mp-switch :ripple="false" :handle-elevation="false" aria-label="No ripple or shadow" /><mp-switch
-      :handle-elevation="4"
-      aria-label="Elevated handle"
-  /></mp-space>
-</template>
+```demo
+../example/demos/custom.vue
 ```
 
 ### Custom values and events
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const value = ref('disabled')
-const lastChange = ref('—')
-</script>
-
-<template>
-  <mp-space direction="column"
-    ><mp-switch
-      v-model="value"
-      checked-value="enabled"
-      unchecked-value="disabled"
-      aria-label="String value"
-      @change="lastChange = String($event)"
-    /><output aria-live="polite">Value: {{ value }}; change: {{ lastChange }}</output></mp-space
-  >
-</template>
+```demo
+../example/demos/custom-value.vue
 ```
 
 ### Async allow, deny and rejection
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const result = ref('Ready')
-const wait = () => new Promise<void>((resolve) => setTimeout(resolve, 500))
-async function allow() {
-  await wait()
-  result.value = 'Allowed'
-  return true
-}
-async function deny() {
-  await wait()
-  result.value = 'Blocked'
-  return false
-}
-async function reject() {
-  await wait()
-  result.value = 'Rejected'
-  throw new Error('Demo rejection')
-}
-</script>
-
-<template>
-  <mp-space direction="column">
-    <label>Allow after 500ms <mp-switch :before-change="allow" aria-label="Async allow" /></label>
-    <label>Return false <mp-switch :before-change="deny" aria-label="Async deny" /></label>
-    <label>Reject Promise <mp-switch :before-change="reject" aria-label="Async rejection" /></label>
-    <output aria-live="polite">{{ result }}</output>
-  </mp-space>
-</template>
+```demo
+../example/demos/switch-interception.vue
 ```
 
 ### Focus and event order
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const value = ref(false)
-const events = ref<string[]>([])
-function record(name: string) {
-  events.value = [...events.value.slice(-7), name]
-}
-</script>
-
-<template>
-  <p>Use Tab to focus, then Space or Enter to toggle.</p>
-  <mp-switch
-    v-model="value"
-    size="md"
-    aria-label="Event sequence"
-    @focus="record('focus')"
-    @blur="record('blur')"
-    @click="record('click')"
-    @update:model-value="record(`update: ${$event}`)"
-    @change="record(`change: ${$event}`)"
-  />
-  <p aria-live="polite">{{ events.join(' → ') || 'No events yet' }}</p>
-  <mp-button @click="events = []">Clear events</mp-button>
-</template>
+```demo
+../example/demos/events.vue
 ```
 
 ## API

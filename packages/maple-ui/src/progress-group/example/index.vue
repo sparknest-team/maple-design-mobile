@@ -1,108 +1,50 @@
 <script setup>
-import { onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import { computed, ref } from 'vue'
+import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import BasicDemo from './demos/basic.vue'
+import CircleDemo from './demos/circle.vue'
+import ColorDemo from './demos/color.vue'
+import CustomDemo from './demos/custom.vue'
+import OrientationDemo from './demos/orientation.vue'
+import SizeDemo from './demos/size.vue'
 
-const items = [
-  { label: 'System', value: 24, color: '#64748b', tip: 'System · 24 GB' },
-  { label: 'Apps', value: 8, color: '#f53f3f' },
-  { label: 'Media', value: 42, color: '#00b42a' },
-]
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
-const trackOnlyItems = [{ value: 16 }, { value: 22, color: '#722ed1' }, { value: 28, color: '#0fc6c2' }]
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basic') }}</app-type>
-  <mp-progress-group :items="items" :max="128" status />
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
+    <BasicDemo />
+  </section>
 
-  <app-type>{{ t('size') }}</app-type>
-  <mp-space direction="column" size="md">
-    <div v-for="size in sizes" :key="size" class="progress-group-example__size-row">
-      <span>{{ size }}</span>
-      <mp-progress-group :items="trackOnlyItems" :size="size" />
-    </div>
-  </mp-space>
+  <section data-demo="size">
+    <app-type>{{ english ? 'Track Sizes' : '进度轨尺寸' }}</app-type>
+    <SizeDemo />
+  </section>
 
-  <app-type>{{ t('orientation') }}</app-type>
-  <div class="progress-group-example__orientations">
-    <mp-progress-group :items="items" status />
-    <mp-progress-group
-      :items="items"
-      orientation="vertical"
-      size="lg"
-      status
-      class="progress-group-example__vertical"
-    />
-  </div>
+  <section data-demo="orientation">
+    <app-type>{{ english ? 'Orientation' : '排列方向' }}</app-type>
+    <OrientationDemo />
+  </section>
 
-  <app-type>{{ t('circle') }}</app-type>
-  <div class="progress-group-example__circles">
-    <mp-progress-group mode="circle" :items="items" status />
-    <mp-progress-group mode="circle" :items="items" circle-size="42vw" :stroke-width="12" status>
-      <template #status="{ value, max }">
-        <div class="progress-group-example__circle-status">
-          <strong>{{ value }}</strong
-          ><small>/ {{ max }} GB</small>
-        </div>
-      </template>
-    </mp-progress-group>
-  </div>
+  <section data-demo="circle">
+    <app-type>{{ english ? 'Circular Segments' : '环形分段进度' }}</app-type>
+    <CircleDemo />
+  </section>
 
-  <app-type>{{ t('color') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-progress-group
-      :items="[
-        { label: 'Docs', value: 20 },
-        { label: 'Tests', value: 35 },
-      ]"
-      color="#ff7d00"
-      status
-    />
-    <mp-progress-group :items="trackOnlyItems" size="lg" />
-  </mp-space>
+  <section data-demo="color">
+    <app-type>{{ english ? 'Default Color and Track Only' : '默认颜色与纯进度轨' }}</app-type>
+    <ColorDemo />
+  </section>
 
-  <app-type>{{ t('custom') }}</app-type>
-  <mp-progress-group :items="items" :max="128" status>
-    <template #status="{ value, max }">{{ t('used') }} {{ value }} / {{ max }} GB</template>
-    <template #item-trailing="{ item }">{{ item.value }} GB</template>
-    <template #tooltip="{ item, percent }"
-      >{{ item.label }} · {{ item.value }} GB · {{ Math.round(percent) }}%</template
-    >
-  </mp-progress-group>
+  <section data-demo="custom">
+    <app-type>{{ english ? 'Custom Content' : '自定义内容' }}</app-type>
+    <CustomDemo />
+  </section>
 </template>
-
-<style scoped>
-.progress-group-example__size-row {
-  display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-}
-
-.progress-group-example__orientations {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 24px;
-}
-
-.progress-group-example__vertical {
-  height: 220px;
-}
-
-.progress-group-example__circles {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-around;
-  gap: 16px;
-}
-
-.progress-group-example__circle-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-</style>

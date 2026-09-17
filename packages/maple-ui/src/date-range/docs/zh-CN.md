@@ -10,97 +10,44 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-date-range v-model="range" placeholder="请选择日期范围" clearable />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 日历模式
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-12-31'])
-</script>
-
-<template>
-  <mp-date-range v-model="range" presentation="calendar" placeholder="日历日期范围" clearable />
-</template>
+```demo
+../example/demos/calendar-mode.vue
 ```
 
-### 日期时间范围
+### 日期时间
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-date-range v-model="range" show-time placeholder="请选择日期时间范围" clearable />
-</template>
+```demo
+../example/demos/date-time.vue
 ```
 
 ### 选择类型
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const yearRange = ref([])
-  const monthRange = ref([])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-date-range v-model="yearRange" type="year" placeholder="选择年范围" clearable />
-    <mp-date-range v-model="monthRange" type="month" placeholder="选择月范围" clearable />
-  </mp-space>
-</template>
+```demo
+../example/demos/type.vue
 ```
 
 ### 自定义分隔符
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/separator.vue
+```
 
-  const range = ref([])
-</script>
+### 禁用
 
-<template>
-  <mp-date-range v-model="range" separator=" 至 " placeholder="自定义分隔符" clearable />
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 搭配 FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    period: [],
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="period" label="时间段" required>
-      <mp-date-range v-model="formData.period" placeholder="请选择" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/with-form-item.vue
 ```
 
 ## API
@@ -149,7 +96,7 @@
 | `focus` | 聚焦 | `-`  | `-`    |
 | `blur`  | 失焦 | `-`  | `-`    |
 
-# DateRangePicker 日期范围面板
+## DateRangePicker 日期范围面板
 
 > 源码已并入 `date-range/`，安装父组件时一并注册。静态成员：`DateRange.Picker`。
 
@@ -166,81 +113,35 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-01-15'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="range" />
-</template>
+```demo
+../example/demos/picker-basic.vue
 ```
 
 ### 日历模式
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-12-31'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="range" presentation="calendar" />
-</template>
+```demo
+../example/demos/picker-calendar.vue
 ```
 
 ### 日期时间范围
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const clock = ref(['2025-01-15 10:29', '2025-01-16 11:29'])
-  const calendarPicker = ref(['2025-01-15 10:29', '2025-01-16 11:29'])
-  const picker = ref(['2025-01-15 10:29', '2025-01-16 11:29'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="clock" show-time presentation="calendarClock" />
-  <mp-date-range-picker v-model="calendarPicker" show-time presentation="calendarPicker" />
-  <mp-date-range-picker v-model="picker" show-time presentation="picker" />
-</template>
+```demo
+../example/demos/picker-date-time.vue
 ```
 
 ### 年 / 月范围
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const yearRange = ref(['2020', '2024'])
-  const monthRange = ref(['2024-01', '2024-06'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="yearRange" presentation="picker" type="year" />
-  <mp-date-range-picker v-model="monthRange" presentation="picker" type="month" />
-</template>
+```demo
+../example/demos/picker-type.vue
 ```
 
 ### 只读
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['2024-01-01', '2024-01-15'])
-</script>
-
-<template>
-  <mp-date-range-picker v-model="range" readonly />
-</template>
+```demo
+../example/demos/picker-readonly.vue
 ```
 
-## API
+### API
 
 ### 属性
 

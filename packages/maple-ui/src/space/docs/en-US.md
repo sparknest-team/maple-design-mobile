@@ -6,87 +6,58 @@ The component library provides a layout component,
 `<mp-space>`,
 so that you can do flex layout more efficiently.
 
-### Basic use
+### Basic Use
 
-```html
-<template>
-  <mp-space>
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/base-use.vue
 ```
 
 ### Vertical
 
-```html
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/vertical.vue
 ```
 
 ### Space Size
 
-```html
-<template>
-  <mp-space wrap :size="[20, 20]">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-    <mp-button>Button4</mp-button>
-    <mp-button>Button5</mp-button>
-    <mp-button>Button6</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/space.vue
 ```
 
 ### Right Align
 
-```html
-<template>
-  <mp-space justify="flex-end">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/right-align.vue
 ```
 
 ### Space Around
 
-```html
-<template>
-  <mp-space justify="space-around">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/around.vue
 ```
 
 ### Align Center
 
-```html
-<template>
-  <mp-space justify="center">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/center.vue
 ```
 
 ### Space Between
 
-```html
-<template>
-  <mp-space justify="space-between">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/between.vue
+```
+
+### xs / sm / md / lg / xl
+
+```demo
+../example/demos/en-US/demo-8.vue
+```
+
+### Explicit Wrapping
+
+```demo
+../example/demos/en-US/wrap.vue
 ```
 
 ## API

@@ -7,125 +7,40 @@ and changes the display position of the tooltip by controlling the placement and
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-tooltip content="Tooltip">
-    <mp-button status="primary">Basic Usage</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Content Slot
 
-```html
-<template>
-  <mp-tooltip>
-    <mp-button status="primary">Content Slot</mp-button>
-    
-    <template #content>
-      <m-icon-star-fill />
-    </template>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/content-slot.vue
 ```
 
 ### Placement
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const placement = ref('top')
-const placementOptions = [
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'right',
-  'right-start',
-  'right-end',
-  'left',
-  'left-start',
-  'left-end',
-]
-</script>
-
-<template>
-  <mp-select :hint="false" v-model="placement">
-    <mp-option 
-      v-for="(item, index) in placementOptions" 
-      :key="index"
-      :label="item" 
-    />
-  </mp-select>
-  
-  <div class="placement-container">
-    <mp-tooltip content="Tooltip" :placement="placement">
-      <mp-button status="primary">
-        <m-icon-star-fill />
-      </mp-button>
-    </mp-tooltip>
-  </div>
-</template>
-
-<style>
-.placement-container {
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+```demo
+../example/demos/placement.vue
 ```
 
 ### Theme Color
 
-```html
-<template>
-  <mp-space :size="[54, 10]">
-    <mp-tooltip content="Tooltip">
-      <mp-button>Default</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="primary" content="Tooltip">
-      <mp-button status="primary">Primary</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="info" content="Tooltip">
-      <mp-button status="info">Info</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="success" content="Tooltip">
-      <mp-button status="success">Success</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="warning" content="Tooltip">
-      <mp-button status="warning">Warning</mp-button>
-    </mp-tooltip>
-    <mp-tooltip status="danger" content="Tooltip">
-      <mp-button status="danger">Danger</mp-button>
-    </mp-tooltip>
-  </mp-space>
-</template>
+```demo
+../example/demos/theme-color-tooltip.vue
 ```
+
 ### Custom Color
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" color="#d81b60" text-color="#fff">
-    <mp-button status="primary">Custom Color</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/custom-color.vue
 ```
 
 ### Offset
 
 The offset of the Tooltip can be set with `offset-x` and `offset-y`.
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" :offset-x="64" :offset-y="-10">
-    <mp-button status="primary">Offset</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/offset.vue
 ```
 
 ### Trigger
@@ -133,44 +48,22 @@ The offset of the Tooltip can be set with `offset-x` and `offset-y`.
 Use `trigger` to change the trigger method of tooltip display,
 the optional values are `click` and `hover`.
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" trigger="hover">
-    <mp-button status="primary">Trigger</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/trigger.vue
 ```
 
 ### Events
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-tooltip
-    content="Tooltip"
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <mp-button status="primary">Events</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/events.vue
 ```
 
 ### Disabled
 
 In the `disabled` state, the tooltip will not be opened.
 
-```html
-<template>
-  <mp-tooltip content="Tooltip" disabled>
-    <mp-button status="primary">Disabled</mp-button>
-  </mp-tooltip>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ## API

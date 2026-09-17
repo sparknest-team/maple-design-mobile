@@ -34,5 +34,13 @@ export function usePopupContainer(source: () => PopupContainer | undefined) {
   onMounted(() => {
     mounted.value = true
   })
-  return computed(() => (mounted.value ? resolvePopupContainer(source()) : 'body'))
+  return computed(() => {
+    const value = source()
+    // An HTMLElement is already a resolved target and is safe to use immediately.
+    // String selectors still wait until mount so SSR and hydration use the same target.
+    if (value && typeof value !== 'string') {
+      return value
+    }
+    return mounted.value ? resolvePopupContainer(value) : 'body'
+  })
 }

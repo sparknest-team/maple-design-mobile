@@ -1,6 +1,6 @@
 <template>
   <slot />
-  <mp-image-preview
+  <ImagePreview
     v-if="previewImages.length"
     ref="previewRef"
     v-bind="previewBindings"
@@ -17,26 +17,24 @@
   >
     <template #image="{ scale, rotate, translateX, translateY, moving, previewedImgProps }">
       <div
-        class="mp-image-preview__track"
-        :class="{
-          'mp-image-preview__track-moving': moving && scale <= 1,
-          'mp-image-preview__track-instant': trackInstant,
-        }"
+        :class="[n('track'), { [n('track-moving')]: moving && scale <= 1, [n('track-instant')]: trackInstant }]"
+        data-image-preview-track
         :style="trackStyle(translateX, scale)"
         @transitionend="handleTrackTransitionEnd"
       >
-        <div v-for="(image, index) in trackImages" :key="`${index}-${image}`" class="mp-image-preview__slide">
+        <div
+          v-for="(image, index) in trackImages"
+          :key="`${index}-${image}`"
+          :class="n('slide')"
+          data-image-preview-slide
+        >
           <img
             v-bind="previewedImgProps"
             role="img"
             data-image-preview-image
             :src="image"
             :alt="previewedImgProps?.alt || image"
-            :class="[
-              previewedImgProps?.class,
-              'mp-image-preview__image',
-              { 'mp-image-preview--prevent': imagePreventDefault },
-            ]"
+            :class="[previewedImgProps?.class, n('image'), { [n('--prevent')]: imagePreventDefault }]"
             :style="[previewedImgProps?.style, slideImageStyle(index, scale, rotate, translateX, translateY)]"
             :draggable="false"
             @click.stop
@@ -51,7 +49,8 @@
       <button
         v-if="previewImages.length > 1"
         type="button"
-        class="mp-image-preview__arrow mp-image-preview__arrow--left"
+        :class="n('arrow-left')"
+        data-image-preview-arrow-left
         data-image-preview-interactive
         :disabled="!loop && mergedCurrent === 0"
         aria-label="Previous image"
@@ -62,7 +61,8 @@
       <button
         v-if="previewImages.length > 1"
         type="button"
-        class="mp-image-preview__arrow mp-image-preview__arrow--right"
+        :class="n('arrow-right')"
+        data-image-preview-arrow-right
         data-image-preview-interactive
         :disabled="!loop && mergedCurrent === previewImages.length - 1"
         aria-label="Next image"
@@ -71,14 +71,14 @@
         ›
       </button>
       <slot name="indicator" :index="mergedCurrent" :length="previewImages.length">
-        <div v-if="previewImages.length > 1" class="mp-image-preview__indicators">
+        <div v-if="previewImages.length > 1" :class="n('indicator')">
           {{ mergedCurrent + 1 }} / {{ previewImages.length }}
         </div>
       </slot>
     </template>
     <template v-if="$slots.extra" #extra><slot name="extra" :url="currentUrl" /></template>
     <template v-if="$slots.actions" #actions><slot name="actions" :url="currentUrl" /></template>
-  </mp-image-preview>
+  </ImagePreview>
 </template>
 
 <script lang="ts">
@@ -88,13 +88,13 @@ import type { ImagePreviewInstance } from './api'
 import { useImagePreviewGroupState } from './composables/useImagePreviewGroup'
 import { PreviewGroupInjectionKey } from './context'
 import { imagePreviewGroupProps } from './groupProps'
-import MpImagePreview from './ImagePreview.vue'
+import ImagePreview from './ImagePreview.vue'
 
-const { name } = createNamespace('image-preview-group')
+const { name, n } = createNamespace('image-preview')
 
 export default defineComponent({
-  name,
-  components: { MpImagePreview },
+  name: createNamespace('image-preview-group').name,
+  components: { ImagePreview },
   inheritAttrs: false,
   props: imagePreviewGroupProps,
   emits: [
@@ -303,6 +303,7 @@ export default defineComponent({
     }
 
     return {
+      n,
       ...group,
       previewRef,
       currentUrl,

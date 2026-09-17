@@ -8,62 +8,16 @@ Signature component based on `Canvas`.
 
 Get the data url of the canvas through the component method `confirm`. When the canvas is empty, you will get the `empty string`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const signature = ref('')
-const signatureRef = ref()
-
-function confirmSignature() {
-  signature.value = signatureRef.value.confirm()
-}
-
-function resetSignature() {
-  signature.value = ''
-  signatureRef.value.reset()
-}
-</script>
-
-<template>
-  <mp-signature ref="signatureRef" />
-  <mp-space style="margin-top: 10px">
-    <mp-button status="primary" @click="confirmSignature">Confirm</mp-button>
-    <mp-button status="primary" @click="resetSignature">Reset</mp-button>
-  </mp-space>
-  <img v-if="signature" :src="signature" style="margin-top: 10px" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Custom Style
 
 You can customize the signature style through `stroke-style` and `line-width`. The default `stroke-style` is `currentColor`, which will inherit the text color, so you can also set the color through `css color`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const signature = ref('')
-const signatureRef = ref()
-
-function confirmSignature() {
-  signature.value = signatureRef.value.confirm()
-}
-
-function resetSignature() {
-  signature.value = ''
-  signatureRef.value.reset()
-}
-</script>
-
-<template>
-  <mp-signature ref="signatureRef" style="color: var(--color-primary)" :line-width="4" />
-  <mp-space style="margin-top: 10px">
-    <mp-button status="primary" @click="confirmSignature">Confirm</mp-button>
-    <mp-button status="primary" @click="resetSignature">Reset</mp-button>
-  </mp-space>
-  <img v-if="signature" :src="signature" style="margin-top: 10px" />
-</template>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ## API

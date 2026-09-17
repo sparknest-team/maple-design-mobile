@@ -1,76 +1,35 @@
 # 滑动单元格
 
-### 介绍
+## 介绍
 
 单元格左右滑动以显示操作按钮，常用于列表删除、收藏等场景。
 
+## 案例
+
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
+向左滑动单元格，显示右侧操作。
 
-const message = ref('')
-</script>
-
-<template>
-  <mp-swipe-cell>
-    <template #right>
-      <mp-button status="danger" style="height: 100%">删除</mp-button>
-    </template>
-    <mp-cell title="左滑显示操作" border />
-  </mp-swipe-cell>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ### 左右两侧
 
-```html
-<template>
-  <mp-swipe-cell>
-    <template #left>
-      <mp-button status="primary" style="height: 100%">选择</mp-button>
-    </template>
-    <mp-cell title="两侧均可滑动" border />
-    <template #right>
-      <mp-button status="danger" style="height: 100%">删除</mp-button>
-    </template>
-  </mp-swipe-cell>
-</template>
+```demo
+../example/demos/both-sides.vue
 ```
 
 ### 关闭前确认
 
-```html
-<script setup>
-import { Dialog } from '@maplejs/maple-ui'
-
-const beforeClose = async ({ position }) => {
-  if (position !== 'right') return true
-  try {
-    await Dialog({ title: '确认删除？' })
-    return true
-  } catch {
-    return false
-  }
-}
-</script>
-
-<template>
-  <mp-swipe-cell :before-close="beforeClose">
-    <mp-cell title="删除前确认" border />
-    <template #right>
-      <mp-button status="danger" style="height: 100%">删除</mp-button>
-    </template>
-  </mp-swipe-cell>
-</template>
+```demo
+../example/demos/before-close.vue
 ```
 
 ### 可访问性
 
 - 操作区按钮应自带可读文本或 `aria-label`。
 - 禁用时设置 `disabled`，组件不再响应滑动。
-
 ## API
 
 ### 属性

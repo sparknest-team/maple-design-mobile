@@ -5,6 +5,7 @@ export const dirname = getDirname(import.meta.url)
 
 export const CWD = process.cwd()
 export const MAPLE_CONFIG = resolve(CWD, 'maple.config.mjs')
+export const COMPONENT_REUSE_JSON = resolve(CWD, 'component-reuse.json')
 export const VITEST_CONFIG = resolve(dirname, '../config/vitest.config.js')
 export const SRC = 'src'
 export const SRC_DIR = resolve(CWD, SRC)

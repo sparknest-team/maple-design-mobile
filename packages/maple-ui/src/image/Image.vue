@@ -2,7 +2,14 @@
   <div
     v-ripple="{ disabled: !ripple }"
     :class="
-      classes(n(), n('$--box'), [!block, n('$--inline-block')], [showFooter, n(`--with-footer-${footerPosition}`)])
+      classes(
+        n(),
+        [!block, n('--inline')],
+        [isLoading, n('--loading')],
+        [isError, n('--loading-error')],
+        [showFooter && footerPosition === 'inner', n('--with-footer-inner')],
+        [showFooter && footerPosition === 'outer', n('--with-footer-outer')],
+      )
     "
     :style="{
       width: toSizeUnit(width),
@@ -12,28 +19,14 @@
   >
     <div :class="n('content')">
       <img
-        v-if="lazy"
-        v-lazy="src ?? ''"
-        v-bind="imgProps"
+        v-bind="mergedImgProps"
         role="img"
         :class="n('image')"
-        :alt="alt || description || loadDescription"
-        :title="title"
-        :lazy-error="fallbackSrc"
-        :style="[imgProps?.style, { objectFit, objectPosition }]"
-        @load="handleLoad"
-        @click="handleClick"
-      />
-
-      <img
-        v-if="!lazy"
-        v-bind="imgProps"
-        role="img"
-        :class="n('image')"
-        :alt="alt || description || loadDescription"
-        :title="title"
-        :style="[imgProps?.style, { objectFit, objectPosition }]"
         :src="displaySrc"
+        :loading="lazy ? 'lazy' : undefined"
+        :alt="alt || description || loadDescription"
+        :title="title"
+        :style="[mergedImgProps.style, { objectFit, objectPosition }]"
         @load="handleLoad"
         @error="handleError"
         @click="handleClick"
@@ -44,7 +37,7 @@
           <div :class="n('error')">
             <div :class="n('error-icon')">
               <slot name="error-icon">
-                <span aria-hidden="true">×</span>
+                <ImageErrorIcon />
               </slot>
             </div>
             <div v-if="alt || description" :class="n('error-alt')">
@@ -54,7 +47,7 @@
         </slot>
         <slot v-if="isLoading && $slots.placeholder" name="placeholder" />
         <slot v-else-if="isLoading && (showLoader || $slots.loader)" name="loader">
-          <div :class="n('loader')" aria-hidden="true" />
+          <DefaultLoader />
         </slot>
       </div>
 
@@ -77,7 +70,7 @@
       <template v-if="$slots.extra" #extra><slot name="extra" /></template>
     </ImageFooter>
 
-    <mp-image-preview
+    <ImagePreview
       v-if="showStandalonePreview"
       v-model:open="previewOpenState"
       :src="previewUrl"
@@ -89,20 +82,19 @@
       <template v-if="$slots['preview-actions']" #actions>
         <slot name="preview-actions" />
       </template>
-    </mp-image-preview>
+    </ImagePreview>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, inject, ref, watch, watchEffect } from 'vue'
-import Lazy, { type LazyHTMLElement } from '../lazy'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
-import { toSizeUnit } from '../utils/elements'
 import { PreviewGroupInjectionKey } from './context'
 import ImageFooter from './ImageFooter.vue'
-import MpImagePreview from './ImagePreview.vue'
-import { props } from './props'
+import ImagePreview from './ImagePreview.vue'
+import { DefaultLoader, ImageErrorIcon, toSizeUnit } from './platform'
+import { imageProps } from './props'
 
 const { name, n, classes } = createNamespace('image')
 
@@ -111,16 +103,18 @@ let imageId = 0
 export default defineComponent({
   name,
   components: {
-    MpImagePreview,
+    ImagePreview,
     ImageFooter,
+    ImageErrorIcon,
+    DefaultLoader,
   },
   directives: {
-    Lazy,
     Ripple,
   },
-  props,
+  inheritAttrs: false,
+  props: imageProps,
   emits: ['update:previewOpen', 'preview-open-change', 'click', 'load', 'error'],
-  setup(props, { emit, slots }) {
+  setup(props, { attrs, emit, slots }) {
     const loadStatus = ref<'loading' | 'loaded' | 'error'>('loading')
     const isLoading = computed(() => loadStatus.value === 'loading')
     const isLoaded = computed(() => loadStatus.value === 'loaded')
@@ -139,14 +133,17 @@ export default defineComponent({
         if (props.previewOpen === undefined) {
           localPreviewOpen.value = value
         }
-
         emit('update:previewOpen', value)
         emit('preview-open-change', value)
       },
     })
 
     const previewUrl = computed(() => props.previewSrc || props.src || '')
-    const mergedPopupContainer = computed(() => props.popupContainer ?? props.previewProps?.popupContainer ?? 'body')
+    const mergedPopupContainer = computed(() => props.popupContainer ?? props.previewProps?.popupContainer)
+    const mergedImgProps = computed(() => {
+      const { class: _className, style: _style, ...restAttrs } = attrs
+      return { ...restAttrs, ...props.imgProps }
+    })
 
     const showFooter = computed(() => {
       if (!(props.title || props.description || slots.extra)) {
@@ -159,9 +156,7 @@ export default defineComponent({
     })
 
     const previewEnabled = computed(() => !props.previewDisabled)
-    const showStandalonePreview = computed(
-      () => isLoaded.value && previewEnabled.value && !groupContext && !!previewUrl.value,
-    )
+    const showStandalonePreview = computed(() => previewEnabled.value && !groupContext && !!previewUrl.value)
 
     watch(
       () => [props.src, props.fallbackSrc, props.lazy],
@@ -175,57 +170,37 @@ export default defineComponent({
       if (!groupContext) {
         return
       }
-
       const unregister = groupContext.registerImageUrl(currentImageId, previewUrl.value, previewEnabled.value)
-
       onInvalidate(() => {
         unregister?.()
       })
     })
 
     function handleError(e: Event) {
-      if (!props.lazy && !usingFallback.value && props.fallbackSrc && props.fallbackSrc !== props.src) {
+      if (!usingFallback.value && props.fallbackSrc && props.fallbackSrc !== props.src) {
         usingFallback.value = true
         loadStatus.value = 'loading'
         emit('error', e)
         return
       }
-
       loadStatus.value = 'error'
       emit('error', e)
     }
 
     function handleLoad(e: Event) {
-      const el: LazyHTMLElement = e.currentTarget as LazyHTMLElement
-
-      if (props.lazy) {
-        if (el._lazy.state === 'success') {
-          loadStatus.value = 'loaded'
-          emit('load', e)
-          return
-        }
-
-        if (el._lazy.state === 'error') {
-          handleError(e)
-        }
-      } else {
-        loadStatus.value = 'loaded'
-        emit('load', e)
-      }
+      loadStatus.value = 'loaded'
+      emit('load', e)
     }
 
     function handleClick(e: Event) {
       emit('click', e)
-
       if (!previewEnabled.value || isError.value) {
         return
       }
-
       if (groupContext?.preview) {
         groupContext.preview(currentImageId)
         return
       }
-
       previewOpenState.value = true
     }
 
@@ -245,19 +220,20 @@ export default defineComponent({
     }
 
     return {
+      n,
+      classes,
+      toSizeUnit,
       isLoading,
       isLoaded,
       isError,
       displaySrc,
       showFooter,
       showStandalonePreview,
+      mergePreview: showStandalonePreview,
       previewOpenState,
       previewUrl,
       mergedPopupContainer,
-      previewProps: computed(() => props.previewProps),
-      n,
-      classes,
-      toSizeUnit,
+      mergedImgProps,
       handleLoad,
       handleError,
       handleClick,

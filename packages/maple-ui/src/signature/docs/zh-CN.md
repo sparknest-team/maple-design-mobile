@@ -8,62 +8,16 @@
 
 通过组件方法 `confirm` 获取画布的 `data url`，画布为空时会获取到 `空字符串`。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const signature = ref('')
-const signatureRef = ref()
-
-function confirmSignature() {
-  signature.value = signatureRef.value.confirm()
-}
-
-function resetSignature() {
-  signature.value = ''
-  signatureRef.value.reset()
-}
-</script>
-
-<template>
-  <mp-signature ref="signatureRef" />
-  <mp-space style="margin-top: 10px">
-    <mp-button status="primary" @click="confirmSignature">确认</mp-button>
-    <mp-button status="primary" @click="resetSignature">重置</mp-button>
-  </mp-space>
-  <img v-if="signature" :src="signature" style="margin-top: 10px" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 自定义样式
 
-可以通过 `stroke-style`、`line-width` 自定义签名的样式，`stroke-style` 默认是 `currentColor`，会继承文字颜色，所以也可以通过 `css color` 来设置颜色。 
+可以通过 `stroke-style`、`line-width` 自定义签名的样式，`stroke-style` 默认是 `currentColor`，会继承文字颜色，所以也可以通过 `css color` 来设置颜色。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const signature = ref('')
-const signatureRef = ref()
-
-function confirmSignature() {
-  signature.value = signatureRef.value.confirm()
-}
-
-function resetSignature() {
-  signature.value = ''
-  signatureRef.value.reset()
-}
-</script>
-
-<template>
-  <mp-signature ref="signatureRef" style="color: var(--color-primary)" :line-width="4" />
-  <mp-space style="margin-top: 10px">
-    <mp-button status="primary" @click="confirmSignature">确认</mp-button>
-    <mp-button status="primary" @click="resetSignature">重置</mp-button>
-  </mp-space>
-  <img v-if="signature" :src="signature" style="margin-top: 10px" />
-</template>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ## API

@@ -6,43 +6,8 @@ Display loading progress at the top of the page.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { LoadingBar } from '@maplejs/maple-ui'
-
-const hasCustomStyle = ref(false)
-
-function setStyle() {
-  if (hasCustomStyle.value) {
-    LoadingBar.resetDefaultOptions()
-  } else {
-    LoadingBar.setDefaultOptions({
-      errorColor: '#ff8800',
-      color: '#10afef',
-      height: '5px',
-    })
-  }
-
-  hasCustomStyle.value = !hasCustomStyle.value
-}
-
-// mobile only
-// LoadingBar.setDefaultOptions({
-//   top: '54px'
-// })
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button status="primary" block @click="LoadingBar.start()">Start</mp-button>
-    <mp-button status="primary" block @click="LoadingBar.finish()">Finish</mp-button>
-    <mp-button status="primary" block @click="LoadingBar.error()">Error</mp-button>
-    <mp-button status="primary" block @click="setStyle">
-      {{ hasCustomStyle ? 'Clear Style' : 'Custom Style' }}
-    </mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ## API

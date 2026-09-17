@@ -261,6 +261,15 @@ body {
 
 .router-view__block {
   padding: calc(55px + var(--site-mobile-page-header-safe-area-top)) 15px 15px;
+
+  > section[data-demo] {
+    padding-bottom: 28px;
+  }
+
+  > section[data-demo] + section[data-demo] {
+    padding-top: 20px;
+    border-top: 1px solid var(--mp-color-border-1);
+  }
 }
 
 .mobile-language-cell {

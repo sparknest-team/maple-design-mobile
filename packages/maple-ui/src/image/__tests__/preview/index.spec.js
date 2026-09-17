@@ -25,7 +25,7 @@ test('image preview functional show & close', async () => {
   expect(onOpen).toHaveBeenCalledTimes(1)
   await delay(300)
   expect(onOpened).toHaveBeenCalledTimes(1)
-  expect(document.querySelector('.mp-image-preview__popup').style.display).toBe('')
+  expect(document.querySelector('.mp-image-preview').style.display).toBe('')
 
   imagePreview.close()
 
@@ -33,7 +33,7 @@ test('image preview functional show & close', async () => {
   expect(onClose).toHaveBeenCalledTimes(1)
   await delay(300)
   expect(onClosed).toHaveBeenCalledTimes(1)
-  expect(document.querySelector('.mp-image-preview__popup')).toBeFalsy()
+  expect(document.querySelector('.mp-image-preview')).toBeFalsy()
 })
 
 test('image preview onChange callback', async () => {
@@ -57,12 +57,13 @@ test('image preview onChange callback', async () => {
 
 test('image preview closable', async () => {
   imagePreview({
+    src: 'https://maplejs.org/cat.jpg',
     closable: true,
   })
   await delay(200)
-  await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
+  await trigger(document.querySelector('[data-image-preview-close]'), 'click')
   await delay(300)
-  expect(document.querySelector('.mp-image-preview__popup')).toBeFalsy()
+  expect(document.querySelector('.mp-image-preview')).toBeFalsy()
 })
 
 test('image preview setDefaultOptions and resetDefaultOptions', async () => {
@@ -70,15 +71,15 @@ test('image preview setDefaultOptions and resetDefaultOptions', async () => {
   await delay(16)
   imagePreview('https://maplejs.org/cat.jpg')
   await delay(200)
-  await trigger(document.querySelector('.mp-image-preview__close-icon'), 'click')
+  await trigger(document.querySelector('[data-image-preview-close]'), 'click')
   await delay(300)
-  expect(document.querySelector('.mp-image-preview__popup')).toBeFalsy()
+  expect(document.querySelector('.mp-image-preview')).toBeFalsy()
 
   imagePreview.resetDefaultOptions()
   await delay(16)
   imagePreview('https://maplejs.org/cat.jpg')
   await delay(200)
-  expect(document.querySelector('.mp-image-preview__close-icon')).toBeTruthy()
+  expect(document.querySelector('[data-image-preview-close]')).toBeTruthy()
   imagePreview.close()
 })
 
@@ -89,7 +90,9 @@ test('image preview imagePreventDefault', async () => {
   })
 
   await delay(200)
-  expect(document.querySelector('.mp-image-preview--prevent')).toBeTruthy()
+  expect(document.querySelector('[data-image-preview-image]')?.classList.contains('mp-image-preview--prevent')).toBe(
+    true,
+  )
 
   imagePreview.close()
 })
@@ -125,7 +128,7 @@ test('image preview current', async () => {
   })
 
   await delay(200)
-  expect(document.querySelector('.mp-image-preview__indicators').textContent).toBe('2 / 2')
+  expect(document.querySelector('.mp-image-preview__indicator').textContent).toBe('2 / 2')
 
   imagePreview.close()
 })

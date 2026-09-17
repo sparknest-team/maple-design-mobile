@@ -6,42 +6,58 @@
 
 ### 基础用法
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-</script>
-
-<template>
-  <mp-textarea v-model="value" placeholder="请输入多行文本" />
-</template>
+```demo
+../example/demos/demo-1.vue
 ```
 
 ### 外边框与字数限制
 
-```html
-<mp-textarea v-model="value" variant="outline" :max-length="100" clearable />
+```demo
+../example/demos/demo-5.vue
+```
+
+### 外观
+
+```demo
+../example/demos/demo-2.vue
+```
+
+### Hint
+
+```demo
+../example/demos/demo-3.vue
+```
+
+### 尺寸
+
+```demo
+../example/demos/demo-4.vue
+```
+
+### 状态
+
+```demo
+../example/demos/demo-6.vue
 ```
 
 ## API
 
 ### 属性
 
-| 参数             | 说明                       | 类型                             | 默认值     |
-| ---------------- | -------------------------- | -------------------------------- | ---------- |
-| `v-model`        | 绑定值                     | _string_                         | `-`        |
-| `placeholder`    | 占位符                     | _string_                         | `-`        |
-| `rows`           | 显示行数                   | _string \| number_               | `8`        |
-| `max-length`      | 最大输入长度               | _string \| number_               | `-`        |
-| `size`           | 尺寸                       | `xs \| sm \| md \| lg \| xl`     | `md`       |
+| 参数             | 说明                       | 类型                            | 默认值     |
+| ---------------- | -------------------------- | ------------------------------- | ---------- |
+| `v-model`        | 绑定值                     | _string_                        | `-`        |
+| `placeholder`    | 占位符                     | _string_                        | `-`        |
+| `rows`           | 显示行数                   | _string \| number_              | `8`        |
+| `max-length`     | 最大输入长度               | _string \| number_              | `-`        |
+| `size`           | 尺寸                       | `xs \| sm \| md \| lg \| xl`    | `md`       |
 | `variant`        | 外观                       | `filled \| outline \| standard` | `standard` |
-| `readonly`       | 是否只读                   | _boolean_                        | `false`    |
-| `disabled`       | 是否禁用                   | _boolean_                        | `false`    |
-| `clearable`      | 是否可清除                 | _boolean_                        | `false`    |
-| `resize`         | 是否允许垂直拖动调整尺寸   | _boolean_                        | `false`    |
-| `autofocus`      | 是否自动聚焦               | _boolean_                        | `false`    |
-| `textarea-attrs` | 透传给原生 textarea 的属性 | _object_                         | `-`        |
+| `readonly`       | 是否只读                   | _boolean_                       | `false`    |
+| `disabled`       | 是否禁用                   | _boolean_                       | `false`    |
+| `clearable`      | 是否可清除                 | _boolean_                       | `false`    |
+| `resize`         | 是否允许垂直拖动调整尺寸   | _boolean_                       | `false`    |
+| `autofocus`      | 是否自动聚焦               | _boolean_                       | `false`    |
+| `textarea-attrs` | 透传给原生 textarea 的属性 | _object_                        | `-`        |
 
 ### 事件
 

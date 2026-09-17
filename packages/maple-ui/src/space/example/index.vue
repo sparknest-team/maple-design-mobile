@@ -1,62 +1,86 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import AroundDemo from './demos/around.vue'
+import BaseUseDemo from './demos/base-use.vue'
+import BetweenDemo from './demos/between.vue'
+import CenterDemo from './demos/center.vue'
+import Demo8Demo from './demos/demo-8.vue'
+import EnAroundDemo from './demos/en-US/around.vue'
+import EnBaseUseDemo from './demos/en-US/base-use.vue'
+import EnBetweenDemo from './demos/en-US/between.vue'
+import EnCenterDemo from './demos/en-US/center.vue'
+import EnDemo8Demo from './demos/en-US/demo-8.vue'
+import EnRightAlignDemo from './demos/en-US/right-align.vue'
+import EnSpaceDemo from './demos/en-US/space.vue'
+import EnVerticalDemo from './demos/en-US/vertical.vue'
+import EnWrapDemo from './demos/en-US/wrap.vue'
+import RightAlignDemo from './demos/right-align.vue'
+import SpaceDemo from './demos/space.vue'
+import VerticalDemo from './demos/vertical.vue'
+import WrapDemo from './demos/wrap.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('baseUse') }}</app-type>
-  <mp-space>
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-  </mp-space>
+  <section data-demo="base-use">
+    <app-type>{{ english ? 'Basic Use' : '基本使用' }}</app-type>
+    <EnBaseUseDemo v-if="english" />
+    <BaseUseDemo v-else />
+  </section>
 
-  <app-type>{{ t('vertical') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-  </mp-space>
+  <section data-demo="vertical">
+    <app-type>{{ english ? 'Vertical' : '垂直' }}</app-type>
+    <EnVerticalDemo v-if="english" />
+    <VerticalDemo v-else />
+  </section>
 
-  <app-type>{{ t('space') }}</app-type>
-  <mp-space wrap :size="[20, 20]">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-    <mp-button>Button4</mp-button>
-    <mp-button>Button5</mp-button>
-    <mp-button>Button6</mp-button>
-  </mp-space>
+  <section data-demo="space">
+    <app-type>{{ english ? 'Space Size' : '间隙' }}</app-type>
+    <EnSpaceDemo v-if="english" />
+    <SpaceDemo v-else />
+  </section>
 
-  <app-type>{{ t('rightAlign') }}</app-type>
-  <mp-space justify="flex-end" :size="['2.666vmin', '2.666vmin']">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
+  <section data-demo="right-align">
+    <app-type>{{ english ? 'Right Align' : '靠右' }}</app-type>
+    <EnRightAlignDemo v-if="english" />
+    <RightAlignDemo v-else />
+  </section>
 
-  <app-type>{{ t('around') }}</app-type>
-  <mp-space justify="space-around" :size="['2.666vmin', '2.666vmin']">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
+  <section data-demo="around">
+    <app-type>{{ english ? 'Space Around' : '环绕' }}</app-type>
+    <EnAroundDemo v-if="english" />
+    <AroundDemo v-else />
+  </section>
 
-  <app-type>{{ t('center') }}</app-type>
-  <mp-space justify="center" :size="['2.666vmin', '2.666vmin']">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
+  <section data-demo="center">
+    <app-type>{{ english ? 'Align Center' : '居中' }}</app-type>
+    <EnCenterDemo v-if="english" />
+    <CenterDemo v-else />
+  </section>
 
-  <app-type>{{ t('between') }}</app-type>
-  <mp-space justify="space-between" :size="['2.666vmin', '2.666vmin']">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-  <app-type>xs / sm / md / lg / xl</app-type>
-  <mp-space v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :size="size" wrap>
-    <span>{{ size }}</span
-    ><span>Item 1</span><span>Item 2</span>
-  </mp-space>
+  <section data-demo="between">
+    <app-type>{{ english ? 'Space Between' : '两端对齐' }}</app-type>
+    <EnBetweenDemo v-if="english" />
+    <BetweenDemo v-else />
+  </section>
+
+  <section data-demo="demo-8">
+    <app-type>{{ english ? 'xs / sm / md / lg / xl' : 'xs / sm / md / lg / xl' }}</app-type>
+    <EnDemo8Demo v-if="english" />
+    <Demo8Demo v-else />
+  </section>
+
+  <section data-demo="wrap">
+    <app-type>{{ english ? 'Explicit Wrapping' : '显式换行' }}</app-type>
+    <EnWrapDemo v-if="english" />
+    <WrapDemo v-else />
+  </section>
 </template>

@@ -6,214 +6,38 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ### Basic usage
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const containerRef = ref<HTMLElement>()
-</script>
-
-<template>
-  <p>Scroll inside the bordered area.</p>
-  <div ref="containerRef" class="scroller">
-    <div class="scroll-content">
-      <mp-affix :target="containerRef"><mp-button status="primary">Basic usage</mp-button></mp-affix>
-    </div>
-  </div>
-</template>
-
-<style scoped>
-.scroller {
-  height: 200px;
-  overflow: auto;
-  border: 1px solid currentColor;
-}
-.scroll-content {
-  min-height: 600px;
-  padding: 16px;
-}
-</style>
+```demo
+../example/demos/basic.vue
 ```
 
 ### Top offset
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const containerRef = ref<HTMLElement>()
-</script>
-
-<template>
-  <p>Scroll inside the bordered area.</p>
-  <div ref="containerRef" class="scroller">
-    <div class="scroll-content">
-      <mp-affix :target="containerRef" :offset-top="80"
-        ><mp-button status="primary">Top offset</mp-button></mp-affix
-      >
-    </div>
-  </div>
-</template>
-
-<style scoped>
-.scroller {
-  height: 200px;
-  overflow: auto;
-  border: 1px solid currentColor;
-}
-.scroll-content {
-  min-height: 600px;
-  padding: 16px;
-}
-</style>
+```demo
+../example/demos/top.vue
 ```
 
 ### Bottom offset
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const containerRef = ref<HTMLElement>()
-</script>
-
-<template>
-  <p>Scroll inside the bordered area.</p>
-  <div ref="containerRef" class="scroller">
-    <div class="scroll-content">
-      <div style="height: 240px"></div>
-      <mp-affix :target="containerRef" :offset-bottom="20"
-        ><mp-button status="primary">Bottom offset</mp-button></mp-affix
-      >
-    </div>
-  </div>
-</template>
-
-<style scoped>
-.scroller {
-  height: 200px;
-  overflow: auto;
-  border: 1px solid currentColor;
-}
-.scroll-content {
-  min-height: 600px;
-  padding: 16px;
-}
-</style>
+```demo
+../example/demos/bottom.vue
 ```
 
 ### Scroll container
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const containerRef = ref<HTMLElement>()
-</script>
-
-<template>
-  <p>Scroll inside the bordered area.</p>
-  <div ref="containerRef" class="scroller">
-    <div class="scroll-content">
-      <div style="height: 40px"></div>
-      <mp-affix :target="containerRef" :offset-top="20"
-        ><mp-button status="primary">Scroll container</mp-button></mp-affix
-      >
-    </div>
-  </div>
-</template>
-
-<style scoped>
-.scroller {
-  height: 200px;
-  overflow: auto;
-  border: 1px solid currentColor;
-}
-.scroll-content {
-  min-height: 600px;
-  padding: 16px;
-}
-</style>
+```demo
+../example/demos/container.vue
 ```
 
 ### Change event
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const containerRef = ref<HTMLElement>()
-const fixed = ref(false)
-</script>
-
-<template>
-  <p>Scroll inside the bordered area.</p>
-  <div ref="containerRef" class="scroller">
-    <div class="scroll-content">
-      <div style="height: 40px"></div>
-      <mp-affix :target="containerRef" :offset-top="20" @change="fixed = $event"
-        ><mp-button status="primary">Change event</mp-button></mp-affix
-      >
-    </div>
-  </div>
-  <p role="status">Fixed: {{ fixed }}</p>
-</template>
-
-<style scoped>
-.scroller {
-  height: 200px;
-  overflow: auto;
-  border: 1px solid currentColor;
-}
-.scroll-content {
-  min-height: 600px;
-  padding: 16px;
-}
-</style>
+```demo
+../example/demos/fix-change.vue
 ```
 
 ### Disabled, CSS mode and manual update
 
-```html
-<script setup lang="ts">
-import { nextTick, ref } from 'vue'
-const containerRef = ref<HTMLElement>()
-const affixRef = ref<{ updatePosition: () => Promise<void> }>()
-const disabled = ref(false)
-const cssMode = ref(false)
-const spacerHeight = ref(40)
-const updates = ref(0)
-async function updateLayout() {
-  spacerHeight.value = spacerHeight.value === 40 ? 100 : 40
-  await nextTick()
-  await affixRef.value?.updatePosition()
-  updates.value++
-}
-</script>
-
-<template>
-  <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px">
-    <label><input v-model="disabled" type="checkbox" /> Disabled</label>
-    <label><input v-model="cssMode" type="checkbox" /> CSS sticky</label>
-    <mp-button @click="updateLayout">Change layout and update position</mp-button>
-  </div>
-  <p aria-live="polite">Position updates: {{ updates }}</p>
-  <div ref="containerRef" class="scroller">
-    <div class="scroll-content">
-      <div :style="{ height: `${spacerHeight}px` }"></div>
-      <mp-affix ref="affixRef" :target="containerRef" :disabled="disabled" :css-mode="cssMode" :offset-top="12" :z-index="2">
-        <mp-button status="primary">Scroll to pin</mp-button>
-      </mp-affix>
-    </div>
-  </div>
-</template>
-
-<style scoped>
-.scroller {
-  height: 200px;
-  overflow: auto;
-  border: 1px solid currentColor;
-}
-.scroll-content {
-  min-height: 600px;
-  padding: 16px;
-}
-</style>
+```demo
+../example/demos/controls.vue
 ```
 
 ## API

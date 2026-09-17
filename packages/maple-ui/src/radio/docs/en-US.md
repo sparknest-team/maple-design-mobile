@@ -6,91 +6,32 @@ Single selection among multiple options.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio v-model="value">Current value: {{ value }}</mp-radio>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Set State Value
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio
-    :value="1"
-    v-model="value"
-  >
-    Current value: {{ value }}
-  </mp-radio>
-</template>
+```demo
+../example/demos/set-state.vue
 ```
 
 ### Modify Icon And Color
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio
-    unchecked-color="var(--color-warning)" 
-    checked-color="var(--color-danger)"
-    v-model="value"
-  >
-    <template #unchecked-icon>
-      <m-icon-heart-half-full size="24px"/>
-    </template>
-    <template #checked-icon>
-      <m-icon-heart-fill size="24px"/>
-    </template>
-    <template #default>
-      Current value: {{ value }}
-    </template>
-  </mp-radio>
-</template>
+```demo
+../example/demos/set-style.vue
 ```
 
 ### Disabled
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio disabled v-model="value">Current value: {{ value }}</mp-radio>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio readonly v-model="value">Current value: {{ value }}</mp-radio>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### RadioGroup
@@ -98,84 +39,35 @@ const value = ref(false)
 In the radio group, you must set the `value` to identify the `radio`,
 The radio group bind group checked identifiers.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio-group v-model="value">
-    <mp-radio :value="0">Eat</mp-radio>
-    <mp-radio :value="1">Sleep</mp-radio>
-  </mp-radio-group>
-</template>
+```demo
+../example/demos/radio-group.vue
 ```
 
 ### Options API
 
 Setting child elements via the `options` prop.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-const options = ref([
-  { label: 'Eat', value: 0 },
-  { label: 'Sleep', value: 1 },
-  { label: 'Game', value: 2, disabled: true },
-])
-</script>
-
-<template>
-  <mp-radio-group v-model="value" :options="options" />
-  <div>Current value: {{ value }}</div>
-</template>
+```demo
+../example/demos/radio-group-options.vue
 ```
 
 ### Custom Fields
 
 Customize the format of the data in `options` through the `field-names` attribute.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-const options = ref([
-  { name: 'Eat', id: 0 },
-  { name: 'Sleep', id: 1 },
-  { name: 'Game', id: 2 },
-])
-</script>
-
-<template>
-  <mp-radio-group v-model="value" :options="options"
-      :field-names="{ label: 'name', value: 'id' }" />
-  <div>Current value: {{ value }}</div>
-</template>
+```demo
+../example/demos/custom-fields.vue
 ```
 
 ### Vertical Direction
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio-group v-model="value" direction="vertical">
-    <mp-radio :value="0">Eat</mp-radio>
-    <mp-radio :value="1">Sleep</mp-radio>
-  </mp-radio-group>
-</template>
-```
 
 > For form validation of radio and radio group, please use the [FormItem component](#/en-US/form-item).
+
+```demo
+../example/demos/vertical.vue
+```
 
 ## API
 
@@ -267,7 +159,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--radio-icon-size` | `24px` |
 | `--radio-text-color` | `#555` |
 
-## API
+### API
 
 ### Props
 

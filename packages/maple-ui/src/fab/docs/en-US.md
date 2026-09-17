@@ -10,7 +10,17 @@ The preview uses `fixed=false` and `popup-container=false`. Drag mode switches t
 
 The preview scrolls with the page instead of covering the controls or floating button. Drag mode moves the button to the selected viewport corner; switching it off returns the button to the preview.
 
+### Basic Usage
+
+```demo
+../example/demos/basic.vue
+```
+
 ### Theme Color Button
+
+```demo
+../example/demos/status.vue
+```
 
 ```html
 <script setup>
@@ -35,6 +45,10 @@ const status = ref('primary')
 
 ### Trigger Position
 
+```demo
+../example/demos/position.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -55,6 +69,10 @@ const position = ref('right-bottom')
 ```
 
 ### Trigger Method
+
+```demo
+../example/demos/trigger.vue
+```
 
 ```html
 <script setup>
@@ -88,6 +106,10 @@ const trigger = ref('click')
 
 ### Action Menu Popup Direction
 
+```demo
+../example/demos/direction.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -109,6 +131,10 @@ const direction = ref('top')
 
 ### Drag
 
+```demo
+../example/demos/drag.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -125,6 +151,10 @@ const drag = ref(false)
 
 ### Disabled
 
+```demo
+../example/demos/disabled.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -140,6 +170,10 @@ const disabled = ref(false)
 ```
 
 ### Trigger Show/Hide
+
+```demo
+../example/demos/visibility.vue
+```
 
 ```html
 <script setup>
@@ -160,6 +194,10 @@ function toggle() {
 ```
 
 ### Action Menu Expand/Collapse
+
+```demo
+../example/demos/controlled.vue
+```
 
 ```html
 <script setup>
@@ -191,7 +229,13 @@ function toggle() {
   </mp-fab>
 </template>
 
+```
+
 ### Custom Trigger
+
+```demo
+../example/demos/custom-trigger.vue
+```
 
 ```html
 <template>
@@ -232,7 +276,6 @@ function toggle() {
 }
 </style>
 ```
-
 ## API
 
 ### Props

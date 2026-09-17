@@ -16,13 +16,13 @@
   "license": "MIT",
   "author": "shuai.meng",
   "type": "module",
-  "main": "./lib/node/index.js",
-  "module": "./lib/node/index.js",
   "exports": {
     ".": "./lib/node/index.js",
     "./release": "./lib/node/release/index.js",
     "./client": "./client.js"
   },
+  "main": "./lib/node/index.js",
+  "module": "./lib/node/index.js",
   "bin": {
     "maple-cli": "./lib/node/bin.js"
   },
@@ -38,13 +38,14 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@loca/ui-build": "link:../../../design-ui/packages/ui-build",
     "@babel/core": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@inquirer/prompts": "^6.0.1",
+    "@loca/ui-build": "link:../../../design-ui/packages/ui-build",
+    "@loca/ui-doc-preview": "link:../../../design-ui/packages/ui-doc-preview",
     "@maplejs/maple-shared": "workspace:*",
-    "@maplejs/resolver": "workspace:*",
     "@maplejs/maple-vite-plugins": "workspace:*",
+    "@maplejs/resolver": "workspace:*",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vue/babel-plugin-jsx": "catalog:",

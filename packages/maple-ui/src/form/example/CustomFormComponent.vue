@@ -53,12 +53,12 @@ function handleClick() {
     font-size: 24px;
   }
 
-  &--mp-disabled {
+  &--disabled {
     color: var(--mp-color-text-disabled);
     cursor: not-allowed;
   }
 
-  &--mp-error {
+  &--error {
     color: var(--mp-color-danger);
   }
 }

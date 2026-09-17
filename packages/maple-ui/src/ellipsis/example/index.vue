@@ -1,38 +1,45 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import ExpandDemo from './demos/expand.vue'
+import LineDemo from './demos/line.vue'
+import MultipleLineDemo from './demos/multiple-line.vue'
+import TooltipDemo from './demos/tooltip.vue'
+import TwoWayBindingDemo from './demos/two-way-binding.vue'
 
 const expand = ref(false)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('line') }}</app-type>
-  <mp-ellipsis style="max-width: 50vmin">{{ t('text') }}</mp-ellipsis>
+  <section data-demo="line">
+    <app-type>{{ english ? 'Single Line Ellipsis' : '单行省略' }}</app-type>
+    <LineDemo />
+  </section>
 
-  <app-type>{{ t('multipleLine') }}</app-type>
-  <mp-ellipsis style="max-width: 50vmin" :line-clamp="3">{{ t('text') }}</mp-ellipsis>
+  <section data-demo="multiple-line">
+    <app-type>{{ english ? 'Multiple Line Ellipsis' : '多行省略' }}</app-type>
+    <MultipleLineDemo />
+  </section>
 
-  <app-type>{{ t('twoWayBinding') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-button status="primary" @click="expand = !expand">{{ t('toggle') }}</mp-button>
-    <mp-ellipsis v-model:expand="expand" style="max-width: 50vmin">{{ t('text') }}</mp-ellipsis>
-  </mp-space>
+  <section data-demo="two-way-binding">
+    <app-type>{{ english ? 'Two-way Binding' : '双向绑定' }}</app-type>
+    <TwoWayBindingDemo />
+  </section>
 
-  <app-type>{{ t('expand') }}</app-type>
-  <mp-ellipsis style="max-width: 50vmin" :line-clamp="3" expand-trigger="click" :tooltip="false">{{
-    t('text')
-  }}</mp-ellipsis>
+  <section data-demo="expand">
+    <app-type>{{ english ? 'Click On Text To Expand' : '点击文字展开' }}</app-type>
+    <ExpandDemo />
+  </section>
 
-  <app-type>{{ t('tooltip') }}</app-type>
-  <mp-ellipsis style="max-width: 50vmin" :tooltip="{ type: 'primary', autoFitPopupWidth: false }">
-    {{ t('text') }}
-
-    <template #tooltip-content>
-      <m-icon-github />
-    </template>
-  </mp-ellipsis>
+  <section data-demo="tooltip">
+    <app-type>{{ english ? 'Custom Tooltip' : '自定义 Tooltip' }}</app-type>
+    <TooltipDemo />
+  </section>
 </template>

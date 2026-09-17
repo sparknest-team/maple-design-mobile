@@ -6,16 +6,38 @@ A multiline plain-text editor for comments, feedback, and other longer content.
 
 ### Basic usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/demo-1.vue
+```
 
-  const value = ref('')
-</script>
+### Variants
 
-<template>
-  <mp-textarea v-model="value" placeholder="Enter multiline text" />
-</template>
+```demo
+../example/demos/demo-2.vue
+```
+
+### Hint
+
+```demo
+../example/demos/demo-3.vue
+```
+
+### Sizes
+
+```demo
+../example/demos/demo-4.vue
+```
+
+### Length and resize
+
+```demo
+../example/demos/demo-5.vue
+```
+
+### States
+
+```demo
+../example/demos/demo-6.vue
 ```
 
 ## API

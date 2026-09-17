@@ -1,0 +1,211 @@
+import { createSSRApp, h, nextTick, ref } from 'vue'
+import { mount } from '@vue/test-utils'
+import { describe, expect, test, vi } from 'vitest'
+import { renderToString } from 'vue/server-renderer'
+import Collapse, { CollapseItem, collapseProps } from '..'
+import { createNamespace } from '../../utils/components'
+
+const { n } = createNamespace('collapse')
+const item = createNamespace('collapse-item')
+
+function mountCollapse(props = {}, panels = [{ name: '1', title: 'One', content: 'A' }]) {
+  return mount(Collapse, {
+    props,
+    slots: {
+      default: () =>
+        panels.map((panel) =>
+          h(
+            CollapseItem,
+            {
+              name: panel.name,
+              title: panel.title,
+              disabled: panel.disabled,
+              showExpandIcon: panel.showExpandIcon,
+              destroyOnHide: panel.destroyOnHide,
+            },
+            {
+              default: () => panel.content,
+              extra: panel.extra,
+              title: panel.titleSlot,
+              'expand-icon': panel.expandIcon,
+            },
+          ),
+        ),
+    },
+  })
+}
+
+describe('Collapse same source', () => {
+  test('renders on the server without starting browser work', async () => {
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(Collapse, { defaultActiveNames: ['1'] }, () => [
+            h(CollapseItem, { name: '1', title: 'One' }, () => 'A'),
+            h(CollapseItem, { name: '2', title: 'Two' }, () => 'B'),
+          ]),
+      }),
+    )
+    expect(html).toContain(n())
+    expect(html).toContain(item.n())
+    expect(html).toContain(item.n('--active'))
+    expect(html).toContain('One')
+    expect(html).toContain('A')
+  })
+
+  test('registers the item component and default icon position', () => {
+    expect(Collapse.Item).toBe(CollapseItem)
+    expect(collapseProps.expandIconPosition.default).toBe('left')
+    expect(collapseProps.elevation).toBeUndefined()
+  })
+
+  test('supports keyboard expansion with linked aria regions', async () => {
+    const wrapper = mountCollapse()
+    const header = wrapper.get('[role="button"]')
+    const panel = wrapper.get('[role="region"]')
+    expect(header.attributes('aria-controls')).toBe(panel.attributes('id'))
+    expect(panel.attributes('aria-labelledby')).toBe(header.attributes('id'))
+    await header.trigger('keydown', { key: 'Enter' })
+    expect(header.attributes('aria-expanded')).toBe('true')
+    wrapper.unmount()
+  })
+
+  test('extra click does not toggle the panel', async () => {
+    const wrapper = mountCollapse({}, [
+      {
+        name: '1',
+        title: 'One',
+        content: 'A',
+        extra: () => h('button', { class: 'extra-btn' }, 'extra'),
+      },
+    ])
+    await wrapper.get('.extra-btn').trigger('click')
+    expect(wrapper.get('[role="button"]').attributes('aria-expanded')).toBe('false')
+    wrapper.unmount()
+  })
+
+  test('accordion keeps a single panel and emits change', async () => {
+    const activeNames = ref(['2'])
+    const onChange = vi.fn()
+    const wrapper = mount(() =>
+      h(
+        Collapse,
+        {
+          accordion: true,
+          activeNames: activeNames.value,
+          'onUpdate:activeNames': (value) => {
+            activeNames.value = value
+          },
+          onChange,
+        },
+        () => [
+          h(CollapseItem, { name: '1', title: 'One' }, () => 'A'),
+          h(CollapseItem, { name: '2', title: 'Two' }, () => 'B'),
+        ],
+      ),
+    )
+    await wrapper.findAll('[role="button"]')[0].trigger('click')
+    expect(activeNames.value).toEqual(['1'])
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0]).toEqual(['1'])
+    expect(onChange.mock.calls[0][1]).toBeInstanceOf(Event)
+    wrapper.unmount()
+  })
+
+  test('disabled panels do not toggle', async () => {
+    const activeNames = ref(['2'])
+    const wrapper = mount(() =>
+      h(
+        Collapse,
+        { activeNames: activeNames.value, 'onUpdate:activeNames': (value) => (activeNames.value = value) },
+        () => [
+          h(CollapseItem, { name: '1', title: 'One', disabled: true }, () => 'A'),
+          h(CollapseItem, { name: '2', title: 'Two' }, () => 'B'),
+        ],
+      ),
+    )
+    expect(wrapper.find('.' + item.n('--disabled')).exists()).toBe(true)
+    await wrapper.findAll('[role="button"]')[0].trigger('click')
+    expect(activeNames.value).toEqual(['2'])
+    wrapper.unmount()
+  })
+
+  test('bordered, divider and offset modifiers', async () => {
+    const wrapper = mountCollapse()
+    expect(wrapper.find('.' + n()).classes()).not.toContain(n('--borderless'))
+    expect(wrapper.find('.' + n()).classes()).not.toContain(n('--no-divider'))
+    expect(wrapper.find('.' + n()).classes()).not.toContain(n('--offset'))
+    await wrapper.setProps({ bordered: false, divider: false, offset: true })
+    expect(wrapper.find('.' + n()).classes()).toContain(n('--borderless'))
+    expect(wrapper.find('.' + n()).classes()).toContain(n('--no-divider'))
+    expect(wrapper.find('.' + n()).classes()).toContain(n('--offset'))
+    wrapper.unmount()
+  })
+
+  test('destroyOnHide removes content after collapse', async () => {
+    const wrapper = mountCollapse({ defaultActiveNames: ['1'], destroyOnHide: true }, [
+      { name: '1', title: 'One', content: 'Secret' },
+    ])
+    expect(wrapper.text()).toContain('Secret')
+    await wrapper.get('[role="button"]').trigger('click')
+    await nextTick()
+    expect(wrapper.text()).not.toContain('Secret')
+    wrapper.unmount()
+  })
+
+  test('toggleAll expands, collapses and skips disabled items', async () => {
+    const activeNames = ref(['1', '3'])
+    const wrapper = mount({
+      setup() {
+        const collapseRef = ref()
+        return () =>
+          h(
+            Collapse,
+            {
+              ref: collapseRef,
+              activeNames: activeNames.value,
+              'onUpdate:activeNames': (value) => {
+                activeNames.value = value
+              },
+            },
+            {
+              default: () => [
+                h(CollapseItem, { name: '1', title: 'One' }, () => 'A'),
+                h(CollapseItem, { name: '2', title: 'Two' }, () => 'B'),
+                h(CollapseItem, { name: '3', title: 'Three', disabled: true }, () => 'C'),
+                h(CollapseItem, { name: '4', title: 'Four', disabled: true }, () => 'D'),
+              ],
+            },
+          )
+      },
+    })
+    await nextTick()
+    const collapse = wrapper.findComponent(Collapse)
+    collapse.vm.toggleAll({ expand: 'inverse' })
+    expect(activeNames.value).toEqual(['2', '4'])
+    activeNames.value = ['1', '3']
+    await nextTick()
+    collapse.vm.toggleAll({ expand: 'inverse', skipDisabled: true })
+    expect(activeNames.value).toEqual(['2', '3'])
+    activeNames.value = ['1', '3']
+    await nextTick()
+    collapse.vm.toggleAll({ expand: true, skipDisabled: true })
+    expect(activeNames.value).toEqual(['1', '2', '3'])
+    activeNames.value = ['1', '3']
+    await nextTick()
+    collapse.vm.toggleAll({ expand: false, skipDisabled: true })
+    expect(activeNames.value).toEqual(['3'])
+    wrapper.unmount()
+  })
+
+  test('parent expand-icon slot reaches items', () => {
+    const wrapper = mount(Collapse, {
+      slots: {
+        'expand-icon': ({ active }) => (active ? 'open' : 'closed'),
+        default: () => h(CollapseItem, { name: '1', title: 'One' }, () => 'A'),
+      },
+    })
+    expect(wrapper.get('[role="button"]').text()).toContain('closed')
+    wrapper.unmount()
+  })
+})

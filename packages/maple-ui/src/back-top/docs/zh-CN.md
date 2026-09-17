@@ -8,74 +8,32 @@
 
 未设置 `target-container` 时，监听页面滚动；滚动高度达到 `visible-height` 后，右下角会出现返回顶部按钮。
 
-```html
-<script setup>
-const lists = [...Array(40).keys()]
-</script>
-
-<template>
-  <div>
-    <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-    <mp-back-top :duration="300" />
-  </div>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 指定滚动容器
 
 在局部滚动容器内使用时，通过 `target-container` 指定监听目标。设置 `:popup-container="false"` 可让按钮显示在容器内，父级需设置 `position: relative`。
 
-```html
-<template>
-  <div class="wrapper">
-    <div id="scroll-container" class="scroll-container">
-      <mp-cell v-for="list in lists" :key="list">Scroll in container {{ list }}</mp-cell>
-    </div>
-    <mp-back-top
-      target-container="#scroll-container"
-      :visible-height="120"
-      :duration="300"
-      :popup-container="false"
-      right="16"
-      bottom="16"
-    />
-  </div>
-</template>
-
-<style>
-.wrapper {
-  position: relative;
-}
-
-.scroll-container {
-  height: 320px;
-  overflow: auto;
-}
-</style>
+```demo
+../example/demos/target-container.vue
 ```
 
 ### 自定义位置
 
 通过 `right` 和 `bottom` 调整按钮位置。
 
-```html
-<div id="scroll-container" class="scroll-container">
-  <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-  <mp-back-top target-container="#scroll-container" :duration="300" right="80" bottom="80" />
-</div>
+```demo
+../example/demos/custom-position.vue
 ```
 
 ### 自定义内容
 
 通过默认插槽自定义按钮内容，并可通过 `@click` 监听点击事件。
 
-```html
-<div id="scroll-container" class="scroll-container">
-  <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-  <mp-back-top target-container="#scroll-container" :duration="300" @click="handleClick">
-    <mp-button status="primary" round>TOP</mp-button>
-  </mp-back-top>
-</div>
+```demo
+../example/demos/custom-content.vue
 ```
 
 ## API

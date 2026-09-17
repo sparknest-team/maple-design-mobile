@@ -6,61 +6,20 @@ Create an overlay layer to emphasize specific page elements.
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="open = true">Show Overlay</mp-button>
-  <mp-overlay v-model:open="open" />
-</template>
+```demo
+../example/demos/overlay-base.vue
 ```
 
 ### Overlay Content
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="open = true">Overlay Content</mp-button>
-  <mp-overlay v-model:open="open">
-    <div class="overlay-content">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-overlay>
-</template>
-
-<style>
-  .overlay-content {
-    padding: 24px;
-    width: 312px;
-    border-radius: 28px;
-  }
-</style>
+```demo
+../example/demos/overlay-content.vue
 ```
 
 ### Click Event
 
-```html
-<script setup>
-  import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="open = true">Click Overlay</mp-button>
-  <mp-overlay v-model:open="open" @click="Message.success('click')" />
-</template>
+```demo
+../example/demos/click-event.vue
 ```
 
 ## API

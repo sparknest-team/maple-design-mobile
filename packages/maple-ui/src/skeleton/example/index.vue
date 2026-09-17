@@ -1,23 +1,50 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import Animation from './Animation.vue'
-import AvatarAndCard from './AvatarAndCard.vue'
-import Basic from './Basic.vue'
-import CustomTemplate from './CustomTemplate.vue'
-import Fullscreen from './Fullscreen.vue'
-import { t, use } from './locale'
-import TitleAndRows from './TitleAndRows.vue'
+import AnimationDemo from './demos/animation.vue'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomRowsWidthDemo from './demos/custom-rows-width.vue'
+import CustomTemplateDemo from './demos/custom-template.vue'
+import DisplayCardDemo from './demos/display-card.vue'
+import FullscreenModeDemo from './demos/fullscreen-mode.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type
-  ><basic /> <app-type>{{ t('customRowsWidth') }}</app-type
-  ><title-and-rows /> <app-type>{{ t('displayCard') }}</app-type
-  ><avatar-and-card /> <app-type>{{ t('customTemplate') }}</app-type
-  ><custom-template /> <app-type>{{ t('animation') }}</app-type
-  ><animation /> <app-type>{{ t('fullscreenMode') }}</app-type
-  ><fullscreen />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
+
+  <section data-demo="custom-rows-width">
+    <app-type>{{ english ? 'Custom Rows Width' : '自定义段落宽度' }}</app-type>
+    <CustomRowsWidthDemo />
+  </section>
+
+  <section data-demo="display-card">
+    <app-type>{{ english ? 'Display Card' : '显示卡片' }}</app-type>
+    <DisplayCardDemo />
+  </section>
+
+  <section data-demo="custom-template">
+    <app-type>{{ english ? 'Custom Template' : '自定义模板' }}</app-type>
+    <CustomTemplateDemo />
+  </section>
+
+  <section data-demo="animation">
+    <app-type>{{ english ? 'Animation' : '动画' }}</app-type>
+    <AnimationDemo />
+  </section>
+
+  <section data-demo="fullscreen-mode">
+    <app-type>{{ english ? 'Fullscreen Mode' : '全屏模式' }}</app-type>
+    <FullscreenModeDemo />
+  </section>
 </template>

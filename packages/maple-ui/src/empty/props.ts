@@ -1,7 +1,11 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
+import type { PropType } from 'vue'
 import { componentSizes, type ComponentSize } from '../utils/constants'
 
 export type EmptyImageSize = ComponentSize | number | string
+
+export function isEmptyNamedSize(value: unknown): value is ComponentSize {
+  return typeof value === 'string' && componentSizes.includes(value as ComponentSize)
+}
 
 export const emptyProps = {
   description: String,

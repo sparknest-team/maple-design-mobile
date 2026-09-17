@@ -8,73 +8,46 @@
 
 通过 `from` 和 `to` 属性指定起始数值和目标数值。
 
-```html
-<template>
-  <mp-count-to :to="123456" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 精度
 
 通过 `precision` 控制数值精度
 
-```html
-<template>
-  <mp-count-to :to="123456" :precision="2" />
-</template>
+```demo
+../example/demos/precision.vue
 ```
 
 ### 自定义时长
 
 通过 `duration` 属性指定动画时长（单位为毫秒）。
 
-```html
-<template>
-  <mp-count-to :to="123456" :duration="10000" />
-</template>
+```demo
+../example/demos/custom-duration.vue
 ```
 
 ### 自定义样式
 
-```html
-<template>
-  <mp-count-to :to="123456">
-    <template #default="{ value }">
-      {{ value.toLocaleString() }}
-    </template>
-  </mp-count-to>
-</template>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ### 自定义动画曲线
 
 通过 `timing-function` 属性指定动画曲线。
 
-```html
-<template>
-  <mp-count-to :to="123456" :timing-function="(v) => 1 - Math.pow(1 - v, 3)" />
-</template>
+```demo
+../example/demos/custom-animation-curve.vue
 ```
 
 ### 手动控制
 
 调用 `start`、`pause`、`reset` 方法，手动控制动画的开始、暂停、重置。
 
-```html
-<script setup>
-import { ref } from 'vue'
-  
-const countTo = ref()
-</script>
-
-<template>
-  <mp-count-to ref="countTo" :to="123456" :auto-start="false" />
-  <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button status="primary" @click="countTo.start()">开始</mp-button>
-    <mp-button @click="countTo.pause()">暂停</mp-button>
-    <mp-button @click="countTo.reset()">重置</mp-button>
-  </mp-row>
-</template>
+```demo
+../example/demos/manual-control.vue
 ```
 
 ## API

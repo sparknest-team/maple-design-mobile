@@ -3,6 +3,7 @@ import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, test, vi } from 'vitest'
 import InfiniteScroll from '..'
+import Tabs, { TabNav, TabsNavs } from '../../tabs'
 import TabItem from '../../tabs/TabItem.vue'
 import TabsItems from '../../tabs/TabsItems.vue'
 import { delay } from '../../utils/test'
@@ -189,25 +190,33 @@ test('rebinds when target changes and removes the old listener', async () => {
 test('does not load in a hidden tab and checks when activated', async () => {
   const loadFirst = vi.fn()
   const loadSecond = vi.fn()
-  const wrapper = mount({
-    components: {
-      [InfiniteScroll.name]: InfiniteScroll,
-      [TabsItems.name]: TabsItems,
-      [TabItem.name]: TabItem,
-    },
-    data: () => ({ active: 0, first: 'idle', second: 'idle' }),
-    methods: { loadFirst, loadSecond },
-    template: `
-      <mp-tabs-items v-model:active="active">
-        <mp-tab-item>
+  const wrapper = mount(
+    {
+      components: {
+        [InfiniteScroll.name]: InfiniteScroll,
+        [TabsItems.name]: TabsItems,
+        [Tabs.name]: Tabs,
+        [TabsNavs.name]: TabsNavs,
+        [TabNav.name]: TabNav,
+        [TabItem.name]: TabItem,
+      },
+      data: () => ({ active: 0, first: 'idle', second: 'idle' }),
+      methods: { loadFirst, loadSecond },
+      template: `
+      <mp-tabs v-model:active="active">
+      <mp-tabs-navs><mp-tab-nav :key="0" title="First" /><mp-tab-nav :key="1" title="Second" /></mp-tabs-navs>
+      <mp-tabs-items>
+        <mp-tab-item :key="0">
           <mp-infinite-scroll v-model:status="first" @load="loadFirst" />
         </mp-tab-item>
-        <mp-tab-item>
+        <mp-tab-item :key="1">
           <mp-infinite-scroll v-model:status="second" @load="loadSecond" />
         </mp-tab-item>
-      </mp-tabs-items>
+      </mp-tabs-items></mp-tabs>
     `,
-  })
+    },
+    { attachTo: document.body },
+  )
 
   await delay(100)
   expect(loadFirst).toHaveBeenCalledTimes(1)
@@ -215,7 +224,9 @@ test('does not load in a hidden tab and checks when activated', async () => {
 
   await wrapper.setData({ active: 1 })
   await delay(100)
+  expect(wrapper.findAll('[role="tabpanel"]')[1].attributes('hidden')).toBeUndefined()
   expect(loadSecond).toHaveBeenCalledTimes(1)
+  wrapper.unmount()
 })
 
 test('rechecks after PullRefresh-style disabling ends', async () => {

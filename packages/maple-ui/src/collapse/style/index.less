@@ -1,27 +1,133 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './collapse-item';
+@import './token.less';
 
 .mp-collapse {
-  position: relative;
-  width: 100%;
-  z-index: 0;
-  border: var(--mp-collapse-border-width) solid var(--mp-collapse-border-color);
-  border-radius: var(--mp-collapse-border-radius);
+  overflow: hidden;
+  line-height: var(~'--mp-collapse-line-height');
+  border: var(~'--mp-collapse-border-width') solid var(~'--mp-collapse-border-color');
+  border-radius: var(~'--mp-collapse-border-radius');
+
   &--borderless {
     border: none;
   }
+
   &--no-divider {
-    > .mp-collapse-item:not(:first-child)::after {
-      border-top: none;
+    > .mp-collapse-item {
+      border-bottom: none;
     }
   }
+
   &--offset {
     > .mp-collapse-item--active + .mp-collapse-item,
     > .mp-collapse-item--active:not(:first-child) {
-      margin-top: var(--mp-collapse-item-margin-top);
-      &::after {
-        border-top: none;
-      }
+      margin-top: var(~'--mp-collapse-item-margin-top');
     }
   }
+}
+
+.mp-collapse-item {
+  box-sizing: border-box;
+  border-bottom: var(~'--mp-collapse-item-border-width') solid var(~'--mp-collapse-item-border-color');
+  background: var(~'--mp-collapse-title-bg');
+  color: var(~'--mp-collapse-title-text-color');
+  transition: margin-top var(~'--mp-collapse-motion-duration');
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  &--active {
+    > .mp-collapse-item__header {
+      background-color: var(~'--mp-collapse-title-bg-active');
+      font-weight: var(~'--mp-collapse-title-font-weight-active');
+    }
+
+    .mp-collapse-item__expand-icon {
+      transform: var(~'--mp-collapse-expand-icon-active-transform');
+    }
+
+    .mp-collapse-item__header--icon-right .mp-collapse-item__expand-icon {
+      transform: var(~'--mp-collapse-expand-icon-right-active-transform');
+    }
+  }
+
+  &--disabled {
+    color: var(~'--mp-collapse-title-text-color-disabled');
+    cursor: not-allowed;
+
+    > .mp-collapse-item__header {
+      color: var(~'--mp-collapse-title-text-color-disabled');
+      background-color: var(~'--mp-collapse-title-bg-disabled');
+      cursor: not-allowed;
+    }
+  }
+
+  &__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(~'--mp-collapse-expand-icon-spacing-text');
+    box-sizing: border-box;
+    padding: var(~'--mp-collapse-title-padding-vertical') var(~'--mp-collapse-title-padding-horizontal');
+    overflow: hidden;
+    color: var(~'--mp-collapse-title-text-color');
+    font-size: var(~'--mp-collapse-title-font-size');
+    line-height: var(~'--mp-collapse-title-line-height');
+    background-color: var(~'--mp-collapse-title-bg');
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-extra {
+      flex-shrink: 0;
+    }
+  }
+
+  &__expand-icon-wrap {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  &__expand-icon {
+    display: block;
+    color: var(~'--mp-collapse-expand-icon');
+    font-size: var(~'--mp-collapse-expand-icon-size');
+    transform: var(~'--mp-collapse-expand-icon-transform');
+    transition: transform var(~'--mp-collapse-motion-duration') var(~'--mp-collapse-motion-easing');
+  }
+
+  &__header--icon-right &__expand-icon {
+    transform: var(~'--mp-collapse-expand-icon-right-transform');
+  }
+
+  &__content {
+    overflow: hidden;
+    color: var(~'--mp-collapse-content-text-color');
+    font-size: var(~'--mp-collapse-content-font-size');
+    background-color: var(~'--mp-collapse-content-bg');
+  }
+
+  &__content-box {
+    padding: var(~'--mp-collapse-content-padding-vertical') var(~'--mp-collapse-title-padding-horizontal');
+    word-break: break-all;
+  }
+
+  &--disabled &__content {
+    color: var(~'--mp-collapse-content-text-color-disabled');
+  }
+}
+
+.collapse-slider-enter-from,
+.collapse-slider-leave-to {
+  height: 0;
+}
+
+.collapse-slider-enter-active,
+.collapse-slider-leave-active {
+  transition: height var(~'--mp-collapse-motion-duration') var(~'--mp-collapse-motion-easing');
 }

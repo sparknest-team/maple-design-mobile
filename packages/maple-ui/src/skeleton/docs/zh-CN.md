@@ -6,138 +6,38 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton :loading="loading">加载的数据</mp-skeleton>
-</template>
-```
-
-### 显示标题
-
-```html
-<script setup>
-import { ref } from 'vue'
-  
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton title :loading="loading">加载的数据</mp-skeleton>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 自定义段落宽度
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton
-    title
-    :rows="3"
-    :loading="loading"
-    :rows-width="['200px', '100px', '50px']"
-  >
-    加载的数据
-  </mp-skeleton>
-</template>
-```
-
-### 显示头像
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton
-    title
-    avatar
-    :rows="3"
-    :loading="loading"
-  >
-    加载的数据
-  </mp-skeleton>
-</template>
+```demo
+../example/demos/custom-rows-width.vue
 ```
 
 ### 显示卡片
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton
-    title
-    avatar
-    card
-    :rows="3"
-    :loading="loading"
-  >
-    加载的数据
-  </mp-skeleton>
-</template>
+```demo
+../example/demos/display-card.vue
 ```
 
 ### 自定义模板
 
-使用 `template` 插槽组合线条和图形骨架。
+```demo
+../example/demos/custom-template.vue
+```
 
-```html
-<template>
-  <mp-skeleton :loading="loading">
-    <template #template>
-      <mp-space block direction="column" size="lg">
-        <mp-skeleton-line
-          :rows="3"
-          :widths="['100%', '100%', '60%']"
-        />
-        <mp-skeleton-shape shape="circle" />
-      </mp-space>
-    </template>
-    加载的数据
-  </mp-skeleton>
-</template>
+### 动画
+
+```demo
+../example/demos/animation.vue
 ```
 
 ### 全屏模式
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(false)
-
-function fullscreen() {
-  loading.value = true
-
-  setTimeout(() => {
-    loading.value = false
-  }, 2000)
-}
-</script>
-
-<template>
-  <mp-button status="danger" @click="fullscreen">切换全屏模式</mp-button>
-  <mp-skeleton fullscreen :loading="loading" />
-</template>
+```demo
+../example/demos/fullscreen-mode.vue
 ```
 
 ## API

@@ -6,67 +6,48 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-breadcrumb>
-    <mp-breadcrumb-item>首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item>一级</mp-breadcrumb-item>
-    <mp-breadcrumb-item>二级</mp-breadcrumb-item>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
-### 分隔符
+### 自定义图标
+
+```demo
+../example/demos/custom-icon.vue
+```
+
+### 父级分隔符
 
 通过父级 `separator` 或子项 `separator` 自定义分隔符；也可使用父级 / 子项的 `#separator` 插槽。子项优先级更高。
 
-```html
-<template>
-  <mp-breadcrumb separator="\">
-    <mp-breadcrumb-item>首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item>二级</mp-breadcrumb-item>
-    <mp-breadcrumb-item>三级</mp-breadcrumb-item>
-  </mp-breadcrumb>
+```demo
+../example/demos/separator.vue
+```
 
-  <mp-breadcrumb>
-    <mp-breadcrumb-item>首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item separator="~">一级</mp-breadcrumb-item>
-    <mp-breadcrumb-item>二级</mp-breadcrumb-item>
-  </mp-breadcrumb>
+### 子项分隔符
 
-  <mp-breadcrumb>
-    <template #separator>
-      <m-icon-menu-right style="margin: 1px 4px 0" />
-    </template>
-    <mp-breadcrumb-item>首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item>一级</mp-breadcrumb-item>
-    <mp-breadcrumb-item>二级</mp-breadcrumb-item>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/child-separator.vue
+```
+
+### 分隔符插槽
+
+```demo
+../example/demos/separator-slot.vue
 ```
 
 ### 参数化配置
 
 通过 `routes` 传递面包屑数据。默认将每一项的 `path` 作为 `a` 标签的 `href`；可用 `#item-render` 自定义渲染。
 
-```html
-<script setup>
-const routes = [
-  { path: '/', label: '首页' },
-  { path: '/channel', label: '频道' },
-  { path: '/news', label: '资讯' },
-]
-</script>
+```demo
+../example/demos/routes-mode.vue
+```
 
-<template>
-  <mp-breadcrumb :routes="routes" />
+### 下拉菜单
 
-  <mp-breadcrumb :routes="routes">
-    <template #item-render="{ route, paths }">
-      <a :href="'#/' + paths.join('/')">{{ route.label }}</a>
-    </template>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/dropdown.vue
 ```
 
 ### 显示省略
@@ -75,54 +56,16 @@ const routes = [
 
 Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 `trigger="click"`。
 
-```html
-<script setup>
-const maxRoutes = [
-  { path: '/', label: '首页' },
-  { path: '/sub-home', label: '二级首页' },
-  { path: '/all-channel', label: '全部频道' },
-  { path: '/channel', label: '频道' },
-  { path: '/news', label: '资讯' },
-  { path: '/post', label: '详情' },
-]
-</script>
-
-<template>
-  <mp-breadcrumb :max-count="3">
-    <mp-breadcrumb-item>首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item>二级首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item>全部频道</mp-breadcrumb-item>
-    <mp-breadcrumb-item>频道</mp-breadcrumb-item>
-    <mp-breadcrumb-item>资讯</mp-breadcrumb-item>
-    <mp-breadcrumb-item>详情</mp-breadcrumb-item>
-  </mp-breadcrumb>
-
-  <mp-breadcrumb :routes="maxRoutes" :max-count="3">
-    <template #more-icon="{ omittedItems }">
-      <mp-tooltip :content="omittedItems.map((item) => item.label).join(' / ')">
-        <m-icon-more />
-      </mp-tooltip>
-    </template>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/max-count.vue
 ```
 
 ### 链接与点击
 
 子项可通过 `href` 渲染为链接；`@click` 不会在省略项触发。
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-breadcrumb>
-    <mp-breadcrumb-item href="#/home" @click="Message('首页')">首页</mp-breadcrumb-item>
-    <mp-breadcrumb-item href="#/list" @click="Message('列表')">列表</mp-breadcrumb-item>
-    <mp-breadcrumb-item>详情</mp-breadcrumb-item>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/click-event.vue
 ```
 
 ## API
@@ -197,11 +140,11 @@ interface BreadcrumbRoute {
 | `--mp-breadcrumb-item-separator-margin` | `0 10px` |
 | `--mp-breadcrumb-item-separator-font-size` | `14px` |
 
-# BreadcrumbItem 文档
+## BreadcrumbItem
 
 见 [Breadcrumb 面包屑](#/zh-CN/breadcrumb)。
 
-## API
+### API
 
 ### 属性
 

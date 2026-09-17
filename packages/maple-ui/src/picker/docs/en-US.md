@@ -4,6 +4,55 @@
 
 Two calling methods, function and component, are provided. It also supports cascade mode and can handle multi-level linkage.
 
+
+
+### function call
+
+```demo
+../example/demos/function-call.vue
+```
+
+### single picker
+
+```demo
+../example/demos/single-picker.vue
+```
+
+### multiple picker
+
+```demo
+../example/demos/multiple-picker.vue
+```
+
+### cascade picker
+
+```demo
+../example/demos/cascade-picker.vue
+```
+
+### area picker
+
+```demo
+../example/demos/area-picker.vue
+```
+
+### columns count
+
+```demo
+../example/demos/columns-count.vue
+```
+
+### value mapping
+
+```demo
+../example/demos/value-mapping.vue
+```
+
+### two way binding
+
+```demo
+../example/demos/two-way-binding.vue
+```
 ## Function call
 
 ### Single Column Picker

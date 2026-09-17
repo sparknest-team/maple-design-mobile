@@ -1,42 +1,45 @@
 <script setup lang="ts">
-import { AppType, createDemoMessages, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { computed, ref } from 'vue'
+import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import DemoBasic from './demos/basic.vue'
 import DemoBottom from './demos/bottom.vue'
 import DemoContainer from './demos/container.vue'
 import DemoControls from './demos/controls.vue'
 import DemoFixChange from './demos/fix-change.vue'
 import DemoTop from './demos/top.vue'
-import messages from './messages.json'
 
-const { t, use } = createDemoMessages(messages)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
   <section data-demo="basic">
-    <app-type>{{ t('basic') }}</app-type
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type
     ><DemoBasic />
   </section>
   <section data-demo="top">
-    <app-type>{{ t('top') }}</app-type
+    <app-type>{{ english ? 'Top offset' : '顶部偏移' }}</app-type
     ><DemoTop />
   </section>
   <section data-demo="bottom">
-    <app-type>{{ t('bottom') }}</app-type
+    <app-type>{{ english ? 'Bottom offset' : '底部偏移' }}</app-type
     ><DemoBottom />
   </section>
   <section data-demo="container">
-    <app-type>{{ t('container') }}</app-type
+    <app-type>{{ english ? 'Scroll container' : '指定滚动容器' }}</app-type
     ><DemoContainer />
   </section>
   <section data-demo="fix-change">
-    <app-type>{{ t('fix-change') }}</app-type
+    <app-type>{{ english ? 'Change event' : '吸附状态变化' }}</app-type
     ><DemoFixChange />
   </section>
   <section data-demo="controls">
-    <app-type>{{ t('controls') }}</app-type>
+    <app-type>{{ english ? 'Disabled, CSS mode and manual update' : '禁用、CSS 模式与手动更新' }}</app-type>
     <DemoControls />
   </section>
 </template>

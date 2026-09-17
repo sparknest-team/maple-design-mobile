@@ -6,109 +6,46 @@
 
 ### 基础用法
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-
-  function handleSearch(keyword) {
-    console.log(keyword)
-  }
-</script>
-
-<template>
-  <mp-search
-    v-model="value"
-    label="地址"
-    placeholder="请输入搜索关键词"
-    show-action
-    action-type="search"
-    action-text="搜索"
-    @search="handleSearch"
-  />
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
-如果不希望使用全屏弹窗，可以设置 `history-popup="false"`，搜索历史会通过与输入框同宽的 Menu 展示。
+### 取消按钮
 
-```html
-<mp-search v-model="value" :recent-searches="recentSearches" :history-popup="false" @search="handleSearch" />
+```demo
+../example/demos/action.vue
 ```
 
-### 显示取消按钮
+### 搜索按钮
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-</script>
-
-<template>
-  <mp-search v-model="value" placeholder="搜索" show-action action-text="取消" />
-</template>
-```
-
-### 带下拉字段选择
-
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const model = reactive({})
-  const searchField = ref('address')
-  const searchText = ref('')
-  const fields = [
-    { label: '地址', value: 'address', placeholder: '请输入地址' },
-    { label: '姓名', value: 'name', placeholder: '请输入姓名' },
-  ]
-
-  function handleSearch(result) {
-    console.log(result)
-  }
-</script>
-
-<template>
-  <mp-search
-    v-model:model-field="searchField"
-    v-model="searchText"
-    v-model:model="model"
-    :fields="fields"
-    show-action
-    action-type="search"
-    action-text="搜索"
-    @search="handleSearch"
-  />
-</template>
+```demo
+../example/demos/search-button.vue
 ```
 
 ### 搜索历史
 
-点击输入框时会通过 Popup 打开全屏搜索面板，面板下方展示完整历史列表。组件不会内置持久化，业务侧可以在 `search` 事件中接收 `result.recentSearches` 并自行保存。
+组件不会内置持久化；业务侧可在 `search` 事件中接收并保存 `result.recentSearches`。
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/history.vue
+```
 
-  const value = ref('')
-  const recentSearches = ref(['Maple', 'Cedar', 'InputNumber'])
+### 带下拉字段选择
 
-  function handleSearch(result) {
-    recentSearches.value = result.recentSearches
-  }
-</script>
+```demo
+../example/demos/fields.vue
+```
 
-<template>
-  <mp-search
-    v-model="value"
-    :recent-searches="recentSearches"
-    show-action
-    action-type="search"
-    action-text="搜索"
-    @search="handleSearch"
-  />
-</template>
+### 搜索框形状
+
+```demo
+../example/demos/shape.vue
+```
+
+### 状态
+
+```demo
+../example/demos/state.vue
 ```
 
 ## API

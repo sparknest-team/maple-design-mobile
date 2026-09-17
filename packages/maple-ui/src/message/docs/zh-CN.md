@@ -6,6 +6,25 @@
 
 与 Cedar 共享的函数式能力：基本使用、消息类型、自定义图标、位置、显示时长、可关闭、更新内容、Loading 常驻、多实例。下方「组件调用」与 Mobile 扩展仅为 Maple。
 
+
+
+### function call
+
+```demo
+../example/demos/function-call.vue
+```
+
+### type
+
+```demo
+../example/demos/type.vue
+```
+
+### component call
+
+```demo
+../example/demos/component-call.vue
+```
 ## 函数调用
 
 ### 基本使用

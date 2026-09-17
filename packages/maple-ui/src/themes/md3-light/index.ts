@@ -56,7 +56,6 @@ import slider from './slider'
 import space from './space'
 import statistic from './statistic'
 import switchThemes from './switch'
-import tab from './tab'
 import tabBar from './tab-bar'
 import tabBarItem from './tab-bar-item'
 import table from './table'
@@ -111,7 +110,6 @@ export default {
   ...cascader,
   ...tooltip,
   ...tabs,
-  ...tab,
   ...table,
   ...tag,
   ...textarea,

@@ -1,72 +1,62 @@
 <script setup>
-import { reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
-import { t, use } from './locale'
-
-const scores = reactive({
-  score: 3,
-  score1: 3,
-  score3: 3,
-  score4: 3,
-  score6: 3.5,
-  score7: 3,
-  score8: 3,
-  score10: 3,
-  score12: 3.5,
-})
-
-function handleChange(score) {
-  Message({
-    content: `click ${score}`,
-    position: 'top',
-  })
-}
+import BasicUsageDemo from './demos/basic-usage.vue'
+import ClearableDemo from './demos/clearable.vue'
+import CustomRatingIconSizeAndGapDemo from './demos/custom-rating-icon-size-and-gap.vue'
+import CustomRatingIconStyleDemo from './demos/custom-rating-icon-style.vue'
+import CustomTotalRatingDemo from './demos/custom-total-rating.vue'
+import DisabledAndReadonlyDemo from './demos/disabled-and-readonly.vue'
+import HalfStarDemo from './demos/half-star.vue'
+import ListenEventDemo from './demos/listen-event.vue'
 
 onThemeChange()
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-rate v-model="scores.score" />
-  <mp-rate v-model="scores.score" icon="thumb-up-fill" empty-icon="thumb-up" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('customTotalRating') }}</app-type>
-  <mp-rate v-model="scores.score1" :count="8" />
+  <section data-demo="custom-total-rating">
+    <app-type>{{ english ? 'Customize Total Rating' : '自定义评分总数' }}</app-type>
+    <CustomTotalRatingDemo />
+  </section>
 
-  <app-type>{{ t('customRatingIconStyle') }}</app-type>
-  <mp-rate
-    v-model="scores.score3"
-    icon="heart-fill"
-    empty-icon="heart"
-    color="var(--mp-color-danger)"
-    empty-color="var(--mp-color-danger)"
-  />
+  <section data-demo="custom-rating-icon-style">
+    <app-type>{{ english ? 'Customize Rating Icon Style' : '自定义评分图标样式' }}</app-type>
+    <CustomRatingIconStyleDemo />
+  </section>
 
-  <app-type>{{ t('customRatingIconSizeAndGap') }}</app-type>
-  <mp-rate v-model="scores.score4" size="8vmin" gap="1vmin" />
+  <section data-demo="custom-rating-icon-size-and-gap">
+    <app-type>{{ english ? 'Customize Rating Icon Size And Gap' : '自定义评分图标尺寸与间隔' }}</app-type>
+    <CustomRatingIconSizeAndGapDemo />
+  </section>
 
-  <app-type>{{ t('halfStar') }}</app-type>
-  <mp-rate v-model="scores.score6" :count="8" allow-half />
-  <mp-rate
-    v-model="scores.score6"
-    :count="8"
-    icon="heart-fill"
-    half-icon="heart-half-full"
-    empty-icon="heart"
-    color="var(--mp-color-danger)"
-    allow-half
-    style="margin-top: 4px"
-  />
+  <section data-demo="half-star">
+    <app-type>{{ english ? 'Allow Half Rating' : '使用半星' }}</app-type>
+    <HalfStarDemo />
+  </section>
 
-  <app-type>{{ t('disabledAndReadonly') }}</app-type>
-  <mp-rate v-model="scores.score7" disabled />
-  <mp-rate v-model="scores.score8" readonly />
+  <section data-demo="disabled-and-readonly">
+    <app-type>{{ english ? 'Disabled And Readonly' : '禁用与只读' }}</app-type>
+    <DisabledAndReadonlyDemo />
+  </section>
 
-  <app-type>{{ t('clearable') }}</app-type>
-  <mp-rate v-model="scores.score12" clearable allow-half />
+  <section data-demo="clearable">
+    <app-type>{{ english ? 'Can Be Cleared' : '可清空' }}</app-type>
+    <ClearableDemo />
+  </section>
 
-  <app-type>{{ t('listenEvent') }}</app-type>
-  <mp-rate v-model="scores.score10" @change="handleChange" />
+  <section data-demo="listen-event">
+    <app-type>{{ english ? 'Listen Event' : '监听事件' }}</app-type>
+    <ListenEventDemo />
+  </section>
 </template>

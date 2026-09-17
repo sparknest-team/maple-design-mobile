@@ -12,80 +12,32 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 
 ### 列数、跨列与偏移
 
-```html
-<template><div>
-  <mp-grid :cols="4" :col-gap="12" :row-gap="12"><mp-grid-item v-for="i in 8" :key="i" class="cell">{{ i }}</mp-grid-item></mp-grid>
-  <mp-grid :cols="4" :col-gap="12" :row-gap="12"><mp-grid-item :span="2" class="cell">span 2</mp-grid-item><mp-grid-item :offset="1" class="cell soft">offset 1</mp-grid-item><mp-grid-item :span="4" class="cell">span 4</mp-grid-item></mp-grid>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/basic.vue
 ```
 
 ### 折叠行数与后缀插槽
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const collapsed = ref(true)
-const rows = ref(1)
-</script>
-<template><div>
-  <div class="controls"><mp-switch v-model="collapsed" aria-label="Collapsed" />Collapsed<mp-radio-group v-model="rows"><mp-radio :value="1">1 row</mp-radio><mp-radio :value="2">2 rows</mp-radio></mp-radio-group></div>
-  <mp-grid :cols="4" :col-gap="12" :row-gap="12" :collapsed="collapsed" :collapsed-rows="rows">
-    <mp-grid-item v-for="i in 9" :key="i" class="cell">{{ i }}</mp-grid-item>
-    <mp-grid-item suffix v-slot="{ overflow }"><mp-button block variant="outline" @click="collapsed = !collapsed">{{ overflow ? 'More' : 'Less' }}</mp-button></mp-grid-item>
-  </mp-grid>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/collapse.vue
 ```
 
 ### 响应式列数、间距与跨列
 
-```html
-<template><div>
-  <p>xs: 1 column · sm: 2 columns · md: 4 columns</p>
-  <mp-grid :cols="{ xs: 1, sm: 2, md: 4 }" :col-gap="{ xs: 8, md: 16 }" :row-gap="{ xs: 8, md: 16 }">
-    <mp-grid-item :span="{ xs: 1, md: 2 }" class="cell">Responsive span</mp-grid-item><mp-grid-item v-for="i in 6" :key="i" class="cell soft">{{ i }}</mp-grid-item>
-  </mp-grid>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/responsive.vue
 ```
 
 ### 动态插入、删除与排序
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const items = ref([1, 2, 3, 4, 5])
-let next = 6
-</script>
-<template><div>
-  <div class="controls"><mp-button @click="items.unshift(next++)">Insert first</mp-button><mp-button :disabled="!items.length" @click="items.shift()">Remove first</mp-button><mp-button @click="items.reverse()">Reverse</mp-button></div>
-  <mp-grid :cols="3" :col-gap="12" :row-gap="12" collapsed><mp-grid-item v-for="i in items" :key="i" class="cell">{{ i }}</mp-grid-item><mp-grid-item suffix v-slot="{ overflow }" class="cell soft">{{ overflow ? '…' : 'End' }}</mp-grid-item></mp-grid>
-</div></template>
 
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
-```
 
 <!-- same-source-api:start -->
+
+```demo
+../example/demos/dynamic.vue
+```
+
 ### Props
 
 | 属性 | 说明 | Type | Default |

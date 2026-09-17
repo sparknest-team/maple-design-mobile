@@ -1,61 +1,56 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import ColorDemo from './demos/color.vue'
+import CustomDemo from './demos/custom.vue'
+import SizeDemo from './demos/size.vue'
+import TypeDemo from './demos/type.vue'
+import VerticalDemo from './demos/vertical.vue'
+import WithDescDemo from './demos/with-desc.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-divider />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('type') }}</app-type>
-  <mp-divider />
-  <mp-divider type="dashed" />
-  <mp-divider type="dotted" />
-  <mp-divider type="double" :thickness="3" />
+  <section data-demo="type">
+    <app-type>{{ english ? 'Type' : '线型' }}</app-type>
+    <TypeDemo />
+  </section>
 
-  <app-type>{{ t('size') }}</app-type>
-  <mp-divider size-x="md" />
-  <mp-divider :size-x="36" size-y="lg" />
-  <mp-divider :size-x="[24, 0]" />
+  <section data-demo="size">
+    <app-type>{{ english ? 'Size & Inset' : '间距与缩进' }}</app-type>
+    <SizeDemo />
+  </section>
 
-  <app-type>{{ t('vertical') }}</app-type>
-  <div class="divider-example-vertical-container">
-    <span>{{ t('text') }}</span>
-    <mp-divider orientation="vertical" />
-    <span>{{ t('text') }}</span>
-    <mp-divider orientation="vertical" type="dashed" />
-    <span>{{ t('text') }}</span>
-  </div>
+  <section data-demo="vertical">
+    <app-type>{{ english ? 'Vertical' : '垂直分割线' }}</app-type>
+    <VerticalDemo />
+  </section>
 
-  <app-type>{{ t('withDesc') }}</app-type>
-  <mp-divider :description="t('withDescText')" />
-  <mp-divider :description="t('alignStart')" text-align="start" />
-  <mp-divider :description="t('alignEnd')" text-align="end" />
+  <section data-demo="with-desc">
+    <app-type>{{ english ? 'With Text' : '带文字' }}</app-type>
+    <WithDescDemo />
+  </section>
 
-  <app-type>{{ t('custom') }}</app-type>
-  <mp-divider type="dashed">
-    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
-  </mp-divider>
+  <section data-demo="custom">
+    <app-type>{{ english ? 'Custom Content' : '自定义内容' }}</app-type>
+    <CustomDemo />
+  </section>
 
-  <app-type>{{ t('color') }}</app-type>
-  <mp-divider color="var(--mp-color-primary)" />
-  <mp-divider :thickness="3" color="#6750A4" :opacity="0.5" />
-  <mp-divider hairline />
+  <section data-demo="color">
+    <app-type>{{ english ? 'Color, Thickness & Opacity' : '颜色、线宽与透明度' }}</app-type>
+    <ColorDemo />
+  </section>
 </template>
-
-<style lang="less" scoped>
-.divider-example-vertical-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-
-  span {
-    font-size: 14px;
-    color: #888;
-  }
-}
-</style>

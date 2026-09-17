@@ -1,59 +1,62 @@
 <script setup>
-import { reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import DisabledDemo from './demos/disabled.vue'
+import LazyChangeDemo from './demos/lazy-change.vue'
+import RangeDemo from './demos/range.vue'
+import ReadonlyDemo from './demos/readonly.vue'
+import SizeDemo from './demos/size.vue'
+import StepDemo from './demos/step.vue'
+import ToFixedDemo from './demos/to-fixed.vue'
 
-const values = reactive({
-  value: 0,
-  value2: 0,
-  value3: 0,
-  value4: 0,
-  value5: 0,
-  value6: 0,
-  value7: 0,
-  value8: 0,
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
 })
-
-watchLang(use)
 onThemeChange()
-
-function handleBeforeChange(value, change) {
-  setTimeout(() => {
-    change(value)
-  }, 500)
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-counter v-model="values.value" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('range') }}</app-type>
-  <mp-counter v-model="values.value2" :min="0" :max="5" />
+  <section data-demo="range">
+    <app-type>{{ english ? 'Set Value Range' : '设置取值范围' }}</app-type>
+    <RangeDemo />
+  </section>
 
-  <app-type>{{ t('step') }}</app-type>
-  <mp-counter v-model="values.value3" :step="10" />
+  <section data-demo="step">
+    <app-type>{{ english ? 'Set Step' : '设置步长' }}</app-type>
+    <StepDemo />
+  </section>
 
-  <app-type>{{ t('toFixed') }}</app-type>
-  <mp-counter v-model="values.value4" :decimal-length="1" />
+  <section data-demo="to-fixed">
+    <app-type>{{ english ? 'Decimal Length' : '保留小数' }}</app-type>
+    <ToFixedDemo />
+  </section>
 
-  <app-type>{{ t('size') }}</app-type>
-  <mp-counter v-model="values.value5" input-text-size="18px" input-width="50px" button-size="36px" />
+  <section data-demo="size">
+    <app-type>{{ english ? 'Set Size' : '设置尺寸' }}</app-type>
+    <SizeDemo />
+  </section>
 
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-counter v-model="values.value6" disabled />
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
+  </section>
 
-  <app-type>{{ t('readonly') }}</app-type>
-  <mp-counter v-model="values.value7" readonly />
+  <section data-demo="readonly">
+    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
+    <ReadonlyDemo />
+  </section>
 
-  <app-type>{{ t('lazyChange') }}</app-type>
-  <mp-counter v-model="values.value8" lazy-change :before-change="handleBeforeChange" />
-
-  <div class="space"></div>
+  <section data-demo="lazy-change">
+    <app-type>{{ english ? 'Asynchronous Change' : '异步变更' }}</app-type>
+    <LazyChangeDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.space {
-  height: 40px;
-}
-</style>

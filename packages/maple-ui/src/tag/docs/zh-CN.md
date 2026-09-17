@@ -8,142 +8,72 @@
 
 通过 `status` 设置主题色，可选值与 Button 一致：`default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger`。
 
-```html
-<template>
-  <mp-space>
-    <mp-tag>默认</mp-tag>
-    <mp-tag status="primary">主要</mp-tag>
-    <mp-tag status="info">信息</mp-tag>
-    <mp-tag status="success">成功</mp-tag>
-    <mp-tag status="warning">警告</mp-tag>
-    <mp-tag status="danger">危险</mp-tag>
-    <mp-tag status="secondary">次要</mp-tag>
-    <mp-tag status="tertiary">对比</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/theme-color-tag.vue
 ```
 
 ### 描边标签
 
 通过 `variant="outline"` 切换为描边风格。
 
-```html
-<template>
-  <mp-space>
-    <mp-tag variant="outline">默认</mp-tag>
-    <mp-tag variant="outline" status="primary">主要</mp-tag>
-    <mp-tag variant="outline" status="success">成功</mp-tag>
-    <mp-tag variant="outline" status="danger">危险</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/outline-tag.vue
 ```
 
 ### 圆角标签
 
 通过 `round` 开启胶囊圆角。
 
-```html
-<template>
-  <mp-space>
-    <mp-tag round status="primary">圆角</mp-tag>
-    <mp-tag round variant="outline" status="success">描边圆角</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/round-tag.vue
 ```
 
 ### 标签尺寸
 
 通过 `size` 设置尺寸，可选值 `xs` `sm` `md` `lg` `xl`。
 
-```html
-<template>
-  <mp-space align="center">
-    <mp-tag size="xs" status="primary">xs</mp-tag>
-    <mp-tag size="sm" status="primary">sm</mp-tag>
-    <mp-tag size="md" status="primary">md</mp-tag>
-    <mp-tag size="lg" status="primary">lg</mp-tag>
-    <mp-tag size="xl" status="primary">xl</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/tag-size.vue
 ```
 
 ### 可关闭标签
 
 通过 `closable` 显示关闭按钮，配合 `v-model:show` 或自行维护列表。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const show = ref(true)
-const tags = ref(['标签 1', '标签 2', '标签 3'])
-
-function removeTag(tag) {
-  tags.value = tags.value.filter((item) => item !== tag)
-}
-</script>
-
-<template>
-  <mp-space>
-    <mp-tag v-model:show="show" closable status="primary">标签</mp-tag>
-    <mp-tag v-for="tag in tags" :key="tag" closable round @close="removeTag(tag)">
-      {{ tag }}
-    </mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/closable-tag.vue
 ```
 
 ### 加载中标签
 
 通过 `loading` 显示加载状态。
 
-```html
-<template>
-  <mp-tag loading status="primary">加载中</mp-tag>
-</template>
+```demo
+../example/demos/loading-tag.vue
 ```
 
 ### 可选中标签
 
 通过 `checkable` 使标签可点击切换选中，配合 `v-model:checked`。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const checked = ref(true)
-</script>
-
-<template>
-  <mp-tag v-model:checked="checked" checkable status="primary">可选中</mp-tag>
-</template>
+```demo
+../example/demos/checkable-tag.vue
 ```
 
 ### 带图标
 
 通过 `icon` 插槽自定义前缀，`close-icon` 自定义关闭图标。
 
-```html
-<template>
-  <mp-tag status="success">
-    <template #icon><m-icon-check /></template>
-    完成
-  </mp-tag>
-</template>
+```demo
+../example/demos/icon-tag.vue
 ```
 
 ### 自定义颜色
 
 通过 `color` 与 `text-color` 设置自定义颜色（覆盖 status）。`variant="outline"` 时 `color` 作为边框色。
 
-```html
-<template>
-  <mp-space>
-    <mp-tag color="#66bb6a" text-color="#fff">自定义</mp-tag>
-    <mp-tag variant="outline" color="#6750A4">描边自定义</mp-tag>
-    <mp-tag color="linear-gradient(to right bottom, #6750A4, #D0BCFF)" text-color="#fff">渐变</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/custom-color-tag.vue
 ```
 
 ## API

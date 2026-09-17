@@ -551,9 +551,9 @@
             {
               "name": "shape",
               "description": "Avatar shape",
-              "default": "'circle'",
+              "default": "circle",
               "value": {
-                "type": "`'circle' | 'square'`",
+                "type": "`circle / square`",
                 "kind": "expression"
               }
             },
@@ -562,7 +562,7 @@
               "description": "Image URL",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
@@ -571,7 +571,7 @@
               "description": "Image alternative text",
               "default": "''",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
@@ -580,52 +580,52 @@
               "description": "Width and height; numbers are px, strings are CSS lengths",
               "default": "-",
               "value": {
-                "type": "number / string",
+                "type": "`number / string`",
                 "kind": "expression"
               }
             },
             {
               "name": "auto-fix-font-size",
-              "description": "Automatically scales long text",
+              "description": "Scale overflow text automatically",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "trigger-type",
-              "description": "Trigger icon presentation",
-              "default": "'button'",
+              "description": "How the action icon is shown",
+              "default": "button",
               "value": {
-                "type": "`'button' | 'overlay'`",
+                "type": "`button / overlay`",
                 "kind": "expression"
               }
             },
             {
               "name": "trigger-icon-style",
-              "description": "Custom trigger icon style",
+              "description": "Custom style for the action icon",
               "default": "-",
               "value": {
-                "type": "CSSProperties",
+                "type": "`CSSProperties`",
                 "kind": "expression"
               }
             },
             {
               "name": "object-fit",
               "description": "Image fitting mode",
-              "default": "'cover'",
+              "default": "cover",
               "value": {
-                "type": "`'fill' | 'contain' | 'cover' | 'none' | 'scale-down'`",
+                "type": "`fill / contain / cover / none / scale-down`",
                 "kind": "expression"
               }
             },
             {
               "name": "color",
-              "description": "Avatar background color",
+              "description": "Background color",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
@@ -634,7 +634,7 @@
               "description": "Whether to show a border",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
@@ -643,7 +643,7 @@
               "description": "Border color",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
@@ -652,7 +652,7 @@
               "description": "Placeholder image while loading",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
@@ -661,7 +661,7 @@
               "description": "Fallback image on load failure",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
@@ -670,16 +670,16 @@
               "description": "Whether to lazy-load the image",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "hoverable",
-              "description": "Whether to enable hover scale",
+              "description": "Whether to scale on hover",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
@@ -705,11 +705,11 @@
             },
             {
               "name": "error",
-              "description": "Image error fallback"
+              "description": "Fallback when the image fails"
             },
             {
               "name": "trigger-icon",
-              "description": "Interactive icon on the avatar"
+              "description": "Action icon on the avatar"
             }
           ]
         },
@@ -2220,38 +2220,38 @@
           "name": "mp-collapse",
           "attributes": [
             {
-              "name": "active-names **(v-model)**",
-              "description": "Names of expanded panels",
-              "default": "-",
+              "name": "active-names",
+              "description": "Expanded names; v-model:active-names",
+              "default": "—",
               "value": {
-                "type": "(string | number)[]",
+                "type": "`(string | number)[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-active-names",
-              "description": "Default expanded names (uncontrolled)",
+              "description": "Uncontrolled initial expanded names",
               "default": "[]",
               "value": {
-                "type": "(string | number)[]",
+                "type": "`(string | number)[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "accordion",
-              "description": "Accordion mode",
+              "description": "Accordion mode; at most one open panel",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-expand-icon",
-              "description": "Whether to show expand icons",
-              "default": "-",
+              "description": "Show expand icons; unset defers to the item",
+              "default": "—",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
@@ -2260,34 +2260,34 @@
               "description": "Expand icon position",
               "default": "'left'",
               "value": {
-                "type": "'left' | 'right'",
+                "type": "`'left' | 'right'`",
                 "kind": "expression"
               }
             },
             {
               "name": "bordered",
-              "description": "Whether to show the border",
+              "description": "Show border",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "divider",
-              "description": "Whether to show dividers",
+              "description": "Show dividers",
               "default": "true",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "offset",
-              "description": "Whether expanded panels have a gap",
+              "description": "Gap between expanded panels",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
@@ -2296,21 +2296,16 @@
               "description": "Destroy content when hidden",
               "default": "false",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation; `true` `false` or a level from `0-24`",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
+            {
+              "name": "update:active-names",
+              "description": "Request an expanded-name update"
+            },
             {
               "name": "change",
               "description": "Emitted when expanded panels change"
@@ -2320,10 +2315,6 @@
             {
               "name": "default",
               "description": "Panel list"
-            },
-            {
-              "name": "expand-icon",
-              "description": "Expand icon"
             }
           ]
         },
@@ -9012,33 +9003,9 @@
         },
         {
           "name": "mp-style-provider",
-          "attributes": [
-            {
-              "name": "style-vars",
-              "description": "CSS variables",
-              "default": "{}",
-              "value": {
-                "type": "Record<string, string>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "tag",
-              "description": "Tag name",
-              "default": "div",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
+          "attributes": [],
           "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Component content"
-            }
-          ]
+          "slots": []
         },
         {
           "name": "mp-swipe-cell",
@@ -9503,186 +9470,9 @@
         },
         {
           "name": "mp-tabs",
-          "attributes": [
-            {
-              "name": "v-model:active",
-              "description": "The `active` tab identifier matches `name` first, followed by `index`",
-              "default": "index",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "orientation",
-              "description": "组件整体朝向",
-              "default": "horizontal",
-              "value": {
-                "type": "`horizontal | vertical`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "item-vertical",
-              "description": "The layout direction of the tab, optional value of `horizontal` `vertical`",
-              "default": "horizontal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fixed-bottom",
-              "description": "Whether fixed to the bottom of the window, can be used for bottom navigation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "The background color of the tabs",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-color",
-              "description": "The primary color that the tab is activates",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inactive-color",
-              "description": "The primary color that the tab is not activated",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled-color",
-              "description": "The primary color that the tab is disabled",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-color",
-              "description": "The tab activates the color of the indicator",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-size",
-              "description": "Tab activates the size of the indicator",
-              "default": "2px",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "false",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "sticky",
-              "description": "Whether to enable sticky layouts",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "sticky-css-mode",
-              "description": "Whether to enable sticky layouts native css sticky mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "sticky-z-index",
-              "description": "Affix layouts z-index",
-              "default": "10",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area",
-              "description": "Whether to enable bottom safe area adaptation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-top",
-              "description": "Distance offset top",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "scrollable",
-              "description": "Whether to enable scrollable, optional value of `auto` `always`",
-              "default": "auto",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-position",
-              "description": "The position of the indicator, optional value of `normal` `reverse`",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Triggered when the tab is clicked, but not when the tab `disabled` status is `true`"
-            },
-            {
-              "name": "change",
-              "description": "Triggered when switching tab"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Tabs content"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-tag",

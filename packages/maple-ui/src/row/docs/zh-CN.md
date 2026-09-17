@@ -12,96 +12,38 @@
 
 ### 24 栏基础布局
 
-```html
-<template><div>
-  <mp-row :gutter="12"><mp-col :span="12"><div class="cell">12</div></mp-col><mp-col :span="12"><div class="cell soft">12</div></mp-col></mp-row>
-  <mp-row :gutter="12"><mp-col v-for="i in 3" :key="i" :span="8"><div class="cell">8</div></mp-col></mp-row>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/basic.vue
 ```
 
 ### 双向间距与响应式间距
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const gap = ref(16)
-const vertical = ref(true)
-</script>
-<template><div>
-  <div class="controls"><mp-radio-group v-model="gap"><mp-radio v-for="value in [0, 8, 16, 24]" :key="value" :value="value">{{ value }}px</mp-radio></mp-radio-group><mp-switch v-model="vertical" aria-label="Vertical gutter" />Vertical gap</div>
-  <mp-row :gutter="[gap, vertical ? gap : 0]"><mp-col v-for="i in 6" :key="i" :span="8"><div class="cell">{{ i }}</div></mp-col></mp-row>
-  <mp-row :gutter="[{ xs: 8, md: 24 }, { xs: 8, md: 16 }]"><mp-col v-for="i in 4" :key="i" :span="12"><div class="cell soft">Responsive gap</div></mp-col></mp-row>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/gutter.vue
 ```
 
 ### 水平与垂直对齐
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const justifies = ['start', 'center', 'end', 'space-around', 'space-between'] as const
-const aligns = ['start', 'center', 'end', 'stretch'] as const
-const justify = ref<typeof justifies[number]>('space-between')
-const align = ref<typeof aligns[number]>('center')
-</script>
-<template><div>
-  <mp-radio-group v-model="justify"><mp-radio v-for="value in justifies" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group>
-  <mp-radio-group v-model="align"><mp-radio v-for="value in aligns" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group>
-  <mp-row :gutter="12" :justify="justify" :align="align"><mp-col v-for="i in 3" :key="i" :span="6"><div class="cell" :style="{ minHeight: `${36 + i * 24}px`, height: '100%' }">{{ i }}</div></mp-col></mp-row>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/alignment.vue
 ```
 
 ### 换行与普通容器模式
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const wrap = ref(true)
-const div = ref(false)
-</script>
-<template><div>
-  <div class="controls"><mp-switch v-model="wrap" aria-label="Wrap" />Wrap<mp-switch v-model="div" aria-label="Plain div" />Plain div</div>
-  <div style="overflow: auto; padding: 8px"><mp-row :gutter="12" :wrap="wrap" :div="div"><mp-col v-for="i in 3" :key="i" :span="12"><div class="cell">{{ i }}</div></mp-col></mp-row></div>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/wrap.vue
 ```
 
 ### 嵌套与间距隔离
 
-```html
-<template><div><mp-row :gutter="24"><mp-col :span="16"><mp-row :gutter="8"><mp-col :span="12"><div class="cell">Inner 12</div></mp-col><mp-col :span="12"><div class="cell soft">Inner 12</div></mp-col></mp-row></mp-col><mp-col :span="8"><div class="cell">Outer 8</div></mp-col></mp-row></div></template>
 
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
-```
 
 <!-- same-source-api:start -->
+
+```demo
+../example/demos/nested.vue
+```
+
 ### Props
 
 | 属性 | 说明 | Type | Default |

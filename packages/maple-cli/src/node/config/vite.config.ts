@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 import { resolve } from 'path'
 import { isArray } from '@maplejs/maple-shared'
 import { copy, html, inlineCss, markdown } from '@maplejs/maple-vite-plugins'
@@ -20,6 +21,8 @@ import {
   VITE_RESOLVE_EXTENSIONS,
 } from '../shared/constant.js'
 import { MapleConfig, type MapleConfigHtmlInject, type MapleConfigHtmlInjectPoint } from './maple.config.js'
+
+const uiDocPreviewEntry = createRequire(import.meta.url).resolve('@loca/ui-doc-preview')
 
 export function getHtmlInject(inject: MapleConfigHtmlInject) {
   const getContent = (injectKey: keyof MapleConfigHtmlInject, position: MapleConfigHtmlInjectPoint['position']) =>
@@ -111,6 +114,7 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
       extensions: VITE_RESOLVE_EXTENSIONS,
 
       alias: [
+        { find: '@loca/ui-doc-preview', replacement: uiDocPreviewEntry },
         ...Object.entries(resolveAlias).map(([find, replacement]) => ({ find, replacement })),
         { find: '@config', replacement: SITE_CONFIG },
         { find: '@maple-theme', replacement: resolve(SRC_DIR, 'style/theme/css-variables.less') },

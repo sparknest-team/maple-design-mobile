@@ -6,105 +6,44 @@ Form date field that opens `DatePicker` in a bottom popup. Interaction matches S
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref()
-</script>
-
-<template>
-  <mp-date v-model="date" placeholder="Please select a date" clearable />
-</template>
+```demo
+../example/demos/en-US/basic-usage.vue
 ```
 
 ### Calendar Mode
 
-Column wheels are used by default. Set `presentation="calendar"` to use the calendar panel.
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref()
-</script>
-
-<template>
-  <mp-date v-model="date" presentation="calendar" placeholder="Select a date from calendar" clearable />
-</template>
+```demo
+../example/demos/en-US/calendar-mode.vue
 ```
 
 ### Type
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const year = ref()
-  const month = ref()
-  const date = ref()
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-date v-model="year" type="year" placeholder="Select year" />
-    <mp-date v-model="month" type="month" placeholder="Select month" />
-    <mp-date v-model="date" type="date" placeholder="Select date" />
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/type.vue
 ```
 
 ### Multiple
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const multiple = ref([])
-</script>
-
-<template>
-  <mp-date v-model="multiple" multiple placeholder="Multiple dates" />
-</template>
+```demo
+../example/demos/en-US/multiple.vue
 ```
-
-For date ranges, use [`DateRange`](/en-US/date-range).
 
 ### Date Time
 
-Enable `show-time` for date+time (aligned with Cedar).
+```demo
+../example/demos/en-US/date-time.vue
+```
 
-```html
-<script setup>
-  import { ref } from 'vue'
+### Disabled
 
-  const dateTime = ref()
-</script>
-
-<template>
-  <mp-date v-model="dateTime" show-time placeholder="Please select date time" clearable />
-</template>
+```demo
+../example/demos/en-US/disabled.vue
 ```
 
 ### With FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    birthday: undefined,
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="birthday" label="Birthday" required>
-      <mp-date v-model="formData.birthday" placeholder="Please select" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/en-US/with-form-item.vue
 ```
 
 ## API
@@ -162,7 +101,7 @@ Enable `show-time` for date+time (aligned with Cedar).
 | `suffix`     | Suffix           | `-`                                  |
 | `arrow-icon` | Arrow icon       | `focus: boolean, popupOpen: boolean` |
 
-# DatePicker
+## DatePicker
 
 > 源码已并入 `date/`，安装父组件时一并注册。静态成员：`Date.Picker`。
 
@@ -172,90 +111,48 @@ Date selection **panel**. For date range panel use [`DateRangePicker`](/en-US/da
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('2021-04-08')
-</script>
-
-<template>
-  <mp-date-picker v-model="date" />
-</template>
+```demo
+../example/demos/en-US/picker-basic.vue
 ```
 
 ### Calendar Mode
 
 Single selection uses column wheels by default. Set `presentation="calendar"` to use the calendar; `multiple` and `range` automatically fall back to the calendar.
 
-```html
-<mp-date-picker v-model="date" presentation="calendar" />
+```demo
+../example/demos/en-US/picker-calendar.vue
 ```
 
 ### Month Picker
 
 Use `type` prop to change the type of the picker. The default value of `type` is `date`.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('2021-04-08')
-</script>
-
-<template>
-  <mp-date-picker type="month" v-model="date" elevation />
-</template>
+```demo
+../example/demos/en-US/picker-month.vue
 ```
 
 ### Multiple
 
 Use `multiple` prop to select multiple dates, at this time, `date` is an array.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref([])
-</script>
-
-<template>
-  <mp-date-picker v-model="date" multiple />
-</template>
+```demo
+../example/demos/en-US/picker-multiple.vue
 ```
 
 ### Range
 
 Use `range` prop to select date range, at this time, `date` is `[startDate, endDate]`.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref(['2021-04-08', '2021-04-20'])
-</script>
-
-<template>
-  <mp-date-picker type="date" v-model="date" range />
-</template>
+```demo
+../example/demos/en-US/picker-range.vue
 ```
 
 ### Date Limit
 
 Use `min` and `max` prop to allow the maximum and minimum date, and use `disabled-date` prop to disable dates that cannot be selected.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('2020-11-11')
-
-  const disabledDate = (val) => parseInt(val.split('-')[2], 10) % 2 === 0
-</script>
-
-<template>
-  <mp-date-picker v-model="date" min="2020-10-15" max="2021-01-15" :disabled-date="disabledDate" />
-</template>
+```demo
+../example/demos/en-US/picker-limit.vue
 ```
 
 ### Date Time
@@ -266,23 +163,11 @@ Enable `show-time` for date+time. `presentation` controls the UI:
 - `calendarPicker`: top for date, bottom for time; calendar + hour/minute(/second) columns
 - `picker`: full Y/M/D/H/M columns
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const clock = ref('2025-01-15 10:29')
-  const calendarPicker = ref('2025-01-15 10:29')
-  const picker = ref('2025-01-15 10:29')
-</script>
-
-<template>
-  <mp-date-picker v-model="clock" show-time presentation="calendarClock" />
-  <mp-date-picker v-model="calendarPicker" show-time presentation="calendarPicker" />
-  <mp-date-picker v-model="picker" show-time presentation="picker" />
-</template>
+```demo
+../example/demos/en-US/picker-date-time.vue
 ```
 
-## API
+### API
 
 ### Props
 

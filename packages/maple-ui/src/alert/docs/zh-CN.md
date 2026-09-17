@@ -6,156 +6,112 @@
 
 ### 标题
 
-```html
-<template>
-  <mp-alert title="傲慢与偏见" />
-</template>
+```demo
+../example/demos/title.vue
 ```
 
 ### 信息
 
-```html
-<template>
-  <mp-alert message="我也说不准是在什么时间，什么地点，看见你的什么神情，听见你的什么言语，便开始爱上了你。" />
-</template>
+```demo
+../example/demos/message.vue
 ```
 
 ### 类型
 
 `type` 可选值：`info` / `success` / `warning` / `danger` / `default`。`default` 不显示内置图标。
 
-```html
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-alert title="傲慢与偏见" message="…" />
-    <mp-alert status="success" title="…" message="…" />
-    <mp-alert status="warning" title="…" message="…" />
-    <mp-alert status="danger" title="…" message="…" />
-    <mp-alert status="default" title="…" message="…" />
-  </mp-space>
-</template>
+```demo
+../example/demos/type.vue
 ```
 
 ### 变体
 
 `variant` 可选值：`standard` / `tonal` / `outline`。
 
-```html
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-alert variant="standard" title="…" message="…" />
-    <mp-alert variant="tonal" title="…" message="…" />
-    <mp-alert variant="outline" title="…" message="…" />
-  </mp-space>
-</template>
+```demo
+../example/demos/variant.vue
 ```
 
 ### 居中
 
-```html
-<template>
-  <mp-alert message="提示信息" center />
-</template>
+```demo
+../example/demos/center.vue
 ```
 
 ### 通栏（Banner）
 
-```html
-<template>
-  <mp-alert message="提示信息" banner />
-</template>
+```demo
+../example/demos/banner.vue
 ```
 
 ### 隐藏图标
 
-```html
-<template>
-  <mp-alert title="…" message="…" :show-icon="false" />
-</template>
+```demo
+../example/demos/show-icon.vue
 ```
 
 ### 自定义图标
 
-```html
-<template>
-  <mp-alert title="…" message="…">
-    <template #icon>
-      <m-icon-heart-fill />
-    </template>
-  </mp-alert>
-</template>
+```demo
+../example/demos/custom-icon.vue
 ```
 
 ### 操作区
 
-```html
-<template>
-  <mp-alert title="…" message="…">
-    <template #action>
-      <mp-button size="xs" status="primary">详情</mp-button>
-    </template>
-  </mp-alert>
-</template>
+```demo
+../example/demos/action.vue
 ```
 
 ### 允许关闭
 
-```html
-<template>
-  <mp-alert title="…" message="…" closable @close="onClose" @closed="onClosed" />
-</template>
+```demo
+../example/demos/allow-to-close.vue
 ```
 
 ### 自定义关闭图标
 
-```html
-<template>
-  <mp-alert title="…" message="…" closable>
-    <template #close-icon>
-      <m-icon-close />
-    </template>
-  </mp-alert>
-</template>
+```demo
+../example/demos/custom-close-icon.vue
 ```
 
 ## API
 
 ### 属性
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| status | 类型，可选值为 `info` / `success` / `warning` / `danger` / `default` | _AlertStatus_ | `info` |
-| `variant` | 变体，可选值为 `standard` / `outline` / `tonal` | _AlertVariant_ | `standard` |
-| `color` | 自定义背景色 | _string_ | `-` |
-| `title` | 标题 | _string_ | `-` |
-| `message` | 内容 | _string_ | `-` |
-| `show-icon` | 是否显示左侧图标 | _boolean_ | `true` |
-| `closable` | 是否显示关闭按钮（注意：不再使用 `closeable`） | _boolean_ | `false` |
-| `banner` | 通栏模式（去除圆角） | _boolean_ | `false` |
-| `center` | 内容是否居中 | _boolean_ | `false` |
-| `elevation` | 海拔高度，可选值为 `true` / `false` 和 `0-24` | _number \| boolean_ | `false` |
+| 参数        | 说明                                                                 | 类型                | 默认值     |
+| ----------- | -------------------------------------------------------------------- | ------------------- | ---------- |
+| status      | 类型，可选值为 `info` / `success` / `warning` / `danger` / `default` | _AlertStatus_       | `info`     |
+| `variant`   | 变体，可选值为 `standard` / `outline` / `tonal`                      | _AlertVariant_      | `standard` |
+| `color`     | 自定义背景色                                                         | _string_            | `-`        |
+| `title`     | 标题                                                                 | _string_            | `-`        |
+| `message`   | 内容                                                                 | _string_            | `-`        |
+| `show-icon` | 是否显示左侧图标                                                     | _boolean_           | `true`     |
+| `closable`  | 是否显示关闭按钮（注意：不再使用 `closeable`）                       | _boolean_           | `false`    |
+| `banner`    | 通栏模式（去除圆角）                                                 | _boolean_           | `false`    |
+| `center`    | 内容是否居中                                                         | _boolean_           | `false`    |
+| `elevation` | 海拔高度，可选值为 `true` / `false` 和 `0-24`                        | _number \| boolean_ | `false`    |
 
 ### 插槽
 
-| 名称 | 说明 |
-| --- | --- |
-| `default` | 内容 |
-| `title` | 标题 |
-| `icon` | 前缀 |
-| `action` | 右侧操作区 |
-| `close-icon` | 关闭图标 |
+| 名称         | 说明       |
+| ------------ | ---------- |
+| `default`    | 内容       |
+| `title`      | 标题       |
+| `icon`       | 前缀       |
+| `action`     | 右侧操作区 |
+| `close-icon` | 关闭图标   |
 
 ### 事件
 
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
-| `close` | 点击关闭按钮时触发 | `event: Event` |
-| `closed` | 关闭过渡结束后触发 | `-` |
+| 事件名   | 说明               | 回调参数       |
+| -------- | ------------------ | -------------- |
+| `close`  | 点击关闭按钮时触发 | `event: Event` |
+| `closed` | 关闭过渡结束后触发 | `-`            |
 
 ### 类型定义
 
 ```ts
-import type { AlertProps, AlertStatus, AlertVariant, AlertInstance } from 'maple-ui'
+import type { AlertInstance, AlertProps, AlertStatus, AlertVariant } from 'maple-ui'
 ```
 
 ### 样式变量

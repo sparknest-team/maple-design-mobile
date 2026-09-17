@@ -8,116 +8,48 @@ For real-time display of countdown values, with millisecond precision.
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-countdown :time="2 * 60 * 60 * 1000" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Custom Format
 
 Use `format` to set time text. Higher units not present in the format roll down to the next unit.
 
-```html
-<template>
-  <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD Day, HH:mm:ss" />
-</template>
+```demo
+../example/demos/custom-format.vue
 ```
 
 ### Show Millisecond
 
 Use `S` / `SS` / `SSS` to show milliseconds.
 
-```html
-<template>
-  <mp-countdown :time="2 * 60 * 60 * 1000" format="HH:mm:ss.SSS" />
-</template>
+```demo
+../example/demos/show-millisecond.vue
 ```
 
 ### Custom Style
 
 Use `slot` to set custom countdown style.
 
-```html
-<template>
-  <mp-countdown :time="108000000">
-    <template #default="{ hours, minutes, seconds }">
-      <span class="countdown-example-block">{{ hours }}</span>
-      <span class="countdown-example-colon">:</span>
-      <span class="countdown-example-block">{{ minutes }}</span>
-      <span class="countdown-example-colon">:</span>
-      <span class="countdown-example-block">{{ seconds }}</span>
-    </template>
-  </mp-countdown>
-</template>
-
-<style>
-.countdown-example-block {
-  background: var(--mp-color-primary);
-  color: var(--mp-color-white);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  padding: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.countdown-example-colon {
-  margin: 0 5px;
-  font-size: 18px;
-  font-weight: 500;
-}
-</style>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ### Manual Control
 
 Set `auto-start` to `false`, then control with `start`, `pause`, and `reset`. The `end` event fires when the countdown finishes.
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const countdownRef = ref()
-const time = ref(5000)
-
-function handleEnd() {
-  Message.info('end!')
-}
-</script>
-
-<template>
-  <mp-countdown
-    ref="countdownRef"
-    :time="time"
-    :auto-start="false"
-    format="ss.SSS"
-    @end="handleEnd"
-  />
-  <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button status="primary" @click="countdownRef.start()">Start</mp-button>
-    <mp-button @click="countdownRef.pause()">Pause</mp-button>
-    <mp-button @click="countdownRef.reset()">Reset</mp-button>
-  </mp-row>
-</template>
+```demo
+../example/demos/manual-control.vue
 ```
 
 ### Embed in Statistic
 
 When `value` is omitted, Statistic can embed Countdown in the default slot.
 
-```html
-<template>
-  <mp-statistic title="Countdown">
-    <mp-countdown :time="2 * 60 * 60 * 1000" />
-  </mp-statistic>
-  <mp-statistic title="Campaign">
-    <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-  </mp-statistic>
-</template>
+```demo
+../example/demos/embed-statistic.vue
 ```
 
 ## API

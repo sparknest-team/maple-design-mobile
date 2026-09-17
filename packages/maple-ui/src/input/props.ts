@@ -45,6 +45,7 @@ export const props = {
     type: Boolean,
     default: undefined,
   },
+  placeholderFocusColor: String,
   // internal end
 }
 

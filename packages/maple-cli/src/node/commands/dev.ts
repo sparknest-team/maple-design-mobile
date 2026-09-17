@@ -7,7 +7,7 @@ import { generateEsEntryTemplate, getScriptExtname } from '../compiler/compileSc
 import { buildSiteEntry } from '../compiler/compileSiteEntry.js'
 import { getMapleConfig, MapleConfig } from '../config/maple.config.js'
 import { getDevConfig } from '../config/vite.config.js'
-import { ES_DIR, MAPLE_CONFIG, SRC, SRC_DIR } from '../shared/constant.js'
+import { COMPONENT_REUSE_JSON, ES_DIR, MAPLE_CONFIG, SRC, SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs } from '../shared/fsUtils.js'
 import logger from '../shared/logger.js'
 
@@ -65,8 +65,9 @@ async function startServer(options: DevCommandOptions) {
   await server.listen()
   server.printUrls()
 
-  if (pathExistsSync(MAPLE_CONFIG)) {
-    watcher = chokidar.watch(MAPLE_CONFIG)
+  const watchFiles = [MAPLE_CONFIG, COMPONENT_REUSE_JSON].filter((file) => pathExistsSync(file))
+  if (watchFiles.length) {
+    watcher = chokidar.watch(watchFiles)
     watcher.on('change', () => startServer(options))
   }
 

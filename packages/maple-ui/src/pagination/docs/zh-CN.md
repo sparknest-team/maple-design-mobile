@@ -6,245 +6,74 @@
 
 ### 基础与双向绑定
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const current = ref(1)
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-pagination v-model:current="current" :total="50" />
-    <span>Current: {{ current }}</span>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/basic.vue
 ```
 
 ### 更多页码与省略跳转
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const buffer = ref(2)
-const more = ref(false)
-</script>
-<template>
-  <div class="pagination-demo">
-    <div class="pagination-demo-controls"><mp-radio-group v-model="buffer"><mp-radio v-for="value in [0, 1, 2]" :key="value" :value="value">Buffer {{ value }}</mp-radio></mp-radio-group><mp-switch v-model="more" /> Show more</div>
-    <mp-pagination :total="500" :default-current="12" :buffer-size="buffer" :show-more="more" :responsive="false" />
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/more-page-size.vue
 ```
 
 ### 每页条数与公共选择器配置
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const pageSize = ref(10)
-const current = ref(5)
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-pagination v-model:current="current" v-model:page-size="pageSize" :total="200" show-page-size :page-size-options="[10, 20, 50]" :page-size-props="{ placement: 'bottom-start' }" />
-    <span>Current: {{ current }} · Page size: {{ pageSize }}</span>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/show-page-size.vue
 ```
 
 ### 跳转与前后缀插槽
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-pagination :total="200" show-jumper :responsive="false">
-      <template #jumper-prepend>Go to</template><template #jumper-append>page</template>
-    </mp-pagination>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/show-jumper.vue
 ```
 
 ### 五档尺寸与阴影
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const size = ref<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md')
-const elevation = ref(false)
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-radio-group v-model="size"><mp-radio v-for="value in ['xs', 'sm', 'md', 'lg', 'xl']" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group>
-    <div class="pagination-demo-controls"><mp-switch v-model="elevation" /> Elevation</div>
-    <mp-pagination :size="size" :elevation="elevation" :total="50" show-page-size show-jumper />
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/size.vue
 ```
 
 ### 简洁模式
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const current = ref(3)
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-pagination v-model:current="current" :total="200" simple show-total show-page-size />
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/simple.vue
 ```
 
 ### 自定义总数插槽
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-pagination :total="200" show-total><template #total="{ total }">{{ total }} records</template></mp-pagination>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/show-total.vue
 ```
 
 ### 完整功能交互
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const total = ref(true)
-const jumper = ref(true)
-const pageSize = ref(true)
-</script>
-<template>
-  <div class="pagination-demo">
-    <div class="pagination-demo-controls"><mp-switch v-model="total" /> Total<mp-switch v-model="jumper" /> Jumper<mp-switch v-model="pageSize" /> Page size</div>
-    <mp-pagination :total="125" :show-total="total" :show-jumper="jumper" :show-page-size="pageSize" />
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/all.vue
 ```
 
 ### 自定义分页按钮与样式
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-pagination :total="300" :default-current="10" :buffer-size="0" :responsive="false" :page-item-style="{ borderRadius: '8px' }" :active-page-item-style="{ fontWeight: '700' }">
-      <template #page-item="{ page }">{{ page }}</template>
-      <template #page-item-step="{ type }">{{ type === 'previous' ? 'Prev' : 'Next' }}</template>
-      <template #page-item-ellipsis>✦</template>
-    </mp-pagination>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/custom-page-button.vue
 ```
 
 ### 禁用与单页隐藏
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const disabled = ref(true)
-const single = ref(false)
-</script>
-<template>
-  <div class="pagination-demo">
-    <div class="pagination-demo-controls"><mp-switch v-model="disabled" /> Disabled<mp-switch v-model="single" /> Single page</div>
-    <mp-pagination :total="single ? 5 : 200" :disabled="disabled" hide-on-single-page show-jumper show-page-size show-total />
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 数据变化与自动调整
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const total = ref(200)
-const current = ref(18)
-const autoAdjust = ref(true)
-function reset() { total.value = 200; current.value = 18 }
-</script>
-<template>
-  <div class="pagination-demo">
-    <div class="pagination-demo-controls"><mp-switch v-model="autoAdjust" /> Auto adjust<mp-button @click="total = 25">Reduce total</mp-button><mp-button @click="reset">Reset</mp-button></div>
-    <mp-pagination v-model:current="current" :total="total" :auto-adjust="autoAdjust" show-total show-page-size />
-    <span>Current: {{ current }} · Total: {{ total }}</span>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/auto-adjust.vue
 ```
 
 ### 容器宽度与窄屏布局
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const width = ref(360)
-const responsive = ref(true)
-</script>
-<template>
-  <div class="pagination-demo">
-    <mp-radio-group v-model="width"><mp-radio v-for="value in [280, 360, 480, 640]" :key="value" :value="value">{{ value }}px</mp-radio></mp-radio-group>
-    <div class="pagination-demo-controls"><mp-switch v-model="responsive" /> Responsive</div>
-    <div :style="{ width: width + 'px', maxWidth: '100%' }"><mp-pagination :total="250" :responsive="responsive" show-total show-jumper show-page-size /></div>
-  </div>
-</template>
-<style scoped>
-.pagination-demo { display: grid; gap: 16px; min-width: 0; }
-.pagination-demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-</style>
+```demo
+../example/demos/responsive.vue
 ```
 
 ## API

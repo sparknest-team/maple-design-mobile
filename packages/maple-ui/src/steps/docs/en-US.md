@@ -6,116 +6,26 @@ Steps is a navigation bar that guides users through the steps of a task. Progres
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(1)
-
-function next() {
-  current.value = current.value >= 4 ? 1 : current.value + 1
-}
-</script>
-
-<template>
-  <mp-steps :current="current">
-    <mp-step>Step1</mp-step>
-    <mp-step>Step2</mp-step>
-    <mp-step>Step3</mp-step>
-    <mp-step>Step4</mp-step>
-  </mp-steps>
-  <mp-button status="primary" block @click="next">next</mp-button>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Error Status
 
-Use `status="error"` to show an error state on the current step.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(2)
-</script>
-
-<template>
-  <mp-steps :current="current" status="error">
-    <mp-step>Step1</mp-step>
-    <mp-step>Step2</mp-step>
-    <mp-step>Step3</mp-step>
-  </mp-steps>
-</template>
-```
-
-### Custom Icon
-
-Customize the node icon via the `#icon` slot. Colors are customized with `--mp-step-*` CSS variables / StyleProvider.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(2)
-</script>
-
-<template>
-  <mp-steps :current="current">
-    <mp-step>
-      Step1
-      <template #icon="{ status }">
-        <m-icon-heart-fill v-if="status === 'finish'" />
-        <span v-else>1</span>
-      </template>
-    </mp-step>
-    <mp-step>
-      Step2
-      <template #icon="{ step }">{{ step }}</template>
-    </mp-step>
-    <mp-step>Step3</mp-step>
-  </mp-steps>
-</template>
+```demo
+../example/demos/error-status.vue
 ```
 
 ### Changeable
 
-Set `changeable` to enable clicking to switch steps.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(1)
-</script>
-
-<template>
-  <mp-steps v-model:current="current" changeable>
-    <mp-step description="Description">Step1</mp-step>
-    <mp-step description="Description">Step2</mp-step>
-    <mp-step description="Description">Step3</mp-step>
-  </mp-steps>
-</template>
+```demo
+../example/demos/changeable.vue
 ```
 
-### Vertical
+### Vertical Mode
 
-Change the display orientation via the `orientation` attribute.
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(1)
-</script>
-
-<template>
-  <mp-steps orientation="vertical" :current="current">
-    <mp-step>Step1</mp-step>
-    <mp-step>Step2</mp-step>
-    <mp-step>Step3</mp-step>
-    <mp-step>Step4</mp-step>
-  </mp-steps>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ## API

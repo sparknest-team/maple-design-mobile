@@ -4,47 +4,10 @@
 浮动在页面底部的面板，常用于提供额外的功能或信息，用户可灵活上下滑动浏览内容。
 
 ### 基本使用
-FloatingPanel 的默认高度为 `100px`，允许拖动来展开或者收缩面板，默认展开的最大高度为屏幕的 `60%`。
 
-```html
-<template>
-  <mp-floating-panel>
-    <mp-cell v-for="i in 26" :key="i" :title="String.fromCharCode(i + 64)" border /> 
-  </mp-floating-panel>
-</template>
+```demo
+../example/demos/basic.vue
 ```
-
-### 自定义锚点
-可以通过 `anchors` 属性来设置 FloatingPanel 的锚点位置，并通过 `v-model:anchor` 来控制当前面板的所在锚点。
-
-例如，使面板的高度在 100px、40% 屏幕高度和 80% 屏幕高度三个位置停靠：
-
-```html
-<script setup>
-const anchors = ref([100, window.innerHeight * 0.4, window.innerHeight * 0.8])
-const anchor = ref(100)
-</script>
-
-<template>
-  <mp-floating-panel v-model:anchor="anchor" :anchors="anchors">
-    <div style="text-align: center; padding: 15px">
-      <p>面板锚点高度为 {{ Math.floor(anchor) }} px</p>
-    </div>
-  </mp-floating-panel>
-</template>
-```
-
-### 仅头部拖拽
-默认情况下，FloatingPanel 的头部区域和内容区域都可以被拖动。如果想禁用内容区域的拖拽，可设置 `content-draggable` 属性为 `false`。
-
-```html
-<template>
-  <mp-floating-panel :content-draggable="false">
-    <mp-cell v-for="i in 26" :key="i" :title="String.fromCharCode(i + 64)" border /> 
-  </mp-floating-panel>
-</template>
-```
-
 
 ## API
 

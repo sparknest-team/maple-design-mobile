@@ -24,7 +24,7 @@
 import { defineComponent } from 'vue'
 import { createNamespace, useTeleport } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
-import MpMessageCore from './core.vue'
+import MpMessageCore from './Core.vue'
 import { props } from './props'
 
 const { name, n } = createNamespace('message')

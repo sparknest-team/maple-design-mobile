@@ -61,12 +61,10 @@ export async function exportedComponentTokens(dir: string) {
     const aliases = [...source.matchAll(/export const (_[A-Za-z0-9]+Component)/g)].map((match) => match[1])
     const named = [...source.matchAll(/export \{([^}]+)\}/g)]
       .flatMap((match) => match[1].split(','))
-      .map((part) =>
-        part
-          .trim()
-          .split(/\s+as\s+/)[0]
-          .trim(),
-      )
+      .map((part) => {
+        const sides = part.trim().split(/\s+as\s+/)
+        return (sides[1] ?? sides[0]).trim()
+      })
       .filter((name) => /^[A-Z]/.test(name) && name !== dirName && !name.endsWith('Props'))
     const tokens = [...new Set([...named, ...aliases])]
     if (tokens.length) {

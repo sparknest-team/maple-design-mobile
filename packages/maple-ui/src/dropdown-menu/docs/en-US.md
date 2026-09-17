@@ -10,51 +10,16 @@ The popup is built on the unstyled [Trigger](#/en-US/trigger). Placements follow
 
 Pass the trigger element through the default slot and describe commands with `options`. `type: 'divider'` renders a separator.
 
-```html
-<script setup lang="ts">
-  const options = [
-    { label: 'Edit', value: 'edit' },
-    { label: 'Copy', value: 'copy' },
-    { type: 'divider' },
-    { label: 'Delete', value: 'delete' },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button icon-container aria-label="More actions">
-      <m-icon-more />
-    </mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/overflow-actions.vue
 ```
 
 ### Context Menu
 
 Right click inside the target area. Set both `trigger="contextMenu"` and `align-point`.
 
-```html
-<template>
-  <mp-dropdown-menu trigger="contextMenu" align-point style="display: block">
-    <div class="dropdown-menu-example-area">Right click</div>
-
-    <template #content>
-      <mp-menu-option label="Option 1" />
-      <mp-menu-option label="Option 2" />
-      <mp-menu-option label="Option 3" />
-    </template>
-  </mp-dropdown-menu>
-</template>
-
-<style>
-  .dropdown-menu-example-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 160px;
-    background-color: var(--mp-color-fill-2);
-  }
-</style>
+```demo
+../example/demos/context-menu.vue
 ```
 
 ### With SplitButton
@@ -65,274 +30,70 @@ Right click inside the target area. Set both `trigger="contextMenu"` and `align-
 
 Use `v-model` to keep the active value. Activating a command emits `update:model-value` first and then `select(value, option, event)`; `select` means a menu item was activated, not that a form value changed.
 
-```html
-<script setup lang="ts">
-  import { ref } from 'vue'
-
-  const selected = ref('edit')
-  const selectedLabel = ref('Edit')
-  const options = [
-    { label: 'Edit', value: 'edit' },
-    { label: 'Copy', value: 'copy' },
-    { label: 'Delete', value: 'delete' },
-  ]
-
-  const handleSelect = (_value: unknown, option: { label?: string | number }) => {
-    selectedLabel.value = String(option.label ?? '')
-  }
-</script>
-
-<template>
-  <mp-space direction="column">
-    <mp-dropdown-menu v-model="selected" :options="options" @select="handleSelect">
-      <mp-button>{{ selectedLabel || 'Please select' }}</mp-button>
-    </mp-dropdown-menu>
-    <span>Current value: {{ selected || '-' }}, last selected: {{ selectedLabel || '-' }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/selection.vue
 ```
 
 ### Option Group
 
 Group commands with `{ type: 'group', children }` inside `options`; no extra group component is needed. A group is purely visual and does not add a level.
 
-```html
-<script setup lang="ts">
-  const options = [
-    {
-      type: 'group',
-      label: 'File',
-      children: [
-        { label: 'New', value: 'new' },
-        { label: 'Open', value: 'open' },
-      ],
-    },
-    {
-      type: 'group',
-      label: 'Edit',
-      children: [
-        { label: 'Copy', value: 'copy' },
-        { label: 'Paste', value: 'paste' },
-      ],
-    },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button>Option Group</mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/group.vue
 ```
 
 ### Submenu
 
 A plain option with `children` becomes a submenu. Every level shares `submenu-trigger`, which expands on tap by default; switching it to `'hover'` applies to all levels too. It cannot be set per option, so a single tree never mixes two expansion styles.
 
-```html
-<script setup lang="ts">
-  const options = [
-    { label: 'Home', value: 'home' },
-    {
-      label: 'Product',
-      children: [
-        { label: 'Overview', value: 'overview' },
-        {
-          label: 'Solutions',
-          children: [
-            { label: 'Enterprise', value: 'enterprise' },
-            { label: 'Team', value: 'team' },
-          ],
-        },
-      ],
-    },
-    { label: 'About', value: 'about' },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button>Submenu</mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/submenu.vue
 ```
 
 ### Custom Option Content
 
 Prefer passing `icon`, `extra` or a VNode directly on the option; all three also accept a render function receiving `{ option, active, level }`. To render a whole data set uniformly, use the `option-label`, `option-icon` and `option-extra` scoped slots.
 
-```html
-<script setup lang="ts">
-  import { h } from 'vue'
-
-  const icon = (text: string) => h('span', { 'aria-hidden': 'true' }, text)
-  const options = [
-    { label: 'Edit', value: 'edit', icon: icon('✎'), extra: '⌘ E' },
-    {
-      label: ({ active }: { active: boolean }) => h('strong', active ? 'Copied' : 'Copy'),
-      value: 'copy',
-      icon: icon('⧉'),
-      extra: '⌘ C',
-    },
-    { label: 'Delete', value: 'delete', icon: icon('⌫'), extra: '⌫', disabled: true },
-  ]
-</script>
-
-<template>
-  <mp-dropdown-menu :options="options">
-    <mp-button>Custom Option Content</mp-button>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/option-content.vue
 ```
 
 ### Trigger
 
-```html
-<template>
-  <mp-space>
-    <mp-dropdown-menu trigger="click">
-      <mp-button>Click</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu trigger="hover">
-      <mp-button>Hover</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/trigger.vue
 ```
 
-### Disabled
+### Disabled State
 
 `disabled` on the menu disables the whole popup; on an option it disables that option and its descendants.
 
-```html
-<template>
-  <mp-space>
-    <mp-dropdown-menu disabled>
-      <mp-button disabled>Disabled Menu</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu>
-      <mp-button>Disabled Option</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Available" />
-        <mp-menu-option label="Disabled" disabled />
-        <mp-menu-option label="Another available" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/disabled-state.vue
 ```
 
 ### Popup Max Height
 
-```html
-<script setup lang="ts">
-  const options = Array.from({ length: 8 }, (_, index) => `Option ${index + 1}`)
-</script>
-
-<template>
-  <mp-space>
-    <mp-dropdown-menu :popup-max-height="120">
-      <mp-button>Limit to 120px</mp-button>
-
-      <template #content>
-        <mp-menu-option v-for="item in options" :key="item" :label="item" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu :popup-max-height="false">
-      <mp-button>Unlimited</mp-button>
-
-      <template #content>
-        <mp-menu-option v-for="item in options" :key="item" :label="item" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/popup-max-height.vue
 ```
 
 ### Controlled Open State
 
-```html
-<script setup lang="ts">
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column">
-    <mp-button @mousedown.stop @click.stop="open = !open">
-      {{ open ? 'Close Menu' : 'Open Menu' }}
-    </mp-button>
-
-    <mp-dropdown-menu v-model:open="open">
-      <mp-button>Menu Trigger</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
+```demo
+../example/demos/controlled.vue
 ```
 
 ### Footer
 
-```html
-<template>
-  <mp-dropdown-menu>
-    <mp-button>Footer</mp-button>
-
-    <template #content>
-      <mp-menu-option label="Option 1" />
-      <mp-menu-option label="Option 2" />
-    </template>
-
-    <template #footer>
-      <div style="padding: 8px 12px">Custom Footer</div>
-    </template>
-  </mp-dropdown-menu>
-</template>
+```demo
+../example/demos/footer.vue
 ```
 
 ### Placement
 
-```html
-<template>
-  <mp-space>
-    <mp-dropdown-menu v-for="placement in placements" :key="placement" :placement="placement">
-      <mp-button>{{ placement }}</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-        <mp-menu-option label="Option 3" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-</template>
-
-<script setup lang="ts">
-  const placements = ['bottom-start', 'bottom', 'bottom-end', 'top-start', 'top', 'top-end']
-</script>
+```demo
+../example/demos/placement.vue
 ```
 
 ## API

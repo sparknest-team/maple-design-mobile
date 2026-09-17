@@ -1,350 +1,122 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
-import { t, use } from './locale'
+import AutoplayHoverPauseDemo from './demos/autoplay-hover-pause.vue'
+import AutoplayDemo from './demos/autoplay.vue'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CenteredSlidesDemo from './demos/centered-slides.vue'
+import CustomIndicatorDemo from './demos/custom-indicator.vue'
+import EffectCardDemo from './demos/effect-card.vue'
+import EffectFadeDemo from './demos/effect-fade.vue'
+import EffectSlideDemo from './demos/effect-slide.vue'
+import ForbidLoopDemo from './demos/forbid-loop.vue'
+import HandleChangeDemo from './demos/handle-change.vue'
+import IndicatorPositionDemo from './demos/indicator-position.vue'
+import IndicatorTypeDemo from './demos/indicator-type.vue'
+import KeyboardDemo from './demos/keyboard.vue'
+import MousewheelDemo from './demos/mousewheel.vue'
+import MultiSlidesDemo from './demos/multi-slides.vue'
+import NavigationDemo from './demos/navigation.vue'
+import TriggerHoverDemo from './demos/trigger-hover.vue'
+import VerticalDemo from './demos/vertical.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-carousel class="carousel">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('forbidLoop') }}</app-type>
-  <mp-carousel class="carousel" :loop="false">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="forbid-loop">
+    <app-type>{{ english ? 'Forbid Loop' : '禁止循环轮播' }}</app-type>
+    <ForbidLoopDemo />
+  </section>
 
-  <app-type>{{ t('autoplay') }}</app-type>
-  <mp-carousel class="carousel" :auto-play="2000">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="autoplay">
+    <app-type>{{ english ? 'Autoplay' : '开启自动播放' }}</app-type>
+    <AutoplayDemo />
+  </section>
 
-  <app-type>{{ t('autoplayHoverPause') }}</app-type>
-  <mp-carousel class="carousel" :auto-play="{ interval: 2000, hoverToPause: true }">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="autoplay-hover-pause">
+    <app-type>{{ english ? 'Autoplay with Hover to Pause' : '自动播放悬停暂停' }}</app-type>
+    <AutoplayHoverPauseDemo />
+  </section>
 
-  <app-type>{{ t('vertical') }}</app-type>
-  <mp-carousel class="carousel" direction="vertical">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="vertical">
+    <app-type>{{ english ? 'Vertical Carousel' : '垂直轮播' }}</app-type>
+    <VerticalDemo />
+  </section>
 
-  <app-type>{{ t('navigation') }}</app-type>
-  <mp-carousel class="carousel" show-arrow="always">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="navigation">
+    <app-type>{{ english ? 'Navigation Arrows' : '切换箭头' }}</app-type>
+    <NavigationDemo />
+  </section>
 
-  <mp-carousel class="carousel" style="margin-top: 12px" show-arrow="hover">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="effect-slide">
+    <app-type>{{ english ? 'Slide Effect' : '滑动效果' }}</app-type>
+    <EffectSlideDemo />
+  </section>
 
-  <app-type>{{ t('effectSlide') }}</app-type>
-  <mp-carousel class="carousel" effect="slide">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="effect-fade">
+    <app-type>{{ english ? 'Fade Effect' : '淡入淡出效果' }}</app-type>
+    <EffectFadeDemo />
+  </section>
 
-  <app-type>{{ t('effectFade') }}</app-type>
-  <mp-carousel class="carousel" effect="fade">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="effect-card">
+    <app-type>{{ english ? 'Card Effect' : '卡片效果' }}</app-type>
+    <EffectCardDemo />
+  </section>
 
-  <app-type>{{ t('effectCard') }}</app-type>
-  <mp-carousel class="carousel" effect="card">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="multi-slides">
+    <app-type>{{ english ? 'Multiple Slides Per View' : '多图同屏' }}</app-type>
+    <MultiSlidesDemo />
+  </section>
 
-  <app-type>{{ t('multiSlides') }}</app-type>
-  <mp-carousel class="carousel" :slides-per-view="2.5" :space-between="10">
-    <mp-carousel-item v-for="i in 6" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="centered-slides">
+    <app-type>{{ english ? 'Centered Slides' : '居中当前滑块' }}</app-type>
+    <CenteredSlidesDemo />
+  </section>
 
-  <app-type>{{ t('centeredSlides') }}</app-type>
-  <mp-carousel class="carousel" :slides-per-view="1.5" :space-between="10" centered-slides>
-    <mp-carousel-item v-for="i in 5" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="indicator-type">
+    <app-type>{{ english ? 'Indicator Types' : '指示器类型' }}</app-type>
+    <IndicatorTypeDemo />
+  </section>
 
-  <app-type>{{ t('indicatorType') }}</app-type>
-  <mp-carousel class="carousel" indicator-type="dot">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
-  <mp-carousel class="carousel" style="margin-top: 12px" indicator-type="line">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
-  <mp-carousel class="carousel" style="margin-top: 12px" indicator-type="slider">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="indicator-position">
+    <app-type>{{ english ? 'Indicator Position' : '指示器位置' }}</app-type>
+    <IndicatorPositionDemo />
+  </section>
 
-  <app-type>{{ t('indicatorPosition') }}</app-type>
-  <mp-carousel class="carousel" indicator-position="top">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
-  <mp-carousel class="carousel" style="margin-top: 12px" indicator-position="outer">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="trigger-hover">
+    <app-type>{{ english ? 'Trigger with Hover' : '悬停触发' }}</app-type>
+    <TriggerHoverDemo />
+  </section>
 
-  <app-type>{{ t('triggerHover') }}</app-type>
-  <mp-carousel class="carousel" trigger="hover">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="mousewheel">
+    <app-type>{{ english ? 'Mousewheel Control' : '鼠标滚轮控制' }}</app-type>
+    <MousewheelDemo />
+  </section>
 
-  <app-type>{{ t('mousewheel') }}</app-type>
-  <mp-carousel class="carousel" mousewheel>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="keyboard">
+    <app-type>{{ english ? 'Keyboard Control' : '键盘控制' }}</app-type>
+    <KeyboardDemo />
+  </section>
 
-  <app-type>{{ t('keyboard') }}</app-type>
-  <mp-carousel class="carousel" keyboard>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section data-demo="custom-indicator">
+    <app-type>{{ english ? 'Custom Indicator' : '自定义指示器' }}</app-type>
+    <CustomIndicatorDemo />
+  </section>
 
-  <app-type>{{ t('customIndicator') }}</app-type>
-  <mp-carousel class="carousel-example">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" />
-    </mp-carousel-item>
-    <template #indicator="{ index, length, to }">
-      <div class="carousel-custom-indicators">
-        <div
-          v-for="(l, idx) in length"
-          :key="l"
-          class="carousel-custom-indicator"
-          :class="{ 'carousel-custom--active': idx === index }"
-          @click="to(idx)"
-        >
-          {{ idx + 1 }}
-        </div>
-      </div>
-    </template>
-  </mp-carousel>
-
-  <app-type>{{ t('handleChange') }}</app-type>
-  <mp-carousel class="carousel" @change="(index) => Message(String(index))">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
-
-  <div class="space"></div>
+  <section data-demo="handle-change">
+    <app-type>{{ english ? 'Handle Change' : '监听切换' }}</app-type>
+    <HandleChangeDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.carousel {
-  height: 160px;
-}
-
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-item {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.carousel-custom-slide {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a90d9;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.carousel-custom-indicators {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-}
-
-.carousel-custom-indicator {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
-  font-size: 12px;
-  border-radius: 50%;
-}
-
-.carousel-custom--active {
-  background: #4a90d9;
-}
-
-.space {
-  height: 20px;
-}
-</style>

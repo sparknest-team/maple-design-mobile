@@ -5,7 +5,7 @@ import context from '../context'
 import type { LoadingSize, LoadingType } from '../loading/props'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
 import type { PopupContainer } from '../utils/popup-container'
-import VarMessageCore from './core.vue'
+import VarMessageCore from './Core.vue'
 import VarMessage from './Message.vue'
 import { props as messageProps } from './props'
 

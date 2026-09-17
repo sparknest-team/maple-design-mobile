@@ -1,4 +1,5 @@
 export default {
+  basic: '基础用法',
   preview: '实时预览',
   previewHint: '点击悬浮按钮展开或收起，点击动作按钮查看提示。下方参数实时生效。',
   dragHint: '拖拽模式：按钮位于屏幕角落，可用触摸拖动；关闭拖拽回到预览区。',
@@ -23,5 +24,6 @@ export default {
   elevation: '海拔效果',
   triggerToggle: '触发器显示/隐藏',
   actionsToggle: '动作菜单展开/收起',
+  customTrigger: '自定义触发器',
   toggle: '切换',
 }

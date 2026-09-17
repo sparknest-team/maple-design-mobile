@@ -44,46 +44,6 @@ describe('test collapse and collapseItem props', () => {
     expect(wrapper.vm.value).toStrictEqual(['1'])
   })
 
-  test('collapse elevation', async () => {
-    const elevation = ref(false)
-
-    const template = `
-     <mp-collapse v-model:active-names="value" :elevation="elevation">
-      <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
-      <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
-     </mp-collapse>
-    `
-
-    const wrapper = mount({
-      components: {
-        [VarCollapse.name]: VarCollapse,
-        [VarCollapseItem.name]: VarCollapseItem,
-      },
-      data() {
-        return {
-          value: ['2'],
-        }
-      },
-      template,
-      setup() {
-        return {
-          elevation,
-        }
-      },
-    })
-
-    await delay(100)
-    expect(wrapper.find('.mp-collapse-item__shadow').classes()).not.toContain('mp-elevation--2')
-
-    elevation.value = true
-    await delay(100)
-    expect(wrapper.find('.mp-collapse-item__shadow').classes()).toContain('mp-elevation--2')
-
-    elevation.value = 24
-    await delay(100)
-    expect(wrapper.find('.mp-collapse-item__shadow').classes()).toContain('mp-elevation--24')
-  })
-
   test('collapse offset', async () => {
     const offset = ref(false)
 
@@ -259,10 +219,9 @@ describe('test collapse and collapseItem props', () => {
     )
 
     await delay(100)
-    const icon = wrapper.findComponent({ name: 'MpIcon' })
+    const icon = wrapper.find('.mp-collapse-item__expand-icon')
     expect(icon.exists()).toBe(true)
-    expect(icon.find('svg').exists()).toBe(true)
-    expect(icon.classes()).toContain('mp-collapse-item__header-open')
+    expect(wrapper.find('.mp-collapse-item--active').exists()).toBe(true)
   })
 
   test('collapseItem disabled', async () => {
@@ -292,7 +251,7 @@ describe('test collapse and collapseItem props', () => {
 
     await delay(100)
     const collapseItemList = wrapper.findAll('.mp-collapse-item')
-    expect(collapseItemList[0].classes()).toContain('mp-collapse-item--disable')
+    expect(collapseItemList[0].classes()).toContain('mp-collapse-item--disabled')
     await collapseItemList[0].find('.mp-collapse-item__header').trigger('click')
     expect(wrapper.vm.value.toString()).toBe('2')
 

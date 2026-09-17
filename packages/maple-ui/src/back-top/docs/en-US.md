@@ -8,74 +8,32 @@ A button to back to top.
 
 When `target-container` is unset, the page scroll is listened. Once the scroll height reaches `visible-height`, a back to top button appears in the lower right corner.
 
-```html
-<script setup>
-const lists = [...Array(40).keys()]
-</script>
-
-<template>
-  <div>
-    <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-    <mp-back-top :duration="300" />
-  </div>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Target Container
 
 Use `target-container` to specify a local scroll container. Set `:popup-container="false"` to keep the button inside the container; the parent needs `position: relative`.
 
-```html
-<template>
-  <div class="wrapper">
-    <div id="scroll-container" class="scroll-container">
-      <mp-cell v-for="list in lists" :key="list">Scroll in container {{ list }}</mp-cell>
-    </div>
-    <mp-back-top
-      target-container="#scroll-container"
-      :visible-height="120"
-      :duration="300"
-      :popup-container="false"
-      right="16"
-      bottom="16"
-    />
-  </div>
-</template>
-
-<style>
-.wrapper {
-  position: relative;
-}
-
-.scroll-container {
-  height: 320px;
-  overflow: auto;
-}
-</style>
+```demo
+../example/demos/target-container.vue
 ```
 
 ### Custom Position
 
 Adjust position with `right` and `bottom`.
 
-```html
-<div id="scroll-container" class="scroll-container">
-  <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-  <mp-back-top target-container="#scroll-container" :duration="300" right="80" bottom="80" />
-</div>
+```demo
+../example/demos/custom-position.vue
 ```
 
 ### Custom Content
 
 Customize the button content with the default slot and listen to clicks with `@click`.
 
-```html
-<div id="scroll-container" class="scroll-container">
-  <mp-cell v-for="list in lists" :key="list">Scroll to bottom {{ list }}</mp-cell>
-  <mp-back-top target-container="#scroll-container" :duration="300" @click="handleClick">
-    <mp-button status="primary" round>TOP</mp-button>
-  </mp-back-top>
-</div>
+```demo
+../example/demos/custom-content.vue
 ```
 
 ## API

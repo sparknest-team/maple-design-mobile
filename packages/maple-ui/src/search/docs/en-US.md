@@ -6,109 +6,46 @@ Search is used to enter keywords and trigger queries in lists, result pages, or 
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-
-  function handleSearch(keyword) {
-    console.log(keyword)
-  }
-</script>
-
-<template>
-  <mp-search
-    v-model="value"
-    label="Address"
-    placeholder="Search keywords"
-    show-action
-    action-type="search"
-    action-text="Search"
-    @search="handleSearch"
-  />
-</template>
+```demo
+../example/demos/en-US/basic.vue
 ```
 
-Set `history-popup="false"` to show history in a auto-fit-popup-width Menu instead of the full-screen Popup.
+### Cancel Button
 
-```html
-<mp-search v-model="value" :recent-searches="recentSearches" :history-popup="false" @search="handleSearch" />
+```demo
+../example/demos/en-US/action.vue
 ```
 
-### Action Button
+### Search Button
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-</script>
-
-<template>
-  <mp-search v-model="value" placeholder="Search" show-action />
-</template>
-```
-
-### Field Select
-
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const model = reactive({})
-  const searchField = ref('address')
-  const searchText = ref('')
-  const fields = [
-    { label: 'Address', value: 'address', placeholder: 'Search address' },
-    { label: 'Name', value: 'name', placeholder: 'Search name' },
-  ]
-
-  function handleSearch(result) {
-    console.log(result)
-  }
-</script>
-
-<template>
-  <mp-search
-    v-model:model-field="searchField"
-    v-model="searchText"
-    v-model:model="model"
-    :fields="fields"
-    show-action
-    action-type="search"
-    action-text="Search"
-    @search="handleSearch"
-  />
-</template>
+```demo
+../example/demos/en-US/search-button.vue
 ```
 
 ### Search History
 
-Clicking the input opens a full-screen Popup search panel with the complete history list below it. Search does not persist history internally; update `recentSearches` from `result.recentSearches` in application code.
+Persistence is application-owned; save `result.recentSearches` from the `search` event when needed.
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/en-US/history.vue
+```
 
-  const value = ref('')
-  const recentSearches = ref(['Maple', 'Cedar', 'InputNumber'])
+### Field Select
 
-  function handleSearch(result) {
-    recentSearches.value = result.recentSearches
-  }
-</script>
+```demo
+../example/demos/en-US/fields.vue
+```
 
-<template>
-  <mp-search
-    v-model="value"
-    :recent-searches="recentSearches"
-    show-action
-    action-type="search"
-    action-text="Search"
-    @search="handleSearch"
-  />
-</template>
+### Search Shape
+
+```demo
+../example/demos/en-US/shape.vue
+```
+
+### States
+
+```demo
+../example/demos/en-US/state.vue
 ```
 
 ## API

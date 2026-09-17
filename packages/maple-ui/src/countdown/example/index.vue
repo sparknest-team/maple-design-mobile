@@ -1,75 +1,50 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomFormatDemo from './demos/custom-format.vue'
+import CustomStyleDemo from './demos/custom-style.vue'
+import EmbedStatisticDemo from './demos/embed-statistic.vue'
+import ManualControlDemo from './demos/manual-control.vue'
+import ShowMillisecondDemo from './demos/show-millisecond.vue'
 
-const countdownRef = ref()
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-function handleEnd() {
-  Message.info('end!')
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-countdown :time="2 * 60 * 60 * 1000" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('customFormat') }}</app-type>
-  <mp-countdown :time="4 * 24 * 60 * 60 * 1000" :format="t('format')" />
+  <section data-demo="custom-format">
+    <app-type>{{ english ? 'Custom Format' : '自定义格式' }}</app-type>
+    <CustomFormatDemo />
+  </section>
 
-  <app-type>{{ t('showMillisecond') }}</app-type>
-  <mp-countdown :time="2 * 60 * 60 * 1000" format="HH:mm:ss.SSS" />
+  <section data-demo="show-millisecond">
+    <app-type>{{ english ? 'Show Millisecond' : '显示毫秒' }}</app-type>
+    <ShowMillisecondDemo />
+  </section>
 
-  <app-type>{{ t('customStyle') }}</app-type>
-  <mp-countdown :time="108000000">
-    <template #default="{ hours, minutes, seconds }">
-      <span class="countdown-example-block">{{ hours }}</span>
-      <span class="countdown-example-colon">:</span>
-      <span class="countdown-example-block">{{ minutes }}</span>
-      <span class="countdown-example-colon">:</span>
-      <span class="countdown-example-block">{{ seconds }}</span>
-    </template>
-  </mp-countdown>
+  <section data-demo="custom-style">
+    <app-type>{{ english ? 'Custom Style' : '自定义样式' }}</app-type>
+    <CustomStyleDemo />
+  </section>
 
-  <app-type>{{ t('manualControl') }}</app-type>
-  <mp-countdown ref="countdownRef" :time="5000" :auto-start="false" format="ss.SSS" @end="handleEnd" />
-  <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button status="primary" @click="countdownRef.start()">{{ t('startText') }}</mp-button>
-    <mp-button @click="countdownRef.pause()">{{ t('pauseText') }}</mp-button>
-    <mp-button @click="countdownRef.reset()">{{ t('resetText') }}</mp-button>
-  </mp-row>
+  <section data-demo="manual-control">
+    <app-type>{{ english ? 'Manual Control' : '手动控制' }}</app-type>
+    <ManualControlDemo />
+  </section>
 
-  <app-type>{{ t('embedStatistic') }}</app-type>
-  <mp-space direction="column" size="lg">
-    <mp-statistic :title="t('countdown')">
-      <mp-countdown :time="2 * 60 * 60 * 1000" />
-    </mp-statistic>
-    <mp-statistic :title="t('campaign')">
-      <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-    </mp-statistic>
-  </mp-space>
+  <section data-demo="embed-statistic">
+    <app-type>{{ english ? 'Embed in Statistic' : '嵌入 Statistic' }}</app-type>
+    <EmbedStatisticDemo />
+  </section>
 </template>
-
-<style scoped>
-.countdown-example-block {
-  background: var(--mp-color-primary);
-  color: var(--mp-color-white);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  padding: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.countdown-example-colon {
-  margin: 0 5px;
-  font-size: 18px;
-  font-weight: 500;
-}
-</style>

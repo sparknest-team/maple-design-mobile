@@ -8,71 +8,44 @@ For time ranges, use [`TimeRange`](/en-US/time-range). For panel-only, use [`Tim
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const time = ref()
-</script>
-
-<template>
-  <mp-time v-model="time" placeholder="Please select a time" clearable />
-</template>
+```demo
+../example/demos/en-US/basic-usage.vue
 ```
 
-### 24hr and Seconds
+### 24-Hour Format
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/en-US/hour24.vue
+```
 
-  const time = ref()
-  const timeWithSeconds = ref()
-</script>
+### Show Seconds
 
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-time v-model="time" format="24hr" placeholder="24hr" />
-    <mp-time v-model="timeWithSeconds" format="24hr" use-seconds placeholder="With seconds" />
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/show-second.vue
 ```
 
 ### Clock Presentation
 
-Hour, minute, and second wheels are used by default. Set `presentation="clock"` to use the clock panel.
+```demo
+../example/demos/en-US/clock-presentation.vue
+```
 
-```html
-<script setup>
-  import { ref } from 'vue'
+### Disabled
 
-  const time = ref()
-</script>
+```demo
+../example/demos/en-US/disabled.vue
+```
 
-<template>
-  <mp-time v-model="time" presentation="clock" format="24hr" placeholder="Select time with clock" clearable />
-</template>
+### Readonly
+
+```demo
+../example/demos/en-US/readonly.vue
 ```
 
 ### With FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    alarm: undefined,
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="alarm" label="Alarm" required>
-      <mp-time v-model="formData.alarm" placeholder="Please select" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/en-US/with-form-item.vue
 ```
 
 ## API
@@ -137,7 +110,7 @@ type DisabledTime = {
 }
 ```
 
-# TimePicker
+## TimePicker
 
 > 源码已并入 `time/`，安装父组件时一并注册。静态成员：`Time.Picker`。
 
@@ -149,48 +122,24 @@ Form field: [`Time`](/en-US/time). Time range field: [`TimeRange`](/en-US/time-r
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('11:20')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" />
-</template>
+```demo
+../example/demos/en-US/picker-basic.vue
 ```
 
 ### Clock Mode
 
 Set `presentation="clock"` to render the clock face.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('11:20')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" presentation="clock" />
-</template>
+```demo
+../example/demos/en-US/picker-clock.vue
 ```
 
 ### 24hr Format
 
 Use `format` prop to change the format of the picker. The default value of `format` is `ampm`.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('15:20')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" presentation="clock" format="24hr" />
-</template>
+```demo
+../example/demos/en-US/picker-hour24.vue
 ```
 
 ### Show Seconds
@@ -199,76 +148,31 @@ Use `use-seconds` to show seconds.
 
 In clock mode, selecting hour / minute / second advances to the next unit. Tap the corresponding digit in the title to switch back.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('17:36:22')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" presentation="clock" format="24hr" use-seconds />
-</template>
+```demo
+../example/demos/en-US/picker-seconds.vue
 ```
 
 ### Readonly
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('07:10')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" readonly />
-</template>
+```demo
+../example/demos/en-US/picker-readonly.vue
 ```
 
 ### Time Limit
 
 Use `min`, `max` and `disabled-time` prop to allow the maximum and minimum time.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('07:10:12')
-
-  const disabledTime = {
-    hours: (hour) => hour % 2 !== 0,
-    minutes: (minute) => minute % 15 !== 0,
-    seconds: (second) => second % 2 !== 0,
-  }
-</script>
-
-<template>
-  <mp-time-picker v-model="date" format="24hr" use-seconds min="2:28:38" max="19:40:22" :disabled-time="disabledTime" />
-</template>
+```demo
+../example/demos/en-US/picker-limit.vue
 ```
 
 ### Actions Slots
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('17:36:22')
-</script>
-
-<template>
-  <mp-time-picker v-model="date">
-    <template #actions>
-      <mp-space size="sm">
-        <mp-button status="primary" variant="text">ACTION</mp-button>
-        <mp-button status="primary" variant="text">ACTION</mp-button>
-      </mp-space>
-    </template>
-  </mp-time-picker>
-</template>
+```demo
+../example/demos/en-US/picker-actions.vue
 ```
 
-## API
+### API
 
 ### Props
 

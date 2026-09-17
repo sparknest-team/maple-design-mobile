@@ -297,7 +297,7 @@ iframe {
         }
       }
 
-      a {
+      a:not(.loca-doc-preview__example a) {
         color: var(--site-config-color-link);
         -webkit-font-smoothing: antialiased;
         word-break: keep-all;
@@ -460,6 +460,10 @@ iframe {
 
         &:first-child {
           margin-top: 30px;
+        }
+
+        &--demo {
+          box-shadow: none;
         }
       }
     }

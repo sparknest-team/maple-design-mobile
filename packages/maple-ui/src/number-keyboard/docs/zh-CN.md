@@ -6,46 +6,8 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-input v-model="value" readonly placeholder="点击输入" @click="show = true" />
-  <mp-number-keyboard v-model="value" v-model:open="open" />
-</template>
-
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-  const show = ref(false)
-</script>
-```
-
-### 自定义主题
-
-`theme="custom"` 时，右侧为删除与完成按钮。
-
-```html
-<template>
-  <mp-number-keyboard v-model="value" v-model:open="open" theme="custom" />
-</template>
-```
-
-### 额外按键
-
-通过 `extra-key` 在左下角添加 `.` 等字符。
-
-```html
-<template>
-  <mp-number-keyboard v-model="value" v-model:open="open" extra-key="." />
-</template>
-```
-
-### 随机按键顺序
-
-```html
-<template>
-  <mp-number-keyboard v-model="value" v-model:open="open" random-key-order />
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ## API

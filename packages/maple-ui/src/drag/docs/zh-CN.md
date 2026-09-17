@@ -6,107 +6,70 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-drag>
-    <mp-button status="primary">基本使用</mp-button>
-  </mp-drag>
-</template>
+```demo
+../example/demos/basic-use.vue
 ```
 
 ### 拖拽方向
 
-```html
-<template>
-  <mp-drag direction="x">
-    <mp-button status="primary">拖拽方向</mp-button>
-  </mp-drag>
-</template>
+```demo
+../example/demos/direction.vue
 ```
 
 ### 吸附方向
 
-```html
-<template>
-  <mp-drag style="left: 0; top: 0" attraction="x">
-    <mp-button status="primary">水平吸附</mp-button>
-  </mp-drag>
-  <mp-drag style="left: 100px; top: 0" attraction="y">
-    <mp-button status="primary">垂直吸附</mp-button>
-  </mp-drag>
-</template>
+```demo
+../example/demos/attraction.vue
 ```
 
 ### 禁用
 
-```html
-<template>
-  <mp-drag disabled>
-    <mp-button status="primary" disabled>禁用</mp-button>
-  </mp-drag>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 拖拽区域
 
-```html
-<template>
-  <mp-drag style="top: 80px; left: 80px" :boundary="{ top: 80, bottom: 80, left: 80, right: 80 }">
-    <mp-button status="primary">拖拽区域</mp-button>
-  </mp-drag>
-</template>
+```demo
+../example/demos/boundary.vue
 ```
 
 ### 重置位置
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const drag = ref(null)
-
-function reset() {
-  drag.value.reset()
-}
-</script>
-
-<template>
-  <mp-drag ref="drag" style="top: 100px">
-    <mp-button status="primary">拖拽元素</mp-button>
-  </mp-drag>
-
-  <mp-button status="primary" @click="reset">重置位置</mp-button>
-</template>
+```demo
+../example/demos/reset.vue
 ```
 
 ## API
 
 ### 属性
 
-| 参数   | 说明  | 类型  | 默认值  |
-| --------------------- | ------------- | ------ | --------------|
-| `direction`  | 拖拽方向，可选值 `x`, `y`, `xy`	 | _string_ | `xy` |
-| `attraction`  | 吸附方向，可选值 `x`, `y`, `xy`	 | _string_ | `-` |
-| `disabled`  | 是否禁用 | _boolean_ | `false` |
-| `boundary`  | 拖拽范围 | _{ top?: number \| string, bottom?: number \| string, left?: number \| string, right?: number \| string }_ | `{ top: 0, bottom: 0, left: 0, right: 0 }` |
-| `z-index`  | 拖拽元素的层级 | _string \| number_ | `90` |
-| `popup-container`  | 拖拽元素挂载的位置 | _TeleportProps['to'] \| false_ | `body` |
+| 参数              | 说明                            | 类型                                                                                                       | 默认值                                     |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `direction`       | 拖拽方向，可选值 `x`, `y`, `xy` | _string_                                                                                                   | `xy`                                       |
+| `attraction`      | 吸附方向，可选值 `x`, `y`, `xy` | _string_                                                                                                   | `-`                                        |
+| `disabled`        | 是否禁用                        | _boolean_                                                                                                  | `false`                                    |
+| `boundary`        | 拖拽范围                        | _{ top?: number \| string, bottom?: number \| string, left?: number \| string, right?: number \| string }_ | `{ top: 0, bottom: 0, left: 0, right: 0 }` |
+| `z-index`         | 拖拽元素的层级                  | _string \| number_                                                                                         | `90`                                       |
+| `popup-container` | 拖拽元素挂载的位置              | _TeleportProps['to'] \| false_                                                                             | `body`                                     |
+
+当 `popup-container` 为 `false` 时，拖拽元素不再传送到 `body`，而是相对最近的定位父元素进行绝对定位和边界计算。父元素应设置 `position: relative`，适合卡片、面板等局部拖拽场景。
 
 ### 事件
 
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
+| 事件名  | 说明           | 参数           |
+| ------- | -------------- | -------------- |
 | `click` | 点击组件时触发 | `event: Event` |
 
 ### 方法
 
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `resize` | 产生位置大小变化时可以调用此方法进行重绘 | `-` | `-` |
-| `reset` | 重置初始化时的位置信息 | `-` | `-` |
+| 方法名   | 说明                                     | 参数 | 返回值 |
+| -------- | ---------------------------------------- | ---- | ------ |
+| `resize` | 产生位置大小变化时可以调用此方法进行重绘 | `-`  | `-`    |
+| `reset`  | 重置初始化时的位置信息                   | `-`  | `-`    |
 
 ### 插槽
 
-| 名称 | 说明 | 参数 |
-| ----- | -------------- | -------- |
-| `default` | 拖拽元素的内容 | `-` |
+| 名称      | 说明           | 参数 |
+| --------- | -------------- | ---- |
+| `default` | 拖拽元素的内容 | `-`  |

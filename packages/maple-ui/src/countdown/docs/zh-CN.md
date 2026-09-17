@@ -8,116 +8,48 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-countdown :time="2 * 60 * 60 * 1000" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 自定义格式
 
 通过 `format` 属性设置倒计时文本的内容。未出现的高位会累加到下一级。
 
-```html
-<template>
-  <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-</template>
+```demo
+../example/demos/custom-format.vue
 ```
 
 ### 显示毫秒
 
 通过 `S` / `SS` / `SSS` 展示毫秒。
 
-```html
-<template>
-  <mp-countdown :time="2 * 60 * 60 * 1000" format="HH:mm:ss.SSS" />
-</template>
+```demo
+../example/demos/show-millisecond.vue
 ```
 
 ### 自定义样式
 
 通过插槽自定义倒计时的样式，`timeData` 对象格式见下方表格。
 
-```html
-<template>
-  <mp-countdown :time="108000000">
-    <template #default="{ hours, minutes, seconds }">
-      <span class="countdown-example-block">{{ hours }}</span>
-      <span class="countdown-example-colon">:</span>
-      <span class="countdown-example-block">{{ minutes }}</span>
-      <span class="countdown-example-colon">:</span>
-      <span class="countdown-example-block">{{ seconds }}</span>
-    </template>
-  </mp-countdown>
-</template>
-
-<style>
-.countdown-example-block {
-  background: var(--mp-color-primary);
-  color: var(--mp-color-white);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  padding: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.countdown-example-colon {
-  margin: 0 5px;
-  font-size: 18px;
-  font-weight: 500;
-}
-</style>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ### 手动控制
 
 设置 `auto-start` 为 `false`，通过 `start`、`pause`、`reset` 控制。倒计时结束时触发 `end`。
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const countdownRef = ref()
-const time = ref(5000)
-
-function handleEnd() {
-  Message.info('end!')
-}
-</script>
-
-<template>
-  <mp-countdown
-    ref="countdownRef"
-    :time="time"
-    :auto-start="false"
-    format="ss.SSS"
-    @end="handleEnd"
-  />
-  <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button status="primary" @click="countdownRef.start()">开始</mp-button>
-    <mp-button @click="countdownRef.pause()">暂停</mp-button>
-    <mp-button @click="countdownRef.reset()">重置</mp-button>
-  </mp-row>
-</template>
+```demo
+../example/demos/manual-control.vue
 ```
 
 ### 嵌入 Statistic
 
 未传入 `value` 时，Statistic 可用默认插槽嵌入 Countdown。
 
-```html
-<template>
-  <mp-statistic title="Countdown">
-    <mp-countdown :time="2 * 60 * 60 * 1000" />
-  </mp-statistic>
-  <mp-statistic title="Campaign">
-    <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-  </mp-statistic>
-</template>
+```demo
+../example/demos/embed-statistic.vue
 ```
 
 ## API

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { AppType, createDemoMessages, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { computed, ref } from 'vue'
+import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import DemoBasic from './demos/basic.vue'
+import DemoColor from './demos/color.vue'
 import DemoContent from './demos/content.vue'
 import DemoDot from './demos/dot.vue'
 import DemoInline from './demos/inline.vue'
@@ -9,53 +11,55 @@ import DemoPosition from './demos/position.vue'
 import DemoShow from './demos/show.vue'
 import DemoSize from './demos/size.vue'
 import DemoVariant from './demos/variant.vue'
-import messages from './messages.json'
 
-const { t, use } = createDemoMessages(messages)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
   <section data-demo="basic">
-    <app-type>{{ t('basic') }}</app-type
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type
     ><DemoBasic />
   </section>
   <section data-demo="inline">
-    <app-type>{{ t('inline') }}</app-type
+    <app-type>{{ english ? 'Inline and standalone' : '内联与独立展示' }}</app-type
     ><DemoInline />
   </section>
   <section data-demo="dot">
-    <app-type>{{ t('dot') }}</app-type
+    <app-type>{{ english ? 'Dot badges' : '小圆点' }}</app-type
     ><DemoDot />
   </section>
   <section data-demo="content">
-    <app-type>{{ t('content') }}</app-type
+    <app-type>{{ english ? 'Custom content' : '自定义内容' }}</app-type
     ><DemoContent />
   </section>
   <section data-demo="max">
-    <app-type>{{ t('max') }}</app-type
+    <app-type>{{ english ? 'Maximum and zero' : '最大值与零值' }}</app-type
     ><DemoMax />
   </section>
   <section data-demo="color">
-    <app-type>{{ t('color') }}</app-type
+    <app-type>{{ english ? 'Statuses and colors' : '状态和颜色' }}</app-type
     ><DemoColor />
   </section>
   <section data-demo="size">
-    <app-type>{{ t('size') }}</app-type
+    <app-type>{{ english ? 'Five sizes' : '五种尺寸' }}</app-type
     ><DemoSize />
   </section>
   <section data-demo="position">
-    <app-type>{{ t('position') }}</app-type
+    <app-type>{{ english ? 'Positions and offsets' : '位置与偏移' }}</app-type
     ><DemoPosition />
   </section>
   <section data-demo="show">
-    <app-type>{{ t('show') }}</app-type
+    <app-type>{{ english ? 'Show and hide' : '显示与隐藏' }}</app-type
     ><DemoShow />
   </section>
   <section data-demo="variant">
-    <app-type>{{ t('variant') }}</app-type
+    <app-type>{{ english ? 'Solid and outline' : '实心与描边' }}</app-type
     ><DemoVariant />
   </section>
 </template>

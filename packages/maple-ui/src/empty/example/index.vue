@@ -1,43 +1,44 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomImageDemo from './demos/custom-image.vue'
+import ExtraSlotDemo from './demos/extra-slot.vue'
+import ImageSizeDemo from './demos/image-size.vue'
+import ShowDemo from './demos/show.vue'
 
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-empty :description="t('example')" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('customImage') }}</app-type>
-  <mp-space direction="column" :size="24">
-    <mp-empty>
-      <template #image>
-        <m-icon-alert-circle />
-      </template>
-      {{ t('customCopy') }}
-    </mp-empty>
-    <mp-empty image-url="cat.jpg" :alt="t('customImageAlt')" :description="t('customImage')" />
-  </mp-space>
+  <section data-demo="custom-image">
+    <app-type>{{ english ? 'Custom Image and Copy' : '自定义图片和文案' }}</app-type>
+    <CustomImageDemo />
+  </section>
 
-  <app-type>{{ t('imageSize') }}</app-type>
-  <mp-space direction="column" :size="16">
-    <mp-empty v-for="size in sizes" :key="size" :image-size="size" :description="`image-size: ${size}`" />
-  </mp-space>
+  <section data-demo="image-size">
+    <app-type>{{ english ? 'Image Size' : '图片尺寸' }}</app-type>
+    <ImageSizeDemo />
+  </section>
 
-  <app-type>{{ t('extraSlot') }}</app-type>
-  <mp-empty :description="t('reloadCopy')">
-    <template #extra>
-      <mp-button status="primary" size="sm">{{ t('reload') }}</mp-button>
-    </template>
-  </mp-empty>
+  <section data-demo="extra-slot">
+    <app-type>{{ english ? 'Extra Action' : '操作按钮' }}</app-type>
+    <ExtraSlotDemo />
+  </section>
 
-  <app-type>{{ t('show') }}</app-type>
-  <mp-space direction="column" :size="16">
-    <mp-empty :description="t('hideIcon')" :show-icon="false" />
-    <mp-empty :description="t('hideDescription')" :show-description="false" />
-  </mp-space>
+  <section data-demo="show">
+    <app-type>{{ english ? 'Show and Hide' : '显示与隐藏' }}</app-type>
+    <ShowDemo />
+  </section>
 </template>

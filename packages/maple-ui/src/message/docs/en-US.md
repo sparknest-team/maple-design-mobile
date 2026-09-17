@@ -6,6 +6,25 @@ Lightweight global feedback. Supports both **component** and **function** usage.
 
 Shared function demos with Cedar: basic, types, custom icon, position, duration, closable, update by `id`, loading, multiple. Component usage and Mobile extensions are Maple-only.
 
+
+
+### function call
+
+```demo
+../example/demos/function-call.vue
+```
+
+### type
+
+```demo
+../example/demos/type.vue
+```
+
+### component call
+
+```demo
+../example/demos/component-call.vue
+```
 ## Function Call
 
 ### Basic Usage

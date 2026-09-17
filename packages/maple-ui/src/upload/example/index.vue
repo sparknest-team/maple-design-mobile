@@ -1,253 +1,110 @@
 <script setup>
-import { onUnmounted, reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Dialog, Message } from '@maplejs/maple-ui'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import BeforeAddDemo from './demos/before-add.vue'
+import BeforeReadDemo from './demos/before-read.vue'
+import BeforeRemoveDemo from './demos/before-remove.vue'
+import ClickActionDemo from './demos/click-action.vue'
+import CustomPreviewDemo from './demos/custom-preview.vue'
+import CustomRenderDemo from './demos/custom-render.vue'
+import DisabledDemo from './demos/disabled.vue'
+import MaxFileSizeDemo from './demos/max-file-size.vue'
+import MaxFilesDemo from './demos/max-files.vue'
+import PreviewDemo from './demos/preview.vue'
+import ReadonlyDemo from './demos/readonly.vue'
+import RemoveButtonSlotDemo from './demos/remove-button-slot.vue'
+import StateDemo from './demos/state.vue'
+import StyleDemo from './demos/style.vue'
+import UseProgressDemo from './demos/use-progress.vue'
 
-const values = reactive({
-  files: [],
-  files2: [
-    {
-      uid: 'example-1',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'ready',
-    },
-    {
-      uid: 'example-2',
-      percent: 0,
-      url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-      thumbnailUrl: 'cover.jpg',
-      status: 'ready',
-    },
-  ],
-  files3: [
-    {
-      uid: 'example-3',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'uploading',
-    },
-    {
-      uid: 'example-4',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'success',
-    },
-    {
-      uid: 'example-5',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'error',
-    },
-  ],
-  files4: [],
-  files5: [],
-  files6: [],
-  files7: [],
-  files8: [],
-  files9: [],
-  files11: [
-    {
-      uid: 'example-6',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'ready',
-    },
-  ],
-  files12: [
-    {
-      uid: 'example-7',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'uploading',
-    },
-    {
-      uid: 'example-8',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'success',
-    },
-    {
-      uid: 'example-9',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'error',
-    },
-  ],
-  files13: [],
-  files14: [],
-  files15: [],
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
 })
-
-let timer
-
-watchLang(use)
 onThemeChange()
-
-onUnmounted(() => {
-  window.clearInterval(timer)
-})
-
-function handleAfterRead(file) {
-  console.log(file)
-}
-
-function handleAfterRead2(file) {
-  file.status = 'uploading'
-
-  setInterval(() => {
-    file.status = 'success'
-  }, 1000)
-}
-
-function handleAfterRead3(file) {
-  file.status = 'uploading'
-  file.percent = 0
-
-  timer = window.setInterval(() => {
-    if (file.percent === 100) {
-      window.clearInterval(timer)
-      file.status = 'success'
-      return
-    }
-    file.percent += 10
-  }, 250)
-}
-
-function handleOversize() {
-  Message.warning(t('fileSizeExceedsLimit'))
-}
-
-function handleBeforeRead(file) {
-  if (file.size <= 1 * 1024 * 1024) {
-    Message.success(t('fileLessThen'))
-    return true
-  }
-  Message.warning(t('fileLargeThen'))
-  return false
-}
-
-async function handleBeforeRemove() {
-  const action = await Dialog({
-    title: t('removeTitle'),
-    message: t('removeMessage'),
-  })
-
-  return action === 'confirm'
-}
-
-function handleBeforeFilter(files) {
-  return files.filter((file) => file.name.endsWith('png'))
-}
-
-function handlePreview(file) {
-  Dialog({
-    title: t('customPreview'),
-    message: file.url.slice(0, 100),
-  })
-}
-
-function handleActionClick(chooseFile) {
-  Message.loading('delay 1s')
-
-  setTimeout(() => {
-    Message.clear()
-    chooseFile()
-  }, 1000)
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-upload v-model="values.files" @after-read="handleAfterRead" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('preview') }}</app-type>
-  <mp-upload v-model="values.files2" />
+  <section data-demo="preview">
+    <app-type>{{ english ? 'File Preview' : '文件预览' }}</app-type>
+    <PreviewDemo />
+  </section>
 
-  <app-type>{{ t('customPreview') }}</app-type>
-  <mp-upload v-model="values.files11" prevent-default-preview @preview="handlePreview" />
+  <section data-demo="custom-preview">
+    <app-type>{{ english ? 'Custom Preview' : '自定义预览' }}</app-type>
+    <CustomPreviewDemo />
+  </section>
 
-  <app-type>{{ t('state') }}</app-type>
-  <mp-upload v-model="values.files3" @after-read="handleAfterRead2" />
+  <section data-demo="state">
+    <app-type>{{ english ? 'Upload State' : '上传状态' }}</app-type>
+    <StateDemo />
+  </section>
 
-  <app-type>{{ t('useProgress') }}</app-type>
-  <mp-upload v-model="values.files13" @after-read="handleAfterRead3" />
+  <section data-demo="use-progress">
+    <app-type>{{ english ? 'Use Progress' : '使用进度条' }}</app-type>
+    <UseProgressDemo />
+  </section>
 
-  <app-type>{{ t('maxFiles') }}</app-type>
-  <mp-upload v-model="values.files4" :max-files="1" />
+  <section data-demo="max-files">
+    <app-type>{{ english ? 'Max Files' : '文件数量限制' }}</app-type>
+    <MaxFilesDemo />
+  </section>
 
-  <app-type>{{ t('maxFileSize') }}</app-type>
-  <mp-upload v-model="values.files5" :max-file-size="1024" @oversize="handleOversize" />
+  <section data-demo="max-file-size">
+    <app-type>{{ english ? 'File Size Limit' : '文件大小限制' }}</app-type>
+    <MaxFileSizeDemo />
+  </section>
 
-  <app-type>{{ t('beforeAdd') }}</app-type>
-  <mp-upload v-model="values.files14" multiple :before-add="handleBeforeFilter" />
+  <section data-demo="before-add">
+    <app-type>{{ english ? 'File List Filter' : '文件列表过滤' }}</app-type>
+    <BeforeAddDemo />
+  </section>
 
-  <app-type>{{ t('beforeRead') }}</app-type>
-  <mp-upload v-model="values.files7" :before-read="handleBeforeRead" />
+  <section data-demo="before-read">
+    <app-type>{{ english ? 'Upload Preprocessing' : '上传预处理' }}</app-type>
+    <BeforeReadDemo />
+  </section>
 
-  <app-type>{{ t('clickAction') }}</app-type>
-  <mp-upload v-model="values.files15" @click-action="handleActionClick" />
+  <section data-demo="click-action">
+    <app-type>{{ english ? 'Upload Button Click Event' : '上传按钮点击事件' }}</app-type>
+    <ClickActionDemo />
+  </section>
 
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-upload v-model="values.files8" disabled />
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
+  </section>
 
-  <app-type>{{ t('readonly') }}</app-type>
-  <mp-upload v-model="values.files9" readonly />
+  <section data-demo="readonly">
+    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
+    <ReadonlyDemo />
+  </section>
 
-  <app-type>{{ t('beforeRemove') }}</app-type>
-  <mp-upload v-model="values.files11" :before-remove="handleBeforeRemove" />
+  <section data-demo="before-remove">
+    <app-type>{{ english ? 'Remove Preprocessing' : '删除前处理' }}</app-type>
+    <BeforeRemoveDemo />
+  </section>
 
-  <app-type>{{ t('style') }}</app-type>
-  <mp-upload v-model="values.files6">
-    <mp-button status="primary">{{ t('upload-fill') }}</mp-button>
-  </mp-upload>
+  <section data-demo="style">
+    <app-type>{{ english ? 'Customize upload styles' : '自定义上传样式' }}</app-type>
+    <StyleDemo />
+  </section>
 
-  <app-type>{{ t('customRender') }}</app-type>
-  <mp-space>
-    <img v-for="f in values.files12" :key="f.uid" class="custom-upload-file" :src="f.thumbnailUrl" />
-    <mp-upload v-model="values.files12" :show-file-list="false">
-      <mp-button round status="primary">
-        <m-icon-upload-fill :size="28" />
-      </mp-button>
-    </mp-upload>
-  </mp-space>
+  <section data-demo="custom-render">
+    <app-type>{{ english ? 'Custom render file list' : '自定义渲染文件列表' }}</app-type>
+    <CustomRenderDemo />
+  </section>
 
-  <app-type>{{ t('removeButtonSlot') }}</app-type>
-  <mp-upload v-model="values.files2">
-    <template #remove-button="{ remove }">
-      <div class="custom-remove-button">
-        <m-icon-close color="#fff" @click.stop="remove" />
-      </div>
-    </template>
-  </mp-upload>
+  <section data-demo="remove-button-slot">
+    <app-type>{{ english ? 'Custom Remove Button' : '自定义删除按钮' }}</app-type>
+    <RemoveButtonSlotDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.space {
-  height: 40px;
-}
-
-.custom-upload-file {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 12px;
-  object-fit: cover;
-}
-
-.custom-remove-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-}
-</style>

@@ -12,133 +12,92 @@ The sections below follow the same order as the controls in the mobile preview.
 
 Component dialogs show the top-right close button by default.
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const open = ref(false)
-</script>
-
-<template>
-  <mp-button status="warning" block @click="open = true">Component Call</mp-button>
-  <mp-dialog v-model:open="open" title="Title" message="Dialog content" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Async Close
 
 `beforeClose` closes only after `done()` is called. Functional calls default to `simple: true` and `closable: false`.
 
-```ts
-const instance = Dialog.open({
-  message: 'Submitting',
-  beforeClose(action, done, refs) {
-    if (action !== 'confirm') return done()
-    refs.confirmButtonLoading.value = true
-    submit().then(done)
-  },
-})
-```
+
 
 Component dialogs support the same interception and loading refs through `before-close`.
 
+```demo
+../example/demos/async-close.vue
+```
+
 ### Function Calls
 
-```ts
-Dialog.open('Dialog content')
-const instance = Dialog.open({ title: 'Title', message: 'Dialog content' })
-instance.update({ title: 'Updated title' })
-
-const action = await Dialog.open('Dialog content')
-Dialog.open({ message: 'Dialog content', confirmButton: false, cancelButton: false })
+```demo
+../example/demos/function-call.vue
 ```
 
 ### Alert Dialog
 
-```ts
-Dialog.alert({ title: 'Notice', message: 'Dialog content', type: 'info' })
+```demo
+../example/demos/alert-dialog.vue
 ```
 
 ### Confirm Box
 
-```ts
-await Dialog.confirm({ title: 'Confirm Action', message: 'Continue?' })
-await Dialog.confirm({
-  title: 'Dangerous Action',
-  message: 'This action cannot be undone. Continue?',
-  confirmButtonProps: { variant: 'default', status: 'danger' },
-})
-```
+
 
 The component version uses the same `type="warning"`.
 
+```demo
+../example/demos/confirm-box.vue
+```
+
 ### Semantic Messages
 
-```ts
-Dialog.info({ title: 'Information', message: 'Information message' })
-Dialog.success({ title: 'Success', message: 'Operation completed' })
-Dialog.warning({ title: 'Warning', message: 'Confirm before continuing' })
-Dialog.error({ title: 'Error', message: 'Operation failed' })
+```demo
+../example/demos/type-icon.vue
 ```
 
 ### Dialog Form
 
 Use a component dialog for complex forms and validate from `before-close`.
 
-```html
-<mp-dialog v-model:open="open" title="Dialog Form" :before-close="beforeClose">
-  <mp-form ref="formRef" :model="formData">...</mp-form>
-</mp-dialog>
+```demo
+../example/demos/form-dialog.vue
 ```
 
 ### Custom Footer
 
-```html
-<mp-dialog v-model:open="open">
-  <template #footer="{ close, cancel, confirm }">
-    <mp-button variant="text" @click="close">Close</mp-button>
-    <mp-button variant="text" @click="cancel">Cancel</mp-button>
-    <mp-button status="primary" @click="confirm">Confirm</mp-button>
-  </template>
-</mp-dialog>
+```demo
+../example/demos/custom-footer.vue
 ```
 
 ### Custom Button Text
 
 Confirm and cancel buttons use Button's `default` status and `text` variant unless `confirmButtonProps` or `cancelButtonProps` overrides them.
 
-```html
-<mp-dialog v-model:open="open" confirm-button-text="Continue" cancel-button-text="Exit" />
+```demo
+../example/demos/custom-button-text.vue
 ```
 
 ### Layout
 
 The preview demonstrates custom width, simple, draggable, and fullscreen dialogs in this order.
 
-```html
-<mp-dialog v-model:open="open" :width="320" />
-<mp-dialog v-model:open="simpleOpen" simple />
-<mp-dialog v-model:open="draggableOpen" draggable />
-<mp-dialog v-model:open="fullscreenOpen" fullscreen />
+```demo
+../example/demos/layout.vue
 ```
 
 ### Advanced Props
 
 The preview demonstrates hidden footer, hidden title, custom body, and unmount-on-close behavior.
 
-```html
-<mp-dialog v-model:open="open" :footer="false" />
-<mp-dialog v-model:open="hideTitleOpen" hide-title aria-label="Title" />
-<mp-dialog v-model:open="customBodyOpen" body-class="custom-body" :body-style="{ padding: 0 }" />
-<mp-dialog v-model:open="unmountOpen" unmount-on-close />
+```demo
+../example/demos/advanced-props.vue
 ```
 
 ### Long Content
 
-```html
-<mp-dialog v-model:open="open" :body-style="{ maxHeight: '50vh', overflowY: 'auto' }">
-  <p v-for="item in 12" :key="item">{{ item }}. Scrollable long content</p>
-</mp-dialog>
+```demo
+../example/demos/long-content.vue
 ```
 
 ## API

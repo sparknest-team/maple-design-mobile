@@ -1,178 +1,74 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
-import { t, use } from './locale'
+import BasicDemo from './demos/basic.vue'
+import ControlledDemo from './demos/controlled.vue'
+import CustomTriggerDemo from './demos/custom-trigger.vue'
+import DirectionDemo from './demos/direction.vue'
+import DisabledDemo from './demos/disabled.vue'
+import DragDemo from './demos/drag.vue'
+import PositionDemo from './demos/position.vue'
+import StatusDemo from './demos/status.vue'
+import TriggerDemo from './demos/trigger.vue'
+import VisibilityDemo from './demos/visibility.vue'
 
-const status = ref('primary')
-const trigger = ref('click')
-const direction = ref('top')
-const position = ref('right-bottom')
-const open = ref(true)
-const active = ref(true)
-const drag = ref(false)
-const disabled = ref(false)
-const elevation = ref(2)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watch(direction, (value) => {
-  if (value === 'bottom') {
-    position.value = position.value.replace('bottom', 'top')
-  }
-  if (value === 'top') {
-    position.value = position.value.replace('top', 'bottom')
-  }
-  if (value === 'right') {
-    position.value = position.value.replace('right', 'left')
-  }
-  if (value === 'left') {
-    position.value = position.value.replace('left', 'right')
-  }
-  active.value = true
+watchLang((value) => {
+  language.value = value
 })
-watch(position, (value) => {
-  if (value.includes('top') && direction.value === 'top') {
-    direction.value = 'bottom'
-  }
-  if (value.includes('bottom') && direction.value === 'bottom') {
-    direction.value = 'top'
-  }
-  if (value.includes('left') && direction.value === 'left') {
-    direction.value = 'right'
-  }
-  if (value.includes('right') && direction.value === 'right') {
-    direction.value = 'left'
-  }
-})
-
-function runAction(action) {
-  Message.info(t(action))
-  active.value = false
-}
-
-watchLang(use)
 onThemeChange()
-
-function toggleTrigger() {
-  open.value = !open.value
-}
-
-function toggleActions() {
-  active.value = !active.value
-}
 </script>
 
 <template>
-  <section class="fab-demo-preview" :aria-label="t('preview')">
-    <strong>{{ t('preview') }}</strong>
-    <p>{{ drag ? t('dragHint') : t('previewHint') }}</p>
-    <span aria-live="polite">{{
-      !open ? t('hiddenState') : disabled ? t('disabled') : active ? t('expandedState') : t('collapsedState')
-    }}</span>
-    <mp-fab
-      v-model:active="active"
-      :open="open"
-      :fixed="drag"
-      :popup-container="drag ? 'body' : false"
-      :status="status"
-      :position="position"
-      :direction="direction"
-      :trigger="trigger"
-      :drag="drag"
-      :disabled="disabled"
-      :elevation="elevation"
-    >
-      <mp-button
-        status="info"
-        icon-container
-        :disabled="disabled"
-        :aria-label="t('profile')"
-        @click="runAction('profile')"
-      >
-        <template #icon><m-icon-user-circle-fill /></template>
-      </mp-button>
-      <mp-button
-        status="success"
-        icon-container
-        :disabled="disabled"
-        :aria-label="t('complete')"
-        @click="runAction('complete')"
-      >
-        <template #icon><m-icon-checkbox-marked-circle-fill /></template>
-      </mp-button>
-      <mp-button
-        status="warning"
-        icon-container
-        :disabled="disabled"
-        :aria-label="t('notify')"
-        @click="runAction('notify')"
-      >
-        <template #icon><m-icon-bell-fill /></template>
-      </mp-button>
-    </mp-fab>
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
+    <BasicDemo />
   </section>
 
-  <app-type>{{ t('type') }}</app-type>
-  <mp-select v-model="status" :hint="false">
-    <mp-option :label="t('default')" value="default" />
-    <mp-option :label="t('primary')" value="primary" />
-    <mp-option :label="t('info')" value="info" />
-    <mp-option :label="t('success')" value="success" />
-    <mp-option :label="t('warning')" value="warning" />
-    <mp-option :label="t('danger')" value="danger" />
-  </mp-select>
+  <section data-demo="status">
+    <app-type>{{ english ? 'Theme Color Button' : '主题色按钮' }}</app-type>
+    <StatusDemo />
+  </section>
 
-  <app-type>{{ t('position') }}</app-type>
-  <mp-radio-group v-model="position">
-    <mp-radio value="left-top">left-top</mp-radio>
-    <mp-radio value="right-top">right-top</mp-radio>
-    <mp-radio value="left-bottom">left-bottom</mp-radio>
-    <mp-radio value="right-bottom">right-bottom</mp-radio>
-  </mp-radio-group>
+  <section data-demo="position">
+    <app-type>{{ english ? 'Trigger Position' : '触发器位置' }}</app-type>
+    <PositionDemo />
+  </section>
 
-  <app-type>{{ t('trigger') }}</app-type>
-  <mp-radio-group v-model="trigger">
-    <mp-radio value="click">click</mp-radio>
-    <mp-radio value="hover">hover</mp-radio>
-  </mp-radio-group>
+  <section data-demo="trigger">
+    <app-type>{{ english ? 'Trigger Method' : '触发方式' }}</app-type>
+    <TriggerDemo />
+  </section>
 
-  <app-type>{{ t('direction') }}</app-type>
-  <mp-radio-group v-model="direction">
-    <mp-radio value="top">top</mp-radio>
-    <mp-radio value="right">right</mp-radio>
-    <mp-radio value="bottom">bottom</mp-radio>
-    <mp-radio value="left">left</mp-radio>
-  </mp-radio-group>
+  <section data-demo="direction">
+    <app-type>{{ english ? 'Action Menu Popup Direction' : '动作菜单弹出方向' }}</app-type>
+    <DirectionDemo />
+  </section>
 
-  <app-type>{{ t('drag') }}</app-type>
-  <mp-switch v-model="drag" />
+  <section data-demo="drag">
+    <app-type>{{ english ? 'Drag' : '开启拖拽' }}</app-type>
+    <DragDemo />
+  </section>
 
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-switch v-model="disabled" />
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
+  </section>
 
-  <app-type>{{ t('elevation') }}</app-type>
-  <mp-slider v-model="elevation" :max="24"></mp-slider>
+  <section data-demo="visibility">
+    <app-type>{{ english ? 'Trigger Show/Hide' : '触发器显示/隐藏' }}</app-type>
+    <VisibilityDemo />
+  </section>
 
-  <app-type>{{ t('triggerToggle') }}</app-type>
-  <mp-button status="primary" @click.stop="toggleTrigger">{{ t('toggle') }}</mp-button>
+  <section data-demo="controlled">
+    <app-type>{{ english ? 'Action Menu Expand/Collapse' : '动作菜单展开/收起' }}</app-type>
+    <ControlledDemo />
+  </section>
 
-  <app-type>{{ t('actionsToggle') }}</app-type>
-  <mp-button status="primary" @click.stop="toggleActions">{{ t('toggle') }}</mp-button>
+  <section data-demo="custom-trigger">
+    <app-type>{{ english ? 'Custom trigger' : '自定义触发器' }}</app-type>
+    <CustomTriggerDemo />
+  </section>
 </template>
-
-<style scoped>
-.fab-demo-preview {
-  position: relative;
-  height: 340px;
-  box-sizing: border-box;
-  padding: 16px;
-  border: 1px dashed var(--mp-color-primary);
-  border-radius: 12px;
-  background: var(--mp-color-bg-1);
-  --mp-fab-top: 90px;
-}
-.fab-demo-preview p {
-  margin: 8px 0;
-  font-size: 13px;
-  line-height: 1.5;
-}
-</style>

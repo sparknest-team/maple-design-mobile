@@ -6,102 +6,51 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-space>
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/base-use.vue
 ```
 
 ### 垂直
 
-```html
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### 间隙
 
-```html
-<template>
-  <mp-space wrap :size="[20, 20]">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-    <mp-button>Button3</mp-button>
-    <mp-button>Button4</mp-button>
-    <mp-button>Button5</mp-button>
-    <mp-button>Button6</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/space.vue
 ```
 
 ### 靠右
 
-```html
-<template>
-  <mp-space justify="flex-end">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/right-align.vue
 ```
 
 ### 环绕
 
-```html
-<template>
-  <mp-space justify="space-around">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/around.vue
 ```
 
 ### 居中
 
-```html
-<template>
-  <mp-space justify="center">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/center.vue
 ```
 
 ### 两端对齐
 
-```html
-<template>
-  <mp-space justify="space-between">
-    <mp-button>Button1</mp-button>
-    <mp-button>Button2</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/between.vue
 ```
 
-### 分隔符
+### xs / sm / md / lg / xl
 
-```html
-<template>
-  <mp-space>
-    <template #split>
-      <span>|</span>
-    </template>
-    <a>Link1</a>
-    <a>Link2</a>
-    <a>Link3</a>
-  </mp-space>
-</template>
+```demo
+../example/demos/demo-8.vue
 ```
-
 
 ## API
 
@@ -148,6 +97,6 @@
 
 ### 显式换行
 
-```html
-<mp-space wrap :size="[8, 6]">...</mp-space>
+```demo
+../example/demos/wrap.vue
 ```

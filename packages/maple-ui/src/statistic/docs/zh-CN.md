@@ -10,123 +10,56 @@
 
 通过 `title` 展示描述，通过 `value` 展示数值。`value` 支持数字或字符串。
 
-```html
-<template>
-  <mp-statistic title="Downloads" :value="125670" show-group-separator />
-  <mp-statistic title="Comments" extra="Compared to yesterday" :value="40509" :precision="2" />
-  <mp-statistic title="Active Users" value="1.28k" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 前缀 / 后缀
 
 通过 `prefix` / `suffix` 或同名插槽为数值添加单位、货币符号或趋势。
 
-```html
-<template>
-  <mp-statistic title="Account Balance" :value="125670" prefix="$" show-group-separator />
-  <mp-statistic
-    title="Growth Rate"
-    :value="12.8"
-    :precision="1"
-    suffix="%"
-    :value-style="{ color: 'var(--mp-color-success)' }"
-  >
-    <template #prefix>▲</template>
-  </mp-statistic>
-  <mp-statistic
-    title="Bounce Rate"
-    :value="3.2"
-    :precision="1"
-    suffix="%"
-    :value-style="{ color: 'var(--mp-color-danger)' }"
-  >
-    <template #prefix>▼</template>
-  </mp-statistic>
-</template>
+```demo
+../example/demos/prefix-suffix.vue
 ```
 
 ### 等宽数字
 
 开启 `tabular-nums` 后，每个数字字符占用相同宽度，适合数值频繁变化或纵向对齐的场景。对比相同位数的 `1111` 和 `8888`：比例数字的总宽度可能变化，等宽数字的总宽度保持稳定。
 
-```html
-<template>
-  <mp-statistic title="比例数字" :value="1111" :value-style="{ fontVariantNumeric: 'proportional-nums' }" />
-  <mp-statistic title="等宽数字" :value="1111" tabular-nums />
-</template>
+```demo
+../example/demos/tabular-nums.vue
 ```
 
 ### 额外信息
 
 通过 `extra` 或 `extra` 插槽在数值下方展示补充说明。
 
-```html
-<template>
-  <mp-statistic title="Revenue" :value="9280" prefix="$" show-group-separator extra="Compared to yesterday +12.8%" />
-  <mp-statistic title="New Users" :value="1280" show-group-separator>
-    <template #extra>
-      <span style="color: var(--mp-color-success)">较上周 +8.4%</span>
-    </template>
-  </mp-statistic>
-</template>
+```demo
+../example/demos/extra.vue
 ```
 
 ### 数值动画
 
 通过 `animation` 开启数值滚动动画，可用 `start` 控制播放时机。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const started = ref(false)
-</script>
-
-<template>
-  <mp-statistic
-    title="Growth Rate"
-    :value="50.52"
-    :precision="2"
-    :value-from="0"
-    :start="started"
-    suffix="%"
-    animation
-  >
-    <template #prefix>▲</template>
-  </mp-statistic>
-  <mp-button status="primary" @click="started = true">开始</mp-button>
-</template>
+```demo
+../example/demos/animation.vue
 ```
 
 ### 自定义数值
 
 未传入 `value` 时，可用默认插槽自定义数值内容。例如嵌入 `CountTo`。
 
-```html
-<template>
-  <mp-statistic title="Active Users">
-    <mp-count-to :from="0" :to="125670" :duration="2000" />
-  </mp-statistic>
-  <mp-statistic title="Conversion Rate" suffix="%">
-    <mp-count-to :from="0" :to="36.8" :duration="2000" :precision="1" />
-  </mp-statistic>
-</template>
+```demo
+../example/demos/custom-value.vue
 ```
 
 ### 倒计时
 
 未传入 `value` 时，可用默认插槽嵌入 [Countdown](#/zh-CN/countdown)。
 
-```html
-<template>
-  <mp-statistic title="Countdown">
-    <mp-countdown :time="2 * 60 * 60 * 1000" />
-  </mp-statistic>
-  <mp-statistic title="Campaign">
-    <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-  </mp-statistic>
-</template>
+```demo
+../example/demos/countdown.vue
 ```
 
 ## API

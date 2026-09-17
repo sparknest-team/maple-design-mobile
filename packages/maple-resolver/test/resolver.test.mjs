@@ -87,6 +87,12 @@ test('resolves UI components with their styles', () => {
     sideEffects: ['@maplejs/maple-ui/image/style'],
   })
 
+  assert.deepEqual(components.resolve('MpImagePreviewAction'), {
+    from: '@maplejs/maple-ui',
+    name: '_ImagePreviewActionComponent',
+    sideEffects: ['@maplejs/maple-ui/image/style'],
+  })
+
   assert.deepEqual(components.resolve('MpHoverOverlay'), {
     from: '@maplejs/maple-ui',
     name: '_HoverOverlayComponent',
@@ -165,6 +171,32 @@ test('resolves programmatic APIs and directives', () => {
   assert.equal(directives.resolve('Loading'), undefined)
 })
 
+test('programmatic APIs are named exports of maple-ui', () => {
+  const uiEntry = readFileSync(new URL('../../maple-ui/src/index.ts', import.meta.url), 'utf8')
+  const exported = new Set(
+    [...uiEntry.matchAll(/export\s*\{([^}]+)\}/g)]
+      .flatMap((match) => match[1].split(','))
+      .map((part) => {
+        const sides = part.trim().split(/\s+as\s+/)
+        return (sides[1] ?? sides[0]).trim()
+      })
+      .filter(Boolean),
+  )
+  for (const name of [
+    'ActionSheet',
+    'Dialog',
+    'ImagePreview',
+    'imagePreview',
+    'LoadingBar',
+    'Locale',
+    'Message',
+    'Picker',
+    'StyleProvider',
+  ]) {
+    assert.ok(exported.has(name), `${name} should be exported from maple-ui`)
+  }
+})
+
 test('can disable styles and directives', () => {
   const [noStyleComponents, noDirectives] = MapleResolver({ importStyle: false, directives: false })
   assert.equal(noStyleComponents.resolve('MpButton')?.sideEffects, undefined)
@@ -183,4 +215,15 @@ test('Row and Col resolve independent styles', () => {
     assert.equal(resolved.name, '_' + name + 'Component')
     assert.deepEqual(resolved.sideEffects, ['@maplejs/maple-ui/' + name.toLowerCase() + '/style'])
   }
+})
+
+test('resolves the shared Tabs composition without the legacy Tab entry', () => {
+  for (const name of ['Tabs', 'TabPane', 'TabsNavs', 'TabNav', 'TabsItems', 'TabItem']) {
+    assert.deepEqual(components.resolve(`Mp${name}`), {
+      from: '@maplejs/maple-ui',
+      name: `_${name}Component`,
+      sideEffects: ['@maplejs/maple-ui/tabs/style'],
+    })
+  }
+  assert.equal(components.resolve('MpTab'), undefined)
 })

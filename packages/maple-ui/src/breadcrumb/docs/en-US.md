@@ -6,109 +6,64 @@ Identify the page location in a hierarchy and navigate upward when needed. The A
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-breadcrumb>
-    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Level 1</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Level 2</mp-breadcrumb-item>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
-### Separator
+### Custom Icon
+
+```demo
+../example/demos/custom-icon.vue
+```
+
+### Parent Separator
 
 Customize separator via parent/child `separator` prop or `#separator` slot. Child takes precedence.
 
-```html
-<template>
-  <mp-breadcrumb separator="\">
-    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Level 2</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Level 3</mp-breadcrumb-item>
-  </mp-breadcrumb>
-
-  <mp-breadcrumb>
-    <template #separator>
-      <m-icon-menu-right style="margin: 1px 4px 0" />
-    </template>
-    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Level 1</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Level 2</mp-breadcrumb-item>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/separator.vue
 ```
 
-### Routes
+### Child Separator
+
+```demo
+../example/demos/child-separator.vue
+```
+
+### Separator Slot
+
+```demo
+../example/demos/separator-slot.vue
+```
+
+### Route Configuration
 
 Pass breadcrumb data via `routes`. Each item's `path` is used as its native `href`. Customize with `#item-render`.
 
-```html
-<script setup>
-const routes = [
-  { path: '/', label: 'Home' },
-  { path: '/channel', label: 'Channel' },
-  { path: '/news', label: 'News' },
-]
-</script>
+```demo
+../example/demos/routes-mode.vue
+```
 
-<template>
-  <mp-breadcrumb :routes="routes" />
-</template>
+### Dropdown
+
+```demo
+../example/demos/dropdown.vue
 ```
 
 ### Max Count
 
 Limit visible items with `max-count`. Overflow is collapsed into an ellipsis. Customize with `#more-icon`.
 
-```html
-<script setup>
-const maxRoutes = [
-  { path: '/', label: 'Home' },
-  { path: '/sub-home', label: 'Sub Home' },
-  { path: '/all-channel', label: 'All Channel' },
-  { path: '/channel', label: 'Channel' },
-  { path: '/news', label: 'News' },
-  { path: '/post', label: 'Post' },
-]
-</script>
-
-<template>
-  <mp-breadcrumb :max-count="3">
-    <mp-breadcrumb-item>Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Sub Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item>All Channel</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Channel</mp-breadcrumb-item>
-    <mp-breadcrumb-item>News</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Post</mp-breadcrumb-item>
-  </mp-breadcrumb>
-
-  <mp-breadcrumb :routes="maxRoutes" :max-count="3">
-    <template #more-icon="{ omittedItems }">
-      <mp-tooltip :content="omittedItems.map((item) => item.label).join(' / ')">
-        <m-icon-more />
-      </mp-tooltip>
-    </template>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/max-count.vue
 ```
 
 ### Link & Click
 
 Use `href` to render a link. `@click` does not fire for collapsed items.
 
-```html
-<script setup>
-import { Message } from '@maplejs/maple-ui'
-</script>
-
-<template>
-  <mp-breadcrumb>
-    <mp-breadcrumb-item href="#/home" @click="Message('Home')">Home</mp-breadcrumb-item>
-    <mp-breadcrumb-item href="#/list" @click="Message('List')">List</mp-breadcrumb-item>
-    <mp-breadcrumb-item>Detail</mp-breadcrumb-item>
-  </mp-breadcrumb>
-</template>
+```demo
+../example/demos/click-event.vue
 ```
 
 ## API
@@ -183,11 +138,11 @@ Customize via [StyleProvider](#/en-US/style-provider).
 | `--mp-breadcrumb-item-separator-margin` | `0 10px` |
 | `--mp-breadcrumb-item-separator-font-size` | `14px` |
 
-# BreadcrumbItem Docs
+## BreadcrumbItem
 
 See [Breadcrumb](#/en-US/breadcrumb).
 
-## API
+### API
 
 ### Props
 

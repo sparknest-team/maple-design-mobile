@@ -6,91 +6,32 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio v-model="value">当前的值: {{ value }}</mp-radio>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 设置状态值
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio
-    :value="1"
-    v-model="value"
-  >
-    当前的值: {{ value }}
-  </mp-radio>
-</template>
+```demo
+../example/demos/set-state.vue
 ```
 
 ### 修改图标和颜色
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio
-    unchecked-color="var(--color-warning)" 
-    checked-color="var(--color-danger)"
-    v-model="value"
-  >
-    <template #unchecked-icon>
-      <m-icon-heart-half-full size="24px"/>
-    </template>
-    <template #checked-icon>
-      <m-icon-heart-fill size="24px"/>
-    </template>
-    <template #default>
-      当前的值: {{ value }}
-    </template>
-  </mp-radio>
-</template>
+```demo
+../example/demos/set-style.vue
 ```
 
 ### 禁用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio disabled v-model="value">当前的值: {{ value }}</mp-radio>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 只读
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-radio readonly v-model="value">当前的值: {{ value }}</mp-radio>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### 单选框组
@@ -98,84 +39,35 @@ const value = ref(false)
 在单选框组中，需要给 `radio` 设置 `value` 用来标识，
 单选框组会绑定选择的标识。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio-group v-model="value">
-    <mp-radio :value="0">吃饭</mp-radio>
-    <mp-radio :value="1">睡觉</mp-radio>
-  </mp-radio-group>
-</template>
+```demo
+../example/demos/radio-group.vue
 ```
 
 ### 选项式 API
 
 通过 `options` 属性设置子元素。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-const options = ref([
-  { label: '吃饭', value: 0 },
-  { label: '睡觉', value: 1 },
-  { label: '游戏', value: 2, disabled: true },
-])
-</script>
-
-<template>
-  <mp-radio-group v-model="value" :options="options" />
-  <div>当前的值: {{ value }}</div>
-</template>
+```demo
+../example/demos/radio-group-options.vue
 ```
 
 ### 自定义字段
 
 通过 `field-names` 属性自定义 `options` 中数据的格式。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-const options = ref([
-  { name: '吃饭', id: 0 },
-  { name: '睡觉', id: 1 },
-  { name: '游戏', id: 2 },
-])
-</script>
-
-<template>
-  <mp-radio-group v-model="value" :options="options"
-      :field-names="{ label: 'name', value: 'id' }" />
-  <div>当前的值: {{ value }}</div>
-</template>
+```demo
+../example/demos/custom-fields.vue
 ```
 
 ### 垂直布局
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref(0)
-</script>
-
-<template>
-  <mp-radio-group v-model="value" direction="vertical">
-    <mp-radio :value="0">吃饭</mp-radio>
-    <mp-radio :value="1">睡觉</mp-radio>
-  </mp-radio-group>
-</template>
-```
 
 > 单选框及单选框组的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+
+```demo
+../example/demos/vertical.vue
+```
 
 ## API
 
@@ -267,7 +159,7 @@ const value = ref(0)
 | `--radio-icon-size` | `24px` |
 | `--radio-text-color` | `#555` |
 
-## API
+### API
 
 ### 属性
 

@@ -4,95 +4,10 @@
 
 ## 案例
 
-### 基础用法
+### 基本使用
 
-下拉到刷新位置后松开触发 `refresh`。开始时把 `v-model` 设为 `true` 表示加载中，结束后设为 `false`。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const data1 = Array(30).fill('列表项')
-const data2 = Array(30).fill('新的列表项')
-const isRefresh = ref(false)
-const data = ref(data1)
-
-function refresh() {
-  setTimeout(() => {
-    data.value = data.value[0] === '列表项' ? data2 : data1
-    isRefresh.value = false
-  }, 2000)
-}
-</script>
-
-<template>
-  <mp-pull-refresh v-model="isRefresh" @refresh="refresh">
-    <mp-cell v-for="(item, index) in data" :key="index" border>
-      {{ item }} {{ index + 1 }}
-    </mp-cell>
-  </mp-pull-refresh>
-</template>
-```
-
-### 与 InfiniteScroll 组合
-
-与 `InfiniteScroll` 组合可同时实现下拉刷新和触底加载。刷新期间通过 `disabled` 暂停分页，完成后重置数据和分页状态。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const refreshing = ref(false)
-const infiniteDisabled = ref(false)
-const status = ref('idle')
-const list = ref([])
-
-async function refresh() {
-  infiniteDisabled.value = true
-  list.value = await fetchFirstPage()
-  status.value = 'idle'
-  refreshing.value = false
-  infiniteDisabled.value = false
-}
-
-async function load() {
-  try {
-    const next = await fetchNextPage()
-    list.value.push(...next.items)
-    status.value = next.hasMore ? 'idle' : 'finished'
-  } catch {
-    status.value = 'error'
-  }
-}
-</script>
-
-<template>
-  <mp-pull-refresh v-model="refreshing" @refresh="refresh">
-    <mp-infinite-scroll
-      v-model:status="status"
-      :disabled="infiniteDisabled"
-      @load="load"
-      @retry="load"
-    >
-      <mp-cell v-for="item in list" :key="item">列表项 {{ item }}</mp-cell>
-    </mp-infinite-scroll>
-  </mp-pull-refresh>
-</template>
-```
-
-### 高度注意
-
-容器高度为 `0` 时下拉会失效，需保证子元素高度不为 `0`，或直接给 `PullRefresh` 设置高度。
-
-```html
-<!-- playground-ignore -->
-<mp-pull-refresh>
-  <div style="height: 200px"></div>
-</mp-pull-refresh>
-
-<mp-pull-refresh style="height: 200px">
-  <div></div>
-</mp-pull-refresh>
+```demo
+../example/demos/basic.vue
 ```
 
 ## API

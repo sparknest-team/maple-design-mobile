@@ -1,137 +1,71 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import MpCustomFormComponent from './CustomFormComponent'
-import { t, use } from './locale'
+import ControllerDemo from './demos/controller.vue'
+import CustomControlDemo from './demos/custom-control.vue'
+import EnControllerDemo from './demos/en-US/controller.vue'
+import EnCustomControlDemo from './demos/en-US/custom-control.vue'
+import EnEventsDemo from './demos/en-US/events.vue'
+import EnExampleDemo from './demos/en-US/example.vue'
+import EnFloatingPlaceholderDemo from './demos/en-US/floating-placeholder.vue'
+import EnHelpExtraDemo from './demos/en-US/help-extra.vue'
+import EnHorizontalLayoutDemo from './demos/en-US/horizontal-layout.vue'
+import EnVerticalLabelDemo from './demos/en-US/vertical-label.vue'
+import EventsDemo from './demos/events.vue'
+import ExampleDemo from './demos/example.vue'
+import FloatingPlaceholderDemo from './demos/floating-placeholder.vue'
+import HelpExtraDemo from './demos/help-extra.vue'
+import HorizontalLayoutDemo from './demos/horizontal-layout.vue'
+import VerticalLabelDemo from './demos/vertical-label.vue'
 
-const formData = reactive({
-  username: '',
-  password: '',
-  email: '',
-  department: '',
-  gender: undefined,
-  license: false,
-  range: 0,
-  count: 0,
-  group: [],
-  score: 0,
-  like: [],
-  files: [],
-  custom: false,
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
 })
-
-const form = ref(null)
-const disabled = ref(false)
-const readonly = ref(false)
-const suggestions = computed(() =>
-  ['@qq.com', '@163.com', '@gmail.com'].map((suffix) => {
-    const [prefix] = formData.email.split('@')
-    return {
-      label: prefix + suffix,
-      value: prefix + suffix,
-    }
-  }),
-)
-
-watchLang((lang) => {
-  use(lang)
-  form.value?.resetFields()
-})
-
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('example') }}</app-type>
-
-  <mp-form
-    ref="form"
-    :model="formData"
-    :disabled="disabled"
-    :readonly="readonly"
-    scroll-to-error="start"
-    scroll-to-error-offset-y="14.4vmin"
-  >
-    <mp-space direction="column" :size="['4vmin', 0]">
-      <mp-form-item field="username" :rules="[(v) => !!v || t('usernameMessage')]">
-        <mp-input v-model="formData.username" :placeholder="t('username')" />
-      </mp-form-item>
-      <mp-form-item
-        field="password"
-        :rules="[(v) => !!v || t('passwordMessage'), (v) => v.length >= 8 || t('passwordMinLengthMessage')]"
-      >
-        <mp-input v-model="formData.password" type="password" :placeholder="t('password')" />
-      </mp-form-item>
-      <mp-form-item field="email" :rules="[(v) => !!v || t('emailMessage')]">
-        <mp-auto-complete v-model="formData.email" :placeholder="t('email')" :options="suggestions" />
-      </mp-form-item>
-      <mp-form-item field="department" :rules="[(v) => !!v || t('departmentMessage')]">
-        <mp-select v-model="formData.department" :placeholder="t('department')">
-          <mp-option :label="`${t('eat')}${t('departmentUnit')}`" />
-          <mp-option :label="`${t('sleep')}${t('departmentUnit')}`" />
-          <mp-option :label="`${t('play')}${t('departmentUnit')}`" />
-        </mp-select>
-      </mp-form-item>
-      <mp-form-item field="group" :rules="[(v) => v.length >= 1 || t('groupMessage')]">
-        <mp-select v-model="formData.group" multiple :placeholder="t('group')">
-          <mp-option :label="`${t('eat')}${t('groupUnit')}`" />
-          <mp-option :label="`${t('sleep')}${t('groupUnit')}`" />
-          <mp-option :label="`${t('play')}${t('groupUnit')}`" />
-        </mp-select>
-      </mp-form-item>
-      <mp-form-item field="gender" :rules="[(v) => !!v || t('genderMessage')]">
-        <mp-radio-group v-model="formData.gender">
-          <mp-radio :checked-value="1">{{ t('male') }}</mp-radio>
-          <mp-radio :checked-value="2">{{ t('female') }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="like" :rules="[(v) => v.length > 0 || t('likeMessage')]">
-        <mp-checkbox-group v-model="formData.like">
-          <mp-checkbox :checked-value="1">{{ t('eat') }}</mp-checkbox>
-          <mp-checkbox :checked-value="2">{{ t('sleep') }}</mp-checkbox>
-          <mp-checkbox :checked-value="3">{{ t('play') }}</mp-checkbox>
-        </mp-checkbox-group>
-      </mp-form-item>
-      <mp-form-item field="score" :rules="[(v) => v >= 3 || t('rateMessage')]">
-        <mp-rate v-model="formData.score" />
-      </mp-form-item>
-      <mp-form-item field="license" :rules="[(v) => !!v || t('licenseMessage')]">
-        <mp-switch v-model="formData.license" variant="md3" />
-      </mp-form-item>
-      <mp-form-item field="count" :rules="[(v) => v > 10 || t('countMessage')]">
-        <mp-counter v-model="formData.count" />
-      </mp-form-item>
-      <mp-form-item field="range" :rules="[(v) => v > 10 || t('rangeMessage')]">
-        <mp-slider v-model="formData.range" />
-      </mp-form-item>
-      <mp-form-item field="files" :rules="[(v) => v.length >= 1 || t('filesMessage')]">
-        <mp-upload v-model="formData.files" />
-      </mp-form-item>
-    </mp-space>
-
-    <app-type>{{ t('customFormComponent') }}</app-type>
-    <mp-form-item field="custom" :rules="[(v) => !!v || t('customErrorMessage')]" :help="t('customExtraMessage')">
-      <mp-custom-form-component v-model="formData.custom">
-        {{ t('customLabel') }}
-      </mp-custom-form-component>
-    </mp-form-item>
-  </mp-form>
-
-  <app-type>{{ t('controller') }}</app-type>
-
-  <mp-space direction="column" :size="['4vmin', 0]">
-    <mp-button block status="danger" @click="form.resetFields()">{{ t('reset') }}</mp-button>
-    <mp-button block status="warning" @click="form.clearValidate()">{{ t('resetValidation') }}</mp-button>
-    <mp-button block status="success" @click="form.validate()">{{ t('validate') }}</mp-button>
-    <mp-button block status="info" @click="disabled = !disabled">{{ t('disabled') }}</mp-button>
-    <mp-button block status="primary" @click="readonly = !readonly">{{ t('readonly') }}</mp-button>
-  </mp-space>
-
-  <div class="space"></div>
+  <section data-demo="example">
+    <app-type>{{ english ? 'Basic form' : '基础表单' }}</app-type>
+    <EnExampleDemo v-if="english" />
+    <ExampleDemo v-else />
+  </section>
+  <section data-demo="controller">
+    <app-type>{{ english ? 'Form controller' : '表单控制' }}</app-type>
+    <EnControllerDemo v-if="english" />
+    <ControllerDemo v-else />
+  </section>
+  <section data-demo="events">
+    <app-type>{{ english ? 'Form events' : '表单事件' }}</app-type>
+    <EnEventsDemo v-if="english" />
+    <EventsDemo v-else />
+  </section>
+  <section data-demo="custom-control">
+    <app-type>{{ english ? 'Custom form control' : '自定义表单控件' }}</app-type>
+    <EnCustomControlDemo v-if="english" />
+    <CustomControlDemo v-else />
+  </section>
+  <section data-demo="vertical-label">
+    <app-type>{{ english ? 'Outer label' : '外置标签' }}</app-type>
+    <EnVerticalLabelDemo v-if="english" />
+    <VerticalLabelDemo v-else />
+  </section>
+  <section data-demo="horizontal-layout">
+    <app-type>{{ english ? 'Horizontal layout' : '左右布局' }}</app-type>
+    <EnHorizontalLayoutDemo v-if="english" />
+    <HorizontalLayoutDemo v-else />
+  </section>
+  <section data-demo="floating-placeholder">
+    <app-type>{{ english ? 'Floating placeholder' : '浮动 Placeholder' }}</app-type>
+    <EnFloatingPlaceholderDemo v-if="english" />
+    <FloatingPlaceholderDemo v-else />
+  </section>
+  <section data-demo="help-extra">
+    <app-type>{{ english ? 'Help and extra content' : '帮助与额外信息' }}</app-type>
+    <EnHelpExtraDemo v-if="english" />
+    <HelpExtraDemo v-else />
+  </section>
 </template>
-
-<style scoped lang="less">
-.space {
-  height: 40px;
-}
-</style>

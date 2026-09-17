@@ -1,0 +1,26 @@
+{
+  "zh-CN": {
+    "basic": "最简单用法",
+    "navContent": "标签内容简写",
+    "variants": "变体与尺寸",
+    "scrollable": "横向滚动与手势切换",
+    "position": "方向与指示器位置",
+    "iconsAndSlots": "图标与导航插槽",
+    "editable": "动态增删标签",
+    "controlled": "受控切换",
+    "lazyLoad": "按需挂载内容",
+    "customStyle": "自定义内部样式"
+  },
+  "en-US": {
+    "basic": "Simplest usage",
+    "navContent": "Tab content shorthand",
+    "variants": "Variants and sizes",
+    "scrollable": "Scrolling and swipe gestures",
+    "position": "Orientation and indicator position",
+    "iconsAndSlots": "Icons and navigation slots",
+    "editable": "Add and remove tabs",
+    "controlled": "Controlled tabs",
+    "lazyLoad": "Lazy content mounting",
+    "customStyle": "Custom tab styles"
+  }
+}

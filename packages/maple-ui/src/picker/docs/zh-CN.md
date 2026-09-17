@@ -4,6 +4,55 @@
 
 提供了函数和组件两种调用方式。同时支持级联模式，可以处理多级联动。
 
+
+
+### function call
+
+```demo
+../example/demos/function-call.vue
+```
+
+### single picker
+
+```demo
+../example/demos/single-picker.vue
+```
+
+### multiple picker
+
+```demo
+../example/demos/multiple-picker.vue
+```
+
+### cascade picker
+
+```demo
+../example/demos/cascade-picker.vue
+```
+
+### area picker
+
+```demo
+../example/demos/area-picker.vue
+```
+
+### columns count
+
+```demo
+../example/demos/columns-count.vue
+```
+
+### value mapping
+
+```demo
+../example/demos/value-mapping.vue
+```
+
+### two way binding
+
+```demo
+../example/demos/two-way-binding.vue
+```
 ## 函数调用
 
 ### 单列选择

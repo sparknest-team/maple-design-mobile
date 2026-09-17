@@ -10,7 +10,17 @@
 
 预览区随页面正常滚动，不吸顶覆盖控制项或屏幕上的 Fab。开启拖拽后按钮离开预览区，显示在屏幕所选角落；关闭拖拽则返回预览区。
 
+### 基础用法
+
+```demo
+../example/demos/basic.vue
+```
+
 ### 主题色按钮
+
+```demo
+../example/demos/status.vue
+```
 
 ```html
 <script setup>
@@ -35,6 +45,10 @@ const status = ref('primary')
 
 ### 触发器位置
 
+```demo
+../example/demos/position.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -55,6 +69,10 @@ const position = ref('right-bottom')
 ```
 
 ### 触发方式
+
+```demo
+../example/demos/trigger.vue
+```
 
 ```html
 <script setup>
@@ -87,6 +105,10 @@ const trigger = ref('click')
 ```
 
 ### 动作菜单弹出方向
+
+```demo
+../example/demos/direction.vue
+```
 
 ```html
 <script setup>
@@ -122,6 +144,10 @@ const direction = ref('top')
 
 ### 开启拖拽
 
+```demo
+../example/demos/drag.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -138,6 +164,10 @@ const drag = ref(false)
 
 ### 禁用
 
+```demo
+../example/demos/disabled.vue
+```
+
 ```html
 <script setup>
 import { ref } from 'vue'
@@ -153,6 +183,10 @@ const disabled = ref(false)
 ```
 
 ### 触发器显示/隐藏
+
+```demo
+../example/demos/visibility.vue
+```
 
 ```html
 <script setup>
@@ -173,6 +207,10 @@ function toggle() {
 ```
 
 ### 动作菜单展开/收起
+
+```demo
+../example/demos/controlled.vue
+```
 
 ```html
 <script setup>
@@ -206,6 +244,10 @@ function toggle() {
 ```
 
 ### 自定义触发器
+
+```demo
+../example/demos/custom-trigger.vue
+```
 
 ```html
 <template>
@@ -246,7 +288,6 @@ function toggle() {
 }
 </style>
 ```
-
 ## API
 
 ### 属性

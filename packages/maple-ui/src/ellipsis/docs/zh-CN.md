@@ -6,70 +6,32 @@
 
 ### 单行省略
 
-```html
-<template>
-  <mp-ellipsis style="max-width: 170px">
-    其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/line.vue
 ```
 
 ### 多行省略
 
-```html
-<template>
-  <mp-ellipsis style="max-width: 170px" :line-clamp="3">
-    其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/multiple-line.vue
 ```
 
 ### 双向绑定
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const expand = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button status="primary" @click="expand = !expand">切换</mp-button>
-    <mp-ellipsis style="max-width: 170px" v-model:expand="expand">
-      其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
-    </mp-ellipsis>
-  </mp-space>
-</template>
+```demo
+../example/demos/two-way-binding.vue
 ```
 
 ### 点击文字展开
 
-```html
-<template>
-  <mp-ellipsis 
-    style="max-width: 170px" 
-    expand-trigger="click" 
-    :line-clamp="3" 
-    :tooltip="false"
-  >
-    其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/expand.vue
 ```
 
 ### 自定义 Tooltip
 
-```html
-<template>
-  <mp-ellipsis style="max-width: 170px" :tooltip="{ type: 'primary', autoFitPopupWidth: false }">
-    其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。
-
-    <template #tooltip-content>
-      <m-icon-github />
-    </template>
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/tooltip.vue
 ```
 
 ## API

@@ -8,142 +8,72 @@ Tag is used for marking, categorizing, and filtering. The API aligns with Cedar 
 
 Set the theme color with `status`. Options match Button: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger`.
 
-```html
-<template>
-  <mp-space>
-    <mp-tag>Default</mp-tag>
-    <mp-tag status="primary">Primary</mp-tag>
-    <mp-tag status="info">Info</mp-tag>
-    <mp-tag status="success">Success</mp-tag>
-    <mp-tag status="warning">Warning</mp-tag>
-    <mp-tag status="danger">Danger</mp-tag>
-    <mp-tag status="secondary">Secondary</mp-tag>
-    <mp-tag status="tertiary">Contrast</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/theme-color-tag.vue
 ```
 
 ### Outline
 
 Use `variant="outline"` for the outline style.
 
-```html
-<template>
-  <mp-space>
-    <mp-tag variant="outline">Default</mp-tag>
-    <mp-tag variant="outline" status="primary">Primary</mp-tag>
-    <mp-tag variant="outline" status="success">Success</mp-tag>
-    <mp-tag variant="outline" status="danger">Danger</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/outline-tag.vue
 ```
 
 ### Round
 
 Enable the pill shape with `round`.
 
-```html
-<template>
-  <mp-space>
-    <mp-tag round status="primary">Round</mp-tag>
-    <mp-tag round variant="outline" status="success">Outline Round</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/round-tag.vue
 ```
 
 ### Size
 
 Set size with `size`: `xs` `sm` `md` `lg` `xl`.
 
-```html
-<template>
-  <mp-space align="center">
-    <mp-tag size="xs" status="primary">xs</mp-tag>
-    <mp-tag size="sm" status="primary">sm</mp-tag>
-    <mp-tag size="md" status="primary">md</mp-tag>
-    <mp-tag size="lg" status="primary">lg</mp-tag>
-    <mp-tag size="xl" status="primary">xl</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/tag-size.vue
 ```
 
 ### Closable
 
 Show a close button with `closable`. Use `v-model:show` or manage a list yourself.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const show = ref(true)
-const tags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
-
-function removeTag(tag) {
-  tags.value = tags.value.filter((item) => item !== tag)
-}
-</script>
-
-<template>
-  <mp-space>
-    <mp-tag v-model:show="show" closable status="primary">Tag</mp-tag>
-    <mp-tag v-for="tag in tags" :key="tag" closable round @close="removeTag(tag)">
-      {{ tag }}
-    </mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/closable-tag.vue
 ```
 
 ### Loading
 
 Show a loading state with `loading`.
 
-```html
-<template>
-  <mp-tag loading status="primary">Loading</mp-tag>
-</template>
+```demo
+../example/demos/loading-tag.vue
 ```
 
 ### Checkable
 
 Make the tag toggleable with `checkable` and `v-model:checked`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const checked = ref(true)
-</script>
-
-<template>
-  <mp-tag v-model:checked="checked" checkable status="primary">Checkable</mp-tag>
-</template>
+```demo
+../example/demos/checkable-tag.vue
 ```
 
 ### Icon
 
 Customize the leading icon with the `icon` slot, and the close icon with `close-icon`.
 
-```html
-<template>
-  <mp-tag status="success">
-    <template #icon><m-icon-check /></template>
-    Done
-  </mp-tag>
-</template>
+```demo
+../example/demos/icon-tag.vue
 ```
 
 ### Custom Color
 
 Override status colors with `color` and `text-color`. With `variant="outline"`, `color` is used as the border color.
 
-```html
-<template>
-  <mp-space>
-    <mp-tag color="#66bb6a" text-color="#fff">Custom</mp-tag>
-    <mp-tag variant="outline" color="#6750A4">Outline Custom</mp-tag>
-    <mp-tag color="linear-gradient(to right bottom, #6750A4, #D0BCFF)" text-color="#fff">Gradient</mp-tag>
-  </mp-space>
-</template>
+```demo
+../example/demos/custom-color-tag.vue
 ```
 
 ## API

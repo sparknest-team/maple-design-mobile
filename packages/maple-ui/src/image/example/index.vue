@@ -1,224 +1,110 @@
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { imagePreview, Message } from '@maplejs/maple-ui'
-import { t, use } from './locale'
-import PreviewDemos from './preview/index.vue'
+import DemoBasic from './demos/basic.vue'
+import DemoCaption from './demos/caption.vue'
+import DemoComponentPreviewGroup from './demos/component-preview-group.vue'
+import DemoComponentPreview from './demos/component-preview.vue'
+import DemoDisablePreview from './demos/disable-preview.vue'
+import DemoError from './demos/error.vue'
+import DemoExtra from './demos/extra.vue'
+import DemoFitMode from './demos/fit-mode.vue'
+import DemoHideFooterNever from './demos/hide-footer-never.vue'
+import DemoImperativePreview from './demos/imperative-preview.vue'
+import DemoLazy from './demos/lazy.vue'
+import DemoLoader from './demos/loader.vue'
+import DemoOverlayClosable from './demos/overlay-closable.vue'
+import DemoPresentation from './demos/presentation.vue'
+import DemoPreviewEntry from './demos/preview-entry.vue'
+import DemoPreviewFeatures from './demos/preview-features.vue'
+import DemoPreviewGroup from './demos/preview-group.vue'
+import DemoPreviewPopupContainer from './demos/preview-popup-container.vue'
+import DemoRipple from './demos/ripple.vue'
 
-const previewOpen = ref(false)
-const reloadKey = ref('')
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-function reloadImage() {
-  reloadKey.value = String(Date.now())
-}
 </script>
 
 <template>
-  <h2 class="image-example-category">{{ t('basicDisplay') }}</h2>
-
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-image src="/cat.jpg" />
-
-  <app-type>{{ t('setSize') }}</app-type>
-  <mp-image src="/cat.jpg" width="120" height="80" object-fit="cover" />
-
-  <app-type>{{ t('fitMode') }}</app-type>
-  <mp-space :size="['4vmin', '4vmin']" wrap>
-    <div v-for="mode in ['fill', 'cover', 'none', 'contain', 'scale-down']" :key="mode" class="image-example-fit-item">
-      <mp-image width="20vmin" height="20vmin" :object-fit="mode" src="/cat.jpg" preview-disabled />
-      <div class="image-example-text">{{ mode }}</div>
-    </div>
-  </mp-space>
-
-  <app-type>{{ t('setPosition') }}</app-type>
-  <mp-image
-    width="28vmin"
-    height="20vmin"
-    object-fit="cover"
-    object-position="left top"
-    src="/cat.jpg"
-    preview-disabled
-  />
-
-  <app-type>{{ t('setRadius') }}</app-type>
-  <mp-space :size="['4vmin', '4vmin']">
-    <mp-image width="20vmin" height="20vmin" object-fit="cover" :radius="10" src="/cat.jpg" preview-disabled />
-    <mp-image width="20vmin" height="20vmin" object-fit="cover" radius="50%" src="/cat.jpg" preview-disabled />
-  </mp-space>
-
-  <h2 class="image-example-category">{{ t('contentDescription') }}</h2>
-
-  <app-type>{{ t('setAltTitle') }}</app-type>
-  <mp-image width="28vmin" src="/cat.jpg" alt="cat" title="Maple Cat" preview-disabled />
-
-  <app-type>{{ t('caption') }}</app-type>
-  <mp-space :size="['4vmin', '4vmin']">
-    <mp-image width="28vmin" src="/cat.jpg" title="Maple Cat" description="Maple Design" preview-disabled />
-    <mp-image
-      width="28vmin"
-      src="/cat2.jpg"
-      title="Maple Cat"
-      description="Maple Design"
-      footer-position="outer"
-      preview-disabled
-    />
-  </mp-space>
-
-  <app-type>{{ t('footerExtra') }}</app-type>
-  <mp-image width="28vmin" src="/cat.jpg" title="Maple Cat" description="Maple Design" preview-disabled>
-    <template #extra>
-      <span class="image-example-extra">Maple</span>
-    </template>
-  </mp-image>
-
-  <app-type>{{ t('keepFooterOnError') }}</app-type>
-  <mp-image
-    width="28vmin"
-    src="invalid-image.jpg"
-    title="Maple Cat"
-    description="Maple Design"
-    hide-footer="never"
-    preview-disabled
-  />
-
-  <h2 class="image-example-category">{{ t('loadingAndFallback') }}</h2>
-
-  <app-type>{{ t('useLazyLoad') }}</app-type>
-  <mp-image lazy width="28vmin" src="/cat.jpg" preview-disabled />
-
-  <app-type>{{ t('lazyPlaceholder') }}</app-type>
-  <mp-space :size="['4vmin', '4vmin']">
-    <mp-image lazy width="28vmin" src="/cat.jpg" preview-disabled />
-    <mp-image width="28vmin" fallback-src="/cat2.jpg" src="invalid-image.jpg" preview-disabled />
-  </mp-space>
-
-  <app-type>{{ t('loadingState') }}</app-type>
-  <mp-button size="sm" @click="reloadImage">{{ t('reload') }}</mp-button>
-  <mp-space :size="['4vmin', '4vmin']">
-    <mp-image show-loader width="28vmin" :src="`/cat.jpg?reload=${reloadKey}`" preview-disabled />
-    <mp-image width="28vmin" :src="`/cat.jpg?reload=${reloadKey}`" preview-disabled>
-      <template #loader>
-        <img class="image-example-progressive" src="/cat2.jpg" alt="" />
-      </template>
-    </mp-image>
-  </mp-space>
-
-  <app-type>{{ t('useFailureSlot') }}</app-type>
-  <mp-image width="20vmin" height="20vmin" src="ca.jpg" preview-disabled>
-    <template #error>
-      <svg viewBox="0 0 24 24" style="width: 100%; height: 100%">
-        <path
-          fill="currentColor"
-          d="M21,5V11.59L18,8.58L14,12.59L10,8.59L6,12.59L3,9.58V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5M18,11.42L21,14.43V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V12.42L6,15.41L10,11.41L14,15.41"
-        />
-      </svg>
-    </template>
-  </mp-image>
-
-  <h2 class="image-example-category">{{ t('previewEntry') }}</h2>
-
-  <app-type>{{ t('disablePreview') }}</app-type>
-  <mp-image preview-disabled width="28vmin" src="/cat.jpg" />
-
-  <app-type>{{ t('previewSrc') }}</app-type>
-  <mp-image width="20vmin" height="20vmin" object-fit="cover" src="/cat.jpg" preview-src="/cat2.jpg" radius="8" />
-
-  <app-type>{{ t('controlledPreview') }}</app-type>
-  <mp-button status="primary" block @click="previewOpen = true">{{ t('openPreview') }}</mp-button>
-  <mp-image v-model:preview-open="previewOpen" width="28vmin" src="/cat.jpg" />
-
-  <app-type>{{ t('previewProps') }}</app-type>
-  <mp-image width="28vmin" src="/cat.jpg" :preview-props="{ closable: true, scaleStep: 1 }" />
-  <div class="image-example-tip">{{ t('clickImagePreview') }}</div>
-
-  <app-type>{{ t('overlayClosable') }}</app-type>
-  <mp-space :size="['4vmin', '4vmin']">
-    <mp-image
-      width="28vmin"
-      height="28vmin"
-      object-fit="cover"
-      src="/cat.jpg"
-      :preview-props="{ overlayClosable: true }"
-    />
-    <mp-image
-      width="28vmin"
-      height="28vmin"
-      object-fit="cover"
-      src="/cat2.jpg"
-      :preview-props="{ overlayClosable: false }"
-    />
-  </mp-space>
-  <div class="image-example-tip">{{ t('overlayClosableTip') }}</div>
-
-  <app-type>{{ t('popupContainer') }}</app-type>
-  <div id="maple-image-preview-container" class="image-example-popup-container">
-    <mp-image width="28vmin" src="/cat.jpg" :preview-props="{ popupContainer: '#maple-image-preview-container' }" />
-  </div>
-
-  <h2 class="image-example-category">{{ t('mobileFeatures') }}</h2>
-
-  <app-type>{{ t('useRipple') }}</app-type>
-  <mp-image ripple width="28vmin" src="/cat.jpg" preview-disabled />
-
-  <app-type>{{ t('inlineBlock') }}</app-type>
-  <mp-image :block="false" width="20vmin" height="20vmin" object-fit="cover" src="/cat.jpg" preview-disabled />
-  <mp-image :block="false" width="20vmin" height="20vmin" object-fit="cover" src="/cat2.jpg" preview-disabled />
-
-  <preview-demos />
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
+    <DemoBasic />
+  </section>
+  <section data-demo="fit-mode">
+    <app-type>{{ english ? 'Fit mode' : '填充模式' }}</app-type>
+    <DemoFitMode />
+  </section>
+  <section data-demo="presentation">
+    <app-type>{{ english ? 'Size, radius and position' : '尺寸、圆角与位置' }}</app-type>
+    <DemoPresentation />
+  </section>
+  <section data-demo="caption">
+    <app-type>{{ english ? 'Caption' : '标题与描述' }}</app-type>
+    <DemoCaption />
+  </section>
+  <section data-demo="extra">
+    <app-type>{{ english ? 'Extra footer' : '底部额外内容' }}</app-type>
+    <DemoExtra />
+  </section>
+  <section data-demo="error">
+    <app-type>{{ english ? 'Error state' : '错误状态' }}</app-type>
+    <DemoError />
+  </section>
+  <section data-demo="hide-footer-never">
+    <app-type>{{ english ? 'Keep footer on error' : '错误时仍显示 Footer' }}</app-type>
+    <DemoHideFooterNever />
+  </section>
+  <section data-demo="loader">
+    <app-type>{{ english ? 'Loading' : '加载状态' }}</app-type>
+    <DemoLoader />
+  </section>
+  <section data-demo="lazy">
+    <app-type>{{ english ? 'Lazy load and fallback' : '懒加载与回退' }}</app-type>
+    <DemoLazy />
+  </section>
+  <section data-demo="ripple">
+    <app-type>{{ english ? 'Ripple and inline' : '水波与行内' }}</app-type>
+    <DemoRipple />
+  </section>
+  <section data-demo="disable-preview">
+    <app-type>{{ english ? 'Disable preview' : '禁用预览' }}</app-type>
+    <DemoDisablePreview />
+  </section>
+  <section data-demo="preview-entry">
+    <app-type>{{ english ? 'Preview entry' : '预览入口与受控' }}</app-type>
+    <DemoPreviewEntry />
+  </section>
+  <section data-demo="overlay-closable">
+    <app-type>{{ english ? 'Close on overlay' : '点击背景层关闭' }}</app-type>
+    <DemoOverlayClosable />
+  </section>
+  <section data-demo="preview-popup-container">
+    <app-type>{{ english ? 'Popup container' : '指定挂载容器' }}</app-type>
+    <DemoPreviewPopupContainer />
+  </section>
+  <section data-demo="preview-group">
+    <app-type>{{ english ? 'Preview group' : '图片预览组' }}</app-type>
+    <DemoPreviewGroup />
+  </section>
+  <section data-demo="component-preview-group">
+    <app-type>{{ english ? 'Data-driven group' : '数据驱动预览组' }}</app-type>
+    <DemoComponentPreviewGroup />
+  </section>
+  <section data-demo="component-preview">
+    <app-type>{{ english ? 'Single preview' : '单图 Preview' }}</app-type>
+    <DemoComponentPreview />
+  </section>
+  <section data-demo="preview-features">
+    <app-type>{{ english ? 'Custom preview' : '自定义预览内容' }}</app-type>
+    <DemoPreviewFeatures />
+  </section>
+  <section data-demo="imperative-preview">
+    <app-type>{{ english ? 'Imperative preview' : '命令式预览' }}</app-type>
+    <DemoImperativePreview />
+  </section>
 </template>
-
-<style scoped lang="less">
-.image-example-fit-item {
-  color: var(--mp-site-config-color-text);
-  text-align: center;
-
-  .image-example-text {
-    margin-top: 8px;
-    font-size: 12px;
-  }
-}
-
-.image-example-category {
-  margin: 28px 0 12px;
-  color: var(--mp-site-config-color-text);
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.image-example-category:first-child {
-  margin-top: 0;
-}
-
-.image-example-tip {
-  margin-top: 8px;
-  color: var(--mp-site-config-color-text);
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.image-example-extra {
-  padding: 2px 8px;
-  color: #fff;
-  font-size: 12px;
-  background: rgb(0 0 0 / 45%);
-  border-radius: 10px;
-}
-
-.image-example-progressive {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(5px);
-}
-
-.image-example-popup-container {
-  position: relative;
-  height: 180px;
-  padding: 12px;
-  overflow: hidden;
-  background: var(--mp-color-fill-2);
-}
-</style>

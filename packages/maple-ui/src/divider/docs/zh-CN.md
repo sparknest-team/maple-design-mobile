@@ -1,81 +1,58 @@
 # 分割线
 
-### 介绍
+## 介绍
 
 用于分隔列表或布局的各个部分。API 与 Cedar Design Web 的 Divider 对齐。
 
+## 案例
+
 ### 基本使用
 
-```html
-<template>
-  <mp-divider />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 线型
 
 通过 `type` 设置线型，可选 `solid` `dashed` `dotted` `double`。
 
-```html
-<template>
-  <mp-divider />
-  <mp-divider type="dashed" />
-  <mp-divider type="dotted" />
-  <mp-divider type="double" :thickness="3" />
-</template>
+```demo
+../example/demos/type.vue
 ```
 
 ### 间距与缩进
 
 通过 `size-x` / `size-y` 控制缩进与间距，支持预设 `xs` `sm` `md` `lg` `xl`，或数值 / 带单位字符串 / `[start, end]`。
 
-```html
-<template>
-  <mp-divider size-x="md" />
-  <mp-divider :size-x="36" size-y="lg" />
-  <mp-divider :size-x="[24, 0]" />
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### 垂直分割线
 
-```html
-<template>
-  <div style="display: flex; align-items: center">
-    <span>文字</span>
-    <mp-divider orientation="vertical" />
-    <span>文字</span>
-    <mp-divider orientation="vertical" type="dashed" />
-    <span>文字</span>
-  </div>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### 带文字
 
 通过 `description` 或默认插槽添加文字；`text-align` 控制位置。
 
-```html
-<template>
-  <mp-divider description="文字描述" />
-  <mp-divider description="靠左" text-align="start" />
-  <mp-divider description="靠右" text-align="end" />
-  <mp-divider>
-    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
-  </mp-divider>
-</template>
+```demo
+../example/demos/with-desc.vue
 ```
 
-### 颜色与线宽
+### 自定义内容
 
-```html
-<template>
-  <mp-divider color="var(--mp-color-primary)" />
-  <mp-divider :thickness="3" color="#6750A4" />
-  <mp-divider hairline />
-</template>
+```demo
+../example/demos/custom.vue
 ```
 
+### 颜色、线宽与透明度
+
+```demo
+../example/demos/color.vue
+```
 ## API
 
 ### 属性

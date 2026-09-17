@@ -6,40 +6,62 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref(1)
-</script>
-
-<template>
-  <mp-input-number v-model="value" />
-</template>
+```demo
+../example/demos/demo-1.vue
 ```
 
 ### 设置取值范围
 
-```html
-<mp-input-number v-model="value" :min="0" :max="10" />
+```demo
+../example/demos/demo-2.vue
 ```
 
 ### 设置步长和精度
 
-```html
-<mp-input-number v-model="value" :step="0.1" :precision="1" />
+```demo
+../example/demos/demo-5.vue
 ```
 
 ### 纯输入模式
 
-```html
-<mp-input-number v-model="value" mode="input" />
+```demo
+../example/demos/demo-9.vue
 ```
 
 ### 格式化显示
 
-```html
-<mp-input-number v-model="value" :formatter="(value) => `${value}%`" :parser="(value) => value.replace('%', '')" />
+```demo
+../example/demos/demo-8.vue
+```
+
+### 按钮模式
+
+```demo
+../example/demos/demo-3.vue
+```
+
+### 尺寸
+
+```demo
+../example/demos/demo-4.vue
+```
+
+### 前后缀
+
+```demo
+../example/demos/demo-6.vue
+```
+
+### 自定义增减图标
+
+```demo
+../example/demos/demo-7.vue
+```
+
+### 输入更新事件
+
+```demo
+../example/demos/demo-10.vue
 ```
 
 ## API

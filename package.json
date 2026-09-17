@@ -26,7 +26,7 @@
     "package:check": "node scripts/quality/package-check.mjs",
     "preview": "pnpm --dir ./packages/maple-ui preview",
     "preview:play": "pnpm --dir ./packages/maple-ui-playground preview",
-    "quality": "pnpm spec:check && pnpm lint:check && pnpm typecheck && pnpm test && pnpm build && pnpm package:check",
+    "quality": "pnpm spec:check && pnpm check:style-vars && pnpm lint:check && pnpm typecheck && pnpm test && pnpm build && pnpm package:check",
     "release": "node scripts/release.mjs",
     "release:extension": "pnpm --dir ./packages/maple-vscode-extension release",
     "spec:check": "node scripts/quality/spec-check.mjs",
@@ -34,7 +34,9 @@
     "test:coverage": "pnpm --dir ./packages/maple-ui test:coverage",
     "test:watch": "pnpm --dir ./packages/maple-ui test:watch",
     "typecheck": "pnpm --dir ./packages/maple-ui exec vue-tsc --noEmit -p tsconfig.json",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "check:tabs": "node checks/tabs-same-source.mjs",
+    "check:style-vars": "node checks/style-vars-contract.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",

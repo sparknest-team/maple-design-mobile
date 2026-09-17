@@ -1,34 +1,50 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import BorderedDemo from './demos/bordered.vue'
+import RadiusDemo from './demos/radius.vue'
+import RippleDemo from './demos/ripple.vue'
+import RoundDemo from './demos/round.vue'
+import SlotDemo from './demos/slot.vue'
 
-watchLang(use)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-paper :elevation="2" width="25vmin" height="25vmin" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('bordered') }}</app-type>
-  <mp-space wrap>
-    <mp-paper bordered width="25vmin" height="25vmin" />
-    <mp-paper bordered :elevation="2" width="25vmin" height="25vmin" />
-  </mp-space>
+  <section data-demo="bordered">
+    <app-type>{{ english ? 'Border / Border with shadow' : '边框 / 边框与阴影' }}</app-type>
+    <BorderedDemo />
+  </section>
 
-  <app-type>{{ t('ripple') }}</app-type>
-  <mp-paper :elevation="2" ripple width="25vmin" height="25vmin" />
+  <section data-demo="ripple">
+    <app-type>{{ english ? 'Ripple Effect' : '水波效果' }}</app-type>
+    <RippleDemo />
+  </section>
 
-  <app-type>{{ t('round') }}</app-type>
-  <mp-paper :elevation="2" width="25vmin" height="25vmin" round />
+  <section data-demo="round">
+    <app-type>{{ english ? 'Rounded Paper' : '圆形纸张' }}</app-type>
+    <RoundDemo />
+  </section>
 
-  <app-type>{{ t('radius') }}</app-type>
-  <mp-paper :elevation="2" :radius="8" width="25vmin" height="25vmin" />
+  <section data-demo="radius">
+    <app-type>{{ english ? 'Custom Border Radius' : '自定义圆角' }}</app-type>
+    <RadiusDemo />
+  </section>
 
-  <app-type>{{ t('slot') }}</app-type>
-  <mp-paper :elevation="2">
-    <mp-cell>{{ t('paper') }}</mp-cell>
-    <mp-cell>{{ t('paper') }}</mp-cell>
-    <mp-cell>{{ t('paper') }}</mp-cell>
-  </mp-paper>
+  <section data-demo="slot">
+    <app-type>{{ english ? 'Use Slot' : '使用插槽' }}</app-type>
+    <SlotDemo />
+  </section>
 </template>

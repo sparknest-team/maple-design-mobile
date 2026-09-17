@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import List from '..'
-import ListItem from '../../list/ListItem.vue'
 import _List from '../List.vue'
+import ListItem from '../ListItem.vue'
 
 test('installs List and ListItem together', () => {
   const app = createApp({}).use(List)

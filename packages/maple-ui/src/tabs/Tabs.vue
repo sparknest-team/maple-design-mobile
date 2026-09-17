@@ -1,238 +1,159 @@
-<template>
-  <component
-    :is="sticky ? n('$-affix') : Transition"
-    :ref="sticky ? 'stickyComponent' : undefined"
-    :css-mode="sticky ? stickyCssMode : undefined"
-    :offset-top="sticky ? offsetTop : undefined"
-    :z-index="sticky ? stickyZIndex : undefined"
-  >
-    <div
-      :class="
+<template><Render /></template>
+
+<script setup lang="ts">
+import { computed, h, nextTick, provide, ref, useAttrs, useId, useSlots, type VNode } from 'vue'
+import { flatten, tabsInjectionKey, type TabEntry } from './context'
+import { createNamespace, useTabsPlatform } from './platform'
+import { tabsProps, type TabsKey } from './props'
+import TabNav from './TabNav.vue'
+import TabsItems from './TabsItems.vue'
+import TabsNavs from './TabsNavs.vue'
+
+defineOptions({ name: createNamespace('tabs').name, inheritAttrs: false })
+const props = defineProps(tabsProps)
+const emit = defineEmits<{
+  'update:active': [key: TabsKey]
+  change: [key: TabsKey]
+  'tab-click': [key: TabsKey, event: Event]
+  add: [event: Event]
+  delete: [key: TabsKey, event: Event]
+}>()
+const slots = useSlots()
+const attrs = useAttrs()
+const { n, classes } = createNamespace('tabs')
+const { size, rtl } = useTabsPlatform(computed(() => props.size))
+const uid = useId()
+const local = ref(props.defaultActive)
+const focused = ref<TabsKey>()
+const entriesState = ref<TabEntry[]>([])
+const entries = computed(() => entriesState.value)
+const active = computed(() => {
+  if (props.active !== undefined) {
+    return props.active
+  }
+  return (
+    entries.value.find((tab) => tab.key === local.value && !tab.disabled)?.key ??
+    entries.value.find((tab) => !tab.disabled)?.key
+  )
+})
+
+function select(key: TabsKey) {
+  if (key === active.value || !entries.value.some((tab) => tab.key === key && !tab.disabled)) {
+    return
+  }
+  if (props.active === undefined) {
+    local.value = key
+  }
+  emit('update:active', key)
+  emit('change', key)
+}
+function click(key: TabsKey, event: Event) {
+  if (!entries.value.some((tab) => tab.key === key && !tab.disabled)) {
+    return
+  }
+  select(key)
+  emit('tab-click', key, event)
+}
+async function add(event: Event) {
+  emit('add', event)
+  if (props.autoSwitch) {
+    await nextTick()
+    const last = entries.value.filter((tab) => !tab.disabled).at(-1)
+    if (last) {
+      select(last.key)
+    }
+  }
+}
+provide(tabsInjectionKey, {
+  props,
+  entries,
+  active,
+  focused,
+  rtl,
+  select,
+  click,
+  add,
+  remove: (key, event) => emit('delete', key, event),
+  id: (key, part) => `${uid}-${part}-${typeof key}-${encodeURIComponent(String(key))}`,
+})
+
+function collect(nodes: VNode[] | VNode, component: string): VNode[] {
+  return flatten(nodes).flatMap((node) => {
+    const nodeName = (node.type as { name?: string })?.name
+    if (
+      ['tabs', 'tab-nav', 'tab-item', 'tab-pane', component === 'tabs-navs' ? 'tabs-items' : 'tabs-navs'].some(
+        (name) => nodeName === createNamespace(name).name,
+      )
+    ) {
+      return []
+    }
+    const children = node.children as { default?: () => VNode[] | VNode } | null
+    const nested = Array.isArray(node.children) ? (node.children as VNode[]) : (children?.default?.() ?? [])
+    return (node.type as { name?: string })?.name === createNamespace(component).name
+      ? flatten(nested)
+      : collect(nested, component)
+  })
+}
+const Render = () => {
+  const nodes = slots.default?.() ?? []
+  const rootNodes = flatten(nodes)
+  const panes = rootNodes
+    .filter((node) => (node.type as { name?: string })?.name === createNamespace('tab-pane').name)
+    .filter((node) => typeof node.key === 'string' || typeof node.key === 'number')
+  const explicitPanels = collect(nodes, 'tabs-items')
+  const implicitNavs = panes.map((pane) => {
+    const children = pane.children as { title?: () => VNode[] | VNode } | null
+    return h(
+      TabNav,
+      {
+        key: pane.key as TabsKey,
+        title: pane.props?.title ?? String(pane.key),
+        disabled: pane.props?.disabled,
+        closable: pane.props?.closable,
+        itemVertical: pane.props?.itemVertical,
+      },
+      children?.title ? { title: children.title } : undefined,
+    )
+  })
+  const navs = [
+    ...collect(nodes, 'tabs-navs')
+      .filter((node) => (node.type as { name?: string })?.name === createNamespace('tab-nav').name)
+      .filter((node) => typeof node.key === 'string' || typeof node.key === 'number'),
+    ...implicitNavs,
+  ]
+  const panels = [...explicitPanels, ...panes]
+  const next = navs.map((node) => ({
+    key: node.key as TabsKey,
+    disabled: node.props?.disabled === '' || !!node.props?.disabled,
+    hasPanel: panels.some((panel) => panel.key === node.key),
+  }))
+  if (JSON.stringify(next) !== JSON.stringify(entriesState.value)) {
+    entriesState.value = next
+  }
+  return h(
+    'div',
+    {
+      ...attrs,
+      class: [
         classes(
           n(),
-          n('$--box'),
-          n(`--item-${itemDirection}`),
-          n(`--layout-${layoutDirection}-padding`),
-          formatElevation(elevation, 4),
-          n(`--${variant}`),
-          [fixedBottom, n('--fixed-bottom')],
-          [safeArea, n('--safe-area')],
-        )
-      "
-      :style="{ background: color }"
-      v-bind="$attrs"
-    >
-      <div
-        ref="scrollerEl"
-        :class="
-          classes(
-            n('tab-wrap'),
-            [localScrollable, n(`--layout-${layoutDirection}-scrollable`)],
-            n(`--layout-${layoutDirection}`),
-          )
-        "
-      >
-        <slot />
-
-        <slot name="extra" />
-
-        <div
-          v-if="variant === 'line'"
-          :class="classes(n('indicator'), n(`--layout-${layoutDirection}${indicatorPosition}-indicator`))"
-          :style="{
-            width: !vertical ? indicatorWidth : toSizeUnit(indicatorSize),
-            height: !vertical ? toSizeUnit(indicatorSize) : indicatorHeight,
-            transform: !vertical ? `translateX(${indicatorX})` : `translateY(${indicatorY})`,
-          }"
-        >
-          <div
-            :class="classes(n('indicator-inner'), n(`--layout-${layoutDirection}-indicator-inner`))"
-            :style="{ background: indicatorColor || activeColor }"
-          ></div>
-        </div>
-      </div>
-    </div>
-  </component>
-</template>
-
-<script lang="ts">
-import { computed, defineComponent, onActivated, ref, Transition, watch } from 'vue'
-import { call, clamp, doubleRaf, isNumber } from '@maplejs/maple-shared'
-import { onWindowResize } from '@maplejs/maple-use'
-import MpAffix from '../affix'
-import { createNamespace, formatElevation } from '../utils/components'
-import { scrollTo, toSizeUnit } from '../utils/elements'
-import { linear } from '../utils/shared'
-import { props } from './props'
-import { useTabList, type TabsProvider } from './provide'
-import { type TabProvider } from './tab-provide'
-
-const { name, n, classes } = createNamespace('tabs')
-
-export default defineComponent({
-  name,
-  components: { MpAffix },
-  inheritAttrs: false,
-  props,
-  emits: ['update:active', 'click', 'change'],
-  setup(props, { emit }) {
-    const indicatorWidth = ref('0px')
-    const indicatorHeight = ref('0px')
-    const indicatorX = ref('0px')
-    const indicatorY = ref('0px')
-    const localScrollable = ref(false)
-    const scrollerEl = ref<HTMLElement | null>(null)
-    const active = computed(() => props.active)
-    const activeColor = computed(() => props.activeColor)
-    const inactiveColor = computed(() => props.inactiveColor)
-    const disabledColor = computed(() => props.disabledColor)
-    const layoutDirection = computed(() => props.orientation)
-    const itemDirection = computed(() => (props.itemVertical ? 'vertical' : 'horizontal'))
-    const itemVertical = computed(() => props.itemVertical)
-    const stickyComponent = ref<null | typeof MpAffix>(null)
-    const indicatorPosition = computed<string>(() => (props.indicatorPosition === 'reverse' ? '-reverse' : ''))
-    const { tabList, bindTabList, length } = useTabList()
-
-    const tabsProvider: TabsProvider = {
-      active,
-      activeColor,
-      inactiveColor,
-      disabledColor,
-      itemVertical,
-      resize,
-      onTabClick,
-    }
-
-    bindTabList(tabsProvider)
-
-    watch(
-      () => length.value,
-      async () => {
-        await doubleRaf()
-        resize()
-      },
-    )
-
-    watch(() => [props.active, props.scrollable], resize)
-
-    onActivated(resize)
-
-    onWindowResize(resize)
-
-    function onTabClick(tab: TabProvider) {
-      const currentActive = tab.name.value ?? tab.index.value
-      const { active } = props
-
-      emit('update:active', currentActive)
-      emit('click', currentActive)
-      currentActive !== active && emit('change', currentActive)
-    }
-
-    function matchName(): TabProvider | undefined {
-      return tabList.find(({ name }: TabProvider) => props.active === name.value)
-    }
-
-    function matchIndex(activeIndex?: number): TabProvider | undefined {
-      return tabList.find(({ index }: TabProvider) => (activeIndex ?? props.active) === index.value)
-    }
-
-    function matchBoundary(): TabProvider | undefined {
-      if (length.value === 0) {
-        return
-      }
-
-      const { active } = props
-
-      if (isNumber(active)) {
-        const activeIndex = clamp(active, 0, length.value - 1)
-        emit('update:active', activeIndex)
-        return matchIndex(activeIndex)
-      }
-    }
-
-    function watchScrollable() {
-      localScrollable.value = props.scrollable === 'always' || tabList.length >= 5
-    }
-
-    function moveIndicator({ element }: TabProvider) {
-      const el = element.value
-
-      if (!el) {
-        return
-      }
-
-      if (props.orientation !== 'vertical') {
-        indicatorWidth.value = `${el.offsetWidth}px`
-        indicatorX.value = `${el.offsetLeft}px`
-      } else {
-        indicatorHeight.value = `${el.offsetHeight}px`
-        indicatorY.value = `${el.offsetTop}px`
-      }
-    }
-
-    function scrollToCenter({ element }: TabProvider) {
-      if (!localScrollable.value) {
-        return
-      }
-
-      const scroller: HTMLElement = scrollerEl.value as HTMLElement
-      const el = element.value as HTMLElement
-
-      if (props.orientation !== 'vertical') {
-        const left: number = el.offsetLeft + el.offsetWidth / 2 - scroller.offsetWidth / 2
-        scrollTo(scroller, {
-          left,
-          animation: linear,
-        })
-      } else {
-        const top: number = el.offsetTop + el.offsetHeight / 2 - scroller.offsetHeight / 2
-        scrollTo(scroller, {
-          top,
-          animation: linear,
-        })
-      }
-    }
-
-    // expose
-    function resize() {
-      const tab: TabProvider | undefined = matchName() || matchIndex() || matchBoundary()
-      if (!tab || tab.disabled.value) {
-        return
-      }
-
-      watchScrollable()
-      moveIndicator(tab)
-      scrollToCenter(tab)
-    }
-
-    // expose
-    async function resizeAffix() {
-      if (props.sticky && stickyComponent.value) {
-        await stickyComponent.value.updatePosition()
-      }
-    }
-
-    return {
-      stickyComponent,
-      indicatorWidth,
-      indicatorHeight,
-      indicatorX,
-      indicatorY,
-      indicatorPosition,
-      localScrollable,
-      scrollerEl,
-      Transition,
-      toSizeUnit,
-      n,
-      classes,
-      resize,
-      variant: computed(() => props.variant),
-      vertical: computed(() => props.orientation === 'vertical'),
-      layoutDirection,
-      itemDirection,
-      resizeAffix,
-      formatElevation,
-    }
-  },
-})
+          n(`--variant-${props.variant}`),
+          n(`--size-${size.value}`),
+          [props.orientation === 'vertical', n('--vertical')],
+          [props.justify, n('--justify')],
+          [props.indicatorPosition === 'reverse', n('--indicator-reverse')],
+        ),
+        attrs.class,
+      ],
+      dir: attrs.dir ?? (rtl.value ? 'rtl' : undefined),
+    },
+    panes.length
+      ? [
+          ...rootNodes.filter((node) => !panes.includes(node)),
+          h(TabsNavs, null, { default: () => implicitNavs }),
+          h(TabsItems, null, { default: () => panes }),
+        ]
+      : nodes,
+  )
+}
 </script>

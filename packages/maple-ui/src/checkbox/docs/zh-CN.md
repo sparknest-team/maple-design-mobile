@@ -6,111 +6,38 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox v-model="value">当前的值: {{ value }}</mp-checkbox>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 设置状态值
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-checkbox
-    :value="1"
-    v-model="value"
-  >
-    当前的值: {{ value }}
-  </mp-checkbox>
-</template>
+```demo
+../example/demos/set-state.vue
 ```
 
 ### 修改图标和颜色
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox
-    unchecked-color="var(--color-warning)" 
-    checked-color="var(--color-danger)"
-    v-model="value"
-  >
-    <template #unchecked-icon>
-      <m-icon-heart-half-full size="24px"/>
-    </template>
-    <template #checked-icon>
-      <m-icon-heart-fill size="24px"/>
-    </template>
-    <template #default>
-      当前的值: {{ value }}
-    </template>
-  </mp-checkbox>
-</template>
+```demo
+../example/demos/set-style.vue
 ```
 
 ### 禁用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox disabled v-model="value">当前的值: {{ value }}</mp-checkbox>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 只读
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-</script>
-
-<template>
-  <mp-checkbox readonly v-model="value">当前的值: {{ value }}</mp-checkbox>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### 不确定状态
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(false)
-const indeterminate = ref(true)
-</script>
-
-<template>
-  <mp-space :size="[0, 10]">
-    <mp-checkbox v-model="value" v-model:indeterminate="indeterminate">
-      不确定状态的值: {{ value }}
-    </mp-checkbox>
-    <mp-button status="primary" @click="indeterminate = !indeterminate">切换</mp-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/indeterminate.vue
 ```
 
 ### 复选框组
@@ -118,115 +45,43 @@ const indeterminate = ref(true)
 在复选框组中，必须给 `checkbox` 设置 `value` 用来标识，
 复选框组会收集所有选择的标识。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group ref="group" v-model="value">
-    <mp-checkbox :value="0">吃饭</mp-checkbox>
-    <mp-checkbox :value="1">睡觉</mp-checkbox>
-  </mp-checkbox-group>
-  <mp-space :size="[0, 10]">
-    <mp-button status="primary"
-      @click="$refs.group.checkAll()"
-    >
-      全选
-    </mp-button>
-    <mp-button status="primary"
-      @click="$refs.group.inverseAll()"
-    >
-      反选
-    </mp-button>
-  </mp-space>
-  <div>当前的值: {{ value }}</div>
-</template>
+```demo
+../example/demos/checkbox-group.vue
 ```
+
 ### 选项式 API
 
 通过 `options` 属性设置子元素。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-const options = ref([
-  { label: '吃饭', value: 0 },
-  { label: '睡觉', value: 1 },
-  { label: '游戏', value: 2, disabled: true },
-])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" :options="options" />
-  <div>当前的值: {{ value }}</div>
-</template>
+```demo
+../example/demos/checkbox-group-options.vue
 ```
 
 ### 自定义字段
 
 通过 `field-names` 属性自定义 `options` 中数据的格式。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-const options = ref([
-  { name: '吃饭', id: 0 },
-  { name: '睡觉', id: 1 },
-  { name: '游戏', id: 2 },
-])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" :options="options"
-      :field-names="{ label: 'name', value: 'id' }" />
-  <div>当前的值: {{ value }}</div>
-</template>
+```demo
+../example/demos/custom-fields.vue
 ```
 
 ### 垂直布局
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" direction="vertical">
-    <mp-checkbox :value="0">吃饭</mp-checkbox>
-    <mp-checkbox :value="1">睡觉</mp-checkbox>
-  </mp-checkbox-group>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ### 最大选中数量
 
 在复选框组中，可以通过设置 `max` 属性来限制最大选中数量。
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref([])
-</script>
-
-<template>
-  <mp-checkbox-group v-model="value" :max="1">
-    <mp-checkbox :value="0">吃饭</mp-checkbox>
-    <mp-checkbox :value="1">睡觉</mp-checkbox>
-  </mp-checkbox-group>
-</template>
-```
 
 > 复选框及复选框组的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+
+```demo
+../example/demos/max.vue
+```
 
 ## API
 
@@ -324,7 +179,7 @@ const value = ref([])
 | `--checkbox-text-color` | `#555` |
 | `--checkbox-icon-size` | `24px` |
 
-## API
+### API
 
 ### 属性
 

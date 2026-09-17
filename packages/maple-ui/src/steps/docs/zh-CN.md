@@ -6,116 +6,26 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(1)
-
-function next() {
-  current.value = current.value >= 4 ? 1 : current.value + 1
-}
-</script>
-
-<template>
-  <mp-steps :current="current">
-    <mp-step>步骤1</mp-step>
-    <mp-step>步骤2</mp-step>
-    <mp-step>步骤3</mp-step>
-    <mp-step>步骤4</mp-step>
-  </mp-steps>
-  <mp-button status="primary" block @click="next">下一步</mp-button>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 错误状态
 
-通过 `status="error"` 展示当前步骤的错误态。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(2)
-</script>
-
-<template>
-  <mp-steps :current="current" status="error">
-    <mp-step>步骤1</mp-step>
-    <mp-step>步骤2</mp-step>
-    <mp-step>步骤3</mp-step>
-  </mp-steps>
-</template>
-```
-
-### 自定义图标
-
-通过 `#icon` 插槽自定义节点图标。颜色通过 `--mp-step-*` CSS 变量 / StyleProvider 定制。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(2)
-</script>
-
-<template>
-  <mp-steps :current="current">
-    <mp-step>
-      步骤1
-      <template #icon="{ status }">
-        <m-icon-heart-fill v-if="status === 'finish'" />
-        <span v-else>1</span>
-      </template>
-    </mp-step>
-    <mp-step>
-      步骤2
-      <template #icon="{ step }">{{ step }}</template>
-    </mp-step>
-    <mp-step>步骤3</mp-step>
-  </mp-steps>
-</template>
+```demo
+../example/demos/error-status.vue
 ```
 
 ### 可切换
 
-设置 `changeable` 开启点击切换步骤。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(1)
-</script>
-
-<template>
-  <mp-steps v-model:current="current" changeable>
-    <mp-step description="说明文案">步骤1</mp-step>
-    <mp-step description="说明文案">步骤2</mp-step>
-    <mp-step description="说明文案">步骤3</mp-step>
-  </mp-steps>
-</template>
+```demo
+../example/demos/changeable.vue
 ```
 
 ### 垂直模式
 
-通过 `orientation` 属性改变步骤条的显示方向。
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const current = ref(1)
-</script>
-
-<template>
-  <mp-steps orientation="vertical" :current="current">
-    <mp-step>步骤1</mp-step>
-    <mp-step>步骤2</mp-step>
-    <mp-step>步骤3</mp-step>
-    <mp-step>步骤4</mp-step>
-  </mp-steps>
-</template>
+```demo
+../example/demos/vertical.vue
 ```
 
 ## API

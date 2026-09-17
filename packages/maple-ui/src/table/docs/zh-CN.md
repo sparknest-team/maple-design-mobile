@@ -6,168 +6,22 @@
 
 ### 基本使用
 
-```html
-<template>
-  <mp-table>
-    <thead>
-      <tr>
-        <th>姓名</th>
-        <th>数学</th>
-        <th>英语</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>耗子君</td>
-        <td>124</td>
-        <td>38</td>
-      </tr>
-      <tr>
-        <td>火猫桑</td>
-        <td>100</td>
-        <td>135</td>
-      </tr>
-    </tbody>
-  </mp-table>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 尾部插槽
 
 可以在尾部插槽中插入一些东西，最常见的是插入分页组件。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const list = ref(gen(1, 10))
-
-function gen(current, size) {
-  return Array.from({ length: size }).map((_, index) => {
-    const id = (current - 1) * size + index + 1
-
-    return {
-      name: `Name ${id}`,
-      math: id,
-      english: id,
-    }
-  })
-}
-
-function get(current, size) {
-  list.value = gen(current, size)
-}
-</script>
-
-<template>
-  <mp-table>
-    <thead>
-      <tr>
-        <th>姓名</th>
-        <th>数学</th>
-        <th>英语</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="l in list" :key="l.name">
-        <td>{{ l.name }}</td>
-        <td>{{ l.math }}</td>
-        <td>{{ l.english }}</td>
-      </tr>
-    </tbody>
-
-    <template #footer>
-      <div class="table-example-footer">
-        <mp-pagination
-          :simple="false"
-          :current="1"
-          :total="100"
-          :page-size-options="[5, 10]"
-          show-page-size
-          @change="get"
-        />
-      </div>
-    </template>
-  </mp-table>
-</template>
-
-<style>
-.table-example-footer  {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
-  padding: 0 16px;
-}
-</style>
+```demo
+../example/demos/slot.vue
 ```
 
 ### 固定表头
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const list = ref(gen(1, 10))
-
-function gen(current, size) {
-  return Array.from({ length: size }).map((_, index) => {
-    const id = (current - 1) * size + index + 1
-
-    return {
-      name: `Name ${id}`,
-      math: id,
-      english: id,
-    }
-  })
-}
-
-function get(current, size) {
-  list.value = gen(current, size)
-}
-</script>
-
-<template>
-  <mp-table scroller-height="400px">
-    <thead style="position: sticky; top: 0">
-      <tr>
-        <th>姓名</th>
-        <th>数学</th>
-        <th>英语</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="l in list" :key="l.name">
-        <td>{{ l.name }}</td>
-        <td>{{ l.math }}</td>
-        <td>{{ l.english }}</td>
-      </tr>
-    </tbody>
-
-    <template #footer>
-      <div class="table-example-footer">
-        <mp-pagination
-          :simple="false"
-          :current="1"
-          :total="100"
-          :page-size-options="[5, 10]"
-          show-page-size
-          @change="get"
-        />
-      </div>
-    </template>
-  </mp-table>
-</template>
-
-<style>
-.table-example-footer  {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
-  padding: 0 16px;
-}
-</style>
+```demo
+../example/demos/fixed-header.vue
 ```
 
 ## API

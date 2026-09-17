@@ -1,197 +1,79 @@
-<script setup>
-import { reactive, ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import DemoAccordion from './demos/accordion.vue'
+import DemoBasic from './demos/basic.vue'
+import DemoBorderLess from './demos/border-less.vue'
+import DemoCustom from './demos/custom.vue'
+import DemoDestroy from './demos/destroy.vue'
+import DemoDisabled from './demos/disabled.vue'
+import DemoDivider from './demos/divider.vue'
+import DemoExpandIcon from './demos/expand-icon.vue'
+import DemoExtra from './demos/extra.vue'
+import DemoIconPosition from './demos/icon-position.vue'
+import DemoNested from './demos/nested.vue'
+import DemoOffset from './demos/offset.vue'
+import DemoToggleAll from './demos/toggle-all.vue'
 
-const disabled = ref(false)
-const divider = ref(true)
-const offset = ref(true)
-const hideIcon = ref(false)
-const collapseRef = ref(null)
-const expandIconPosition = ref('left')
-const customStyle = {
-  borderRadius: '6px',
-  marginBottom: '12px',
-  overflow: 'hidden',
-}
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const values = reactive({
-  value: ['1'],
-  value1: [],
-  value2: [1],
-  value3: ['1'],
-  value4: ['1', '2'],
-  value5: [],
-  value6: ['2', '4'],
-  value7: ['1'],
-  value8: ['1'],
-  value9: ['1', '2'],
-  extra: [],
-  nested: ['1.1'],
+watchLang((value) => {
+  language.value = value
 })
-
-watchLang(use)
 onThemeChange()
-
-function handleChange(val) {
-  console.log(val)
-}
-
-function toggleAll() {
-  collapseRef.value.toggleAll({ expand: 'inverse' })
-}
-
-function toggleAllSkipDisabled() {
-  collapseRef.value.toggleAll({ expand: 'inverse', skipDisabled: true })
-}
-
-function openAll() {
-  collapseRef.value.toggleAll({ expand: true })
-}
-
-function openAllSkipDisabled() {
-  collapseRef.value.toggleAll({ expand: true, skipDisabled: true })
-}
-
-function closeAll() {
-  collapseRef.value.toggleAll({ expand: false })
-}
-
-function closeAllSkipDisabled() {
-  collapseRef.value.toggleAll({ expand: false, skipDisabled: true })
-}
 </script>
-
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-collapse v-model:active-names="values.value" @change="handleChange">
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('accordionMode') }}</app-type>
-  <mp-collapse v-model:active-names="values.value1" accordion>
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-space direction="column" :size="[8, 8]">
-    <mp-button @click="disabled = !disabled">
-      {{ disabled ? t('enable') : t('disabled') }}
-    </mp-button>
-    <mp-collapse v-model:active-names="values.value2">
-      <mp-collapse-item :title="t('title')" :name="1" :disabled="disabled">{{ t('text') }}</mp-collapse-item>
-      <mp-collapse-item :title="t('title')" :name="2" :disabled="disabled">{{ t('text') }}</mp-collapse-item>
-    </mp-collapse>
-  </mp-space>
-
-  <app-type>{{ t('nested') }}</app-type>
-  <mp-collapse v-model:active-names="values.value8" destroy-on-hide>
-    <mp-collapse-item :title="t('title')" name="1">
-      <mp-collapse v-model:active-names="values.nested" destroy-on-hide :elevation="false">
-        <mp-collapse-item :title="t('title')" name="1.1">{{ t('text') }}</mp-collapse-item>
-        <mp-collapse-item :title="t('title')" name="1.2">{{ t('text') }}</mp-collapse-item>
-      </mp-collapse>
-    </mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="3">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('borderLess') }}</app-type>
-  <mp-collapse :default-active-names="['1']" :bordered="false">
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2" disabled>{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="3">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('controlledDivider') }}</app-type>
-  <mp-button style="margin-bottom: 8px" @click="divider = !divider">{{
-    divider ? t('hideDivider') : t('showDivider')
-  }}</mp-button>
-  <mp-collapse v-model:active-names="values.value5" :divider="divider">
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="3">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('offset') }}</app-type>
-  <mp-button style="margin-bottom: 8px" @click="offset = !offset">{{
-    offset ? t('hideOffset') : t('showOffset')
-  }}</mp-button>
-  <mp-collapse v-model:active-names="values.value4" :offset="offset">
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="3">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('extra') }}</app-type>
-  <mp-collapse v-model:active-names="values.extra">
-    <mp-collapse-item :title="t('title')" name="1">
-      <template #extra>{{ t('extraText') }}</template>
-      {{ t('text') }}
-    </mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">
-      <template #extra>
-        <mp-button status="primary" size="sm">{{ t('extraAction') }}</mp-button>
-      </template>
-      {{ t('text') }}
-    </mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('expandIcon') }}</app-type>
-  <mp-collapse v-model:active-names="values.value3">
-    <template #expand-icon="{ active }">
-      <span>{{ active ? '▼' : '▶' }}</span>
-    </template>
-    <mp-collapse-item :title="t('slotTitle')" name="1">
-      <template #expand-icon="{ active }">{{ active ? '^^' : 'vv' }}</template>
-      {{ t('text') }}
-    </mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('slotContent') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('customStyle') }}</app-type>
-  <mp-collapse :default-active-names="['1', 2]" :bordered="false">
-    <mp-collapse-item :title="t('title')" :style="customStyle" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" :style="customStyle" :name="2">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" :style="customStyle" name="3">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('iconPosition') }}</app-type>
-  <mp-space :size="8" style="margin-bottom: 8px">
-    <mp-button @click="expandIconPosition = expandIconPosition === 'right' ? 'left' : 'right'">
-      {{ expandIconPosition === 'right' ? t('iconLeft') : t('iconRight') }}
-    </mp-button>
-    <mp-button @click="hideIcon = !hideIcon">{{ t('hideIcon') }}</mp-button>
-  </mp-space>
-  <mp-collapse
-    v-model:active-names="values.value7"
-    :expand-icon-position="expandIconPosition"
-    :show-expand-icon="!hideIcon"
-  >
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('destroyOnHide') }}</app-type>
-  <mp-collapse v-model:active-names="values.value9" destroy-on-hide>
-    <mp-collapse-item :title="t('title')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="2">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('title')" name="3" :show-expand-icon="false">{{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
-
-  <app-type>{{ t('toggleAll') }}</app-type>
-  <mp-button style="margin: 8px" @click="toggleAll">{{ t('toggleAll') }}</mp-button>
-  <mp-button style="margin: 8px" @click="toggleAllSkipDisabled">{{ t('toggleAllSkipDisabled') }}</mp-button>
-  <mp-button style="margin: 8px" @click="openAll">{{ t('openAll') }}</mp-button>
-  <mp-button style="margin: 8px" @click="openAllSkipDisabled">{{ t('openAllSkipDisabled') }}</mp-button>
-  <mp-button style="margin: 8px" @click="closeAll">{{ t('closeAll') }}</mp-button>
-  <mp-button style="margin: 8px 8px 16px 8px" @click="closeAllSkipDisabled">{{ t('closeAllSkipDisabled') }}</mp-button>
-  <mp-collapse ref="collapseRef" v-model:active-names="values.value6" style="margin-bottom: 40px">
-    <mp-collapse-item :title="t('slotTitle')" name="1">{{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('slotTitle')" name="2"> {{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('slotTitle')" disabled name="3"> {{ t('text') }}</mp-collapse-item>
-    <mp-collapse-item :title="t('slotTitle')" disabled name="4"> {{ t('text') }}</mp-collapse-item>
-  </mp-collapse>
+  <section data-demo="basic">
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
+    <DemoBasic />
+  </section>
+  <section data-demo="accordion">
+    <app-type>{{ english ? 'Accordion' : '手风琴模式' }}</app-type>
+    <DemoAccordion />
+  </section>
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DemoDisabled />
+  </section>
+  <section data-demo="nested">
+    <app-type>{{ english ? 'Nested panels' : '嵌套面板' }}</app-type>
+    <DemoNested />
+  </section>
+  <section data-demo="border-less">
+    <app-type>{{ english ? 'Borderless' : '无边框模式' }}</app-type>
+    <DemoBorderLess />
+  </section>
+  <section data-demo="divider">
+    <app-type>{{ english ? 'Divider' : '分割线' }}</app-type>
+    <DemoDivider />
+  </section>
+  <section data-demo="offset">
+    <app-type>{{ english ? 'Expanded offset' : '展开间距' }}</app-type>
+    <DemoOffset />
+  </section>
+  <section data-demo="extra">
+    <app-type>{{ english ? 'Extra' : '额外节点' }}</app-type>
+    <DemoExtra />
+  </section>
+  <section data-demo="expand-icon">
+    <app-type>{{ english ? 'Expand icon' : '展开图标' }}</app-type>
+    <DemoExpandIcon />
+  </section>
+  <section data-demo="custom">
+    <app-type>{{ english ? 'Custom style' : '自定义样式' }}</app-type>
+    <DemoCustom />
+  </section>
+  <section data-demo="icon-position">
+    <app-type>{{ english ? 'Icon position' : '展开图标位置' }}</app-type>
+    <DemoIconPosition />
+  </section>
+  <section data-demo="destroy">
+    <app-type>{{ english ? 'Destroy on hide' : '隐藏时销毁' }}</app-type>
+    <DemoDestroy />
+  </section>
+  <section data-demo="toggle-all">
+    <app-type>{{ english ? 'Toggle all' : '切换全部' }}</app-type>
+    <DemoToggleAll />
+  </section>
 </template>

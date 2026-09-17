@@ -1,99 +1,80 @@
 <script setup>
-import { reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomBtnDemo from './demos/custom-btn.vue'
+import CustomStyleDemo from './demos/custom-style.vue'
+import DisableDemo from './demos/disable.vue'
+import DualThumbDemo from './demos/dual-thumb.vue'
+import RangeDemo from './demos/range.vue'
+import ReadonlyDemo from './demos/readonly.vue'
+import ShowLabelDemo from './demos/show-label.vue'
+import SliderSizeDemo from './demos/slider-size.vue'
+import StepSizeDemo from './demos/step-size.vue'
+import VerticalDemo from './demos/vertical.vue'
 
-const values = reactive({
-  value: 3,
-  value1: [24, 50],
-  value2: 25,
-  value3: 40,
-  value4: 20,
-  value5: 20,
-  value6: 70,
-  value7: 50,
-  value9: [5, 38],
-  value10: [7, 64],
-  value11: 0,
-  value12: 50,
-  value13: [7, 64],
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
 })
-
-watchLang(use)
 onThemeChange()
-
-function handleChange(v) {
-  console.log(v)
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-slider v-model="values.value" />
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('stepSize') }}</app-type>
-  <mp-slider v-model="values.value2" :step="10" />
+  <section data-demo="step-size">
+    <app-type>{{ english ? 'Step Size' : '指定步长' }}</app-type>
+    <StepSizeDemo />
+  </section>
 
-  <app-type>{{ t('dualThumb') }}</app-type>
-  <mp-slider v-model="values.value1" range @change="handleChange" />
+  <section data-demo="dual-thumb">
+    <app-type>{{ english ? 'Dual Thumbs' : '双滑块' }}</app-type>
+    <DualThumbDemo />
+  </section>
 
-  <app-type>{{ t('range') }}</app-type>
-  <mp-slider v-model="values.value11" :max="210" :min="-50" label-visible="always" />
+  <section data-demo="range">
+    <app-type>{{ english ? 'Range' : '选择范围' }}</app-type>
+    <RangeDemo />
+  </section>
 
-  <app-type>{{ t('disable') }}</app-type>
-  <mp-slider v-model="values.value3" disabled />
+  <section data-demo="disable">
+    <app-type>{{ english ? 'Disable' : '禁用' }}</app-type>
+    <DisableDemo />
+  </section>
 
-  <app-type>{{ t('readonly') }}</app-type>
-  <mp-slider v-model="values.value3" readonly />
+  <section data-demo="readonly">
+    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
+    <ReadonlyDemo />
+  </section>
 
-  <app-type>{{ t('sliderSize') }}</app-type>
-  <mp-slider v-model="values.value10" track-height="1.5vmin" range />
+  <section data-demo="slider-size">
+    <app-type>{{ english ? 'Slider Size' : '不同大小' }}</app-type>
+    <SliderSizeDemo />
+  </section>
 
-  <app-type>{{ t('customStyle') }}</app-type>
-  <mp-slider
-    v-model="values.value4"
-    label-color="purple"
-    active-color="#e0732c"
-    track-color="#3a68b4"
-    thumb-color="#e25241"
-    label-text-color="#ededed"
-  />
+  <section data-demo="custom-style">
+    <app-type>{{ english ? 'Custom Style' : '自定义样式' }}</app-type>
+    <CustomStyleDemo />
+  </section>
 
-  <app-type>{{ t('customBtn') }}</app-type>
-  <mp-slider v-model="values.value9" range active-color="#52af77">
-    <template #button="{ currentValue }">
-      <div class="slider-example__block">{{ currentValue }}</div>
-    </template>
-  </mp-slider>
+  <section data-demo="custom-btn">
+    <app-type>{{ english ? 'Custom Button' : '自定义按钮' }}</app-type>
+    <CustomBtnDemo />
+  </section>
 
-  <app-type>{{ t('showLabel') }}</app-type>
-  <mp-slider v-model="values.value5" label-visible="never" />
-  <mp-slider v-model="values.value6" />
-  <mp-slider v-model="values.value7" label-visible="always" />
+  <section data-demo="show-label">
+    <app-type>{{ english ? 'Show Label' : '显示标签' }}</app-type>
+    <ShowLabelDemo />
+  </section>
 
-  <app-type>{{ t('vertical') }}</app-type>
-  <mp-space justify="space-around">
-    <div style="height: 300px">
-      <mp-slider v-model="values.value12" orientation="vertical" />
-    </div>
-    <div style="height: 300px">
-      <mp-slider v-model="values.value13" range label-visible="always" orientation="vertical" />
-    </div>
-  </mp-space>
+  <section data-demo="vertical">
+    <app-type>{{ english ? 'Vertical' : '垂直方向' }}</app-type>
+    <VerticalDemo />
+  </section>
 </template>
-
-<style>
-.slider-example__block {
-  width: 24px;
-  border: 1px solid #52af77;
-  color: #52af77;
-  height: 24px;
-  margin: 0 -12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 12px;
-  background-color: #fff;
-}
-</style>

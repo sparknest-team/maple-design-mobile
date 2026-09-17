@@ -6,47 +6,38 @@ Display multiple values as segments of a single progress track with a matching l
 
 ### Basic Usage
 
-```html
-<mp-progress-group
-  :items="[
-    { label: 'System', value: 24, color: '#64748b' },
-    { label: 'Apps', value: 8, color: '#f53f3f' },
-    { label: 'Media', value: 42, color: '#00b42a' }
-  ]"
-  :max="128"
-  status
-/>
+```demo
+../example/demos/basic.vue
 ```
 
-### Sizes and Orientation
+### Track Sizes
 
-Use `size` to change track thickness. Set `orientation="vertical"` for a vertical layout; its container must provide an explicit height.
-
-```html
-<mp-progress-group :items="items" size="xs" />
-<mp-progress-group :items="items" size="xl" />
-<mp-progress-group :items="items" orientation="vertical" style="height: 220px" />
+```demo
+../example/demos/size.vue
 ```
 
-### Colors and Custom Content
+### Orientation
 
-`color` supplies the default for every segment and item colors can override it. Omit every item label and icon to render only the track. Slots can replace the status and legend content.
-
-Hovering or focusing a segment shows a tooltip and thickens that segment. Override the default text with an item's `tip`, or customize it with the `tooltip` slot.
-
-```html
-<mp-progress-group :items="items" color="#ff7d00" status>
-  <template #status="{ value, max }">Used {{ value }} / {{ max }} GB</template>
-  <template #item-trailing="{ item }">{{ item.value }} GB</template>
-</mp-progress-group>
+```demo
+../example/demos/orientation.vue
 ```
 
 ### Circular Segments
 
-Set `mode="circle"` to render a segmented ring. `circle-size` controls its diameter, `stroke-width` controls the ring width, and status content is centered.
+```demo
+../example/demos/circle.vue
+```
 
-```html
-<mp-progress-group mode="circle" :items="items" :circle-size="160" :stroke-width="12" status />
+### Default Color and Track Only
+
+```demo
+../example/demos/color.vue
+```
+
+### Custom Content
+
+```demo
+../example/demos/custom.vue
 ```
 
 ### Props

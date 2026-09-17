@@ -6,105 +6,44 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter v-model="value"/>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 设置取值范围
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter :min="0" :max="5" v-model="value"/>
-</template>
+```demo
+../example/demos/range.vue
 ```
 
 ### 设置步长
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter :step="10" v-model="value"/>
-</template>
+```demo
+../example/demos/step.vue
 ```
 
 ### 保留小数
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter :decimal-length="1" v-model="value" />
-</template>
+```demo
+../example/demos/to-fixed.vue
 ```
 
 ### 设置尺寸
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter
-    input-text-size="18px"
-    input-width="50px"
-    button-size="36px"
-    v-model="value"
-  />
-</template>
+```demo
+../example/demos/size.vue
 ```
 
 ### 禁用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter disabled v-model="value"/>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 只读
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const value = ref(0)
-</script>
-
-<template>
-  <mp-counter readonly v-model="value"/>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### 异步变更
@@ -113,27 +52,13 @@ const value = ref(0)
 设置 `lazy-change` 后会阻止组件本身的绑定值更新操作，
 并注册 `before-change` 事件进行手动更新。
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const value = ref(0)
-
-function handleBeforeChange(value, change) {
-  setTimeout(() => change(value), 500)
-}
-</script>
-
-<template>
-  <mp-counter
-    lazy-change
-    v-model="value"
-    :before-change="handleBeforeChange"
-  />
-</template>
-```
 
 > 计数器的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+
+```demo
+../example/demos/lazy-change.vue
+```
 
 ## API
 

@@ -10,123 +10,56 @@ Use the standalone [Countdown](#/en-US/countdown) component for timers. You can 
 
 Use `title` for the description and `value` for the number. `value` accepts a number or a string.
 
-```html
-<template>
-  <mp-statistic title="Downloads" :value="125670" show-group-separator />
-  <mp-statistic title="Comments" extra="Compared to yesterday" :value="40509" :precision="2" />
-  <mp-statistic title="Active Users" value="1.28k" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Prefix / Suffix
 
 Add a unit, currency symbol, or trend with `prefix` / `suffix` or the same-named slots.
 
-```html
-<template>
-  <mp-statistic title="Account Balance" :value="125670" prefix="$" show-group-separator />
-  <mp-statistic
-    title="Growth Rate"
-    :value="12.8"
-    :precision="1"
-    suffix="%"
-    :value-style="{ color: 'var(--mp-color-success)' }"
-  >
-    <template #prefix>▲</template>
-  </mp-statistic>
-  <mp-statistic
-    title="Bounce Rate"
-    :value="3.2"
-    :precision="1"
-    suffix="%"
-    :value-style="{ color: 'var(--mp-color-danger)' }"
-  >
-    <template #prefix>▼</template>
-  </mp-statistic>
-</template>
+```demo
+../example/demos/prefix-suffix.vue
 ```
 
 ### Tabular Numbers
 
 Enable `tabular-nums` so every digit occupies the same width. This is useful for frequently changing values and vertically aligned numbers. Compare equal-length values such as `1111` and `8888`: proportional numbers may change total width, while tabular numbers remain stable.
 
-```html
-<template>
-  <mp-statistic title="Proportional nums" :value="1111" :value-style="{ fontVariantNumeric: 'proportional-nums' }" />
-  <mp-statistic title="Tabular nums" :value="1111" tabular-nums />
-</template>
+```demo
+../example/demos/tabular-nums.vue
 ```
 
 ### Extra
 
 Show extra information below the value with `extra` or the `extra` slot.
 
-```html
-<template>
-  <mp-statistic title="Revenue" :value="9280" prefix="$" show-group-separator extra="Compared to yesterday +12.8%" />
-  <mp-statistic title="New Users" :value="1280" show-group-separator>
-    <template #extra>
-      <span style="color: var(--mp-color-success)">vs last week +8.4%</span>
-    </template>
-  </mp-statistic>
-</template>
+```demo
+../example/demos/extra.vue
 ```
 
 ### Animation
 
 Turn on `animation` to tween the number. Control playback with `start`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const started = ref(false)
-</script>
-
-<template>
-  <mp-statistic
-    title="Growth Rate"
-    :value="50.52"
-    :precision="2"
-    :value-from="0"
-    :start="started"
-    suffix="%"
-    animation
-  >
-    <template #prefix>▲</template>
-  </mp-statistic>
-  <mp-button status="primary" @click="started = true">Start</mp-button>
-</template>
+```demo
+../example/demos/animation.vue
 ```
 
 ### Custom Value
 
 When `value` is omitted, the default slot can render custom content such as `CountTo`.
 
-```html
-<template>
-  <mp-statistic title="Active Users">
-    <mp-count-to :from="0" :to="125670" :duration="2000" />
-  </mp-statistic>
-  <mp-statistic title="Conversion Rate" suffix="%">
-    <mp-count-to :from="0" :to="36.8" :duration="2000" :precision="1" />
-  </mp-statistic>
-</template>
+```demo
+../example/demos/custom-value.vue
 ```
 
 ### Countdown
 
 When `value` is omitted, the default slot can embed [Countdown](#/en-US/countdown).
 
-```html
-<template>
-  <mp-statistic title="Countdown">
-    <mp-countdown :time="2 * 60 * 60 * 1000" />
-  </mp-statistic>
-  <mp-statistic title="Campaign">
-    <mp-countdown :time="4 * 24 * 60 * 60 * 1000" format="DD 天 HH 时 mm 分 ss 秒" />
-  </mp-statistic>
-</template>
+```demo
+../example/demos/countdown.vue
 ```
 
 ## API

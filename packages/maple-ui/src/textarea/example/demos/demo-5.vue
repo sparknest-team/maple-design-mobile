@@ -1,0 +1,31 @@
+<script setup>
+import { reactive, ref } from 'vue'
+
+const limitedValue = ref('')
+</script>
+
+<template>
+  <mp-textarea
+    v-model="limitedValue"
+    clearable
+    :max-length="100"
+    placeholder="最多输入 100 个字符"
+    resize
+    :rows="4"
+    variant="outline"
+  />
+</template>
+
+<style lang="less" scoped>
+.textarea-example {
+  &__caption {
+    margin: 16px 0 8px;
+    color: var(--mp-field-color-blur);
+    font-size: 12px;
+  }
+
+  &__bottom-space {
+    height: 40px;
+  }
+}
+</style>

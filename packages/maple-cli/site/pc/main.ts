@@ -6,6 +6,7 @@ import routes from '@pc-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import CodeExample from './components/code-example'
+import DemoPreview from './components/demo-preview'
 import '@maplejs/maple-touch-emulator'
 import '@maple-foundation'
 
@@ -79,4 +80,5 @@ createApp(App)
   .use(router)
   // @ts-ignore
   .use(CodeExample)
+  .use(DemoPreview)
   .mount('#app')

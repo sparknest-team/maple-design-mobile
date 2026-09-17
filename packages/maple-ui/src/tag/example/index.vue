@@ -1,97 +1,68 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import CheckableTagDemo from './demos/checkable-tag.vue'
+import ClosableTagDemo from './demos/closable-tag.vue'
+import CustomColorTagDemo from './demos/custom-color-tag.vue'
+import IconTagDemo from './demos/icon-tag.vue'
+import LoadingTagDemo from './demos/loading-tag.vue'
+import OutlineTagDemo from './demos/outline-tag.vue'
+import RoundTagDemo from './demos/round-tag.vue'
+import TagSizeDemo from './demos/tag-size.vue'
+import ThemeColorTagDemo from './demos/theme-color-tag.vue'
 
-const checked = ref(true)
-const show = ref(true)
-const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-function removeTag(tag) {
-  dynamicTags.value = dynamicTags.value.filter((item) => item !== tag)
-}
 </script>
 
 <template>
-  <app-type>{{ t('themeColorTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag>{{ t('defaultTag') }}</mp-tag>
-    <mp-tag status="primary">{{ t('primaryTag') }}</mp-tag>
-    <mp-tag status="info">{{ t('infoTag') }}</mp-tag>
-    <mp-tag status="success">{{ t('successTag') }}</mp-tag>
-    <mp-tag status="warning">{{ t('warningTag') }}</mp-tag>
-    <mp-tag status="danger">{{ t('dangerTag') }}</mp-tag>
-    <mp-tag status="secondary">{{ t('secondaryTag') }}</mp-tag>
-    <mp-tag status="tertiary">{{ t('tertiaryTag') }}</mp-tag>
-  </mp-space>
+  <section data-demo="theme-color-tag">
+    <app-type>{{ english ? 'Theme Color Tag' : '主题色标签' }}</app-type>
+    <ThemeColorTagDemo />
+  </section>
 
-  <app-type>{{ t('outlineTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag variant="outline">{{ t('defaultTag') }}</mp-tag>
-    <mp-tag variant="outline" status="primary">{{ t('primaryTag') }}</mp-tag>
-    <mp-tag variant="outline" status="info">{{ t('infoTag') }}</mp-tag>
-    <mp-tag variant="outline" status="success">{{ t('successTag') }}</mp-tag>
-    <mp-tag variant="outline" status="warning">{{ t('warningTag') }}</mp-tag>
-    <mp-tag variant="outline" status="danger">{{ t('dangerTag') }}</mp-tag>
-  </mp-space>
+  <section data-demo="outline-tag">
+    <app-type>{{ english ? 'Outline Tag' : '描边标签' }}</app-type>
+    <OutlineTagDemo />
+  </section>
 
-  <app-type>{{ t('roundTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag round status="primary">{{ t('roundTag') }}</mp-tag>
-    <mp-tag round variant="outline" status="success">{{ t('outlineRoundTag') }}</mp-tag>
-    <mp-tag round status="danger" closable>{{ t('closableTag') }}</mp-tag>
-  </mp-space>
+  <section data-demo="round-tag">
+    <app-type>{{ english ? 'Round Tag' : '圆角标签' }}</app-type>
+    <RoundTagDemo />
+  </section>
 
-  <app-type>{{ t('tagSize') }}</app-type>
-  <mp-space align="center" :size="['2.666vmin', '2.666vmin']">
-    <mp-tag size="xs" status="primary">xs</mp-tag>
-    <mp-tag size="sm" status="primary">sm</mp-tag>
-    <mp-tag size="md" status="primary">md</mp-tag>
-    <mp-tag size="lg" status="primary">lg</mp-tag>
-    <mp-tag size="xl" status="primary">xl</mp-tag>
-  </mp-space>
+  <section data-demo="tag-size">
+    <app-type>{{ english ? 'Tag Size' : '标签尺寸' }}</app-type>
+    <TagSizeDemo />
+  </section>
 
-  <app-type>{{ t('closableTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag v-model:show="show" closable status="primary">{{ t('tagText') }}</mp-tag>
-    <mp-tag v-for="tag in dynamicTags" :key="tag" closable round status="info" @close="removeTag(tag)">
-      {{ tag }}
-    </mp-tag>
-  </mp-space>
+  <section data-demo="closable-tag">
+    <app-type>{{ english ? 'Closable Tag' : '可关闭标签' }}</app-type>
+    <ClosableTagDemo />
+  </section>
 
-  <app-type>{{ t('loadingTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag loading status="primary">{{ t('loadingTag') }}</mp-tag>
-    <mp-tag loading status="success">{{ t('loadingTag') }}</mp-tag>
-  </mp-space>
+  <section data-demo="loading-tag">
+    <app-type>{{ english ? 'Loading Tag' : '加载中标签' }}</app-type>
+    <LoadingTagDemo />
+  </section>
 
-  <app-type>{{ t('checkableTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag v-model:checked="checked" checkable status="primary">{{ t('checkableTag') }}</mp-tag>
-    <mp-tag checkable :default-checked="false" status="success">{{ t('checkableTag') }}</mp-tag>
-  </mp-space>
+  <section data-demo="checkable-tag">
+    <app-type>{{ english ? 'Checkable Tag' : '可选中标签' }}</app-type>
+    <CheckableTagDemo />
+  </section>
 
-  <app-type>{{ t('iconTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag status="success">
-      <template #icon><m-icon-check /></template>
-      {{ t('complete') }}
-    </mp-tag>
-    <mp-tag status="info">
-      <template #icon><m-icon-info-circle-fill /></template>
-      {{ t('infoTag') }}
-    </mp-tag>
-  </mp-space>
+  <section data-demo="icon-tag">
+    <app-type>{{ english ? 'Tag with Icon' : '带图标' }}</app-type>
+    <IconTagDemo />
+  </section>
 
-  <app-type>{{ t('customColorTag') }}</app-type>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
-    <mp-tag color="#66bb6a" text-color="#fff">{{ t('customColorTag') }}</mp-tag>
-    <mp-tag variant="outline" color="#6750A4">{{ t('outlineCustomColor') }}</mp-tag>
-    <mp-tag color="linear-gradient(to right bottom, #6750A4, #D0BCFF)" text-color="#fff">
-      {{ t('customColorTag') }}
-    </mp-tag>
-  </mp-space>
+  <section data-demo="custom-color-tag">
+    <app-type>{{ english ? 'Custom Color' : '自定义颜色' }}</app-type>
+    <CustomColorTagDemo />
+  </section>
 </template>

@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { t } from '../locale'
 
 const active = ref(0)
 async function beforeChange(value) {
@@ -15,13 +14,15 @@ async function beforeChange(value) {
 }
 </script>
 <template>
-  <p>{{ t('asyncHelp') }}</p>
+  <p>
+    先点慢速（1.2 秒），再点快速（0.25 秒），最终只切到快速；拒绝和异常都会保持当前选中。等待时点击当前标签可取消切换。
+  </p>
   <mp-tab-bar v-model:active="active" :before-change="beforeChange">
-    <mp-tab-bar-item :label="t('home')" />
-    <mp-tab-bar-item :label="t('slow')" />
-    <mp-tab-bar-item :label="t('fast')" />
-    <mp-tab-bar-item :label="t('denied')" />
-    <mp-tab-bar-item :label="t('rejected')" />
+    <mp-tab-bar-item label="首页" />
+    <mp-tab-bar-item label="慢速" />
+    <mp-tab-bar-item label="快速" />
+    <mp-tab-bar-item label="拒绝" />
+    <mp-tab-bar-item label="异常" />
   </mp-tab-bar>
-  <p aria-live="polite">{{ t('current') }}: {{ active }}</p>
+  <p aria-live="polite">当前选中: {{ active }}</p>
 </template>

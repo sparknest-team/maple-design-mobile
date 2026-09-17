@@ -6,146 +6,20 @@ Create a container that can pop up from top, bottom, left, right and center. `po
 
 ### Popup Position
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const center = ref(false)
-  const top = ref(false)
-  const bottom = ref(false)
-  const left = ref(false)
-  const right = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" :size="[10, 0]">
-    <mp-button status="primary" block @click="center = true"> Center Popup </mp-button>
-    <mp-button status="primary" block @click="bottom = true"> Below Popup </mp-button>
-    <mp-button status="primary" block @click="top = true"> Above Popup </mp-button>
-    <mp-button status="primary" block @click="left = true"> Left Popup </mp-button>
-    <mp-button status="primary" block @click="right = true"> Right Popup </mp-button>
-  </mp-space>
-
-  <mp-popup v-model:open="center">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-
-  <mp-popup position="bottom" v-model:open="bottom">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-
-  <mp-popup position="top" v-model:open="top">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-
-  <mp-popup position="left" v-model:open="left">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-
-  <mp-popup position="right" v-model:open="right">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-</template>
-
-<style>
-  .popup-example-block {
-    padding: 24px;
-    width: 280px;
-  }
-</style>
+```demo
+../example/demos/popup-position.vue
 ```
 
 ### Overlay Style
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const overlayClass = ref(false)
-  const overlayStyle = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" :size="[10, 0]">
-    <mp-button status="primary" block @click="overlayClass = true"> Overlay Class </mp-button>
-    <mp-button status="primary" block @click="overlayStyle = true"> Overlay Style </mp-button>
-  </mp-space>
-
-  <mp-popup overlay-class="popup-example-custom-overlay" v-model:open="overlayClass">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-
-  <mp-popup :overlay-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}" v-model:open="overlayStyle">
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-</template>
-
-<style>
-  .popup-example-custom-overlay {
-    background: rgba(0, 0, 0, 0.3) !important;
-  }
-
-  .popup-example-block {
-    padding: 24px;
-    width: 280px;
-  }
-</style>
+```demo
+../example/demos/overlay-style.vue
 ```
 
 ### Event
 
-```html
-<script setup>
-  import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-
-  const event = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="event = true"> Event </mp-button>
-
-  <mp-popup
-    v-model:open="event"
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <div class="popup-example-block">
-      As he came into the window. It was the sound of a crescendo. He came into her apartment. He left the bloodstains
-      on the carpet.
-    </div>
-  </mp-popup>
-</template>
-
-<style>
-  .popup-example-block {
-    padding: 24px;
-    width: 280px;
-  }
-</style>
+```demo
+../example/demos/event.vue
 ```
 
 ## API

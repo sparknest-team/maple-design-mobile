@@ -1,0 +1,64 @@
+// Stable semantic contract shared with Cedar. Component tokens should prefer
+// these roles over palette values or one-off literals.
+:root {
+  // Color roles
+  --mp-sys-color-surface-page: var(--mp-color-bg-1);
+  --mp-sys-color-surface-default: var(--mp-color-bg-2);
+  --mp-sys-color-surface-raised: var(--mp-color-bg-3);
+  --mp-sys-color-surface-overlay: var(--mp-color-bg-5);
+  --mp-sys-color-surface-muted: var(--mp-color-fill-2);
+  --mp-sys-color-content-primary: var(--mp-color-text-1);
+  --mp-sys-color-content-secondary: var(--mp-color-text-2);
+  --mp-sys-color-content-tertiary: var(--mp-color-text-3);
+  --mp-sys-color-content-disabled: var(--mp-color-text-disabled);
+  --mp-sys-color-border-subtle: var(--mp-color-border-1);
+  --mp-sys-color-border-default: var(--mp-color-border-1);
+  --mp-sys-color-border-strong: var(--mp-color-border-4);
+  --mp-sys-color-action-primary: var(--mp-color-primary);
+  --mp-sys-color-status-info: var(--mp-color-info);
+  --mp-sys-color-status-success: var(--mp-color-success);
+  --mp-sys-color-status-warning: var(--mp-color-warning);
+  --mp-sys-color-status-danger: var(--mp-color-danger);
+  --mp-sys-color-state-hover: var(--mp-color-fill-2);
+  --mp-sys-color-state-selected: var(--mp-color-primary-light-1);
+
+  // Spacing scale
+  --mp-sys-space-1: 2px;
+  --mp-sys-space-2: 4px;
+  --mp-sys-space-3: 6px;
+  --mp-sys-space-4: 8px;
+  --mp-sys-space-5: 12px;
+  --mp-sys-space-6: 16px;
+  --mp-sys-space-7: 20px;
+  --mp-sys-space-8: 24px;
+
+  // Shape roles
+  --mp-sys-radius-sm: 2px;
+  --mp-sys-radius-md: 4px;
+  --mp-sys-radius-lg: 8px;
+  --mp-sys-radius-pill: 999px;
+
+  // Typography roles
+  --mp-sys-font-size-xs: 12px;
+  --mp-sys-font-size-sm: 13px;
+  --mp-sys-font-size-md: 14px;
+  --mp-sys-font-size-lg: 16px;
+  --mp-sys-font-size-xl: 18px;
+  --mp-sys-font-weight-regular: 400;
+  --mp-sys-font-weight-medium: 500;
+  --mp-sys-font-weight-semibold: 600;
+
+  // Motion roles
+  --mp-sys-motion-duration-fast: 120ms;
+  --mp-sys-motion-duration-standard: 180ms;
+  --mp-sys-motion-duration-slow: 240ms;
+  --mp-sys-motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Mobile control density
+  --mp-sys-control-height-xs: 44px;
+  --mp-sys-control-height-sm: 48px;
+  --mp-sys-control-height-md: 52px;
+  --mp-sys-control-height-lg: 56px;
+  --mp-sys-control-height-xl: 60px;
+  --mp-sys-control-touch-target: 44px;
+}

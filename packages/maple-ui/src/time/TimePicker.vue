@@ -89,7 +89,7 @@ import { _PickerComponent as MpPicker } from '../picker'
 import type { PickerColumnOption } from '../picker/props'
 import { createNamespace, formatElevation } from '../utils/components'
 import { padStart } from '../utils/shared'
-import Clock from './clock.vue'
+import Clock from './Clock.vue'
 import { hours24, hoursAmpm, props, type AmPm, type Time } from './picker-props'
 import { getIsDisableMinute, getIsDisableSecond, getNumberTime } from './picker-utils'
 

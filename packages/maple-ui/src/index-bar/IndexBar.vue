@@ -1,19 +1,21 @@
 <template>
   <div ref="barEl" :class="n()">
+    <div :class="n('anchor-list-container')" :style="{ zIndex: toNumber(zIndex) + 2 }">
+      <ul :class="n('anchor-list')" :style="{ display: hideList ? 'none' : 'block' }">
+        <li
+          v-for="anchorName in anchorNameList"
+          :key="anchorName"
+          :class="classes(n('anchor-item'), [active === anchorName, n('anchor-item--active')])"
+          :style="{ color: active === anchorName && highlightColor ? highlightColor : undefined }"
+          @click="anchorClick({ anchorName, manualCall: true })"
+        >
+          <slot name="anchor-name" :anchor-name="anchorName">
+            {{ anchorName }}
+          </slot>
+        </li>
+      </ul>
+    </div>
     <slot />
-    <ul :class="n('anchor-list')" :style="{ zIndex: toNumber(zIndex) + 2, display: hideList ? 'none' : 'block' }">
-      <li
-        v-for="anchorName in anchorNameList"
-        :key="anchorName"
-        :class="classes(n('anchor-item'), [active === anchorName, n('anchor-item--active')])"
-        :style="{ color: active === anchorName && highlightColor ? highlightColor : undefined }"
-        @click="anchorClick({ anchorName, manualCall: true })"
-      >
-        <slot name="anchor-name" :anchor-name="anchorName">
-          {{ anchorName }}
-        </slot>
-      </li>
-    </ul>
   </div>
 </template>
 

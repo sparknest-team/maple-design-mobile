@@ -2,6 +2,13 @@
 
 A behavioral infinite loader. It handles bottom detection and pagination status only; compose it with `List`, `Cell`, or custom content.
 
+
+
+### basic
+
+```demo
+../example/demos/basic.vue
+```
 ## Basic Usage
 
 ```html

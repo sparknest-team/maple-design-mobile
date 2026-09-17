@@ -8,75 +8,16 @@
 
 指针悬停在绑定元素上时进行样式绑定, 离开元素时取消样式绑定。
 
-```html
-<template>
-  <mp-paper
-    class="paper"
-    ripple
-    :elevation="2"
-    :width="100"
-    :height="100"
-    v-hover="{ color: 'var(--color-white)', background: 'var(--color-primary)' }"
-  >
-    HOVER
-  </mp-paper>
-</template>
-
-<style>
-.paper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-</style>
+```demo
+../example/demos/style-binding.vue
 ```
 
 ### 函数绑定
 
 指针悬停和离开时会触发函数，并携带当前的悬停状态。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const translateY = ref('100%')
-
-function handleHover(hovering) {
-  translateY.value = hovering ? '0' : '100%'
-}
-</script>
-
-<template>
-  <div class="image-container" v-hover="handleHover">
-    <mp-image src="https://maplejs.org/tree.jpeg" />
-    <div class="image-overlay" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
-  </div>
-</template>
-
-<style>
-.image-container {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.image-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s;
-  color: var(--color-white);
-  background-color: var(--color-primary);
-  font-size: 50px;
-}
-</style>
+```demo
+../example/demos/function-binding.vue
 ```
 
 ### 针对不同设备选择性启用
@@ -94,6 +35,5 @@ function handleHover(hovering) {
 
 ```html
 // playground-ignore
-<mp-paper v-hover:mobile="{ color: '#fff' }"">HOVER</mp-paper>
+<mp-paper v-hover:mobile="{ color: '#fff' }">HOVER</mp-paper>
 ```
-

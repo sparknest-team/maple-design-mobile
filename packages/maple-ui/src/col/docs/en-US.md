@@ -12,72 +12,32 @@
 
 ### Span and offset
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const span = ref(8)
-const offset = ref(4)
-</script>
-<template><div>
-  <div class="controls">Span<mp-radio-group v-model="span"><mp-radio v-for="value in [4, 8, 12]" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
-  <div class="controls">Offset<mp-radio-group v-model="offset"><mp-radio v-for="value in [0, 4, 8]" :key="value" :value="value">{{ value }}</mp-radio></mp-radio-group></div>
-  <mp-row :gutter="12"><mp-col :span="span" :offset="offset"><div class="cell">{{ span }} / +{{ offset }}</div></mp-col><mp-col :span="4"><div class="cell soft">4</div></mp-col></mp-row>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/basic.vue
 ```
 
 ### Ordering and resetting to zero
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-const reverse = ref(false)
-</script>
-<template><div><div class="controls"><mp-switch v-model="reverse" aria-label="Reverse order" />Reverse order</div><mp-row :gutter="12"><mp-col v-for="i in 3" :key="i" :span="8" :order="reverse ? 3 - i : 0"><div class="cell">{{ i }}</div></mp-col></mp-row></div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/order.vue
 ```
 
 ### Flexible ratios and fixed widths
 
-```html
-<template><div>
-  <mp-row :gutter="12"><mp-col :flex="1"><div class="cell">1</div></mp-col><mp-col :flex="2"><div class="cell soft">2</div></mp-col></mp-row>
-  <mp-row :gutter="12" :wrap="false"><mp-col flex="100px"><div class="cell">100px</div></mp-col><mp-col flex="auto"><div class="cell soft">auto</div></mp-col></mp-row>
-</div></template>
-
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
+```demo
+../example/demos/flex.vue
 ```
 
 ### Responsive objects and visibility
 
-```html
-<template><div>
-  <p>xs → sm (576px) → md (768px). Hidden columns return at larger breakpoints.</p>
-  <mp-row :gutter="[12, 12]"><mp-col :xs="24" :sm="12" :md="8"><div class="cell">24 / 12 / 8</div></mp-col><mp-col :xs="0" :sm="12" :md="8"><div class="cell soft">Hidden / 12 / 8</div></mp-col><mp-col :span="8" :xs="{ span: 20, offset: 4, order: 2 }" :md="{ span: 8, offset: 0, order: 0 }"><div class="cell">Reset offset / order</div></mp-col></mp-row>
-</div></template>
 
-<style scoped>
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.cell { box-sizing: border-box; padding: 12px; min-width: 0; border-radius: 4px; background: var(--mp-color-primary); color: var(--mp-color-white); text-align: center; overflow-wrap: anywhere; }
-.soft { opacity: .7; }
-</style>
-```
 
 <!-- same-source-api:start -->
+
+```demo
+../example/demos/responsive.vue
+```
+
 ### Props
 
 | Prop | Description | Type | Default |

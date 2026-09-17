@@ -90,9 +90,9 @@
     "reason": "2026-09-08 完成 Breadcrumb / BreadcrumbItem 独立源码复制；主体、Props、上下文、类型、关键样式及配对测试纳入一致性检查。双端组件测试与 SSR 通过；图标、安装入口、Menu 和主题 token 本地适配。统一非空 routes 优先、分隔符优先级与 select(route, event)，修复空 routes 和省略项菜单行为。"
   },
   "collapse": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Maple 多 elevation；可作为主题扩展，需统一展开/分页状态、子项事件及受控默认值行为。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-15 完成独立源码复制；Collapse/CollapseItem 主体 SFC、9 项公共 Props、change/toggleAll、键盘与 destroyOnHide 纳入一致性检查。去掉 Maple elevation；默认图标与尺寸 token 由各库 platform 适配。"
   },
   "pagination": {
     "label": "已同源",
@@ -100,14 +100,14 @@
     "reason": "统一主体 SFC、23 项 Props、4 个事件、6 个插槽、分页状态与按钮和布局；12 组 demo 对齐。Locale、Input、Select 使用显式平台适配，480px 容器自动简洁模式；同源检查覆盖 13 个实现文件。"
   },
   "empty": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Empty 的 icon/inConfigProvider 为 Cedar 特有，Result 的 animation/imageSize 为 Maple 特有；统一资源插槽、尺寸及配置读取。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-15 完成独立源码复制；主体 SFC、6 项 Props、click、image/default/extra 插槽与尺寸档位纳入一致性检查。去掉 icon/inConfigProvider；ConfigProvider 空状态、默认图标、locale 与尺寸 token 由各库 platform 适配。"
   },
   "result": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "Empty 的 icon/inConfigProvider 为 Cedar 特有，Result 的 animation/imageSize 为 Maple 特有；统一资源插槽、尺寸及配置读取。"
+    "reason": "Result 的 animation/imageSize 等仍为 Maple 特有；统一状态图形、缺省文案与资源插槽后再同源。"
   },
   "link": {
     "label": "已同源",
@@ -205,9 +205,9 @@
     "reason": "InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。"
   },
   "image": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Image/Preview/PreviewGroup Props 同名且已有配对契约基础；同源对齐加载和预览控制器，工具栏、键鼠缩放、触控缩放及弹层生命周期要逐项验证。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-15 完成独立源码复制；Image/Preview/PreviewGroup 主体 SFC、加载回退、预览控制器与命令式 API 纳入一致性检查。去掉 platform.config；懒加载用原生 loading、图标/默认加载器/默认值由各库 platform 与 setPropsDefaults 适配。"
   },
   "overlay": {
     "label": "待适配",
@@ -282,7 +282,7 @@
   "dropdown-menu": {
     "label": "已同源",
     "en": "Same source (verified)",
-    "reason": "2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。"
+    "reason": "2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。旧 Menu / MenuGroup / MenuSubmenu 已废弃，不再保留别名。"
   },
   "popover": {
     "label": "逻辑待同源",

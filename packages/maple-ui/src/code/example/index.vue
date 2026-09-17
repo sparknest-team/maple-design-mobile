@@ -1,35 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { codeToHtml } from 'shiki'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import WordWrapDemo from './demos/word-wrap.vue'
 
-const rootTheme = ref('vitesse-light')
-const customTheme = ref('github-light')
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
-onThemeChange((theme) => {
-  if (theme.toLocaleLowerCase().includes('dark')) {
-    rootTheme.value = 'vitesse-dark'
-    customTheme.value = 'github-dark'
-  } else {
-    rootTheme.value = 'vitesse-light'
-    customTheme.value = 'github-light'
-  }
+watchLang((value) => {
+  language.value = value
 })
+onThemeChange()
 </script>
 
 <template>
-  <mp-highlighter-provider :highlighter="{ codeToHtml }" :theme="rootTheme">
-    <app-type>{{ t('basicUsage') }}</app-type>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-    <mp-space direction="column" size="lg">
-      <mp-code code="console.log('Hello Maple UI')" language="javascript" />
-      <mp-code code="print('Hello Maple UI')" language="python" />
-      <mp-code code="console.log('Hello Maple UI')" language="javascript" :theme="customTheme" />
-    </mp-space>
-
-    <app-type>{{ t('wordWrap') }}</app-type>
-    <mp-code code="console.log('Hello Maple UI');console.log('Hello Maple UI');" language="javascript" word-wrap />
-  </mp-highlighter-provider>
+  <section data-demo="word-wrap">
+    <app-type>{{ english ? 'Word Wrap' : '自动换行' }}</app-type>
+    <WordWrapDemo />
+  </section>
 </template>

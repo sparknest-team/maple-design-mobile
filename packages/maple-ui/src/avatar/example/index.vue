@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AppType, createDemoMessages, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { computed, ref } from 'vue'
+import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import DemoAutoFix from './demos/auto-fix.vue'
 import DemoBasic from './demos/basic.vue'
 import DemoFallback from './demos/fallback.vue'
@@ -12,61 +13,63 @@ import DemoShape from './demos/shape.vue'
 import DemoSize from './demos/size.vue'
 import DemoStyle from './demos/style.vue'
 import DemoTrigger from './demos/trigger.vue'
-import messages from './messages.json'
 
-const { t, use } = createDemoMessages(messages)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
   <section data-demo="basic">
-    <app-type>{{ t('basic') }}</app-type>
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
     <DemoBasic />
   </section>
   <section data-demo="size">
-    <app-type>{{ t('size') }}</app-type>
+    <app-type>{{ english ? 'Size' : '尺寸' }}</app-type>
     <DemoSize />
   </section>
   <section data-demo="shape">
-    <app-type>{{ t('shape') }}</app-type>
+    <app-type>{{ english ? 'Shape' : '形状' }}</app-type>
     <DemoShape />
   </section>
   <section data-demo="auto-fix">
-    <app-type>{{ t('auto-fix') }}</app-type>
+    <app-type>{{ english ? 'Auto-fit text' : '文字自适应' }}</app-type>
     <DemoAutoFix />
   </section>
   <section data-demo="image">
-    <app-type>{{ t('image') }}</app-type>
+    <app-type>{{ english ? 'Image avatar' : '图片头像' }}</app-type>
     <DemoImage />
   </section>
   <section data-demo="fit">
-    <app-type>{{ t('fit') }}</app-type>
+    <app-type>{{ english ? 'Image fit' : '图片填充' }}</app-type>
     <DemoFit />
   </section>
   <section data-demo="fallback">
-    <app-type>{{ t('fallback') }}</app-type>
+    <app-type>{{ english ? 'Loading and fallback' : '加载与回退' }}</app-type>
     <DemoFallback />
   </section>
   <section data-demo="style">
-    <app-type>{{ t('style') }}</app-type>
+    <app-type>{{ english ? 'Color and border' : '颜色与边框' }}</app-type>
     <DemoStyle />
   </section>
   <section data-demo="group">
-    <app-type>{{ t('group') }}</app-type>
+    <app-type>{{ english ? 'Avatar group' : '头像组' }}</app-type>
     <DemoGroup />
   </section>
   <section data-demo="group-vertical">
-    <app-type>{{ t('group-vertical') }}</app-type>
+    <app-type>{{ english ? 'Vertical group' : '纵向头像组' }}</app-type>
     <DemoGroupVertical />
   </section>
   <section data-demo="hoverable">
-    <app-type>{{ t('hoverable') }}</app-type>
+    <app-type>{{ english ? 'Hoverable' : '头像可悬停' }}</app-type>
     <DemoHoverable />
   </section>
   <section data-demo="trigger">
-    <app-type>{{ t('trigger') }}</app-type>
+    <app-type>{{ english ? 'Trigger icon' : '交互图标' }}</app-type>
     <DemoTrigger />
   </section>
 </template>

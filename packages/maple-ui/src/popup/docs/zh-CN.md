@@ -6,138 +6,20 @@
 
 ### 弹出位置
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const center = ref(false)
-  const top = ref(false)
-  const bottom = ref(false)
-  const left = ref(false)
-  const right = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" :size="[10, 0]">
-    <mp-button status="primary" block @click="center = true"> 居中弹出 </mp-button>
-    <mp-button status="primary" block @click="bottom = true"> 下方弹出 </mp-button>
-    <mp-button status="primary" block @click="top = true"> 上方弹出 </mp-button>
-    <mp-button status="primary" block @click="left = true"> 左侧弹出 </mp-button>
-    <mp-button status="primary" block @click="right = true"> 右侧弹出 </mp-button>
-  </mp-space>
-
-  <mp-popup v-model:open="center">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-
-  <mp-popup position="bottom" v-model:open="bottom">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-
-  <mp-popup position="top" v-model:open="top">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-
-  <mp-popup position="left" v-model:open="left">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-
-  <mp-popup position="right" v-model:open="right">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-</template>
-
-<style>
-  .popup-example-block {
-    padding: 24px;
-    width: 280px;
-  }
-</style>
+```demo
+../example/demos/popup-position.vue
 ```
 
 ### 背景层样式
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const overlayClass = ref(false)
-  const overlayStyle = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" :size="[10, 0]">
-    <mp-button status="primary" block @click="overlayClass = true"> 背景层 class </mp-button>
-    <mp-button status="primary" block @click="overlayStyle = true"> 背景层 style </mp-button>
-  </mp-space>
-
-  <mp-popup overlay-class="popup-example-custom-overlay" v-model:open="overlayClass">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-
-  <mp-popup :overlay-style="{backgroundColor: 'rgba(0, 0, 0, 0.3)'}" v-model:open="overlayStyle">
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-</template>
-
-<style>
-  .popup-example-custom-overlay {
-    background: rgba(0, 0, 0, 0.3) !important;
-  }
-
-  .popup-example-block {
-    padding: 24px;
-    width: 280px;
-  }
-</style>
+```demo
+../example/demos/overlay-style.vue
 ```
 
 ### 注册事件
 
-```html
-<script setup>
-  import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-
-  const event = ref(false)
-</script>
-
-<template>
-  <mp-button status="primary" block @click="event = true"> 注册事件 </mp-button>
-
-  <mp-popup
-    v-model:open="event"
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <div class="popup-example-block">
-      素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
-    </div>
-  </mp-popup>
-</template>
-
-<style>
-  .popup-example-block {
-    padding: 24px;
-    width: 280px;
-  }
-</style>
+```demo
+../example/demos/event.vue
 ```
 
 ## API

@@ -100,48 +100,57 @@ export { _ActionSheetComponent } from './action-sheet'
 export { _AffixComponent } from './affix'
 export { _AlertComponent } from './alert'
 export { _AutoCompleteComponent } from './auto-complete'
-export { _AvatarComponent, _AvatarGroupComponent } from './avatar'
+export { AvatarGroup, _AvatarComponent, _AvatarGroupComponent } from './avatar'
 export { _BackTopComponent } from './back-top'
 export { _BadgeComponent } from './badge'
-export { _BreadcrumbComponent, _BreadcrumbItemComponent } from './breadcrumb'
-export { _ButtonComponent, _ButtonGroupComponent } from './button'
+export { BreadcrumbItem, _BreadcrumbComponent, _BreadcrumbItemComponent } from './breadcrumb'
+export { ButtonGroup, _ButtonComponent, _ButtonGroupComponent } from './button'
 export { _CardComponent } from './card'
-export { _CarouselComponent, _CarouselItemComponent } from './carousel'
+export { CarouselItem, _CarouselComponent, _CarouselItemComponent } from './carousel'
 export { _CascaderComponent } from './cascader'
 export { _CellComponent } from './cell'
-export { _CheckboxComponent, _CheckboxGroupComponent } from './checkbox'
+export { CheckboxGroup, _CheckboxComponent, _CheckboxGroupComponent } from './checkbox'
 export { _CodeComponent } from './code'
 export { _ColComponent } from './col'
-export { _CollapseComponent, _CollapseItemComponent } from './collapse'
+export { CollapseItem, _CollapseComponent, _CollapseItemComponent } from './collapse'
 export { _ContextComponent } from './context'
 export { _CountToComponent } from './count-to'
 export { _CountdownComponent } from './countdown'
 export { _CounterComponent } from './counter'
-export { _DateComponent, _DatePickerComponent } from './date'
-export { _DateRangeComponent, _DateRangePickerComponent } from './date-range'
+export { DatePicker, _DateComponent, _DatePickerComponent } from './date'
+export { DateRangePicker, _DateRangeComponent, _DateRangePickerComponent } from './date-range'
 export { _DialogComponent } from './dialog'
 export { _DividerComponent } from './divider'
-export { _DropdownMenuComponent, _MenuOptionComponent } from './dropdown-menu'
 export { _DragComponent } from './drag'
+export { MenuOption, _DropdownMenuComponent, _MenuOptionComponent } from './dropdown-menu'
 export { _EllipsisComponent } from './ellipsis'
 export { _EmptyComponent } from './empty'
 export { _FabComponent } from './fab'
 export { _FieldDecoratorComponent } from './field-decorator'
 export { _FloatingPanelComponent } from './floating-panel'
-export { _FormComponent, _FormItemComponent } from './form'
+export { FormItem, _FormComponent, _FormItemComponent } from './form'
 export { _FormDetailsComponent } from './form-details'
-export { _GridComponent, _GridItemComponent } from './grid'
+export { GridItem, _GridComponent, _GridItemComponent } from './grid'
 export { _HighlighterProviderComponent } from './highlighter-provider'
-export { _HoverComponent, _HoverOverlayComponent } from './hover'
+export { HoverOverlay, _HoverComponent, _HoverOverlayComponent } from './hover'
 export { _IconComponent } from './icon'
-export { _ImageComponent, _ImagePreviewComponent, _ImagePreviewGroupComponent } from './image'
-export { _IndexBarComponent, _IndexAnchorComponent } from './index-bar'
+export {
+  ImagePreview,
+  ImagePreviewGroup,
+  ImagePreviewAction,
+  ImagePreviewFn,
+  _ImageComponent,
+  _ImagePreviewComponent,
+  _ImagePreviewGroupComponent,
+  _ImagePreviewActionComponent,
+} from './image'
+export { IndexAnchor, _IndexBarComponent, _IndexAnchorComponent } from './index-bar'
 export { _InfiniteScrollComponent } from './infinite-scroll'
 export { _InputComponent } from './input'
 export { _InputNumberComponent } from './input-number'
 export { _LazyComponent } from './lazy'
 export { _LinkComponent } from './link'
-export { _ListComponent, _ListItemComponent } from './list'
+export { ListItem, _ListComponent, _ListItemComponent } from './list'
 export { _LoadingComponent } from './loading'
 export { _LoadingBarComponent } from './loading-bar'
 export { _LocaleComponent } from './locale'
@@ -159,31 +168,49 @@ export { _PopupComponent } from './popup'
 export { _ProgressComponent } from './progress'
 export { _ProgressGroupComponent } from './progress-group'
 export { _PullRefreshComponent } from './pull-refresh'
-export { _RadioComponent, _RadioGroupComponent } from './radio'
+export { RadioGroup, _RadioComponent, _RadioGroupComponent } from './radio'
 export { _RateComponent } from './rate'
 export { _ResultComponent } from './result'
 export { _RippleComponent } from './ripple'
 export { _RowComponent } from './row'
 export { _SearchComponent } from './search'
-export { _SelectComponent, _OptionComponent } from './select'
+export { Option, _SelectComponent, _OptionComponent } from './select'
 export { _SignatureComponent } from './signature'
-export { _SkeletonComponent, _SkeletonLineComponent, _SkeletonShapeComponent } from './skeleton'
+export {
+  SkeletonLine,
+  SkeletonShape,
+  _SkeletonComponent,
+  _SkeletonLineComponent,
+  _SkeletonShapeComponent,
+} from './skeleton'
 export { _SliderComponent } from './slider'
 export { _SpaceComponent } from './space'
 export { _SplitButtonComponent } from './split-button'
 export { _StatisticComponent } from './statistic'
-export { _StepsComponent, _StepComponent } from './steps'
+export { Step, _StepsComponent, _StepComponent } from './steps'
 export { _StyleProviderComponent } from './style-provider'
 export { _SwipeCellComponent } from './swipe-cell'
 export { _SwitchComponent } from './switch'
 export { TabBarItem, _TabBarComponent, _TabBarItemComponent } from './tab-bar'
 export { _TableComponent } from './table'
-export { _TabsComponent, _TabComponent, _TabItemComponent, _TabsItemsComponent } from './tabs'
-export { _TagComponent } from './tag'
+export {
+  TabPane,
+  TabNav,
+  TabsNavs,
+  TabItem,
+  TabsItems,
+  _TabsComponent,
+  _TabNavComponent,
+  _TabsNavsComponent,
+  _TabItemComponent,
+  _TabPaneComponent,
+  _TabsItemsComponent,
+} from './tabs'
+export { TAG_COLORS, _TagComponent } from './tag'
 export { _TextareaComponent } from './textarea'
 export { _ThemesComponent } from './themes'
-export { _TimeComponent, _TimePickerComponent } from './time'
-export { _TimeRangeComponent, _TimeRangePickerComponent } from './time-range'
+export { TimePicker, _TimeComponent, _TimePickerComponent } from './time'
+export { TimeRangePicker, _TimeRangeComponent, _TimeRangePickerComponent } from './time-range'
 export { _TooltipComponent } from './tooltip'
 export { _TriggerComponent } from './trigger'
 export { _UploadComponent } from './upload'
@@ -214,11 +241,11 @@ export type {
 } from './auto-complete'
 export { avatarProps, avatarGroupProps } from './avatar'
 export type {
+  AvatarGroupProps,
+  AvatarObjectFit,
   AvatarProps,
   AvatarShape,
   AvatarTriggerType,
-  AvatarObjectFit,
-  AvatarGroupProps,
   AvatarInstance,
   AvatarGroupInstance,
 } from './avatar'
@@ -280,11 +307,11 @@ export type {
   CollapseInstance,
   CollapseItemInstance,
   CollapseActiveNames,
-  CollapseExpandIconPosition,
-  CollapseName,
-  CollapseToggleAllOptions,
-  CollapseProps,
   CollapseItemProps,
+  CollapseName,
+  CollapseProps,
+  CollapseToggleAllOptions,
+  ExpandIconPosition,
 } from './collapse'
 export { countToProps } from './count-to'
 export type { CountToInstance, CountToProps } from './count-to'
@@ -337,25 +364,25 @@ export type {
   DividerSizePreset,
   DividerInstance,
 } from './divider'
+export { dragProps } from './drag'
+export type { DragInstance, DragProps } from './drag'
 export { dropdownMenuProps, menuOptionProps } from './dropdown-menu'
 export type {
   DropdownMenuProps,
+  DropdownMenuPosition,
+  MenuValue,
   DropdownMenuOption,
   DropdownMenuFieldNames,
-  DropdownMenuPosition,
-  DropdownMenuSize,
-  DropdownMenuSubmenuTrigger,
   DropdownMenuContent,
   DropdownMenuRenderContext,
-  DropdownMenuInstance,
-  MenuValue,
   MenuOptionLabel,
   MenuOptionLabelRender,
+  DropdownMenuSize,
   MenuOptionProps,
+  DropdownMenuSubmenuTrigger,
+  DropdownMenuInstance,
   MenuOptionInstance,
 } from './dropdown-menu'
-export { dragProps } from './drag'
-export type { DragInstance, DragProps } from './drag'
 export { ellipsisProps } from './ellipsis'
 export type { EllipsisInstance, EllipsisProps } from './ellipsis'
 export { emptyProps } from './empty'
@@ -526,7 +553,7 @@ export type {
   StepsContentPlacement,
 } from './steps'
 export { styleProviderProps } from './style-provider'
-export type { StyleVars, StyleProviderInstance, StyleProviderProps, StyleProviderDefaults } from './style-provider'
+export type { StyleProviderInstance, StyleProviderProps, StyleProviderDefaults, StyleVars } from './style-provider'
 export { swipeCellProps } from './swipe-cell'
 export type {
   SwipeCellBeforeCloseArgs,
@@ -541,15 +568,25 @@ export { tabBarProps, tabBarItemProps } from './tab-bar'
 export type { TabBarInstance, TabBarItemInstance, TabBarProps, TabBarItemProps } from './tab-bar'
 export { tableProps } from './table'
 export type { TableInstance, TableProps } from './table'
-export { tabsProps, tabProps, tabItemProps, tabsItemsProps } from './tabs'
+export { tabsProps, tabNavProps, tabItemProps, tabPaneProps, tabsNavsProps, tabsItemsProps } from './tabs'
 export type {
   TabsInstance,
-  TabInstance,
+  TabNavInstance,
+  TabsNavsInstance,
   TabItemInstance,
+  TabPaneInstance,
   TabsItemsInstance,
+  TabsKey,
+  TabsVariant,
+  TabsTrigger,
+  TabsIndicatorPosition,
+  TabsScrollPosition,
+  TabsActivationMode,
   TabsProps,
-  TabProps,
+  TabNavProps,
   TabItemProps,
+  TabPaneProps,
+  TabsNavsProps,
   TabsItemsProps,
 } from './tabs'
 export { tagProps } from './tag'

@@ -1,242 +1,86 @@
 <script setup lang="ts">
-import { computed, h, ref } from 'vue'
-import { IconMore } from '@maplejs/icons-vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import ContextMenuDemo from './demos/context-menu.vue'
+import ControlledDemo from './demos/controlled.vue'
+import DisabledStateDemo from './demos/disabled-state.vue'
+import FooterDemo from './demos/footer.vue'
+import GroupDemo from './demos/group.vue'
+import OptionContentDemo from './demos/option-content.vue'
+import OverflowActionsDemo from './demos/overflow-actions.vue'
+import PlacementDemo from './demos/placement.vue'
+import PopupMaxHeightDemo from './demos/popup-max-height.vue'
+import SelectionDemo from './demos/selection.vue'
+import SubmenuDemo from './demos/submenu.vue'
+import TriggerDemo from './demos/trigger.vue'
 
-const selected = ref('edit')
-const selectedLabel = ref('')
-const controlledOpen = ref(false)
-const placements = ['bottom-start', 'bottom', 'bottom-end', 'top-start', 'top', 'top-end'] as const
-const longOptions = Array.from({ length: 8 }, (_, index) => `Option ${index + 1}`)
-const inlineIcon = (text: string) => h('span', { 'aria-hidden': 'true' }, text)
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const actionOptions = computed(() => [
-  { label: t('edit'), value: 'edit' },
-  { label: t('copy'), value: 'copy' },
-  { type: 'divider' },
-  { label: t('delete'), value: 'delete' },
-])
-const selectionOptions = computed(() => [
-  { label: t('edit'), value: 'edit' },
-  { label: t('copy'), value: 'copy' },
-  { label: t('delete'), value: 'delete' },
-])
-const groupOptions = computed(() => [
-  {
-    type: 'group',
-    label: t('fileActions'),
-    children: [
-      { label: t('create'), value: 'new' },
-      { label: t('open'), value: 'open' },
-    ],
-  },
-  {
-    type: 'group',
-    label: t('editActions'),
-    children: [
-      { label: t('copy'), value: 'copy' },
-      { label: t('paste'), value: 'paste' },
-    ],
-  },
-])
-const submenuOptions = computed(() => [
-  { label: t('home'), value: 'home' },
-  {
-    label: t('product'),
-    children: [
-      { label: t('overview'), value: 'overview' },
-      {
-        label: t('solution'),
-        children: [
-          { label: t('enterprise'), value: 'enterprise' },
-          { label: t('team'), value: 'team' },
-        ],
-      },
-    ],
-  },
-  { label: t('about'), value: 'about' },
-])
-const contentOptions = computed(() => [
-  { label: t('edit'), value: 'edit', icon: inlineIcon('✎'), extra: '⌘ E' },
-  {
-    label: ({ active }: { active: boolean }) => h('strong', active ? t('copied') : t('copy')),
-    value: 'copy',
-    icon: inlineIcon('⧉'),
-    extra: '⌘ C',
-  },
-  { label: t('delete'), value: 'delete', icon: inlineIcon('⌫'), extra: '⌫', disabled: true },
-])
-
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  selectedLabel.value = String(option.label ?? '')
-}
-
-watchLang((lang: string) => {
-  use(lang)
-  selected.value = 'edit'
-  selectedLabel.value = t('edit')
+watchLang((value) => {
+  language.value = value
 })
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('overflowActions') }}</app-type>
-  <mp-dropdown-menu :options="actionOptions">
-    <mp-button icon-container :aria-label="t('overflowActions')">
-      <mp-icon><IconMore /></mp-icon>
-    </mp-button>
-  </mp-dropdown-menu>
+  <section data-demo="overflow-actions">
+    <app-type>{{ english ? 'Overflow Actions' : '更多操作' }}</app-type>
+    <OverflowActionsDemo />
+  </section>
 
-  <app-type>{{ t('contextMenu') }}</app-type>
-  <mp-dropdown-menu trigger="contextMenu" align-point style="display: block">
-    <div class="dropdown-menu-example-area">{{ t('contextMenuTip') }}</div>
+  <section data-demo="context-menu">
+    <app-type>{{ english ? 'Context Menu' : '右键菜单' }}</app-type>
+    <ContextMenuDemo />
+  </section>
 
-    <template #content>
-      <mp-menu-option label="Option 1" />
-      <mp-menu-option label="Option 2" />
-      <mp-menu-option label="Option 3" />
-    </template>
-  </mp-dropdown-menu>
+  <section data-demo="selection">
+    <app-type>{{ english ? 'Active Value and Select Event' : '激活值与 select 事件' }}</app-type>
+    <SelectionDemo />
+  </section>
 
-  <app-type>{{ t('selection') }}</app-type>
-  <mp-space direction="column">
-    <mp-dropdown-menu v-model="selected" :options="selectionOptions" @select="handleSelect">
-      <mp-button>{{ selectedLabel || t('pleaseSelect') }}</mp-button>
-    </mp-dropdown-menu>
-    <span>{{ t('currentValue') }}：{{ selected || '-' }}，{{ t('lastSelected') }}：{{ selectedLabel || '-' }}</span>
-  </mp-space>
+  <section data-demo="group">
+    <app-type>{{ english ? 'Option Group' : '选项分组' }}</app-type>
+    <GroupDemo />
+  </section>
 
-  <app-type>{{ t('group') }}</app-type>
-  <mp-dropdown-menu :options="groupOptions">
-    <mp-button>{{ t('group') }}</mp-button>
-  </mp-dropdown-menu>
+  <section data-demo="submenu">
+    <app-type>{{ english ? 'Submenu' : '多级菜单' }}</app-type>
+    <SubmenuDemo />
+  </section>
 
-  <app-type>{{ t('submenu') }}</app-type>
-  <mp-dropdown-menu :options="submenuOptions">
-    <mp-button>{{ t('submenu') }}</mp-button>
-  </mp-dropdown-menu>
+  <section data-demo="option-content">
+    <app-type>{{ english ? 'Custom Option Content' : '自定义选项内容' }}</app-type>
+    <OptionContentDemo />
+  </section>
 
-  <app-type>{{ t('optionContent') }}</app-type>
-  <mp-dropdown-menu :options="contentOptions">
-    <mp-button>{{ t('optionContent') }}</mp-button>
-  </mp-dropdown-menu>
+  <section data-demo="trigger">
+    <app-type>{{ english ? 'Trigger' : '触发方式' }}</app-type>
+    <TriggerDemo />
+  </section>
 
-  <app-type>{{ t('trigger') }}</app-type>
-  <mp-space>
-    <mp-dropdown-menu trigger="click">
-      <mp-button>{{ t('click') }}</mp-button>
+  <section data-demo="disabled-state">
+    <app-type>{{ english ? 'Disabled State' : '禁用状态' }}</app-type>
+    <DisabledStateDemo />
+  </section>
 
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
+  <section data-demo="popup-max-height">
+    <app-type>{{ english ? 'Popup Max Height' : '高度限制' }}</app-type>
+    <PopupMaxHeightDemo />
+  </section>
 
-    <mp-dropdown-menu trigger="hover">
-      <mp-button>{{ t('hover') }}</mp-button>
+  <section data-demo="controlled">
+    <app-type>{{ english ? 'Controlled Open State' : '受控打开状态' }}</app-type>
+    <ControlledDemo />
+  </section>
 
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
+  <section data-demo="footer">
+    <app-type>{{ english ? 'Footer' : '页脚' }}</app-type>
+    <FooterDemo />
+  </section>
 
-  <app-type>{{ t('disabledState') }}</app-type>
-  <mp-space>
-    <mp-dropdown-menu disabled>
-      <mp-button disabled>{{ t('menuDisabled') }}</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu>
-      <mp-button>{{ t('optionDisabled') }}</mp-button>
-
-      <template #content>
-        <mp-menu-option :label="t('available')" />
-        <mp-menu-option :label="t('disabledOption')" disabled />
-        <mp-menu-option :label="t('anotherAvailable')" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-
-  <app-type>{{ t('popupMaxHeight') }}</app-type>
-  <mp-space>
-    <mp-dropdown-menu :popup-max-height="120">
-      <mp-button>{{ t('limited') }}</mp-button>
-
-      <template #content>
-        <mp-menu-option v-for="item in longOptions" :key="item" :label="item" />
-      </template>
-    </mp-dropdown-menu>
-
-    <mp-dropdown-menu :popup-max-height="false">
-      <mp-button>{{ t('unlimited') }}</mp-button>
-
-      <template #content>
-        <mp-menu-option v-for="item in longOptions" :key="item" :label="item" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-
-  <app-type>{{ t('controlled') }}</app-type>
-  <mp-space direction="column">
-    <mp-button @mousedown.stop @click.stop="controlledOpen = !controlledOpen">
-      {{ controlledOpen ? t('closeMenu') : t('openMenu') }}
-    </mp-button>
-
-    <mp-dropdown-menu v-model:open="controlledOpen">
-      <mp-button>{{ t('menuTrigger') }}</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
-
-  <app-type>{{ t('footer') }}</app-type>
-  <mp-dropdown-menu>
-    <mp-button>{{ t('footer') }}</mp-button>
-
-    <template #content>
-      <mp-menu-option label="Option 1" />
-      <mp-menu-option label="Option 2" />
-    </template>
-
-    <template #footer>
-      <div class="dropdown-menu-example-footer">{{ t('customFooter') }}</div>
-    </template>
-  </mp-dropdown-menu>
-
-  <app-type>{{ t('placement') }}</app-type>
-  <mp-space>
-    <mp-dropdown-menu v-for="placement in placements" :key="placement" :placement="placement">
-      <mp-button>{{ placement }}</mp-button>
-
-      <template #content>
-        <mp-menu-option label="Option 1" />
-        <mp-menu-option label="Option 2" />
-        <mp-menu-option label="Option 3" />
-      </template>
-    </mp-dropdown-menu>
-  </mp-space>
+  <section data-demo="placement">
+    <app-type>{{ english ? 'Placement' : '弹出方向' }}</app-type>
+    <PlacementDemo />
+  </section>
 </template>
-
-<style>
-.dropdown-menu-example-area {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 160px;
-  background-color: var(--mp-color-fill-2);
-}
-
-.dropdown-menu-example-footer {
-  padding: 8px 12px;
-}
-</style>

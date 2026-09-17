@@ -2,6 +2,13 @@
 
 Independent source copies in Cedar and Maple use identical behavior, installation and defaults.
 
+
+
+### basic
+
+```demo
+../example/demos/basic.vue
+```
 ## Local variables
 
 Use `<mp-style-provider :style-vars="vars" tag="section">`. Variables follow DOM inheritance; nested providers override ancestors. Passing null clears only the local override. Content moved outside the provider by popupContainer does not inherit its variables. Local providers never change the document theme.

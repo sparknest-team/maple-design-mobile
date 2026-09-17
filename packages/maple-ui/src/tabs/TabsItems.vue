@@ -1,90 +1,60 @@
 <template>
-  <mp-carousel
-    ref="carouselRef"
-    :class="n()"
-    :loop="loop"
-    :duration="animated ? undefined : 0"
-    :touchable="canSwipe"
-    :indicator="false"
-    @change="handleCarouselChange"
+  <div
+    :hidden="ctx.props.hideContent"
+    :class="classes(n('content'), [ctx.props.swipeable, n('--swipeable')], [ctx.props.animation, n('--animated')])"
+    @touchstart.passive="start"
+    @touchend.passive="end"
+    @touchcancel="origin = undefined"
   >
     <slot />
-  </mp-carousel>
+  </div>
 </template>
+<script setup lang="ts">
+import { inject } from 'vue'
+import { tabsInjectionKey } from './context'
+import { createNamespace } from './platform'
+import { tabsItemsProps } from './props'
 
-<script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
-import { call, doubleRaf } from '@maplejs/maple-shared'
-import MpCarousel from '../carousel'
-import { createNamespace } from '../utils/components'
-import { type TabItemProvider } from './tab-item-provide'
-import { props } from './tabs-items-props'
-import { useTabItem } from './tabs-items-provide'
-
-const { name, n } = createNamespace('tabs-items')
-
-export default defineComponent({
-  name,
-  components: { MpCarousel },
-  props,
-  emits: ['update:active'],
-  setup(props, { emit }) {
-    const carouselRef = ref<null | typeof MpCarousel>(null)
-    const { tabItemList, bindTabItem, length } = useTabItem()
-
-    bindTabItem({})
-
-    watch(() => props.active, handleActiveChange)
-
-    watch(
-      () => length.value,
-      async () => {
-        await doubleRaf()
-        handleActiveChange(props.active)
-      },
+defineOptions({ name: createNamespace('tabs-items').name })
+defineProps(tabsItemsProps)
+const ctx = inject(tabsInjectionKey)!
+const { n, classes } = createNamespace('tabs')
+let origin: { x: number; y: number; target: EventTarget | null } | undefined
+function start(event: TouchEvent) {
+  origin = undefined
+  if (!ctx.props.swipeable || event.touches.length !== 1) {
+    return
+  }
+  if (
+    (event.target as Element)?.closest(
+      'input, textarea, select, button, a, [contenteditable="true"], [data-tabs-no-swipe]',
     )
-
-    function matchName(active: number | string | undefined): TabItemProvider | undefined {
-      return tabItemList.find(({ name }: TabItemProvider) => active === name.value)
-    }
-
-    function matchIndex(active: number | string | undefined): TabItemProvider | undefined {
-      return tabItemList.find(({ index }: TabItemProvider) => active === index.value)
-    }
-
-    function matchActive(active: number | string | undefined): TabItemProvider | undefined {
-      return matchName(active) || matchIndex(active)
-    }
-
-    function handleActiveChange(newValue: number | string | undefined) {
-      const newActiveTabItemProvider: TabItemProvider | undefined = matchActive(newValue)
-      if (!newActiveTabItemProvider) {
-        return
-      }
-
-      tabItemList.forEach(({ setCurrent }) => setCurrent(false))
-      newActiveTabItemProvider.setCurrent(true)
-      carouselRef.value?.to(newActiveTabItemProvider.index.value)
-    }
-
-    function handleCarouselChange(currentIndex: number) {
-      const tabItem = tabItemList.find(({ index }) => index.value === currentIndex) as TabItemProvider
-      const active = tabItem.name.value ?? tabItem.index.value
-
-      emit('update:active', active)
-    }
-
-    // expose
-    function getCarousel() {
-      return carouselRef.value
-    }
-
-    return {
-      carouselRef,
-      n,
-      handleCarouselChange,
-      getCarousel,
-    }
-  },
-})
+  ) {
+    return
+  }
+  origin = { x: event.touches[0].clientX, y: event.touches[0].clientY, target: event.currentTarget }
+}
+function end(event: TouchEvent) {
+  const point = origin
+  origin = undefined
+  if (!point || !ctx.props.swipeable || event.touches.length || !event.changedTouches.length) {
+    return
+  }
+  const dx = event.changedTouches[0].clientX - point.x
+  const dy = event.changedTouches[0].clientY - point.y
+  if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
+    return
+  }
+  const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
+  const index = enabled.findIndex((tab) => tab.key === ctx.active.value)
+  if (index < 0) {
+    return
+  }
+  const rtl = (point.target as Element)?.closest('[dir]')?.getAttribute('dir') === 'rtl'
+  const direction = (dx < 0 ? 1 : -1) * (rtl ? -1 : 1)
+  const target = enabled[index + direction]
+  if (target) {
+    ctx.select(target.key)
+  }
+}
 </script>

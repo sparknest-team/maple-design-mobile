@@ -6,398 +6,27 @@
 
 ### 标准外观
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref()
-  const value2 = ref()
-  const value3 = ref()
-  const value4 = ref()
-  const value5 = ref()
-  const value6 = ref()
-  const value7 = ref()
-  const value8 = ref()
-  const value9 = ref([])
-  const value10 = ref([])
-  const value13 = ref()
-  const value14 = ref()
-  const value15 = ref([])
-  const value16 = ref()
-
-  const options = ref([
-    {
-      label: '吃饭',
-      value: 1,
-    },
-    {
-      label: '睡觉',
-      value: 2,
-    },
-    {
-      label: '打游戏',
-      value: 3,
-      disabled: true,
-    },
-  ])
-
-  const keyOptions = ref([
-    {
-      name: '吃饭',
-      id: 1,
-    },
-    {
-      name: '睡觉',
-      id: 2,
-    },
-    {
-      name: '打游戏',
-      id: 3,
-      disabled: true,
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-select placeholder="请选择一个选项" v-model="value">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select placeholder="文本关联值" v-model="value2">
-      <mp-option label="吃饭" :value="1" />
-      <mp-option label="睡觉" :value="2" />
-    </mp-select>
-    <div class="relation">当前选择的是: {{ value2 }}</div>
-    <mp-select placeholder="只读" readonly v-model="value3">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select placeholder="禁用" disabled v-model="value4">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select placeholder="可清除" clearable v-model="value5">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select placeholder="使用插槽自定义清除图标" clearable v-model="value6">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <template #clear-icon="{ clear }">
-        <m-icon-github class="clear-icon" @click="clear" />
-      </template>
-    </mp-select>
-
-    <mp-select placeholder="自定义图标" v-model="value7">
-      <template #default>
-        <mp-option label="吃饭">
-          <m-icon-cake-variant class="selected-icon" />
-          <span>吃饭</span>
-        </mp-option>
-        <mp-option label="睡觉">
-          <m-icon-weather-night class="selected-icon" />
-          <span>睡觉</span>
-        </mp-option>
-      </template>
-      <template #selected>
-        <m-icon-cake-variant v-if="value7 === '吃饭'" class="selected-icon" />
-        <m-icon-weather-night v-else class="selected-icon" />
-        <span>{{ value7 }}</span>
-      </template>
-      <template #prefix>
-        <m-icon-github class="prefix" />
-      </template>
-      <template #suffix>
-        <m-icon-github class="suffix" />
-      </template>
-      <template #arrow-icon="{ focus }">
-        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
-      </template>
-    </mp-select>
-
-    <mp-select placeholder="自定义图标尺寸" v-model="value8">
-      <template #default>
-        <mp-option label="吃饭">
-          <m-icon-cake-variant class="selected-icon" />
-          <span>吃饭</span>
-        </mp-option>
-        <mp-option label="睡觉">
-          <m-icon-weather-night class="selected-icon" />
-          <span>睡觉</span>
-        </mp-option>
-      </template>
-      <template #selected>
-        <m-icon-cake-variant v-if="value8 === '吃饭'" class="selected-icon" :size="28" />
-        <m-icon-weather-night v-else class="selected-icon" :size="28" />
-        <span>{{ value8 }}</span>
-      </template>
-      <template #prefix>
-        <m-icon-github class="prefix" :size="28" />
-      </template>
-      <template #suffix>
-        <m-icon-github class="suffix" :size="42" />
-      </template>
-      <template #arrow-icon="{ focus }">
-        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
-      </template>
-    </mp-select>
-
-    <mp-select placeholder="多选" multiple v-model="value9">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select placeholder="标签风格的多选" tag multiple v-model="value10">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select placeholder="小尺寸" v-model="value13">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select placeholder="选项式 API" v-model="value14" :options="options" />
-    <mp-select placeholder="选项式 API（多选）" v-model="value15" :options="options" multiple />
-    <mp-select
-      placeholder="自定义字段"
-      v-model="value16"
-      :options="keyOptions"
-      :field-names="{ label: 'name', value: 'id' }"
-    />
-  </mp-space>
-</template>
-
-<style>
-  .selected-icon {
-    margin-right: 6px;
-  }
-
-  .prefix {
-    margin-right: 6px;
-  }
-
-  .suffix {
-    margin-left: 6px;
-  }
-
-  .arrow-icon-rotate {
-    transform: rotate(180deg);
-  }
-</style>
+```demo
+../example/demos/standard.vue
 ```
 
 ### 外边框外观
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref()
-  const value2 = ref()
-  const value3 = ref()
-  const value4 = ref()
-  const value5 = ref()
-  const value6 = ref()
-  const value7 = ref()
-  const value8 = ref()
-  const value9 = ref([])
-  const value10 = ref([])
-  const value13 = ref()
-  const value14 = ref()
-  const value15 = ref([])
-  const value16 = ref()
-
-  const options = ref([
-    {
-      label: '吃饭',
-      value: 1,
-    },
-    {
-      label: '睡觉',
-      value: 2,
-    },
-    {
-      label: '打游戏',
-      value: 3,
-      disabled: true,
-    },
-  ])
-
-  const keyOptions = ref([
-    {
-      name: '吃饭',
-      id: 1,
-    },
-    {
-      name: '睡觉',
-      id: 2,
-    },
-    {
-      name: '打游戏',
-      id: 3,
-      disabled: true,
-    },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-select variant="outline" placeholder="请选择一个选项" v-model="value">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select variant="outline" placeholder="文本关联值" v-model="value2">
-      <mp-option label="吃饭" :value="1" />
-      <mp-option label="睡觉" :value="2" />
-    </mp-select>
-    <div class="relation">当前选择的是: {{ value2 }}</div>
-    <mp-select variant="outline" placeholder="只读" readonly v-model="value3">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select variant="outline" placeholder="禁用" disabled v-model="value4">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select variant="outline" placeholder="可清除" clearable v-model="value5">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select variant="outline" placeholder="使用插槽自定义清除图标" clearable v-model="value6">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <template #clear-icon="{ clear }">
-        <m-icon-github class="clear-icon" @click="clear" />
-      </template>
-    </mp-select>
-
-    <mp-select variant="outline" placeholder="自定义图标" v-model="value7">
-      <template #default>
-        <mp-option label="吃饭">
-          <m-icon-cake-variant class="selected-icon" />
-          <span>吃饭</span>
-        </mp-option>
-        <mp-option label="睡觉">
-          <m-icon-weather-night class="selected-icon" />
-          <span>睡觉</span>
-        </mp-option>
-      </template>
-      <template #selected>
-        <m-icon-cake-variant v-if="value7 === '吃饭'" class="selected-icon" />
-        <m-icon-weather-night v-else class="selected-icon" />
-        <span>{{ value7 }}</span>
-      </template>
-      <template #prefix>
-        <m-icon-github class="prefix" />
-      </template>
-      <template #suffix>
-        <m-icon-github class="suffix" />
-      </template>
-      <template #arrow-icon="{ focus }">
-        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
-      </template>
-    </mp-select>
-    <mp-select variant="outline" placeholder="自定义图标尺寸" v-model="value8">
-      <template #default>
-        <mp-option label="吃饭">
-          <m-icon-cake-variant class="selected-icon" />
-          <span>吃饭</span>
-        </mp-option>
-        <mp-option label="睡觉">
-          <m-icon-weather-night class="selected-icon" />
-          <span>睡觉</span>
-        </mp-option>
-      </template>
-      <template #selected>
-        <m-icon-cake-variant v-if="value8 === '吃饭'" class="selected-icon" :size="28" />
-        <m-icon-weather-night v-else class="selected-icon" :size="28" />
-        <span>{{ value8 }}</span>
-      </template>
-      <template #prefix>
-        <m-icon-github class="prefix" :size="28" />
-      </template>
-      <template #suffix>
-        <m-icon-github class="suffix" :size="42" />
-      </template>
-      <template #arrow-icon="{ focus }">
-        <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
-      </template>
-    </mp-select>
-
-    <mp-select variant="outline" placeholder="多选" multiple v-model="value9">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select variant="outline" placeholder="标签风格的多选" tag multiple v-model="value10">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-      <mp-option label="打游戏" />
-      <mp-option label="写代码" />
-    </mp-select>
-    <mp-select variant="outline" size="sm" placeholder="小尺寸" v-model="value13">
-      <mp-option label="吃饭" />
-      <mp-option label="睡觉" />
-    </mp-select>
-    <mp-select variant="outline" placeholder="选项式 API" v-model="value14" :options="options" />
-    <mp-select variant="outline" placeholder="选项式 API（多选）" v-model="value15" :options="options" multiple />
-    <mp-select
-      variant="outline"
-      placeholder="自定义字段"
-      v-model="value16"
-      :options="keyOptions"
-      :field-names="{ label: 'name', value: 'id' }"
-    />
-  </mp-space>
-</template>
-
-<style>
-  .selected-icon {
-    margin-right: 6px;
-  }
-
-  .prefix {
-    margin-right: 6px;
-  }
-
-  .suffix {
-    margin-left: 6px;
-  }
-
-  .arrow-icon-rotate {
-    transform: rotate(180deg);
-  }
-</style>
+```demo
+../example/demos/outline.vue
 ```
 
 ### Picker 模式
 
 将 `presentation` 设置为 `picker` 即可使用底部弹窗的滚轮选择器。
 
-```html
-<script setup>
-  import { ref } from 'vue'
 
-  const pickerValue = ref()
-  const pickerOptions = ref([
-    { label: '吃饭', value: 1 },
-    { label: '睡觉', value: 2 },
-    { label: '打游戏', value: 3, disabled: true },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-select presentation="picker" placeholder="请选择一个选项" v-model="pickerValue" :options="pickerOptions" />
-  </mp-space>
-</template>
-```
 
 > Picker 模式仅支持 `options` 属性方式传入选项，插槽方式传入的 `<mp-option>` 暂不支持。
+
+```demo
+../example/demos/picker.vue
+```
 
 ### Picker 多选
 
@@ -435,37 +64,13 @@
 
 单选：点击即选中并关闭。多选：点击切换勾选（草稿），点「完成」提交，「取消」丢弃。
 
-```html
-<script setup>
-  import { ref } from 'vue'
 
-  const listValue = ref()
-  const listMultiple = ref([])
-  const listOptions = ref([
-    { label: '吃饭', value: 1 },
-    { label: '睡觉', value: 2 },
-    { label: '打游戏', value: 3, disabled: true },
-    { label: '写代码', value: 4 },
-  ])
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-select presentation="list" placeholder="请选择一个选项" v-model="listValue" :options="listOptions" />
-    <mp-select
-      presentation="list"
-      multiple
-      tag
-      clearable
-      placeholder="请选择多个选项"
-      v-model="listMultiple"
-      :options="listOptions"
-    />
-  </mp-space>
-</template>
-```
 
 > List 模式仅支持 `options` 属性方式传入选项，插槽方式传入的 `<mp-option>` 暂不支持。
+
+```demo
+../example/demos/list.vue
+```
 
 ## API
 
@@ -603,9 +208,11 @@
 | `--option-selected-background` | `var(--input-decorator-focus-color)` |
 | `--option-text-color`          | `#555`                               |
 
-## API
+## Option
 
-### 属性
+### API
+
+#### 属性
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |

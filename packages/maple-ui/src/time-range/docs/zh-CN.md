@@ -11,123 +11,52 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-time-range v-model="range" placeholder="请选择时间范围" clearable />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 时钟模式
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['09:00', '18:00'])
-</script>
-
-<template>
-  <mp-time-range v-model="range" presentation="clock" format="24hr" placeholder="时钟时间范围" clearable />
-</template>
+```demo
+../example/demos/clock-mode.vue
 ```
 
 ### 列滚轮含秒
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['09:00:00', '18:00:00'])
-</script>
-
-<template>
-  <mp-time-range v-model="range" format="24hr" use-seconds placeholder="列滚轮含秒" clearable />
-</template>
+```demo
+../example/demos/picker-seconds.vue
 ```
 
 ### 24 小时制与秒
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-time-range v-model="range" format="24hr" use-seconds placeholder="含秒的时间范围" clearable />
-</template>
+```demo
+../example/demos/hour24.vue
 ```
 
 ### 自定义分隔符
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['09:00', '18:00'])
-</script>
-
-<template>
-  <mp-time-range v-model="range" separator=" 至 " format="24hr" placeholder="自定义分隔符" clearable />
-</template>
+```demo
+../example/demos/separator.vue
 ```
 
 ### 次日标记
 
 当结束时间早于开始时间（跨天）时，开启 `show-next-day` 会在字段与面板结束侧显示「次日」，且确认时**不再交换**起止。未开启时，仅在点击确认后按时间先后交换。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['22:00', '06:00'])
-</script>
-
-<template>
-  <mp-time-range v-model="range" show-next-day format="24hr" placeholder="跨天时段" clearable />
-</template>
+```demo
+../example/demos/next-day.vue
 ```
 
 ### 禁用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['09:00', '18:00'])
-</script>
-
-<template>
-  <mp-time-range v-model="range" format="24hr" disabled />
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 搭配 FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    period: [],
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="period" label="时段" required>
-      <mp-time-range v-model="formData.period" placeholder="请选择" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/with-form-item.vue
 ```
 
 ## API
@@ -180,7 +109,7 @@
 
 面板样式变量见 [`TimeRangePicker`](/zh-CN/time-range-picker)。
 
-# TimeRangePicker 时间范围面板
+## TimeRangePicker 时间范围面板
 
 > 源码已并入 `time-range/`，安装父组件时一并注册。静态成员：`TimeRange.Picker`。
 
@@ -286,7 +215,7 @@
 </template>
 ```
 
-## API
+### API
 
 ### 属性
 

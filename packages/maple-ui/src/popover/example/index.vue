@@ -1,146 +1,63 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
-import { t, use } from './locale/index'
+import AutoFitPopupWidthDemo from './demos/auto-fit-popup-width.vue'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import DisabledDemo from './demos/disabled.vue'
+import EventsDemo from './demos/events.vue'
+import OffsetDemo from './demos/offset.vue'
+import PlacementDemo from './demos/placement.vue'
+import TriggerDemo from './demos/trigger.vue'
+import TwoWayBindingDemo from './demos/two-way-binding.vue'
 
-const show = ref(false)
 const trigger = ref('click')
-const placementValue = ref('bottom-start')
-const placementOptions = ref([
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'right',
-  'right-start',
-  'right-end',
-  'left',
-  'left-start',
-  'left-end',
-])
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
-
-function closeMenu() {
-  show.value = false
-}
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-popover>
-    <mp-button status="primary">{{ t('basicUsage') }}</mp-button>
-    <template #content>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('placement') }}</app-type>
-  <mp-select v-model="placementValue" :hint="false">
-    <mp-option v-for="(item, index) in placementOptions" :key="index" :label="item" />
-  </mp-select>
-  <div class="placement-container">
-    <mp-popover :placement="placementValue">
-      <mp-button status="primary">
-        <m-icon-star-fill />
-      </mp-button>
-      <template #content>
-        <mp-cell>{{ t('menuOption') }}</mp-cell>
-        <mp-cell>{{ t('menuOption') }}</mp-cell>
-        <mp-cell>{{ t('menuOption') }}</mp-cell>
-      </template>
-    </mp-popover>
-  </div>
+  <section data-demo="placement">
+    <app-type>{{ english ? 'Placement' : '弹出位置' }}</app-type>
+    <PlacementDemo />
+  </section>
 
-  <app-type>{{ t('offset') }}</app-type>
-  <mp-popover offset-x="36px" offset-y="18px">
-    <mp-button status="primary">{{ t('offset') }}</mp-button>
-    <template #content>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
+  <section data-demo="offset">
+    <app-type>{{ english ? 'Offset' : '偏移量' }}</app-type>
+    <OffsetDemo />
+  </section>
 
-  <app-type>{{ t('autoFitPopupWidth') }}</app-type>
-  <mp-popover auto-fit-popup-width>
-    <mp-button status="primary">{{ t('autoFitPopupWidth') }}</mp-button>
+  <section data-demo="auto-fit-popup-width">
+    <app-type>{{ english ? 'Same Width As Trigger Element' : '与触发元素同宽' }}</app-type>
+    <AutoFitPopupWidthDemo />
+  </section>
 
-    <template #content>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
+  <section data-demo="trigger">
+    <app-type>{{ english ? 'Trigger' : '触发方式' }}</app-type>
+    <TriggerDemo />
+  </section>
 
-  <app-type>{{ t('trigger') }}</app-type>
-  <mp-select v-model="trigger" :hint="false">
-    <mp-option label="click" />
-    <mp-option label="hover" />
-    <mp-option label="contextMenu" />
-  </mp-select>
-  <mp-popover style="margin-top: 15px" :trigger="trigger">
-    <mp-button status="primary">{{ t('trigger') }}</mp-button>
+  <section data-demo="events">
+    <app-type>{{ english ? 'Events' : '注册事件' }}</app-type>
+    <EventsDemo />
+  </section>
 
-    <template #content>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用气泡卡片' }}</app-type>
+    <DisabledDemo />
+  </section>
 
-  <app-type>{{ t('events') }}</app-type>
-  <mp-popover
-    @open="Message.info('open')"
-    @opened="Message.success('opened')"
-    @close="Message.warning('close')"
-    @closed="Message.error('closed')"
-  >
-    <mp-button status="primary">{{ t('events') }}</mp-button>
-
-    <template #content>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
-
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-popover disabled>
-    <mp-button status="primary" disabled>{{ t('disabled') }}</mp-button>
-
-    <template #content>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-      <mp-cell>{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
-
-  <app-type>{{ t('twoWayBinding') }}</app-type>
-  <mp-popover v-model:open="open">
-    <mp-button status="primary">{{ t('twoWayBinding') }}</mp-button>
-
-    <template #content>
-      <mp-cell @click="closeMenu">{{ t('menuOption') }}</mp-cell>
-      <mp-cell @click="closeMenu">{{ t('menuOption') }}</mp-cell>
-      <mp-cell @click="closeMenu">{{ t('menuOption') }}</mp-cell>
-    </template>
-  </mp-popover>
-
-  <div style="margin-bottom: 100px"></div>
+  <section data-demo="two-way-binding">
+    <app-type>{{ english ? 'Two-way Binding' : '双向绑定' }}</app-type>
+    <TwoWayBindingDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.placement-container {
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>

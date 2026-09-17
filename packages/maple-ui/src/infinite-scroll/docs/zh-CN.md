@@ -2,6 +2,13 @@
 
 行为型无限加载器。它只负责触底检测与分页状态，列表展示可组合 `List`、`Cell` 或业务内容。
 
+
+
+### basic
+
+```demo
+../example/demos/basic.vue
+```
 ## 基础用法
 
 ```html

@@ -4,39 +4,26 @@
   --mp-image-preview-zoom-container-background: #000;
   --mp-image-preview-close-icon-top: 14px;
   --mp-image-preview-close-icon-right: 14px;
-  --mp-image-preview-extra-top: 14px;
-  --mp-image-preview-extra-left: 14px;
-  --mp-image-preview-actions-bottom: 32px;
-  --mp-image-preview-close-icon-size: 22px;
-  --mp-image-preview-close-icon-color: #fff;
   --mp-image-preview-arrow-color: #fff;
   --mp-image-preview-arrow-background: rgb(38 38 38 / 92%);
   --mp-image-preview-arrow-background-hover: rgb(56 56 56 / 96%);
-  --mp-image-preview-arrow-background-active: rgb(24 24 24 / 96%);
 }
 
 .mp-image-preview {
-  &__popup[mp-image-preview-cover] {
-    height: 100%;
-    --mp-overlay-background-color: var(--mp-image-preview-zoom-container-background);
-  }
+  height: 100%;
+  --mp-overlay-background-color: var(--mp-image-preview-zoom-container-background);
 
-  &__popup[mp-image-preview-cover] > .mp-overlay__content {
+  > .mp-overlay__content {
     width: 100%;
     height: 100%;
   }
 
-  &__swipe[mp-image-preview-cover] {
-    width: 100vw;
-    height: 100%;
-  }
-
-  &__stage[mp-image-preview-cover] {
+  &__stage {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     overflow: hidden;
     touch-action: none;
@@ -47,47 +34,20 @@
     inset: 0;
   }
 
-  &__swipe-item[mp-image-preview-cover] {
-    overflow: hidden;
-  }
-
-  &__close-icon[mp-image-preview-cover] {
-    position: absolute;
-    top: var(--mp-image-preview-close-icon-top);
-    right: var(--mp-image-preview-close-icon-right);
-    color: var(--mp-image-preview-close-icon-color);
-    font-size: var(--mp-image-preview-close-icon-size);
-  }
-
-  &__extra {
-    position: absolute;
-    top: var(--mp-image-preview-extra-top);
-    left: var(--mp-image-preview-extra-left);
-  }
-
-  &__overlay {
-    position: absolute;
-    inset: 0;
+  &__image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
   }
 
-  &__actions {
+  &__image-frame {
     position: absolute;
-    bottom: var(--mp-image-preview-actions-bottom);
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &__indicators {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    box-sizing: border-box;
-    width: 100%;
-    padding: var(--mp-image-preview-swipe-indicators-padding);
-    color: var(--mp-image-preview-swipe-indicators-text-color);
-    text-align: center;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
   }
 
   &__image {
@@ -102,13 +62,9 @@
     pointer-events: auto;
   }
 
-  &__image-frame {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
+  &__image-moving {
+    cursor: grabbing;
+    transition: none;
   }
 
   &__track {
@@ -140,14 +96,9 @@
     transition: none;
   }
 
-  &__image-moving {
-    cursor: grabbing;
-    transition: none;
-  }
-
-  &__toolbar[mp-image-preview-cover] {
+  &__toolbar {
     position: absolute;
-    bottom: var(--mp-image-preview-actions-bottom);
+    bottom: 32px;
     left: 50%;
     display: flex;
     gap: 8px;
@@ -158,87 +109,81 @@
     transform: translateX(-50%);
   }
 
-  &__toolbar-action {
-    min-width: 28px;
-    padding: 2px 6px;
+  &__close-btn {
+    position: absolute;
+    top: var(--mp-image-preview-close-icon-top);
+    right: var(--mp-image-preview-close-icon-right);
     color: #fff;
-    font: inherit;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
+    font-size: 22px;
   }
 
-  // fix IOS & weChat long press image default behavior
+  &__indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--mp-image-preview-swipe-indicators-padding);
+    color: var(--mp-image-preview-swipe-indicators-text-color);
+    text-align: center;
+  }
+
+  &__arrow-left,
+  &__arrow-right {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--mp-image-preview-arrow-color);
+    font-size: 28px;
+    appearance: none;
+    background-color: var(--mp-image-preview-arrow-background);
+    border: 0;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  &__arrow-left {
+    left: 16px;
+  }
+
+  &__arrow-right {
+    right: 16px;
+  }
+
+  &__arrow-left:disabled,
+  &__arrow-right:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+  }
+
   &--prevent {
     -webkit-touch-callout: none;
     user-select: none;
   }
-
-  &__zoom-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100%;
-    transition: transform 0.2s;
-  }
 }
 
-.mp-image-preview-action__button {
+.mp-image-preview-toolbar-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  color: inherit;
+  min-width: 28px;
+  padding: 2px 6px;
+  color: #fff;
+  font: inherit;
   background: transparent;
   border: 0;
   cursor: pointer;
 
-  &:disabled {
+  &--disabled {
     cursor: not-allowed;
     opacity: 0.45;
-  }
-}
-
-.mp-image-preview__overlay .mp-image-preview__arrow {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  color: var(--mp-image-preview-arrow-color);
-  font-size: 28px;
-  line-height: 1;
-  appearance: none;
-  background-color: var(--mp-image-preview-arrow-background);
-  border: 0;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  pointer-events: auto;
-  -webkit-tap-highlight-color: transparent;
-
-  &:hover:not(:disabled) {
-    background-color: var(--mp-image-preview-arrow-background-hover);
-  }
-
-  &:active:not(:disabled) {
-    background-color: var(--mp-image-preview-arrow-background-active);
-  }
-
-  &--left {
-    left: 16px;
-  }
-
-  &--right {
-    right: 16px;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.35;
   }
 }

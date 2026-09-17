@@ -10,284 +10,48 @@
 
 主按钮执行发布，右侧按钮展开菜单；菜单项提供稳定的 value，并展示无权限的禁用项。
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  publish: '发布',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-split-button status="primary" placement="bottom-end" @click="publish" @select="handleSelect">
-    {{ t('publish') }}
-
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" value="draft" />
-      <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-      <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-    </template>
-  </mp-split-button>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 视觉变体
 
 统一展示 default、outline、tonal、text 四种变体。
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-const variants = ['default', 'outline', 'tonal', 'text'] as const
-</script>
-
-<template>
-  <mp-space wrap>
-    <mp-split-button
-      v-for="variant in variants"
-      :key="variant"
-      :variant="variant"
-      status="primary"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ variant }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/variants.vue
 ```
 
 ### 五档尺寸
 
 支持 xs、sm、md、lg、xl 五档尺寸，默认 md；窄屏自动换行。
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
-</script>
-
-<template>
-  <mp-space wrap align="center">
-    <mp-split-button
-      v-for="size in sizes"
-      :key="size"
-      :size="size"
-      status="primary"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ size }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/sizes.vue
 ```
 
 ### 禁用状态
 
 对比整体禁用、仅主按钮禁用、仅菜单按钮禁用。整体 disabled 优先，子按钮的 disabled: false 不能解除整体禁用。
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  allDisabled: '整体禁用',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-  mainDisabled: '仅禁用主按钮',
-  triggerDisabled: '仅禁用菜单按钮',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-space wrap>
-    <mp-split-button
-      disabled
-      status="primary"
-      :button-props="{ disabled: false }"
-      :trigger-button-props="{ disabled: false }"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ t('allDisabled') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <mp-split-button status="primary" :button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ t('mainDisabled') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <mp-split-button
-      status="primary"
-      :trigger-button-props="{ disabled: true }"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ t('triggerDisabled') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-  </mp-space>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 异步操作
 
 @click 直接返回 Promise，auto-loading 等待完成并阻止重复点击；完成次数用于观察是否重复执行。
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  publish: '发布',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-  completed: '完成次数',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const completed = ref(0)
-const publish = async () => {
-  await new Promise<void>((resolve) => setTimeout(resolve, 800))
-  completed.value += 1
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-space direction="column" align="flex-start">
-    <mp-split-button status="primary" auto-loading @click="publish" @select="handleSelect">
-      {{ t('publish') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <span aria-live="polite">{{ t('completed') }}: {{ completed }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/async-action.vue
 ```
 
 ### 自定义图标
 
 使用 icon 插槽中的 open 状态旋转箭头，两端使用相同图标。
 
-```html
-<script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  publish: '发布',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-split-button status="primary" @click="publish" @select="handleSelect">
-    {{ t('publish') }}
-    <template #icon="{ open }">
-      <m-icon-menu-down :style="{ transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 0.2s' }" />
-    </template>
-    <template #content>
-      <mp-menu-option :label="t('saveNow')" value="draft" />
-      <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-      <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-    </template>
-  </mp-split-button>
-</template>
+```demo
+../example/demos/custom-icon.vue
 ```
 
 ### 受控展开
@@ -296,100 +60,16 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 使用 v-model:open 双向控制菜单；外部按钮、菜单触发器和选中关闭会同步更新状态。
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  published: '发布成功',
-  openMenu: '展开菜单',
-  closeMenu: '关闭菜单',
-  publish: '发布',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-  opened: '已展开',
-  closed: '已关闭',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const publish = () => {
-  Message.info(t('published'))
-}
-const handleSelect = (_value: unknown, option: { label?: unknown }) => {
-  Message.info(String(option.label))
-}
-const open = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" align="flex-start">
-    <mp-space wrap>
-      <mp-button @click.stop="open = true">{{ t('openMenu') }}</mp-button>
-      <mp-button @click.stop="open = false">{{ t('closeMenu') }}</mp-button>
-    </mp-space>
-    <mp-split-button v-model:open="open" status="primary" @click="publish" @select="handleSelect">
-      {{ t('publish') }}
-
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <span aria-live="polite">{{ open ? t('opened') : t('closed') }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/controlled.vue
 ```
 
 ### 浮层与连续选择
 
 演示 bottom-start、8px 纵向偏移和 160px 最大高度。hide-on-select=false 支持连续选择，页面显示最近选中的 value。
 
-```html
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-const messages = {
-  choose: '选择操作',
-  saveNow: '保存草稿',
-  saveAndPublish: '保存并发布',
-  unavailable: '暂无权限',
-  lastAction: '最近操作',
-  none: '暂无操作',
-  popupHint: '选择后菜单保持展开，可连续选择；点击外部关闭。',
-} as const
-const t = (key: keyof typeof messages) => messages[key]
-
-const lastAction = ref('')
-const handleSelect = (value: unknown, option: { label?: unknown }) => {
-  lastAction.value = String(value)
-  Message.info(String(option.label))
-}
-</script>
-
-<template>
-  <mp-space direction="column" align="flex-start">
-    <mp-split-button
-      status="primary"
-      placement="bottom-start"
-      :offset-y="8"
-      :popup-max-height="160"
-      :hide-on-select="false"
-      @click="lastAction = 'publish'"
-      @select="handleSelect"
-    >
-      {{ t('choose') }}
-      <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
-      </template>
-    </mp-split-button>
-    <span aria-live="polite">{{ t('lastAction') }}: {{ lastAction || t('none') }}</span>
-    <span>{{ t('popupHint') }}</span>
-  </mp-space>
-</template>
+```demo
+../example/demos/popup.vue
 ```
 
 ## API

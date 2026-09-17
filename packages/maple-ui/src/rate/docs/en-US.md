@@ -6,33 +6,16 @@ Used to rate things.
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score"/>
-  <mp-rate v-model="score" icon="thumb-up-fill" empty-icon="thumb-up"/>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Customize Total Rating
 
 Set the total rating through the `count` attribute.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score" :count="8"/>
-</template>
+```demo
+../example/demos/custom-total-rating.vue
 ```
 
 ### Customize Rating Icon Style
@@ -40,22 +23,8 @@ const score = ref(3)
 Set the selected and unselected icons through the `icon` and `empty-icon` properties.
 Set the selected and unselected colors through the `color` and `empty-color` properties.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate
-    icon="heart-fill" 
-    empty-icon="heart" 
-    color="red" 
-    empty-color="red"
-    v-model="score"
-  />
-</template>
+```demo
+../example/demos/custom-rating-icon-style.vue
 ```
 
 ### Customize Rating Icon Size And Gap
@@ -63,41 +32,16 @@ const score = ref(3)
 Use the `size` property to set the size of the score icon.
 Set the interval between scores via the `gap` property.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-  <mp-rate v-model="score" :size="28" :gap="8"/>
-</template>
+```demo
+../example/demos/custom-rating-icon-size-and-gap.vue
 ```
 
 ### Allow Half Rating
 
 The `allow-half` attribute is used to set the rating to semi selective, and the `half-icon` attribute is used to set the style of semi selective.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3.5)
-</script>
-
-<template>
-  <mp-rate allow-half :count="8" v-model="score" />
-  <mp-rate
-    allow-half
-    icon="heart-fill"
-    half-icon="heart-half-full"
-    empty-icon="heart"
-    color="red"
-    :count="8"
-    v-model="score"
-  />
-</template>
+```demo
+../example/demos/half-star.vue
 ```
 
 ### Disabled And Readonly
@@ -105,60 +49,29 @@ const score = ref(3.5)
 The `disabled` property sets the score to the no-click state, and `disabled-color` sets the icon color when disabled.
 The score is set to read-only via the `readonly` property.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3)
-</script>
-
-<template>
-<mp-rate v-model="score" disabled/>
-<mp-rate v-model="score" readonly/>
-</template>
+```demo
+../example/demos/disabled-and-readonly.vue
 ```
 
 ### Can Be Cleared
 
 The `clearable` property allows users to clear score.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const score = ref(3.5)
-</script>
-
-<template>
-  <mp-rate v-model="score" clearable allow-half/>
-</template>
+```demo
+../example/demos/clearable.vue
 ```
 
 ### Listen Event
 
 Other interaction logic is completed by calling the `change` event.
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
 
-const score = ref(3)
-
-function handleChange(score) {
-  Message({
-    content: `click ${score}`,
-    position: 'top'
-  })
-}
-</script>
-
-<template>
-  <mp-rate v-model="score" @change="handleChange"/>
-</template>
-```
 
 > For form validation of the rate, please use the [FormItem component](#/en-US/form-item).
+
+```demo
+../example/demos/listen-event.vue
+```
 
 ## API
 

@@ -8,53 +8,40 @@ Shown when the current view has no data. Examples match Cedar Design Web, with a
 
 Basic empty state. Without `description`, the i18n copy is used.
 
-```html
-<mp-empty description="No data" />
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Custom Image and Copy
 
 Customize the illustration with the `image` slot or default slot copy. Use `image-url` for an image source.
 
-```html
-<mp-empty>
-  <template #image>
-    <m-icon-alert-circle />
-  </template>
-  No data, please reload!!
-</mp-empty>
-<mp-empty image-url="cat.jpg" alt="Empty image" description="Custom Image and Copy" />
+```demo
+../example/demos/custom-image.vue
 ```
 
 ### Image Size
 
 `image-size` accepts `xs` `sm` `md` `lg` `xl`, or a number.
 
-```html
-<mp-space direction="column" :size="16">
-  <mp-empty v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :image-size="size" :description="`image-size: ${size}`" />
-</mp-space>
+```demo
+../example/demos/image-size.vue
 ```
 
 ### Extra Action
 
 Add actions with the `extra` slot.
 
-```html
-<mp-empty description="No data, please reload">
-  <template #extra>
-    <mp-button status="primary" size="sm">Reload</mp-button>
-  </template>
-</mp-empty>
+```demo
+../example/demos/extra-slot.vue
 ```
 
 ### Show and Hide
 
 `show-icon` and `show-description` toggle the illustration and copy.
 
-```html
-<mp-empty description="Hide icon" :show-icon="false" />
-<mp-empty description="Hide description" :show-description="false" />
+```demo
+../example/demos/show.vue
 ```
 
 ## API
@@ -98,6 +85,7 @@ type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
 | `--mp-empty-image-margin-bottom` | `4px` |
 | `--mp-empty-description-font-size` | `14px` |
 | `--mp-empty-description-color` | `var(--mp-color-text-3, #888)` |
+| `--mp-empty-description-line-height` | `1.5` |
 | `--mp-empty-icon-color` | `var(--mp-color-text-4, #ccc)` |
 | `--mp-empty-extra-margin-top` | `20px` |
 | `--mp-empty-size-xs` | `80px` |

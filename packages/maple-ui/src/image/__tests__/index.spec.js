@@ -44,13 +44,10 @@ describe('test image component event', () => {
     })
 
     const img = wrapper.find('img')
-
-    img.element._lazy.state = 'success'
+    expect(img.attributes('loading')).toBe('lazy')
     img.trigger('load')
     expect(onLoad).toHaveBeenCalledTimes(1)
-
-    img.element._lazy.state = 'error'
-    img.trigger('load')
+    img.trigger('error')
     expect(onError).toHaveBeenCalledTimes(1)
 
     wrapper.unmount()
@@ -68,11 +65,9 @@ describe('test image component event', () => {
     await wrapper.setProps({ lazy: true })
 
     const lazyImage = wrapper.find('img')
-    lazyImage.element._lazy.state = 'success'
     await lazyImage.trigger('load')
     expect(onLoad).toHaveBeenCalledTimes(0)
-    lazyImage.element._lazy.state = 'error'
-    await lazyImage.trigger('load')
+    await lazyImage.trigger('error')
     expect(onError).toHaveBeenCalledTimes(0)
     wrapper.unmount()
   })
@@ -318,7 +313,8 @@ describe('test image component props', () => {
 
     expect(wrapper.find('.mp-image__image').attributes('src')).toContain(SRC)
     await wrapper.setProps({ lazy: true })
-    expect(wrapper.find('.mp-image__image').attributes('src')).not.toContain(SRC)
+    expect(wrapper.find('.mp-image__image').attributes('loading')).toBe('lazy')
+    expect(wrapper.find('.mp-image__image').attributes('src')).toContain(SRC)
     wrapper.unmount()
   })
 
@@ -390,9 +386,9 @@ describe('test image component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp--inline-block').exists()).toBe(false)
+    expect(wrapper.find('.mp-image--inline').exists()).toBe(false)
     await wrapper.setProps({ block: false })
-    expect(wrapper.find('.mp--inline-block').exists()).toBe(true)
+    expect(wrapper.find('.mp-image--inline').exists()).toBe(true)
     wrapper.unmount()
   })
 })

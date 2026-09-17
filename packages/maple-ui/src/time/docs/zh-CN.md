@@ -8,89 +8,44 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const time = ref()
-</script>
-
-<template>
-  <mp-time v-model="time" placeholder="请选择时间" clearable />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
-### 24 小时制与秒
+### 24 小时制
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/hour24.vue
+```
 
-  const time = ref()
-  const timeWithSeconds = ref()
-</script>
+### 显示秒
 
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-time v-model="time" format="24hr" placeholder="24 小时制" />
-    <mp-time v-model="timeWithSeconds" format="24hr" use-seconds placeholder="含秒" />
-  </mp-space>
-</template>
+```demo
+../example/demos/show-second.vue
 ```
 
 ### 时钟选择器
 
-默认使用时、分、秒滚轮。设置 `presentation="clock"` 可切换为钟面。
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const time = ref()
-</script>
-
-<template>
-  <mp-time v-model="time" presentation="clock" format="24hr" placeholder="时钟选择时间" clearable />
-</template>
+```demo
+../example/demos/clock-presentation.vue
 ```
 
-### 禁用与只读
+### 禁用
 
-```html
-<script setup>
-  import { ref } from 'vue'
+```demo
+../example/demos/disabled.vue
+```
 
-  const disabledTime = ref('09:30')
-  const readonlyTime = ref('09:30')
-</script>
+### 只读
 
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-time v-model="disabledTime" format="24hr" disabled />
-    <mp-time v-model="readonlyTime" format="24hr" readonly />
-  </mp-space>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### 搭配 FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    alarm: undefined,
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="alarm" label="闹钟" required>
-      <mp-time v-model="formData.alarm" placeholder="请选择" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/with-form-item.vue
 ```
 
 ## API
@@ -127,7 +82,7 @@
 | `clear`  | 清除         | _value: undefined_           |
 | `close`  | 弹层关闭     | _value: string \| undefined_ |
 
-# TimePicker 时间面板
+## TimePicker 时间面板
 
 > 源码已并入 `time/`，安装父组件时一并注册。静态成员：`Time.Picker`。
 
@@ -139,48 +94,24 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('11:20')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" />
-</template>
+```demo
+../example/demos/picker-basic.vue
 ```
 
 ### 时钟模式
 
 设置 `presentation="clock"` 切换为时钟面板。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('11:20')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" presentation="clock" />
-</template>
+```demo
+../example/demos/picker-clock.vue
 ```
 
 ### 24小时格式
 
 使用 `format` 属性切换选择器的时间格式，`format` 默认值为 `ampm`。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('15:20')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" presentation="clock" format="24hr" />
-</template>
+```demo
+../example/demos/picker-hour24.vue
 ```
 
 ### 显示秒
@@ -189,76 +120,31 @@
 
 时钟模式下，选择完时 / 分 / 秒会自动进入下一项。若要改回某一项，点击标题栏对应的数字即可切换。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('17:36:22')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" presentation="clock" format="24hr" use-seconds />
-</template>
+```demo
+../example/demos/picker-seconds.vue
 ```
 
 ### 只读
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('07:10')
-</script>
-
-<template>
-  <mp-time-picker v-model="date" readonly />
-</template>
+```demo
+../example/demos/picker-readonly.vue
 ```
 
 ### 时间限制
 
 通过 `min`、`max` 和 `disabled-time` 属性来控制可选择的时间范围（`disabled-time` 回调返回 `true` 表示禁用）。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('07:10:12')
-
-  const disabledTime = {
-    hours: (hour) => hour % 2 !== 0,
-    minutes: (minute) => minute % 15 !== 0,
-    seconds: (second) => second % 2 !== 0,
-  }
-</script>
-
-<template>
-  <mp-time-picker v-model="date" format="24hr" use-seconds min="2:28:38" max="19:40:22" :disabled-time="disabledTime" />
-</template>
+```demo
+../example/demos/picker-limit.vue
 ```
 
 ### 操作栏
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('17:36:22')
-</script>
-
-<template>
-  <mp-time-picker v-model="date">
-    <template #actions>
-      <mp-space size="sm">
-        <mp-button status="primary" variant="text">操作</mp-button>
-        <mp-button status="primary" variant="text">操作</mp-button>
-      </mp-space>
-    </template>
-  </mp-time-picker>
-</template>
+```demo
+../example/demos/picker-actions.vue
 ```
 
-## API
+### API
 
 ### 属性
 

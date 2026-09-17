@@ -6,461 +6,118 @@
 
 ### 基本使用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-
-function handleAfterRead(file) { 
-  console.log(file)
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" @after-read="handleAfterRead"/>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 文件预览
 
 通过分析文件的 url 后缀名判断文件类型，支持图片和视频预览。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-0',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  },
-  {
-    uid: 'example-1',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-    thumbnailUrl: 'https://maplejs.org/cover.jpg'
-  }
-])
-</script>
-
-<template>
-  <mp-upload v-model="files"/>
-</template>
+```demo
+../example/demos/preview.vue
 ```
 
 ### 自定义预览
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Dialog } from '@maplejs/maple-ui'
-
-const files = ref([
-  {
-    uid: 'example-2',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  }
-])
-
-function handlePreview(file) {
-  Dialog({
-    title: '自定义预览',
-    message: file.url.slice(0, 100)
-  })
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" prevent-default-preview @preview="handlePreview"/>
-</template>
+```demo
+../example/demos/custom-preview.vue
 ```
 
 ### 上传状态
 
 提供了 `loading`、 `success`、 `error` 三种上传状态，并提供了工具函数快速获取对应状态的文件。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-3',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'uploading'
-  },
-  {
-    uid: 'example-4',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'success'
-  },
-  {
-    uid: 'example-5',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'error'
-  }
-])
-
-function handleAfterRead(file) {
-  file.status = 'uploading'
-
-  setTimeout(() => {
-    file.status = 'success'
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" @after-read="handleAfterRead"/>
-</template>
+```demo
+../example/demos/state.vue
 ```
 
 ### 使用进度条
 
-```html
-<script setup>
-import { ref, onUnmounted } from 'vue'
-
-const files = ref([])
-let timer
-
-function handleAfterRead(file) {
-  file.status = 'uploading'
-
-  timer = window.setInterval(() => {
-    if (file.percent === 100) {
-      window.clearInterval(timer)
-      file.status = 'success'
-      return
-    }
-
-    file.percent += 10
-  }, 250)
-}
-
-onUnmounted(() => {
-  window.clearInterval(timer)
-})
-</script>
-
-<template>
-  <mp-upload v-model="files" @after-read="handleAfterRead"/>
-</template>
+```demo
+../example/demos/use-progress.vue
 ```
 
 ### 文件数量限制
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload v-model="files" :max-files="1"/>
-</template>
+```demo
+../example/demos/max-files.vue
 ```
 
 ### 文件大小限制
 
 超过限制会被阻止读取，可以通过监听 `oversize` 事件获取文件。
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload v-model="files" :max-file-size="1024" @oversize="Message.warning('文件大小超出限制')" />
-</template>
+```demo
+../example/demos/max-file-size.vue
 ```
 
 ### 文件列表过滤
 
 通过 `before-add` 钩子过滤原生 `File[]`，返回新的 `File[]`（支持 Promise）。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-
-function handleBeforeFilter(files) {
-  return files.filter(file => file.name.endsWith('png'))
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" multiple :before-add="handleBeforeFilter" />
-</template>
-
+```demo
+../example/demos/before-add.vue
 ```
 
 ### 上传预处理
 
 通过注册 `before-read` 钩子对文件进行操作，返回假值阻止文件读取。
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const files = ref([])
-
-function handleBeforeRead(file) {
-  if (file.size <= 1 * 1024 * 1024) {
-    Message.success('文件小于1M，上传成功')
-    return true
-  } else {
-    Message.warning('文件大于1M，不能上传')
-    return false
-  }
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" :before-read="handleBeforeRead"/>
-</template>
+```demo
+../example/demos/before-read.vue
 ```
 
 ### 上传按钮点击事件
 
 通过注册 `click-action` 事件可以拦截上传按钮的点击行为，通过回调中的 `chooseFile` 方法进行手动触发浏览器选择文件操作。
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
-
-const files = ref([])
-
-function handleClickAction(chooseFile) {
-  Message.loading('delay 1s')
-
-  window.setTimeout(() => {
-    Message.clear()
-    chooseFile()
-  }, 1000)
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" @click-action="handleClickAction" />
-</template>
+```demo
+../example/demos/click-action.vue
 ```
 
 ### 禁用
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload disabled v-model="files"/>
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 只读
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <mp-upload readonly v-model="files"/>
-</template>
+```demo
+../example/demos/readonly.vue
 ```
 
 ### 删除前处理
 
 删除文件之前会触发 `before-remove` 钩子，返回假值阻止删除操作。
 
-```html
-<script setup>
-import { ref } from 'vue'
-import { Dialog } from '@maplejs/maple-ui'
-
-const files = ref([
-  {
-    uid: 'example-6',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  }
-])
-
-async function handleBeforeRemove() {
-  const action = await Dialog({
-    title: '是否删除?',
-    message: '删除后无法撤回'
-  })
-
-  return action === 'confirm'
-}
-</script>
-
-<template>
-  <mp-upload v-model="files" :before-remove="handleBeforeRemove" />
-</template>
+```demo
+../example/demos/before-remove.vue
 ```
 
 ### 自定义上传样式
 
-```html
-<script setup>
-import { ref } from 'vue'
 
-const files = ref()
-</script>
-
-<template>
-  <mp-upload v-model="files">
-    <mp-button status="primary">上传</mp-button>
-  </mp-upload>
-</template>
-```
 
 > 上传组件的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+
+```demo
+../example/demos/style.vue
+```
 
 ### 自定义渲染
 
 通过 `show-file-list` 隐藏组件的文件列表，自定义文件列表的渲染逻辑。
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-7',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'uploading',
-  },
-  {
-    uid: 'example-8',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'success',
-  },
-  {
-    uid: 'example-9',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg',
-    status: 'error',
-  },
-])
-</script>
-
-<template>
-  <mp-space>
-    <img
-      class="upload-example-file"
-      v-for="f in files"
-      :key="f.uid"
-      :src="f.thumbnailUrl"
-    />
-    <mp-upload :show-file-list="false" v-model="files">
-      <mp-button round status="primary">
-        <m-icon-upload-fill :size="28" />
-      </mp-button>
-    </mp-upload>
-  </mp-space>
-</template>
-
-<style>
-.upload-example-file {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 12px;
-  object-fit: cover;
-}
-</style>
+```demo
+../example/demos/custom-render.vue
 ```
 
 ### 自定义删除按钮
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'example-10',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://maplejs.org/cat.jpg',
-    thumbnailUrl: 'https://maplejs.org/cat.jpg'
-  },
-  {
-    uid: 'example-11',
-    status: 'ready',
-    percent: 0,
-
-    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-    thumbnailUrl: 'https://maplejs.org/cover.jpg'
-  }
-])
-</script>
-
-<template>
-  <mp-upload v-model="files">
-    <template #remove-button="{ remove }">
-      <div class="custom-remove-button">
-        <m-icon-close color="#fff" @click.stop="remove"></m-icon-close>
-      </div>
-    </template>
-  </mp-upload>
-</template>
-
-<style>
-.custom-remove-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-}
-</style>
+```demo
+../example/demos/remove-button-slot.vue
 ```
 
 ## API

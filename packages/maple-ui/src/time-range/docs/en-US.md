@@ -11,30 +11,14 @@ The popup uses [`TimeRangePicker`](/en-US/time-range-picker) as the panel. The h
 
 ### Basic Usage
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref([])
-</script>
-
-<template>
-  <mp-time-range v-model="range" placeholder="Please select a time range" clearable />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Clock Mode
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const range = ref(['09:00', '18:00'])
-</script>
-
-<template>
-  <mp-time-range v-model="range" presentation="clock" format="24hr" placeholder="Clock time range" clearable />
-</template>
+```demo
+../example/demos/clock-mode.vue
 ```
 
 ### 24hr And Seconds
@@ -69,25 +53,41 @@ When the end time is earlier than the start (overnight), enable `show-next-day` 
 
 ### With FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    period: [],
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="period" label="Period" required>
-      <mp-time-range v-model="formData.period" placeholder="Please select" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/with-form-item.vue
 ```
 
+
+
+### picker seconds
+
+```demo
+../example/demos/picker-seconds.vue
+```
+
+### hour24
+
+```demo
+../example/demos/hour24.vue
+```
+
+### separator
+
+```demo
+../example/demos/separator.vue
+```
+
+### next day
+
+```demo
+../example/demos/next-day.vue
+```
+
+### disabled
+
+```demo
+../example/demos/disabled.vue
+```
 ## API
 
 ### Props
@@ -138,7 +138,7 @@ When the end time is earlier than the start (overnight), enable `show-next-day` 
 
 Panel CSS variables: [`TimeRangePicker`](/en-US/time-range-picker).
 
-# TimeRangePicker
+## TimeRangePicker
 
 > 源码已并入 `time-range/`，安装父组件时一并注册。静态成员：`TimeRange.Picker`。
 
@@ -242,7 +242,7 @@ Form field: [`TimeRange`](/en-US/time-range). Single time panel: [`TimePicker`](
 </template>
 ```
 
-## API
+### API
 
 ### Props
 

@@ -8,75 +8,16 @@ Style binding is performed when the pointer hovers the binding element, and the 
 
 The style binding is performed when the pointer hovers over the bound element, and the style binding is canceled when the pointer leaves the element.
 
-```html
-<template>
-  <mp-paper
-    class="paper"
-    ripple
-    :elevation="2"
-    :width="100"
-    :height="100"
-    v-hover="{ color: 'var(--color-white)', background: ' var(--color-primary)' }"
-  >
-    HOVER
-  </mp-paper>
-</template>
-
-<style>
-.paper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-</style>
+```demo
+../example/demos/style-binding.vue
 ```
 
 ### Function Binding
 
 The function is triggered when the pointer hovers and leaves, and carries the current hover state.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const translateY = ref('100%')
-
-function handleHover(hovering) {
-  translateY.value = hovering ? '0' : '100%'
-}
-</script>
-
-<template>
-   <div class="image-container" v-hover="handleHover">
-     <mp-image src="https://maplejs.org/tree.jpeg" />
-     <div class="image-overlay" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
-   </div>
-</template>
-
-<style>
-.image-container {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.image-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s;
-  color: var(--color-white);
-  background-color: var(--color-primary);
-  font-size: 50px;
-}
-</style>
+```demo
+../example/demos/function-binding.vue
 ```
 
 ### Selectively Enable For Different Devices

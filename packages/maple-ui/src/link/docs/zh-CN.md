@@ -6,112 +6,57 @@
 
 ### 基础用法
 
-```html
-<template>
-  <mp-link>默认链接</mp-link>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ### 语义状态
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link>默认链接</mp-link>
-    <mp-link status="primary">主要链接</mp-link>
-    <mp-link status="secondary">次要链接</mp-link>
-    <mp-link status="tertiary">三级链接</mp-link>
-    <mp-link status="info">信息链接</mp-link>
-    <mp-link status="success">成功链接</mp-link>
-    <mp-link status="warning">警告链接</mp-link>
-    <mp-link status="danger">危险链接</mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/semantic-status.vue
 ```
 
 ### 链接模式
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link
-      status="primary"
-      href="https://example.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      href 链接
-    </mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/mode.vue
 ```
 
 ### 下划线
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link status="primary" underline="always">始终显示</mp-link>
-    <mp-link status="primary" underline="hover">悬停显示</mp-link>
-    <mp-link status="primary" underline="none">不显示</mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/underline.vue
 ```
 
 ### 禁用状态
 
-```html
-<template>
-  <mp-link disabled>禁用状态</mp-link>
-</template>
+```demo
+../example/demos/disabled-status.vue
 ```
 
 ### 图标
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link icon>默认图标</mp-link>
-    <mp-link>
-      <template #icon><m-icon-github /></template>
-      自定义图标
-    </mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/icon.vue
 ```
 
 ### 加载中
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(false)
-const handleClick = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-  }, 3000)
-}
-</script>
-
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link loading>加载中</mp-link>
-    <mp-link :loading="loading" @click="handleClick">点击加载</mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/loading.vue
 ```
 
 ### 悬浮态底色
 
 两端均支持 hoverable（默认 false），开启后增加内边距与悬浮/按下底色；不影响 underline。键盘聚焦通过 :focus-visible 显示焦点轮廓，无需开启 hoverable。
 
-```html
-<mp-link hoverable href="#link">Hover / keyboard focus</mp-link>
-```
+
 
 主体、Props、主样式和测试为两份独立维护的同源复制，仅前缀、本地图标和主题 token 不同，不共享核心或实例。禁用/加载时移除 href/target/rel、阻止 click，并退出 Tab 顺序（包括显式 tabindex）。loading 优先于图标插槽，动态图标插槽实时更新。
+
+```demo
+../example/demos/hoverable.vue
+```
 
 ## API
 

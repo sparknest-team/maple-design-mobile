@@ -1,0 +1,9 @@
+<script setup>
+import { ref } from 'vue'
+
+const date = ref('2021-04-08')
+</script>
+
+<template>
+  <mp-date-picker v-model="date" type="month" elevation />
+</template>

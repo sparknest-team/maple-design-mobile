@@ -8,53 +8,40 @@
 
 空状态组件的基本用法。不传 `description` 时使用国际化文案。
 
-```html
-<mp-empty description="暂无数据" />
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 自定义图片和文案
 
 通过 `image` 插槽自定义图标、图片，或通过默认插槽修改文案。也可用 `image-url` 指定图片地址。
 
-```html
-<mp-empty>
-  <template #image>
-    <m-icon-alert-circle />
-  </template>
-  No data, please reload!!
-</mp-empty>
-<mp-empty image-url="cat.jpg" alt="空状态图片" description="自定义图片和文案" />
+```demo
+../example/demos/custom-image.vue
 ```
 
 ### 图片尺寸
 
 通过 `image-size` 控制图标尺寸，可选值为 `xs` `sm` `md` `lg` `xl`，也可传入数值。
 
-```html
-<mp-space direction="column" :size="16">
-  <mp-empty v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :image-size="size" :description="`image-size: ${size}`" />
-</mp-space>
+```demo
+../example/demos/image-size.vue
 ```
 
 ### 操作按钮
 
 通过 `extra` 插槽添加操作按钮。
 
-```html
-<mp-empty description="No data, please reload">
-  <template #extra>
-    <mp-button status="primary" size="sm">重新加载</mp-button>
-  </template>
-</mp-empty>
+```demo
+../example/demos/extra-slot.vue
 ```
 
 ### 显示与隐藏
 
 通过 `show-icon`、`show-description` 控制图标和描述是否显示。
 
-```html
-<mp-empty description="隐藏图标" :show-icon="false" />
-<mp-empty description="隐藏描述" :show-description="false" />
+```demo
+../example/demos/show.vue
 ```
 
 ## API
@@ -98,6 +85,7 @@ type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
 | `--mp-empty-image-margin-bottom` | `4px` |
 | `--mp-empty-description-font-size` | `14px` |
 | `--mp-empty-description-color` | `var(--mp-color-text-3, #888)` |
+| `--mp-empty-description-line-height` | `1.5` |
 | `--mp-empty-icon-color` | `var(--mp-color-text-4, #ccc)` |
 | `--mp-empty-extra-margin-top` | `20px` |
 | `--mp-empty-size-xs` | `80px` |

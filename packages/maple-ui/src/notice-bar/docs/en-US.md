@@ -6,29 +6,8 @@ Display temporary system notices or campaign messages.
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-notice-bar text="This is a notice" />
-</template>
-```
-
-### Types
-
-```html
-<template>
-  <mp-notice-bar type="info" text="Info" />
-  <mp-notice-bar type="success" text="Success" />
-  <mp-notice-bar type="warning" text="Warning" />
-  <mp-notice-bar type="danger" text="Danger" />
-</template>
-```
-
-### Closeable
-
-```html
-<template>
-  <mp-notice-bar mode="closeable" text="Closeable notice" />
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ## API

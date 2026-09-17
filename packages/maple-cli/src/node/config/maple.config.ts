@@ -3,7 +3,7 @@ import { isArray, mergeWith } from '@maplejs/maple-shared'
 import { type CopyOptions } from '@maplejs/maple-vite-plugins'
 import fse from 'fs-extra'
 import { Plugin, ProxyOptions } from 'vite'
-import { MAPLE_CONFIG, SITE_CONFIG } from '../shared/constant.js'
+import { COMPONENT_REUSE_JSON, MAPLE_CONFIG, SITE_CONFIG } from '../shared/constant.js'
 import { outputFileSyncOnChange } from '../shared/fsUtils.js'
 
 const { pathExistsSync, statSync } = fse
@@ -114,7 +114,9 @@ export interface MapleConfigPc {
   menu?: MapleConfigPcMenu[]
   htmlInject?: MapleConfigHtmlInject
   fold?: {
+    /** Whether example source code is collapsed on first render. @default true */
     defaultFold?: boolean
+    /** Visible source height while collapsed. Use 0 to hide it completely. @default 0 */
     foldHeight?: number
   }
 }
@@ -213,8 +215,10 @@ export function mergeStrategy(_: any, srcValue: any, key: any) {
 
 export async function getMapleConfig(emit = false): Promise<Required<MapleConfig>> {
   const defaultConfig = (await import('./maple.default.config.js')).default
+  const configStamp = pathExistsSync(MAPLE_CONFIG) ? statSync(MAPLE_CONFIG).mtimeMs : 0
+  const reuseStamp = pathExistsSync(COMPONENT_REUSE_JSON) ? statSync(COMPONENT_REUSE_JSON).mtimeMs : 0
   const config: any = pathExistsSync(MAPLE_CONFIG)
-    ? (await import(`${pathToFileURL(MAPLE_CONFIG).href}?_t=${statSync(MAPLE_CONFIG).mtimeMs}`)).default
+    ? (await import(`${pathToFileURL(MAPLE_CONFIG).href}?_t=${configStamp}-${reuseStamp}`)).default
     : {}
   // Clone first: mergeWith mutates the destination; the default export is module-cached.
   const mergedConfig = mergeWith(structuredClone(defaultConfig), config, mergeStrategy)

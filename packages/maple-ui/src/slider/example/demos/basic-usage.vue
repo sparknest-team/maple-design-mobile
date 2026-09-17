@@ -1,0 +1,39 @@
+<script setup>
+import { reactive } from 'vue'
+
+const values = reactive({
+  value: 3,
+  value1: [24, 50],
+  value2: 25,
+  value3: 40,
+  value4: 20,
+  value5: 20,
+  value6: 70,
+  value7: 50,
+  value9: [5, 38],
+  value10: [7, 64],
+  value11: 0,
+  value12: 50,
+  value13: [7, 64],
+})
+</script>
+
+<template>
+  <mp-slider v-model="values.value" />
+</template>
+
+<style>
+.slider-example__block {
+  width: 24px;
+  border: 1px solid #52af77;
+  color: #52af77;
+  height: 24px;
+  margin: 0 -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  background-color: #fff;
+}
+</style>

@@ -1,79 +1,56 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import PlaceholderListMultipleDemo from './demos/placeholder-list-multiple.vue'
+import PlaceholderListDemo from './demos/placeholder-list.vue'
+import PlaceholderMultipleDemo from './demos/placeholder-multiple.vue'
+import PlaceholderPathModeDemo from './demos/placeholder-path-mode.vue'
+import PlaceholderPickerMultipleDemo from './demos/placeholder-picker-multiple.vue'
+import PlaceholderPickerDemo from './demos/placeholder-picker.vue'
+import PlaceholderDemo from './demos/placeholder.vue'
 
-const menuValue = ref([])
-const menuValue2 = ref('')
-const multipleValue = ref([])
-const pickerValue = ref([])
-const pickerMultipleValue = ref([])
-const listValue = ref([])
-const listMultipleValue = ref([])
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-const options = computed(() => [
-  {
-    label: t('zhejiang'),
-    value: 'zhejiang',
-    children: [
-      {
-        label: t('hangzhou'),
-        value: 'hangzhou',
-        children: [
-          { label: t('xihu'), value: 'xihu' },
-          { label: t('gongshu'), value: 'gongshu' },
-        ],
-      },
-      {
-        label: t('ningbo'),
-        value: 'ningbo',
-      },
-    ],
-  },
-  {
-    label: t('jiangsu'),
-    value: 'jiangsu',
-    children: [
-      { label: t('nanjing'), value: 'nanjing' },
-      { label: t('suzhou'), value: 'suzhou' },
-    ],
-  },
-])
-
-use()
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <mp-space direction="column" size="lg">
-    <app-type>{{ t('placeholder') }}</app-type>
-    <mp-cascader v-model="menuValue" :placeholder="t('placeholder')" :options="options" />
-    <app-type>{{ t('placeholderPathMode') }}</app-type>
-    <mp-cascader v-model="menuValue2" :placeholder="t('placeholderPathMode')" :options="options" :path-mode="false" />
-    <app-type>{{ t('placeholderMultiple') }}</app-type>
-    <mp-cascader v-model="multipleValue" :placeholder="t('placeholderMultiple')" :options="options" multiple tag />
-    <app-type>{{ t('placeholderPicker') }}</app-type>
-    <mp-cascader v-model="pickerValue" :placeholder="t('placeholderPicker')" presentation="picker" :options="options" />
-    <app-type>{{ t('placeholderPickerMultiple') }}</app-type>
-    <mp-cascader
-      v-model="pickerMultipleValue"
-      :placeholder="t('placeholderPickerMultiple')"
-      presentation="picker"
-      :options="options"
-      multiple
-      tag
-    />
-    <app-type>{{ t('placeholderList') }}</app-type>
-    <mp-cascader v-model="listValue" :placeholder="t('placeholderList')" presentation="list" :options="options" />
-    <app-type>{{ t('placeholderListMultiple') }}</app-type>
-    <mp-cascader
-      v-model="listMultipleValue"
-      :placeholder="t('placeholderListMultiple')"
-      presentation="list"
-      :options="options"
-      multiple
-      tag
-    />
-  </mp-space>
+  <section data-demo="placeholder">
+    <app-type>{{ english ? 'Please select a region' : '请选择地区' }}</app-type>
+    <PlaceholderDemo />
+  </section>
+
+  <section data-demo="placeholder-path-mode">
+    <app-type>{{ english ? 'Non-path mode' : '非路径模式' }}</app-type>
+    <PlaceholderPathModeDemo />
+  </section>
+
+  <section data-demo="placeholder-multiple">
+    <app-type>{{ english ? 'Multiple cascade' : '级联多选' }}</app-type>
+    <PlaceholderMultipleDemo />
+  </section>
+
+  <section data-demo="placeholder-picker">
+    <app-type>{{ english ? 'Picker mode' : 'Picker 模式' }}</app-type>
+    <PlaceholderPickerDemo />
+  </section>
+
+  <section data-demo="placeholder-picker-multiple">
+    <app-type>{{ english ? 'Picker multiple' : 'Picker 多选' }}</app-type>
+    <PlaceholderPickerMultipleDemo />
+  </section>
+
+  <section data-demo="placeholder-list">
+    <app-type>{{ english ? 'List mode' : 'List 模式' }}</app-type>
+    <PlaceholderListDemo />
+  </section>
+
+  <section data-demo="placeholder-list-multiple">
+    <app-type>{{ english ? 'List multiple' : 'List 多选' }}</app-type>
+    <PlaceholderListMultipleDemo />
+  </section>
 </template>

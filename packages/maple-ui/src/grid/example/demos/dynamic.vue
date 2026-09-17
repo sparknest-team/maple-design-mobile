@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const items = ref([1, 2, 3, 4, 5])
-const next = 6
+const next = ref(6)
 </script>
 <template>
   <div>

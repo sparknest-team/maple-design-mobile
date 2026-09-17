@@ -1,2 +1,80 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './empty';
+@import './token.less';
+
+.mp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(~'--mp-empty-padding');
+  text-align: center;
+
+  &__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(~'--mp-empty-size-md');
+    height: var(~'--mp-empty-size-md');
+    margin-bottom: var(~'--mp-empty-image-margin-bottom');
+    color: var(~'--mp-empty-icon-color');
+    font-size: var(~'--mp-empty-size-md');
+    line-height: 1;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: var(~'--mp-empty-icon-color');
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    &--xs {
+      width: var(~'--mp-empty-size-xs');
+      height: var(~'--mp-empty-size-xs');
+      font-size: var(~'--mp-empty-size-xs');
+    }
+
+    &--sm {
+      width: var(~'--mp-empty-size-sm');
+      height: var(~'--mp-empty-size-sm');
+      font-size: var(~'--mp-empty-size-sm');
+    }
+
+    &--md {
+      width: var(~'--mp-empty-size-md');
+      height: var(~'--mp-empty-size-md');
+      font-size: var(~'--mp-empty-size-md');
+    }
+
+    &--lg {
+      width: var(~'--mp-empty-size-lg');
+      height: var(~'--mp-empty-size-lg');
+      font-size: var(~'--mp-empty-size-lg');
+    }
+
+    &--xl {
+      width: var(~'--mp-empty-size-xl');
+      height: var(~'--mp-empty-size-xl');
+      font-size: var(~'--mp-empty-size-xl');
+    }
+  }
+
+  &__description {
+    color: var(~'--mp-empty-description-color');
+    font-size: var(~'--mp-empty-description-font-size');
+    line-height: var(~'--mp-empty-description-line-height');
+    text-align: center;
+    word-break: break-all;
+  }
+
+  &__extra {
+    margin-top: var(~'--mp-empty-extra-margin-top');
+  }
+}

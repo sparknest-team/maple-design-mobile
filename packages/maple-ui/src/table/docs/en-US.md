@@ -6,168 +6,22 @@ A minimal table, when you need to display some data in the form of a table, you 
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Math</th>
-        <th>English</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Jerry</td>
-        <td>124</td>
-        <td>38</td>
-      </tr> 
-      <tr>
-        <td>Tom</td>
-        <td>100</td>
-        <td>135</td>
-      </tr>
-    </tbody>
-  </mp-table>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Footer Slots
 
 You can insert something in the tail slot, the most common is to insert a `Pagination`.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const list = ref(gen(1, 10))
-
-function gen(current, size) {
-  return Array.from({ length: size }).map((_, index) => {
-    const id = (current - 1) * size + index + 1
-
-    return {
-      name: `Name ${id}`,
-      math: id,
-      english: id,
-    }
-  })
-}
-
-function get(current, size) {
-  list.value = gen(current, size)
-}
-</script>
-
-<template>
-  <mp-table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Math</th>
-        <th>English</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="l in list" :key="l.name">
-        <td>{{ l.name }}</td>
-        <td>{{ l.math }}</td>
-        <td>{{ l.english }}</td>
-      </tr>
-    </tbody>
-
-    <template #footer>
-      <div class="table-example-footer">
-        <mp-pagination
-          :simple="false"
-          :current="1"
-          :total="100"
-          :page-size-options="[5, 10]"
-          show-page-size
-          @change="get"
-        />
-      </div>
-    </template>
-  </mp-table>
-</template>
-
-<style>
-.table-example-footer  {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
-  padding: 0 16px;
-}
-</style>
+```demo
+../example/demos/slot.vue
 ```
 
 ### Fixed Table Headers
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const list = ref(gen(1, 10))
-
-function gen(current, size) {
-  return Array.from({ length: size }).map((_, index) => {
-    const id = (current - 1) * size + index + 1
-
-    return {
-      name: `Name ${id}`,
-      math: id,
-      english: id,
-    }
-  })
-}
-
-function get(current, size) {
-  list.value = gen(current, size)
-}
-</script>
-
-<template>
-  <mp-table scroller-height="400px">
-    <thead style="position: sticky; top: 0">
-      <tr>
-        <th>Name</th>
-        <th>Math</th>
-        <th>English</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="l in list" :key="l.name">
-        <td>{{ l.name }}</td>
-        <td>{{ l.math }}</td>
-        <td>{{ l.english }}</td>
-      </tr>
-    </tbody>
-
-    <template #footer>
-      <div class="table-example-footer">
-        <mp-pagination
-          :simple="false"
-          :current="1"
-          :total="100"
-          :page-size-options="[5, 10]"
-          show-page-size
-          @change="get"
-        />
-      </div>
-    </template>
-  </mp-table>
-</template>
-
-<style>
-.table-example-footer  {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
-  padding: 0 16px;
-}
-</style>
+```demo
+../example/demos/fixed-header.vue
 ```
 
 ## API

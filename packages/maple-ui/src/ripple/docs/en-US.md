@@ -6,72 +6,20 @@ When the element is clicked, a water wave spreading effect is generated.
 
 ### Basic Usage
 
-```html
-<template>
-  <div class="ripple-example-block mp-elevation--2" v-ripple>click</div>
-</template>
-
-<style>
-.ripple-example-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s;
-  background-color: var(--color-fill-3)
-}
-</style>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Custom Color
 
-```html
-<template>
-  <div class="ripple-example-block mp-elevation--2" v-ripple="{ color: 'var(--color-warning)' }">
-    click
-  </div>
-</template>
-
-<style>
-.ripple-example-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s;
-  background-color: var(--color-fill-3);
-}
-</style>
+```demo
+../example/demos/custom-color.vue
 ```
 
 ### Disabled Status
 
-```html
-<template>
-  <div class="ripple-example-block mp-elevation--2" v-ripple="{ disabled: true }">
-    click
-  </div>
-</template>
-
-<style>
-.ripple-example-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s;
-  background-color: var(--color-fill-3);
-}
-</style>
+```demo
+../example/demos/disabled-status.vue
 ```
 
 ## API

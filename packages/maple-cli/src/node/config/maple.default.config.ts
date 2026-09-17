@@ -434,8 +434,8 @@ export default defineConfig({
       'en-US': 'The code has been copied to the clipboard',
     },
     fold: {
-      defaultFold: false,
-      foldHeight: 50,
+      defaultFold: true,
+      foldHeight: 0,
     },
     htmlInject: {
       head: [],

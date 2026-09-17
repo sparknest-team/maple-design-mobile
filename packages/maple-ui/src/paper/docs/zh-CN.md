@@ -4,6 +4,43 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 
 适用于自定义面板、表单分区、侧栏底板以及弹层内部表面。Paper 不负责弹层定位、焦点管理，也不会自动赋予按钮语义。交互内容请使用 Button 等语义组件。
 
+
+
+### basic usage
+
+```demo
+../example/demos/basic-usage.vue
+```
+
+### bordered
+
+```demo
+../example/demos/bordered.vue
+```
+
+### ripple
+
+```demo
+../example/demos/ripple.vue
+```
+
+### round
+
+```demo
+../example/demos/round.vue
+```
+
+### radius
+
+```demo
+../example/demos/radius.vue
+```
+
+### slot
+
+```demo
+../example/demos/slot.vue
+```
 ## 示例
 
 ```html

@@ -29,127 +29,46 @@ For manual imports, the `<mp-icon>` wrapper is still recommended when size, colo
 
 Both approaches render the same result and support Tree Shaking. The Resolver generates the first import, while application code explicitly owns the second. Use `<img>` or an image component for web images.
 
-### Dynamic Names and Explicit Registration
-
-Use `<mp-icon :name>` only when the icon name must be decided at runtime. `name` only looks up icons explicitly registered on the current Vue application; `mp-icon` does not import the complete icon collection. Register only the icons required by the dynamic scenario:
-
-```ts
-// main.ts
-import { createApp } from 'vue'
-import { IconCheckboxMarkedCircleFill, IconInfoCircleFill } from '@maplejs/icons-vue'
-import App from './App.vue'
-
-const app = createApp(App)
-app.component('IconCheckboxMarkedCircleFill', IconCheckboxMarkedCircleFill)
-app.component('IconInfoCircleFill', IconInfoCircleFill)
-app.mount('#app')
-```
-
-If the application genuinely needs to access every icon by an arbitrary name, it can explicitly register the complete collection. This loads every icon:
-
-```ts
-import * as MapleIconsVue from '@maplejs/icons-vue'
-
-for (const [name, component] of Object.entries(MapleIconsVue)) {
-  if (name !== 'iconNames') app.component(name, component)
-}
-```
-
-## Examples
-
 ### Basic Usage
 
-```html
-<template>
-  <mp-icon size="40" color="red">
-    <m-icon-checkbox-marked-circle-fill />
-  </mp-icon>
-  <mp-icon size="40" color="red">
-    <m-icon-info-circle-fill />
-  </mp-icon>
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ### Icon Size
 
-```html
-<template>
-  <mp-icon size="20"><m-icon-checkbox-marked-circle-fill /></mp-icon>
-  <mp-icon size="28"><m-icon-checkbox-marked-circle-fill /></mp-icon>
-  <mp-icon size="36"><m-icon-checkbox-marked-circle-fill /></mp-icon>
-</template>
+```demo
+../example/demos/icon-size.vue
 ```
 
 ### Icon Color
 
-```html
-<template>
-  <mp-icon size="28" color="var(--mp-color-primary)"><m-icon-checkbox-marked-circle-fill /></mp-icon>
-  <mp-icon size="28" color="var(--mp-color-success)"><m-icon-checkbox-marked-circle-fill /></mp-icon>
-</template>
+```demo
+../example/demos/icon-color.vue
+```
+
+### Rotate and Spin
+
+```demo
+../example/demos/rotate-and-spin.vue
 ```
 
 ### Click Event
 
-```html
-<template>
-  <mp-icon size="28" color="var(--mp-color-primary)" @click="Message.success('Click success')">
-    <m-icon-checkbox-marked-circle-fill />
-  </mp-icon>
-</template>
+```demo
+../example/demos/click-event.vue
 ```
 
 ### Dynamic Name (Special Case)
 
-Set `transition` (in ms) to enable the icon-switch animation.
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const name = ref('info-circle-fill')
-
-  function toggle() {
-    name.value = name.value === 'info-circle-fill' ? 'checkbox-marked-circle-fill' : 'info-circle-fill'
-  }
-</script>
-
-<template>
-  <mp-icon color="var(--mp-color-primary)" :name="name" :transition="300" :size="30" @click="toggle" />
-</template>
+```demo
+../example/demos/icon-animation.vue
 ```
 
-### Icon List (Click to Copy)
+### Icon List (click copy)
 
-The list obtains every icon name from `iconNames` and resolves its SVG component from the standalone icon package. Application code should use `m-icon-*` tags so the resolver can load icons on demand.
-
-```html
-<script setup>
-  import { computed, ref } from 'vue'
-  import * as MapleIcons from '@maplejs/icons-vue'
-  import { iconNames } from '@maplejs/icons-vue'
-  import { pascalCase } from '@maplejs/maple-shared'
-
-  const keyword = ref('')
-  const filteredIcons = computed(() => iconNames.filter((name) => name.includes(keyword.value)))
-
-  function resolveIcon(name) {
-    return MapleIcons[`Icon${pascalCase(name)}`]
-  }
-
-  function copyImport(name) {
-    navigator.clipboard.writeText(`<m-icon-${name} />`)
-  }
-</script>
-
-<template>
-  <mp-input v-model.trim="keyword" placeholder="Search icons" clearable />
-
-  <button v-for="name in filteredIcons" :key="name" type="button" @click="copyImport(name)">
-    <component :is="resolveIcon(name)" />
-    <span>{{ name }}</span>
-  </button>
-</template>
+```demo
+../example/demos/icon-list.vue
 ```
 
 ## API

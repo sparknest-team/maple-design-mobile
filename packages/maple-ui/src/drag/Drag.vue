@@ -1,11 +1,10 @@
 <template>
-  <Teleport
-    :to="popupContainer === false ? undefined : popupContainer"
-    :disabled="teleportDisabled || popupContainer === false"
-  >
+  <Teleport :to="teleportTarget" :disabled="teleportDisabled || popupContainer === false">
     <div
       ref="drag"
-      :class="classes(n(), n('$--box'), [enableTransition, n('--transition')])"
+      :class="
+        classes(n(), n('$--box'), [popupContainer === false, n('--local')], [enableTransition, n('--transition')])
+      "
       :style="{
         'z-index': zIndex,
       }"
@@ -23,10 +22,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from 'vue'
-import { call, clamp, getRect, preventDefault } from '@maplejs/maple-shared'
+import { clamp, getRect, preventDefault } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize, useTouch } from '@maplejs/maple-use'
 import { createNamespace, useTeleport } from '../utils/components'
 import { toPxNum } from '../utils/elements'
+import { usePopupContainer } from '../utils/popup-container'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('drag')
@@ -44,6 +44,7 @@ export default defineComponent({
     const enableTransition = ref(false)
     const { touching, dragging, moveX, moveY, startTouch, moveTouch, endTouch, resetTouch } = useTouch()
     const { disabled: teleportDisabled } = useTeleport()
+    const teleportTarget = usePopupContainer(() => props.popupContainer)
     const boundary = reactive({
       top: 0,
       bottom: 0,
@@ -116,15 +117,21 @@ export default defineComponent({
 
     function getOffset() {
       const dragRect = getRect(drag.value!)
-      const windowRect = getRect(window)
+      const localRoot = props.popupContainer === false ? (drag.value?.offsetParent as HTMLElement | null) : null
+      const rootRect = getRect(localRoot ?? window)
+      const rootScrollTop = localRoot?.scrollTop ?? 0
+      const rootScrollLeft = localRoot?.scrollLeft ?? 0
+      const rootTop = rootRect.top + (localRoot?.clientTop ?? 0) - rootScrollTop
+      const rootLeft = rootRect.left + (localRoot?.clientLeft ?? 0) - rootScrollLeft
 
-      const top = dragRect.top - windowRect.top
-      const bottom = windowRect.bottom - dragRect.bottom
-      const left = dragRect.left - windowRect.left
-      const right = windowRect.right - dragRect.right
+      const top = dragRect.top - rootTop
+      const left = dragRect.left - rootLeft
 
       const { width, height } = dragRect
-      const { width: windowWidth, height: windowHeight } = windowRect
+      const containerWidth = localRoot?.clientWidth ?? rootRect.width
+      const containerHeight = localRoot?.clientHeight ?? rootRect.height
+      const bottom = containerHeight - top - height
+      const right = containerWidth - left - width
 
       return {
         top,
@@ -135,17 +142,17 @@ export default defineComponent({
         height,
         halfWidth: width / 2,
         halfHeight: height / 2,
-        windowWidth,
-        windowHeight,
+        containerWidth,
+        containerHeight,
       }
     }
 
     function getRange() {
       const offset = getOffset()
       const x1 = boundary.left
-      const x2 = offset.windowWidth - boundary.right - offset.width
+      const x2 = offset.containerWidth - boundary.right - offset.width
       const y1 = boundary.top
-      const y2 = offset.windowHeight - boundary.bottom - offset.height
+      const y2 = offset.containerHeight - boundary.bottom - offset.height
 
       return {
         minX: x1,
@@ -238,6 +245,7 @@ export default defineComponent({
       y,
       enableTransition,
       dragging,
+      teleportTarget,
       teleportDisabled,
       n,
       classes,

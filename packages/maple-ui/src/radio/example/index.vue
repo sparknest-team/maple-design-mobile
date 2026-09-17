@@ -1,96 +1,68 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import CustomFieldsDemo from './demos/custom-fields.vue'
+import DisabledDemo from './demos/disabled.vue'
+import RadioGroupOptionsDemo from './demos/radio-group-options.vue'
+import RadioGroupDemo from './demos/radio-group.vue'
+import ReadonlyDemo from './demos/readonly.vue'
+import SetStateDemo from './demos/set-state.vue'
+import SetStyleDemo from './demos/set-style.vue'
+import VerticalDemo from './demos/vertical.vue'
 
-const values = reactive({
-  value: false,
-  value2: false,
-  value3: false,
-  value4: false,
-  value5: false,
-  value6: 0,
-  value9: 0,
-  optionValue: 0,
-  fieldValue: 0,
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+
+watchLang((value) => {
+  language.value = value
 })
-const { value, value2, value3, value4, value5, value6, value9, optionValue, fieldValue } = toRefs(values)
-
-const options = computed(() => [
-  { label: t('eat'), value: 0 },
-  { label: t('sleep'), value: 1 },
-  { label: t('game'), value: 2, disabled: true },
-])
-
-const fieldOptions = computed(() => [
-  { name: t('eat'), id: 0 },
-  { name: t('sleep'), id: 1 },
-  { name: t('game'), id: 2 },
-])
-
-watchLang(use)
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-radio v-model="value">{{ t('currentValue') }} {{ value }}</mp-radio>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-  <app-type>{{ t('setState') }}</app-type>
-  <mp-radio v-model="value2" :value="1"> {{ t('currentValue') }} {{ value2 }} </mp-radio>
+  <section data-demo="set-state">
+    <app-type>{{ english ? 'Set State Value' : '设置状态值' }}</app-type>
+    <SetStateDemo />
+  </section>
 
-  <app-type>{{ t('setStyle') }}</app-type>
-  <mp-radio v-model="value3" unchecked-color="var(--mp-color-warning)" checked-color="var(--mp-color-danger)">
-    <template #unchecked-icon>
-      <m-icon-heart-half-full size="24px" />
-    </template>
-    <template #checked-icon>
-      <m-icon-heart-fill size="24px" />
-    </template>
-    <template #default> {{ t('currentValue') }} {{ value3 }} </template>
-  </mp-radio>
+  <section data-demo="set-style">
+    <app-type>{{ english ? 'Modify Icon And Color' : '修改图标和颜色' }}</app-type>
+    <SetStyleDemo />
+  </section>
 
-  <app-type>{{ t('disabled') }}</app-type>
-  <mp-radio v-model="value4" disabled>{{ t('currentValue') }} {{ value4 }}</mp-radio>
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
+  </section>
 
-  <app-type>{{ t('readonly') }}</app-type>
-  <mp-radio v-model="value5" readonly>{{ t('currentValue') }} {{ value5 }}</mp-radio>
+  <section data-demo="readonly">
+    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
+    <ReadonlyDemo />
+  </section>
 
-  <app-type>{{ t('radioGroup') }}</app-type>
-  <mp-radio-group v-model="value6">
-    <mp-radio :value="0">{{ t('eat') }}</mp-radio>
-    <mp-radio :value="1">{{ t('sleep') }}</mp-radio>
-  </mp-radio-group>
-  <div class="relation">{{ t('currentValue') }} {{ value6 }}</div>
+  <section data-demo="radio-group">
+    <app-type>{{ english ? 'RadioGroup' : '单选框组' }}</app-type>
+    <RadioGroupDemo />
+  </section>
 
-  <app-type>{{ t('radioGroupOptions') }}</app-type>
-  <mp-radio-group v-model="optionValue" :options="options" />
-  <div class="relation">{{ t('currentValue') }} {{ optionValue }}</div>
+  <section data-demo="radio-group-options">
+    <app-type>{{ english ? 'Options API' : '选项式 API' }}</app-type>
+    <RadioGroupOptionsDemo />
+  </section>
 
-  <app-type>{{ t('customFields') }}</app-type>
-  <mp-radio-group v-model="fieldValue" :options="fieldOptions" :field-names="{ label: 'name', value: 'id' }" />
-  <div class="relation">{{ t('currentValue') }} {{ fieldValue }}</div>
+  <section data-demo="custom-fields">
+    <app-type>{{ english ? 'Custom Fields' : '自定义字段' }}</app-type>
+    <CustomFieldsDemo />
+  </section>
 
-  <app-type>{{ t('vertical') }}</app-type>
-  <mp-radio-group v-model="value9" direction="vertical">
-    <mp-radio :value="0">{{ t('eat') }}</mp-radio>
-    <mp-radio :value="1">{{ t('sleep') }}</mp-radio>
-  </mp-radio-group>
-  <div class="relation">{{ t('currentValue') }} {{ value9 }}</div>
-
-  <div class="space"></div>
+  <section data-demo="vertical">
+    <app-type>{{ english ? 'Vertical Direction' : '垂直布局' }}</app-type>
+    <VerticalDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.relation {
-  margin-top: 10px;
-}
-
-.button {
-  margin-right: 10px;
-}
-
-.space {
-  height: 40px;
-}
-</style>

@@ -6,46 +6,8 @@ A bottom popup virtual keyboard for numeric or password input flows.
 
 ### Basic Usage
 
-```html
-<template>
-  <mp-input v-model="value" readonly placeholder="Tap to input" @click="show = true" />
-  <mp-number-keyboard v-model="value" v-model:open="open" />
-</template>
-
-<script setup>
-  import { ref } from 'vue'
-
-  const value = ref('')
-  const show = ref(false)
-</script>
-```
-
-### Custom Theme
-
-With `theme="custom"`, delete and done actions move to a right sidebar.
-
-```html
-<template>
-  <mp-number-keyboard v-model="value" v-model:open="open" theme="custom" />
-</template>
-```
-
-### Extra Key
-
-Use `extra-key` to add characters such as `.` on the bottom-left key.
-
-```html
-<template>
-  <mp-number-keyboard v-model="value" v-model:open="open" extra-key="." />
-</template>
-```
-
-### Random Key Order
-
-```html
-<template>
-  <mp-number-keyboard v-model="value" v-model:open="open" random-key-order />
-</template>
+```demo
+../example/demos/basic.vue
 ```
 
 ## API

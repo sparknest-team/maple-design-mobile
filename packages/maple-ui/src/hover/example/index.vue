@@ -1,65 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import FunctionBindingDemo from './demos/function-binding.vue'
+import StyleBindingDemo from './demos/style-binding.vue'
 
-const translateY = ref('100%')
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-function handleHover(hovering) {
-  translateY.value = hovering ? '0' : '100%'
-}
-
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('styleBinding') }}</app-type>
-  <mp-paper
-    v-hover="{ color: 'var(--mp-color-white)', background: ' var(--mp-color-primary)' }"
-    class="paper"
-    :elevation="2"
-    :width="100"
-    :height="100"
-    ripple
-  >
-    HOVER
-  </mp-paper>
+  <section data-demo="style-binding">
+    <app-type>{{ english ? 'Style Binding' : '样式绑定' }}</app-type>
+    <StyleBindingDemo />
+  </section>
 
-  <app-type>{{ t('functionBinding') }}</app-type>
-  <div v-hover="handleHover" class="image-container">
-    <mp-image src="tree.jpeg" />
-    <div class="image-overlay" :style="{ transform: `translateY(${translateY})` }">HOVER</div>
-  </div>
+  <section data-demo="function-binding">
+    <app-type>{{ english ? 'Function Binding' : '函数绑定' }}</app-type>
+    <FunctionBindingDemo />
+  </section>
 </template>
-
-<style scoped lang="less">
-.paper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.image-container {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.image-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s;
-  color: var(--mp-color-white);
-  background-color: var(--mp-color-primary);
-  font-size: 50px;
-}
-</style>

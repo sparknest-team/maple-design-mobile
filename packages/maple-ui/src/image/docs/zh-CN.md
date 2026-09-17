@@ -1,124 +1,159 @@
 # 图片
 
-### 介绍
+展示图片，支持说明、加载回退与预览。两端示例分组一致。
 
-组件提供了更方便的尺寸，填充模式，圆角的设置方式，水波效果增强图片点击交互体验。
-支持 `懒加载`、 `loading 图片`、 `error 图片`、应用 `Lazy` 指令的默认设置。
+## 案例
 
-### 基本使用
+### 基础用法
 
-```html
-<template>
-  <mp-image src="https://maplejs.org/cat.jpg" />
-</template>
+设置 `src` 即可获得带预览能力的图片组件。
+
+```demo
+../example/demos/basic.vue
 ```
 
 ### 填充模式
 
-```html
-<template>
-  <mp-space :size="[20, 20]">
-    <mp-image width="85px" height="85px" src="https://maplejs.org/cat.jpg" />
+通过 `object-fit` 控制图片如何适应容器。
 
-    <mp-image width="85px" height="85px" object-fit="cover" src="https://maplejs.org/cat.jpg" />
-
-    <mp-image width="85px" height="85px" object-fit="none" src="https://maplejs.org/cat.jpg" />
-
-    <mp-image width="85px" height="85px" object-fit="contain" src="https://maplejs.org/cat.jpg" />
-
-    <mp-image width="85px" height="85px" object-fit="scale-down" src="https://maplejs.org/cat.jpg" />
-  </mp-space>
-</template>
+```demo
+../example/demos/fit-mode.vue
 ```
 
-### 设置圆角
+### 尺寸、圆角与位置
 
-```html
-<template>
-  <mp-space :size="[20, 20]">
-    <mp-image width="85px" height="85px" object-fit="cover" :radius="10" src="https://maplejs.org/cat.jpg" />
+`width` / `height`、`radius` 和 `object-position` 控制几何与裁切位置。
 
-    <mp-image width="85px" height="85px" object-fit="cover" radius="50%" src="https://maplejs.org/cat.jpg" />
-  </mp-space>
-</template>
+```demo
+../example/demos/presentation.vue
 ```
 
-### 开启水波
+### 标题与描述
 
-```html
-<template>
-  <mp-image width="85px" height="85px" ripple src="https://maplejs.org/cat.jpg" />
-</template>
+通过 `title`、`description` 和 `footer-position` 控制说明文案的展示位置。
+
+```demo
+../example/demos/caption.vue
 ```
 
-### 开启懒加载
+### 底部额外内容
 
-```html
-<template>
-  <mp-image width="85px" height="85px" lazy src="https://maplejs.org/cat.jpg" />
-</template>
+通过 `extra` 插槽在页脚定制额外内容。
+
+```demo
+../example/demos/extra.vue
 ```
 
-### 设置懒加载状态图片
+### 错误状态
 
-```html
-<!-- playground-ignore -->
-<template>
-  <mp-image
-    lazy
-    width="85px"
-    height="85px"
-    show-loader="https://xxx.xxx/loading.png"
-    fallback-src="https://xxx.xxx/error.png"
-    src="https://maplejs.org/cat.jpg"
-  />
-</template>
+图片加载失败时展示默认错误态，也可用 `error` 插槽自定义。
+
+```demo
+../example/demos/error.vue
 ```
 
-### 加载失败插槽
+### 错误时仍显示 Footer
 
-```html
-<template>
-  <mp-image width="22.666vw" height="22.666vw" src="https://maplejs.org/ca.jpg">
-    <template #error>
-      <svg viewBox="0 0 24 24" style="width: 100%; height: 100%;">
-        <path
-          fill="currentColor"
-          d="M21,5V11.59L18,8.58L14,12.59L10,8.59L6,12.59L3,9.58V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5M18,11.42L21,14.43V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V12.42L6,15.41L10,11.41L14,15.41"
-        ></path>
-      </svg>
-    </template>
-  </mp-image>
-</template>
+`hide-footer="never"` 可在加载失败时仍展示底部信息。
+
+```demo
+../example/demos/hide-footer-never.vue
 ```
 
-### 预览相关
+### 加载状态
 
-`preview`、`preview-src`、`v-model:preview-open`、`preview-props` 等预览能力见下方 ImagePreview API。也可使用 `Image.Preview` / `Image.PreviewGroup` / `Image.preview()`。
+通过 `showLoader` 显示默认加载效果，或通过 `loader` 插槽自定义、模拟渐进加载。
+
+```demo
+../example/demos/loader.vue
+```
+
+### 懒加载与回退
+
+`lazy` 使用原生 `loading="lazy"`；失败时可用 `fallback-src` 回退。
+
+```demo
+../example/demos/lazy.vue
+```
+
+### 水波与行内
+
+`ripple` 开启点击水波；`block` 设为 `false` 时作为行内元素排列。
+
+```demo
+../example/demos/ripple.vue
+```
+
+### 禁用预览
+
+设置 `preview-disabled` 后点击图片不会打开预览。
+
+```demo
+../example/demos/disable-preview.vue
+```
+
+### 预览入口与受控
+
+通过 `preview-src`、`v-model:preview-open` 和 `preview-props` 配置 Image 内嵌预览。
+
+```demo
+../example/demos/preview-entry.vue
+```
 
 ### 点击背景层关闭
 
 通过 `preview-props.overlayClosable` 控制点击图片外的背景层是否关闭预览。左图开启，右图关闭；点击图片本身均不会关闭预览。
 
-```html
-<template>
-  <mp-space :size="[16, 16]">
-    <mp-image
-      width="120"
-      height="120"
-      object-fit="cover"
-      src="https://maplejs.org/cat.jpg"
-      :preview-props="{ overlayClosable: true }"
-    />
-    <mp-image
-      width="120"
-      height="120"
-      object-fit="cover"
-      src="https://maplejs.org/cat2.jpg"
-      :preview-props="{ overlayClosable: false }"
-    />
-  </mp-space>
-</template>
+```demo
+../example/demos/overlay-closable.vue
+```
+
+### 指定挂载容器
+
+通过 `preview-props.popupContainer` 把预览挂载到指定节点。
+
+```demo
+../example/demos/preview-popup-container.vue
+```
+
+### 图片预览组
+
+`ImagePreviewGroup` 可以收集子 Image，集合状态只由 Group 管理。
+
+```demo
+../example/demos/preview-group.vue
+```
+
+### 数据驱动预览组
+
+也可以直接传入 `images`，用按钮打开预览。
+
+```demo
+../example/demos/component-preview-group.vue
+```
+
+### 单图 Preview
+
+`ImagePreview` 只接收单个 `src`，负责缩放、旋转、拖拽和全屏等变换。
+
+```demo
+../example/demos/component-preview.vue
+```
+
+### 自定义预览内容
+
+关闭图标、指示器与操作区均可自定义。
+
+```demo
+../example/demos/preview-features.vue
+```
+
+### 命令式预览
+
+命令式 API 对单图和多图返回同一套控制方法。
+
+```demo
+../example/demos/imperative-preview.vue
 ```
 
 ### 使用本地路径
@@ -178,6 +213,7 @@ export default defineConfig({
 ```
 
 ## API
+
 
 ### 属性
 

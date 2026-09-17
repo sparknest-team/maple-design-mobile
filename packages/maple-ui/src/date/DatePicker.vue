@@ -203,9 +203,9 @@ import {
   resolveDateTimePresentation,
   splitDateTimeDisplay,
 } from './datetime'
-import DayPickerPanel from './picker-panels/day-picker-panel.vue'
-import MonthPickerPanel from './picker-panels/month-picker-panel.vue'
-import YearPickerPanel from './picker-panels/year-picker-panel.vue'
+import DayPickerPanel from './picker-panels/DayPickerPanel.vue'
+import MonthPickerPanel from './picker-panels/MonthPickerPanel.vue'
+import YearPickerPanel from './picker-panels/YearPickerPanel.vue'
 import {
   MONTH_LIST,
   props,

@@ -8,73 +8,46 @@ Display a number animation transitioning from a start value to a target value.
 
 The `from` and `to` attributes specify the start and target values.
 
-```html
-<template>
-  <mp-count-to :to="123456" />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Precision
 
 Controlling numerical precision with `precision`
 
-```html
-<template>
-  <mp-count-to :to="123456" :precision="2" />
-</template>
+```demo
+../example/demos/precision.vue
 ```
 
 ### Custom Duration
 
 The `duration` attribute specifies the animation duration in milliseconds.
 
-```html
-<template>
-  <mp-count-to :to="123456" :duration="10000" />
-</template>
+```demo
+../example/demos/custom-duration.vue
 ```
 
 ### Custom Styles
 
-```html
-<template>
-  <mp-count-to :to="123456">
-    <template #default="{ value }">
-      {{ value.toLocaleString() }}
-    </template>
-  </mp-count-to>
-</template>
+```demo
+../example/demos/custom-style.vue
 ```
 
 ### Custom Animation Curve
 
 The `timing-function` attribute specifies the animation curve.
 
-```html
-<template>
-  <mp-count-to :to="123456" :timing-function="(v) => 1 - Math.pow(1 - v, 3)" />
-</template>
+```demo
+../example/demos/custom-animation-curve.vue
 ```
 
 ### Manual Control
 
 You can call the `start`, `pause`, and `reset` methods to manually control the start, pause, and reset of the animation.
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const countTo = ref()
-</script>
-
-<template>
-  <mp-count-to ref="countTo" :to="123456" :auto-start="false" />
-  <mp-row justify="space-between" align="center" style="margin-top: 10px">
-    <mp-button status="primary" @click="countTo.start()">Start</mp-button>
-    <mp-button @click="countTo.pause()">Pause</mp-button>
-    <mp-button @click="countTo.reset()">Reset</mp-button>
-  </mp-row>
-</template>
+```demo
+../example/demos/manual-control.vue
 ```
 
 ## API

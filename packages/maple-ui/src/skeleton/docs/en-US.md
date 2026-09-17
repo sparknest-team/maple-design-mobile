@@ -6,138 +6,38 @@ Display some space occupying elements with transition effect to optimize the loa
 
 ### Basic Usage
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton :loading="loading">Loading Data</mp-skeleton>
-</template>
-```
-
-### Display Title
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton title :loading="loading">Loading Data</mp-skeleton>
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Custom Rows Width
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton
-    title
-    :rows="3"
-    :loading="loading"
-    :rows-width="['200px', '100px', '50px']"
-  >
-    Loading Data
-  </mp-skeleton>
-</template>
-```
-
-### Display Avatar
-
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton
-    title
-    avatar
-    :rows="3"
-    :loading="loading"
-  >
-    Loading Data
-  </mp-skeleton>
-</template>
+```demo
+../example/demos/custom-rows-width.vue
 ```
 
 ### Display Card
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-</script>
-
-<template>
-  <mp-skeleton
-    title
-    avatar
-    card
-    :rows="3"
-    :loading="loading"
-  >
-    Loading Data
-  </mp-skeleton>
-</template>
+```demo
+../example/demos/display-card.vue
 ```
 
 ### Custom Template
 
-Use the `template` slot to compose line and shape placeholders.
+```demo
+../example/demos/custom-template.vue
+```
 
-```html
-<template>
-  <mp-skeleton :loading="loading">
-    <template #template>
-      <mp-space block direction="column" size="lg">
-        <mp-skeleton-line
-          :rows="3"
-          :widths="['100%', '100%', '60%']"
-        />
-        <mp-skeleton-shape shape="circle" />
-      </mp-space>
-    </template>
-    Loading Data
-  </mp-skeleton>
-</template>
+### Animation
+
+```demo
+../example/demos/animation.vue
 ```
 
 ### Fullscreen Mode
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const loading = ref(false)
-
-function fullscreen() {
-  loading.value = true
-
-  setTimeout(() => {
-    loading.value = false
-  }, 2000)
-}
-</script>
-
-<template>
-  <mp-button status="danger" @click="fullscreen">Toggle Fullscreen Mode</mp-button>
-  <mp-skeleton fullscreen :loading="loading" />
-</template>
+```demo
+../example/demos/fullscreen-mode.vue
 ```
 
 ## API

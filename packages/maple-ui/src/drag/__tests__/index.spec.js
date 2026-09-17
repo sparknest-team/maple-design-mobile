@@ -68,6 +68,18 @@ test('drag disabled', async () => {
   wrapper.unmount()
 })
 
+test('drag stays inside its positioned parent when teleport is disabled', async () => {
+  const wrapper = mount({
+    components: { [Drag.name]: Drag },
+    template: '<div style="position: relative"><mp-drag :popup-container="false" /></div>',
+  })
+
+  expect(wrapper.find('.mp-drag').classes()).toContain('mp-drag--local')
+  expect(wrapper.find('.mp-drag').element.parentElement).toBe(wrapper.element)
+
+  wrapper.unmount()
+})
+
 test('drag boundary', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Drag, {

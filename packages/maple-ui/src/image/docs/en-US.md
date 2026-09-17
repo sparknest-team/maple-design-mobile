@@ -1,133 +1,165 @@
 # Image
 
-### Intro
+Display images with captions, loading fallback and preview. Example groups match Cedar.
 
-Components provide more convenient size, fill mode, rounded corner Settings,
-ripple effect enhanced picture click interactive experience.
-Supports `Lazy load`, `loading images`, `error images`, and default Settings for applying Lazy instructions.
+## Examples
 
-### Basic Usage
+### Basic usage
 
-```html
-<template>
-  <mp-image src="https://maplejs.org/cat.jpg" />
-</template>
+Set `src` to render an image with preview enabled.
+
+```demo
+../example/demos/basic.vue
 ```
 
-### Fit Mode
+### Fit mode
 
-```html
-<template>
-  <mp-space :size="[20, 20]">
-    <mp-image width="85px" height="85px" src="https://maplejs.org/cat.jpg" />
+Use `object-fit` to control how the image fills its box.
 
-    <mp-image width="85px" height="85px" object-fit="cover" src="https://maplejs.org/cat.jpg" />
-
-    <mp-image width="85px" height="85px" object-fit="none" src="https://maplejs.org/cat.jpg" />
-
-    <mp-image width="85px" height="85px" object-fit="contain" src="https://maplejs.org/cat.jpg" />
-
-    <mp-image width="85px" height="85px" object-fit="scale-down" src="https://maplejs.org/cat.jpg" />
-  </mp-space>
-</template>
+```demo
+../example/demos/fit-mode.vue
 ```
 
-### Set Radius
+### Size, radius and position
 
-```html
-<template>
-  <mp-space :size="[20, 20]">
-    <mp-image width="85px" height="85px" object-fit="cover" :radius="10" src="https://maplejs.org/cat.jpg" />
+`width` / `height`, `radius` and `object-position` control size, corners and crop position.
 
-    <mp-image width="85px" height="85px" object-fit="cover" radius="50%" src="https://maplejs.org/cat.jpg" />
-  </mp-space>
-</template>
+```demo
+../example/demos/presentation.vue
 ```
 
-### Use Ripple
+### Caption
 
-```html
-<template>
-  <mp-image width="85px" height="85px" ripple src="https://maplejs.org/cat.jpg" />
-</template>
+Use `title`, `description` and `footer-position` to place the caption.
+
+```demo
+../example/demos/caption.vue
 ```
 
-### Use LazyLoad
+### Extra footer
 
-```html
-<template>
-  <mp-image width="85px" height="85px" lazy src="https://maplejs.org/cat.jpg" />
-</template>
+Use the `extra` slot to add custom footer content.
+
+```demo
+../example/demos/extra.vue
 ```
 
-### Set Lazy Loading State
+### Error state
 
-```html
-<!-- playground-ignore -->
-<template>
-  <mp-image
-    lazy
-    width="85px"
-    height="85px"
-    show-loader="https://xxx.xxx/loading.png"
-    fallback-src="https://xxx.xxx/error.png"
-    src="https://maplejs.org/cat.jpg"
-  />
-</template>
+Failed images show the default error state, or a custom `error` slot.
+
+```demo
+../example/demos/error.vue
 ```
 
-### Load Failure Slot
+### Keep footer on error
 
-```html
-<template>
-  <mp-image width="22.666vw" height="22.666vw" src="https://maplejs.org/ca.jpg">
-    <template #error>
-      <svg viewBox="0 0 24 24" style="width: 100%; height: 100%;">
-        <path
-          fill="currentColor"
-          d="M21,5V11.59L18,8.58L14,12.59L10,8.59L6,12.59L3,9.58V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5M18,11.42L21,14.43V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V12.42L6,15.41L10,11.41L14,15.41"
-        ></path>
-      </svg>
-    </template>
-  </mp-image>
-</template>
+`hide-footer="never"` keeps the footer visible when loading fails.
+
+```demo
+../example/demos/hide-footer-never.vue
 ```
 
-### Preview
+### Loading
 
-For `preview`, `preview-src`, `v-model:preview-open`, and `preview-props`, see the ImagePreview API below. You can also use `Image.Preview` / `Image.PreviewGroup` / `Image.preview()`.
+Use `showLoader` for the default loading UI, or the `loader` slot for a custom / progressive placeholder.
 
-### Close on Overlay Click
+```demo
+../example/demos/loader.vue
+```
 
-Use `preview-props.overlayClosable` to control whether clicking outside the image closes the preview. It is enabled for the left image and disabled for the right image. Clicking the image itself never closes the preview.
+### Lazy load and fallback
 
-```html
-<template>
-  <mp-space :size="[16, 16]">
-    <mp-image
-      width="120"
-      height="120"
-      object-fit="cover"
-      src="https://maplejs.org/cat.jpg"
-      :preview-props="{ overlayClosable: true }"
-    />
-    <mp-image
-      width="120"
-      height="120"
-      object-fit="cover"
-      src="https://maplejs.org/cat2.jpg"
-      :preview-props="{ overlayClosable: false }"
-    />
-  </mp-space>
-</template>
+`lazy` uses native `loading="lazy"`; `fallback-src` is used when loading fails.
+
+```demo
+../example/demos/lazy.vue
+```
+
+### Ripple and inline
+
+`ripple` adds a click wave; set `block` to `false` to render inline.
+
+```demo
+../example/demos/ripple.vue
+```
+
+### Disable preview
+
+`preview-disabled` prevents opening preview on click.
+
+```demo
+../example/demos/disable-preview.vue
+```
+
+### Preview entry
+
+Configure embedded preview with `preview-src`, `v-model:preview-open` and `preview-props`.
+
+```demo
+../example/demos/preview-entry.vue
+```
+
+### Close on overlay
+
+Use `preview-props.overlayClosable` to close preview when clicking outside the image. Enabled on the left, disabled on the right. Clicking the image itself never closes it.
+
+```demo
+../example/demos/overlay-closable.vue
+```
+
+### Popup container
+
+Mount the preview into a specified node with `preview-props.popupContainer`.
+
+```demo
+../example/demos/preview-popup-container.vue
+```
+
+### Preview group
+
+`ImagePreviewGroup` collects child Image nodes and owns the shared preview state.
+
+```demo
+../example/demos/preview-group.vue
+```
+
+### Data-driven group
+
+You can also pass `images` and open the preview with a button.
+
+```demo
+../example/demos/component-preview-group.vue
+```
+
+### Single preview
+
+`ImagePreview` takes a single `src` and handles zoom, rotate, drag and fullscreen.
+
+```demo
+../example/demos/component-preview.vue
+```
+
+### Custom preview
+
+The close icon, indicator and action area can all be customized.
+
+```demo
+../example/demos/preview-features.vue
+```
+
+### Imperative preview
+
+The imperative API returns the same handle for single and multiple images.
+
+```demo
+../example/demos/imperative-preview.vue
 ```
 
 ### Use local paths
 
-In the file `.vue`,
-the `Vue component` will not be automatically processed by the build tool like the native img module,
-so you need to import the image resources manually.
-Here's how the different build tools are used.
+In `.vue` files, Vue components are not processed like native `img` tags, so image assets need to be imported manually.
+Here is how different bundlers handle it.
 
 #### Vite
 
@@ -181,6 +213,7 @@ Or import separately
 ```
 
 ## API
+
 
 ### Props
 

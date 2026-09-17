@@ -1,8 +1,8 @@
 <template>
-  <mp-overlay
+  <Overlay
     v-model:open="mergedOpen"
-    mp-image-preview-cover
-    :class="n('popup')"
+    :class="n()"
+    :style="wrapperStyles"
     :overlay-closable="overlayClosable"
     :esc-to-close="escToClose"
     :lock-scroll="lockScroll"
@@ -15,9 +15,9 @@
     @key-escape="$emit('key-escape')"
   >
     <div
+      ref="refWrapper"
       :class="n('stage')"
       data-image-preview-stage
-      mp-image-preview-cover
       @wheel="onWheel"
       @pointerdown="onPointerDown"
       @pointermove="onPointerMove"
@@ -27,79 +27,83 @@
       @dblclick="onDoubleClick"
     >
       <div :class="n('backdrop')" data-image-preview-backdrop />
-      <slot name="image" v-bind="{ src, scale, rotate, translateX, translateY, moving, previewedImgProps }">
-        <div :class="n('image-frame')">
-          <img
-            v-bind="previewedImgProps"
-            role="img"
-            data-image-preview-image
-            :src="src"
-            :alt="previewedImgProps?.alt || src"
-            :class="[
-              previewedImgProps?.class,
-              n('image'),
-              { [n('image-moving')]: moving, [n('--prevent')]: imagePreventDefault },
-            ]"
-            :style="[
-              previewedImgProps?.style,
-              { transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(${scale})` },
-            ]"
-            :draggable="false"
-            @click.stop
-            @dragstart.prevent
-            @contextmenu="imagePreventDefault && $event.preventDefault()"
-          />
-        </div>
-      </slot>
-    </div>
-
-    <div
-      v-if="showToolbar && mergedActions.length"
-      :class="n('toolbar')"
-      data-image-preview-toolbar
-      mp-image-preview-cover
-    >
-      <button
-        v-for="action in mergedActions"
-        :key="action"
-        type="button"
-        :class="n('toolbar-action')"
-        @click="runAction(action)"
+      <div :class="n('image-container')" data-image-preview-container>
+        <slot name="image" v-bind="{ src, scale, rotate, translateX, translateY, moving, previewedImgProps }">
+          <div :class="n('image-frame')">
+            <img
+              v-bind="previewedImgProps"
+              data-image-preview-image
+              :src="src"
+              :alt="previewedImgProps?.alt || src"
+              :draggable="false"
+              :class="[
+                previewedImgProps?.class,
+                n('image'),
+                { [n('image-moving')]: moving, [n('--prevent')]: imagePreventDefault },
+              ]"
+              :style="[
+                previewedImgProps?.style,
+                { transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(${scale})` },
+              ]"
+              @click.stop
+              @load="isPreviewLoading = false"
+              @error="isPreviewLoading = false"
+              @dragstart.prevent
+              @contextmenu="imagePreventDefault && $event.preventDefault()"
+            />
+          </div>
+        </slot>
+      </div>
+      <div v-if="isPreviewLoading" :class="n('loading')">
+        <ImageLoadingIcon />
+      </div>
+      <PreviewToolbar v-if="showToolbar && mergedActions.length" :actions="actions" :actions-layout="mergedActions">
+        <slot name="actions" />
+      </PreviewToolbar>
+      <div
+        v-if="closable"
+        :class="n('close-btn')"
+        data-image-preview-close
+        data-image-preview-interactive
+        @click="close"
       >
-        {{ actionLabels[action] }}
-      </button>
-      <slot name="actions" />
+        <slot name="close-icon"><PreviewCloseIcon /></slot>
+      </div>
+      <slot name="overlay" />
+      <slot name="extra" />
     </div>
-
-    <mp-icon
-      v-if="closable"
-      :class="n('close-icon')"
-      data-image-preview-interactive
-      mp-image-preview-cover
-      @click="close"
-    >
-      <slot name="close-icon"><MIconCloseCircleFill /></slot>
-    </mp-icon>
-    <div v-if="$slots.overlay" :class="n('overlay')" data-image-preview-overlay><slot name="overlay" /></div>
-    <div v-if="$slots.extra" :class="n('extra')"><slot name="extra" /></div>
-  </mp-overlay>
+  </Overlay>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from 'vue'
-import { IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
-import MpIcon from '../icon'
-import MpOverlay from '../overlay'
+import { computed, defineComponent, ref, toRefs, watch, type CSSProperties } from 'vue'
+import Overlay from '../overlay'
 import { createNamespace } from '../utils/components'
+import { usePopupContainer } from '../utils/popup-container'
 import type { ImagePreviewActionName } from './api'
 import { usePreviewController } from './composables/usePreviewController'
+import PreviewToolbar, { type ActionType } from './ImagePreviewToolbar.vue'
+import {
+  IconDownload,
+  IconFullscreen,
+  IconNext,
+  IconOriginalSize,
+  IconPrev,
+  IconRotateLeft,
+  IconRotateRight,
+  IconZoomIn,
+  IconZoomOut,
+  ImageLoadingIcon,
+  PreviewCloseIcon,
+  useActionLabels,
+} from './platform'
 import { imagePreviewProps } from './previewProps'
 
 const { name, n } = createNamespace('image-preview')
 
 export default defineComponent({
   name,
-  components: { MIconCloseCircleFill, MpIcon, MpOverlay },
+  components: { Overlay, PreviewToolbar, ImageLoadingIcon, PreviewCloseIcon },
   inheritAttrs: false,
   props: imagePreviewProps,
   emits: [
@@ -139,31 +143,31 @@ export default defineComponent({
       onPrev: () => emit('prev'),
       onNext: () => emit('next'),
     })
-
+    const refWrapper = ref<HTMLElement>()
+    const isPreviewLoading = ref(Boolean(props.src))
+    const popupTarget = usePopupContainer(() => props.popupContainer)
+    const wrapperStyles = computed<CSSProperties>(() => ({
+      position:
+        props.popupContainer === false
+          ? 'absolute'
+          : popupTarget.value === 'body' || (typeof document !== 'undefined' && popupTarget.value === document.body)
+            ? 'fixed'
+            : 'absolute',
+    }))
+    const labels = useActionLabels()
     const desktopActions: ImagePreviewActionName[] = [
       'fullScreen',
-      'rotateLeft',
       'rotateRight',
-      'originalSize',
-      'zoomOut',
+      'rotateLeft',
       'zoomIn',
+      'zoomOut',
+      'originalSize',
       'download',
     ]
     const mergedActions = computed(() => props.actionsLayout ?? (controller.isDesktop.value ? desktopActions : []))
-    const actionLabels: Record<ImagePreviewActionName, string> = {
-      prev: '‹',
-      next: '›',
-      fullScreen: '⛶',
-      rotateLeft: '↶',
-      rotateRight: '↷',
-      originalSize: '1:1',
-      zoomOut: '−',
-      zoomIn: '+',
-      download: '↓',
-      close: '×',
-    }
-
-    function download() {
+    const toggleFullscreen = () =>
+      document.fullscreenElement ? document.exitFullscreen() : refWrapper.value?.requestFullscreen()
+    const download = () => {
       if (!props.src) {
         return
       }
@@ -172,25 +176,35 @@ export default defineComponent({
       anchor.download = ''
       anchor.click()
     }
-    const toggleFullscreen = () =>
-      document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()
-    function runAction(action: ImagePreviewActionName) {
-      const actions: Record<ImagePreviewActionName, () => void> = {
-        prev: () => emit('prev'),
-        next: () => emit('next'),
-        fullScreen: toggleFullscreen,
-        rotateLeft: controller.rotateLeft,
-        rotateRight: controller.rotateRight,
-        originalSize: controller.reset,
-        zoomOut: controller.zoomOut,
-        zoomIn: controller.zoomIn,
-        download,
-        close: controller.close,
-      }
-      actions[action]()
-    }
+    const actions = computed<ActionType[]>(() => [
+      { key: 'prev', name: labels.value.prev, content: IconPrev, onClick: () => emit('prev') },
+      { key: 'next', name: labels.value.next, content: IconNext, onClick: () => emit('next') },
+      { key: 'fullScreen', name: labels.value.fullScreen, content: IconFullscreen, onClick: toggleFullscreen },
+      { key: 'rotateLeft', name: labels.value.rotateLeft, content: IconRotateLeft, onClick: controller.rotateLeft },
+      { key: 'rotateRight', name: labels.value.rotateRight, content: IconRotateRight, onClick: controller.rotateRight },
+      { key: 'originalSize', name: labels.value.originalSize, content: IconOriginalSize, onClick: controller.reset },
+      { key: 'zoomOut', name: labels.value.zoomOut, content: IconZoomOut, onClick: controller.zoomOut },
+      { key: 'zoomIn', name: labels.value.zoomIn, content: IconZoomIn, onClick: controller.zoomIn },
+      { key: 'download', name: labels.value.download, content: IconDownload, onClick: download },
+    ])
 
-    return { ...controller, n, mergedActions, actionLabels, runAction, toggleFullscreen }
+    watch(
+      () => props.src,
+      () => {
+        isPreviewLoading.value = Boolean(props.src)
+      },
+    )
+
+    return {
+      ...controller,
+      n,
+      refWrapper,
+      wrapperStyles,
+      isPreviewLoading,
+      mergedActions,
+      actions,
+      toggleFullscreen,
+    }
   },
 })
 </script>

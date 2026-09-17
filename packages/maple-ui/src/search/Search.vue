@@ -48,6 +48,7 @@
         :enterkeyhint="enterkeyhint || 'search'"
         :text-color="textColor"
         :focus-color="focusColor"
+        :placeholder-focus-color="searchPlaceholderFocusColor"
         :blur-color="blurColor"
         :clearable="clearable"
         :hint="false"
@@ -99,6 +100,7 @@
       :overlay="false"
       safe-area-top
       @update:open="handlePopupVisibleChange"
+      @closed="handleHistoryPopupClosed"
     >
       <div :class="n('popup-content')">
         <mp-search
@@ -129,8 +131,9 @@
           :enterkeyhint="enterkeyhint || 'search'"
           :text-color="textColor"
           :focus-color="focusColor"
+          :placeholder-focus-color="searchPlaceholderFocusColor"
           :blur-color="blurColor"
-          :recent-searches="recentSearches"
+          :recent-searches="[]"
           :max-search-history-count="maxSearchHistoryCount"
           :history-popup="false"
           @update:model-field="handlePopupFieldUpdate"
@@ -240,6 +243,7 @@ export default defineComponent({
     const field = ref(props.defaultField || props.fields[0]?.value)
     const historyPopupVisible = ref(false)
     const historyMenuVisible = ref(false)
+    const historyPopupClosing = ref(false)
 
     const computedValue = computed(() => props.modelValue ?? props.searchText ?? value.value)
     const computedField = computed(() => props.modelField ?? props.searchField ?? field.value)
@@ -249,6 +253,9 @@ export default defineComponent({
       return selected?.placeholder || props.placeholder
     })
     const popupActionText = computed(() => '取消')
+    const searchPlaceholderFocusColor = computed(
+      () => props.focusColor || props.blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))',
+    )
     const historyOptions = computed(() => props.recentSearches.map((item: string) => ({ label: item, value: item })))
     const popupStyle = {
       width: '100vw',
@@ -305,9 +312,6 @@ export default defineComponent({
       updateValue('')
       emit('update:modelField', nextField)
       emit('update:searchField', nextField)
-      emit('update:modelField', nextField)
-      emit('update:searchField', nextField)
-      emit('change', '', undefined)
       emit('change', '')
       input.value?.focus()
     }
@@ -345,7 +349,7 @@ export default defineComponent({
     }
 
     function openHistoryPopup() {
-      if (props.disabled || props.readonly || !props.recentSearches.length) {
+      if (historyPopupClosing.value || props.disabled || props.readonly || !props.recentSearches.length) {
         return
       }
 
@@ -365,9 +369,14 @@ export default defineComponent({
     }
 
     function closeHistoryPopup() {
+      historyPopupClosing.value = true
       historyPopupVisible.value = false
       closeHistoryMenu()
+    }
+
+    function handleHistoryPopupClosed() {
       input.value?.blur()
+      historyPopupClosing.value = false
     }
 
     function closeHistoryMenu() {
@@ -384,6 +393,9 @@ export default defineComponent({
     }
 
     function handlePopupVisibleChange(open: boolean) {
+      if (!open) {
+        historyPopupClosing.value = true
+      }
       historyPopupVisible.value = open
     }
 
@@ -396,18 +408,20 @@ export default defineComponent({
     }
 
     function handlePopupSearch(result: SearchResult, e?: Event) {
-      historyPopupVisible.value = false
-      emit('search', result, e)
-      nextTick(() => input.value?.blur())
+      closeHistoryPopup()
+      const nextValue: string = result.modelValue ?? ''
+      emit('search', search(nextValue), e)
     }
 
     function handleHistorySelect(nextValue: string, e?: Event) {
       updateValue(nextValue)
       const result = search(nextValue)
-      historyPopupVisible.value = false
-      historyMenuVisible.value = false
+      if (props.historyPopup) {
+        closeHistoryPopup()
+      } else {
+        closeHistoryMenu()
+      }
       emit('search', result, e)
-      nextTick(() => input.value?.blur())
     }
 
     function handleHistoryMenuSelect(nextValue: string) {
@@ -495,10 +509,12 @@ export default defineComponent({
       computedField,
       searchPlaceholder,
       popupActionText,
+      searchPlaceholderFocusColor,
       popupStyle,
       historyOptions,
       historyPopupVisible,
       historyMenuVisible,
+      historyPopupClosing,
       n,
       classes,
       IconSearch,
@@ -515,6 +531,7 @@ export default defineComponent({
       closeHistoryMenu,
       keepHistoryVisible,
       handlePopupVisibleChange,
+      handleHistoryPopupClosed,
       handleHistoryMenuVisibleChange,
       handlePopupFieldUpdate,
       handlePopupSearch,

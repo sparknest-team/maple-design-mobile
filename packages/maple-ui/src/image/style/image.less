@@ -1,5 +1,10 @@
 .mp-image {
   position: relative;
+  display: block;
+
+  &--inline {
+    display: inline-block;
+  }
 
   &__content {
     position: relative;
@@ -104,6 +109,11 @@
 
   &--with-footer-outer &__footer {
     margin-top: 8px;
+  }
+
+  &--loading &__image,
+  &--loading-error &__image {
+    visibility: hidden;
   }
 }
 

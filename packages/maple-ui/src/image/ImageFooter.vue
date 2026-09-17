@@ -12,17 +12,20 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { createNamespace } from '../utils/components'
 
-defineOptions({
+const { name, n } = createNamespace('image')
+
+export default defineComponent({
   name: createNamespace('image-footer').name,
+  props: {
+    title: String,
+    description: String,
+  },
+  setup() {
+    return { n }
+  },
 })
-
-defineProps<{
-  title?: string
-  description?: string
-}>()
-
-const { n } = createNamespace('image')
 </script>

@@ -6,41 +6,14 @@ Load when the image is visible.
 
 ### Basic Usage
 
-```html
-<template>
-  <img class="lazy-example-cat" v-lazy="'https://maplejs.org/cat.jpg'">
-</template>
-
-<style>
-.lazy-example-cat {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background-size: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### Background Image Lazy Load
 
-```html
-<template>
-  <div 
-    class="lazy-example-cat"
-    v-lazy:background-image="'https://maplejs.org/cat.jpg'"
-  ></div>
-</template>
-
-<style>
-.lazy-example-cat {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background-size: cover;
-  pointer-events: none;
-}
-</style>
+```demo
+../example/demos/background-image-lazy-load.vue
 ```
 
 ### Inline Attributes

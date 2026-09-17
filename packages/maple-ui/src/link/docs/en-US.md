@@ -4,82 +4,57 @@
 
 Link component for hyperlink to web pages.
 
-### Theme Color Link
+### Basic Usage
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link>Default Link</mp-link>
-    <mp-link status="primary">Primary Link</mp-link>
-    <mp-link status="secondary">Secondary Link</mp-link>
-    <mp-link status="tertiary">Tertiary Link</mp-link>
-    <mp-link status="info">Info Link</mp-link>
-    <mp-link status="success">Success Link</mp-link>
-    <mp-link status="warning">Warning Link</mp-link>
-    <mp-link status="danger">Danger Link</mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/basic.vue
+```
+
+### Semantic Status
+
+```demo
+../example/demos/en-US/semantic-status.vue
 ```
 
 ### Link Mode
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link
-      status="primary"
-      href="https://maplejs.org/#/en-US/home"
-      target="_blank"
-    >
-      Href
-    </mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/mode.vue
 ```
 
 ### Underline
 
-```html
-<template>
-  <mp-space :size="[10, 10]">
-    <mp-link status="primary" underline="always">Underline</mp-link>
-    <mp-link status="primary" underline="hover">Hover</mp-link>
-    <mp-link status="primary" underline="none">Never</mp-link>
-  </mp-space>
-</template>
+```demo
+../example/demos/en-US/underline.vue
 ```
 
 ### Disabled Status
 
-```html
-<template>
-  <mp-link disabled>Disabled Status</mp-link>
-</template>
+```demo
+../example/demos/en-US/disabled-status.vue
 ```
 
-### Default Slot
+### Icon
 
-```html
-<template>
-  <mp-link 
-    href="https://maplejs.org/#/en-US/home" 
-    target="_blank" 
-    underline="none"
-  >
-    To Home
-  </mp-link>
-</template>
+```demo
+../example/demos/en-US/icon.vue
 ```
 
-### Hover background
+### Loading
+
+```demo
+../example/demos/en-US/loading.vue
+```
+
+### Hover Background
 
 Both platforms support hoverable (false by default). It adds padding and hover/active backgrounds without changing underline. Keyboard focus uses :focus-visible independently of hoverable.
 
-```html
-<mp-link hoverable href="#link">Hover / keyboard focus</mp-link>
-```
-
 The implementation, Props, styles and tests are independently maintained copies. Only prefixes, local icons and theme tokens differ; no runtime core or instances are shared. Disabled/loading links remove href/target/rel, suppress click and leave the Tab order even with an explicit tabindex. Loading takes precedence over dynamic icon slots.
+
+```demo
+../example/demos/en-US/hoverable.vue
+```
 
 ## API
 

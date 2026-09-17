@@ -1,0 +1,32 @@
+{
+  "zh-CN": {
+    "basic": "基础用法",
+    "accordion": "手风琴模式",
+    "disabled": "禁用",
+    "nested": "嵌套面板",
+    "border-less": "无边框模式",
+    "divider": "分割线",
+    "offset": "展开间距",
+    "extra": "额外节点",
+    "expand-icon": "展开图标",
+    "custom": "自定义样式",
+    "icon-position": "展开图标位置",
+    "destroy": "隐藏时销毁",
+    "toggle-all": "切换全部"
+  },
+  "en-US": {
+    "basic": "Basic usage",
+    "accordion": "Accordion",
+    "disabled": "Disabled",
+    "nested": "Nested panels",
+    "border-less": "Borderless",
+    "divider": "Divider",
+    "offset": "Expanded offset",
+    "extra": "Extra",
+    "expand-icon": "Expand icon",
+    "custom": "Custom style",
+    "icon-position": "Icon position",
+    "destroy": "Destroy on hide",
+    "toggle-all": "Toggle all"
+  }
+}

@@ -6,70 +6,32 @@ Mainly used to omit single-line text and multi-line text.
 
 ### Single Line Ellipsis
 
-```html
-<template>
-  <mp-ellipsis style="max-width: 170px">
-    I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/line.vue
 ```
 
 ### Multiple Line Ellipsis
 
-```html
-<template>
-  <mp-ellipsis style="max-width: 170px" :line-clamp="3">
-    I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/multiple-line.vue
 ```
 
 ### Two-way Binding
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const expand = ref(false)
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button status="primary" @click="expand = !expand">Toggle</mp-button>
-    <mp-ellipsis style="max-width: 170px" v-model:expand="expand">
-      I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
-    </mp-ellipsis>
-  </mp-space>
-</template>
+```demo
+../example/demos/two-way-binding.vue
 ```
 
 ### Click On Text To Expand
 
-```html
-<template>
-  <mp-ellipsis 
-    style="max-width: 170px" 
-    expand-trigger="click" 
-    :line-clamp="3" 
-    :tooltip="false"
-  >
-    I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/expand.vue
 ```
 
 ### Custom Tooltip
 
-```html
-<template>
-  <mp-ellipsis style="max-width: 50vw" :tooltip="{ type: 'primary', autoFitPopupWidth: false }">
-    I want to say english to everyone like, even you still are normal people, you still can work a world champion and no one trust you!
-
-    <template #tooltip-content>
-      <m-icon-github />
-    </template>
-  </mp-ellipsis>
-</template>
+```demo
+../example/demos/tooltip.vue
 ```
 
 ## API

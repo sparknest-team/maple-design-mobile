@@ -6,89 +6,70 @@ Use Input for single-line text entry. It supports multiple variants, floating hi
 
 ### Basic Usage
 
-```html
-<mp-input v-model="value" placeholder="Please enter content" />
-<mp-input v-model="clearableValue" clearable placeholder="Clearable text" />
+```demo
+../example/demos/en-US/basic.vue
 ```
 
 ### Variants
 
-```html
-<mp-input variant="filled" placeholder="Filled" />
-<mp-input variant="outline" placeholder="Outlined" />
-<mp-input variant="standard" placeholder="Standard" />
+```demo
+../example/demos/en-US/variant.vue
 ```
 
 ### Hint
 
-`hint` works with every variant. When enabled, the placeholder floats while focused or populated. When disabled, it behaves like a native placeholder.
+With `hint`, the placeholder floats on focus or when a value exists. Disable it for native placeholder behavior.
 
-```html
-<mp-input variant="filled" placeholder="Username" />
-<mp-input variant="outline" placeholder="Username" />
-<mp-input variant="standard" placeholder="Username" />
-
-<mp-input variant="filled" :hint="false" placeholder="Username" />
-<mp-input variant="outline" :hint="false" placeholder="Username" />
-<mp-input variant="standard" :hint="false" placeholder="Username" />
+```demo
+../example/demos/en-US/hint.vue
 ```
 
 ### Input Types
 
-```html
-<mp-input type="text" placeholder="Text" />
-<mp-input type="number" placeholder="Number" />
-<mp-input type="tel" placeholder="Phone number" />
-<mp-input type="email" placeholder="Email" />
-<mp-input type="password" placeholder="Password" />
+```demo
+../example/demos/en-US/type.vue
 ```
 
 ### Sizes
 
-```html
-<template v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
-  <mp-input v-for="variant in ['filled', 'outline', 'standard']" :key="variant" :size="size" :variant="variant" />
-</template>
+```demo
+../example/demos/en-US/size.vue
 ```
 
 ### States
 
-```html
-<mp-input model-value="Maple Design" readonly /> <mp-input model-value="Maple Design" disabled />
+```demo
+../example/demos/en-US/state.vue
 ```
 
 ### Prefix and Suffix
 
-```html
-<mp-input placeholder="Phone number"><template #prefix>+86</template></mp-input>
-<mp-input placeholder="Amount"><template #suffix>RMB</template></mp-input>
+```demo
+../example/demos/en-US/prefix-suffix.vue
 ```
 
 ### Character Limit
 
-```html
-<mp-input v-model="value" :max-length="10" clearable />
+```demo
+../example/demos/en-US/max-length.vue
 ```
 
 ### Custom Clear Icon
 
-```html
-<mp-input v-model="value" clearable>
-  <template #clear-icon="{ clear }"><m-icon-error @click="clear" /></template>
-</mp-input>
+```demo
+../example/demos/en-US/custom-clear-icon.vue
 ```
 
-### Model Modifier and Native Attributes
+### Model Modifier
 
-```html
-<mp-input v-model.trim="value" />
-<mp-input
-  type="email"
-  autocomplete="email"
-  enterkeyhint="next"
-  aria-label="Email"
-  :input-attrs="{ name: 'email', autocapitalize: 'none' }"
-/>
+```demo
+../example/demos/en-US/model-modifier.vue
+```
+
+### Native Attributes
+
+```demo
+../example/demos/en-US/native-attrs.vue
 ```
 
 ## API

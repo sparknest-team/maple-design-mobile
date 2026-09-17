@@ -6,105 +6,44 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref()
-</script>
-
-<template>
-  <mp-date v-model="date" placeholder="请选择日期" clearable />
-</template>
+```demo
+../example/demos/basic-usage.vue
 ```
 
 ### 日历模式
 
-默认使用列滚轮，设置 `presentation="calendar"` 可切换为日历面板。
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref()
-</script>
-
-<template>
-  <mp-date v-model="date" presentation="calendar" placeholder="使用日历选择日期" clearable />
-</template>
+```demo
+../example/demos/calendar-mode.vue
 ```
 
 ### 选择类型
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const year = ref()
-  const month = ref()
-  const date = ref()
-</script>
-
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-date v-model="year" type="year" placeholder="选择年" />
-    <mp-date v-model="month" type="month" placeholder="选择月" />
-    <mp-date v-model="date" type="date" placeholder="选择日" />
-  </mp-space>
-</template>
+```demo
+../example/demos/type.vue
 ```
 
 ### 多选
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const multiple = ref([])
-</script>
-
-<template>
-  <mp-date v-model="multiple" multiple placeholder="多选日期" />
-</template>
+```demo
+../example/demos/multiple.vue
 ```
-
-日期范围请使用 [`DateRange`](/zh-CN/date-range)。
 
 ### 日期时间
 
-通过 `show-time` 开启日期+时间（对齐 Cedar）。
+```demo
+../example/demos/date-time.vue
+```
 
-```html
-<script setup>
-  import { ref } from 'vue'
+### 禁用
 
-  const dateTime = ref()
-</script>
-
-<template>
-  <mp-date v-model="dateTime" show-time placeholder="请选择日期时间" clearable />
-</template>
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 搭配 FormItem
 
-```html
-<script setup>
-  import { reactive, ref } from 'vue'
-
-  const form = ref(null)
-  const formData = reactive({
-    birthday: undefined,
-  })
-</script>
-
-<template>
-  <mp-form ref="form" :model="formData">
-    <mp-form-item field="birthday" label="生日" required>
-      <mp-date v-model="formData.birthday" placeholder="请选择" clearable />
-    </mp-form-item>
-  </mp-form>
-</template>
+```demo
+../example/demos/with-form-item.vue
 ```
 
 ## API
@@ -162,7 +101,7 @@
 | `suffix`     | 后缀         | `-`                                  |
 | `arrow-icon` | 箭头图标     | `focus: boolean, popupOpen: boolean` |
 
-# DatePicker 日期面板
+## DatePicker 日期面板
 
 > 源码已并入 `date/`，安装父组件时一并注册。静态成员：`Date.Picker`。
 
@@ -172,90 +111,48 @@
 
 ### 基本使用
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('2021-04-08')
-</script>
-
-<template>
-  <mp-date-picker v-model="date" />
-</template>
+```demo
+../example/demos/picker-basic.vue
 ```
 
 ### 日历模式
 
 普通单选默认使用列滚轮。设置 `presentation="calendar"` 可切换为日历；`multiple` 和 `range` 会自动使用日历。
 
-```html
-<mp-date-picker v-model="date" presentation="calendar" />
+```demo
+../example/demos/picker-calendar.vue
 ```
 
 ### 月份选择器
 
 使用 `type` 属性切换选择器的类型，`type` 默认值为 `date`
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('2021-04-08')
-</script>
-
-<template>
-  <mp-date-picker type="month" v-model="date" elevation />
-</template>
+```demo
+../example/demos/picker-month.vue
 ```
 
 ### 多选
 
 通过 `multiple` 属性选择多个日期，此时 `date` 为一个数组。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref([])
-</script>
-
-<template>
-  <mp-date-picker v-model="date" multiple />
-</template>
+```demo
+../example/demos/picker-multiple.vue
 ```
 
 ### 选择范围
 
 通过 `range` 属性选择一个日期范围，此时 `date` 为 `[startDate, endDate]`。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref(['2021-04-08', '2021-04-20'])
-</script>
-
-<template>
-  <mp-date-picker type="date" v-model="date" range />
-</template>
+```demo
+../example/demos/picker-range.vue
 ```
 
 ### 日期限制
 
 通过 `min` 和 `max` 属性来控制可选择的日期范围，使用 `disabled-date` 属性禁用不可选择的日期。
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const date = ref('2020-11-11')
-
-  const disabledDate = (val) => parseInt(val.split('-')[2], 10) % 2 === 0
-</script>
-
-<template>
-  <mp-date-picker v-model="date" min="2020-10-15" max="2021-01-15" :disabled-date="disabledDate" />
-</template>
+```demo
+../example/demos/picker-limit.vue
 ```
 
 ### 日期时间
@@ -266,23 +163,11 @@
 - `calendarPicker`：顶部切日期，底部切时间；日历 + 时/分（秒）列
 - `picker`：年/月/日/时/分整列滚轮
 
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const clock = ref('2025-01-15 10:29')
-  const calendarPicker = ref('2025-01-15 10:29')
-  const picker = ref('2025-01-15 10:29')
-</script>
-
-<template>
-  <mp-date-picker v-model="clock" show-time presentation="calendarClock" />
-  <mp-date-picker v-model="calendarPicker" show-time presentation="calendarPicker" />
-  <mp-date-picker v-model="picker" show-time presentation="picker" />
-</template>
+```demo
+../example/demos/picker-date-time.vue
 ```
 
-## API
+### API
 
 ### 属性
 

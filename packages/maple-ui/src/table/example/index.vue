@@ -1,115 +1,32 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import { t, use } from './locale'
+import BasicUsageDemo from './demos/basic-usage.vue'
+import FixedHeaderDemo from './demos/fixed-header.vue'
+import SlotDemo from './demos/slot.vue'
 
-const list = ref(gen(1, 10))
-const list2 = ref(gen(1, 10))
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
 
-function gen(current, size) {
-  return Array.from({ length: size }).map((_, index) => {
-    const id = (current - 1) * size + index + 1
-
-    return {
-      name: `Name ${id}`,
-      math: id,
-      english: id,
-    }
-  })
-}
-
-function get(current, size) {
-  list.value = gen(current, size)
-}
-
-function get2(current, size) {
-  list2.value = gen(current, size)
-}
-
-watchLang(use)
+watchLang((value) => {
+  language.value = value
+})
 onThemeChange()
 </script>
 
 <template>
-  <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-table>
-    <thead>
-      <tr>
-        <th>{{ t('name') }}</th>
-        <th>{{ t('math') }}</th>
-        <th>{{ t('english') }}</th>
-      </tr>
-    </thead>
+  <section data-demo="basic-usage">
+    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <BasicUsageDemo />
+  </section>
 
-    <tbody>
-      <tr>
-        <td>{{ t('jerry') }}</td>
-        <td>124</td>
-        <td>38</td>
-      </tr>
-      <tr>
-        <td>{{ t('tom') }}</td>
-        <td>100</td>
-        <td>135</td>
-      </tr>
-    </tbody>
-  </mp-table>
+  <section data-demo="slot">
+    <app-type>{{ english ? 'Footer Slots' : '尾部插槽' }}</app-type>
+    <SlotDemo />
+  </section>
 
-  <app-type>{{ t('slot') }}</app-type>
-  <mp-table>
-    <thead>
-      <tr>
-        <th>{{ t('name') }}</th>
-        <th>{{ t('math') }}</th>
-        <th>{{ t('english') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="l in list" :key="l.name">
-        <td>{{ l.name }}</td>
-        <td>{{ l.math }}</td>
-        <td>{{ l.english }}</td>
-      </tr>
-    </tbody>
-
-    <template #footer>
-      <div class="footer">
-        <mp-pagination :current="1" :total="100" :page-size-options="[5, 10]" show-page-size @change="get" />
-      </div>
-    </template>
-  </mp-table>
-
-  <app-type>{{ t('fixedHeader') }}</app-type>
-  <mp-table scroller-height="400px">
-    <thead style="position: sticky; top: 0">
-      <tr>
-        <th>{{ t('name') }}</th>
-        <th>{{ t('math') }}</th>
-        <th>{{ t('english') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="l in list2" :key="l.name">
-        <td>{{ l.name }}</td>
-        <td>{{ l.math }}</td>
-        <td>{{ l.english }}</td>
-      </tr>
-    </tbody>
-
-    <template #footer>
-      <div class="footer">
-        <mp-pagination :current="1" :total="100" :page-size-options="[5, 10]" show-page-size @change="get2" />
-      </div>
-    </template>
-  </mp-table>
+  <section data-demo="fixed-header">
+    <app-type>{{ english ? 'Fixed Table Header' : '固定表头' }}</app-type>
+    <FixedHeaderDemo />
+  </section>
 </template>
-
-<style lang="less" scoped>
-.footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 16px;
-  align-items: center;
-  height: 48px;
-}
-</style>
