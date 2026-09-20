@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import InputNumber from '..'
@@ -60,7 +60,7 @@ test('input-number supports precision and input mode', async () => {
 
   expect(wrapper.find('.mp-input-number__step-button').exists()).toBeFalsy()
   await wrapper.find('input').setValue('2.34')
-  await wrapper.find('input').trigger('change')
+  await wrapper.find('input').trigger('blur')
   expect(wrapper.vm.value).toBe(2.3)
 
   wrapper.unmount()
@@ -84,6 +84,78 @@ test('input-number supports button mode', async () => {
   await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mousedown')
   await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mouseup')
   expect(wrapper.vm.value).toBe(1)
+
+  wrapper.unmount()
+})
+
+test('input-number separates input from committed changes and clear', async () => {
+  const wrapper = mount(VarInputNumber, {
+    props: {
+      modelValue: 1,
+      modelEvent: 'input',
+      clearable: true,
+    },
+  })
+  const input = wrapper.find('input')
+
+  await input.setValue('2')
+  expect(wrapper.emitted('update:modelValue')).toEqual([[2]])
+  expect(wrapper.emitted('change')).toBeUndefined()
+
+  await input.trigger('keydown', { key: 'Enter' })
+  await input.trigger('blur')
+  expect(wrapper.emitted('change')).toHaveLength(1)
+
+  await wrapper.find('[aria-label="清空"]').trigger('click')
+  expect(wrapper.emitted('clear')).toHaveLength(1)
+  expect(wrapper.emitted('change')).toHaveLength(1)
+  expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([undefined])
+
+  wrapper.unmount()
+})
+
+test('input-number preserves intermediate input and forwards slots', async () => {
+  const wrapper = mount(VarInputNumber, {
+    props: { modelValue: 1, modelEvent: 'input', clearable: true },
+    slots: {
+      prepend: () => 'before',
+      append: () => 'after',
+      'clear-icon': ({ clear }) => {
+        return h('button', { onClick: clear }, 'clear')
+      },
+    },
+  })
+  const input = wrapper.find('input')
+
+  await input.setValue('1.')
+  expect(input.element.value).toBe('1.')
+  expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  expect(wrapper.text()).toContain('before')
+  expect(wrapper.text()).toContain('after')
+  expect(wrapper.text()).toContain('clear')
+
+  wrapper.unmount()
+})
+
+test('input-number clamps and formats values when committing', async () => {
+  const wrapper = mount(VarInputNumber, {
+    props: {
+      modelValue: 1,
+      min: 0,
+      max: 2,
+      precision: 1,
+      formatter: (value) => `$${value}`,
+      parser: (value) => value.replace('$', ''),
+    },
+  })
+  const input = wrapper.find('input')
+
+  await input.trigger('focus')
+  await input.setValue('$3.26')
+  await input.trigger('blur')
+
+  expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([2])
+  expect(input.element.value).toBe('$2.0')
 
   wrapper.unmount()
 })

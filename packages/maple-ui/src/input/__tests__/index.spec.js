@@ -95,6 +95,30 @@ test('input type', () => {
   })
 })
 
+test('input default value and native attributes', () => {
+  const wrapper = mount(VarInput, {
+    props: {
+      defaultValue: 'seed',
+      inputAttrs: {
+        'aria-label': 'Amount',
+        'data-testid': 'amount',
+        value: 'overridden by component value',
+        maxlength: 1,
+      },
+    },
+  })
+
+  expect(wrapper.find('.mp-input__input').attributes()).toMatchObject({
+    value: 'seed',
+    'aria-label': 'Amount',
+    'data-testid': 'amount',
+  })
+  expect(wrapper.find('.mp-field-decorator--outline').exists()).toBe(true)
+  expect(wrapper.find('.mp-input__input').attributes('maxlength')).toBeUndefined()
+
+  wrapper.unmount()
+})
+
 test('input format number', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(VarInput, {
@@ -141,29 +165,30 @@ describe('test input events', () => {
     wrapper.unmount()
   }
 
-  async function expectInputAndChangeAndClick(props = {}) {
+  async function expectInputAndChange(props = {}) {
     const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
     const onInput = vi.fn()
     const onChange = vi.fn()
-    const onClick = vi.fn()
 
     const wrapper = mount(VarInput, {
       props: {
         modelValue: '',
         onInput,
         onChange,
-        onClick,
         'onUpdate:modelValue': onUpdateModelValue,
         ...props,
       },
     })
 
-    await wrapper.find('.mp-field-decorator').trigger('click')
-    expect(onClick).toHaveBeenCalledTimes(1)
-
-    await wrapper.find('.mp-input__input').setValue('t')
+    await wrapper.find('.mp-input__input').trigger('focus')
+    const input = wrapper.find('.mp-input__input')
+    input.element.value = 't'
+    await input.trigger('input')
     expect(onUpdateModelValue).lastCalledWith('t')
     expect(onInput).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('.mp-input__input').trigger('blur')
     expect(onChange).toHaveBeenCalledTimes(1)
 
     wrapper.unmount()
@@ -173,8 +198,30 @@ describe('test input events', () => {
     await expectFocusAndBlur()
   })
 
-  test('input onInput & onChange & onClick', async () => {
-    await expectInputAndChangeAndClick()
+  test('input onInput & committed onChange', async () => {
+    await expectInputAndChange()
+  })
+
+  test('input press-enter commits change without duplicating it on blur', async () => {
+    const onChange = vi.fn()
+    const onPressEnter = vi.fn()
+    const wrapper = mount(VarInput, {
+      props: {
+        modelValue: 'before',
+        onChange,
+        onPressEnter,
+        'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }),
+      },
+    })
+
+    const input = wrapper.find('.mp-input__input')
+    await input.trigger('focus')
+    await input.setValue('after')
+    await input.trigger('keydown', { key: 'Enter' })
+    await input.trigger('blur')
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onPressEnter).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -183,11 +230,28 @@ test('input maxLength', () => {
     props: {
       modelValue: 'text',
       maxLength: 100,
+      showWordLimit: true,
     },
   })
 
   expect(wrapper.find('.mp-input__length').text()).toBe('4/100')
   expect(wrapper.html()).toMatchSnapshot()
+
+  wrapper.unmount()
+})
+
+test('input maxLength errorOnly keeps the value and exposes error state', () => {
+  const wrapper = mount(VarInput, {
+    props: {
+      modelValue: 'text',
+      maxLength: { length: 3, errorOnly: true },
+      showWordLimit: true,
+    },
+  })
+
+  expect(wrapper.find('.mp-input__input').attributes('maxlength')).toBeUndefined()
+  expect(wrapper.find('.mp-input__length').text()).toBe('4/3')
+  expect(wrapper.find('.mp-input__input').classes()).toContain('mp-input--error')
 
   wrapper.unmount()
 })
@@ -220,10 +284,27 @@ test('input clear', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+  await wrapper.find('[role="button"]').trigger('click')
   expect(onUpdateModelValue).lastCalledWith('')
-  expect(onClear).lastCalledWith('')
+  expect(onClear).lastCalledWith(expect.any(Event))
   expect(wrapper.props('modelValue')).toBe('')
+
+  wrapper.unmount()
+})
+
+test('input default clear icon supports keyboard activation', async () => {
+  const wrapper = mount(VarInput, {
+    props: {
+      modelValue: 'value',
+      clearable: true,
+    },
+  })
+
+  const clear = wrapper.find('[role="button"]')
+  await clear.trigger('keydown', { key: 'Enter' })
+
+  expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([''])
+  expect(wrapper.emitted('clear')).toHaveLength(1)
 
   wrapper.unmount()
 })
@@ -231,13 +312,14 @@ test('input clear', async () => {
 const triggerEvents = async (wrapper) => {
   await wrapper.find('.mp-input__input').trigger('input')
   await wrapper.find('.mp-input__input').trigger('change')
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
-  await wrapper.find('.mp-field-decorator').trigger('click')
+  const clear = wrapper.find('[role="button"]')
+  if (clear.exists()) {
+    await clear.trigger('click')
+  }
 }
 
 test('input disabled', async () => {
   const onClear = vi.fn()
-  const onClick = vi.fn()
   const onInput = vi.fn()
   const onChange = vi.fn()
   const onUpdateModelValue = vi.fn()
@@ -249,7 +331,6 @@ test('input disabled', async () => {
       disabled: true,
       onInput,
       onClear,
-      onClick,
       onChange,
       'onUpdate:modelValue': onUpdateModelValue,
     },
@@ -259,7 +340,6 @@ test('input disabled', async () => {
 
   expect(onInput).toHaveBeenCalledTimes(0)
   expect(onClear).toHaveBeenCalledTimes(0)
-  expect(onClick).toHaveBeenCalledTimes(0)
   expect(onChange).toHaveBeenCalledTimes(0)
   expect(onUpdateModelValue).toHaveBeenCalledTimes(0)
 
@@ -268,7 +348,6 @@ test('input disabled', async () => {
 
 test('input readonly', async () => {
   const onClear = vi.fn()
-  const onClick = vi.fn()
   const onInput = vi.fn()
   const onChange = vi.fn()
   const onUpdateModelValue = vi.fn()
@@ -280,7 +359,6 @@ test('input readonly', async () => {
       readonly: true,
       onInput,
       onClear,
-      onClick,
       onChange,
       'onUpdate:modelValue': onUpdateModelValue,
     },
@@ -290,8 +368,7 @@ test('input readonly', async () => {
 
   expect(onInput).toHaveBeenCalledTimes(1)
   expect(onClear).toHaveBeenCalledTimes(0)
-  expect(onClick).toHaveBeenCalledTimes(2)
-  expect(onChange).toHaveBeenCalledTimes(1)
+  expect(onChange).toHaveBeenCalledTimes(0)
   expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
@@ -309,7 +386,7 @@ test('input trim', async () => {
   })
 
   await wrapper.find('.mp-input__input').setValue('123 ')
-  await wrapper.find('.mp-input__input').trigger('change')
+  await wrapper.find('.mp-input__input').trigger('blur')
 
   expect(onUpdateModelValue).lastCalledWith('123')
   wrapper.unmount()

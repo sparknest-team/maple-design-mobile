@@ -3,6 +3,9 @@
 > 此文件是 AI 编码代理（GitHub Copilot / Claude / Cursor 等）在本仓库工作的统一入口。
 > 仓库定位：基于 Vue 3 + TypeScript + Less 的移动端组件库（pnpm monorepo），注册前缀 `Mp`，CSS 前缀 `mp-`。
 
+
+**前置依赖**：读取并执行全局 `/Users/jiaming.wu/AGENTS.md` 的要求。
+
 ## 必读文档（按优先级）
 
 1. **[docs/practices/component-spec.md](docs/practices/component-spec.md)** —— 组件开发规范（移动端版），所有 `packages/maple-ui/src/<component>/` 下的修改必须先读。

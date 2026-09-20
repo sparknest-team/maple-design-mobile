@@ -2,7 +2,9 @@
 
 ### Intro
 
-Input or adjust numbers in a range. `InputNumber` is the primary name aligned with Cedar and most UI libraries. Maple's existing `Counter` remains available for compatibility.
+Input, adjust, and commit numeric values. `InputNumber` is the primary name aligned with Cedar and most UI libraries. Maple's existing `Counter` remains available for compatibility.
+
+The component keeps the displayed string separate from the business number, so intermediate states such as `-`, `.`, and `1.` can be entered naturally. By default, `v-model` updates on blur or Enter. With `model-event="input"`, complete numbers update during editing, while `change` still represents a committed value.
 
 ### Basic Usage
 
@@ -64,6 +66,47 @@ Input or adjust numbers in a range. `InputNumber` is the primary name aligned wi
 ../example/demos/demo-10.vue
 ```
 
+### Controlled Value And Intermediate Input
+
+`modelValue` and `defaultValue` use `number | undefined`. Clearing produces `undefined`, never `NaN`. Intermediate input such as `-`, `.`, and `1.` stays visible until it is committed and normalized by `min`, `max`, and `precision`.
+
+```html
+<mp-input-number
+  v-model="value"
+  :min="0"
+  :max="100"
+  model-event="input"
+  placeholder="Commit on blur"
+  @input="handleInput"
+  @change="handleChange"
+  @clear="handleClear"
+/>
+```
+
+### Events And Clearing
+
+- `input` represents editing and includes the parsed number, displayed text, and native event.
+- `change` represents a committed value change and is deduplicated across blur, Enter, and step actions.
+- `clear` represents an explicit clear action. It emits `update:modelValue(undefined)` and `clear` without an extra `input` or `change` event.
+
+### Prefixes, Suffixes, And Slots
+
+`prefix` and `suffix` render inside the input. `prepend` and `append` render outside it. `plus` and `minus` replace step icons, while `clear-icon` replaces the clear icon.
+
+```html
+<mp-input-number v-model="value" mode="button" clearable>
+  <template #prepend>Amount</template>
+  <template #prefix>$</template>
+  <template #suffix>USD</template>
+  <template #append>tax included</template>
+  <template #plus>＋</template>
+  <template #minus>－</template>
+  <template #clear-icon="{ clear }">
+    <button type="button" aria-label="Clear amount" @click="clear">Clear</button>
+  </template>
+</mp-input-number>
+```
+
 ## API
 
 ### Props
@@ -90,12 +133,12 @@ Input or adjust numbers in a range. `InputNumber` is the primary name aligned wi
 
 ### Events
 
-| Event                | Description                   | Arguments                                                      |
-| -------------------- | ----------------------------- | -------------------------------------------------------------- |
-| `update:model-value` | Emitted when value changes    | `value: number \| undefined`                                   |
-| `change`             | Emitted after value changes   | `value: number \| undefined, event: Event`                     |
-| `input`              | Emitted on input              | `value: number \| undefined, inputValue: string, event: Event` |
-| `focus`              | Emitted when input is focused | `event: FocusEvent`                                            |
-| `blur`               | Emitted when input is blurred | `event: FocusEvent`                                            |
-| `clear`              | Emitted when clear is clicked | `event: Event`                                                 |
-| `keydown`            | Emitted on keydown            | `event: KeyboardEvent`                                         |
+| Event               | Description                   | Arguments                                                      |
+| ------------------- | ----------------------------- | -------------------------------------------------------------- |
+| `update:modelValue` | Emitted when value changes    | `value: number \| undefined`                                   |
+| `change`            | Emitted after value changes   | `value: number \| undefined, event: Event`                     |
+| `input`             | Emitted on input              | `value: number \| undefined, inputValue: string, event: Event` |
+| `focus`             | Emitted when input is focused | `event: FocusEvent`                                            |
+| `blur`              | Emitted when input is blurred | `event: FocusEvent`                                            |
+| `clear`             | Emitted when clear is clicked | `event: Event`                                                 |
+| `keydown`           | Emitted on keydown            | `event: KeyboardEvent`                                         |

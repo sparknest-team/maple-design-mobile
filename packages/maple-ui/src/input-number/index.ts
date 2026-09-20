@@ -6,7 +6,7 @@ withInstall(InputNumber)
 withPropsDefaultsSetter(InputNumber, inputNumberProps)
 
 export type InputNumberInstance = InstanceType<typeof InputNumber>
-export type { InputNumberMode, InputNumberModelEvent, InputNumberSize } from './props'
+export type { InputNumberMode, InputNumberModelEvent, InputNumberProps, InputNumberSize } from './props'
 export { inputNumberProps }
 
 export const _InputNumberComponent: typeof InputNumber = InputNumber

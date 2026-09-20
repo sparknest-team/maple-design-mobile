@@ -76,27 +76,32 @@ With `hint`, the placeholder floats on focus or when a value exists. Disable it 
 
 ### Props
 
-| Name           | Description                                 | Type               | Default    |
-| -------------- | ------------------------------------------- | ------------------ | ---------- |
-| `v-model`      | Bound value                                 | _string_           | `-`        |
-| `type`         | `text` `password` `number` `tel` or `email` | _string_           | `text`     |
-| `placeholder`  | Placeholder or floating hint text           | _string_           | `-`        |
-| `size`         | `xs` `sm` `md` `lg` or `xl`                 | _ComponentSize_    | `md`       |
-| `variant`      | `filled` `outline` or `standard`           | _string_           | `standard` |
-| `hint`         | Use the placeholder as a floating hint      | _boolean_          | `true`     |
-| `line`         | Show the separator line                     | _boolean_          | `true`     |
-| `max-length`   | Maximum length and character counter        | _string \| number_ | `-`        |
-| `readonly`     | Whether the input is readonly               | _boolean_          | `false`    |
-| `disabled`     | Whether the input is disabled               | _boolean_          | `false`    |
-| `clearable`    | Whether the value can be cleared            | _boolean_          | `false`    |
-| `autofocus`    | Focus automatically after mount             | _boolean_          | `false`    |
-| `enterkeyhint` | Mobile enter-key hint                       | _string_           | `-`        |
-| `autocomplete` | Native autocomplete policy                  | _string_           | `off`      |
-| `aria-label`   | Accessible label                            | _string_           | `-`        |
-| `input-attrs`  | Attributes forwarded to the native input    | _object_           | `-`        |
-| `text-color`   | Text color                                  | _string_           | `-`        |
-| `focus-color`  | Focus color                                 | _string_           | `-`        |
-| `blur-color`   | Blur color                                  | _string_           | `-`        |
+| Name              | Description                                                                | Type               |  Default   |
+| ----------------- | -------------------------------------------------------------------------- | ------------------ | :--------: |
+| `v-model`         | Controlled value                                                           | `string`           |    `-`     |
+| `default-value`   | Initial value in uncontrolled mode                                         | `string`           |    `''`    |
+| `type`            | `text`, `password`, `number`, `tel`, or `email`                            | `InputType`        |   `text`   |
+| `placeholder`     | Placeholder or floating hint text                                          | `string`           |    `-`     |
+| `size`            | `xs`, `sm`, `md`, `lg`, or `xl`                                            | `ComponentSize`    |    `md`    |
+| `variant`         | `filled`, `outline`, or `standard`                                         | `string`           | `outline`  |
+| `hint`            | Use the placeholder as a floating hint                                     | `boolean`          |   `true`   |
+| `line`            | Show the bottom separator                                                  | `boolean`          |   `true`   |
+| `max-length`      | Maximum length; truncates by default, or reports an error with `errorOnly` | `number \| object` |    `0`     |
+| `show-word-limit` | Show the character counter                                                 | `boolean`          |  `false`   |
+| `word-length`     | Custom length calculator                                                   | `function`         |    `-`     |
+| `word-slice`      | Custom truncation function                                                 | `function`         |    `-`     |
+| `readonly`        | Read-only state                                                            | `boolean`          |  `false`   |
+| `disabled`        | Disabled state                                                             | `boolean`          |  `false`   |
+| `error`           | Show the error state                                                       | `boolean`          |  `false`   |
+| `clearable`       | Allow clearing the value                                                   | `boolean`          |  `false`   |
+| `autofocus`       | Focus automatically after mount                                            | `boolean`          |  `false`   |
+| `enterkeyhint`    | Mobile enter-key hint                                                      | `string`           |    `-`     |
+| `autocomplete`    | Native autocomplete policy                                                 | `string`           |   `off`    |
+| `aria-label`      | Accessible label                                                           | `string`           |    `-`     |
+| `input-attrs`     | Attributes forwarded to the native input                                   | `object`           |    `-`     |
+| `text-color`      | Text color                                                                 | `string`           |    `-`     |
+| `focus-color`     | Focus color                                                                | `string`           |    `-`     |
+| `blur-color`      | Blur color                                                                 | `string`           |    `-`     |
 
 Validation rules belong on `mp-form-item`. See the [Form component](#/en-US/form).
 
@@ -109,29 +114,29 @@ Validation rules belong on `mp-form-item`. See the [Form component](#/en-US/form
 
 ### Events
 
-| Name      | Description                              | Parameters                    |
-| --------- | ---------------------------------------- | ----------------------------- |
-| `focus`   | Emitted on focus                         | `event: FocusEvent`           |
-| `blur`    | Emitted on blur                          | `event: FocusEvent`           |
-| `click`   | Emitted on click                         | `event: Event`                |
-| `clear`   | Emitted after clearing                   | `value: string`               |
-| `input`   | Emitted on input                         | `value: string, event: Event` |
-| `change`  | Emitted when a value change is committed | `value: string, event: Event` |
-| `keydown` | Emitted on keydown                       | `event: KeyboardEvent`        |
+| Name          | Description                                     | Parameters                    |
+| ------------- | ----------------------------------------------- | ----------------------------- |
+| `focus`       | Emitted on focus                                | `event: FocusEvent`           |
+| `blur`        | Emitted on blur                                 | `event: FocusEvent`           |
+| `clear`       | Emitted after clearing                          | `event: Event`                |
+| `input`       | Emitted on input                                | `value: string, event: Event` |
+| `change`      | Emitted only when blur or Enter commits a value | `value: string, event: Event` |
+| `press-enter` | Emitted when Enter is pressed                   | `event: KeyboardEvent`        |
+| `keydown`     | Emitted on keydown for compatibility            | `event: KeyboardEvent`        |
 
 ### Slots
 
-| Name         | Description    | Parameters          |
-| ------------ | -------------- | ------------------- |
-| `prefix`     | Prefix content | `-`                 |
-| `suffix`     | Suffix content | `-`                 |
-| `clear-icon` | Clear icon     | `clear: () => void` |
+| Name         | Description          | Parameters          |
+| ------------ | -------------------- | ------------------- |
+| `prefix`     | Prefix content       | `-`                 |
+| `suffix`     | Suffix content       | `-`                 |
+| `clear-icon` | Clear icon or button | `clear: () => void` |
 
-### Style Variables
+### Style variables
 
 Input provides the variables below. See [FieldDecorator](#/en-US/field-decorator) for container appearance variables.
 
 | Variable                  | Default |
 | ------------------------- | ------- |
-| `--input-control-height`    | `24px`  |
-| `--input-control-font-size` | `16px`  |
+| `--input-input-height`    | `24px`  |
+| `--input-input-font-size` | `16px`  |

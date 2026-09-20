@@ -1,5 +1,8 @@
 <template>
   <div :class="rootClasses">
+    <div v-if="$slots.prepend" :class="[n('addon'), n('prepend')]">
+      <slot name="prepend" />
+    </div>
     <mp-input
       ref="input"
       :model-value="inputValue"
@@ -16,7 +19,7 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @clear="handleClear"
-      @change="handleChange"
+      @press-enter="handlePressEnter"
       @keydown="handleKeydown"
     >
       <template #prefix>
@@ -26,6 +29,7 @@
             type="button"
             tabindex="-1"
             :disabled="mergedDisabled || isMin"
+            aria-label="减少数值"
             @mousedown="(event) => handleStepButton(event, 'minus', true)"
             @mouseup="clearRepeatTimer"
             @mouseleave="clearRepeatTimer"
@@ -53,6 +57,7 @@
                 type="button"
                 tabindex="-1"
                 :disabled="mergedDisabled || isMax"
+                aria-label="增加数值"
                 @mousedown="(event) => handleStepButton(event, 'plus', true)"
                 @mouseup="clearRepeatTimer"
                 @mouseleave="clearRepeatTimer"
@@ -67,6 +72,7 @@
                 type="button"
                 tabindex="-1"
                 :disabled="mergedDisabled || isMin"
+                aria-label="减少数值"
                 @mousedown="(event) => handleStepButton(event, 'minus', true)"
                 @mouseup="clearRepeatTimer"
                 @mouseleave="clearRepeatTimer"
@@ -83,6 +89,7 @@
             type="button"
             tabindex="-1"
             :disabled="mergedDisabled || isMax"
+            aria-label="增加数值"
             @mousedown="(event) => handleStepButton(event, 'plus', true)"
             @mouseup="clearRepeatTimer"
             @mouseleave="clearRepeatTimer"
@@ -94,10 +101,13 @@
         </template>
       </template>
 
-      <template #clear-icon="{ clear }">
+      <template v-if="$slots['clear-icon']" #clear-icon="{ clear }">
         <slot name="clear-icon" :clear="clear" />
       </template>
     </mp-input>
+    <div v-if="$slots.append" :class="[n('addon'), n('append')]">
+      <slot name="append" />
+    </div>
   </div>
 </template>
 
@@ -168,15 +178,22 @@ export default defineComponent({
       return props.formatter?.(numString) ?? numString
     }
 
-    const inputValue = ref(getStringValue(props.modelValue ?? props.defaultValue))
-    const valueNumber = computed(() => {
-      if (!inputValue.value) {
+    const isIntermediateValue = (value: string) =>
+      value === '' || value === '-' || value === '.' || value === '-.' || /^-?\d+\.$/.test(value)
+
+    const getValueNumber = (value: string) => {
+      const parsedValue = props.parser?.(value) ?? value
+      if (isIntermediateValue(parsedValue)) {
         return undefined
       }
 
-      const number = Number(props.parser?.(inputValue.value) ?? inputValue.value)
-      return Number.isNaN(number) ? undefined : number
-    })
+      const number = Number(parsedValue)
+      return Number.isFinite(number) ? number : undefined
+    }
+
+    const inputValue = ref(getStringValue(props.modelValue ?? props.defaultValue))
+    const valueNumber = computed(() => getValueNumber(inputValue.value))
+    let lastCommittedValue = valueNumber.value
     const isMin = ref(isNumber(valueNumber.value) && valueNumber.value <= props.min)
     const isMax = ref(isNumber(valueNumber.value) && valueNumber.value >= props.max)
     const rootClasses = computed(() =>
@@ -189,9 +206,9 @@ export default defineComponent({
     )
     const mergedInputAttrs = computed(() => ({
       role: 'spinbutton',
-      'aria-valuemax': props.max,
-      'aria-valuemin': props.min,
-      'aria-valuenow': inputValue.value,
+      ...(Number.isFinite(props.max) ? { 'aria-valuemax': props.max } : {}),
+      ...(Number.isFinite(props.min) ? { 'aria-valuemin': props.min } : {}),
+      ...(isNumber(valueNumber.value) ? { 'aria-valuenow': valueNumber.value } : {}),
       ...props.inputAttrs,
     }))
 
@@ -227,15 +244,26 @@ export default defineComponent({
       isMax.value = isNumber(number) && number >= props.max
     }
 
-    function handleExceedRange() {
+    function commitValue(event: Event, emitChange = true) {
       const finalValue = getLegalValue(valueNumber.value)
       const stringValue = getStringValue(finalValue)
 
-      if (finalValue !== valueNumber.value || inputValue.value !== stringValue) {
-        inputValue.value = stringValue
-      }
+      const valueChanged = !Object.is(finalValue, lastCommittedValue)
 
-      emit('update:modelValue', finalValue)
+      if (valueChanged || !Object.is(finalValue, valueNumber.value) || inputValue.value !== stringValue) {
+        inputValue.value = stringValue
+        emit('update:modelValue', finalValue)
+      }
+      updateNumberStatus(finalValue)
+      lastCommittedValue = finalValue
+
+      if (emitChange && valueChanged) {
+        emit('change', finalValue, event)
+      }
+    }
+
+    function handleExceedRange() {
+      commitValue(new Event('range'), false)
     }
 
     function nextStep(method: StepMethod, event: Event) {
@@ -250,10 +278,14 @@ export default defineComponent({
         nextValue = props.min === -Infinity ? 0 : props.min
       }
 
+      const valueChanged = !Object.is(nextValue, lastCommittedValue)
       inputValue.value = getStringValue(nextValue)
       updateNumberStatus(nextValue)
-      emit('update:modelValue', nextValue)
-      emit('change', nextValue, event)
+      if (valueChanged) {
+        lastCommittedValue = nextValue
+        emit('update:modelValue', nextValue)
+        emit('change', nextValue, event)
+      }
       eventHandlers.value.onChange?.()
     }
 
@@ -278,49 +310,44 @@ export default defineComponent({
     function handleInput(value: string, event: Event) {
       value = value.trim().replace(/。/g, '.')
       value = props.parser?.(value) ?? value
+      const intermediate = isIntermediateValue(value)
+      const number = getValueNumber(value)
 
-      if (!Number.isNaN(Number(value)) || /^(\.|-)$/.test(value)) {
+      if (intermediate || isNumber(number)) {
         inputValue.value = props.formatter?.(value) ?? value
         updateNumberStatus(valueNumber.value)
 
         emit('input', valueNumber.value, inputValue.value, event)
-        eventHandlers.value.onInput?.()
-        if (props.modelEvent === 'input') {
-          emit('update:modelValue', valueNumber.value)
-          emit('change', valueNumber.value, event)
-          eventHandlers.value.onChange?.()
+        if (props.modelEvent === 'input' && (value === '' || !intermediate)) {
+          emit('update:modelValue', number)
         }
       }
     }
 
     function handleChange(value: string, event: Event) {
-      if (event instanceof MouseEvent && !value) {
-        return
-      }
-
-      handleExceedRange()
-      emit('change', valueNumber.value, event)
-      eventHandlers.value.onChange?.()
+      commitValue(event)
     }
 
     function handleFocus(event: FocusEvent) {
       emit('focus', event)
-      eventHandlers.value.onFocus?.()
     }
 
     function handleBlur(event: FocusEvent) {
+      handleChange(inputValue.value, event)
       emit('blur', event)
-      eventHandlers.value.onBlur?.()
+    }
+
+    function handlePressEnter(event: KeyboardEvent) {
+      handleChange(inputValue.value, event)
     }
 
     function handleClear(event: Event | string) {
       const clearEvent = event instanceof Event ? event : new Event('clear')
       inputValue.value = ''
+      updateNumberStatus(undefined)
+      lastCommittedValue = undefined
       emit('update:modelValue', undefined)
-      emit('change', undefined, clearEvent)
       emit('clear', clearEvent)
-      eventHandlers.value.onChange?.()
-      eventHandlers.value.onClear?.()
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -354,6 +381,7 @@ export default defineComponent({
         if (value !== valueNumber.value) {
           inputValue.value = getStringValue(value)
           updateNumberStatus(value)
+          lastCommittedValue = value
         }
       },
     )
@@ -377,6 +405,7 @@ export default defineComponent({
       handleChange,
       handleFocus,
       handleBlur,
+      handlePressEnter,
       handleClear,
       handleKeydown,
     }

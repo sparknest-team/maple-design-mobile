@@ -12,9 +12,31 @@
 
 .mp-input-number {
   position: relative;
+  display: flex;
+  align-items: stretch;
   box-sizing: border-box;
   width: 100%;
   border-radius: var(--mp-input-number-border-radius);
+
+  &__addon {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    padding: 0 var(--mp-field-padding-horizontal);
+    color: var(--mp-field-control-text-color);
+    background: var(--mp-field-variant-filled-background);
+    border: var(--mp-field-border-width) solid var(--mp-field-variant-outline-border-color);
+  }
+
+  &__prepend {
+    border-right: 0;
+    border-radius: var(--mp-field-border-radius) 0 0 var(--mp-field-border-radius);
+  }
+
+  &__append {
+    border-left: 0;
+    border-radius: 0 var(--mp-field-border-radius) var(--mp-field-border-radius) 0;
+  }
 
   &__step-button {
     box-sizing: border-box;
@@ -65,7 +87,9 @@
   }
 
   .mp-input {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
   }
 
   .mp-input__input {

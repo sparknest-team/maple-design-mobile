@@ -26,9 +26,9 @@
         :hint="false"
         :line="false"
         :clearable="false"
-        :disabled="disabled"
+        :disabled="disabled || readonly"
         placement="bottom-start"
-        @change="handleSelectChange"
+        @change="handleFieldChange"
       />
 
       <div v-else-if="label || $slots.label" :class="n('label')">
@@ -38,6 +38,7 @@
       <mp-input
         ref="input"
         :model-value="computedValue"
+        :model-modifiers="modelModifiers"
         :type="type"
         :aria-label="ariaLabel"
         :placeholder="searchPlaceholder"
@@ -50,6 +51,8 @@
         :focus-color="focusColor"
         :placeholder-focus-color="searchPlaceholderFocusColor"
         :blur-color="blurColor"
+        :size="size"
+        :variant="variant"
         :clearable="clearable"
         :hint="false"
         :line="false"
@@ -59,17 +62,27 @@
         @input="handleInput"
         @change="handleChange"
         @clear="handleClear"
-        @keyup.enter="handleSearch"
+        @press-enter="handleSearch"
         @click="handleInputClick"
       >
         <template #prefix>
           <slot name="prefix">
-            <mp-registered-icon
-              :class="n('search-icon')"
-              :name="searchIcon"
-              :fallback="searchIcon === 'search' ? IconSearch : undefined"
+            <button
+              :class="n('icon-button')"
+              type="button"
+              :disabled="searchDisabled"
+              :aria-label="buttonText || '搜索'"
               @click="handleSearch"
-            />
+            >
+              <mp-loading v-if="loading" size="mini" />
+              <mp-registered-icon
+                v-else
+                :class="n('search-icon')"
+                :name="searchIcon"
+                :fallback="searchIcon === 'search' ? IconSearch : undefined"
+                aria-hidden="true"
+              />
+            </button>
           </slot>
         </template>
 
@@ -83,12 +96,36 @@
             /></mp-icon>
           </slot>
         </template>
+
+        <template v-if="$slots.suffix" #suffix>
+          <slot name="suffix" />
+        </template>
       </mp-input>
     </div>
 
-    <button v-if="showAction" :class="n('action')" type="button" :disabled="disabled" @click="handleAction">
-      <slot name="action">{{ actionText }}</slot>
-    </button>
+    <mp-button
+      v-if="effectiveShowAction"
+      v-bind="buttonProps"
+      :class="n('action')"
+      variant="text"
+      :elevation="false"
+      :disabled="disabled || readonly"
+      :loading="effectiveActionType === 'search' && loading"
+      :aria-label="effectiveActionText || (effectiveActionType === 'search' ? '搜索' : '取消')"
+      @click="handleAction"
+    >
+      <template v-if="searchButton && !buttonText" #icon>
+        <slot name="button-icon">
+          <mp-registered-icon
+            :name="searchIcon"
+            :fallback="searchIcon === 'magnify' ? IconMagnify : undefined"
+            aria-hidden="true"
+          />
+        </slot>
+      </template>
+      <slot v-if="searchButton" name="button-default">{{ buttonText }}</slot>
+      <slot v-else name="action">{{ effectiveActionText }}</slot>
+    </mp-button>
 
     <mp-popup
       v-if="historyPopup"
@@ -105,11 +142,10 @@
       <div :class="n('popup-content')">
         <mp-search
           :model-value="computedValue"
+          :model-modifiers="modelModifiers"
           :label="label"
           :model-field="computedField"
-          :search-field="computedField"
           :default-field="defaultField"
-          :search-text="computedValue"
           :model="model"
           :select-style="selectStyle"
           :fields="fields"
@@ -127,17 +163,19 @@
           :max-length="maxLength"
           :readonly="readonly"
           :disabled="disabled"
+          :loading="loading"
           autofocus
           :enterkeyhint="enterkeyhint || 'search'"
           :text-color="textColor"
           :focus-color="focusColor"
           :placeholder-focus-color="searchPlaceholderFocusColor"
           :blur-color="blurColor"
+          :size="size"
+          :variant="variant"
           :recent-searches="[]"
           :max-search-history-count="maxSearchHistoryCount"
           :history-popup="false"
           @update:model-field="handlePopupFieldUpdate"
-          @update:search-field="handlePopupFieldUpdate"
           @input="handleInput"
           @change="handleChange"
           @clear="handleClear"
@@ -182,10 +220,12 @@
 import { computed, defineComponent, nextTick, ref, shallowRef, watch } from 'vue'
 import { IconSearch, IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
+import MpButton from '../button'
 import MpDropdownMenu from '../dropdown-menu'
 import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'
+import MpLoading from '../loading'
 import MpPopup from '../popup'
 import MpSelect from '../select'
 import { createNamespace } from '../utils/components'
@@ -197,7 +237,9 @@ const { name, n, classes } = createNamespace('search')
 
 type RegisteredComponents = {
   MIconCloseCircleFill: typeof MIconCloseCircleFill
+  MpButton: typeof MpButton
   MpIcon: typeof MpIcon
+  MpLoading: typeof MpLoading
   MpRegisteredIcon: typeof MpRegisteredIcon
   MpInput: typeof MpInput
   MpDropdownMenu: typeof MpDropdownMenu
@@ -206,7 +248,9 @@ type RegisteredComponents = {
 }
 const registeredComponents: RegisteredComponents = {
   MIconCloseCircleFill,
+  MpButton,
   MpIcon,
+  MpLoading,
   MpRegisteredIcon,
   MpInput,
   MpDropdownMenu,
@@ -226,9 +270,7 @@ export default defineComponent({
     'clear',
     'search',
     'update:modelField',
-    'update:searchField',
     'update:modelValue',
-    'update:searchText',
     'update:model',
     'cancel',
   ],
@@ -245,8 +287,8 @@ export default defineComponent({
     const historyMenuVisible = ref(false)
     const historyPopupClosing = ref(false)
 
-    const computedValue = computed(() => props.modelValue ?? props.searchText ?? value.value)
-    const computedField = computed(() => props.modelField ?? props.searchField ?? field.value)
+    const computedValue = computed(() => props.modelValue ?? value.value)
+    const computedField = computed(() => props.modelField ?? field.value)
     const searchPlaceholder = computed(() => {
       const selected = props.fields.find((item: SearchField) => item.value === computedField.value)
 
@@ -256,6 +298,10 @@ export default defineComponent({
     const searchPlaceholderFocusColor = computed(
       () => props.focusColor || props.blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))',
     )
+    const effectiveShowAction = computed(() => props.showAction || props.searchButton)
+    const effectiveActionType = computed(() => (props.searchButton ? 'search' : props.actionType))
+    const effectiveActionText = computed(() => (props.searchButton ? props.buttonText || '' : props.actionText))
+    const searchDisabled = computed(() => Boolean(props.disabled || props.readonly || props.loading))
     const historyOptions = computed(() => props.recentSearches.map((item: string) => ({ label: item, value: item })))
     const popupStyle = {
       width: '100vw',
@@ -267,7 +313,7 @@ export default defineComponent({
     watch(
       () => props.fields,
       () => {
-        if (!props.modelField && !props.searchField) {
+        if (!props.modelField) {
           field.value = props.defaultField || props.fields[0]?.value
         }
       },
@@ -275,7 +321,7 @@ export default defineComponent({
     )
 
     function handleFocus(e: FocusEvent) {
-      openHistoryPopup()
+      openHistory()
       emit('focus', e)
     }
 
@@ -286,70 +332,64 @@ export default defineComponent({
     function handleInput(nextValue: string, e: Event) {
       updateValue(nextValue)
       emit('input', nextValue, e)
-      emit('change', nextValue, e)
     }
 
     function handleChange(nextValue: string, e: Event) {
       emit('change', nextValue, e)
     }
 
-    function handleClear(nextValue: string) {
-      updateValue(nextValue)
-      emit('clear', nextValue)
-      emit('change', nextValue)
-      keepHistoryVisible()
-    }
-
-    function handleClearIconClick(clear: () => void, e: Event) {
-      e.stopPropagation()
-      clear()
-      keepHistoryVisible()
-    }
-
-    function handleSelectChange(nextField: string) {
-      field.value = nextField
-      clearModel()
+    function handleClear(e: Event) {
       updateValue('')
-      emit('update:modelField', nextField)
-      emit('update:searchField', nextField)
-      emit('change', '')
-      input.value?.focus()
+      emit('clear', e)
+      keepHistoryVisible()
     }
 
-    function handleSearch(e?: Event) {
-      if (props.disabled) {
+    function handleClearIconClick(clear: (event?: Event) => void, e: Event) {
+      e.stopPropagation()
+      clear(e)
+      keepHistoryVisible()
+    }
+
+    function handleFieldChange(nextField: string, e: Event = new Event('change')) {
+      field.value = nextField
+      emit('update:modelField', nextField)
+      updateValue('')
+      emit('change', '', e)
+      nextTick(() => input.value?.focus())
+    }
+
+    function handleSearch(e: Event = new Event('search')) {
+      if (searchDisabled.value) {
         return
       }
 
       closeHistoryMenu()
-      const result = search(computedValue.value || '')
-      emit('search', result, e)
-      input.value?.blur()
+      emit('search', getResult(), e)
     }
 
     function handleAction(e: Event) {
-      if (props.disabled) {
+      if (props.disabled || props.readonly) {
         return
       }
 
-      if (props.actionType === 'search') {
+      if (effectiveActionType.value === 'search') {
         handleSearch(e)
         return
       }
 
       closeHistoryMenu()
       updateValue('')
-      emit('cancel')
+      emit('cancel', e)
       emit('change', '', e)
       input.value?.blur()
     }
 
     function handleInputClick() {
-      openHistoryPopup()
+      openHistory()
     }
 
-    function openHistoryPopup() {
-      if (historyPopupClosing.value || props.disabled || props.readonly || !props.recentSearches.length) {
+    function openHistory() {
+      if (searchDisabled.value || !props.recentSearches.length) {
         return
       }
 
@@ -385,11 +425,11 @@ export default defineComponent({
     }
 
     function keepHistoryVisible() {
-      if (!props.recentSearches.length || props.disabled || props.readonly) {
+      if (!props.recentSearches.length || searchDisabled.value) {
         return
       }
 
-      requestAnimationFrame(openHistoryPopup)
+      requestAnimationFrame(openHistory)
     }
 
     function handlePopupVisibleChange(open: boolean) {
@@ -404,67 +444,58 @@ export default defineComponent({
     }
 
     function handlePopupFieldUpdate(nextField: string) {
-      handleSelectChange(nextField)
+      handleFieldChange(nextField)
     }
 
-    function handlePopupSearch(result: SearchResult, e?: Event) {
-      closeHistoryPopup()
-      const nextValue: string = result.modelValue ?? ''
-      emit('search', search(nextValue), e)
+    function handlePopupSearch(result: SearchResult, e: Event = new Event('search')) {
+      historyPopupVisible.value = false
+      emit(
+        'search',
+        {
+          ...result,
+          recentSearches: getRecentSearches(result.modelValue),
+        },
+        e,
+      )
     }
 
-    function handleHistorySelect(nextValue: string, e?: Event) {
+    function handleHistorySelect(nextValue: string, e: Event = new Event('select')) {
       updateValue(nextValue)
-      const result = search(nextValue)
-      if (props.historyPopup) {
-        closeHistoryPopup()
-      } else {
-        closeHistoryMenu()
-      }
-      emit('search', result, e)
+      historyPopupVisible.value = false
+      historyMenuVisible.value = false
+      emit('search', getResult(nextValue), e)
     }
 
-    function handleHistoryMenuSelect(nextValue: string) {
-      handleHistorySelect(nextValue)
+    function handleHistoryMenuSelect(nextValue: string, _option?: unknown, e?: Event) {
+      handleHistorySelect(nextValue, e)
     }
 
     function updateValue(nextValue: string) {
       value.value = nextValue
+      emit('update:modelValue', nextValue)
       updateModel(nextValue)
-      emit('update:modelValue', nextValue)
-      emit('update:searchText', nextValue)
-      emit('update:modelValue', nextValue)
-      emit('update:searchText', nextValue)
     }
 
     function clearModel() {
       if (!props.model || !props.fields.length) {
-        return
+        return false
       }
 
       props.fields.forEach((item: SearchField) => {
-        const key = item.value as string
-        ;(props.model as Record<string, any>)[key] = undefined
+        props.model![item.value] = undefined
       })
-      emit('update:model', props.model)
-      emit('update:model', props.model)
+      return true
     }
 
     function updateModel(nextValue: string) {
-      const key = computedField.value as string | undefined
-      if (!props.model || !props.fields.length || !key) {
+      if (!clearModel()) {
         return
       }
 
-      clearModel()
-      ;(props.model as Record<string, any>)[key] = nextValue
-      emit('update:model', props.model)
-      emit('update:model', props.model)
-    }
-
-    function search(nextValue: string) {
-      updateModel(nextValue)
-      return getResult(nextValue)
+      if (computedField.value) {
+        props.model![computedField.value] = nextValue
+      }
+      emit('update:model', props.model!)
     }
 
     function getRecentSearches(nextValue: string) {
@@ -475,18 +506,14 @@ export default defineComponent({
         searches.unshift(keyword)
       }
 
-      return searches.slice(0, props.maxSearchHistoryCount)
+      return searches.slice(0, Math.max(0, props.maxSearchHistoryCount))
     }
 
     function getResult(nextValue = computedValue.value || ''): SearchResult {
       const currentValue = nextValue
-      const currentField = computedField.value as string | undefined
-
       return {
-        modelField: currentField,
+        modelField: computedField.value,
         modelValue: currentValue,
-        searchField: currentField,
-        searchText: currentValue,
         model: props.model,
         recentSearches: getRecentSearches(currentValue),
       }
@@ -510,6 +537,10 @@ export default defineComponent({
       searchPlaceholder,
       popupActionText,
       searchPlaceholderFocusColor,
+      effectiveShowAction,
+      effectiveActionType,
+      effectiveActionText,
+      searchDisabled,
       popupStyle,
       historyOptions,
       historyPopupVisible,
@@ -537,7 +568,7 @@ export default defineComponent({
       handlePopupSearch,
       handleHistorySelect,
       handleHistoryMenuSelect,
-      handleSelectChange,
+      handleFieldChange,
       updateValue,
       focus,
       blur,

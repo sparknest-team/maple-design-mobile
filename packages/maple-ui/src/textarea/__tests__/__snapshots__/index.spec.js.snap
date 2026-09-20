@@ -1,19 +1,26 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`textarea render 1`] = `
+exports[`textarea renders the shared defaults 1`] = `
 "<div class="mp-textarea mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outlined">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle"><textarea id="mp-textarea-mock-id" class="mp-textarea__inner" rows="8" style="resize: none;" value="text"></textarea></div><label class="mp-field-decorator__placeholder mp--ellipsis mp-field-decorator--transition-disabled mp-field-decorator--placeholder-hint" for="mp-textarea-mock-id"><span>请输入</span></label>
+      <div class="mp-field-decorator__middle">
+        <!--v-if--><textarea id="mp-textarea-mock-id" class="mp-textarea__inner" style="resize: none;" value="text"></textarea>
+      </div><label class="mp-field-decorator__placeholder mp--ellipsis mp-field-decorator--transition-disabled mp-field-decorator--placeholder-hint" for="mp-textarea-mock-id"><span>请输入</span></label>
       <div class="mp-field-decorator__icon">
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--teleport start-->
+        <!--teleport end-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"

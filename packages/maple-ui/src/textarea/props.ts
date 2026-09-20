@@ -2,6 +2,21 @@ import type { ExtractPropTypes, InputHTMLAttributes, PropType } from 'vue'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickProps } from '../utils/components'
 
+export type TextareaVariant = 'filled' | 'outline' | 'standard'
+
+export interface TextareaMaxLength {
+  length: number
+  errorOnly?: boolean
+}
+
+export interface TextareaAutoSize {
+  minRows?: number
+  maxRows?: number
+}
+
+export type WordLength = (value: string) => number
+export type WordSlice = (value: string, maxLength: number) => string
+
 export const textareaProps = {
   /** 绑定值 */
   modelValue: String,
@@ -10,17 +25,30 @@ export const textareaProps = {
     type: Object as PropType<{ trim?: boolean }>,
     default: () => ({}),
   },
+  /** 非受控初始值 */
+  defaultValue: { type: String, default: '' },
   /** 文本域行数 */
-  rows: {
-    type: [String, Number],
-    default: 8,
-  },
+  rows: [String, Number],
   /** 最大输入长度 */
-  maxLength: [String, Number],
+  maxLength: {
+    type: [Number, Object] as PropType<number | TextareaMaxLength>,
+    default: 0,
+  },
+  /** 是否显示字数统计 */
+  showWordLimit: { type: Boolean, default: false },
+  /** 字符长度计算方法 */
+  wordLength: Function as PropType<WordLength>,
+  /** 字符截取方法 */
+  wordSlice: Function as PropType<WordSlice>,
   /** 是否只读 */
-  readonly: Boolean,
+  readonly: { type: Boolean, default: false },
   /** 是否允许垂直拖动调整尺寸 */
-  resize: Boolean,
+  resize: { type: Boolean, default: false },
+  /** 是否根据内容自动调整高度 */
+  autoSize: {
+    type: [Boolean, Object] as PropType<boolean | TextareaAutoSize>,
+    default: false,
+  },
   /** 是否自动聚焦 */
   autofocus: Boolean,
   /** 无障碍标签 */
@@ -48,6 +76,17 @@ export const textareaProps = {
     'disabled',
     'clearable',
   ]),
+  /** 外观变体 */
+  variant: {
+    type: String as PropType<TextareaVariant>,
+    default: 'outline',
+  },
+  /** 是否禁用 */
+  disabled: { type: Boolean, default: undefined },
+  /** 是否允许清空 */
+  clearable: { type: Boolean, default: false },
+  /** 是否显示错误状态 */
+  error: { type: Boolean, default: false },
 }
 
 export type TextareaProps = import('vue').ExtractPublicPropTypes<typeof textareaProps>

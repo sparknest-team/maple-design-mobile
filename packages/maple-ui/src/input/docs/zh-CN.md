@@ -76,27 +76,32 @@
 
 ### 属性
 
-| 参数           | 说明                                                        | 类型               | 默认值     |
-| -------------- | ----------------------------------------------------------- | ------------------ | ---------- |
-| `v-model`      | 绑定值                                                      | _string_           | `-`        |
-| `type`         | 输入类型，可选值为 `text` `password` `number` `tel` `email` | _string_           | `text`     |
-| `placeholder`  | 占位符，也可作为浮动提示文字                                | _string_           | `-`        |
-| `size`         | 尺寸，可选值为 `xs` `sm` `md` `lg` `xl`                     | _ComponentSize_    | `md`       |
-| `variant`      | 外观，可选值为 `filled` `outline` `standard`               | _string_           | `standard` |
-| `hint`         | 是否将 placeholder 用作浮动提示文字                         | _boolean_          | `true`     |
-| `line`         | 是否显示分割线                                              | _boolean_          | `true`     |
-| `max-length`   | 最大输入长度并显示字数统计                                  | _string \| number_ | `-`        |
-| `readonly`     | 是否只读                                                    | _boolean_          | `false`    |
-| `disabled`     | 是否禁用                                                    | _boolean_          | `false`    |
-| `clearable`    | 是否可清除                                                  | _boolean_          | `false`    |
-| `autofocus`    | 是否自动聚焦                                                | _boolean_          | `false`    |
-| `enterkeyhint` | 移动端回车键提示                                            | _string_           | `-`        |
-| `autocomplete` | 原生自动填充策略                                            | _string_           | `off`      |
-| `aria-label`   | 输入框无障碍标签                                            | _string_           | `-`        |
-| `input-attrs`  | 透传给原生 input 的属性                                     | _object_           | `-`        |
-| `text-color`   | 文字颜色                                                    | _string_           | `-`        |
-| `focus-color`  | 聚焦颜色                                                    | _string_           | `-`        |
-| `blur-color`   | 失焦颜色                                                    | _string_           | `-`        |
+| 参数              | 说明                                                     | 类型               |   默认值   |
+| ----------------- | -------------------------------------------------------- | ------------------ | :--------: |
+| `v-model`         | 受控绑定值                                               | `string`           |    `-`     |
+| `default-value`   | 非受控模式下的初始值                                     | `string`           |    `''`    |
+| `type`            | `text`、`password`、`number`、`tel` 或 `email`           | `InputType`        |   `text`   |
+| `placeholder`     | 占位符，也可作为浮动提示文字                             | `string`           |    `-`     |
+| `size`            | `xs`、`sm`、`md`、`lg` 或 `xl`                           | `ComponentSize`    |    `md`    |
+| `variant`         | `filled`、`outline` 或 `standard`                        | `string`           | `outline`  |
+| `hint`            | 是否将 placeholder 用作浮动提示文字                      | `boolean`          |   `true`   |
+| `line`            | 是否显示底部分割线                                       | `boolean`          |   `true`   |
+| `max-length`      | 最大输入长度；默认截断，`errorOnly` 时允许超出并显示错误 | `number \| object` |    `0`     |
+| `show-word-limit` | 是否显示字数统计                                         | `boolean`          |  `false`   |
+| `word-length`     | 自定义字数计算方法                                       | `function`         |    `-`     |
+| `word-slice`      | 自定义超长截取方法                                       | `function`         |    `-`     |
+| `readonly`        | 是否只读                                                 | `boolean`          |  `false`   |
+| `disabled`        | 是否禁用                                                 | `boolean`          |  `false`   |
+| `error`           | 是否显示错误状态                                         | `boolean`          |  `false`   |
+| `clearable`       | 是否可清除                                               | `boolean`          |  `false`   |
+| `autofocus`       | 是否自动聚焦                                             | `boolean`          |  `false`   |
+| `enterkeyhint`    | 移动端回车键提示                                         | `string`           |    `-`     |
+| `autocomplete`    | 原生自动填充策略                                         | `string`           |   `off`    |
+| `aria-label`      | 输入框无障碍标签                                         | `string`           |    `-`     |
+| `input-attrs`     | 透传给原生 input 的属性                                  | `object`           |    `-`     |
+| `text-color`      | 文字颜色                                                 | `string`           |    `-`     |
+| `focus-color`     | 聚焦颜色                                                 | `string`           |    `-`     |
+| `blur-color`      | 失焦颜色                                                 | `string`           |    `-`     |
 
 校验规则配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
@@ -109,23 +114,23 @@
 
 ### 事件
 
-| 事件名    | 说明             | 参数                          |
-| --------- | ---------------- | ----------------------------- |
-| `focus`   | 聚焦时触发       | `event: FocusEvent`           |
-| `blur`    | 失焦时触发       | `event: FocusEvent`           |
-| `click`   | 点击时触发       | `event: Event`                |
-| `clear`   | 清除时触发       | `value: string`               |
-| `input`   | 输入时触发       | `value: string, event: Event` |
-| `change`  | 值提交变更时触发 | `value: string, event: Event` |
-| `keydown` | 按键时触发       | `event: KeyboardEvent`        |
+| 事件名        | 说明                            | 参数                          |
+| ------------- | ------------------------------- | ----------------------------- |
+| `focus`       | 聚焦时触发                      | `event: FocusEvent`           |
+| `blur`        | 失焦时触发                      | `event: FocusEvent`           |
+| `clear`       | 清除时触发                      | `event: Event`                |
+| `input`       | 输入时触发                      | `value: string, event: Event` |
+| `change`      | 仅在失焦或按下 Enter 时提交变更 | `value: string, event: Event` |
+| `press-enter` | 按下 Enter 时触发               | `event: KeyboardEvent`        |
+| `keydown`     | 按键时触发（兼容性事件）        | `event: KeyboardEvent`        |
 
 ### 插槽
 
-| 插槽名       | 说明     | 参数                |
-| ------------ | -------- | ------------------- |
-| `prefix`     | 前缀     | `-`                 |
-| `suffix`     | 后缀     | `-`                 |
-| `clear-icon` | 清除图标 | `clear: () => void` |
+| 插槽名       | 说明           | 参数                |
+| ------------ | -------------- | ------------------- |
+| `prefix`     | 前缀内容       | `-`                 |
+| `suffix`     | 后缀内容       | `-`                 |
+| `clear-icon` | 清除图标或按钮 | `clear: () => void` |
 
 ### 样式变量
 
@@ -133,5 +138,5 @@ Input 自身提供以下变量；容器外观相关变量请参考 [FieldDecorat
 
 | 变量名                    | 默认值 |
 | ------------------------- | ------ |
-| `--input-control-height`    | `24px` |
-| `--input-control-font-size` | `16px` |
+| `--input-input-height`    | `24px` |
+| `--input-input-font-size` | `16px` |

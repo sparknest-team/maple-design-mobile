@@ -52,43 +52,65 @@
 
 ### 属性
 
-| 参数                       | 说明                                                      | 类型               | 默认值    |
-| -------------------------- | --------------------------------------------------------- | ------------------ | --------- |
-| `v-model`                  | 搜索关键词                                                | _string_           | `-`       |
-| `v-model:model-field`      | 当前搜索字段                                              | _string_           | `-`       |
-| `v-model:search-text`      | 搜索关键词，兼容字段搜索命名                              | _string_           | `-`       |
-| `v-model:search-field`     | 当前搜索字段，兼容字段搜索命名                            | _string_           | `-`       |
-| `v-model:model`            | 表单数据对象，字段搜索模式下会按字段写入关键词            | _object_           | `-`       |
-| `default-value`            | 默认搜索关键词                                            | _string_           | `-`       |
-| `default-field`            | 默认搜索字段                                              | _string_           | `-`       |
-| `fields`                   | 搜索字段可选项                                            | _SearchField[]_    | `[]`      |
-| `recent-searches`          | 搜索历史列表，点击输入框时会完整展示                      | _string[]_         | `[]`      |
-| `max-search-history-count` | 生成下一份搜索历史时保留的最大数量                        | _number_           | `5`       |
-| `history-popup`            | 是否通过全屏 Popup 展示历史，设为 `false` 时使用同宽 Menu | _boolean_          | `true`    |
-| `placeholder`              | 占位符                                                    | _string_           | `-`       |
-| `label`                    | 搜索框左侧文本                                            | _string_           | `-`       |
-| `shape`                    | 内层搜索框形状，可选值为 `round` `square`                 | _string_           | `round`   |
-| `background`               | 外层背景色                                                | _string_           | `-`       |
-| `input-background`         | 内层搜索框背景色                                          | _string_           | `-`       |
-| `show-action`              | 是否显示右侧操作按钮                                      | _boolean_          | `false`   |
-| `action-text`              | 右侧操作按钮文本                                          | _string_           | `取消`    |
-| `action-type`              | 右侧操作按钮类型，可选值为 `cancel` `search`              | _string_           | `cancel`  |
-| `search-icon`              | 搜索图标名称                                              | _string_           | `magnify` |
-| `clearable`                | 是否可清除                                                | _boolean_          | `true`    |
-| `disabled`                 | 是否禁用                                                  | _boolean_          | `false`   |
-| `readonly`                 | 是否只读                                                  | _boolean_          | `false`   |
-| `max-length`                | 最大长度                                                  | _string \| number_ | `-`       |
-| `enterkeyhint`             | 定制回车键样式                                            | _string_           | `search`  |
+| 参数                       | 说明                                            | 类型                      | 默认值     |
+| -------------------------- | ----------------------------------------------- | ------------------------- | ---------- |
+| `v-model`                  | 搜索关键词                                      | _string_                  | `-`        |
+| `default-value`            | 非受控默认关键词                                | _string_                  | `''`       |
+| `v-model:model-field`      | 当前搜索字段                                    | _string_                  | `-`        |
+| `default-field`            | 非受控默认字段                                  | _string_                  | `-`        |
+| `v-model:model`            | 字段搜索模式下按字段写入的对象                  | _Record<string, unknown>_ | `-`        |
+| `fields`                   | 搜索字段可选项                                  | _SearchField[]_           | `[]`       |
+| `select-style`             | 字段选择器样式                                  | _StyleValue_              | `-`        |
+| `recent-searches`          | 受控搜索历史                                    | _string[]_                | `[]`       |
+| `max-search-history-count` | 生成下一份历史时保留的最大数量                  | _number_                  | `5`        |
+| `history-popup`            | 是否使用全屏 Popup 展示历史                     | _boolean_                 | `true`     |
+| `search-button`            | 是否显示公共搜索按钮                            | _boolean_                 | `false`    |
+| `button-text`              | 公共搜索按钮文字                                | _string_                  | `-`        |
+| `button-props`             | 公共搜索按钮属性                                | _ButtonProps_             | `-`        |
+| `loading`                  | 是否处于加载状态；加载时禁止提交                | _boolean_                 | `false`    |
+| `clearable`                | 是否可清除                                      | _boolean_                 | `false`    |
+| `variant`                  | 输入框风格，可选 `filled` `outline` `standard`  | _string_                  | `outline`  |
+| `size`                     | 输入框尺寸                                      | _string_                  | `md`       |
+| `placeholder`              | 占位符                                          | _string_                  | `-`        |
+| `disabled`                 | 是否禁用                                        | _boolean_                 | `false`    |
+| `readonly`                 | 是否只读                                        | _boolean_                 | `false`    |
+| `label`                    | 搜索框左侧文本                                  | _string_                  | `-`        |
+| `shape`                    | 内层搜索框形状，可选 `round` `square`           | _string_                  | `round`    |
+| `background`               | 外层背景色                                      | _string_                  | `-`        |
+| `input-background`         | 内层搜索框背景色                                | _string_                  | `-`        |
+| `show-action`              | 是否显示移动端操作按钮                          | _boolean_                 | `false`    |
+| `action-text`              | 移动端操作按钮文字                              | _string_                  | `取消`     |
+| `action-type`              | 移动端操作类型，可选 `cancel` `search`          | _string_                  | `cancel`   |
+| `search-icon`              | 搜索图标名称                                    | _string_                  | `magnify`  |
+| `max-length`               | 最大长度                                        | _string \| number_        | `-`        |
+| `enterkeyhint`             | 虚拟键盘回车键提示                              | _string_                  | `search`   |
 
 ### 事件
 
-| 事件名   | 说明                                         | 回调参数                              |
-| -------- | -------------------------------------------- | ------------------------------------- |
-| `search` | 点击搜索图标、右侧搜索按钮或键盘搜索键时触发 | `result: SearchResult, event?: Event` |
-| `cancel` | 点击取消按钮时触发                           | `-`                                   |
-| `input`  | 输入时触发                                   | `value: string, event: Event`         |
-| `change` | 搜索字段或关键词变化时触发                   | `value: string, event?: Event`        |
-| `clear`  | 清除时触发                                   | `value: string`                       |
+| 事件名              | 说明                                     | 回调参数                             |
+| ------------------- | ---------------------------------------- | ------------------------------------ |
+| `update:modelValue` | 关键词更新时触发                         | `value: string`                      |
+| `update:modelField` | 字段更新时触发                           | `field: string`                      |
+| `update:model`      | 字段表单更新时触发                       | `model: Record<string, unknown>`     |
+| `input`             | 输入期间触发                             | `value: string, event: Event`        |
+| `change`            | 失焦、Enter 提交或切换字段时触发         | `value: string, event: Event`        |
+| `clear`             | 清除时触发                               | `event: Event`                       |
+| `search`            | 点击图标/按钮、按 Enter 或选择历史时触发 | `result: SearchResult, event: Event` |
+| `focus`             | 聚焦时触发                               | `event: FocusEvent`                  |
+| `blur`              | 失焦时触发                               | `event: FocusEvent`                  |
+| `cancel`            | 点击移动端取消按钮时触发                 | `event: Event`                       |
+
+### 插槽
+
+| 名称             | 说明                                 | 参数        |
+| ---------------- | ------------------------------------ | ----------- |
+| `prefix`         | 输入框前缀；提供后将替换默认搜索图标 | `-`         |
+| `suffix`         | 输入框后缀                           | `-`         |
+| `clear-icon`     | 清除图标                             | `{ clear }` |
+| `button-default` | 公共搜索按钮内容                     | `-`         |
+| `button-icon`    | 公共搜索按钮图标                     | `-`         |
+| `label`          | 左侧标签                             | `-`         |
+| `action`         | 移动端操作按钮内容                   | `-`         |
 
 ### 方法
 
@@ -99,19 +121,17 @@
 
 ### SearchField
 
-| 参数          | 说明                                               | 类型     | 默认值 |
-| ------------- | -------------------------------------------------- | -------- | ------ |
-| `label`       | 字段文案                                           | _string_ | `-`    |
-| `value`       | 字段值                                             | _any_    | `-`    |
-| `placeholder` | 字段对应占位符，优先级高于 Search 的 `placeholder` | _string_ | `-`    |
+| 参数          | 说明                                       | 类型     |
+| ------------- | ------------------------------------------ | -------- |
+| `label`       | 字段文案                                   | _string_ |
+| `value`       | 字段值                                     | _string_ |
+| `placeholder` | 字段占位符，优先于 Search 的 `placeholder` | _string_ |
 
 ### SearchResult
 
-| 参数             | 说明               | 类型                  |
-| ---------------- | ------------------ | --------------------- |
-| `modelField`     | 搜索字段           | _string_              |
-| `modelValue`     | 搜索关键词         | _string_              |
-| `searchField`    | 搜索字段           | _string_              |
-| `searchText`     | 搜索关键词         | _string_              |
-| `model`          | 表单数据对象       | _Record<string, any>_ |
-| `recentSearches` | 下一份搜索历史列表 | _string[]_            |
+| 参数             | 说明           | 类型                                   |
+| ---------------- | -------------- | -------------------------------------- |
+| `modelField`     | 搜索字段       | _string \| undefined_                  |
+| `modelValue`     | 原始搜索关键词 | _string_                               |
+| `model`          | 字段表单对象   | _Record<string, unknown> \| undefined_ |
+| `recentSearches` | 下一份搜索历史 | _string[]_                             |

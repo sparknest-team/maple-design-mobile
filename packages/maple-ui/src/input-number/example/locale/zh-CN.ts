@@ -9,4 +9,5 @@ export default {
   format: '格式化展示',
   hideControls: '纯输入模式',
   modelEvent: '输入时更新',
+  eventsAndClear: '事件与清空',
 }

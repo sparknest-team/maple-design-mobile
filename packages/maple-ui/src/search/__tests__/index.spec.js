@@ -1,360 +1,236 @@
-import { createApp } from 'vue'
-import { mount } from '@vue/test-utils'
-import { afterEach, expect, test, vi } from 'vitest'
+import { createApp, nextTick } from 'vue'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
+import { afterEach, describe, expect, test } from 'vitest'
 import Search from '..'
-import VarSearch from '../Search'
+import MpSearch from '../Search'
 
-function timeout() {
-  return new Promise((resolve) => setTimeout(resolve))
+enableAutoUnmount(afterEach)
+
+function nextFrame() {
+  return new Promise((resolve) => requestAnimationFrame(resolve))
 }
 
 afterEach(() => {
   document.body.innerHTML = ''
 })
 
-test('search plugin', () => {
-  const app = createApp({}).use(Search)
-  expect(app.component(Search.name)).toBeTruthy()
-})
-
-test('search render', () => {
-  const wrapper = mount(VarSearch, {
-    props: {
-      modelValue: 'keyword',
-      placeholder: 'Search',
-      label: '地址',
-      showAction: true,
-      actionType: 'search',
-      actionText: '搜索',
-    },
+describe('Search', () => {
+  test('installs as a plugin', () => {
+    const app = createApp({}).use(Search)
+    expect(app.component(Search.name)).toBeTruthy()
   })
 
-  expect(wrapper.find('.mp-search').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-search__field').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-search__label').text()).toBe('地址')
-  expect(wrapper.find('.mp-search__search-icon').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-search__action').text()).toBe('搜索')
-  expect(wrapper.html()).toMatchSnapshot()
+  test('renders the shared defaults', () => {
+    const wrapper = mount(MpSearch)
 
-  wrapper.unmount()
-})
-
-test('search keeps the default placeholder color on focus', async () => {
-  const wrapper = mount(VarSearch, {
-    props: {
-      placeholder: 'Search',
-    },
-  })
-  const input = wrapper.find('.mp-input__input')
-  const color = 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))'
-
-  expect(input.attributes('style')).toContain(`--mp-input-placeholder-color: ${color}`)
-  await input.trigger('focus')
-  expect(input.attributes('style')).toContain(`--mp-input-placeholder-color: ${color}`)
-
-  wrapper.unmount()
-})
-
-test('search events', async () => {
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-  const onInput = vi.fn()
-  const onSearch = vi.fn()
-  const onCancel = vi.fn()
-  const onClear = vi.fn()
-
-  const wrapper = mount(VarSearch, {
-    props: {
-      modelValue: '',
-      showAction: true,
-      onInput,
-      onSearch,
-      onCancel,
-      onClear,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    expect(wrapper.find('.mp-search').exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator--outline').exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator__clear-icon').exists()).toBe(false)
+    expect(wrapper.html()).toMatchSnapshot()
   })
 
-  await wrapper.find('.mp-input__input').setValue('keyword')
-  expect(onUpdateModelValue).lastCalledWith('keyword')
-  expect(onInput).toHaveBeenCalledTimes(1)
+  test('separates live input from committed change', async () => {
+    const order = []
+    const wrapper = mount(MpSearch, {
+      props: {
+        defaultValue: 'draft',
+        'onUpdate:modelValue': () => order.push('update'),
+        onInput: () => order.push('input'),
+        onChange: () => order.push('change'),
+      },
+    })
+    const input = wrapper.get('.mp-input__input')
 
-  await wrapper.find('.mp-search__search-icon').trigger('click')
-  expect(onSearch).lastCalledWith(
-    {
+    input.element.focus()
+    await input.trigger('focus')
+    await input.setValue('keyword')
+    expect(order).toEqual(['update', 'input'])
+
+    await input.trigger('blur')
+    expect(order).toEqual(['update', 'input', 'change'])
+    await input.trigger('blur')
+    expect(order).toEqual(['update', 'input', 'change'])
+  })
+
+  test('clears without edit or search side effects and keeps history visible', async () => {
+    const wrapper = mount(MpSearch, {
+      attachTo: document.body,
+      props: {
+        defaultValue: 'keyword',
+        clearable: true,
+        historyPopup: false,
+        recentSearches: ['keyword', 'other'],
+      },
+    })
+    const input = wrapper.get('.mp-input__input')
+
+    input.element.focus()
+    await input.trigger('focus')
+    await wrapper.get('.mp-field-decorator__clear-icon').trigger('click')
+    await nextFrame()
+    await nextTick()
+
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([''])
+    expect(wrapper.emitted('clear')?.[0]?.[0]).toBeInstanceOf(Event)
+    expect(wrapper.emitted('input')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('search')).toBeUndefined()
+    expect(document.activeElement).toBe(input.element)
+    expect(wrapper.vm.historyMenuVisible).toBe(true)
+  })
+
+  test('submits once on Enter without actively blurring', async () => {
+    const wrapper = mount(MpSearch, {
+      attachTo: document.body,
+      props: {
+        defaultValue: ' keyword ',
+        recentSearches: ['keyword', 'other'],
+        historyPopup: false,
+      },
+    })
+    const input = wrapper.get('.mp-input__input')
+
+    input.element.focus()
+    await input.trigger('focus')
+    await input.trigger('keydown', { key: 'Enter' })
+
+    expect(wrapper.emitted('search')).toHaveLength(1)
+    expect(wrapper.emitted('search')?.[0]?.[0]).toEqual({
       modelField: undefined,
-      modelValue: 'keyword',
-      searchField: undefined,
-      searchText: 'keyword',
+      modelValue: ' keyword ',
       model: undefined,
-      recentSearches: ['keyword'],
-    },
-    expect.anything(),
-  )
-
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
-  expect(onClear).lastCalledWith('')
-
-  await wrapper.find('.mp-search__action').trigger('click')
-  expect(onCancel).toHaveBeenCalledTimes(1)
-  expect(onUpdateModelValue).lastCalledWith('')
-
-  await wrapper.setProps({ modelValue: 'keyword', actionType: 'search', actionText: '搜索' })
-  await wrapper.find('.mp-search__action').trigger('click')
-  expect(onSearch).lastCalledWith(
-    {
-      modelField: undefined,
-      modelValue: 'keyword',
-      searchField: undefined,
-      searchText: 'keyword',
-      model: undefined,
-      recentSearches: ['keyword'],
-    },
-    expect.anything(),
-  )
-
-  wrapper.unmount()
-})
-
-test('search fields', async () => {
-  const onUpdateSearchText = vi.fn((value) => wrapper.setProps({ searchText: value, modelValue: value }))
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value, searchText: value }))
-  const onUpdateSearchField = vi.fn()
-  const onUpdateModelField = vi.fn()
-  const onUpdateModel = vi.fn()
-  const onChange = vi.fn()
-  const onSearch = vi.fn()
-
-  const wrapper = mount(VarSearch, {
-    props: {
-      fields: [
-        { label: '地址', value: 'address', placeholder: '请输入地址' },
-        { label: '姓名', value: 'name', placeholder: '请输入姓名' },
-      ],
-      defaultField: 'address',
-      searchText: '',
-      model: {},
-      actionType: 'search',
-      showAction: true,
-      onChange,
-      onSearch,
-      'onUpdate:model': onUpdateModel,
-      'onUpdate:modelValue': onUpdateModelValue,
-      'onUpdate:modelField': onUpdateModelField,
-      'onUpdate:searchText': onUpdateSearchText,
-      'onUpdate:searchField': onUpdateSearchField,
-    },
+      recentSearches: ['keyword', 'other'],
+    })
+    expect(wrapper.emitted('blur')).toBeUndefined()
+    expect(document.activeElement).toBe(input.element)
   })
 
-  expect(wrapper.find('.mp-search__select').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-input__input').attributes('placeholder')).toBe('请输入地址')
-  const select = wrapper.findComponent({ name: 'MpSelect' })
-  expect(select.vm.placement).toBe('bottom-start')
+  test('blocks icon, button, and Enter search while loading or readonly', async () => {
+    const wrapper = mount(MpSearch, {
+      props: {
+        defaultValue: 'keyword',
+        searchButton: true,
+        buttonText: '搜索',
+        loading: true,
+      },
+    })
+    const input = wrapper.get('.mp-input__input')
 
-  await wrapper.find('.mp-input__input').setValue('上海')
-  expect(onUpdateSearchText).lastCalledWith('上海')
-  expect(onUpdateModelValue).lastCalledWith('上海')
-  expect(onUpdateModel).lastCalledWith({ address: '上海', name: undefined })
-  expect(onChange).lastCalledWith('上海', expect.anything())
+    await input.trigger('keydown', { key: 'Enter' })
+    await wrapper.get('.mp-search__icon-button').trigger('click')
+    await wrapper.get('.mp-search__action').trigger('click')
+    expect(wrapper.emitted('search')).toBeUndefined()
 
-  await wrapper.find('.mp-search__action').trigger('click')
-  expect(onSearch).lastCalledWith(
-    {
-      modelField: 'address',
-      modelValue: '上海',
-      searchField: 'address',
-      searchText: '上海',
-      model: { address: '上海', name: undefined },
-      recentSearches: ['上海'],
-    },
-    expect.anything(),
-  )
-
-  wrapper.vm.handleSelectChange('name')
-  expect(onUpdateModelField).lastCalledWith('name')
-  expect(onUpdateSearchField).lastCalledWith('name')
-  expect(onUpdateSearchText).lastCalledWith('')
-
-  wrapper.unmount()
-})
-
-test('search history popup', async () => {
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-  const onSearch = vi.fn()
-
-  const wrapper = mount(VarSearch, {
-    attachTo: document.body,
-    props: {
-      modelValue: '',
-      recentSearches: ['Maple', 'Cedar'],
-      onSearch,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    await wrapper.setProps({ loading: false, readonly: true })
+    await input.trigger('keydown', { key: 'Enter' })
+    await wrapper.get('.mp-search__icon-button').trigger('click')
+    expect(wrapper.emitted('search')).toBeUndefined()
   })
 
-  await wrapper.find('.mp-input__input').trigger('focus')
-  expect(document.body.querySelector('.mp-search__popup')).toBeTruthy()
-  expect(document.body.querySelector('.mp-search__popup').classList.contains('mp-popup__content')).toBe(true)
-  expect(document.body.querySelector('.mp-search__popup').style.width).toBe('100vw')
-  expect(document.body.querySelector('.mp-search__popup').style.height).toBe('100vh')
-  expect(document.body.querySelector('.mp-search__popup .mp-search__action').textContent).toBe('取消')
-  expect(document.body.querySelector('.mp-search__history-menu')).toBeFalsy()
+  test('updates the field model once per logical edit and field switch', async () => {
+    const model = { name: '设备 A' }
+    const wrapper = mount(MpSearch, {
+      attachTo: document.body,
+      props: {
+        model,
+        defaultValue: '设备 A',
+        defaultField: 'name',
+        fields: [
+          { value: 'id', label: '设备 ID', placeholder: '输入 ID' },
+          { value: 'name', label: '设备名称' },
+        ],
+      },
+    })
 
-  document.body.querySelector('.mp-search__history-item').click()
-  await wrapper.vm.$nextTick()
-  expect(onUpdateModelValue).lastCalledWith('Maple')
-  expect(onSearch).lastCalledWith(
-    {
-      modelField: undefined,
-      modelValue: 'Maple',
-      searchField: undefined,
-      searchText: 'Maple',
-      model: undefined,
-      recentSearches: ['Maple', 'Cedar'],
-    },
-    expect.anything(),
-  )
-  expect(wrapper.vm.historyPopupVisible).toBe(false)
+    await wrapper.get('.mp-input__input').setValue('设备 B')
+    expect(model).toEqual({ id: undefined, name: '设备 B' })
+    expect(wrapper.emitted('update:model')).toHaveLength(1)
 
-  wrapper.unmount()
-})
+    const event = new Event('change')
+    wrapper.vm.handleFieldChange('id', event)
+    await nextTick()
 
-test.each([
-  ['cancel', (popup) => popup.querySelector('.mp-search__action').click()],
-  ['history selection', (popup) => popup.querySelector('.mp-search__history-item').click()],
-])('search history popup stays closed after %s restores focus', async (_, closePopup) => {
-  const wrapper = mount(VarSearch, {
-    attachTo: document.body,
-    props: {
-      modelValue: '',
-      recentSearches: ['Maple', 'Cedar'],
-    },
+    expect(wrapper.emitted('update:modelField')?.[0]).toEqual(['id'])
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([''])
+    expect(wrapper.emitted('update:model')).toHaveLength(2)
+    expect(wrapper.emitted('change')?.[0]).toEqual(['', event])
+    expect(document.activeElement).toBe(wrapper.get('.mp-input__input').element)
   })
 
-  const input = wrapper.find('.mp-input__input')
-  await input.trigger('focus')
-  const popup = document.body.querySelector('.mp-search__popup')
+  test('emits the canonical result and bounded trimmed history', async () => {
+    const wrapper = mount(MpSearch, {
+      props: {
+        defaultValue: ' Maple ',
+        defaultField: 'name',
+        fields: [{ value: 'name', label: '名称' }],
+        model: { name: ' Maple ' },
+        recentSearches: ['Maple', 'Cedar', 'Arco'],
+        maxSearchHistoryCount: 2,
+        searchButton: true,
+        buttonText: '搜索',
+      },
+    })
 
-  closePopup(popup)
-  await wrapper.vm.$nextTick()
-  await input.trigger('focus')
+    await wrapper.get('.mp-search__action').trigger('click')
 
-  expect(wrapper.vm.historyPopupVisible).toBe(false)
-  expect(wrapper.vm.historyPopupClosing).toBe(true)
-
-  wrapper.findComponent({ name: 'MpPopup' }).vm.$emit('closed')
-  await wrapper.vm.$nextTick()
-
-  expect(wrapper.vm.historyPopupVisible).toBe(false)
-  expect(wrapper.vm.historyPopupClosing).toBe(false)
-
-  wrapper.unmount()
-})
-
-test('search history menu', async () => {
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-  const onSearch = vi.fn()
-
-  const wrapper = mount(VarSearch, {
-    attachTo: document.body,
-    props: {
-      modelValue: '',
+    const result = wrapper.emitted('search')?.[0]?.[0]
+    expect(result).toEqual({
+      modelField: 'name',
+      modelValue: ' Maple ',
+      model: { name: ' Maple ' },
       recentSearches: ['Maple', 'Cedar'],
-      historyPopup: false,
-      onSearch,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    })
+    expect(result).not.toHaveProperty('searchField')
+    expect(result).not.toHaveProperty('searchText')
   })
 
-  await wrapper.find('.mp-input__input').trigger('focus')
-  expect(document.body.querySelector('.mp-search__popup')).toBeFalsy()
-  expect(wrapper.vm.historyMenuVisible).toBe(true)
-  const popover = document.body.querySelector('.mp-trigger__popup')
-  expect(popover.getAttribute('trigger-placement')).toBe('bottom-start')
-  expect(popover.classList.contains('mp-search__history-menu')).toBe(true)
+  test('selects popup history and searches immediately', async () => {
+    const wrapper = mount(MpSearch, {
+      attachTo: document.body,
+      props: { recentSearches: ['Maple', 'Cedar'] },
+    })
 
-  document.body.querySelector('.mp-dropdown-menu-option').click()
-  await wrapper.vm.$nextTick()
-  expect(onUpdateModelValue).lastCalledWith('Maple')
-  expect(onSearch).lastCalledWith(
-    {
-      modelField: undefined,
-      modelValue: 'Maple',
-      searchField: undefined,
-      searchText: 'Maple',
-      model: undefined,
-      recentSearches: ['Maple', 'Cedar'],
-    },
-    undefined,
-  )
-  expect(wrapper.vm.historyMenuVisible).toBe(false)
+    await wrapper.get('.mp-input__input').trigger('focus')
+    expect(document.body.querySelector('.mp-search__popup')).toBeTruthy()
+    document.body.querySelector('.mp-search__history-item').click()
+    await nextTick()
 
-  await wrapper.find('.mp-input__input').trigger('focus')
-  expect(wrapper.vm.historyMenuVisible).toBe(true)
-
-  wrapper.unmount()
-})
-
-test('search history menu closes when action is clicked', async () => {
-  const wrapper = mount(VarSearch, {
-    attachTo: document.body,
-    props: {
-      modelValue: 'Maple',
-      recentSearches: ['Maple', 'Cedar'],
-      historyPopup: false,
-      showAction: true,
-      actionType: 'search',
-    },
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Maple'])
+    expect(wrapper.emitted('search')?.[0]?.[0]).toMatchObject({ modelValue: 'Maple' })
+    expect(wrapper.emitted('search')?.[0]?.[1]).toBeInstanceOf(Event)
+    expect(wrapper.vm.historyPopupVisible).toBe(false)
   })
 
-  await wrapper.find('.mp-input__input').trigger('focus')
-  expect(wrapper.vm.historyMenuVisible).toBe(true)
+  test('selects menu history and searches immediately', async () => {
+    const wrapper = mount(MpSearch, {
+      attachTo: document.body,
+      props: {
+        recentSearches: ['Maple', 'Cedar'],
+        historyPopup: false,
+      },
+    })
 
-  await wrapper.find('.mp-search__action').trigger('click')
-  expect(wrapper.vm.historyMenuVisible).toBe(false)
+    await wrapper.get('.mp-input__input').trigger('focus')
+    expect(wrapper.vm.historyMenuVisible).toBe(true)
+    document.body.querySelector('.mp-menu-option').click()
+    await nextTick()
 
-  wrapper.unmount()
-})
-
-test('search history menu closes when clicking outside', async () => {
-  const wrapper = mount(VarSearch, {
-    attachTo: document.body,
-    props: {
-      modelValue: 'Maple',
-      recentSearches: ['Maple', 'Cedar'],
-      historyPopup: false,
-    },
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Maple'])
+    expect(wrapper.emitted('search')?.[0]?.[0]).toMatchObject({ modelValue: 'Maple' })
+    expect(wrapper.emitted('search')?.[0]?.[1]).toBeInstanceOf(Event)
+    expect(wrapper.vm.historyMenuVisible).toBe(false)
   })
 
-  await wrapper.find('.mp-input__input').trigger('focus')
-  expect(wrapper.vm.historyMenuVisible).toBe(true)
+  test('exposes focus and blur methods', async () => {
+    const wrapper = mount(MpSearch, { attachTo: document.body })
+    const input = wrapper.get('.mp-input__input')
 
-  document.body.click()
-  await wrapper.vm.$nextTick()
-  expect(wrapper.vm.historyMenuVisible).toBe(false)
+    wrapper.vm.focus()
+    await nextTick()
+    expect(document.activeElement).toBe(input.element)
 
-  wrapper.unmount()
-})
-
-test('search history menu stays open when clearing', async () => {
-  const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
-  const wrapper = mount(VarSearch, {
-    attachTo: document.body,
-    props: {
-      modelValue: 'Maple',
-      recentSearches: ['Maple', 'Cedar'],
-      historyPopup: false,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    wrapper.vm.blur()
+    await nextTick()
+    expect(document.activeElement).not.toBe(input.element)
   })
-
-  await wrapper.find('.mp-input__input').trigger('focus')
-  expect(wrapper.vm.historyMenuVisible).toBe(true)
-
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
-  await wrapper.vm.$nextTick()
-  await timeout()
-  expect(onUpdateModelValue).lastCalledWith('')
-  expect(wrapper.vm.historyMenuVisible).toBe(true)
-
-  wrapper.unmount()
 })

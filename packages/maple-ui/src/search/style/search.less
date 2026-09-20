@@ -96,15 +96,32 @@
     }
   }
 
-  &__search-icon {
+  &__icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 8px;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
     color: var(--mp-search-icon-color);
-    font-size: 20px;
+    font: inherit;
     cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &__search-icon {
+    font-size: 20px;
   }
 
   &__action {
     flex: none;
+    min-width: auto;
+    height: auto;
     margin-left: var(--mp-search-action-margin-left);
     padding: 0;
     border: none;

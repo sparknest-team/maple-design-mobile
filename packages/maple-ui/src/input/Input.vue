@@ -2,7 +2,7 @@
   <div :class="classes(n(), n('$--box'))" @mousedown="handleMousedown">
     <mp-field-decorator
       v-bind="{
-        value: modelValue,
+        value: computedValue,
         id,
         size,
         variant,
@@ -21,7 +21,6 @@
         cursor,
         composing: isComposing,
         hintCenter: true,
-        onClick: handleClick,
         onClear: handleClear,
       }"
     >
@@ -57,28 +56,40 @@
         :disabled="formDisabled || disabled"
         :readonly="formReadonly || readonly"
         :type="normalizedType"
-        :value="modelValue"
+        v-bind="inputAttrs"
+        :value="computedValue"
+        :maxlength="undefined"
         :placeholder="!mergedHint ? placeholder : undefined"
-        :max-length="maxLength"
         :enterkeyhint="enterkeyhint"
         :inputmode="type === 'number' ? 'decimal' : undefined"
+        :aria-invalid="mergedError || undefined"
         :style="{
           color: !mergedError ? textColor : undefined,
           caretColor: !mergedError ? focusColor : undefined,
           '--mp-input-placeholder-color': placeholderColor,
         }"
-        v-bind="inputAttrs"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
-        @change="handleChange"
         @keydown="handleKeydown"
         @compositionstart="handleCompositionStart"
         @compositionend="handleCompositionEnd"
       />
 
       <template #clear-icon="{ clear }">
-        <slot name="clear-icon" :clear="clear" />
+        <slot name="clear-icon" :clear="clear">
+          <mp-icon
+            role="button"
+            tabindex="0"
+            aria-label="清空"
+            :class="n('clear-icon')"
+            mp-field-decorator-cover
+            @click="clear"
+            @keydown="handleClearKeydown"
+          >
+            <m-icon-close-circle aria-hidden="true" />
+          </mp-icon>
+        </slot>
       </template>
 
       <template #suffix>
@@ -91,12 +102,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { call, isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
+import { computed, defineComponent, ref, watch } from 'vue'
+import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
+import { isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted, useClientId } from '@maplejs/maple-use'
 import MpFieldDecorator from '../field-decorator'
 import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
+import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { useInputComposition } from '../utils/input-composition'
 import { props, type InputType } from './props'
@@ -106,10 +119,12 @@ const { name, n, classes } = createNamespace('input')
 export default defineComponent({
   name,
   components: {
+    MIconCloseCircle,
+    MpIcon,
     MpFieldDecorator,
   },
   props,
-  emits: ['focus', 'blur', 'input', 'change', 'keydown', 'update:modelValue', 'clear', 'click'],
+  emits: ['focus', 'blur', 'input', 'change', 'pressEnter', 'keydown', 'update:modelValue', 'clear'],
   setup(props, { emit }) {
     const id = useClientId()
     const el = ref<HTMLInputElement | null>(null)
@@ -117,8 +132,8 @@ export default defineComponent({
     const composition = useInputComposition()
     const isComposing = composition.isComposing
     const { form } = useForm()
-    const { mergedError, eventHandlers, hasOuterLabel } = useFormItem()
-    const cursor = computed(() => (props.disabled || props.readonly ? '' : 'text'))
+    const { mergedError: formError, eventHandlers, hasOuterLabel } = useFormItem()
+    const cursor = computed(() => (props.disabled || props.readonly || form?.readonly.value ? '' : 'text'))
     const mergedHint = computed(() => {
       if (hasOuterLabel.value) {
         return false
@@ -133,18 +148,36 @@ export default defineComponent({
 
       return props.type
     })
-    const maxlengthText = computed(() => {
-      const { maxLength, modelValue } = props
+    const _value = ref(props.defaultValue)
+    const computedValue = computed(() => props.modelValue ?? _value.value)
+    let preValue = computedValue.value
 
-      if (!maxLength) {
+    watch(
+      () => props.modelValue,
+      (value) => {
+        if (value === undefined || value === null) {
+          _value.value = ''
+        }
+      },
+    )
+
+    watch(computedValue, (value, oldValue) => {
+      preValue = isFocusing.value ? oldValue : value
+    })
+
+    const maxLength = computed(() => (typeof props.maxLength === 'object' ? props.maxLength.length : props.maxLength))
+    const maxLengthErrorOnly = computed(() => typeof props.maxLength === 'object' && Boolean(props.maxLength.errorOnly))
+    const getValueLength = (value: string) => props.wordLength?.(value) ?? value.length
+    const valueLength = computed(() => getValueLength(computedValue.value))
+    const mergedError = computed(
+      () => formError.value || props.error || (maxLengthErrorOnly.value && valueLength.value > (maxLength.value ?? 0)),
+    )
+    const maxlengthText = computed(() => {
+      if (!maxLength.value || !props.showWordLimit) {
         return ''
       }
 
-      if (isEmpty(modelValue)) {
-        return `0 / ${maxLength}`
-      }
-
-      return `${String(modelValue).length}/${maxLength}`
+      return `${isEmpty(computedValue.value) ? 0 : valueLength.value}/${maxLength.value}`
     })
     const placeholderColor = computed(() => {
       const { blurColor, focusColor } = props
@@ -180,25 +213,19 @@ export default defineComponent({
     function handleBlur(e: FocusEvent) {
       isFocusing.value = false
 
+      commitValue(e)
       emit('blur', e)
       eventHandlers.value.onBlur?.()
     }
 
-    function updateValue(e: Event) {
-      const target = e.target as HTMLInputElement
-
-      let { value } = target
-
+    function updateValue(value: string) {
       if (props.type === 'number') {
         value = formatNumber(value)
       }
 
-      // avoid vue cannot render when the target is the same with props.modelValue
       const targetValue = withMaxlength(value)
-      if (targetValue === props.modelValue) {
-        target.value = targetValue
-      }
-
+      _value.value = targetValue
+      emit('update:modelValue', targetValue)
       return targetValue
     }
 
@@ -219,48 +246,56 @@ export default defineComponent({
     }
 
     function commitInput(e: Event) {
-      const value = updateValue(e)
+      const value = updateValue((e.target as HTMLInputElement).value)
 
-      emit('update:modelValue', value)
       emit('input', value, e)
       eventHandlers.value.onInput?.()
     }
 
-    function handleChange(e: Event) {
-      const value = withTrim(updateValue(e))
+    function handleKeydown(e: KeyboardEvent) {
+      emit('keydown', e)
+      if (e.key === 'Enter' && !isComposing.value) {
+        commitValue(e)
+        emit('pressEnter', e)
+      }
+    }
 
-      if (props.modelModifiers.trim) {
+    function commitValue(e: Event) {
+      const value = withTrim(computedValue.value)
+
+      if (value !== computedValue.value) {
+        _value.value = value
         emit('update:modelValue', value)
       }
 
-      emit('change', value, e)
-      eventHandlers.value.onChange?.()
+      emitChange(value, e)
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-      emit('keydown', e)
+    function handleClearKeydown(e: KeyboardEvent) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        ;(e.currentTarget as HTMLElement).click()
+      }
     }
 
-    function handleClear() {
+    function emitChange(value: string, e: Event) {
+      if (value !== preValue) {
+        preValue = value
+        emit('change', value, e)
+        eventHandlers.value.onChange?.()
+      }
+    }
+
+    function handleClear(e: Event = new Event('clear')) {
       const { disabled, readonly, clearable } = props
 
       if (form?.disabled.value || form?.readonly.value || disabled || readonly || !clearable) {
         return
       }
 
-      emit('update:modelValue', '')
-      emit('clear', '')
+      updateValue('')
+      emit('clear', e)
       eventHandlers.value.onClear?.()
-    }
-
-    function handleClick(e: Event) {
-      const { disabled, onClick } = props
-
-      if (form?.disabled.value || disabled) {
-        return
-      }
-
-      emit('click', e)
     }
 
     function formatNumber(value: string) {
@@ -283,7 +318,11 @@ export default defineComponent({
     }
 
     function withMaxlength(value: string) {
-      return props.maxLength ? value.slice(0, toNumber(props.maxLength)) : value
+      if (!maxLength.value || maxLengthErrorOnly.value || getValueLength(value) <= maxLength.value) {
+        return value
+      }
+
+      return props.wordSlice?.(value, maxLength.value) ?? value.slice(0, toNumber(maxLength.value))
     }
 
     function handleMousedown(e: MouseEvent) {
@@ -310,6 +349,7 @@ export default defineComponent({
     return {
       el,
       id,
+      computedValue,
       isFocusing,
       isComposing,
       mergedError,
@@ -326,10 +366,9 @@ export default defineComponent({
       handleFocus,
       handleBlur,
       handleInput,
-      handleChange,
       handleKeydown,
       handleClear,
-      handleClick,
+      handleClearKeydown,
       handleCompositionStart,
       handleCompositionEnd,
       handleMousedown,
