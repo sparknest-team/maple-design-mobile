@@ -212,7 +212,7 @@ describe('Search', () => {
 
     await wrapper.get('.mp-input__input').trigger('focus')
     expect(wrapper.vm.historyMenuVisible).toBe(true)
-    document.body.querySelector('.mp-menu-option').click()
+    document.body.querySelector('.mp-dropdown-menu-option').click()
     await nextTick()
 
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Maple'])

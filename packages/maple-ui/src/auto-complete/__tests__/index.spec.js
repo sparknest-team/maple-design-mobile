@@ -300,7 +300,7 @@ test('auto-complete clearable', async () => {
     },
   })
 
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+  await wrapper.find('.mp-input__clear-icon').trigger('click')
   expect(onClear).toHaveBeenCalledWith('')
   expect(onUpdateModelValue).toHaveBeenCalledWith('')
   wrapper.unmount()
@@ -326,11 +326,12 @@ test('auto complete onInput onChange onFocus onBlur', async () => {
 
   await wrapper.trigger('focusin')
   expect(onFocus).toHaveBeenCalledTimes(1)
-  await wrapper.find('input').trigger('blur')
-  expect(onBlur).toHaveBeenCalledTimes(1)
 
   await wrapper.find('input').setValue('a')
   expect(onInput).toHaveBeenCalledTimes(1)
+
+  await wrapper.find('input').trigger('blur')
+  expect(onBlur).toHaveBeenCalledTimes(1)
   expect(onChange).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()

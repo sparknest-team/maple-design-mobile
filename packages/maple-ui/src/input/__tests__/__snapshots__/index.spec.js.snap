@@ -2,7 +2,7 @@
 
 exports[`input aria-label 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard" aria-label="test aria-label">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline" aria-label="test aria-label">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -13,10 +13,14 @@ exports[`input aria-label 1`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -24,19 +28,23 @@ exports[`input aria-label 1`] = `
 
 exports[`input clear 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
         <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="text">
       </div>
       <!--v-if-->
-      <div class="mp-field-decorator__icon"><span class="mp-icon mp-field-decorator__clear-icon" style="transition-duration: 0ms;" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
+      <div class="mp-field-decorator__icon"><span class="mp-icon mp-input__clear-icon" style="transition-duration: 0ms;" role="button" tabindex="0" aria-label="清空" mp-field-decorator-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></span></div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -44,7 +52,7 @@ exports[`input clear 1`] = `
 
 exports[`input hint to be false 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon mp-field-decorator--icon-non-hint"></div>
       <div class="mp-field-decorator__middle mp-field-decorator--middle-non-hint">
@@ -55,10 +63,14 @@ exports[`input hint to be false 1`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -66,29 +78,7 @@ exports[`input hint to be false 1`] = `
 
 exports[`input maxLength 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
-    <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
-      <div class="mp-field-decorator__icon"></div>
-      <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" max-length="100" value="text">
-      </div>
-      <!--v-if-->
-      <div class="mp-field-decorator__icon">
-        <!--v-if-->
-      </div>
-    </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
-  </div>
-  <div class="mp-input__length">4/100</div>
-</div>"
-`;
-
-exports[`input type 1`] = `
-"<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -99,10 +89,40 @@ exports[`input type 1`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
+  </div>
+  <div class="mp-input__length">4/100</div>
+</div>"
+`;
+
+exports[`input type 1`] = `
+"<div class="mp-input mp--box">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
+    <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
+      <div class="mp-field-decorator__icon"></div>
+      <div class="mp-field-decorator__middle">
+        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="text">
+      </div>
+      <!--v-if-->
+      <div class="mp-field-decorator__icon">
+        <!--v-if-->
+      </div>
     </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -110,7 +130,7 @@ exports[`input type 1`] = `
 
 exports[`input type 2`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle"><input tabindex="-1" autocomplete="off" class="mp-input__autocomplete"><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="password" value="text"></div>
@@ -119,10 +139,14 @@ exports[`input type 2`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -130,7 +154,7 @@ exports[`input type 2`] = `
 
 exports[`input type 3`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -141,10 +165,14 @@ exports[`input type 3`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -152,7 +180,7 @@ exports[`input type 3`] = `
 
 exports[`input type 4`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -163,10 +191,14 @@ exports[`input type 4`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -174,7 +206,7 @@ exports[`input type 4`] = `
 
 exports[`input type 5`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -185,10 +217,14 @@ exports[`input type 5`] = `
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -270,7 +306,7 @@ exports[`input variant 3`] = `
 
 exports[`test input component slots > input clear-icon slot 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
@@ -279,10 +315,14 @@ exports[`test input component slots > input clear-icon slot 1`] = `
       <!--v-if-->
       <div class="mp-field-decorator__icon"><button class="custom-clear-icon">Clear</button></div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -290,21 +330,25 @@ exports[`test input component slots > input clear-icon slot 1`] = `
 
 exports[`test input component slots > input prefix slot 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon">prefix</div>
       <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text">
+        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
       </div>
       <!--v-if-->
       <div class="mp-field-decorator__icon">
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -312,21 +356,25 @@ exports[`test input component slots > input prefix slot 1`] = `
 
 exports[`test input component slots > input suffix slot 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text">
+        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
       </div>
       <!--v-if-->
       <div class="mp-field-decorator__icon">
         <!--v-if-->suffix
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -334,21 +382,25 @@ exports[`test input component slots > input suffix slot 1`] = `
 
 exports[`test input events > input focus & blur 1`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller mp-field-decorator--focus" style="cursor: text; overflow: visible; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text">
+        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
       </div>
       <!--v-if-->
       <div class="mp-field-decorator__icon">
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot mp-field-decorator--line-focus"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line mp-field-decorator--state-line-focus">
+      <legend class="mp-field-decorator__line-legend mp-field-decorator__line-legend--hint"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
@@ -356,21 +408,25 @@ exports[`test input events > input focus & blur 1`] = `
 
 exports[`test input events > input focus & blur 2`] = `
 "<div class="mp-input mp--box">
-  <div class="mp-field-decorator mp--box mp-field-decorator--standard">
+  <div class="mp-field-decorator mp--box mp-field-decorator--outline">
     <div class="mp-field-decorator__controller" style="cursor: text; overflow: hidden; --mp-field-middle-offset-left: 0px; --mp-field-middle-offset-width: 0px; --mp-field-middle-offset-height: 0px;">
       <div class="mp-field-decorator__icon"></div>
       <div class="mp-field-decorator__middle">
-        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text">
+        <!--v-if--><input id="mp-input-mock-id" class="mp-input__input" autocomplete="off" type="text" value="">
       </div>
       <!--v-if-->
       <div class="mp-field-decorator__icon">
         <!--v-if-->
       </div>
     </div>
-    <!--v-if-->
-    <div class="mp-field-decorator__line">
-      <div class="mp-field-decorator__dot"></div>
-    </div>
+    <fieldset class="mp-field-decorator__line">
+      <legend class="mp-field-decorator__line-legend">
+        <!--v-if-->
+      </legend>
+    </fieldset>
+    <fieldset class="mp-field-decorator__state-line">
+      <legend class="mp-field-decorator__line-legend"></legend>
+    </fieldset>
   </div>
   <!--v-if-->
 </div>"
