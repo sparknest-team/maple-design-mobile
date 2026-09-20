@@ -2,8 +2,16 @@
   --mp-textarea-height: auto;
   --mp-textarea-min-height: 96px;
   --mp-textarea-font-size: 16px;
-  --mp-textarea-length-margin-top: 4px;
-  --mp-textarea-length-font-size: 12px;
+  --mp-textarea-line-height: 1.5;
+  --mp-textarea-padding-horizontal: 0;
+  --mp-textarea-padding-vertical: 0;
+  --mp-textarea-placeholder-color: var(--mp-sys-color-content-tertiary);
+  --mp-textarea-counter-color: var(--mp-sys-color-content-tertiary);
+  --mp-textarea-counter-font-size: var(--mp-sys-font-size-xs);
+  --mp-textarea-counter-margin-top: var(--mp-sys-space-2);
+  --mp-textarea-counter-inset-inline-end: 0;
+  --mp-textarea-counter-inset-block-end: 0;
+  --mp-textarea-scrollbar-offset: 0px;
 }
 
 .mp-textarea {
@@ -23,15 +31,15 @@
     width: 100%;
     height: var(--mp-textarea-height);
     min-height: var(--mp-textarea-min-height);
-    padding: 0;
+    padding: var(--mp-textarea-padding-vertical) var(--mp-textarea-padding-horizontal);
     border: none;
     outline: none;
     background: transparent;
-    color: var(--mp-field-color-text);
-    caret-color: var(--mp-field-color-focus);
+    color: var(--mp-field-control-text-color);
+    caret-color: var(--mp-field-focus-color);
     font: inherit;
     font-size: var(--mp-textarea-font-size);
-    line-height: 1.5;
+    line-height: var(--mp-textarea-line-height);
     transition: color 0.25s;
 
     &::placeholder {
@@ -40,22 +48,22 @@
   }
 
   &--disabled {
-    color: var(--mp-field-color-text-disabled);
+    color: var(--mp-field-control-text-color-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-color-error);
+    color: var(--mp-field-error-color);
   }
 
   &--caret-error {
-    caret-color: var(--mp-field-color-error);
+    caret-color: var(--mp-field-error-color);
   }
 
   &__length {
-    margin-top: var(--mp-textarea-length-margin-top);
-    color: var(--mp-field-color-blur);
-    font-size: var(--mp-textarea-length-font-size);
+    margin-top: var(--mp-textarea-counter-margin-top);
+    color: var(--mp-textarea-counter-color);
+    font-size: var(--mp-textarea-counter-font-size);
     text-align: right;
   }
 }

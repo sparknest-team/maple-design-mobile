@@ -50,7 +50,7 @@ Because the theme is mounted at runtime and is not affected by postcss, the comp
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const viewportTheme = Themes.toViewport(Themes.md3Dark)
+const viewportTheme = Themes.toViewport(Themes.maple.dark)
 ```
 
 You can also make changes to the conversion rules
@@ -58,7 +58,7 @@ You can also make changes to the conversion rules
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const viewportTheme = Themes.toViewport(Themes.md3Dark, {
+const viewportTheme = Themes.toViewport(Themes.maple.dark, {
   // defaults 375
   viewportWidth: 750,
   // defaults 'vmin'
@@ -75,7 +75,7 @@ Similar to the Viewport solution
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const remTheme = Themes.toRem(Themes.md3Dark)
+const remTheme = Themes.toRem(Themes.maple.dark)
 ```
 
 Or customize
@@ -83,7 +83,7 @@ Or customize
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const viewportTheme = Themes.toRem(Themes.md3Dark, {
+const viewportTheme = Themes.toRem(Themes.maple.dark, {
   // defaults 16
   rootFontSize: 32,
   // defaults 6

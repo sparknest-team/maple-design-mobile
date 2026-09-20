@@ -39,8 +39,7 @@ describe('test result component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('width: calc(90px)')
-    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('height: calc(90px)')
+    expect(wrapper.find('.mp-result__empty').attributes('style')).toContain('--mp-result-image-size: 100px')
 
     wrapper.unmount()
   })
@@ -61,5 +60,23 @@ describe('test result component props', () => {
 
     expect(wrapper.find('.mp-result__subtitle').element.textContent).toBe('This is description')
     wrapper.unmount()
+  })
+
+  test('result animation and custom icon slot', () => {
+    const staticResult = mount(VarResult, { props: { animation: false } })
+    expect(staticResult.get('.mp-result__image').classes()).not.toContain('mp-result--animated')
+
+    const custom = mount(VarResult, {
+      props: { imageSize: '6rem' },
+      slots: { icon: ({ size }) => `custom ${size}` },
+    })
+    expect(custom.get('.mp-result__image-container').text()).toBe('custom 6rem')
+    expect(custom.find('.mp-result__image').exists()).toBe(false)
+  })
+
+  test('result extra and default slots', () => {
+    const wrapper = mount(VarResult, { slots: { extra: 'Retry', default: 'Details' } })
+    expect(wrapper.get('.mp-result__extra').text()).toBe('Retry')
+    expect(wrapper.get('.mp-result__content').text()).toBe('Details')
   })
 })

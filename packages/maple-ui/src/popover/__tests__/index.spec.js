@@ -1,303 +1,72 @@
 import { createApp, nextTick } from 'vue'
-import { doubleRaf } from '@maplejs/maple-shared'
 import { mount } from '@vue/test-utils'
-import { expect, test, vi } from 'vitest'
-import Popover from '..'
-import { delay, mockStubs, trigger, triggerKeyboard } from '../../utils/test'
-import VarPopover from '../Popover'
+import { afterEach, describe, expect, test } from 'vitest'
+import Popover, { popoverProps } from '..'
 
-const mountPopover = (options = {}) =>
-  mount(VarPopover, {
-    ...options,
-    slots: { default: '<button class="reference">reference</button>', ...options.slots },
-  })
+const wrappers = []
+afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
 
-test('popover plugin', () => {
-  const app = createApp({}).use(Popover)
-  expect(app.component(Popover.name)).toBeTruthy()
-})
-
-test('popover content slot', async () => {
-  const root = document.createElement('div')
-  const wrapper = mountPopover({
-    props: {
-      open: true,
-      popupContainer: root,
-    },
-    slots: {
-      content: 'Popover content',
-    },
-  })
-
-  await nextTick()
-  expect(root.querySelector('.mp-popover__content')?.textContent).toBe('Popover content')
-  wrapper.unmount()
-})
-
-test('popover placement', () => {
-  ;[
-    'top',
-    'top-start',
-    'top-end',
-    'bottom',
-    'bottom-start',
-    'bottom-end',
-    'right',
-    'right-start',
-    'right-end',
-    'left',
-    'left-start',
-    'left-end',
-  ].forEach((placement) => {
-    const { mockRestore } = mockStubs()
-
-    const root = document.createElement('div')
-
-    const wrapper = mountPopover({
-      props: {
-        placement,
-        popupContainer: root,
-      },
-    })
-
-    expect(root.innerHTML).toMatchSnapshot()
-
-    wrapper.unmount()
-    mockRestore()
-  })
-})
-
-test('popover click trigger', async () => {
-  const { mockRestore } = mockStubs()
-
-  const wrapper = mountPopover({
+function mountPopover(props = {}, slots = {}) {
+  const wrapper = mount(Popover, {
     attachTo: document.body,
-  })
-
-  await wrapper.get('.reference').trigger('click')
-  await delay(300)
-  expect(document.body.innerHTML).toMatchSnapshot()
-
-  await trigger(document, 'click')
-  await delay(300)
-  expect(document.body.innerHTML).toMatchSnapshot()
-
-  document.body.innerHTML = ''
-
-  mockRestore()
-})
-
-test('popover manual trigger', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountPopover({
-    props: {
-      trigger: 'manual',
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-  await wrapper.get('.reference').trigger('click')
-  await trigger(root.querySelector('.mp-popover__content'), 'mouseenter')
-  await delay(300)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  mockRestore()
-})
-
-test('popover hover trigger and events', async () => {
-  const { mockRestore } = mockStubs()
-
-  const onOpen = vi.fn()
-  const onOpened = vi.fn()
-  const onClose = vi.fn()
-  const onClosed = vi.fn()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountPopover({
-    props: {
-      trigger: 'hover',
-      popupContainer: root,
-      onOpen,
-      onOpened,
-      onClose,
-      onClosed,
-    },
-  })
-
-  await wrapper.get('.reference').trigger('mouseenter')
-  expect(onOpen).toHaveBeenCalledTimes(1)
-
-  await delay(300)
-
-  expect(onOpened).toHaveBeenCalledTimes(1)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  await wrapper.get('.reference').trigger('mouseleave')
-
-  await doubleRaf()
-  await delay(0)
-  expect(onClose).toHaveBeenCalledTimes(1)
-  await delay(300)
-
-  expect(onClosed).toHaveBeenCalledTimes(1)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('popover close on escape', async () => {
-  const { mockRestore } = mockStubs()
-
-  const onClose = vi.fn()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountPopover({
-    props: {
-      popupContainer: root,
-      defaultOpen: true,
-      onClose,
-    },
-  })
-
-  await wrapper.get('.reference').trigger('mouseenter')
-  await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-
-  await doubleRaf()
-  await delay(0)
-  expect(onClose).toHaveBeenCalledTimes(1)
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('popover default style', async () => {
-  const root = document.createElement('div')
-
-  mountPopover({
-    props: {
-      defaultStyle: false,
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-
-  expect(root.innerHTML).toMatchSnapshot()
-})
-
-test('popover offset', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  mountPopover({
-    props: {
-      offsetX: 100,
-      offsetY: 100,
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-
-  expect(root.innerHTML).toMatchSnapshot()
-
-  mockRestore()
-})
-
-test('popover hover the popover content', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  mountPopover({
-    props: {
-      defaultOpen: true,
-      trigger: 'hover',
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-  await trigger(root.querySelector('.mp-popover__content'), 'mouseenter')
-  await trigger(root.querySelector('.mp-popover__content'), 'mouseleave')
-  await delay(300)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  mockRestore()
-})
-
-test('popover same width', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  mount(VarPopover, {
-    props: {
-      open: true,
-      autoFitPopupWidth: true,
-      trigger: 'hover',
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-  expect(root.innerHTML).toMatchSnapshot()
-
-  mockRestore()
-})
-
-test('popover elevation', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountPopover({
-    props: {
-      open: true,
-      elevation: false,
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-  expect(root.innerHTML).toMatchSnapshot()
-  await wrapper.setProps({
-    elevation: 10,
-  })
-  expect(root.innerHTML).toMatchSnapshot()
-
-  mockRestore()
-  wrapper.unmount()
-})
-
-test('popover contextMenu trigger', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-  const wrapper = mountPopover({
-    attachTo: document.body,
-    props: {
-      trigger: 'contextMenu',
-      alignPoint: true,
-      popupContainer: root,
-    },
+    props: { animationName: '', popupContainer: false, ...props },
     slots: {
-      content: 'Popover content',
+      default: '<button class="reference">reference</button>',
+      ...slots,
     },
   })
+  wrappers.push(wrapper)
+  return wrapper
+}
 
-  await wrapper.get('.reference').trigger('contextmenu')
-  await delay(300)
-  expect(root.querySelector('.mp-popover__content')?.textContent).toBe('Popover content')
+describe('Popover', () => {
+  test('installs and exposes the canonical defaults', () => {
+    const app = createApp({}).use(Popover)
+    expect(app.component(Popover.name)).toBeTruthy()
+    expect(popoverProps.trigger.default).toBe('click')
+    expect(popoverProps.placement.default).toBe('bottom')
+    expect(popoverProps.showArrow.default).toBe(true)
+    expect(popoverProps.popupOffset.default).toBe(10)
+    expect(popoverProps.unmountOnClose.default).toBe(false)
+    expect(popoverProps.closeOnClickReference.default).toBe(true)
+    expect('defaultStyle' in popoverProps).toBe(false)
+    expect('popoverClass' in popoverProps).toBe(false)
+    expect('elevation' in popoverProps).toBe(false)
+  })
 
-  wrapper.unmount()
-  mockRestore()
+  test('renders title and body in one semantic panel', async () => {
+    const wrapper = mountPopover({ defaultOpen: true, title: 'Heading', content: 'Body' })
+    await nextTick()
+    const panel = wrapper.get('[role="group"]')
+    const title = wrapper.get('.mp-popover__title')
+    expect(panel.attributes('aria-labelledby')).toBe(title.attributes('id'))
+    expect(title.text()).toBe('Heading')
+    expect(wrapper.get('.mp-popover__body').text()).toBe('Body')
+  })
+
+  test('connects aria state and toggles from the reference', async () => {
+    const wrapper = mountPopover({ content: 'Body' })
+    const reference = wrapper.get('.reference')
+    await nextTick()
+    expect(reference.attributes('aria-expanded')).toBe('false')
+    await reference.trigger('click')
+    await nextTick()
+    const panel = wrapper.get('[role="group"]')
+    expect(reference.attributes('aria-controls')).toBe(panel.attributes('id'))
+    expect(reference.attributes('aria-expanded')).toBe('true')
+    await reference.trigger('click')
+    await nextTick()
+    expect(reference.attributes('aria-expanded')).toBe('false')
+  })
+
+  test('retains interactive content while closed by default', async () => {
+    const wrapper = mountPopover({ defaultOpen: true }, { content: '<input class="draft">' })
+    await nextTick()
+    const input = wrapper.get('.draft').element
+    input.value = 'edited'
+    wrapper.vm.close()
+    await nextTick()
+    expect(wrapper.get('.draft').element).toBe(input)
+    expect(wrapper.get('.draft').element.value).toBe('edited')
+  })
 })

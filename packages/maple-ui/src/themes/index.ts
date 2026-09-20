@@ -1,11 +1,41 @@
 import { convert } from './convert'
-import dark from './dark'
-import md3Dark from './md3-dark'
-import md3Light from './md3-light'
+import defaultDark from './dark'
+import mapleDark from './maple-dark'
+import mapleLight from './maple-light'
 import { toRem } from './toRem'
 import { toViewport } from './toViewport'
 
-const Themes = { dark, md3Light, md3Dark, toViewport, toRem, convert }
+const defaultLight = {
+  '--mp-color-scheme': 'light',
+  '--mp-brand-1': '232, 255, 251',
+  '--mp-brand-2': '176, 242, 233',
+  '--mp-brand-3': '125, 229, 219',
+  '--mp-brand-4': '79, 216, 207',
+  '--mp-brand-5': '37, 203, 197',
+  '--mp-brand-6': '0, 190, 190',
+  '--mp-brand-7': '0, 156, 162',
+  '--mp-brand-8': '0, 124, 133',
+  '--mp-brand-9': '0, 94, 105',
+  '--mp-brand-10': '0, 66, 77',
+  '--mp-primary-1': '232, 255, 251',
+  '--mp-primary-2': '176, 242, 233',
+  '--mp-primary-3': '125, 229, 219',
+  '--mp-primary-4': '79, 216, 207',
+  '--mp-primary-5': '37, 203, 197',
+  '--mp-primary-6': '0, 190, 190',
+  '--mp-primary-7': '0, 156, 162',
+  '--mp-primary-8': '0, 124, 133',
+  '--mp-primary-9': '0, 94, 105',
+  '--mp-primary-10': '0, 66, 77',
+} as const
+
+const Themes = {
+  default: { light: defaultLight, dark: defaultDark },
+  maple: { light: mapleLight, dark: mapleDark },
+  toViewport,
+  toRem,
+  convert,
+}
 
 export const _ThemesComponent: null = null
 

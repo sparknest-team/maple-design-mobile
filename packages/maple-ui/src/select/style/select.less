@@ -1,13 +1,14 @@
 :root {
-  --mp-select-scroller-background: var(--mp-color-fill-2);
-  --mp-select-scroller-padding: 6px 0;
-  --mp-select-scroller-max-height: 278px;
-  --mp-select-scroller-border-radius: 2px;
+  --mp-select-popup-bg: var(--mp-color-fill-2);
+  --mp-select-popup-padding-vertical: 6px;
+  --mp-select-popup-max-height: 278px;
+  --mp-select-popup-border-radius: 2px;
+  --mp-select-popup-font-size: 16px;
   --mp-select-tags-margin: -5px 0 0 0;
   --mp-select-tags-padding: 2px 0;
   --mp-select-tag-margin: 5px 5px 0 0;
   --mp-select-arrow-size: 20px;
-  --mp-select-standard-menu-margin: calc(var(--mp-field-size-placeholder) * 0.75 + 12px) 0 0 0;
+  --mp-select-standard-menu-margin: calc(var(--mp-internal-field-size-placeholder) * 0.75 + 12px) 0 0 0;
   --mp-select-label-font-size: 16px;
 }
 
@@ -26,12 +27,12 @@
   }
 
   &__scroller {
-    max-height: var(--mp-select-scroller-max-height);
-    background: var(--mp-select-scroller-background);
-    padding: var(--mp-select-scroller-padding);
+    max-height: var(--mp-select-popup-max-height);
+    background: var(--mp-select-popup-bg);
+    padding: var(--mp-select-popup-padding-vertical) 0;
     overflow-y: auto;
     transition: background-color 0.25s;
-    border-radius: var(--mp-select-scroller-border-radius);
+    border-radius: var(--mp-select-popup-border-radius);
   }
 
   &__wrap {
@@ -50,7 +51,7 @@
     outline: none;
     border: none;
     font-size: inherit;
-    color: var(--mp-field-color-text);
+    color: var(--mp-field-control-text-color);
     word-break: break-all;
     overflow: hidden;
     transition: color 0.25s;
@@ -68,9 +69,9 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    font-size: var(--mp-field-size-placeholder);
+    font-size: var(--mp-internal-field-size-placeholder);
     line-height: 1.5em;
-    color: var(--mp-field-color-blur);
+    color: var(--mp-field-blur-color);
     pointer-events: none;
     cursor: inherit;
   }
@@ -85,12 +86,12 @@
   }
 
   &--disabled {
-    color: var(--mp-field-color-text-disabled);
+    color: var(--mp-field-control-text-color-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-color-error);
+    color: var(--mp-field-error-color);
   }
 
   &--arrow-rotate {
@@ -182,7 +183,7 @@
   }
 
   &__list-option--disabled {
-    color: var(--mp-field-color-text-disabled, var(--mp-color-text-3));
+    color: var(--mp-field-control-text-color-disabled, var(--mp-color-text-3));
     cursor: not-allowed;
     opacity: 0.5;
   }

@@ -47,6 +47,19 @@ test('v-mp-loading supports an options object with loading and tip', async () =>
   expect(wrapper.find('.mp-loading-directive').exists()).toBe(false)
 })
 
+test('v-mp-loading mounts fullscreen and cleans document state', () => {
+  const Host = defineComponent({
+    directives: { 'mp-loading': vLoading },
+    template: '<div v-mp-loading="{ loading: true, fullscreen: true }" />',
+  })
+  const wrapper = mount(Host, { attachTo: document.body })
+  expect(document.body.querySelector('.mp-loading-directive--fullscreen')).not.toBeNull()
+  expect(document.body.classList.contains('mp-loading-parent--hidden')).toBe(true)
+  wrapper.unmount()
+  expect(document.body.querySelector('.mp-loading-directive--fullscreen')).toBeNull()
+  expect(document.body.classList.contains('mp-loading-parent--hidden')).toBe(false)
+})
+
 describe('test loading component props', () => {
   test('loading color', () => {
     const wrapper = mount(VarLoading, {
@@ -152,6 +165,25 @@ describe('test loading component slots', () => {
 
     expect(wrapper.find('.mp-loading__tip').element.textContent).toBe('This is tip slots')
     wrapper.unmount()
+  })
+
+  test('custom icon and hidden icon', async () => {
+    const wrapper = mount(VarLoading, {
+      props: { tip: 'Loading' },
+      slots: { icon: () => 'Custom indicator' },
+    })
+    expect(wrapper.get('.mp-loading__indicator').text()).toBe('Custom indicator')
+    await wrapper.setProps({ hideIcon: true })
+    expect(wrapper.find('.mp-loading__indicator').exists()).toBe(false)
+    expect(wrapper.get('.mp-loading__tip').text()).toBe('Loading')
+  })
+
+  test('loading accessibility state', () => {
+    const standalone = mount(VarLoading)
+    expect(standalone.attributes('role')).toBe('status')
+    expect(standalone.attributes('aria-live')).toBe('polite')
+    const wrapped = mount(VarLoading, { props: { loading: true }, slots: { default: () => 'Content' } })
+    expect(wrapped.attributes('aria-busy')).toBe('true')
   })
 })
 

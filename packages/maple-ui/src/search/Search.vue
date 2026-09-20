@@ -254,7 +254,7 @@ export default defineComponent({
     })
     const popupActionText = computed(() => '取消')
     const searchPlaceholderFocusColor = computed(
-      () => props.focusColor || props.blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))',
+      () => props.focusColor || props.blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))',
     )
     const historyOptions = computed(() => props.recentSearches.map((item: string) => ({ label: item, value: item })))
     const popupStyle = {

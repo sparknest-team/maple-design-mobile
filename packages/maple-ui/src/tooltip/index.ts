@@ -1,5 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as tooltipProps } from './props'
+import { tooltipProps } from './props'
 import Tooltip from './Tooltip.vue'
 
 withInstall(Tooltip)
@@ -11,5 +11,5 @@ export type TooltipInstance = InstanceType<typeof Tooltip>
 export const _TooltipComponent: typeof Tooltip = Tooltip
 
 export default Tooltip
-export type TooltipProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
-export type { TooltipStatus } from './props'
+export type { TooltipProps } from './props'
+export type { TooltipSize, TooltipStatus } from './props'

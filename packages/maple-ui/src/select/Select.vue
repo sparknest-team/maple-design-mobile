@@ -17,7 +17,7 @@
       close-on-click-reference
       :esc-to-close="false"
       :popup-class="variant === 'standard' && mergedHint ? n('--standard-menu-margin') : undefined"
-      :offset-y="offsetY"
+      :popup-translate="[0, offsetY]"
       :disabled="formReadonly || readonly || formDisabled || disabled"
       :placement="placement"
       :cover="
@@ -566,14 +566,14 @@ export default defineComponent({
       }
 
       if (mergedError.value) {
-        return 'var(--mp-field-color-error)'
+        return 'var(--mp-field-error-color)'
       }
 
       if (isFocusing.value) {
-        return focusColor || 'var(--mp-field-color-focus)'
+        return focusColor || 'var(--mp-field-focus-color)'
       }
 
-      return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
+      return blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))'
     })
     const enableCustomPlaceholder = computed(() => !mergedHint.value && isEmpty(props.modelValue))
 

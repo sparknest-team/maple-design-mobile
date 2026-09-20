@@ -50,14 +50,14 @@ Also refer to `@maplejs/maple-ui` [maple.config.mjs](https://xxx/pe.frontend/mat
 | `logo` | The logo of the component library in the document | _string_ | `-` |
 | `alias` | Path alias (root is src folder when use mp-relative path) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | Document default language | _string_ | `zh-CN` |
-| `defaultLightTheme` | The default light theme | _string_ | `md3LightTheme` |
-| `defaultDarkTheme` | The default dark theme | _string_ | `md3DarkTheme` |
+| `defaultLightTheme` | Default light-mode selection | _string_ | `lightTheme` |
+| `defaultDarkTheme` | Default dark-mode selection | _string_ | `darkTheme` |
 | `useMobile` | Whether to display the mobile phone preview on the right | _boolean_ | `false` |
 | `themeKey` | The key of the theme in local storage | _string_ | `MAPLE_THEME` |
-| `lightTheme` | md2 light mode document theme | _Record<string, any>_ | `-` |
-| `darkTheme` | md2 dark mode document theme | _Record<string, any>_ | `-` |
-| `md3LightTheme` | md3 light mode document theme | _Record<string, any>_ | `-` |
-| `md3DarkTheme` | md3 dark mode document theme | _Record<string, any>_ | `-` |
+| `lightTheme` | Default brand light document theme | _Record<string, any>_ | `-` |
+| `darkTheme` | Default brand dark document theme | _Record<string, any>_ | `-` |
+| `mapleLightTheme` | Maple brand light document theme | _Record<string, any>_ | `-` |
+| `mapleDarkTheme` | Maple brand dark document theme | _Record<string, any>_ | `-` |
 | `highlight` | Document code snippet style related | _{ style: string }_ | `-` |
 | `analysis` | Document statistics related | _{ baidu: string }_ | `-` |
 | `pc` | PC side document structure configuration | _[MapleConfigPc](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |

@@ -130,25 +130,7 @@ type TagVariant = 'default' | 'outline'
 
 ### 样式变量
 
-可通过 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-tag-border-width` | `1px` |
-| `--mp-tag-border-radius` | `4px` |
-| `--mp-tag-round-radius` | `100px` |
-| `--mp-tag-padding` | `0 10px` |
-| `--mp-tag-icon-margin` | `6px` |
-| `--mp-tag-font-weight` | `500` |
-| `--mp-tag-size-xs-height` | `24px` |
-| `--mp-tag-size-sm-height` | `28px` |
-| `--mp-tag-size-md-height` | `32px` |
-| `--mp-tag-size-lg-height` | `36px` |
-| `--mp-tag-size-xl-height` | `40px` |
-| `--mp-tag-size-{size}-font-size` | `12px` ~ `16px` |
-| `--mp-tag-status-{status}-color` | 各状态背景色 |
-| `--mp-tag-status-{status}-text-color` | 各状态文字色 |
-| `--mp-tag-status-{status}-border-color` | 各状态边框色（outline 时生效） |
+完整公开变量以 `style/token.less` 中的 `--mp-tag-*` 为准，可通过 [StyleProvider 组件](#/zh-CN/style-provider) 定制。Cedar 使用完全相同的逻辑变量名，仅品牌前缀不同。
 
 ## 同源实现与平台边界
 

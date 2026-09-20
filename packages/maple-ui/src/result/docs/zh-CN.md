@@ -28,16 +28,17 @@
 | `title`       | 标题                                                              | _string_ | `-`       |
 | `subtitle` | 描述                                                              | _string_ | `-`       |
 | `image-size`  | 图片尺寸                                                            | _string \| number_   | `-`  |
-| `animation`   | 是否开启动画，仅对 `success` 状态有效                                  | _boolean_ | `true`    |
+| `animation`   | 是否开启状态图形动画                                  | _boolean_ | `true`    |
 
 ### 插槽
 
 | 插槽名                | 说明      | 参数 |
 |--------------------|---------| ---- |
-| `image`            | 自定义图标   | `-`  |
+| `icon`             | 自定义状态图形 | `{ size?: string }` |
 | `title`            | 自定义标题   | `-`  |
 | `subtitle`      | 自定义描述   | `-`  |
-| `footer`           | 自定义底部内容 | `-`  |
+| `extra`            | 自定义操作区 | `-` |
+| `default`          | 附加结果详情 | `-` |
 
 ### 修改背景颜色时注意
 
@@ -73,4 +74,3 @@
 | `--result-subtitle-font-size`   | `14px`                     |
 | `--result-subtitle-color`       | `rgba(0, 0, 0, 0.6)`       |
 | `--result-subtitle-line-height` | `1.6`                      |
-

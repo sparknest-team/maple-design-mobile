@@ -79,6 +79,7 @@ import {
   persistTheme,
   setTheme,
   watchLang,
+  watchTheme,
   type Theme,
 } from '@maplejs/maple-cli/client'
 import { pascalCase } from '@maplejs/maple-shared'
@@ -154,6 +155,11 @@ export default defineComponent({
 
     ;(window as any).toggleTheme = toggleTheme
     setTheme(currentTheme.value)
+    watchTheme((theme, from) => {
+      if (from === 'pc' || from === 'playground') {
+        setCurrentTheme(theme)
+      }
+    })
 
     document.body.addEventListener('click', () => {
       showThemeMenu.value = false

@@ -1311,7 +1311,7 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.2.11**_",
               "description": "指定可选项",
               "default": "[]",
               "value": {
@@ -2459,7 +2459,7 @@
             },
             {
               "name": "strategy",
-              "description": "Popper 定位策略",
+              "description": "浮层定位策略",
               "default": "'absolute'",
               "value": {
                 "type": "'absolute' | 'fixed'",
@@ -2978,6 +2978,12 @@
               "description": "触发器"
             }
           ]
+        },
+        {
+          "name": "mp-field-decorator",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-floating-panel",
@@ -4380,6 +4386,15 @@
                 "type": "string | number",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "hide-icon",
+              "description": "是否隐藏加载指示器",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
             }
           ],
           "events": [],
@@ -4391,6 +4406,10 @@
             {
               "name": "tip",
               "description": "`loading` 的提示文字"
+            },
+            {
+              "name": "icon",
+              "description": "自定义加载指示器"
             }
           ]
         },
@@ -5329,179 +5348,173 @@
           "attributes": [
             {
               "name": "v-model:open",
-              "description": "是否显示气泡卡片",
+              "description": "受控打开状态",
+              "default": "—",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控初始状态",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "placement",
-              "description": "气泡卡片弹出位置",
-              "default": "bottom",
+              "name": "title",
+              "description": "标题",
+              "default": "—",
               "value": {
-                "type": "Placement",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "strategy",
-              "description": "气泡卡片定位方式，可选值为 `absolute` `fixed`",
-              "default": "absolute",
+              "name": "content",
+              "description": "正文",
+              "default": "—",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "x 轴偏移量， 相对于气泡卡片对齐后的位置",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "y 轴偏移量， 相对于气泡卡片对齐后的位置",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "气泡卡片挂载的位置",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用气泡卡片",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "trigger",
-              "description": "气泡卡片触发方式，可选值为 `click` `hover` `manual` `contextMenu`",
+              "description": "触发方式",
               "default": "click",
               "value": {
-                "type": "string",
+                "type": "`TriggerEvent | TriggerEvent[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "首选方位",
+              "default": "bottom",
+              "value": {
+                "type": "`TriggerPlacement`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-arrow",
+              "description": "是否显示箭头",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-offset",
+              "description": "沿方位主轴的距离",
+              "default": "10",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-translate",
+              "description": "屏幕轴附加平移",
+              "default": "—",
+              "value": {
+                "type": "`[number, number] | Record`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "挂载容器；false 原地渲染",
+              "default": "body",
+              "value": {
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
             {
               "name": "reference",
-              "description": "气泡卡片关联的触发元素，`string` 类型为组件的子孙元素选择器， `HTMLElement` 类型为任意指定的元素节点",
-              "default": "-",
+              "description": "外部触发元素",
+              "default": "—",
               "value": {
-                "type": "string | HTMLElement",
+                "type": "`string | HTMLElement | SVGElement`",
                 "kind": "expression"
               }
             },
             {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "是否与触发元素同宽",
+              "name": "disabled",
+              "description": "禁止打开",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "default-style",
-              "description": "是否启用默认样式",
-              "default": "true",
+              "name": "unmount-on-close",
+              "description": "关闭后卸载；默认保留交互草稿",
+              "default": "false",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popover-class",
-              "description": "弹出层的 class",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "close-on-click-reference",
-              "description": "是否在点击触发元素后关闭气泡卡片",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "esc-to-close",
-              "description": "是否支持键盘 ESC 关闭气泡卡片",
+              "description": "再次点击触发元素时关闭",
               "default": "true",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align-point",
-              "description": "弹出层是否跟随鼠标（配合 `contextMenu`）",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
+              "name": "update:open",
+              "description": "请求修改受控打开状态"
+            },
+            {
+              "name": "open-change",
+              "description": "请求修改打开状态"
+            },
+            {
               "name": "open",
-              "description": "打开气泡卡片时触发"
+              "description": "开始打开"
             },
             {
               "name": "opened",
-              "description": "打开气泡卡片动画结束时触发"
+              "description": "入场动画完成"
             },
             {
               "name": "close",
-              "description": "关闭气泡卡片时触发"
+              "description": "开始关闭"
             },
             {
               "name": "closed",
-              "description": "关闭气泡卡片动画结束时触发"
+              "description": "离场动画完成"
             },
             {
               "name": "click-outside",
-              "description": "点击气泡卡片外部时触发"
+              "description": "点击浮层外部"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "气泡卡片关联的触发元素"
+              "description": "触发元素"
+            },
+            {
+              "name": "title",
+              "description": "标题；未提供时使用 `title` 属性"
             },
             {
               "name": "content",
-              "description": "气泡卡片内容"
+              "description": "正文；未提供时使用 `content` 属性"
             }
           ]
         },
@@ -5918,7 +5931,7 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.2.14**_",
               "description": "指定可选项",
               "default": "[]",
               "value": {
@@ -5936,7 +5949,7 @@
               }
             },
             {
-              "name": "aria-label",
+              "name": "aria-label _**3.8.5**_",
               "description": "单选框组的标签",
               "default": "-",
               "value": {
@@ -5991,9 +6004,9 @@
             {
               "name": "icon",
               "description": "选中整个图标时的图标样式",
-              "default": "star",
+              "default": "star-fill",
               "value": {
-                "type": "string",
+                "type": "string | Component",
                 "kind": "expression"
               }
             },
@@ -6011,7 +6024,7 @@
               "description": "未选中时图标的样式",
               "default": "star",
               "value": {
-                "type": "string",
+                "type": "string | Component",
                 "kind": "expression"
               }
             },
@@ -6047,7 +6060,7 @@
               "description": "半选时图标的样式，只有在 `allow-half` 为 `true` 时才有效",
               "default": "star-half-full",
               "value": {
-                "type": "string",
+                "type": "string | Component",
                 "kind": "expression"
               }
             },
@@ -6146,7 +6159,7 @@
             },
             {
               "name": "animation",
-              "description": "是否开启动画，仅对 `success` 状态有效",
+              "description": "是否开启状态图形动画",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -6157,8 +6170,8 @@
           "events": [],
           "slots": [
             {
-              "name": "image",
-              "description": "自定义图标"
+              "name": "icon",
+              "description": "自定义状态图形"
             },
             {
               "name": "title",
@@ -6169,8 +6182,12 @@
               "description": "自定义描述"
             },
             {
-              "name": "footer",
-              "description": "自定义底部内容"
+              "name": "extra",
+              "description": "自定义操作区"
+            },
+            {
+              "name": "default",
+              "description": "附加结果详情"
             }
           ]
         },
@@ -8595,106 +8612,205 @@
           "attributes": [
             {
               "name": "v-model:open",
-              "description": "是否显示",
+              "description": "受控打开状态",
+              "default": "—",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控初始状态",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "content",
-              "description": "显示的内容",
-              "default": "-",
+              "description": "提示内容",
+              "default": "—",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "背景颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "文字颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "status",
-              "description": "类型，可选值为 `default` `primary` `info` `success` `warning` `danger`",
+              "description": "面板主题",
               "default": "default",
               "value": {
-                "type": "string",
+                "type": "`default | primary | info | success | warning | danger`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "尺寸；只实现两档",
+              "default": "md",
+              "value": {
+                "type": "`xs | md`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "自定义背景色",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "自定义文字色",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "触发方式",
+              "default": "['hover', 'focus']",
+              "value": {
+                "type": "`TriggerEvent | TriggerEvent[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "placement",
-              "description": "弹出位置",
-              "default": "bottom",
+              "description": "首选方位",
+              "default": "top",
               "value": {
-                "type": "Placement",
+                "type": "`TriggerPlacement`",
                 "kind": "expression"
               }
             },
             {
-              "name": "strategy",
-              "description": "定位方式，可选值为 `absolute` `fixed`",
-              "default": "absolute",
+              "name": "show-arrow",
+              "description": "是否显示箭头",
+              "default": "true",
               "value": {
-                "type": "string",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "offset-x",
-              "description": "x 轴偏移量， 相对于 `Tooltip` 对齐后的位置",
-              "default": "0",
+              "name": "popup-offset",
+              "description": "沿方位主轴的距离",
+              "default": "10",
               "value": {
-                "type": "number | string",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
-              "name": "offset-y",
-              "description": "y 轴偏移量， 相对于 `Tooltip` 对齐后的位置",
-              "default": "0",
+              "name": "popup-translate",
+              "description": "屏幕轴附加平移",
+              "default": "—",
               "value": {
-                "type": "number | string",
+                "type": "`[number, number] | Record`",
                 "kind": "expression"
               }
             },
             {
               "name": "popup-container",
-              "description": "挂载的位置",
+              "description": "挂载容器；false 原地渲染",
               "default": "body",
               "value": {
-                "type": "TeleportProps['to'] | false",
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
             {
-              "name": "auto-fit-popup-width",
-              "description": "是否与触发元素同宽",
+              "name": "reference",
+              "description": "外部触发元素",
+              "default": "—",
+              "value": {
+                "type": "`string | HTMLElement | SVGElement`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "禁止打开",
               "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "关闭后卸载内容",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:open",
+              "description": "请求修改受控打开状态"
+            },
+            {
+              "name": "open-change",
+              "description": "请求修改打开状态"
+            },
+            {
+              "name": "open",
+              "description": "开始打开"
+            },
+            {
+              "name": "opened",
+              "description": "入场动画完成"
+            },
+            {
+              "name": "close",
+              "description": "开始关闭"
+            },
+            {
+              "name": "closed",
+              "description": "离场动画完成"
+            },
+            {
+              "name": "click-outside",
+              "description": "点击浮层外部"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "触发元素"
+            },
+            {
+              "name": "content",
+              "description": "提示内容；未提供时使用 `content` 属性"
+            }
+          ]
+        },
+        {
+          "name": "mp-trigger",
+          "attributes": [
+            {
+              "name": "v-model:open",
+              "description": "受控打开状态",
+              "default": "-",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "disabled",
-              "description": "是否禁用 Tooltip",
+              "name": "default-open",
+              "description": "非受控初始状态",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -8703,25 +8819,16 @@
             },
             {
               "name": "trigger",
-              "description": "触发方式，可选值为 `click` `hover` `manual`",
+              "description": "`hover/click/focus/contextMenu/manual`，可传数组",
               "default": "hover",
               "value": {
-                "type": "string",
+                "type": "TriggerEvent | TriggerEvent[]",
                 "kind": "expression"
               }
             },
             {
-              "name": "reference",
-              "description": "菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器，`HTMLElement` 类型为任意指定的元素节点",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "是否在点击菜单触发元素后关闭菜单",
+              "name": "disabled",
+              "description": "禁止打开",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -8729,52 +8836,262 @@
               }
             },
             {
-              "name": "esc-to-close",
-              "description": "是否支持键盘 ESC 关闭提示",
+              "name": "reference",
+              "description": "外部参考元素",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | SVGElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "十二方位",
+              "default": "bottom",
+              "value": {
+                "type": "TriggerPlacement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "定位策略",
+              "default": "absolute",
+              "value": {
+                "type": "absolute | fixed",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cover",
+              "description": "沿主轴覆盖参考元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-offset",
+              "description": "主轴向外距离",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-translate",
+              "description": "屏幕轴平移或按方位配置",
+              "default": "-",
+              "value": {
+                "type": "[number, number] | Record",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-point",
+              "description": "以鼠标坐标定位",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "挂载容器；false 原地渲染",
+              "default": "body",
+              "value": {
+                "type": "string | HTMLElement | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-position",
+              "description": "自动翻转并限制到可视区域",
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "宽度跟随参考元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-min-width",
+              "description": "最小宽度跟随参考元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fix-position",
+              "description": "尺寸变化时重新定位",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "update-at-scroll",
+              "description": "滚动时重新定位",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scroll-to-close",
+              "description": "滚动超过阈值关闭",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scroll-to-close-distance",
+              "description": "滚动关闭阈值",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-arrow",
+              "description": "显示箭头",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-empty",
+              "description": "内容为空时不渲染",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "prevent-focus",
+              "description": "阻止定位层抢占焦点",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "离场后卸载内容",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "animation-name",
+              "description": "Vue Transition 名称",
+              "default": "trigger-fade",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "duration",
+              "description": "动画时长",
+              "default": "-",
+              "value": {
+                "type": "number | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-transform-origin",
+              "description": "根据最终方位设置动画原点",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "opened-class",
+              "description": "打开时的参考节点类名",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-class / popup-style",
+              "description": "定位层类名 / 样式",
+              "default": "-",
+              "value": {
+                "type": "ClassName / CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-class / content-style",
+              "description": "内容层类名 / 样式",
+              "default": "-",
+              "value": {
+                "type": "ClassName / CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-class / arrow-style",
+              "description": "箭头类名 / 样式",
+              "default": "-",
+              "value": {
+                "type": "ClassName / CSSProperties",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
-              "name": "open",
-              "description": "打开 `Tooltip` 时触发"
+              "name": "--mp-trigger-arrow-background",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
             },
             {
-              "name": "opened",
-              "description": "打开 `Tooltip` 动画结束时触发"
+              "name": "--mp-trigger-arrow-size",
+              "description": "`var(--mp-sys-space-4)`"
             },
             {
-              "name": "close",
-              "description": "关闭 `Tooltip` 时触发"
+              "name": "--mp-trigger-arrow-radius",
+              "description": "`var(--mp-sys-radius-sm)`"
             },
             {
-              "name": "closed",
-              "description": "关闭 `Tooltip` 动画结束时触发"
+              "name": "--mp-trigger-transition-duration",
+              "description": "`var(--mp-sys-motion-duration-fast)`"
             },
             {
-              "name": "click-outside",
-              "description": "点击菜单外部时触发"
+              "name": "--mp-trigger-transition-easing",
+              "description": "`var(--mp-sys-motion-easing-standard)`"
             }
           ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "`Tooltip` 关联的触发元素"
-            },
-            {
-              "name": "content",
-              "description": "`Tooltip` 内容"
-            }
-          ]
-        },
-        {
-          "name": "mp-trigger",
-          "attributes": [],
-          "events": [],
           "slots": []
         },
         {

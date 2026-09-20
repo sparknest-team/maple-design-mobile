@@ -32,11 +32,11 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 
 
 
-<!-- same-source-api:start -->
-
 ```demo
 ../example/demos/dynamic.vue
 ```
+
+<!-- same-source-api:start -->
 
 ### Props
 

@@ -2127,7 +2127,7 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.2.11**_",
               "description": "Specifies options",
               "default": "[]",
               "value": {
@@ -3624,7 +3624,7 @@
             },
             {
               "name": "strategy",
-              "description": "Popper positioning strategy",
+              "description": "Floating-layer positioning strategy",
               "default": "'absolute'",
               "value": {
                 "type": "'absolute' | 'fixed'",
@@ -5618,6 +5618,15 @@
                 "type": "string | number",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "hide-icon",
+              "description": "Whether to hide the loading indicator",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
             }
           ],
           "events": [],
@@ -5629,6 +5638,10 @@
             {
               "name": "tip",
               "description": "Tip of the loading"
+            },
+            {
+              "name": "icon",
+              "description": "Custom loading indicator"
             }
           ]
         },
@@ -6861,179 +6874,173 @@
           "attributes": [
             {
               "name": "v-model:open",
-              "description": "Whether to show the popover",
+              "description": "Controlled open state",
+              "default": "—",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial uncontrolled state",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "placement",
-              "description": "Popover popup placement",
-              "default": "bottom",
+              "name": "title",
+              "description": "Heading",
+              "default": "—",
               "value": {
-                "type": "Placement",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "strategy",
-              "description": "Popover position strategy, optional value is `absolute` `fixed`",
-              "default": "absolute",
+              "name": "content",
+              "description": "Body",
+              "default": "—",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "The x-axis offset, relative to the popover-aligned position",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "The y-axis offset, relative to the popover-aligned position",
-              "default": "0",
-              "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "The location of the popover mount",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable the popover",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "trigger",
-              "description": "Popover trigger method, optional value is `click` `hover` `manual` `contextMenu`",
+              "description": "Interaction",
               "default": "click",
               "value": {
-                "type": "string",
+                "type": "`TriggerEvent | TriggerEvent[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "Preferred placement",
+              "default": "bottom",
+              "value": {
+                "type": "`TriggerPlacement`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-arrow",
+              "description": "Show the arrow",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-offset",
+              "description": "Main-axis distance",
+              "default": "10",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-translate",
+              "description": "Additional screen-axis translation",
+              "default": "—",
+              "value": {
+                "type": "`[number, number] | Record`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Teleport target; false renders inline",
+              "default": "body",
+              "value": {
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
             {
               "name": "reference",
-              "description": "The trigger element associated with the popover, the `string` type is the descendant element selector of the popover component, the `HTMLElement` type is any specified element node",
-              "default": "-",
+              "description": "External reference element",
+              "default": "—",
               "value": {
-                "type": "string | HTMLElement",
+                "type": "`string | HTMLElement | SVGElement`",
                 "kind": "expression"
               }
             },
             {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "Whether to same width as trigger element",
+              "name": "disabled",
+              "description": "Prevent opening",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "default-style",
-              "description": "Whether to enable default styles",
-              "default": "true",
+              "name": "unmount-on-close",
+              "description": "Unmount after close; false retains draft state",
+              "default": "false",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popover-class",
-              "description": "Class of the popover",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "close-on-click-reference",
-              "description": "Whether to close the popover when clicking the reference element",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "esc-to-close",
-              "description": "Whether to support keyboard ESC to close the popover",
+              "description": "Close when the reference is clicked again",
               "default": "true",
               "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align-point",
-              "description": "Whether the popup follows the mouse (used with `contextMenu`)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
+              "name": "update:open",
+              "description": "Requests a controlled open-state change"
+            },
+            {
+              "name": "open-change",
+              "description": "Requests any open-state change"
+            },
+            {
               "name": "open",
-              "description": "Triggered when the popover is opened"
+              "description": "Opening starts"
             },
             {
               "name": "opened",
-              "description": "Triggered when the open popover animation ends"
+              "description": "Enter transition completes"
             },
             {
               "name": "close",
-              "description": "Triggered when the popover is closed"
+              "description": "Closing starts"
             },
             {
               "name": "closed",
-              "description": "Triggered when the closing popover animation ends"
+              "description": "Leave transition completes"
             },
             {
               "name": "click-outside",
-              "description": "Triggered when clicking outside the popover"
+              "description": "The pointer activated outside the floating layer"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Popover trigger element"
+              "description": "Reference element"
+            },
+            {
+              "name": "title",
+              "description": "Heading; falls back to the `title` prop"
             },
             {
               "name": "content",
-              "description": "Popover content"
+              "description": "Body; falls back to the `content` prop"
             }
           ]
         },
@@ -7450,7 +7457,7 @@
               }
             },
             {
-              "name": "options",
+              "name": "options _**3.2.14**_",
               "description": "Specifies options",
               "default": "[]",
               "value": {
@@ -7468,7 +7475,7 @@
               }
             },
             {
-              "name": "aria-label",
+              "name": "aria-label _**3.8.5**_",
               "description": "The label of the radio group",
               "default": "-",
               "value": {
@@ -7542,7 +7549,7 @@
             },
             {
               "name": "animation",
-              "description": "Whether to enable animation, valid for `success` type only",
+              "description": "Whether to animate the status graphic",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -7553,8 +7560,8 @@
           "events": [],
           "slots": [
             {
-              "name": "image",
-              "description": "Custom image"
+              "name": "icon",
+              "description": "Custom status graphic"
             },
             {
               "name": "title",
@@ -7565,8 +7572,12 @@
               "description": "Custom description"
             },
             {
-              "name": "footer",
-              "description": "Custom bottom content"
+              "name": "extra",
+              "description": "Custom action area"
+            },
+            {
+              "name": "default",
+              "description": "Additional result details"
             }
           ]
         },
@@ -10073,106 +10084,205 @@
           "attributes": [
             {
               "name": "v-model:open",
-              "description": "Whether to show the tooltip",
+              "description": "Controlled open state",
+              "default": "—",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial uncontrolled state",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "content",
-              "description": "Display content",
-              "default": "-",
+              "description": "Tooltip content",
+              "default": "—",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Tooltip background color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Tooltip text color",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "status",
-              "description": "Tooltip type, can be set to `default` `primary` `info` `success` `warning` `danger`",
+              "description": "Panel intent",
               "default": "default",
               "value": {
-                "type": "string",
+                "type": "`default | primary | info | success | warning | danger`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Implemented sizes",
+              "default": "md",
+              "value": {
+                "type": "`xs | md`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Custom background",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "Custom text color",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "Interaction",
+              "default": "['hover', 'focus']",
+              "value": {
+                "type": "`TriggerEvent | TriggerEvent[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "placement",
-              "description": "Tooltip popup placement",
-              "default": "bottom",
+              "description": "Preferred placement",
+              "default": "top",
               "value": {
-                "type": "Placement",
+                "type": "`TriggerPlacement`",
                 "kind": "expression"
               }
             },
             {
-              "name": "strategy",
-              "description": "Tooltip position strategy, optional value is `absolute` `fixed`",
-              "default": "absolute",
+              "name": "show-arrow",
+              "description": "Show the arrow",
+              "default": "true",
               "value": {
-                "type": "string",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
-              "name": "offset-x",
-              "description": "The x-axis offset, relative to the tooltip-aligned position",
-              "default": "0",
+              "name": "popup-offset",
+              "description": "Main-axis distance",
+              "default": "10",
               "value": {
-                "type": "number | string",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
-              "name": "offset-y",
-              "description": "The y-axis offset, relative to the tooltip-aligned position",
-              "default": "0",
+              "name": "popup-translate",
+              "description": "Additional screen-axis translation",
+              "default": "—",
               "value": {
-                "type": "number | string",
+                "type": "`[number, number] | Record`",
                 "kind": "expression"
               }
             },
             {
               "name": "popup-container",
-              "description": "The location of the tooltip mount",
+              "description": "Teleport target; false renders inline",
               "default": "body",
               "value": {
-                "type": "TeleportProps['to'] | false",
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
             {
-              "name": "auto-fit-popup-width",
-              "description": "Whether to same width as trigger element",
+              "name": "reference",
+              "description": "External reference element",
+              "default": "—",
+              "value": {
+                "type": "`string | HTMLElement | SVGElement`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Prevent opening",
               "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "Unmount after close",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:open",
+              "description": "Requests a controlled open-state change"
+            },
+            {
+              "name": "open-change",
+              "description": "Requests any open-state change"
+            },
+            {
+              "name": "open",
+              "description": "Opening starts"
+            },
+            {
+              "name": "opened",
+              "description": "Enter transition completes"
+            },
+            {
+              "name": "close",
+              "description": "Closing starts"
+            },
+            {
+              "name": "closed",
+              "description": "Leave transition completes"
+            },
+            {
+              "name": "click-outside",
+              "description": "The pointer activated outside the floating layer"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Reference element"
+            },
+            {
+              "name": "content",
+              "description": "Tooltip content; falls back to the `content` prop"
+            }
+          ]
+        },
+        {
+          "name": "mp-trigger",
+          "attributes": [
+            {
+              "name": "v-model:open",
+              "description": "Controlled open state",
+              "default": "-",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "disabled",
-              "description": "Whether to disable the tooltip",
+              "name": "default-open",
+              "description": "Initial uncontrolled state",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10181,25 +10291,16 @@
             },
             {
               "name": "trigger",
-              "description": "Tooltip trigger method, optional value is `click` `hover` `manual`",
+              "description": "`hover/click/focus/contextMenu/manual`, or an array",
               "default": "hover",
               "value": {
-                "type": "string",
+                "type": "TriggerEvent | TriggerEvent[]",
                 "kind": "expression"
               }
             },
             {
-              "name": "reference",
-              "description": "The trigger element associated with the tooltip, the `string` type is the descendant element selector of the menu component, the `HTMLElement` type is any specified element node",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "Whether to close the menu when clicking the reference element",
+              "name": "disabled",
+              "description": "Prevent opening",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10207,55 +10308,240 @@
               }
             },
             {
-              "name": "esc-to-close",
-              "description": "Whether to support keyboard ESC to close the tooltip",
+              "name": "reference",
+              "description": "External reference element",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | SVGElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "Twelve standard placements",
+              "default": "bottom",
+              "value": {
+                "type": "TriggerPlacement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "Positioning strategy",
+              "default": "absolute",
+              "value": {
+                "type": "absolute | fixed",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cover",
+              "description": "Cover the reference on the main axis",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-offset",
+              "description": "Outward main-axis distance",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-translate",
+              "description": "Screen-axis translation or placement map",
+              "default": "-",
+              "value": {
+                "type": "[number, number] | Record",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-point",
+              "description": "Position at the pointer",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Teleport target; false renders inline",
+              "default": "body",
+              "value": {
+                "type": "string | HTMLElement | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-position",
+              "description": "Flip and shift into the viewport",
               "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Match reference width",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-min-width",
+              "description": "Match reference minimum width",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fix-position",
+              "description": "Reposition after size changes",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "update-at-scroll",
+              "description": "Reposition while scrolling",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scroll-to-close",
+              "description": "Close after the scroll threshold",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scroll-to-close-distance",
+              "description": "Close threshold",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-arrow",
+              "description": "Render the decorative arrow",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-empty",
+              "description": "Skip an empty content slot",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "prevent-focus",
+              "description": "Prevent positioning-layer mousedown from stealing focus",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "Unmount after leave",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "animation-name",
+              "description": "Vue Transition name",
+              "default": "trigger-fade",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "duration",
+              "description": "Transition duration",
+              "default": "-",
+              "value": {
+                "type": "number | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-transform-origin",
+              "description": "Derive transform origin from final placement",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "opened-class",
+              "description": "Class applied to the first reference node while open",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-class / popup-style",
+              "description": "Positioning-layer class/style",
+              "default": "-",
+              "value": {
+                "type": "ClassName / CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-class / content-style",
+              "description": "Content-layer class/style",
+              "default": "-",
+              "value": {
+                "type": "ClassName / CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-class / arrow-style",
+              "description": "Arrow class/style",
+              "default": "-",
+              "value": {
+                "type": "ClassName / CSSProperties",
+                "kind": "expression"
+              }
             }
           ],
-          "events": [
-            {
-              "name": "open",
-              "description": "Triggered when the `Tooltip` is opened"
-            },
-            {
-              "name": "opened",
-              "description": "Triggered when the open `Tooltip` animation ends"
-            },
-            {
-              "name": "close",
-              "description": "Triggered when the `Tooltip` is closed"
-            },
-            {
-              "name": "closed",
-              "description": "Triggered when the closing `Tooltip` animation ends"
-            },
-            {
-              "name": "click-outside",
-              "description": "Triggered when clicking outside the tooltip"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Tooltip trigger element"
-            },
-            {
-              "name": "content",
-              "description": "Tooltip content"
-            },
-            {
-              "name": "click-outside",
-              "description": "Triggered when clicking outside the menu"
-            }
-          ]
-        },
-        {
-          "name": "mp-trigger",
-          "attributes": [],
           "events": [],
           "slots": []
         },

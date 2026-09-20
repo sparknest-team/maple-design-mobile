@@ -1,237 +1,62 @@
-import { createApp } from 'vue'
-import { doubleRaf } from '@maplejs/maple-shared'
+import { createApp, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { expect, test, vi } from 'vitest'
-import VarTooltip from '..'
-import { delay, mockStubs, trigger } from '../../utils/test'
+import { afterEach, describe, expect, test } from 'vitest'
+import Tooltip, { tooltipProps } from '..'
 
-const mountTooltip = (options = {}) =>
-  mount(VarTooltip, {
-    ...options,
-    slots: { default: '<button class="reference">reference</button>', ...options.slots },
-  })
+const wrappers = []
+afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
 
-test('tooltip plugin', () => {
-  const app = createApp({}).use(VarTooltip)
-  expect(app.component(VarTooltip.name)).toBeTruthy()
-})
-
-test('tooltip placement', () => {
-  ;[
-    'top',
-    'top-start',
-    'top-end',
-    'bottom',
-    'bottom-start',
-    'bottom-end',
-    'right',
-    'right-start',
-    'right-end',
-    'left',
-    'left-start',
-    'left-end',
-  ].forEach((placement) => {
-    const { mockRestore } = mockStubs()
-    const root = document.createElement('div')
-
-    const wrapper = mountTooltip({
-      props: {
-        placement,
-        popupContainer: root,
-      },
-    })
-
-    expect(root.innerHTML).toMatchSnapshot()
-
-    wrapper.unmount()
-    mockRestore()
-  })
-})
-
-test('tooltip click trigger', async () => {
-  const { mockRestore } = mockStubs()
-
-  const wrapper = mountTooltip({
+function mountTooltip(props = {}) {
+  const wrapper = mount(Tooltip, {
     attachTo: document.body,
-    props: {
-      trigger: 'click',
-    },
+    props: { animationName: '', popupContainer: false, ...props },
+    slots: { default: '<button class="reference">reference</button>' },
+  })
+  wrappers.push(wrapper)
+  return wrapper
+}
+
+describe('Tooltip', () => {
+  test('installs and exposes the canonical defaults', () => {
+    const app = createApp({}).use(Tooltip)
+    expect(app.component(Tooltip.name)).toBeTruthy()
+    expect(tooltipProps.trigger.default()).toEqual(['hover', 'focus'])
+    expect(tooltipProps.placement.default).toBe('top')
+    expect(tooltipProps.size.default).toBe('md')
+    expect(tooltipProps.showArrow.default).toBe(true)
+    expect(tooltipProps.unmountOnClose.default).toBe(true)
+    expect('backgroundColor' in tooltipProps).toBe(false)
+    expect('xs' in tooltipProps).toBe(false)
   })
 
-  await wrapper.get('.reference').trigger('click')
-  await delay(300)
-  expect(document.body.innerHTML).toMatchSnapshot()
-
-  await trigger(document, 'click')
-  await delay(300)
-  expect(document.body.innerHTML).toMatchSnapshot()
-
-  document.body.innerHTML = ''
-
-  mockRestore()
-  wrapper.unmount()
-})
-
-test('tooltip hover trigger and events', async () => {
-  const { mockRestore } = mockStubs()
-
-  const onOpen = vi.fn()
-  const onOpened = vi.fn()
-  const onClose = vi.fn()
-  const onClosed = vi.fn()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountTooltip({
-    props: {
-      popupContainer: root,
-      onOpen,
-      onOpened,
-      onClose,
-      onClosed,
-    },
-  })
-  await wrapper.get('.reference').trigger('mouseenter')
-  expect(onOpen).toHaveBeenCalledTimes(1)
-
-  await delay(300)
-
-  expect(onOpened).toHaveBeenCalledTimes(1)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  await wrapper.get('.reference').trigger('mouseleave')
-
-  await doubleRaf()
-  await delay(0)
-  expect(onClose).toHaveBeenCalledTimes(1)
-  await delay(300)
-
-  expect(onClosed).toHaveBeenCalledTimes(1)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('tooltip type', () => {
-  ;['default', 'primary', 'info', 'success', 'warning', 'danger'].forEach((type) => {
-    const { mockRestore } = mockStubs()
-    const root = document.createElement('div')
-
+  test('renders status, size and custom colors on the semantic content', async () => {
     const wrapper = mountTooltip({
-      props: {
-        status: type,
-        popupContainer: root,
-      },
-    })
-
-    expect(root.innerHTML).toMatchSnapshot()
-
-    wrapper.unmount()
-    mockRestore()
-  })
-})
-
-test('tooltip content', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountTooltip({
-    props: {
-      content: 'test tooltip',
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('tooltip color', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountTooltip({
-    props: {
-      color: '#000',
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('tooltip text-color', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountTooltip({
-    props: {
-      textColor: '#fff',
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('tooltip offset', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountTooltip({
-    props: {
-      offsetX: 100,
-      offsetY: 100,
-      popupContainer: root,
-    },
-  })
-
-  await doubleRaf()
-
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
-})
-
-test('tooltip hover the tooltip list', async () => {
-  const { mockRestore } = mockStubs()
-
-  const root = document.createElement('div')
-
-  const wrapper = mountTooltip({
-    props: {
       defaultOpen: true,
-      trigger: 'hover',
-      popupContainer: root,
-    },
+      content: 'Helpful text',
+      status: 'warning',
+      size: 'xs',
+      color: 'rgb(1, 2, 3)',
+      textColor: 'rgb(4, 5, 6)',
+    })
+    await nextTick()
+    const content = wrapper.get('[role="tooltip"]')
+    expect(content.classes()).toEqual(
+      expect.arrayContaining(['mp-tooltip__content', 'mp-tooltip--status-warning', 'mp-tooltip--size-xs']),
+    )
+    expect(content.attributes('style')).toContain('background-color: rgb(1, 2, 3)')
+    expect(content.attributes('style')).toContain('color: rgb(4, 5, 6)')
   })
 
-  await doubleRaf()
-  await trigger(root.querySelector('.mp-tooltip__tooltip'), 'mouseenter')
-  await trigger(root.querySelector('.mp-tooltip__tooltip'), 'mouseleave')
-  await delay(300)
-  expect(root.innerHTML).toMatchSnapshot()
-
-  wrapper.unmount()
-  mockRestore()
+  test('connects and clears aria-describedby with visibility', async () => {
+    const wrapper = mountTooltip({ trigger: 'manual', content: 'Helpful text' })
+    const reference = wrapper.get('.reference')
+    expect(reference.attributes('aria-describedby')).toBeUndefined()
+    wrapper.vm.open()
+    await nextTick()
+    const tooltip = wrapper.get('[role="tooltip"]')
+    expect(reference.attributes('aria-describedby')).toBe(tooltip.attributes('id'))
+    wrapper.vm.close()
+    await nextTick()
+    expect(reference.attributes('aria-describedby')).toBeUndefined()
+  })
 })

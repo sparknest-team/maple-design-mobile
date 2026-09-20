@@ -4,7 +4,7 @@
 
 用于收纳针对当前对象的临时命令，例如更多操作、右键菜单和按钮的附加操作。选择表单数据请使用 [Select](#/zh-CN/select)；选择层级数据请使用 [Cascader](#/zh-CN/cascader)。
 
-弹出层基于无视觉样式的 [Trigger](#/zh-CN/trigger) 实现，定位枚举沿用 Popper（含 `cover-*`），默认 `bottom`。同宽、高度限制分别使用 `auto-fit-popup-width`、`popup-max-height`。
+弹出层基于无视觉样式的 [Trigger](#/zh-CN/trigger) 实现，使用统一十二方位和 `cover` 覆盖模式，默认 `bottom`。同宽、高度限制分别使用 `auto-fit-popup-width`、`popup-max-height`。
 
 ### 更多操作
 
@@ -111,7 +111,7 @@
 | `trigger` | 根菜单触发方式 | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | 各级子菜单的展开方式，对所有层级统一生效 | _'click' \| 'hover'_ | `'click'` |
 | `placement` | 弹出位置 | _DropdownMenuPosition_ | `'bottom'` |
-| `strategy` | Popper 定位策略 | _'absolute' \| 'fixed'_ | `'absolute'` |
+| `strategy` | 浮层定位策略 | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | 外部触发元素 | _string \| HTMLElement_ | `-` |
 | `popup-container` | 浮层挂载容器 | _string \| HTMLElement \| false_ | `-` |
 | `popup-class` | 浮层类名 | _string \| array \| object_ | `-` |

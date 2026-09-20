@@ -147,12 +147,12 @@
   "back-top": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，扩展选项需明确兼容。"
+    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，有价值的能力纳入最终 API 或显式平台扩展，不保留旧 API 兼容入口。"
   },
   "watermark": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，扩展选项需明确兼容。"
+    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，有价值的能力纳入最终 API 或显式平台扩展，不保留旧 API 兼容入口。"
   },
   "checkbox": {
     "label": "待适配",
@@ -285,19 +285,19 @@
     "reason": "2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。旧 Menu / MenuGroup / MenuSubmenu 已废弃，不再保留别名。"
   },
   "popover": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-20 完成独立同源复制：主体、Props、platform 外观映射、title/body DOM、结构样式及语义契约纳入门禁。双端统一 click、bottom、箭头、10px 间距和关闭缓存默认值，删除 defaultStyle、popoverClass、elevation；通过 Trigger referenceAttrs 关联 aria-controls/expanded。仅前缀、本地导入和主题 token 值不同。"
   },
   "tooltip": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-20 完成独立同源复制：主体、Props、platform 外观映射、结构样式与语义契约纳入门禁。双端统一 hover+focus、top、箭头、10px 间距、关闭卸载、xs/md、status、color/textColor，删除 backgroundColor 和布尔 xs；通过 Trigger referenceAttrs 关联 role=tooltip 与 aria-describedby。仅前缀、本地导入和主题 token 值不同。"
   },
   "trigger": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-20 完成独立同源复制：Trigger 主体、最终 Props/types、无依赖定位器、结构样式、token 职责和定位契约测试已纳入 copied-components-check。两端统一十二方位、absolute/fixed、popupOffset、popupTranslate、cover、翻转避让、滚动与尺寸更新；Maple 删除 @popperjs/core、offsetX/offsetY 与 cascadeOptimization。仅 platform.ts 保留各库容器、层级、全局配置及 ResizeObserver 接线，不共享运行时核心或实例。"
   },
   "split-button": {
     "label": "已同源",

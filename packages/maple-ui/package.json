@@ -79,7 +79,6 @@
     "rattail": "1.0.17",
     "@maplejs/maple-shared": "workspace:*",
     "@maplejs/maple-use": "workspace:*",
-    "@popperjs/core": "^2.11.8",
     "@maplejs/icons-vue": "workspace:*",
     "dayjs": "^1.11.13",
     "decimal.js": "^10.6.0"

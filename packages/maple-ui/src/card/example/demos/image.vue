@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const imageSrc = '/cat.jpg'
+const imageSrc = `${(import.meta as ImportMeta & { env: { BASE_URL: string } }).env.BASE_URL}cat.jpg`
 const directions = ['column', 'row', 'row-reverse'] as const
 </script>
 

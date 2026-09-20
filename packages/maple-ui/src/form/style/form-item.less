@@ -1,20 +1,20 @@
 :root {
-  --mp-form-item-label-color: var(--mp-color-text);
-  --mp-form-item-label-font-size: 14px;
-  --mp-form-item-label-margin-bottom: 8px;
+  --mp-form-label-text-color: var(--mp-color-text);
+  --mp-form-size-md-label-font-size: 14px;
+  --mp-form-vertical-label-margin-bottom: 8px;
   --mp-form-item-label-width: 88px;
   --mp-form-item-label-gap: 12px;
-  --mp-form-item-asterisk-color: var(--mp-color-danger);
+  --mp-form-required-symbol-color: var(--mp-color-danger);
   --mp-form-item-asterisk-margin: 4px;
-  --mp-form-item-help-color: #888;
-  --mp-form-item-help-font-size: 12px;
-  --mp-form-item-help-margin-top: 6px;
-  --mp-form-item-margin-bottom: 16px;
+  --mp-form-extra-text-color: #888;
+  --mp-form-extra-text-font-size: 12px;
+  --mp-form-extra-margin-top: 6px;
+  --mp-form-size-md-item-margin-bottom: 16px;
 }
 
 .mp-form-item {
   width: 100%;
-  margin-bottom: var(--mp-form-item-margin-bottom);
+  margin-bottom: var(--mp-form-size-md-item-margin-bottom);
 
   &--no-style {
     margin-bottom: 0;
@@ -22,7 +22,7 @@
 
   &--vertical {
     .mp-form-item__label {
-      margin-bottom: var(--mp-form-item-label-margin-bottom);
+      margin-bottom: var(--mp-form-vertical-label-margin-bottom);
     }
   }
 
@@ -49,8 +49,8 @@
   &__label {
     display: flex;
     align-items: center;
-    color: var(--mp-form-item-label-color);
-    font-size: var(--mp-form-item-label-font-size);
+    color: var(--mp-form-label-text-color);
+    font-size: var(--mp-form-size-md-label-font-size);
     line-height: 1.4;
     word-break: break-all;
   }
@@ -64,7 +64,7 @@
   }
 
   &__asterisk {
-    color: var(--mp-form-item-asterisk-color);
+    color: var(--mp-form-required-symbol-color);
     flex-shrink: 0;
 
     &--start {
@@ -77,9 +77,9 @@
   }
 
   &__help {
-    color: var(--mp-form-item-help-color);
-    font-size: var(--mp-form-item-help-font-size);
-    margin-top: var(--mp-form-item-help-margin-top);
+    color: var(--mp-form-extra-text-color);
+    font-size: var(--mp-form-extra-text-font-size);
+    margin-top: var(--mp-form-extra-margin-top);
     line-height: 1.4;
   }
 }

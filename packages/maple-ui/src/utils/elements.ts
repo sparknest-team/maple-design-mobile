@@ -13,7 +13,7 @@ import {
   kebabCase,
   toNumber,
 } from '@maplejs/maple-shared'
-import { type StyleVars } from '../style-provider'
+import { type StyleVarName, type StyleVars } from '../style-provider/props'
 
 export function getLeft(element: HTMLElement): number {
   const { left } = getRect(element)
@@ -237,7 +237,7 @@ export function scrollTo(
 export function formatStyleVars(styleVars: StyleVars | null) {
   return Object.entries(styleVars ?? {}).reduce((styles, [key, value]) => {
     const cssVar = key.startsWith('--') ? key : `--${kebabCase(key)}`
-    styles[cssVar] = value
+    styles[cssVar as StyleVarName] = value
 
     return styles
   }, {} as StyleVars)

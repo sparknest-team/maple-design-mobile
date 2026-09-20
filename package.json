@@ -36,6 +36,9 @@
     "typecheck": "pnpm --dir ./packages/maple-ui exec vue-tsc --noEmit -p tsconfig.json",
     "version-packages": "changeset version",
     "check:tabs": "node checks/tabs-same-source.mjs",
+    "check:rate": "node checks/rate-same-source.mjs",
+    "check:ripple": "node checks/ripple-same-source.mjs",
+    "check:lightweight-feedback": "node checks/lightweight-feedback-same-source.mjs",
     "check:style-vars": "node checks/style-vars-contract.mjs"
   },
   "simple-git-hooks": {
@@ -53,6 +56,7 @@
     "@configurajs/prettier": "^0.1.4",
     "@maplejs/maple-cli": "workspace:*",
     "@maplejs/icons-vue": "workspace:*",
+    "@ui-foundation/theme-contract": "link:../design-ui/packages/theme-contract",
     "@vue/server-renderer": "catalog:",
     "axe-core": "^4.10.3",
     "eslint": "^9.32.0",

@@ -1,25 +1,16 @@
-export const props = {
-  modelValue: {
-    type: Number,
-    default: 0,
-  },
-  count: {
-    type: [String, Number],
-    default: 5,
-  },
-  color: String,
-  icon: {
-    type: String,
-    default: 'star-fill',
-  },
-  emptyIcon: {
-    type: String,
-    default: 'star',
-  },
-  halfIcon: {
-    type: String,
-    default: 'star-half-full',
-  },
+import type { Component, PropType } from 'vue'
+
+export type RateColor = string | Record<string, string>
+export type RateIcon = string | Component
+
+export const rateProps = {
+  modelValue: { type: Number, default: undefined },
+  defaultValue: { type: Number, default: 0 },
+  count: { type: [String, Number], default: 5, validator: (value: unknown) => Number(value) > 0 },
+  color: [String, Object] as PropType<RateColor>,
+  icon: [String, Object, Function] as PropType<RateIcon>,
+  emptyIcon: [String, Object, Function] as PropType<RateIcon>,
+  halfIcon: [String, Object, Function] as PropType<RateIcon>,
   emptyColor: String,
   size: [String, Number],
   gap: [String, Number],
@@ -27,9 +18,10 @@ export const props = {
   disabled: Boolean,
   disabledColor: String,
   readonly: Boolean,
-  ripple: {
-    type: Boolean,
-    default: true,
-  },
+  ripple: { type: Boolean, default: true },
   clearable: Boolean,
+  grading: Boolean,
 }
+
+export const props = rateProps
+export type RateProps = import('vue').ExtractPublicPropTypes<typeof rateProps>

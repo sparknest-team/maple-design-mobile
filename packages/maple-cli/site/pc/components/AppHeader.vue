@@ -160,6 +160,12 @@ export default defineComponent({
       currentTheme.value = theme
       setTheme(theme)
       persistTheme(theme, 'site')
+      persistTheme(theme, 'demo')
+
+      for (const id of ['mobile', 'playground']) {
+        const frame = document.getElementById(id) as HTMLIFrameElement | null
+        frame?.contentWindow?.postMessage({ action: 'theme-change', data: theme, from: 'pc' }, '*')
+      }
     }
 
     const toggleTheme = (value: Theme) => {

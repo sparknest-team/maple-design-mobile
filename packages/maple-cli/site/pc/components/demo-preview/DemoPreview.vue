@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import config from '@config'
-import { DocPreview, type DocPreviewSource } from '@loca/ui-doc-preview'
 import { getBrowserTheme, getPCLocationInfo } from '@maplejs/maple-cli/client'
 import { Context, Message } from '@maplejs/maple-ui'
+import { DocPreview, type DocPreviewSource } from '@ui-foundation/ui-doc-preview'
 import type { SiteContext } from '../../../types'
 import { utoa } from '../../../utils'
 
@@ -73,8 +73,11 @@ function showCopiedMessage() {
   margin: 24px 0;
 
   --loca-doc-preview-bg: var(--site-config-color-bar);
+  --loca-doc-preview-example-bg: var(--site-config-color-body);
+  --loca-doc-preview-source-bg: var(--site-config-color-hl-background);
+  --loca-doc-preview-text: var(--site-config-color-text);
   --loca-doc-preview-border: var(--site-config-color-hl-border);
-  --loca-doc-preview-brand: var(--site-config-color-active);
+  --loca-doc-preview-brand: var(--site-config-color-primary);
 }
 
 .maple-component-preview--page .loca-doc-preview__example {

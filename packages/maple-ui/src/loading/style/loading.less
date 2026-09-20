@@ -1,6 +1,7 @@
 :root {
   --mp-loading-color: var(--mp-color-primary);
   --mp-loading-opacity: 0.38;
+  --mp-loading-indicator-size: 20px;
   --mp-loading-desc-margin: 8px 0 0;
   --mp-loading-desc-color: var(--mp-color-primary);
   // 与包裹模式的 content opacity: 0.38 互补，使 v-mp-loading 的视觉效果一致。
@@ -55,6 +56,12 @@
   --mp-loading-xs-height: calc(var(--mp-font-size-xs) + 2px);
 
   position: relative;
+  display: inline-block;
+
+  &__indicator {
+    color: var(--mp-loading-color);
+    font-size: var(--mp-loading-indicator-size);
+  }
 
   &__content {
     position: relative;
@@ -550,6 +557,13 @@
         opacity: 0;
       }
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-loading [class*='mp-loading__'] {
+    animation: none !important;
+    transition: none !important;
   }
 }
 

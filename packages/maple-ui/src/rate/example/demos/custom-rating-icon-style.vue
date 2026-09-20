@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
+import { IconHeart, IconHeartFill } from '@maplejs/icons-vue'
 
 const scores = reactive({
   score: 3,
@@ -17,8 +18,8 @@ const scores = reactive({
 <template>
   <mp-rate
     v-model="scores.score3"
-    icon="heart-fill"
-    empty-icon="heart"
+    :icon="IconHeartFill"
+    :empty-icon="IconHeart"
     color="var(--mp-color-danger)"
     empty-color="var(--mp-color-danger)"
   />

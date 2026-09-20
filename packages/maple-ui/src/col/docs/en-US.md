@@ -32,11 +32,11 @@
 
 
 
-<!-- same-source-api:start -->
-
 ```demo
 ../example/demos/responsive.vue
 ```
+
+<!-- same-source-api:start -->
 
 ### Props
 

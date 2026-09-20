@@ -13,10 +13,8 @@ Maple 色板与 Cedar 结构对齐：**RGB 通道色阶** + **语义色** + **�
 
 | 主题名称 | 主题包 | 说明 |
 | --- | --- | --- |
-| 默认亮色 | CSS `:root` | 色阶 + 语义 |
-| 暗色 | `Themes.dark` 或 DOM | 与 `:root[maple-theme=dark]` 对齐 |
-| MD3 亮色 | `Themes.md3Light` | StyleProvider 注入覆盖 |
-| MD3 暗色 | `Themes.md3Dark` | StyleProvider 注入 + DOM dark |
+| 默认 | `Themes.default.light` / `Themes.default.dark` | 青绿色品牌色阶，提供亮暗模式 |
+| 枫叶 | `Themes.maple.light` / `Themes.maple.dark` | 枫叶红橙品牌色阶，提供亮暗模式 |
 
 ### DOM 切换暗色
 
@@ -27,7 +25,7 @@ document.documentElement.removeAttribute('maple-theme')
 
 ### StyleProvider 切换
 
-`StyleProvider.setStyleVars(Themes.dark)` 会同步设置 `html[maple-theme=dark]`；`StyleProvider.setStyleVars(null)` 移除属性并恢复默认。
+亮色对象会移除 `html[maple-theme=dark]`，暗色对象会设置该属性。切换主题时直接传入对应的 `light` / `dark` 对象。
 
 ```html
 <!-- playground-ignore -->
@@ -37,10 +35,10 @@ document.documentElement.removeAttribute('maple-theme')
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(null)">亮色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.dark)">暗色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Light)">MD3 亮色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Dark)">MD3 暗色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.default.light)">默认亮色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.default.dark)">默认暗色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.maple.light)">枫叶亮色</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.maple.dark)">枫叶暗色</mp-button>
   </mp-space>
 </template>
 ```
@@ -67,7 +65,7 @@ body {
   import { StyleProvider, Themes } from '@maplejs/maple-ui'
 
   const customTheme = {
-    ...Themes.md3Light,
+    ...Themes.maple.light,
     '--mp-primary-6': '255, 0, 0',
     '--mp-color-primary': 'rgb(var(--mp-primary-6))',
   }

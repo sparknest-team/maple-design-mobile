@@ -5,6 +5,7 @@ import Icon from '../icon'
 import Ripple from '../ripple'
 import Trigger, { triggerProps } from '../trigger'
 import { createNamespace, formatElevation, MaybeVNode } from '../utils/components'
+import { toPxNum } from '../utils/elements'
 import type { DropdownMenuProps } from './props'
 import type { DropdownMenuViewOptions } from './render'
 
@@ -30,8 +31,7 @@ export function rootTriggerAppearance(props: DropdownMenuProps) {
     cover: props.cover,
     popupContainer: props.popupContainer,
     popupClass: props.popupClass,
-    offsetX: props.offsetX,
-    offsetY: props.offsetY,
+    popupTranslate: [toPxNum(props.offsetX), toPxNum(props.offsetY)],
     autoFitPopupWidth: props.autoFitPopupWidth,
     reference: props.reference,
     strategy: props.strategy,
@@ -44,7 +44,6 @@ export function rootTriggerAppearance(props: DropdownMenuProps) {
 
 export function submenuTriggerAppearance() {
   return {
-    cascadeOptimization: true,
     popupContainer: false,
     mouseEnterDelay: menuDefaults.mouseEnterDelay,
     mouseLeaveDelay: menuDefaults.mouseLeaveDelay,
@@ -113,7 +112,7 @@ export function useOptionAppearance(
 }
 
 export const rootPlatformProps = {
-  /** Popper 定位策略 */
+  /** 浮层定位策略 */
   strategy: { type: String as PropType<'absolute' | 'fixed'>, default: 'absolute' },
 }
 

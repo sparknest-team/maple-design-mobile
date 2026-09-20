@@ -19,6 +19,7 @@ export interface LoadingDirectiveOptions {
   size?: LoadingSize
   radius?: string | number
   color?: string
+  hideIcon?: boolean
   fullscreen?: boolean
   background?: string
 }

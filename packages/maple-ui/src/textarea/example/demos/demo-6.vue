@@ -13,7 +13,7 @@
 .textarea-example {
   &__caption {
     margin: 16px 0 8px;
-    color: var(--mp-field-color-blur);
+    color: var(--mp-field-blur-color);
     font-size: 12px;
   }
 

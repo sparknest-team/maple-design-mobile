@@ -49,7 +49,7 @@ module.exports = {
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const viewportTheme = Themes.toViewport(Themes.md3Dark)
+const viewportTheme = Themes.toViewport(Themes.maple.dark)
 ```
 
 也可以对转换规则进行更改
@@ -57,7 +57,7 @@ const viewportTheme = Themes.toViewport(Themes.md3Dark)
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const viewportTheme = Themes.toViewport(Themes.md3Dark, {
+const viewportTheme = Themes.toViewport(Themes.maple.dark, {
   // 默认值为 375
   viewportWidth: 750,
   // 默认值为 'vmin'
@@ -74,7 +74,7 @@ const viewportTheme = Themes.toViewport(Themes.md3Dark, {
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const remTheme = Themes.toRem(Themes.md3Dark)
+const remTheme = Themes.toRem(Themes.maple.dark)
 ```
 
 也支持自定义
@@ -82,7 +82,7 @@ const remTheme = Themes.toRem(Themes.md3Dark)
 ```js
 import { Themes } from '@maplejs/maple-ui'
 
-const viewportTheme = Themes.toRem(Themes.md3Dark, {
+const viewportTheme = Themes.toRem(Themes.maple.dark, {
   // 默认值为 16
   rootFontSize: 32,
   // 默认值为 6

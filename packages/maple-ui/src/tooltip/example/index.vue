@@ -8,10 +8,10 @@ import DisabledDemo from './demos/disabled.vue'
 import EventsDemo from './demos/events.vue'
 import OffsetDemo from './demos/offset.vue'
 import PlacementDemo from './demos/placement.vue'
+import SizeDemo from './demos/size.vue'
 import ThemeColorTooltipDemo from './demos/theme-color-tooltip.vue'
 import TriggerDemo from './demos/trigger.vue'
 
-const trigger = ref('click')
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
 
@@ -30,6 +30,11 @@ onThemeChange()
   <section data-demo="content-slot">
     <app-type>{{ english ? 'Content Slot' : '内容插槽' }}</app-type>
     <ContentSlotDemo />
+  </section>
+
+  <section data-demo="size">
+    <app-type>{{ english ? 'Size' : '尺寸' }}</app-type>
+    <SizeDemo />
   </section>
 
   <section data-demo="placement">

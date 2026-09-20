@@ -169,10 +169,10 @@ export interface MapleConfig {
   useMobile?: boolean
   lightTheme?: Record<string, string>
   darkTheme?: Record<string, string>
-  md3LightTheme?: Record<string, string>
-  md3DarkTheme?: Record<string, string>
-  defaultLightTheme?: 'lightTheme' | 'md3LightTheme'
-  defaultDarkTheme?: 'darkTheme' | 'md3DarkTheme'
+  mapleLightTheme?: Record<string, string>
+  mapleDarkTheme?: Record<string, string>
+  defaultLightTheme?: 'lightTheme' | 'mapleLightTheme'
+  defaultDarkTheme?: 'darkTheme' | 'mapleDarkTheme'
   highlight?: { style: string }
   analysis?: { baidu: string }
   pc?: MapleConfigPc

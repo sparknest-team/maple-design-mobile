@@ -46,7 +46,7 @@ test('search keeps the default placeholder color on focus', async () => {
     },
   })
   const input = wrapper.find('.mp-input__input')
-  const color = 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
+  const color = 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))'
 
   expect(input.attributes('style')).toContain(`--mp-input-placeholder-color: ${color}`)
   await input.trigger('focus')
@@ -269,7 +269,7 @@ test('search history menu', async () => {
   expect(document.body.querySelector('.mp-search__popup')).toBeFalsy()
   expect(wrapper.vm.historyMenuVisible).toBe(true)
   const popover = document.body.querySelector('.mp-trigger__popup')
-  expect(popover.getAttribute('data-popper-placement')).toBe('bottom-start')
+  expect(popover.getAttribute('trigger-placement')).toBe('bottom-start')
   expect(popover.classList.contains('mp-search__history-menu')).toBe(true)
 
   document.body.querySelector('.mp-dropdown-menu-option').click()

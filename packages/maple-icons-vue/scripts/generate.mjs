@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { generateVueIcons } from '@loca/ui-icons'
+import { generateVueIcons } from '@ui-foundation/ui-icons'
 
 const root = resolve(import.meta.dirname, '..')
 const result = await generateVueIcons({

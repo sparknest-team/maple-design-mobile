@@ -1,21 +1,21 @@
 :root {
-  --mp-option-height: 38px;
-  --mp-option-padding: 0 12px;
-  --mp-option-font-size: 16px;
-  --mp-option-selected-background: var(--mp-field-color-focus);
-  --mp-option-text-color: #555;
-  --mp-option-disabled-color: var(--mp-color-text-disabled);
+  --mp-select-popup-option-height: 38px;
+  --mp-select-popup-option-padding-horizontal: 12px;
+  --mp-select-popup-option-bg-selected: var(--mp-field-focus-color);
+  --mp-select-popup-option-text-color: #555;
+  --mp-select-popup-option-text-color-selected: var(--mp-field-focus-color);
+  --mp-select-popup-option-text-color-disabled: var(--mp-color-text-disabled);
 }
 
 .mp-option {
   position: relative;
   display: flex;
   align-items: center;
-  height: var(--mp-option-height);
-  padding: var(--mp-option-padding);
+  height: var(--mp-select-popup-option-height);
+  padding: 0 var(--mp-select-popup-option-padding-horizontal);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  color: var(--mp-option-text-color);
+  color: var(--mp-select-popup-option-text-color);
   outline: none;
 
   &__cover {
@@ -29,19 +29,19 @@
   }
 
   &__text {
-    font-size: var(--mp-option-font-size);
+    font-size: var(--mp-select-popup-font-size);
   }
 
   &--selected-background {
-    background: var(--mp-option-selected-background);
+    background: var(--mp-select-popup-option-bg-selected);
   }
 
   &--selected-color {
-    color: var(--mp-option-selected-background);
+    color: var(--mp-select-popup-option-text-color-selected);
   }
 
   &--disabled {
-    color: var(--mp-option-disabled-color);
+    color: var(--mp-select-popup-option-text-color-disabled);
     cursor: not-allowed;
   }
 }

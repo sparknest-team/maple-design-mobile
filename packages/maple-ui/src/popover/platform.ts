@@ -1,27 +1,22 @@
 import { computed } from 'vue'
 import type { TriggerWrapperAppearance } from '../trigger/wrapper'
-import { createNamespace, formatElevation } from '../utils/components'
-import type { PopoverProps } from './index'
+import { createNamespace } from '../utils/components'
+import type { PopoverProps } from './props'
 
 export function useAppearance(props: PopoverProps): TriggerWrapperAppearance {
-  const { n, classes } = createNamespace('popover')
+  const { n } = createNamespace('popover')
   return {
     triggerBindings: computed(() => ({
-      animationName: props.animationName || n(),
-      arrowStyle: {
-        backgroundColor: props.defaultStyle ? 'var(--mp-popover-background-color)' : undefined,
-        ...props.arrowStyle,
-      },
-      contentClass: [
-        props.contentClass,
-        classes(
-          n('content'),
-          n('$--box'),
-          props.popoverClass,
-          [props.defaultStyle, n('--background-color')],
-          [props.defaultStyle, formatElevation(props.elevation, 3)],
-        ),
-      ],
+      popupClass: [n(), props.popupClass],
+      contentClass: undefined,
+      contentStyle: undefined,
+      animationName: props.animationName ?? n(),
+      arrowClass: [n('arrow'), props.arrowClass],
+      arrowStyle: props.arrowStyle,
+    })),
+    contentBindings: computed(() => ({
+      class: [n('content'), props.contentClass],
+      style: props.contentStyle,
     })),
     titleClass: n('title'),
     bodyClass: n('body'),

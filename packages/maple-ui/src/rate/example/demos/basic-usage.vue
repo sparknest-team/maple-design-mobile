@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
+import { IconThumbUp, IconThumbUpFill } from '@maplejs/icons-vue'
 
 const scores = reactive({
   score: 3,
@@ -16,5 +17,5 @@ const scores = reactive({
 
 <template>
   <mp-rate v-model="scores.score" />
-  <mp-rate v-model="scores.score" icon="thumb-up-fill" empty-icon="thumb-up" />
+  <mp-rate v-model="scores.score" :icon="IconThumbUpFill" :empty-icon="IconThumbUp" />
 </template>

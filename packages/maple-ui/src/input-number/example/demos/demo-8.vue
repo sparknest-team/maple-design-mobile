@@ -39,7 +39,7 @@ function parser(value) {
   }
 
   &__value {
-    color: var(--mp-field-color-text);
+    color: var(--mp-field-control-text-color);
     font-size: 14px;
   }
 }

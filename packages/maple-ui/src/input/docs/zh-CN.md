@@ -133,5 +133,5 @@ Input 自身提供以下变量；容器外观相关变量请参考 [FieldDecorat
 
 | 变量名                    | 默认值 |
 | ------------------------- | ------ |
-| `--input-input-height`    | `24px` |
-| `--input-input-font-size` | `16px` |
+| `--input-control-height`    | `24px` |
+| `--input-control-font-size` | `16px` |

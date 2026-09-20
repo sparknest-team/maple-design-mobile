@@ -1,8 +1,6 @@
-# 提示
+# Tooltip 文字气泡
 
-### 介绍
-
-当元素点击或悬停时显示一个提示，通过控制弹出位置和偏移量改变提示的显示位置。
+用于补充说明按钮、图标或被截断的文字。默认同时响应鼠标悬停和键盘聚焦；需要承载可操作内容时使用 Popover。
 
 ### 基本使用
 
@@ -10,55 +8,47 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 内容插槽
+### 尺寸
+
+只实现 `md` 和 `xs` 两档，默认 `md`。
+
+```demo
+../example/demos/size.vue
+```
+
+### 内容、主题与颜色
 
 ```demo
 ../example/demos/content-slot.vue
 ```
 
-### 弹出位置
-
-```demo
-../example/demos/placement.vue
-```
-
-### 主题色
-
 ```demo
 ../example/demos/theme-color-tooltip.vue
 ```
-
-### 自定义颜色
 
 ```demo
 ../example/demos/custom-color.vue
 ```
 
-### 偏移量
+### 位置、偏移与触发
 
-通过 `offset-x` 和 `offset-y` 设置 `Tooltip` 弹出的偏移量。
+```demo
+../example/demos/placement.vue
+```
 
 ```demo
 ../example/demos/offset.vue
 ```
 
-### 触发方式
-
-通过 `trigger` 改变 `Tooltip` 显示的触发方式，可选值为 `click` 和 `hover`。
-
 ```demo
 ../example/demos/trigger.vue
 ```
 
-### 注册事件
+### 事件与禁用
 
 ```demo
 ../example/demos/events.vue
 ```
-
-### 禁用提示
-
-在 `disabled` 状态下，`Tooltip` 将不再被打开。
 
 ```demo
 ../example/demos/disabled.vue
@@ -66,114 +56,50 @@
 
 ## API
 
+Tooltip 继承 Trigger 的定位、容器、受控状态、关闭策略和公开方法。
+
 ### 属性
 
-| 参数 | 说明 | 类型             | 默认值       |
-| ------- | --- |----------------|-----------|
-| `v-model:open` | 是否显示 | _boolean_       | `false`   |
-| `content` | 显示的内容 | _string_    | `-`       |
-| `color` | 背景颜色 | _string_       | `-`       |
-| `text-color` ***3.5.0*** | 文字颜色 | _string_       | `-`       |
-| `status`  | 类型，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_  | `default` |
-| `placement` | 弹出位置 | _Placement_    | `bottom`     |
-| `strategy`  | 定位方式，可选值为 `absolute` `fixed` | _string_    | `absolute`    |
-| `offset-x` | x 轴偏移量， 相对于 `Tooltip` 对齐后的位置 | _number \| string_   | `0` |
-| `offset-y` | y 轴偏移量， 相对于 `Tooltip` 对齐后的位置 | _number \| string_   | `0` |
-| `popup-container` | 挂载的位置 | _TeleportProps['to'] \| false_ | `body`    |
-| `auto-fit-popup-width` | 是否与触发元素同宽 | _boolean_ | `false`  |
-| `disabled` | 是否禁用 Tooltip | _boolean_      | `false`   |
-| `trigger` | 触发方式，可选值为 `click` `hover` `manual` | _string_       | `hover`   |
-| `reference`       | 菜单关联的触发元素，`string` 类型为菜单组件的子孙元素选择器，`HTMLElement` 类型为任意指定的元素节点 | _string \| HTMLElement_ | `-`           |
-| `close-on-click-reference` | 是否在点击菜单触发元素后关闭菜单 | _boolean_ | `false` |
-| `esc-to-close` | 是否支持键盘 ESC 关闭提示 | _boolean_ | `true`  |
-
-### Placement
-
-| 参数 | 说明 |
-| ------- | ------ |
-| `top` |顶部中心位置 |
-| `top-start` | 顶部左侧位置 |
-| `top-end` | 顶部右侧位置 |
-| `bottom` | 底部中心位置 |
-| `bottom-start` | 底部左侧位置 |
-| `bottom-end` | 底部右侧位置 |
-| `right` | 右侧中心位置 |
-| `right-start` | 右侧上方位置 |
-| `right-end` | 右侧下方位置 |
-| `left` | 左侧中心位置 |
-| `left-start` | 左侧上方位置 |
-| `left-end` | 左侧下方位置 |
-
-### 方法
-
-| 方法名 | 说明 | 参数 | 返回值 |
+| 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `open` | 打开 `Tooltip` | `-` | `-` |
-| `close` | 关闭 `Tooltip` | `-` | `-` |
-| `resize` | `Tooltip` 默认插槽元素产生位置大小变化时可以调用此方法进行重绘 | `-` | `-` |
-| `setReference` ***3.7.2*** | 设置 `Tooltip` 关联的触发元素 | `reference: 与组件属性的 reference 一致` | `-` |
+| v-model:open | 受控打开状态 | `boolean` | — |
+| default-open | 非受控初始状态 | `boolean` | `false` |
+| content | 提示内容 | `string` | — |
+| status | 面板主题 | `default \| primary \| info \| success \| warning \| danger` | `default` |
+| size | 尺寸；只实现两档 | `xs \| md` | `md` |
+| color | 自定义背景色 | `string` | — |
+| text-color | 自定义文字色 | `string` | — |
+| trigger | 触发方式 | `TriggerEvent \| TriggerEvent[]` | `['hover', 'focus']` |
+| placement | 首选方位 | `TriggerPlacement` | `top` |
+| show-arrow | 是否显示箭头 | `boolean` | `true` |
+| popup-offset | 沿方位主轴的距离 | `number` | `10` |
+| popup-translate | 屏幕轴附加平移 | `[number, number] \| Record` | — |
+| popup-container | 挂载容器；false 原地渲染 | `string \| HTMLElement \| false` | `body` |
+| reference | 外部触发元素 | `string \| HTMLElement \| SVGElement` | — |
+| disabled | 禁止打开 | `boolean` | `false` |
+| unmount-on-close | 关闭后卸载内容 | `boolean` | `true` |
 
 ### 事件
 
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `open` | 打开 `Tooltip` 时触发 | `-` |
-| `opened` | 打开 `Tooltip` 动画结束时触发 | `-` |
-| `close` | 关闭 `Tooltip` 时触发 | `-` |
-| `closed` | 关闭 `Tooltip` 动画结束时触发 | `-` |
-| `click-outside` | 点击菜单外部时触发 | `event: Event` |
+| 事件名 | 说明 |
+| --- | --- |
+| update:open | 请求修改受控打开状态 |
+| open-change | 请求修改打开状态 |
+| open | 开始打开 |
+| opened | 入场动画完成 |
+| close | 开始关闭 |
+| closed | 离场动画完成 |
+| click-outside | 点击浮层外部 |
 
 ### 插槽
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | `Tooltip` 关联的触发元素 | `-` |
-| `content` | `Tooltip` 内容 | `-` |
-
-### 样式变量
-
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-| 变量名 | 默认值 |
+| 插槽名 | 说明 |
 | --- | --- |
-| `--tooltip-opacity` | `0.9` |
-| `--tooltip-border-radius` | `4px` |
-| `--tooltip-font-size` | `14px` |
-| `--tooltip-padding` | `8px 16px` |
-| `--tooltip-offset` | `10px` |
-| `--tooltip-default-color` | `#616161` |
-| `--tooltip-primary-color` | `var(--color-primary)` |
-| `--tooltip-info-color` | `var(--color-info)` |
-| `--tooltip-success-color` | `var(--color-success)` |
-| `--tooltip-warning-color` | `var(--color-warning)` |
-| `--tooltip-danger-color` | `var(--color-danger)` |
-| `--tooltip-default-text-color` | `#fff` |
-| `--tooltip-primary-text-color` | `var(--color-white)` |
-| `--tooltip-info-text-color` | `var(--color-white)` |
-| `--tooltip-success-text-color` | `var(--color-white)` |
-| `--tooltip-warning-text-color` | `var(--color-white)` |
-| `--tooltip-danger-text-color` | `var(--color-white)` |
+| default | 触发元素 |
+| content | 提示内容；未提供时使用 `content` 属性 |
 
-## 基础契约对齐（2026-09-08）
+### 方法
 
-`open` 是受控状态；没有传入时使用组件内部状态。`default-open` 仅设置非受控初始状态。用户操作派发 `update:open`，由调用者更新受控值；外部更新不重复派发更新请求。SVG 图标和 Fragment 组件根节点可直接作为触发元素。
+`open()`、`close()`、`resize()`、`allowClose()`、`getReference()`、`setReference()`、`focusReference()`。
 
-计划及迁移范围见 `design-ui/refactors/foundation-alignment/plan.md` 和 `migration.md`。当前仅状态与节点基础逻辑独立同源复制；定位引擎、完整 API 和样式仍待后续对齐。
-
-## 基础交互迁移
-
-底层 Trigger 已统一状态、节点和弹层事件处理。本组件保留原有触发默认与零悬停延迟，trigger 也可使用数组组合 hover/focus/click/manual/contextMenu。mouseEnterDelay、mouseLeaveDelay 可显式设置；完整底层契约见 Trigger 文档。
-
-`unmountOnClose` 默认 false，保留关闭后的内容；设为 true 后在离场完成时卸载。
-
-## 共同组件主体与 Trigger 契约
-
-两端使用独立复制的组件主体；所有开关状态和生命周期由底层 Trigger 管理。`open` 是受控值，`defaultOpen` 初始化非受控状态；请求只派发一次 `update:open` 和 `open-change`，实际变化才产生 open/close，过渡完成才产生 opened/closed。默认打开也会产生首次 open。
-
-明确支持 Trigger 的交互与渲染字段，包括 trigger（单值/数组）、disabled、mouseEnterDelay、mouseLeaveDelay、focusDelay、popupHoverStay、blurToClose、clickOutsideToClose、escToClose、restoreFocus、unmountOnClose、duration、showArrow、popupClass/popupStyle、contentClass/contentStyle、arrowClass/arrowStyle。各端定位扩展继续使用该端 Trigger 字段。
-
-公开方法：open、close、resize、allowClose、getReference、setReference、focusReference。setReference() 无参数时恢复默认插槽引用，HTML/SVG 引用均受支持；focusReference 不会导致 focus 触发器再次打开。
-
-默认值保留：Cedar Tooltip/Popover 为 hover、top、100 ms 延迟、有箭头、关闭后卸载；Maple Tooltip 为 hover，Popover 为 click，二者 bottom、零延迟、默认无箭头、关闭后保留内容。需要一致行为时显式传这些属性。
-
-Tooltip 内容层带 role="tooltip"，content 插槽优先于 content 属性。backgroundColor 为两端一致的背景入口，color 保留兼容；textColor 设置文字颜色，xs 启用小尺寸。Cedar 的 contentClass/contentStyle 位于实际内容元素，其外层仍是 Trigger 内容层；依赖直接子元素的 CSS 需据此调整。
+内容具有 `role="tooltip"`，打开时通过 `aria-describedby` 与实际触发元素关联。两端独立保存同一份实现，不提供 `backgroundColor` 或布尔 `xs` 兼容入口。

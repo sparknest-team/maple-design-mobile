@@ -2,7 +2,9 @@
   position: relative;
   width: var(--mp-dialog-width);
   background: var(--mp-dialog-background);
-  transition: 0.25s background-color;
+  border: var(--mp-dialog-border-width) solid var(--mp-dialog-border-color);
+  border-radius: var(--mp-dialog-border-radius);
+  transition: background-color var(--mp-dialog-animation-duration) var(--mp-dialog-animation-easing);
 
   &__popup[mp-dialog-cover] {
     background: transparent;
@@ -12,11 +14,12 @@
   &__title {
     display: flex;
     align-items: center;
+    min-height: var(--mp-dialog-title-min-height);
     font-size: var(--mp-dialog-title-font-size);
-    font-weight: 400;
+    font-weight: var(--mp-dialog-title-font-weight);
     padding: var(--mp-dialog-title-padding);
-    color: var(--mp-dialog-title-color);
-    justify-content: space-between;
+    color: var(--mp-dialog-title-text-color);
+    justify-content: var(--mp-dialog-title-justify);
     touch-action: none;
   }
 
@@ -46,35 +49,37 @@
     color: var(--mp-dialog-close-button-color);
     font-size: var(--mp-dialog-close-button-font-size);
     background: transparent;
+    margin-inline-end: var(--mp-dialog-close-button-inset-inline-end);
     cursor: pointer;
   }
 
   &__title-icon {
     flex-shrink: 0;
-    margin-right: 6px;
+    margin-right: var(--mp-dialog-status-icon-gap);
+    font-size: var(--mp-dialog-status-icon-size);
   }
 
   &--type-info &__title-icon {
-    color: var(--mp-color-info);
+    color: var(--mp-dialog-status-info-color);
   }
 
   &--type-success &__title-icon {
-    color: var(--mp-color-success);
+    color: var(--mp-dialog-status-success-color);
   }
 
   &--type-warning &__title-icon {
-    color: var(--mp-color-warning);
+    color: var(--mp-dialog-status-warning-color);
   }
 
   &--type-error &__title-icon {
-    color: var(--mp-color-danger);
+    color: var(--mp-dialog-status-danger-color);
   }
 
   &__message {
-    padding: var(--mp-dialog-message-padding);
-    color: var(--mp-dialog-message-color);
-    line-height: var(--mp-dialog-message-line-height);
-    font-size: var(--mp-dialog-message-font-size);
+    padding: var(--mp-dialog-content-padding);
+    color: var(--mp-dialog-content-text-color);
+    line-height: var(--mp-dialog-content-line-height);
+    font-size: var(--mp-dialog-content-font-size);
     word-wrap: break-word;
   }
 
@@ -85,7 +90,7 @@
   }
 
   &__button[mp-dialog-cover] {
-    margin-left: var(--mp-dialog-button-margin-left);
+    margin-left: var(--mp-dialog-actions-button-gap);
   }
 
   &--simple {
@@ -93,7 +98,7 @@
     border-radius: var(--mp-dialog-simple-border-radius);
 
     .mp-dialog__message {
-      padding: var(--mp-dialog-simple-message-padding);
+      padding: var(--mp-dialog-simple-padding);
     }
 
     .mp-dialog__actions {

@@ -17,7 +17,7 @@ const clearableValue = ref('Maple Design')
 .input-example {
   &__caption,
   &__value {
-    color: var(--mp-field-color-blur);
+    color: var(--mp-field-blur-color);
     font-size: 12px;
   }
 

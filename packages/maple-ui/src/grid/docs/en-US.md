@@ -32,11 +32,11 @@ CSS Grid columns, spans, gaps, collapse and suffix items. Use Row / Col for 24-c
 
 
 
-<!-- same-source-api:start -->
-
 ```demo
 ../example/demos/dynamic.vue
 ```
+
+<!-- same-source-api:start -->
 
 ### Props
 

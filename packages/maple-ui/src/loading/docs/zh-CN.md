@@ -32,7 +32,7 @@
 
 
 
-`v-mp-loading` 支持布尔值简写，也支持 `{ loading, tip, type, size, radius, color, fullscreen, background }` 配置对象。对象形式中的 `loading` 控制加载状态，`tip` 与 `Loading` 组件属性保持一致。
+`v-mp-loading` 支持布尔值简写，也支持 `{ loading, tip, type, size, radius, color, hideIcon, fullscreen, background }` 配置对象。对象形式中的 `loading` 控制加载状态，其余组件选项与 `Loading` Props 保持一致。
 
 #### 注册方式
 
@@ -64,6 +64,7 @@
 | `tip`     | loading 的提示文字                                                 | _string_           | `-`      |
 | `loading` | 存在内容时 loading 是否显示                                        | _boolean_          | `false`  |
 | `radius`  | loading 的类型为 `circle` 时，可设置其半径大小                     | _string \| number_ | `-`      |
+| `hide-icon` | 是否隐藏加载指示器 | _boolean_ | `false` |
 
 ### 插槽
 
@@ -71,6 +72,7 @@
 | --------- | ---------------------- | ---- |
 | `default` | `loading` 包裹着的内容 | `-`  |
 | `tip`     | `loading` 的提示文字   | `-`  |
+| `icon`    | 自定义加载指示器     | `-`  |
 
 ### 样式变量
 

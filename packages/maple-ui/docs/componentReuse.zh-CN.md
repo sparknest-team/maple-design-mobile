@@ -2,7 +2,7 @@
 
 审计日期：2026-09-08。基于当前工作区源码（包含正在进行的 API 对齐改动），不是发布版本保证。标记规则更新：2026-09-08；已完成原待同源 11 组组件及 Link / Paper 的独立复制与双端验证；待适配和逻辑待同源仍为候选。
 
-已同源 30 组；待同源 0 组；待适配 20 组；逻辑待同源 20 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
+已同源 33 组；待同源 0 组；待适配 20 组；逻辑待同源 17 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
 
 ## 菜单标记
 
@@ -18,7 +18,7 @@
 
 ## 调研依据和限制
 
-重新运行 api-contract-inventory.mjs，从 TypeScript 根入口追踪得到 Cedar 113 / Maple 114 个运行时 Props 导出，82 个同名导出可比较（包含子组件）。Props 名称相同不能证明默认值、类型、事件、插槽、方法和行为完全一致。额外检查了主体模板/TSX、事件触发、插槽、计时与弹层依赖；详细 Props 键差异见下方附录。Search 等根导出不对称也单独列为候选。
+重新运行 api-contract-inventory.mjs，从 TypeScript 根入口追踪得到 Cedar 121 / Maple 115 个运行时 Props 导出，88 个同名导出可比较（包含子组件）。Props 名称相同不能证明默认值、类型、事件、插槽、方法和行为完全一致。额外检查了主体模板/TSX、事件触发、插槽、计时与弹层依赖；详细 Props 键差异见下方附录。Search 等根导出不对称也单独列为候选。
 
 copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、Props、关键样式和配对测试。安装入口、主题 token、图标/配置适配仍由两库独立维护；最新覆盖以脚本及运行结果为准。新增检查不会自动升级分类，须完成双端验证后更新。其余属于源码静态评估，没有声称所有端侧行为已经通过验证。
 
@@ -57,8 +57,8 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | ellipsis | ellipsis | 待适配 | 4 个 Props 和 update:expand 接近；受控展开策略及 Tooltip 触发依赖不同，先统一展开状态和触控提示行为。 |
 | progress | progress | 待适配 | Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。 |
 | progress-group | progress-group | 待适配 | Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。 |
-| back-top | back-top | 待适配 | BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，扩展选项需明确兼容。 |
-| watermark | watermark | 待适配 | BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，扩展选项需明确兼容。 |
+| back-top | back-top | 待适配 | BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，有价值的能力纳入最终 API 或显式平台扩展，不保留旧 API 兼容入口。 |
+| watermark | watermark | 待适配 | BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，有价值的能力纳入最终 API 或显式平台扩展，不保留旧 API 兼容入口。 |
 | checkbox | checkbox | 待适配 | defaultChecked/defaultValue、uninjectGroupContext 与 readonly/ripple/颜色不同，Group 的 disabled/fieldNames/variant 也有差异；先统一值模型、键盘组导航及表单注入。 |
 | radio | radio | 待适配 | defaultChecked/defaultValue、uninjectGroupContext 与 readonly/ripple/颜色不同，Group 的 disabled/fieldNames/variant 也有差异；先统一值模型、键盘组导航及表单注入。 |
 | rate | rate | 待适配 | 可同源对齐命中计算、范围/步长与值模型；Rate 的 grading 与图标扩展、Slider 的 marks/showInput/showTicks 与触控标签/颜色不同，统一 pointer 交互后再同源对齐主体。 |
@@ -85,9 +85,9 @@ copied-components-check.mjs 已扩展至原待同源 11 组及 Link 的主体、
 | time-picker | time-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
 | time-range-picker | time-range-picker | 逻辑待同源 | PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。 |
 | dropdown-menu | dropdown-menu | 已同源 | 2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。旧 Menu / MenuGroup / MenuSubmenu 已废弃，不再保留别名。 |
-| popover | popover | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
-| tooltip | tooltip | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
-| trigger | trigger | 逻辑待同源 | 定位/触发 API 和依赖不同，hover 延迟/焦点与 reference/strategy/offsetX/Y 不能机械对齐；先同源对齐可见状态、定位参数和关闭原因契约。 |
+| popover | popover | 已同源 | 2026-09-20 完成独立同源复制：主体、Props、platform 外观映射、title/body DOM、结构样式及语义契约纳入门禁。双端统一 click、bottom、箭头、10px 间距和关闭缓存默认值，删除 defaultStyle、popoverClass、elevation；通过 Trigger referenceAttrs 关联 aria-controls/expanded。仅前缀、本地导入和主题 token 值不同。 |
+| tooltip | tooltip | 已同源 | 2026-09-20 完成独立同源复制：主体、Props、platform 外观映射、结构样式与语义契约纳入门禁。双端统一 hover+focus、top、箭头、10px 间距、关闭卸载、xs/md、status、color/textColor，删除 backgroundColor 和布尔 xs；通过 Trigger referenceAttrs 关联 role=tooltip 与 aria-describedby。仅前缀、本地导入和主题 token 值不同。 |
+| trigger | trigger | 已同源 | 2026-09-20 完成独立同源复制：Trigger 主体、最终 Props/types、无依赖定位器、结构样式、token 职责和定位契约测试已纳入 copied-components-check。两端统一十二方位、absolute/fixed、popupOffset、popupTranslate、cover、翻转避让、滚动与尺寸更新；Maple 删除 @popperjs/core、offsetX/offsetY 与 cascadeOptimization。仅 platform.ts 保留各库容器、层级、全局配置及 ResizeObserver 接线，不共享运行时核心或实例。 |
 | split-button | split-button | 已同源 | 2026-09-08 完成独立同源复制：主体、21 项 Props、样式依赖入口和契约测试纳入一致性检查；统一异步点击、受控状态、禁用优先级、向下箭头及 open/close/resize。Cedar Menu 补齐浮层类名和屏幕轴偏移适配；两端 Menu 保留独立平台实现，无跨库运行时或实例共享。 |
 | form | form | 逻辑待同源 | Cedar 有 rules、栅格标签和 size，Maple 有 readonly，FormItem 导出与注入不同；先同源对齐校验任务、字段注册和重置，布局与错误呈现分开。 |
 | tabs | tabs | 逻辑待同源 | Tabs 有编辑/新增与 sticky/safeArea 差异；Carousel 有键盘 aria 与 centeredSlides/effect 差异；同源对齐索引、切换/自动播放状态机，导航和手势保留适配。 |
@@ -122,7 +122,7 @@ Cedar 的 Tree / Transfer / Descriptions / Timeline / FilterForm 等，以及 Ma
 仅比较实际公开运行时 Props 的键，不把工具目录当组件，也不据此声称事件、插槽、方法或行为完全相同。
 已批准且实施的语义迁移见 api-alignment-plan.md；剩余集合差异是后续能力规划清单，不自动求并集。
 
-Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
+Cedar：121 个 Props 导出；Maple：115 个；同名可比较：88 个。
 
 | Props | Cedar / Maple 键数量 | 仅 Cedar | 仅 Maple |
 | --- | --- | --- | --- |
@@ -140,8 +140,8 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | cardProps | 19 / 19 | — | — |
 | carouselProps | 25 / 24 | `ariaLabel`, `nextButtonAriaLabel`, `previousButtonAriaLabel` | `centeredSlides`, `effect` |
 | cascaderProps | 31 / 28 | `defaultInputValue`, `defaultOpen`, `defaultValue`, `error`, `expandChild`, `fallback`, `filterOption`, `formatLabel`, `inputValue`, `loadMore`, `maxTagCount`, `searchDelay`, `searchOptionOnlyLabel`, `tagNowrap`, `triggerProps`, `virtualListProps` | `blurColor`, `closeOnSelect`, `focusColor`, `hint`, `line`, `pickerProps`, `popupProps`, `presentation`, `readonly`, `separator`, `tag`, `textColor`, `variant` |
-| checkboxGroupProps | 6 / 5 | `defaultValue`, `disabled` | `fieldNames` |
-| checkboxProps | 6 / 9 | `defaultChecked`, `uninjectGroupContext` | `checkedColor`, `iconSize`, `readonly`, `ripple`, `uncheckedColor` |
+| checkboxGroupProps | 7 / 5 | `defaultValue`, `disabled`, `error` | `fieldNames` |
+| checkboxProps | 7 / 9 | `defaultChecked`, `error`, `uninjectGroupContext` | `checkedColor`, `iconSize`, `readonly`, `ripple`, `uncheckedColor` |
 | colProps | 10 / 10 | — | — |
 | collapseItemProps | 5 / 5 | — | — |
 | collapseProps | 9 / 9 | — | — |
@@ -153,6 +153,7 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | dateRangeProps | 18 / 28 | `defaultOpen`, `defaultValue`, `error`, `format` | `blurColor`, `datePickerProps`, `disabledTime`, `focusColor`, `hint`, `line`, `max`, `min`, `pickerProps`, `popupProps`, `presentation`, `textColor`, `timePickerProps`, `useSeconds` |
 | dialogProps | 44 / 44 | — | — |
 | dividerProps | 10 / 10 | — | — |
+| dropdownMenuProps | 25 / 26 | — | `strategy` |
 | ellipsisProps | 4 / 4 | — | — |
 | emptyProps | 6 / 6 | — | — |
 | formProps | 14 / 6 | `autoLabelWidth`, `id`, `labelAlign`, `labelColProps`, `labelColStyle`, `rules`, `size`, `wrapperColProps`, `wrapperColStyle` | `readonly` |
@@ -165,23 +166,23 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | imageProps | 26 / 26 | — | — |
 | infiniteScrollProps | 5 / 5 | — | — |
 | inputNumberProps | 17 / 17 | — | — |
-| inputProps | 15 / 22 | `defaultValue`, `error`, `showWordLimit`, `wordLength`, `wordSlice` | `ariaLabel`, `autocomplete`, `autofocus`, `blurColor`, `enterkeyhint`, `focusColor`, `hint`, `isForceErrorEffect`, `isForceFocusingEffect`, `line`, `modelModifiers`, `textColor` |
+| inputProps | 15 / 23 | `defaultValue`, `error`, `showWordLimit`, `wordLength`, `wordSlice` | `ariaLabel`, `autocomplete`, `autofocus`, `blurColor`, `enterkeyhint`, `focusColor`, `hint`, `isForceErrorEffect`, `isForceFocusingEffect`, `line`, `modelModifiers`, `placeholderFocusColor`, `textColor` |
 | linkProps | 9 / 9 | — | — |
 | listProps | 8 / 5 | `maxHeight`, `scrollbar`, `virtualListProps` | — |
-| loadingProps | 8 / 6 | `dot`, `hideIcon` | — |
-| menuProps | 18 / 25 | — | `closeOnClickReference`, `elevation`, `mouseEnterDelay`, `mouseLeaveDelay`, `reference`, `size`, `strategy` |
+| loadingProps | 7 / 7 | — | — |
+| menuOptionProps | 9 / 9 | — | — |
 | messageProps | 7 / 18 | `closeButtonAriaLabel`, `resetOnHover`, `resetOnUpdate` | `_update`, `content`, `contentClass`, `elevation`, `forbidClick`, `loadingColor`, `loadingRadius`, `loadingSize`, `loadingType`, `lockScroll`, `open`, `popupContainer`, `position`, `vertical` |
 | overlayProps | 8 / 8 | — | — |
 | pageHeaderProps | 4 / 4 | — | — |
 | paginationProps | 23 / 23 | — | — |
 | paperProps | 8 / 8 | — | — |
-| popoverProps | 43 / 38 | `autoFitPopupMinWidth`, `autoFitPosition`, `autoFitTransformOrigin`, `autoFixPosition`, `hideEmpty`, `openedClass`, `popupOffset`, `popupTranslate`, `preventFocus`, `scrollToClose`, `scrollToCloseDistance`, `updateAtScroll` | `cascadeOptimization`, `defaultStyle`, `elevation`, `offsetX`, `offsetY`, `popoverClass`, `strategy` |
+| popoverProps | 45 / 45 | — | — |
 | progressGroupProps | 10 / 10 | — | — |
 | progressProps | 12 / 12 | `animation`, `bufferColor`, `steps` | `rotate`, `textClass`, `track` |
-| radioGroupProps | 7 / 5 | `defaultValue`, `disabled`, `size`, `variant` | `ariaLabel`, `fieldNames` |
-| radioProps | 6 / 8 | `defaultChecked`, `uninjectGroupContext`, `variant` | `checkedColor`, `iconSize`, `readonly`, `ripple`, `uncheckedColor` |
-| rateProps | 10 / 15 | `defaultValue`, `grading` | `disabledColor`, `emptyColor`, `emptyIcon`, `gap`, `halfIcon`, `icon`, `ripple` |
-| resultProps | 3 / 5 | — | `animation`, `imageSize` |
+| radioGroupProps | 8 / 5 | `defaultValue`, `disabled`, `error`, `size`, `variant` | `ariaLabel`, `fieldNames` |
+| radioProps | 7 / 8 | `defaultChecked`, `error`, `uninjectGroupContext`, `variant` | `checkedColor`, `iconSize`, `readonly`, `ripple`, `uncheckedColor` |
+| rateProps | 17 / 17 | — | — |
+| resultProps | 5 / 5 | — | — |
 | rowProps | 5 / 5 | — | — |
 | selectProps | 35 / 26 | `creatable`, `defaultActiveFirstOption`, `defaultInputValue`, `defaultOpen`, `defaultValue`, `error`, `fallbackOption`, `filterOption`, `filterable`, `formatLabel`, `inputValue`, `limit`, `loading`, `maxTagCount`, `scrollbar`, `searchDelay`, `showExtraOptions`, `showFooterOnEmpty`, `showHeaderOnEmpty`, `tagNowrap`, `triggerProps`, `unmountOnClose`, `virtualListProps` | `blurColor`, `focusColor`, `hint`, `line`, `offsetY`, `pickerProps`, `placement`, `popupProps`, `presentation`, `readonly`, `separator`, `tag`, `textAlign`, `textColor` |
 | skeletonLineProps | 4 / 4 | — | — |
@@ -195,24 +196,29 @@ Cedar：113 个 Props 导出；Maple：114 个；同名可比较：82 个。
 | stepsProps | 9 / 9 | — | — |
 | styleProviderProps | 2 / 2 | — | — |
 | switchProps | 17 / 17 | — | — |
+| tabItemProps | 2 / 2 | — | — |
+| tabNavProps | 4 / 4 | — | — |
+| tabPaneProps | 6 / 6 | — | — |
 | tableProps | 42 / 3 | `bordered`, `columnResizable`, `columns`, `components`, `data`, `defaultExpandAllRows`, `defaultExpandedKeys`, `defaultSelectedKeys`, `draggable`, `expandable`, `expandedKeys`, `extraColumn`, `filterIconAlignLeft`, `fit`, `height`, `hideExpandButtonOnEmpty`, `hoverable`, `indentSize`, `loadMore`, `loading`, `maxHeight`, `pagePosition`, `pagination`, `rowClass`, `rowKey`, `rowNumber`, `rowSelection`, `scrollbar`, `selectedKeys`, `showEmptyTree`, `showHeader`, `size`, `spanAll`, `spanMethod`, `stickyHeader`, `stickyPagination`, `stripe`, `summary`, `summarySpanMethod`, `summaryText`, `tableLayout`, `virtualListProps` | `elevation`, `fullWidth`, `scrollerHeight` |
-| tabsProps | 17 / 23 | `animation`, `autoSwitch`, `defaultActive`, `editable`, `headerPadding`, `hideContent`, `justify`, `scrollPosition`, `showAddButton` | `activeColor`, `color`, `disabledColor`, `elevation`, `fixedBottom`, `inactiveColor`, `indicatorColor`, `indicatorSize`, `itemVertical`, `offsetTop`, `safeArea`, `scrollable`, `sticky`, `stickyCssMode`, `stickyZIndex` |
+| tabsItemsProps | 0 / 0 | — | — |
+| tabsNavsProps | 0 / 0 | — | — |
+| tabsProps | 25 / 25 | — | — |
 | tagProps | 14 / 14 | — | — |
 | textareaProps | 15 / 20 | `autoSize`, `defaultValue`, `error`, `showWordLimit`, `wordLength`, `wordSlice` | `ariaLabel`, `autofocus`, `blurColor`, `enterkeyhint`, `focusColor`, `hint`, `line`, `modelModifiers`, `resize`, `rows`, `textColor` |
 | timePickerProps | 26 / 13 | `clearable`, `defaultOpen`, `defaultValue`, `disableConfirm`, `disabled`, `disabledHours`, `disabledMinutes`, `disabledSeconds`, `error`, `hideDisabledOptions`, `hideTrigger`, `open`, `placeholder`, `placement`, `popupContainer`, `showNextDay`, `size`, `step`, `triggerProps`, `type`, `unmountOnClose`, `use12Hours`, `variant` | `color`, `disabledTime`, `elevation`, `hint`, `max`, `min`, `pickerProps`, `presentation`, `titleColor`, `useSeconds` |
 | timeProps | 20 / 23 | `defaultOpen`, `defaultValue`, `disableConfirm`, `disabledHours`, `disabledMinutes`, `disabledSeconds`, `error`, `step`, `use12Hours` | `blurColor`, `disabledTime`, `focusColor`, `hint`, `line`, `max`, `min`, `pickerProps`, `popupProps`, `presentation`, `textColor`, `useSeconds` |
 | timeRangePickerProps | 25 / 12 | `clearable`, `defaultOpen`, `defaultValue`, `disableConfirm`, `disabled`, `disabledHours`, `disabledMinutes`, `disabledSeconds`, `error`, `hideDisabledOptions`, `hideTrigger`, `open`, `placeholder`, `placement`, `popupContainer`, `size`, `step`, `triggerProps`, `unmountOnClose`, `use12Hours`, `variant` | `disabledTime`, `elevation`, `max`, `min`, `pickerProps`, `presentation`, `timePickerProps`, `useSeconds` |
 | timeRangeProps | 21 / 26 | `defaultOpen`, `defaultValue`, `disableConfirm`, `disabledHours`, `disabledMinutes`, `disabledSeconds`, `error`, `step`, `use12Hours` | `blurColor`, `disabledTime`, `focusColor`, `hint`, `line`, `max`, `min`, `pickerProps`, `popupProps`, `presentation`, `separator`, `textColor`, `timePickerProps`, `useSeconds` |
-| tooltipProps | 47 / 39 | `autoFitPopupMinWidth`, `autoFitPosition`, `autoFitTransformOrigin`, `autoFixPosition`, `hideEmpty`, `openedClass`, `popupOffset`, `popupTranslate`, `preventFocus`, `scrollToClose`, `scrollToCloseDistance`, `updateAtScroll` | `cascadeOptimization`, `offsetX`, `offsetY`, `strategy` |
-| triggerProps | 41 / 33 | `autoFitPopupMinWidth`, `autoFitPosition`, `autoFitTransformOrigin`, `autoFixPosition`, `hideEmpty`, `openedClass`, `popupOffset`, `popupTranslate`, `preventFocus`, `scrollToClose`, `scrollToCloseDistance`, `updateAtScroll` | `cascadeOptimization`, `offsetX`, `offsetY`, `strategy` |
+| tooltipProps | 48 / 48 | — | — |
+| triggerProps | 43 / 43 | — | — |
 | uploadProps | 37 / 19 | `action`, `autoUpload`, `beforeUpload`, `createThumbnailUrl`, `customRequest`, `data`, `defaultValue`, `directory`, `draggable`, `headers`, `imageFit`, `isSuccessResponse`, `listType`, `maxTotalSize`, `method`, `name`, `showCancelButton`, `showDownloadButton`, `showPreviewButton`, `showRetryButton`, `showUploadButton`, `withCredentials` | `elevation`, `onClickAction`, `preventDefaultPreview`, `ripple` |
 | verificationCodeProps | 11 / 22 | — | `align`, `allowPaste`, `autofocus`, `blurColor`, `focusColor`, `gutter`, `maskSymbol`, `pasteTransform`, `textColor`, `type`, `variant` |
 | watermarkProps | 14 / 11 | `antiTamper`, `grayscale`, `repeat`, `staggered` | `fullscreen` |
 
 ## 仅 Cedar 根入口存在的 Props 导出
 
-`anchorProps`, `calendarProps`, `colorPickerProps`, `colorProps`, `configProviderProps`, `descriptionsItemProps`, `descriptionsProps`, `drawerProps`, `filterFormProps`, `inputPasswordProps`, `inputTagProps`, `layoutProps`, `mapProps`, `mentionProps`, `navMenuProps`, `notificationProps`, `overflowListProps`, `peopleSelectProps`, `popconfirmProps`, `resizeBoxProps`, `scrollbarProps`, `segmentedProps`, `splitProps`, `timelineProps`, `transferProps`, `treeProps`, `treeSelectProps`, `typographyParagraphProps`, `typographyProps`, `typographyTextProps`, `typographyTitleProps`
+`anchorProps`, `calendarProps`, `colorPickerProps`, `colorProps`, `configProviderProps`, `descriptionsItemProps`, `descriptionsProps`, `drawerProps`, `filterFormProps`, `inputPasswordProps`, `inputTagProps`, `layoutProps`, `mapProps`, `mentionProps`, `navMenuItemProps`, `navMenuProps`, `notificationProps`, `overflowListProps`, `peopleSelectProps`, `popconfirmProps`, `resizeBoxProps`, `schedulerProps`, `scrollbarProps`, `segmentedProps`, `splitProps`, `timelineProps`, `transferProps`, `treeProps`, `treeSelectProps`, `typographyParagraphProps`, `typographyProps`, `typographyTextProps`, `typographyTitleProps`
 
 ## 仅 Maple 根入口存在的 Props 导出
 
-`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `fieldDecoratorProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `menuGroupProps`, `menuOptionProps`, `noticeBarProps`, `numberKeyboardProps`, `optionProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `searchProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`, `tabItemProps`, `tabProps`, `tabsItemsProps`
+`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `fieldDecoratorProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `noticeBarProps`, `numberKeyboardProps`, `optionProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `searchProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`

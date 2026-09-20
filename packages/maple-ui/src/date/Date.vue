@@ -158,12 +158,12 @@ export default defineComponent({
         return undefined
       }
       if (mergedError.value) {
-        return 'var(--mp-field-color-error)'
+        return 'var(--mp-field-error-color)'
       }
       if (isFocusing.value) {
-        return focusColor || 'var(--mp-field-color-focus)'
+        return focusColor || 'var(--mp-field-focus-color)'
       }
-      return blurColor || 'var(--mp-field-color-placeholder-text, var(--mp-field-color-blur))'
+      return blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))'
     })
     const datePickerBindingProps = computed(() => ({ ...props.datePickerProps }))
     const popupBindingProps = computed(() => ({

@@ -32,16 +32,17 @@ Please try not to modify the background color to be transparent or translucent, 
 | `title`       | The title of Result                                                      | _string_ | `-`       |
 | `subtitle` | The description of Result                                                | _string_ | `-`       |
 | `image-size`  | Image Size                                                               | _string \| number_   | `-`  |
-| `animation`    | Whether to enable animation, valid for `success` type only               | _boolean_ | `true`    |
+| `animation`    | Whether to animate the status graphic                                    | _boolean_ | `true`    |
 
 ### Slots
 
 | Name                | Description      | SlotProps |
 |--------------------|---------| ---- |
-| `image`            | Custom image   | `-`  |
+| `icon`             | Custom status graphic | `{ size?: string }` |
 | `title`            |  Custom title   | `-`  |
 | `subtitle`      |  Custom description   | `-`  |
-| `footer`           | Custom bottom content | `-`  |
+| `extra`            | Custom action area | `-` |
+| `default`          | Additional result details | `-` |
 
 ### Style Variables
 

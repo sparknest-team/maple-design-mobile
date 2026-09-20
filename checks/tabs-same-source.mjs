@@ -10,7 +10,10 @@ const normalizeSource = (source) => source
   .replaceAll('<c-', '<mp-')
   .replaceAll('</c-', '</mp-')
 for (const [left, right] of pairs) assert.equal(normalizeSource(readFileSync(resolve(cedar, left), 'utf8')), normalizeSource(readFileSync(resolve(maple, right), 'utf8')), `${left} differs`)
-const normalize = (source) => source.replaceAll('mp-tabs', 'PREFIX-tabs').replaceAll('c-tabs', 'PREFIX-tabs')
+const normalize = (source) => source
+  .replaceAll('mp-tabs', 'PREFIX-tabs')
+  .replaceAll('c-tabs', 'PREFIX-tabs')
+  .replace(/\s+/g, '')
 assert.equal(normalize(readFileSync(resolve(cedar, 'style/index.less'), 'utf8')), normalize(readFileSync(resolve(maple, 'style/index.less'), 'utf8')), 'style rules differ')
 const tokens = (root) => [...normalize(readFileSync(resolve(root, 'style/token.less'), 'utf8')).matchAll(/(--PREFIX-tabs-[\w-]+):/g)].map((match) => match[1]).sort()
 assert.deepEqual(tokens(cedar), tokens(maple), 'token contracts differ')

@@ -50,14 +50,14 @@ maple-cli gen
 | `logo` | 文档中组件库的 logo | _string_ | `-` |
 | `alias` | 路径别名 (使用相对路径时，根路径为 src 文件夹) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | 文档默认语言 | _string_ | `zh-CN` |
-| `defaultLightTheme` | 默认的亮色主题 | _string_ | `md3LightTheme` |
-| `defaultDarkTheme` | 默认的暗色主题 | _string_ | `md3DarkTheme` |
+| `defaultLightTheme` | 默认使用的亮色主题 | _string_ | `lightTheme` |
+| `defaultDarkTheme` | 默认使用的暗色主题 | _string_ | `darkTheme` |
 | `useMobile` | 是否显示右侧手机预览 | _boolean_ | `false` |
 | `themeKey` | 主题在本地存储中的 key | _string_ | `MAPLE_THEME` |
-| `lightTheme` | md2 亮色模式文档主题 | _Record<string, any>_ | `-` |
-| `darkTheme` | md2 暗黑模式文档主题 | _Record<string, any>_ | `-` |
-| `md3LightTheme` | md3 亮色模式文档主题 | _Record<string, any>_ | `-` |
-| `md3DarkTheme` | md3 暗黑模式文档主题 | _Record<string, any>_ | `-` |
+| `lightTheme` | 默认品牌亮色文档主题 | _Record<string, any>_ | `-` |
+| `darkTheme` | 默认品牌暗色文档主题 | _Record<string, any>_ | `-` |
+| `mapleLightTheme` | 枫叶品牌亮色文档主题 | _Record<string, any>_ | `-` |
+| `mapleDarkTheme` | 枫叶品牌暗色文档主题 | _Record<string, any>_ | `-` |
 | `highlight` | 文档代码片段样式相关 | _{ style: string }_ | `-` |
 | `analysis` | 文档统计相关 | _{ baidu: string }_ | `-` |
 | `pc` | pc 端文档结构配置 | _[MapleConfigPc](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |

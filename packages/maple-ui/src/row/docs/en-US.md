@@ -38,11 +38,11 @@
 
 
 
-<!-- same-source-api:start -->
-
 ```demo
 ../example/demos/nested.vue
 ```
+
+<!-- same-source-api:start -->
 
 ### Props
 

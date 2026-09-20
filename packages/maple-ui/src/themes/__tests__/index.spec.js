@@ -1,16 +1,29 @@
 import { expect, test } from 'vitest'
 import Themes from '..'
 
-test('dark theme', () => {
-  expect(Themes.dark).toMatchSnapshot()
+test('default light theme', () => {
+  expect(Themes.default.light).toMatchSnapshot()
 })
 
-test('md3Light theme', () => {
-  expect(Themes.md3Light).toMatchSnapshot()
+test('default dark theme', () => {
+  expect(Themes.default.dark).toMatchSnapshot()
 })
 
-test('md3Dark theme', () => {
-  expect(Themes.md3Dark).toMatchSnapshot()
+test('maple light theme', () => {
+  expect(Themes.maple.light).toMatchSnapshot()
+})
+
+test('maple dark theme', () => {
+  expect(Themes.maple.dark).toMatchSnapshot()
+})
+
+test('default and maple themes use different brand colors', () => {
+  expect(Themes.default.light['--mp-primary-6']).toBe('0, 190, 190')
+  expect(Themes.default.dark['--mp-primary-6']).toBe('41, 203, 197')
+  expect(Themes.maple.light['--mp-primary-6']).toBe('194, 65, 12')
+  expect(Themes.maple.dark['--mp-primary-6']).toBe('251, 146, 60')
+  expect(Themes.default.light['--mp-primary-6']).not.toBe(Themes.maple.light['--mp-primary-6'])
+  expect(Themes.default.dark['--mp-primary-6']).not.toBe(Themes.maple.dark['--mp-primary-6'])
 })
 
 test('toViewport', () => {

@@ -8,12 +8,10 @@
 }
 
 .mp-rate {
-  display: flex;
-  transform: translateX(calc(-1 * var(--mp-rate-action-padding)));
-
-  &__wrap {
-    width: 100%;
-  }
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  user-select: none;
 
   &__content {
     position: relative;
@@ -25,8 +23,31 @@
     transition: color 0.25s;
     -webkit-tap-highlight-color: transparent;
 
-    &-icon[mp-rate-cover] {
-      font-size: var(--mp-rate-size);
+    &-left,
+    &-right {
+      transition: inherit;
+
+      > * {
+        float: left;
+      }
+    }
+
+    &-left {
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 50%;
+      overflow: hidden;
+      white-space: nowrap;
+      opacity: 0;
+    }
+
+    &-half &-left {
+      color: var(--mp-rate-primary-color);
+      opacity: 1;
+    }
+
+    &-full &-right {
+      color: var(--mp-rate-primary-color);
     }
   }
 
@@ -41,5 +62,9 @@
 
   &--error {
     color: var(--mp-rate-error-color);
+  }
+
+  &:not(&--readonly):not(&--disabled) &__content:hover {
+    transform: scale(1.2);
   }
 }

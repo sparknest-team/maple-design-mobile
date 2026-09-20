@@ -178,6 +178,7 @@ export default defineComponent({
       }
 
       isFocusing.value = true
+      changeMenuState()
       input.value!.focus()
       emit('focus')
       eventHandlers.value.onFocus?.()

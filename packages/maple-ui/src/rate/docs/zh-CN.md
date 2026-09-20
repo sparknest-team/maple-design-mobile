@@ -82,18 +82,20 @@
 | `v-model`        | 当前分数 | _number_ | `0` |
 | `count`          | 评分总数 | _number \| string_ | `5` |
 | `color`          | 选中时图标的颜色 | _string_ | `-` |
-| `icon`           | 选中整个图标时的图标样式 | _string_ | `star`|
+| `icon`           | 选中整个图标时的图标样式 | _string \| Component_ | `star-fill`|
 | `empty-color`    | 未选中时图标的颜色 | _string_ | `-` |
-| `empty-icon`     | 未选中时图标的样式 | _string_ | `star` |
+| `empty-icon`     | 未选中时图标的样式 | _string \| Component_ | `star` |
 | `size`           | 图标大小，默认单位为 `px` | _number \| string_ | `-`|
 | `gap`            | 图标间隔，默认单位为 `px` | _number \| string_ | `-` |
 | `allow-half`           | 是否允许半选 | _boolean_ | `false` |
-| `half-icon`      | 半选时图标的样式，只有在 `allow-half` 为 `true` 时才有效| _string_ | `star-half-full` |
+| `half-icon`      | 半选时图标的样式，只有在 `allow-half` 为 `true` 时才有效| _string \| Component_ | `star-half-full` |
 | `disabled`       | 是否禁止评分 | _boolean_ | `false`|
 | `disabled-color` | 禁止评分时图标的颜色，只有在 `disabled` 为 `true` 时才有效，优先级高于 `color`、`empty-color`| _string_ | `-` |
 | `readonly`       | 是否为只读状态，只读状态下无法修改评分 | _boolean_ | `false` |
 | `clearable`      | 是否允许清空 | _boolean_ | `false` |
 | `ripple`         | 是否使用水波纹 | _boolean_ | `true` |
+
+图标渲染优先级为：`grading` > `character` 插槽 > `icon` / `half-icon` / `empty-icon` > 平台默认图标。字符串图标沿用全局注册机制；组件值可直接使用，无需全局注册。
 
 ### 事件
 

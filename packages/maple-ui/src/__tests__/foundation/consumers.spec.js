@@ -23,7 +23,9 @@ describe('Trigger wrapper migration', () => {
       const trigger = wrapper.findComponent(Trigger)
       expect(trigger.props('trigger')).toBe('click')
       await nextTick()
-      trigger.vm.getReference().dispatchEvent(new MouseEvent('click', { bubbles: true }))
+      const reference = trigger.vm.$.exposed?.getReference()
+      expect(reference).toBeInstanceOf(Element)
+      reference.dispatchEvent(new MouseEvent('click', { bubbles: true }))
       await nextTick()
       expect(trigger.emitted('update:open')).toEqual([[true]])
     } finally {

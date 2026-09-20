@@ -2,11 +2,12 @@
 
 exports[`result snapshot 1`] = `
 "<div class="mp-result mp--box">
-  <div class="mp-result__image-container">
-    <div class="mp-result__image mp-result__info" style="width: calc(var(--mp-result-image-size) * 0.9); height: calc(var(--mp-result-image-size) * 0.9); border-width: calc(var(--mp-result-image-size) * 0.05);"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 3.6 20 20" border-size="calc(var(--mp-result-image-size) * 0.05)" animation="true">
+  <div class="mp-result__image-container" aria-hidden="true">
+    <div class="mp-result__image mp-result__info mp-result--animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 3.6 20 20">
         <path d="M11,9H13V7H11M11,20H13V11H11V20Z"></path>
       </svg></div>
   </div>
+  <!--v-if-->
   <!--v-if-->
   <!--v-if-->
   <!--v-if-->

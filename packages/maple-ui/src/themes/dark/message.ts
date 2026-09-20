@@ -8,7 +8,7 @@ export default {
   '--mp-message-border-color': 'currentColor',
   '--mp-message-success-background': 'var(--mp-color-success)',
   '--mp-message-info-background': 'var(--mp-color-info)',
-  '--mp-message-error-background': 'var(--mp-color-danger)',
+  '--mp-message-danger-background': 'var(--mp-color-danger)',
   '--mp-message-warning-background': 'var(--mp-color-warning)',
   '--mp-message-content-padding': '14px 16px',
   '--mp-message-action-margin': '0 8px',

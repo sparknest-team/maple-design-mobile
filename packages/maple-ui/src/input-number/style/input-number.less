@@ -2,8 +2,8 @@
   --mp-input-number-border-radius: var(--mp-field-border-radius);
   --mp-input-number-step-layer-border-radius: 1px;
   --mp-input-number-step-button-width: 28px;
-  --mp-input-number-step-button-color: var(--mp-field-color-text);
-  --mp-input-number-step-button-disabled-color: var(--mp-field-color-text-disabled);
+  --mp-input-number-step-button-color: var(--mp-field-control-text-color);
+  --mp-input-number-step-button-disabled-color: var(--mp-field-control-text-color-disabled);
   --mp-input-number-step-button-border-color: var(--mp-color-border-2);
   --mp-input-number-step-button-background: rgba(0, 0, 0, 0.04);
   --mp-input-number-step-button-hover-background: rgba(0, 0, 0, 0.08);
@@ -77,7 +77,7 @@
       position: relative;
       width: var(--mp-input-number-step-button-width);
       height: 100%;
-      margin-right: calc(-1 * var(--mp-field-padding-x));
+      margin-right: calc(-1 * var(--mp-field-padding-horizontal));
       border-radius: var(--mp-input-number-step-layer-border-radius);
       overflow: hidden;
     }
@@ -114,8 +114,8 @@
 
   &--mode-button {
     .mp-field-decorator__controller {
-      padding-right: var(--mp-field-padding-x);
-      padding-left: var(--mp-field-padding-x);
+      padding-right: var(--mp-field-padding-horizontal);
+      padding-left: var(--mp-field-padding-horizontal);
     }
 
     .mp-field-decorator__icon {
@@ -123,11 +123,11 @@
     }
 
     .mp-field-decorator__icon:first-child {
-      margin-left: calc(-1 * var(--mp-field-padding-x));
+      margin-left: calc(-1 * var(--mp-field-padding-horizontal));
     }
 
     .mp-field-decorator__icon:last-child {
-      margin-right: calc(-1 * var(--mp-field-padding-x));
+      margin-right: calc(-1 * var(--mp-field-padding-horizontal));
     }
 
     .mp-input-number__step-button:first-child {

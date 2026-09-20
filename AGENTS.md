@@ -70,6 +70,8 @@ packages/
 公共 API（如 `Space` 的 `size` 枚举、`Button` 的 `variant` 等）应**两端同步**，以 PC 实现为准。
 PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 
+正式发布前处于 API 收敛期：组件改造确定最终 API 后，应同步迁移两端源码、调用方、Demo、文档、类型和测试并直接删除旧 API；不要保留 deprecated alias、双写或运行时兼容分支。正式发布后再恢复 SemVer 弃用周期，具体以 `design-ui/standards/release-and-compatibility.md` 为准。
+
 具体对应关系（前缀、工具函数等）见 [docs/practices/component-spec.md §13](docs/practices/component-spec.md)。
 
 ## 历史教训（不要重蹈）

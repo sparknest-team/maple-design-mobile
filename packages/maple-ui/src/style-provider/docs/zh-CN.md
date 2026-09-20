@@ -20,7 +20,7 @@
 ```ts
 import { StyleProvider, Themes } from '@maplejs/maple-ui'
 
-StyleProvider.setStyleVars(Themes.dark)
+StyleProvider.setStyleVars(Themes.default.dark)
 StyleProvider.setStyleVars({ '--mp-color-scheme': 'light' })
 StyleProvider.setStyleVars(null)
 ```

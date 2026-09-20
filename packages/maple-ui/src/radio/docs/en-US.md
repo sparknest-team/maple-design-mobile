@@ -61,8 +61,6 @@ Customize the format of the data in `options` through the `field-names` attribut
 
 ### Vertical Direction
 
-
-
 > For form validation of radio and radio group, please use the [FormItem component](#/en-US/form-item).
 
 ```demo
@@ -75,73 +73,73 @@ Customize the format of the data in `options` through the `field-names` attribut
 
 #### RadioGroup Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `v-model` | The value of the binding | _any_ | `-` |
-| `direction` | The layout direction, optional value is `horizontal` `vertical` | _string_ | `horizontal` |
-| `options` ***3.2.14*** | Specifies options | _RadioGroupOption[]_ | `[]` |
-| `field-names` | Custom field mapping for `options` | _{ label?, value?, children?, disabled? }_ | `-` |
-| `aria-label` ***3.8.5*** | The label of the radio group | _string_ | `-` |
+| Prop                     | Description                                                     | Type                                       | Default      |
+| ------------------------ | --------------------------------------------------------------- | ------------------------------------------ | ------------ |
+| `v-model`                | The value of the binding                                        | _any_                                      | `-`          |
+| `direction`              | The layout direction, optional value is `horizontal` `vertical` | _string_                                   | `horizontal` |
+| `options` _**3.2.14**_   | Specifies options                                               | _RadioGroupOption[]_                       | `[]`         |
+| `field-names`            | Custom field mapping for `options`                              | _{ label?, value?, children?, disabled? }_ | `-`          |
+| `aria-label` _**3.8.5**_ | The label of the radio group                                    | _string_                                   | `-`          |
 
 #### RadioGroupOption
 
-| Prop | Description | Type | Default |
-| ------- | --- |----------------|-----------|
-| `label`    |   The text of radio    | _string \| VNode \| (option: RadioGroupOption, checked: boolean) => VNodeChild_      | `-`   |
-| `value`  |    The value of radio    | _any_      | `-`   |
-| `disabled`    |    Whether to disable radio   | _boolean_      | `-`   |
+| Prop       | Description              | Type                                                                            | Default |
+| ---------- | ------------------------ | ------------------------------------------------------------------------------- | ------- |
+| `label`    | The text of radio        | _string \| VNode \| (option: RadioGroupOption, checked: boolean) => VNodeChild_ | `-`     |
+| `value`    | The value of radio       | _any_                                                                           | `-`     |
+| `disabled` | Whether to disable radio | _boolean_                                                                       | `-`     |
 
 #### Radio Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `v-model` | The value of the binding | _any_ | `false` |
-| `value` | Option value | _any_ | `true` |
-| `checked-color` | Checked color | _string_ | `-` |
-| `unchecked-color` | Unchecked color | _string_ | `-` |
-| `icon-size` | Icon size | _string \| number_ | `-` |
-| `readonly` | Whether the readonly | _boolean_ | `false` |
-| `disabled` | Whether the disabled | _boolean_ | `false` |
-| `ripple` | Whether to open ripple | _boolean_ | `true` |
+| Prop              | Description              | Type               | Default |
+| ----------------- | ------------------------ | ------------------ | ------- |
+| `v-model`         | The value of the binding | _any_              | `false` |
+| `value`           | Option value             | _any_              | `true`  |
+| `checked-color`   | Checked color            | _string_           | `-`     |
+| `unchecked-color` | Unchecked color          | _string_           | `-`     |
+| `icon-size`       | Icon size                | _string \| number_ | `-`     |
+| `readonly`        | Whether the readonly     | _boolean_          | `false` |
+| `disabled`        | Whether the disabled     | _boolean_          | `false` |
+| `ripple`          | Whether to open ripple   | _boolean_          | `true`  |
 
 ### Methods
 
 #### Radio Methods
 
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `toggle` | Toggle the checked state, pass `value` to check, `false` to uncheck, do not pass or other cases to reverse | `value: any` | `-` |
+| Method   | Description                                                                                                | Arguments    | Return |
+| -------- | ---------------------------------------------------------------------------------------------------------- | ------------ | ------ |
+| `toggle` | Toggle the checked state, pass `value` to check, `false` to uncheck, do not pass or other cases to reverse | `value: any` | `-`    |
 
 ### Events
 
 #### RadioGroup Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
+| Event    | Description         | Arguments    |
+| -------- | ------------------- | ------------ |
 | `change` | Triggered on change | `value: any` |
 
 #### Radio Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `click` | Triggered on click | `e: Event` |
+| Event    | Description         | Arguments    |
+| -------- | ------------------- | ------------ |
+| `click`  | Triggered on click  | `e: Event`   |
 | `change` | Triggered on change | `value: any` |
 
 ### Slots
 
 #### RadioGroup Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Radio Group content | `-` |
+| Name      | Description         | SlotProps |
+| --------- | ------------------- | --------- |
+| `default` | Radio Group content | `-`       |
 
 #### Radio Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `checked-icon` | Checked icon | `-` |
-| `unchecked-icon` | Unchecked icon | `-` |
-| `default` | Displayed text | `-` |
+| Name             | Description    | SlotProps |
+| ---------------- | -------------- | --------- |
+| `checked-icon`   | Checked icon   | `-`       |
+| `unchecked-icon` | Unchecked icon | `-`       |
+| `default`        | Displayed text | `-`       |
 
 ### Style Variables
 
@@ -149,42 +147,47 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 #### Radio Variables
 
-| Variable | Default |
-| --- | --- |
-| `--radio-checked-color` | `var(--color-primary)` |
-| `--radio-unchecked-color` | `#555` |
-| `--radio-disabled-color` | `var(--color-text-disabled)` |
-| `--radio-error-color` | `var(--color-danger)` |
-| `--radio-action-padding` | `6px` |
-| `--radio-icon-size` | `24px` |
-| `--radio-text-color` | `#555` |
+| Variable                            | Default                               |
+| ----------------------------------- | ------------------------------------- |
+| `--radio-control-color`             | `#555`                                |
+| `--radio-control-color-checked`     | `var(--color-primary)`                |
+| `--radio-control-color-disabled`    | `var(--color-text-disabled)`          |
+| `--radio-control-color-error`       | `var(--sys-color-status-danger)`      |
+| `--radio-control-size`              | `24px`                                |
+| `--radio-action-padding`            | `6px`                                 |
+| `--radio-label-text-color`          | `#555`                                |
+| `--radio-label-text-color-disabled` | `var(--color-text-disabled)`          |
+| `--radio-label-font-size`           | `var(--font-size-md)`                 |
+| `--radio-label-gap`                 | `0`                                   |
+| `--radio-group-gap`                 | `0`                                   |
+| `--radio-animation-duration`        | `var(--sys-motion-duration-standard)` |
 
 ### API
 
 ### Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `v-model` | The value of the binding | _any_ | `false` |
-| `value` | Option value | _any_ | `true` |
-| `checked-color` | Checked color | _string_ | `-` |
-| `unchecked-color` | Unchecked color | _string_ | `-` |
-| `icon-size` | Icon size | _string \| number_ | `-` |
-| `readonly` | Whether the readonly | _boolean_ | `false` |
-| `disabled` | Whether the disabled | _boolean_ | `false` |
-| `ripple` | Whether to open ripple | _boolean_ | `true` |
+| Prop              | Description              | Type               | Default |
+| ----------------- | ------------------------ | ------------------ | ------- |
+| `v-model`         | The value of the binding | _any_              | `false` |
+| `value`           | Option value             | _any_              | `true`  |
+| `checked-color`   | Checked color            | _string_           | `-`     |
+| `unchecked-color` | Unchecked color          | _string_           | `-`     |
+| `icon-size`       | Icon size                | _string \| number_ | `-`     |
+| `readonly`        | Whether the readonly     | _boolean_          | `false` |
+| `disabled`        | Whether the disabled     | _boolean_          | `false` |
+| `ripple`          | Whether to open ripple   | _boolean_          | `true`  |
 
 ### Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `click` | Triggered on click | `e: Event` |
+| Event    | Description         | Arguments    |
+| -------- | ------------------- | ------------ |
+| `click`  | Triggered on click  | `e: Event`   |
 | `change` | Triggered on change | `value: any` |
 
 ### Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `checked-icon` | Checked icon | `-` |
-| `unchecked-icon` | Unchecked icon | `-` |
-| `default` | Displayed text | `checked: boolean` is checked |
+| Name             | Description    | SlotProps                     |
+| ---------------- | -------------- | ----------------------------- |
+| `checked-icon`   | Checked icon   | `-`                           |
+| `unchecked-icon` | Unchecked icon | `-`                           |
+| `default`        | Displayed text | `checked: boolean` is checked |

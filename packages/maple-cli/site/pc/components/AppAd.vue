@@ -60,7 +60,7 @@ function handleClose() {
   align-items: center;
   justify-content: center;
   height: var(--site-ad-height);
-  color: #fff;
+  color: var(--site-config-color-bar);
   text-decoration: unset;
   overflow: hidden;
 
@@ -87,8 +87,8 @@ function handleClose() {
     padding: 0 18px;
     margin-left: 12px;
     font-size: 15px;
-    background: #d0bcff;
-    color: #381e72;
+    background: var(--site-config-color-side-bar-active-background);
+    color: var(--site-config-color-primary);
   }
 
   &__close-button {

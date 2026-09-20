@@ -170,33 +170,33 @@
 
 | 变量名                                        | 默认值                                                       |
 | --------------------------------------------- | ------------------------------------------------------------ |
-| `--mp-field-color-text`                       | `#555`                                                       |
-| `--mp-field-color-error`                      | `var(--mp-color-danger)`                                     |
-| `--mp-field-color-blur`                       | `#888`                                                       |
-| `--mp-field-color-focus`                      | `var(--mp-color-primary)`                                    |
-| `--mp-field-color-placeholder-text`           | `var(--mp-field-color-blur)`                                 |
-| `--mp-field-color-text-disabled`              | `var(--mp-color-text-disabled)`                              |
-| `--mp-field-size-placeholder`                 | `16px`                                                       |
-| `--mp-field-size-icon`                        | `20px`                                                       |
+| `--mp-field-control-text-color`                       | `#555`                                                       |
+| `--mp-field-error-color`                      | `var(--mp-color-danger)`                                     |
+| `--mp-field-blur-color`                       | `#888`                                                       |
+| `--mp-field-focus-color`                      | `var(--mp-color-primary)`                                    |
+| `--mp-field-placeholder-text-color`           | `var(--mp-field-blur-color)`                                 |
+| `--mp-field-control-text-color-disabled`              | `var(--mp-color-text-disabled)`                              |
+| `--mp-internal-field-size-placeholder`                 | `16px`                                                       |
+| `--mp-field-icon-size`                        | `20px`                                                       |
 | `--mp-field-border-radius`                    | `4px`                                                        |
 | `--mp-field-variant-standard-line-size`       | `1px`                                                        |
 | `--mp-field-variant-standard-line-size-focus` | `2px`                                                        |
-| `--mp-field-variant-filled-bg`                | `var(--mp-color-fill-2)`                                     |
+| `--mp-field-variant-filled-background`                | `var(--mp-color-fill-2)`                                     |
 | `--mp-field-size-xs-height`                   | `32px`                                                       |
 | `--mp-field-size-sm-height`                   | `40px`                                                       |
 | `--mp-field-size-md-height`                   | `48px`                                                       |
 | `--mp-field-size-lg-height`                   | `56px`                                                       |
-| `--mp-field-size-xl-height`                   | `64px`                                                       |
-| `--select-scroller-background`                | `var(--color-fill-2)`                                        |
-| `--select-scroller-padding`                   | `6px 0`                                                      |
-| `--select-scroller-max-height`                | `278px`                                                      |
-| `--select-scroller-border-radius`             | `2px`                                                        |
+| `--mp-internal-field-size-xl-height`                   | `64px`                                                       |
+| `--select-popup-bg`                           | `var(--color-fill-2)`                                        |
+| `--select-popup-padding-vertical`             | `6px`                                                        |
+| `--select-popup-max-height`                   | `278px`                                                      |
+| `--select-popup-border-radius`                | `2px`                                                        |
 | `--select-label-font-size`                    | `16px`                                                       |
 | `--select-tags-margin`                        | `-5px 0 0 0`                                                 |
 | `--select-tags-padding`                       | `2px 0`                                                      |
 | `--select-tag-margin`                         | `5px 5px 0 0`                                                |
 | `--select-arrow-size`                         | `20px`                                                       |
-| `--select-standard-menu-margin`               | `calc(var(--mp-field-size-placeholder) * 0.75 + 14px) 0 0 0` |
+| `--select-standard-menu-margin`               | `calc(var(--mp-internal-field-size-placeholder) * 0.75 + 14px) 0 0 0` |
 
 #### Option Variables
 

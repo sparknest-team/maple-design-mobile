@@ -13,10 +13,8 @@ Maple’s palette is aligned with Cedar: **RGB channel scales** + **semantic col
 
 | Theme | Package | Notes |
 | --- | --- | --- |
-| Default light | CSS `:root` | Scales + semantics |
-| Dark | `Themes.dark` or DOM | Aligns with `:root[maple-theme=dark]` |
-| MD3 light | `Themes.md3Light` | StyleProvider overrides |
-| MD3 dark | `Themes.md3Dark` | StyleProvider + DOM dark |
+| Default | `Themes.default.light` / `Themes.default.dark` | Teal brand scale with light and dark modes |
+| Maple | `Themes.maple.light` / `Themes.maple.dark` | Maple red-orange brand scale with light and dark modes |
 
 ### DOM dark mode
 
@@ -27,7 +25,7 @@ document.documentElement.removeAttribute('maple-theme')
 
 ### StyleProvider
 
-`StyleProvider.setStyleVars(Themes.dark)` also sets `html[maple-theme=dark]`; `StyleProvider.setStyleVars(null)` clears it.
+Light theme objects remove `html[maple-theme=dark]`; dark theme objects set it. Pass the matching `light` / `dark` object when switching themes.
 
 ```html
 <!-- playground-ignore -->
@@ -37,10 +35,10 @@ document.documentElement.removeAttribute('maple-theme')
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(null)">Light</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.dark)">Dark</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Light)">MD3 Light</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.md3Dark)">MD3 Dark</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.default.light)">Default Light</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.default.dark)">Default Dark</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.maple.light)">Maple Light</mp-button>
+    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.maple.dark)">Maple Dark</mp-button>
   </mp-space>
 </template>
 ```
@@ -67,7 +65,7 @@ body {
   import { StyleProvider, Themes } from '@maplejs/maple-ui'
 
   const customTheme = {
-    ...Themes.md3Light,
+    ...Themes.maple.light,
     '--mp-primary-6': '255, 0, 0',
     '--mp-color-primary': 'rgb(var(--mp-primary-6))',
   }

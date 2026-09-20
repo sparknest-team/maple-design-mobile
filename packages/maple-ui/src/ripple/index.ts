@@ -208,5 +208,6 @@ const Ripple: Directive & Plugin = {
 
 export type RippleInstance = typeof Ripple
 export const _RippleComponent: typeof Ripple = Ripple
+export { Ripple }
 
 export default Ripple

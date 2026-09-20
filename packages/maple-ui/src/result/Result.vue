@@ -1,88 +1,45 @@
 <template>
   <div :class="classes(n(), n('$--box'))">
-    <slot name="image">
-      <div v-if="status" :class="n('image-container')">
-        <div
-          :class="classes(n('image'), n(status))"
-          :style="{
-            width: circleSize,
-            height: circleSize,
-            borderWidth: borderSize,
-          }"
-        >
-          <component :is="statusComponent" :border-size="borderSize" :animation="animation" />
-        </div>
+    <div v-if="$slots.icon" :class="n('image-container')">
+      <slot name="icon" :size="normalizedImageSize" />
+    </div>
+    <div v-else :class="n('image-container')" aria-hidden="true">
+      <div :class="classes(n('image'), n(status), [animation, n('--animated')])" :style="imageStyle">
+        <component :is="statusComponent" />
       </div>
-    </slot>
-    <slot name="title">
-      <div v-if="title" :class="n('title')">{{ title }}</div>
-    </slot>
-    <slot name="subtitle">
-      <div v-if="subtitle" :class="n('subtitle')">{{ subtitle }}</div>
-    </slot>
-    <div v-if="$slots.footer" :class="n('footer')">
-      <slot name="footer" />
+    </div>
+
+    <div v-if="title || $slots.title" :class="n('title')">
+      <slot name="title">{{ title }}</slot>
+    </div>
+    <div v-if="subtitle || $slots.subtitle" :class="n('subtitle')">
+      <slot name="subtitle">{{ subtitle }}</slot>
+    </div>
+    <div v-if="$slots.extra" :class="n('extra')">
+      <slot name="extra" />
+    </div>
+    <div v-if="$slots.default" :class="n('content')">
+      <slot />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import Forbidden from './403'
-import NotFound from './404'
-import ServerError from './500'
-import Danger from './Danger.vue'
-import Empty from './Empty.vue'
-import Info from './Info.vue'
-import { props } from './props'
-import Question from './Question.vue'
-import Success from './Success.vue'
-import Warning from './Warning.vue'
+import { resultStatusComponents } from './platform'
+import { resultProps } from './props'
 
-const { name, n, classes } = createNamespace('result')
-
-export default defineComponent({
-  name,
-  components: {
-    Info,
-    Success,
-    Warning,
-    Danger,
-    Question,
-    Empty,
-  },
-  props,
-  setup(props) {
-    const statusComponent = computed(
-      () =>
-        ({
-          info: Info,
-          success: Success,
-          warning: Warning,
-          danger: Danger,
-          question: Question,
-          empty: Empty,
-          '403': Forbidden,
-          '404': NotFound,
-          '500': ServerError,
-        })[props.status],
-    )
-    const circleSize = computed(
-      () => `calc(${props.imageSize ? toSizeUnit(props.imageSize) : 'var(--mp-result-image-size)'} * 0.9)`,
-    )
-    const borderSize = computed(
-      () => `calc(${props.imageSize ? toSizeUnit(props.imageSize) : 'var(--mp-result-image-size)'} * 0.05)`,
-    )
-
-    return {
-      statusComponent,
-      circleSize,
-      borderSize,
-      n,
-      classes,
-    }
-  },
+defineOptions({
+  name: createNamespace('result').name,
 })
+
+const props = defineProps(resultProps)
+const { n, classes } = createNamespace('result')
+const statusComponent = computed(() => resultStatusComponents[props.status])
+const normalizedImageSize = computed(() => (props.imageSize == null ? undefined : toSizeUnit(props.imageSize)))
+const imageStyle = computed(() => ({
+  '--mp-result-image-size': normalizedImageSize.value,
+}))
 </script>

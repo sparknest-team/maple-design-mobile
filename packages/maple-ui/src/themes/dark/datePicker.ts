@@ -2,7 +2,6 @@ export default {
   '--mp-date-picker-main-color': '#fff',
   '--mp-date-picker-body-background-color': '#303030',
   '--mp-day-picker-head-item-color': '#aaaaaa',
-  '--mp-year-picker-item-color': '#fff',
   '--mp-date-picker-header-color': '#fff',
   '--mp-date-picker-border-radius': '4px',
   '--mp-date-picker-font-size': 'var(--mp-font-size-md)',

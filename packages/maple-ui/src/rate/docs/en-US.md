@@ -82,18 +82,20 @@ Other interaction logic is completed by calling the `change` event.
 | `v-model`        | The current rating  | _number_ | `0` |
 | `count`          | Total rating  | _number \| string_ | `5` |
 | `color`          | The color of the icon when selected  | _string_ | `-` |
-| `icon`           | The icon style when the entire icon is selected  | _string_ | `star` |
+| `icon`           | The icon used for a selected rating  | _string \| Component_ | `star-fill` |
 | `empty-color`    | The color of the icon when unchecked | _string_ | `#bdbdbd` |
-| `empty-icon`     | Style of the icon when unchecked | _string_ | `star` |
+| `empty-icon`     | Icon used when unchecked | _string \| Component_ | `star` |
 | `size`           | Icon size, default unit is `px` | _number \| string_ | `-` |
 | `gap`            | Icon spacing, default unit is `px` | _number \| string_ | `-` |
 | `allow-half`           | Whether half selection is allowed | _boolean_ | `false` |
-| `half-icon`      | The half-selected icon style only works if `allow-half` is `true` | _string_ | `star-half-full` |
+| `half-icon`      | The half-selected icon; only applies when `allow-half` is `true` | _string \| Component_ | `star-half-full` |
 | `disabled`       | Whether to disable rating | _boolean_ | `false` |
 | `disabled-color` | The color of the icon when disabling grading is only effective when `disabled` is `true` and has higher priority than `color` and `empty-color` | _string_ | `-` |
 | `readonly`       | Whether it is in readonly status. The rating cannot be modified in readonly status. | _boolean_ | `false` |
 | `clearable`      | whether to allow to clear | _boolean_ | `false` |
 | `ripple`         | Whether to use water ripple | _boolean_ | `true` |
+
+Icon rendering precedence is: `grading` > `character` slot > `icon` / `half-icon` / `empty-icon` > platform defaults. String names continue to use global registration; component values work without global registration.
 
 ### Events
 

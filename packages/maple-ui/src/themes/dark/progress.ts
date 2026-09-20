@@ -9,5 +9,5 @@ export default {
   '--mp-progress-success-color': 'var(--mp-color-success)',
   '--mp-progress-warning-color': 'var(--mp-color-warning)',
   '--mp-progress-info-color': 'var(--mp-color-info)',
-  '--mp-progress-linear-border-radius': '0px',
+  '--mp-progress-line-border-radius': '0px',
 }

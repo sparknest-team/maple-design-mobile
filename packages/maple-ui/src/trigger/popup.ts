@@ -35,7 +35,7 @@ export interface TriggerPopupOptions {
   attrs?: Record<string, unknown>
 }
 
-// Independent copies share the DOM contract; engines only supply placement and styles.
+// Independent copies share the DOM contract; platform adapters only supply local infrastructure.
 export default defineComponent({
   name: createNamespace('trigger-popup').name,
   inheritAttrs: false,

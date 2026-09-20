@@ -104,35 +104,4 @@ Alerts display brief messages for the user without interrupting their use.
 
 ### Style Variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
-
-| Variable                              | Default                          |
-| ------------------------------------- | -------------------------------- |
-| `--alert-padding`                     | `16px`                           |
-| `--alert-border-radius`               | `4px`                            |
-| `--alert-icon-size`                   | `22px`                           |
-| `--alert-icon-margin`                 | `0 12px 0 0`                     |
-| `--alert-close-icon-size`             | `22px`                           |
-| `--alert-close-icon-margin`           | `2px 0 0 12px`                   |
-| `--alert-standard-info-text-color`    | `var(--color-white)`             |
-| `--alert-standard-danger-text-color`  | `var(--color-white)`             |
-| `--alert-standard-success-text-color` | `var(--color-white)`             |
-| `--alert-standard-warning-text-color` | `var(--color-white)`             |
-| `--alert-danger-background`           | `var(--color-danger)`            |
-| `--alert-success-background`          | `var(--color-success)`           |
-| `--alert-warning-background`          | `var(--color-warning)`           |
-| `--alert-info-background`             | `var(--color-info)`              |
-| `--alert-tonal-danger-background`     | `hsla(var(--hsl-danger), 0.12)`  |
-| `--alert-tonal-success-background`    | `hsla(var(--hsl-success), 0.12)` |
-| `--alert-tonal-warning-background`    | `hsla(var(--hsl-warning), 0.12)` |
-| `--alert-tonal-info-background`       | `hsla(var(--hsl-info), 0.12)`    |
-| `--alert-tonal-danger-text-color`     | `var(--color-danger)`            |
-| `--alert-tonal-success-text-color`    | `var(--color-success)`           |
-| `--alert-tonal-warning-text-color`    | `var(--color-warning)`           |
-| `--alert-tonal-info-text-color`       | `var(--color-info)`              |
-| `--alert-message-font-size`           | `14px`                           |
-| `--alert-title-font-size`             | `16px`                           |
-| `--alert-title-font-weight`           | `500`                            |
-| `--alert-message-margin-top`          | `4px`                            |
-| `--alert-message-line-height`         | `1.5`                            |
-| `--alert-title-line-height`           | `1.5`                            |
+See `style/token.less` for the complete `--mp-alert-*` contract. Override these variables with [StyleProvider](#/en-US/style-provider). The public names are shared with Cedar; only the `--mp-` / `--c-` brand prefix differs.

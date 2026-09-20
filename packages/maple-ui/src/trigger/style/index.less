@@ -1,14 +1,26 @@
 @import './token.less';
 
-.mp-trigger__popup {
-  position: absolute;
+.mp-trigger {
+  &__arrow {
+    z-index: var(--mp-sys-layer-behind);
+    display: block;
+    box-sizing: border-box;
+    width: var(--mp-trigger-arrow-size);
+    height: var(--mp-trigger-arrow-size);
+    background-color: var(--mp-trigger-arrow-background);
+    border-radius: var(--mp-trigger-arrow-radius);
+    pointer-events: none;
+  }
 }
-.mp-trigger__arrow {
-  display: block;
-  box-sizing: border-box;
-  width: var(--mp-trigger-size-arrow-width);
-  height: var(--mp-trigger-size-arrow-width);
-  background-color: var(--mp-trigger-arrow-bg);
-  border-radius: var(--mp-trigger-arrow-border-radius);
-  pointer-events: none;
+
+.trigger-fade-enter-active,
+.trigger-fade-leave-active,
+.trigger-fade-appear-active {
+  transition: opacity var(--mp-trigger-transition-duration) var(--mp-trigger-transition-easing);
+}
+
+.trigger-fade-enter-from,
+.trigger-fade-leave-to,
+.trigger-fade-appear-from {
+  opacity: 0;
 }

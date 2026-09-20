@@ -441,7 +441,7 @@ export type { LinkProps, LinkUnderline, LinkInstance } from './link'
 export { listProps } from './list'
 export type { ListProps, ListSize, ListInstance, ListItemInstance } from './list'
 export { loadingProps } from './loading'
-export type { LoadingInstance, LoadingProps } from './loading'
+export type { LoadingInstance, LoadingProps, LoadingSize, LoadingType } from './loading'
 export { loadingBarProps } from './loading-bar'
 export type { LoadingBarInstance, LoadingBarProps } from './loading-bar'
 export { localeProviderProps } from './locale-provider'
@@ -472,7 +472,7 @@ export type { PaperInstance, PaperProps } from './paper'
 export { pickerProps } from './picker'
 export type { PickerInstance, PickerProps } from './picker'
 export { popoverProps } from './popover'
-export type { PopoverInstance, PopoverProps } from './popover'
+export type { PopoverInstance, PopoverPlacement, PopoverProps, PopoverTrigger } from './popover'
 export { popupProps } from './popup'
 export type { PopupInstance, PopupProps } from './popup'
 export { progressProps } from './progress'
@@ -490,9 +490,9 @@ export type { PullRefreshInstance, PullRefreshProps, PullRefreshStatus } from '.
 export { radioProps, radioGroupProps } from './radio'
 export type { RadioInstance, RadioGroupInstance, RadioProps, RadioGroupProps } from './radio'
 export { rateProps } from './rate'
-export type { RateInstance, RateProps } from './rate'
+export type { RateColor, RateIcon, RateProps, RateInstance } from './rate'
 export { resultProps } from './result'
-export type { ResultStatus, ResultInstance, ResultProps } from './result'
+export type { ResultProps, ResultStatus, ResultInstance } from './result'
 export type { RippleInstance } from './ripple'
 export { rowProps } from './row'
 export type { RowProps, RowGutter, RowAlign, RowJustify, RowInstance } from './row'
@@ -553,7 +553,13 @@ export type {
   StepsContentPlacement,
 } from './steps'
 export { styleProviderProps } from './style-provider'
-export type { StyleProviderInstance, StyleProviderProps, StyleProviderDefaults, StyleVars } from './style-provider'
+export type {
+  StyleProviderInstance,
+  StyleProviderProps,
+  StyleProviderDefaults,
+  StyleVarName,
+  StyleVars,
+} from './style-provider'
 export { swipeCellProps } from './swipe-cell'
 export type {
   SwipeCellBeforeCloseArgs,
@@ -614,15 +620,17 @@ export type {
   TimeRangePickerPresentation,
 } from './time-range'
 export { tooltipProps } from './tooltip'
-export type { TooltipInstance, TooltipProps, TooltipStatus } from './tooltip'
+export type { TooltipInstance, TooltipProps, TooltipSize, TooltipStatus } from './tooltip'
 export { triggerProps } from './trigger'
 export type {
   TriggerInstance,
   TriggerProps,
-  NeededPopperPlacement,
+  TriggerReferenceAttrs,
+  TriggerEvent,
   TriggerPlacement,
   Reference,
-  TriggerEvent,
+  TriggerPopupTranslate,
+  TriggerStrategy,
 } from './trigger'
 export { uploadProps } from './upload'
 export type { UploadFileItem, UploadStatus, UploadResolveType, UploadInstance, UploadProps } from './upload'

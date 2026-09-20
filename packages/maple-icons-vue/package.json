@@ -32,7 +32,7 @@
     "vue": "^3.2.0"
   },
   "devDependencies": {
-    "@loca/ui-icons": "file:../../../design-ui/packages/ui-icons",
+    "@ui-foundation/ui-icons": "file:../../../design-ui/packages/ui-icons",
     "@vitejs/plugin-vue": "catalog:",
     "chokidar": "^3.6.0",
     "typescript": "catalog:",

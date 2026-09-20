@@ -9,7 +9,13 @@ interface PCLocationInfo {
   hash: string
 }
 
-export type Theme = 'lightTheme' | 'darkTheme' | 'md3LightTheme' | 'md3DarkTheme'
+export type Theme = 'lightTheme' | 'darkTheme' | 'mapleLightTheme' | 'mapleDarkTheme'
+
+const themes: readonly Theme[] = ['lightTheme', 'darkTheme', 'mapleLightTheme', 'mapleDarkTheme']
+
+function isTheme(value: string | null): value is Theme {
+  return value !== null && themes.includes(value as Theme)
+}
 
 export type ThemeScope = 'site' | 'demo'
 
@@ -55,16 +61,16 @@ function getPreferredTheme(): Theme {
 /** Site docs chrome theme (`themeKey`) vs mobile demo theme (`demoThemeKey`). */
 export function getBrowserTheme(scope: ThemeScope = 'site'): Theme {
   const themeKey = getThemeStorageKey(scope)
-  const storageTheme = window.localStorage.getItem(themeKey) as Theme | null
+  const storageTheme = window.localStorage.getItem(themeKey)
 
-  if (storageTheme) {
+  if (isTheme(storageTheme)) {
     return storageTheme
   }
 
   // First visit for demo: seed from site theme so existing users keep the same look until they diverge.
   if (scope === 'demo') {
-    const siteTheme = window.localStorage.getItem(getSiteThemeKey()) as Theme | null
-    const theme = siteTheme || getPreferredTheme()
+    const siteTheme = window.localStorage.getItem(getSiteThemeKey())
+    const theme = isTheme(siteTheme) ? siteTheme : getPreferredTheme()
     window.localStorage.setItem(themeKey, theme)
     return theme
   }
@@ -117,10 +123,10 @@ export function useRouteListener(cb: () => void) {
 }
 
 const themeMap = {
-  lightTheme: null,
-  darkTheme: Themes.dark,
-  md3LightTheme: Themes.md3Light,
-  md3DarkTheme: Themes.md3Dark,
+  lightTheme: Themes.default.light,
+  darkTheme: Themes.default.dark,
+  mapleLightTheme: Themes.maple.light,
+  mapleDarkTheme: Themes.maple.dark,
 }
 
 export function setTheme(theme: Theme) {

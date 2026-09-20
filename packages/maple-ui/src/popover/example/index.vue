@@ -5,12 +5,12 @@ import AutoFitPopupWidthDemo from './demos/auto-fit-popup-width.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import DisabledDemo from './demos/disabled.vue'
 import EventsDemo from './demos/events.vue'
+import InteractiveDemo from './demos/interactive.vue'
 import OffsetDemo from './demos/offset.vue'
 import PlacementDemo from './demos/placement.vue'
 import TriggerDemo from './demos/trigger.vue'
 import TwoWayBindingDemo from './demos/two-way-binding.vue'
 
-const trigger = ref('click')
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
 
@@ -29,6 +29,11 @@ onThemeChange()
   <section data-demo="placement">
     <app-type>{{ english ? 'Placement' : '弹出位置' }}</app-type>
     <PlacementDemo />
+  </section>
+
+  <section data-demo="interactive">
+    <app-type>{{ english ? 'Interactive Content' : '交互内容与状态保留' }}</app-type>
+    <InteractiveDemo />
   </section>
 
   <section data-demo="offset">

@@ -1,6 +1,7 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 
-export type StyleVars = Record<string, string>
+export type StyleVarName = `--mp-${string}` | `mp${Capitalize<string>}`
+export type StyleVars = Record<StyleVarName, string>
 
 export const styleProviderProps = {
   /** 局部 CSS 变量，null 清空覆盖 */

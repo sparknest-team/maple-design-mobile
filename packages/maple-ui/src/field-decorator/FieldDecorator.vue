@@ -213,7 +213,7 @@ export default defineComponent({
 
       if ((props.variant === 'outline' || props.variant === 'filled') && placeholderTextEl.value) {
         const placeholderTextStyle = getStyle(placeholderTextEl.value)
-        legendWidth.value = `calc(${placeholderTextStyle.width} * 0.75 + var(--mp-field-current-placeholder-space) * 2)`
+        legendWidth.value = `calc(${placeholderTextStyle.width} * 0.75 + var(--mp-internal-field-current-placeholder-space) * 2)`
       }
     }
 

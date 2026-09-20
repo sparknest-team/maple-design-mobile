@@ -32,7 +32,7 @@ Loading component for performing animations when data is loaded.
 
 
 
-`v-mp-loading` accepts a boolean shorthand or a `{ loading, tip, type, size, radius, color, fullscreen, background }` options object. In object form, `loading` controls the loading state and `tip` matches the `Loading` component prop.
+`v-mp-loading` accepts a boolean shorthand or a `{ loading, tip, type, size, radius, color, hideIcon, fullscreen, background }` options object. In object form, `loading` controls the loading state and the remaining component options match `Loading` props.
 
 #### Registration
 
@@ -64,6 +64,7 @@ With `MapleResolver()`, `unplugin-vue-components` resolves `v-mp-loading` automa
 | `tip`     | Tip of the loading                                      | _string_           | `-`      |
 | `loading` | Specify whether loading is active                       | _boolean_          | `false`  |
 | `radius`  | Set radius size when the `type` is `circle`             | _string \| number_ | `-`      |
+| `hide-icon` | Whether to hide the loading indicator                  | _boolean_          | `false`  |
 
 ### Slots
 
@@ -71,6 +72,7 @@ With `MapleResolver()`, `unplugin-vue-components` resolves `v-mp-loading` automa
 | --------- | -------------------------- | --------- |
 | `default` | Content wrapped in loading | `-`       |
 | `tip`     | Tip of the loading         | `-`       |
+| `icon`    | Custom loading indicator   | `-`       |
 
 ### Style Variables
 

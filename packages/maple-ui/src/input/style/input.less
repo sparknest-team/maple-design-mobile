@@ -1,6 +1,11 @@
 :root {
-  --mp-input-input-height: 24px;
-  --mp-input-input-font-size: 16px;
+  --mp-input-control-height: 24px;
+  --mp-input-control-font-size: 16px;
+  --mp-input-control-line-height: var(--mp-line-height);
+  --mp-input-control-padding-horizontal: 0;
+  --mp-input-counter-color: var(--mp-sys-color-content-tertiary);
+  --mp-input-counter-font-size: var(--mp-sys-font-size-xs);
+  --mp-input-counter-margin-top: var(--mp-sys-space-2);
 }
 
 .mp-input {
@@ -17,14 +22,15 @@
 
   &__input {
     width: 100%;
-    height: var(--mp-input-input-height);
-    padding: 0;
+    height: var(--mp-input-control-height);
+    padding: 0 var(--mp-input-control-padding-horizontal);
     outline: none;
     border: none;
     background: transparent;
-    color: var(--mp-field-color-text);
-    caret-color: var(--mp-field-color-focus);
-    font-size: var(--mp-input-input-font-size);
+    color: var(--mp-field-control-text-color);
+    caret-color: var(--mp-field-focus-color);
+    font-size: var(--mp-input-control-font-size);
+    line-height: var(--mp-input-control-line-height);
     transition: color 0.25s;
 
     &::placeholder {
@@ -33,22 +39,22 @@
   }
 
   &--disabled {
-    color: var(--mp-field-color-text-disabled);
+    color: var(--mp-field-control-text-color-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-color-error);
+    color: var(--mp-field-error-color);
   }
 
   &--caret-error {
-    caret-color: var(--mp-field-color-error);
+    caret-color: var(--mp-field-error-color);
   }
 
   &__length {
-    margin-top: 4px;
-    color: var(--mp-field-color-blur);
-    font-size: 12px;
+    margin-top: var(--mp-input-counter-margin-top);
+    color: var(--mp-input-counter-color);
+    font-size: var(--mp-input-counter-font-size);
     text-align: right;
   }
 }

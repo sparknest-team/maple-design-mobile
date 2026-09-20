@@ -17,7 +17,7 @@ Use `<mp-style-provider :style-vars="vars" tag="section">`. Variables follow DOM
 
 ```ts
 import { StyleProvider, Themes } from '@maplejs/maple-ui'
-StyleProvider.setStyleVars(Themes.dark)
+StyleProvider.setStyleVars(Themes.default.dark)
 StyleProvider.setStyleVars({ '--mp-color-scheme': 'light' })
 StyleProvider.setStyleVars(null)
 ```

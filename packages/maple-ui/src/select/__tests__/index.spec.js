@@ -550,7 +550,7 @@ test('select offset-y', async () => {
 
   const menu = wrapper.findComponent({ name: 'MpTrigger' })
 
-  expect(menu.vm.offsetY).toBe(40)
+  expect(menu.props('popupTranslate')).toEqual([0, 40])
 
   wrapper.unmount()
 })

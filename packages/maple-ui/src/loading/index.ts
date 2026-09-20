@@ -1,7 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { vLoading } from './directive'
 import Loading from './Loading.vue'
-import { props as loadingProps } from './props'
+import { loadingProps } from './props'
 
 withInstall(Loading, undefined, {
   setup(app) {
@@ -17,4 +17,4 @@ export type LoadingInstance = InstanceType<typeof Loading>
 export const _LoadingComponent: typeof Loading = Loading
 
 export default Loading
-export type LoadingProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type { LoadingProps, LoadingSize, LoadingType } from './props'

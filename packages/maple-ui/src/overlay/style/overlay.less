@@ -1,5 +1,6 @@
 :root {
   --mp-overlay-background-color: rgba(0, 0, 0, 0.6);
+  --mp-overlay-animation-duration: var(--mp-sys-motion-duration-slow);
 }
 
 .mp-overlay {
@@ -18,7 +19,7 @@
   }
   &--fade-enter-active,
   &--fade-leave-active {
-    transition: opacity 0.25s;
+    transition: opacity var(--mp-overlay-animation-duration);
   }
 
   &__backdrop {

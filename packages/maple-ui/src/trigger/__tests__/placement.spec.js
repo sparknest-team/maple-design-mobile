@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { getTriggerPosition } from '../useFloatingTrigger'
+import { getTriggerPosition } from '../geometry'
 
 const placements = ['top', 'bottom', 'left', 'right'].flatMap((side) => [side, side + '-start', side + '-end'])
 test.each(placements)('placement %s preserves axis offsets and cover geometry', (placement) => {

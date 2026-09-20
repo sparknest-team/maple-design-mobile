@@ -1,14 +1,14 @@
 .mp-field-decorator {
-  --mp-field-current-height: var(--mp-field-size-md-height);
-  --mp-field-current-placeholder-space: 4px;
+  --mp-internal-field-current-height: var(--mp-field-size-md-height);
+  --mp-internal-field-current-placeholder-space: 4px;
 
   position: relative;
   width: 100%;
-  color: var(--mp-field-color-text);
+  color: var(--mp-field-control-text-color);
 
   &__controller {
     box-sizing: border-box;
-    height: var(--mp-field-current-height);
+    height: var(--mp-internal-field-current-height);
     width: 100%;
     display: flex;
     align-items: stretch;
@@ -26,10 +26,10 @@
   &__icon {
     display: flex;
     align-items: center;
-    font-size: var(--mp-field-size-icon);
+    font-size: var(--mp-field-icon-size);
 
     .mp-icon {
-      font-size: var(--mp-field-size-icon);
+      font-size: var(--mp-field-icon-size);
     }
   }
 
@@ -38,9 +38,9 @@
     top: 0;
     left: 0;
     max-width: var(--mp-field-middle-offset-width);
-    font-size: var(--mp-field-size-placeholder);
+    font-size: var(--mp-internal-field-size-placeholder);
     line-height: 1.5em;
-    color: var(--mp-field-color-placeholder-text, var(--mp-field-color-blur));
+    color: var(--mp-field-placeholder-text-color, var(--mp-field-blur-color));
     pointer-events: none;
     cursor: inherit;
     transform-origin: left;
@@ -51,20 +51,20 @@
   }
 
   &__clear-icon[mp-field-decorator-cover] {
-    font-size: var(--mp-field-size-icon);
+    font-size: var(--mp-field-icon-size);
     margin-left: 6px;
     cursor: pointer;
   }
 
   &__placeholder-text {
-    max-width: calc(133% - var(--mp-field-padding-x) - var(--mp-field-padding-x));
+    max-width: calc(133% - var(--mp-field-padding-horizontal) - var(--mp-field-padding-horizontal));
     position: absolute;
     z-index: -1000;
     top: -1000px;
     display: inline-block;
     pointer-events: none;
     opacity: 0;
-    font-size: var(--mp-field-size-placeholder);
+    font-size: var(--mp-internal-field-size-placeholder);
   }
 
   &--placeholder-hidden {
@@ -72,16 +72,16 @@
   }
 
   &--focus {
-    color: var(--mp-field-color-focus);
+    color: var(--mp-field-focus-color);
   }
 
   &--disabled {
-    color: var(--mp-field-color-text-disabled);
+    color: var(--mp-field-control-text-color-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-color-error);
+    color: var(--mp-field-error-color);
   }
 
   &--standard {
@@ -130,9 +130,9 @@
       box-sizing: border-box;
       min-width: 0;
       width: 100%;
-      height: calc(100% + (var(--mp-field-size-placeholder) * 0.75 / 2));
+      height: calc(100% + (var(--mp-internal-field-size-placeholder) * 0.75 / 2));
       position: absolute;
-      top: calc(var(--mp-field-size-placeholder) * 0.75 / 2 * -1);
+      top: calc(var(--mp-internal-field-size-placeholder) * 0.75 / 2 * -1);
       left: 0;
       pointer-events: none;
       border-radius: var(--mp-field-border-radius);
@@ -142,7 +142,7 @@
 
       &-legend {
         max-width: 0;
-        height: calc(var(--mp-field-size-placeholder) * 0.75);
+        height: calc(var(--mp-internal-field-size-placeholder) * 0.75);
         visibility: hidden;
         padding: 0;
         overflow: hidden;
@@ -196,34 +196,34 @@
 
   &--filled {
     .mp-field-decorator__controller {
-      background: var(--mp-field-variant-filled-bg);
+      background: var(--mp-field-variant-filled-background);
       border-radius: var(--mp-field-border-radius);
       transition: background-color 0.25s;
     }
 
     &:hover:not(.mp-field-decorator--disabled) .mp-field-decorator__controller:not(.mp-field-decorator--disabled) {
-      background: var(--mp-field-variant-filled-bg-hover);
+      background: var(--mp-field-variant-filled-background-hover);
     }
 
     .mp-field-decorator__controller.mp-field-decorator--focus:not(.mp-field-decorator--disabled) {
-      background: var(--mp-field-variant-filled-bg-focus);
+      background: var(--mp-field-variant-filled-background-focus);
     }
 
     &.mp-field-decorator--disabled .mp-field-decorator__controller,
     .mp-field-decorator__controller.mp-field-decorator--disabled {
-      background: var(--mp-field-variant-filled-bg-disabled);
+      background: var(--mp-field-variant-filled-background-disabled);
     }
 
     .mp-field-decorator__controller.mp-field-decorator--error {
-      background: var(--mp-field-variant-filled-bg-error);
+      background: var(--mp-field-variant-filled-background-error);
     }
   }
 
   .size(@size, @height, @padding-x, @placeholder-space) {
     &--size-@{size} {
-      --mp-field-current-height: @height;
-      --mp-field-padding-x: @padding-x;
-      --mp-field-current-placeholder-space: @placeholder-space;
+      --mp-internal-field-current-height: @height;
+      --mp-field-padding-horizontal: @padding-x;
+      --mp-internal-field-current-placeholder-space: @placeholder-space;
     }
   }
 
@@ -231,14 +231,14 @@
   .size(sm, var(--mp-field-size-sm-height), 12px, 2px);
   .size(md, var(--mp-field-size-md-height), 16px, 4px);
   .size(lg, var(--mp-field-size-lg-height), 16px, 4px);
-  .size(xl, var(--mp-field-size-xl-height), 20px, 4px);
+  .size(xl, var(--mp-internal-field-size-xl-height), 20px, 4px);
 
   &--standard,
   &--outline,
   &--filled {
     .mp-field-decorator__placeholder,
     .mp-field-decorator--hint-center {
-      transform: translate(var(--mp-field-middle-offset-left), calc(var(--mp-field-current-height) / 2 - 50%));
+      transform: translate(var(--mp-field-middle-offset-left), calc(var(--mp-internal-field-current-height) / 2 - 50%));
     }
   }
 
@@ -252,34 +252,34 @@
   &--outline,
   &--filled {
     .mp-field-decorator__controller {
-      padding-right: var(--mp-field-padding-x);
-      padding-left: var(--mp-field-padding-x);
+      padding-right: var(--mp-field-padding-horizontal);
+      padding-left: var(--mp-field-padding-horizontal);
     }
 
     .mp-field-decorator--placeholder-hint {
       max-width: calc(var(--mp-field-middle-offset-width) * 1.3333);
-      transform: translate(var(--mp-field-padding-x), -50%) scale(0.75);
+      transform: translate(var(--mp-field-padding-horizontal), -50%) scale(0.75);
     }
 
     .mp-field-decorator__line,
     .mp-field-decorator__state-line {
       padding-right: calc(
-        var(--mp-field-padding-x) - var(--mp-field-current-placeholder-space) -
+        var(--mp-field-padding-horizontal) - var(--mp-internal-field-current-placeholder-space) -
           var(--mp-field-variant-standard-line-size)
       );
       padding-left: calc(
-        var(--mp-field-padding-x) - var(--mp-field-current-placeholder-space) -
+        var(--mp-field-padding-horizontal) - var(--mp-internal-field-current-placeholder-space) -
           var(--mp-field-variant-standard-line-size)
       );
     }
 
     .mp-field-decorator--state-line-focus {
       padding-right: calc(
-        var(--mp-field-padding-x) - var(--mp-field-current-placeholder-space) -
+        var(--mp-field-padding-horizontal) - var(--mp-internal-field-current-placeholder-space) -
           var(--mp-field-variant-standard-line-size-focus)
       );
       padding-left: calc(
-        var(--mp-field-padding-x) - var(--mp-field-current-placeholder-space) -
+        var(--mp-field-padding-horizontal) - var(--mp-internal-field-current-placeholder-space) -
           var(--mp-field-variant-standard-line-size-focus)
       );
     }

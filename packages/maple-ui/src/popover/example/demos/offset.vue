@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <mp-popover offset-x="36px" offset-y="18px">
+  <mp-popover :popup-translate="[36, 18]">
     <mp-button status="primary">偏移量</mp-button>
     <template #content>
       <mp-cell>选项</mp-cell>

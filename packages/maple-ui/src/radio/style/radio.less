@@ -1,17 +1,23 @@
 :root {
-  --mp-radio-checked-color: var(--mp-color-primary);
-  --mp-radio-unchecked-color: #555;
-  --mp-radio-disabled-color: var(--mp-color-text-disabled);
-  --mp-radio-error-color: var(--mp-color-danger);
-  --mp-radio-icon-size: 24px;
+  --mp-radio-control-color-checked: var(--mp-color-primary);
+  --mp-radio-control-color: #555;
+  --mp-radio-control-color-disabled: var(--mp-color-text-disabled);
+  --mp-radio-control-color-error: var(--mp-sys-color-status-danger);
+  --mp-radio-control-size: 24px;
   --mp-radio-action-padding: 6px;
-  --mp-radio-text-color: #555;
+  --mp-radio-label-text-color: #555;
+  --mp-radio-label-text-color-disabled: var(--mp-color-text-disabled);
+  --mp-radio-label-font-size: var(--mp-font-size-md);
+  --mp-radio-label-gap: 0;
+  --mp-radio-group-gap: 0;
+  --mp-radio-animation-duration: var(--mp-sys-motion-duration-standard);
 }
 
 .mp-radio {
   display: flex;
   align-items: center;
   transform: translateX(calc(-1 * var(--mp-radio-action-padding)));
+  font-size: var(--mp-radio-label-font-size);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
@@ -30,33 +36,38 @@
     border-radius: 50%;
     outline: none;
     transition:
-      background-color 0.25s,
-      color 0.25s;
+      background-color var(--mp-radio-animation-duration),
+      color var(--mp-radio-animation-duration);
   }
 
   &__icon[mp-radio-cover] {
     display: block;
-    font-size: var(--mp-radio-icon-size);
+    font-size: var(--mp-radio-control-size);
   }
 
   &__text {
-    color: var(--mp-radio-text-color);
+    margin-inline-start: var(--mp-radio-label-gap);
+    color: var(--mp-radio-label-text-color);
   }
 
   &--checked {
-    color: var(--mp-radio-checked-color);
+    color: var(--mp-radio-control-color-checked);
   }
 
   &--unchecked {
-    color: var(--mp-radio-unchecked-color);
+    color: var(--mp-radio-control-color);
   }
 
   &--disabled {
-    color: var(--mp-radio-disabled-color);
+    color: var(--mp-radio-control-color-disabled);
     cursor: not-allowed;
+
+    .mp-radio__text {
+      color: var(--mp-radio-label-text-color-disabled);
+    }
   }
 
   &--error {
-    color: var(--mp-radio-error-color);
+    color: var(--mp-radio-control-color-error);
   }
 }

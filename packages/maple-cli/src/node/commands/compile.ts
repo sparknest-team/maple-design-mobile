@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { buildLibrary } from '@loca/ui-build'
+import { buildLibrary } from '@ui-foundation/ui-build'
 import fse from 'fs-extra'
 import { createSpinner } from 'nanospinner'
 import { compileTemplateHighlight } from '../compiler/compileTemplateHighlight.js'

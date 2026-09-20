@@ -7,10 +7,11 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, type Component } from 'vue'
 import { pascalCase } from '@maplejs/maple-shared'
+import { createNamespace } from '../utils/components'
 import MpIcon from './Icon.vue'
 
 defineOptions({
-  name: 'MpRegisteredIcon',
+  name: createNamespace('registered-icon').name,
   inheritAttrs: false,
 })
 

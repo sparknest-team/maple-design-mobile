@@ -133,5 +133,5 @@ Input provides the variables below. See [FieldDecorator](#/en-US/field-decorator
 
 | Variable                  | Default |
 | ------------------------- | ------- |
-| `--input-input-height`    | `24px`  |
-| `--input-input-font-size` | `16px`  |
+| `--input-control-height`    | `24px`  |
+| `--input-control-font-size` | `16px`  |

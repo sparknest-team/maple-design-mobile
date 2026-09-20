@@ -39,7 +39,7 @@
     outline: none;
     border: none;
     font-size: inherit;
-    color: var(--mp-field-color-text);
+    color: var(--mp-field-control-text-color);
     word-break: break-all;
     overflow: hidden;
     transition: color 0.25s;
@@ -57,9 +57,9 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    font-size: var(--mp-field-size-placeholder);
+    font-size: var(--mp-internal-field-size-placeholder);
     line-height: 1.5em;
-    color: var(--mp-field-color-blur);
+    color: var(--mp-field-blur-color);
     pointer-events: none;
     cursor: inherit;
   }
@@ -74,12 +74,12 @@
   }
 
   &--disabled {
-    color: var(--mp-field-color-text-disabled);
+    color: var(--mp-field-control-text-color-disabled);
     cursor: not-allowed;
   }
 
   &--error {
-    color: var(--mp-field-color-error);
+    color: var(--mp-field-error-color);
   }
 
   &__panel {

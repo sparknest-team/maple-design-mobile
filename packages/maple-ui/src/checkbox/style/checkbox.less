@@ -1,17 +1,24 @@
 :root {
-  --mp-checkbox-checked-color: var(--mp-color-primary);
-  --mp-checkbox-unchecked-color: #555;
-  --mp-checkbox-disabled-color: var(--mp-color-text-disabled);
-  --mp-checkbox-error-color: var(--mp-color-danger);
+  // Public theme contract. Keep this set aligned with Cedar Checkbox.
+  --mp-checkbox-control-color: #555;
+  --mp-checkbox-control-color-checked: var(--mp-color-primary);
+  --mp-checkbox-control-color-disabled: var(--mp-color-text-disabled);
+  --mp-checkbox-control-color-error: var(--mp-sys-color-status-danger);
+  --mp-checkbox-control-size: 24px;
+  --mp-checkbox-label-text-color: #555;
+  --mp-checkbox-label-text-color-disabled: var(--mp-color-text-disabled);
+  --mp-checkbox-label-font-size: var(--mp-font-size-md);
+  --mp-checkbox-label-gap: 0;
   --mp-checkbox-action-padding: 6px;
-  --mp-checkbox-text-color: #555;
-  --mp-checkbox-icon-size: 24px;
+  --mp-checkbox-group-gap: 0;
+  --mp-checkbox-animation-duration: var(--mp-sys-motion-duration-standard);
 }
 
 .mp-checkbox {
   display: flex;
   align-items: center;
   transform: translateX(calc(-1 * var(--mp-checkbox-action-padding)));
+  font-size: var(--mp-checkbox-label-font-size);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
@@ -29,34 +36,38 @@
     padding: var(--mp-checkbox-action-padding);
     border-radius: 50%;
     transition:
-      background-color 0.25s,
-      color 0.25s;
+      background-color var(--mp-checkbox-animation-duration),
+      color var(--mp-checkbox-animation-duration);
     outline: none;
   }
 
   &__icon[mp-checkbox-cover] {
     display: block;
-    font-size: var(--mp-checkbox-icon-size);
+    font-size: var(--mp-checkbox-control-size);
   }
 
   &__text {
-    color: var(--mp-checkbox-text-color);
+    margin-inline-start: var(--mp-checkbox-label-gap);
+    color: var(--mp-checkbox-label-text-color);
   }
 
   &--checked {
-    color: var(--mp-checkbox-checked-color);
+    color: var(--mp-checkbox-control-color-checked);
   }
-
   &--unchecked {
-    color: var(--mp-checkbox-unchecked-color);
+    color: var(--mp-checkbox-control-color);
   }
 
   &--disabled {
-    color: var(--mp-checkbox-disabled-color);
+    color: var(--mp-checkbox-control-color-disabled);
     cursor: not-allowed;
+
+    .mp-checkbox__text {
+      color: var(--mp-checkbox-label-text-color-disabled);
+    }
   }
 
   &--error {
-    color: var(--mp-checkbox-error-color);
+    color: var(--mp-checkbox-control-color-error);
   }
 }

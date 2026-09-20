@@ -130,22 +130,4 @@ type TagVariant = 'default' | 'outline'
 
 ### Style Variables
 
-Customize via [StyleProvider](#/en-US/style-provider).
-
-| Variable | Default |
-| --- | --- |
-| `--mp-tag-border-width` | `1px` |
-| `--mp-tag-border-radius` | `4px` |
-| `--mp-tag-round-radius` | `100px` |
-| `--mp-tag-padding` | `0 10px` |
-| `--mp-tag-icon-margin` | `6px` |
-| `--mp-tag-font-weight` | `500` |
-| `--mp-tag-size-xs-height` | `24px` |
-| `--mp-tag-size-sm-height` | `28px` |
-| `--mp-tag-size-md-height` | `32px` |
-| `--mp-tag-size-lg-height` | `36px` |
-| `--mp-tag-size-xl-height` | `40px` |
-| `--mp-tag-size-{size}-font-size` | `12px` ~ `16px` |
-| `--mp-tag-status-{status}-color` | Status background |
-| `--mp-tag-status-{status}-text-color` | Status text color |
-| `--mp-tag-status-{status}-border-color` | Status border (outline) |
+The complete public contract is the `--mp-tag-*` set in `style/token.less`. Customize it with [StyleProvider](#/en-US/style-provider). Cedar uses the same logical names with a different brand prefix.

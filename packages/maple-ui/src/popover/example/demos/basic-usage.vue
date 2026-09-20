@@ -1,12 +1,11 @@
 <script setup></script>
 
 <template>
-  <mp-popover>
+  <mp-popover title="设备状态">
     <mp-button status="primary">基本使用</mp-button>
     <template #content>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
-      <mp-cell>选项</mp-cell>
+      <p>设备：生产线 A-03</p>
+      <p>状态：运行中</p>
     </template>
   </mp-popover>
 </template>

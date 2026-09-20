@@ -4,7 +4,7 @@
 
 Collects transient commands for the current object, such as overflow actions, context menus and the extra actions of a button. Use [Select](#/en-US/select) to pick form data and [Cascader](#/en-US/cascader) to pick hierarchical data.
 
-The popup is built on the unstyled [Trigger](#/en-US/trigger). Placements follow Popper (including `cover-*`) and default to `bottom`. Use `auto-fit-popup-width` and `popup-max-height` for width matching and height limits.
+The popup is built on the unstyled [Trigger](#/en-US/trigger). It uses the shared twelve placements and the separate `cover` mode, defaulting to `bottom`. Use `auto-fit-popup-width` and `popup-max-height` for width matching and height limits.
 
 ### Overflow Actions
 
@@ -111,7 +111,7 @@ Prefer passing `icon`, `extra` or a VNode directly on the option; all three also
 | `trigger` | Root menu trigger | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | How every submenu level expands | _'click' \| 'hover'_ | `'click'` |
 | `placement` | Popup placement | _DropdownMenuPosition_ | `'bottom'` |
-| `strategy` | Popper positioning strategy | _'absolute' \| 'fixed'_ | `'absolute'` |
+| `strategy` | Floating-layer positioning strategy | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | External trigger element | _string \| HTMLElement_ | `-` |
 | `popup-container` | Popup mount container | _string \| HTMLElement \| false_ | `-` |
 | `popup-class` | Popup class name | _string \| array \| object_ | `-` |

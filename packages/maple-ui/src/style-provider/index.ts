@@ -51,7 +51,7 @@ const StyleProvider = Object.assign(withInstall(_StyleProvider), {
 })
 
 export type StyleProviderInstance = InstanceType<typeof _StyleProvider>
-export type { StyleProviderProps, StyleProviderDefaults, StyleVars } from './props'
+export type { StyleProviderProps, StyleProviderDefaults, StyleVarName, StyleVars } from './props'
 export { StyleProvider, styleProviderProps }
 export const _StyleProviderComponent = StyleProvider
 export default StyleProvider
