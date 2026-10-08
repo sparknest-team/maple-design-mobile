@@ -1,21 +1,20 @@
 // Component tokens for field-decorator
 :root {
-  --mp-field-control-text-color: #555;
-  --mp-field-error-color: var(--mp-color-danger);
-  --mp-field-blur-color: #888;
-  --mp-field-focus-color: var(--mp-color-primary);
-  --mp-internal-field-size-placeholder: 16px;
+  --mp-field-control-text-color: var(--mp-sys-color-content-primary);
+  --mp-field-error-color: var(--mp-sys-color-status-danger);
+  --mp-field-blur-color: var(--mp-sys-color-content-tertiary);
+  --mp-field-focus-color: var(--mp-sys-color-action-primary);
   --mp-field-icon-size: 20px;
   --mp-field-variant-standard-line-size: 1px;
   --mp-field-variant-standard-line-size-focus: 2px;
   --mp-field-border-radius: 4px;
-  --mp-field-control-text-color-disabled: var(--mp-color-text-disabled);
+  --mp-field-control-text-color-disabled: var(--mp-sys-color-content-disabled);
 
   // Shared semantic (align with Cedar)
-  --mp-field-placeholder-text-color: var(--mp-field-blur-color);
-  --mp-field-prefix-text-color: var(--mp-field-blur-color);
-  --mp-field-suffix-text-color: var(--mp-field-blur-color);
-  --mp-field-clear-icon-color: var(--mp-field-blur-color);
+  --mp-field-placeholder-text-color: var(--mp-sys-color-content-tertiary);
+  --mp-field-prefix-text-color: var(--mp-sys-color-content-secondary);
+  --mp-field-suffix-text-color: var(--mp-sys-color-content-secondary);
+  --mp-field-clear-icon-color: var(--mp-sys-color-content-secondary);
   --mp-field-clear-icon-size: var(--mp-field-icon-size);
   --mp-field-border-width: 1px;
   --mp-field-padding-horizontal: 16px;
@@ -23,25 +22,39 @@
   --mp-field-size-sm-height: 40px;
   --mp-field-size-md-height: 48px;
   --mp-field-size-lg-height: 56px;
-  --mp-internal-field-size-xl-height: 64px;
+  --mp-field-size-xl-height: 64px;
+  --mp-field-hint-scale: 0.75;
+  --mp-field-hint-space: 4px;
+  --mp-field-hint-duration: 0.2s;
+  --mp-field-line-height: 1.5;
+  --mp-field-content-gap: 8px;
+  --mp-field-content-padding-vertical: 8px;
+  --mp-field-clear-padding: 4px;
+  --mp-field-clear-radius: 50%;
+  --mp-field-clear-visibility: visible;
+  --mp-field-size-xs-font-size: 12px;
+  --mp-field-size-sm-font-size: 14px;
+  --mp-field-size-md-font-size: 16px;
+  --mp-field-size-lg-font-size: 16px;
+  --mp-field-size-xl-font-size: 18px;
 
   // variant: filled
-  --mp-field-variant-filled-background: var(--mp-color-fill-2);
-  --mp-field-variant-filled-background-hover: var(--mp-color-fill-3);
-  --mp-field-variant-filled-background-focus: var(--mp-color-bg-2);
+  --mp-field-variant-filled-background: var(--mp-sys-color-surface-muted);
+  --mp-field-variant-filled-background-hover: var(--mp-sys-color-state-hover);
+  --mp-field-variant-filled-background-focus: var(--mp-color-fill-3);
   --mp-field-variant-filled-background-disabled: var(--mp-color-fill-2);
   --mp-field-variant-filled-background-error: var(--mp-color-danger-light-1);
 
   // variant: outline (border axis — Cedar 对齐；Maple 几何仍用 size-* padding)
-  --mp-field-variant-outline-border-color: var(--mp-field-blur-color);
-  --mp-field-variant-outline-border-color-hover: var(--mp-field-focus-color);
-  --mp-field-variant-outline-border-color-focus: var(--mp-field-focus-color);
-  --mp-field-variant-outline-border-color-disabled: var(--mp-field-control-text-color-disabled);
-  --mp-field-variant-outline-border-color-error: var(--mp-field-error-color);
+  --mp-field-variant-outline-border-color: var(--mp-sys-color-border-default);
+  --mp-field-variant-outline-border-color-hover: var(--mp-sys-color-border-strong);
+  --mp-field-variant-outline-border-color-focus: var(--mp-sys-color-action-primary);
+  --mp-field-variant-outline-border-color-disabled: var(--mp-sys-color-border-subtle);
+  --mp-field-variant-outline-border-color-error: var(--mp-sys-color-status-danger);
 
   // variant: standard line color
   --mp-field-variant-standard-line-color: var(--mp-field-blur-color);
   --mp-field-variant-standard-line-color-focus: var(--mp-field-focus-color);
   --mp-field-variant-standard-line-color-error: var(--mp-field-error-color);
-  --mp-field-variant-standard-line-color-disabled: var(--mp-field-control-text-color-disabled);
+  --mp-field-variant-standard-line-color-disabled: var(--mp-sys-color-border-subtle);
 }

@@ -1,0 +1,17 @@
+import type { getTimeEventDates } from './time-events'
+import type { TimeValue } from './time-value'
+import type { TimePanelOutput, TimePanelValue } from './use-time-panel'
+
+/** Pure panels notify selection/commit only; opening belongs to the field. */
+function createTimePanelEmits<T extends TimePanelValue>() {
+  return {
+    select: (_value: TimePanelOutput<T>, _dates: ReturnType<typeof getTimeEventDates>) => true,
+    change: (_value: TimePanelOutput<T>, _dates: ReturnType<typeof getTimeEventDates>) => true,
+    confirm: (_value: TimePanelOutput<T>, _dates: ReturnType<typeof getTimeEventDates>) => true,
+    'update:modelValue': (_value: TimePanelOutput<T>) => true,
+  }
+}
+
+export const timePanelEmits = createTimePanelEmits<TimePanelValue>()
+export const timeSinglePanelEmits = createTimePanelEmits<TimeValue>()
+export const timeRangePanelEmits = createTimePanelEmits<TimeValue[]>()

@@ -1,14 +1,46 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Input from './Input.vue'
-import { props as inputProps } from './props'
+import _Input from './Input.vue'
+import _InputGroup from './InputGroup.vue'
+import _InputGroupLabel from './InputGroupLabel.vue'
+import _InputPassword from './InputPassword.vue'
+import { inputGroupProps, inputPasswordProps, inputProps } from './props'
 
-withInstall(Input)
-withPropsDefaultsSetter(Input, inputProps)
+withPropsDefaultsSetter(_Input, inputProps)
+withPropsDefaultsSetter(_InputGroup, inputGroupProps)
+withPropsDefaultsSetter(_InputPassword, inputPasswordProps)
+
+const Input = withInstall(
+  _Input,
+  Object.assign(_Input, {
+    Password: _InputPassword,
+    Group: _InputGroup,
+    GroupLabel: _InputGroupLabel,
+  }),
+  { components: [_Input, _InputPassword, _InputGroup, _InputGroupLabel] },
+)
 
 export { inputProps }
 export type InputInstance = InstanceType<typeof Input>
-export type { InputMaxLength, InputProps, InputType, InputVariant, WordLength, WordSlice } from './props'
+export { inputPasswordProps, inputGroupProps }
+export type {
+  InputMaxLength,
+  InputGroupProps,
+  InputPasswordProps,
+  InputProps,
+  InputType,
+  InputVariant,
+  WordLength,
+  WordSlice,
+} from './props'
+export type InputPasswordInstance = InstanceType<typeof _InputPassword>
+export type InputGroupInstance = InstanceType<typeof _InputGroup>
+export type InputGroupLabelInstance = InstanceType<typeof _InputGroupLabel>
 
 export const _InputComponent: typeof Input = Input
+export const _InputPasswordComponent = _InputPassword
+export const _InputGroupComponent = _InputGroup
+export const _InputGroupLabelComponent = _InputGroupLabel
+
+export { Input, _InputPassword as InputPassword, _InputGroup as InputGroup, _InputGroupLabel as InputGroupLabel }
 
 export default Input

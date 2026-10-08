@@ -1,0 +1,481 @@
+import { createApp, createSSRApp, h, nextTick } from 'vue'
+import { renderToString } from '@vue/server-renderer'
+import { DOMWrapper, mount } from '@vue/test-utils'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { InputGroup } from '../../input'
+import { AutoComplete } from '../index'
+import type { AutoCompleteInstance, AutoCompleteOptionInfo } from '../index'
+
+// Public interaction coverage is copied independently into Cedar.
+
+const wrappers: any[] = []
+afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
+
+const mountAutoComplete = (mountOptions: Record<string, any> = {}) => {
+  const wrapper = mount(AutoComplete, {
+    attachTo: document.body,
+    ...mountOptions,
+    props: {
+      shouldOpen: () => true,
+      ...(mountOptions.props ?? {}),
+    },
+  } as any)
+  wrappers.push(wrapper)
+  return wrapper
+}
+
+const getOptions = (input: { attributes: (key: string) => string | undefined }) => {
+  const listbox = document.getElementById(input.attributes('aria-controls') ?? '')
+  return Array.from(listbox?.querySelectorAll('[role="option"]') ?? []).map((element) => new DOMWrapper(element))
+}
+
+const options = [
+  { value: 1, label: 'Alpha' },
+  { value: 'beta', label: 'Beta' },
+  { value: 'disabled', label: 'Disabled', disabled: true },
+]
+
+describe('AutoComplete', () => {
+  test('base markup snapshot', () => {
+    expect(mountAutoComplete().html()).toMatchSnapshot()
+  })
+  test('renders shared defaults and editable combobox semantics', () => {
+    const wrapper = mountAutoComplete({
+      props: { options, inputAttrs: { 'aria-label': 'City' } },
+    })
+    const input = wrapper.get('input.mp-input__inner')
+
+    expect(wrapper.find('.mp-field-decorator--variant-outline').exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator__clear-btn').exists()).toBe(false)
+    expect(input.attributes()).toMatchObject({
+      role: 'combobox',
+      'aria-label': 'City',
+      'aria-autocomplete': 'list',
+      'aria-expanded': 'false',
+      autocomplete: 'off',
+    })
+    expect(input.attributes('aria-controls')).toContain('mp-auto-complete-listbox-')
+  })
+
+  test('separates live input and search from committed change', async () => {
+    const order: string[] = []
+    const wrapper = mountAutoComplete({
+      props: {
+        defaultValue: 'draft',
+        options,
+        'onUpdate:modelValue': () => order.push('update'),
+        onInput: () => order.push('input'),
+        onSearch: () => order.push('search'),
+        onChange: () => order.push('change'),
+      },
+    })
+    const input = wrapper.get('input.mp-input__inner')
+
+    await input.trigger('focus')
+    await input.setValue('Alpha')
+    expect(order).toEqual(['update', 'input', 'search'])
+
+    await input.trigger('blur')
+    expect(order).toEqual(['update', 'input', 'search', 'change'])
+    await input.trigger('blur')
+    expect(order).toEqual(['update', 'input', 'search', 'change'])
+  })
+
+  test('opens on empty focus and applies built-in filtering', async () => {
+    const wrapper = mountAutoComplete({ props: { options } })
+    const input = wrapper.get('input.mp-input__inner')
+
+    await input.trigger('focus')
+    await nextTick()
+    expect(input.attributes('aria-expanded')).toBe('true')
+    expect(getOptions(input)).toHaveLength(3)
+
+    await input.setValue('ALP')
+    await nextTick()
+    expect(getOptions(input)).toHaveLength(1)
+    expect(getOptions(input)[0].text()).toContain('Alpha')
+  })
+
+  test('supports strict, disabled, and custom filtering', async () => {
+    const wrapper = mountAutoComplete({
+      props: { options, strict: true },
+    })
+    const input = wrapper.get('input.mp-input__inner')
+
+    await input.trigger('focus')
+    await input.setValue('ALP')
+    await nextTick()
+    expect(input.attributes('aria-expanded')).toBe('false')
+
+    await wrapper.setProps({
+      filterOption: (_value, option) => option.value === 'beta',
+    })
+    await nextTick()
+    expect(input.attributes('aria-expanded')).toBe('true')
+    expect(getOptions(input)[0].text()).toContain('Beta')
+
+    await wrapper.setProps({ filterOption: false })
+    await nextTick()
+    expect(getOptions(input)).toHaveLength(3)
+  })
+
+  test('selects a normalized value in canonical order without input side effects', async () => {
+    const order: string[] = []
+    const wrapper = mountAutoComplete({
+      props: {
+        options,
+        'onUpdate:modelValue': () => order.push('update'),
+        onSelect: () => order.push('select'),
+        onChange: () => order.push('change'),
+        onInput: () => order.push('input'),
+        onSearch: () => order.push('search'),
+      },
+      attachTo: document.body,
+    })
+    const input = wrapper.get('input.mp-input__inner')
+    ;(input.element as HTMLInputElement).focus()
+    await nextTick()
+
+    await getOptions(input)[0].trigger('click')
+    await nextTick()
+
+    expect(order).toEqual(['update', 'select', 'change'])
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['1'])
+    expect(wrapper.emitted('select')?.[0]?.[0]).toBe('1')
+    expect(wrapper.emitted('select')?.[0]?.[1]).toMatchObject({
+      value: '1',
+      label: 'Alpha',
+      disabled: false,
+    })
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(input.element)
+    wrapper.unmount()
+  })
+
+  test('emits select for the same value without duplicate update or change', async () => {
+    const wrapper = mountAutoComplete({
+      props: { defaultValue: 'beta', options },
+    })
+    const input = wrapper.get('input.mp-input__inner')
+
+    await input.trigger('focus')
+    await nextTick()
+    await getOptions(input)[0].trigger('click')
+
+    expect(wrapper.emitted('select')).toHaveLength(1)
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+  })
+
+  test('clears with the activation event and no edit or commit side effects', async () => {
+    const wrapper = mountAutoComplete({
+      props: { defaultValue: 'Alpha', options, clearable: true },
+      attachTo: document.body,
+    })
+    const input = wrapper.get('input.mp-input__inner')
+    ;(input.element as HTMLInputElement).focus()
+    await nextTick()
+    const clear = wrapper.get('.mp-field-decorator__clear-btn')
+
+    await clear.trigger('mousedown')
+    await clear.trigger('click')
+    await nextTick()
+
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([''])
+    expect(wrapper.emitted('clear')?.[0]?.[0]).toBeInstanceOf(Event)
+    expect(wrapper.emitted('input')).toBeUndefined()
+    expect(wrapper.emitted('search')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('select')).toBeUndefined()
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(input.element)
+    wrapper.unmount()
+  })
+
+  test('navigates options with input focus and keeps native Tab behavior', async () => {
+    const wrapper = mountAutoComplete({
+      props: { options },
+      attachTo: document.body,
+    })
+    const input = wrapper.get('input.mp-input__inner')
+    ;(input.element as HTMLInputElement).focus()
+    await nextTick()
+
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    const activeId = input.attributes('aria-activedescendant')
+    expect(activeId).toBeTruthy()
+    const activeOption = getOptions(input).find((option) => option.attributes('id') === activeId)
+    expect(activeOption?.attributes('aria-selected')).toBe('true')
+
+    const tabEvent = new KeyboardEvent('keydown', {
+      key: 'Tab',
+      bubbles: true,
+      cancelable: true,
+    })
+    input.element.dispatchEvent(tabEvent)
+    await nextTick()
+    expect(tabEvent.defaultPrevented).toBe(false)
+    expect(input.attributes('aria-expanded')).toBe('false')
+
+    await input.trigger('blur')
+    await input.trigger('focus')
+    await input.trigger('keydown', { key: 'Escape' })
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(input.element)
+    wrapper.unmount()
+  })
+
+  test('blocks popup and editing actions while readonly', async () => {
+    const onSearch = vi.fn()
+    const wrapper = mountAutoComplete({
+      props: {
+        defaultValue: 'Alpha',
+        options,
+        readonly: true,
+        clearable: true,
+        onSearch,
+      },
+    })
+    const input = wrapper.get('input.mp-input__inner')
+
+    expect(input.attributes('readonly')).toBeDefined()
+    expect(wrapper.find('.mp-field-decorator__clear-btn').exists()).toBe(false)
+    await input.trigger('focus')
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(onSearch).not.toHaveBeenCalled()
+  })
+
+  test('provides normalized option data and footer slots', async () => {
+    const wrapper = mountAutoComplete({
+      props: { options },
+      slots: {
+        option: ({ data }: { data: AutoCompleteOptionInfo }) => `${data.label}:${data.value}`,
+        footer: () => 'Footer',
+      },
+    })
+
+    await wrapper.get('input.mp-input__inner').trigger('focus')
+    await nextTick()
+    expect(getOptions(wrapper.get('input.mp-input__inner'))[0].text()).toContain('Alpha:1')
+    expect(document.body.textContent).toContain('Footer')
+  })
+
+  test('exposes focus and blur methods', async () => {
+    const wrapper = mountAutoComplete({ attachTo: document.body })
+    const input = wrapper.get('input.mp-input__inner')
+
+    ;(wrapper.vm as unknown as AutoCompleteInstance).focus()
+    await nextTick()
+    expect(document.activeElement).toBe(input.element)
+
+    ;(wrapper.vm as unknown as AutoCompleteInstance).blur()
+    await nextTick()
+    expect(document.activeElement).not.toBe(input.element)
+    wrapper.unmount()
+  })
+})
+
+describe('aligned autocomplete boundaries', () => {
+  test('installs with public aliases', () => {
+    expect(createApp({}).use(AutoComplete).component(AutoComplete.name!)).toBeTruthy()
+  })
+  test('opening and filtering stay independent after prop changes', async () => {
+    const wrapper = mountAutoComplete({ props: { options, defaultValue: 'a', shouldOpen: () => false } })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    expect(input.attributes('aria-expanded')).toBe('false')
+    await wrapper.setProps({ shouldOpen: () => true, filterOption: () => false })
+    expect(input.attributes('aria-expanded')).toBe('false')
+    await wrapper.setProps({ filterOption: false })
+    expect(input.attributes('aria-expanded')).toBe('true')
+    expect(getOptions(input)).toHaveLength(3)
+  })
+  test('renders groups and uses mapped labels for strict filtering', async () => {
+    const wrapper = mountAutoComplete({
+      props: {
+        options: [
+          {
+            isGroup: true,
+            label: 'Devices',
+            options: [
+              { id: 1, title: 'Alpha' },
+              { id: 2, title: 'alpha' },
+            ],
+          },
+        ],
+        fieldNames: { value: 'id', label: 'title' },
+        strict: true,
+        defaultValue: 'A',
+      },
+    })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    expect(getOptions(input)).toHaveLength(1)
+    expect(getOptions(input)[0].text()).toBe('Alpha')
+    await getOptions(input)[0].trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['1'])
+  })
+  test('selection uses Input length normalization and retains raw option metadata', async () => {
+    const wrapper = mountAutoComplete({ props: { options: ['abcdef'], maxLength: 3 } })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    await getOptions(input)[0].trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['abc'])
+    expect(wrapper.emitted('select')?.at(-1)?.[1]).toMatchObject({ value: 'abcdef' })
+  })
+  test('custom wordSlice applies to selected suggestions', async () => {
+    const wrapper = mountAutoComplete({
+      props: {
+        options: ['abcdef'],
+        maxLength: 2,
+        wordSlice: (text: string, length: number) => text.slice(-length),
+      },
+    })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    await getOptions(input)[0].trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['ef'])
+  })
+  test('async options update the open list without overwriting free text', async () => {
+    const wrapper = mountAutoComplete({ props: { defaultValue: 'a', options: [] } })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    await wrapper.setProps({ options })
+    expect(getOptions(input)).toHaveLength(3)
+    expect(input.element.value).toBe('a')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
+  test('trigger props cannot bypass readonly or opening policy', async () => {
+    const wrapper = mountAutoComplete({
+      props: { options, readonly: true, triggerProps: { open: true, disabled: false } },
+    })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(getOptions(input)).toHaveLength(0)
+  })
+  test('updates root class and input attrs reactively', async () => {
+    const wrapper = mountAutoComplete({ attrs: { class: 'first' } })
+    await wrapper.setProps({ class: 'second', inputAttrs: { 'aria-label': 'Changed' } })
+    expect(wrapper.find('.second').exists()).toBe(true)
+    expect(wrapper.get('input').attributes('aria-label')).toBe('Changed')
+  })
+  test('inherits group state while explicit false overrides it', async () => {
+    const wrapper = mount(InputGroup, {
+      props: { readonly: true, size: 'lg', variant: 'standard' },
+      slots: {
+        default: () => h(AutoComplete, { options, shouldOpen: () => true }),
+      },
+    })
+    wrappers.push(wrapper)
+    expect(wrapper.get('input').attributes('readonly')).toBeDefined()
+    expect(wrapper.find('.mp-field-decorator--size-lg').exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator--variant-standard').exists()).toBe(true)
+    await wrapper.get('input').trigger('focus')
+    expect(wrapper.get('input').attributes('aria-expanded')).toBe('false')
+  })
+  test.each(['xs', 'sm', 'md', 'lg', 'xl'])('supports size %s', (size) => {
+    expect(
+      mountAutoComplete({ props: { size } })
+        .find('.mp-field-decorator--size-' + size)
+        .exists(),
+    ).toBe(true)
+  })
+  test.each(['filled', 'outline', 'standard'])('supports variant %s', (variant) => {
+    expect(
+      mountAutoComplete({ props: { variant } })
+        .find('.mp-field-decorator--variant-' + variant)
+        .exists(),
+    ).toBe(true)
+  })
+  test('forwards hint, border, keyboard and color settings', () => {
+    const wrapper = mountAutoComplete({
+      props: {
+        hint: true,
+        line: false,
+        placeholder: 'Device',
+        enterkeyhint: 'search',
+        textColor: 'red',
+        focusColor: 'blue',
+        blurColor: 'green',
+      },
+    })
+    expect(wrapper.get('input').attributes('enterkeyhint')).toBe('search')
+    expect(wrapper.html()).toContain('Device')
+    expect(wrapper.html()).toContain('red')
+    expect(wrapper.html()).toContain('blue')
+    expect(wrapper.html()).toContain('green')
+  })
+  test('SSR uses deterministic per-app IDs', async () => {
+    const render = () => renderToString(createSSRApp({ render: () => h(AutoComplete, { defaultValue: 'a', options }) }))
+    expect(await render()).toBe(await render())
+  })
+  test('SSR does not require browser globals', async () => {
+    const originalWindow = window
+    const originalDocument = document
+    vi.stubGlobal('window', undefined)
+    vi.stubGlobal('document', undefined)
+    try {
+      const html = await renderToString(createSSRApp({ render: () => h(AutoComplete, { defaultValue: 'server' }) }))
+      expect(html).toContain('server')
+      expect(html).toContain('combobox')
+    } finally {
+      vi.stubGlobal('window', originalWindow)
+      vi.stubGlobal('document', originalDocument)
+    }
+  })
+})
+
+describe('input boundaries', () => {
+  test('does not publish intermediate composition text', async () => {
+    const wrapper = mountAutoComplete()
+    const input = wrapper.get('input')
+    await input.trigger('compositionstart')
+    await input.setValue('拼')
+    expect(wrapper.emitted('search')).toBeUndefined()
+    await input.trigger('compositionend')
+    expect(wrapper.emitted('search')).toHaveLength(1)
+  })
+  test('controlled updates replace displayed text without publishing', async () => {
+    const wrapper = mountAutoComplete({ props: { modelValue: 'first' } })
+    await wrapper.setProps({ modelValue: 'second' })
+    expect(wrapper.get('input').element.value).toBe('second')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
+  test('explicit false overrides inherited readonly', () => {
+    const wrapper = mount(InputGroup, {
+      props: { readonly: true },
+      slots: {
+        default: () => h(AutoComplete, { readonly: false }),
+      },
+    })
+    wrappers.push(wrapper)
+    expect(wrapper.get('input').attributes('readonly')).toBeUndefined()
+  })
+  test('disabled suggestions cannot select or change', async () => {
+    const wrapper = mountAutoComplete({ props: { options, filterOption: false } })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    await getOptions(input)[2].trigger('click')
+    expect(wrapper.emitted('select')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+  })
+  test('renders rich candidate content through render', async () => {
+    const wrapper = mountAutoComplete({
+      props: { options: [{ value: 'rich', label: 'Rich', render: () => h('strong', 'Rich candidate') }] },
+    })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    expect(getOptions(input)[0].text()).toBe('Rich candidate')
+  })
+  test('virtual suggestions remain selectable', async () => {
+    const wrapper = mountAutoComplete({ props: { options, virtualListProps: { height: 180 } } })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    await nextTick()
+    expect(getOptions(input).length).toBeGreaterThan(0)
+    await getOptions(input)[0].trigger('click')
+    expect(wrapper.emitted('select')).toHaveLength(1)
+  })
+})

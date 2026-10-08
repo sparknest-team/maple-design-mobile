@@ -2,7 +2,5 @@ import type { App } from 'vue'
 import _IconFacebook from './icon-facebook.vue'
 
 export const IconFacebook = Object.assign(_IconFacebook, {
-  install(app: App) {
-    app.component(_IconFacebook.name, _IconFacebook)
-  },
+  install(app: App) { app.component(_IconFacebook.name, _IconFacebook) },
 })

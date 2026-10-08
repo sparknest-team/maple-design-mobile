@@ -59,6 +59,7 @@ A multiline plain-text editor for comments, feedback, and other longer content.
 | `rows`            | Native visible row count                     | _string \| number_                                  | `-`        |
 | `resize`          | Allows vertical manual resizing              | _boolean_                                           | `false`    |
 | `auto-size`       | Grows with content with optional row bounds  | _boolean \| { minRows?: number; maxRows?: number }_ | `false`    |
+
 | `max-length`      | Truncating or error-only length limit        | _number \| { length: number; errorOnly?: boolean }_ | `0`        |
 | `show-word-limit` | Shows the length counter                     | _boolean_                                           | `false`    |
 | `word-length`     | Custom length function                       | _(value: string) => number_                         | `-`        |
@@ -72,6 +73,8 @@ A multiline plain-text editor for comments, feedback, and other longer content.
 | `text-color`      | Custom text color                            | _string_                                            | `-`        |
 | `focus-color`     | Custom focus color                           | _string_                                            | `-`        |
 | `blur-color`      | Custom blur color                            | _string_                                            | `-`        |
+
+Inside Form/FormItem, omitted `size`, `disabled`, `readonly`, and `error` inherit form state. Explicit local values, including `false`, take precedence.
 
 ### Events
 
@@ -116,8 +119,15 @@ import type {
 
 | Variable                          | Default |
 | --------------------------------- | ------- |
-| `--mp-textarea-height`            | `auto`  |
-| `--mp-textarea-min-height`        | `96px`  |
-| `--mp-textarea-font-size`         | `16px`  |
-| `--mp-textarea-length-margin-top` | `4px`   |
-| `--mp-textarea-length-font-size`  | `12px`  |
+| `--mp-textarea-height`                         | `auto`                            |
+| `--mp-textarea-min-height`                     | `96px`                            |
+| `--mp-textarea-font-size`                      | `16px`                            |
+| `--mp-textarea-line-height`                    | `1.5`                             |
+| `--mp-textarea-padding-horizontal`             | `0`                               |
+| `--mp-textarea-padding-vertical`               | `0`                               |
+| `--mp-textarea-placeholder-color`              | `--mp-sys-color-content-secondary` |
+| `--mp-textarea-counter-color`                  | `--mp-sys-color-content-secondary` |
+| `--mp-textarea-counter-font-size`              | `--mp-sys-font-size-xs`           |
+| `--mp-textarea-counter-margin-top`              | `--mp-sys-space-2`                |
+
+Counter layout is platform-specific: Cedar positions the counter inside the field using counter-inset-inline-end, counter-inset-block-end and scrollbar-offset; Maple renders an external counter row using counter-margin-top. Only the variables relevant to each layout are exposed; color and font-size remain shared.

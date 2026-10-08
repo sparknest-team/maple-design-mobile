@@ -1,16 +1,4 @@
-:root {
-  --mp-form-label-text-color: var(--mp-color-text);
-  --mp-form-size-md-label-font-size: 14px;
-  --mp-form-vertical-label-margin-bottom: 8px;
-  --mp-form-item-label-width: 88px;
-  --mp-form-item-label-gap: 12px;
-  --mp-form-required-symbol-color: var(--mp-color-danger);
-  --mp-form-item-asterisk-margin: 4px;
-  --mp-form-extra-text-color: #888;
-  --mp-form-extra-text-font-size: 12px;
-  --mp-form-extra-margin-top: 6px;
-  --mp-form-size-md-item-margin-bottom: 16px;
-}
+@import './token.less';
 
 .mp-form-item {
   width: 100%;
@@ -26,7 +14,8 @@
     }
   }
 
-  &--horizontal {
+  &--horizontal,
+  &--inline {
     display: flex;
     align-items: flex-start;
 
@@ -44,6 +33,12 @@
       flex: 1;
       min-width: 0;
     }
+  }
+
+  &--inline {
+    display: inline-flex;
+    width: auto;
+    margin-right: var(--mp-form-item-label-gap);
   }
 
   &__label {

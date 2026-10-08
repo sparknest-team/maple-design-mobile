@@ -30,3 +30,7 @@ Input、Textarea、Select、Cascader、Date、Time、DateRange、TimeRange 等�
 | `normal` | `md`     |
 
 上层若用 `xs|sm|md|lg`（如 InputNumber），再映射到 FD：`xs/sm → small`，其余 → `normal`。
+
+## 错误与禁用边框变量
+
+以下后缀分别加上 `--c-field-` / `--mp-field-`：`variant-outline-border-color-error` 控制 outline 错误边框；`variant-standard-line-color-error` 控制 standard 错误底线；`variant-standard-line-color-disabled` 控制 standard 禁用底线，默认引用 system border-subtle。禁用优先于错误、hover 和 focus。三个入口均支持局部覆盖；错误提示文字仍由 `field-error-color` 管理。内部变量不是业务 API，已确认无消费的遗留内部声明直接删除，不提供别名。

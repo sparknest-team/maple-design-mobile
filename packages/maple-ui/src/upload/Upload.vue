@@ -88,7 +88,7 @@
       v-model:open="showPreview"
       :class="n('preview')"
       mp-upload-cover
-      position="center"
+      placement="center"
       @closed="currentPreview = null"
     >
       <video

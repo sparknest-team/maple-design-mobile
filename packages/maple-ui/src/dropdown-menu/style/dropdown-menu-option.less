@@ -32,8 +32,8 @@
   outline: none;
   white-space: nowrap;
 
-  &:hover:not(&--disabled),
-  &--active {
+  &:hover:not(&--disabled):not(&--selected-color),
+  &--active:not(&--disabled):not(&--selected-color) {
     background-color: var(--mp-dropdown-menu-option-bg-hover);
   }
 
@@ -114,8 +114,18 @@
     color: var(--mp-dropdown-menu-option-selected-text-color);
   }
 
+  &--selected-color:not(&--disabled):hover > &__cover,
+  &--selected-color&--active:not(&--disabled) > &__cover {
+    background: var(--mp-dropdown-menu-option-bg-selected-hover);
+  }
+
   &--disabled {
     color: var(--mp-dropdown-menu-option-disabled-color);
+    background: var(--mp-dropdown-menu-option-bg-disabled);
     cursor: not-allowed;
+  }
+
+  &--disabled > &__cover {
+    background: var(--mp-dropdown-menu-option-bg-disabled);
   }
 }

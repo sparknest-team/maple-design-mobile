@@ -1,23 +1,10 @@
-<script setup>
-import { reactive, toRefs } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-const values = reactive({
-  baseOverlay: false,
-  contentOverlay: false,
-  clickOverlay: false,
-})
-const { baseOverlay, contentOverlay, clickOverlay } = toRefs(values)
+const open = ref(false)
 </script>
 
 <template>
-  <mp-button status="primary" block @click="baseOverlay = true"> 显示背景层 </mp-button>
+  <mp-button status="primary" block @click="open = true">显示背景层</mp-button>
+  <mp-overlay v-model:open="open" />
 </template>
-
-<style lang="less" scoped>
-.overlay-content {
-  padding: 24px;
-  width: 312px;
-  background: var(--mp-color-fill-3);
-  border-radius: 28px;
-}
-</style>

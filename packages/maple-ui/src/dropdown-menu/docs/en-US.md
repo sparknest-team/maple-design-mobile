@@ -246,3 +246,12 @@ import type {
 | `--mp-dropdown-menu-group-title-padding` | `8px 12px 4px` |
 | `--mp-dropdown-menu-group-title-font-size` | `var(--mp-font-size-sm)` |
 | `--mp-dropdown-menu-group-title-text-color` | `var(--mp-color-text-3)` |
+
+### State and timing variables
+
+Disabled wins over selected, pointer hover and keyboard active states. Selected hover uses its own role, defaulting to the selected background; override it for an additional hover treatment. Maple retains its translucent selected cover.
+
+| Token | Default |
+| --- | --- |
+| `--mp-dropdown-menu-option-bg-selected-hover` | `var(--mp-dropdown-menu-option-selected-background)` |
+| `--mp-dropdown-menu-option-bg-disabled` | `transparent` |

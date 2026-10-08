@@ -30,6 +30,14 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 ../example/demos/en-US/events.vue
 ```
 
+### Validate on clear
+
+`validate-trigger="clear"` validates only when the user clicks a control's clear button, not while typing.
+
+```demo
+../example/demos/en-US/clear-trigger.vue
+```
+
 ## API
 
 ### Props
@@ -39,9 +47,11 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `model` | The form data object, `FormItem` reads and writes to it using `field` | _Record<string, any>_ | `-` |
-| `layout` | Form item layout, `vertical` or `horizontal`; can be overridden by `FormItem.layout` | _'vertical' \| 'horizontal'_ | `'vertical'` |
-| `readonly` | Whether the readonly | _boolean_ | `false` |
-| `disabled` | Whether the disabled | _boolean_ | `false` |
+| `layout` | Form item layout: `vertical`, `horizontal`, or `inline`; can be overridden by `FormItem.layout` | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'` |
+| `size` | Form control size inherited by FormItem and controls | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
+| `rules` | Validation rules keyed by field name | _Record<string, rule \| rule[]>_ | `-` |
+| `readonly` | Whether controls are readonly | _boolean_ | `-` |
+| `disabled` | Whether controls are disabled | _boolean_ | `-` |
 | `scroll-to-error` | Whether to scroll to the failed form item when the validation fails, the optional value is `start` `end` | _string_ | `-` |
 | `scroll-to-error-offset-y` | Scroll to the position offset of the form item that fails validation | _number \| string_ | `0` |
 
@@ -51,10 +61,11 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `validate` | Trigger validation for the form items, validates all items when `field` is omitted | `field?: string \| string[]` | `valid: Promise<boolean>` |
-| `validateField` | Trigger validation for the given form item(s) | `field: string \| string[]` | `valid: Promise<boolean>` |
+| `validate` | Validate all form items | `callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
+| `validateField` | Validate the given form item(s) | `field: string \| string[]`, `callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
 | `resetFields` | Reset the value and validation message of the form item(s) to their initial value, resets all items when `field` is omitted | `field?: string \| string[]` | `-` |
 | `clearValidate` | Clear the validation message of the form item(s), clears all items when `field` is omitted | `field?: string \| string[]` | `-` |
+| `setFields` | Set field values or error states in batches | `Record<string, { value?; status?; message? }>` | `-` |
 | `scrollToField` | Scroll to the given form item | `field: string` | `-` |
 
 ### Events
@@ -63,8 +74,10 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 
 | Event | Description  | Arguments  |
 | --- | --- | --- |
-| `submit` | Triggered when the form is submitted | `valid: boolean` Whether to pass the form verification |
-| `reset` | Fired when the form is reset | `-` |
+| `submit` | Triggered when the form is submitted | `data: { values; errors }`, `event: Event` |
+| `submit-success` | Triggered after successful validation | `values`, `event: Event` |
+| `submit-failed` | Triggered after failed validation | `data: { values; errors }`, `event: Event` |
+| `reset` | Fired when the form is reset | `event: Event` |
 
 ### Slots
 
@@ -131,17 +144,21 @@ Custom controls use `FormItem.useFormItem` (or `Form.useFormItem`) to participat
 | --- | --- | --- | --- |
 | `field` | Field path in `Form.model`, supports `a.b` | _string_ | `''` |
 | `label` | Label text; when set, renders outer label and disables floating hint | _string_ | `-` |
-| `layout` | Layout, `vertical` or `horizontal`; inherits `Form.layout` when omitted | _'vertical' \| 'horizontal'_ | `-` |
+| `layout` | Layout: `vertical`, `horizontal`, or `inline`; inherits `Form.layout` when omitted | _'vertical' \| 'horizontal' \| 'inline'_ | `-` |
 | `required` | Required (asterisk + auto required rule) | _boolean_ | `false` |
 | `hide-label` | Hide label | _boolean_ | `false` |
+| `feedback` | Show input validation feedback, including pending async validation | _boolean_ | `false` |
+| `validate-status` | Explicit feedback state; otherwise derived from validation | _'success' \| 'warning' \| 'error' \| 'validating'_ | `-` |
 | `hide-asterisk` | Hide required asterisk | _boolean_ | `false` |
 | `asterisk-position` | Asterisk position | _'start' \| 'end'_ | `'start'` |
 | `help` | Help text (shown when no error) | _string_ | `-` |
 | `extra` | Extra text | _string_ | `-` |
-| `disabled` | Disabled | _boolean_ | `false` |
+| `disabled` | Disabled; inherits Form when omitted | _boolean_ | `-` |
+| `readonly` | Readonly; inherits Form when omitted | _boolean_ | `-` |
+| `size` | Control size; inherits Form when omitted | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
 | `no-style` | Remove label/error UI, keep validation | _boolean_ | `false` |
 | `rules` | Validation rules (function / Zod / array) | _any_ | `-` |
-| `validate-trigger` | Triggers for validation | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'` |
+| `validate-trigger` | Validation triggers; `clear` fires only for a control's clear action, not for `change` | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'` |
 
 ### Events
 
@@ -162,7 +179,7 @@ Custom controls use `FormItem.useFormItem` (or `Form.useFormItem`) to participat
 
 | Method | Description | Arguments | Return |
 | --- | --- | --- | --- |
-| `validate` | Validate the field | `-` | `Promise<boolean>` |
+| `validate` | Validate the field | `-` | `Promise<undefined \| ValidatedError>` |
 | `clearValidate` | Clear validation status | `-` | `-` |
 | `resetField` | Reset value to initial and clear validation | `-` | `-` |
 

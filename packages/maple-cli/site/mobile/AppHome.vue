@@ -26,14 +26,14 @@ import config from '@config'
 import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
 import { watchLang, watchPlatform } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
-import { inIframe, isPhone } from '../utils'
+import { inIframe, isPhone, resolveSiteAsset } from '../utils'
 
 export default {
   components: { MIconChevronRight },
   name: 'AppHome',
   setup() {
     const title = ref(config?.title ?? '')
-    const logo = ref(config?.logo ?? '')
+    const logo = ref(resolveSiteAsset(config?.logo))
     const description = ref(config?.mobile?.title ?? {})
     const menu = ref(config?.pc?.menu ?? [])
     const configComponents = menu.value.filter((item: any) => item.type === 2)

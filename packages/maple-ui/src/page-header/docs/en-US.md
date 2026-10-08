@@ -45,3 +45,7 @@ Use the `show-back` prop to display the back control.
 | `extra`    | Extra content on the right                     |
 | `default`  | Main page-header content                       |
 | `footer`   | Footer content                                 |
+
+### Back interaction tokens
+
+`--mp-page-header-back-hover-size` (30px) controls the feedback circle without moving the title; `--mp-page-header-back-hover-bg` (`var(--mp-sys-color-state-hover)`) supplies its background. Hover feedback only applies to fine pointers supporting hover; keyboard focus-visible remains available for all input modes.

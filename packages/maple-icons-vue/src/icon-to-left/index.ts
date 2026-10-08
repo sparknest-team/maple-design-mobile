@@ -2,7 +2,5 @@ import type { App } from 'vue'
 import _IconToLeft from './icon-to-left.vue'
 
 export const IconToLeft = Object.assign(_IconToLeft, {
-  install(app: App) {
-    app.component(_IconToLeft.name, _IconToLeft)
-  },
+  install(app: App) { app.component(_IconToLeft.name, _IconToLeft) },
 })

@@ -1,6 +1,4 @@
 import '../../style/index.less'
-import '../../field-decorator/style'
-import '../../icon/style'
 import '../../input/style'
-import '../../dropdown-menu/style'
+import '../../select/style'
 import './index.less'

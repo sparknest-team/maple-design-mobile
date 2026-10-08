@@ -1,37 +1,26 @@
-import { VNode, VNodeChild, type PropType } from 'vue'
-import { type FieldNames } from '../utils/options'
-
-export type RadioGroupOptionLabelRender = (option: RadioGroupOption, checked: boolean) => VNodeChild
-
-export interface RadioGroupOption {
-  label?: string | VNode | RadioGroupOptionLabelRender
-  value?: any
-  disabled?: boolean
-
-  [key: PropertyKey]: any
-}
-
-export type RadioGroupDirection = 'horizontal' | 'vertical'
+import type { PropType } from 'vue'
+import { choiceOptionsProps, radioGroupValueProps } from '../checkbox/choice-group-props'
+import { componentSizes } from '../utils/constants'
+import type { ComponentSize, Orientation } from '../utils/constants'
+import { radioVariantProp } from './variant'
 
 export const props = {
-  modelValue: {
-    type: [String, Number, Boolean, Object, Array] as PropType<any>,
-    default: undefined,
+  ...radioGroupValueProps,
+  variant: radioVariantProp,
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: (value: unknown): value is ComponentSize => componentSizes.includes(value as ComponentSize),
   },
+  ...choiceOptionsProps,
+  /** 是否禁用；未设置时继承表单 */
+  disabled: { type: Boolean, default: undefined },
+  /** 是否只读；未设置时继承表单 */
+  readonly: { type: Boolean, default: undefined },
+  /** 错误态；未设置时继承表单 */
+  error: { type: Boolean, default: undefined },
   direction: {
-    type: String as PropType<RadioGroupDirection>,
+    type: String as PropType<Orientation>,
     default: 'horizontal',
   },
-  options: {
-    type: Array as PropType<RadioGroupOption[]>,
-    default: () => [],
-  },
-  ariaLabel: {
-    type: String,
-    default: '',
-  },
-  fieldNames: {
-    type: Object as PropType<FieldNames>,
-    default: undefined,
-  },
+  ariaLabel: { type: String, default: '' },
 }

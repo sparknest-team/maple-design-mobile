@@ -1,13 +1,23 @@
 <script setup>
 import { computed, reactive, ref, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import AsyncOptionsDemo from './demos/async-options.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CheckboxGroupOptionsDemo from './demos/checkbox-group-options.vue'
 import CheckboxGroupDemo from './demos/checkbox-group.vue'
+import ControlValueDemo from './demos/control-value.vue'
 import CustomFieldsDemo from './demos/custom-fields.vue'
 import DisabledDemo from './demos/disabled.vue'
+import EnglishAsyncOptionsDemo from './demos/en-US/async-options.vue'
+import EnglishControlValueDemo from './demos/en-US/control-value.vue'
+import EnglishGroupMethodsDemo from './demos/en-US/group-methods.vue'
+import EnglishGroupStateDemo from './demos/en-US/group-state.vue'
+import EnglishOptionDataDemo from './demos/en-US/option-data.vue'
+import GroupMethodsDemo from './demos/group-methods.vue'
+import GroupStateDemo from './demos/group-state.vue'
 import IndeterminateDemo from './demos/indeterminate.vue'
 import MaxDemo from './demos/max.vue'
+import OptionDataDemo from './demos/option-data.vue'
 import ReadonlyDemo from './demos/readonly.vue'
 import SetStateDemo from './demos/set-state.vue'
 import SetStyleDemo from './demos/set-style.vue'
@@ -106,5 +116,25 @@ onThemeChange()
   <section data-demo="max">
     <app-type>{{ english ? 'Maximum Number Of Checked' : '最大选中数量' }}</app-type>
     <MaxDemo />
+  </section>
+  <section data-demo="group-state">
+    <app-type>{{ english ? 'Group state and readonly' : '分组状态与只读' }}</app-type>
+    <EnglishGroupStateDemo v-if="english" /><GroupStateDemo v-else />
+  </section>
+  <section data-demo="async-options">
+    <app-type>{{ english ? 'Asynchronous options' : '异步选项' }}</app-type>
+    <EnglishAsyncOptionsDemo v-if="english" /><AsyncOptionsDemo v-else />
+  </section>
+  <section data-demo="control-value">
+    <app-type>{{ english ? 'Standalone values and methods' : '独立值模型与方法' }}</app-type>
+    <EnglishControlValueDemo v-if="english" /><ControlValueDemo v-else />
+  </section>
+  <section data-demo="option-data">
+    <app-type>{{ english ? 'Option data and labels' : '选项数据与标签' }}</app-type>
+    <EnglishOptionDataDemo v-if="english" /><OptionDataDemo v-else />
+  </section>
+  <section data-demo="group-methods">
+    <app-type>{{ english ? 'Group methods' : '分组批量方法' }}</app-type>
+    <EnglishGroupMethodsDemo v-if="english" /><GroupMethodsDemo v-else />
   </section>
 </template>

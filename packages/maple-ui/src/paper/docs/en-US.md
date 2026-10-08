@@ -86,3 +86,15 @@ Here are the CSS variables used by the component. Styles can be customized using
 Numeric dimensions/radius (including numeric strings) use px; CSS lengths are preserved. Explicit radius overrides round. Themes may override background/radius.
 
 Both libraries maintain independent copies of the implementation, Props, styles, tokens and tests; no shared runtime core or instances. Maple migration: default background uses the theme surface; pointer cursor is opt-in with ripple; inline now uses mp-paper--inline. Existing APIs remain supported.
+
+### Governed defaults
+
+| Token | Default |
+| --- | --- |
+| `--mp-paper-background` | `var(--mp-sys-color-surface-default)` |
+| `--mp-paper-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-paper-border-width` | `1px` |
+| `--mp-paper-border-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-paper-transition-duration` | `var(--mp-sys-motion-duration-slow)` |
+
+Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes skip delays and cancel pending transitions. Ripple duration tokens control CSS only: its 250ms lifecycle timers are unchanged, so keep each visual duration at or below 250ms. Custom animation classes remain the caller’s responsibility.

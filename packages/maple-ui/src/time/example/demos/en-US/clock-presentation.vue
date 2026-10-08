@@ -9,7 +9,7 @@ const clockTime = ref()
   <mp-space direction="column" size="lg">
     <mp-time
       v-model="clockTime"
-      format="24hr"
+      format="HH:mm"
       presentation="clock"
       placeholder="Select a time from the clock"
       clearable

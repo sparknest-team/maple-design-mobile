@@ -4,9 +4,8 @@ import { RADIO_GROUP_BIND_RADIO_KEY, RadioGroupProvider } from './group-provide'
 
 export interface RadioProvider {
   isFocusing: ComputedRef<boolean>
-  sync(value: any): boolean
-  move(): void
-  moveable(): boolean
+  checked: ComputedRef<boolean>
+  disabled: ComputedRef<boolean>
 }
 
 export function useRadioGroup() {

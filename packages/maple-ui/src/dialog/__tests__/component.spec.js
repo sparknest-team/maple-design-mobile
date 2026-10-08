@@ -94,6 +94,7 @@ describe('dialog actions', () => {
   test('uses click-overlay and close action', async () => {
     const beforeClose = vi.fn((_action, done) => done())
     const wrapper = mountDialog({ overlayClosable: true, beforeClose })
+    await wrapper.get('.mp-popup__overlay').trigger('pointerdown')
     await wrapper.get('.mp-popup__overlay').trigger('click')
     expect(wrapper.emitted('click-overlay')).toHaveLength(1)
     expect(beforeClose).toHaveBeenCalledWith('close', expect.any(Function), expect.any(Object))
@@ -110,9 +111,30 @@ describe('dialog actions', () => {
     expect(wrapper.emitted('confirm')).toHaveLength(1)
   })
 
+  test('ignores stale async close completions', async () => {
+    const completions = []
+    const wrapper = mountDialog({ beforeClose: (_action, done) => completions.push(done) })
+    const confirm = wrapper.get('.mp-dialog__confirm-button')
+    await confirm.trigger('click')
+    await confirm.trigger('click')
+    completions[0]()
+    await nextTick()
+    expect(wrapper.emitted('confirm')).toBeUndefined()
+    completions[1]()
+    await nextTick()
+    expect(wrapper.emitted('confirm')).toHaveLength(1)
+  })
+
+  test('route close follows closeOnRouteChange', async () => {
+    const wrapper = mountDialog({ closeOnRouteChange: true })
+    window.dispatchEvent(new PopStateEvent('popstate'))
+    await nextTick()
+    expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+  })
+
   test('ESC emits key-escape and closes without cancel', async () => {
     const wrapper = mountDialog()
-    await triggerKeyboard(window, 'keydown', { key: 'Escape' })
+    await triggerKeyboard(document, 'keydown', { key: 'Escape' })
     expect(wrapper.emitted('key-escape')).toHaveLength(1)
     expect(wrapper.emitted('cancel')).toBeUndefined()
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])

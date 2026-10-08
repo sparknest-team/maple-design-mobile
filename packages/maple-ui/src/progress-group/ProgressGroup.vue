@@ -146,7 +146,7 @@ export default defineComponent({
         return {
           ...item,
           value,
-          color: item.color || props.color || 'var(--mp-color-primary)',
+          color: item.color || props.color || 'var(--mp-sys-color-content-brand)',
           percent: (value / normalizedMax.value) * 100,
         }
       }),

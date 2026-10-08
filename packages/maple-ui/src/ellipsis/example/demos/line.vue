@@ -1,7 +1,19 @@
-<script setup></script>
-
 <template>
-  <mp-ellipsis style="max-width: 50vmin"
-    >其实没有什么事情是不可能的，我都拿到世界冠军了，真的没有什么事情是不可能的。</mp-ellipsis
-  >
+  <div class="ellipsis-demo">
+    <mp-ellipsis style="width: 240px; max-width: 100%">
+      这是一段较长的说明文字，用于展示有限宽度内的省略效果。点击或使用键盘可以展开查看完整内容，再次操作可以收起。容器宽度改变时，文本会根据新的空间重新排版。
+    </mp-ellipsis>
+  </div>
 </template>
+
+<style scoped>
+.ellipsis-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.ellipsis-demo p {
+  margin: 0;
+}
+</style>

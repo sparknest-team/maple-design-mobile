@@ -15,6 +15,7 @@ import {
   SRC_DIR,
 } from '../shared/constant.js'
 import { glob, isDir, outputFileSyncOnChange } from '../shared/fsUtils.js'
+import { joinSiteRoutes } from './siteRoutes.js'
 
 const { copy } = fse
 
@@ -186,13 +187,12 @@ export async function buildPcSiteRoutes(draftMode: boolean) {
     // @ts-ignore
     component:()=> import('${slash(SITE_PC_DIR)}/Layout.vue'),
     children: [
-      ${[...componentDocsRoutes, rootDocsRoutes].join(',')},
+      ${joinSiteRoutes(componentDocsRoutes, rootDocsRoutes)}
     ]
   }`
 
   const source = `export default [\
-  ${pageRoutes.join(',')},
-  ${layoutRoutes}
+  ${joinSiteRoutes(pageRoutes, [layoutRoutes])}
 ]`
   outputFileSyncOnChange(SITE_PC_ROUTES, source)
 }

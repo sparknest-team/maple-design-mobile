@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { Repl } from '@vue/repl'
-// @ts-expect-error no types
 import Monaco from '@vue/repl/monaco-editor'
 import Header from './Header.vue'
 import { ReplStore } from './store'
+import { normalizeTheme } from './themes'
 
 const store = new ReplStore({
   serializedState: location.hash.slice(1),
 })
-const theme = ref(localStorage.getItem('maple-ui-playground-theme') ?? 'md3DarkTheme')
+const theme = ref(normalizeTheme(localStorage.getItem('maple-ui-playground-theme')))
 
 function setVH() {
   document.documentElement.style.setProperty('--vh', window.innerHeight + `px`)
@@ -50,7 +50,7 @@ body {
   --base: #444;
   --nav-height: 60px;
 
-  color: var(--color-text);
+  color: var(--mp-sys-color-content-primary);
 }
 
 .vue-repl {

@@ -6,6 +6,6 @@ const time = ref()
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time v-model="time" placeholder="Select a time" clearable />
+    <mp-time v-model="time" format="HH:mm" placeholder="Select a time" clearable />
   </mp-space>
 </template>

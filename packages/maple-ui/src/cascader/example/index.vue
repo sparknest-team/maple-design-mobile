@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import AsyncDevicesDemo from './demos/async-devices.vue'
+import AsyncDevicesEnglishDemo from './demos/en-US/async-devices.vue'
 import PlaceholderListMultipleDemo from './demos/placeholder-list-multiple.vue'
 import PlaceholderListDemo from './demos/placeholder-list.vue'
 import PlaceholderMultipleDemo from './demos/placeholder-multiple.vue'
@@ -19,6 +21,11 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="async-devices">
+    <app-type>{{ english ? 'Async device labels' : '异步设备与 ID 回显' }}</app-type>
+    <AsyncDevicesEnglishDemo v-if="english" />
+    <AsyncDevicesDemo v-else />
+  </section>
   <section data-demo="placeholder">
     <app-type>{{ english ? 'Please select a region' : '请选择地区' }}</app-type>
     <PlaceholderDemo />

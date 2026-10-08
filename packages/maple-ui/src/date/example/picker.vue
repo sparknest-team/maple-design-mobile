@@ -19,7 +19,7 @@ const dates = reactive({
 watchLang(use)
 onThemeChange()
 
-const disabledDate = (date) => parseInt(date.split('-')[2], 10) % 2 === 0
+const disabledDate = (date) => date.getDate() % 2 === 0
 </script>
 
 <template>
@@ -39,13 +39,13 @@ const disabledDate = (date) => parseInt(date.split('-')[2], 10) % 2 === 0
   <mp-date-picker v-model="dates.date3" type="date" range />
 
   <app-type>{{ t('dateTimeClock') }}</app-type>
-  <mp-date-picker v-model="dates.dateTimeClock" show-time presentation="calendarClock" />
+  <mp-date-picker v-model="dates.dateTimeClock" show-time :use-seconds="false" presentation="calendarClock" />
 
   <app-type>{{ t('dateTimeCalendarPicker') }}</app-type>
-  <mp-date-picker v-model="dates.dateTimeCalendarPicker" show-time presentation="calendarPicker" />
+  <mp-date-picker v-model="dates.dateTimeCalendarPicker" show-time :use-seconds="false" presentation="calendarPicker" />
 
   <app-type>{{ t('dateTimePicker') }}</app-type>
-  <mp-date-picker v-model="dates.dateTimePicker" show-time presentation="picker" />
+  <mp-date-picker v-model="dates.dateTimePicker" show-time :use-seconds="false" presentation="picker" />
 
   <app-type>{{ t('dateLimit') }}</app-type>
   <mp-date-picker v-model="dates.date4" type="date" min="2020-10-15" max="2021-01-15" :disabled-date="disabledDate" />

@@ -13,28 +13,34 @@
     opacity: var(--mp-tooltip-opacity);
   }
 
-  &__arrow {
+  // Wrapper appearance must win even when Trigger CSS is loaded last.
+  &__arrow&__arrow {
     background-color: var(--mp-tooltip-background);
     opacity: var(--mp-tooltip-opacity);
   }
 
-  &--status-primary {
+  &__content&--status-primary,
+  &__arrow&--status-primary {
     color: var(--mp-tooltip-status-primary-text-color);
     background-color: var(--mp-tooltip-status-primary-background);
   }
-  &--status-info {
+  &__content&--status-info,
+  &__arrow&--status-info {
     color: var(--mp-tooltip-status-info-text-color);
     background-color: var(--mp-tooltip-status-info-background);
   }
-  &--status-success {
+  &__content&--status-success,
+  &__arrow&--status-success {
     color: var(--mp-tooltip-status-success-text-color);
     background-color: var(--mp-tooltip-status-success-background);
   }
-  &--status-warning {
+  &__content&--status-warning,
+  &__arrow&--status-warning {
     color: var(--mp-tooltip-status-warning-text-color);
     background-color: var(--mp-tooltip-status-warning-background);
   }
-  &--status-danger {
+  &__content&--status-danger,
+  &__arrow&--status-danger {
     color: var(--mp-tooltip-status-danger-text-color);
     background-color: var(--mp-tooltip-status-danger-background);
   }

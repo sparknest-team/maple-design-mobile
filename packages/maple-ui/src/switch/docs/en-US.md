@@ -93,7 +93,7 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 | default-checked | Initial uncontrolled checked state; initialization only | boolean | false |
 | checked-value | Checked value | string / number / boolean | true |
 | unchecked-value | Unchecked value | string / number / boolean | false |
-| variant | Appearance | circle / round / line / md3 | circle |
+| variant | Appearance | circle / round / line / tonal | circle |
 | size | Size; omitted value follows platform rules below | sm / md / lg | undefined |
 | disabled | Disable interaction, including inherited form disabled state | boolean | false |
 | readonly | Read only; focus and click remain available without toggling | boolean | false |
@@ -140,10 +140,43 @@ before-change returning false, throwing or rejecting cancels the toggle; other s
 ## Types and styling
 
 Root and component entries export SwitchProps, SwitchVariant, SwitchSize, SwitchValue, SwitchBeforeChange and SwitchInstance.
-Tokens use --mp-switch-* (Cedar: --c-switch-*). width/height/handle-size default to 40/24/16px; md3-width/md3-height/md3-handle-size to 52/32/24px.
+Tokens use --mp-switch-* (Cedar: --c-switch-*). width/height/handle-size default to 40/24/16px; tonal-width/tonal-height/tonal-handle-size to 52/32/24px.
 size-sm-scale=.8, size-lg-scale=1.2; hit-area=0px expands the click target without altering layout. Full tokens are in style/token.less.
 
 ## Migration
 
 Maple standard becomes line; omitted variant now means circle. Remove lazy-change and return a result or Promise from before-change instead of calling change(value).
 The change notification now includes the original event as its second argument. Custom colors target the track; thumb colors use tokens.
+
+## Switch paired colors
+
+Ten color defaults are governed (eight existing and two new). Prefix suffixes below with --c-switch- / --mp-switch-. The OpenSpec change is Cedar openspec/changes/govern-switch-colors; Maple dark now inherits the same semantic roles.
+
+| Suffix | System role |
+| --- | --- |
+| track-background | content-secondary |
+| track-active-background | content-brand |
+| track-error-background | content-danger |
+| handle-background | surface-default |
+| handle-color | content-brand |
+| text-color | surface-default |
+| tonal-track-background | surface-muted |
+| tonal-border-color | content-secondary |
+| tonal-text-color | content-secondary |
+| tonal-handle-color | surface-default |
+
+Solid tracks are identifiable control marks (secondary/brand/danger), paired with surface-default cutout text/thumbs. tonal unchecked uses a muted track and secondary outline/thumb/text. Its icon uses opaque surface-default: dark surface-muted is translucent and cannot serve as contrasting foreground. Enabled errors reset track, thumb and text together. Disabled/loading suppress error while preserving checked identity; hover/active/focus do not erase state.
+
+Migration: text-color/handle-color govern solid states; also override the new tonal-text-color/tonal-handle-color for tonal unchecked. tonal-border-color still controls its outline and thumb. Explicit checked-color/unchecked-color override ordinary tracks, not enabled error. loading-color overrides the spinner, otherwise it inherits thumb color. Custom tracks need paired foregrounds. Runtime current-track/loading-color/local-*/scale variables are not public theme defaults.
+
+Run pnpm check:switch-themes or node bin/switch-theme-check.mjs (included in check:theme-contract): 4096 states, 8704 contrast pairs, minimum 4.681:1. Alpha is composited host → track → thumb → icon. Text ≥4.5, nontext/focus ≥3. Line text is not rendered and is excluded. Checks use md size and default/muted hosts; disabled/loading opacity, custom colors/slots, animation frames and browser layout/focus visibility are excluded. Geometry, motion and shadows remain outside this color contract.
+
+Themes use default / maple brands and light / dark modes. Switch tonal is an appearance, not a theme. The variant and all eight dedicated variables now use tonal; no legacy aliases are retained.
+
+### Motion variables
+
+Built-in effects respect `prefers-reduced-motion: reduce`; loading and closing still update state immediately.
+
+| Token | Default |
+| --- | --- |
+| `--mp-switch-loading-duration` | `1s` |

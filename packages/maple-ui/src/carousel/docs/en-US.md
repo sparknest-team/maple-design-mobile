@@ -220,3 +220,12 @@ type CarouselToOptions = {
 | `--carousel-navigation-next-right` | `8px` |
 | `--carousel-navigation-prev-top` | `8px` |
 | `--carousel-navigation-next-bottom` | `8px` |
+
+### State and timing variables
+
+Fade and card transitions use independently overridable durations, both defaulting to 300ms.
+
+| Token | Default |
+| --- | --- |
+| `--mp-carousel-fade-duration` | `300ms` |
+| `--mp-carousel-card-duration` | `300ms` |

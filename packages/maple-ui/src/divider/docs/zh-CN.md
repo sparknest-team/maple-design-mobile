@@ -80,12 +80,14 @@
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--mp-divider-color` | `var(--mp-color-border-2)` |
-| `--mp-divider-text-color` | `#888` |
+| `--mp-divider-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-divider-text-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-divider-border-width` | `1px` |
 | `--mp-divider-text-padding` | `8px` |
 | `--mp-divider-text-align-inset` | `24px` |
 | `--mp-divider-orientation-*-size-*-{xs\|sm\|md\|lg\|xl}` | 预设尺寸 token |
+
+线条使用常规边框语义，分隔线文字使用辅助内容语义；文字留白 `8px` 与 Cedar 的 `16px` 是移动／桌面密度差异。`opacity` 属性按实例写入透明度，不是主题默认色。
 
 ## 同源实现与平台边界
 

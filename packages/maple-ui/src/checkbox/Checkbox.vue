@@ -15,8 +15,10 @@
         "
         :style="{ color: checked || isIndeterminate ? checkedColor : uncheckedColor }"
         :tabindex="disabled || formDisabled ? undefined : '0'"
-        @focus="isFocusing = true"
-        @blur="isFocusing = false"
+        @keydown="keyboard.keydown"
+        @keyup="keyboard.keyup"
+        @focus="handleFocus"
+        @blur="handleBlur"
       >
         <slot v-if="isIndeterminate" name="indeterminate-icon">
           <MIconMinusBoxFill :class="n('icon')" :size="iconSize" mp-checkbox-cover />
@@ -57,15 +59,16 @@ import {
   IconCheckboxMarkedFill as MIconCheckboxMarkedFill,
   IconMinusBoxFill as MIconMinusBoxFill,
 } from '@maplejs/icons-vue'
-import { call, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener, useVModel } from '@maplejs/maple-use'
-import { useFormItem } from '../form/item-provide'
-import { useForm } from '../form/provide'
+import { call } from '@maplejs/maple-shared'
+import { useCheckboxControl } from '../checkbox/use-choice-control'
+import { useChoiceKeyboard } from '../checkbox/use-choice-keyboard'
 import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 import { useCheckboxGroup, type CheckboxProvider } from './provide'
+import { useChoiceRegistration } from './use-checkbox-group-methods'
+import { useChoiceForm } from './use-choice-form'
 
 const { name, n, classes } = createNamespace('checkbox')
 
@@ -79,125 +82,97 @@ export default defineComponent({
     MpHoverOverlay,
   },
   props,
-  emits: ['change', 'click', 'update:modelValue', 'update:indeterminate'],
+  emits: ['change', 'click', 'update:modelValue', 'focus', 'blur'],
   setup(props, { emit }) {
     const action = ref<HTMLElement | null>(null)
     const isFocusing = ref(false)
-    const model = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
-    const isIndeterminate = useVModel(props, 'indeterminate', { emit, eventName: 'update:indeterminate' })
-    const checked = computed(() => model.value === props.value)
+    const isIndeterminate = computed(() => props.indeterminate)
     const optionValue = computed(() => props.value)
     const { checkboxGroup, bindCheckboxGroup } = useCheckboxGroup()
     const { hovering, handleHovering } = useHoverOverlay()
-    const { form } = useForm()
-    const { mergedError, eventHandlers } = useFormItem()
+    const state = useChoiceForm({
+      get disabled() {
+        return props.disabled ?? checkboxGroup?.disabled.value
+      },
+      get readonly() {
+        return props.readonly ?? checkboxGroup?.readonly.value
+      },
+      get error() {
+        return props.error ?? checkboxGroup?.errorMessage.value
+      },
+    })
+    const { mergedError, eventHandlers } = state
+    const mergedDisabled = computed(() => checkboxGroup?.disabled.value || state.mergedDisabled.value)
+    const mergedReadonly = computed(() => checkboxGroup?.readonly.value || state.mergedReadonly.value)
+    const { checked, toggle } = useCheckboxControl(
+      props,
+      (value, event) => {
+        emit('update:modelValue', value)
+        emit('change', value, event)
+        eventHandlers.value.onChange?.(event)
+      },
+      () => mergedDisabled.value || mergedReadonly.value,
+      checkboxGroup
+        ? {
+            value: () => checkboxGroup.modelValue.value,
+            change: (next, event) => {
+              next.includes(props.value)
+                ? checkboxGroup.onChecked(props.value, event)
+                : checkboxGroup.onUnchecked(props.value, event)
+            },
+          }
+        : undefined,
+    )
+
+    useChoiceRegistration(checkboxGroup?.registerChoice, {
+      value: () => props.value,
+      disabled: () => mergedDisabled.value,
+      readonly: () => mergedReadonly.value,
+      element: () => action.value,
+    })
 
     const checkboxProvider: CheckboxProvider = {
       value: optionValue,
       checked,
-      sync,
+      disabled: mergedDisabled,
+      readonly: mergedReadonly,
     }
 
     call(bindCheckboxGroup, checkboxProvider)
 
-    useEventListener(() => window, 'keydown', handleKeydown)
-    useEventListener(() => window, 'keyup', handleKeyup)
-
-    function change(changedValue: any) {
-      const { value: optionVal } = props
-
-      model.value = changedValue
-      emit('change', model.value, isIndeterminate.value)
-      eventHandlers.value.onChange?.()
-      changedValue === optionVal ? checkboxGroup?.onChecked(optionVal) : checkboxGroup?.onUnchecked(optionVal)
-    }
+    const keyboard = useChoiceKeyboard(
+      () => action.value?.click(),
+      () => mergedDisabled.value || mergedReadonly.value,
+    )
 
     function handleClick(e: Event) {
-      const { disabled, readonly, value: optionVal } = props
-
-      if (form?.disabled.value || disabled) {
+      if (mergedDisabled.value) {
         return
       }
 
       emit('click', e)
 
-      if (form?.readonly.value || readonly) {
+      if (mergedReadonly.value) {
         return
       }
 
-      if (isIndeterminate.value === true) {
-        isIndeterminate.value = false
-        emit('change', model.value, isIndeterminate.value)
-        eventHandlers.value.onChange?.()
-        return
-      }
-
-      const maximum = checkboxGroup ? checkboxGroup.checkedCount.value >= Number(checkboxGroup.max.value) : false
-
-      if (!checked.value && maximum) {
-        return
-      }
-
-      change(checked.value ? false : optionVal)
+      toggle(undefined, e)
     }
 
     function handleTextClick() {
       action.value!.focus()
     }
 
-    function sync(values: Array<any>) {
-      const { value: optionVal } = props
-      model.value = values.includes(optionVal) ? optionVal : false
-    }
-
-    // expose
-    function toggle(changedValue?: any) {
-      const { value: optionVal } = props
-
-      const shouldReverse = ![optionVal, false].includes(changedValue)
-      if (shouldReverse) {
-        changedValue = checked.value ? false : optionVal
-      }
-
-      change(changedValue)
-    }
-
-    function handleKeydown(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      const { key } = event
-
-      if (key === 'Enter' || key === ' ') {
-        preventDefault(event)
-      }
-
-      if (key === 'Enter') {
-        action.value!.click()
-      }
-    }
-
-    function handleKeyup(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      if (event.key === ' ') {
-        preventDefault(event)
-        action.value!.click()
-      }
-    }
-
     return {
       action,
+      keyboard,
       isFocusing,
       isIndeterminate,
       checked,
       mergedError,
       checkboxGroupErrorMessage: checkboxGroup?.errorMessage,
-      formDisabled: form?.disabled,
-      formReadonly: form?.readonly,
+      formDisabled: mergedDisabled,
+      formReadonly: mergedReadonly,
       hovering,
       n,
       classes,
@@ -205,6 +180,23 @@ export default defineComponent({
       handleClick,
       handleTextClick,
       toggle,
+      focus: (options?: FocusOptions) => {
+        if (!mergedDisabled.value) {
+          action.value?.focus(options)
+        }
+      },
+      blur: () => action.value?.blur(),
+      handleFocus(event: FocusEvent) {
+        isFocusing.value = true
+        emit('focus', event)
+        eventHandlers.value.onFocus?.(event)
+      },
+      handleBlur(event: FocusEvent) {
+        keyboard.reset()
+        isFocusing.value = false
+        emit('blur', event)
+        eventHandlers.value.onBlur?.(event)
+      },
     }
   },
 })

@@ -9,9 +9,9 @@
   cursor: pointer;
   font-family: inherit;
   transition:
-    box-shadow 0.2s,
-    background-color 0.25s,
-    border-radius 0.2s;
+    box-shadow var(--mp-button-transition-duration),
+    background-color var(--mp-button-transition-duration),
+    border-radius var(--mp-button-transition-duration);
   will-change: box-shadow;
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
@@ -74,28 +74,28 @@
     }
 
     &.mp-button--status-default {
-      color: inherit;
+      color: var(--mp-button-default-icon-color);
     }
     &.mp-button--status-primary {
-      color: var(--mp-button-primary-color);
+      color: var(--mp-button-primary-icon-color);
     }
     &.mp-button--status-info {
-      color: var(--mp-button-info-color);
+      color: var(--mp-button-info-icon-color);
     }
     &.mp-button--status-success {
-      color: var(--mp-button-success-color);
+      color: var(--mp-button-success-icon-color);
     }
     &.mp-button--status-warning {
-      color: var(--mp-button-warning-color);
+      color: var(--mp-button-warning-icon-color);
     }
     &.mp-button--status-danger {
-      color: var(--mp-button-danger-color);
+      color: var(--mp-button-danger-icon-color);
     }
     &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-color);
+      color: var(--mp-button-secondary-icon-color);
     }
     &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-color);
+      color: var(--mp-button-tertiary-icon-color);
     }
   }
 
@@ -105,35 +105,35 @@
     border: thin solid currentColor;
 
     &.mp-button--status-default {
-      color: inherit;
+      color: var(--mp-button-default-icon-color);
     }
     &.mp-button--status-primary {
-      color: var(--mp-button-primary-color);
+      color: var(--mp-button-primary-icon-color);
     }
     &.mp-button--status-info {
-      color: var(--mp-button-info-color);
+      color: var(--mp-button-info-icon-color);
     }
     &.mp-button--status-success {
-      color: var(--mp-button-success-color);
+      color: var(--mp-button-success-icon-color);
     }
     &.mp-button--status-warning {
-      color: var(--mp-button-warning-color);
+      color: var(--mp-button-warning-icon-color);
     }
     &.mp-button--status-danger {
-      color: var(--mp-button-danger-color);
+      color: var(--mp-button-danger-icon-color);
     }
     &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-color);
+      color: var(--mp-button-secondary-icon-color);
     }
     &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-color);
+      color: var(--mp-button-tertiary-icon-color);
     }
   }
 
   // === variant=tonal: 浅色填充 ===
   &--variant-tonal {
     &.mp-button--status-default {
-      color: var(--mp-button-default-text-color);
+      color: var(--mp-button-default-icon-color);
       background-color: var(--mp-button-default-icon-container-color);
     }
     &.mp-button--status-primary {
@@ -157,37 +157,37 @@
       background-color: var(--mp-button-danger-icon-container-color);
     }
     &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-color);
-      background-color: color-mix(in srgb, var(--mp-button-secondary-color) 16%, transparent);
+      color: var(--mp-button-secondary-icon-color);
+      background-color: var(--mp-button-secondary-icon-container-color);
     }
     &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-color);
-      background-color: color-mix(in srgb, var(--mp-button-tertiary-color) 16%, transparent);
+      color: var(--mp-button-tertiary-icon-color);
+      background-color: var(--mp-button-tertiary-icon-container-color);
     }
   }
 
   // === icon-container 单色块按钮 ===
-  &--icon-container-default {
+  &&--icon-container-default {
     color: var(--mp-button-default-icon-color);
     background-color: var(--mp-button-default-icon-container-color);
   }
-  &--icon-container-primary {
+  &&--icon-container-primary {
     color: var(--mp-button-primary-icon-color);
     background-color: var(--mp-button-primary-icon-container-color);
   }
-  &--icon-container-info {
+  &&--icon-container-info {
     color: var(--mp-button-info-icon-color);
     background-color: var(--mp-button-info-icon-container-color);
   }
-  &--icon-container-success {
+  &&--icon-container-success {
     color: var(--mp-button-success-icon-color);
     background-color: var(--mp-button-success-icon-container-color);
   }
-  &--icon-container-warning {
+  &&--icon-container-warning {
     color: var(--mp-button-warning-icon-color);
     background-color: var(--mp-button-warning-icon-container-color);
   }
-  &--icon-container-danger {
+  &&--icon-container-danger {
     color: var(--mp-button-danger-icon-color);
     background-color: var(--mp-button-danger-icon-container-color);
   }
@@ -238,10 +238,14 @@
   }
 
   &--disabled {
-    background-color: var(--mp-button-disabled-color);
-    color: var(--mp-button-disabled-text-color);
     cursor: not-allowed;
     box-shadow: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-button {
+    transition: none;
   }
 }
 
@@ -258,7 +262,7 @@
     border-radius: var(--mp-button-stacked-border-radius);
     padding-block: var(--mp-button-stacked-padding);
   }
-  &--focus:focus-visible {
+  &--focus:not(.mp-button--disabled):not(.mp-button--loading):focus-visible {
     outline: var(--mp-button-focus-width) solid var(--mp-button-focus-color);
     outline-offset: var(--mp-button-focus-offset);
   }
@@ -271,13 +275,13 @@
   &--icon-container {
     padding: var(--mp-button-icon-container-padding);
   }
-  &--icon-container-secondary {
+  &&--icon-container-secondary {
     color: var(--mp-button-secondary-icon-color);
-    background: var(--mp-button-secondary-icon-container-color);
+    background-color: var(--mp-button-secondary-icon-container-color);
   }
-  &--icon-container-tertiary {
+  &&--icon-container-tertiary {
     color: var(--mp-button-tertiary-icon-color);
-    background: var(--mp-button-tertiary-icon-container-color);
+    background-color: var(--mp-button-tertiary-icon-container-color);
   }
   &__loading {
     display: inline-flex;
@@ -347,5 +351,50 @@
   }
   &__content {
     line-height: 1;
+  }
+}
+
+// State layer is behind content; active wins hover, blocked states suppress both.
+.mp-button {
+  --mp-internal-button-state-layer-color: var(--mp-button-state-layer-color);
+  isolation: isolate;
+  --mp-internal-button-state-opacity-hover: var(--mp-button-state-opacity-hover);
+  --mp-internal-button-state-opacity-active: var(--mp-button-state-opacity-active);
+  &--variant-text,
+  &--variant-outline {
+    --mp-internal-button-state-opacity-hover: var(--mp-button-plain-state-opacity-hover);
+    --mp-internal-button-state-opacity-active: var(--mp-button-plain-state-opacity-active);
+  }
+  .solid-state(@status) {
+    &--variant-text&--status-@{status},
+    &--variant-outline&--status-@{status} {
+      --mp-internal-button-state-layer-color: var(~'--mp-button-@{status}-icon-container-color');
+    }
+    &--variant-default&--status-@{status}:not(&--icon-container) {
+      --mp-internal-button-state-layer-color: var(~'--mp-button-@{status}-state-layer-color');
+    }
+  }
+  .solid-state(default);
+  .solid-state(primary);
+  .solid-state(info);
+  .solid-state(success);
+  .solid-state(warning);
+  .solid-state(danger);
+  .solid-state(secondary);
+  .solid-state(tertiary);
+  > .mp-hover-overlay {
+    z-index: -1;
+    background-color: var(--mp-internal-button-state-layer-color);
+    opacity: 0;
+  }
+  &--hovering:not(&--disabled):not(&--loading) > .mp-hover-overlay {
+    opacity: var(--mp-internal-button-state-opacity-hover);
+  }
+  &:not(&--disabled):not(&--loading):active > .mp-hover-overlay {
+    opacity: var(--mp-internal-button-state-opacity-active);
+  }
+  &&--disabled {
+    color: var(--mp-button-disabled-text-color);
+    background-color: var(--mp-button-disabled-color);
   }
 }

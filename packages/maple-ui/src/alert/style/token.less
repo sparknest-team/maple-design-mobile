@@ -1,109 +1,110 @@
 :root {
-  --mp-alert-padding-vertical: 8px;
-  --mp-alert-padding-horizontal: 16px;
-  --mp-alert-padding-vertical-with-title: 16px;
-  --mp-alert-padding-horizontal-with-title: 16px;
-  --mp-alert-border-radius: 4px;
+  --mp-alert-close-duration: var(--mp-sys-motion-duration-slow);
+  --mp-alert-padding-vertical: var(--mp-sys-space-4);
+  --mp-alert-padding-horizontal: var(--mp-sys-space-6);
+  --mp-alert-padding-vertical-with-title: var(--mp-sys-space-6);
+  --mp-alert-padding-horizontal-with-title: var(--mp-sys-space-6);
+  --mp-alert-border-radius: var(--mp-sys-radius-md);
   --mp-alert-border-width: 1px;
 
-  --mp-alert-font-size-content: 14px;
-  --mp-alert-font-size-title: 16px;
-  --mp-alert-font-weight-title: 500;
+  --mp-alert-font-size-content: var(--mp-sys-font-size-md);
+  --mp-alert-font-size-title: var(--mp-sys-font-size-lg);
+  --mp-alert-font-weight-title: var(--mp-sys-font-weight-medium);
   --mp-alert-line-height: 1.5715;
   --mp-alert-line-height-title: 1.5;
-  --mp-alert-title-margin-bottom: 4px;
+  --mp-alert-title-margin-bottom: var(--mp-sys-space-2);
 
   --mp-alert-icon-size: 16px;
-  --mp-alert-icon-margin-right: 8px;
-  --mp-alert-action-margin-left: 12px;
-  --mp-alert-close-margin-left: 8px;
+  --mp-alert-icon-margin-right: var(--mp-sys-space-4);
+  --mp-alert-action-margin-left: var(--mp-sys-space-5);
+  --mp-alert-close-margin-left: var(--mp-sys-space-4);
 
   // ===== type × variant 颜色 =====
   // 命名约定：--mp-alert-{variant}-{type}-{bg|border|title|content|icon}
   // standard：浅色填充 (color-1) + 描边 (color-3)
-  // tonal：偏深一档浅填充 (color-2)，无描边
-  // outline：透明填充 + 主色描边 (color-6)，标题/内容/图标走主色 (color-7)
+  // tonal：与 standard 相同的浅填充，无描边
+  // outline：透明填充；文字、图标和描边使用可读 content 语义
 
   // ---- standard ----
   --mp-alert-standard-info-bg: rgb(var(~'--mp-blue-1'));
   --mp-alert-standard-info-border: rgb(var(~'--mp-blue-3'));
-  --mp-alert-standard-info-title: rgb(var(~'--mp-blue-7'));
-  --mp-alert-standard-info-content: rgb(var(~'--mp-blue-7'));
-  --mp-alert-standard-info-icon: rgb(var(~'--mp-blue-6'));
+  --mp-alert-standard-info-title: var(--mp-sys-color-content-info);
+  --mp-alert-standard-info-content: var(--mp-sys-color-content-info);
+  --mp-alert-standard-info-icon: var(--mp-sys-color-content-info);
 
   --mp-alert-standard-success-bg: rgb(var(~'--mp-success-1'));
   --mp-alert-standard-success-border: rgb(var(~'--mp-success-3'));
-  --mp-alert-standard-success-title: rgb(var(~'--mp-success-7'));
-  --mp-alert-standard-success-content: rgb(var(~'--mp-success-7'));
-  --mp-alert-standard-success-icon: rgb(var(~'--mp-success-6'));
+  --mp-alert-standard-success-title: var(--mp-sys-color-content-success);
+  --mp-alert-standard-success-content: var(--mp-sys-color-content-success);
+  --mp-alert-standard-success-icon: var(--mp-sys-color-content-success);
 
   --mp-alert-standard-warning-bg: rgb(var(~'--mp-warning-1'));
   --mp-alert-standard-warning-border: rgb(var(~'--mp-warning-3'));
-  --mp-alert-standard-warning-title: rgb(var(~'--mp-warning-7'));
-  --mp-alert-standard-warning-content: rgb(var(~'--mp-warning-7'));
-  --mp-alert-standard-warning-icon: rgb(var(~'--mp-warning-6'));
+  --mp-alert-standard-warning-title: var(--mp-sys-color-content-warning);
+  --mp-alert-standard-warning-content: var(--mp-sys-color-content-warning);
+  --mp-alert-standard-warning-icon: var(--mp-sys-color-content-warning);
 
   --mp-alert-standard-danger-bg: rgb(var(~'--mp-danger-1'));
   --mp-alert-standard-danger-border: rgb(var(~'--mp-danger-3'));
-  --mp-alert-standard-danger-title: rgb(var(~'--mp-danger-7'));
-  --mp-alert-standard-danger-content: rgb(var(~'--mp-danger-7'));
-  --mp-alert-standard-danger-icon: rgb(var(~'--mp-danger-6'));
+  --mp-alert-standard-danger-title: var(--mp-sys-color-content-danger);
+  --mp-alert-standard-danger-content: var(--mp-sys-color-content-danger);
+  --mp-alert-standard-danger-icon: var(--mp-sys-color-content-danger);
 
   --mp-alert-standard-default-bg: var(~'--mp-color-fill-2');
-  --mp-alert-standard-default-border: var(~'--mp-color-border-2');
-  --mp-alert-standard-default-title: var(~'--mp-color-text-1');
-  --mp-alert-standard-default-content: var(~'--mp-color-text-2');
-  --mp-alert-standard-default-icon: var(~'--mp-color-text-2');
+  --mp-alert-standard-default-border: var(--mp-sys-color-border-default);
+  --mp-alert-standard-default-title: var(--mp-sys-color-content-primary);
+  --mp-alert-standard-default-content: var(--mp-sys-color-content-secondary);
+  --mp-alert-standard-default-icon: var(--mp-sys-color-content-secondary);
 
   // ---- tonal ----（与 standard 同浅填充，无描边）
   --mp-alert-tonal-info-bg: rgb(var(~'--mp-blue-1'));
-  --mp-alert-tonal-info-title: rgb(var(~'--mp-blue-7'));
-  --mp-alert-tonal-info-content: rgb(var(~'--mp-blue-7'));
-  --mp-alert-tonal-info-icon: rgb(var(~'--mp-blue-6'));
+  --mp-alert-tonal-info-title: var(--mp-sys-color-content-info);
+  --mp-alert-tonal-info-content: var(--mp-sys-color-content-info);
+  --mp-alert-tonal-info-icon: var(--mp-sys-color-content-info);
 
   --mp-alert-tonal-success-bg: rgb(var(~'--mp-success-1'));
-  --mp-alert-tonal-success-title: rgb(var(~'--mp-success-7'));
-  --mp-alert-tonal-success-content: rgb(var(~'--mp-success-7'));
-  --mp-alert-tonal-success-icon: rgb(var(~'--mp-success-6'));
+  --mp-alert-tonal-success-title: var(--mp-sys-color-content-success);
+  --mp-alert-tonal-success-content: var(--mp-sys-color-content-success);
+  --mp-alert-tonal-success-icon: var(--mp-sys-color-content-success);
 
   --mp-alert-tonal-warning-bg: rgb(var(~'--mp-warning-1'));
-  --mp-alert-tonal-warning-title: rgb(var(~'--mp-warning-7'));
-  --mp-alert-tonal-warning-content: rgb(var(~'--mp-warning-7'));
-  --mp-alert-tonal-warning-icon: rgb(var(~'--mp-warning-6'));
+  --mp-alert-tonal-warning-title: var(--mp-sys-color-content-warning);
+  --mp-alert-tonal-warning-content: var(--mp-sys-color-content-warning);
+  --mp-alert-tonal-warning-icon: var(--mp-sys-color-content-warning);
 
   --mp-alert-tonal-danger-bg: rgb(var(~'--mp-danger-1'));
-  --mp-alert-tonal-danger-title: rgb(var(~'--mp-danger-7'));
-  --mp-alert-tonal-danger-content: rgb(var(~'--mp-danger-7'));
-  --mp-alert-tonal-danger-icon: rgb(var(~'--mp-danger-6'));
+  --mp-alert-tonal-danger-title: var(--mp-sys-color-content-danger);
+  --mp-alert-tonal-danger-content: var(--mp-sys-color-content-danger);
+  --mp-alert-tonal-danger-icon: var(--mp-sys-color-content-danger);
 
   --mp-alert-tonal-default-bg: var(~'--mp-color-fill-2');
-  --mp-alert-tonal-default-title: var(~'--mp-color-text-1');
-  --mp-alert-tonal-default-content: var(~'--mp-color-text-2');
-  --mp-alert-tonal-default-icon: var(~'--mp-color-text-2');
+  --mp-alert-tonal-default-title: var(--mp-sys-color-content-primary);
+  --mp-alert-tonal-default-content: var(--mp-sys-color-content-secondary);
+  --mp-alert-tonal-default-icon: var(--mp-sys-color-content-secondary);
 
   // ---- outline ----（透明 + 描边）
-  --mp-alert-outline-info-border: rgb(var(~'--mp-blue-6'));
-  --mp-alert-outline-info-title: rgb(var(~'--mp-blue-7'));
-  --mp-alert-outline-info-content: rgb(var(~'--mp-blue-7'));
-  --mp-alert-outline-info-icon: rgb(var(~'--mp-blue-6'));
+  --mp-alert-outline-info-border: var(--mp-sys-color-content-info);
+  --mp-alert-outline-info-title: var(--mp-sys-color-content-info);
+  --mp-alert-outline-info-content: var(--mp-sys-color-content-info);
+  --mp-alert-outline-info-icon: var(--mp-sys-color-content-info);
 
-  --mp-alert-outline-success-border: rgb(var(~'--mp-success-6'));
-  --mp-alert-outline-success-title: rgb(var(~'--mp-success-7'));
-  --mp-alert-outline-success-content: rgb(var(~'--mp-success-7'));
-  --mp-alert-outline-success-icon: rgb(var(~'--mp-success-6'));
+  --mp-alert-outline-success-border: var(--mp-sys-color-content-success);
+  --mp-alert-outline-success-title: var(--mp-sys-color-content-success);
+  --mp-alert-outline-success-content: var(--mp-sys-color-content-success);
+  --mp-alert-outline-success-icon: var(--mp-sys-color-content-success);
 
-  --mp-alert-outline-warning-border: rgb(var(~'--mp-warning-6'));
-  --mp-alert-outline-warning-title: rgb(var(~'--mp-warning-7'));
-  --mp-alert-outline-warning-content: rgb(var(~'--mp-warning-7'));
-  --mp-alert-outline-warning-icon: rgb(var(~'--mp-warning-6'));
+  --mp-alert-outline-warning-border: var(--mp-sys-color-content-warning);
+  --mp-alert-outline-warning-title: var(--mp-sys-color-content-warning);
+  --mp-alert-outline-warning-content: var(--mp-sys-color-content-warning);
+  --mp-alert-outline-warning-icon: var(--mp-sys-color-content-warning);
 
-  --mp-alert-outline-danger-border: rgb(var(~'--mp-danger-6'));
-  --mp-alert-outline-danger-title: rgb(var(~'--mp-danger-7'));
-  --mp-alert-outline-danger-content: rgb(var(~'--mp-danger-7'));
-  --mp-alert-outline-danger-icon: rgb(var(~'--mp-danger-6'));
+  --mp-alert-outline-danger-border: var(--mp-sys-color-content-danger);
+  --mp-alert-outline-danger-title: var(--mp-sys-color-content-danger);
+  --mp-alert-outline-danger-content: var(--mp-sys-color-content-danger);
+  --mp-alert-outline-danger-icon: var(--mp-sys-color-content-danger);
 
-  --mp-alert-outline-default-border: var(~'--mp-color-border-2');
-  --mp-alert-outline-default-title: var(~'--mp-color-text-1');
-  --mp-alert-outline-default-content: var(~'--mp-color-text-2');
-  --mp-alert-outline-default-icon: var(~'--mp-color-text-2');
+  --mp-alert-outline-default-border: var(--mp-sys-color-border-default);
+  --mp-alert-outline-default-title: var(--mp-sys-color-content-primary);
+  --mp-alert-outline-default-content: var(--mp-sys-color-content-secondary);
+  --mp-alert-outline-default-icon: var(--mp-sys-color-content-secondary);
 }

@@ -8,6 +8,6 @@ const timeWithSeconds = ref()
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time v-model="timeWithSeconds" format="24hr" use-seconds placeholder="含秒" clearable />
+    <mp-time v-model="timeWithSeconds" format="HH:mm:ss" placeholder="含秒" clearable />
   </mp-space>
 </template>

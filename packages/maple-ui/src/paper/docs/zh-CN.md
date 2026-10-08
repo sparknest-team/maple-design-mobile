@@ -82,11 +82,11 @@ radius、width、height 的数字和数字字符串使用 px，其他字符串�
 
 | 变量 | 默认值 |
 | --- | --- |
-| --mp-paper-background | var(--mp-color-bg-2) |
-| --mp-paper-border-radius | 4px |
-| --mp-paper-border-width | 1px |
-| --mp-paper-border-color | var(--mp-color-border) |
-| --mp-paper-transition-duration | 0.25s |
+| --mp-paper-background | `var(--mp-sys-color-surface-default)` |
+| --mp-paper-border-radius | `4px` |
+| --mp-paper-border-width | `1px` |
+| --mp-paper-border-color | `var(--mp-sys-color-border-default)` |
+| --mp-paper-transition-duration | `var(--mp-sys-motion-duration-slow)` |
 
 内置主题可覆盖背景和圆角。bordered=false 不占边框空间，开启后使用 border-box；固定宽高包含边框。背景、边框和阴影彼此独立。
 
@@ -101,3 +101,5 @@ import type { PaperProps, PaperInstance } from '@maplejs/maple-ui'
 两端分别保存主体、Props、样式、token 和契约测试，只调整前缀及本地导入；不引用跨库核心，不共享组件实例或状态。
 
 Maple 迁移说明：默认背景改为主题表面色，默认不再显示手形光标；inline 内部类改为 mp-paper--inline。原有尺寸、圆角、阴影与水波 API 保留。
+
+内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换跳过等待，并取消尚未结束的切换。Ripple 时长变量只控制 CSS，250ms 生命周期计时未改变，每段视觉时长应不超过 250ms；自定义动画类由调用方负责适配。

@@ -28,22 +28,22 @@ const { center, top, bottom, left, right, overlayClass, overlayStyle, event } = 
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>
   </mp-popup>
-  <mp-popup v-model:open="bottom" position="bottom">
+  <mp-popup v-model:open="bottom" placement="bottom">
     <div class="block">
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>
   </mp-popup>
-  <mp-popup v-model:open="top" position="top">
+  <mp-popup v-model:open="top" placement="top">
     <div class="block">
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>
   </mp-popup>
-  <mp-popup v-model:open="left" position="left">
+  <mp-popup v-model:open="left" placement="left">
     <div class="block">
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>
   </mp-popup>
-  <mp-popup v-model:open="right" position="right">
+  <mp-popup v-model:open="right" placement="right">
     <div class="block">
       素胚勾勒出青花笔锋浓转淡, 瓶身描绘的牡丹一如你初妆, 冉冉檀香透过窗心事我了然, 宣纸上走笔至此搁一半。
     </div>

@@ -182,3 +182,25 @@
 ```ts
 import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } from '@maplejs/maple-ui'
 ```
+
+## 颜色变量
+
+Collapse 的公开颜色变量使用 system 语义作为默认值，Maple 与 Cedar 保持一致：
+
+| 变量 | 默认语义 |
+| --- | --- |
+| `--mp-collapse-border-color` | `--mp-sys-color-border-default` |
+| `--mp-collapse-title-bg` | `--mp-sys-color-surface-default` |
+| `--mp-collapse-title-bg-active` | `--mp-sys-color-surface-default` |
+| `--mp-collapse-title-bg-disabled` | `--mp-sys-color-surface-default` |
+| `--mp-collapse-title-text-color` | `--mp-sys-color-content-primary` |
+| `--mp-collapse-title-text-color-disabled` | `--mp-sys-color-content-disabled` |
+| `--mp-collapse-content-text-color` | `--mp-sys-color-content-primary` |
+| `--mp-collapse-content-text-color-disabled` | `--mp-sys-color-content-disabled` |
+| `--mp-collapse-content-bg` | `--mp-sys-color-surface-muted` |
+| `--mp-collapse-expand-icon` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-collapse-item-border-color` | `--mp-sys-color-border-default` |
+
+### 减少动态效果
+
+内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。

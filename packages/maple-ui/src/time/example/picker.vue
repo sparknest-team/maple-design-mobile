@@ -14,11 +14,9 @@ const dates = reactive({
   date6: '17:36:22',
 })
 
-const disabledTime = {
-  hours: (hour) => hour % 2 !== 0,
-  minutes: (minute) => minute % 15 !== 0,
-  seconds: (second) => second % 2 !== 0,
-}
+const disabledHours = () => Array.from({ length: 24 }, (_, hour) => hour).filter((hour) => hour % 2 !== 0)
+const disabledMinutes = (hour) => (hour === 10 ? [0, 15, 45] : [])
+const disabledSeconds = (hour, minute) => (hour === 10 && minute === 30 ? [41, 43, 45] : [])
 
 watchLang(use)
 onThemeChange()
@@ -26,38 +24,36 @@ onThemeChange()
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-time-picker v-model="dates.date" />
+  <mp-time-picker v-model="dates.date" format="HH:mm" />
 
   <app-type>{{ t('clockMode') }}</app-type>
-  <mp-time-picker v-model="dates.clock" presentation="clock" />
+  <mp-time-picker v-model="dates.clock" format="HH:mm" presentation="clock" />
 
   <app-type>{{ t('hour24') }}</app-type>
-  <mp-time-picker v-model="dates.date1" presentation="clock" format="24hr" />
+  <mp-time-picker v-model="dates.date1" format="HH:mm" presentation="clock" />
 
   <app-type>{{ t('showSecond') }}</app-type>
-  <mp-time-picker v-model="dates.date5" presentation="clock" format="24hr" use-seconds />
+  <mp-time-picker v-model="dates.date5" format="HH:mm:ss" presentation="clock" />
 
   <app-type>{{ t('readonly') }}</app-type>
-  <mp-time-picker v-model="dates.date2" presentation="clock" readonly />
+  <mp-time-picker v-model="dates.date2" format="HH:mm" presentation="clock" readonly />
 
   <app-type>{{ t('timeLimit') }}</app-type>
   <mp-time-picker
     v-model="dates.date3"
+    format="HH:mm:ss"
     presentation="clock"
-    format="24hr"
-    use-seconds
     min="2:28:38"
     max="19:40:22"
-    :disabled-time="disabledTime"
+    :disabled-hours="disabledHours"
+    :disabled-minutes="disabledMinutes"
+    :disabled-seconds="disabledSeconds"
   />
 
   <app-type>{{ t('actions') }}</app-type>
-  <mp-time-picker v-model="dates.date6" presentation="clock">
-    <template #actions>
-      <mp-space size="sm">
-        <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
-        <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
-      </mp-space>
+  <mp-time-picker v-model="dates.date6" format="HH:mm" presentation="clock">
+    <template #actions="{ confirm, canConfirm }">
+      <mp-button status="primary" variant="text" :disabled="!canConfirm" @click="confirm">确认</mp-button>
     </template>
   </mp-time-picker>
 </template>

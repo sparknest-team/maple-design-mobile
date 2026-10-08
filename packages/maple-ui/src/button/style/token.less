@@ -1,70 +1,71 @@
 // Component tokens for button
 :root {
-  --mp-button-default-text-color: var(--mp-color-text-1);
-  --mp-button-primary-text-color: var(--mp-color-white);
-  --mp-button-danger-text-color: var(--mp-color-white);
-  --mp-button-success-text-color: var(--mp-color-white);
-  --mp-button-warning-text-color: var(--mp-color-white);
-  --mp-button-info-text-color: var(--mp-color-white);
-  --mp-button-default-color: var(--mp-color-bg-2);
-  --mp-button-primary-color: var(--mp-color-primary);
-  --mp-button-danger-color: var(--mp-color-danger);
-  --mp-button-success-color: var(--mp-color-success);
-  --mp-button-warning-color: var(--mp-color-warning);
-  --mp-button-info-color: var(--mp-color-info);
+  --mp-button-transition-duration: var(--mp-sys-motion-duration-standard);
+  --mp-button-default-text-color: var(--mp-sys-color-content-primary);
+  --mp-button-primary-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-danger-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-success-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-warning-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-info-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-default-color: var(--mp-sys-color-surface-default);
+  --mp-button-primary-color: var(--mp-sys-color-action-primary);
+  --mp-button-danger-color: var(--mp-sys-color-status-danger);
+  --mp-button-success-color: var(--mp-sys-color-status-success);
+  --mp-button-warning-color: var(--mp-sys-color-status-warning);
+  --mp-button-info-color: var(--mp-sys-color-status-info);
   --mp-button-secondary-color: rgb(var(--mp-gray-6));
-  --mp-button-secondary-text-color: var(--mp-color-white);
+  --mp-button-secondary-text-color: var(--mp-sys-color-content-on-bright);
   --mp-button-tertiary-color: rgb(var(--mp-gray-7));
-  --mp-button-tertiary-text-color: var(--mp-color-white);
-  --mp-button-default-icon-color: var(--mp-color-text-1);
-  --mp-button-primary-icon-color: var(--mp-button-primary-color);
-  --mp-button-danger-icon-color: var(--mp-button-danger-color);
-  --mp-button-success-icon-color: var(--mp-button-success-color);
-  --mp-button-warning-icon-color: var(--mp-button-warning-color);
-  --mp-button-info-icon-color: var(--mp-button-info-color);
-  --mp-button-default-icon-container-color: var(--mp-color-bg-2);
-  --mp-button-primary-icon-container-color: color-mix(in srgb, var(--mp-button-primary-color) 16%, transparent);
-  --mp-button-danger-icon-container-color: color-mix(in srgb, var(--mp-button-danger-color) 16%, transparent);
-  --mp-button-success-icon-container-color: color-mix(in srgb, var(--mp-button-success-color) 16%, transparent);
-  --mp-button-warning-icon-container-color: color-mix(in srgb, var(--mp-button-warning-color) 16%, transparent);
-  --mp-button-info-icon-container-color: color-mix(in srgb, var(--mp-button-info-color) 16%, transparent);
+  --mp-button-tertiary-text-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-default-icon-color: var(--mp-sys-color-content-primary);
+  --mp-button-primary-icon-color: var(--mp-sys-color-content-brand);
+  --mp-button-danger-icon-color: var(--mp-sys-color-content-danger);
+  --mp-button-success-icon-color: var(--mp-sys-color-content-success);
+  --mp-button-warning-icon-color: var(--mp-sys-color-content-warning);
+  --mp-button-info-icon-color: var(--mp-sys-color-content-info);
+  --mp-button-default-icon-container-color: var(--mp-sys-color-surface-muted);
+  --mp-button-primary-icon-container-color: rgb(var(--mp-primary-1));
+  --mp-button-danger-icon-container-color: rgb(var(--mp-danger-1));
+  --mp-button-success-icon-container-color: rgb(var(--mp-success-1));
+  --mp-button-warning-icon-container-color: rgb(var(--mp-warning-1));
+  --mp-button-info-icon-container-color: rgb(var(--mp-blue-1));
   --mp-button-disabled-color: var(--mp-color-disabled);
-  --mp-button-disabled-text-color: var(--mp-color-text-disabled);
-  --mp-button-border-radius: 4px;
-  --mp-button-mini-padding: 0 8px;
-  --mp-button-small-padding: 0 12px;
-  --mp-button-normal-padding: 0 16px;
+  --mp-button-disabled-text-color: var(--mp-sys-color-content-disabled);
+  --mp-button-border-radius: var(--mp-sys-radius-md);
+  --mp-button-mini-padding: 0 var(--mp-sys-space-4);
+  --mp-button-small-padding: 0 var(--mp-sys-space-5);
+  --mp-button-normal-padding: 0 var(--mp-sys-space-6);
   --mp-button-large-padding: 0 22px;
   --mp-button-xl-padding: 0 28px;
-  --mp-button-round-padding: 6px;
+  --mp-button-round-padding: var(--mp-sys-space-3);
   --mp-button-mini-height: 20px;
   --mp-button-small-height: 28px;
   --mp-button-normal-height: 36px;
   --mp-button-large-height: 44px;
   --mp-button-xl-height: 52px;
   --mp-button-mini-font-size: var(--mp-font-size-xs);
-  --mp-button-small-font-size: var(--mp-font-size-sm);
-  --mp-button-normal-font-size: var(--mp-font-size-md);
-  --mp-button-large-font-size: var(--mp-font-size-lg);
-  --mp-button-xl-font-size: var(--mp-font-size-xl, 18px);
+  --mp-button-small-font-size: var(--mp-sys-font-size-xs);
+  --mp-button-normal-font-size: var(--mp-sys-font-size-md);
+  --mp-button-large-font-size: var(--mp-sys-font-size-lg);
+  --mp-button-xl-font-size: var(--mp-sys-font-size-xl);
 }
 
 :root {
-  --mp-button-content-gap: 6px;
+  --mp-button-content-gap: var(--mp-sys-space-3);
   --mp-button-line-height: 1.2;
   --mp-button-stacked-height: 48px;
   --mp-button-focus-width: 2px;
-  --mp-button-focus-color: currentColor;
+  --mp-button-focus-color: var(--mp-sys-color-content-brand);
   --mp-button-focus-offset: 2px;
-  --mp-button-icon-container-padding: 6px;
+  --mp-button-icon-container-padding: var(--mp-sys-space-3);
   --mp-button-loading-line-height: 3px;
   --mp-button-loading-line-width: 40%;
   --mp-button-loading-duration: 1s;
   --mp-button-loading-static-opacity: 0.5;
-  --mp-button-secondary-icon-color: var(--mp-button-secondary-text-color);
-  --mp-button-secondary-icon-container-color: var(--mp-button-secondary-color);
-  --mp-button-tertiary-icon-color: var(--mp-button-tertiary-text-color);
-  --mp-button-tertiary-icon-container-color: var(--mp-button-tertiary-color);
+  --mp-button-secondary-icon-color: var(--mp-sys-color-content-secondary);
+  --mp-button-secondary-icon-container-color: rgb(var(--mp-gray-2));
+  --mp-button-tertiary-icon-color: var(--mp-sys-color-content-secondary);
+  --mp-button-tertiary-icon-container-color: rgb(var(--mp-gray-1));
 }
 
 :root {
@@ -73,8 +74,29 @@
   --mp-button-normal-stacked-height: var(--mp-button-stacked-height);
   --mp-button-large-stacked-height: 56px;
   --mp-button-xl-stacked-height: 64px;
-  --mp-button-stacked-gap: 4px;
-  --mp-button-stacked-padding: 4px;
-  --mp-button-stacked-border-radius: 4px;
-  --mp-button-group-border-radius: 4px;
+  --mp-button-stacked-gap: var(--mp-sys-space-2);
+  --mp-button-stacked-padding: var(--mp-sys-space-2);
+  --mp-button-stacked-border-radius: var(--mp-sys-radius-md);
+  --mp-button-group-border-radius: var(--mp-sys-radius-md);
+}
+
+:root {
+  --mp-button-default-state-layer-color: var(--mp-sys-color-content-primary);
+  --mp-button-primary-state-layer-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-info-state-layer-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-success-state-layer-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-warning-state-layer-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-danger-state-layer-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-secondary-state-layer-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-tertiary-state-layer-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-state-layer-color: var(--mp-sys-color-surface-page);
+  --mp-button-state-opacity-hover: 0.08;
+  --mp-button-state-opacity-active: 0.12;
+  --mp-button-plain-state-opacity-hover: 0.5;
+  --mp-button-plain-state-opacity-active: 1;
+}
+
+:root[maple-theme='dark'] {
+  --mp-button-tertiary-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-tertiary-state-layer-color: var(--mp-sys-color-content-on-dark);
 }

@@ -2,7 +2,7 @@
 
 ### 介绍
 
-Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 Maple 团队维护。
+Maple 是一个 `Vue3` 组件库，基于 统一语义 Token 与品牌主题体系，支持移动端、桌面端，由 Maple 团队维护。
 
 ### 特性
 
@@ -17,7 +17,7 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 - 📦 &nbsp; 支持 [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
 - 💡 &nbsp; 支持 Typescript
 - 💪 &nbsp; 确保 90% 以上单元测试覆盖率，提供稳定性保证
-- 🎨 &nbsp; 同时支持 Material Design 2 和 Material Design 3 两套设计系统
+- 🎨 &nbsp; 同时支持 default 和 maple 品牌的明暗主题
 - 🛠️ &nbsp; 支持暗黑模式
 - 🔧 &nbsp; 提供官方的 VSCode 插件
 - ⌨️ &nbsp; 支持无障碍访问（持续改进中）
@@ -34,7 +34,7 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 | [@maplejs/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
 | [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
 | [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
-| [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `主题生成器，用于为 maple material design 3 生成主题变量` | 
+| [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `主题生成器，用于生成 Maple 品牌主题变量` |
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Maple 组件库 VSCode 插件`   |
 | [maple-vscode-theme](https://github.com/loca-spirit/maple-vscode-theme)  | `Maple VSCode 主题`   |
 | [maple-app-example](https://github.com/loca-spirit/maple-app-template)  | `Maple 组件库移动端模板`   |

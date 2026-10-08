@@ -3,7 +3,7 @@
     <img src="https://maplejs.org/logo.svg" width="150">
   </a>
   <h1>Maple</h1>
-  <p>A Vue3 component library based on Material Design 2 and 3, supporting mobile and desktop.</p>
+  <p>A Vue3 component library based on semantic tokens and brand themes, supporting mobile and desktop.</p>
   <p>
     <a href="https://maplejs.org/#/en-US/index">Documentation</a> |
     <a href="https://github.com/loca-spirit/maple-design-mobile/blob/dev/README.zh-CN.md">中文介绍</a>
@@ -22,7 +22,7 @@
 
 ### Intro
 
-Maple is a `Vue3` component library based on Material Design 2 and 3, supporting mobile and desktop, developed and maintained by the Maple team.
+Maple is a `Vue3` component library based on semantic tokens and brand themes, supporting mobile and desktop, developed and maintained by the Maple team.
 
 
 ### Features
@@ -38,7 +38,7 @@ Maple is a `Vue3` component library based on Material Design 2 and 3, supporting
 - 📦 &nbsp; Support [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
 - 💡 &nbsp; Support the Typescript
 - 💪 &nbsp; Make sure more than 90 percent unit test coverage, providing stability assurance
-- 🎨 &nbsp; Supports both Material Design 2 and Material Design 3 design systems
+- 🎨 &nbsp; Supports both default and maple brand themes in light and dark modes
 - 🛠️ &nbsp; Support dark mode
 - 🔧 &nbsp; Provide official VSCode extension
 - ⌨️ &nbsp; Support Accessibility (still improving)
@@ -97,7 +97,7 @@ The following projects are maintained by the official team for a long time.
 | [@maplejs/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | `A resolver for` [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) ` used to implement Maple and import it on demand`   |
 | [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | [UnoCss](https://unocss.dev/) `presets for maple` |
 | [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | [tailwindcss](https://tailwindcss.com/) `presets for maple` |
-| [maple-theme-builder](https://github.com/maplejs/maple-theme-builder) | `Theme generator for generating theme variables for maple Material Design 3` | 
+| [maple-theme-builder](https://github.com/maplejs/maple-theme-builder) | `Theme generator for generating theme variables for Maple brand themes` |
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension) | `Maple Component Library VSCode Plugin` |
 | [vscode-theme-maple](https://github.com/maplejs/vscode-theme-maple)  | `Maple VSCode Theme`   |
 | [maple-app-example](https://github.com/maplejs/maple-app-template)  | `Maple component library app template`   |

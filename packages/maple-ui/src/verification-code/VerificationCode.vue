@@ -263,7 +263,7 @@ export default defineComponent({
       inputRefs.value[targetIndex]?.focus?.()
       await raf()
 
-      const inputEl = inputRefs.value[targetIndex]?.el as HTMLInputElement | null | undefined
+      const inputEl = inputRefs.value[targetIndex]?.inputRef as HTMLInputElement | null | undefined
       if (document.activeElement === inputEl) {
         inputEl?.select?.()
       }
@@ -292,7 +292,7 @@ export default defineComponent({
     }
 
     function syncCellDisplayValue(index: number) {
-      const inputEl = inputRefs.value[index]?.el as HTMLInputElement | null | undefined
+      const inputEl = inputRefs.value[index]?.inputRef as HTMLInputElement | null | undefined
 
       if (inputEl) {
         inputEl.value = getDisplayChar(index)

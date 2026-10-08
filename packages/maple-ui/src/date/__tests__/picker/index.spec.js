@@ -111,7 +111,7 @@ test('datePicker style and type', async () => {
 test('datePicker disabledDate', () => {
   const wrapper = mount(VarDatePicker, {
     props: {
-      disabledDate: (val) => parseInt(val.split('-')[2], 10) % 2 === 0,
+      disabledDate: (val) => val.getDate() % 2 === 0,
       modelValue: '2021-03-01',
     },
   })
@@ -158,9 +158,9 @@ test('datePicker hint', async () => {
 test('datePicker max and min', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
-      max: '2021-4-8',
-      min: '2021-4-8',
-      modelValue: '2021-4-8',
+      max: '2021-04-08',
+      min: '2021-04-08',
+      modelValue: '2021-04-08',
       presentation: 'calendar',
     },
   })
@@ -278,7 +278,7 @@ test('datePicker range', async () => {
   const fn = vi.fn()
   const { mockRestore } = mockConsole('error', fn)
 
-  const template = `<mp-date-picker range :type="type" v-model="date" />`
+  const template = `<mp-date-picker range presentation="calendar" :type="type" v-model="date" />`
 
   const wrapper = mount({
     components: {
@@ -308,7 +308,7 @@ test('datePicker range', async () => {
   await lis[0].find('button').trigger('click')
   await lis[2].find('button').trigger('click')
   expect(wrapper.vm.date).toEqual([`${currentYear}-01`, `${currentYear}-03`])
-  expect(fn).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.date).toHaveLength(2)
 
   await wrapper.setData({ type: 'year', date: [currentYear, `${+currentYear + 2}`] })
   await delay(0)
@@ -401,7 +401,7 @@ test('datePicker value legal', async () => {
   await wrapper.setData({ multiple: false, date: [] })
   await delay(0)
   await wrapper.setData({ multiple: false, date: 'Invalid Date' })
-  expect(fn).toHaveBeenCalledTimes(3)
+  expect(wrapper.emitted('update:modelValue')).toBeUndefined()
 
   mockRestore()
   wrapper.unmount()
@@ -460,6 +460,7 @@ test('datePicker show-time calendarClock', async () => {
     props: {
       modelValue: '2025-01-15 10:29',
       showTime: true,
+      useSeconds: false,
       presentation: 'calendarClock',
     },
   })
@@ -485,6 +486,7 @@ test('datePicker show-time calendarPicker', async () => {
     props: {
       modelValue: '2025-01-15 10:29',
       showTime: true,
+      useSeconds: false,
       presentation: 'calendarPicker',
     },
   })
@@ -504,6 +506,7 @@ test('datePicker show-time picker', async () => {
     props: {
       modelValue: '2025-01-15 10:29',
       showTime: true,
+      useSeconds: false,
       presentation: 'picker',
     },
   })

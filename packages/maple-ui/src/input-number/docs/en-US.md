@@ -1,144 +1,143 @@
 # InputNumber
 
-### Intro
+InputNumber edits and commits JavaScript numbers. The libraries own independent copies of the view, controller, styles and API; no runtime instance is shared.
 
-Input, adjust, and commit numeric values. `InputNumber` is the primary name aligned with Cedar and most UI libraries. Maple's existing `Counter` remains available for compatibility.
+- A defined model-value is controlled; default-value only initializes uncontrolled state. Drafts may differ while editing. A rejected proposal restores the parent value after commit. External updates never emit user events or trigger validation.
+- By default, Enter or blur commits. With model-event="input", complete numeric edits update immediately; change still represents a commit. Enter followed by blur does not commit twice.
+- Clearing emits **input → update:model-value → change → clear**, with an undefined value. The former clear-only behavior is removed without an alias or compatibility branch.
+- Intermediate signs and decimal points are preserved while editing. A trailing decimal point commits as a number; a lone sign/dot restores the previous value. Invalid text and non-finite numbers are never published. IME input is processed once after composition.
+- Range limits win over precision. Both copies use isolated Decimal configuration; the public model remains a JavaScript number, not arbitrary-precision storage.
+- disabled/readonly/size inherit from InputGroup and Form. Explicit false overrides inheritance. variant/hint inherit InputGroup. An outer FormItem label suppresses a duplicate floating label. Cedar also reads ConfigProvider for fallback size; Maple uses its existing defaults.
+- Mouse/touch long press stops on release, cancel, leave, window blur, deactivation, disposal or state changes. Button mode offers larger touch targets. Arrow keys step; Enter commits.
 
-The component keeps the displayed string separate from the business number, so intermediate states such as `-`, `.`, and `1.` can be entered naturally. By default, `v-model` updates on blur or Enter. With `model-event="input"`, complete numbers update during editing, while `change` still represents a committed value.
+## Examples
 
-### Basic Usage
-
-```demo
-../example/demos/demo-1.vue
-```
-
-### Range
-
-```demo
-../example/demos/demo-2.vue
-```
-
-### Step And Precision
+### Basic states
 
 ```demo
-../example/demos/demo-5.vue
+../example/demos/en-US/field-basic.vue
 ```
 
-### Input Mode
+### Control layouts
 
 ```demo
-../example/demos/demo-9.vue
+../example/demos/en-US/field-modes.vue
 ```
 
-### Button mode
+### Sizes and variants
 
 ```demo
-../example/demos/demo-3.vue
+../example/demos/en-US/field-options.vue
 ```
 
-### Sizes
+### Controlled values and events
 
 ```demo
-../example/demos/demo-4.vue
+../example/demos/en-US/controlled-events.vue
 ```
 
-### Prefix and suffix
+### Form inheritance
 
 ```demo
-../example/demos/demo-6.vue
+../example/demos/en-US/form-inheritance.vue
 ```
 
-### Custom controls
+### Formatting and slots
 
 ```demo
-../example/demos/demo-7.vue
+../example/demos/en-US/format-slots.vue
 ```
 
-### Formatting
+### Small steps and boundaries
 
 ```demo
-../example/demos/demo-8.vue
-```
-
-### Model event
-
-```demo
-../example/demos/demo-10.vue
-```
-
-### Controlled Value And Intermediate Input
-
-`modelValue` and `defaultValue` use `number | undefined`. Clearing produces `undefined`, never `NaN`. Intermediate input such as `-`, `.`, and `1.` stays visible until it is committed and normalized by `min`, `max`, and `precision`.
-
-```html
-<mp-input-number
-  v-model="value"
-  :min="0"
-  :max="100"
-  model-event="input"
-  placeholder="Commit on blur"
-  @input="handleInput"
-  @change="handleChange"
-  @clear="handleClear"
-/>
-```
-
-### Events And Clearing
-
-- `input` represents editing and includes the parsed number, displayed text, and native event.
-- `change` represents a committed value change and is deduplicated across blur, Enter, and step actions.
-- `clear` represents an explicit clear action. It emits `update:modelValue(undefined)` and `clear` without an extra `input` or `change` event.
-
-### Prefixes, Suffixes, And Slots
-
-`prefix` and `suffix` render inside the input. `prepend` and `append` render outside it. `plus` and `minus` replace step icons, while `clear-icon` replaces the clear icon.
-
-```html
-<mp-input-number v-model="value" mode="button" clearable>
-  <template #prepend>Amount</template>
-  <template #prefix>$</template>
-  <template #suffix>USD</template>
-  <template #append>tax included</template>
-  <template #plus>＋</template>
-  <template #minus>－</template>
-  <template #clear-icon="{ clear }">
-    <button type="button" aria-label="Clear amount" @click="clear">Clear</button>
-  </template>
-</mp-input-number>
+../example/demos/en-US/number-boundaries.vue
 ```
 
 ## API
 
 ### Props
 
-| Prop            | Description                                    | Type                        | Default     |
-| --------------- | ---------------------------------------------- | --------------------------- | ----------- |
-| `v-model`       | Current value                                  | _number_                    | `-`         |
-| `default-value` | Default value for uncontrolled usage           | _number_                    | `-`         |
-| `mode`          | Mode: `embed` `button` `input`                 | _string_                    | `embed`     |
-| `precision`     | Number precision                               | _number_                    | `-`         |
-| `step`          | Step value                                     | _number_                    | `1`         |
-| `disabled`      | Whether to disable input number                | _boolean_                   | `false`     |
-| `error`         | Whether to show error state                    | _boolean_                   | `false`     |
-| `max`           | Max value                                      | _number_                    | `Infinity`  |
-| `min`           | Min value                                      | _number_                    | `-Infinity` |
-| `formatter`     | Format display value                           | _(value: string) => string_ | `-`         |
-| `parser`        | Parse input value                              | _(value: string) => string_ | `-`         |
-| `placeholder`   | Input placeholder                              | _string_                    | `-`         |
-| `size`          | Input size: `xs` `sm` `md` `lg` `xl`           | _ComponentSize_             | `md`        |
-| `clearable`     | Whether the input can be cleared               | _boolean_                   | `false`     |
-| `model-event`   | Event that updates `v-model`: `change` `input` | _string_                    | `change`    |
-| `readonly`      | Whether to be readonly                         | _boolean_                   | `false`     |
-| `input-attrs`   | Native input attributes                        | _object_                    | `-`         |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| model-value | Controlled number; undefined denotes an empty/uncontrolled value | `number` | — |
+| default-value | Initial uncontrolled value | `number` | — |
+| mode | Step-button layout | `embed \| button \| input` | `embed` |
+| precision | Decimal places (0–100), at least the step precision | `number` | — |
+| step | Positive finite step; scientific notation supported | `number` | `1` |
+| disabled | Disabled; inherits when omitted | `boolean` | Inherited, otherwise false |
+| error | Error state; inherits FormItem when omitted | `boolean` | Inherited, otherwise false |
+| max | Maximum | `number` | `Infinity` |
+| min | Minimum | `number` | `-Infinity` |
+| formatter | Display formatting only; does not change the number | `(text: string) => string` | — |
+| parser | Parse the original text once per edit | `(text: string) => string` | — |
+| placeholder | Placeholder | `string` | — |
+| size | All five sizes implemented; inheritable | `xs \| sm \| md \| lg \| xl` | Inherited, otherwise md |
+| variant | Field variant; inherits InputGroup | `outline \| filled \| standard` | `outline` |
+| hint | Floating hint; inherits InputGroup / FieldDecorator | `boolean` | Library default |
+| clearable | Allow clearing an editable field | `boolean` | `false` |
+| model-event | Model update timing; change only reports commits | `change \| input` | `change` |
+| readonly | Read-only; allows focus/copy but no mutations | `boolean` | Inherited, otherwise false |
+| input-attrs | Additional native input attributes | `Record<string, unknown>` | — |
 
 ### Events
 
-| Event               | Description                   | Arguments                                                      |
-| ------------------- | ----------------------------- | -------------------------------------------------------------- |
-| `update:modelValue` | Emitted when value changes    | `value: number \| undefined`                                   |
-| `change`            | Emitted after value changes   | `value: number \| undefined, event: Event`                     |
-| `input`             | Emitted on input              | `value: number \| undefined, inputValue: string, event: Event` |
-| `focus`             | Emitted when input is focused | `event: FocusEvent`                                            |
-| `blur`              | Emitted when input is blurred | `event: FocusEvent`                                            |
-| `clear`             | Emitted when clear is clicked | `event: Event`                                                 |
-| `keydown`           | Emitted on keydown            | `event: KeyboardEvent`                                         |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| input | `(value: number \| undefined, text: string, event: Event)` | Parsed value and display text while editing |
+| update:model-value | `(value: number \| undefined)` | Proposed model update |
+| change | `(value: number \| undefined, event: Event)` | Commit, step or clear |
+| clear | `(event: Event)` | Explicit clear |
+| focus | `(event: FocusEvent)` | Focus |
+| blur | `(event: FocusEvent)` | Blur |
+| keydown | `(event: KeyboardEvent)` | Native keyboard event; preventDefault intercepts default actions |
+
+### Slots
+
+| Slot | Arguments | Description |
+| --- | --- | --- |
+| prefix / suffix | — | Inside the field |
+| prepend / append | — | Outside the field |
+| plus / minus | — | Step-button icons |
+| clear-icon | `{ clear: (event?: Event) => void }` | Custom clear button |
+
+### Methods
+
+| Method / Property | Type | Description |
+| --- | --- | --- |
+| focus | `(options?: FocusOptions) => void` | Focus; ignored when disabled |
+| blur | `() => void` | Blur |
+| select | `() => void` | Select input text |
+| inputRef | `HTMLInputElement \| undefined` | Native input element |
+
+## Types
+
+```ts
+import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumberModelEvent, InputNumberSize, InputNumberVariant, InputNumberFormatter, InputNumberParser } from '@maplejs/maple-ui'
+```
+
+## Style tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-input-number-step-button-width` | `var(--mp-sys-control-height-md)` |
+| `--mp-input-number-step-button-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-input-number-step-button-disabled-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-input-number-step-button-border-color` | `var(--mp-sys-color-border-subtle)` |
+| `--mp-input-number-step-button-background` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-input-number-step-button-hover-background` | `var(--mp-sys-color-state-hover)` |
+| `--mp-input-number-step-button-active-background` | `var(--mp-sys-color-state-selected)` |
+| `--mp-input-number-step-button-icon-size` | `14px` |
+| `--mp-input-number-step-button-transition-duration` | `0.2s` |
+| `--mp-input-number-addon-background` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-input-number-addon-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-input-number-addon-border-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-input-number-border-width` | `1px` |
+| `--mp-input-number-border-radius` | `var(--mp-field-border-radius)` |
+| `--mp-input-number-size-xs-step-button-width` | `var(--mp-sys-control-height-xs)` |
+| `--mp-input-number-size-sm-step-button-width` | `var(--mp-sys-control-height-sm)` |
+| `--mp-input-number-size-md-step-button-width` | `var(--mp-sys-control-height-md)` |
+| `--mp-input-number-size-lg-step-button-width` | `var(--mp-sys-control-height-lg)` |
+| `--mp-input-number-size-xl-step-button-width` | `var(--mp-sys-control-height-xl)` |
+
+Shared field visuals use FieldDecorator tokens. The former step-layer-border-radius token is removed without an alias.

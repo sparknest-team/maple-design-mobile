@@ -89,5 +89,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | --- | --- |
-| `--mp-count-to-text-color`     | `var(--mp-color-text)`   |
+| `--mp-count-to-text-color`     | `var(--mp-sys-color-content-primary)` |
 | `--mp-count-to-text-font-size` | `var(--mp-font-size-lg)` |

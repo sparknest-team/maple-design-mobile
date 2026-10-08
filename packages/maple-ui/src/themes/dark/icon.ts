@@ -1,3 +1,2 @@
-export default {
-  '--mp-icon-size': '20px',
-}
+// Inherit the shared component defaults in every color mode.
+export default {}

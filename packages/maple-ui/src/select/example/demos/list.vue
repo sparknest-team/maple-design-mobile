@@ -27,7 +27,7 @@ const options = computed(() => [
       v-model="listMultiple"
       presentation="list"
       multiple
-      tag
+      show-tags
       clearable
       placeholder="List 多选"
       :options="options"

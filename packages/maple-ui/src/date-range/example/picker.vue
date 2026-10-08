@@ -26,13 +26,18 @@ onThemeChange()
   <mp-date-range-picker v-model="ranges.calendar" presentation="calendar" />
 
   <app-type>{{ t('dateTimeClock') }}</app-type>
-  <mp-date-range-picker v-model="ranges.dateTimeClock" show-time presentation="calendarClock" />
+  <mp-date-range-picker v-model="ranges.dateTimeClock" show-time :use-seconds="false" presentation="calendarClock" />
 
   <app-type>{{ t('dateTimeCalendarPicker') }}</app-type>
-  <mp-date-range-picker v-model="ranges.dateTimeCalendarPicker" show-time presentation="calendarPicker" />
+  <mp-date-range-picker
+    v-model="ranges.dateTimeCalendarPicker"
+    show-time
+    :use-seconds="false"
+    presentation="calendarPicker"
+  />
 
   <app-type>{{ t('dateTimePicker') }}</app-type>
-  <mp-date-range-picker v-model="ranges.dateTimePicker" show-time presentation="picker" />
+  <mp-date-range-picker v-model="ranges.dateTimePicker" show-time :use-seconds="false" presentation="picker" />
 
   <app-type>{{ t('yearRange') }}</app-type>
   <mp-date-range-picker v-model="ranges.year" presentation="picker" type="year" />

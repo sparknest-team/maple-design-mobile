@@ -52,9 +52,6 @@
   &--checked &__track {
     background: var(--mp-switch-current-track, var(--mp-switch-track-active-background));
   }
-  &--error &__track {
-    background: var(--mp-switch-track-error-background);
-  }
   &__handle {
     position: absolute;
     inset-inline-start: calc(var(--mp-switch-gap) * var(--mp-switch-scale));
@@ -91,7 +88,7 @@
     width: 80%;
     height: 80%;
     color: var(--mp-switch-loading-color, currentColor);
-    animation: mp-switch-spin 1s linear infinite;
+    animation: mp-switch-spin var(--mp-switch-loading-duration) linear infinite;
   }
   &__ripple {
     position: absolute;
@@ -114,18 +111,42 @@
     height: calc(var(--mp-switch-line-height) * var(--mp-switch-scale));
     transform: translateY(-50%);
   }
-  &--variant-md3 {
-    --mp-switch-local-width: var(--mp-switch-md3-width);
-    --mp-switch-local-height: var(--mp-switch-md3-height);
-    --mp-switch-local-handle: var(--mp-switch-md3-handle-size);
+  &--variant-tonal {
+    --mp-switch-local-width: var(--mp-switch-tonal-width);
+    --mp-switch-local-height: var(--mp-switch-tonal-height);
+    --mp-switch-local-handle: var(--mp-switch-tonal-handle-size);
   }
-  &--variant-md3:not(.mp-switch--checked) &__track {
-    background: var(--mp-switch-current-track, var(--mp-switch-md3-track-background));
-    border: var(--mp-switch-md3-border-width) solid var(--mp-switch-md3-border-color);
+  &--variant-tonal:not(.mp-switch--checked) &__track {
+    background: var(--mp-switch-current-track, var(--mp-switch-tonal-track-background));
+    border: var(--mp-switch-tonal-border-width) solid var(--mp-switch-tonal-border-color);
     box-sizing: border-box;
   }
-  &--variant-md3:not(.mp-switch--checked) &__handle {
-    background: var(--mp-switch-md3-border-color);
+  &--variant-tonal:not(.mp-switch--checked) &__handle {
+    background: var(--mp-switch-tonal-border-color);
+  }
+  &--variant-tonal:not(.mp-switch--checked) &__handle {
+    color: var(--mp-switch-tonal-handle-color);
+  }
+  &--variant-tonal:not(.mp-switch--checked) &__text {
+    color: var(--mp-switch-tonal-text-color);
+  }
+  &--error:not(.mp-switch--disabled):not(.mp-switch--loading) &__handle {
+    background: var(--mp-switch-handle-background);
+    color: var(--mp-switch-handle-color);
+  }
+  &--error:not(.mp-switch--disabled):not(.mp-switch--loading) &__text {
+    color: var(--mp-switch-text-color);
+  }
+  // Unavailable states suppress validation; error wins over variant defaults.
+  &--error:not(.mp-switch--disabled):not(.mp-switch--loading) &__track {
+    background: var(--mp-switch-track-error-background);
+    border-color: var(--mp-switch-track-error-background);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-switch__loading {
+    animation: none;
   }
 }
 @keyframes mp-switch-spin {

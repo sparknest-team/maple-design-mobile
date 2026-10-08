@@ -41,7 +41,7 @@ export const textareaProps = {
   /** 字符截取方法 */
   wordSlice: Function as PropType<WordSlice>,
   /** 是否只读 */
-  readonly: { type: Boolean, default: false },
+  readonly: { type: Boolean, default: undefined },
   /** 是否允许垂直拖动调整尺寸 */
   resize: { type: Boolean, default: false },
   /** 是否根据内容自动调整高度 */
@@ -76,6 +76,8 @@ export const textareaProps = {
     'disabled',
     'clearable',
   ]),
+  /** 尺寸，未指定时继承表单 */
+  size: { ...fieldDecoratorProps.size, default: undefined },
   /** 外观变体 */
   variant: {
     type: String as PropType<TextareaVariant>,
@@ -86,7 +88,7 @@ export const textareaProps = {
   /** 是否允许清空 */
   clearable: { type: Boolean, default: false },
   /** 是否显示错误状态 */
-  error: { type: Boolean, default: false },
+  error: { type: Boolean, default: undefined },
 }
 
 export type TextareaProps = import('vue').ExtractPublicPropTypes<typeof textareaProps>

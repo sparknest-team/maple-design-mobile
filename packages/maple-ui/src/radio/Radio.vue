@@ -1,6 +1,20 @@
 <template>
   <div :class="n('wrap')">
-    <div role="radio" :aria-checked="checked" :class="n()" v-bind="$attrs" @click="handleClick">
+    <div
+      role="radio"
+      :aria-checked="checked"
+      :class="
+        classes(
+          n(),
+          [mergedVariant === 'button', n('--button')],
+          [checked, n('--checked')],
+          [formDisabled, n('--disabled')],
+          [mergedError, n('--error')],
+        )
+      "
+      v-bind="$attrs"
+      @click="handleClick"
+    >
       <div
         ref="action"
         v-ripple="{ disabled: formReadonly || readonly || formDisabled || disabled || !ripple }"
@@ -15,22 +29,27 @@
         "
         :tabindex="tabIndex"
         :style="{ color: checked ? checkedColor : uncheckedColor }"
-        @focus="isFocusing = true"
-        @blur="isFocusing = false"
+        @keydown="keyboard.keydown"
+        @keyup="keyboard.keyup"
+        @focus="handleFocus"
+        @blur="handleBlur"
       >
-        <slot v-if="checked" name="checked-icon">
-          <mp-icon :class="n('icon')" mp-radio-cover :size="iconSize"><MIconRadioMarked /></mp-icon>
-        </slot>
-        <slot v-else name="unchecked-icon">
-          <mp-icon :class="n('icon')" mp-radio-cover :size="iconSize"><MIconRadioBlank /></mp-icon>
-        </slot>
+        <span v-if="mergedVariant === 'button'" :class="n('button-label')"><slot :checked="checked" /></span>
+        <template v-else>
+          <slot v-if="checked" name="checked-icon">
+            <mp-icon :class="n('icon')" mp-radio-cover :size="iconSize"><MIconRadioMarked /></mp-icon>
+          </slot>
+          <slot v-else name="unchecked-icon">
+            <mp-icon :class="n('icon')" mp-radio-cover :size="iconSize"><MIconRadioBlank /></mp-icon>
+          </slot>
+        </template>
         <mp-hover-overlay
           :hovering="!disabled && !formDisabled && hovering"
           :focusing="!disabled && !formDisabled && isFocusing"
         />
       </div>
       <div
-        v-if="$slots.default"
+        v-if="$slots.default && mergedVariant !== 'button'"
         :class="
           classes(
             n('text'),
@@ -49,16 +68,17 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { IconRadioBlank as MIconRadioBlank, IconRadioMarked as MIconRadioMarked } from '@maplejs/icons-vue'
-import { call, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener, useVModel } from '@maplejs/maple-use'
-import { useFormItem } from '../form/item-provide'
-import { useForm } from '../form/provide'
+import { call } from '@maplejs/maple-shared'
+import { useRadioControl } from '../checkbox/use-choice-control'
+import { useChoiceForm } from '../checkbox/use-choice-form'
+import { useChoiceKeyboard } from '../checkbox/use-choice-keyboard'
 import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
 import MpIcon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 import { useRadioGroup, type RadioProvider } from './provide'
+import { useRadioRegistration } from './use-radio-navigation'
 
 const { name, n, classes } = createNamespace('radio')
 
@@ -73,139 +93,91 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: ['click', 'change', 'update:modelValue'],
+  emits: ['click', 'change', 'update:modelValue', 'focus', 'blur'],
   setup(props, { emit }) {
     const action = ref<HTMLElement>()
     const isFocusing = ref(false)
-    const model = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
-    const checked = computed(() => model.value === props.value)
     const { radioGroup, bindRadioGroup } = useRadioGroup()
+    const mergedVariant = computed(() => radioGroup?.variant.value ?? props.variant)
     const { hovering, handleHovering } = useHoverOverlay()
-    const { form } = useForm()
-    const { mergedError, eventHandlers } = useFormItem()
+    const state = useChoiceForm({
+      get disabled() {
+        return props.disabled ?? radioGroup?.disabled.value
+      },
+      get readonly() {
+        return props.readonly ?? radioGroup?.readonly.value
+      },
+      get error() {
+        return props.error ?? radioGroup?.errorMessage.value
+      },
+    })
+    const { mergedError, eventHandlers } = state
+    const mergedDisabled = computed(() => radioGroup?.disabled.value || state.mergedDisabled.value)
+    const mergedReadonly = computed(() => radioGroup?.readonly.value || state.mergedReadonly.value)
+    const { checked, select } = useRadioControl(
+      props,
+      (value, event) => {
+        emit('update:modelValue', value)
+        emit('change', value, event)
+        eventHandlers.value.onChange?.(event)
+      },
+      () => mergedDisabled.value || mergedReadonly.value,
+      radioGroup
+        ? {
+            value: () => radioGroup.modelValue.value,
+            change: (value, event) => radioGroup.onToggle(value, event),
+          }
+        : undefined,
+    )
 
-    const tabIndex = computed(() => {
-      const disabled = form?.disabled.value || props.disabled
-      const isChecked = checked.value
-      const hasCheckedInRadioGroup = radioGroup?.hasChecked.value
-
-      if (disabled) {
-        return
-      }
-
-      if (radioGroup && hasCheckedInRadioGroup && !isChecked) {
-        return '-1'
-      }
-
-      return '0'
+    const tabIndex = useRadioRegistration(radioGroup?.navigation, {
+      element: () => action.value,
+      checked: () => checked.value,
+      disabled: () => mergedDisabled.value,
+      readonly: () => mergedReadonly.value,
+      select,
     })
 
     const radioProvider: RadioProvider = {
-      sync,
+      checked,
+      disabled: mergedDisabled,
       isFocusing: computed(() => isFocusing.value),
-      // keyboard arrow move
-      move() {
-        action.value!.focus()
-        action.value!.click()
-      },
-      moveable() {
-        return !form?.disabled.value && !props.disabled && !form?.readonly.value && !props.readonly
-      },
     }
 
     call(bindRadioGroup, radioProvider)
 
-    useEventListener(() => window, 'keydown', handleKeydown)
-    useEventListener(() => window, 'keyup', handleKeyup)
-
-    function handleKeydown(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      const { key } = event
-
-      if (key === 'Enter' || key === ' ') {
-        preventDefault(event)
-      }
-
-      if (key === 'Enter') {
-        action.value!.click()
-      }
-    }
-
-    function handleKeyup(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      if (event.key === ' ') {
-        preventDefault(event)
-        action.value!.click()
-      }
-    }
-
-    function change(changedValue: any) {
-      const { value: optionVal } = props
-
-      if (radioGroup && model.value === optionVal) {
-        return
-      }
-
-      model.value = changedValue
-
-      emit('change', model.value)
-      radioGroup?.onToggle(optionVal)
-      eventHandlers.value.onChange?.()
-    }
+    const keyboard = useChoiceKeyboard(
+      () => action.value?.click(),
+      () => mergedDisabled.value || mergedReadonly.value,
+    )
 
     function handleClick(e: Event) {
-      const { disabled, readonly, value: optionVal } = props
-
-      if (form?.disabled.value || disabled) {
+      if (mergedDisabled.value) {
         return
       }
 
       emit('click', e)
-      if (form?.readonly.value || readonly) {
+      if (mergedReadonly.value) {
         return
       }
 
-      change(checked.value ? false : optionVal)
+      select(e)
     }
 
     function handleTextClick() {
       action.value!.focus()
     }
 
-    function sync(v: any) {
-      const { value: optionVal } = props
-      const isChecked = v === optionVal
-      model.value = isChecked ? optionVal : false
-
-      return isChecked
-    }
-
-    // expose
-    function toggle(changedValue?: any) {
-      const { value: optionVal } = props
-
-      const shouldReverse = ![false, optionVal].includes(changedValue)
-      if (shouldReverse) {
-        changedValue = checked.value ? false : optionVal
-      }
-
-      change(changedValue)
-    }
-
     return {
       action,
+      mergedVariant,
+      keyboard,
       isFocusing,
       checked,
       mergedError,
       radioGroupErrorMessage: radioGroup?.errorMessage,
-      formDisabled: form?.disabled,
-      formReadonly: form?.readonly,
+      formDisabled: mergedDisabled,
+      formReadonly: mergedReadonly,
       hovering,
       tabIndex,
       handleHovering,
@@ -213,7 +185,24 @@ export default defineComponent({
       classes,
       handleClick,
       handleTextClick,
-      toggle,
+      select,
+      focus: (options?: FocusOptions) => {
+        if (!mergedDisabled.value) {
+          action.value?.focus(options)
+        }
+      },
+      blur: () => action.value?.blur(),
+      handleFocus(event: FocusEvent) {
+        isFocusing.value = true
+        emit('focus', event)
+        eventHandlers.value.onFocus?.(event)
+      },
+      handleBlur(event: FocusEvent) {
+        keyboard.reset()
+        isFocusing.value = false
+        emit('blur', event)
+        eventHandlers.value.onBlur?.(event)
+      },
     }
   },
 })

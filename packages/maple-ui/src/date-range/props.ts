@@ -1,79 +1,43 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
-import { props as datePickerPropsSource } from '../date/picker-props'
-import { fieldDecoratorProps } from '../field-decorator'
-import { pickerProps as pickerPropsSource } from '../picker'
-import { popupProps } from '../popup'
-import { props as timePickerPropsSource } from '../time/picker-props'
-import type { DisabledTime } from '../time/picker-props'
-import { pickProps } from '../utils/components'
-import { popupContainerProp } from '../utils/popup-container'
-import { props as dateRangePickerPropsSource } from './picker-props'
-import type { DateRangePickerPresentation, DateRangePickerType } from './picker-props'
-
-export type DateRangeType = DateRangePickerType
-export type DateRangePresentation = DateRangePickerPresentation
+import type { PropType } from 'vue'
+import { dateRangeValueProps, dateRuleProps } from '../date/core-props'
+import type { DateValue } from '../date/date-value'
+import { fieldDecoratorProps } from '../field-decorator/props'
+import { popupContainerProp, type PopupContainer } from '../utils/popup-container'
+import { props as panelProps } from './picker-props'
 
 export const props = {
-  popupContainer: popupContainerProp,
-  modelValue: {
-    type: Array as PropType<string[]>,
-    default: () => [],
-  },
-  open: {
-    type: Boolean,
-    default: undefined,
-  },
-  presentation: {
-    type: String as PropType<DateRangePresentation>,
-    default: 'picker',
-  },
-  type: {
-    type: String as PropType<DateRangeType>,
-    default: 'date',
-  },
-  showTime: Boolean,
-  useSeconds: Boolean,
-  min: String,
-  max: String,
-  disabledDate: Function as PropType<(val: string) => boolean>,
-  disabledTime: Object as PropType<DisabledTime>,
-  separator: {
-    type: String,
-    default: ' ~ ',
-  },
-  datePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof datePickerPropsSource>>>,
-    default: () => ({}),
-  },
-  pickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof pickerPropsSource>>>,
-    default: () => ({}),
-  },
-  timePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
-    default: () => ({}),
-  },
-  popupProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>>>,
-    default: () => ({}),
-  },
-  dateRangePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof dateRangePickerPropsSource>>>,
-    default: () => ({}),
-  },
-  readonly: Boolean,
-  ...pickProps(fieldDecoratorProps, [
-    'size',
-    'variant',
-    'placeholder',
-    'line',
-    'hint',
-    'textColor',
-    'focusColor',
-    'blurColor',
-    'disabled',
-    'clearable',
-  ]),
-}
+  ...dateRuleProps,
+  ...dateRangeValueProps,
+  type: panelProps.type,
+  presentation: panelProps.presentation,
 
+  open: { type: Boolean, default: undefined },
+  defaultOpen: Boolean,
+  disableConfirm: Boolean,
+  popupContainer: popupContainerProp,
+  popupProps: {
+    type: Object as PropType<Record<string, unknown> & { popupContainer?: PopupContainer }>,
+    default: () => ({}),
+  },
+  dateRangePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  datePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  timePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  pickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  inputEditable: { type: Boolean, default: true },
+  disabled: { type: [Boolean, Array] as PropType<boolean | boolean[]>, default: undefined },
+  readonly: { type: Boolean, default: undefined },
+  error: { type: Boolean, default: undefined },
+  clearable: { type: Boolean, default: true },
+  placeholder: [String, Array] as PropType<string | string[]>,
+  separator: { type: String, default: ' ~ ' },
+  size: fieldDecoratorProps.size,
+  variant: { ...fieldDecoratorProps.variant, default: 'standard' },
+  hint: fieldDecoratorProps.hint,
+  line: fieldDecoratorProps.line,
+  textColor: fieldDecoratorProps.textColor,
+  focusColor: fieldDecoratorProps.focusColor,
+  blurColor: fieldDecoratorProps.blurColor,
+}
 export type DateRangeProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type DateRangeType = NonNullable<DateRangeProps['type']>
+export type DateRangePresentation = NonNullable<DateRangeProps['presentation']>

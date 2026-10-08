@@ -1,187 +1,78 @@
 import { createApp } from 'vue'
-import { expect, test, vi } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
+import Message from '..'
 import { delay } from '../../utils/test'
-import Message from '../index'
-import VarMessage from '../Message'
+import VarMessage from '../Message.vue'
 
-test('message plugin', () => {
+afterEach(async () => {
+  Message.clear()
+  Message.resetDefaultOptions()
+  await delay(250)
+})
+
+test('message plugin registers the component and global method', () => {
   const app = createApp({}).use(Message)
   expect(app.component(VarMessage.name)).toBeTruthy()
+  expect(app.config.globalProperties.$message).toBe(Message)
 })
 
-test('message functional', async () => {
-  expect(document.body.querySelector('.mp-message')).toBeFalsy()
-
-  const { close } = Message('test message')
-
-  await delay(200)
-  expect(document.body.querySelector('.mp-message')).toBeTruthy()
-
-  close()
-  await delay(200)
-  expect(document.body.querySelector('.mp-message')).toBeFalsy()
-
-  Message.clear()
+test('message is callable and has no normal compatibility method', async () => {
+  Message('plain message')
+  await delay(50)
+  expect(document.body.querySelector('.mp-message__wrapper-default')?.textContent).toContain('plain message')
+  expect(Message.normal).toBeUndefined()
 })
 
-test('message elevation', async () => {
-  expect(document.body.querySelector('.mp-message')).toBeFalsy()
-
-  const { close } = Message({
-    content: 'test message',
-    elevation: 5,
-  })
-
-  await delay(200)
-  expect(document.body.querySelector('.mp-elevation--5')).toBeTruthy()
-
-  close()
-  await delay(200)
-  expect(document.body.querySelector('.mp-elevation--5')).toBeFalsy()
-
-  Message.clear()
+test.each([
+  ['info', 'info'],
+  ['success', 'success'],
+  ['warning', 'warning'],
+  ['error', 'danger'],
+  ['loading', 'loading'],
+])('message.%s maps to %s status', async (method, status) => {
+  Message[method]({ content: method, duration: 0 })
+  await delay(50)
+  expect(document.body.querySelector(`.mp-message__wrapper-${status}`)).toBeTruthy()
 })
 
-test('message type', async () => {
-  Message.success('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-success')).toBeTruthy()
-  Message.clear()
-  await delay(200)
-
-  Message.warning('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-warning')).toBeTruthy()
-  Message.clear()
-  await delay(200)
-
-  Message.error('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-danger')).toBeTruthy()
-  Message.clear()
-  await delay(200)
-
-  Message.info({
-    content: 'test message',
-    forbidClick: true,
-  })
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-info')).toBeTruthy()
-  Message.clear()
-  await delay(200)
-
-  Message.loading('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-loading')).toBeTruthy()
-  Message.clear()
-  await delay(200)
-
-  Message.normal('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-default')).toBeTruthy()
-  Message.clear()
-})
-
-test('message event', async () => {
-  const open = vi.fn()
-  const opened = vi.fn()
-  const close = vi.fn()
-  const closed = vi.fn()
-
-  const { close: closeMessage } = Message({
-    content: 'test message',
-    duration: 0,
-    onOpen: open,
-    onOpened: opened,
-    onClose: close,
-    onClosed: closed,
-  })
-
-  await delay(200)
-
-  closeMessage()
-
-  await delay(200)
-
-  expect(open).toHaveBeenCalledTimes(1)
-  expect(opened).toHaveBeenCalled()
-  expect(close).toHaveBeenCalledTimes(1)
-  expect(closed).toHaveBeenCalledTimes(1)
-})
-
-test('message multiple and clear', async () => {
-  Message.success('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-success')).toBeTruthy()
-
-  Message.warning('test message')
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-success')).toBeTruthy()
-  expect(document.body.querySelector('.mp-message__wrapper-warning')).toBeTruthy()
-
-  const { close } = Message.info('test message')
-  await delay(200)
-  close()
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-info')).toBeFalsy()
-  expect(document.body.querySelector('.mp-message__wrapper-success')).toBeTruthy()
-
-  Message.clear()
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__wrapper-success')).toBeFalsy()
-  expect(document.body.querySelector('.mp-message__wrapper-warning')).toBeFalsy()
-})
-
-test('message id update', async () => {
-  Message.info({
-    id: 'same-id',
-    content: 'first',
-    duration: 0,
-  })
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__content').textContent).toBe('first')
+test('same id updates one instance', async () => {
+  Message.info({ id: 1, content: 'first', duration: 0 })
+  await delay(50)
+  Message.success({ id: 1, content: 'second', duration: 0 })
+  await delay(50)
   expect(document.body.querySelectorAll('.mp-message').length).toBe(1)
-
-  Message.success({
-    id: 'same-id',
-    content: 'second',
-    duration: 0,
-  })
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__content').textContent).toBe('second')
-  expect(document.body.querySelector('.mp-message__wrapper-success')).toBeTruthy()
-  expect(document.body.querySelectorAll('.mp-message').length).toBe(1)
-
-  Message.clear()
+  expect(document.body.querySelector('.mp-message__content')?.textContent).toBe('second')
 })
 
-test('message closable', async () => {
-  Message.info({
-    content: 'closable',
-    closable: true,
-    duration: 0,
-  })
-  await delay(200)
-  expect(document.body.querySelector('.mp-message__close')).toBeTruthy()
-
-  document.body.querySelector('.mp-message__close').click()
-  await delay(200)
-  expect(document.body.querySelector('.mp-message')).toBeFalsy()
+test('queues are isolated by container and position', async () => {
+  const target = document.createElement('section')
+  document.body.appendChild(target)
+  Message({ content: 'center', position: 'center', popupContainer: target, duration: 0 })
+  Message({ content: 'bottom', position: 'bottom', popupContainer: target, duration: 0 })
+  await delay(50)
+  expect(target.querySelector('.mp-message-list-center')).toBeTruthy()
+  expect(target.querySelector('.mp-message-list-bottom')).toBeTruthy()
+  target.remove()
 })
 
-test('setDefaultOptions and resetDefaultOptions', async () => {
-  Message.setDefaultOptions({ content: 'message content', duration: 300 })
+test('close is idempotent and lifecycle callbacks run once', async () => {
+  const onOpen = vi.fn()
+  const onClose = vi.fn()
+  const onClosed = vi.fn()
+  const handle = Message({ content: 'lifecycle', duration: 0, onOpen, onClose, onClosed })
+  await delay(50)
+  handle.close()
+  handle.close()
+  await delay(250)
+  expect(onOpen).toHaveBeenCalledTimes(1)
+  expect(onClose).toHaveBeenCalledTimes(1)
+  expect(onClosed).toHaveBeenCalledTimes(1)
+})
 
-  Message()
-  await delay(16)
-  expect(document.body.querySelector('.mp-message__content').textContent).toBe('message content')
-
-  await delay(500)
-
+test('default options can be set and reset', async () => {
+  Message.setDefaultOptions({ position: 'bottom', duration: 0 })
+  Message('bottom')
+  await delay(50)
+  expect(document.body.querySelector('.mp-message-list-bottom')).toBeTruthy()
   Message.resetDefaultOptions()
-  Message({ duration: 0 })
-  await delay(16)
-
-  expect(document.body.querySelector('.mp-message__content').textContent).toBe('')
-  Message.clear()
 })

@@ -34,6 +34,6 @@ const options = computed(() => [
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-cascader v-model="multipleValue" placeholder="级联多选" :options="options" multiple tag />
+    <mp-cascader v-model="multipleValue" path-mode placeholder="级联多选" :options="options" multiple show-tags />
   </mp-space>
 </template>

@@ -7,6 +7,12 @@ const dateTimeRange = ref([])
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-date-range v-model="dateTimeRange" show-time placeholder="Select date and time range" clearable />
+    <mp-date-range
+      v-model="dateTimeRange"
+      show-time
+      :use-seconds="false"
+      placeholder="Select date and time range"
+      clearable
+    />
   </mp-space>
 </template>

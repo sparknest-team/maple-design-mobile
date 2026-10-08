@@ -246,3 +246,12 @@ import type {
 | `--mp-dropdown-menu-group-title-padding` | `8px 12px 4px` |
 | `--mp-dropdown-menu-group-title-font-size` | `var(--mp-font-size-sm)` |
 | `--mp-dropdown-menu-group-title-text-color` | `var(--mp-color-text-3)` |
+
+### 状态与时长变量
+
+禁用优先于选中、指针 hover 和键盘 active。选中后的 hover 使用独立角色，默认继承选中背景；可单独覆盖以增加 hover 反馈。Maple 保留半透明选中遮层。
+
+| Token | Default |
+| --- | --- |
+| `--mp-dropdown-menu-option-bg-selected-hover` | `var(--mp-dropdown-menu-option-selected-background)` |
+| `--mp-dropdown-menu-option-bg-disabled` | `transparent` |

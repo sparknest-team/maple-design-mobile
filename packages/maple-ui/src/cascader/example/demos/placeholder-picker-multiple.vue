@@ -36,11 +36,12 @@ const options = computed(() => [
   <mp-space direction="column" size="lg">
     <mp-cascader
       v-model="pickerMultipleValue"
+      path-mode
       placeholder="Picker 多选"
       presentation="picker"
       :options="options"
       multiple
-      tag
+      show-tags
     />
   </mp-space>
 </template>

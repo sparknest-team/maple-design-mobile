@@ -1,9 +1,19 @@
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
-import test from 'node:test'
+import test from 'vitest'
 import { MapleResolver } from '../lib/index.js'
 
 const [components, directives] = MapleResolver()
+
+test('resolves the input family through the input style module', () => {
+  for (const name of ['Input', 'InputGroup', 'InputGroupLabel', 'InputPassword']) {
+    assert.deepEqual(components.resolve(`Mp${name}`), {
+      from: '@maplejs/maple-ui',
+      name: `_${name}Component`,
+      sideEffects: ['@maplejs/maple-ui/input/style'],
+    })
+  }
+})
 
 test('resolves UI components with their styles', () => {
   assert.deepEqual(components.resolve('MpPageHeader'), {

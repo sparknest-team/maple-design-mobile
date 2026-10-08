@@ -4,7 +4,7 @@
       v-bind="{
         value: computedValue,
         id,
-        size,
+        size: mergedSize,
         variant,
         placeholder,
         ariaLabel,
@@ -13,10 +13,10 @@
         textColor,
         focusColor,
         blurColor,
-        isFocusing,
-        isError: mergedError,
-        formDisabled: mergedDisabled,
+        focused: isFocusing,
+        error: mergedError,
         disabled: mergedDisabled,
+        readonly: mergedReadonly,
         clearable: showClearBtn,
         cursor,
         composing: isComposing,
@@ -57,8 +57,8 @@
         :style="[
           textareaStyle,
           {
-            color: !mergedError ? textColor : undefined,
-            caretColor: !mergedError ? focusColor : undefined,
+            color: !mergedError && !mergedDisabled ? textColor : undefined,
+            caretColor: !mergedError && !mergedDisabled ? focusColor : undefined,
             '--mp-textarea-placeholder-color': placeholderColor,
           },
         ]"
@@ -97,7 +97,7 @@
 
 <script lang="ts">
 import type { CSSProperties } from 'vue'
-import { computed, defineComponent, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, ref, toRefs, watch } from 'vue'
 import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
 import { preventDefault } from '@maplejs/maple-shared'
 import { onSmartMounted, onWindowResize, useClientId } from '@maplejs/maple-use'
@@ -106,8 +106,10 @@ import { useFormItem } from '../form/item-provide'
 import { useForm } from '../form/provide'
 import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
+import { useInputComposition } from '../utils/input-composition'
+import { normalizeTextInputValue } from '../utils/text-input-value'
 import { textareaProps } from './props'
-import { getNativeTextareaAttrs, getSizeStyles } from './utils'
+import { getNativeTextareaAttrs, getSizeStyles, getTextareaAutoSizeStyle } from './utils'
 
 const { name, n, classes } = createNamespace('textarea')
 
@@ -123,11 +125,26 @@ export default defineComponent({
     const mirrorStyle = ref<CSSProperties>()
     const autoSizeStyle = ref<CSSProperties>()
     const isFocusing = ref(false)
-    const isComposing = ref(false)
+    const composition = useInputComposition()
+    const isComposing = composition.isComposing
     const { form } = useForm()
-    const { mergedDisabled: formItemDisabled, mergedError: formError, eventHandlers, hasOuterLabel } = useFormItem()
-    const mergedDisabled = computed(() => Boolean(form?.disabled.value || formItemDisabled.value || props.disabled))
-    const mergedReadonly = computed(() => Boolean(form?.readonly.value || props.readonly))
+    const { size, disabled, readonly, error } = toRefs(props)
+    const {
+      mergedDisabled,
+      mergedReadonly,
+      mergedSize,
+      mergedError: formError,
+      eventHandlers,
+      hasOuterLabel,
+    } = useFormItem({
+      size,
+      disabled,
+      readonly,
+      error,
+      formSize: form?.size,
+      formDisabled: form?.disabled,
+      formReadonly: form?.readonly,
+    })
     const cursor = computed(() => (mergedDisabled.value || mergedReadonly.value ? '' : 'text'))
     const mergedHint = computed(() => (hasOuterLabel.value ? false : props.hint))
 
@@ -153,7 +170,6 @@ export default defineComponent({
     const mergedError = computed(
       () =>
         formError.value ||
-        props.error ||
         Boolean(computedMaxLength.value && maxLengthErrorOnly.value && valueLength.value > computedMaxLength.value),
     )
     const maxlengthText = computed(() => {
@@ -166,16 +182,11 @@ export default defineComponent({
       () => props.clearable && !mergedReadonly.value && !mergedDisabled.value && Boolean(computedValue.value),
     )
     const placeholderColor = computed(() => {
-      if (mergedHint.value) {
+      // Leave the public CSS token inheritable unless a color prop is explicit.
+      if (mergedHint.value || mergedDisabled.value || mergedError.value) {
         return undefined
       }
-      if (mergedError.value) {
-        return 'var(--mp-field-error-color)'
-      }
-      if (isFocusing.value) {
-        return props.focusColor || 'var(--mp-field-focus-color)'
-      }
-      return props.blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))'
+      return isFocusing.value ? props.focusColor : props.blurColor
     })
 
     const mergedTextareaAttrs = computed(() => getNativeTextareaAttrs(props.textareaAttrs))
@@ -192,18 +203,13 @@ export default defineComponent({
       })
     }
 
-    const sliceValue = (value: string) =>
-      props.wordSlice?.(value, computedMaxLength.value) ?? value.slice(0, computedMaxLength.value)
-
-    const normalizeValue = (value: string) => {
-      if (computedMaxLength.value && !maxLengthErrorOnly.value && getValueLength(value) > computedMaxLength.value) {
-        return sliceValue(value)
-      }
-      return value
-    }
-
     const updateValue = (value: string) => {
-      const nextValue = normalizeValue(value)
+      const nextValue = normalizeTextInputValue(value, {
+        maxLength: computedMaxLength.value,
+        errorOnly: maxLengthErrorOnly.value,
+        wordLength: props.wordLength,
+        wordSlice: props.wordSlice,
+      })
       _value.value = nextValue
       emit('update:modelValue', nextValue)
       keepControl()
@@ -251,19 +257,17 @@ export default defineComponent({
     }
 
     function handleCompositionStart() {
-      isComposing.value = true
+      composition.start()
     }
 
     function handleCompositionEnd(ev: CompositionEvent) {
-      if (!isComposing.value) {
-        return
+      if (composition.end(ev)) {
+        processInput(ev)
       }
-      isComposing.value = false
-      processInput(ev)
     }
 
     function handleInput(ev: Event) {
-      if (!isComposing.value) {
+      if (composition.accepts(ev)) {
         processInput(ev)
       }
     }
@@ -300,30 +304,11 @@ export default defineComponent({
       }
 
       const styles = getSizeStyles(window.getComputedStyle(el.value))
-      const fontSize = Number.parseFloat(styles['font-size']) || 0
-      const lineHeight = Number.parseFloat(styles['line-height']) || fontSize * 1.5
-      const outerHeight =
-        (Number.parseFloat(styles['border-width']) || 0) * 2 +
-        (Number.parseFloat(styles['padding-top']) || 0) +
-        (Number.parseFloat(styles['padding-bottom']) || 0)
       mirrorStyle.value = styles
 
       nextTick(() => {
         const options = typeof props.autoSize === 'object' ? props.autoSize : undefined
-        const minHeight = options?.minRows ? options.minRows * lineHeight + outerHeight : 0
-        const maxHeight = options?.maxRows ? options.maxRows * lineHeight + outerHeight : 0
-        let height = mirrorEl.value?.offsetHeight ?? 0
-        let overflow: CSSProperties['overflow'] = 'hidden'
-
-        if (minHeight && height < minHeight) {
-          height = minHeight
-        }
-        if (maxHeight && height > maxHeight) {
-          height = maxHeight
-          overflow = 'auto'
-        }
-
-        autoSizeStyle.value = { height: `${height}px`, overflow }
+        autoSizeStyle.value = getTextareaAutoSizeStyle(styles, mirrorEl.value?.offsetHeight ?? 0, options)
       })
     }
 
@@ -379,6 +364,7 @@ export default defineComponent({
       id,
       computedValue,
       mergedDisabled,
+      mergedSize,
       mergedReadonly,
       isFocusing,
       isComposing,

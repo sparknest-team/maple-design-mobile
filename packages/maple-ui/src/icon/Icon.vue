@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
-import { computed, getCurrentInstance, ref, watch } from 'vue'
+import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { registeredPrefix, spinClass } from './platform'
@@ -23,6 +23,21 @@ const instance = getCurrentInstance()
 const prefixCls = createNamespace('icon').n()
 const nextName = ref<string>()
 const animateInProgress = ref(false)
+const reducedMotion = ref(false)
+let stopMotionObserver: (() => void) | undefined
+onMounted(() => {
+  if (typeof window.matchMedia !== 'function') {
+    return
+  }
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+  const update = () => {
+    reducedMotion.value = media.matches
+  }
+  update()
+  media.addEventListener?.('change', update)
+  stopMotionObserver = () => media.removeEventListener?.('change', update)
+})
+onBeforeUnmount(() => stopMotionObserver?.())
 
 const iconComponent = computed(() => {
   if (!nextName.value) {
@@ -61,11 +76,11 @@ const cls = computed(() => [
 ])
 
 watch(
-  () => props.name,
-  (newName, oldName, onCleanup) => {
+  [() => props.name, reducedMotion],
+  ([newName, reduce], [oldName], onCleanup) => {
     animateInProgress.value = false
     const duration = Math.max(0, Number(props.transition) || 0)
-    if (oldName == null || !Number.isFinite(duration) || duration === 0) {
+    if (reduce || newName === oldName || oldName == null || !Number.isFinite(duration) || duration === 0) {
       nextName.value = newName
       return
     }

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import DateRange from '..'
+import DatePanel from '../../date/DatePanel.vue'
 import { delay, trigger } from '../../utils/test'
 import VarDateRange from '../DateRange'
 
@@ -29,6 +30,8 @@ test('date-range confirm writes modelValue', async () => {
   expect(document.querySelector('.mp-picker')).toBeTruthy()
   expect(document.querySelector('.mp-date-picker')).toBeFalsy()
 
+  wrapper.getComponent(DatePanel).vm.$emit('select', ['2025-01-15', '2025-01-16'])
+  await delay(0)
   await trigger(document.querySelector('.mp-date-range__confirm-button'), 'click')
   await delay(300)
 
@@ -93,11 +96,11 @@ test('date-range clear', async () => {
     attachTo: document.body,
   })
 
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-btn').trigger('click')
   await delay(16)
 
   expect(onUpdateModelValue).toHaveBeenCalledWith([])
-  expect(onClear).toHaveBeenCalledWith([])
+  expect(onClear).toHaveBeenCalledWith()
 
   wrapper.unmount()
   document.body.innerHTML = ''

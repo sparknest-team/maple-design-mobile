@@ -1,7 +1,4 @@
-:root {
-  --mp-hover-overlay-opacity: var(--mp-opacity-hover);
-  --mp-hover-overlay-focusing-opacity: var(--mp-opacity-focus);
-}
+@import './token.less';
 
 .mp-hover-overlay {
   position: absolute;
@@ -12,7 +9,7 @@
   border-radius: inherit;
   background-color: currentColor;
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity var(--mp-hover-transition-duration);
   will-change: opacity;
   pointer-events: none;
 
@@ -22,5 +19,11 @@
 
   &--focusing {
     opacity: var(--mp-hover-overlay-focusing-opacity);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-hover-overlay {
+    transition: none;
   }
 }

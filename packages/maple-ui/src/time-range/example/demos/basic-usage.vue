@@ -6,6 +6,6 @@ const range = ref([])
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time-range v-model="range" placeholder="请选择时间范围" clearable />
+    <mp-time-range v-model="range" format="HH:mm" placeholder="请选择时间范围" clearable />
   </mp-space>
 </template>

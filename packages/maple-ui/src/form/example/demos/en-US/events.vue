@@ -3,7 +3,7 @@ import { reactive } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
 const formData = reactive({ username: '', password: '' })
-const handleSubmit = (valid) => Message(`Submit: ${valid ? 'valid' : 'invalid'}`)
+const handleSubmit = ({ errors }) => Message(`Submit: ${errors ? 'invalid' : 'valid'}`)
 const handleReset = () => Message('Form reset')
 </script>
 

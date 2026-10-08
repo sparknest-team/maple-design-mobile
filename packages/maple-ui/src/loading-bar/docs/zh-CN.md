@@ -33,12 +33,14 @@
 | `height`     | 加载条的高度       | _string \| number_ | `-` |
 | `finishDelay` ***3.3.13*** | 结束加载的延时时间(单位 ms)，可用于增加加载动画的持续时间 | _number_ | `-` |
 
-### 样式变量
+## 公开 CSS 变量
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+普通／失败进度条使用可读 content-brand／content-danger，而非 action／status 填充色：细线需要在普通表面保持可辨识。color／errorColor 选项优先于默认变量。自定义背景与颜色需要重新检查对比度，高度保留 3px。
 
-| 变量名 | 默认值                    |
-| --- |------------------------|
-| `--loading-bar-color` | `var(--color-primary)` |
-| `--loading-bar-error-color` | `var(--color-danger)`  |
-| `--loading-bar-height` | `3px`                  |
+| 变量 | 默认值 |
+| --- | --- |
+| `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-loading-bar-height` | `3px` |
+
+Teleport 后主题变量按实际 DOM 祖先继承；放在内容内部的变量不会向上传到服务创建的容器。

@@ -94,3 +94,30 @@ Popover 继承 Trigger 的定位、容器、受控状态、关闭策略和公开
 `open()`、`close()`、`resize()`、`allowClose()`、`getReference()`、`setReference()`、`focusReference()`。
 
 触发元素通过 `aria-controls`、`aria-expanded` 与面板关联。无样式定位使用 Trigger；不提供 `defaultStyle`、`popoverClass` 或 `elevation`，自定义外观使用 Token、`content-class` 或 `content-style`。
+
+## 公开 CSS 变量
+
+以下为实际 :root 默认值。业务定制优先使用组件变量；内部定位变量不属于公开 API。
+
+| 变量 | 默认值 | 意义与场景 |
+| --- | --- | --- |
+| `--mp-popover-background` | `var(--mp-sys-color-surface-overlay)` | 内容与箭头背景 |
+| `--mp-popover-text-color` | `var(--mp-sys-color-content-secondary)` | 正文前景 |
+| `--mp-popover-border-color` | `var(--mp-sys-color-border-default)` | 内容与箭头边框颜色 |
+| `--mp-popover-border-width` | `1px` | 内容与箭头边框宽度 |
+| `--mp-popover-border-radius` | `var(--mp-sys-radius-md)` | 内容圆角 |
+| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | 内容阴影，保留平台差异 |
+| `--mp-popover-arrow-z-index` | `1` | 箭头在当前浮层内的堆叠层级 |
+| `--mp-popover-padding-horizontal` | `var(--mp-sys-space-7)` | 内容横向内边距 |
+| `--mp-popover-padding-vertical` | `var(--mp-sys-space-6)` | 内容纵向内边距 |
+| `--mp-popover-font-size` | `var(--mp-sys-font-size-md)` | 内容字号 |
+| `--mp-popover-line-height` | `var(--mp-line-height)` | 内容行高 |
+| `--mp-popover-title-text-color` | `var(--mp-sys-color-content-primary)` | 标题前景 |
+| `--mp-popover-title-font-size` | `var(--mp-sys-font-size-lg)` | 标题字号 |
+| `--mp-popover-title-font-weight` | `var(--mp-sys-font-weight-medium)` | 标题字重 |
+| `--mp-popover-title-content-gap` | `var(--mp-sys-space-2)` | 标题与正文间距 |
+| `--mp-popover-animation-duration` | `var(--mp-sys-motion-duration-standard)` | 组件入退场时长；reduced-motion 可覆盖 |
+
+Maple 暗色保留圆角 2px，阴影保留平台差异。内容与箭头共享背景／边框变量，不再受 Trigger 样式加载顺序影响。
+
+使用 Teleport 时，变量需放在实际 popup 的作用域中（例如通过 `popup-style`）；触发按钮上的变量不会自动继承到浮层。

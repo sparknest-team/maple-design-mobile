@@ -1,13 +1,17 @@
 # Watermark
 
-### Intro
-
-Adding text or image watermarks to a certain area of the page can be used to identify copyright and prevent information theft.
+Add text or image watermarks to a page or local region. The component responds to prop and theme changes automatically.
 
 ### Text Watermark
 
 ```demo
 ../example/demos/text-watermark.vue
+```
+
+### Multiline Text
+
+```demo
+../example/demos/multiline.vue
 ```
 
 ### Custom Gap
@@ -40,55 +44,46 @@ Adding text or image watermarks to a certain area of the page can be used to ide
 ../example/demos/fullscreen.vue
 ```
 
-### Watermark Content Slot
-
-```demo
-../example/demos/custom-content-slot.vue
-```
-
 ## API
 
 ### Props
 
-| Prop       | Description   | Type   | Default   |
-| ------- | --- |----------------|-----------|
-| `width`    | Watermark width       | _number_       | `100`   |
-| `height`   | Watermark height       | _number_       | `100`   |
-| `content`  | Watermark text content    | _string_       | `-`   |
-| `image`    | The path of the image watermark has a higher priority than `content`    | _string_       | `-`   |
-| `rotate`   | Watermark rotation angle           | _number_       | `-22`   |
-| `offset` | Offset from container top-left `[x, y]` | _[number, number]_ | `[0, 0]` |
-| `gap` | Watermark spacing `[x, y]` | _[number, number]_ | `[0, 0]` |
-| `z-index`  | Watermark z-index      | _number \| string_       | `10`   |
-| `alpha`  | Watermark opacity         | _number \| string_      | `0.5`   |
-| `fullscreen`    | Whether to display watermark in fullscreen mode        | _boolean_       | `false`   |
-| `font`    | Watermark text style    | _WatermarkFont_ | `-` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `content` | One or more text lines; also used when an image fails | `string \| string[]` | `-` |
+| `image` | Image URL, preferred over text | `string` | `-` |
+| `width` | Mark width; measured from content by default | `number` | `-` |
+| `height` | Mark height; measured from content by default | `number` | `-` |
+| `gap` | Horizontal and vertical spacing | `[number, number]` | `[90, 90]` |
+| `offset` | First mark offset; defaults to half the gap | `[number, number]` | `[gap[0] / 2, gap[1] / 2]` |
+| `rotate` | Rotation in degrees | `number` | `-22` |
+| `font` | Text style | `WatermarkFont` | `-` |
+| `z-index` | Layer z-index | `number` | `6` |
+| `alpha` | Overall opacity in the `0..1` range | `number` | `1` |
+| `anti-tamper` | Restore a removed or modified layer | `boolean` | `true` |
+| `grayscale` | Render in grayscale | `boolean` | `false` |
+| `repeat` | Repeat the mark | `boolean` | `true` |
+| `staggered` | Stagger repeated rows | `boolean` | `true` |
+| `fullscreen` | Cover the viewport | `boolean` | `false` |
 
-### WatermarkFont 
+### WatermarkFont
 
-| Prop              | Description       | Type     | Default   |
-| --- |----------------------| --- | --- |
-| `font-size`    |    Font size    | _number_      | `14`   |
-| `font-variant`  |    Font variant    | _string_      | `normal`   |
-| `font-weight`    |    Font weight   | _string_      | `normal`   |
-| `font-style`   |    Font style   | _string_      | `normal`   |
-| `font-family`  |    Font family    | _string_      | `-`   |
+`WatermarkFont` supports `color`, `fontSize`, `fontFamily`, `fontStyle`, `fontWeight`, `textAlign`, and `lineHeight`.
+
+### Events
+
+`error` receives `{ source: 'image' | 'canvas'; error: unknown }` when image loading or Canvas rendering fails.
 
 ### Methods
 
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `resize` | This method can be called for redrawing when the watermark attribute changes | `-` | `-` |
+`redraw(): Promise<void>` regenerates the watermark using the current props.
 
 ### Slots
 
-| Name | Description | SlotProps |
-| --- |----------------------| --- |
-| `content` | The content of HTML `Watermark`, only supports inline styles, does not support passing in self closing tags, priority higher than `content` or `image` attributes | `-` |
+The default slot contains the page content covered by the watermark.
 
 ### Style Variables
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
 
 | Variable | Default |
-| ------ | -------- |
-| `--watermark-content-color` | `#808080`  |
+| --- | --- |
+| `--mp-watermark-content-color` | `rgba(0, 0, 0, 0.15)` |

@@ -39,7 +39,15 @@
     "check:rate": "node checks/rate-same-source.mjs",
     "check:ripple": "node checks/ripple-same-source.mjs",
     "check:lightweight-feedback": "node checks/lightweight-feedback-same-source.mjs",
-    "check:style-vars": "node checks/style-vars-contract.mjs"
+    "check:input": "node checks/input-same-source.mjs",
+    "check:selection-field": "node checks/selection-field-same-source.mjs",
+    "check:selection-presentations": "node checks/selection-presentations-same-source.mjs",
+    "check:auto-complete": "node checks/auto-complete-same-source.mjs",
+    "check:time-rules": "node checks/time-rules-same-source.mjs",
+    "check:form-kernel": "node checks/form-kernel-same-source.mjs",
+    "check:style-vars": "node checks/style-vars-contract.mjs",
+    "check:date-family": "node checks/date-family-same-source.mjs",
+    "check:scroll-text": "node checks/scroll-text-same-source.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",

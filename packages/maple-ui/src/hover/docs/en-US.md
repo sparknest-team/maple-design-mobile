@@ -37,3 +37,17 @@ Considering the differences in `hover` effects on different platforms, the hover
 // playground-ignore
 <mp-paper v-hover:mobile="{ color: '#fff' }"">HOVER</mp-paper>
 ```
+### Governed defaults
+
+| Token | Default |
+| --- | --- |
+| `--mp-hover-overlay-opacity` | `0.04` |
+| `--mp-hover-overlay-focusing-opacity` | `0.12` |
+
+### Motion tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-hover-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
+
+Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes skip delays and cancel pending transitions. Ripple duration tokens control CSS only: its 250ms lifecycle timers are unchanged, so keep each visual duration at or below 250ms. Custom animation classes remain the caller’s responsibility.

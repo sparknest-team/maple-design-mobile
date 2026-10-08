@@ -1,2 +1,19 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './watermark';
+:root {
+  --mp-watermark-content-color: rgba(0, 0, 0, 0.15);
+}
+
+.mp-watermark {
+  position: relative;
+  overflow: hidden;
+
+  &__layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-repeat: repeat;
+
+    &--fullscreen {
+      position: fixed;
+    }
+  }
+}

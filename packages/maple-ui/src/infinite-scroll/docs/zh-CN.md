@@ -4,12 +4,25 @@
 
 
 
-### basic
+### 基础用法
 
 ```demo
 ../example/demos/basic.vue
 ```
-## 基础用法
+
+### 失败重试
+
+```demo
+../example/demos/error.vue
+```
+
+### 自定义状态
+
+```demo
+../example/demos/custom-status.vue
+```
+
+## 使用说明
 
 ```html
 <script setup lang="ts">
@@ -115,12 +128,9 @@ async function refresh() {
 
 | 变量名                                    | 默认值                   |
 | ----------------------------------------- | ------------------------ |
-| `--mp-infinite-scroll-loading-height`     | `50px`                   |
-| `--mp-infinite-scroll-finished-height`    | `50px`                   |
-| `--mp-infinite-scroll-error-height`       | `50px`                   |
-| `--mp-infinite-scroll-loading-color`      | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-finished-color`     | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-error-color`        | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-loading-font-size`  | `var(--mp-font-size-md)` |
-| `--mp-infinite-scroll-finished-font-size` | `var(--mp-font-size-md)` |
-| `--mp-infinite-scroll-error-font-size`    | `var(--mp-font-size-md)` |
+| `--mp-infinite-scroll-status-min-height`  | `50px`                   |
+| `--mp-infinite-scroll-status-padding`     | `12px 0`                 |
+| `--mp-infinite-scroll-status-color`       | `var(--mp-color-text-3)` |
+| `--mp-infinite-scroll-status-font-size`   | `var(--mp-font-size-md)` |
+| `--mp-infinite-scroll-loading-gap`        | `8px`                    |
+| `--mp-infinite-scroll-error-color`        | `var(--mp-color-danger)` |

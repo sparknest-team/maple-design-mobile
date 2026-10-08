@@ -139,3 +139,106 @@ Cedar 原 loading-type=default/fill/line 改为 loading-mode=default/fill/line�
 ## 类型
 
 ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
+
+## CSS 变量职责与完整默认值
+
+status-color 只负责实心背景，status-text-color 负责其对比前景；历史命名 status-icon-color 实际控制 text/outline/tonal 及 default icon-container 的可读文字和图标，status-icon-container-color 控制对应浅色表面。定制时应成对覆盖。disabled 优先于 color/text-color 属性；loading 默认继承 currentColor，显式 loading-color 优先。焦点环独立使用 content-brand。
+
+state-opacity-hover/active（0.08/0.12）用于实心、tonal 和图标容器；plain-state-opacity-hover/active（0.5/1）用于 text/outline 的浅色反馈。status-state-layer-color 控制实心反馈色；state-layer-color 控制 tonal/图标容器反馈色。active 高于 hover，disabled/loading 禁止反馈，覆盖层不遮挡前景。internal-button-state-* 是私有变量，不支持业务定制。自定义配色、瞬时 ripple、禁用对比度不在默认对比度保证内。
+
+下表是 :root 默认值而非主题覆盖。暗色 tertiary 的文字改为 on-bright、覆盖层改为 on-dark；Maple 品牌浅色 primary 的文字改为 on-dark、覆盖层改为 on-bright。尺寸与 loading 动效保留现有组件值，不属于本阶段统一范围。
+
+| 变量 | :root 默认值 |
+| --- | --- |
+| `--mp-button-default-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-primary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
+| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
+| `--mp-button-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
+| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-default-icon-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-primary-icon-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-button-danger-icon-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-button-success-icon-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-button-warning-icon-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-button-info-icon-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-button-default-icon-container-color` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-button-primary-icon-container-color` | `rgb(var(--mp-primary-1))` |
+| `--mp-button-danger-icon-container-color` | `rgb(var(--mp-danger-1))` |
+| `--mp-button-success-icon-container-color` | `rgb(var(--mp-success-1))` |
+| `--mp-button-warning-icon-container-color` | `rgb(var(--mp-warning-1))` |
+| `--mp-button-info-icon-container-color` | `rgb(var(--mp-blue-1))` |
+| `--mp-button-disabled-color` | `var(--mp-color-disabled)` |
+| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-button-mini-padding` | `0 var(--mp-sys-space-4)` |
+| `--mp-button-small-padding` | `0 var(--mp-sys-space-5)` |
+| `--mp-button-normal-padding` | `0 var(--mp-sys-space-6)` |
+| `--mp-button-large-padding` | `0 22px` |
+| `--mp-button-xl-padding` | `0 28px` |
+| `--mp-button-round-padding` | `var(--mp-sys-space-3)` |
+| `--mp-button-mini-height` | `20px` |
+| `--mp-button-small-height` | `28px` |
+| `--mp-button-normal-height` | `36px` |
+| `--mp-button-large-height` | `44px` |
+| `--mp-button-xl-height` | `52px` |
+| `--mp-button-mini-font-size` | `var(--mp-font-size-xs)` |
+| `--mp-button-small-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-button-normal-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-button-large-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-button-xl-font-size` | `var(--mp-sys-font-size-xl)` |
+| `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
+| `--mp-button-line-height` | `1.2` |
+| `--mp-button-stacked-height` | `48px` |
+| `--mp-button-focus-width` | `2px` |
+| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-button-focus-offset` | `2px` |
+| `--mp-button-icon-container-padding` | `var(--mp-sys-space-3)` |
+| `--mp-button-loading-line-height` | `3px` |
+| `--mp-button-loading-line-width` | `40%` |
+| `--mp-button-loading-duration` | `1s` |
+| `--mp-button-loading-static-opacity` | `0.5` |
+| `--mp-button-secondary-icon-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-secondary-icon-container-color` | `rgb(var(--mp-gray-2))` |
+| `--mp-button-tertiary-icon-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-tertiary-icon-container-color` | `rgb(var(--mp-gray-1))` |
+| `--mp-button-mini-stacked-height` | `36px` |
+| `--mp-button-small-stacked-height` | `44px` |
+| `--mp-button-normal-stacked-height` | `var(--mp-button-stacked-height)` |
+| `--mp-button-large-stacked-height` | `56px` |
+| `--mp-button-xl-stacked-height` | `64px` |
+| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
+| `--mp-button-stacked-padding` | `var(--mp-sys-space-2)` |
+| `--mp-button-stacked-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-button-group-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-button-default-state-layer-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-primary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-info-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-success-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-warning-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-danger-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-secondary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
+| `--mp-button-state-opacity-hover` | `0.08` |
+| `--mp-button-state-opacity-active` | `0.12` |
+| `--mp-button-plain-state-opacity-hover` | `0.5` |
+| `--mp-button-plain-state-opacity-active` | `1` |
+
+### 动效变量
+
+内置动效遵循 `prefers-reduced-motion: reduce`；减少动效不会阻止加载状态或关闭事件更新。
+
+| Token | Default |
+| --- | --- |
+| `--mp-button-transition-duration` | `var(--mp-sys-motion-duration-standard)` |

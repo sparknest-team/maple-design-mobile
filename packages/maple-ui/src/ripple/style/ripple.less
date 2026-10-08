@@ -1,13 +1,10 @@
-:root {
-  --mp-ripple-cubic-bezier: cubic-bezier(0.68, 0.01, 0.62, 0.6);
-  --mp-ripple-color: currentColor;
-}
+@import './token.less';
 
 .mp-ripple {
   position: absolute;
   transition:
-    transform 0.2s var(--mp-ripple-cubic-bezier),
-    opacity 0.14s linear;
+    transform var(--mp-ripple-expand-duration) var(--mp-ripple-cubic-bezier),
+    opacity var(--mp-ripple-fade-duration) linear;
   top: 0;
   left: 0;
   border-radius: 50%;
@@ -16,4 +13,11 @@
   pointer-events: none;
   z-index: 100;
   background-color: var(--mp-ripple-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-ripple {
+    transition: none;
+    opacity: 0 !important;
+  }
 }

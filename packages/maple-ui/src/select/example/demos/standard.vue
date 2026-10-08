@@ -49,35 +49,35 @@ const keyOptions = computed(() => [
 
 <template>
   <mp-space direction="column" :size="['3vmin', 0]">
-    <mp-select v-model="standardValue" placeholder="请选择一个选项">
+    <mp-select v-model="standardValue" variant="standard" placeholder="请选择一个选项">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select v-model="standardValue2" placeholder="文本关联值">
+    <mp-select v-model="standardValue2" variant="standard" placeholder="文本关联值">
       <mp-option label="吃饭" :value="1" />
       <mp-option label="睡觉" :value="2" />
     </mp-select>
     <div class="relation">当前选择的是: {{ standardValue2 }}</div>
-    <mp-select v-model="standardValue3" placeholder="只读" readonly>
+    <mp-select v-model="standardValue3" variant="standard" placeholder="只读" readonly>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select v-model="standardValue4" placeholder="禁用" disabled>
+    <mp-select v-model="standardValue4" variant="standard" placeholder="禁用" disabled>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select v-model="standardValue5" placeholder="可清除" clearable>
+    <mp-select v-model="standardValue5" variant="standard" placeholder="可清除" clearable>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select v-model="standardValue6" placeholder="使用插槽自定义清除图标" clearable>
+    <mp-select v-model="standardValue6" variant="standard" placeholder="使用插槽自定义清除图标" clearable>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <template #clear-icon="{ clear }">
         <m-icon-github class="clear-icon" @click="clear" />
       </template>
     </mp-select>
-    <mp-select v-model="standardValue7" placeholder="自定义图标">
+    <mp-select v-model="standardValue7" variant="standard" placeholder="自定义图标">
       <template #default>
         <mp-option label="吃饭">
           <m-icon-cake-variant class="selected-icon" />
@@ -103,7 +103,7 @@ const keyOptions = computed(() => [
         <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
-    <mp-select v-model="standardValue8" placeholder="自定义图标尺寸">
+    <mp-select v-model="standardValue8" variant="standard" placeholder="自定义图标尺寸">
       <template #default>
         <mp-option label="吃饭">
           <m-icon-cake-variant class="selected-icon" />
@@ -129,26 +129,33 @@ const keyOptions = computed(() => [
         <m-icon-chevron-down :transition="300" :class="{ 'arrow-icon-rotate': focus }" />
       </template>
     </mp-select>
-    <mp-select v-model="standardValue9" placeholder="多选" multiple>
+    <mp-select v-model="standardValue9" variant="standard" placeholder="多选" multiple>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select v-model="standardValue10" placeholder="标签风格的多选" tag multiple>
+    <mp-select v-model="standardValue10" variant="standard" placeholder="标签风格的多选" show-tags multiple>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select v-model="standardValue13" placeholder="小尺寸">
+    <mp-select v-model="standardValue13" variant="standard" placeholder="小尺寸">
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
     </mp-select>
-    <mp-select v-model="standardValue14" placeholder="选项式 API" :options="options" />
-    <mp-select v-model="standardValue15" placeholder="选项式 API（多选）" :options="options" multiple />
+    <mp-select v-model="standardValue14" variant="standard" placeholder="选项式 API" :options="options" />
+    <mp-select
+      v-model="standardValue15"
+      variant="standard"
+      placeholder="选项式 API（多选）"
+      :options="options"
+      multiple
+    />
     <mp-select
       v-model="standardValue16"
+      variant="standard"
       placeholder="自定义字段"
       :options="keyOptions"
       :field-names="{ label: 'name', value: 'id' }"

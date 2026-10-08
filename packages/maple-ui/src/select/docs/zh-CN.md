@@ -1,8 +1,23 @@
 # 选择框
 
+### 异步设备与 ID 回显
+
+```demo
+../example/demos/async-devices.vue
+```
+
 ### 介绍
 
 通过下拉菜单展示并选择内容。
+
+
+### 同名选项
+
+选项可以具有相同的 label，但 value 必须唯一。删除标签按 value 定位，不按标题匹配。以下三种展示方式删除第二个“设备”都只会移除 ID 2。
+
+```demo
+../example/demos/same-label.vue
+```
 
 ### 标准外观
 
@@ -22,7 +37,7 @@
 
 
 
-> Picker 模式仅支持 `options` 属性方式传入选项，插槽方式传入的 `<mp-option>` 暂不支持。
+
 
 ```demo
 ../example/demos/picker.vue
@@ -48,8 +63,7 @@
 <template>
   <mp-select
     presentation="picker"
-    multiple
-    tag
+    multiple show-tags
     clearable
     placeholder="请选择多个选项"
     v-model="pickerMultiple"
@@ -66,163 +80,111 @@
 
 
 
-> List 模式仅支持 `options` 属性方式传入选项，插槽方式传入的 `<mp-option>` 暂不支持。
+
 
 ```demo
 ../example/demos/list.vue
 ```
 
+
+### 展示与提交规则
+
+Menu 即选即提交。List 单选即选即提交，多选编辑草稿；Picker 单选、多选都编辑草稿。确认只提交一次；取消、遮罩关闭、Escape、切换展示方式都丢弃草稿。外部更新 modelValue 优先于草稿。Cedar 仅支持 Menu；Maple 在独立复制的控制器与 Menu 上增加 List、Picker 扩展，不共享运行时或实例。
+
 ## API
 
-### 属性
+### Select 属性
 
-#### Select Props
+分别使用 `v-model`、`v-model:open` 和 `v-model:input-value` 控制选中值、展开状态和搜索词。单选清空为 `''`，多选为 `[]`；Select 存在真实空字符串选项时，清空值为 `undefined`。
 
-| 参数                        | 说明                                                | 类型                                       | 默认值      |
-| --------------------------- | --------------------------------------------------- | ------------------------------------------ | ----------- |
-| `v-model`                   | 绑定的值                                            | _any \| any[]_                             | `-`         |
-| `size`                      | 选择框尺寸，可选值 `xs` `sm` `md` `lg` `xl`         | _ComponentSize_                            | `md`        |
-| `variant`                   | 选择框风格, 可选值为 `filled` `outline` `standard` | _string_                                   | `standard`  |
-| `presentation` _**3.18.0**_ | 展示模式，可选值为 `menu` `picker` `list`           | _string_                                   | `menu`      |
-| `show` _**3.18.0**_         | 显隐受控                                            | _boolean_                                  | `undefined` |
-| `placeholder`               | 占位符                                              | _string_                                   | `-`         |
-| `multiple`                  | 是否开启多选                                        | _boolean_                                  | `false`     |
-| `offset-y`                  | 下拉菜单的垂直偏移量                                | _string \| number_                         | `0`         |
-| `tag`                       | 是否使用标签风格（仅限多选）                        | _boolean_                                  | `false`     |
-| `line`                      | 是否显示分割线                                      | _boolean_                                  | `true`      |
-| `hint`                      | 是否使用占位符作为提示                              | _boolean_                                  | `true`      |
-| `text-color`                | 文字颜色                                            | _string_                                   | `-`         |
-| `focus-color`               | 聚焦时的主要颜色                                    | _string_                                   | `-`         |
-| `blur-color`                | 失焦时的主要颜色                                    | _string_                                   | `-`         |
-| `readonly`                  | 是否只读                                            | _boolean_                                  | `false`     |
-| `disabled`                  | 是否禁用                                            | _boolean_                                  | `false`     |
-| `clearable`                 | 是否可清除                                          | _boolean_                                  | `false`     |
-| `options` _**3.3.4**_       | 指定可选项                                          | _SelectOption[]_                           | `[]`        |
-| `field-names`               | 自定义 `options` 字段映射                           | _{ label?, value?, children?, disabled? }_ | `-`         |
-| `picker-props` _**3.18.0**_ | picker 模式透传给 `mp-picker` 的属性                | _Partial\<PickerProps\>_                   | `{}`        |
-| auto-fit-popup-width | 菜单是否与触发框等宽；false 时按内容自适应（菜单展示模式）。 | `boolean` | `true` |
-| `popup-props` _**3.18.0**_  | 透传给弹窗的属性                                    | _Partial\<PopupProps\>_                    | `{}`        |
-
-校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
-
-#### SelectOption
-
-| 参数       | 说明       | 类型                                                                         | 默认值 |
-| ---------- | ---------- | ---------------------------------------------------------------------------- | ------ |
-| `label`    | 选项的标签 | _string \| VNode \| (option: SelectOption, selected: boolean) => VNodeChild_ | `-`    |
-| `value`    | 选项的值   | _any_                                                                        | `-`    |
-| `disabled` | 是否禁用   | _boolean_                                                                    | `-`    |
-
-#### Option Props
-
-| 参数                 | 说明             | 类型      | 默认值  |
-| -------------------- | ---------------- | --------- | ------- |
-| `label`              | 选项显示的文本   | _any_     | `-`     |
-| `value`              | 选项绑定的值     | _any_     | `-`     |
-| `disabled`           | 是否禁用         | _boolean_ | `false` |
-| `ripple` _**3.8.0**_ | 是否启用水波效果 | _boolean_ | `true`  |
-
-### 方法
-
-#### Select Methods
-
-| 方法名  | 说明 | 参数 | 返回值 |
-| ------- | ---- | ---- | ------ |
-| `focus` | 聚焦 | `-`  | `-`    |
-| `blur`  | 失焦 | `-`  | `-`    |
-
-### 事件
-
-#### Select Events
-
-| 事件名   | 说明       | 参数                  |
-| -------- | ---------- | --------------------- |
-| `focus`  | 聚焦时触发 | `event: Event`        |
-| `blur`   | 失焦时触发 | `event: Event`        |
-| `click`  | 点击时触发 | `event: Event`        |
-| `clear`  | 清除时触发 | `value: any \| any[]` |
-| `close`  | 关闭时触发 | `value: any[]`        |
-| `change` | 更新时触发 | `value: any \| any[]` |
-
-### 插槽
-
-#### Select Slots
-
-| 插槽名       | 说明           | 参数                                                                     |
-| ------------ | -------------- | ------------------------------------------------------------------------ |
-| `selected`   | 选择区域的内容 | `-`                                                                      |
-| `prefix`     | 前缀           | `-`                                                                      |
-| `clear-icon` | 清除图标       | `clear: (e: Event) => void` 清除函数(在使用插槽时, 可用于清除选择框内容) |
-| `suffix`     | 后缀           | `-`                                                                      |
-| `arrow-icon` | 箭头图标       | `focus: boolean` 是否处于聚焦状态, `menu-open: boolean` 是否菜单被打开   |
-
-#### Option Slots
-
-| 插槽名    | 说明           | 参数                         |
-| --------- | -------------- | ---------------------------- |
-| `default` | 选项显示的内容 | `selected: boolean` 是否选中 |
-
-### 样式变量
-
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-#### Select Variables
-
-| 变量名                                        | 默认值                                                       |
-| --------------------------------------------- | ------------------------------------------------------------ |
-| `--mp-field-control-text-color`                       | `#555`                                                       |
-| `--mp-field-error-color`                      | `var(--mp-color-danger)`                                     |
-| `--mp-field-blur-color`                       | `#888`                                                       |
-| `--mp-field-focus-color`                      | `var(--mp-color-primary)`                                    |
-| `--mp-field-placeholder-text-color`           | `var(--mp-field-blur-color)`                                 |
-| `--mp-field-control-text-color-disabled`              | `var(--mp-color-text-disabled)`                              |
-| `--mp-internal-field-size-placeholder`                 | `16px`                                                       |
-| `--mp-field-icon-size`                        | `20px`                                                       |
-| `--mp-field-border-radius`                    | `4px`                                                        |
-| `--mp-field-variant-standard-line-size`       | `1px`                                                        |
-| `--mp-field-variant-standard-line-size-focus` | `2px`                                                        |
-| `--mp-field-variant-filled-background`                | `var(--mp-color-fill-2)`                                     |
-| `--mp-field-size-xs-height`                   | `32px`                                                       |
-| `--mp-field-size-sm-height`                   | `40px`                                                       |
-| `--mp-field-size-md-height`                   | `48px`                                                       |
-| `--mp-field-size-lg-height`                   | `56px`                                                       |
-| `--mp-internal-field-size-xl-height`                   | `64px`                                                       |
-| `--select-popup-bg`                           | `var(--color-fill-2)`                                        |
-| `--select-popup-padding-vertical`             | `6px`                                                        |
-| `--select-popup-max-height`                   | `278px`                                                      |
-| `--select-popup-border-radius`                | `2px`                                                        |
-| `--select-label-font-size`                    | `16px`                                                       |
-| `--select-tags-margin`                        | `-5px 0 0 0`                                                 |
-| `--select-tags-padding`                       | `2px 0`                                                      |
-| `--select-tag-margin`                         | `5px 5px 0 0`                                                |
-| `--select-arrow-size`                         | `20px`                                                       |
-| `--select-standard-menu-margin`               | `calc(var(--mp-internal-field-size-placeholder) * 0.75 + 14px) 0 0 0` |
-
-#### Option Variables
-
-| 变量名                         | 默认值                               |
-| ------------------------------ | ------------------------------------ |
-| `--option-height`              | `38px`                               |
-| `--option-padding`             | `0 12px`                             |
-| `--option-font-size`           | `16px`                               |
-| `--option-selected-background` | `var(--input-decorator-focus-color)` |
-| `--option-text-color`          | `#555`                               |
-
-## Option
-
-### API
-
-#### 属性
-
-| 参数 | 说明 | 类型 | 默认值 |
+| 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `label` | 选项显示的文本 | _any_ | `-` |
-| `value` | 选项绑定的值 | _any_ | `-` |
-| `disabled` | 是否禁用 | _boolean_ | `false` |
-| `ripple` ***3.8.0***  | 是否启用水波效果 | _boolean_ | `true` |
+| `model-value / default-value` | 受控值 / 非受控初始值 | `Value` | `单选 ''，多选 []` |
+| `open / default-open` | 受控展开 / 默认展开 | `boolean` | `undefined / false` |
+| `input-value / default-input-value` | 搜索文本，独立于选中值 | `string` | `undefined / ''` |
+| `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
+| `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize` | `md` |
+| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FormControlVariant` | `filled` |
+| `disabled / readonly / error` | 未设置时继承表单；显式 false 可覆盖 | `boolean` | `undefined` |
+| `placeholder` | 占位文本 | `string` | `—` |
+| `hint / line` | 浮动提示 / standard 变体下划线 | `boolean` | `true` |
+| `text-color / focus-color / blur-color` | 字段颜色 | `string` | `—` |
+| `loading` | 加载状态；禁止选择和确认 | `boolean` | `false` |
+| `show-tags` | 多选值以标签展示；false 改用分隔文本 | `boolean` | `true` |
+| `separator` | show-tags=false 时的多选分隔符 | `string` | `,` |
+| `text-align` | left、center、right | `string` | `left` |
+| `max-tag-count` | 标签数量上限，0 不限制 | `number` | `0` |
+| `tag-nowrap` | 标签内容不换行 | `boolean` | `false` |
+| `popup-container` | 选择器、元素、返回元素的函数或 false（原地渲染） | `PopupContainer` | `—` |
+| `trigger-props` | Menu 的 Trigger 属性；展开状态由字段控制 | `TriggerProps` | `—` |
+| `virtual-list-props` | Menu / List 的虚拟列表参数 | `VirtualListProps` | `—` |
+| `search-delay` | search 事件防抖时长（毫秒） | `number` | `500` |
+| `format-label` | 格式化已选标签；VNode 使用 label 插槽 | `function` | `—` |
+| `clearable` | 允许清除，保留禁用的已选项 | `boolean` | `true` |
+| `options` | 原始值、对象、分组均支持；三种展示使用同一数据源 | `SelectOption[]` | `[]` |
+| `field-names` | value、label、disabled、tagProps、render 字段映射；对象值须有唯一标识字段 | `SelectFieldNames` | `—` |
+| `filterable` | 开启搜索，可设置 retainInputValue | `boolean 或 { retainInputValue?: boolean }` | `单选 false / 多选 true` |
+| `filter-option` | false 关闭本地过滤；函数接收搜索词和原始选项 | `boolean 或 (input, option) => boolean` | `true` |
+| `creatable` | 允许创建不存在的选项 | `boolean` | `false` |
+| `fallback-option` | 异步选项未到达时反显值，或返回完整回退选项 | `boolean 或 (value) => SelectOptionData` | `true` |
+| `show-extra-options` | 菜单中展示回退/创建选项 | `boolean` | `true` |
+| `limit` | 多选数量上限，0 不限制 | `number` | `0` |
+| `auto-fit-popup-width` | Menu 与字段等宽 | `boolean` | `true` |
+| `default-active-first-option` | 默认激活首个可用选项（不会自动提交） | `boolean` | `true` |
+| `unmount-on-close` | 关闭 Menu 后销毁内容 | `boolean` | `false` |
+| `scrollbar` | Menu / List 滚动条配置 | `boolean 或 ScrollbarProps` | `true` |
+| `show-header-on-empty / show-footer-on-empty` | 空状态仍展示 header / footer | `boolean` | `false` |
+| `presentation` | 展示方式 | `menu / list / picker` | `menu` |
+| `picker-props` | 滚轮外观与工具条文案；值、列、字段映射和工具条由扩展接管 | `PickerProps` | `{}` |
+| `popup-props` | 弹层外观；展开状态、底部位置和挂载时机由扩展接管 | `PopupProps` | `{}` |
 
-### 插槽
+### 事件与方法
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 选项显示的内容 | `selected: boolean` 是否选中 |
+- `update:modelValue`、`change(value)`：提交时触发，编辑草稿不触发。
+- `update:open`、`open-change(open)`：请求改变展开状态。
+- `update:inputValue`、`input-value-change(text)`、`search(text)`：搜索状态。
+- `focus(event)`、`blur(event)`、`clear(event)`：原生字段事件；只有字段所有者通知 Form。
+- 方法：`focus()`、`blur()`。
+
+Select 还提供 `remove(value)`、`exceed-limit(value, event)`、`dropdown-scroll(event)`、`dropdown-reach-bottom(event)`。
+
+### 插槽与选项数据
+
+使用 `label({ data })` 自定义已选标签，`selected` 替换整个已选区域。还支持 `prefix`、`suffix`、`clear-icon({ clear })`、`arrow-icon`、`loading-icon`、`search-icon`、`empty`、`option({ data })`。
+
+选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
+
+Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option / Optgroup`。Option 属性为 `value`、`label`、`disabled`、`tagProps`、`index`；默认插槽提供 `selected`。分组数据为 `{ isGroup: true, label, options }`。Maple 的 List、Picker 同样支持插槽选项；Picker 展示选项的纯文本标签。
+
+### CSS 变量
+
+| Token | Default |
+| --- | --- |
+| `--mp-select-popup-max-height` | `200px` |
+| `--mp-select-popup-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` |
+| `--mp-select-popup-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-select-popup-bg` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-select-popup-border-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-select-popup-box-shadow` | `0 4px 10px rgb(0 0 0 / 10%)` |
+| `--mp-select-popup-option-height` | `36px` |
+| `--mp-select-popup-option-font-weight-selected` | `var(--mp-sys-font-weight-medium)` |
+| `--mp-select-popup-option-padding-horizontal` | `var(--mp-sys-space-5)` |
+| `--mp-select-popup-option-bg` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` |
+| `--mp-select-popup-option-bg-selected` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-select-popup-option-bg-disabled` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-select-popup-option-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` |
+| `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-content-primary)` |
+| `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-select-popup-group-title-height` | `20px` |
+| `--mp-select-popup-group-title-padding-horizontal` | `var(--mp-sys-space-5)` |
+| `--mp-select-popup-group-title-padding-top` | `var(--mp-sys-space-4)` |
+| `--mp-select-popup-group-title-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-select-popup-group-title-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-select-popup-option-suffix-icon-margin-left` | `var(--mp-sys-space-5)` |
+| `--mp-select-popup-loading-min-height` | `50px` |
+| `--mp-select-popup-option-icon-margin-right` | `var(--mp-sys-space-4)` |
+
+单选和多选选项统一使用 popup-option-padding-horizontal。组件没有隐式搜索高亮 DOM；自定义选项插槽负责其高亮片段样式。已删除无效的 multi-popup-option-padding-horizontal 与 popup-option-highlight-* 变量。

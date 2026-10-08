@@ -1,22 +1,20 @@
 # Popup
 
-### Intro
+Mobile modal surface entering from the top, bottom, left, right, or center. Popup shares its modal controller with Cedar Drawer while retaining mobile safe-area and transition presentation.
 
-Create a container that can pop up from top, bottom, left, right and center. `popupContainer` inserts into the end of the `body` by default.
-
-### Popup Position
+### Placement
 
 ```demo
 ../example/demos/popup-position.vue
 ```
 
-### Overlay Style
+### Overlay style
 
 ```demo
 ../example/demos/overlay-style.vue
 ```
 
-### Event
+### Events
 
 ```demo
 ../example/demos/event.vue
@@ -24,47 +22,36 @@ Create a container that can pop up from top, bottom, left, right and center. `po
 
 ## API
 
-### Props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `v-model:open` | Visibility | `boolean` | - |
+| `default-open` | Initial visibility when uncontrolled | `boolean` | `false` |
+| `placement` | Surface placement | `'top' \| 'bottom' \| 'right' \| 'left' \| 'center'` | `'center'` |
+| `overlay` | Show the overlay | `boolean` | `true` |
+| `overlay-class` / `overlay-style` | Overlay class / style | `string / object` | - |
+| `overlay-closable` | Close after an overlay click | `boolean` | `true` |
+| `transition` | Content transition name | `string` | derived from placement |
+| `overlay-animation-name` | Overlay transition name | `string` | `mp-fade` |
+| `unstyled` | Remove the default background, text color and elevation | `boolean` | `false` |
+| `lock-scroll` | Lock scrolling on the mount container | `boolean` | `true` |
+| `esc-to-close` | Close on Escape | `boolean` | `true` |
+| `close-on-route-change` | Close after a route change | `boolean` | `false` |
+| `unmount-on-close` | False mounts and preserves content even when initially closed; true unmounts after leaving | `boolean` | `false` |
+| `popup-container` | Mount container | `string \| HTMLElement \| false` | `body` |
+| `safe-area-inset-bottom` | Apply the bottom safe-area inset | `boolean` | `false` |
+| `safe-area-inset-top` | Apply the top safe-area inset | `boolean` | `false` |
+| `z-index` | Explicit layer index | `number` | allocated |
 
-| Prop                   | Description                                                                                                   | Type                           | Default  |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------- |
-| `v-model:open`         | Whether to display the Popup                                                                                  | _boolean_                      | `false`  |
-| `position`             | Popup position with optional value of `top` `bottom` `right` `left` `center`                                  | _string_                       | `center` |
-| `overlay`              | Whether to display the overlay                                                                                | _boolean_                      | `true`   |
-| `overlay-class`        | Custom overlay class                                                                                          | _string_                       | `-`      |
-| `overlay-style`        | Custom overlay style                                                                                          | _object_                       | `-`      |
-| `default-style`        | Whether to enable the default style                                                                           | _boolean_                      | `true`   |
-| `transition`           | Transition animation name                                                                                     | _string_                       | `-`      |
-| `lock-scroll`          | Whether to disable scrolling penetration, scrolling the Popup when disabled will not cause the body to scroll | _boolean_                      | `true`   |
-| `overlay-closable`     | Whether to click the overlay to close the Popup                                                               | _boolean_                      | `true`   |
-| `esc-to-close`         | Whether to support keyboard ESC to close the popup                                                            | _boolean_                      | `true`   |
-| `popup-container`       | The location of the Popup to mount                                                                            | _TeleportProps['to'] \| false_ | `body`   |
-| `safe-area`            | Whether to enable bottom safety zone adaptation                                                               | _boolean_                      | `false`  |
-| `safe-area-top`        | Whether to enable top safety zone adaptation                                                                  | _boolean_                      | `false`  |
-| `z-index` _**3.3.10**_ | The zIndex of element                                                                                         | _number_                       | `-`      |
+Events: `update:open`, `open`, `opened`, `close`, `closed`, `click-overlay(MouseEvent)`, and `key-escape(KeyboardEvent)`.
 
-### Events
+`route-change` is not a lifecycle event. Enable `close-on-route-change` when route navigation should close the surface.
 
-| Event           | Description                                   | Arguments       |
-| --------------- | --------------------------------------------- | --------------- |
-| `open`          | Triggered when the Popup is open              | `-`             |
-| `opened`        | Triggered when the Popup open-animation ends  | `-`             |
-| `close`         | Triggered when the Popup is close             | `-`             |
-| `closed`        | Triggered when the Popup close-animation ends | `-`             |
-| `click-overlay` | Triggered when you click the overlay          | `MouseEvent`    |
-| `key-escape`    | Triggered when pressing ESC                   | `KeyboardEvent` |
+### Style variables
 
-### Slots
+| Variable | Default |
+| --- | --- |
+| `--mp-popup-overlay-background-color` | `var(--mp-sys-color-scrim)` |
+| `--mp-popup-content-background-color` | `var(--mp-sys-color-surface-raised)` |
+| `--mp-popup-content-text-color` | `var(--mp-sys-color-content-primary)` |
 
-| Name      | Description   | SlotProps |
-| --------- | ------------- | --------- |
-| `default` | Popup content | `-`       |
-
-### Style Variables
-
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
-
-| Variable                           | Default             |
-| ---------------------------------- | ------------------- |
-| `--popup-overlay-background-color` | `rgba(0, 0, 0, .6)` |
-| `--popup-content-background-color` | `var(--color-bg-1)` |
+The overlay token dims only the backdrop; content background/text form a raised surface pair. Dark themes inherit these roles. `unstyled` disables both default background and text colors. Apply content variables on the content element using `style`, and backdrop variables through `overlay-style`, or set system variables on their actual shared ancestor. Teleport does not inherit variables from the reference subtree. Dialog owns a separate backdrop token.

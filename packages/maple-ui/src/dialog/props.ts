@@ -1,6 +1,6 @@
 import type { CSSProperties, PropType, StyleValue } from 'vue'
 import { buttonProps } from '../button/props'
-import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/components'
+import { type ExtractPublicPropTypes } from '../utils/components'
 import { popupContainerProp } from '../utils/popup-container'
 import type { DialogAction, DialogBeforeCloseRefs, DialogMessageAlign, DialogTitleAlign, DialogType } from './types'
 
@@ -41,6 +41,7 @@ export const dialogProps = {
   overlayClosable: { type: Boolean, default: true },
   escToClose: { type: Boolean, default: true },
   lockScroll: { type: Boolean, default: true },
+  closeOnRouteChange: { type: Boolean, default: false },
   popupContainer: popupContainerProp,
   dialogClass: [String, Array] as PropType<string | any[]>,
   dialogStyle: Object as PropType<CSSProperties>,
@@ -55,7 +56,7 @@ export const dialogProps = {
   ariaLabel: String,
   closeButtonAriaLabel: { type: String, default: 'Close dialog' },
   zIndex: Number,
-  beforeClose: defineListenerProp<(action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void>(),
+  beforeClose: Function as PropType<(action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void>,
 }
 
 export type DialogProps = ExtractPublicPropTypes<typeof dialogProps>

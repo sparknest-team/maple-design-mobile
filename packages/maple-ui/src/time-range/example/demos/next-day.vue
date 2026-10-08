@@ -7,6 +7,6 @@ const nextDayRange = ref(['22:00', '06:00'])
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time-range v-model="nextDayRange" show-next-day format="24hr" placeholder="跨天时段" clearable />
+    <mp-time-range v-model="nextDayRange" format="HH:mm" show-next-day placeholder="跨天时段" clearable />
   </mp-space>
 </template>

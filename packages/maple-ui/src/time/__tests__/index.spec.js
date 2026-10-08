@@ -14,11 +14,7 @@ test('time confirm writes modelValue', async () => {
   const onUpdateModelValue = vi.fn()
   const onChange = vi.fn()
   const wrapper = mount(VarTime, {
-    props: {
-      modelValue: undefined,
-      'onUpdate:modelValue': onUpdateModelValue,
-      onChange,
-    },
+    props: { format: 'HH:mm', modelValue: undefined, 'onUpdate:modelValue': onUpdateModelValue, onChange },
     attachTo: document.body,
   })
 
@@ -33,7 +29,7 @@ test('time confirm writes modelValue', async () => {
   await delay(300)
 
   expect(onUpdateModelValue).toHaveBeenCalledWith('00:00')
-  expect(onChange).toHaveBeenCalledWith('00:00')
+  expect(onChange).toHaveBeenCalledWith('00:00', expect.any(Date))
 
   wrapper.unmount()
   document.body.innerHTML = ''
@@ -42,10 +38,7 @@ test('time confirm writes modelValue', async () => {
 test('time cancel does not write modelValue', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(VarTime, {
-    props: {
-      modelValue: '12:30',
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { format: 'HH:mm', modelValue: '12:30', 'onUpdate:modelValue': onUpdateModelValue },
     attachTo: document.body,
   })
 
@@ -65,7 +58,7 @@ test('time clock presentation', async () => {
     props: {
       modelValue: '12:30',
       presentation: 'clock',
-      format: '24hr',
+      format: 'HH:mm',
     },
     attachTo: document.body,
   })
@@ -85,6 +78,7 @@ test('time clear', async () => {
   const onClear = vi.fn()
   const wrapper = mount(VarTime, {
     props: {
+      format: 'HH:mm',
       modelValue: '12:30',
       clearable: true,
       'onUpdate:modelValue': onUpdateModelValue,
@@ -93,11 +87,11 @@ test('time clear', async () => {
     attachTo: document.body,
   })
 
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-btn').trigger('click')
   await delay(16)
 
   expect(onUpdateModelValue).toHaveBeenCalledWith(undefined)
-  expect(onClear).toHaveBeenCalledWith(undefined)
+  expect(onClear).toHaveBeenCalledWith()
 
   wrapper.unmount()
   document.body.innerHTML = ''

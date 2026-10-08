@@ -32,9 +32,9 @@ describe('Trigger wrapper migration', () => {
       wrapper.unmount()
     }
   })
-  test('Tooltip keeps immediate SVG hover', async () => {
+  test('Tooltip supports zero-delay SVG hover', async () => {
     const wrapper = mount(Tooltip, {
-      props: { content: 'omitted items', popupContainer: false },
+      props: { content: 'omitted items', popupContainer: false, mouseEnterDelay: 0 },
       slots: { default: () => h('svg') },
     })
     try {

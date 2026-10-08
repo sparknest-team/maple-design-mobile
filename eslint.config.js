@@ -16,6 +16,17 @@ export default defineConfig({
     },
   ],
   ignores: [
+    // Root-level CLI preview output, like packages/maple-ui/.maple below.
+    '.maple/**',
+    // Rewritten by generateLibraryEntry; checked by typecheck and API export audit.
+    'packages/maple-ui/src/index.ts',
+    'packages/maple-ui/src/maple-vue.ts',
+    // Generated icons are validated by generate:check and their own typecheck.
+    'packages/maple-icons-vue/src/**',
+    'packages/maple-icons-vue/es/**',
+    'packages/maple-icons-vue/lib/**',
+    'packages/maple-icons-vue/types/**',
+    'packages/maple-ui/types-generated/**',
     'packages/maple-cli/lib/**',
     'packages/maple-cli/site/**',
     'packages/maple-cli/template/**',

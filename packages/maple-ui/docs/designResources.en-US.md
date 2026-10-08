@@ -6,7 +6,7 @@ We provide design resources for designers, you can select the required resources
 
 ### Components Resources
 
-Component resources include `color`, `text`, and `component resources`. At present, only the design resources of the Material Design 2 light color mode are provided, and the dark mode is not yet available. Community contributions are welcome.
+Downloads on this page are historical references, not yet validated against the current default / maple brands and light / dark modes. Use Design Token and CSS Variable Layers and the source contracts as the current specification.
 
 <img src="https://maplejs.org/design/components.png" style="width: 100%; display: mp-block; border-radius: 4px; margin-top: 16px">
 
@@ -23,4 +23,3 @@ The icon resource contains `100+` icons built into the component library.
 ```vue
 import IconResourcesDownload from './components/IconResourcesDownload.vue'
 ```
-

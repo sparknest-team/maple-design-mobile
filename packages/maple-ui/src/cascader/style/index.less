@@ -1,2 +1,231 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './cascader';
+@import './token.less';
+
+//.select-view(@cascader-prefix-cls);
+
+.mp-cascader {
+  &-panel {
+    display: inline-flex;
+    box-sizing: border-box;
+    height: var(~'--mp-cascader-popup-max-height');
+    overflow: hidden;
+    white-space: nowrap;
+    list-style: none;
+    background-color: var(~'--mp-sys-color-surface-overlay');
+    border: 1px solid var(~'--mp-cascader-popup-color-border');
+    border-radius: var(~'--mp-cascader-popup-border-radius');
+    box-shadow: var(~'--mp-cascader-popup-box-shadow');
+  }
+
+  &-search-panel {
+    justify-content: flex-start;
+    width: 100%;
+    overflow: auto;
+  }
+
+  &-popup-trigger-hover {
+    .mp-cascader-list-item {
+      transition: font-weight 0s;
+    }
+  }
+
+  &-highlight {
+    font-weight: var(~'--mp-sys-font-weight-medium');
+  }
+
+  &-panel-column {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    min-width: var(~'--mp-cascader-panel-column-min-width');
+    height: 100%;
+    max-height: var(~'--mp-cascader-panel-column-max-height');
+    background-color: var(~'--mp-sys-color-surface-overlay');
+
+    &-loading {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:not(:last-of-type) {
+      border-right: 1px solid var(~'--mp-cascader-popup-color-border');
+    }
+  }
+
+  &-column-content {
+    flex: 1;
+    max-height: var(~'--mp-cascader-panel-column-max-height');
+    overflow-y: auto;
+  }
+
+  &-list-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(~'--mp-cascader-popup-padding-vertical') 0;
+
+    &-with-footer {
+      padding-bottom: 0;
+    }
+  }
+
+  &-list-empty {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-list {
+    flex: 1;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &-multiple,
+    &-strictly {
+      .mp-cascader-option-label {
+        padding-left: 0;
+      }
+
+      .mp-cascader-option {
+        padding-left: var(~'--mp-cascader-padding-item-left');
+
+        .mp-checkbox,
+        .mp-radio {
+          margin-right: var(~'--mp-cascader-margin-checkbox-right');
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  &-search-list&-list-multiple {
+    .mp-cascader-option-label {
+      padding-right: var(~'--mp-cascader-padding-item-left');
+    }
+  }
+
+  &-list-footer {
+    box-sizing: border-box;
+    height: var(~'--mp-cascader-size-item-height');
+    padding-left: var(~'--mp-cascader-padding-item-left');
+    line-height: var(~'--mp-cascader-size-item-height');
+    border-top: 1px solid var(~'--mp-cascader-popup-color-border');
+  }
+
+  &-option,
+  &-search-option {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    min-width: var(~'--mp-cascader-option-min-width');
+    height: var(~'--mp-cascader-size-item-height');
+    color: var(~'--mp-cascader-item-text-color');
+    font-size: var(~'--mp-cascader-font-item-size');
+    line-height: var(~'--mp-cascader-size-item-height');
+    background-color: transparent;
+    cursor: pointer;
+
+    &-label {
+      flex-grow: 1;
+      padding-right: calc(
+        var(~'--mp-cascader-padding-item-right') + var(~'--mp-cascader-size-item-icon') +
+          var(~'--mp-cascader-margin-item-icon-left')
+      );
+      padding-left: var(~'--mp-cascader-padding-item-left');
+    }
+
+    .mp-cascader-option-expand-icon,
+    .mp-icon-check {
+      position: absolute;
+      top: 50%;
+      right: var(~'--mp-cascader-padding-item-right');
+      color: var(~'--mp-cascader-item-icon-color');
+      font-size: var(~'--mp-cascader-size-item-icon');
+      transform: translateY(-50%);
+    }
+
+    .mp-icon-check {
+      color: rgb(var(~'--mp-primary-6'));
+    }
+
+    .mp-cascader-option-loading-icon {
+      position: absolute;
+      top: 50%;
+      right: var(~'--mp-cascader-padding-item-right');
+      margin-top: calc(var(~'--mp-cascader-size-item-icon') / -2);
+      color: rgb(var(~'--mp-primary-6'));
+      font-size: var(~'--mp-cascader-size-item-icon');
+    }
+  }
+
+  &-option:hover,
+  &-search-option-hover {
+    color: var(~'--mp-cascader-item-text-color-hover');
+    background-color: var(~'--mp-cascader-item-bg-hover');
+
+    .mp-checkbox:not(.mp-checkbox-disabled):not(.mp-checkbox-checked):hover .mp-checkbox-icon-hover::before {
+      background-color: var(~'--mp-cascader-checkbox-bg-hover');
+    }
+
+    .mp-radio:not(.mp-radio-disabled):not(.mp-radio-checked):hover .mp-radio-icon-hover::before {
+      background-color: var(~'--mp-cascader-checkbox-bg-hover');
+    }
+  }
+
+  &-option,
+  &-search-option {
+    &-disabled,
+    &-disabled:hover {
+      color: var(~'--mp-cascader-item-text-color-disabled');
+      background-color: var(~'--mp-cascader-item-bg-disabled');
+      cursor: not-allowed;
+
+      .mp-cascader-option-expand-icon {
+        color: inherit;
+      }
+
+      .mp-icon-check {
+        color: var(~'--mp-color-primary-light-3');
+      }
+    }
+  }
+
+  &-option {
+    &-active {
+      color: var(~'--mp-cascader-item-text-color-active');
+      background-color: var(~'--mp-cascader-item-bg-active');
+      transition: all var(~'--mp-sys-motion-duration-standard') var(~'--mp-sys-motion-easing-standard');
+
+      &:hover {
+        color: var(~'--mp-cascader-item-text-color-active');
+        background-color: var(~'--mp-cascader-item-bg-active');
+      }
+    }
+
+    &-active&-disabled,
+    &-active&-disabled:hover {
+      color: var(~'--mp-cascader-item-text-color-disabled-active');
+      background-color: var(~'--mp-cascader-item-bg-disabled-active');
+    }
+  }
+}
+
+.mp-cascader-slide-enter-active,
+.mp-cascader-slide-leave-active {
+  transition: margin var(~'--mp-sys-motion-duration-slow') var(~'--mp-sys-motion-easing-standard');
+}
+
+.mp-cascader-slide-enter-from,
+.mp-cascader-slide-leave-to {
+  margin-left: calc(-1 * var(~'--mp-cascader-slide-margin'));
+}
+
+.mp-cascader-slide-enter-to,
+.mp-cascader-slide-leave-from {
+  margin-left: 0;
+}

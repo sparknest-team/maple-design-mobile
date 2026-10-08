@@ -5,7 +5,7 @@
       v-for="(item, index) in menu"
       :key="index"
       :href="item.type !== MenuTypes.TITLE ? `#/${language}/${item.doc}` : undefined"
-      @click.prevent
+      @click.prevent="changeRoute(item)"
     >
       <mp-cell
         class="maple-site-sidebar__item"
@@ -19,7 +19,6 @@
         v-ripple="{
           disabled: item.type === menuTypes.TITLE,
         }"
-        @click="changeRoute(item)"
       >
         <span class="maple-site-sidebar__indicator"></span>
         <span class="maple-site-sidebar__item--title" v-if="item.type === menuTypes.TITLE">{{

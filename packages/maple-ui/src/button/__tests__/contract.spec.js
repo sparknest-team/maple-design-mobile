@@ -22,6 +22,31 @@ afterEach(() => {
 })
 
 describe('Button shared contract', () => {
+  it('disabled custom colors yield to disabled tokens and restore when enabled', async () => {
+    for (const variant of ['default', 'text', 'outline', 'tonal']) {
+      const w = render({ variant, color: '#123456', textColor: '#abcdef' })
+      expect(w.element.style.color).toBe('rgb(171, 205, 239)')
+      await w.setProps({ disabled: true })
+      expect(w.element.style.color).toBe('')
+      expect(w.element.style.background).toBe('')
+      expect(w.element.style.borderColor).toBe('')
+      await w.trigger('focus')
+      expect(w.classes().some((c) => c.endsWith('--focus'))).toBe(false)
+      await w.setProps({ disabled: false })
+      expect(w.element.style.color).toBe('rgb(171, 205, 239)')
+    }
+  })
+  it('loading inherits the button foreground unless explicitly customized', async () => {
+    const w = render({ loading: true, status: 'warning' })
+    const indicator = w.findComponent({ name: 'CLoading' }).exists()
+      ? w.findComponent({ name: 'CLoading' })
+      : w.findComponent({ name: 'MpLoading' })
+    expect(indicator.props('color')).toBe('currentColor')
+    await w.trigger('focus')
+    expect(w.classes().some((c) => c.endsWith('--focus'))).toBe(false)
+    await w.setProps({ loadingColor: '#123456' })
+    expect(indicator.props('color')).toBe('#123456')
+  })
   it('renders native button with a safe default type', () => {
     const w = render()
     expect(w.element.tagName).toBe('BUTTON')

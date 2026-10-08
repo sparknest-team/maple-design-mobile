@@ -1,5 +1,5 @@
 <template>
-  <div class="maple-site-mobile maple-site-mobile--375">
+  <div class="maple-site-mobile">
     <div class="maple-site-mobile-content">
       <iframe
         id="mobile"
@@ -41,20 +41,15 @@ export default {
 <style lang="less">
 .maple-site-mobile {
   position: sticky;
-  flex: 0 0 330px;
+  flex: 0 1 clamp(300px, 27vw, 375px);
+  min-width: 0;
   top: 80px;
   height: calc(100vh - 100px);
-  margin-right: 38px;
+  margin-right: clamp(12px, 2.5vw, 38px);
   overflow: hidden;
   box-shadow: 0 0 14px 6px var(--site-config-color-shadow);
   border-radius: 2px;
   margin-top: 20px;
-
-  @media screen and (min-width: 1600px) {
-    &--375 {
-      flex: 0 0 375px;
-    }
-  }
 
   &-content {
     width: 100%;

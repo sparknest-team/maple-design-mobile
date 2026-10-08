@@ -1,44 +1,43 @@
-import { type PropType, type TeleportProps } from 'vue'
-import type { SlotType } from '.'
-import { loadingProps } from '../loading'
-import { pickProps } from '../utils/components'
+import type { PropType } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
-import type { MessagePosition, MessageStatus } from './index'
+import {
+  messagePositions,
+  messageStatuses,
+  messageVariants,
+  type MessageContent,
+  type MessagePosition,
+  type MessageStatus,
+  type MessageVariant,
+} from './types'
 
-export type { MessagePosition }
-
-export const props = {
-  status: { type: String as PropType<MessageStatus>, default: 'info' },
+export const messageProps = {
+  /** 视觉强调层级，与语义状态独立 */
+  variant: {
+    type: String as PropType<MessageVariant>,
+    default: 'solid',
+    validator: (value: MessageVariant) => messageVariants.includes(value),
+  },
+  status: {
+    type: String as PropType<MessageStatus>,
+    default: 'default',
+    validator: (value: MessageStatus) => messageStatuses.includes(value),
+  },
   position: {
     type: String as PropType<MessagePosition>,
     default: 'top',
+    validator: (value: MessagePosition) => messagePositions.includes(value),
   },
-  content: [String, Function, Object] as PropType<SlotType>,
-  contentClass: String,
-  duration: {
-    type: Number,
-    default: 3000,
-  },
-  elevation: {
-    type: [Boolean, Number],
-    default: true,
-  },
-  vertical: Boolean,
-  loadingType: pickProps(loadingProps, 'type'),
-  loadingSize: pickProps(loadingProps, 'size'),
-  loadingRadius: pickProps(loadingProps, 'radius'),
-  loadingColor: {
-    ...pickProps(loadingProps, 'color'),
-    default: 'currentColor',
-  },
-  lockScroll: Boolean,
+  content: [String, Number, Object, Array, Function] as PropType<MessageContent>,
+  icon: [String, Number, Object, Array, Function] as PropType<MessageContent>,
+  action: [String, Number, Object, Array, Function] as PropType<MessageContent>,
+  duration: { type: Number, default: 3000, validator: (value: number) => value >= 0 },
   open: Boolean,
-  popupContainer: popupContainerProp,
-  forbidClick: Boolean,
-  showIcon: {
-    type: Boolean,
-    default: true,
-  },
+  showIcon: { type: Boolean, default: true },
   closable: Boolean,
-  _update: String,
+  pauseOnHover: Boolean,
+  resetOnUpdate: Boolean,
+  closeButtonAriaLabel: { type: String, default: 'Close message' },
+  popupContainer: popupContainerProp,
 }
+
+export type MessageProps = import('vue').ExtractPublicPropTypes<typeof messageProps>

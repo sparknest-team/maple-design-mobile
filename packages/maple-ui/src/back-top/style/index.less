@@ -1,2 +1,39 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './back-top';
+@import './token.less';
+
+.mp-back-top {
+  box-sizing: border-box;
+  position: fixed;
+  z-index: var(--mp-back-top-z-index);
+  right: var(--mp-back-top-right);
+  bottom: var(--mp-back-top-bottom);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mp-back-top-button-size);
+  height: var(--mp-back-top-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--mp-back-top-button-border-radius);
+  background: var(--mp-back-top-background);
+  color: var(--mp-back-top-text-color);
+  font-size: var(--mp-back-top-font-size);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  > svg {
+    width: var(--mp-back-top-icon-size);
+    height: var(--mp-back-top-icon-size);
+  }
+  &--inline {
+    position: absolute;
+  }
+  &:focus-visible {
+    outline: var(--mp-back-top-focus-width) solid var(--mp-back-top-focus-color);
+    outline-offset: var(--mp-back-top-focus-offset);
+  }
+  @media (hover: hover) {
+    &:hover {
+      background: var(--mp-back-top-hover-background);
+    }
+  }
+}

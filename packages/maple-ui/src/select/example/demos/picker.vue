@@ -50,7 +50,7 @@ const keyOptions = computed(() => [
       v-model="pickerMultiple"
       presentation="picker"
       multiple
-      tag
+      show-tags
       clearable
       placeholder="Picker 多选"
       :options="options"

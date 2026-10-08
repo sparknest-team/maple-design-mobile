@@ -1,6 +1,11 @@
 import { Message } from './index'
 
 export default {
+  'common.increase': 'افزایش مقدار',
+  'common.decrease': 'کاهش مقدار',
+  'common.clear': 'پاک کردن',
+  'common.showPassword': 'نمایش رمز عبور',
+  'common.hidePassword': 'پنهان کردن رمز عبور',
   // Dialog
   dialogTitle: 'اشاره',
   dialogConfirmButtonText: 'تایید',

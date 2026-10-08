@@ -17,7 +17,7 @@ withPropsDefaultsSetter(RadioGroup, radioGroupProps)
 
 export { radioProps, radioGroupProps, Radio, RadioGroup }
 
-export type RadioInstance = InstanceType<typeof _Radio>
+export type RadioInstance = InstanceType<typeof _Radio> & import('./props').RadioMethods
 export type RadioGroupInstance = InstanceType<typeof RadioGroup>
 export const _RadioComponent: typeof Radio = Radio
 export const _RadioGroupComponent: typeof RadioGroup = RadioGroup
@@ -25,3 +25,9 @@ export const _RadioGroupComponent: typeof RadioGroup = RadioGroup
 export default Radio
 export type RadioProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
 export type RadioGroupProps = import('vue').ExtractPublicPropTypes<typeof import('./group-props').props>
+
+export type { RadioMethods, RadioModel } from './props'
+
+export type { RadioOption } from './types'
+
+export type { RadioVariant } from './variant'

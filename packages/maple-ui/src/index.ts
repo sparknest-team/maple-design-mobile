@@ -107,7 +107,7 @@ export { BreadcrumbItem, _BreadcrumbComponent, _BreadcrumbItemComponent } from '
 export { ButtonGroup, _ButtonComponent, _ButtonGroupComponent } from './button'
 export { _CardComponent } from './card'
 export { CarouselItem, _CarouselComponent, _CarouselItemComponent } from './carousel'
-export { _CascaderComponent } from './cascader'
+export { CascaderPanel, _CascaderComponent, _CascaderPanelComponent } from './cascader'
 export { _CellComponent } from './cell'
 export { CheckboxGroup, _CheckboxComponent, _CheckboxGroupComponent } from './checkbox'
 export { _CodeComponent } from './code'
@@ -146,7 +146,15 @@ export {
 } from './image'
 export { IndexAnchor, _IndexBarComponent, _IndexAnchorComponent } from './index-bar'
 export { _InfiniteScrollComponent } from './infinite-scroll'
-export { _InputComponent } from './input'
+export {
+  InputPassword,
+  InputGroup,
+  InputGroupLabel,
+  _InputComponent,
+  _InputPasswordComponent,
+  _InputGroupComponent,
+  _InputGroupLabelComponent,
+} from './input'
 export { _InputNumberComponent } from './input-number'
 export { _LazyComponent } from './lazy'
 export { _LinkComponent } from './link'
@@ -174,7 +182,7 @@ export { _ResultComponent } from './result'
 export { _RippleComponent } from './ripple'
 export { _RowComponent } from './row'
 export { _SearchComponent } from './search'
-export { Option, _SelectComponent, _OptionComponent } from './select'
+export { Option, Optgroup, _SelectComponent, _OptionComponent, _OptgroupComponent } from './select'
 export { _SignatureComponent } from './signature'
 export {
   SkeletonLine,
@@ -234,10 +242,12 @@ export type { AlertInstance, AlertProps, AlertStatus, AlertVariant } from './ale
 export { autoCompleteProps } from './auto-complete'
 export type {
   AutoCompleteInstance,
-  AutoCompleteProps,
+  AutoCompleteOptionData,
   AutoCompleteOption,
-  AutoCompleteOptionLabel,
-  AutoCompleteOptionLabelRender,
+  AutoCompleteOptionInfo,
+  AutoCompleteFieldNames,
+  AutoCompleteFilterOption,
+  AutoCompleteProps,
 } from './auto-complete'
 export { avatarProps, avatarGroupProps } from './avatar'
 export type {
@@ -250,7 +260,7 @@ export type {
   AvatarGroupInstance,
 } from './avatar'
 export { backTopProps } from './back-top'
-export type { BackTopInstance, BackTopProps } from './back-top'
+export type { BackTopProps, BackTopTarget, BackTopEasing, BackTopInstance } from './back-top'
 export { badgeProps } from './badge'
 export type { BadgeInstance, BadgeProps, BadgeVariant, BadgeMode, BadgePosition, BadgeInlinePosition } from './badge'
 export { breadcrumbProps, breadcrumbItemProps } from './breadcrumb'
@@ -292,12 +302,30 @@ export type {
   CarouselItemInstance,
   CarouselItemProps,
 } from './carousel'
-export { cascaderProps } from './cascader'
-export type { CascaderInstance, CascaderProps, CascaderOption, CascaderPresentation } from './cascader'
+export { cascaderPanelProps, cascaderProps } from './cascader'
+export type {
+  CascaderInstance,
+  CascaderPanelInstance,
+  CascaderPanelProps,
+  CascaderOption,
+  CascaderFieldNames,
+  CascaderProps,
+  CascaderPresentation,
+} from './cascader'
 export { cellProps } from './cell'
 export type { CellInstance, CellProps } from './cell'
 export { checkboxProps, checkboxGroupProps } from './checkbox'
-export type { CheckboxInstance, CheckboxGroupInstance, CheckboxProps, CheckboxGroupProps } from './checkbox'
+export type {
+  CheckboxInstance,
+  CheckboxGroupInstance,
+  CheckboxProps,
+  CheckboxGroupProps,
+  CheckboxMethods,
+  CheckboxModel,
+  CheckboxOption,
+  ChoiceFieldNames,
+  CheckboxGroupMethods,
+} from './checkbox'
 export { codeProps } from './code'
 export type { CodeInstance, CodeProps } from './code'
 export { colProps } from './col'
@@ -327,6 +355,12 @@ export type {
   DateType,
   DatePickerPresentation,
   DatePickerProps,
+  DateDisabledTime,
+  DateRules,
+  DateValue,
+  DateSelection,
+  DateSide,
+  DateValueOptions,
 } from './date'
 export { dateRangeProps, dateRangePickerProps } from './date-range'
 export type {
@@ -346,6 +380,7 @@ export type {
   DialogConfig,
   DialogMessageAlign,
   DialogMethod,
+  DialogRenderContent,
   DialogReturn,
   DialogService,
   DialogTitleAlign,
@@ -384,17 +419,29 @@ export type {
   MenuOptionInstance,
 } from './dropdown-menu'
 export { ellipsisProps } from './ellipsis'
-export type { EllipsisInstance, EllipsisProps } from './ellipsis'
+export type { EllipsisProps, EllipsisExpandTrigger, EllipsisInstance } from './ellipsis'
 export { emptyProps } from './empty'
 export type { EmptyInstance, EmptyImageSize, EmptyProps } from './empty'
 export { fabProps } from './fab'
 export type { FabInstance, FabProps } from './fab'
 export { fieldDecoratorProps } from './field-decorator'
-export type { FieldDecoratorInstance, FieldDecoratorProps } from './field-decorator'
+export type {
+  FieldDecoratorInstance,
+  FieldDecoratorProps,
+  FieldDecoratorSize,
+  FieldDecoratorVariant,
+} from './field-decorator'
 export { floatingPanelProps } from './floating-panel'
 export type { FloatingPanelInstance, FloatingPanelProps } from './floating-panel'
 export { formProps, formItemProps } from './form'
-export type { FormInstance, FormItemInstance, FormProps, FormItemProps } from './form'
+export type {
+  ValidatedError,
+  FormValidateErrors,
+  FormInstance,
+  FormItemInstance,
+  FormProps,
+  FormItemProps,
+} from './form'
 export { formDetailsProps } from './form-details'
 export type { FormDetailsInstance, FormDetailsProps } from './form-details'
 export { gridProps, gridItemProps } from './grid'
@@ -424,16 +471,37 @@ export type {
 export { indexBarProps, indexAnchorProps } from './index-bar'
 export type { IndexBarInstance, IndexAnchorInstance, IndexBarProps, IndexAnchorProps } from './index-bar'
 export { infiniteScrollProps } from './infinite-scroll'
-export type { InfiniteScrollProps, InfiniteScrollStatus, InfiniteScrollInstance } from './infinite-scroll'
-export { inputProps } from './input'
-export type { InputInstance, InputProps, InputType } from './input'
+export type {
+  InfiniteScrollProps,
+  InfiniteScrollStatus,
+  InfiniteScrollInstance,
+  InfiniteScrollMethods,
+} from './infinite-scroll'
+export { inputProps, inputPasswordProps, inputGroupProps } from './input'
+export type {
+  InputInstance,
+  InputMaxLength,
+  InputGroupProps,
+  InputPasswordProps,
+  InputProps,
+  InputType,
+  InputVariant,
+  WordLength,
+  WordSlice,
+  InputPasswordInstance,
+  InputGroupInstance,
+  InputGroupLabelInstance,
+} from './input'
 export { inputNumberProps } from './input-number'
 export type {
   InputNumberInstance,
   InputNumberMode,
   InputNumberModelEvent,
-  InputNumberSize,
   InputNumberProps,
+  InputNumberSize,
+  InputNumberVariant,
+  InputNumberFormatter,
+  InputNumberParser,
 } from './input-number'
 export type { LazyHTMLElement, LazyInstance } from './lazy'
 export { linkProps } from './link'
@@ -448,14 +516,17 @@ export { localeProviderProps } from './locale-provider'
 export type { LocaleProviderInstance, LocaleProviderProps } from './locale-provider'
 export { messageProps } from './message'
 export type {
-  MessageType,
-  MessageStatus,
-  SlotType,
+  MessageVariant,
+  MessageConfig,
+  MessageContent,
+  MessageItem,
+  MessageMethod,
+  MessageOptions,
   MessagePosition,
   MessageReturn,
-  MessageOptions,
-  MessageInstance,
+  MessageStatus,
   MessageProps,
+  MessageInstance,
 } from './message'
 export { noticeBarProps } from './notice-bar'
 export type { NoticeBarMode, NoticeBarType, NoticeBarInstance, NoticeBarProps } from './notice-bar'
@@ -474,7 +545,7 @@ export type { PickerInstance, PickerProps } from './picker'
 export { popoverProps } from './popover'
 export type { PopoverInstance, PopoverPlacement, PopoverProps, PopoverTrigger } from './popover'
 export { popupProps } from './popup'
-export type { PopupInstance, PopupProps } from './popup'
+export type { PopupPlacement, PopupProps, PopupInstance } from './popup'
 export { progressProps } from './progress'
 export type { ProgressInstance, ProgressProps, ProgressSize, ProgressStatus, ProgressMode } from './progress'
 export { progressGroupProps } from './progress-group'
@@ -488,7 +559,16 @@ export type {
 export { pullRefreshProps } from './pull-refresh'
 export type { PullRefreshInstance, PullRefreshProps, PullRefreshStatus } from './pull-refresh'
 export { radioProps, radioGroupProps } from './radio'
-export type { RadioInstance, RadioGroupInstance, RadioProps, RadioGroupProps } from './radio'
+export type {
+  RadioInstance,
+  RadioGroupInstance,
+  RadioProps,
+  RadioGroupProps,
+  RadioMethods,
+  RadioModel,
+  RadioOption,
+  RadioVariant,
+} from './radio'
 export { rateProps } from './rate'
 export type { RateColor, RateIcon, RateProps, RateInstance } from './rate'
 export { resultProps } from './result'
@@ -497,15 +577,18 @@ export type { RippleInstance } from './ripple'
 export { rowProps } from './row'
 export type { RowProps, RowGutter, RowAlign, RowJustify, RowInstance } from './row'
 export { searchProps } from './search'
-export type { SearchInstance, SearchProps } from './search'
-export { selectProps, optionProps } from './select'
+export type { SearchActionType, SearchField, SearchProps, SearchShape, SearchResult, SearchInstance } from './search'
+export { selectProps, optionProps, optgroupProps } from './select'
 export type {
+  OptgroupInstance,
+  OptgroupProps,
   SelectProps,
-  SelectOption,
   SelectPresentation,
-  SelectTextAlign,
-  SelectOptionLabel,
-  SelectOptionLabelRender,
+  SelectOption,
+  SelectOptionData,
+  SelectOptionGroup,
+  SelectFieldNames,
+  FilterOption,
   SelectInstance,
   OptionInstance,
   OptionProps,
@@ -598,17 +681,20 @@ export type {
 export { tagProps } from './tag'
 export type { TagInstance, TagColor, TagProps, TagVariant } from './tag'
 export { textareaProps } from './textarea'
-export type { TextareaInstance, TextareaProps } from './textarea'
+export type { TextareaInstance, TextareaAutoSize, TextareaMaxLength, TextareaProps, TextareaVariant } from './textarea'
 export { timeProps, timePickerProps } from './time'
 export type {
   TimeInstance,
   TimePickerInstance,
   TimeProps,
-  DisabledTime,
-  Format,
-  TimeValue,
   TimePickerPresentation,
+  TimeValue,
+  TimePanelPresentationProps,
+  TimePopupPresentationProps,
+  TimeWheelPresentationProps,
   TimePickerProps,
+  TimeDisabledRules,
+  TimeStep,
 } from './time'
 export { timeRangeProps, timeRangePickerProps } from './time-range'
 export type {
@@ -644,5 +730,5 @@ export type {
   VerificationCodeInstance,
 } from './verification-code'
 export { watermarkProps } from './watermark'
-export type { WatermarkInstance, WatermarkProps } from './watermark'
+export type { WatermarkInstance, WatermarkProps, WatermarkError, WatermarkExposed, WatermarkFont } from './watermark'
 export type { PopupContainer } from './utils/popup-container'

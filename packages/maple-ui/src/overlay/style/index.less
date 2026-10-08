@@ -1,2 +1,37 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './overlay';
+@import './token.less';
+
+.mp-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: var(--mp-overlay-background-color);
+  }
+
+  &__content {
+    position: relative;
+    z-index: var(--mp-overlay-content-z-index);
+  }
+
+  &--fade-enter-active,
+  &--fade-leave-active {
+    transition: opacity var(--mp-overlay-animation-duration);
+  }
+
+  &--fade-enter-from,
+  &--fade-leave-to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-overlay--fade-enter-active,
+  .mp-overlay--fade-leave-active {
+    transition: none;
+  }
+}

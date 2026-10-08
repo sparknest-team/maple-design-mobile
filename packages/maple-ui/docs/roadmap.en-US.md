@@ -18,7 +18,7 @@ Tracks Maple Design Mobile gaps versus mature mobile UI libraries, and API align
 ## Next: P1
 
 - ShareSheet, mobile Calendar
-- MD3 design resources
+- Design resources for current brands and color modes
 - CI / `.github`
 - Toast / Notify layering (on top of Message)
 

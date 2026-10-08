@@ -1,7 +1,7 @@
 {
   "name": "@maplejs/maple-ui",
   "version": "1.0.3",
-  "description": "A Vue3 component library based on Material Design 2 and 3, supporting mobile and desktop.",
+  "description": "A Vue3 component library based on semantic tokens and brand themes, supporting mobile and desktop.",
   "keywords": [
     "Vue3",
     "Mobile",

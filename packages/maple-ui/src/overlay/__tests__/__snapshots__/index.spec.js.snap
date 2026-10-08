@@ -1,8 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`overlay show 1`] = `
-"<div class="mp-overlay" style="z-index: 1998;">
-  <div class="mp-overlay__backdrop" role="presentation" style="z-index: 1999;"></div>
-  <div class="mp-overlay__content" style="z-index: 2000;"> default slot content </div>
-</div>"
-`;

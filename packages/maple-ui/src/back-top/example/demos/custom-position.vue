@@ -1,31 +1,58 @@
-<script setup>
-const lists = [...Array(40).keys()]
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+const scroller = ref<HTMLElement>()
+onMounted(() => {
+  if (scroller.value) {
+    scroller.value.scrollTop = 240
+    scroller.value.dispatchEvent(new Event('scroll'))
+  }
+})
 </script>
 
 <template>
-  <div class="back-top-section">
-    <div id="position-scroll" class="back-top-section__scroll">
-      <mp-cell v-for="list in lists" :key="`position-${list}`">Scroll to bottom {{ list }}</mp-cell>
+  <div class="back-top-demo">
+    <p>在面板内滚动，超过 120px 时显示按钮。</p>
+    <div class="back-top-demo__frame">
+      <div ref="scroller" class="back-top-demo__scroll">
+        <p v-for="row in 30" :key="row">A · 滚动内容 {{ row }}</p>
+      </div>
+      <mp-back-top
+        :target-container="() => scroller"
+        :popup-container="false"
+        :visible-height="120"
+        :right="64"
+        :bottom="32"
+        aria-label="回到顶部"
+      />
     </div>
-    <mp-back-top target-container="#position-scroll" :duration="300" right="80" bottom="80" />
   </div>
 </template>
 
 <style scoped>
-.back-top-section {
+.back-top-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.back-top-demo > p {
+  margin: 0;
+}
+.back-top-demo__frame {
   position: relative;
+  display: flex;
+  gap: 12px;
 }
-
-.back-top-hint {
-  margin: 0 0 8px;
-  color: var(--mp-color-text-secondary);
-  font-size: 14px;
-}
-
-.back-top-section__scroll {
-  height: 320px;
+.back-top-demo__scroll {
+  flex: 1;
+  min-width: 0;
+  height: 240px;
   overflow: auto;
-  border: 1px solid var(--mp-border-color);
+  border: 1px solid #ddd;
   border-radius: 8px;
+}
+.back-top-demo__scroll p {
+  padding: 8px 12px;
+  margin: 0;
 }
 </style>

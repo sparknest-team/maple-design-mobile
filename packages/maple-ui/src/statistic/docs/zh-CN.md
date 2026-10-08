@@ -101,20 +101,20 @@
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--mp-statistic-title-color` | `var(--mp-color-text-3)` |
+| `--mp-statistic-title-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-statistic-title-font-size` | `var(--mp-font-size-sm)` |
 | `--mp-statistic-title-margin-bottom` | `8px` |
-| `--mp-statistic-value-color` | `var(--mp-color-text-1)` |
+| `--mp-statistic-value-color` | `var(--mp-sys-color-content-primary)` |
 | `--mp-statistic-value-font-size` | `28px` |
 | `--mp-statistic-value-font-weight` | `500` |
 | `--mp-statistic-decimal-font-size` | `inherit` |
-| `--mp-statistic-prefix-color` | `var(--mp-color-text-2)` |
+| `--mp-statistic-prefix-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-statistic-prefix-font-size` | `var(--mp-font-size-md)` |
 | `--mp-statistic-prefix-spacing` | `4px` |
-| `--mp-statistic-suffix-color` | `var(--mp-color-text-2)` |
+| `--mp-statistic-suffix-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-statistic-suffix-font-size` | `var(--mp-font-size-md)` |
 | `--mp-statistic-suffix-spacing` | `4px` |
-| `--mp-statistic-extra-color` | `var(--mp-color-text-3)` |
+| `--mp-statistic-extra-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-statistic-extra-font-size` | `var(--mp-font-size-sm)` |
 | `--mp-statistic-extra-margin-top` | `8px` |
 

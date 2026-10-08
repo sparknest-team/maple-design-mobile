@@ -8,6 +8,17 @@ import { createNamespace } from '../../utils/components'
 const { n } = createNamespace('tag')
 
 describe('tag copied implementation contract', () => {
+  it('keeps text-color independent of preset backgrounds and outline borders', () => {
+    for (const variant of ['default', 'outline']) {
+      const w = mount(Component, { props: { color: 'gold', textColor: '#123456', variant } })
+      const tag = w.find('.' + n())
+      expect(tag.classes()).toContain(n('--gold'))
+      expect(tag.element.style.color).toBe('rgb(18, 52, 86)')
+      expect(tag.element.style.background).toBe('')
+      expect(tag.element.style.borderColor).toBe('')
+      w.unmount()
+    }
+  })
   it('renders on the server without starting browser work', async () => {
     const html = await renderToString(createSSRApp({ render: () => h(Component) }))
     expect(html).toContain(n())

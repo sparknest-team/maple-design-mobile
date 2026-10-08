@@ -297,7 +297,7 @@
               }
             },
             {
-              "name": "closeable",
+              "name": "closable",
               "description": "Whether the alert is closeable",
               "default": "false",
               "value": {
@@ -316,10 +316,6 @@
             {
               "name": "default",
               "description": "The message of alert"
-            },
-            {
-              "name": "content",
-              "description": "The content of alert"
             },
             {
               "name": "title",
@@ -351,197 +347,309 @@
           "name": "mp-auto-complete",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "The value of the binding",
-              "default": "-",
+              "name": "model-value",
+              "description": "Controlled text",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "variant",
-              "description": "Input variants, The optional value is `filled` `standard` `outline`",
-              "default": "standard",
+              "name": "default-value",
+              "description": "Initial uncontrolled text",
+              "default": "''",
               "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Input size: `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "ComponentSize",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "placeholder",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "options",
-              "description": "Specifies options",
+              "description": "Suggestions, including groups; unique values become strings on selection",
               "default": "[]",
               "value": {
-                "type": "AutoCompleteOption[]",
+                "type": "`(AutoCompleteOption | SelectOptionGroup)[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "field-names",
-              "description": "Custom field mapping for `options`",
-              "default": "-",
+              "description": "Map value, label, disabled and other fields",
+              "default": "—",
               "value": {
-                "type": "{ label?, value?, children?, disabled? }",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max-length",
-              "description": "Maxlength",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "enterkeyhint",
-              "description": "Customize the enter key style, See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "clearable",
-              "description": "Whether the clearable",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "line",
-              "description": "Whether to display a dividing line",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hint",
-              "description": "Whether to use placeholder as hint",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Text color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "focus-color",
-              "description": "The primary color in focus",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "blur-color",
-              "description": "The primary color in blur",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`AutoCompleteFieldNames`",
                 "kind": "expression"
               }
             },
             {
               "name": "should-open",
-              "description": "Determine whether the menu is displayed according to the input value",
-              "default": "Non-empty input",
+              "description": "Opening policy; does not filter candidates",
+              "default": "value.length > 0",
               "value": {
-                "type": "(v: string) => boolean",
+                "type": "`(value: string) => boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filter-option",
+              "description": "Filter by label; false for remote filtering",
+              "default": "true",
+              "value": {
+                "type": "`AutoCompleteFilterOption`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strict",
+              "description": "Case-sensitive built-in matching",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Popup container; same contract as Trigger",
+              "default": "—",
+              "value": {
+                "type": "`PopupContainer`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-props",
+              "description": "Trigger configuration; cannot override owned opening and disabled state",
+              "default": "—",
+              "value": {
+                "type": "`TriggerProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "Enable and configure virtual scrolling",
+              "default": "—",
+              "value": {
+                "type": "`VirtualListProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Five sizes; inherit Group / Form / global configuration when unset",
+              "default": "md",
+              "value": {
+                "type": "`xs | sm | md | lg | xl`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Input variant; inherits Group when unset",
+              "default": "outline",
+              "value": {
+                "type": "`filled | outline | standard`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled; inherited when unset, explicit false overrides",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Readonly; focus/copy allowed, suggestions stay closed",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Error state; inherits FormItem when unset",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Allow clearing a nonempty editable value",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder or floating hint text",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint",
+              "description": "Enable Input floating hint",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "line",
+              "description": "Show border or underline",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "Instance text color",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "Instance focus color",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "Instance unfocused hint color",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "Virtual keyboard action hint",
+              "default": "—",
+              "value": {
+                "type": "`InputHTMLAttributes['enterKeyHint']`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible input name",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-length",
+              "description": "Same length normalization for typing and selecting",
+              "default": "0",
+              "value": {
+                "type": "`number | { length: number; errorOnly?: boolean }`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-word-limit",
+              "description": "Display word count",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-length",
+              "description": "Custom length calculation",
+              "default": "—",
+              "value": {
+                "type": "`(value: string) => number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-slice",
+              "description": "Custom slicing",
+              "default": "—",
+              "value": {
+                "type": "`(value: string, maxLength: number) => string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "Native input attributes; combobox state is owned by the component",
+              "default": "—",
+              "value": {
+                "type": "`Record<string, unknown>`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
-              "name": "focus",
-              "description": "Triggered while focusing"
+              "name": "update:model-value",
+              "description": "`value: string`"
             },
             {
-              "name": "blur",
-              "description": "Triggered when out of focus"
+              "name": "input / search / change",
+              "description": "`value: string, event: Event`"
             },
             {
-              "name": "click",
-              "description": "Triggered on Click"
+              "name": "select",
+              "description": "`value: string, option: AutoCompleteOptionInfo, event: Event`"
             },
             {
               "name": "clear",
-              "description": "Triggered on Clearance"
+              "description": "`event: Event`"
             },
             {
-              "name": "input",
-              "description": "Triggered on input"
+              "name": "focus / blur",
+              "description": "`event: FocusEvent`"
             },
             {
-              "name": "change",
-              "description": "Triggered on change"
+              "name": "dropdown-scroll / dropdown-reach-bottom",
+              "description": "`event: Event`"
             }
           ],
           "slots": [
             {
-              "name": "prefix",
-              "description": "Prefix"
+              "name": "option",
+              "description": "`{ data: AutoCompleteOptionInfo }`"
             },
             {
-              "name": "suffix",
-              "description": "Suffix"
+              "name": "footer",
+              "description": "Menu footer"
+            },
+            {
+              "name": "prefix / suffix",
+              "description": "Input prefix / suffix"
             },
             {
               "name": "clear-icon",
-              "description": "Clear Icon"
+              "description": "`{ clear }`"
             }
           ]
         },
@@ -718,80 +826,88 @@
           "attributes": [
             {
               "name": "target-container",
-              "description": "The target to trigger scroll. When unset, the nearest scrollable ancestor is detected automatically.",
-              "default": "-",
+              "description": "Scroll target; omitted means page",
+              "default": "—",
               "value": {
-                "type": "string | HTMLElement",
+                "type": "`string | HTMLElement | (() => HTMLElement | null | undefined)`",
                 "kind": "expression"
               }
             },
             {
               "name": "popup-container",
-              "description": "Mount target; omitted values use body. When `false`, the button is positioned relative to its parent, which should have `position: relative`.",
+              "description": "Render target; false renders locally",
               "default": "body",
               "value": {
-                "type": "string | HTMLElement | false",
+                "type": "`string | HTMLElement | false`",
                 "kind": "expression"
               }
             },
             {
               "name": "visible-height",
-              "description": "The button will not show until the scroll height reaches this value",
+              "description": "Inclusive scroll threshold in px, numeric strings accepted",
               "default": "200",
               "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "bottom",
-              "description": "Distance from the bottom of the viewport",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "right",
-              "description": "Distance from the right of the viewport",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
             {
               "name": "duration",
-              "description": "Time to return to top(ms)",
-              "default": "300",
+              "description": "Animation duration in ms; 0 is immediate",
+              "default": "200",
               "value": {
-                "type": "number",
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "easing",
+              "description": "Built-in curve or normalized progress function",
+              "default": "'quartOut'",
+              "value": {
+                "type": "`'linear' | 'quartOut' | 'easeInOutCubic' | ((progress: number) => number)`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "right",
+              "description": "Right offset; number in px, string accepts CSS units",
+              "default": "—",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "bottom",
+              "description": "Bottom offset; number in px, string accepts CSS units",
+              "default": "—",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Shadow level; true uses level 2",
+              "default": "true",
+              "value": {
+                "type": "`boolean | number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible name",
+              "default": "'Back to top'",
+              "value": {
+                "type": "`string`",
                 "kind": "expression"
               }
             }
           ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Triggered when click"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Custom the content"
-            }
-          ]
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-badge",
@@ -1733,249 +1849,9 @@
         },
         {
           "name": "mp-cascader",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "Binding value",
-              "default": "-",
-              "value": {
-                "type": "any | any[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "options",
-              "description": "Cascading option data",
-              "default": "[]",
-              "value": {
-                "type": "CascaderOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "presentation",
-              "description": "Display style, optional `menu` `picker` `list`",
-              "default": "menu",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "open",
-              "description": "Visibility control",
-              "default": "undefined",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "Custom field mapping for `options`",
-              "default": "-",
-              "value": {
-                "type": "FieldNames",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "multiple",
-              "description": "Enable multi-select (menu: checkbox panel; picker: temporary cart with Add / Done / Cancel; list: tap to toggle + Done / Cancel)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "check-strictly",
-              "description": "Allow selecting non-leaf nodes",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "path-mode",
-              "description": "Return full path array vs leaf value",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "filterable",
-              "description": "Enable search",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "clearable",
-              "description": "Allow clear",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "Placeholder text",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Disabled state",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Readonly state",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading",
-              "description": "Loading state",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Size: `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "ComponentSize",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "Variant, optional `filled` `standard` `outline`",
-              "default": "standard",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "tag",
-              "description": "Tag style (multi-select only)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "separator",
-              "description": "Multi-select separator",
-              "default": ",",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-select",
-              "description": "Auto close on select (menu single-select only; multiple never auto-closes)",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "picker-props",
-              "description": "Props passed to `mp-picker` in picker mode",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<PickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-props",
-              "description": "Props passed to popup",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<PopupProps\\>",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "focus",
-              "description": "Triggered on focus"
-            },
-            {
-              "name": "blur",
-              "description": "Triggered on blur"
-            },
-            {
-              "name": "click",
-              "description": "Triggered on click"
-            },
-            {
-              "name": "clear",
-              "description": "Triggered on clear"
-            },
-            {
-              "name": "close",
-              "description": "Triggered on close"
-            },
-            {
-              "name": "change",
-              "description": "Triggered on change"
-            }
-          ],
-          "slots": [
-            {
-              "name": "selected",
-              "description": "Selected content"
-            },
-            {
-              "name": "option",
-              "description": "Custom option content"
-            },
-            {
-              "name": "prefix",
-              "description": "Prefix"
-            },
-            {
-              "name": "clear-icon",
-              "description": "Clear icon"
-            },
-            {
-              "name": "suffix",
-              "description": "Suffix"
-            },
-            {
-              "name": "arrow-icon",
-              "description": "Arrow icon"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-cell",
@@ -2100,20 +1976,56 @@
           "name": "mp-checkbox",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "The value of the binding",
+              "name": "model-value (v-model)",
+              "description": "Controlled value",
+              "default": "undefined",
+              "value": {
+                "type": "ChoiceValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled value",
               "default": "[]",
               "value": {
-                "type": "any[]",
+                "type": "ChoiceValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled; inherits form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Read only; inherits form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Error; inherits form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "max",
-              "description": "Maximum number of checked",
-              "default": "-",
+              "description": "Maximum selection count",
+              "default": "undefined",
               "value": {
-                "type": "string | number",
+                "type": "number",
                 "kind": "expression"
               }
             },
@@ -2127,34 +2039,42 @@
               }
             },
             {
-              "name": "options _**3.2.11**_",
-              "description": "Specifies options",
-              "default": "[]",
+              "name": "options",
+              "description": "Options; replaces default slot when supplied",
+              "default": "undefined",
               "value": {
-                "type": "CheckboxGroupOption[]",
+                "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>>",
                 "kind": "expression"
               }
             },
             {
               "name": "field-names",
-              "description": "Custom field mapping for `options`",
-              "default": "-",
+              "description": "Option field mapping",
+              "default": "undefined",
               "value": {
-                "type": "{ label?, value?, children?, disabled? }",
+                "type": "ChoiceFieldNames",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
+              "name": "update:model-value",
+              "description": "Proposes a value"
+            },
+            {
               "name": "change",
-              "description": "Triggered on change"
+              "description": "Value changed; emitted by Group only"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Checkbox Group content"
+              "description": "Children when options is omitted"
+            },
+            {
+              "name": "label",
+              "description": "Option label"
             }
           ]
         },
@@ -2651,11 +2571,47 @@
           "name": "mp-date",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "Bound value; date-time string when `show-time`",
-              "default": "-",
+              "name": "model-value",
+              "description": "Controlled value",
+              "default": "undefined",
               "value": {
-                "type": "string | string[]",
+                "type": "DateValue / DateValue[] (multiple/range)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Uncontrolled initial value, read once",
+              "default": "undefined",
+              "value": {
+                "type": "DateValue / DateValue[] (multiple/range)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format",
+              "description": "Display format or formatter",
+              "default": "—",
+              "value": {
+                "type": "string / (date: Date) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value-format",
+              "description": "Model format, Date or timestamp",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disable-confirm",
+              "description": "Commit immediately",
+              "default": "field: false; panel: true",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -2665,6 +2621,24 @@
               "default": "-",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Uncontrolled initial open state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Popup mount target",
+              "default": "—",
+              "value": {
+                "type": "string / HTMLElement / (() => HTMLElement) / false",
                 "kind": "expression"
               }
             },
@@ -2697,8 +2671,8 @@
             },
             {
               "name": "use-seconds",
-              "description": "Show seconds when `show-time`",
-              "default": "false",
+              "description": "Default time precision; explicit format takes priority",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2718,7 +2692,7 @@
               "description": "Minimum date",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "DateValue",
                 "kind": "expression"
               }
             },
@@ -2727,25 +2701,25 @@
               "description": "Maximum date",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "DateValue",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled-date",
-              "description": "Returns `true` to disable a date",
-              "default": "-",
+              "description": "true disables; side is start or end",
+              "default": "—",
               "value": {
-                "type": "(val: string) => boolean",
+                "type": "(date: Date, side: DateSide) => boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled-time",
-              "description": "Disabled time when `show-time` (callback returns true to disable)",
-              "default": "-",
+              "description": "Disabled time lists for this date and endpoint",
+              "default": "—",
               "value": {
-                "type": "DisabledTime",
+                "type": "(date: Date, side: DateSide) => DateDisabledTime",
                 "kind": "expression"
               }
             },
@@ -2788,7 +2762,7 @@
             {
               "name": "clearable",
               "description": "Show clear button",
-              "default": "false",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2846,15 +2820,19 @@
             },
             {
               "name": "clear",
-              "description": "Emitted on clear"
+              "description": "Cleared: undefined for single, [] for multiple/range"
             },
             {
-              "name": "close",
-              "description": "Emitted when popup closes"
+              "name": "open-change",
+              "description": "Open-state change"
             },
             {
               "name": "change",
-              "description": "Emitted after confirm"
+              "description": "Validated value committed"
+            },
+            {
+              "name": "select",
+              "description": "Draft selected, not necessarily committed"
             }
           ],
           "slots": [
@@ -2875,7 +2853,7 @@
               "description": "Suffix"
             },
             {
-              "name": "arrow-icon",
+              "name": "suffix-icon",
               "description": "Arrow icon"
             }
           ]
@@ -2884,11 +2862,47 @@
           "name": "mp-date-range",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "Bound value; date-time strings when `show-time`",
-              "default": "[]",
+              "name": "model-value",
+              "description": "Controlled value",
+              "default": "undefined",
               "value": {
-                "type": "string[]",
+                "type": "DateValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Uncontrolled initial value, read once",
+              "default": "undefined",
+              "value": {
+                "type": "DateValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format",
+              "description": "Display format or formatter",
+              "default": "—",
+              "value": {
+                "type": "string / (date: Date) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "value-format",
+              "description": "Model format, Date or timestamp",
+              "default": "—",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disable-confirm",
+              "description": "Commit immediately",
+              "default": "field: false; panel: true",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -2898,6 +2912,24 @@
               "default": "-",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Uncontrolled initial open state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Popup mount target",
+              "default": "—",
+              "value": {
+                "type": "string / HTMLElement / (() => HTMLElement) / false",
                 "kind": "expression"
               }
             },
@@ -2930,8 +2962,8 @@
             },
             {
               "name": "use-seconds",
-              "description": "Show seconds when `show-time`",
-              "default": "false",
+              "description": "Default time precision; explicit format takes priority",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2942,7 +2974,7 @@
               "description": "Minimum date",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "DateValue",
                 "kind": "expression"
               }
             },
@@ -2951,25 +2983,25 @@
               "description": "Maximum date",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "DateValue",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled-date",
-              "description": "Returns `true` to disable a date",
-              "default": "-",
+              "description": "true disables; side is start or end",
+              "default": "—",
               "value": {
-                "type": "(val: string) => boolean",
+                "type": "(date: Date, side: DateSide) => boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled-time",
-              "description": "Disabled time when `show-time` (callback returns true to disable)",
-              "default": "-",
+              "description": "Disabled time lists for this date and endpoint",
+              "default": "—",
               "value": {
-                "type": "DisabledTime",
+                "type": "(date: Date, side: DateSide) => DateDisabledTime",
                 "kind": "expression"
               }
             },
@@ -3030,7 +3062,7 @@
             {
               "name": "clearable",
               "description": "Show clear button",
-              "default": "false",
+              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -3038,10 +3070,10 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled",
+              "description": "Disable all or individual endpoints",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "boolean / boolean[]",
                 "kind": "expression"
               }
             },
@@ -3088,15 +3120,19 @@
             },
             {
               "name": "clear",
-              "description": "Emitted on clear"
+              "description": "Cleared: undefined for single, [] for multiple/range"
             },
             {
-              "name": "close",
-              "description": "Emitted when popup closes"
+              "name": "open-change",
+              "description": "Open-state change"
             },
             {
               "name": "change",
-              "description": "Emitted after confirm"
+              "description": "Validated value committed"
+            },
+            {
+              "name": "select",
+              "description": "Draft selected, not necessarily committed"
             }
           ],
           "slots": [
@@ -3284,6 +3320,15 @@
               "name": "overlay-closable / esc-to-close / lock-scroll",
               "description": "Close/scroll behavior",
               "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-route-change",
+              "description": "Close on browser history or hash changes",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -3837,53 +3882,53 @@
           "name": "mp-ellipsis",
           "attributes": [
             {
-              "name": "v-model:expand",
-              "description": "Whether to expand",
+              "name": "expand",
+              "description": "Controlled expansion",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-expand",
+              "description": "Initial uncontrolled expansion",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "expand-trigger",
-              "description": "Expand trigger method, optional value `click`",
-              "default": "-",
+              "description": "Enable click / Enter / Space toggling",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`'click'`",
                 "kind": "expression"
               }
             },
             {
               "name": "line-clamp",
-              "description": "Maximum number of display lines, see [line-clamp](https://caniuse.com/?search=line-clamp) for compatibility",
-              "default": "-",
+              "description": "Positive line count; omitted or invalid means single line",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`number | string`",
                 "kind": "expression"
               }
             },
             {
               "name": "tooltip",
-              "description": "Tooltip component props, for deep customization. For more convenience, `autoFitPopupWidth` defaults to `true` here",
+              "description": "Tooltip configuration; false disables it",
               "default": "true",
               "value": {
-                "type": "boolean | TooltipProps",
+                "type": "`boolean | TooltipProps`",
                 "kind": "expression"
               }
             }
           ],
           "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Text content"
-            },
-            {
-              "name": "tooltip-content",
-              "description": "Tooltip content"
-            }
-          ]
+          "slots": []
         },
         {
           "name": "mp-empty",
@@ -4315,17 +4360,35 @@
             },
             {
               "name": "layout",
-              "description": "Form item layout, `vertical` or `horizontal`; can be overridden by `FormItem.layout`",
+              "description": "Form item layout: `vertical`, `horizontal`, or `inline`; can be overridden by `FormItem.layout`",
               "default": "'vertical'",
               "value": {
-                "type": "'vertical' | 'horizontal'",
+                "type": "'vertical' | 'horizontal' | 'inline'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Form control size inherited by FormItem and controls",
+              "default": "-",
+              "value": {
+                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rules",
+              "description": "Validation rules keyed by field name",
+              "default": "-",
+              "value": {
+                "type": "Record<string, rule | rule[]>",
                 "kind": "expression"
               }
             },
             {
               "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
+              "description": "Whether controls are readonly",
+              "default": "-",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -4333,8 +4396,8 @@
             },
             {
               "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
+              "description": "Whether controls are disabled",
+              "default": "-",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -4363,6 +4426,14 @@
             {
               "name": "submit",
               "description": "Triggered when the form is submitted"
+            },
+            {
+              "name": "submit-success",
+              "description": "Triggered after successful validation"
+            },
+            {
+              "name": "submit-failed",
+              "description": "Triggered after failed validation"
             },
             {
               "name": "reset",
@@ -4471,7 +4542,7 @@
             },
             {
               "name": "size",
-              "description": "icon size",
+              "description": "`inherit`",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -4976,173 +5047,29 @@
           "name": "mp-input",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "Bound value",
+              "name": "focus",
+              "description": "Focus the input",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`-`",
                 "kind": "expression"
               }
             },
             {
-              "name": "type",
-              "description": "`text` `password` `number` `tel` or `email`",
-              "default": "text",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "Placeholder or floating hint text",
+              "name": "blur",
+              "description": "Blur the input",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`-`",
                 "kind": "expression"
               }
             },
             {
-              "name": "size",
-              "description": "`xs` `sm` `md` `lg` or `xl`",
-              "default": "md",
-              "value": {
-                "type": "ComponentSize",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "`filled` `outline` or `standard`",
-              "default": "standard",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hint",
-              "description": "Use the placeholder as a floating hint",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "line",
-              "description": "Show the separator line",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max-length",
-              "description": "Maximum length and character counter",
+              "name": "select",
+              "description": "Select all text",
               "default": "-",
               "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the input is readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the input is disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "clearable",
-              "description": "Whether the value can be cleared",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autofocus",
-              "description": "Focus automatically after mount",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "enterkeyhint",
-              "description": "Mobile enter-key hint",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autocomplete",
-              "description": "Native autocomplete policy",
-              "default": "off",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "aria-label",
-              "description": "Accessible label",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "input-attrs",
-              "description": "Attributes forwarded to the native input",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Text color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "focus-color",
-              "description": "Focus color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "blur-color",
-              "description": "Blur color",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "`-`",
                 "kind": "expression"
               }
             }
@@ -5157,10 +5084,6 @@
               "description": "Emitted on blur"
             },
             {
-              "name": "click",
-              "description": "Emitted on click"
-            },
-            {
               "name": "clear",
               "description": "Emitted after clearing"
             },
@@ -5170,7 +5093,11 @@
             },
             {
               "name": "change",
-              "description": "Emitted when a value change is committed"
+              "description": "Emitted only when blur or Enter commits a value"
+            },
+            {
+              "name": "press-enter",
+              "description": "Emitted when Enter is pressed"
             },
             {
               "name": "keydown",
@@ -5188,7 +5115,7 @@
             },
             {
               "name": "clear-icon",
-              "description": "Clear icon"
+              "description": "Clear icon or button"
             }
           ]
         },
@@ -5196,190 +5123,225 @@
           "name": "mp-input-number",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "Current value",
-              "default": "-",
+              "name": "model-value",
+              "description": "Controlled number; undefined denotes an empty/uncontrolled value",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-value",
-              "description": "Default value for uncontrolled usage",
-              "default": "-",
+              "description": "Initial uncontrolled value",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "mode",
-              "description": "Mode: `embed` `button` `input`",
+              "description": "Step-button layout",
               "default": "embed",
               "value": {
-                "type": "string",
+                "type": "`embed | button | input`",
                 "kind": "expression"
               }
             },
             {
               "name": "precision",
-              "description": "Number precision",
-              "default": "-",
+              "description": "Decimal places (0–100), at least the step precision",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "step",
-              "description": "Step value",
+              "description": "Positive finite step; scientific notation supported",
               "default": "1",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "disabled",
-              "description": "Whether to disable input number",
-              "default": "false",
+              "description": "Disabled; inherits when omitted",
+              "default": "Inherited, otherwise false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "error",
-              "description": "Whether to show error state",
-              "default": "false",
+              "description": "Error state; inherits FormItem when omitted",
+              "default": "Inherited, otherwise false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "max",
-              "description": "Max value",
+              "description": "Maximum",
               "default": "Infinity",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "min",
-              "description": "Min value",
+              "description": "Minimum",
               "default": "-Infinity",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "formatter",
-              "description": "Format display value",
-              "default": "-",
+              "description": "Display formatting only; does not change the number",
+              "default": "—",
               "value": {
-                "type": "(value: string) => string",
+                "type": "`(text: string) => string`",
                 "kind": "expression"
               }
             },
             {
               "name": "parser",
-              "description": "Parse input value",
-              "default": "-",
+              "description": "Parse the original text once per edit",
+              "default": "—",
               "value": {
-                "type": "(value: string) => string",
+                "type": "`(text: string) => string`",
                 "kind": "expression"
               }
             },
             {
               "name": "placeholder",
-              "description": "Input placeholder",
-              "default": "-",
+              "description": "Placeholder",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "size",
-              "description": "Input size: `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
+              "description": "All five sizes implemented; inheritable",
+              "default": "Inherited, otherwise md",
               "value": {
-                "type": "ComponentSize",
+                "type": "`xs | sm | md | lg | xl`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Field variant; inherits InputGroup",
+              "default": "outline",
+              "value": {
+                "type": "`outline | filled | standard`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint",
+              "description": "Floating hint; inherits InputGroup / FieldDecorator",
+              "default": "Library default",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "clearable",
-              "description": "Whether the input can be cleared",
+              "description": "Allow clearing an editable field",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "model-event",
-              "description": "Event that updates `v-model`: `change` `input`",
+              "description": "Model update timing; change only reports commits",
               "default": "change",
               "value": {
-                "type": "string",
+                "type": "`change | input`",
                 "kind": "expression"
               }
             },
             {
               "name": "readonly",
-              "description": "Whether to be readonly",
-              "default": "false",
+              "description": "Read-only; allows focus/copy but no mutations",
+              "default": "Inherited, otherwise false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "input-attrs",
-              "description": "Native input attributes",
-              "default": "-",
+              "description": "Additional native input attributes",
+              "default": "—",
               "value": {
-                "type": "object",
+                "type": "`Record<string, unknown>`",
                 "kind": "expression"
               }
             }
           ],
           "events": [
             {
+              "name": "input",
+              "description": "`(value: number | undefined, text: string, event: Event)`"
+            },
+            {
               "name": "update:model-value",
-              "description": "Emitted when value changes"
+              "description": "`(value: number | undefined)`"
             },
             {
               "name": "change",
-              "description": "Emitted after value changes"
-            },
-            {
-              "name": "input",
-              "description": "Emitted on input"
-            },
-            {
-              "name": "focus",
-              "description": "Emitted when input is focused"
-            },
-            {
-              "name": "blur",
-              "description": "Emitted when input is blurred"
+              "description": "`(value: number | undefined, event: Event)`"
             },
             {
               "name": "clear",
-              "description": "Emitted when clear is clicked"
+              "description": "`(event: Event)`"
+            },
+            {
+              "name": "focus",
+              "description": "`(event: FocusEvent)`"
+            },
+            {
+              "name": "blur",
+              "description": "`(event: FocusEvent)`"
             },
             {
               "name": "keydown",
-              "description": "Emitted on keydown"
+              "description": "`(event: KeyboardEvent)`"
             }
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "prefix / suffix",
+              "description": "—"
+            },
+            {
+              "name": "prepend / append",
+              "description": "—"
+            },
+            {
+              "name": "plus / minus",
+              "description": "—"
+            },
+            {
+              "name": "clear-icon",
+              "description": "`{ clear: (event?: Event) => void }`"
+            }
+          ]
         },
         {
           "name": "mp-lazy",
@@ -5731,117 +5693,453 @@
         },
         {
           "name": "mp-message",
-          "attributes": [
+          "attributes": [],
+          "events": [
             {
-              "name": "v-model:open",
-              "description": "Whether to show",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
+              "name": "--mp-message-viewport-padding",
+              "description": "`24px`"
             },
             {
-              "name": "status",
-              "description": "info / success / warning / danger / loading / default",
-              "default": "info",
-              "value": {
-                "type": "MessageStatus",
-                "kind": "expression"
-              }
+              "name": "--mp-message-wrapper-margin-top",
+              "description": "`5%`"
             },
             {
-              "name": "position",
-              "description": "`top` `center` `bottom`",
-              "default": "top",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
+              "name": "--mp-message-wrapper-margin-bottom",
+              "description": "`5%`"
             },
             {
-              "name": "content",
-              "description": "Content",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
+              "name": "--mp-message-z-index",
+              "description": "`2000`"
             },
             {
-              "name": "duration",
-              "description": "Duration ms; `0` means no auto close",
-              "default": "3000",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
+              "name": "--mp-message-box-shadow",
+              "description": "`0 4px 12px rgba(0, 0, 0, 0.2)`"
             },
             {
-              "name": "show-icon",
-              "description": "Show icon",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
+              "name": "--mp-message-icon-font-size",
+              "description": "`20px`"
             },
             {
-              "name": "closable",
-              "description": "Show close button",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
+              "name": "--mp-message-close-size",
+              "description": "`32px`"
             },
             {
-              "name": "vertical",
-              "description": "Vertical layout",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
+              "name": "--mp-message-close-margin-right",
+              "description": "`4px`"
             },
             {
-              "name": "forbid-click",
-              "description": "Block click through",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
+              "name": "--mp-message-close-border-radius",
+              "description": "`50%`"
             },
             {
-              "name": "lock-scroll",
-              "description": "Lock scroll",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
+              "name": "--mp-message-focus-outline-width",
+              "description": "`2px`"
             },
             {
-              "name": "elevation",
-              "description": "Elevation",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
+              "name": "--mp-message-focus-outline-offset",
+              "description": "`-4px`"
             },
             {
-              "name": "popup-container",
-              "description": "Teleport target",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
+              "name": "--mp-message-transition-distance",
+              "description": "`-12px`"
+            },
+            {
+              "name": "--mp-message-transition-duration",
+              "description": "`150ms`"
+            },
+            {
+              "name": "--mp-message-transition-timing-function",
+              "description": "`var(--mp-cubic-bezier)`"
+            },
+            {
+              "name": "--mp-message-neutral-default-bg",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
+            },
+            {
+              "name": "--mp-message-neutral-default-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-default-icon-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-default-border-color",
+              "description": "`var(--mp-sys-color-border-default)`"
+            },
+            {
+              "name": "--mp-message-neutral-default-close-color",
+              "description": "`var(--mp-sys-color-content-secondary)`"
+            },
+            {
+              "name": "--mp-message-neutral-info-bg",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
+            },
+            {
+              "name": "--mp-message-neutral-info-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-info-icon-color",
+              "description": "`var(--mp-sys-color-content-info)`"
+            },
+            {
+              "name": "--mp-message-neutral-info-border-color",
+              "description": "`var(--mp-sys-color-border-default)`"
+            },
+            {
+              "name": "--mp-message-neutral-info-close-color",
+              "description": "`var(--mp-sys-color-content-secondary)`"
+            },
+            {
+              "name": "--mp-message-neutral-success-bg",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
+            },
+            {
+              "name": "--mp-message-neutral-success-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-success-icon-color",
+              "description": "`var(--mp-sys-color-content-success)`"
+            },
+            {
+              "name": "--mp-message-neutral-success-border-color",
+              "description": "`var(--mp-sys-color-border-default)`"
+            },
+            {
+              "name": "--mp-message-neutral-success-close-color",
+              "description": "`var(--mp-sys-color-content-secondary)`"
+            },
+            {
+              "name": "--mp-message-neutral-warning-bg",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
+            },
+            {
+              "name": "--mp-message-neutral-warning-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-warning-icon-color",
+              "description": "`var(--mp-sys-color-content-warning)`"
+            },
+            {
+              "name": "--mp-message-neutral-warning-border-color",
+              "description": "`var(--mp-sys-color-border-default)`"
+            },
+            {
+              "name": "--mp-message-neutral-warning-close-color",
+              "description": "`var(--mp-sys-color-content-secondary)`"
+            },
+            {
+              "name": "--mp-message-neutral-danger-bg",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
+            },
+            {
+              "name": "--mp-message-neutral-danger-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-danger-icon-color",
+              "description": "`var(--mp-sys-color-content-danger)`"
+            },
+            {
+              "name": "--mp-message-neutral-danger-border-color",
+              "description": "`var(--mp-sys-color-border-default)`"
+            },
+            {
+              "name": "--mp-message-neutral-danger-close-color",
+              "description": "`var(--mp-sys-color-content-secondary)`"
+            },
+            {
+              "name": "--mp-message-neutral-loading-bg",
+              "description": "`var(--mp-sys-color-surface-overlay)`"
+            },
+            {
+              "name": "--mp-message-neutral-loading-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-neutral-loading-icon-color",
+              "description": "`var(--mp-sys-color-content-brand)`"
+            },
+            {
+              "name": "--mp-message-neutral-loading-border-color",
+              "description": "`var(--mp-sys-color-border-default)`"
+            },
+            {
+              "name": "--mp-message-neutral-loading-close-color",
+              "description": "`var(--mp-sys-color-content-secondary)`"
+            },
+            {
+              "name": "--mp-message-tonal-default-bg",
+              "description": "`var(--mp-sys-color-surface-muted)`"
+            },
+            {
+              "name": "--mp-message-tonal-default-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-default-icon-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-default-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-tonal-default-close-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-info-bg",
+              "description": "`rgba(var(--mp-blue-6), 0.12)`"
+            },
+            {
+              "name": "--mp-message-tonal-info-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-info-icon-color",
+              "description": "`var(--mp-sys-color-content-info)`"
+            },
+            {
+              "name": "--mp-message-tonal-info-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-tonal-info-close-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-success-bg",
+              "description": "`var(--mp-color-success-light-1)`"
+            },
+            {
+              "name": "--mp-message-tonal-success-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-success-icon-color",
+              "description": "`var(--mp-sys-color-content-success)`"
+            },
+            {
+              "name": "--mp-message-tonal-success-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-tonal-success-close-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-warning-bg",
+              "description": "`var(--mp-color-warning-light-1)`"
+            },
+            {
+              "name": "--mp-message-tonal-warning-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-warning-icon-color",
+              "description": "`var(--mp-sys-color-content-warning)`"
+            },
+            {
+              "name": "--mp-message-tonal-warning-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-tonal-warning-close-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-danger-bg",
+              "description": "`var(--mp-color-danger-light-1)`"
+            },
+            {
+              "name": "--mp-message-tonal-danger-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-danger-icon-color",
+              "description": "`var(--mp-sys-color-content-danger)`"
+            },
+            {
+              "name": "--mp-message-tonal-danger-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-tonal-danger-close-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-loading-bg",
+              "description": "`var(--mp-color-primary-light-1)`"
+            },
+            {
+              "name": "--mp-message-tonal-loading-content-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-tonal-loading-icon-color",
+              "description": "`var(--mp-sys-color-content-brand)`"
+            },
+            {
+              "name": "--mp-message-tonal-loading-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-tonal-loading-close-color",
+              "description": "`var(--mp-sys-color-content-primary)`"
+            },
+            {
+              "name": "--mp-message-solid-default-bg",
+              "description": "`#333`"
+            },
+            {
+              "name": "--mp-message-solid-default-content-color",
+              "description": "`var(--mp-sys-color-content-on-dark)`"
+            },
+            {
+              "name": "--mp-message-solid-default-icon-color",
+              "description": "`var(--mp-sys-color-content-on-dark)`"
+            },
+            {
+              "name": "--mp-message-solid-default-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-solid-default-close-color",
+              "description": "`var(--mp-sys-color-content-on-dark)`"
+            },
+            {
+              "name": "--mp-message-solid-info-bg",
+              "description": "`var(--mp-sys-color-status-info)`"
+            },
+            {
+              "name": "--mp-message-solid-info-content-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-info-icon-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-info-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-solid-info-close-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-success-bg",
+              "description": "`var(--mp-sys-color-status-success)`"
+            },
+            {
+              "name": "--mp-message-solid-success-content-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-success-icon-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-success-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-solid-success-close-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-warning-bg",
+              "description": "`var(--mp-sys-color-status-warning)`"
+            },
+            {
+              "name": "--mp-message-solid-warning-content-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-warning-icon-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-warning-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-solid-warning-close-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-danger-bg",
+              "description": "`var(--mp-sys-color-status-danger)`"
+            },
+            {
+              "name": "--mp-message-solid-danger-content-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-danger-icon-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-danger-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-solid-danger-close-color",
+              "description": "`var(--mp-sys-color-content-on-bright)`"
+            },
+            {
+              "name": "--mp-message-solid-loading-bg",
+              "description": "`#333`"
+            },
+            {
+              "name": "--mp-message-solid-loading-content-color",
+              "description": "`var(--mp-sys-color-content-on-dark)`"
+            },
+            {
+              "name": "--mp-message-solid-loading-icon-color",
+              "description": "`var(--mp-sys-color-content-on-dark)`"
+            },
+            {
+              "name": "--mp-message-solid-loading-border-color",
+              "description": "`transparent`"
+            },
+            {
+              "name": "--mp-message-solid-loading-close-color",
+              "description": "`var(--mp-sys-color-content-on-dark)`"
+            },
+            {
+              "name": "--mp-message-width",
+              "description": "`256px`"
+            },
+            {
+              "name": "--mp-message-border-radius",
+              "description": "`4px`"
+            },
+            {
+              "name": "--mp-message-font-size",
+              "description": "`var(--mp-font-size-md)`"
+            },
+            {
+              "name": "--mp-message-margin",
+              "description": "`6px 24px`"
+            },
+            {
+              "name": "--mp-message-content-padding",
+              "description": "`14px 16px`"
+            },
+            {
+              "name": "--mp-message-action-margin",
+              "description": "`0 8px`"
+            },
+            {
+              "name": "--mp-message-icon-margin",
+              "description": "`0 8px`"
             }
           ],
-          "events": [],
           "slots": []
         },
         {
@@ -6206,10 +6504,10 @@
             },
             {
               "name": "popup-container",
-              "description": "The location of the Overlay to mount",
+              "description": "Teleport target; `false` renders in place",
               "default": "'body'",
               "value": {
-                "type": "TeleportProps['to'] | false",
+                "type": "string | HTMLElement | false",
                 "kind": "expression"
               }
             },
@@ -6233,6 +6531,10 @@
             }
           ],
           "events": [
+            {
+              "name": "update:open",
+              "description": "Open state changed"
+            },
             {
               "name": "click",
               "description": "Triggered when clicking on overlay"
@@ -7046,166 +7348,9 @@
         },
         {
           "name": "mp-popup",
-          "attributes": [
-            {
-              "name": "v-model:open",
-              "description": "Whether to display the Popup",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "position",
-              "description": "Popup position with optional value of `top` `bottom` `right` `left` `center`",
-              "default": "center",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "overlay",
-              "description": "Whether to display the overlay",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "overlay-class",
-              "description": "Custom overlay class",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "overlay-style",
-              "description": "Custom overlay style",
-              "default": "-",
-              "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-style",
-              "description": "Whether to enable the default style",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "transition",
-              "description": "Transition animation name",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lock-scroll",
-              "description": "Whether to disable scrolling penetration, scrolling the Popup when disabled will not cause the body to scroll",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "overlay-closable",
-              "description": "Whether to click the overlay to close the Popup",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "esc-to-close",
-              "description": "Whether to support keyboard ESC to close the popup",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "The location of the Popup to mount",
-              "default": "body",
-              "value": {
-                "type": "TeleportProps['to'] | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area",
-              "description": "Whether to enable bottom safety zone adaptation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "safe-area-top",
-              "description": "Whether to enable top safety zone adaptation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "z-index _**3.3.10**_",
-              "description": "The zIndex of element",
-              "default": "-",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "open",
-              "description": "Triggered when the Popup is open"
-            },
-            {
-              "name": "opened",
-              "description": "Triggered when the Popup open-animation ends"
-            },
-            {
-              "name": "close",
-              "description": "Triggered when the Popup is close"
-            },
-            {
-              "name": "closed",
-              "description": "Triggered when the Popup close-animation ends"
-            },
-            {
-              "name": "click-overlay",
-              "description": "Triggered when you click the overlay"
-            },
-            {
-              "name": "key-escape",
-              "description": "Triggered when pressing ESC"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Popup content"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-progress",
@@ -7439,11 +7584,65 @@
           "name": "mp-radio",
           "attributes": [
             {
-              "name": "v-model",
-              "description": "The value of the binding",
-              "default": "-",
+              "name": "model-value (v-model)",
+              "description": "Controlled value",
+              "default": "undefined",
               "value": {
-                "type": "any",
+                "type": "RadioModel",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled value",
+              "default": "null",
+              "value": {
+                "type": "RadioModel",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled; inherits form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Read only; inherits form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Error; inherits form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Group appearance",
+              "default": "radio",
+              "value": {
+                "type": "radio | button",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Button height only",
+              "default": "undefined",
+              "value": {
+                "type": "ComponentSize",
                 "kind": "expression"
               }
             },
@@ -7457,20 +7656,11 @@
               }
             },
             {
-              "name": "options _**3.2.14**_",
-              "description": "Specifies options",
-              "default": "[]",
+              "name": "options",
+              "description": "Options; replaces default slot when supplied",
+              "default": "undefined",
               "value": {
-                "type": "RadioGroupOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "Custom field mapping for `options`",
-              "default": "-",
-              "value": {
-                "type": "{ label?, value?, children?, disabled? }",
+                "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>>",
                 "kind": "expression"
               }
             },
@@ -7482,18 +7672,35 @@
                 "type": "string",
                 "kind": "expression"
               }
+            },
+            {
+              "name": "field-names",
+              "description": "Option field mapping",
+              "default": "undefined",
+              "value": {
+                "type": "ChoiceFieldNames",
+                "kind": "expression"
+              }
             }
           ],
           "events": [
             {
+              "name": "update:model-value",
+              "description": "Proposes a value"
+            },
+            {
               "name": "change",
-              "description": "Triggered on change"
+              "description": "Value changed; emitted by Group only"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Radio Group content"
+              "description": "Children when options is omitted"
+            },
+            {
+              "name": "label",
+              "description": "Option label"
             }
           ]
         },
@@ -7606,6 +7813,15 @@
               }
             },
             {
+              "name": "default-value",
+              "description": "Uncontrolled default keyword",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "v-model:model-field",
               "description": "Current search field",
               "default": "-",
@@ -7615,17 +7831,8 @@
               }
             },
             {
-              "name": "v-model:search-text",
-              "description": "Search keyword, compatible field-search name",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:search-field",
-              "description": "Current search field, compatible field-search name",
+              "name": "default-field",
+              "description": "Uncontrolled default field",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7634,28 +7841,10 @@
             },
             {
               "name": "v-model:model",
-              "description": "Form model object, written by field in field mode",
+              "description": "Object updated by field in field-search mode",
               "default": "-",
               "value": {
-                "type": "object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-value",
-              "description": "Default search keyword",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-field",
-              "description": "Default search field",
-              "default": "-",
-              "value": {
-                "type": "string",
+                "type": "Record<string, unknown>",
                 "kind": "expression"
               }
             },
@@ -7669,8 +7858,17 @@
               }
             },
             {
+              "name": "select-style",
+              "description": "Field selector style",
+              "default": "-",
+              "value": {
+                "type": "StyleValue",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "recent-searches",
-              "description": "Search history list shown fully",
+              "description": "Controlled search history",
               "default": "[]",
               "value": {
                 "type": "string[]",
@@ -7679,7 +7877,7 @@
             },
             {
               "name": "max-search-history-count",
-              "description": "Max items kept when generating next history",
+              "description": "Maximum items in the next history list",
               "default": "5",
               "value": {
                 "type": "number",
@@ -7688,10 +7886,73 @@
             },
             {
               "name": "history-popup",
-              "description": "Whether history is shown in a full-screen Popup; when `false`, a auto-fit-popup-width Menu is used",
+              "description": "Whether to show history in a full-screen Popup",
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-button",
+              "description": "Whether to show the shared search button",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "button-text",
+              "description": "Shared search button text",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "button-props",
+              "description": "Shared search button props",
+              "default": "-",
+              "value": {
+                "type": "ButtonProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Loading state; submission is blocked while loading",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Whether the value can be cleared",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Input variant: `filled`, `outline`, or `standard`",
+              "default": "outline",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Input size",
+              "default": "md",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             },
@@ -7701,6 +7962,24 @@
               "default": "-",
               "value": {
                 "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether Search is disabled",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Whether Search is readonly",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -7715,7 +7994,7 @@
             },
             {
               "name": "shape",
-              "description": "Inner search field shape, can be `round` `square`",
+              "description": "Inner field shape: `round` or `square`",
               "default": "round",
               "value": {
                 "type": "string",
@@ -7733,7 +8012,7 @@
             },
             {
               "name": "input-background",
-              "description": "Inner search field background color",
+              "description": "Inner field background color",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7742,7 +8021,7 @@
             },
             {
               "name": "show-action",
-              "description": "Whether to show the action button",
+              "description": "Whether to show the mobile action",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -7751,7 +8030,7 @@
             },
             {
               "name": "action-text",
-              "description": "Action button text",
+              "description": "Mobile action text",
               "default": "取消",
               "value": {
                 "type": "string",
@@ -7760,7 +8039,7 @@
             },
             {
               "name": "action-type",
-              "description": "Action button type, can be `cancel` `search`",
+              "description": "Mobile action type: `cancel` or `search`",
               "default": "cancel",
               "value": {
                 "type": "string",
@@ -7777,35 +8056,8 @@
               }
             },
             {
-              "name": "clearable",
-              "description": "Whether to show clear icon",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable search",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether to be readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "max-length",
-              "description": "Max length",
+              "description": "Maximum length",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -7814,7 +8066,7 @@
             },
             {
               "name": "enterkeyhint",
-              "description": "Custom enter key hint",
+              "description": "Virtual keyboard Enter hint",
               "default": "search",
               "value": {
                 "type": "string",
@@ -7824,278 +8076,82 @@
           ],
           "events": [
             {
-              "name": "search",
-              "description": "Emitted when clicking the search icon, action search button, or pressing enter"
+              "name": "update:modelValue",
+              "description": "Emitted when the keyword updates"
             },
             {
-              "name": "cancel",
-              "description": "Emitted when clicking the cancel button"
+              "name": "update:modelField",
+              "description": "Emitted when the field updates"
+            },
+            {
+              "name": "update:model",
+              "description": "Emitted when the field model updates"
             },
             {
               "name": "input",
-              "description": "Emitted while typing"
+              "description": "Emitted during live editing"
             },
             {
               "name": "change",
-              "description": "Emitted when search field or keyword changes"
+              "description": "Emitted on blur, Enter commit, or field change"
             },
             {
               "name": "clear",
               "description": "Emitted when clearing"
-            }
-          ],
-          "slots": []
-        },
-        {
-          "name": "mp-select",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "The value of the binding",
-              "default": "-",
-              "value": {
-                "type": "any | any[]",
-                "kind": "expression"
-              }
             },
             {
-              "name": "size",
-              "description": "Select size: `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "ComponentSize",
-                "kind": "expression"
-              }
+              "name": "search",
+              "description": "Emitted by the icon, button, Enter, or history selection"
             },
-            {
-              "name": "variant",
-              "description": "Select variant, The optional value is `filled` `outline` `standard`",
-              "default": "standard",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "presentation _**3.18.0**_",
-              "description": "Display mode, optional values `menu` `picker` `list`",
-              "default": "menu",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show _**3.18.0**_",
-              "description": "Visibility control",
-              "default": "undefined",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placeholder",
-              "description": "placeholder",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "multiple",
-              "description": "Whether to enable multiple selection",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "The vertical offset of the drop-down menu",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "tag",
-              "description": "Whether to use tag style (multiple choices only)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "line",
-              "description": "Whether to display a dividing line",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hint",
-              "description": "Whether to use placeholders as prompts",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Text color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "focus-color",
-              "description": "The primary color in focus",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "blur-color",
-              "description": "The primary color in blur",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "clearable",
-              "description": "Whether the clearable",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "options _**3.3.4**_",
-              "description": "Specifies options",
-              "default": "[]",
-              "value": {
-                "type": "SelectOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "Custom field mapping for `options`",
-              "default": "-",
-              "value": {
-                "type": "{ label?, value?, children?, disabled? }",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "picker-props _**3.18.0**_",
-              "description": "Props passed to `mp-picker` in picker mode",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<PickerProps\\>",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "Whether the menu matches the trigger width; false fits content (menu presentation).",
-              "default": "true",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-props _**3.18.0**_",
-              "description": "Props passed to popup",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<PopupProps\\>",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
             {
               "name": "focus",
-              "description": "Triggered when focusing"
+              "description": "Emitted on focus"
             },
             {
               "name": "blur",
-              "description": "Triggered when out of focus"
+              "description": "Emitted on blur"
             },
             {
-              "name": "click",
-              "description": "Triggered on click"
-            },
-            {
-              "name": "clear",
-              "description": "Triggered on clearance"
-            },
-            {
-              "name": "close",
-              "description": "Triggered on close"
-            },
-            {
-              "name": "change",
-              "description": "Triggered when change"
+              "name": "cancel",
+              "description": "Emitted by the mobile cancel action"
             }
           ],
           "slots": [
             {
-              "name": "selected",
-              "description": "Select the contents of the area"
-            },
-            {
               "name": "prefix",
-              "description": "Prefix"
-            },
-            {
-              "name": "clear-icon",
-              "description": "Clear Icon"
+              "description": "Input prefix; replaces the default search icon"
             },
             {
               "name": "suffix",
-              "description": "Suffix"
+              "description": "Input suffix"
             },
             {
-              "name": "arrow-icon",
-              "description": "Arrow icon"
+              "name": "clear-icon",
+              "description": "Clear icon"
+            },
+            {
+              "name": "button-default",
+              "description": "Shared search button content"
+            },
+            {
+              "name": "button-icon",
+              "description": "Shared search button icon"
+            },
+            {
+              "name": "label",
+              "description": "Left label"
+            },
+            {
+              "name": "action",
+              "description": "Mobile action content"
             }
           ]
+        },
+        {
+          "name": "mp-select",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-signature",
@@ -8212,7 +8268,7 @@
             },
             {
               "name": "title-width",
-              "description": "Title Width",
+              "description": "`50%`",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -8221,7 +8277,7 @@
             },
             {
               "name": "card-height",
-              "description": "Card Height",
+              "description": "`160px`",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -8230,7 +8286,7 @@
             },
             {
               "name": "avatar-size",
-              "description": "Avatar size",
+              "description": "`34px`",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -9149,7 +9205,7 @@
               "description": "Appearance",
               "default": "circle",
               "value": {
-                "type": "circle / round / line / md3",
+                "type": "circle / round / line / tonal",
                 "kind": "expression"
               }
             },
@@ -9650,9 +9706,282 @@
         },
         {
           "name": "mp-textarea",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "v-model",
+              "description": "Controlled value",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Uncontrolled initial value",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-modifiers",
+              "description": "Supports the `trim` model modifier",
+              "default": "{}",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder text",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "`filled | outline | standard`",
+              "default": "outline",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "`xs | sm | md | lg | xl`",
+              "default": "md",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Enables the clear action",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disables editing",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Makes the value read-only",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Enables the visual error state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rows",
+              "description": "Native visible row count",
+              "default": "-",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "resize",
+              "description": "Allows vertical manual resizing",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-size",
+              "description": "Grows with content with optional row bounds",
+              "default": "false",
+              "value": {
+                "type": "boolean | { minRows?: number; maxRows?: number }",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-length",
+              "description": "Truncating or error-only length limit",
+              "default": "0",
+              "value": {
+                "type": "number | { length: number; errorOnly?: boolean }",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-word-limit",
+              "description": "Shows the length counter",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-length",
+              "description": "Custom length function",
+              "default": "-",
+              "value": {
+                "type": "(value: string) => number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-slice",
+              "description": "Custom slice function",
+              "default": "-",
+              "value": {
+                "type": "(value: string, maxLength: number) => string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible name when no visible label exists",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autofocus",
+              "description": "Focuses after mount",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "Virtual-keyboard Enter hint",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "textarea-attrs",
+              "description": "Supplemental native textarea attributes",
+              "default": "-",
+              "value": {
+                "type": "object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint",
+              "description": "Uses Maple's floating placeholder",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "line",
+              "description": "Shows the decorator line",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "Custom text color",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "Custom focus color",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "Custom blur color",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "description": "User input after IME composition"
+            },
+            {
+              "name": "change",
+              "description": "Changed value committed on blur"
+            },
+            {
+              "name": "keydown",
+              "description": "Native keydown signal; Enter remains a newline"
+            },
+            {
+              "name": "clear",
+              "description": "Clear action without synthetic input/change"
+            },
+            {
+              "name": "focus",
+              "description": "Focus"
+            },
+            {
+              "name": "blur",
+              "description": "Blur"
+            }
+          ],
+          "slots": [
+            {
+              "name": "prefix",
+              "description": "Prefix content"
+            },
+            {
+              "name": "suffix",
+              "description": "Suffix content"
+            },
+            {
+              "name": "clear-icon",
+              "description": "Custom clear control"
+            }
+          ]
         },
         {
           "name": "mp-themes",
@@ -9665,10 +9994,28 @@
           "attributes": [
             {
               "name": "v-model",
-              "description": "Bound value (`HH:mm` or `HH:mm:ss`)",
+              "description": "Model value",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "TimeValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled value",
+              "default": "-",
+              "value": {
+                "type": "TimeValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-disabled-options",
+              "description": "Hide forbidden time options; clock geometry is preserved",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -9676,6 +10023,24 @@
               "name": "open",
               "description": "Controlled popup visibility",
               "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial visibility",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disable-confirm",
+              "description": "Commit a valid choice immediately and request close",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -9692,19 +10057,28 @@
             },
             {
               "name": "format",
-              "description": "Display format: `ampm` `24hr`",
-              "default": "ampm",
+              "description": "String parse, display and output format",
+              "default": "HH:mm:ss",
               "value": {
                 "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "use-seconds",
-              "description": "Enable seconds",
+              "name": "use12-hours",
+              "description": "Twelve-hour panel; defaults to hh:mm:ss a without an explicit format",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "step",
+              "description": "Candidate steps anchored at midnight; invalid values use 1",
+              "default": "{ hour: 1, minute: 1, second: 1 }",
+              "value": {
+                "type": "`{ hour?: number; minute?: number; second?: number }`",
                 "kind": "expression"
               }
             },
@@ -9727,11 +10101,29 @@
               }
             },
             {
-              "name": "disabled-time",
-              "description": "Disabled time filter (callback returns true to disable)",
+              "name": "disabled-hours",
+              "description": "Disabled hours (0–23)",
               "default": "-",
               "value": {
-                "type": "DisabledTime",
+                "type": "`() => number[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled-minutes",
+              "description": "Disabled minutes for the hour",
+              "default": "-",
+              "value": {
+                "type": "`(hour?: number) => number[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled-seconds",
+              "description": "Disabled seconds for the hour and minute",
+              "default": "-",
+              "value": {
+                "type": "`(hour?: number, minute?: number) => number[]`",
                 "kind": "expression"
               }
             },
@@ -9832,15 +10224,23 @@
             },
             {
               "name": "clear",
-              "description": "Emitted on clear"
+              "description": "Cleared"
             },
             {
-              "name": "close",
-              "description": "Emitted when popup closes"
+              "name": "open-change",
+              "description": "Visibility request"
+            },
+            {
+              "name": "click",
+              "description": "Enabled field click (including readonly)"
             },
             {
               "name": "change",
-              "description": "Emitted after confirm"
+              "description": "Committed value"
+            },
+            {
+              "name": "select",
+              "description": "User draft selection"
             }
           ],
           "slots": [
@@ -9861,8 +10261,8 @@
               "description": "Suffix"
             },
             {
-              "name": "arrow-icon",
-              "description": "Arrow icon"
+              "name": "suffix-icon",
+              "description": "Field icon"
             }
           ]
         },
@@ -9871,10 +10271,28 @@
           "attributes": [
             {
               "name": "v-model",
-              "description": "Bound value",
-              "default": "[]",
+              "description": "Model value",
+              "default": "-",
               "value": {
-                "type": "string[]",
+                "type": "TimeValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled value",
+              "default": "-",
+              "value": {
+                "type": "TimeValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-disabled-options",
+              "description": "Hide forbidden time options; clock geometry is preserved",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -9882,6 +10300,24 @@
               "name": "open",
               "description": "Controlled popup visibility",
               "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial visibility",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disable-confirm",
+              "description": "Commit a valid choice immediately and request close",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -9898,19 +10334,28 @@
             },
             {
               "name": "format",
-              "description": "Format: `ampm` | `24hr` (mainly for clock)",
-              "default": "ampm",
+              "description": "String parse, display and output format",
+              "default": "HH:mm:ss",
               "value": {
                 "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "use-seconds",
-              "description": "Enable seconds",
+              "name": "use12-hours",
+              "description": "Twelve-hour panel; defaults to hh:mm:ss a without an explicit format",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "step",
+              "description": "Candidate steps anchored at midnight; invalid values use 1",
+              "default": "{ hour: 1, minute: 1, second: 1 }",
+              "value": {
+                "type": "`{ hour?: number; minute?: number; second?: number }`",
                 "kind": "expression"
               }
             },
@@ -9933,11 +10378,29 @@
               }
             },
             {
-              "name": "disabled-time",
-              "description": "Disabled time filter (callback returns true to disable)",
+              "name": "disabled-hours",
+              "description": "Disabled hours (0–23)",
               "default": "-",
               "value": {
-                "type": "DisabledTime",
+                "type": "`() => number[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled-minutes",
+              "description": "Disabled minutes for the hour",
+              "default": "-",
+              "value": {
+                "type": "`(hour?: number) => number[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled-seconds",
+              "description": "Disabled seconds for the hour and minute",
+              "default": "-",
+              "value": {
+                "type": "`(hour?: number, minute?: number) => number[]`",
                 "kind": "expression"
               }
             },
@@ -9997,10 +10460,10 @@
             },
             {
               "name": "placeholder",
-              "description": "Placeholder",
+              "description": "Endpoint placeholders; a string labels both endpoints",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "string | string[]",
                 "kind": "expression"
               }
             },
@@ -10061,21 +10524,29 @@
             },
             {
               "name": "change",
-              "description": "Confirmed value change"
+              "description": "Committed value"
+            },
+            {
+              "name": "select",
+              "description": "User draft selection"
             },
             {
               "name": "clear",
               "description": "Cleared"
             },
             {
-              "name": "close",
-              "description": "Popup closed"
+              "name": "open-change",
+              "description": "Visibility request"
+            },
+            {
+              "name": "click",
+              "description": "Enabled field click (including readonly)"
             }
           ],
           "slots": [
             {
               "name": "actions",
-              "description": "Custom actions panel"
+              "description": "Replace panel confirmation action"
             }
           ]
         },
@@ -10964,110 +11435,151 @@
           "name": "mp-watermark",
           "attributes": [
             {
-              "name": "width",
-              "description": "Watermark width",
-              "default": "100",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "height",
-              "description": "Watermark height",
-              "default": "100",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "content",
-              "description": "Watermark text content",
+              "description": "One or more text lines; also used when an image fails",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string | string[]`",
                 "kind": "expression"
               }
             },
             {
               "name": "image",
-              "description": "The path of the image watermark has a higher priority than `content`",
+              "description": "Image URL, preferred over text",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "rotate",
-              "description": "Watermark rotation angle",
-              "default": "-22",
+              "name": "width",
+              "description": "Mark width; measured from content by default",
+              "default": "-",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
-              "name": "offset",
-              "description": "Offset from container top-left `[x, y]`",
-              "default": "[0, 0]",
+              "name": "height",
+              "description": "Mark height; measured from content by default",
+              "default": "-",
               "value": {
-                "type": "[number, number]",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "gap",
-              "description": "Watermark spacing `[x, y]`",
-              "default": "[0, 0]",
+              "description": "Horizontal and vertical spacing",
+              "default": "[90, 90]",
               "value": {
-                "type": "[number, number]",
+                "type": "`[number, number]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "z-index",
-              "description": "Watermark z-index",
-              "default": "10",
+              "name": "offset",
+              "description": "First mark offset; defaults to half the gap",
+              "default": "[gap[0] / 2, gap[1] / 2]",
               "value": {
-                "type": "number | string",
+                "type": "`[number, number]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "alpha",
-              "description": "Watermark opacity",
-              "default": "0.5",
+              "name": "rotate",
+              "description": "Rotation in degrees",
+              "default": "-22",
               "value": {
-                "type": "number | string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "fullscreen",
-              "description": "Whether to display watermark in fullscreen mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "font",
-              "description": "Watermark text style",
+              "description": "Text style",
               "default": "-",
               "value": {
-                "type": "WatermarkFont",
+                "type": "`WatermarkFont`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "z-index",
+              "description": "Layer z-index",
+              "default": "6",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "alpha",
+              "description": "Overall opacity in the `0..1` range",
+              "default": "1",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "anti-tamper",
+              "description": "Restore a removed or modified layer",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "grayscale",
+              "description": "Render in grayscale",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "repeat",
+              "description": "Repeat the mark",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "staggered",
+              "description": "Stagger repeated rows",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fullscreen",
+              "description": "Cover the viewport",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "--mp-watermark-content-color",
+              "description": "`rgba(0, 0, 0, 0.15)`"
+            }
+          ],
           "slots": [
             {
-              "name": "content",
-              "description": "The content of HTML `Watermark`, only supports inline styles, does not support passing in self closing tags, priority higher than `content` or `image` attributes"
+              "name": "--mp-watermark-content-color",
+              "description": "`rgba(0, 0, 0, 0.15)`"
             }
           ]
         }

@@ -1,18 +1,4 @@
-:root {
-  // Public theme contract. Keep this set aligned with Cedar Checkbox.
-  --mp-checkbox-control-color: #555;
-  --mp-checkbox-control-color-checked: var(--mp-color-primary);
-  --mp-checkbox-control-color-disabled: var(--mp-color-text-disabled);
-  --mp-checkbox-control-color-error: var(--mp-sys-color-status-danger);
-  --mp-checkbox-control-size: 24px;
-  --mp-checkbox-label-text-color: #555;
-  --mp-checkbox-label-text-color-disabled: var(--mp-color-text-disabled);
-  --mp-checkbox-label-font-size: var(--mp-font-size-md);
-  --mp-checkbox-label-gap: 0;
-  --mp-checkbox-action-padding: 6px;
-  --mp-checkbox-group-gap: 0;
-  --mp-checkbox-animation-duration: var(--mp-sys-motion-duration-standard);
-}
+@import './token.less';
 
 .mp-checkbox {
   display: flex;
@@ -62,12 +48,18 @@
     color: var(--mp-checkbox-control-color-disabled);
     cursor: not-allowed;
 
-    .mp-checkbox__text {
+    &.mp-checkbox__text {
       color: var(--mp-checkbox-label-text-color-disabled);
     }
   }
 
-  &--error {
+  &__action&--error:not(.mp-checkbox--disabled) {
     color: var(--mp-checkbox-control-color-error);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-checkbox__action {
+    transition: none !important;
   }
 }

@@ -89,7 +89,7 @@
 
 | 变量名                         | 默认值 |
 |-----------------------------| --- |
-| `--mp-count-to-text-color`     | `var(--mp-color-text)`  |
+| `--mp-count-to-text-color`     | `var(--mp-sys-color-content-primary)` |
 | `--mp-count-to-text-font-size` | `var(--mp-font-size-lg)` |
 
 ## 同源实现与平台边界

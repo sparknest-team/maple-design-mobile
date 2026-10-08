@@ -24,8 +24,8 @@ describe('Search', () => {
     const wrapper = mount(MpSearch)
 
     expect(wrapper.find('.mp-search').exists()).toBe(true)
-    expect(wrapper.find('.mp-field-decorator--outline').exists()).toBe(true)
-    expect(wrapper.find('.mp-field-decorator__clear-icon').exists()).toBe(false)
+    expect(wrapper.find('.mp-field-decorator--variant-outline').exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator__clear-btn').exists()).toBe(false)
     expect(wrapper.html()).toMatchSnapshot()
   })
 
@@ -39,7 +39,7 @@ describe('Search', () => {
         onChange: () => order.push('change'),
       },
     })
-    const input = wrapper.get('.mp-input__input')
+    const input = wrapper.get('.mp-input__inner')
 
     input.element.focus()
     await input.trigger('focus')
@@ -62,11 +62,11 @@ describe('Search', () => {
         recentSearches: ['keyword', 'other'],
       },
     })
-    const input = wrapper.get('.mp-input__input')
+    const input = wrapper.get('.mp-input__inner')
 
     input.element.focus()
     await input.trigger('focus')
-    await wrapper.get('.mp-field-decorator__clear-icon').trigger('click')
+    await wrapper.get('.mp-field-decorator__clear-btn').trigger('click')
     await nextFrame()
     await nextTick()
 
@@ -88,7 +88,7 @@ describe('Search', () => {
         historyPopup: false,
       },
     })
-    const input = wrapper.get('.mp-input__input')
+    const input = wrapper.get('.mp-input__inner')
 
     input.element.focus()
     await input.trigger('focus')
@@ -114,7 +114,7 @@ describe('Search', () => {
         loading: true,
       },
     })
-    const input = wrapper.get('.mp-input__input')
+    const input = wrapper.get('.mp-input__inner')
 
     await input.trigger('keydown', { key: 'Enter' })
     await wrapper.get('.mp-search__icon-button').trigger('click')
@@ -142,7 +142,7 @@ describe('Search', () => {
       },
     })
 
-    await wrapper.get('.mp-input__input').setValue('设备 B')
+    await wrapper.get('.mp-input__inner').setValue('设备 B')
     expect(model).toEqual({ id: undefined, name: '设备 B' })
     expect(wrapper.emitted('update:model')).toHaveLength(1)
 
@@ -154,7 +154,7 @@ describe('Search', () => {
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([''])
     expect(wrapper.emitted('update:model')).toHaveLength(2)
     expect(wrapper.emitted('change')?.[0]).toEqual(['', event])
-    expect(document.activeElement).toBe(wrapper.get('.mp-input__input').element)
+    expect(document.activeElement).toBe(wrapper.get('.mp-input__inner').element)
   })
 
   test('emits the canonical result and bounded trimmed history', async () => {
@@ -190,7 +190,7 @@ describe('Search', () => {
       props: { recentSearches: ['Maple', 'Cedar'] },
     })
 
-    await wrapper.get('.mp-input__input').trigger('focus')
+    await wrapper.get('.mp-input__inner').trigger('focus')
     expect(document.body.querySelector('.mp-search__popup')).toBeTruthy()
     document.body.querySelector('.mp-search__history-item').click()
     await nextTick()
@@ -210,7 +210,7 @@ describe('Search', () => {
       },
     })
 
-    await wrapper.get('.mp-input__input').trigger('focus')
+    await wrapper.get('.mp-input__inner').trigger('focus')
     expect(wrapper.vm.historyMenuVisible).toBe(true)
     document.body.querySelector('.mp-dropdown-menu-option').click()
     await nextTick()
@@ -223,7 +223,7 @@ describe('Search', () => {
 
   test('exposes focus and blur methods', async () => {
     const wrapper = mount(MpSearch, { attachTo: document.body })
-    const input = wrapper.get('.mp-input__input')
+    const input = wrapper.get('.mp-input__inner')
 
     wrapper.vm.focus()
     await nextTick()

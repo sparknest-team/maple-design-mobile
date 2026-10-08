@@ -7,6 +7,13 @@ import VarPicker from '../Picker'
 
 mockTranslate()
 
+test('empty columns produce an empty value without throwing', () => {
+  const wrapper = mount(VarPicker, { props: { columns: [[]] } })
+  expect(() => wrapper.vm.confirm()).not.toThrow()
+  expect(wrapper.emitted('confirm')).toBeUndefined()
+  wrapper.unmount()
+})
+
 test('picker component plugin', () => {
   const app = createApp({}).use(Picker.Component)
   expect(app.component(Picker.Component.name)).toBeTruthy()

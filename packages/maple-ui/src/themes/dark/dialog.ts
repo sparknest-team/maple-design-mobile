@@ -1,6 +1,4 @@
 export default {
-  '--mp-dialog-title-text-color': '#fff',
-  '--mp-dialog-content-text-color': '#bbb',
   '--mp-dialog-width': '280px',
   '--mp-dialog-border-radius': '3px',
   '--mp-dialog-title-padding': '20px 20px 0',
@@ -10,5 +8,4 @@ export default {
   '--mp-dialog-title-font-size': 'var(--mp-font-size-lg)',
   '--mp-dialog-actions-padding': '0 12px 12px',
   '--mp-dialog-actions-button-gap': '6px',
-  '--mp-dialog-background': 'var(--mp-color-bg-1)',
 }

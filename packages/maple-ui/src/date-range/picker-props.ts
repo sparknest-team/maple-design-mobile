@@ -1,47 +1,15 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
-import { props as datePickerPropsSource } from '../date/picker-props'
-import { pickerProps as pickerPropsSource } from '../picker'
-import { props as timePickerPropsSource, type DisabledTime } from '../time/picker-props'
+import type { PropType } from 'vue'
+import { dateRangeValueProps, dateRuleProps } from '../date/core-props'
+import { props as presentationProps } from './presentation-props'
 
-export type DateRangePickerType = 'year' | 'month' | 'date'
-export type DateRangePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
+export type { DateRangePickerPresentation, DateRangePickerType } from './presentation-props'
 
 export const props = {
-  modelValue: {
-    type: Array as PropType<string[]>,
-    default: () => [],
-  },
-  presentation: {
-    type: String as PropType<DateRangePickerPresentation>,
-    default: 'picker',
-  },
-  type: {
-    type: String as PropType<DateRangePickerType>,
-    default: 'date',
-  },
-  showTime: Boolean,
-  useSeconds: Boolean,
-  min: String,
-  max: String,
-  disabledDate: Function as PropType<(val: string) => boolean>,
-  disabledTime: Object as PropType<DisabledTime>,
-  datePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof datePickerPropsSource>>>,
-    default: () => ({}),
-  },
-  pickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof pickerPropsSource>>>,
-    default: () => ({}),
-  },
-  timePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
-    default: () => ({}),
-  },
-  readonly: Boolean,
-  elevation: {
-    type: [Boolean, Number],
-    default: false,
-  },
-}
+  ...presentationProps,
+  ...dateRuleProps,
+  ...dateRangeValueProps,
 
+  type: presentationProps.type,
+  disabled: { type: [Boolean, Array] as PropType<boolean | boolean[]>, default: undefined },
+}
 export type DateRangePickerProps = import('vue').ExtractPublicPropTypes<typeof props>

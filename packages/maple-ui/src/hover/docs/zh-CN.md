@@ -37,3 +37,18 @@
 // playground-ignore
 <mp-paper v-hover:mobile="{ color: '#fff' }">HOVER</mp-paper>
 ```
+
+### 受管默认值
+
+| Token | Default |
+| --- | --- |
+| `--mp-hover-overlay-opacity` | `0.04` |
+| `--mp-hover-overlay-focusing-opacity` | `0.12` |
+
+### 动效变量
+
+| Token | Default |
+| --- | --- |
+| `--mp-hover-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
+
+内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换跳过等待，并取消尚未结束的切换。Ripple 时长变量只控制 CSS，250ms 生命周期计时未改变，每段视觉时长应不超过 250ms；自定义动画类由调用方负责适配。

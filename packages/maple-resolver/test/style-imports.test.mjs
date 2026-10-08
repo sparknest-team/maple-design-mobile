@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict'
-import test from 'node:test'
 import { createRequire } from 'node:module'
+import test from 'vitest'
 import { MapleStyleImports } from '../lib/index.js'
 
 const cliRequire = createRequire(new URL('../../maple-cli/package.json', import.meta.url))
 const viteRequire = createRequire(cliRequire.resolve('vite'))
 const { parseAst } = await import(viteRequire.resolve('rollup/parseAst'))
-const transform = (source, options, id = '/src/demo.js') => MapleStyleImports(options).transform.call({ parse: parseAst }, source, id)
+const transform = (source, options, id = '/src/demo.js') =>
+  MapleStyleImports(options).transform.call({ parse: parseAst }, source, id)
 
 test('explicit functions and aliases add the original export styles', () => {
   const source = "import { Message as notify, Dialog } from '@maplejs/maple-ui'; notify('hello')"
@@ -18,12 +19,17 @@ test('explicit functions and aliases add the original export styles', () => {
 test('components and internal resolver imports share the same style mapping', () => {
   const result = transform("import { Button, _ButtonComponent, Row, GridItem, imagePreview } from '@maplejs/maple-ui'")
   assert.equal(result.code.match(/import "@maplejs\/maple-ui\/button\/style";/g).length, 1)
-  for (const name of ['row', 'grid', 'image']) assert(result.code.includes('@maplejs/maple-ui/' + name + '/style'))
+  for (const name of ['row', 'grid', 'image']) {
+    assert(result.code.includes('@maplejs/maple-ui/' + name + '/style'))
+  }
 })
 test('is idempotent and does not duplicate existing side-effect imports', () => {
   const result = transform("import { Message } from '@maplejs/maple-ui'")
   assert.equal(transform(result.code), undefined)
-  assert.equal(transform("import { Message } from '@maplejs/maple-ui'; import '@maplejs/maple-ui/message/style'"), undefined)
+  assert.equal(
+    transform("import { Message } from '@maplejs/maple-ui'; import '@maplejs/maple-ui/message/style'"),
+    undefined,
+  )
 })
 test('ignores other packages, namespace imports, comments, strings and styleless exports', () => {
   for (const source of [
@@ -32,7 +38,9 @@ test('ignores other packages, namespace imports, comments, strings and styleless
     "// import { Message } from '@maplejs/maple-ui'",
     `const text = "import { Message } from '@maplejs/maple-ui'"`,
     "import { Locale, Themes, messageProps } from '@maplejs/maple-ui'",
-  ]) assert.equal(transform(source), undefined)
+  ]) {
+    assert.equal(transform(source), undefined)
+  }
 })
 test('supports disabling styles and skips non-script requests', () => {
   const source = "import { Message } from '@maplejs/maple-ui'"
@@ -43,22 +51,34 @@ test('supports disabling styles and skips non-script requests', () => {
 test('runs after TypeScript erasure without generating styles for type-only imports', async () => {
   const vite = await import(cliRequire.resolve('vite'))
   const { transformWithEsbuild } = vite.default ?? vite
-  const { code } = await transformWithEsbuild("import type { MessageOptions } from '@maplejs/maple-ui'; import { Message as notify } from '@maplejs/maple-ui'; notify('hello')", '/src/demo.ts', { loader: 'ts' })
+  const { code } = await transformWithEsbuild(
+    "import type { MessageOptions } from '@maplejs/maple-ui'; import { Message as notify } from '@maplejs/maple-ui'; notify('hello')",
+    '/src/demo.ts',
+    { loader: 'ts' },
+  )
   const result = transform(code, {}, '/src/demo.ts')
   assert(result.code.includes('@maplejs/maple-ui/message/style'))
   assert(!result.code.includes('message-options/style'))
 })
 
 test('covers Maple programmatic API style mappings', () => {
-  for (const [name, style] of [['Message', 'message'], ['Dialog', 'dialog'], ['ActionSheet', 'action-sheet'], ['Picker', 'picker'], ['LoadingBar', 'loading-bar'], ['ImagePreview', 'image'], ['imagePreview', 'image']]) {
-    const result = transform("import { " + name + " as invoke } from '@maplejs/maple-ui'; invoke({})")
+  for (const [name, style] of [
+    ['Message', 'message'],
+    ['Dialog', 'dialog'],
+    ['ActionSheet', 'action-sheet'],
+    ['Picker', 'picker'],
+    ['LoadingBar', 'loading-bar'],
+    ['ImagePreview', 'image'],
+    ['imagePreview', 'image'],
+  ]) {
+    const result = transform('import { ' + name + " as invoke } from '@maplejs/maple-ui'; invoke({})")
     assert(result.code.includes('@maplejs/maple-ui/' + style + '/style'), name)
   }
 })
 
 test('TabBar and TabBarItem resolve to the renamed component and shared style entry', async () => {
   const { MapleResolver } = await import('../lib/index.js')
-  const resolver = MapleResolver().find(item => item.type === 'component')
+  const resolver = MapleResolver().find((item) => item.type === 'component')
   for (const name of ['TabBar', 'TabBarItem']) {
     const result = resolver.resolve('Mp' + name)
     assert.equal(result.name, '_' + name + 'Component')

@@ -105,7 +105,7 @@ const cls = computed(() => {
 })
 
 const style = computed(() => {
-  if (isCustomColor.value || props.textColor) {
+  if (isCustomColor.value) {
     if (props.variant === 'outline') {
       return {
         color: props.textColor || props.color,
@@ -119,6 +119,6 @@ const style = computed(() => {
       borderColor: props.color,
     } as CSSProperties
   }
-  return undefined
+  return props.textColor ? { color: props.textColor } : undefined
 })
 </script>

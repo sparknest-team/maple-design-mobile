@@ -34,7 +34,11 @@ function registryFor(document: Document) {
 }
 
 /** Each library owns its registry. Layers never register during server rendering. */
-export function usePopupLayer(active: () => boolean, zIndex: Readonly<Ref<number>>) {
+export function usePopupLayer(
+  active: () => boolean,
+  zIndex: Readonly<Ref<number>>,
+  ownerDocument?: () => Document | undefined,
+) {
   const instance = getCurrentInstance()
   const id = Symbol('popup-layer')
   const depth = inject(depthKey, 0) + 1
@@ -43,8 +47,22 @@ export function usePopupLayer(active: () => boolean, zIndex: Readonly<Ref<number
   let mounted = false
   let suspended = false
 
+  const resolveOwnerDocument = () =>
+    ownerDocument?.() ??
+    (instance?.vnode.el as Node | undefined)?.ownerDocument ??
+    (typeof document === 'undefined' ? undefined : document)
+  const remove = () => registry?.layers.delete(id)
   const sync = () => {
-    if (!mounted || suspended || !registry) {
+    if (!mounted || suspended) {
+      return
+    }
+    const owner = resolveOwnerDocument()
+    const nextRegistry = owner ? registryFor(owner) : undefined
+    if (registry !== nextRegistry) {
+      remove()
+      registry = nextRegistry
+    }
+    if (!registry) {
       return
     }
     if (!active()) {
@@ -53,16 +71,12 @@ export function usePopupLayer(active: () => boolean, zIndex: Readonly<Ref<number
       registry.layers.set(id, { id, zIndex, depth, order: ++registry.sequence })
     }
   }
-  const remove = () => registry?.layers.delete(id)
   watch(active, sync, { flush: 'sync' })
+  if (ownerDocument) {
+    watch(ownerDocument, sync, { flush: 'post' })
+  }
   onMounted(() => {
     mounted = true
-    const owner =
-      (instance?.vnode.el as Node | undefined)?.ownerDocument ??
-      (typeof document === 'undefined' ? undefined : document)
-    if (owner) {
-      registry = registryFor(owner)
-    }
     sync()
   })
   onActivated(() => {

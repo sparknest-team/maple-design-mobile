@@ -32,12 +32,14 @@ Display loading progress at the top of the page.
 | `top`        | LoadingBar top         | _string \| number_ | `-` |
 | `finishDelay` ***3.3.13*** | The delay time of the finish function, which can be used to increase the duration of loading animation | _number_ | `-` |
 
-### Style Variables
+## Public CSS variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+Normal/error strokes use readable content-brand/content-danger, not action/status fills: the thin bar must remain visible against ordinary surfaces. color/errorColor options override these defaults. Custom backdrops and colors require fresh contrast checks; height remains 3px.
 
 | Variable | Default |
-| --- |------------------------|
-| `--loading-bar-color` | `var(--color-primary)` |
-| `--loading-bar-error-color` | `var(--color-danger)`  |
-| `--loading-bar-height` | `3px`                  |
+| --- | --- |
+| `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-loading-bar-height` | `3px` |
+
+Theme variables must be placed on the actual DOM ancestor after Teleport. Content-local variables do not propagate to outer service containers.

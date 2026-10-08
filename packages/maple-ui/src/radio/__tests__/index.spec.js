@@ -1,8 +1,8 @@
-import { createApp, h } from 'vue'
+import { createApp, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Radio, { RadioGroup } from '..'
-import { delay, trigger, triggerKeyboard } from '../../utils/test'
+import { delay, trigger } from '../../utils/test'
 import VarRadio from '../Radio'
 import VarRadioGroup from '../RadioGroup'
 
@@ -31,8 +31,8 @@ test('radio check value', async () => {
   expect(wrapper.props('modelValue')).toBe(true)
 
   await wrapper.find('.mp-radio').trigger('click')
-  expect(onUpdateModelValue).lastCalledWith(false)
-  expect(wrapper.props('modelValue')).toBe(false)
+  expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
+  expect(wrapper.props('modelValue')).toBe(true)
 
   wrapper.unmount()
 })
@@ -69,12 +69,12 @@ test('radio onClick & onChange', async () => {
 
   await wrapper.find('.mp-radio').trigger('click')
   expect(onClick).toHaveBeenCalledTimes(1)
-  expect(onChange).lastCalledWith(true)
+  expect(onChange).lastCalledWith(true, expect.any(Event))
 
   wrapper.unmount()
 })
 
-test('radio toggle method', async () => {
+test('radio select method', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarRadio, {
@@ -84,7 +84,7 @@ test('radio toggle method', async () => {
     },
   })
 
-  wrapper.vm.toggle()
+  wrapper.vm.select()
   await delay(16)
 
   expect(onUpdateModelValue).lastCalledWith(true)
@@ -181,7 +181,7 @@ test('radio default slot', () => {
   wrapper.unmount()
 })
 
-test('radio group layout direction', () => {
+test('radio group layout direction', async () => {
   const wrapper = mount({
     components: {
       [VarRadioGroup.name]: VarRadioGroup,
@@ -198,6 +198,7 @@ test('radio group layout direction', () => {
     `,
   })
 
+  await nextTick()
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
 })
@@ -451,11 +452,12 @@ test('radio keyboard Enter', async () => {
 
   const children = wrapper.findAllComponents({ name: 'mp-radio' })
   await trigger(children[0].find('.mp-radio__action'), 'focus')
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
+  await children[0].find('.mp-radio__action').trigger('keydown', { key: 'Enter' })
   expect(wrapper.vm.value).toBe(1)
 
   await trigger(children[1].find('.mp-radio__action'), 'focus')
-  await triggerKeyboard(window, 'keyup', { key: ' ' })
+  await children[1].find('.mp-radio__action').trigger('keydown', { key: ' ' })
+  await children[1].find('.mp-radio__action').trigger('keyup', { key: ' ' })
 
   expect(wrapper.vm.value).toBe(2)
   wrapper.unmount()
@@ -481,22 +483,22 @@ test('radio group keyboard Arrow', async () => {
   const children = wrapper.findAllComponents({ name: 'mp-radio' })
   await trigger(children[0].find('.mp-radio__action'), 'focus')
 
-  await triggerKeyboard(window, 'keydown', { key: 'ArrowRight' })
+  await children[0].find('.mp-radio__action').trigger('keydown', { key: 'ArrowRight' })
   await trigger(children[0].find('.mp-radio__action'), 'blur')
   await trigger(children[1].find('.mp-radio__action'), 'focus')
   expect(wrapper.vm.value).toBe(2)
 
-  await triggerKeyboard(window, 'keydown', { key: 'ArrowRight' })
+  await children[1].find('.mp-radio__action').trigger('keydown', { key: 'ArrowRight' })
   await trigger(children[1].find('.mp-radio__action'), 'blur')
   await trigger(children[0].find('.mp-radio__action'), 'focus')
   expect(wrapper.vm.value).toBe(1)
 
-  await triggerKeyboard(window, 'keydown', { key: 'ArrowLeft' })
+  await children[0].find('.mp-radio__action').trigger('keydown', { key: 'ArrowLeft' })
   await trigger(children[0].find('.mp-radio__action'), 'blur')
   await trigger(children[1].find('.mp-radio__action'), 'focus')
   expect(wrapper.vm.value).toBe(2)
 
-  await triggerKeyboard(window, 'keydown', { key: 'ArrowUp' })
+  await children[1].find('.mp-radio__action').trigger('keydown', { key: 'ArrowUp' })
   await trigger(children[1].find('.mp-radio__action'), 'blur')
   await trigger(children[0].find('.mp-radio__action'), 'focus')
   expect(wrapper.vm.value).toBe(1)

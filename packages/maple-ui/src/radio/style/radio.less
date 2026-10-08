@@ -1,17 +1,4 @@
-:root {
-  --mp-radio-control-color-checked: var(--mp-color-primary);
-  --mp-radio-control-color: #555;
-  --mp-radio-control-color-disabled: var(--mp-color-text-disabled);
-  --mp-radio-control-color-error: var(--mp-sys-color-status-danger);
-  --mp-radio-control-size: 24px;
-  --mp-radio-action-padding: 6px;
-  --mp-radio-label-text-color: #555;
-  --mp-radio-label-text-color-disabled: var(--mp-color-text-disabled);
-  --mp-radio-label-font-size: var(--mp-font-size-md);
-  --mp-radio-label-gap: 0;
-  --mp-radio-group-gap: 0;
-  --mp-radio-animation-duration: var(--mp-sys-motion-duration-standard);
-}
+@import './token.less';
 
 .mp-radio {
   display: flex;
@@ -62,12 +49,18 @@
     color: var(--mp-radio-control-color-disabled);
     cursor: not-allowed;
 
-    .mp-radio__text {
+    &.mp-radio__text {
       color: var(--mp-radio-label-text-color-disabled);
     }
   }
 
-  &--error {
+  &__action&--error:not(.mp-radio--disabled) {
     color: var(--mp-radio-control-color-error);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-radio__action {
+    transition: none !important;
   }
 }

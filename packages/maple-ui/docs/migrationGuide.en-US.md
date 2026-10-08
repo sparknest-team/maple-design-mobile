@@ -25,7 +25,7 @@ This section mainly introduces the considerations for migrating from `2.x` to `3
 
 ### Component style variable changes
 
-In order to make component style definition easier and support `Material Design 3`, the `3.x` version has restructured the style variables of the component library and added some new basic style variables.
+In order to make component style definition easier and support `maple brand themes`, the `3.x` version has restructured the style variables of the component library and added some new basic style variables.
 
 | Variable  |
 |----------------|

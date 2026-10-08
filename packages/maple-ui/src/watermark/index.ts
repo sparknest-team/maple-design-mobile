@@ -1,14 +1,13 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as watermarkProps } from './props'
-import Watermark from './Watermark.vue'
+import { watermarkProps } from './props'
+import _Watermark from './watermark'
 
-withInstall(Watermark)
-withPropsDefaultsSetter(Watermark, watermarkProps)
+withInstall(_Watermark)
+withPropsDefaultsSetter(_Watermark, watermarkProps)
 
+export type WatermarkInstance = InstanceType<typeof _Watermark> & import('./types').WatermarkExposed
+export type WatermarkProps = import('vue').ExtractPublicPropTypes<typeof import('./props').watermarkProps>
+export type { WatermarkError, WatermarkExposed, WatermarkFont } from './types'
 export { watermarkProps }
-
-export type WatermarkInstance = InstanceType<typeof Watermark>
-export const _WatermarkComponent: typeof Watermark = Watermark
-
-export default Watermark
-export type WatermarkProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export const _WatermarkComponent: typeof _Watermark = _Watermark
+export default _Watermark

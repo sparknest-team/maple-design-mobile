@@ -1,380 +1,202 @@
 <template>
-  <div :class="classes(n(), n('$--box'))" @mousedown="handleMousedown">
-    <mp-field-decorator
-      v-bind="{
-        value: computedValue,
-        id,
-        size,
-        variant,
-        placeholder,
-        ariaLabel,
-        line,
-        hint: mergedHint,
-        textColor,
-        focusColor,
-        blurColor,
-        isFocusing: isForceFocusingEffect != null ? isForceFocusingEffect : isFocusing,
-        isError: isForceErrorEffect != null ? isForceErrorEffect : mergedError,
-        formDisabled,
-        disabled,
-        clearable,
-        cursor,
-        composing: isComposing,
-        hintCenter: true,
-        onClear: handleClear,
-      }"
+  <div
+    v-bind="splitAttrs.root"
+    :class="classes(n(), [mergedDisabled, n('--disabled')])"
+    @mousedown="handleMousedown"
+    @click="handleClick"
+  >
+    <FieldDecorator
+      :id="inputId"
+      :value="value"
+      :variant="mergedVariant"
+      :size="mergedSize"
+      :disabled="mergedDisabled"
+      :readonly="mergedReadonly"
+      :error="mergedError"
+      :focused="focused"
+      :placeholder="placeholder"
+      :hint="mergedHint"
+      :line="line"
+      :clearable="clearable"
+      :composing="composition.isComposing.value"
+      :text-color="textColor"
+      :focus-color="focusColor"
+      :blur-color="blurColor"
+      @clear="handleClear"
     >
-      <template v-if="$slots['prefix']" #prefix>
-        <slot name="prefix" />
-      </template>
-
+      <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
       <input
-        v-if="normalizedType === 'password'"
-        tabindex="-1"
-        autocomplete="off"
-        :aria-label="ariaLabel"
-        :class="n('autocomplete')"
-        :placeholder="!mergedHint ? placeholder : undefined"
-        :style="{
-          '--mp-input-placeholder-color': placeholderColor,
-        }"
-        :enterkeyhint="enterkeyhint"
-      />
-      <input
-        :id="id"
-        ref="el"
-        :aria-label="ariaLabel"
-        :class="
-          classes(
-            n('input'),
-            [formDisabled || disabled, n('--disabled')],
-            [mergedError, n('--error')],
-            [mergedError, n('--caret-error')],
-          )
-        "
-        :autocomplete="autocomplete"
-        :disabled="formDisabled || disabled"
-        :readonly="formReadonly || readonly"
-        :type="normalizedType"
-        v-bind="inputAttrs"
-        :value="computedValue"
+        v-bind="nativeAttrs"
+        :id="inputId"
+        ref="inputRef"
+        :class="n('inner')"
+        :value="value"
+        :type="type === 'number' ? 'text' : type"
+        :disabled="mergedDisabled"
+        :readonly="mergedReadonly"
         :maxlength="undefined"
-        :placeholder="!mergedHint ? placeholder : undefined"
+        :placeholder="mergedHint ? undefined : placeholder"
+        :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
+        :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
+        :autofocus="autofocus"
         :enterkeyhint="enterkeyhint"
-        :inputmode="type === 'number' ? 'decimal' : undefined"
-        :aria-invalid="mergedError || undefined"
-        :style="{
-          color: !mergedError ? textColor : undefined,
-          caretColor: !mergedError ? focusColor : undefined,
-          '--mp-input-placeholder-color': placeholderColor,
-        }"
-        @focus="handleFocus"
-        @blur="handleBlur"
+        :inputmode="type === 'number' ? 'decimal' : nativeAttrs.inputmode"
         @input="handleInput"
         @keydown="handleKeydown"
-        @compositionstart="handleCompositionStart"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @compositionstart="composition.start"
         @compositionend="handleCompositionEnd"
       />
-
-      <template #clear-icon="{ clear }">
-        <slot name="clear-icon" :clear="clear">
-          <mp-icon
-            role="button"
-            tabindex="0"
-            aria-label="清空"
-            :class="n('clear-icon')"
-            mp-field-decorator-cover
-            @click="clear"
-            @keydown="handleClearKeydown"
-          >
-            <m-icon-close-circle aria-hidden="true" />
-          </mp-icon>
-        </slot>
-      </template>
-
-      <template #suffix>
+      <template v-if="$slots['clear-icon']" #clear-icon="scope"><slot name="clear-icon" v-bind="scope" /></template>
+      <template v-if="$slots.suffix || (maxLength && showWordLimit) || feedback" #suffix>
+        <span v-if="maxLength && showWordLimit" :class="n('word-limit')">{{ valueLength }}/{{ maxLength }}</span>
         <slot name="suffix" />
+        <InputFeedback :status="feedback" />
       </template>
-    </mp-field-decorator>
-
-    <div v-if="maxlengthText" :class="n('length')">{{ maxlengthText }}</div>
+    </FieldDecorator>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
-import { IconCloseCircle as MIconCloseCircle } from '@maplejs/icons-vue'
-import { isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { onSmartMounted, useClientId } from '@maplejs/maple-use'
-import MpFieldDecorator from '../field-decorator'
-import { useFormItem } from '../form/item-provide'
-import { useForm } from '../form/provide'
-import MpIcon from '../icon'
+<script setup lang="ts">
+import { computed, nextTick, onMounted, ref, useAttrs, useId, type InputHTMLAttributes } from 'vue'
+import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
 import { createNamespace } from '../utils/components'
 import { useInputComposition } from '../utils/input-composition'
-import { props, type InputType } from './props'
+import InputFeedback from './InputFeedback.vue'
+import { captureInputSelection, splitInputAttrs } from './native-attrs'
+import { inputProps } from './props'
+import { useInputForm } from './use-input-form'
+import { useInputValue } from './use-input-value'
 
-const { name, n, classes } = createNamespace('input')
-
-export default defineComponent({
-  name,
-  components: {
-    MIconCloseCircle,
-    MpIcon,
-    MpFieldDecorator,
-  },
+defineOptions({ name: createNamespace('input').name, inheritAttrs: false })
+const props = defineProps(inputProps)
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+  input: [value: string, event: Event]
+  change: [value: string, event: Event]
+  'press-enter': [event: KeyboardEvent]
+  keydown: [event: KeyboardEvent]
+  clear: [event: Event]
+  focus: [event: FocusEvent]
+  blur: [event: FocusEvent]
+  click: [event: MouseEvent]
+}>()
+const { n, classes } = createNamespace('input')
+const attrs = useAttrs()
+const inputRef = ref<HTMLInputElement>()
+const generatedId = useId()
+const splitAttrs = computed(() => splitInputAttrs(attrs))
+const nativeAttrs = computed(
+  () => ({ ...splitAttrs.value.native, ...props.inputAttrs }) as InputHTMLAttributes & Record<string, unknown>,
+)
+const inputId = computed(() => String(nativeAttrs.value.id ?? generatedId))
+const {
+  group,
+  mergedSize,
+  mergedDisabled,
+  mergedReadonly,
+  mergedError: formError,
+  feedback,
+  eventHandlers,
+  hasOuterLabel,
+} = useInputForm(props)
+const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
+const mergedHint = computed(
+  () => !hasOuterLabel.value && (props.hint ?? group?.hint.value ?? fieldDecoratorProps.hint.default),
+)
+const composition = useInputComposition()
+const { value, focused, maxLength, errorOnly, valueLength, updateValue, commitValue, clearValue } = useInputValue(
   props,
-  emits: ['focus', 'blur', 'input', 'change', 'pressEnter', 'keydown', 'update:modelValue', 'clear'],
-  setup(props, { emit }) {
-    const id = useClientId()
-    const el = ref<HTMLInputElement | null>(null)
-    const isFocusing = ref(false)
-    const composition = useInputComposition()
-    const isComposing = composition.isComposing
-    const { form } = useForm()
-    const { mergedError: formError, eventHandlers, hasOuterLabel } = useFormItem()
-    const cursor = computed(() => (props.disabled || props.readonly || form?.readonly.value ? '' : 'text'))
-    const mergedHint = computed(() => {
-      if (hasOuterLabel.value) {
-        return false
-      }
-
-      return props.hint
-    })
-    const normalizedType = computed<InputType>(() => {
-      if (props.type === 'number') {
-        return 'text'
-      }
-
-      return props.type
-    })
-    const _value = ref(props.defaultValue)
-    const computedValue = computed(() => props.modelValue ?? _value.value)
-    let preValue = computedValue.value
-
-    watch(
-      () => props.modelValue,
-      (value) => {
-        if (value === undefined || value === null) {
-          _value.value = ''
-        }
-      },
-    )
-
-    watch(computedValue, (value, oldValue) => {
-      preValue = isFocusing.value ? oldValue : value
-    })
-
-    const maxLength = computed(() => (typeof props.maxLength === 'object' ? props.maxLength.length : props.maxLength))
-    const maxLengthErrorOnly = computed(() => typeof props.maxLength === 'object' && Boolean(props.maxLength.errorOnly))
-    const getValueLength = (value: string) => props.wordLength?.(value) ?? value.length
-    const valueLength = computed(() => getValueLength(computedValue.value))
-    const mergedError = computed(
-      () => formError.value || props.error || (maxLengthErrorOnly.value && valueLength.value > (maxLength.value ?? 0)),
-    )
-    const maxlengthText = computed(() => {
-      if (!maxLength.value || !props.showWordLimit) {
-        return ''
-      }
-
-      return `${isEmpty(computedValue.value) ? 0 : valueLength.value}/${maxLength.value}`
-    })
-    const placeholderColor = computed(() => {
-      const { blurColor, focusColor } = props
-
-      if (mergedHint.value) {
-        return undefined
-      }
-
-      if (mergedError.value) {
-        return 'var(--mp-field-error-color)'
-      }
-
-      if (isFocusing.value) {
-        return props.placeholderFocusColor || focusColor || 'var(--mp-field-focus-color)'
-      }
-
-      return blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))'
-    })
-
-    onSmartMounted(() => {
-      if (props.autofocus) {
-        focus()
-      }
-    })
-
-    function handleFocus(e: FocusEvent) {
-      isFocusing.value = true
-
-      emit('focus', e)
-      eventHandlers.value.onFocus?.()
-    }
-
-    function handleBlur(e: FocusEvent) {
-      isFocusing.value = false
-
-      commitValue(e)
-      emit('blur', e)
-      eventHandlers.value.onBlur?.()
-    }
-
-    function updateValue(value: string) {
-      if (props.type === 'number') {
-        value = formatNumber(value)
-      }
-
-      const targetValue = withMaxlength(value)
-      _value.value = targetValue
-      emit('update:modelValue', targetValue)
-      return targetValue
-    }
-
-    function handleCompositionStart() {
-      composition.start()
-    }
-
-    function handleCompositionEnd(e: Event) {
-      if (composition.end(e)) {
-        commitInput(e)
-      }
-    }
-
-    function handleInput(e: Event) {
-      if (composition.accepts(e)) {
-        commitInput(e)
-      }
-    }
-
-    function commitInput(e: Event) {
-      const value = updateValue((e.target as HTMLInputElement).value)
-
-      emit('input', value, e)
-      eventHandlers.value.onInput?.()
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-      emit('keydown', e)
-      if (e.key === 'Enter' && !isComposing.value) {
-        commitValue(e)
-        emit('pressEnter', e)
-      }
-    }
-
-    function commitValue(e: Event) {
-      const value = withTrim(computedValue.value)
-
-      if (value !== computedValue.value) {
-        _value.value = value
-        emit('update:modelValue', value)
-      }
-
-      emitChange(value, e)
-    }
-
-    function handleClearKeydown(e: KeyboardEvent) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault()
-        ;(e.currentTarget as HTMLElement).click()
-      }
-    }
-
-    function emitChange(value: string, e: Event) {
-      if (value !== preValue) {
-        preValue = value
-        emit('change', value, e)
-        eventHandlers.value.onChange?.()
-      }
-    }
-
-    function handleClear(e: Event = new Event('clear')) {
-      const { disabled, readonly, clearable } = props
-
-      if (form?.disabled.value || form?.readonly.value || disabled || readonly || !clearable) {
-        return
-      }
-
-      updateValue('')
-      emit('clear', e)
-      eventHandlers.value.onClear?.()
-    }
-
-    function formatNumber(value: string) {
-      const minusIndex = value.indexOf('-')
-      const dotIndex = value.indexOf('.')
-
-      if (minusIndex > -1) {
-        value = minusIndex === 0 ? '-' + value.replace(/-/g, '') : value.replace(/-/g, '')
-      }
-
-      if (dotIndex > -1) {
-        value = value.slice(0, dotIndex + 1) + value.slice(dotIndex).replace(/\./g, '')
-      }
-
-      return value.replace(/[^-0-9.]/g, '')
-    }
-
-    function withTrim(value: string) {
-      return props.modelModifiers.trim ? value.trim() : value
-    }
-
-    function withMaxlength(value: string) {
-      if (!maxLength.value || maxLengthErrorOnly.value || getValueLength(value) <= maxLength.value) {
-        return value
-      }
-
-      return props.wordSlice?.(value, maxLength.value) ?? value.slice(0, toNumber(maxLength.value))
-    }
-
-    function handleMousedown(e: MouseEvent) {
-      const { disabled } = props
-
-      if (form?.disabled.value || disabled || e.target === el.value) {
-        return
-      }
-
-      focus()
-      preventDefault(e)
-    }
-
-    // expose
-    function focus() {
-      ;(el.value as HTMLInputElement)?.focus()
-    }
-
-    // expose
-    function blur() {
-      ;(el.value as HTMLInputElement).blur()
-    }
-
-    return {
-      el,
-      id,
-      computedValue,
-      isFocusing,
-      isComposing,
-      mergedError,
-      mergedHint,
-      placeholderColor,
-      normalizedType,
-      cursor,
-      maxlengthText,
-      formDisabled: form?.disabled,
-      formReadonly: form?.readonly,
-      n,
-      classes,
-      isEmpty,
-      handleFocus,
-      handleBlur,
-      handleInput,
-      handleKeydown,
-      handleClear,
-      handleClearKeydown,
-      handleCompositionStart,
-      handleCompositionEnd,
-      handleMousedown,
-      focus,
-      blur,
-    }
+  (nextValue) => emit('update:modelValue', nextValue),
+  (nextValue, event) => {
+    emit('change', nextValue, event)
+    eventHandlers.value?.onChange?.(event)
   },
+)
+const mergedError = computed(
+  () => formError.value || Boolean(errorOnly.value && maxLength.value > 0 && valueLength.value > maxLength.value),
+)
+
+function processInput(event: Event) {
+  if (mergedDisabled.value || mergedReadonly.value) {
+    return
+  }
+  const input = event.target as HTMLInputElement
+  const restore = captureInputSelection(input)
+  const nextValue = updateValue(input.value)
+  emit('input', nextValue, event)
+  eventHandlers.value?.onInput?.(event)
+  nextTick(() => restore(value.value))
+}
+function handleInput(event: Event) {
+  if (composition.accepts(event)) {
+    processInput(event)
+  }
+}
+function handleCompositionEnd(event: CompositionEvent) {
+  if (composition.end(event)) {
+    processInput(event)
+  }
+}
+function handleFocus(event: FocusEvent) {
+  focused.value = true
+  emit('focus', event)
+  eventHandlers.value?.onFocus?.(event)
+}
+function handleBlur(event: FocusEvent) {
+  focused.value = false
+  commitValue(event)
+  emit('blur', event)
+  eventHandlers.value?.onBlur?.(event)
+}
+function handleKeydown(event: KeyboardEvent) {
+  emit('keydown', event)
+  if (event.key === 'Enter' && !event.isComposing && !composition.isComposing.value) {
+    commitValue(event)
+    emit('press-enter', event)
+  }
+}
+function handleClear(event: Event) {
+  if (!props.clearable || mergedDisabled.value || mergedReadonly.value || !value.value) {
+    return
+  }
+  clearValue()
+  emit('clear', event)
+  eventHandlers.value?.onClear?.(event)
+  focus()
+}
+function handleClick(event: MouseEvent) {
+  if (!mergedDisabled.value) {
+    emit('click', event)
+  }
+}
+function handleMousedown(event: MouseEvent) {
+  if (mergedDisabled.value || event.target === inputRef.value) {
+    return
+  }
+  const target = event.target as HTMLElement
+  if (target.closest('button, a, [role="button"], input, textarea, select')) {
+    return
+  }
+  event.preventDefault()
+  focus()
+}
+function focus(options?: FocusOptions) {
+  if (!mergedDisabled.value) {
+    inputRef.value?.focus(options)
+  }
+}
+function blur() {
+  inputRef.value?.blur()
+}
+function select() {
+  inputRef.value?.select()
+}
+onMounted(() => {
+  if (props.autofocus) {
+    focus()
+  }
 })
+defineExpose({ inputRef, focus, blur, select })
 </script>

@@ -33,7 +33,7 @@ Create an overlay layer to emphasize specific page elements.
 | `overlay-closable` | Whether clicking the backdrop closes the Overlay                                                                | _boolean_                      | `true`   |
 | `lock-scroll`      | Whether to disable scrolling penetration, scrolling the Overlay when disabled will not cause the body to scroll | _boolean_                      | `true`   |
 | `unmount-on-close` | Whether to unmount slot content after closing                                                                   | _boolean_                      | `true`   |
-| `popup-container`  | The location of the Overlay to mount                                                                            | _TeleportProps['to'] \| false_ | `'body'` |
+| `popup-container`  | Teleport target; `false` renders in place                                                                       | _string \| HTMLElement \| false_ | `'body'` |
 | `esc-to-close`     | Whether to support keyboard ESC to close the overlay                                                            | _boolean_                      | `true`   |
 | `z-index`          | Custom stack level                                                                                              | _number_                       | `-`      |
 
@@ -41,6 +41,7 @@ Create an overlay layer to emphasize specific page elements.
 
 | Event        | Description                          | Arguments       |
 | ------------ | ------------------------------------ | --------------- |
+| `update:open` | Open state changed                  | `boolean`       |
 | `click`      | Triggered when clicking on overlay   | `MouseEvent`    |
 | `key-escape` | Triggered when pressing keyboard ESC | `KeyboardEvent` |
 | `open`       | Triggered when opening starts        | `-`             |
@@ -54,10 +55,16 @@ Create an overlay layer to emphasize specific page elements.
 | --------- | ------------ | --------- |
 | `default` | Default slot | `-`       |
 
-### Style Variables
+## Public CSS variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+Defaults below are the actual :root values. Prefer component variables for customization; internal positioning variables are not public APIs.
 
-| Variable                        | Default             |
-| ------------------------------- | ------------------- |
-| `--mp-overlay-background-color` | `rgba(0, 0, 0, .6)` |
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `--mp-overlay-background-color` | `var(--mp-sys-color-scrim)` | Backdrop only; does not fade foreground content |
+| `--mp-overlay-animation-duration` | `var(--mp-sys-motion-duration-slow)` | Enter/leave duration; reduced-motion may override |
+| `--mp-overlay-content-z-index` | `var(--mp-sys-layer-raised)` | Local content layer above the backdrop |
+
+### Reduced motion
+
+Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.

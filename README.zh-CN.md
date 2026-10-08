@@ -25,7 +25,7 @@
 
 本地开发与 npm 包、文档站点的统一构建命令见 [构建说明](./BUILDING.md)。
 
-Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动端、桌面端，由 `maplejs` 组织维护。
+Maple 是一个 `Vue3` 组件库，基于 统一语义 Token 与品牌主题体系，支持移动端、桌面端，由 `maplejs` 组织维护。
 
 ### 特性
 
@@ -40,7 +40,7 @@ Maple 是一个 `Vue3` 组件库，基于 Material Design 2 和 3，支持移动
 - 📦 &nbsp; 支持 [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
 - 💡 &nbsp; 支持 Typescript
 - 💪 &nbsp; 确保 90% 以上单元测试覆盖率，提供稳定性保证
-- 🎨 &nbsp; 同时支持 Material Design 2 和 Material Design 3 两套设计系统
+- 🎨 &nbsp; 同时支持 default 和 maple 品牌的明暗主题
 - 🛠️ &nbsp; 支持暗黑模式
 - 🔧 &nbsp; 提供官方的 VSCode 插件
 - ⌨️ &nbsp; 支持无障碍访问（持续改进中）

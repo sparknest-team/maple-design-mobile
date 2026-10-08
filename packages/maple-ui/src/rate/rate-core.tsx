@@ -36,9 +36,14 @@ export default defineComponent({
     const count = computed(() => Math.max(1, Math.floor(Number(props.count) || 5)))
     const value = computed(() => props.modelValue ?? innerValue.value)
     const displayValue = computed(() => hoverValue.value || normalize(value.value))
-    const { mergedDisabled, mergedError, eventHandlers } = useFormItem({ disabled: computed(() => props.disabled) })
     const { form } = useForm()
-    const interactionDisabled = computed(() => mergedDisabled.value || props.readonly || form?.readonly.value)
+    const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useFormItem({
+      disabled: computed(() => props.disabled),
+      readonly: computed(() => props.readonly),
+      formDisabled: form?.disabled,
+      formReadonly: form?.readonly,
+    })
+    const interactionDisabled = computed(() => mergedDisabled.value || mergedReadonly.value)
 
     watch(
       () => props.modelValue,

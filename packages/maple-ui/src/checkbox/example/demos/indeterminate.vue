@@ -1,53 +1,24 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, ref } from 'vue'
 
-const values = reactive({
-  value: false,
-  value2: false,
-  value3: false,
-  value4: false,
-  value5: false,
-  value6: [],
-  value9: [],
-  value10: false,
-  value11: [],
-  group: null,
-  indeterminate: true,
-  optionsValue: [],
-  fieldValue: [],
+const selected = ref(['a'])
+const all = computed({
+  get: () => selected.value.length === 2,
+  set: (value) => {
+    selected.value = value ? ['a', 'b'] : []
+  },
 })
-const {
-  value,
-  value2,
-  value3,
-  value4,
-  value5,
-  value6,
-  value9,
-  group,
-  value10,
-  value11,
-  indeterminate,
-  optionsValue,
-  fieldValue,
-} = toRefs(values)
+const indeterminate = computed(() => selected.value.length > 0 && selected.value.length < 2)
 </script>
-
 <template>
-  <mp-space :size="[0, 10]">
-    <mp-checkbox v-model="value10" v-model:indeterminate="indeterminate">
-      不确定状态的值: {{ indeterminate }}
-    </mp-checkbox>
-    <mp-button status="primary" @click="indeterminate = !indeterminate">切换</mp-button>
+  <mp-space direction="vertical">
+    <mp-checkbox v-model="all" :indeterminate="indeterminate">全选（半选状态由业务值计算）</mp-checkbox>
+    <mp-checkbox-group
+      v-model="selected"
+      :options="[
+        { label: '设备 A', value: 'a' },
+        { label: '设备 B', value: 'b' },
+      ]"
+    />
   </mp-space>
 </template>
-
-<style lang="less" scoped>
-.relation {
-  margin-top: 10px;
-}
-
-.space {
-  height: 40px;
-}
-</style>

@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Ripple from '..'
 import { delay, mockOffset, trigger, triggerDrag, triggerKeyboard } from '../../utils/test'
 
@@ -91,4 +91,53 @@ describe('test ripple component props', () => {
 
     wrapper.unmount()
   })
+})
+
+test('unmount cancels pending ripple timers and keyboard listeners', async () => {
+  vi.useFakeTimers()
+  try {
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const element = wrapper.element
+    element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    expect(vi.getTimerCount()).toBeGreaterThan(0)
+    wrapper.unmount()
+    expect(vi.getTimerCount()).toBe(0)
+    element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    vi.runAllTimers()
+    expect(element.querySelector('.mp-ripple')).toBeNull()
+  } finally {
+    vi.useRealTimers()
+  }
+})
+
+test('disabling cancels a pending ripple before it is rendered', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(Wrapper, { attachTo: document.body })
+  try {
+    wrapper.element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    await wrapper.setData({ disabled: true })
+    vi.runAllTimers()
+    expect(wrapper.find('.mp-ripple').exists()).toBe(false)
+  } finally {
+    wrapper.unmount()
+    vi.useRealTimers()
+  }
+})
+
+test('keyboard ripple state is isolated between instances', async () => {
+  vi.useFakeTimers()
+  const first = mount(Wrapper, { attachTo: document.body })
+  const second = mount(Wrapper, { attachTo: document.body })
+  try {
+    for (const wrapper of [first, second]) {
+      wrapper.element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    }
+    vi.advanceTimersByTime(60)
+    expect(first.find('.mp-ripple').exists()).toBe(true)
+    expect(second.find('.mp-ripple').exists()).toBe(true)
+  } finally {
+    first.unmount()
+    second.unmount()
+    vi.useRealTimers()
+  }
 })

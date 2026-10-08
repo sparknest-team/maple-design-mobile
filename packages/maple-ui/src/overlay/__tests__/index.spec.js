@@ -32,6 +32,7 @@ test('overlay can preserve mounted content after closing', async () => {
   })
 
   expect(wrapper.emitted('open')).toHaveLength(1)
+  await wrapper.get('.mp-overlay__backdrop').trigger('pointerdown')
   await wrapper.get('.mp-overlay__backdrop').trigger('click')
   await wrapper.vm.$nextTick()
   expect(wrapper.emitted('close')).toHaveLength(1)
@@ -61,7 +62,8 @@ test('overlay show', async () => {
   await wrapper.setData({ open: true })
   const overlay = new DOMWrapper(document.body.querySelector('.mp-overlay'))
   expect(overlay.isVisible()).toBeTruthy()
-  expect(overlay.html()).toMatchSnapshot()
+  expect(overlay.find('.mp-overlay__backdrop').exists()).toBe(true)
+  expect(overlay.find('.mp-overlay__content').text()).toContain('default slot content')
 
   await wrapper.setData({ open: false })
   expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
@@ -80,13 +82,17 @@ test('overlay click on clickOverlay', async () => {
 
   await wrapper.setData({ open: true })
 
-  await new DOMWrapper(document.body.querySelector('.mp-overlay__backdrop')).trigger('click')
+  let backdrop = new DOMWrapper(document.body.querySelector('.mp-overlay__backdrop'))
+  await backdrop.trigger('pointerdown')
+  await backdrop.trigger('click')
   expect(onClick).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.open).toBe(false)
 
   await wrapper.setData({ open: true })
   await wrapper.setProps({ overlayClosable: false })
-  await new DOMWrapper(document.body.querySelector('.mp-overlay__backdrop')).trigger('click')
+  backdrop = new DOMWrapper(document.body.querySelector('.mp-overlay__backdrop'))
+  await backdrop.trigger('pointerdown')
+  await backdrop.trigger('click')
   expect(onClick).toHaveBeenCalledTimes(2)
   expect(wrapper.vm.open).toBe(true)
 
@@ -105,7 +111,7 @@ test('overlay keyboard escape', async () => {
     },
   })
 
-  await triggerKeyboard(window, 'keydown', { key: 'Escape' })
+  await triggerKeyboard(document, 'keydown', { key: 'Escape' })
   expect(onKeyEscape).toBeCalledTimes(1)
   expect(onKeyEscape.mock.calls[0][0]).toBeInstanceOf(KeyboardEvent)
   expect(onUpdateShow).toBeCalledWith(false)
@@ -126,7 +132,7 @@ test('overlay keyboard escape and escToClose', async () => {
     },
   })
 
-  await triggerKeyboard(window, 'keydown', { key: 'Escape' })
+  await triggerKeyboard(document, 'keydown', { key: 'Escape' })
   expect(onKeyEscape).toBeCalledTimes(1)
   expect(onUpdateShow).toBeCalledTimes(0)
 

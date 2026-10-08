@@ -9,15 +9,15 @@
             onClose: () => $emit('close'),
             onClosed: () => $emit('closed'),
             onClickOverlay: handlePopupOverlayClick,
-            onRouteChange: () => $emit('route-change'),
             onKeyEscape: handlePopupKeyEscape,
             overlayClosable,
             escToClose,
             popupContainer,
             open,
-            safeArea,
+            safeAreaInsetBottom: safeArea,
+            closeOnRouteChange: true,
             'onUpdate:open': handlePopupUpdateShow,
-            position: 'bottom',
+            placement: 'bottom',
             class: n('popup'),
           }
         : null
@@ -167,7 +167,6 @@ export default defineComponent({
     'close',
     'closed',
     'click-overlay',
-    'route-change',
     'key-escape',
   ],
   setup(props, { emit }) {
@@ -213,8 +212,10 @@ export default defineComponent({
       return Boolean(option?.disabled)
     }
 
-    const confirmButtonDisabled = computed(() =>
-      scrollColumns.value.some(({ column, index }) => isOptionDisabled(column[index])),
+    const confirmButtonDisabled = computed(
+      () =>
+        scrollColumns.value.length === 0 ||
+        scrollColumns.value.some(({ column, index }) => !column[index] || isOptionDisabled(column[index])),
     )
 
     function setPrevIndexes(indexes: number[]) {
@@ -350,6 +351,9 @@ export default defineComponent({
 
       scrollColumns.value.forEach(({ column, index }) => {
         const option = column[index]
+        if (!option) {
+          return
+        }
 
         values.push(getValue(option))
         indexes.push(index)

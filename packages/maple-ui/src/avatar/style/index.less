@@ -155,3 +155,11 @@
     gap: var(~'--mp-avatar-group-popover-item-spacing');
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-avatar--hoverable,
+  .mp-avatar__trigger-icon-button,
+  .mp-avatar__trigger-icon-overlay {
+    transition: none;
+  }
+}

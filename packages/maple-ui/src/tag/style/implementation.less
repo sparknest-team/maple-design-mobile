@@ -28,7 +28,7 @@
     transition: all var(--mp-sys-motion-duration-fast) var(--mp-sys-motion-easing-standard);
   }
 
-  &--checkable:hover {
+  &--checkable:not(.mp-tag--checked):not(.mp-tag--loading):hover {
     background-color: var(~'--mp-tag-bg-not-checked-hover');
   }
 
@@ -37,7 +37,7 @@
     border-color: var(~'--mp-tag-default-border-color');
   }
 
-  &--checkable--checked:hover {
+  &--status-default&--checkable&--checked:not(.mp-tag--loading):not(.mp-tag--variant-outline):hover {
     background-color: var(~'--mp-tag-default-bg-hover');
     border-color: var(~'--mp-tag-default-border-color-hover');
   }
@@ -95,16 +95,22 @@
   }
 
   each(@colors, {
-    &&--checked&--@{value} {
+    &&--checked&--variant-default&--@{value} {
       color: var(~'--mp-tag-@{value}-text-color');
       background-color: var(~'--mp-tag-@{value}-bg');
       border: var(~'--mp-tag-border-width') var(~'--mp-tag-border-type') var(~'--mp-tag-@{value}-border-color');
 
     }
 
-    &&--checkable&--checked&--@{value}&:hover {
+    &&--checkable&--checked&--variant-default&--@{value}:not(.mp-tag--loading):hover {
       background-color: var(~'--mp-tag-@{value}-bg-hover');
       border-color: var(~'--mp-tag-@{value}-border-color-hover');
+    }
+
+    &&--checked&--variant-outline&--@{value} {
+      color: var(~'--mp-tag-@{value}-text-color');
+      background-color: transparent;
+      border-color: var(~'--mp-tag-@{value}-text-color');
     }
 
     &&--checked&--@{value} &__icon,
@@ -137,7 +143,7 @@
 
   // === variant=default × status: filled ===
   .tagFilledStatus(@status, @colorVar) {
-    &--variant-default&--status-@{status} {
+    &--checked&--variant-default&--status-@{status} {
       color: var(~'--mp-tag-status-@{status}-text-color');
       background-color: var(~'--mp-tag-status-@{status}-bg-color');
       border-color: transparent;
@@ -159,7 +165,7 @@
       var(~'--mp-tag-variant-outline-default-border-color');
   }
   .tagOutlineStatus(@status, @colorVar) {
-    &--variant-outline&--status-@{status} {
+    &--checked&--variant-outline&--status-@{status} {
       color: var(~'--mp-tag-variant-outline-status-@{status}-color');
       background-color: transparent;
       border: var(~'--mp-tag-border-width') var(~'--mp-tag-border-type')
@@ -173,23 +179,6 @@
   .tagOutlineStatus(success, green);
   .tagOutlineStatus(warning, orange);
   .tagOutlineStatus(danger, red);
-}
-
-:root[maple-theme='dark'] {
-  .mp-tag--checked {
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  each(@colors, {
-    .mp-tag--checked.mp-tag--@{value} {
-      background-color: ~'rgba(var(--mp-@{value}-6), 0.2)';
-
-    }
-
-    .mp-tag--checkable.mp-tag--checked.mp-tag--@{value}:hover {
-      background-color: ~'rgba(var(--mp-@{value}-6), 0.35)';
-    }
-  });
 }
 
 .mp-tag--rtl {
@@ -211,9 +200,17 @@
 
 .mp-tag-fade-enter-active,
 .mp-tag-fade-leave-active {
-  transition: opacity 0.15s linear;
+  transition: opacity var(--mp-tag-fade-duration) linear;
 }
 .mp-tag-fade-enter-from,
 .mp-tag-fade-leave-to {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-tag,
+  .mp-tag-fade-enter-active,
+  .mp-tag-fade-leave-active {
+    transition: none;
+  }
 }

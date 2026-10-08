@@ -289,6 +289,8 @@ export interface ComponentNamespace {
 // Keep published SFC declarations independent of rattail's private installation path.
 export const createNamespace: (name: string) => ComponentNamespace = createNamespaceFn('mp')
 
+export const getPrefixCls = (componentName?: string) => (componentName ? `mp-${componentName}` : 'mp')
+
 export function defineListenerProp<F>(fallback?: any) {
   return {
     type: [Function, Array] as PropType<F | F[]>,

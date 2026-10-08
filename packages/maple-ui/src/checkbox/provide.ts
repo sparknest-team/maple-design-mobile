@@ -5,7 +5,8 @@ import { CHECKBOX_GROUP_BIND_CHECKBOX_KEY, CheckboxGroupProvider } from './group
 export interface CheckboxProvider {
   value: ComputedRef
   checked: ComputedRef<boolean>
-  sync(values: Array<any>): void
+  disabled: ComputedRef<boolean>
+  readonly: ComputedRef<boolean>
 }
 
 export function useCheckboxGroup() {

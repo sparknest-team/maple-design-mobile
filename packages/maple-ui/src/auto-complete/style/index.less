@@ -1,2 +1,27 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './auto-complete';
+@import './token.less';
+.mp-auto-complete {
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 100%;
+}
+.mp-auto-complete__dropdown {
+  --mp-select-popup-max-height: var(--mp-auto-complete-popup-max-height);
+  --mp-select-popup-bg: var(--mp-auto-complete-popup-bg);
+  --mp-select-popup-border-radius: var(--mp-auto-complete-popup-border-radius);
+  --mp-select-popup-padding-vertical: var(--mp-auto-complete-popup-padding-vertical);
+  --mp-select-popup-font-size: var(--mp-auto-complete-popup-font-size);
+  --mp-select-popup-border-color: var(--mp-auto-complete-popup-border-color);
+  --mp-select-popup-box-shadow: var(--mp-auto-complete-popup-box-shadow);
+  --mp-select-popup-option-height: var(--mp-auto-complete-option-height);
+  --mp-select-popup-option-font-weight-selected: var(--mp-auto-complete-option-font-weight-selected);
+  --mp-select-popup-option-padding-horizontal: var(--mp-auto-complete-option-padding-horizontal);
+  --mp-select-popup-option-bg: var(--mp-auto-complete-option-bg-default);
+  --mp-select-popup-option-bg-hover: var(--mp-auto-complete-option-bg-hover);
+  --mp-select-popup-option-bg-selected: var(--mp-auto-complete-option-bg-selected);
+  --mp-select-popup-option-bg-disabled: var(--mp-auto-complete-option-bg-disabled);
+  --mp-select-popup-option-text-color: var(--mp-auto-complete-option-text-color-default);
+  --mp-select-popup-option-text-color-hover: var(--mp-auto-complete-option-text-color-hover);
+  --mp-select-popup-option-text-color-selected: var(--mp-auto-complete-option-text-color-selected);
+  --mp-select-popup-option-text-color-disabled: var(--mp-auto-complete-option-text-color-disabled);
+}

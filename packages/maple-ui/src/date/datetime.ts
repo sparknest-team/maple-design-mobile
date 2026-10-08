@@ -1,16 +1,17 @@
 import { toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import type { PickerColumnOption } from '../picker/props'
-import type { DisabledTime } from '../time/picker-props'
 import { calendarMonthDays, unitSequence } from '../utils/picker-data'
 import { padStart } from '../utils/shared'
+import { getDefaultValueFormat } from './date-format'
+import type { DisabledTime } from './time-constraints'
 
 export function pad(value: number) {
   return padStart(`${value}`, 2, '0')
 }
 
 export function dateTimeFormat(useSeconds: boolean) {
-  return useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm'
+  return getDefaultValueFormat('date', true, useSeconds)
 }
 
 export function defaultDateTime(useSeconds = false) {
@@ -18,14 +19,7 @@ export function defaultDateTime(useSeconds = false) {
 }
 
 export function defaultDate(type: 'year' | 'month' | 'date' = 'date') {
-  const now = dayjs()
-  if (type === 'year') {
-    return now.format('YYYY')
-  }
-  if (type === 'month') {
-    return now.format('YYYY-MM')
-  }
-  return now.format('YYYY-MM-DD')
+  return dayjs().format(getDefaultValueFormat(type))
 }
 
 export function resolveYearRange(min?: string, max?: string) {

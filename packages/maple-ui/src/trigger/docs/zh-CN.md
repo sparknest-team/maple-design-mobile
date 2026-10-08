@@ -1,5 +1,7 @@
 # Trigger
 
+连续点击两个独立触发器时，先关闭之前的顶层浮层，再打开新的浮层；嵌套子浮层仍视为父层内部。受控 open 只发出关闭请求，调用方仍可决定是否接受。
+
 ### 介绍
 
 无视觉样式的锚点浮层基础组件，统一负责触发、定位、挂载、层级和打开状态。业务提示优先使用 Tooltip，结构化内容使用 Popover，命令选择使用 DropdownMenu；只有构建新的浮层组件时才直接使用 Trigger。
@@ -71,16 +73,26 @@
 
 默认插槽提供参考节点，`content` 提供浮层内容。Expose：`open()`、`close()`、`resize()`、`allowClose()`、`getReference()`、`setReference()`、`focusReference()`、`isTopLayer()`。
 
-### 样式变量
-
-| 变量 | 默认值 |
-| --- | --- |
-| `--mp-trigger-arrow-background` | `var(--mp-sys-color-surface-overlay)` |
-| `--mp-trigger-arrow-size` | `var(--mp-sys-space-4)` |
-| `--mp-trigger-arrow-radius` | `var(--mp-sys-radius-sm)` |
-| `--mp-trigger-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
-| `--mp-trigger-transition-easing` | `var(--mp-sys-motion-easing-standard)` |
-
 ### 可访问性
 
 `trigger="focus"` 支持键盘聚焦，Escape 只关闭最上层浮层。Trigger 不自行决定业务 `role` 和 aria 关系，上层语义组件负责补充。
+
+## 公开 CSS 变量
+
+以下为实际 :root 默认值。业务定制优先使用组件变量；内部定位变量不属于公开 API。
+
+| 变量 | 默认值 | 意义与场景 |
+| --- | --- | --- |
+| `--mp-trigger-arrow-background` | `var(--mp-sys-color-surface-overlay)` | 独立 Trigger 箭头背景；包装组件用自己的变量 |
+| `--mp-trigger-arrow-size` | `var(--mp-sys-space-4)` | 箭头正方形尺寸 |
+| `--mp-trigger-arrow-radius` | `var(--mp-sys-radius-sm)` | 箭头圆角 |
+| `--mp-trigger-transition-duration` | `var(--mp-sys-motion-duration-fast)` | 默认 Trigger 淡入淡出时长 |
+| `--mp-trigger-transition-easing` | `var(--mp-sys-motion-easing-standard)` | 默认 Trigger 缓动曲线 |
+
+Tooltip 与 Popover 自行定义箭头外观；应覆盖其组件变量，而不是 Trigger arrow-background。
+
+使用 Teleport 时，变量需放在实际 popup 的作用域中（例如通过 `popup-style`）；触发按钮上的变量不会自动继承到浮层。
+
+### 减少动态效果
+
+内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。

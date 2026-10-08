@@ -81,7 +81,58 @@ In a checkbox group, you can limit the maximum number of selections by setting `
 ../example/demos/max.vue
 ```
 
+### Group state and readonly
+
+A defined `model-value` is controlled: rejected updates do not change the selection. `default-value` initializes uncontrolled state only. Only Group emits `update:model-value → change(value, event?)` and notifies FormItem once; children do not duplicate these notifications.
+Group inherits `disabled`, `readonly` and `error` from the form when omitted. An explicit `false` overrides the form; children cannot bypass a locked group.
+
+```demo
+../example/demos/en-US/group-state.vue
+```
+
+### Asynchronous options
+
+Loading/removing options or updating the external value never emits reverse updates. Selected values absent from the current options are retained. max blocks additions, not deselection; external over-limit values are not truncated.
+
+```demo
+../example/demos/en-US/async-options.vue
+```
+
+### Standalone values and methods
+
+Checkbox boolean models emit booleans. Array models add/remove the option value without mutating the input array. indeterminate is presentation-only and must be derived by the application.
+Use `default-value` only to initialize uncontrolled state. Rejected controlled proposals preserve the current selection. The event order is `update:model-value → change(value, event?)`; imperative calls have no native event.
+Methods are `toggle(checked?: boolean)`, `focus(options?)` and `blur()`. Disabled controls cannot select or focus; readonly controls can focus but cannot change value. Enter on keydown and Space on keyup activate only the local control. Repeated Enter is ignored; blur/deactivation cancels pending Space activation.
+
+```demo
+../example/demos/en-US/control-value.vue
+```
+
+### Option data and labels
+
+Both libraries accept primitive options or objects. `field-names` maps `label/value/disabled/readonly/indeterminate`; read-only options remain focusable but cannot change the value. Checkbox indeterminate is presentation only.
+The `label` slot receives `{ data, checked }` and takes precedence over a label render function `(data, checked) => VNodeChild`. Data is normalized and retains business fields; source objects are not mutated. Missing labels fall back to the value's text.
+Providing `options` replaces the default slot, including `[]`; omit it to use the default slot. Values must be strings, finite numbers or booleans; missing/invalid values and duplicate values of the same type are skipped (first occurrence wins). `false`, `0`, `''` and `'0'` remain distinct. Option changes never rewrite the model.
+CheckboxGroup uses `ChoiceValue[]`; `max` is a number (use `:max="2"`).
+
+```demo
+../example/demos/en-US/option-data.vue
+```
+
+### Group bulk methods
+
+Both libraries expose `checkAll()` and `inverseAll()`, returning a detached array. They operate on mounted, editable children only and preserve selected disabled, read-only or unloaded values. A duplicate value is locked if any child with that value is locked.
+`checkAll` preserves the existing model order and appends missing values in current DOM order; `inverseAll` removes editable selected values before adding previously unselected values. Both enforce `max` without pruning external over-limit values.
+Controlled groups return proposals and require parent updates; rejected proposals are not saved. Disabled/read-only groups return a copy of the current value. Actual changes notify `update:model-value → change(value, undefined) → FormItem` once; no-op calls stay silent.
+Reordering, mounting, unmounting and KeepAlive activation are read correctly; call methods after `nextTick` when the rendered children change.
+
+```demo
+../example/demos/en-US/group-methods.vue
+```
+
 ## API
+
+`ChoiceValue = string | number | boolean`;`CheckboxModel = boolean | ChoiceValue[]`;`RadioModel = ChoiceValue | null`.
 
 ### Props
 
@@ -89,31 +140,40 @@ In a checkbox group, you can limit the maximum number of selections by setting `
 
 | Prop                   | Description                                                     | Type                                       | Default      |
 | ---------------------- | --------------------------------------------------------------- | ------------------------------------------ | ------------ |
-| `v-model`              | The value of the binding                                        | _any[]_                                    | `[]`         |
-| `max`                  | Maximum number of checked                                       | _string \| number_                         | `-`          |
+| model-value (v-model) | Controlled value | ChoiceValue[] | undefined |
+| default-value | Initial uncontrolled value | ChoiceValue[] | [] |
+| `disabled` | Disabled; inherits form when omitted | _boolean_ | `undefined` |
+| `readonly` | Read only; inherits form when omitted | _boolean_ | `undefined` |
+| `error` | Error; inherits form when omitted | _boolean_ | `undefined` |
+| max | Maximum selection count | number | undefined |
 | `direction`            | The layout direction, optional value is `horizontal` `vertical` | _string_                                   | `horizontal` |
-| `options` _**3.2.11**_ | Specifies options                                               | _CheckboxGroupOption[]_                    | `[]`         |
-| `field-names`          | Custom field mapping for `options`                              | _{ label?, value?, children?, disabled? }_ | `-`          |
+| options | Options; replaces default slot when supplied | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> | undefined |
+| field-names | Option field mapping | ChoiceFieldNames | undefined |
 
-#### CheckboxGroupOption
+#### CheckboxOption
 
-| Prop       | Description                 | Type                                                                               | Default |
-| ---------- | --------------------------- | ---------------------------------------------------------------------------------- | ------- |
-| `label`    | The text of checkbox        | _string \| VNode \| (option: CheckboxGroupOption, checked: boolean) => VNodeChild_ | `-`     |
-| `value`    | The value of checkbox       | _any_                                                                              | `-`     |
-| `disabled` | Whether to disable checkbox | _boolean_                                                                          | `-`     |
+| Property | Description | Type |
+| --- | --- | --- |
+| value | Option identity | ChoiceValue |
+| label | Label content or render function | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
+| disabled | Disabled | boolean |
+| readonly | Read-only | boolean |
+| indeterminate | Presentation-only mixed state | boolean |
+
 
 #### Checkbox Props
 
 | Prop              | Description                                                  | Type               | Default |
 | ----------------- | ------------------------------------------------------------ | ------------------ | ------- |
-| `v-model`         | The value of the binding                                     | _any_              | `false` |
-| `value`           | Option value                                                 | _any_              | `true`  |
+| model-value (v-model) | Controlled value | boolean \| ChoiceValue[] | undefined |
+| default-value | Initial uncontrolled value | boolean \| ChoiceValue[] | false |
+| value | Option identity | string \| number \| boolean | true |
 | `checked-color`   | Checked color                                                | _string_           | `-`     |
 | `unchecked-color` | Unchecked color                                              | _string_           | `-`     |
 | `icon-size`       | Icon size                                                    | _string \| number_ | `-`     |
-| `disabled`        | Whether the disabled                                         | _boolean_          | `false` |
-| `readonly`        | Whether the readonly                                         | _boolean_          | `false` |
+| `disabled` | Inherits group/form when omitted | _boolean_ | `undefined` |
+| `readonly` | Inherits group/form when omitted | _boolean_ | `undefined` |
+| `error` | Error; inherits group/form | _boolean_ | `undefined` |
 | `indeterminate`   | Whether indeterminate status(style has the highest priority) | _boolean_          | `false` |
 | `ripple`          | Whether to open ripple                                       | _boolean_          | `true`  |
 
@@ -121,16 +181,19 @@ In a checkbox group, you can limit the maximum number of selections by setting `
 
 #### CheckboxGroup Methods
 
-| Method       | Description | Arguments | Return         |
-| ------------ | ----------- | --------- | -------------- |
-| `checkAll`   | Check all   | `-`       | `value: any[]` |
-| `inverseAll` | Inverse all | `-`       | `value: any[]` |
+| Method | Parameters | Return value |
+| --- | --- | --- |
+| checkAll | - | ChoiceValue[] |
+| inverseAll | - | ChoiceValue[] |
+
 
 #### Checkbox Methods
 
 | Method   | Description                                                                                                | Arguments     | Return |
 | -------- | ---------------------------------------------------------------------------------------------------------- | ------------- | ------ |
-| `toggle` | Toggle the checked state, pass `value` to check, `false` to uncheck, do not pass or other cases to reverse | `value?: any` | `-`    |
+| toggle | Request a selection; obeys disabled/readonly | checked?: boolean | void |
+| focus | Focus the control | options?: FocusOptions | void |
+| blur | Blur the control | - | void |
 
 ### Events
 
@@ -138,22 +201,27 @@ In a checkbox group, you can limit the maximum number of selections by setting `
 
 | Event    | Description         | Arguments      |
 | -------- | ------------------- | -------------- |
-| `change` | Triggered on change | `value: any[]` |
+| `update:model-value` | Proposes a value | `value: ChoiceValue[]` |
+| `change` | Value changed; emitted by Group only | `value: ChoiceValue[], event?: Event` |
 
 #### Checkbox Events
 
 | Event    | Description         | Arguments    |
 | -------- | ------------------- | ------------ |
 | `click`  | Triggered on Click  | `e: Event`   |
-| `change` | Triggered on change | `value: any` |
+| update:model-value | Proposes a new value | value: CheckboxModel |
+| change | Value changed | value: CheckboxModel, event?: Event |
+| focus | Focused | event: FocusEvent |
+| blur | Blurred | event: FocusEvent |
 
 ### Slots
 
 #### CheckboxGroup Slots
 
-| Name      | Description            | SlotProps |
-| --------- | ---------------------- | --------- |
-| `default` | Checkbox Group content | `-`       |
+| Slot | Description | Parameters |
+| --- | --- | --- |
+| default | Children when options is omitted | - |
+| label | Option label | data: CheckboxOption, checked: boolean |
 
 #### Checkbox Slots
 
@@ -166,51 +234,29 @@ In a checkbox group, you can limit the maximum number of selections by setting `
 
 ### Style Variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+| Token | Default |
+| --- | --- |
+| `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-content-brand)` |
+| `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` |
+| `--mp-checkbox-control-size` | `24px` |
+| `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-checkbox-label-font-size` | `var(--mp-font-size-md)` |
+| `--mp-checkbox-label-gap` | `0` |
+| `--mp-checkbox-action-padding` | `6px` |
+| `--mp-checkbox-group-gap` | `0` |
+| `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` |
 
-| Variable                               | Default                               |
-| -------------------------------------- | ------------------------------------- |
-| `--checkbox-control-color`             | `#555`                                |
-| `--checkbox-control-color-checked`     | `var(--color-primary)`                |
-| `--checkbox-control-color-disabled`    | `var(--color-text-disabled)`          |
-| `--checkbox-control-color-error`       | `var(--sys-color-status-danger)`      |
-| `--checkbox-control-size`              | `24px`                                |
-| `--checkbox-action-padding`            | `6px`                                 |
-| `--checkbox-label-text-color`          | `#555`                                |
-| `--checkbox-label-text-color-disabled` | `var(--color-text-disabled)`          |
-| `--checkbox-label-font-size`           | `var(--font-size-md)`                 |
-| `--checkbox-label-gap`                 | `0`                                   |
-| `--checkbox-group-gap`                 | `0`                                   |
-| `--checkbox-animation-duration`        | `var(--sys-motion-duration-standard)` |
+### ChoiceFieldNames
 
-### API
+`{ label?: string; value?: string; disabled?: string; readonly?: string; indeterminate?: string }`
 
-### Props
+Exported types：`CheckboxOption`、`ChoiceFieldNames`。
 
-| Prop              | Description                                                  | Type               | Default |
-| ----------------- | ------------------------------------------------------------ | ------------------ | ------- |
-| `v-model`         | The value of the binding                                     | _any_              | `false` |
-| `value`           | Option value                                                 | _any_              | `true`  |
-| `checked-color`   | Checked color                                                | _string_           | `-`     |
-| `unchecked-color` | Unchecked color                                              | _string_           | `-`     |
-| `icon-size`       | Icon size                                                    | _string \| number_ | `-`     |
-| `disabled`        | Whether the disabled                                         | _boolean_          | `false` |
-| `readonly`        | Whether the readonly                                         | _boolean_          | `false` |
-| `indeterminate`   | Whether indeterminate status(style has the highest priority) | _boolean_          | `false` |
-| `ripple`          | Whether to open ripple                                       | _boolean_          | `true`  |
+Public method type：`CheckboxGroupMethods`；`CheckboxGroupInstance` includes these methods.
 
-### Events
+### Reduced motion
 
-| Event    | Description         | Arguments                            |
-| -------- | ------------------- | ------------------------------------ |
-| `click`  | Triggered on Click  | `e: Event`                           |
-| `change` | Triggered on change | `value: any, indeterminate: boolean` |
-
-### Slots
-
-| Name                 | Description        | SlotProps                     |
-| -------------------- | ------------------ | ----------------------------- |
-| `checked-icon`       | Checked icon       | `-`                           |
-| `unchecked-icon`     | Unchecked icon     | `-`                           |
-| `indeterminate-icon` | Indeterminate icon | `-`                           |
-| `default`            | Displayed text     | `checked: boolean` is checked |
+Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.

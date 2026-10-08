@@ -9,6 +9,7 @@ import EnBasicUsageDemo from './demos/en-US/basic-usage.vue'
 import EnCalendarModeDemo from './demos/en-US/calendar-mode.vue'
 import EnDateTimeDemo from './demos/en-US/date-time.vue'
 import EnDisabledDemo from './demos/en-US/disabled.vue'
+import EnFieldProtocolDemo from './demos/en-US/field-protocol.vue'
 import EnMultipleDemo from './demos/en-US/multiple.vue'
 import EnPickerBasicDemo from './demos/en-US/picker-basic.vue'
 import EnPickerCalendarDemo from './demos/en-US/picker-calendar.vue'
@@ -18,7 +19,9 @@ import EnPickerMonthDemo from './demos/en-US/picker-month.vue'
 import EnPickerMultipleDemo from './demos/en-US/picker-multiple.vue'
 import EnPickerRangeDemo from './demos/en-US/picker-range.vue'
 import EnTypeDemo from './demos/en-US/type.vue'
+import EnContractDemo from './demos/en-US/value-formats.vue'
 import EnWithFormItemDemo from './demos/en-US/with-form-item.vue'
+import FieldProtocolDemo from './demos/field-protocol.vue'
 import MultipleDemo from './demos/multiple.vue'
 import PickerBasicDemo from './demos/picker-basic.vue'
 import PickerCalendarDemo from './demos/picker-calendar.vue'
@@ -28,6 +31,7 @@ import PickerMonthDemo from './demos/picker-month.vue'
 import PickerMultipleDemo from './demos/picker-multiple.vue'
 import PickerRangeDemo from './demos/picker-range.vue'
 import TypeDemo from './demos/type.vue'
+import ContractDemo from './demos/value-formats.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 
 const language = ref('zh-CN')
@@ -40,6 +44,15 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="value-formats">
+    <app-type>{{ english ? 'Model and display formats' : '模型格式与显示格式' }}</app-type>
+    <EnContractDemo v-if="english" /><ContractDemo v-else />
+  </section>
+  <section data-demo="field-protocol">
+    <app-type>{{ english ? 'Shared field and commit protocol' : '统一字段与提交' }}</app-type>
+    <EnFieldProtocolDemo v-if="english" />
+    <FieldProtocolDemo v-else />
+  </section>
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
     <EnBasicUsageDemo v-if="english" />

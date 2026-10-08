@@ -1,9 +1,8 @@
 <template>
   <mp-input
-    autocomplete="email"
     enterkeyhint="next"
     aria-label="Enter your email"
-    :input-attrs="{ name: 'email', autocapitalize: 'none' }"
+    :input-attrs="{ name: 'email', autocomplete: 'email', autocapitalize: 'none' }"
     placeholder="Enter your email"
     type="email"
   />

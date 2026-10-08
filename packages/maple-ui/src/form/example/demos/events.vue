@@ -4,8 +4,8 @@ import { Message } from '@maplejs/maple-ui'
 
 const formData = reactive({ username: '', password: '' })
 
-function handleSubmit(valid) {
-  Message(`提交结果：${valid ? '通过' : '未通过'}`)
+function handleSubmit({ errors }) {
+  Message(`提交结果：${errors ? '未通过' : '通过'}`)
 }
 
 function handleReset() {

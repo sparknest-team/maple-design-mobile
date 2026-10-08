@@ -40,9 +40,9 @@
     line-height: var(--mp-card-line-height);
     background: var(--mp-card-background);
     transition:
-      background-color 0.25s,
-      color 0.25s;
-    transition-timing-function: cubic-bezier(0.45, 0.19, 0.06, 0.89);
+      background-color var(--mp-card-animation-duration),
+      color var(--mp-card-animation-duration);
+    transition-timing-function: var(--mp-card-animation-easing);
   }
 
   &__container {
@@ -65,21 +65,21 @@
     font-size: var(--mp-card-content-font-size);
     color: var(--mp-card-content-color);
     transition:
-      padding 0.25s,
-      margin 0.25s,
-      font-size 0.25s;
+      padding var(--mp-card-animation-duration),
+      margin var(--mp-card-animation-duration),
+      font-size var(--mp-card-animation-duration);
   }
 
   &--direction-row &__content {
     max-width: 100%;
-    margin: var(--mp-card-title-row-margin);
+    margin: var(--mp-card-content-row-margin);
   }
 
   &__image {
     width: var(--mp-card-image-width);
     height: var(--mp-card-image-height);
     display: block;
-    transition: all 0.25s;
+    transition: all var(--mp-card-animation-duration);
   }
 
   &--direction-row &__image {
@@ -96,9 +96,9 @@
     color: var(--mp-card-title-color);
     word-break: break-word;
     transition:
-      padding 0.25s,
-      margin 0.25s,
-      font-size 0.25s;
+      padding var(--mp-card-animation-duration),
+      margin var(--mp-card-animation-duration),
+      font-size var(--mp-card-animation-duration);
   }
 
   &--direction-row &__title {
@@ -116,9 +116,9 @@
     margin: var(--mp-card-subtitle-margin);
     word-break: break-word;
     transition:
-      padding 0.25s,
-      margin 0.25s,
-      font-size 0.25s;
+      padding var(--mp-card-animation-duration),
+      margin var(--mp-card-animation-duration),
+      font-size var(--mp-card-animation-duration);
   }
 
   &--direction-row &__subtitle {
@@ -137,9 +137,9 @@
     padding: var(--mp-card-description-padding);
     word-break: break-all;
     transition:
-      padding 0.25s,
-      margin 0.25s,
-      font-size 0.25s;
+      padding var(--mp-card-animation-duration),
+      margin var(--mp-card-animation-duration),
+      font-size var(--mp-card-animation-duration);
   }
 
   &__footer {
@@ -147,7 +147,7 @@
     justify-content: flex-end;
     padding: var(--mp-card-footer-padding);
     margin: var(--mp-card-footer-margin);
-    transition: all 0.25s;
+    transition: all var(--mp-card-animation-duration);
   }
 
   &--direction-row &__footer {
@@ -159,7 +159,7 @@
 
   &__floating-content {
     overflow: hidden;
-    transition-timing-function: cubic-bezier(0.45, 0.19, 0.06, 0.89);
+    transition-timing-function: var(--mp-card-animation-easing);
   }
 
   &__floating-buttons {
@@ -172,7 +172,7 @@
   &__close-button[data-card-cover] {
     width: var(--mp-card-close-button-size);
     height: var(--mp-card-close-button-size);
-    background-color: var(--mp-card-close-button-primary-color);
+    background-color: var(--mp-card-close-button-background);
     color: var(--mp-card-close-button-text-color);
     border-radius: var(--mp-card-close-button-border-radius);
   }
@@ -193,7 +193,13 @@
 @media (prefers-reduced-motion: reduce) {
   .mp-card__floater,
   .mp-card__floating-content,
-  .mp-card__floating-buttons {
+  .mp-card__floating-buttons,
+  .mp-card__content,
+  .mp-card__image,
+  .mp-card__title,
+  .mp-card__subtitle,
+  .mp-card__description,
+  .mp-card__footer {
     transition: none !important;
   }
 }

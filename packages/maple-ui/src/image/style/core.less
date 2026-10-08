@@ -9,10 +9,17 @@
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
-  transition: transform 0.2s ease;
+  transition: transform var(--mp-sys-motion-duration-standard) var(--mp-sys-motion-easing-standard);
 }
 
 [data-image-preview-toolbar] {
   display: flex;
   align-items: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-image-preview [data-image-preview-image],
+  .mp-image-preview__track {
+    transition: none !important;
+  }
 }

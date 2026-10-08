@@ -1,18 +1,17 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import AutoComplete from './AutoComplete.vue'
-import { props as autoCompleteProps } from './props'
+import { withInstall } from '../utils/components'
+import _AutoComplete from './auto-complete'
+import { autoCompleteProps } from './props'
 
-withInstall(AutoComplete)
-withPropsDefaultsSetter(AutoComplete, autoCompleteProps)
+const AutoComplete = withInstall(_AutoComplete, Object.assign(_AutoComplete, {}), {
+  components: [_AutoComplete],
+})
 
-export type AutoCompleteInstance = InstanceType<typeof AutoComplete>
-export { autoCompleteProps }
-export type {
-  AutoCompleteProps,
-  AutoCompleteOption,
-  AutoCompleteOptionLabel,
-  AutoCompleteOptionLabelRender,
-} from './props'
-export const _AutoCompleteComponent: typeof AutoComplete = AutoComplete
+export * from './props'
+
+export type AutoCompleteInstance = InstanceType<typeof _AutoComplete> & { focus: () => void; blur: () => void }
+
+export { AutoComplete, autoCompleteProps }
+
+export const _AutoCompleteComponent = AutoComplete
 
 export default AutoComplete

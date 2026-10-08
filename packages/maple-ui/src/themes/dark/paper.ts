@@ -1,4 +1,2 @@
-export default {
-  '--mp-paper-background': 'var(--mp-color-bg-4)',
-  '--mp-paper-border-radius': '4px',
-}
+// Inherit the shared component defaults in every color mode.
+export default {}

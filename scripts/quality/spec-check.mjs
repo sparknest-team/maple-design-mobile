@@ -4,16 +4,11 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
-const candidates = [
-  resolve(root, '../design-ui/bin/spec-check.mjs'),
-  resolve(root, '.design-ui/bin/spec-check.mjs'),
-]
+const candidates = [resolve(root, '../design-ui/bin/spec-check.mjs'), resolve(root, '.design-ui/bin/spec-check.mjs')]
 const checker = candidates.find(existsSync)
 
 if (!checker) {
-  console.error(
-    'design-ui not found. Clone it next to this repository or into .design-ui.',
-  )
+  console.error('design-ui not found. Clone it next to this repository or into .design-ui.')
   process.exit(2)
 }
 

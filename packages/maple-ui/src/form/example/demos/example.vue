@@ -84,7 +84,7 @@ onThemeChange()
         <mp-rate v-model="formData.score" />
       </mp-form-item>
       <mp-form-item field="license" :rules="[(v) => !!v || '您必须开启']">
-        <mp-switch v-model="formData.license" variant="md3" />
+        <mp-switch v-model="formData.license" variant="tonal" />
       </mp-form-item>
       <mp-form-item field="count" :rules="[(v) => v > 10 || '必须大于10']">
         <mp-counter v-model="formData.count" />

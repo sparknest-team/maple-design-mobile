@@ -34,6 +34,6 @@ const options = computed(() => [
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-cascader v-model="menuValue" placeholder="请选择地区" :options="options" />
+    <mp-cascader v-model="menuValue" path-mode placeholder="请选择地区" :options="options" />
   </mp-space>
 </template>

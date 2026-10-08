@@ -42,15 +42,15 @@ test('checkbox check value with custom value', async () => {
 
   const wrapper = mount(VarCheckbox, {
     props: {
-      modelValue: 0,
+      modelValue: [],
       value: 1,
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })
 
   await wrapper.find('.mp-checkbox').trigger('click')
-  expect(onUpdateModelValue).lastCalledWith(1)
-  expect(wrapper.props('modelValue')).toBe(1)
+  expect(onUpdateModelValue).lastCalledWith([1])
+  expect(wrapper.props('modelValue')).toEqual([1])
 
   wrapper.unmount()
 })
@@ -69,7 +69,7 @@ test('checkbox onClick & onChange', async () => {
 
   await wrapper.find('.mp-checkbox').trigger('click')
   expect(onClick).toHaveBeenCalledTimes(1)
-  expect(onChange).lastCalledWith(true, false)
+  expect(onChange).lastCalledWith(true, expect.any(Event))
 
   wrapper.unmount()
 })
@@ -156,7 +156,7 @@ test('checkbox indeterminate', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await wrapper.find('.mp-checkbox').trigger('click')
-  expect(onChange).lastCalledWith(false, false)
+  expect(onChange).lastCalledWith(true, expect.any(Event))
   wrapper.unmount()
 })
 
@@ -251,7 +251,7 @@ test('checkbox group checkAll & inverseAll methods', async () => {
 
   checkboxGroup.checkAll()
   await delay(16)
-  expect(wrapper.vm.value).toStrictEqual([1, 2])
+  expect(wrapper.vm.value).toStrictEqual([2, 1])
 
   wrapper.unmount()
 })
@@ -494,15 +494,16 @@ test('checkbox keyboard Enter', async () => {
 
   const children = wrapper.findAllComponents({ name: 'mp-checkbox' })
   await trigger(children[0].find('.mp-checkbox__action'), 'focus')
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
+  await children[0].find('.mp-checkbox__action').trigger('keydown', { key: 'Enter' })
   expect(wrapper.vm.value).toStrictEqual([1])
 
   await trigger(children[1].find('.mp-checkbox__action'), 'focus')
-  await triggerKeyboard(window, 'keyup', { key: ' ' })
+  await children[1].find('.mp-checkbox__action').trigger('keydown', { key: ' ' })
+  await children[1].find('.mp-checkbox__action').trigger('keyup', { key: ' ' })
 
   expect(wrapper.vm.value).toStrictEqual([1, 2])
 
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
+  await children[1].find('.mp-checkbox__action').trigger('keydown', { key: 'Enter' })
   expect(wrapper.vm.value).toStrictEqual([1])
 
   wrapper.unmount()

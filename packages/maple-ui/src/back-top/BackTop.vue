@@ -1,119 +1,38 @@
 <template>
-  <teleport :to="popupTarget" :disabled="!teleport || disabled">
-    <div
-      ref="backTopEl"
-      :class="classes(n(), [show, n('--active')], [!teleport, n('--inline')])"
-      :style="{
-        right: toSizeUnit(right),
-        bottom: toSizeUnit(bottom),
-      }"
+  <Teleport :to="popupTarget" :disabled="!mounted || popupContainer === false">
+    <button
+      v-show="visible"
       v-bind="$attrs"
-      @click.stop="handleClick"
+      type="button"
+      :class="
+        classes(n(), formatElevation(elevation, 2), [visible, n('--active')], [popupContainer === false, n('--inline')])
+      "
+      :style="{ right: toSizeUnit(right), bottom: toSizeUnit(bottom) }"
+      :aria-label="ariaLabel"
+      @click="handleClick"
     >
-      <slot>
-        <mp-button :elevation="elevation" status="primary" mp-back-top-cover>
-          <MIconChevronUp />
-        </mp-button>
-      </slot>
-    </div>
-  </teleport>
+      <slot><IconToTop aria-hidden="true" /></slot>
+    </button>
+  </Teleport>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onActivated, onMounted, ref, type TeleportProps } from 'vue'
-import { IconChevronUp as MIconChevronUp } from '@maplejs/icons-vue'
-import { call, getScrollLeft, getScrollTop } from '@maplejs/maple-shared'
-import { onSmartUnmounted } from '@maplejs/maple-use'
-import MpButton from '../button'
-import { createNamespace } from '../utils/components'
-import { getParentScroller, getTarget, scrollTo, toPxNum, toSizeUnit } from '../utils/elements'
+<script setup lang="ts">
+import { IconToTop } from '@maplejs/icons-vue'
+import { createNamespace, formatElevation } from '../utils/components'
+import { toSizeUnit } from '../utils/elements'
 import { usePopupContainer } from '../utils/popup-container'
-import { easeInOutCubic } from '../utils/shared'
-import { throttleByRaf } from '../utils/throttle-by-raf'
-import { props } from './props'
+import { backTopProps } from './props'
+import { useBackTop } from './use-back-top'
 
-const { name, n, classes } = createNamespace('back-top')
-
-export default defineComponent({
-  name,
-  components: {
-    MIconChevronUp,
-    MpButton,
-  },
-  inheritAttrs: false,
-  props,
-  emits: ['click'],
-  setup(props, { emit }) {
-    const show = ref(false)
-    const backTopEl = ref<HTMLElement | null>(null)
-    const disabled = ref<TeleportProps['disabled']>(true)
-
-    let scroller: HTMLElement | Window
-
-    const teleport = computed(() => props.popupContainer !== false)
-    const popupTarget = usePopupContainer(() => props.popupContainer)
-
-    const handleScroll = throttleByRaf(() => {
-      setBackTopVisibility()
-    })
-
-    onMounted(() => {
-      setScroller()
-      addScrollerEventListener()
-      setBackTopVisibility()
-      disabled.value = false
-    })
-
-    onActivated(addScrollerEventListener)
-    onSmartUnmounted(removeScrollerEventListener)
-
-    function setBackTopVisibility() {
-      show.value = getScrollTop(scroller) >= toPxNum(props.visibleHeight)
-    }
-
-    function handleClick(event: Event) {
-      emit('click', event)
-
-      const left = getScrollLeft(scroller)
-
-      scrollTo(scroller, {
-        left,
-        duration: props.duration,
-        animation: easeInOutCubic,
-      })
-    }
-
-    function setScroller() {
-      scroller = props.targetContainer
-        ? getTarget(props.targetContainer, 'BackTop')
-        : getParentScroller(backTopEl.value!)
-    }
-
-    function addScrollerEventListener() {
-      scroller.addEventListener('scroll', handleScroll)
-    }
-
-    function removeScrollerEventListener() {
-      if (!scroller) {
-        // may be null in nuxt
-        return
-      }
-
-      handleScroll.cancel()
-      scroller.removeEventListener('scroll', handleScroll)
-    }
-
-    return {
-      popupTarget,
-      teleport,
-      disabled,
-      show,
-      backTopEl,
-      toSizeUnit,
-      n,
-      classes,
-      handleClick,
-    }
-  },
-})
+defineOptions({ name: createNamespace('back-top').name, inheritAttrs: false })
+const props = defineProps(backTopProps)
+const emit = defineEmits<{ click: [event: MouseEvent] }>()
+const { n, classes } = createNamespace('back-top')
+const popupTarget = usePopupContainer(() => props.popupContainer)
+const { visible, mounted, scrollToTop } = useBackTop(props)
+function handleClick(event: MouseEvent) {
+  scrollToTop()
+  emit('click', event)
+}
+defineExpose({ scrollToTop })
 </script>

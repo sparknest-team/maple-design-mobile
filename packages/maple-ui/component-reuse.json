@@ -105,9 +105,9 @@
     "reason": "2026-09-15 完成独立源码复制；主体 SFC、6 项 Props、click、image/default/extra 插槽与尺寸档位纳入一致性检查。去掉 icon/inConfigProvider；ConfigProvider 空状态、默认图标、locale 与尺寸 token 由各库 platform 适配。"
   },
   "result": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Result 的 animation/imageSize 等仍为 Maple 特有；统一状态图形、缺省文案与资源插槽后再同源。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-20 完成独立源码复制：Result 主体渲染、公共 Props、状态图形、animation/imageSize、插槽与关键 token 已统一，并由 lightweight-feedback-same-source 门禁验证。两端仅保留图标资源和本地入口适配。"
   },
   "link": {
     "label": "已同源",
@@ -115,9 +115,9 @@
     "reason": "以 Cedar 原生链接与 hoverable 为基础，补齐键盘焦点、加载动画、动态图标插槽及禁用属性透传；主体、Props、主样式和配对测试独立复制并验证，保留本地图标和主题 token。"
   },
   "loading": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Loading 的 dot/hideIcon 等表现能力仍需复核与适配；统一默认值及插槽后再同源对齐渲染。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-20 完成独立源码复制：Loading 主体渲染、公共 Props、五类动画、数值尺寸、hideIcon、内容遮罩、插槽与关键 token 已统一，并由 lightweight-feedback-same-source 门禁验证。"
   },
   "grid": {
     "label": "已同源",
@@ -125,14 +125,14 @@
     "reason": "Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。"
   },
   "input-number": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "17 个 Props 同名，主要 input/change 载荷接近；文本解析、精度、长按步进、表单注入与内部 Input 依赖仍需适配。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "主体、19 项 Props、数值编辑/提交控制器、独立 Decimal 运算、触控长按、样式及 Token 已独立复制；14 对核心/视图/样式/测试文件和 7 对 Demo 纳入一致性门禁。两端分别接入本库表单与全局多语言，77 项测试及双端类型检查和包构建通过；Checkbox / Radio 另批处理。"
   },
   "ellipsis": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "4 个 Props 和 update:expand 接近；受控展开策略及 Tooltip 触发依赖不同，先统一展开状态和触控提示行为。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "主体、Props、样式/Token 与配对测试独立复制；统一受控 expand/defaultExpand、键盘展开、Tooltip 配置与内容回退，移除多余外壳。与 BackTop 共 12 对文件门禁，仅前缀/本地导入不同。"
   },
   "progress": {
     "label": "待适配",
@@ -145,24 +145,24 @@
     "reason": "Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。"
   },
   "back-top": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，有价值的能力纳入最终 API 或显式平台扩展，不保留旧 API 兼容入口。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "主体、Props、滚动控制器、样式/Token 和配对测试独立复制；默认监听页面，200ms/quartOut，支持动态目标、原生键盘、KeepAlive/卸载取消及 SSR。与 Ellipsis 共 12 对文件门禁，不共享运行时。"
   },
   "watermark": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "BackTop 的 ariaLabel/easing 与 bottom/right/elevation 不同；Watermark 的 antiTamper/grayscale/repeat/staggered 与 fullscreen 不同；分别同源对齐滚动算法/水印生成，有价值的能力纳入最终 API 或显式平台扩展，不保留旧 API 兼容入口。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-20 已完成独立同源：统一 Canvas renderer、Props/types、文字与图片、多行/自动测量、repeat/staggered、grayscale、antiTamper、fullscreen、error/redraw、SSR 和生命周期；Maple 已删除 foreignObject content 插槽及 resize 旧方法。两端主体仅保留前缀、本地 import 和主题标识差异，并纳入源码门禁。"
   },
   "checkbox": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "defaultChecked/defaultValue、uninjectGroupContext 与 readonly/ripple/颜色不同，Group 的 disabled/fieldNames/variant 也有差异；先统一值模型、键盘组导航及表单注入。"
+    "reason": "Group/独立值模型、选项映射/类型、label 插槽、readonly/半选与局部激活已独立复制；CheckboxGroup 批量方法完成。RadioGroup 局部箭头/Home/End、单一 Tab 入口、动态 DOM 顺序和 KeepAlive 清理已复制；Radio button 与五档高度的样式/变体已复制。19 对核心/样式/测试与 11 对 Demo 纳入门禁。主体结构、圆形控件样式和端侧视觉差异仍待收口，保留待适配。"
   },
   "radio": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "defaultChecked/defaultValue、uninjectGroupContext 与 readonly/ripple/颜色不同，Group 的 disabled/fieldNames/variant 也有差异；先统一值模型、键盘组导航及表单注入。"
+    "reason": "Group/独立值模型、选项映射/类型、label 插槽、readonly/半选与局部激活已独立复制；CheckboxGroup 批量方法完成。RadioGroup 局部箭头/Home/End、单一 Tab 入口、动态 DOM 顺序和 KeepAlive 清理已复制；Radio button 与五档高度的样式/变体已复制。19 对核心/样式/测试与 11 对 Demo 纳入门禁。主体结构、圆形控件样式和端侧视觉差异仍待收口，保留待适配。"
   },
   "rate": {
     "label": "待适配",
@@ -177,12 +177,12 @@
   "input": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
+    "reason": "2026-09-22 已将受控/非受控值、trim 提交、change 去重、清空基线、数字文本/长度归一化与输入法重复提交抽为两端独立复制的同源逻辑；超长输入均截断并上报归一化值，FormItem 的 change/input/focus/blur/clear 触发条件也已对齐。Input 主体仍分别为 Cedar TSX 与 Maple SFC，hint/line/颜色及 FieldDecorator 展示不同，尚未完成主体同源。"
   },
   "textarea": {
     "label": "待适配",
     "en": "Adapt (planned)",
-    "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
+    "reason": "2026-09-22 已将长度归一化、输入法去重、自动高度尺寸计算抽为两端独立复制的同源逻辑；FormItem 触发条件及 size/disabled/readonly/error 状态继承也已对齐。PC 与移动端的默认 resize、尺寸观察器、FieldDecorator 展示和移动端 hint/line/颜色仍不同，主体尚未同源。"
   },
   "verification-code": {
     "label": "待适配",
@@ -195,9 +195,9 @@
     "reason": "输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。"
   },
   "infinite-scroll": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-21 完成独立源码复制：主体 SFC、Props 与关键样式纳入同源门禁，统一分页状态机、CSS length 阈值、滚动容器、可见性恢复、KeepAlive 与清理行为。两端 locale.ts 仅桥接各自的全局语言系统，不持有独立语言状态，也不共享运行时。"
   },
   "list": {
     "label": "待适配",
@@ -210,14 +210,14 @@
     "reason": "2026-09-15 完成独立源码复制；Image/Preview/PreviewGroup 主体 SFC、加载回退、预览控制器与命令式 API 纳入一致性检查。去掉 platform.config；懒加载用原生 loading、图标/默认加载器/默认值由各库 platform 与 setPropsDefaults 适配。"
   },
   "overlay": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-21 完成独立同源：主体 SFC、Props 和结构样式已复制并纳入门禁；统一 popup-layer/z-index、容器滚动锁、真实 Teleport Document、背景 pointer 序列、最上层 ESC、受控状态、KeepAlive 和过渡生命周期。"
   },
   "dialog": {
-    "label": "待适配",
-    "en": "Adapt (planned)",
-    "reason": "Props 同名，但 Cedar popup manager/overflow 与 Maple stack/lock/Popup 依赖不同；先适配堆叠、滚动锁、焦点恢复及异步确认，再对齐主体。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-21 完成逻辑同源。两端 Dialog 直接消费同源 modal-surface，不再嵌套 Popup 或维护端侧弹层状态机；use-dialog、use-dialog-drag、service 三份核心均为独立复制并纳入门禁，统一 beforeClose 竞态、拖拽、Promise/update/close、默认配置、宿主销毁及 app context。PC 与移动端保留各自 DOM、图标和样式。"
   },
   "style-provider": {
     "label": "已同源",
@@ -225,59 +225,59 @@
     "reason": "主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。"
   },
   "select": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "主体、控制器、选项与搜索/虚拟列表算法、Menu 及语义样式已独立复制并纳入 check:selection-presentations；Cedar 仅 menu，Maple 通过静态扩展文件提供 list/picker 和移动触摸样式。公共 API 以 Cedar 为准；本地 Form/空状态接入独立，无跨库运行时、共享实例或 platform 配置。"
   },
   "cascader": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "主体、控制器、树/路径/搜索/懒加载算法、CascaderPanel、Menu 与语义样式已独立复制；草稿会话由控制器统一持有。Cedar 仅 menu，Maple 的 list/picker 位于独立静态扩展文件；公共源码纳入 check:selection-presentations，保留本地系统接入与移动触摸样式差异，不共享运行时代码。"
   },
   "auto-complete": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 搜索/虚拟列表/非受控默认值与移动 picker/popup/presentation 分层差异大；先同源对齐选项归一化、筛选、值状态和禁用规则，保留端侧展示。"
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "2026-09-23 主体、Props、类型出口、Menu 样式和配对交互/SSR 测试完成独立同源复制；两端直接消费本地 Input、Trigger、Select 选项算法。统一 shouldOpen/过滤、分组、异步候选、虚拟列表、长度规则、Form 继承及焦点事件，补齐 hint/颜色/键盘提示；无跨库运行时或 platform 配置，AutoComplete 不提供滚轮 presentation。"
   },
   "date": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。"
   },
   "date-range": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。"
   },
   "time": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-23：Time/TimeRange 入口、TimeField 主体及字段状态协议已从 Cedar 独立复制到 Maple，值、草稿、确认/取消、清除、焦点和通知控制器同源。两库各自维护源码及实例，无共享运行时或 platform 配置；桌面 Trigger/列表与移动 Popup/滚轮/时钟，以及本地 Form、全局多语言接入和候选初始化保留在独立 presentation 文件。31 对时间源码/测试门禁覆盖；外观和纯时间面板仍单独验收。"
   },
   "time-range": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-23：Time/TimeRange 入口、TimeField 主体及字段状态协议已从 Cedar 独立复制到 Maple，值、草稿、确认/取消、清除、焦点和通知控制器同源。两库各自维护源码及实例，无共享运行时或 platform 配置；桌面 Trigger/列表与移动 Popup/滚轮/时钟，以及本地 Form、全局多语言接入和候选初始化保留在独立 presentation 文件。31 对时间源码/测试门禁覆盖；外观和纯时间面板仍单独验收。"
   },
   "date-picker": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。"
   },
   "date-range-picker": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。"
   },
   "time-picker": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-30：纯时间面板的值、草稿、校验和选择/确认事务已独立复制；两端范围入口均直接持有范围状态，Cedar 不再经单值面板转调。类型化事件声明和范围事件编排同源，脚本入口收口为 script setup。列表与滚轮/时钟内容及手势留在独立 presentation 文件，两库各有源码及实例，无共享运行时。33 对源码/测试与 4 个面板展示边界门禁覆盖；端侧外观保持差异，浏览器视觉验收另行进行。"
   },
   "time-range-picker": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 日历/时间列表与移动滚轮/弹出面板、min/max、disabledTime、格式化及范围 API 差异较大；同源对齐解析、禁用规则、范围计算，面板保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-30：纯时间面板的值、草稿、校验和选择/确认事务已独立复制；两端范围入口均直接持有范围状态，Cedar 不再经单值面板转调。类型化事件声明和范围事件编排同源，脚本入口收口为 script setup。列表与滚轮/时钟内容及手势留在独立 presentation 文件，两库各有源码及实例，无共享运行时。33 对源码/测试与 4 个面板展示边界门禁覆盖；端侧外观保持差异，浏览器视觉验收另行进行。"
   },
   "dropdown-menu": {
     "label": "已同源",
@@ -305,9 +305,9 @@
     "reason": "2026-09-08 完成独立同源复制：主体、21 项 Props、样式依赖入口和契约测试纳入一致性检查；统一异步点击、受控状态、禁用优先级、向下箭头及 open/close/resize。Cedar Menu 补齐浮层类名和屏幕轴偏移适配；两端 Menu 保留独立平台实现，无跨库运行时或实例共享。"
   },
   "form": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "Cedar 有 rules、栅格标签和 size，Maple 有 readonly，FormItem 导出与注入不同；先同源对齐校验任务、字段注册和重置，布局与错误呈现分开。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-21 完成 Form 内核独立同源复制：字段注册与卸载、定向/全量校验、错误聚合、异步批次竞态、reset/clear/setFields 已统一，并由 check:form-kernel 防漂移；两端 validate 都返回 undefined 或字段错误映射，submit/success/failed 载荷同义，scrollToError 均按实际 DOM 顺序选择 start/end。Cedar 的 b-validate 规则适配、栅格标签与 Maple 的函数/Zod 规则适配、移动端 details 仍各自维护。"
   },
   "tabs": {
     "label": "逻辑待同源",
@@ -320,9 +320,9 @@
     "reason": "Tabs 有编辑/新增与 sticky/safeArea 差异；Carousel 有键盘 aria 与 centeredSlides/effect 差异；同源对齐索引、切换/自动播放状态机，导航和手势保留适配。"
   },
   "message": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "PC 队列和悬停计时与移动 open/position/forbidClick/lockScroll 等不同；同源对齐队列/计时逻辑前先核对函数式返回句柄与关闭时序。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-21 完成逻辑同源：两端独立复制相同的可调用服务、按容器与位置隔离的队列、剩余时间计时、id 更新、幂等关闭和宿主销毁逻辑，并纳入轻量反馈一致性门禁。API 已统一为 default/info/success/warning/danger/loading、top/center/bottom、action、pauseOnHover、resetOnUpdate 与完整生命周期；删除 normal、模态阻断及端侧外观 Props。PC 紧凑提示与移动卡片样式各自维护。"
   },
   "upload": {
     "label": "逻辑待同源",
@@ -335,9 +335,9 @@
     "reason": "Cedar 42 个 Props（列、选择、树、分页、虚拟滚动等），Maple 仅 3 个容器 Props；语义层级不同，不建议对齐整个 Table。"
   },
   "popup": {
-    "label": "逻辑待同源",
-    "en": "Logic copies (planned)",
-    "reason": "异名候选：同源对齐可见状态、placement、遮罩、滚动锁和关闭原因；Drawer 的桌面尺寸/焦点管理与 Popup 的触控、安全区及转场需保留适配。"
+    "label": "逻辑已同源",
+    "en": "Logic copies (verified)",
+    "reason": "2026-09-21 完成逻辑同源改造。两端各自保存字节级一致的 modal-surface 控制器，并由同源门禁约束；已统一 open/defaultOpen、unmountOnClose、遮罩 pointer 序列、层级、焦点、容器锁滚动、ESC、显式路由关闭和生命周期。Cedar Drawer 保留标题/页脚/宽高及 beforeClose，Maple Popup 保留 center、安全区和移动转场。"
   },
   "row": {
     "label": "已同源",

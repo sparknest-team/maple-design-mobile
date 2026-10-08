@@ -177,3 +177,46 @@ import type {
   AvatarTriggerType,
 } from '@maplejs/maple-ui';
 ```
+
+### 样式变量
+
+| 变量 | 默认值 |
+| --- | --- |
+| `--mp-avatar-size-default` | `40px` |
+| `--mp-avatar-font-size-text` | `20px` |
+| `--mp-avatar-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-avatar-text-padding-inline` | `4px` |
+| `--mp-avatar-bg` | `var(--mp-color-fill-4)` |
+| `--mp-avatar-border-width` | `2px` |
+| `--mp-avatar-border-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-avatar-group-item-border` | `var(--mp-sys-color-surface-default)` |
+| `--mp-avatar-group-item-border-width` | `2px` |
+| `--mp-avatar-group-offset` | `-10px` |
+| `--mp-avatar-group-popover-item-spacing` | `8px` |
+| `--mp-avatar-font-weight-text` | `500` |
+| `--mp-avatar-circle-border-radius` | `50%` |
+| `--mp-avatar-square-border-radius` | `4px` |
+| `--mp-avatar-size-trigger-button` | `20px` |
+| `--mp-avatar-trigger-button-bg` | `var(--mp-color-fill-2)` |
+| `--mp-avatar-trigger-button-bg-hover` | `var(--mp-color-fill-3)` |
+| `--mp-avatar-trigger-overlay-icon` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-avatar-trigger-overlay-bg` | `color-mix(in srgb, var(--mp-color-black) 60%, transparent)` |
+| `--mp-avatar-trigger-icon-button` | `var(--mp-sys-color-content-primary)` |
+| `--mp-avatar-spacing-trigger-button-right` | `4px` |
+| `--mp-avatar-spacing-trigger-button-bottom` | `4px` |
+| `--mp-avatar-size-trigger-icon` | `12px` |
+| `--mp-avatar-trigger-button-border-radius` | `50%` |
+| `--mp-avatar-font-size-max-count` | `20px` |
+| `--mp-avatar-max-count-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-avatar-trigger-overlay-font-size` | `16px` |
+| `--mp-avatar-hover-transform` | `scale(1.1)` |
+| `--mp-avatar-motion-duration` | `0.2s` |
+| `--mp-avatar-z-index-trigger` | `1` |
+| `--mp-avatar-z-index-overlay` | `0` |
+| `--mp-avatar-z-index-overlay-hover` | `2` |
+
+文字、汇总数量和按钮式触发图标默认使用主要内容色；描边跟随容器表面；只有深色交互遮罩上的图标使用 `content-on-dark`。头像背景的 `fill-4`、按钮背景与 hover 阶梯、黑色半透明遮罩保留为组件视觉值。使用 `color` 属性覆盖头像背景时，应同步检查文字对比度，必要时覆盖 `text-color`。Maple 暗色主题背景仍采用组件专属的 `#303030`。
+
+### 减少动态效果
+
+内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。

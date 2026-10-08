@@ -121,36 +121,93 @@ type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 ## 样式变量
 
-组件提供了下列 CSS 变量，可用于自定义样式。
+以下是全部公开 Badge 变量及默认值：
 
-### 通用
-
-| 名称 | 默认值 |
+| 变量 | 默认值 |
 | --- | --- |
-| `--mp-badge-font-weight` | `500` |
-| `--mp-badge-bg-color` | `#ef4444` |
-| `--mp-badge-text-color` | `#ffffff` |
-| `--mp-badge-description-text-color` | `var(--mp-color-text-1)` |
+| `--mp-badge-font-weight` | `var(--mp-sys-font-weight-medium)` |
+| `--mp-badge-description-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-badge-description-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-badge-description-size-md-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-badge-description-size-lg-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-badge-description-size-xl-font-size` | `var(--mp-sys-font-size-xl)` |
+| `--mp-badge-description-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-badge-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-badge-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-badge-size-md-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-badge-size-lg-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-badge-size-xl-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-badge-size-xs-scale` | `0.6667` |
+| `--mp-badge-size-sm-scale` | `0.8333` |
+| `--mp-badge-size-md-scale` | `1` |
+| `--mp-badge-size-lg-scale` | `1` |
+| `--mp-badge-size-xl-scale` | `1` |
+| `--mp-badge-size-xs-dot-width` | `4px` |
+| `--mp-badge-size-sm-dot-width` | `5px` |
+| `--mp-badge-size-md-dot-width` | `6px` |
+| `--mp-badge-size-lg-dot-width` | `7px` |
+| `--mp-badge-size-xl-dot-width` | `8px` |
+| `--mp-badge-size-xs-dot-height` | `4px` |
+| `--mp-badge-size-sm-dot-height` | `5px` |
+| `--mp-badge-size-md-dot-height` | `6px` |
+| `--mp-badge-size-lg-dot-height` | `7px` |
+| `--mp-badge-size-xl-dot-height` | `8px` |
+| `--mp-badge-size-xs-space` | `0px` |
+| `--mp-badge-size-sm-space` | `var(--mp-sys-space-1)` |
+| `--mp-badge-size-md-space` | `var(--mp-sys-space-3)` |
+| `--mp-badge-size-lg-space` | `var(--mp-sys-space-3)` |
+| `--mp-badge-size-xl-space` | `var(--mp-sys-space-4)` |
+| `--mp-badge-size-xs-padding` | `0 var(--mp-sys-space-3)` |
+| `--mp-badge-size-sm-padding` | `0 var(--mp-sys-space-3)` |
+| `--mp-badge-size-md-padding` | `0 var(--mp-sys-space-4)` |
+| `--mp-badge-size-lg-padding` | `0 var(--mp-sys-space-4)` |
+| `--mp-badge-size-xl-padding` | `0 10px` |
+| `--mp-badge-size-xs-height` | `20px` |
+| `--mp-badge-size-sm-height` | `20px` |
+| `--mp-badge-size-md-height` | `24px` |
+| `--mp-badge-size-lg-height` | `28px` |
+| `--mp-badge-size-xl-height` | `32px` |
+| `--mp-badge-size-xs-border-radius` | `20px` |
+| `--mp-badge-size-sm-border-radius` | `20px` |
+| `--mp-badge-size-md-border-radius` | `24px` |
+| `--mp-badge-size-lg-border-radius` | `28px` |
+| `--mp-badge-size-xl-border-radius` | `32px` |
+| `--mp-badge-bg-color` | `var(--mp-sys-color-status-danger)` |
+| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-default-bg-color` | `#e0e0e0` |
+| `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` |
+| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` |
+| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` |
+| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-danger-bg-color` | `var(--mp-sys-color-status-danger)` |
+| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` |
+| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` |
+| `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-badge-variant-outline-bg-color` | `transparent` |
+| `--mp-badge-variant-outline-text-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-badge-variant-outline-status-info-text-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-badge-variant-outline-status-success-text-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-badge-variant-outline-status-warning-text-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-badge-variant-outline-status-danger-text-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-badge-variant-outline-status-primary-text-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-badge-variant-outline-status-default-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-badge-variant-outline-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-badge-variant-outline-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-badge-border-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-badge-offset` | `2px` |
+| `--mp-badge-ring-width` | `2px` |
 
-### 尺寸（`xs / sm / md / lg / xl`）
+填充徽标按背景选择前景：亮色状态底用 `content-on-bright`；浅色主题的深灰 tertiary 用 `content-on-dark`，暗色主题的亮灰 tertiary 用 `content-on-bright`。两端的 Maple 浅色品牌均为深橙 primary 配置 `content-on-dark`。默认危险红 `var(--mp-sys-color-status-danger)` 与中性背景 `#e0e0e0` 是组件视觉值。
 
-| 名称 |
-| --- |
-| `--mp-badge-size-{size}-font-size` |
-| `--mp-badge-size-{size}-scale` |
-| `--mp-badge-size-{size}-dot-width` / `-dot-height` |
-| `--mp-badge-size-{size}-padding` |
-| `--mp-badge-size-{size}-height` |
-| `--mp-badge-size-{size}-border-radius` |
-| `--mp-badge-size-{size}-space` |
-| `--mp-badge-description-size-{size}-font-size` |
+轮廓文字和描边使用 `content-brand/info/success/warning/danger`，适配普通中性表面；secondary 与 tertiary 轮廓均使用 `content-secondary` 保持可读性。`variant-outline-bg-color` 对所有状态均生效，默认透明。`color` 属性覆盖轮廓文字和描边，`text-color` 进一步覆盖文字；二者均保留背景变量的控制权。自定义前景或背景后须重新验证对比度。
 
-### 状态（`default / info / success / warning / danger / primary`）
+### 颜色覆盖边界
 
-| 名称 |
-| --- |
-| `--mp-badge-status-{status}-bg-color` |
-| `--mp-badge-status-{status}-text-color` |
-| `--mp-badge-variant-outline-status-{status}-text-color` |
-
-默认 `status="danger"` 为红底白字；显式 `status="default"` 为中性色。支持完整的 `xs | sm | md | lg | xl` 五档尺寸。
+bg-color 兜底引用 system status-danger。中性固定浅灰与 secondary/tertiary 灰阶是有意的组件配色；border-color 隔离环可按宿主表面覆盖。自定义 color/text-color 由调用方保证对比度。

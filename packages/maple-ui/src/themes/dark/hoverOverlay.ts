@@ -1,4 +1,2 @@
-export default {
-  '--mp-hover-overlay-opacity': 'var(--mp-opacity-hover)',
-  '--mp-hover-overlay-focusing-opacity': 'var(--mp-opacity-focus)',
-}
+// Inherit the shared state-layer defaults in every color mode.
+export default {}

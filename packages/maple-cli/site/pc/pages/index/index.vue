@@ -4,12 +4,14 @@ import config from '@config'
 import { IconGithub as MIconGithub, IconTwitter as MIconTwitter } from '@maplejs/icons-vue'
 import { getPCLocationInfo, onThemeChange } from '@maplejs/maple-cli/client'
 import { useRoute, useRouter } from 'vue-router'
+import { resolveSiteAsset } from '../../../utils'
 import AppAd from '../../components/AppAd.vue'
 import AppHeader from '../../components/AppHeader.vue'
 
 const route = useRoute()
 const router = useRouter()
 const github = config?.pc?.header?.github
+const siteLogo = resolveSiteAsset(config?.logo)
 const title: Ref<string> = ref(config?.title)
 const language: Ref<string> = ref(config?.defaultLanguage)
 const indexPage: Ref<Record<string, any>> = ref(config?.pc?.indexPage)
@@ -54,7 +56,7 @@ watch(
       <div class="maple-doc-index__main-container">
         <div class="maple-doc-index__logo-container">
           <div class="maple-doc-index__logo-background-mask"></div>
-          <img class="maple-doc-index__logo" :src="config.logo" alt="" />
+          <img class="maple-doc-index__logo" :src="siteLogo" alt="" />
         </div>
         <div class="maple-doc-index__info-container">
           <div class="maple-doc-index__title">{{ title }}</div>

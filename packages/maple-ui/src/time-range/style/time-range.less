@@ -1,6 +1,4 @@
 :root {
-  --mp-time-range-label-font-size: 16px;
-  --mp-time-range-arrow-size: 20px;
   --mp-time-range-toolbar-height: var(--mp-picker-toolbar-height, 44px);
   --mp-time-range-toolbar-padding: var(--mp-picker-toolbar-padding, 0 4px);
   --mp-time-range-title-text-color: var(--mp-picker-title-text-color, #555);
@@ -11,58 +9,6 @@
   width: 100%;
   text-align: left;
   outline: none;
-
-  &__select {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    min-height: 24px;
-    outline: none;
-    border: none;
-    font-size: inherit;
-    color: var(--mp-field-control-text-color);
-    word-break: break-all;
-    overflow: hidden;
-    transition: color 0.25s;
-  }
-
-  &__label {
-    display: flex;
-    align-items: center;
-    font-size: var(--mp-time-range-label-font-size);
-  }
-
-  &__placeholder {
-    max-width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    font-size: var(--mp-internal-field-size-placeholder);
-    line-height: 1.5em;
-    color: var(--mp-field-blur-color);
-    pointer-events: none;
-    cursor: inherit;
-  }
-
-  &__arrow[mp-time-range-cover] {
-    flex-shrink: 0;
-    font-size: var(--mp-time-range-arrow-size);
-  }
-
-  &--arrow-rotate {
-    transform: rotate(180deg);
-  }
-
-  &--disabled {
-    color: var(--mp-field-control-text-color-disabled);
-    cursor: not-allowed;
-  }
-
-  &--error {
-    color: var(--mp-field-error-color);
-  }
 
   &__panel {
     background: var(--mp-color-fill-2);

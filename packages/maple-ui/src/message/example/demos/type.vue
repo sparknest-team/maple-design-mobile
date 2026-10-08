@@ -1,5 +1,5 @@
 <script setup>
-import { h, onBeforeUnmount, reactive, resolveComponent, toRefs } from 'vue'
+import { onBeforeUnmount } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
 function create(type) {
@@ -25,6 +25,6 @@ onBeforeUnmount(() => {
     <mp-button status="info" block @click="create('info')">信息</mp-button>
     <mp-button status="danger" block @click="create('error')">错误</mp-button>
     <mp-button status="primary" block @click="create('loading')">加载</mp-button>
-    <mp-button status="default" block @click="create('normal')">普通</mp-button>
+    <mp-button status="default" block @click="Message('普通提示')">普通</mp-button>
   </mp-space>
 </template>

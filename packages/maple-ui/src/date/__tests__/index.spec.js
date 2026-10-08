@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Date from '..'
+import DatePanel from '../../date/DatePanel.vue'
 import { delay, trigger } from '../../utils/test'
 import VarDate from '../Date'
 
@@ -29,6 +30,8 @@ test('date confirm writes modelValue', async () => {
   expect(document.querySelector('.mp-picker')).toBeTruthy()
   expect(document.querySelector('.mp-date-picker__body')).toBeFalsy()
 
+  wrapper.getComponent(DatePanel).vm.$emit('select', '2025-01-15')
+  await delay(0)
   await trigger(document.querySelector('.mp-date__confirm-button'), 'click')
   await delay(300)
 
@@ -73,11 +76,11 @@ test('date clear', async () => {
     attachTo: document.body,
   })
 
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-btn').trigger('click')
   await delay(16)
 
   expect(onUpdateModelValue).toHaveBeenCalledWith(undefined)
-  expect(onClear).toHaveBeenCalledWith(undefined)
+  expect(onClear).toHaveBeenCalledWith()
 
   wrapper.unmount()
   document.body.innerHTML = ''

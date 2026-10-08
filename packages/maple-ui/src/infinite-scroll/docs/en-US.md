@@ -4,12 +4,25 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 
 
 
-### basic
+### Basic Usage
 
 ```demo
 ../example/demos/basic.vue
 ```
-## Basic Usage
+
+### Retry on Error
+
+```demo
+../example/demos/error.vue
+```
+
+### Custom Status
+
+```demo
+../example/demos/custom-status.vue
+```
+
+## Usage
 
 ```html
 <script setup lang="ts">
@@ -115,12 +128,9 @@ A hidden Tab does not load. It is checked after becoming active; custom tab impl
 
 | Variable                                  | Default                  |
 | ----------------------------------------- | ------------------------ |
-| `--mp-infinite-scroll-loading-height`     | `50px`                   |
-| `--mp-infinite-scroll-finished-height`    | `50px`                   |
-| `--mp-infinite-scroll-error-height`       | `50px`                   |
-| `--mp-infinite-scroll-loading-color`      | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-finished-color`     | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-error-color`        | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-loading-font-size`  | `var(--mp-font-size-md)` |
-| `--mp-infinite-scroll-finished-font-size` | `var(--mp-font-size-md)` |
-| `--mp-infinite-scroll-error-font-size`    | `var(--mp-font-size-md)` |
+| `--mp-infinite-scroll-status-min-height`  | `50px`                   |
+| `--mp-infinite-scroll-status-padding`     | `12px 0`                 |
+| `--mp-infinite-scroll-status-color`       | `var(--mp-color-text-3)` |
+| `--mp-infinite-scroll-status-font-size`   | `var(--mp-font-size-md)` |
+| `--mp-infinite-scroll-loading-gap`        | `8px`                    |
+| `--mp-infinite-scroll-error-color`        | `var(--mp-color-danger)` |

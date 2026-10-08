@@ -1,188 +1,154 @@
-:root {
-  --mp-input-number-border-radius: var(--mp-field-border-radius);
-  --mp-input-number-step-layer-border-radius: 1px;
-  --mp-input-number-step-button-width: 28px;
-  --mp-input-number-step-button-color: var(--mp-field-control-text-color);
-  --mp-input-number-step-button-disabled-color: var(--mp-field-control-text-color-disabled);
-  --mp-input-number-step-button-border-color: var(--mp-color-border-2);
-  --mp-input-number-step-button-background: rgba(0, 0, 0, 0.04);
-  --mp-input-number-step-button-hover-background: rgba(0, 0, 0, 0.08);
-  --mp-input-number-step-button-active-background: rgba(0, 0, 0, 0.12);
-}
-
 .mp-input-number {
+  --mp-internal-input-number-step-width: var(--mp-input-number-step-button-width);
   position: relative;
   display: flex;
   align-items: stretch;
   box-sizing: border-box;
   width: 100%;
-  border-radius: var(--mp-input-number-border-radius);
+  min-width: 0;
 
+  .size(@size) {
+    &--size-@{size} {
+      --mp-internal-input-number-step-width: var(~'--mp-input-number-size-@{size}-step-button-width');
+    }
+  }
+  .size(xs);
+  .size(sm);
+  .size(md);
+  .size(lg);
+  .size(xl);
+
+  &__field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  &__input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: calc(var(--mp-internal-field-height) - var(--mp-field-border-width) * 2);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    caret-color: var(--mp-field-focus-color);
+    cursor: inherit;
+    appearance: none;
+    &::placeholder {
+      color: var(--mp-field-placeholder-text-color);
+    }
+    &:disabled {
+      color: var(--mp-field-control-text-color-disabled);
+      -webkit-text-fill-color: var(--mp-field-control-text-color-disabled);
+    }
+  }
   &__addon {
     display: inline-flex;
     align-items: center;
     flex: 0 0 auto;
     padding: 0 var(--mp-field-padding-horizontal);
-    color: var(--mp-field-control-text-color);
-    background: var(--mp-field-variant-filled-background);
-    border: var(--mp-field-border-width) solid var(--mp-field-variant-outline-border-color);
+    color: var(--mp-input-number-addon-color);
+    background: var(--mp-input-number-addon-background);
+    border: var(--mp-input-number-border-width) solid var(--mp-input-number-addon-border-color);
   }
-
   &__prepend {
-    border-right: 0;
-    border-radius: var(--mp-field-border-radius) 0 0 var(--mp-field-border-radius);
+    border-inline-end: 0;
+    border-start-start-radius: var(--mp-input-number-border-radius);
+    border-end-start-radius: var(--mp-input-number-border-radius);
   }
-
   &__append {
-    border-left: 0;
-    border-radius: 0 var(--mp-field-border-radius) var(--mp-field-border-radius) 0;
+    border-inline-start: 0;
+    border-start-end-radius: var(--mp-input-number-border-radius);
+    border-end-end-radius: var(--mp-input-number-border-radius);
   }
-
-  &__step-button {
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--mp-input-number-step-button-width);
-    height: 100%;
-    padding: 0;
-    border: 0 none;
-    background-color: var(--mp-input-number-step-button-background);
-    color: var(--mp-input-number-step-button-color);
-    cursor: pointer;
-    user-select: none;
-    transition:
-      color 0.25s,
-      background-color 0.25s;
-
-    &:hover {
-      background-color: var(--mp-input-number-step-button-hover-background);
-    }
-
-    &:active {
-      background-color: var(--mp-input-number-step-button-active-background);
-    }
-
-    .mp-icon {
-      font-size: 14px;
-    }
-  }
-
-  &__step-button--disabled,
-  &__step-button:disabled {
-    color: var(--mp-input-number-step-button-disabled-color);
-    cursor: not-allowed;
-
-    &:hover,
-    &:active {
-      background-color: var(--mp-input-number-step-button-background);
-    }
-  }
-
   &__prefix,
   &__suffix {
     display: inline-flex;
     align-items: center;
-    transition: color 0.25s;
   }
-
-  .mp-input {
+  &__step-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex: 1 1 auto;
-    min-width: 0;
-    width: auto;
-  }
-
-  .mp-input__input {
-    text-align: left;
-  }
-
-  &--mode-embed {
-    .mp-input-number__step {
-      position: relative;
-      width: var(--mp-input-number-step-button-width);
-      height: 100%;
-      margin-right: calc(-1 * var(--mp-field-padding-horizontal));
-      border-radius: var(--mp-input-number-step-layer-border-radius);
-      overflow: hidden;
+    box-sizing: border-box;
+    width: var(--mp-internal-input-number-step-width);
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    color: var(--mp-input-number-step-button-color);
+    background: var(--mp-input-number-step-button-background);
+    font: inherit;
+    font-size: var(--mp-input-number-step-button-icon-size);
+    cursor: pointer;
+    user-select: none;
+    touch-action: none;
+    transition:
+      background-color var(--mp-input-number-step-button-transition-duration),
+      color var(--mp-input-number-step-button-transition-duration);
+    > svg {
+      width: 1em;
+      height: 1em;
     }
-
-    .mp-input-number__step-divider-vertical {
-      position: absolute;
-      top: 0;
-      left: -1px;
-      width: 1px;
-      height: 100%;
-      background-color: var(--mp-input-number-step-button-border-color);
+    &:active {
+      background: var(--mp-input-number-step-button-active-background);
     }
-
-    .mp-input-number__step-buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .mp-input-number__step-button {
-      width: 100%;
-      height: calc(50% - 0.5px);
-      line-height: 1;
-    }
-
-    .mp-input-number__step-divider-horizontal {
-      width: 100%;
-      height: 1px;
-      background-color: var(--mp-input-number-step-button-border-color);
-    }
-  }
-
-  &--mode-button {
-    .mp-field-decorator__controller {
-      padding-right: var(--mp-field-padding-horizontal);
-      padding-left: var(--mp-field-padding-horizontal);
-    }
-
-    .mp-field-decorator__icon {
-      align-self: stretch;
-    }
-
-    .mp-field-decorator__icon:first-child {
-      margin-left: calc(-1 * var(--mp-field-padding-horizontal));
-    }
-
-    .mp-field-decorator__icon:last-child {
-      margin-right: calc(-1 * var(--mp-field-padding-horizontal));
-    }
-
-    .mp-input-number__step-button:first-child {
-      border-right: 1px solid var(--mp-input-number-step-button-border-color);
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    .mp-input-number__step-button:last-child {
-      border-left: 1px solid var(--mp-input-number-step-button-border-color);
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-  }
-
-  &--readonly {
-    .mp-input-number__step-button {
+    &:disabled {
       color: var(--mp-input-number-step-button-disabled-color);
-      pointer-events: none;
+      background: var(--mp-input-number-step-button-background);
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      outline: var(--mp-input-number-border-width) solid var(--mp-field-focus-color);
+      outline-offset: calc(-1 * var(--mp-input-number-border-width));
     }
   }
-
-  &--size-xs {
-    --mp-input-number-step-button-width: 24px;
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    flex: none;
+    width: var(--mp-internal-input-number-step-width);
+    margin-inline-end: calc(-1 * var(--mp-field-padding-horizontal));
+    border-inline-start: var(--mp-input-number-border-width) solid var(--mp-input-number-step-button-border-color);
+    border-start-end-radius: var(--mp-input-number-border-radius);
+    border-end-end-radius: var(--mp-input-number-border-radius);
+    overflow: hidden;
+    .mp-input-number__step-button {
+      width: 100%;
+    }
+    .mp-input-number__step-button + .mp-input-number__step-button {
+      border-top: var(--mp-input-number-border-width) solid var(--mp-input-number-step-button-border-color);
+    }
   }
-
-  &--size-sm {
-    --mp-input-number-step-button-width: 26px;
+  &--mode-button {
+    .mp-field-decorator__prefix > .mp-input-number__step-button {
+      align-self: stretch;
+      border-start-start-radius: var(--mp-input-number-border-radius);
+      border-end-start-radius: var(--mp-input-number-border-radius);
+      margin-inline-start: calc(-1 * var(--mp-field-padding-horizontal));
+      border-inline-end: var(--mp-input-number-border-width) solid var(--mp-input-number-step-button-border-color);
+    }
+    .mp-field-decorator__suffix > .mp-input-number__step-button {
+      align-self: stretch;
+      border-start-end-radius: var(--mp-input-number-border-radius);
+      border-end-end-radius: var(--mp-input-number-border-radius);
+      margin-inline-end: calc(-1 * var(--mp-field-padding-horizontal));
+      border-inline-start: var(--mp-input-number-border-width) solid var(--mp-input-number-step-button-border-color);
+    }
   }
-
-  &--size-lg {
-    --mp-input-number-step-button-width: 32px;
+}
+@media (hover: hover) {
+  .mp-input-number__step-button:not(:disabled):hover {
+    background: var(--mp-input-number-step-button-hover-background);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-input-number__step-button {
+    transition: none;
   }
 }

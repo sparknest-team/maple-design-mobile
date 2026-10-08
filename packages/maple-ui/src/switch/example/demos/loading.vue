@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const variants = ['circle', 'round', 'line', 'md3'] as const
+const variants = ['circle', 'round', 'line', 'tonal'] as const
 </script>
 
 <template>

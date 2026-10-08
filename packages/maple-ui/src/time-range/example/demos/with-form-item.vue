@@ -12,7 +12,7 @@ const formData = reactive({
   <mp-space direction="column" size="lg">
     <mp-form ref="form" :model="formData">
       <mp-form-item field="period" label="时段" required>
-        <mp-time-range v-model="formData.period" placeholder="请选择" clearable />
+        <mp-time-range v-model="formData.period" format="HH:mm" placeholder="请选择" clearable />
       </mp-form-item>
     </mp-form>
   </mp-space>

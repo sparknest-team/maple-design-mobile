@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Ellipsis from '..'
+import Tooltip from '../../tooltip'
 import VarEllipsis from '../Ellipsis.vue'
 
 test('ellipsis plugin', () => {
@@ -76,7 +77,7 @@ test('ellipsis tooltip equals false', () => {
     },
   })
 
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ disabled: true })
+  expect(wrapper.getComponent(Tooltip).props('disabled')).toBe(true)
   wrapper.unmount()
 })
 
@@ -87,7 +88,7 @@ test('ellipsis tooltip equals true', () => {
     },
   })
 
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ autoFitPopupWidth: true })
+  expect(wrapper.getComponent(Tooltip).props('disabled')).toBe(false)
   wrapper.unmount()
 })
 
@@ -95,18 +96,18 @@ test('ellipsis tooltip equals object', async () => {
   const container = document.createElement('div')
   const wrapper = mount(VarEllipsis, {
     props: {
-      tooltip: { type: 'primary' },
+      tooltip: { status: 'primary' },
     },
   })
 
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ autoFitPopupWidth: true, type: 'primary' })
+  expect(wrapper.getComponent(Tooltip).props('status')).toBe('primary')
 
   await wrapper.setProps({
     tooltip: {
-      type: 'info',
+      status: 'info',
     },
   })
-  expect(wrapper.vm.tooltipProps).toStrictEqual({ autoFitPopupWidth: true, type: 'info' })
+  expect(wrapper.getComponent(Tooltip).props('status')).toBe('info')
 
   await wrapper.setProps({
     tooltip: {
@@ -115,7 +116,11 @@ test('ellipsis tooltip equals object', async () => {
       content: 'Tooltip',
     },
   })
-  expect(container.innerHTML).toMatchSnapshot()
+  const content = container.querySelector('[role="tooltip"]')
+  expect(content.textContent).toBe('Tooltip')
+  expect(wrapper.get('.mp-ellipsis').attributes('aria-describedby')).toBe(content.id)
+  // Per-instance accessibility IDs are not a stable serialization contract.
+  expect(container.innerHTML.replace(/id="[^"]+"/g, 'id="tooltip-content"')).toMatchSnapshot()
 
   wrapper.unmount()
 })
@@ -125,7 +130,7 @@ test('ellipsis expand', async () => {
 
   const wrapper = mount(VarEllipsis, {
     props: {
-      expand: true,
+      defaultExpand: true,
       expandTrigger: 'click',
       'onUpdate:expand': onUpdateExpand,
     },

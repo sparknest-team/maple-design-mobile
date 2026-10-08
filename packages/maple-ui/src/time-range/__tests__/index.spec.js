@@ -14,11 +14,7 @@ test('time-range confirm writes modelValue', async () => {
   const onUpdateModelValue = vi.fn()
   const onChange = vi.fn()
   const wrapper = mount(VarTimeRange, {
-    props: {
-      modelValue: [],
-      'onUpdate:modelValue': onUpdateModelValue,
-      onChange,
-    },
+    props: { format: 'HH:mm', modelValue: [], 'onUpdate:modelValue': onUpdateModelValue, onChange },
     attachTo: document.body,
   })
 
@@ -34,7 +30,7 @@ test('time-range confirm writes modelValue', async () => {
   await delay(300)
 
   expect(onUpdateModelValue).toHaveBeenCalledWith(['00:00', '00:00'])
-  expect(onChange).toHaveBeenCalledWith(['00:00', '00:00'])
+  expect(onChange).toHaveBeenCalledWith(['00:00', '00:00'], [expect.any(Date), expect.any(Date)])
 
   wrapper.unmount()
   document.body.innerHTML = ''
@@ -45,7 +41,7 @@ test('time-range clock presentation', async () => {
     props: {
       modelValue: ['09:00', '18:00'],
       presentation: 'clock',
-      format: '24hr',
+      format: 'HH:mm',
     },
     attachTo: document.body,
   })
@@ -64,10 +60,7 @@ test('time-range clock presentation', async () => {
 test('time-range cancel does not write modelValue', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(VarTimeRange, {
-    props: {
-      modelValue: ['09:00', '18:00'],
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { format: 'HH:mm', modelValue: ['09:00', '18:00'], 'onUpdate:modelValue': onUpdateModelValue },
     attachTo: document.body,
   })
 
@@ -87,6 +80,7 @@ test('time-range clear', async () => {
   const onClear = vi.fn()
   const wrapper = mount(VarTimeRange, {
     props: {
+      format: 'HH:mm',
       modelValue: ['09:00', '18:00'],
       clearable: true,
       'onUpdate:modelValue': onUpdateModelValue,
@@ -95,11 +89,11 @@ test('time-range clear', async () => {
     attachTo: document.body,
   })
 
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+  await wrapper.find('.mp-field-decorator__clear-btn').trigger('click')
   await delay(16)
 
-  expect(onUpdateModelValue).toHaveBeenCalledWith([])
-  expect(onClear).toHaveBeenCalledWith([])
+  expect(onUpdateModelValue).toHaveBeenCalledWith(undefined)
+  expect(onClear).toHaveBeenCalledWith()
 
   wrapper.unmount()
   document.body.innerHTML = ''

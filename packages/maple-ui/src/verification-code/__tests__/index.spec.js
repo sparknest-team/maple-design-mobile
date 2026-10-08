@@ -28,7 +28,7 @@ describe('verification-code', () => {
       },
     })
 
-    const inputs = wrapper.findAll('.mp-input__input')
+    const inputs = wrapper.findAll('.mp-input__inner')
 
     await inputs[0].setValue('1')
     await inputs[1].setValue('2')
@@ -89,7 +89,7 @@ describe('verification-code', () => {
       },
     })
 
-    const inputs = wrapper.findAll('.mp-input__input')
+    const inputs = wrapper.findAll('.mp-input__inner')
     await inputs[0].setValue('a')
     expect(onUpdateModelValue).not.toHaveBeenCalled()
 
@@ -109,7 +109,7 @@ describe('verification-code', () => {
       },
     })
 
-    const inputs = wrapper.findAll('.mp-input__input')
+    const inputs = wrapper.findAll('.mp-input__inner')
     expect(inputs[0].element.value).toBe('*')
     expect(inputs[1].element.value).toBe('*')
     expect(inputs[2].element.value).toBe('')
@@ -154,7 +154,7 @@ describe('verification-code', () => {
       },
     })
 
-    const inputs = wrapper.findAll('.mp-input__input')
+    const inputs = wrapper.findAll('.mp-input__inner')
     expect(inputs[0].attributes('disabled')).toBeDefined()
 
     wrapper.unmount()
@@ -173,7 +173,7 @@ describe('verification-code', () => {
     await delay(20)
     await nextTick()
 
-    const inputs = wrapper.findAll('.mp-input__input')
+    const inputs = wrapper.findAll('.mp-input__inner')
     expect(document.activeElement).toBe(inputs[2].element)
 
     wrapper.unmount()

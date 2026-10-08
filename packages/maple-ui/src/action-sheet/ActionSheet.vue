@@ -1,7 +1,7 @@
 <template>
   <mp-popup
     v-model:open="open"
-    position="bottom"
+    placement="bottom"
     :class="n('popup-radius')"
     :overlay="overlay"
     :overlay-class="overlayClass"
@@ -10,12 +10,12 @@
     :overlay-closable="overlayClosable"
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
-    :safe-area="safeArea"
+    :safe-area-inset-bottom="safeArea"
+    close-on-route-change
     @open="$emit('open')"
     @close="$emit('close')"
     @closed="$emit('closed')"
     @opened="$emit('opened')"
-    @route-change="$emit('route-change')"
     @key-escape="$emit('key-escape', $event)"
     @click-overlay="$emit('click-overlay', $event)"
   >
@@ -65,7 +65,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'route-change', 'key-escape', 'click-overlay'],
+  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click-overlay'],
   setup(props, { emit }) {
     const open = useVModel(props, 'open', { emit, eventName: 'update:open' })
     const { t: pt } = injectLocaleProvider()

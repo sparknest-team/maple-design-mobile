@@ -1,76 +1,65 @@
 <template>
-  <mp-tooltip v-bind="tooltipProps">
+  <Tooltip v-bind="tooltipBindings">
     <div
+      v-bind="$attrs"
       :class="
-        classes(n(), [lineClamp, n('--clamp'), n('--line')], [expandTrigger, n('--cursor')], [expanding, n('--expand')])
+        classes(n(), [clamp, n('--clamp'), n('--line')], [expandTrigger, n('--cursor')], [expanding, n('--expand')])
       "
-      mp-ellipsis-cover
       :style="rootStyles"
-      @click="handleClick"
+      :role="expandTrigger ? 'button' : undefined"
+      :tabindex="expandTrigger || tooltip !== false ? 0 : undefined"
+      :aria-expanded="expandTrigger ? expanding : undefined"
+      @click="toggle"
+      @keydown="handleKeydown"
     >
-      <span>
-        <slot />
-      </span>
+      <span><slot /></span>
     </div>
-
     <template #content>
       <slot name="tooltip-content">
-        <span v-if="tooltipProps?.content">{{ tooltipProps.content }}</span>
+        <span v-if="tooltipBindings.content !== undefined">{{ tooltipBindings.content }}</span>
         <slot v-else />
       </slot>
     </template>
-  </mp-tooltip>
+  </Tooltip>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, type CSSProperties } from 'vue'
-import { useVModel } from '@maplejs/maple-use'
-import MpTooltip, { tooltipProps as _tooltipProps } from '../tooltip'
-import { createNamespace, type ExtractPublicPropTypes } from '../utils/components'
-import { props } from './props'
+<script setup lang="ts">
+import { computed, ref, type CSSProperties } from 'vue'
+import Tooltip, { type TooltipProps } from '../tooltip'
+import { createNamespace } from '../utils/components'
+import { ellipsisProps } from './props'
 
-const { name, n, classes } = createNamespace('ellipsis')
-
-export default defineComponent({
-  name,
-  components: { MpTooltip },
-  props,
-  emits: ['update:expand'],
-  setup(props, { emit }) {
-    const expanding = useVModel(props, 'expand', { emit, eventName: 'update:expand' })
-    const rootStyles = computed<CSSProperties>(() => (props.lineClamp ? { '-webkit-line-clamp': props.lineClamp } : {}))
-    const tooltipProps = computed<ExtractPublicPropTypes<typeof _tooltipProps>>(() => {
-      if (props.tooltip === false) {
-        return {
-          disabled: true,
-        }
-      }
-
-      if (props.tooltip === true) {
-        return {
-          autoFitPopupWidth: true,
-        }
-      }
-
-      return { autoFitPopupWidth: true, ...props.tooltip }
-    })
-
-    function handleClick() {
-      if (!props.expandTrigger) {
-        return
-      }
-
-      expanding.value = !expanding.value
-    }
-
-    return {
-      tooltipProps,
-      expanding,
-      rootStyles,
-      n,
-      classes,
-      handleClick,
-    }
-  },
+defineOptions({ name: createNamespace('ellipsis').name, inheritAttrs: false })
+const props = defineProps(ellipsisProps)
+const emit = defineEmits<{ 'update:expand': [expand: boolean] }>()
+const { n, classes } = createNamespace('ellipsis')
+const innerExpand = ref(props.defaultExpand)
+const expanding = computed(() => props.expand ?? innerExpand.value)
+const clamp = computed(() => {
+  const value = Number(props.lineClamp)
+  return Number.isFinite(value) && value > 0 ? Math.floor(value) : undefined
 })
+const rootStyles = computed<CSSProperties>(() => ({
+  WebkitLineClamp: expanding.value ? undefined : clamp.value,
+}))
+const tooltipBindings = computed<TooltipProps>(() =>
+  props.tooltip === false ? { disabled: true, open: false } : props.tooltip === true ? {} : { ...props.tooltip },
+)
+function toggle() {
+  if (!props.expandTrigger) {
+    return
+  }
+  const value = !expanding.value
+  if (props.expand === undefined) {
+    innerExpand.value = value
+  }
+  emit('update:expand', value)
+}
+function handleKeydown(event: KeyboardEvent) {
+  if (!props.expandTrigger || event.target !== event.currentTarget || !['Enter', ' '].includes(event.key)) {
+    return
+  }
+  event.preventDefault()
+  toggle()
+}
 </script>

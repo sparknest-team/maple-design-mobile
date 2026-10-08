@@ -1,8 +1,10 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import ClearTriggerDemo from './demos/clear-trigger.vue'
 import ControllerDemo from './demos/controller.vue'
 import CustomControlDemo from './demos/custom-control.vue'
+import EnClearTriggerDemo from './demos/en-US/clear-trigger.vue'
 import EnControllerDemo from './demos/en-US/controller.vue'
 import EnCustomControlDemo from './demos/en-US/custom-control.vue'
 import EnEventsDemo from './demos/en-US/events.vue'
@@ -42,6 +44,11 @@ onThemeChange()
     <app-type>{{ english ? 'Form events' : '表单事件' }}</app-type>
     <EnEventsDemo v-if="english" />
     <EventsDemo v-else />
+  </section>
+  <section data-demo="clear-trigger">
+    <app-type>{{ english ? 'Validate on clear' : '清空时校验' }}</app-type>
+    <EnClearTriggerDemo v-if="english" />
+    <ClearTriggerDemo v-else />
   </section>
   <section data-demo="custom-control">
     <app-type>{{ english ? 'Custom form control' : '自定义表单控件' }}</app-type>

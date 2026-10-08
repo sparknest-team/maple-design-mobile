@@ -59,6 +59,7 @@
 | `rows`            | 原生可见行数                       | _string \| number_                                  | `-`        |
 | `resize`          | 是否允许纵向拖动调整尺寸           | _boolean_                                           | `false`    |
 | `auto-size`       | 自动高度，可设置最小/最大行数      | _boolean \| { minRows?: number; maxRows?: number }_ | `false`    |
+
 | `max-length`      | 最大长度；对象形式可启用仅错误模式 | _number \| { length: number; errorOnly?: boolean }_ | `0`        |
 | `show-word-limit` | 是否显示字数统计                   | _boolean_                                           | `false`    |
 | `word-length`     | 自定义长度计算方法                 | _(value: string) => number_                         | `-`        |
@@ -72,6 +73,8 @@
 | `text-color`      | 自定义文字颜色                     | _string_                                            | `-`        |
 | `focus-color`     | 自定义聚焦颜色                     | _string_                                            | `-`        |
 | `blur-color`      | 自定义失焦颜色                     | _string_                                            | `-`        |
+
+在 Form/FormItem 内未显式设置时，`size`、`disabled`、`readonly` 和 `error` 会继承表单状态；组件本地传入的值（包括 `false`）优先。
 
 ### 事件
 
@@ -114,10 +117,17 @@ import type {
 
 ### 样式变量
 
-| 变量                              | 默认值 |
-| --------------------------------- | ------ |
-| `--mp-textarea-height`            | `auto` |
-| `--mp-textarea-min-height`        | `96px` |
-| `--mp-textarea-font-size`         | `16px` |
-| `--mp-textarea-length-margin-top` | `4px`  |
-| `--mp-textarea-length-font-size`  | `12px` |
+| 变量名                                         | 默认值                           |
+| ---------------------------------------------- | -------------------------------- |
+| `--mp-textarea-height`                         | `auto`                           |
+| `--mp-textarea-min-height`                     | `96px`                           |
+| `--mp-textarea-font-size`                      | `16px`                           |
+| `--mp-textarea-line-height`                    | `1.5`                            |
+| `--mp-textarea-padding-horizontal`             | `0`                              |
+| `--mp-textarea-padding-vertical`               | `0`                              |
+| `--mp-textarea-placeholder-color`              | `--mp-sys-color-content-secondary`|
+| `--mp-textarea-counter-color`                  | `--mp-sys-color-content-secondary`|
+| `--mp-textarea-counter-font-size`              | `--mp-sys-font-size-xs`          |
+| `--mp-textarea-counter-margin-top`              | `--mp-sys-space-2`               |
+
+计数器布局为显式平台差异：Cedar 内置计数器使用 counter-inset-inline-end、counter-inset-block-end 与 scrollbar-offset；Maple 外置计数行使用 counter-margin-top。仅公开本端真实生效的布局变量，颜色与字号语义仍保持共享。

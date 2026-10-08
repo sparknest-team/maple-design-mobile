@@ -1,93 +1,159 @@
-# 自动完成
+# AutoComplete 自动补全
 
-### 介绍
+允许自由输入的单行文本框，候选只是快捷填写方式。两端独立维护同源主体、Props、Menu 和样式；触控与 hover 差异由本地 Input 处理，没有跨库运行时或 platform 配置。
 
-输入框自动完成功能。
+shouldOpen 控制是否允许展开，filterOption 控制逐项过滤；它们不是同一个设置。没有候选、禁用或只读时不会打开。自动补全不提供 list/picker 展示。
 
-### 标准外观
+### 基础输入与选择
 
 ```demo
-../example/demos/standard.vue
+../example/demos/zh-CN/basic.vue
 ```
 
-### 外边框外观
+### 展开条件与过滤
 
 ```demo
-../example/demos/outline.vue
+../example/demos/zh-CN/opening-policy.vue
+```
+
+### 大小写匹配
+
+```demo
+../example/demos/zh-CN/strict.vue
+```
+
+### 异步建议
+
+```demo
+../example/demos/zh-CN/remote.vue
+```
+
+### 自定义字段与内容
+
+```demo
+../example/demos/zh-CN/footer.vue
+```
+
+### 虚拟列表
+
+```demo
+../example/demos/zh-CN/virtual-list.vue
+```
+
+### 五档尺寸
+
+```demo
+../example/demos/zh-CN/size.vue
+```
+
+### 禁用与只读
+
+```demo
+../example/demos/zh-CN/state.vue
+```
+
+### 外观与浮动提示
+
+```demo
+../example/demos/zh-CN/decorator.vue
+```
+
+### 键盘与无障碍
+
+```demo
+../example/demos/zh-CN/accessibility.vue
 ```
 
 ## API
 
-### 属性
+### Props
 
-#### AutoComplete Props
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `model-value` | 受控文本值 | `string` | `—` |
+| `default-value` | 非受控初始文本 | `string` | `''` |
+| `options` | 候选；支持分组，value 唯一，选择后转为字符串 | `(AutoCompleteOption \| SelectOptionGroup)[]` | `[]` |
+| `field-names` | 映射 value、label、disabled 等字段 | `AutoCompleteFieldNames` | `—` |
+| `should-open` | 允许展开的条件，不负责过滤候选 | `(value: string) => boolean` | `value.length > 0` |
+| `filter-option` | 按标签过滤；false 用于远程筛选 | `AutoCompleteFilterOption` | `true` |
+| `strict` | 内置过滤是否区分大小写 | `boolean` | `false` |
+| `popup-container` | 弹层挂载容器，与 Trigger 一致 | `PopupContainer` | `—` |
+| `trigger-props` | 弹层配置；不能覆盖内部 open / disabled / 容器优先级 | `TriggerProps` | `—` |
+| `virtual-list-props` | 传入后启用虚拟列表 | `VirtualListProps` | `—` |
+| `size` | 五档尺寸；未设置时继承 Group / Form / 全局配置 | `xs \| sm \| md \| lg \| xl` | `md` |
+| `variant` | 输入外观；未设置时继承 Group | `filled \| outline \| standard` | `outline` |
+| `disabled` | 禁用；未设置时继承，显式 false 覆盖 | `boolean` | `undefined` |
+| `readonly` | 只读，可聚焦复制，不展开候选 | `boolean` | `undefined` |
+| `error` | 错误状态；未设置时继承 FormItem | `boolean` | `undefined` |
+| `clearable` | 允许清除可编辑的非空值 | `boolean` | `false` |
+| `placeholder` | 占位文字或浮动提示内容 | `string` | `—` |
+| `hint` | 启用 Input 的浮动提示 | `boolean` | `undefined` |
+| `line` | 显示边框或底线 | `boolean` | `true` |
+| `text-color` | 实例文字颜色 | `string` | `—` |
+| `focus-color` | 实例聚焦颜色 | `string` | `—` |
+| `blur-color` | 实例失焦提示颜色 | `string` | `—` |
+| `enterkeyhint` | 移动虚拟键盘回车提示 | `InputHTMLAttributes['enterKeyHint']` | `—` |
+| `aria-label` | 输入框可访问名称 | `string` | `—` |
+| `max-length` | 输入与候选选择使用相同的截断规则 | `number \| { length: number; errorOnly?: boolean }` | `0` |
+| `show-word-limit` | 显示字数统计 | `boolean` | `false` |
+| `word-length` | 自定义长度计算 | `(value: string) => number` | `—` |
+| `word-slice` | 自定义截断 | `(value: string, maxLength: number) => string` | `—` |
+| `input-attrs` | 原生 input 属性，combobox 状态由组件维护 | `Record<string, unknown>` | `—` |
 
-| 参数           | 说明                                                                                                         | 类型                                       | 默认值     |
-| -------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ---------- |
-| `v-model`      | 绑定的值                                                                                                     | _string_                                   | `-`        |
-| `variant`      | 输入框风格, 可选值为 `filled` `standard` `outline`                                                          | _string_                                   | `standard` |
-| `size`         | 输入框尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                  | _ComponentSize_                            | `md`       |
-| `placeholder`  | 占位符                                                                                                       | _string_                                   | `-`        |
-| `options`      | 指定可选项                                                                                                   | _AutoCompleteOption[]_                     | `[]`       |
-| `field-names`  | 自定义 `options` 字段映射                                                                                    | _{ label?, value?, children?, disabled? }_ | `-`        |
-| `max-length`    | 最大长度                                                                                                     | _string \| number_                         | `-`        |
-| `readonly`     | 是否只读                                                                                                     | _boolean_                                  | `false`    |
-| `disabled`     | 是否禁用                                                                                                     | _boolean_                                  | `false`    |
-| `enterkeyhint` | 定制回车键样式，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint) | _string_                                   | `-`        |
-| `clearable`    | 是否可清除                                                                                                   | _boolean_                                  | `false`    |
-| `line`         | 是否显示分割线                                                                                               | _boolean_                                  | `true`     |
-| `hint`         | 是否使用占位符作为提示                                                                                       | _boolean_                                  | `true`     |
-| `text-color`   | 文字颜色                                                                                                     | _string_                                   | `-`        |
-| `focus-color`  | 聚焦时的主要颜色                                                                                             | _string_                                   | `-`        |
-| `blur-color`   | 失焦时的主要颜色                                                                                             | _string_                                   | `-`        |
-| `should-open`     | 根据输入值决定是否显示菜单                                                                                   | _(v: string) => boolean_                   | 输入非空        |
+### Events
 
-校验规则现在配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
+| 事件 | 参数 |
+| --- | --- |
+| `update:model-value` | `value: string` |
+| `input / search / change` | `value: string, event: Event` |
+| `select` | `value: string, option: AutoCompleteOptionInfo, event: Event` |
+| `clear` | `event: Event` |
+| `focus / blur` | `event: FocusEvent` |
+| `dropdown-scroll / dropdown-reach-bottom` | `event: Event` |
 
-#### AutoCompleteOption
+输入顺序：`update:modelValue → input → search`；选择：`update:modelValue → select → change`；清除：`update:modelValue → clear`。同值选择只发 select。change 表示失焦、Enter 或候选选择产生的提交。Input 负责输入、焦点与清除的 Form 通知，AutoComplete 仅对候选提交通知一次。选择也遵守 maxLength；select 的 value 是最终提交字符串，option.value 保留原始候选。clear 参数为事件，不再是字符串。
 
-| 参数       | 说明       | 类型                                                                              | 默认值 |
-| ---------- | ---------- | --------------------------------------------------------------------------------- | ------ |
-| `label`    | 选项的标签 | _string \| VNode \| (option: AutoCompleteOption, checked: boolean) => VNodeChild_ | `-`    |
-| `value`    | 选项的值   | _any_                                                                             | `-`    |
-| `disabled` | 是否禁用   | _boolean_                                                                         | `-`    |
+### Slots
 
-### 方法
+| 插槽 | 说明 |
+| --- | --- |
+| `option` | `{ data: AutoCompleteOptionInfo }` |
+| `footer` | 菜单底部 |
+| `prefix / suffix` | 输入框前后缀 |
+| `clear-icon` | `{ clear }` |
 
-| 方法名  | 说明 | 参数 | 返回值 |
-| ------- | ---- | ---- | ------ |
-| `focus` | 聚焦 | `-`  | `-`    |
-| `blur`  | 失焦 | `-`  | `-`    |
+### Methods
 
-### 事件
+`focus()` / `blur()`
 
-| 事件名   | 说明       | 参数                            |
-| -------- | ---------- | ------------------------------- |
-| `focus`  | 聚焦时触发 | `-`                             |
-| `blur`   | 失焦时触发 | `-`                             |
-| `click`  | 点击时触发 | `event: Event`                  |
-| `clear`  | 清除时触发 | `value: string`                 |
-| `input`  | 输入时触发 | `value: string`, `event: Event` |
-| `change` | 更新时触发 | `value: string`                 |
+label 使用文本；复杂候选通过 option 插槽或选项 render 实现，不保留旧的函数/VNode label 写法。方向键浏览、Enter 选择、Escape 关闭，Tab 保留原生焦点导航。使用 Vue useId 保证 SSR 标识稳定。
 
-### 插槽
+## 类型定义
 
-| 插槽名       | 说明     | 参数                                                                     |
-| ------------ | -------- | ------------------------------------------------------------------------ |
-| `prefix`     | 前缀     | `-`                                                                      |
-| `suffix`     | 后缀     | `-`                                                                      |
-| `clear-icon` | 清除图标 | `clear: (e: Event) => void` 清除函数(在使用插槽时, 可用于清除输入框内容) |
+```ts
+import type { AutoCompleteProps, AutoCompleteInstance, AutoCompleteOption, AutoCompleteOptionData,
+  AutoCompleteOptionInfo, AutoCompleteFieldNames, AutoCompleteFilterOption } from '@maplejs/maple-ui'
+```
 
-### 样式变量
+## 样式变量
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-| 变量名                            | 默认值  |
-| --------------------------------- | ------- |
-| `--auto-complete-options-padding` | `6px 0` |
-
-### 展开与过滤
-
-`should-open(inputValue)` 只控制是否允许展开，默认要求输入非空。`filter-option` 默认 `true`，按标签（缺省时按 value）忽略大小写匹配；`strict` 默认 `false`，设为 `true` 时区分大小写。`filter-option=false` 保留全部候选，适合服务端筛选；传入 `(inputValue, option) => boolean` 可自定义过滤（输入为空时保留全部候选）。禁用、只读、未聚焦或过滤后没有候选时不会展开。
-
-迁移：将 `get-show` 更名为 `should-open`；如需保留旧版不执行本地过滤的行为，同时设置 `:filter-option="false"`。
+| Token | 默认值 |
+| --- | --- |
+| `--mp-auto-complete-popup-max-height` | `200px` |
+| `--mp-auto-complete-popup-bg` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-auto-complete-popup-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-auto-complete-popup-padding-vertical` | `var(--mp-sys-space-2)` |
+| `--mp-auto-complete-popup-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-auto-complete-popup-border-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-auto-complete-popup-box-shadow` | `0 4px 10px rgba(0, 0, 0, 0.1)` |
+| `--mp-auto-complete-option-height` | `36px` |
+| `--mp-auto-complete-option-font-weight-selected` | `var(--mp-sys-font-weight-medium)` |
+| `--mp-auto-complete-option-padding-horizontal` | `var(--mp-sys-space-5)` |
+| `--mp-auto-complete-option-bg-default` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-auto-complete-option-bg-hover` | `var(--mp-sys-color-state-hover)` |
+| `--mp-auto-complete-option-bg-selected` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-auto-complete-option-bg-disabled` | `var(--mp-sys-color-surface-overlay)` |
+| `--mp-auto-complete-option-text-color-default` | `var(--mp-sys-color-content-primary)` |
+| `--mp-auto-complete-option-text-color-hover` | `var(--mp-sys-color-content-primary)` |
+| `--mp-auto-complete-option-text-color-selected` | `var(--mp-sys-color-content-primary)` |
+| `--mp-auto-complete-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |

@@ -213,12 +213,13 @@ export function useTriggerInteraction(
   onMounted(() => {
     owner = api.reference.value?.ownerDocument ?? document
     view = owner.defaultView
-    owner.addEventListener('click', onOutside)
+    // Evaluate the current top layer before another reference opens a new one.
+    owner.addEventListener('click', onOutside, true)
     view?.addEventListener('keydown', onKeydown)
   })
   onBeforeUnmount(() => {
     parent?.children.delete(context)
-    owner?.removeEventListener('click', onOutside)
+    owner?.removeEventListener('click', onOutside, true)
     view?.removeEventListener('keydown', onKeydown)
   })
   return {

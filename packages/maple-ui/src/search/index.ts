@@ -13,4 +13,3 @@ export type SearchInstance = InstanceType<typeof Search>
 export const _SearchComponent: typeof Search = Search
 
 export default Search
-export type SearchProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

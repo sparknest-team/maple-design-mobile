@@ -12,9 +12,9 @@ async function formBeforeClose(action, done, refs) {
   }
 
   refs.confirmButtonLoading.value = true
-  const valid = await formRef.value?.validate()
+  const errors = await formRef.value?.validate()
   refs.confirmButtonLoading.value = false
-  if (valid) {
+  if (!errors) {
     done()
     Message.success('表单提交成功')
   }

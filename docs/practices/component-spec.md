@@ -223,7 +223,7 @@ export default Space
 - **所有 CSS 自定义属性必须以 `--mp-` 开头**，例如 `--mp-button-padding`、`--mp-space-size-md-row-gap`。
 - 全局工具类放在 `style/common.less`（`mp--box` / `mp--flex` / `mp--lock` 等），不要在组件样式中再定义。
 - 主样式**只读 CSS 变量，不写常量值**；颜色 / 间距常量必须落到 `:root` 或 `themes/` 主题文件。
-- 主题色板放在 `src/themes/{dark,md3-light,md3-dark}/<component>.ts`，键统一以 `--mp-<component>-` 开头。
+- 主题入口为 Themes.default 和 Themes.maple，各有 light / dark。默认暗色组件覆盖放在 src/themes/dark/<component>.ts；品牌色板放在 src/themes/maple-light/index.ts 与 src/themes/maple-dark/index.ts。组件变量以 --mp-<component>- 开头。Switch 的 tonal 是独立于主题的造型 API。
 - 模板里写在 `style` 内联的 CSS 变量也必须带 `--mp-` 前缀：
 
 ```vue
@@ -334,7 +334,7 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 5. 写 `style/`：`:root` 声明 `--mp-*` token，主选择器使用 BEM；入口为 `style/index.ts`。
 6. 写 `index.ts`（按规范导出全部内容）。
 7. 写 `docs/zh-CN.md` 与至少一个 `example/index.vue` + 一个 `__tests__/index.spec.js`。
-8. 如果有主题需求，在 `src/themes/{dark,md3-light,md3-dark}/<component>.ts` 中补对应键值。
+8. 如果有主题需求，优先继承 system 角色；必要暗色差异写入 dark/<component>.ts，品牌色板在 maple-light / maple-dark 的 index.ts 维护。
 9. 在 `src/index.ts` / `src/components.ts`（如有）注册。
 
 ---

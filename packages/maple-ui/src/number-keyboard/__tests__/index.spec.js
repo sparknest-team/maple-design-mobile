@@ -75,11 +75,13 @@ describe('number-keyboard', () => {
       },
     })
 
-    expect(wrapper.find('.mp-number-keyboard').exists()).toBeFalsy()
+    const keyboard = wrapper.get('.mp-number-keyboard').element
+    expect(wrapper.get('.mp-number-keyboard').isVisible()).toBeFalsy()
 
     await wrapper.setProps({ open: true })
     await delay(16)
-    expect(wrapper.find('.mp-number-keyboard').exists()).toBeTruthy()
+    expect(wrapper.get('.mp-number-keyboard').isVisible()).toBeTruthy()
+    expect(wrapper.get('.mp-number-keyboard').element).toBe(keyboard)
 
     await wrapper.setProps({ open: false })
     await delay(300)

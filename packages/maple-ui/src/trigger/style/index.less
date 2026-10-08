@@ -24,3 +24,11 @@
 .trigger-fade-appear-from {
   opacity: 0;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger-fade-enter-active,
+  .trigger-fade-leave-active,
+  .trigger-fade-appear-active {
+    transition: none;
+  }
+}

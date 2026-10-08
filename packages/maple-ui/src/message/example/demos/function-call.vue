@@ -1,5 +1,5 @@
 <script setup>
-import { h, onBeforeUnmount, reactive, resolveComponent, toRefs } from 'vue'
+import { h, onBeforeUnmount, resolveComponent } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
 function createMessage(type) {
@@ -49,6 +49,7 @@ function createMessage(type) {
       id: 'demo-update',
       content: '更新中...',
       duration: 0,
+      resetOnUpdate: true,
     })
 
     setTimeout(() => {
@@ -56,6 +57,7 @@ function createMessage(type) {
         id: 'demo-update',
         content: '更新完成',
         duration: 2000,
+        resetOnUpdate: true,
       })
     }, 1000)
   }

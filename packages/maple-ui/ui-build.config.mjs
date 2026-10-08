@@ -12,11 +12,7 @@ export default {
   emitTypes: false,
   vueSfcStyles: false,
   cssVariables: 'style/theme/css-variables.less',
-  external: [
-    'vue',
-    '@vue/shared',
-    ...Object.keys(pkg.dependencies ?? {}),
-  ],
+  external: ['vue', '@vue/shared', ...Object.keys(pkg.dependencies ?? {})],
   globals: {
     vue: 'Vue',
     '@vue/shared': 'VueShared',

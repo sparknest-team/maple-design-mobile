@@ -47,11 +47,11 @@ void [
 
 // Switch and Progress use the same public types on both platforms.
 const fractionalProgress: ProgressProps = { percent: '12.5' }
-const materialSwitch: SwitchProps = { variant: 'md3', readonly: true, beforeChange: async (next) => next !== 'blocked' }
+const tonalSwitch: SwitchProps = { variant: 'tonal', readonly: true, beforeChange: async (next) => next !== 'blocked' }
 // @ts-expect-error Removed Maple alias; use line.
 const oldVariant: SwitchProps = { variant: 'standard' }
 // @ts-expect-error Interceptors no longer receive a done callback.
 const oldInterceptor: SwitchProps = { beforeChange: (value, done) => done(value) }
 // @ts-expect-error Shadow levels are numbers, not numeric strings.
 const oldElevation: SwitchProps = { handleElevation: '4' }
-void [fractionalProgress, materialSwitch, oldVariant, oldInterceptor, oldElevation]
+void [fractionalProgress, tonalSwitch, oldVariant, oldInterceptor, oldElevation]

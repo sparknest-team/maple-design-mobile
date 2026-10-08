@@ -1,7 +1,7 @@
 import '../../style/index.less'
 import '../../button/style'
 import '../../date/style'
-import '../../field-decorator/style'
+import '../../_components/picker-field/style'
 import '../../icon/style'
 import '../../picker/style'
 import '../../popup/style'

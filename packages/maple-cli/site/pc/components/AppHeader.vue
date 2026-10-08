@@ -1,7 +1,7 @@
 <template>
   <div class="maple-site-header">
     <div class="maple-site-header__lead">
-      <img class="maple-site-header__logo" :src="config.logo" @click="backRoot" />
+      <img class="maple-site-header__logo" :src="siteLogo" @click="backRoot" />
       <div class="maple-site-header__title" v-if="title" @click="backRoot">{{ title }}</div>
     </div>
 
@@ -112,7 +112,7 @@ import {
 } from '@maplejs/icons-vue'
 import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
-import { removeEmpty } from '../../utils'
+import { removeEmpty, resolveSiteAsset } from '../../utils'
 
 export default defineComponent({
   components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill, MIconTranslate },
@@ -124,7 +124,7 @@ export default defineComponent({
   },
   setup() {
     const title: Ref<string> = ref(config?.title)
-    const logo: Ref<string> = ref(config?.pc?.logo)
+    const siteLogo = resolveSiteAsset(config?.logo)
     const languages: Ref<Record<string, string>> = ref(config?.pc?.header?.i18n ?? {})
     const currentVersion: Ref<string> = ref(config?.pc?.header?.currentVersion ?? '')
     const versions = config?.pc?.header?.versions
@@ -180,7 +180,7 @@ export default defineComponent({
     setTheme(currentTheme.value)
 
     return {
-      logo,
+      siteLogo,
       config,
       title,
       currentVersion,

@@ -181,3 +181,25 @@ The parent `expand-icon` slot is forwarded to items that do not provide their ow
 ```ts
 import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } from '@maplejs/maple-ui'
 ```
+
+## Color variables
+
+Public Collapse color variables use system semantics by default and stay aligned with Cedar:
+
+| Variable | Default semantic role |
+| --- | --- |
+| `--mp-collapse-border-color` | `--mp-sys-color-border-default` |
+| `--mp-collapse-title-bg` | `--mp-sys-color-surface-default` |
+| `--mp-collapse-title-bg-active` | `--mp-sys-color-surface-default` |
+| `--mp-collapse-title-bg-disabled` | `--mp-sys-color-surface-default` |
+| `--mp-collapse-title-text-color` | `--mp-sys-color-content-primary` |
+| `--mp-collapse-title-text-color-disabled` | `--mp-sys-color-content-disabled` |
+| `--mp-collapse-content-text-color` | `--mp-sys-color-content-primary` |
+| `--mp-collapse-content-text-color-disabled` | `--mp-sys-color-content-disabled` |
+| `--mp-collapse-content-bg` | `--mp-sys-color-surface-muted` |
+| `--mp-collapse-expand-icon` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-collapse-item-border-color` | `--mp-sys-color-border-default` |
+
+### Reduced motion
+
+Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.

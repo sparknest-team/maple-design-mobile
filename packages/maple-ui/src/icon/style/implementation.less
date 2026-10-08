@@ -28,12 +28,25 @@
 
   &-spin,
   &--spin {
-    animation: mp-icon-spin 1s infinite linear;
+    animation: mp-icon-spin var(--mp-icon-spin-duration) infinite linear;
   }
 }
 
 @keyframes mp-icon-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-icon-spin,
+  .mp-icon--spin {
+    animation: none;
+  }
+  .mp-icon {
+    transition: none !important;
+  }
+  .mp-icon--shrinking {
+    transform: none;
   }
 }

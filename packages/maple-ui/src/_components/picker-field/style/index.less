@@ -1,0 +1,33 @@
+@import './token.less';
+.mp-picker-field {
+  width: 100%;
+  min-width: 0;
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--mp-picker-field-gap);
+    width: 100%;
+    min-width: 0;
+  }
+  &__input {
+    flex: 1;
+    width: 0;
+    min-width: var(--mp-picker-field-input-min-width);
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: inherit;
+  }
+  &__input::placeholder {
+    color: var(--mp-field-placeholder-text-color, var(--mp-field-blur-color));
+  }
+  &__input:read-only {
+    caret-color: transparent;
+  }
+  &__separator {
+    flex: none;
+  }
+}

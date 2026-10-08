@@ -1,7 +1,7 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ComponentSize } from '../utils/constants'
 
-export const switchVariants = ['circle', 'round', 'line', 'md3'] as const
+export const switchVariants = ['circle', 'round', 'line', 'tonal'] as const
 export const switchSizes = ['sm', 'md', 'lg'] as const
 export type SwitchVariant = (typeof switchVariants)[number]
 export type SwitchSize = Extract<ComponentSize, (typeof switchSizes)[number]>

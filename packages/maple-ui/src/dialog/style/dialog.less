@@ -1,5 +1,17 @@
+.mp-dialog__popup > .mp-popup__overlay {
+  background-color: var(--mp-dialog-overlay-background);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-dialog {
+    transition: none !important;
+  }
+}
+
 .mp-dialog {
   position: relative;
+  margin-top: var(--mp-dialog-margin-top);
+  pointer-events: auto;
   width: var(--mp-dialog-width);
   background: var(--mp-dialog-background);
   border: var(--mp-dialog-border-width) solid var(--mp-dialog-border-color);
@@ -99,10 +111,12 @@
 
     .mp-dialog__message {
       padding: var(--mp-dialog-simple-padding);
+      margin-top: var(--mp-dialog-simple-content-gap);
     }
 
     .mp-dialog__actions {
       justify-content: center;
+      margin-top: var(--mp-dialog-simple-actions-gap);
     }
   }
 

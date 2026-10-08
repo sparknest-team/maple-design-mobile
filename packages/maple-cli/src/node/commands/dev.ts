@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { relative, resolve } from 'path'
 import { kebabCase } from '@maplejs/maple-shared'
 import chokidar, { FSWatcher } from 'chokidar'
 import fse from 'fs-extra'
@@ -7,7 +7,7 @@ import { generateEsEntryTemplate, getScriptExtname } from '../compiler/compileSc
 import { buildSiteEntry } from '../compiler/compileSiteEntry.js'
 import { getMapleConfig, MapleConfig } from '../config/maple.config.js'
 import { getDevConfig } from '../config/vite.config.js'
-import { COMPONENT_REUSE_JSON, ES_DIR, MAPLE_CONFIG, SRC, SRC_DIR } from '../shared/constant.js'
+import { COMPONENT_REUSE_JSON, ES_DIR, MAPLE_CONFIG, SITE, SITE_DIR, SRC, SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs } from '../shared/fsUtils.js'
 import logger from '../shared/logger.js'
 
@@ -15,6 +15,7 @@ const { ensureDirSync, pathExistsSync, readFileSync, outputFileSync, removeSync 
 
 let server: ViteDevServer
 let watcher: FSWatcher
+let siteWatcher: FSWatcher
 
 async function stub(mapleConfig: Required<MapleConfig>) {
   const name = kebabCase(mapleConfig?.name || '')
@@ -47,6 +48,7 @@ async function startServer(options: DevCommandOptions) {
   // close all instance
   server && (await server.close())
   watcher && (await watcher.close())
+  siteWatcher && (await siteWatcher.close())
 
   // stub library index
   await stub(mapleConfig)
@@ -71,11 +73,21 @@ async function startServer(options: DevCommandOptions) {
     watcher.on('change', () => startServer(options))
   }
 
+  // Vite serves the generated .maple/site copy, so edits to the CLI's site
+  // source must be mirrored into that copy for normal HMR to observe them.
+  siteWatcher = chokidar.watch(SITE, { ignoreInitial: true })
+  siteWatcher.on('add', syncSiteFile)
+  siteWatcher.on('change', syncSiteFile)
+
   logger.success(`\n${isRestart ? 'Res' : 'S'}tart successfully!!!`)
 
   if (options.draft) {
     logger.title('Server in draft mode!!!')
   }
+}
+
+async function syncSiteFile(source: string) {
+  await fse.copy(source, resolve(SITE_DIR, relative(SITE, source)))
 }
 
 interface DevCommandOptions {

@@ -57,7 +57,6 @@ const contentStyle = computed<CSSProperties>(() => {
     if (props.variant === 'outline') {
       style.borderColor = props.color
       style.color = props.color
-      style.backgroundColor = 'transparent'
     } else {
       style.backgroundColor = props.color
     }

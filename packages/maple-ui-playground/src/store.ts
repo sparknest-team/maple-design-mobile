@@ -92,8 +92,8 @@ export function installMapleUI() {
       min-height: 100vh;
       padding: 16px;
       margin: 0;
-      color: var(--color-text);
-      background-color: var(--color-body);
+      color: var(--mp-sys-color-content-primary);
+      background-color: var(--mp-sys-color-surface-page);
     }
 
     *::-webkit-scrollbar {
@@ -107,21 +107,21 @@ export function installMapleUI() {
   document.body.appendChild(script)
 
   const themeMap = {
-    lightTheme: null,
-    darkTheme: MapleUI.Themes.dark,
-    md3LightTheme: MapleUI.Themes.md3Light,
-    md3DarkTheme: MapleUI.Themes.md3Dark,
+    defaultLightTheme: MapleUI.Themes.default.light,
+    defaultDarkTheme: MapleUI.Themes.default.dark,
+    mapleLightTheme: MapleUI.Themes.maple.light,
+    mapleDarkTheme: MapleUI.Themes.maple.dark,
   }
 
   const theme = parent.document.documentElement.getAttribute('theme')
 
   if (theme) {
-    MapleUI.StyleProvider.setStyleVars(themeMap[theme])
+    MapleUI.StyleProvider.setStyleVars(themeMap[theme] || themeMap.defaultDarkTheme)
   }
 
   window.addEventListener('message', ({ data }) => {
     if (data.action === 'theme-change') {
-      MapleUI.StyleProvider.setStyleVars(themeMap[data.value])
+      MapleUI.StyleProvider.setStyleVars(themeMap[data.value] || themeMap.defaultDarkTheme)
     }
   })
 

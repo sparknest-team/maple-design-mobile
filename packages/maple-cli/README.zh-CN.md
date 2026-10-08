@@ -16,7 +16,7 @@
 - 💪 &nbsp;支持 `VSCode` 插件开发
 - 💪 &nbsp;支持 `字体图标打包`
 - 💪 &nbsp;支持 `Typescript`
-- 💪 &nbsp;支持 `多种主题, 包含 Material Design 2、Material Design 3`
+- 💪 &nbsp;支持 `多种主题, 包含 default / maple 品牌及明暗模式`
 - 🌍 &nbsp;支持 `国际化`
 - 🚀 &nbsp;基于 `pnpm`
 

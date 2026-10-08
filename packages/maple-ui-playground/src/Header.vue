@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue'
-import { Message, StyleProvider, Themes } from '@maplejs/maple-ui'
+import { Message, StyleProvider } from '@maplejs/maple-ui'
 import { downloadProject } from './download/download'
 import Close from './icons/Close.vue'
 import Download from './icons/Download.vue'
 import GitHub from './icons/GitHub.vue'
 import Palette from './icons/Palette.vue'
 import Share from './icons/Share.vue'
+import { normalizeTheme, themeMap } from './themes'
 import { usePreviewVersion } from './utils/env'
 
 const props = defineProps(['store', 'theme'])
@@ -19,18 +20,11 @@ const mapleVersions = ref<string[]>([])
 const currentTheme = ref(props.theme)
 
 const themeOptions = ref([
-  { 'zh-CN': 'Md2 亮色', 'en-US': 'Md2 Light', value: 'lightTheme' },
-  { 'zh-CN': 'Md2 暗色', 'en-US': 'Md2 Dark', value: 'darkTheme' },
-  { 'zh-CN': 'Md3 亮色', 'en-US': 'Md3 Light', value: 'md3LightTheme' },
-  { 'zh-CN': 'Md3 暗色', 'en-US': 'Md3 Dark', value: 'md3DarkTheme' },
+  { 'zh-CN': 'Default 亮色', 'en-US': 'Default Light', value: 'defaultLightTheme' },
+  { 'zh-CN': 'Default 暗色', 'en-US': 'Default Dark', value: 'defaultDarkTheme' },
+  { 'zh-CN': 'Maple 亮色', 'en-US': 'Maple Light', value: 'mapleLightTheme' },
+  { 'zh-CN': 'Maple 暗色', 'en-US': 'Maple Dark', value: 'mapleDarkTheme' },
 ])
-
-const themeMap = {
-  lightTheme: null,
-  darkTheme: Themes.dark,
-  md3LightTheme: Themes.md3Light,
-  md3DarkTheme: Themes.md3Dark,
-}
 
 onMounted(() => {
   const initialTheme = getInitialTheme()
@@ -101,7 +95,8 @@ function handleClose() {
 function getInitialTheme() {
   const search = new URLSearchParams(window.location.search)
 
-  return search.get('initialTheme')
+  const value = search.get('initialTheme')
+  return value === null ? null : normalizeTheme(value)
 }
 
 function syncTheme() {
@@ -158,7 +153,7 @@ async function setMapleVersion(v: string) {
         v-model="currentMapleVersion"
         style="width: 210px"
         :offset-y="8"
-        variant="outlined"
+        variant="outline"
         size="sm"
         placeholder="Maple Version"
       >
@@ -168,7 +163,7 @@ async function setMapleVersion(v: string) {
         v-model="currentVueVersion"
         style="width: 210px"
         :offset-y="8"
-        variant="outlined"
+        variant="outline"
         size="sm"
         placeholder="Vue Version"
       >
@@ -269,6 +264,6 @@ h1 img {
 .link-button svg {
   width: 23px;
   height: 23px;
-  fill: var(--color-text);
+  fill: var(--mp-sys-color-content-primary);
 }
 </style>

@@ -1,16 +1,14 @@
-<script setup>
-import { reactive, toRefs } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-const values = reactive({
-  baseOverlay: false,
-  contentOverlay: false,
-  clickOverlay: false,
-})
-const { baseOverlay, contentOverlay, clickOverlay } = toRefs(values)
+const open = ref(false)
 </script>
 
 <template>
-  <mp-button status="primary" block @click="contentOverlay = true"> 嵌入内容 </mp-button>
+  <mp-button status="primary" block @click="open = true">嵌入内容</mp-button>
+  <mp-overlay v-model:open="open">
+    <div class="overlay-content">点击背景区域或按 Escape 关闭</div>
+  </mp-overlay>
 </template>
 
 <style lang="less" scoped>

@@ -18,27 +18,24 @@ onThemeChange()
 
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
-  <mp-time-range-picker v-model="ranges.basic" />
+  <mp-time-range-picker v-model="ranges.basic" format="HH:mm" />
 
   <app-type>{{ t('clockMode') }}</app-type>
-  <mp-time-range-picker v-model="ranges.clock" presentation="clock" format="24hr" />
+  <mp-time-range-picker v-model="ranges.clock" format="HH:mm" presentation="clock" />
 
   <app-type>{{ t('hour24Seconds') }}</app-type>
-  <mp-time-range-picker v-model="ranges.seconds" format="24hr" use-seconds />
+  <mp-time-range-picker v-model="ranges.seconds" format="HH:mm:ss" />
 
   <app-type>{{ t('readonly') }}</app-type>
-  <mp-time-range-picker v-model="ranges.readonly" readonly />
+  <mp-time-range-picker v-model="ranges.readonly" format="HH:mm" readonly />
 
   <app-type>{{ t('nextDay') }}</app-type>
-  <mp-time-range-picker v-model="ranges.nextDay" show-next-day format="24hr" />
+  <mp-time-range-picker v-model="ranges.nextDay" format="HH:mm" show-next-day />
 
   <app-type>{{ t('actions') }}</app-type>
-  <mp-time-range-picker v-model="ranges.actions">
-    <template #actions>
-      <mp-space size="sm">
-        <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
-        <mp-button status="primary" variant="text">{{ t('action') }}</mp-button>
-      </mp-space>
+  <mp-time-range-picker v-model="ranges.actions" format="HH:mm">
+    <template #actions="{ confirm, canConfirm }">
+      <mp-button status="primary" variant="text" :disabled="!canConfirm" @click="confirm">确认</mp-button>
     </template>
   </mp-time-range-picker>
 </template>

@@ -7,6 +7,6 @@ const disabledTime = ref('09:30')
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time v-model="disabledTime" format="24hr" disabled />
+    <mp-time v-model="disabledTime" format="HH:mm" disabled />
   </mp-space>
 </template>

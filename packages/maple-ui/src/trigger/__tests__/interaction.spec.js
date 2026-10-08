@@ -15,6 +15,31 @@ const mouse = (node, type) => node.dispatchEvent(new MouseEvent(type, { bubbles:
 const escape = () => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
 
 describe('Trigger shared interaction contract', () => {
+  test('opening a sibling closes the previous popup before the new layer becomes topmost', async () => {
+    const wrapper = mount(
+      {
+        render: () =>
+          h(
+            'div',
+            [0, 1, 2].map(() => h(Trigger, { trigger: 'click', popupContainer: false }, slots)),
+          ),
+      },
+      { attachTo: document.body },
+    )
+    try {
+      const triggers = wrapper.findAllComponents(Trigger)
+      for (let index = 0; index < triggers.length; index++) {
+        mouse(triggers[index].get('[data-reference]').element, 'click')
+        await tick()
+        expect(triggers[index].emitted('update:open')).toEqual([[true]])
+        if (index) {
+          expect(triggers[index - 1].emitted('update:open')).toEqual([[true], [false]])
+        }
+      }
+    } finally {
+      wrapper.unmount()
+    }
+  })
   test('default hover respects enter/leave delays and cancels stale opens', async () => {
     vi.useFakeTimers()
     const wrapper = mount(Trigger, { props: { popupContainer: false }, slots })

@@ -14,9 +14,6 @@ export function useInputComposition() {
     }
     isComposing.value = false
     committed = (event.target as HTMLInputElement).value
-    Promise.resolve().then(() => {
-      committed = undefined
-    })
     return true
   }
   function accepts(event: Event) {
@@ -25,9 +22,9 @@ export function useInputComposition() {
     }
     const value = (event.target as HTMLInputElement).value
     if (committed !== undefined && value === committed) {
-      committed = undefined
       return false
     }
+    committed = undefined
     return true
   }
   return { isComposing, start, end, accepts }

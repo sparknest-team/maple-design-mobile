@@ -135,7 +135,7 @@ const keyOptions = computed(() => [
       <mp-option label="打游戏" />
       <mp-option label="写代码" />
     </mp-select>
-    <mp-select v-model="outlineValue10" variant="outline" placeholder="标签风格的多选" tag multiple>
+    <mp-select v-model="outlineValue10" variant="outline" placeholder="标签风格的多选" show-tags multiple>
       <mp-option label="吃饭" />
       <mp-option label="睡觉" />
       <mp-option label="打游戏" />

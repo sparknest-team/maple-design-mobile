@@ -215,10 +215,20 @@ describe('Pagination shared contract', () => {
     const disconnect = vi.fn()
     globalThis.ResizeObserver = class {
       constructor(cb) {
-        resize = cb
+        this.callback = cb
       }
-      observe() {}
-      disconnect = disconnect
+      observe(target) {
+        // FieldDecorator has its own geometry observer; resize the Pagination root only.
+        if (target.tagName === 'NAV') {
+          this.paginationRoot = true
+          resize = this.callback
+        }
+      }
+      disconnect() {
+        if (this.paginationRoot) {
+          disconnect()
+        }
+      }
     }
     let width = 360
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({

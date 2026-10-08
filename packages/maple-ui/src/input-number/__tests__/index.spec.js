@@ -20,12 +20,12 @@ test('input-number increment & decrement', async () => {
     template: '<mp-input-number v-model="value" />',
   })
 
-  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mousedown')
-  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mouseup')
+  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('pointerdown', { button: 0, isPrimary: true })
+  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('pointerup')
   expect(wrapper.vm.value).toBe(2)
 
-  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('mousedown')
-  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('mouseup')
+  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('pointerdown', { button: 0, isPrimary: true })
+  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('pointerup')
   expect(wrapper.vm.value).toBe(1)
 
   wrapper.unmount()
@@ -40,8 +40,8 @@ test('input-number supports default-value', async () => {
     },
   })
 
-  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mousedown')
-  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mouseup')
+  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('pointerdown', { button: 0, isPrimary: true })
+  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('pointerup')
   expect(onUpdate).toHaveBeenLastCalledWith(3)
 
   wrapper.unmount()
@@ -77,12 +77,12 @@ test('input-number supports button mode', async () => {
     template: '<mp-input-number v-model="value" mode="button" />',
   })
 
-  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('mousedown')
-  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('mouseup')
+  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('pointerdown', { button: 0, isPrimary: true })
+  await wrapper.findAll('.mp-input-number__step-button')[1].trigger('pointerup')
   expect(wrapper.vm.value).toBe(2)
 
-  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mousedown')
-  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('mouseup')
+  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('pointerdown', { button: 0, isPrimary: true })
+  await wrapper.findAll('.mp-input-number__step-button')[0].trigger('pointerup')
   expect(wrapper.vm.value).toBe(1)
 
   wrapper.unmount()
@@ -108,7 +108,7 @@ test('input-number separates input from committed changes and clear', async () =
 
   await wrapper.find('[aria-label="清空"]').trigger('click')
   expect(wrapper.emitted('clear')).toHaveLength(1)
-  expect(wrapper.emitted('change')).toHaveLength(1)
+  expect(wrapper.emitted('change')).toHaveLength(2)
   expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([undefined])
 
   wrapper.unmount()
@@ -140,7 +140,7 @@ test('input-number preserves intermediate input and forwards slots', async () =>
 test('input-number clamps and formats values when committing', async () => {
   const wrapper = mount(VarInputNumber, {
     props: {
-      modelValue: 1,
+      defaultValue: 1,
       min: 0,
       max: 2,
       precision: 1,

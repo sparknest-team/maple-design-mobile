@@ -1,6 +1,11 @@
 import { Message } from './index'
 
 export default {
+  'common.increase': 'Increase value',
+  'common.decrease': 'Decrease value',
+  'common.clear': 'Clear',
+  'common.showPassword': 'Show password',
+  'common.hidePassword': 'Hide password',
   // Dialog
   dialogTitle: 'Hint',
   dialogConfirmButtonText: 'Confirm',

@@ -2,10 +2,12 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import BasicUsageDemo from './demos/basic-usage.vue'
+import ContractDemo from './demos/boundaries.vue'
 import CalendarModeDemo from './demos/calendar-mode.vue'
 import DateTimeDemo from './demos/date-time.vue'
 import DisabledDemo from './demos/disabled.vue'
 import EnBasicUsageDemo from './demos/en-US/basic-usage.vue'
+import EnContractDemo from './demos/en-US/boundaries.vue'
 import EnCalendarModeDemo from './demos/en-US/calendar-mode.vue'
 import EnDateTimeDemo from './demos/en-US/date-time.vue'
 import EnDisabledDemo from './demos/en-US/disabled.vue'
@@ -36,6 +38,10 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="boundaries">
+    <app-type>{{ english ? 'Bounds and endpoint rules' : '边界和端点禁用' }}</app-type>
+    <EnContractDemo v-if="english" /><ContractDemo v-else />
+  </section>
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
     <EnBasicUsageDemo v-if="english" />

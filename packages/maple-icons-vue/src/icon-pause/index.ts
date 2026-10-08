@@ -2,7 +2,5 @@ import type { App } from 'vue'
 import _IconPause from './icon-pause.vue'
 
 export const IconPause = Object.assign(_IconPause, {
-  install(app: App) {
-    app.component(_IconPause.name, _IconPause)
-  },
+  install(app: App) { app.component(_IconPause.name, _IconPause) },
 })

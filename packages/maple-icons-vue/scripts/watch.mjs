@@ -1,6 +1,6 @@
-import chokidar from 'chokidar'
 import { spawn } from 'node:child_process'
 import { resolve } from 'node:path'
+import chokidar from 'chokidar'
 
 const root = resolve(import.meta.dirname, '..')
 let running = false

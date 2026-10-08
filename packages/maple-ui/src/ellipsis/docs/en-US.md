@@ -1,53 +1,70 @@
 # Ellipsis
 
-### Intro
+Single-line or multi-line truncation with optional expansion and Tooltip.
 
-Mainly used to omit single-line text and multi-line text.
+## Examples
 
-### Single Line Ellipsis
+### Single line
 
 ```demo
-../example/demos/line.vue
+../example/demos/en-US/line.vue
 ```
 
-### Multiple Line Ellipsis
+### Multiple lines
 
 ```demo
-../example/demos/multiple-line.vue
+../example/demos/en-US/multiple-line.vue
 ```
 
-### Two-way Binding
+### Interactive expansion
 
 ```demo
-../example/demos/two-way-binding.vue
+../example/demos/en-US/expand.vue
 ```
 
-### Click On Text To Expand
+### Controlled expansion
 
 ```demo
-../example/demos/expand.vue
+../example/demos/en-US/two-way-binding.vue
 ```
 
-### Custom Tooltip
+### Custom tooltip
 
 ```demo
-../example/demos/tooltip.vue
+../example/demos/en-US/tooltip.vue
 ```
 
 ## API
 
 ### Props
 
-| Prop   | Description  | Type  | Default  |
-| ----- | ------ | ---- | ---- |
-| `v-model:expand` | Whether to expand | _boolean_  | `false` |
-| `expand-trigger` | Expand trigger method, optional value `click` | _string_ | `-` |
-| `line-clamp` | Maximum number of display lines, see [line-clamp](https://caniuse.com/?search=line-clamp) for compatibility | _string_ | `-` |
-| `tooltip` | Tooltip component props, for deep customization. For more convenience, `autoFitPopupWidth` defaults to `true` here | _boolean \| TooltipProps_ | `true` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `expand` | Controlled expansion | `boolean` | `undefined` |
+| `default-expand` | Initial uncontrolled expansion | `boolean` | `false` |
+| `expand-trigger` | Enable click / Enter / Space toggling | `'click'` | `—` |
+| `line-clamp` | Positive line count; omitted or invalid means single line | `number \| string` | `—` |
+| `tooltip` | Tooltip configuration; false disables it | `boolean \| TooltipProps` | `true` |
 
-### Slots
+`expand` never changes locally: the parent must accept `update:expand`. Omit it for internal state initialized by `default-expand`. Tooltip uses its own default width and triggers; it is not conditional on measured overflow. For touch activation, configure `tooltip.trigger` with `click`. CSS width/class/style apply to the text node.
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Text content | `-` |
-| `tooltip-content` | Tooltip content | `-` |
+### Events and slots
+
+- `update:expand(expand: boolean)`: requested state after a user action; external updates do not emit.
+- `default`: text content.
+- `tooltip-content`: custom tooltip; otherwise use `tooltip.content` when supplied, then the text content. Content is never duplicated.
+- Keyboard: interactive text supports Enter / Space; tooltip-enabled text supports Tab focus. No public methods.
+
+### Types
+
+```ts
+import type { EllipsisProps, EllipsisInstance, EllipsisExpandTrigger } from '@maplejs/maple-ui'
+```
+
+### CSS tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-ellipsis-focus-width` | `2px` |
+| `--mp-ellipsis-focus-offset` | `2px` |

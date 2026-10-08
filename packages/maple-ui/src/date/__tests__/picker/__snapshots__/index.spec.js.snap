@@ -546,7 +546,8 @@ exports[`datePicker disabledDate 1`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;
 
 exports[`datePicker rerender date panel when max or min changes 1`] = `
@@ -599,7 +600,8 @@ exports[`datePicker rerender date panel when max or min changes 1`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;
 
 exports[`datePicker rerender date panel when max or min changes 2`] = `
@@ -652,7 +654,8 @@ exports[`datePicker rerender date panel when max or min changes 2`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;
 
 exports[`datePicker style and type 1`] = `
@@ -1132,7 +1135,8 @@ exports[`datePicker style and type 1`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;
 
 exports[`datePicker style and type 2`] = `
@@ -1741,7 +1745,8 @@ exports[`datePicker style and type 2`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;
 
 exports[`test datePicker style and type > datePicker style and date 1`] = `
@@ -2346,7 +2351,8 @@ exports[`test datePicker style and type > datePicker style and date 1`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;
 
 exports[`test datePicker style and type > datePicker style and month 1`] = `
@@ -2826,5 +2832,6 @@ exports[`test datePicker style and type > datePicker style and month 1`] = `
     </div>
   </transition-stub>
   <!--v-if-->
-</div>"
+</div>
+<!--v-if-->"
 `;

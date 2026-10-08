@@ -2,7 +2,6 @@ import { type App, type Directive, type DirectiveBinding, type Plugin } from 'vu
 import { getRect, getStyle, supportTouch } from '@maplejs/maple-shared'
 import context from '../context'
 import { createNamespace } from '../utils/components'
-import './style'
 
 const { n } = createNamespace('ripple')
 
@@ -15,7 +14,9 @@ interface RippleStyles {
 }
 
 interface RippleOptions {
-  removeRipple: any
+  removeRipple: () => void
+  timers: Set<number>
+  keyboardActive: boolean
   color?: string
   disabled?: boolean
   tasker?: number | null
@@ -26,6 +27,33 @@ interface RippleHTMLElement extends HTMLElement {
 }
 
 const ANIMATION_DURATION = 250
+
+function schedule(element: RippleHTMLElement, task: () => void, delay: number) {
+  const state = element._ripple
+  if (!state) {
+    return
+  }
+  const timer = window.setTimeout(() => {
+    state.timers.delete(timer)
+    if (element._ripple === state) {
+      task()
+    }
+  }, delay)
+  state.timers.add(timer)
+  return timer
+}
+
+function clearTasks(element: RippleHTMLElement) {
+  const state = element._ripple
+  if (!state) {
+    return
+  }
+  state.timers.forEach((timer) => window.clearTimeout(timer))
+  state.timers.clear()
+  state.tasker = null
+  state.keyboardActive = false
+  element.querySelectorAll(`.${n()}`).forEach((ripple) => ripple.remove())
+}
 
 function setStyles(element: RippleHTMLElement) {
   const { zIndex, position } = getStyle(element)
@@ -62,6 +90,9 @@ function computeRippleStyles(element: RippleHTMLElement, event: TouchEvent | Key
 
 function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent) {
   const _ripple = this._ripple as RippleOptions
+  if (!_ripple) {
+    return
+  }
   _ripple.removeRipple()
 
   if (_ripple.disabled || _ripple.tasker || !context.enableRipple) {
@@ -85,17 +116,24 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
 
     this.appendChild(ripple)
 
-    window.setTimeout(() => {
-      ripple.style.transform = `translate(${centerX}px, ${centerY}px) scale3d(1, 1, 1)`
-      ripple.style.opacity = `.25`
-    }, 20)
+    schedule(
+      this,
+      () => {
+        ripple.style.transform = `translate(${centerX}px, ${centerY}px) scale3d(1, 1, 1)`
+        ripple.style.opacity = `.25`
+      },
+      20,
+    )
   }
 
-  _ripple.tasker = window.setTimeout(task, 30)
+  _ripple.tasker = schedule(this, task, 30)
 }
 
 function removeRipple(this: RippleHTMLElement) {
-  const _ripple = this._ripple as RippleOptions
+  const _ripple = this._ripple
+  if (!_ripple) {
+    return
+  }
 
   const task = () => {
     const ripples: NodeListOf<RippleHTMLElement> = this.querySelectorAll(`.${n()}`)
@@ -106,14 +144,18 @@ function removeRipple(this: RippleHTMLElement) {
     const lastRipple: RippleHTMLElement = ripples[ripples.length - 1]
     const delay: number = ANIMATION_DURATION - performance.now() + Number(lastRipple.dataset.createdAt)
 
-    window.setTimeout(() => {
-      lastRipple.style.opacity = `0`
+    schedule(
+      this,
+      () => {
+        lastRipple.style.opacity = `0`
 
-      window.setTimeout(() => lastRipple.parentNode?.removeChild(lastRipple), ANIMATION_DURATION)
-    }, delay)
+        schedule(this, () => lastRipple.parentNode?.removeChild(lastRipple), ANIMATION_DURATION)
+      },
+      delay,
+    )
   }
 
-  _ripple.tasker ? window.setTimeout(task, 30) : task()
+  _ripple.tasker ? schedule(this, task, 30) : task()
 }
 
 function forbidRippleTask(this: RippleHTMLElement) {
@@ -122,34 +164,38 @@ function forbidRippleTask(this: RippleHTMLElement) {
   }
 
   const _ripple = this._ripple as RippleOptions
-  _ripple.tasker && window.clearTimeout(_ripple.tasker)
+  if (_ripple.tasker) {
+    window.clearTimeout(_ripple.tasker)
+    _ripple.timers.delete(_ripple.tasker)
+  }
   _ripple.tasker = null
 }
 
-let hasKeyboardRipple = false
-
 function createKeyboardRipple(this: RippleHTMLElement, event: KeyboardEvent) {
-  if (hasKeyboardRipple || !(event.key === ' ' || event.key === 'Enter')) {
+  if (!this._ripple || this._ripple.keyboardActive || !(event.key === ' ' || event.key === 'Enter')) {
     return
   }
 
   createRipple.call(this, event)
-  hasKeyboardRipple = true
+  this._ripple.keyboardActive = true
 }
 
 function removeKeyboardRipple(this: RippleHTMLElement) {
-  if (!hasKeyboardRipple) {
+  if (!this._ripple?.keyboardActive) {
     return
   }
 
   removeRipple.call(this)
-  hasKeyboardRipple = false
+  this._ripple.keyboardActive = false
 }
 
 function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
   el._ripple = {
     tasker: null,
-    ...(binding.value ?? {}),
+    color: binding.value?.color,
+    disabled: binding.value?.disabled,
+    timers: new Set(),
+    keyboardActive: false,
     removeRipple: removeRipple.bind(el),
   }
 
@@ -166,6 +212,10 @@ function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>
 }
 
 function unmounted(el: RippleHTMLElement) {
+  clearTasks(el)
+  el.removeEventListener('keydown', createKeyboardRipple)
+  el.removeEventListener('keyup', removeKeyboardRipple)
+  el.removeEventListener('blur', removeKeyboardRipple)
   el.removeEventListener('touchstart', createRipple)
   el.removeEventListener('touchmove', forbidRippleTask)
   el.removeEventListener('dragstart', removeRipple)
@@ -178,6 +228,7 @@ function unmounted(el: RippleHTMLElement) {
   document.removeEventListener('touchend', el._ripple!.removeRipple)
   document.removeEventListener('touchcancel', el._ripple!.removeRipple)
   document.removeEventListener('dragend', el._ripple!.removeRipple)
+  delete el._ripple
 }
 
 function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
@@ -188,12 +239,11 @@ function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>
 
   const diff = newBinding.color !== el._ripple?.color || newBinding.disabled !== el._ripple?.disabled
 
-  if (diff) {
-    el._ripple = {
-      tasker: newBinding.disabled ? null : el._ripple?.tasker,
-      removeRipple: el._ripple?.removeRipple,
-      ...newBinding,
+  if (diff && el._ripple) {
+    if (newBinding.disabled) {
+      clearTasks(el)
     }
+    Object.assign(el._ripple, newBinding)
   }
 }
 

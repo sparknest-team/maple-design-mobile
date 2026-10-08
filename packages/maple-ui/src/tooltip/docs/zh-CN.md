@@ -103,3 +103,37 @@ Tooltip 继承 Trigger 的定位、容器、受控状态、关闭策略和公开
 `open()`、`close()`、`resize()`、`allowClose()`、`getReference()`、`setReference()`、`focusReference()`。
 
 内容具有 `role="tooltip"`，打开时通过 `aria-describedby` 与实际触发元素关联。两端独立保存同一份实现，不提供 `backgroundColor` 或布尔 `xs` 兼容入口。
+
+## 公开 CSS 变量
+
+以下为实际 :root 默认值。业务定制优先使用组件变量；内部定位变量不属于公开 API。
+
+| 变量 | 默认值 | 意义与场景 |
+| --- | --- | --- |
+| `--mp-tooltip-background` | `var(--mp-sys-color-surface-tooltip)` | 内容与箭头背景 |
+| `--mp-tooltip-text-color` | `var(--mp-sys-color-content-on-dark)` | 正文前景 |
+| `--mp-tooltip-status-primary-background` | `var(--mp-sys-color-action-primary)` | primary 状态内容与箭头背景 |
+| `--mp-tooltip-status-info-background` | `var(--mp-sys-color-status-info)` | info 状态内容与箭头背景 |
+| `--mp-tooltip-status-success-background` | `var(--mp-sys-color-status-success)` | success 状态内容与箭头背景 |
+| `--mp-tooltip-status-warning-background` | `var(--mp-sys-color-status-warning)` | warning 状态内容与箭头背景 |
+| `--mp-tooltip-status-danger-background` | `var(--mp-sys-color-status-danger)` | danger 状态内容与箭头背景 |
+| `--mp-tooltip-status-primary-text-color` | `var(--mp-sys-color-content-on-bright)` | primary 状态文字；与对应底色成对设置 |
+| `--mp-tooltip-status-info-text-color` | `var(--mp-sys-color-content-on-bright)` | info 状态文字；与对应底色成对设置 |
+| `--mp-tooltip-status-success-text-color` | `var(--mp-sys-color-content-on-bright)` | success 状态文字；与对应底色成对设置 |
+| `--mp-tooltip-status-warning-text-color` | `var(--mp-sys-color-content-on-bright)` | warning 状态文字；与对应底色成对设置 |
+| `--mp-tooltip-status-danger-text-color` | `var(--mp-sys-color-content-on-bright)` | danger 状态文字；与对应底色成对设置 |
+| `--mp-tooltip-padding-horizontal` | `var(--mp-sys-space-6)` | 内容横向内边距 |
+| `--mp-tooltip-padding-vertical` | `var(--mp-sys-space-4)` | 内容纵向内边距 |
+| `--mp-tooltip-font-size` | `var(--mp-sys-font-size-md)` | 内容字号 |
+| `--mp-tooltip-line-height` | `var(--mp-line-height)` | 内容行高 |
+| `--mp-tooltip-border-radius` | `var(--mp-sys-radius-md)` | 内容圆角 |
+| `--mp-tooltip-max-width` | `350px` | 提示内容最大宽度 |
+| `--mp-tooltip-opacity` | `1` | 内容与箭头透明度；改动需重新检查对比度 |
+| `--mp-tooltip-size-xs-padding-horizontal` | `var(--mp-sys-space-4)` | xs 尺寸：内容横向内边距 |
+| `--mp-tooltip-size-xs-padding-vertical` | `var(--mp-sys-space-2)` | xs 尺寸：内容纵向内边距 |
+| `--mp-tooltip-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | xs 尺寸：内容字号 |
+| `--mp-tooltip-animation-duration` | `var(--mp-sys-motion-duration-standard)` | 组件入退场时长；reduced-motion 可覆盖 |
+
+所有内置主题 opacity 为 1。彩色背景配 on-bright；两端 Maple 浅色品牌的深橙 primary 配 on-dark。Maple 暗色保留圆角 4px、字号 14px、纵向／横向内边距 8px／16px。中性表面在明暗模式均保持深色。`color` 同时设置内容与箭头背景，`text-color` 设置文字；显式 content-style／arrow-style 覆盖各自节点。自定义颜色／透明度需重新验证。
+
+使用 Teleport 时，变量需放在实际 popup 的作用域中（例如通过 `popup-style`）；触发按钮上的变量不会自动继承到浮层。

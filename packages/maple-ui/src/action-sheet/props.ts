@@ -21,8 +21,8 @@ export const props = {
     'lockScroll',
     'overlayClosable',
     'escToClose',
-    'safeArea',
     'popupContainer',
     // internal for function call closes the dialog
   ]),
+  safeArea: Boolean,
 }

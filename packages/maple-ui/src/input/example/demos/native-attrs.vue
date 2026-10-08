@@ -1,9 +1,8 @@
 <template>
   <mp-input
-    autocomplete="email"
     enterkeyhint="next"
     aria-label="请输入邮箱"
-    :input-attrs="{ name: 'email', autocapitalize: 'none' }"
+    :input-attrs="{ name: 'email', autocomplete: 'email', autocapitalize: 'none' }"
     placeholder="请输入邮箱"
     type="email"
   />

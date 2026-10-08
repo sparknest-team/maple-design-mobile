@@ -54,7 +54,7 @@ test('retry emits retry without load', async () => {
     },
   })
 
-  await wrapper.find('.mp-infinite-scroll__error').trigger('click')
+  await wrapper.find('.mp-infinite-scroll__retry').trigger('click')
 
   expect(onUpdateStatus).toHaveBeenCalledWith('loading')
   expect(onRetry).toHaveBeenCalledTimes(1)
@@ -108,7 +108,6 @@ test.each(['2rem', '3em', '10vh', '10vw', 'calc(1rem + 8px)'])(
 
 test('treats numeric bottomOffset as pixels and invalid CSS as zero', async () => {
   const onLoad = vi.fn()
-  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   const numeric = mount(_InfiniteScroll, {
     props: { bottomOffset: 24, immediate: false, onLoad },
   })
@@ -122,8 +121,6 @@ test('treats numeric bottomOffset as pixels and invalid CSS as zero', async () =
   await invalid.vm.check()
 
   expect(onLoad).toHaveBeenCalledTimes(1)
-  expect(warn).toHaveBeenCalled()
-  warn.mockRestore()
 })
 
 test('unlocks after an accepted loading state completes', async () => {

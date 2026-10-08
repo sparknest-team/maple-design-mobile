@@ -200,9 +200,11 @@ describe('popup layer contract', () => {
       await nextTick()
       await nextTick()
       const backdrop = wrapper.get('[role="presentation"]')
+      await backdrop.trigger('pointerdown')
       await backdrop.trigger('click')
       expect(childOpen.value).toBe(false)
       expect(overlayOpen.value).toBe(true)
+      await backdrop.trigger('pointerdown')
       await backdrop.trigger('click')
       expect(overlayOpen.value).toBe(false)
     } finally {

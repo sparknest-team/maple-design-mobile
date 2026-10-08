@@ -80,9 +80,11 @@ Use `description` or the default slot. Control position with `text-align`.
 
 | Variable | Default |
 | --- | --- |
-| `--mp-divider-color` | `var(--mp-color-border-2)` |
-| `--mp-divider-text-color` | `#888` |
+| `--mp-divider-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-divider-text-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-divider-border-width` | `1px` |
 | `--mp-divider-text-padding` | `8px` |
 | `--mp-divider-text-align-inset` | `24px` |
 | `--mp-divider-orientation-*-size-*-{xs\|sm\|md\|lg\|xl}` | Preset size tokens |
+
+The line uses the default border role and the label uses secondary content. Mobile's `8px` text spacing versus Cedar's `16px` is a density difference. The `opacity` prop writes transparency per instance; it is not a theme color default.

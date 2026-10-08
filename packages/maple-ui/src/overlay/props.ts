@@ -1,8 +1,7 @@
-import { type PropType, type TeleportProps } from 'vue'
-import type { ExtractPublicPropTypes } from '../utils/components'
+import type { ExtractPublicPropTypes } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
 
-export const props = {
+export const overlayProps = {
   open: { type: Boolean, default: undefined },
   defaultOpen: { type: Boolean, default: false },
   overlayClosable: {
@@ -17,12 +16,12 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  popupContainer: popupContainerProp,
   escToClose: {
     type: Boolean,
     default: true,
   },
+  popupContainer: popupContainerProp,
   zIndex: Number,
 }
 
-export type OverlayProps = ExtractPublicPropTypes<typeof props>
+export type OverlayProps = ExtractPublicPropTypes<typeof overlayProps>

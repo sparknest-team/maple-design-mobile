@@ -12,7 +12,7 @@ const formData = reactive({
   <mp-space direction="column" size="lg">
     <mp-form ref="form" :model="formData">
       <mp-form-item field="alarm" label="闹钟" required>
-        <mp-time v-model="formData.alarm" placeholder="请选择" clearable />
+        <mp-time v-model="formData.alarm" format="HH:mm" placeholder="请选择" clearable />
       </mp-form-item>
     </mp-form>
   </mp-space>

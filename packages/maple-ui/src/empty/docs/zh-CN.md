@@ -84,12 +84,14 @@ type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
 | `--mp-empty-padding` | `20px` |
 | `--mp-empty-image-margin-bottom` | `4px` |
 | `--mp-empty-description-font-size` | `14px` |
-| `--mp-empty-description-color` | `var(--mp-color-text-3, #888)` |
+| `--mp-empty-description-color` | `var(--mp-sys-color-content-tertiary)` |
 | `--mp-empty-description-line-height` | `1.5` |
-| `--mp-empty-icon-color` | `var(--mp-color-text-4, #ccc)` |
+| `--mp-empty-icon-color` | `var(--mp-sys-color-content-decorative)` |
 | `--mp-empty-extra-margin-top` | `20px` |
 | `--mp-empty-size-xs` | `80px` |
 | `--mp-empty-size-sm` | `100px` |
 | `--mp-empty-size-md` | `120px` |
 | `--mp-empty-size-lg` | `140px` |
 | `--mp-empty-size-xl` | `160px` |
+
+描述使用低强调文字语义，装饰图标使用 `content-decorative`；后者不用于需要阅读的文字。自定义图片或插槽可能有自己的颜色，不会被 `icon-color` 强制重染。尺寸与间距允许遵循移动端密度，但同名变量职责与 Cedar 一致。

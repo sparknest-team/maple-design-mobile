@@ -1,165 +1,221 @@
 <template>
-  <div
-    ref="root"
-    v-ripple="{ disabled: disabled || !ripple }"
-    v-hover:desktop="handleHovering"
-    :class="classes(n(), n('$--box'), [optionSelected, n('--selected-color')], [disabled, n('--disabled')])"
-    :style="{
-      color: optionSelected ? focusColor : undefined,
-    }"
-    :tabindex="disabled ? undefined : '-1'"
-    @focus="isFocusing = true"
-    @blur="isFocusing = false"
+  <component
+    :is="component"
+    v-show="isValid"
+    ref="itemRef"
+    :class="[cls, { [`${prefixCls}-has-suffix`]: Boolean($slots.suffix) }]"
+    role="option"
+    :aria-selected="isSelected"
+    :aria-disabled="disabled"
     @click="handleClick"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
-    <div
-      :class="classes(n('cover'), [optionSelected, n('--selected-background')])"
-      :style="{
-        background: optionSelected ? focusColor : undefined,
-      }"
-    ></div>
-
-    <mp-checkbox
-      v-if="multiple"
-      ref="checkbox"
-      v-model="optionSelected"
-      :checked-color="focusColor"
-      :disabled="disabled"
-      @click.stop
-      @change="handleSelect"
-    />
-
-    <slot :selected="optionSelected">
-      <div :class="classes(n('text'), n('$--ellipsis'))">
-        <maybe-v-node :is="labelVNode" />
-      </div>
-    </slot>
-
-    <mp-hover-overlay :hovering="hovering && !disabled" :focusing="isFocusing && !disabled" />
-  </div>
+    <span v-if="$slots.icon" :class="`${prefixCls}-icon`">
+      <slot name="icon" />
+    </span>
+    <span v-if="selectCtx && selectCtx.multiple" :class="`${prefixCls}-checkbox`">
+      <SelectionIndicator :checked="isSelected" />
+      <slot :selected="isSelected">{{ label }}</slot>
+    </span>
+    <template v-else>
+      <span :class="`${prefixCls}-content`"
+        ><slot :selected="isSelected">{{ label }}</slot></span
+      >
+    </template>
+    <span v-if="$slots.suffix" :class="`${prefixCls}-suffix`">
+      <slot name="suffix" />
+    </span>
+  </component>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
-import { isFunction, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener } from '@maplejs/maple-use'
-import MpCheckbox from '../checkbox'
-import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
-import Ripple from '../ripple'
-import { createNamespace, MaybeVNode } from '../utils/components'
-import { props } from './option-props'
-import { OptionProvider, useSelect } from './option-provide'
+import type { PropType } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
+import SelectionIndicator from '../_components/selection-field/SelectionIndicator.vue'
+import { isEqual } from '../_utils/is-equal'
+import type { TagProps } from '../tag'
+import { createNamespace, getPrefixCls } from '../utils/components'
+import { selectInjectionKey } from './context'
+import { getKeyFromValue, isValidOption } from './utils'
 
 const { name, n, classes } = createNamespace('option')
-
 export default defineComponent({
   name,
-  directives: { Ripple, Hover },
   components: {
-    MpCheckbox,
-    MpHoverOverlay,
-    MaybeVNode,
+    SelectionIndicator,
   },
-  props,
+  props: {
+    /**
+     * @zh 选项值（如不填，会从内容中获取）
+     * @en Option value (if not filled, it will be obtained from the content)
+     */
+    value: {
+      type: [String, Number, Boolean, Object],
+      default: undefined,
+    },
+    /**
+     * @zh 选项标签（如不填，会从内容中获取）
+     * @en Option label (if not filled, it will be obtained from the content)
+     */
+    label: String,
+    /**
+     * @zh 是否禁用
+     * @en Whether to disable
+     */
+    disabled: Boolean,
+    /**
+     * @zh 展示的标签属性
+     * @en Displayed tag attributes
+     * @version 2.8.0
+     */
+    tagProps: {
+      type: Object as PropType<TagProps>,
+    },
+    /**
+     * @zh 额外数据。2.18.0 版本废弃，可使用对象形式的 value 扩展数据
+     * @en Extra data
+     * @version 2.10.0
+     */
+    extra: {
+      type: Object,
+    },
+    /**
+     * @zh 用于手动指定选项的 index
+     * @en index for manually specifying option
+     * @version 2.20.0
+     */
+    index: {
+      type: Number,
+    },
+    // private
+    internal: Boolean,
+  },
   setup(props) {
-    const root = ref<HTMLElement>()
-    const isFocusing = ref(false)
-    const optionSelected = ref(false)
-    const selected = computed(() => optionSelected.value)
-    const value = computed<any>(() => props.value)
-    const disabled = computed(() => props.disabled)
-    const ripple = computed(() => props.ripple)
-    const { select, bindSelect } = useSelect()
-    const { multiple, focusColor, onSelect, computeLabel } = select
-    const { hovering, handleHovering } = useHoverOverlay()
+    const { disabled, tagProps: _tagProps, index } = toRefs(props)
+    const prefixCls = getPrefixCls('select-option')
+    const selectCtx = inject(selectInjectionKey, undefined)
+    const instance = getCurrentInstance()
+    const itemRef = ref<HTMLElement>()
 
-    const labelVNode = computed(() =>
-      isFunction(props.label)
-        ? props.label(
-            props.option ?? {
-              label: props.label,
-              value: props.value,
-              disabled: props.disabled,
-            },
-            optionSelected.value,
-          )
-        : props.label,
+    const tagProps = ref(_tagProps.value)
+
+    watch(_tagProps, (cur, pre) => {
+      if (!isEqual(cur, pre)) {
+        tagProps.value = cur
+      }
+    })
+
+    const textContent = ref('')
+    const value = computed(() => props.value ?? props.label ?? textContent.value)
+    const label = computed(() => props.label ?? textContent.value)
+    const key = computed(() => getKeyFromValue(value.value, selectCtx?.fieldNames?.value))
+    const component = computed(() => selectCtx?.component ?? 'li')
+
+    const setTextContent = () => {
+      if (!props.label && itemRef.value) {
+        const text = itemRef.value.textContent ?? ''
+        if (textContent.value !== text) {
+          textContent.value = text
+        }
+      }
+    }
+
+    onMounted(() => setTextContent())
+    onUpdated(() => setTextContent())
+
+    const isSelected = computed(() => selectCtx?.valueKeys.includes(key.value) ?? false)
+    const isActive = computed(() => selectCtx?.activeKey === key.value)
+
+    const optionInfo = reactive({
+      raw: {
+        value,
+        label,
+        disabled,
+        tagProps,
+      },
+      ref: itemRef,
+      index,
+      key,
+      origin: 'slot' as const,
+      value,
+      label,
+      disabled,
+      tagProps,
+    })
+
+    const isValid = computed(
+      () =>
+        props.internal ||
+        isValidOption(optionInfo, {
+          inputValue: selectCtx?.inputValue,
+          filterOption: selectCtx?.filterOption,
+        }),
     )
 
-    const optionProvider: OptionProvider = {
-      label: labelVNode,
-      value,
-      disabled,
-      ripple,
-      selected,
-      sync,
+    if (!props.internal) {
+      if (instance) {
+        selectCtx?.addSlotOptionInfo(instance.uid, optionInfo)
+      }
+
+      onBeforeUnmount(() => {
+        if (instance) {
+          selectCtx?.removeSlotOptionInfo(instance.uid)
+        }
+      })
     }
 
-    watch([() => props.label, () => props.value], computeLabel)
-
-    bindSelect(optionProvider)
-
-    useEventListener(() => window, 'keydown', handleKeydown)
-    useEventListener(() => window, 'keyup', handleKeyup)
-
-    function handleClick() {
-      if (props.disabled) {
-        return
-      }
-
-      handleSelect()
-    }
-
-    function handleKeydown(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      if (event.key === ' ' || event.key === 'Enter') {
-        preventDefault(event)
-      }
-
-      if (event.key === 'Enter') {
-        root.value!.click()
+    const handleClick = (ev: MouseEvent) => {
+      if (!props.disabled) {
+        selectCtx?.onSelect(key.value, ev)
       }
     }
 
-    function handleKeyup(event: KeyboardEvent) {
-      if (!isFocusing.value) {
-        return
-      }
-
-      if (event.key === ' ') {
-        preventDefault(event)
-        root.value!.click()
+    const handleMouseEnter = () => {
+      if (!props.disabled) {
+        selectCtx?.setActiveKey(key.value)
       }
     }
 
-    function handleSelect() {
-      if (multiple.value) {
-        optionSelected.value = !optionSelected.value
+    const handleMouseLeave = () => {
+      if (!props.disabled) {
+        selectCtx?.setActiveKey()
       }
-
-      onSelect(optionProvider)
     }
 
-    function sync(checked: boolean) {
-      optionSelected.value = checked
-    }
+    const cls = computed(() => [
+      prefixCls,
+      {
+        [`${prefixCls}-disabled`]: props.disabled,
+        [`${prefixCls}-selected`]: isSelected.value,
+        [`${prefixCls}-active`]: isActive.value,
+        [`${prefixCls}-multiple`]: selectCtx?.multiple,
+      },
+    ])
 
     return {
-      root,
-      optionSelected,
-      multiple,
-      focusColor,
-      hovering,
-      isFocusing,
-      labelVNode,
-      n,
-      classes,
-      handleHovering,
+      prefixCls,
+      cls,
+      selectCtx,
+      itemRef,
+      component,
+      isSelected,
+      isValid,
       handleClick,
-      handleSelect,
+      handleMouseEnter,
+      handleMouseLeave,
     }
   },
 })

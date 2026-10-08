@@ -7,6 +7,6 @@ const readonlyTime = ref('09:30')
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time v-model="readonlyTime" format="24hr" readonly />
+    <mp-time v-model="readonlyTime" format="HH:mm" readonly />
   </mp-space>
 </template>

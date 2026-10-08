@@ -1,52 +1,45 @@
-import { type PropType } from 'vue'
+import type { PropType } from 'vue'
+import type { WatermarkFont } from './types'
 
-export interface WatermarkFont {
-  fontSize?: number
-  fontVariant?: string
-  fontWeight?: string
-  fontStyle?: string
-  fontFamily?: string
-}
-
-export const props = {
-  width: {
-    type: Number,
-    default: 100,
-  },
-  height: {
-    type: Number,
-    default: 100,
-  },
-  content: String,
+export const watermarkProps = {
+  content: [String, Array] as PropType<string | string[]>,
   image: String,
+  width: Number,
+  height: Number,
+  gap: {
+    type: Array as unknown as PropType<[number, number]>,
+    default: (): [number, number] => [90, 90],
+  },
+  offset: Array as unknown as PropType<[number, number]>,
   rotate: {
     type: Number,
     default: -22,
   },
-  offset: {
-    type: Array as unknown as PropType<[number, number]>,
-    default: () => [0, 0],
-  },
-  gap: {
-    type: Array as unknown as PropType<[number, number]>,
-    default: () => [0, 0],
-  },
+  font: Object as PropType<WatermarkFont>,
   zIndex: {
-    type: [Number, String],
-    default: 10,
+    type: Number,
+    default: 6,
   },
   alpha: {
-    type: [Number, String],
-    default: 0.5,
+    type: Number,
+    default: 1,
+    validator: (value: number) => value >= 0 && value <= 1,
+  },
+  antiTamper: {
+    type: Boolean,
+    default: true,
+  },
+  grayscale: {
+    type: Boolean,
+    default: false,
+  },
+  repeat: {
+    type: Boolean,
+    default: true,
+  },
+  staggered: {
+    type: Boolean,
+    default: true,
   },
   fullscreen: Boolean,
-  font: {
-    type: Object as PropType<WatermarkFont>,
-    default: () => ({
-      fontStyle: 'normal',
-      fontVariant: 'normal',
-      fontWeight: 'normal',
-      fontSize: 14,
-    }),
-  },
 }

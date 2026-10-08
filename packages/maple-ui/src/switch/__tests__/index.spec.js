@@ -15,7 +15,7 @@ test('renders the common contract', () => {
   expect(wrapper.attributes('aria-checked')).toBe('false')
   wrapper.unmount()
 })
-test.each(['circle', 'round', 'line', 'md3'])('variant %s', (variant) => {
+test.each(['circle', 'round', 'line', 'tonal'])('variant %s', (variant) => {
   const wrapper = mount(Switch, { props: { variant } })
   expect(wrapper.classes()).toContain('mp-switch--variant-' + variant)
   wrapper.unmount()

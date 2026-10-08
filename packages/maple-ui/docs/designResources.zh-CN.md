@@ -6,7 +6,7 @@
 
 ### 组件资源
 
-组件资源包含了`色彩`、`文字`、`组件资源`。目前只提供 Material Design 2 亮色模式的设计资源，其他资源暂未提供，欢迎社区贡献。
+本页下载文件为历史设计参考，尚未按当前 default / maple 品牌和明暗模式重新验收。当前颜色与变量以「Design Token 与 CSS 变量分层」及源码契约为准，请勿把历史资源作为当前主题规范。
 
 <img src="https://maplejs.org/design/components.png" style="width: 100%; display: mp-block; border-radius: 4px; margin-top: 16px">
 
@@ -23,4 +23,3 @@ import ComponentResourcesDownload from './components/ComponentResourcesDownload.
 ```vue
 import IconResourcesDownload from './components/IconResourcesDownload.vue'
 ```
-

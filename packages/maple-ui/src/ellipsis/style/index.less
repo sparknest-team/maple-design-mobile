@@ -1,3 +1,31 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './token';
-@import './ellipsis';
+@import './token.less';
+
+.mp-ellipsis {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  vertical-align: bottom;
+  -webkit-tap-highlight-color: transparent;
+  &--clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  &--line {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  &--cursor {
+    cursor: pointer;
+  }
+  &--expand {
+    display: block;
+    white-space: normal;
+    overflow: visible;
+  }
+  &:focus-visible {
+    outline: var(--mp-ellipsis-focus-width) solid var(--mp-ellipsis-focus-color);
+    outline-offset: var(--mp-ellipsis-focus-offset);
+  }
+}

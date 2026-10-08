@@ -1,15 +1,4 @@
-:root {
-  --mp-progress-group-gap: 8px;
-  --mp-progress-group-item-gap: 6px;
-  --mp-progress-group-dot-size: 8px;
-  --mp-progress-group-radius: 999px;
-  --mp-progress-group-track-color: rgba(0, 0, 0, 0.08);
-  --mp-progress-group-text-color: rgba(0, 0, 0, 0.88);
-  --mp-progress-group-muted-color: rgba(0, 0, 0, 0.55);
-  --mp-progress-group-font-size: 14px;
-  --mp-progress-group-tooltip-bg: rgba(0, 0, 0, 0.88);
-  --mp-progress-group-tooltip-color: #fff;
-}
+@import './token.less';
 .mp-progress-group {
   display: flex;
   gap: var(--mp-progress-group-gap);
@@ -52,8 +41,8 @@
   &__segment {
     flex: none;
     transition:
-      width 0.2s ease-out,
-      height 0.2s ease-out;
+      width var(--mp-progress-group-transition-duration) ease-out,
+      height var(--mp-progress-group-transition-duration) ease-out;
   }
   &__active-segment {
     position: absolute;
@@ -62,8 +51,8 @@
     pointer-events: none;
     border-radius: var(--mp-progress-group-radius);
     transition:
-      transform 0.18s ease-out,
-      opacity 0.18s ease-out;
+      transform var(--mp-progress-group-transition-duration) ease-out,
+      opacity var(--mp-progress-group-transition-duration) ease-out;
   }
   &--horizontal &__active-segment {
     top: 0;
@@ -79,22 +68,22 @@
     position: absolute;
     z-index: 2;
     width: max-content;
-    max-width: 240px;
-    padding: 5px 8px;
-    border-radius: 4px;
+    max-width: var(--mp-progress-group-tooltip-max-width);
+    padding: var(--mp-progress-group-tooltip-padding);
+    border-radius: var(--mp-progress-group-tooltip-radius);
     color: var(--mp-progress-group-tooltip-color);
     background: var(--mp-progress-group-tooltip-bg);
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: var(--mp-progress-group-tooltip-font-size);
+    line-height: var(--mp-progress-group-tooltip-line-height);
     pointer-events: none;
-    animation: mp-progress-group-tooltip-in 0.16s ease-out;
+    animation: mp-progress-group-tooltip-in var(--mp-progress-group-tooltip-duration) ease-out;
   }
   &--horizontal &__track-wrap > &__tooltip {
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + var(--mp-progress-group-tooltip-offset));
     transform: translateX(-50%);
   }
   &--vertical &__track-wrap > &__tooltip {
-    left: calc(100% + 8px);
+    left: calc(100% + var(--mp-progress-group-tooltip-offset));
     transform: translateY(-50%);
   }
   &__status {
@@ -168,12 +157,12 @@
     cursor: pointer;
     pointer-events: stroke;
     transition:
-      stroke-dasharray 0.2s ease-out,
-      stroke-dashoffset 0.2s ease-out;
+      stroke-dasharray var(--mp-progress-group-transition-duration) ease-out,
+      stroke-dashoffset var(--mp-progress-group-transition-duration) ease-out;
   }
   &__circle-active-segment {
     pointer-events: none;
-    animation: mp-progress-group-circle-hover-in 0.18s ease-out;
+    animation: mp-progress-group-circle-hover-in var(--mp-progress-group-transition-duration) ease-out;
   }
   &__circle-status {
     position: absolute;
@@ -182,43 +171,53 @@
     align-items: center;
     justify-content: center;
     color: var(--mp-progress-group-text-color);
-    font-weight: 500;
+    font-weight: var(--mp-progress-group-status-font-weight);
     pointer-events: none;
   }
   &__circle-tooltip {
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + var(--mp-progress-group-tooltip-offset));
     left: 50%;
     transform: translateX(-50%);
   }
   &--horizontal&--xs &__track {
-    height: 2px;
+    height: var(--mp-progress-group-size-xs-thickness);
   }
   &--horizontal&--sm &__track {
-    height: 4px;
+    height: var(--mp-progress-group-size-sm-thickness);
   }
   &--horizontal&--md &__track {
-    height: 8px;
+    height: var(--mp-progress-group-size-md-thickness);
   }
   &--horizontal&--lg &__track {
-    height: 12px;
+    height: var(--mp-progress-group-size-lg-thickness);
   }
   &--horizontal&--xl &__track {
-    height: 16px;
+    height: var(--mp-progress-group-size-xl-thickness);
   }
   &--vertical&--xs &__track {
-    width: 2px;
+    width: var(--mp-progress-group-size-xs-thickness);
   }
   &--vertical&--sm &__track {
-    width: 4px;
+    width: var(--mp-progress-group-size-sm-thickness);
   }
   &--vertical&--md &__track {
-    width: 8px;
+    width: var(--mp-progress-group-size-md-thickness);
   }
   &--vertical&--lg &__track {
-    width: 12px;
+    width: var(--mp-progress-group-size-lg-thickness);
   }
   &--vertical&--xl &__track {
-    width: 16px;
+    width: var(--mp-progress-group-size-xl-thickness);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-progress-group__active-segment {
+    transition: none;
+  }
+  .mp-progress-group__tooltip,
+  .mp-progress-group__circle-active-segment {
+    animation: none;
   }
 }
 @keyframes mp-progress-group-tooltip-in {

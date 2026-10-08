@@ -42,6 +42,9 @@ export function useButton(props: Readonly<ButtonProps>) {
   const busy = computed(() => !!(props.loading || pending.value))
   const blocked = computed(() => !!(states.value.disabled || busy.value))
   const computedStyle = computed<CSSProperties>(() => {
+    if (states.value.disabled) {
+      return {}
+    }
     const { color, textColor, variant } = states.value
     return {
       color: textColor || (variant !== 'default' ? color : undefined),

@@ -3,6 +3,7 @@
     <div :class="n('clock-hand')" :style="handStyle"></div>
     <div
       v-for="(timeScale, index) in timeScales"
+      v-show="!hideDisabledOptions || !isDisable(timeScale)"
       :key="timeScale"
       :class="
         classes(
@@ -18,6 +19,7 @@
     <div v-if="format === '24hr' && type === 'hour'" ref="inner" :class="n('clock-inner')">
       <div
         v-for="(hour, index) in hours24"
+        v-show="!hideDisabledOptions || !isDisable(hour)"
         :key="hour"
         :class="
           classes(
@@ -40,14 +42,18 @@ import { getRect, toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import { createNamespace } from '../utils/components'
 import { padStart } from '../utils/shared'
-import { hours24, hoursAmpm, minSec, type AmPm, type DisabledTime, type Format, type Time } from './picker-props'
-import { convertHour, getIsDisableMinute, getIsDisableSecond, getNumberTime, notConvert } from './picker-utils'
+import { timeDisabledProps } from './disabled-props'
+import { hours24, hoursAmpm, minSec, type AmPm, type ClockFormat, type Time } from './picker-props'
+import { convertHour, getIsDisableMinute, getIsDisableSecond } from './picker-utils'
+import { timeStepProp } from './step-prop'
+import { getTimeChoices } from './time-rules'
 
 const { n, classes } = createNamespace('time-picker')
 
 export default defineComponent({
   name: createNamespace('clock').name,
   props: {
+    hideDisabledOptions: Boolean,
     isInner: {
       type: Boolean,
       required: true,
@@ -56,12 +62,11 @@ export default defineComponent({
       type: Number,
     },
     format: {
-      type: String as PropType<Format>,
+      type: String as PropType<ClockFormat>,
       default: 'ampm',
     },
-    disabledTime: {
-      type: Object as PropType<DisabledTime>,
-    },
+    ...timeDisabledProps,
+    step: timeStepProp,
     time: {
       type: Object as PropType<Time>,
       required: true,
@@ -93,8 +98,12 @@ export default defineComponent({
   emits: ['update', 'change-prevent-update'],
   setup(props, { emit }) {
     const inner: Ref<HTMLElement | null> = ref(null)
-    const disableHour: Ref<Array<string>> = ref([])
-    const disable24HourIndex: Ref<Array<number>> = ref([])
+    const disableHour = computed(() => {
+      const allowed = getTimeChoices(undefined, props).columns[0]
+      return Array.from({ length: 24 }, (_, hour) => hour)
+        .filter((hour) => !allowed.includes(hour))
+        .flatMap((hour) => [String(hour), String(hour).padStart(2, '0')])
+    })
 
     const handStyle = computed(() => ({
       transform: `rotate(${toNumber(props.rad)}deg)`,
@@ -132,7 +141,11 @@ export default defineComponent({
         minute: toNumber(props.time.minute),
         max: props.max,
         min: props.min,
-        disabledTime: props.disabledTime,
+        useSeconds: props.useSeconds,
+        step: props.step,
+        disabledHours: props.disabledHours,
+        disabledMinutes: props.disabledMinutes,
+        disabledSeconds: props.disabledSeconds,
         disableHour: disableHour.value,
       }
 
@@ -166,12 +179,8 @@ export default defineComponent({
 
     const isDisable = (time: string) => {
       if (props.type === 'hour') {
-        if (notConvert(props.format, props.ampm)) {
-          return disableHour.value.includes(time)
-        }
-
-        const timeIndex = hoursAmpm.findIndex((hour) => hour === time)
-        return disable24HourIndex.value.includes(timeIndex)
+        const { hourNum } = convertHour(props.format, props.ampm, time)
+        return disableHour.value.some((hour) => Number(hour) === hourNum)
       }
 
       return isDisableMinSec(time, true)
@@ -250,7 +259,7 @@ export default defineComponent({
     watch(
       () => props.rad,
       (rad, oldRad) => {
-        if (props.type === 'hour' || rad === undefined || oldRad === undefined) {
+        if (props.preventNextUpdate || props.type === 'hour' || rad === undefined || oldRad === undefined) {
           return
         }
 
@@ -280,50 +289,6 @@ export default defineComponent({
 
         emit('update', newTime)
       },
-    )
-
-    watch(
-      [() => props.max, () => props.min, () => props.disabledTime],
-      ([max, min, disabledTime]) => {
-        disableHour.value = []
-        if (max && !min) {
-          const { hour: maxHour } = getNumberTime(max)
-
-          const disableAmpmHours = hoursAmpm.filter((hour) => toNumber(hour) > maxHour)
-          const disable24Hours = hours24.filter((hour) => toNumber(hour) > maxHour)
-          disableHour.value = [...disableAmpmHours, ...disable24Hours]
-        }
-
-        if (!max && min) {
-          const { hour: minHour } = getNumberTime(min)
-
-          const disableAmpmHours = hoursAmpm.filter((hour) => toNumber(hour) < minHour)
-          const disable24Hours = hours24.filter((hour) => toNumber(hour) < minHour)
-          disableHour.value = [...disableAmpmHours, ...disable24Hours]
-        }
-
-        if (max && min) {
-          const { hour: maxHour } = getNumberTime(max)
-          const { hour: minHour } = getNumberTime(min)
-
-          const disableAmpmHours = hoursAmpm.filter((hour) => toNumber(hour) < minHour || toNumber(hour) > maxHour)
-          const disable24Hours = hours24.filter((hour) => toNumber(hour) < minHour || toNumber(hour) > maxHour)
-          disableHour.value = [...disableAmpmHours, ...disable24Hours]
-        }
-
-        if (disabledTime?.hours) {
-          const { hours } = disabledTime
-
-          const disableAmpmHours = hoursAmpm.filter((hour) => hours(toNumber(hour)))
-          const disable24Hours = hours24.filter((hour) => hours(toNumber(hour)))
-          disableHour.value = [...new Set([...disableHour.value, ...disableAmpmHours, ...disable24Hours])]
-        }
-
-        disable24HourIndex.value = disableHour.value
-          .map((hour) => hours24.findIndex((hour24) => hour === hour24))
-          .filter((hour) => hour >= 0)
-      },
-      { immediate: true, deep: true },
     )
 
     return {

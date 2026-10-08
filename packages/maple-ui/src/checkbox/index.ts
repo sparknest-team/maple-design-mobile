@@ -18,11 +18,19 @@ withPropsDefaultsSetter(CheckboxGroup, checkboxGroupProps)
 
 export { checkboxProps, checkboxGroupProps, Checkbox, CheckboxGroup }
 
-export type CheckboxInstance = InstanceType<typeof _Checkbox>
-export type CheckboxGroupInstance = InstanceType<typeof CheckboxGroup>
+export type CheckboxInstance = InstanceType<typeof _Checkbox> & import('./props').CheckboxMethods
+export type CheckboxGroupInstance = InstanceType<typeof CheckboxGroup> &
+  import('./use-checkbox-group-methods').CheckboxGroupMethods
 export const _CheckboxComponent: typeof Checkbox = Checkbox
 export const _CheckboxGroupComponent: typeof CheckboxGroup = CheckboxGroup
 
 export default Checkbox
 export type CheckboxProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
 export type CheckboxGroupProps = import('vue').ExtractPublicPropTypes<typeof import('./group-props').props>
+
+export type { CheckboxMethods, CheckboxModel } from './props'
+
+export type { CheckboxOption } from './types'
+export type { ChoiceFieldNames } from './choice-options'
+
+export type { CheckboxGroupMethods } from './use-checkbox-group-methods'

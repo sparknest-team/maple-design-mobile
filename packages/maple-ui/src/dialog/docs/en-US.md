@@ -126,6 +126,7 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 | `overlay-class` / `dialog-class` / `body-class`      | Custom classes                             | `string \| any[]`                             | `-`              |
 | `overlay-style` / `dialog-style` / `body-style`      | Custom styles                              | `StyleValue`                                  | `-`              |
 | `overlay-closable` / `esc-to-close` / `lock-scroll`  | Close/scroll behavior                      | `boolean`                                     | `true`           |
+| `close-on-route-change`                              | Close on browser history or hash changes   | `boolean`                                     | `false`          |
 | `popup-container`                                    | Teleport target; `false` disables teleport | `string \| HTMLElement \| false`              | `'body'`         |
 | `hide-title` / `unmount-on-close`                    | Rendering behavior                         | `boolean`                                     | `false`          |
 | `draggable` / `fullscreen`                           | Layout modes                               | `boolean`                                     | `false`          |
@@ -172,3 +173,54 @@ All functional dialogs use the compact layout (`simple: true`) and hide the top-
 type DialogAction = 'confirm' | 'cancel' | 'close'
 type DialogType = 'info' | 'success' | 'warning' | 'error'
 ```
+
+### Style Variables
+
+Dialog color roles match Cedar: `--mp-dialog-background` uses the raised surface, `--mp-dialog-overlay-background` controls the backdrop, title and content use the primary content color, the close button uses the secondary content color, and `--mp-dialog-status-{info|success|warning|danger}-color` maps to readable status content roles (content-info/success/warning/danger), not status fills. Override component variables for local themes and system variables for cross-component themes. Mobile borders, sizing, and layout remain platform-specific.
+
+#### Complete token defaults
+
+Token groups: background/overlay-background define panel and scrim; border-* controls panel/separator borders; title-* and content-* control title/body typography and spacing; actions-* controls the footer; close-button-* controls the close action; status-* defines semantic icons; simple-*/fullscreen-* controls those modes; animation-* controls transitions. Width and margin-top define ordinary panel layout. Private drag and positioning variables are not public customization APIs.
+
+The backdrop consumes `sys-color-scrim` through the Dialog component variable. Maple no longer uses Popup colors for Dialog. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
+
+| Variable | Default |
+| --- | --- |
+| `--mp-dialog-background` | `var(--mp-sys-color-surface-raised)` |
+| `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` |
+| `--mp-dialog-border-color` | `transparent` |
+| `--mp-dialog-border-width` | `0` |
+| `--mp-dialog-border-radius` | `3px` |
+| `--mp-dialog-width` | `280px` |
+| `--mp-dialog-margin-top` | `0` |
+| `--mp-dialog-title-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-dialog-title-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-dialog-title-font-weight` | `var(--mp-sys-font-weight-regular)` |
+| `--mp-dialog-title-padding` | `20px 20px 0` |
+| `--mp-dialog-title-min-height` | `0` |
+| `--mp-dialog-title-justify` | `space-between` |
+| `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-dialog-content-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-dialog-content-line-height` | `24px` |
+| `--mp-dialog-content-padding` | `12px 20px` |
+| `--mp-dialog-actions-padding` | `0 12px 12px` |
+| `--mp-dialog-actions-button-gap` | `var(--mp-sys-space-3)` |
+| `--mp-dialog-close-button-size` | `40px` |
+| `--mp-dialog-close-button-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-dialog-close-button-font-size` | `20px` |
+| `--mp-dialog-close-button-inset-inline-end` | `0` |
+| `--mp-dialog-status-icon-size` | `18px` |
+| `--mp-dialog-status-icon-gap` | `var(--mp-sys-space-3)` |
+| `--mp-dialog-status-info-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-dialog-status-success-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-dialog-status-warning-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-dialog-status-danger-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-dialog-simple-width` | `280px` |
+| `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` |
+| `--mp-dialog-simple-padding` | `20px` |
+| `--mp-dialog-simple-content-gap` | `0` |
+| `--mp-dialog-simple-actions-gap` | `0` |
+| `--mp-dialog-fullscreen-width` | `100vw` |
+| `--mp-dialog-fullscreen-height` | `100vh` |
+| `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` |
+| `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` |

@@ -6,34 +6,27 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeUnmount, onDeactivated } from 'vue'
-import { call, find, normalizeToArray, preventDefault } from '@maplejs/maple-shared'
+import { preventDefault } from '@maplejs/maple-shared'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTop, scrollTo, toPxNum } from '../utils/elements'
 import { linear } from '../utils/shared'
+import { createFormController, type FormFieldController, type FormValidateErrors } from './form-controller'
 import { props } from './props'
-import { useFormItems, type FormProvider } from './provide'
+import { provideForm, type FormProvider } from './provide'
 
 const { name, n } = createNamespace('form')
 
 export default defineComponent({
   name,
   props,
-  emits: ['submit', 'reset'],
+  emits: ['submit', 'submit-success', 'submit-failed', 'reset'],
   setup(props, { emit }) {
     const disabled = computed(() => props.disabled)
     const readonly = computed(() => props.readonly)
+    const size = computed(() => props.size)
+    const rules = computed(() => props.rules)
     const model = computed(() => props.model)
     const layout = computed(() => props.layout)
-    const { formItems, bindFormItems } = useFormItems()
-
-    const formProvider: FormProvider = {
-      disabled,
-      readonly,
-      model,
-      layout,
-    }
-
-    bindFormItems(formProvider)
     let pendingScroll: ReturnType<typeof setTimeout> | undefined
     const cancelScroll = () => clearTimeout(pendingScroll)
     onBeforeUnmount(cancelScroll)
@@ -59,69 +52,79 @@ export default defineComponent({
       }, 300)
     }
 
+    function scrollToInvalid(errors: NonNullable<FormValidateErrors>, items: FormFieldController[]) {
+      if (!props.scrollToError) {
+        return
+      }
+      const elements = items
+        .filter((item) => errors[item.field])
+        .map((item) => item.getElement?.())
+        .filter((element): element is HTMLElement => !!element)
+        .sort((left, right) => (left.compareDocumentPosition(right) & Node.DOCUMENT_POSITION_PRECEDING ? 1 : -1))
+      const element = props.scrollToError === 'end' ? elements[elements.length - 1] : elements[0]
+      if (element) {
+        scroll(element)
+      }
+    }
+
+    const controller = createFormController({ onInvalid: scrollToInvalid })
+    const formProvider: FormProvider = {
+      disabled,
+      readonly,
+      size,
+      rules,
+      model,
+      layout,
+      registerField: controller.registerField,
+    }
+    provideForm(formProvider)
+
     async function handleSubmit(event: Event) {
       preventDefault(event)
-      const valid = await validate()
-      emit('submit', valid)
+      const errors = await validate()
+      const values = model.value ?? {}
+      if (errors) {
+        emit('submit-failed', { values, errors }, event)
+      } else {
+        emit('submit-success', values, event)
+      }
+      emit('submit', { values, errors }, event)
     }
 
     function handleReset(event: Event) {
       preventDefault(event)
       resetFields()
-      emit('reset')
+      emit('reset', event)
     }
 
-    function matchFormItems(field?: string | string[]) {
-      if (field == null) {
-        return formItems
-      }
-
-      const fields = normalizeToArray(field)
-      return formItems.filter((item) => item.field && fields.includes(item.field))
+    function validate(callback?: (errors: FormValidateErrors) => void) {
+      return controller.validate(undefined, callback)
     }
 
     // expose
-    async function validate(field?: string | string[]) {
-      const items = matchFormItems(field)
-      const res = await Promise.all(items.map(({ validate: validateItem }) => validateItem()))
-
-      if (props.scrollToError) {
-        const [, errorIndex] = find(res, (r) => r === false, props.scrollToError)
-        const hasError = errorIndex > -1
-
-        if (hasError) {
-          const formItemElement = items[errorIndex].instance.proxy?.$el
-          scroll(formItemElement)
-        }
-
-        return !hasError
-      }
-
-      return res.every((result) => result === true)
-    }
-
-    // expose
-    function validateField(field: string | string[]) {
-      return validate(field)
+    function validateField(field: string | string[], callback?: (errors: FormValidateErrors) => void) {
+      return controller.validate(field, callback)
     }
 
     // expose
     function resetFields(field?: string | string[]) {
-      matchFormItems(field).forEach(({ reset }) => reset())
+      controller.resetFields(field)
     }
 
     // expose
     function clearValidate(field?: string | string[]) {
-      matchFormItems(field).forEach(({ resetValidation }) => resetValidation())
+      controller.clearValidate(field)
+    }
+
+    function setFields(data: Record<string, unknown>) {
+      controller.setFields(data)
     }
 
     // expose
     function scrollToField(field: string) {
-      const item = formItems.find((formItem) => formItem.field === field)
-      const formItemElement = item?.instance.proxy?.$el
-
-      if (formItemElement) {
-        scroll(formItemElement)
+      const element = controller.matchFields(field)[0]?.getElement?.()
+      if (element) {
+        scroll(element)
       }
     }
 
@@ -133,6 +136,7 @@ export default defineComponent({
       validateField,
       resetFields,
       clearValidate,
+      setFields,
       scrollToField,
     }
   },

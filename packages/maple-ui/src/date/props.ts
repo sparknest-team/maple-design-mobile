@@ -1,60 +1,44 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
-import { fieldDecoratorProps } from '../field-decorator'
-import { popupProps } from '../popup'
-import type { DisabledTime } from '../time/picker-props'
-import { pickProps } from '../utils/components'
-import { popupContainerProp } from '../utils/popup-container'
-import { props as datePickerPropsSource } from './picker-props'
-
-export type DateType = 'year' | 'month' | 'date'
+import type { PropType } from 'vue'
+import { dateRuleProps, dateSingleValueProps } from '../date/core-props'
+import type { DateValue } from '../date/date-value'
+import { fieldDecoratorProps } from '../field-decorator/props'
+import { popupContainerProp, type PopupContainer } from '../utils/popup-container'
+import { props as panelProps } from './picker-props'
 
 export const props = {
-  popupContainer: popupContainerProp,
-  modelValue: {
-    type: [String, Array] as PropType<string | string[]>,
-    default: undefined,
-  },
-  open: {
-    type: Boolean,
-    default: undefined,
-  },
-  type: {
-    type: String as PropType<DateType>,
-    default: 'date',
-  },
-  showTime: Boolean,
-  useSeconds: Boolean,
+  ...dateRuleProps,
+  ...dateSingleValueProps,
+  type: panelProps.type,
+  presentation: panelProps.presentation,
   multiple: Boolean,
-  presentation: {
-    type: String as PropType<'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'>,
-    default: 'picker',
-  },
-  min: String,
-  max: String,
-  disabledDate: Function as PropType<(val: string) => boolean>,
-  disabledTime: Object as PropType<DisabledTime>,
-  separator: String,
-  datePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof datePickerPropsSource>>>,
-    default: () => ({}),
-  },
+  modelValue: [String, Number, Date, Array] as PropType<DateValue | DateValue[]>,
+  defaultValue: [String, Number, Date, Array] as PropType<DateValue | DateValue[]>,
+  open: { type: Boolean, default: undefined },
+  defaultOpen: Boolean,
+  disableConfirm: Boolean,
+  popupContainer: popupContainerProp,
   popupProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof popupProps>>>,
+    type: Object as PropType<Record<string, unknown> & { popupContainer?: PopupContainer }>,
     default: () => ({}),
   },
-  readonly: Boolean,
-  ...pickProps(fieldDecoratorProps, [
-    'size',
-    'variant',
-    'placeholder',
-    'line',
-    'hint',
-    'textColor',
-    'focusColor',
-    'blurColor',
-    'disabled',
-    'clearable',
-  ]),
-}
+  datePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
 
+  timePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  pickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  inputEditable: { type: Boolean, default: true },
+  disabled: { type: Boolean, default: undefined },
+  readonly: { type: Boolean, default: undefined },
+  error: { type: Boolean, default: undefined },
+  clearable: { type: Boolean, default: true },
+  placeholder: String,
+  separator: { type: String, default: ', ' },
+  size: fieldDecoratorProps.size,
+  variant: { ...fieldDecoratorProps.variant, default: 'standard' },
+  hint: fieldDecoratorProps.hint,
+  line: fieldDecoratorProps.line,
+  textColor: fieldDecoratorProps.textColor,
+  focusColor: fieldDecoratorProps.focusColor,
+  blurColor: fieldDecoratorProps.blurColor,
+}
 export type DateProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type DateType = NonNullable<DateProps['type']>

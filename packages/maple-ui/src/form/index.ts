@@ -23,6 +23,7 @@ withPropsDefaultsSetter(FormItem, formItemProps)
 
 export { formProps, formItemProps, Form, FormItem }
 export { useFormItem } from './item-provide'
+export type { FormFieldError as ValidatedError, FormValidateErrors } from './form-controller'
 
 export type FormInstance = InstanceType<typeof _Form>
 export type FormItemInstance = InstanceType<typeof FormItem>

@@ -252,6 +252,7 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 | `overlay-closable`                                   | 点击背景层关闭                  | `boolean`                                     | `true`            |
 | `esc-to-close`                                       | ESC 关闭                        | `boolean`                                     | `true`            |
 | `lock-scroll`                                        | 打开时锁定背景滚动              | `boolean`                                     | `true`            |
+| `close-on-route-change`                              | 浏览器历史或 hash 变化时关闭     | `boolean`                                     | `false`           |
 | `popup-container`                                    | 挂载位置，`false` 禁用 teleport | `string \| HTMLElement \| false`              | `'body'`          |
 | `hide-title`                                         | 隐藏标题区                      | `boolean`                                     | `false`           |
 | `unmount-on-close`                                   | 关闭动画后卸载                  | `boolean`                                     | `false`           |
@@ -315,3 +316,52 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 ### 样式变量
 
 变量均以 `--mp-` 开头，例如 `--mp-dialog-width`、`--mp-dialog-background`、`--mp-dialog-border-radius`、`--mp-dialog-simple-width`、`--mp-dialog-fullscreen-width` 和 `--mp-dialog-close-button-color`。
+
+与 Cedar 一致的颜色语义：`--mp-dialog-background` 使用浮层背景（`surface-raised`），`--mp-dialog-overlay-background` 控制遮罩，标题与正文使用主要内容色，关闭按钮使用次要内容色；`--mp-dialog-status-{info|success|warning|danger}-color` 对应可读状态内容色（content-info/success/warning/danger），不是状态填充色。业务主题优先覆盖组件变量，跨组件主题覆盖对应 system 变量。移动端无边框、尺寸与布局差异保持独立。
+
+#### 完整变量默认值
+
+遮罩通过 Dialog 组件变量消费 `sys-color-scrim`；Maple 不再借用 Popup 的遮罩颜色。实例遮罩变量可放在 `overlay-style` 上；放在面板 `dialog-style` 上的变量不会继承给兄弟遮罩节点。显式 `overlay-style.backgroundColor` 优先。Teleport 场景需要在实际 DOM 祖先作用域设置变量。暗色主题继承同一套颜色语义；几何保留平台差异。状态图标改用可读的 content 状态色。
+
+变量按用途分组：background／overlay-background 是面板与遮罩；border-* 是面板或分隔线边框；title-* 是标题排版；content-* 是正文排版；actions-* 是操作区；close-button-* 是关闭按钮；status-* 是语义图标；simple-*／fullscreen-* 是对应模式的尺寸；animation-* 是入退场动效。width／margin-top 控制常规面板布局。内部拖动与定位变量不构成公开定制入口。
+
+| 变量 | 默认值 |
+| --- | --- |
+| `--mp-dialog-background` | `var(--mp-sys-color-surface-raised)` |
+| `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` |
+| `--mp-dialog-border-color` | `transparent` |
+| `--mp-dialog-border-width` | `0` |
+| `--mp-dialog-border-radius` | `3px` |
+| `--mp-dialog-width` | `280px` |
+| `--mp-dialog-margin-top` | `0` |
+| `--mp-dialog-title-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-dialog-title-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-dialog-title-font-weight` | `var(--mp-sys-font-weight-regular)` |
+| `--mp-dialog-title-padding` | `20px 20px 0` |
+| `--mp-dialog-title-min-height` | `0` |
+| `--mp-dialog-title-justify` | `space-between` |
+| `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-dialog-content-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-dialog-content-line-height` | `24px` |
+| `--mp-dialog-content-padding` | `12px 20px` |
+| `--mp-dialog-actions-padding` | `0 12px 12px` |
+| `--mp-dialog-actions-button-gap` | `var(--mp-sys-space-3)` |
+| `--mp-dialog-close-button-size` | `40px` |
+| `--mp-dialog-close-button-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-dialog-close-button-font-size` | `20px` |
+| `--mp-dialog-close-button-inset-inline-end` | `0` |
+| `--mp-dialog-status-icon-size` | `18px` |
+| `--mp-dialog-status-icon-gap` | `var(--mp-sys-space-3)` |
+| `--mp-dialog-status-info-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-dialog-status-success-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-dialog-status-warning-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-dialog-status-danger-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-dialog-simple-width` | `280px` |
+| `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` |
+| `--mp-dialog-simple-padding` | `20px` |
+| `--mp-dialog-simple-content-gap` | `0` |
+| `--mp-dialog-simple-actions-gap` | `0` |
+| `--mp-dialog-fullscreen-width` | `100vw` |
+| `--mp-dialog-fullscreen-height` | `100vh` |
+| `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` |
+| `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` |

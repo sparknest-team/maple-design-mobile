@@ -1,16 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 
-const date = ref('17:36:22')
+const date = ref('17:36')
 </script>
 
 <template>
-  <mp-time-picker v-model="date">
-    <template #actions>
-      <mp-space size="sm">
-        <mp-button status="primary" variant="text">ACTION</mp-button>
-        <mp-button status="primary" variant="text">ACTION</mp-button>
-      </mp-space>
+  <mp-time-picker v-model="date" format="HH:mm">
+    <template #actions="{ confirm, canConfirm }">
+      <mp-button status="primary" variant="text" :disabled="!canConfirm" @click="confirm">Confirm</mp-button>
     </template>
   </mp-time-picker>
 </template>

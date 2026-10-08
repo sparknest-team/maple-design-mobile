@@ -1,6 +1,11 @@
 import { Message } from './index'
 
 export default {
+  'common.increase': '値を増やす',
+  'common.decrease': '値を減らす',
+  'common.clear': 'クリア',
+  'common.showPassword': 'パスワードを表示',
+  'common.hidePassword': 'パスワードを隠す',
   // Dialog
   dialogTitle: '確認',
   dialogConfirmButtonText: '確認',

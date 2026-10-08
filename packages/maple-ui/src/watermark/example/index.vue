@@ -1,12 +1,12 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import CustomContentSlotDemo from './demos/custom-content-slot.vue'
 import CustomGapDemo from './demos/custom-gap.vue'
 import CustomOffsetDemo from './demos/custom-offset.vue'
 import CustomRotateDemo from './demos/custom-rotate.vue'
 import FullscreenDemo from './demos/fullscreen.vue'
 import ImageWatermarkDemo from './demos/image-watermark.vue'
+import MultilineDemo from './demos/multiline.vue'
 import TextWatermarkDemo from './demos/text-watermark.vue'
 
 const language = ref('zh-CN')
@@ -29,6 +29,11 @@ onThemeChange()
     <CustomGapDemo />
   </section>
 
+  <section data-demo="multiline">
+    <app-type>{{ english ? 'Multiline Text' : '多行文本' }}</app-type>
+    <MultilineDemo />
+  </section>
+
   <section data-demo="custom-offset">
     <app-type>{{ english ? 'Custom Offset' : '自定义偏移量' }}</app-type>
     <CustomOffsetDemo />
@@ -47,10 +52,5 @@ onThemeChange()
   <section data-demo="fullscreen">
     <app-type>{{ english ? 'Fullscreen' : '全屏' }}</app-type>
     <FullscreenDemo />
-  </section>
-
-  <section data-demo="custom-content-slot">
-    <app-type>{{ english ? 'Watermark Content Slot' : '自定义水印内容' }}</app-type>
-    <CustomContentSlotDemo />
   </section>
 </template>

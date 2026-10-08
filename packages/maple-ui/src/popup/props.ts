@@ -1,17 +1,26 @@
 import { type PropType, type TeleportProps } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
 
-export type PopupPosition = 'top' | 'bottom' | 'right' | 'left' | 'center'
+export type PopupPlacement = 'top' | 'bottom' | 'right' | 'left' | 'center'
 
-export const props = {
-  open: Boolean,
-  position: {
-    type: String as PropType<PopupPosition>,
+export const popupProps = {
+  open: {
+    type: Boolean,
+    default: undefined,
+  },
+  defaultOpen: {
+    type: Boolean,
+    default: false,
+  },
+  placement: {
+    type: String as PropType<PopupPlacement>,
     default: 'center',
   },
   transition: String,
-  // Internal override used by composed overlays such as Dialog.
-  overlayTransition: String,
+  overlayAnimationName: {
+    type: String,
+    default: undefined,
+  },
   overlay: {
     type: Boolean,
     default: true,
@@ -30,13 +39,23 @@ export const props = {
     type: Boolean,
     default: true,
   },
-  defaultStyle: {
+  unstyled: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   zIndex: Number,
-  safeArea: Boolean,
-  safeAreaTop: Boolean,
+  safeAreaInsetBottom: Boolean,
+  safeAreaInsetTop: Boolean,
+  unmountOnClose: {
+    type: Boolean,
+    default: false,
+  },
+  closeOnRouteChange: {
+    type: Boolean,
+    default: false,
+  },
   popupContainer: popupContainerProp,
-  // internal for Dialog
 }
+
+export const props = popupProps
+export type PopupProps = import('vue').ExtractPublicPropTypes<typeof popupProps>

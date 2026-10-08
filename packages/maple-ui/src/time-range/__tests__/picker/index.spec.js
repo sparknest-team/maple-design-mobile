@@ -15,6 +15,7 @@ test('time-range-picker clock presentation', async () => {
   const onChange = vi.fn()
   const wrapper = mount(VarTimeRangePicker, {
     props: {
+      format: 'HH:mm',
       modelValue: ['09:00', '18:00'],
       presentation: 'clock',
       'onUpdate:modelValue': onUpdateModelValue,
@@ -38,7 +39,7 @@ test('time-range-picker picker presentation', async () => {
   const wrapper = mount(VarTimeRangePicker, {
     props: {
       modelValue: ['09:00', '18:00'],
-      format: '24hr',
+      format: 'HH:mm',
     },
   })
 
@@ -55,6 +56,7 @@ test('time-range-picker readonly', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(VarTimeRangePicker, {
     props: {
+      format: 'HH:mm',
       modelValue: ['09:00', '18:00'],
       presentation: 'clock',
       readonly: true,

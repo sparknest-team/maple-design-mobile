@@ -19,6 +19,7 @@ for (const trigger of ['hover', 'click']) {
             Tooltip,
             {
               trigger,
+              mouseEnterDelay: 0,
               popupContainer: false,
               content: omittedItems.map((item) => item.label).join(' / '),
             },
@@ -28,11 +29,10 @@ for (const trigger of ['hover', 'click']) {
     })
     try {
       const tooltip = wrapper.findComponent(Tooltip)
-      const popup = tooltip.get('[role="tooltip"]').element.closest('[trigger-placement]')
-      expect(popup.style.display).toBe('none')
+      expect(tooltip.find('[role="tooltip"]').exists()).toBe(false)
       await wrapper.get('.more-reference').trigger(trigger === 'hover' ? 'mouseenter' : 'click')
       await nextTick()
-      expect(popup.style.display).not.toBe('none')
+      expect(tooltip.get('[role="tooltip"]').isVisible()).toBe(true)
       expect(tooltip.get('[role="tooltip"]').text()).toBe('A / B / C')
       expect(tooltip.emitted('open')).toHaveLength(1)
     } finally {

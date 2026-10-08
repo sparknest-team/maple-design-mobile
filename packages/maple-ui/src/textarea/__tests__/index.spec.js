@@ -4,6 +4,27 @@ import { describe, expect, test, vi } from 'vitest'
 import Textarea from '..'
 import MpTextarea from '../Textarea.vue'
 
+test('textarea leaves placeholder tokens inheritable and disabled wins over custom colors', async () => {
+  const wrapper = mount(MpTextarea, { props: { placeholder: 'Hint', hint: false } })
+  const input = wrapper.get('textarea')
+  const localPlaceholder = () => input.element.style.getPropertyValue('--mp-textarea-placeholder-color')
+  expect(localPlaceholder()).toBe('')
+  await input.trigger('focus')
+  expect(localPlaceholder()).toBe('')
+  await wrapper.setProps({ focusColor: '#123456', textColor: '#654321' })
+  expect(localPlaceholder()).toBe('#123456')
+  await wrapper.setProps({ disabled: true, error: true })
+  expect(localPlaceholder()).toBe('')
+  expect(input.element.style.color).toBe('')
+  expect(input.element.disabled).toBe(true)
+  await wrapper.setProps({ disabled: false })
+  expect(localPlaceholder()).toBe('')
+  await wrapper.setProps({ error: false, blurColor: '#abcdef' })
+  await input.trigger('blur')
+  expect(localPlaceholder()).toBe('#abcdef')
+  wrapper.unmount()
+})
+
 test('textarea plugin', () => {
   const app = createApp({}).use(Textarea)
   expect(app.component(Textarea.name)).toBeTruthy()
@@ -12,7 +33,7 @@ test('textarea plugin', () => {
 test('textarea renders the shared defaults', () => {
   const wrapper = mount(MpTextarea, { props: { modelValue: 'text', placeholder: '请输入' } })
   expect(wrapper.find('textarea').element.value).toBe('text')
-  expect(wrapper.find('.mp-field-decorator--outline').exists()).toBe(true)
+  expect(wrapper.find('.mp-field-decorator--variant-outline').exists()).toBe(true)
   expect(wrapper.find('textarea').attributes('rows')).toBeUndefined()
   expect(wrapper.find('textarea').attributes('style')).toContain('resize: none')
   expect(wrapper.html()).toMatchSnapshot()
@@ -52,6 +73,7 @@ describe('textarea value and events', () => {
     expect(order).toEqual([])
 
     await textarea.trigger('compositionend')
+    await textarea.trigger('input')
     expect(order).toEqual(['update', 'input'])
   })
 

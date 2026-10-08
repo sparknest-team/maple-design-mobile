@@ -5,19 +5,27 @@ import BasicDemo from './demos/basic.vue'
 import CustomClearIconDemo from './demos/custom-clear-icon.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
 import EnCustomClearIconDemo from './demos/en-US/custom-clear-icon.vue'
+import EnFormFeedbackDemo from './demos/en-US/form-feedback.vue'
+import EnGroupStateDemo from './demos/en-US/group-state.vue'
+import EnGroupDemo from './demos/en-US/group.vue'
 import EnHintDemo from './demos/en-US/hint.vue'
 import EnMaxLengthDemo from './demos/en-US/max-length.vue'
 import EnModelModifierDemo from './demos/en-US/model-modifier.vue'
 import EnNativeAttrsDemo from './demos/en-US/native-attrs.vue'
+import EnPasswordDemo from './demos/en-US/password.vue'
 import EnPrefixSuffixDemo from './demos/en-US/prefix-suffix.vue'
 import EnSizeDemo from './demos/en-US/size.vue'
 import EnStateDemo from './demos/en-US/state.vue'
 import EnTypeDemo from './demos/en-US/type.vue'
 import EnVariantDemo from './demos/en-US/variant.vue'
+import FormFeedbackDemo from './demos/form-feedback.vue'
+import GroupStateDemo from './demos/group-state.vue'
+import GroupDemo from './demos/group.vue'
 import HintDemo from './demos/hint.vue'
 import MaxLengthDemo from './demos/max-length.vue'
 import ModelModifierDemo from './demos/model-modifier.vue'
 import NativeAttrsDemo from './demos/native-attrs.vue'
+import PasswordDemo from './demos/password.vue'
 import PrefixSuffixDemo from './demos/prefix-suffix.vue'
 import SizeDemo from './demos/size.vue'
 import StateDemo from './demos/state.vue'
@@ -74,6 +82,30 @@ onThemeChange()
     <app-type>{{ english ? 'Prefix and Suffix' : '前缀和后缀' }}</app-type>
     <EnPrefixSuffixDemo v-if="english" />
     <PrefixSuffixDemo v-else />
+  </section>
+
+  <section data-demo="group">
+    <app-type>{{ english ? 'Input Group' : '输入框组合' }}</app-type>
+    <EnGroupDemo v-if="english" />
+    <GroupDemo v-else />
+  </section>
+
+  <section data-demo="password">
+    <app-type>{{ english ? 'Password Input' : '密码输入框' }}</app-type>
+    <EnPasswordDemo v-if="english" />
+    <PasswordDemo v-else />
+  </section>
+
+  <section data-demo="group-state">
+    <app-type>{{ english ? 'Inherited Group State' : '组合状态继承' }}</app-type>
+    <EnGroupStateDemo v-if="english" />
+    <GroupStateDemo v-else />
+  </section>
+
+  <section data-demo="form-feedback">
+    <app-type>{{ english ? 'Form Feedback' : '表单反馈' }}</app-type>
+    <EnFormFeedbackDemo v-if="english" />
+    <FormFeedbackDemo v-else />
   </section>
 
   <section data-demo="max-length">

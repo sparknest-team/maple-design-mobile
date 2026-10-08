@@ -88,7 +88,7 @@ Cedar 旧调用、计算结果和初始值需要乘以 100；例如 :percent="0.
 非法/非有限值回退 0，有限超范围值截断；不接受百分号或 CSS 单位，不猜测旧比例格式。Maple 圆环几何不再先取整。
 Cedar 自动完成判断相应改为 100；显式 status 仍优先。Maple 新增共同 text 插槽，保留默认插槽并提供百分比参数。
 
-Switch 两端使用独立复制的相同组件、Props、样式：variant=circle/round/line/md3，默认 circle；size=sm/md/lg，默认 md。
+Switch 两端使用独立复制的相同组件、Props、样式：variant=circle/round/line/tonal，默认 circle；size=sm/md/lg，默认 md。
 Maple standard → line，省略 variant 的默认造型改为 circle；不保留 standard 别名。旧几何 CSS tokens 迁移到新的 style/token.less。
 checked-color/unchecked-color 统一控制轨道，滑块颜色由 token 定制；handle-elevation 仅 boolean/number。
 移除 Maple lazy-change；before-change(nextValue) 返回 boolean/void 或 Promise。false、抛错、拒绝 Promise 取消切换，不再接收 change 回调。
@@ -161,3 +161,7 @@ Cedar 内部样式改为 BEM：`c-col-12` → `c-col--span-12`，`c-col-md-12` �
 Item.name 支持数字。显式 name 优先于索引，有 name 的项目不再同时按其位置索引匹配，避免多个项目同时选中。使用命名项目的调用方应传入对应 name。此匹配修正随 TabBar 的 major 命名迁移发布。
 
 before-change 的抛错与 Promise 拒绝视为取消，不改变当前选中项。快速连续点击只允许最后一次请求提交；点击当前项可取消正在等待的切换。没有新增 route、to 或 replace。
+
+## Switch 造型命名收敛
+
+第四种造型统一使用 variant="tonal"；对应变量采用 --c-switch-tonal-* / --mp-switch-tonal-*，包含 width、height、handle-size、border-width、border-color、track-background、text-color、handle-color。旧第四变体及变量需一起迁移，不保留别名。主题独立使用 default / maple × light / dark，不使用造型名作为主题名称。

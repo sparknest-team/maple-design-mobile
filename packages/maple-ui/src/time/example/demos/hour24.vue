@@ -7,6 +7,6 @@ const time24 = ref()
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time v-model="time24" format="24hr" placeholder="24 小时制" clearable />
+    <mp-time v-model="time24" format="HH:mm" placeholder="24 小时制" clearable />
   </mp-space>
 </template>

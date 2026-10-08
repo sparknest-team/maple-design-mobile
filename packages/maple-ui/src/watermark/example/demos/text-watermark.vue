@@ -1,17 +1,5 @@
-<script setup>
-import { nextTick, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-
-const watermarkRef = ref(null)
-onThemeChange(() => {
-  nextTick(() => {
-    watermarkRef.value?.resize()
-  })
-})
-</script>
-
 <template>
-  <mp-watermark ref="watermarkRef" content="Maple">
+  <mp-watermark content="Maple">
     <div class="watermark-wrapper"></div>
   </mp-watermark>
 </template>

@@ -1,6 +1,11 @@
 import { Message } from './index'
 
 export default {
+  'common.increase': '增加數值',
+  'common.decrease': '減少數值',
+  'common.clear': '清空',
+  'common.showPassword': '顯示密碼',
+  'common.hidePassword': '隱藏密碼',
   // Dialog
   dialogTitle: '提示',
   dialogConfirmButtonText: '確認',

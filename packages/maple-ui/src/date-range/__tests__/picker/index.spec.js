@@ -71,6 +71,7 @@ test('date-range-picker show-time calendarClock', async () => {
     props: {
       modelValue: ['2025-01-15 10:29', '2025-01-16 11:29'],
       showTime: true,
+      useSeconds: false,
       presentation: 'calendarClock',
     },
   })
@@ -97,6 +98,7 @@ test('date-range-picker show-time calendarPicker', async () => {
     props: {
       modelValue: ['2025-01-15 10:29', '2025-01-16 11:29'],
       showTime: true,
+      useSeconds: false,
       presentation: 'calendarPicker',
     },
   })
@@ -116,6 +118,7 @@ test('date-range-picker show-time picker', async () => {
     props: {
       modelValue: ['2025-01-15 10:29', '2025-01-16 11:29'],
       showTime: true,
+      useSeconds: false,
       presentation: 'picker',
     },
   })

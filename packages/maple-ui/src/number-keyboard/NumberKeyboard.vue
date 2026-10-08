@@ -1,7 +1,7 @@
 <template>
   <mp-popup
     v-model:open="open"
-    position="bottom"
+    placement="bottom"
     :class="n('popup-radius')"
     :overlay="overlay"
     :overlay-class="overlayClass"
@@ -10,7 +10,7 @@
     :overlay-closable="effectiveCloseOnClickOverlay"
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
-    :safe-area="safeArea"
+    :safe-area-inset-bottom="safeArea"
     @open="$emit('open')"
     @opened="$emit('opened')"
     @close="handlePopupClose"

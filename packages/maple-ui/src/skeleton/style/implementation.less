@@ -22,7 +22,7 @@
     background-color: var(--mp-skeleton-card-background-color);
     margin-bottom: var(--mp-skeleton-card-margin-bottom);
     border-radius: var(--mp-skeleton-card-border-radius);
-    transition: background-color 0.25s;
+    transition: background-color var(--mp-skeleton-transition-duration);
   }
   &__article {
     display: flex;
@@ -37,7 +37,7 @@
     border-radius: var(--mp-skeleton-avatar-border-radius);
     background-color: var(--mp-skeleton-avatar-background-color);
     margin-right: var(--mp-skeleton-avatar-margin-right);
-    transition: 0.25s background-color;
+    transition: var(--mp-skeleton-transition-duration) background-color;
   }
   &__section {
     width: 100%;
@@ -50,7 +50,7 @@
     height: var(--mp-skeleton-row-height);
     background-color: var(--mp-skeleton-title-background-color);
     border-radius: var(--mp-skeleton-title-border-radius);
-    transition: 0.25s background-color;
+    transition: var(--mp-skeleton-transition-duration) background-color;
   }
   &__row {
     position: relative;
@@ -60,7 +60,7 @@
     background-color: var(--mp-skeleton-title-background-color);
     margin-top: var(--mp-skeleton-row-margin-top);
     border-radius: var(--mp-skeleton-row-border-radius);
-    transition: 0.25s background-color;
+    transition: var(--mp-skeleton-transition-duration) background-color;
   }
   &__fullscreen {
     position: fixed;
@@ -70,15 +70,16 @@
     bottom: 0;
     right: 0;
     background-color: var(--mp-skeleton-title-background-color);
-    transition: 0.25s background-color;
+    transition: var(--mp-skeleton-transition-duration) background-color;
   }
   &__shimmer {
     position: absolute;
     inset: 0;
+    opacity: 0.3;
   }
   &--animation &__shimmer {
     z-index: 1;
-    animation: mp-skeleton-animation 1s infinite;
+    animation: mp-skeleton-animation var(--mp-skeleton-animation-duration) infinite;
     background: var(--mp-skeleton-animation-background);
   }
 }
@@ -93,6 +94,20 @@
     width: 100%;
     background-color: var(--mp-skeleton-title-background-color);
     border-radius: var(--mp-skeleton-row-border-radius);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-skeleton__card,
+  .mp-skeleton__avatar,
+  .mp-skeleton__title,
+  .mp-skeleton__row,
+  .mp-skeleton__fullscreen {
+    transition: none;
+  }
+  .mp-skeleton--animation .mp-skeleton__shimmer {
+    animation: none;
+    opacity: 0;
   }
 }
 

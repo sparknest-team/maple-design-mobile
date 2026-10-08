@@ -1,3 +1,2 @@
-export default {
-  '--mp-overlay-background-color': 'rgba(0, 0, 0, 0.6)',
-}
+// Colors inherit the shared system semantics in both modes.
+export default {}

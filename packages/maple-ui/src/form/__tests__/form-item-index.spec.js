@@ -40,7 +40,13 @@ test('form-item validation', async () => {
   await delay(16)
 
   const { form } = wrapper.vm.$refs
-  await form.validate()
+  await expect(form.validate()).resolves.toEqual({
+    username: expect.objectContaining({
+      field: 'username',
+      message: '用户名不能为空',
+      isRequiredError: true,
+    }),
+  })
   await delay(10)
 
   expect(wrapper.find('.mp-form-item__label').text()).toContain('用户名')
@@ -48,10 +54,36 @@ test('form-item validation', async () => {
   expect(wrapper.find('.mp-form-details__error-message').text()).toBe('用户名不能为空')
 
   wrapper.vm.model.username = 'maple'
-  await form.validate()
+  await expect(form.validate()).resolves.toBeUndefined()
   await delay(10)
   expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
 
+  wrapper.unmount()
+})
+
+test('clear trigger validates only after clearing', async () => {
+  const wrapper = mount({
+    components: {
+      [VarForm.name]: VarForm,
+      [VarFormItem.name]: VarFormItem,
+      [VarInput.name]: VarInput,
+    },
+    data: () => ({ model: { username: 'seed' } }),
+    template: `
+      <mp-form :model="model">
+        <mp-form-item field="username" validate-trigger="clear" :rules="[value => !!value || 'Required']">
+          <mp-input v-model="model.username" clearable />
+        </mp-form-item>
+      </mp-form>
+    `,
+  })
+
+  await wrapper.find('input').setValue('edited')
+  expect(wrapper.find('.mp-form-details__error-message').exists()).toBe(false)
+  await wrapper.get('.mp-field-decorator__clear-btn').trigger('click')
+  await delay(16)
+  expect(wrapper.vm.model.username).toBe('')
+  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('Required')
   wrapper.unmount()
 })
 
@@ -87,6 +119,15 @@ test('form-item resetFields', async () => {
   expect(wrapper.vm.model.username).toBe('init')
   expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
 
+  form.setFields({ username: { value: 'server', status: 'error', message: '服务端错误' } })
+  await delay(10)
+  expect(wrapper.vm.model.username).toBe('server')
+  expect(wrapper.find('.mp-form-details__error-message').text()).toBe('服务端错误')
+
+  form.clearValidate('username')
+  await delay(10)
+  expect(wrapper.find('.mp-form-details__error-message').exists()).toBeFalsy()
+
   wrapper.unmount()
 })
 
@@ -112,7 +153,7 @@ test('form-item outer label disables floating hint', async () => {
   await delay(16)
   expect(wrapper.find('.mp-form-item__label').text()).toContain('用户名')
   expect(wrapper.find('.mp-field-decorator__placeholder').exists()).toBeFalsy()
-  expect(wrapper.find('.mp-input__input').attributes('placeholder')).toBe('请输入')
+  expect(wrapper.find('.mp-input__inner').attributes('placeholder')).toBe('请输入')
 
   wrapper.unmount()
 })

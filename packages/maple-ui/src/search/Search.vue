@@ -49,7 +49,6 @@
         :enterkeyhint="enterkeyhint || 'search'"
         :text-color="textColor"
         :focus-color="focusColor"
-        :placeholder-focus-color="searchPlaceholderFocusColor"
         :blur-color="blurColor"
         :size="size"
         :variant="variant"
@@ -86,15 +85,8 @@
           </slot>
         </template>
 
-        <template #clear-icon="{ clear }">
-          <slot name="clear-icon" :clear="clear">
-            <mp-icon
-              :class="classes(n('clear-icon'), 'mp-field-decorator__clear-icon')"
-              mp-field-decorator-cover
-              @click="handleClearIconClick(clear, $event)"
-              ><MIconCloseCircleFill
-            /></mp-icon>
-          </slot>
+        <template v-if="$slots['clear-icon']" #clear-icon="{ clear }">
+          <slot name="clear-icon" :clear="clear" />
         </template>
 
         <template v-if="$slots.suffix" #suffix>
@@ -118,7 +110,7 @@
         <slot name="button-icon">
           <mp-registered-icon
             :name="searchIcon"
-            :fallback="searchIcon === 'magnify' ? IconMagnify : undefined"
+            :fallback="searchIcon === 'magnify' ? IconSearch : undefined"
             aria-hidden="true"
           />
         </slot>
@@ -132,10 +124,10 @@
       :open="historyPopupVisible"
       :class="n('popup')"
       :style="popupStyle"
-      position="top"
+      placement="top"
       transition="mp-fade"
       :overlay="false"
-      safe-area-top
+      safe-area-inset-top
       @update:open="handlePopupVisibleChange"
       @closed="handleHistoryPopupClosed"
     >
@@ -168,7 +160,6 @@
           :enterkeyhint="enterkeyhint || 'search'"
           :text-color="textColor"
           :focus-color="focusColor"
-          :placeholder-focus-color="searchPlaceholderFocusColor"
           :blur-color="blurColor"
           :size="size"
           :variant="variant"
@@ -188,15 +179,8 @@
           <template v-if="$slots.label" #label>
             <slot name="label" />
           </template>
-          <template #clear-icon="{ clear }">
-            <slot name="clear-icon" :clear="clear">
-              <mp-icon
-                :class="classes(n('clear-icon'), 'mp-field-decorator__clear-icon')"
-                mp-field-decorator-cover
-                @click="handleClearIconClick(clear, $event)"
-                ><MIconCloseCircleFill
-              /></mp-icon>
-            </slot>
+          <template v-if="$slots['clear-icon']" #clear-icon="{ clear }">
+            <slot name="clear-icon" :clear="clear" />
           </template>
         </mp-search>
 
@@ -218,11 +202,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, shallowRef, watch } from 'vue'
-import { IconSearch, IconCloseCircleFill as MIconCloseCircleFill } from '@maplejs/icons-vue'
+import { IconSearch } from '@maplejs/icons-vue'
 import { call } from '@maplejs/maple-shared'
 import MpButton from '../button'
 import MpDropdownMenu from '../dropdown-menu'
-import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'
 import MpLoading from '../loading'
@@ -236,9 +219,8 @@ import type { SearchResult } from './result'
 const { name, n, classes } = createNamespace('search')
 
 type RegisteredComponents = {
-  MIconCloseCircleFill: typeof MIconCloseCircleFill
+  IconSearch: typeof IconSearch
   MpButton: typeof MpButton
-  MpIcon: typeof MpIcon
   MpLoading: typeof MpLoading
   MpRegisteredIcon: typeof MpRegisteredIcon
   MpInput: typeof MpInput
@@ -247,9 +229,8 @@ type RegisteredComponents = {
   MpSelect: typeof MpSelect
 }
 const registeredComponents: RegisteredComponents = {
-  MIconCloseCircleFill,
+  IconSearch,
   MpButton,
-  MpIcon,
   MpLoading,
   MpRegisteredIcon,
   MpInput,
@@ -295,9 +276,6 @@ export default defineComponent({
       return selected?.placeholder || props.placeholder
     })
     const popupActionText = computed(() => '取消')
-    const searchPlaceholderFocusColor = computed(
-      () => props.focusColor || props.blurColor || 'var(--mp-field-placeholder-text-color, var(--mp-field-blur-color))',
-    )
     const effectiveShowAction = computed(() => props.showAction || props.searchButton)
     const effectiveActionType = computed(() => (props.searchButton ? 'search' : props.actionType))
     const effectiveActionText = computed(() => (props.searchButton ? props.buttonText || '' : props.actionText))
@@ -341,12 +319,6 @@ export default defineComponent({
     function handleClear(e: Event) {
       updateValue('')
       emit('clear', e)
-      keepHistoryVisible()
-    }
-
-    function handleClearIconClick(clear: (event?: Event) => void, e: Event) {
-      e.stopPropagation()
-      clear(e)
       keepHistoryVisible()
     }
 
@@ -536,7 +508,6 @@ export default defineComponent({
       computedField,
       searchPlaceholder,
       popupActionText,
-      searchPlaceholderFocusColor,
       effectiveShowAction,
       effectiveActionType,
       effectiveActionText,
@@ -554,7 +525,6 @@ export default defineComponent({
       handleInput,
       handleChange,
       handleClear,
-      handleClearIconClick,
       handleSearch,
       handleAction,
       handleInputClick,

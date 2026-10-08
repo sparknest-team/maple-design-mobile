@@ -5,5 +5,5 @@ const date = ref('11:20')
 </script>
 
 <template>
-  <mp-time-picker v-model="date" presentation="clock" />
+  <mp-time-picker v-model="date" format="HH:mm" presentation="clock" />
 </template>

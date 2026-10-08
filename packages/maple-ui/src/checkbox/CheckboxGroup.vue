@@ -1,121 +1,80 @@
 <template>
   <div :class="n('wrap')">
     <div :class="classes(n(), n(`--${direction}`))">
-      <template v-if="options.length">
+      <template v-if="props.options !== undefined">
         <mp-checkbox
-          v-for="option in options"
-          :key="option[valueKey]"
-          :value="option[valueKey]"
+          v-for="option in normalizedOptions"
+          :key="`${typeof option.value}:${String(option.value)}`"
+          :value="option.value"
           :disabled="option.disabled"
+          :readonly="option.readonly"
+          :indeterminate="option.indeterminate"
         >
           <template #default="{ checked }">
-            <maybe-v-node :is="isFunction(option[labelKey]) ? option[labelKey](option, checked) : option[labelKey]" />
+            <slot name="label" :data="option" :checked="checked">
+              <choice-label :content="isFunction(option.label) ? option.label(option, checked) : option.label" />
+            </slot>
           </template>
         </mp-checkbox>
       </template>
-      <slot />
+      <slot v-else />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, watch } from 'vue'
-import { call, isFunction, uniq } from '@maplejs/maple-shared'
-import { useFormItem } from '../form/item-provide'
-import { createNamespace, MaybeVNode } from '../utils/components'
-import { useFieldNames } from '../utils/options'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { isFunction } from '@maplejs/maple-shared'
+import { ChoiceLabel } from '../checkbox/choice-label'
+import { normalizeChoiceOptions } from '../checkbox/choice-options'
+import type { ChoiceValue } from '../checkbox/choice-value-props'
+import { createNamespace } from '../utils/components'
 import MpCheckbox from './Checkbox.vue'
-import { props } from './group-props'
-import { useCheckboxes, type CheckboxGroupProvider } from './group-provide'
+import { toggleChoice, useChoiceState } from './choice-state'
+import { props as checkboxGroupProps } from './group-props'
+import { useCheckboxes } from './group-provide'
+import { useCheckboxGroupMethods } from './use-checkbox-group-methods'
+import { useChoiceForm } from './use-choice-form'
 
-const { name, n, classes } = createNamespace('checkbox-group')
-
-export default defineComponent({
-  name,
-  components: { MpCheckbox, MaybeVNode },
-  props,
-  emits: ['change', 'update:modelValue'],
-  setup(props, { emit }) {
-    const max = computed(() => props.max)
-    const checkedCount = computed(() => props.modelValue.length)
-    const { length, checkboxes, bindCheckboxes } = useCheckboxes()
-    const { mergedError, eventHandlers } = useFormItem()
-    const fieldNames = useFieldNames(props)
-    const labelKey = computed(() => fieldNames.value.label)
-    const valueKey = computed(() => fieldNames.value.value)
-
-    const checkboxGroupProvider: CheckboxGroupProvider = {
-      max,
-      checkedCount,
-      onChecked,
-      onUnchecked,
-      errorMessage: mergedError,
-    }
-
-    watch(() => props.modelValue, syncCheckboxes, { deep: true })
-
-    watch(() => length.value, syncCheckboxes)
-
-    bindCheckboxes(checkboxGroupProvider)
-
-    function change(changedModelValue: any) {
-      emit('update:modelValue', changedModelValue)
-      emit('change', changedModelValue)
-      eventHandlers.value.onChange?.()
-    }
-
-    function onChecked(changedValue: any) {
-      const { modelValue } = props
-
-      if (!modelValue.includes(changedValue)) {
-        change([...modelValue, changedValue])
-      }
-    }
-
-    function onUnchecked(changedValue: any) {
-      const { modelValue } = props
-
-      if (!modelValue.includes(changedValue)) {
-        return
-      }
-
-      change(modelValue.filter((value) => value !== changedValue))
-    }
-
-    function syncCheckboxes() {
-      checkboxes.forEach(({ sync }) => sync(props.modelValue))
-    }
-
-    // expose
-    function checkAll() {
-      const values: any[] = checkboxes.map(({ value }) => value.value)
-      const changedModelValue: any[] = uniq(values)
-
-      emit('update:modelValue', changedModelValue)
-
-      return changedModelValue
-    }
-
-    // expose
-    function inverseAll() {
-      const values: any[] = checkboxes.filter(({ checked }) => !checked.value).map(({ value }) => value.value)
-      const changedModelValue: any[] = uniq(values)
-
-      emit('update:modelValue', changedModelValue)
-
-      return changedModelValue
-    }
-
-    return {
-      mergedError,
-      labelKey,
-      valueKey,
-      n,
-      classes,
-      checkAll,
-      inverseAll,
-      isFunction,
-    }
+defineOptions({ name: createNamespace('checkbox-group').name })
+const { n, classes } = createNamespace('checkbox-group')
+const props = defineProps(checkboxGroupProps)
+const emit = defineEmits<{
+  'update:modelValue': [value: ChoiceValue[]]
+  change: [value: ChoiceValue[], event?: Event]
+}>()
+const { bindCheckboxes } = useCheckboxes()
+const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useChoiceForm(props)
+const { value, commit } = useChoiceState(
+  () => props.modelValue,
+  props.defaultValue,
+  (next, event) => {
+    emit('update:modelValue', next)
+    emit('change', next, event)
+    eventHandlers.value.onChange?.(event)
   },
+  () => mergedDisabled.value || mergedReadonly.value,
+)
+const normalizedOptions = computed(() => normalizeChoiceOptions(props.options, props.fieldNames))
+
+const { register: registerChoice, methods } = useCheckboxGroupMethods(
+  () => value.value,
+  commit,
+  () => mergedDisabled.value || mergedReadonly.value,
+  () => props.max,
+)
+
+bindCheckboxes({
+  registerChoice,
+  modelValue: value,
+  disabled: mergedDisabled,
+  readonly: mergedReadonly,
+  max: computed(() => props.max),
+  checkedCount: computed(() => value.value.length),
+  errorMessage: mergedError,
+  onChecked: (item, event) => commit(toggleChoice(value.value, item, true, props.max), event),
+  onUnchecked: (item, event) => commit(toggleChoice(value.value, item, false, props.max), event),
 })
+
+defineExpose(methods)
 </script>

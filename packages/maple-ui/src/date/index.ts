@@ -27,3 +27,7 @@ export const _DatePickerComponent: typeof DatePicker = DatePicker
 
 export default Date
 export type DatePickerProps = import('vue').ExtractPublicPropTypes<typeof import('./picker-props').props>
+
+export type { DateDisabledTime, DateRules } from './date-rules'
+
+export type { DateValue, DateSelection, DateSide, DateValueOptions } from '../date/date-value'

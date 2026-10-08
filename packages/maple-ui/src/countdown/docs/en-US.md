@@ -112,5 +112,5 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | --- | --- |
-| `--mp-countdown-text-color`     | `var(--mp-color-text)`   |
+| `--mp-countdown-text-color`     | `var(--mp-sys-color-content-primary)` |
 | `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` |

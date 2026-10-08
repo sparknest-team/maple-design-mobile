@@ -113,7 +113,7 @@
 
 | 变量名                         | 默认值 |
 |-----------------------------| --- |
-| `--mp-countdown-text-color`     | `var(--mp-color-text)`                |
+| `--mp-countdown-text-color`     | `var(--mp-sys-color-content-primary)` |
 | `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` |
 
 ## 同源实现与平台边界

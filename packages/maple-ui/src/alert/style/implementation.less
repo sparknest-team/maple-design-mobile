@@ -66,6 +66,7 @@
   // ===== type × variant 颜色组合 =====
 
   .alert-standard(@type) {
+    color: var(~'--mp-alert-standard-@{type}-content');
     background-color: var(~'--mp-alert-standard-@{type}-bg');
     border-color: var(~'--mp-alert-standard-@{type}-border');
 
@@ -81,6 +82,7 @@
   }
 
   .alert-tonal(@type) {
+    color: var(~'--mp-alert-tonal-@{type}-content');
     background-color: var(~'--mp-alert-tonal-@{type}-bg');
     border-color: transparent;
 
@@ -96,6 +98,7 @@
   }
 
   .alert-outline(@type) {
+    color: var(~'--mp-alert-outline-@{type}-content');
     background-color: transparent;
     border-color: var(~'--mp-alert-outline-@{type}-border');
 
@@ -161,11 +164,17 @@
 
 .mp-alert-leave-leave-active {
   transition:
-    max-height 0.3s ease,
-    opacity 0.3s ease,
-    padding 0.3s ease,
-    margin 0.3s ease;
+    max-height var(--mp-alert-close-duration) var(--mp-sys-motion-easing-standard),
+    opacity var(--mp-alert-close-duration) var(--mp-sys-motion-easing-standard),
+    padding var(--mp-alert-close-duration) var(--mp-sys-motion-easing-standard),
+    margin var(--mp-alert-close-duration) var(--mp-sys-motion-easing-standard);
   overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-alert-leave-leave-active {
+    transition: none;
+  }
 }
 .mp-alert-leave-leave-to {
   max-height: 0 !important;

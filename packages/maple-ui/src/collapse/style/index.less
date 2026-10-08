@@ -131,3 +131,12 @@
 .collapse-slider-leave-active {
   transition: height var(~'--mp-collapse-motion-duration') var(~'--mp-collapse-motion-easing');
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-collapse-item,
+  .mp-collapse-item__expand-icon,
+  .collapse-slider-enter-active,
+  .collapse-slider-leave-active {
+    transition: none;
+  }
+}

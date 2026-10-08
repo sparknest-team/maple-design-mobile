@@ -58,7 +58,7 @@
         width: 100%;
         height: 100%;
         opacity: 0;
-        transition: opacity var(--mp-carousel-fade-duration, 300ms) ease;
+        transition: opacity var(--mp-carousel-fade-duration) ease;
         pointer-events: none;
 
         &--active {
@@ -77,8 +77,8 @@
 
     .mp-carousel-item {
       transition:
-        transform var(--mp-carousel-card-duration, 300ms) ease,
-        opacity var(--mp-carousel-card-duration, 300ms) ease;
+        transform var(--mp-carousel-card-duration) ease,
+        opacity var(--mp-carousel-card-duration) ease;
       transform: scale(0.85) translateX(0);
       opacity: 0.6;
 

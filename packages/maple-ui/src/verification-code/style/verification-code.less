@@ -84,61 +84,21 @@
     }
   }
 
-  .mp-input__input {
+  .mp-input__inner {
     text-align: center;
     font-size: var(--mp-verification-code-input-font-size);
     text-transform: none;
+    min-height: 0;
     height: 100%;
   }
 
-  .mp-field-decorator__middle {
-    justify-content: center;
+  .mp-field-decorator {
+    --mp-internal-field-height: var(--mp-verification-code-cell-height);
+    padding: 0;
   }
-
-  .mp-field-decorator--outline,
-  .mp-field-decorator--filled,
-  .mp-field-decorator--small.mp-field-decorator--outline,
-  .mp-field-decorator--small.mp-field-decorator--filled {
-    .mp-field-decorator__controller {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-
-  .mp-field-decorator--standard {
-    .mp-field-decorator__controller,
-    .mp-field-decorator__middle {
-      height: 100%;
-    }
-
-    .mp-field-decorator__middle,
-    .mp-field-decorator__icon,
-    .mp-field-decorator--middle-non-hint,
-    .mp-field-decorator--icon-non-hint {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  .mp-field-decorator--outline,
-  .mp-field-decorator--filled {
-    .mp-field-decorator__controller,
-    .mp-field-decorator__middle {
-      height: 100%;
-    }
-
-    .mp-field-decorator__middle,
-    .mp-field-decorator__icon {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
   .mp-input,
   .mp-field-decorator,
-  .mp-field-decorator__container,
-  .mp-field-decorator__main,
-  .mp-field-decorator__body {
+  .mp-field-decorator__middle {
     height: 100%;
   }
 }

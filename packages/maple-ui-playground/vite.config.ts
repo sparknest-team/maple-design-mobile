@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig, Plugin } from 'vite'
+import { build, defineConfig, Plugin } from 'vite'
 
 function toPath(path: string) {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -10,8 +10,25 @@ function copyMapleDependencies(): Plugin {
   return {
     name: 'copy-maple-dependencies',
 
-    buildStart() {
-      fs.copyFileSync(toPath('../maple-ui/es/maple.esm.js'), toPath('./public/maple.esm.js'))
+    async buildStart() {
+      // The package ESM entry has external dependencies and CSS imports. The
+      // browser REPL needs a standalone module with only Vue left external.
+      await build({
+        configFile: false,
+        publicDir: false,
+        logLevel: 'warn',
+        build: {
+          outDir: toPath('./public'),
+          emptyOutDir: false,
+          lib: {
+            entry: toPath('../maple-ui/es/index.mjs'),
+            formats: ['es'],
+            fileName: () => 'maple.esm.js',
+            cssFileName: 'maple',
+          },
+          rollupOptions: { external: ['vue'] },
+        },
+      })
       fs.copyFileSync(toPath('../maple-touch-emulator/iife.js'), toPath('./public/maple-touch-emulator.js'))
       fs.copyFileSync(toPath('../maple-ui/es/maple.css'), toPath('./public/maple.css'))
       fs.writeFileSync(

@@ -19,24 +19,9 @@ test('input variant', () => {
       },
     })
 
-    expect(wrapper.find(`mp-field-decorator--${variant}`)).toBeTruthy()
-    switch (variant) {
-      case 'standard': {
-        expect(
-          wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('.mp-field-decorator__dot'),
-        ).toBeTruthy()
-        break
-      }
-
-      case 'filled':
-      case 'outline': {
-        expect(wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('legend')).toBeTruthy()
-        break
-      }
-
-      default:
-        break
-    }
+    expect(wrapper.find(`.mp-field-decorator--variant-${variant}`).exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator__border').exists()).toBe(true)
+    expect(wrapper.find('.mp-field-decorator__border-state').exists()).toBe(true)
 
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
@@ -52,11 +37,7 @@ test('input size', () => {
       },
     })
 
-    if (size === 'md') {
-      expect(wrapper.find('.mp-field-decorator--size-md').exists()).toBeFalsy()
-    } else {
-      expect(wrapper.find(`.mp-field-decorator--size-${size}`).exists()).toBeTruthy()
-    }
+    expect(wrapper.find(`.mp-field-decorator--size-${size}`).exists()).toBe(true)
     wrapper.unmount()
   })
 })
@@ -78,7 +59,7 @@ test('input type', () => {
       }
 
       case 'password': {
-        expect(wrapper.find('input').attributes('type')).toBeUndefined()
+        expect(wrapper.find('input').attributes('type')).toBe('password')
         expect(wrapper.find('input').attributes('inputmode')).toBeUndefined()
         break
       }
@@ -108,13 +89,13 @@ test('input default value and native attributes', () => {
     },
   })
 
-  expect(wrapper.find('.mp-input__input').attributes()).toMatchObject({
+  expect(wrapper.find('.mp-input__inner').attributes()).toMatchObject({
     value: 'seed',
     'aria-label': 'Amount',
     'data-testid': 'amount',
   })
-  expect(wrapper.find('.mp-field-decorator--outline').exists()).toBe(true)
-  expect(wrapper.find('.mp-input__input').attributes('maxlength')).toBeUndefined()
+  expect(wrapper.find('.mp-field-decorator--variant-outline').exists()).toBe(true)
+  expect(wrapper.find('.mp-input__inner').attributes('maxlength')).toBeUndefined()
 
   wrapper.unmount()
 })
@@ -129,13 +110,13 @@ test('input format number', async () => {
     },
   })
 
-  await wrapper.find('.mp-input__input').setValue('10')
+  await wrapper.find('.mp-input__inner').setValue('10')
   expect(onUpdateModelValue).lastCalledWith('10')
-  await wrapper.find('.mp-input__input').setValue('aa111')
+  await wrapper.find('.mp-input__inner').setValue('aa111')
   expect(onUpdateModelValue).lastCalledWith('111')
-  await wrapper.find('.mp-input__input').setValue('1.')
+  await wrapper.find('.mp-input__inner').setValue('1.')
   expect(onUpdateModelValue).lastCalledWith('1.')
-  await wrapper.find('.mp-input__input').setValue('1.01')
+  await wrapper.find('.mp-input__inner').setValue('1.01')
   expect(onUpdateModelValue).lastCalledWith('1.01')
 
   wrapper.unmount()
@@ -155,11 +136,11 @@ describe('test input events', () => {
     })
 
     wrapper.vm.focus()
-    await wrapper.find('.mp-input__input').trigger('focus')
+    await wrapper.find('.mp-input__inner').trigger('focus')
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.vm.blur()
-    await wrapper.find('.mp-input__input').trigger('blur')
+    await wrapper.find('.mp-input__inner').trigger('blur')
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.unmount()
@@ -180,15 +161,15 @@ describe('test input events', () => {
       },
     })
 
-    await wrapper.find('.mp-input__input').trigger('focus')
-    const input = wrapper.find('.mp-input__input')
+    await wrapper.find('.mp-input__inner').trigger('focus')
+    const input = wrapper.find('.mp-input__inner')
     input.element.value = 't'
     await input.trigger('input')
     expect(onUpdateModelValue).lastCalledWith('t')
     expect(onInput).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await wrapper.find('.mp-input__input').trigger('blur')
+    await wrapper.find('.mp-input__inner').trigger('blur')
     expect(onChange).toHaveBeenCalledTimes(1)
 
     wrapper.unmount()
@@ -205,23 +186,37 @@ describe('test input events', () => {
   test('input press-enter commits change without duplicating it on blur', async () => {
     const onChange = vi.fn()
     const onPressEnter = vi.fn()
+    const order = []
     const wrapper = mount(VarInput, {
       props: {
         modelValue: 'before',
-        onChange,
-        onPressEnter,
-        'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }),
+        modelModifiers: { trim: true },
+        onChange: (...args) => {
+          order.push('change')
+          onChange(...args)
+        },
+        onPressEnter: (...args) => {
+          order.push('press-enter')
+          onPressEnter(...args)
+        },
+        'onUpdate:modelValue': (value) => {
+          order.push(`update:${value}`)
+          return wrapper.setProps({ modelValue: value })
+        },
       },
     })
 
-    const input = wrapper.find('.mp-input__input')
+    const input = wrapper.find('.mp-input__inner')
     await input.trigger('focus')
-    await input.setValue('after')
+    await input.setValue(' after ')
+    order.length = 0
     await input.trigger('keydown', { key: 'Enter' })
     await input.trigger('blur')
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onPressEnter).toHaveBeenCalledTimes(1)
+    expect(wrapper.emitted('update:modelValue').at(-1)).toEqual(['after'])
+    expect(order).toEqual(['change', 'press-enter'])
   })
 })
 
@@ -234,9 +229,18 @@ test('input maxLength', () => {
     },
   })
 
-  expect(wrapper.find('.mp-input__length').text()).toBe('4/100')
+  expect(wrapper.find('.mp-input__word-limit').text()).toBe('4/100')
   expect(wrapper.html()).toMatchSnapshot()
 
+  wrapper.unmount()
+})
+
+test('input truncates over-limit input and reports the normalized value', async () => {
+  const wrapper = mount(VarInput, { props: { maxLength: 3 } })
+  await wrapper.find('.mp-input__inner').setValue('four')
+  expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['fou'])
+  expect(wrapper.emitted('input')?.[0]?.[0]).toBe('fou')
+  expect(wrapper.find('.mp-input__inner').element.value).toBe('fou')
   wrapper.unmount()
 })
 
@@ -249,9 +253,9 @@ test('input maxLength errorOnly keeps the value and exposes error state', () => 
     },
   })
 
-  expect(wrapper.find('.mp-input__input').attributes('maxlength')).toBeUndefined()
-  expect(wrapper.find('.mp-input__length').text()).toBe('4/3')
-  expect(wrapper.find('.mp-input__input').classes()).toContain('mp-input--error')
+  expect(wrapper.find('.mp-input__inner').attributes('maxlength')).toBeUndefined()
+  expect(wrapper.find('.mp-input__word-limit').text()).toBe('4/3')
+  expect(wrapper.find('.mp-field-decorator--error').exists()).toBe(true)
 
   wrapper.unmount()
 })
@@ -284,11 +288,27 @@ test('input clear', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.find('[role="button"]').trigger('click')
+  await wrapper.find('button').trigger('click')
   expect(onUpdateModelValue).lastCalledWith('')
   expect(onClear).lastCalledWith(expect.any(Event))
   expect(wrapper.props('modelValue')).toBe('')
 
+  wrapper.unmount()
+})
+
+test('input clear does not emit change on the following blur', async () => {
+  const wrapper = mount(VarInput, {
+    props: {
+      modelValue: 'text',
+      clearable: true,
+      'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }),
+    },
+  })
+
+  await wrapper.find('button').trigger('click')
+  await wrapper.find('.mp-input__inner').trigger('blur')
+  expect(wrapper.emitted('clear')).toHaveLength(1)
+  expect(wrapper.emitted('change')).toBeUndefined()
   wrapper.unmount()
 })
 
@@ -300,8 +320,8 @@ test('input default clear icon supports keyboard activation', async () => {
     },
   })
 
-  const clear = wrapper.find('[role="button"]')
-  await clear.trigger('keydown', { key: 'Enter' })
+  const clear = wrapper.find('button')
+  await clear.trigger('click')
 
   expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([''])
   expect(wrapper.emitted('clear')).toHaveLength(1)
@@ -310,9 +330,9 @@ test('input default clear icon supports keyboard activation', async () => {
 })
 
 const triggerEvents = async (wrapper) => {
-  await wrapper.find('.mp-input__input').trigger('input')
-  await wrapper.find('.mp-input__input').trigger('change')
-  const clear = wrapper.find('[role="button"]')
+  await wrapper.find('.mp-input__inner').trigger('input')
+  await wrapper.find('.mp-input__inner').trigger('change')
+  const clear = wrapper.find('button')
   if (clear.exists()) {
     await clear.trigger('click')
   }
@@ -366,10 +386,10 @@ test('input readonly', async () => {
 
   await triggerEvents(wrapper)
 
-  expect(onInput).toHaveBeenCalledTimes(1)
+  expect(onInput).toHaveBeenCalledTimes(0)
   expect(onClear).toHaveBeenCalledTimes(0)
   expect(onChange).toHaveBeenCalledTimes(0)
-  expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
+  expect(onUpdateModelValue).toHaveBeenCalledTimes(0)
 
   wrapper.unmount()
 })
@@ -385,8 +405,8 @@ test('input trim', async () => {
     },
   })
 
-  await wrapper.find('.mp-input__input').setValue('123 ')
-  await wrapper.find('.mp-input__input').trigger('blur')
+  await wrapper.find('.mp-input__inner').setValue('123 ')
+  await wrapper.find('.mp-input__inner').trigger('blur')
 
   expect(onUpdateModelValue).lastCalledWith('123')
   wrapper.unmount()
@@ -399,7 +419,7 @@ test('input autofocus', async () => {
     },
   })
 
-  await wrapper.find('.mp-input__input').trigger('focus')
+  await wrapper.find('.mp-input__inner').trigger('focus')
   expect(wrapper.find('.mp-field-decorator--focus').exists()).toBe(true)
 
   wrapper.unmount()
@@ -409,7 +429,7 @@ test('input focus on mousedown', async () => {
   const wrapper = mount(VarInput)
 
   await wrapper.trigger('mousedown')
-  await wrapper.find('.mp-input__input').trigger('focus')
+  await wrapper.find('.mp-input__inner').trigger('focus')
   expect(wrapper.find('.mp-field-decorator--focus').exists()).toBe(true)
   wrapper.unmount()
 })
@@ -466,7 +486,7 @@ test('input aria-label', async () => {
   })
 
   await delay(100)
-  expect(wrapper.find('.mp-input__input').attributes('aria-label')).toBe('test aria-label')
+  expect(wrapper.find('.mp-input__inner').attributes('aria-label')).toBe('test aria-label')
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
 })

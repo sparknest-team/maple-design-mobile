@@ -189,43 +189,43 @@ TabNav 与 TabItem 使用同一个 Vue `key`，必须为字符串或数字，在
 
 | 变量 | 默认值 |
 | --- | --- |
-| `--mp-tabs-background` | `var(--mp-color-bg-2)` |
-| `--mp-tabs-title-text-color` | `var(--mp-color-text-2)` |
-| `--mp-tabs-title-text-color-active` | `var(--mp-color-primary)` |
-| `--mp-tabs-title-text-color-disabled` | `var(--mp-color-text-disabled)` |
-| `--mp-tabs-muted-background` | `var(--mp-color-fill-2)` |
-| `--mp-tabs-border-color` | `var(--mp-color-border-1)` |
-| `--mp-tabs-hover-background` | `var(--mp-color-fill-2)` |
-| `--mp-tabs-nav-gap` | `4px` |
-| `--mp-tabs-tab-gap` | `4px` |
-| `--mp-tabs-header-padding` | `8px` |
-| `--mp-tabs-control-height` | `44px` |
-| `--mp-tabs-touch-target` | `44px` |
+| `--mp-tabs-background` | `var(--mp-sys-color-surface-default)` |
+| `--mp-tabs-title-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-content-brand)` |
+| `--mp-tabs-title-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-tabs-muted-background` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-tabs-border-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-tabs-hover-background` | `var(--mp-sys-color-state-hover)` |
+| `--mp-tabs-nav-gap` | `var(--mp-sys-space-2)` |
+| `--mp-tabs-tab-gap` | `var(--mp-sys-space-2)` |
+| `--mp-tabs-header-padding` | `var(--mp-sys-space-4)` |
+| `--mp-tabs-control-height` | `var(--mp-sys-control-height-xs)` |
+| `--mp-tabs-touch-target` | `var(--mp-sys-control-touch-target)` |
 | `--mp-tabs-border-width` | `1px` |
 | `--mp-tabs-focus-width` | `2px` |
 | `--mp-tabs-focus-offset` | `-3px` |
-| `--mp-tabs-radius` | `4px` |
-| `--mp-tabs-icon-gap` | `6px` |
-| `--mp-tabs-content-padding` | `12px` |
+| `--mp-tabs-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-tabs-icon-gap` | `var(--mp-sys-space-3)` |
+| `--mp-tabs-content-padding` | `var(--mp-sys-space-5)` |
 | `--mp-tabs-indicator-size` | `2px` |
 | `--mp-tabs-indicator-radius` | `1px` |
-| `--mp-tabs-animation-duration` | `180ms` |
-| `--mp-tabs-active-font-weight` | `600` |
-| `--mp-tabs-group-padding` | `4px` |
+| `--mp-tabs-animation-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-tabs-active-font-weight` | `var(--mp-sys-font-weight-semibold)` |
+| `--mp-tabs-group-padding` | `var(--mp-sys-space-2)` |
 | `--mp-tabs-capsule-radius` | `12px` |
 | `--mp-tabs-active-shadow` | `none` |
-| `--mp-tabs-size-xs-tab-height` | `44px` |
-| `--mp-tabs-size-xs-tab-padding` | `4px 8px` |
-| `--mp-tabs-size-xs-tab-font-size` | `12px` |
-| `--mp-tabs-size-sm-tab-height` | `48px` |
-| `--mp-tabs-size-sm-tab-padding` | `6px 12px` |
-| `--mp-tabs-size-sm-tab-font-size` | `13px` |
-| `--mp-tabs-size-md-tab-height` | `52px` |
-| `--mp-tabs-size-md-tab-padding` | `8px 16px` |
-| `--mp-tabs-size-md-tab-font-size` | `14px` |
-| `--mp-tabs-size-lg-tab-height` | `56px` |
-| `--mp-tabs-size-lg-tab-padding` | `10px 20px` |
-| `--mp-tabs-size-lg-tab-font-size` | `16px` |
-| `--mp-tabs-size-xl-tab-height` | `60px` |
-| `--mp-tabs-size-xl-tab-padding` | `12px 24px` |
-| `--mp-tabs-size-xl-tab-font-size` | `18px` |
+| `--mp-tabs-size-xs-tab-height` | `var(--mp-sys-control-height-xs)` |
+| `--mp-tabs-size-xs-tab-padding` | `var(--mp-sys-space-2) var(--mp-sys-space-4)` |
+| `--mp-tabs-size-xs-tab-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-tabs-size-sm-tab-height` | `var(--mp-sys-control-height-sm)` |
+| `--mp-tabs-size-sm-tab-padding` | `var(--mp-sys-space-3) var(--mp-sys-space-5)` |
+| `--mp-tabs-size-sm-tab-font-size` | `var(--mp-sys-font-size-sm)` |
+| `--mp-tabs-size-md-tab-height` | `var(--mp-sys-control-height-md)` |
+| `--mp-tabs-size-md-tab-padding` | `var(--mp-sys-space-4) var(--mp-sys-space-6)` |
+| `--mp-tabs-size-md-tab-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-tabs-size-lg-tab-height` | `var(--mp-sys-control-height-lg)` |
+| `--mp-tabs-size-lg-tab-padding` | `10px var(--mp-sys-space-7)` |
+| `--mp-tabs-size-lg-tab-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-tabs-size-xl-tab-height` | `var(--mp-sys-control-height-xl)` |
+| `--mp-tabs-size-xl-tab-padding` | `var(--mp-sys-space-5) var(--mp-sys-space-8)` |
+| `--mp-tabs-size-xl-tab-font-size` | `var(--mp-sys-font-size-xl)` |

@@ -1,10 +1,12 @@
-import { defineConfig } from '@maplejs/maple-cli'
 import { readFileSync } from 'node:fs'
+import { defineConfig } from '@maplejs/maple-cli'
 
 const componentReuse = JSON.parse(readFileSync(new URL('./component-reuse.json', import.meta.url), 'utf8'))
 const markReuse = (item) => {
   const reuse = componentReuse[item.doc]
-  if (!reuse || item.type !== 2) return item
+  if (!reuse || item.type !== 2) {
+    return item
+  }
   return {
     ...item,
     text: {
@@ -147,6 +149,22 @@ export default defineConfig({
           'en-US': 'Styles',
         },
         type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'Design Token 与 CSS 变量分层',
+          'en-US': 'Design Tokens and CSS Variables',
+        },
+        doc: 'designTokens',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '组件 CSS 变量参考',
+          'en-US': 'Component CSS Variable Reference',
+        },
+        doc: 'designTokenReference',
+        type: 3,
       },
       {
         text: {

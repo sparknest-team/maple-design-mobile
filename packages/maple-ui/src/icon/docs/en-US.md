@@ -78,7 +78,7 @@ Both approaches render the same result and support Tree Shaking. The Resolver ge
 | Prop              | Description                            | Type               | Default |
 | ----------------- | -------------------------------------- | ------------------ | ------- |
 | `name`            | icon name                              | _string_           | `-`     |
-| `size`            | icon size                              | _string \| number_ | `-`     |
+| `size`            | `inherit` | _string \| number_ | `-`     |
 | `color`           | Icon color                             | _string_           | `-`     |
 | `rotate`          | Rotation angle                         | _number_           | `-`     |
 | `spin`            | Whether to spin continuously           | _boolean_          | `false` |
@@ -89,7 +89,7 @@ Both approaches render the same result and support Tree Shaking. The Resolver ge
 
 | Prop              | Description      | Type                                       | Default   |
 | ----------------- | ---------------- | ------------------------------------------ | --------- |
-| `size`            | Icon size        | _string \| number_                          | `-`       |
+| `size`            | `inherit` | _string \| number_                          | `-`       |
 | `color`           | Icon color       | _string_                                   | `-`       |
 | `rotate`          | Rotation angle   | _number_                                   | `-`       |
 | `spin`            | Whether to spin  | _boolean_                                  | `false`   |
@@ -111,3 +111,13 @@ Here are the CSS variables used by the component. Styles can be customized using
 | Variable      | Default |
 | ------------- | ------- |
 | `--icon-size` | `20px`  |
+
+Default Icon size now inherits the host font size on both platforms. Set size="20" or --mp-icon-size: 20px explicitly if a standalone 20px icon is required. The size prop takes precedence over the token; color inherits unless supplied.
+
+### Motion tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-icon-spin-duration` | `1s` |
+
+Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes skip delays and cancel pending transitions. Ripple duration tokens control CSS only: its 250ms lifecycle timers are unchanged, so keep each visual duration at or below 250ms. Custom animation classes remain the caller’s responsibility.

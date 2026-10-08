@@ -131,30 +131,30 @@ Cedar inherits global size when omitted (xs/sm map to sm, others to md); Maple f
 | `--mp-card-size-sm-section-margin` | `8px 0 0` |
 | `--mp-card-size-sm-section-padding` | `0 12px` |
 | `--mp-card-padding` | `0 0 15px 0` |
-| `--mp-card-background` | `var(--mp-color-bg-2)` |
-| `--mp-card-filled-background` | `hsla(0, 0%, 93%, 1)` |
-| `--mp-card-outline-color` | `var(--mp-color-border-2)` |
+| `--mp-card-background` | `var(--mp-sys-color-surface-default)` |
+| `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-card-outline-color` | `var(--mp-sys-color-border-default)` |
 | `--mp-card-border-radius` | `4px` |
 | `--mp-card-image-width` | `100%` |
 | `--mp-card-row-image-width` | `140px` |
 | `--mp-card-image-height` | `200px` |
 | `--mp-card-row-height` | `140px` |
-| `--mp-card-title-color` | `#333` |
+| `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` |
 | `--mp-card-title-font-size` | `20px` |
 | `--mp-card-title-padding` | `0 12px` |
 | `--mp-card-title-margin` | `15px 0 0 0` |
 | `--mp-card-title-row-margin` | `12px 0` |
 | `--mp-card-content-padding` | `0 16px` |
 | `--mp-card-content-margin` | `16px 0 0 0` |
-| `--mp-card-content-color` | `var(--mp-color-text-3)` |
+| `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` |
 | `--mp-card-content-font-size` | `14px` |
 | `--mp-card-content-row-margin` | `16px 0 0 0` |
-| `--mp-card-subtitle-color` | `rgba(0, 0, 0, 0.6)` |
+| `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-card-subtitle-font-size` | `14px` |
 | `--mp-card-subtitle-padding` | `0 12px` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` |
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` |
-| `--mp-card-description-color` | `rgba(0, 0, 0, 0.6)` |
+| `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-card-description-font-size` | `14px` |
 | `--mp-card-description-margin` | `20px 0 0 0` |
 | `--mp-card-description-padding` | `0 13px` |
@@ -166,9 +166,15 @@ Cedar inherits global size when omitted (xs/sm map to sm, others to md); Maple f
 | `--mp-card-row-line-height` | `1.5` |
 | `--mp-card-floating-buttons-bottom` | `16px` |
 | `--mp-card-floating-buttons-right` | `16px` |
-| `--mp-card-floating-buttons-color` | `#fff` |
+| `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` |
 | `--mp-card-close-button-icon-size` | `24px` |
 | `--mp-card-close-button-size` | `56px` |
-| `--mp-card-close-button-primary-color` | `#212121` |
-| `--mp-card-close-button-text-color` | `#fff` |
+| `--mp-card-close-button-background` | `#212121` |
+| `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-card-close-button-border-radius` | `50%` |
+
+Card body colors share Cedar's system roles: default and filled surfaces use `surface-default` and `surface-muted`, the outline uses `border-default`, and title, body, and supporting text use `content-primary`, `content-tertiary`, and `content-secondary`. The dark theme keeps these roles. The expanded floating-button container sits on the card surface and uses `content-primary`; text and icons on the dark close button use `content-on-dark`. Its `#212121` background is Card-specific, not the global primary action color. See the Design Token guide for the former variable name's migration.
+
+### Token consumer contract
+
+Row content consumes `--mp-card-content-row-margin`, independently from the title margin. Card intentionally exposes only sm/md density, not all five control sizes. Motion uses `--mp-card-animation-duration` (`var(--mp-sys-motion-duration-slow)`) and `--mp-card-animation-easing` (`var(--mp-sys-motion-easing-standard)`). Reduced motion disables transitions on every animated Card section.

@@ -95,10 +95,6 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
         unmountInstance()
         resetSingletonOptions()
       },
-      onRouteChange: () => {
-        unmountInstance()
-        resetSingletonOptions()
-      },
       'onUpdate:open': (value: boolean) => {
         reactivePickerOptions.open = value
       },

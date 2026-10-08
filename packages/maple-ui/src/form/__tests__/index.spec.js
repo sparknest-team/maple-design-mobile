@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Form from '..'
-import VarAutoComplete from '../../auto-complete/AutoComplete.vue'
+import VarAutoComplete from '../../auto-complete/auto-complete'
 import VarCheckbox from '../../checkbox/Checkbox'
 import VarCounter from '../../counter/Counter'
 import VarFormItem from '../../form/FormItem'
@@ -10,7 +10,7 @@ import VarInput from '../../input/Input'
 import VarRadio from '../../radio/Radio'
 import VarRate from '../../rate'
 import VarOption from '../../select/Option.vue'
-import VarSelect from '../../select/Select'
+import VarSelect from '../../select/select'
 import VarSlider from '../../slider/Slider'
 import VarSwitch from '../../switch/Switch'
 import VarUpload from '../../upload/Upload'
@@ -89,8 +89,8 @@ test('form with input', async () => {
   })
 
   const triggerEvents = async () => {
-    await wrapper.find('.mp-input__input').trigger('input')
-    await wrapper.find('.mp-input__input').trigger('change')
+    await wrapper.find('.mp-input__inner').trigger('input')
+    await wrapper.find('.mp-input__inner').trigger('change')
     await wrapper.find('.mp-field-decorator').trigger('click')
   }
 
@@ -105,9 +105,9 @@ test('form with input', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   await triggerEvents()
-  expect(onInput).toHaveBeenCalledTimes(1)
+  expect(onInput).toHaveBeenCalledTimes(0)
   expect(onClick).toHaveBeenCalledTimes(1)
-  expect(onChange).toHaveBeenCalledTimes(1)
+  expect(onChange).toHaveBeenCalledTimes(0)
 
   const { form } = wrapper.vm.$refs
   await expectValidate(form, wrapper, 'It can not be not empty')
@@ -138,12 +138,12 @@ test('form with select', async () => {
         <mp-form-item field="value" :rules="[v => v.length > 1 || 'You must choose one option at least']">
           <mp-select
             clearable
-            tag
+            show-tags
             multiple
             v-model="model.value"
             @click="onClick"
             @clear="onClear"
-            @close="onClose"
+            @remove="onClose"
           >
             <mp-option label="option1"/>
             <mp-option label="option2"/>
@@ -157,13 +157,14 @@ test('form with select', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 
   const triggerEvents = async () => {
-    await wrapper.find('.mp-tag__close-btn').trigger('click')
-    await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
+    expect(wrapper.find('.mp-tag__close-btn').exists()).toBe(false)
+    expect(wrapper.find('.mp-field-decorator__clear-btn').exists()).toBe(false)
     await wrapper.find('.mp-field-decorator').trigger('click')
   }
 
   await triggerEvents()
-  expect(onClick).toHaveBeenCalledTimes(0)
+  expect(onClick).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.model.value).toEqual(['option1'])
   expect(onClear).toHaveBeenCalledTimes(0)
   expect(onClose).toHaveBeenCalledTimes(0)
 
@@ -581,7 +582,13 @@ test('form events', async () => {
   await delay(16)
   expect(wrapper.html()).toMatchSnapshot()
   expect(onSubmit).toHaveBeenCalledTimes(1)
-  expect(onSubmit).toHaveBeenLastCalledWith(false)
+  expect(onSubmit).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      values: wrapper.vm.model,
+      errors: expect.objectContaining({ value: expect.objectContaining({ field: 'value' }) }),
+    }),
+    expect.any(Event),
+  )
 
   await wrapper.trigger('reset')
   await delay(16)

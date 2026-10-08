@@ -18,7 +18,7 @@
 ## 下一波：P1
 
 - ShareSheet、移动端 Calendar
-- MD3 设计资源
+- 当前品牌与明暗主题的设计资源
 - CI / `.github` 完善
 - Toast / Notify 语义分层（现有 Message）
 

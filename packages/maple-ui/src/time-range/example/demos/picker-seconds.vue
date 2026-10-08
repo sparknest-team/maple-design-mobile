@@ -8,6 +8,6 @@ const rangePickerSeconds = ref(['09:00:00', '18:00:00'])
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time-range v-model="rangePickerSeconds" format="24hr" use-seconds placeholder="列滚轮含秒" clearable />
+    <mp-time-range v-model="rangePickerSeconds" format="HH:mm:ss" placeholder="列滚轮含秒" clearable />
   </mp-space>
 </template>

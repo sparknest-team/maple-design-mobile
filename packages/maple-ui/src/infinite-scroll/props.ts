@@ -9,14 +9,17 @@ export const infiniteScrollProps = {
     default: 'idle',
   },
   bottomOffset: {
-    type: [String, Number],
+    type: [String, Number] as PropType<string | number>,
     default: 0,
   },
   immediate: {
     type: Boolean,
     default: true,
   },
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   target: {
     type: [String, Object] as PropType<string | HTMLElement>,
   },

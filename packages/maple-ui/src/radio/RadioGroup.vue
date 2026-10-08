@@ -1,135 +1,75 @@
 <template>
   <div :class="n('wrap')">
-    <div :aria-label="ariaLabel" role="radiogroup" :class="classes(n(), n(`--${direction}`))">
-      <template v-if="options.length">
+    <div
+      :aria-label="ariaLabel"
+      role="radiogroup"
+      :class="classes(n(), n(`--${direction}`), n(`--size-${mergedSize}`), [variant === 'button', n('--button')])"
+      @keydown="navigation.keydown"
+    >
+      <template v-if="props.options !== undefined">
         <mp-radio
-          v-for="option in options"
-          :key="option[valueKey]"
-          :value="option[valueKey]"
+          v-for="option in normalizedOptions"
+          :key="`${typeof option.value}:${String(option.value)}`"
+          :value="option.value"
           :disabled="option.disabled"
+          :readonly="option.readonly"
         >
           <template #default="{ checked }">
-            <maybe-v-node :is="isFunction(option[labelKey]) ? option[labelKey](option, checked) : option[labelKey]" />
+            <slot name="label" :data="option" :checked="checked">
+              <choice-label :content="isFunction(option.label) ? option.label(option, checked) : option.label" />
+            </slot>
           </template>
         </mp-radio>
       </template>
-      <slot />
+      <slot v-else />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
-import { call, isFunction, preventDefault } from '@maplejs/maple-shared'
-import { useEventListener } from '@maplejs/maple-use'
-import { useFormItem } from '../form/item-provide'
-import { createNamespace, MaybeVNode } from '../utils/components'
-import { useFieldNames } from '../utils/options'
-import { props } from './group-props'
-import { useRadios, type RadioGroupProvider } from './group-provide'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { isFunction } from '@maplejs/maple-shared'
+import { ChoiceLabel } from '../checkbox/choice-label'
+import { normalizeChoiceOptions } from '../checkbox/choice-options'
+import { useChoiceState } from '../checkbox/choice-state'
+import type { RadioModel } from '../checkbox/choice-value-props'
+import { useChoiceForm } from '../checkbox/use-choice-form'
+import { createNamespace } from '../utils/components'
+import { props as radioGroupProps } from './group-props'
+import { useRadios } from './group-provide'
 import MpRadio from './Radio.vue'
+import { useRadioNavigation } from './use-radio-navigation'
 
-const { name, n, classes } = createNamespace('radio-group')
-
-export default defineComponent({
-  name,
-  components: { MpRadio, MaybeVNode },
-  props,
-  emits: ['change', 'update:modelValue'],
-  setup(props, { emit }) {
-    const { length, radios, bindRadios } = useRadios()
-    const { mergedError, eventHandlers } = useFormItem()
-    const hasChecked = ref(false)
-    const fieldNames = useFieldNames(props)
-    const labelKey = computed(() => fieldNames.value.label)
-    const valueKey = computed(() => fieldNames.value.value)
-
-    const radioGroupProvider: RadioGroupProvider = {
-      onToggle,
-      hasChecked: computed(() => hasChecked.value),
-      errorMessage: mergedError,
-    }
-
-    watch(() => props.modelValue, syncRadios)
-    watch(() => length.value, syncRadios)
-
-    bindRadios(radioGroupProvider)
-
-    useEventListener(() => window, 'keydown', handleKeydown)
-
-    function handleKeydown(event: KeyboardEvent) {
-      const focusingRadioIndex = radios.findIndex(({ isFocusing }) => isFocusing.value)
-      if (focusingRadioIndex === -1) {
-        return
-      }
-
-      const hasMoveableRadio = radios.some(({ moveable }, index) => (index === focusingRadioIndex ? false : moveable()))
-      if (!hasMoveableRadio) {
-        return
-      }
-
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-        preventDefault(event)
-      }
-
-      if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-        moveRadio(focusingRadioIndex, 'prev')
-        return
-      }
-
-      if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-        moveRadio(focusingRadioIndex, 'next')
-      }
-    }
-
-    function moveRadio(fromIndex: number, method: 'prev' | 'next') {
-      const looping = true
-
-      while (looping) {
-        if (method === 'prev') {
-          fromIndex--
-        } else {
-          fromIndex++
-        }
-
-        if (fromIndex < 0) {
-          fromIndex = radios.length - 1
-        }
-
-        if (fromIndex > radios.length - 1) {
-          fromIndex = 0
-        }
-
-        const radio = radios[fromIndex]
-        if (radio.moveable()) {
-          radio.move()
-          break
-        }
-      }
-    }
-
-    function syncRadios() {
-      radios.forEach(({ sync }) => {
-        if (sync(props.modelValue)) {
-          hasChecked.value = true
-        }
-      })
-    }
-
-    function onToggle(changedValue: any) {
-      emit('update:modelValue', changedValue)
-      emit('change', changedValue)
-      eventHandlers.value.onChange?.()
-    }
-
-    return {
-      mergedError,
-      labelKey,
-      valueKey,
-      n,
-      classes,
-      isFunction,
-    }
+defineOptions({ name: createNamespace('radio-group').name })
+const { n, classes } = createNamespace('radio-group')
+const props = defineProps(radioGroupProps)
+const emit = defineEmits<{
+  'update:modelValue': [value: RadioModel]
+  change: [value: RadioModel, event?: Event]
+}>()
+const { bindRadios } = useRadios()
+const { mergedDisabled, mergedReadonly, mergedError, mergedSize, eventHandlers } = useChoiceForm(props)
+const { value, commit } = useChoiceState(
+  () => props.modelValue,
+  props.defaultValue,
+  (next, event) => {
+    emit('update:modelValue', next)
+    emit('change', next, event)
+    eventHandlers.value.onChange?.(event)
   },
+  () => mergedDisabled.value || mergedReadonly.value,
+)
+const normalizedOptions = computed(() => normalizeChoiceOptions(props.options, props.fieldNames))
+
+const navigation = useRadioNavigation(() => value.value !== null)
+
+bindRadios({
+  navigation,
+  variant: computed(() => props.variant),
+  modelValue: value,
+  disabled: mergedDisabled,
+  readonly: mergedReadonly,
+  onToggle: commit,
+  errorMessage: mergedError,
 })
 </script>

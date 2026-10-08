@@ -177,3 +177,46 @@ import type {
   AvatarTriggerType,
 } from '@maplejs/maple-ui'
 ```
+
+### Style Variables
+
+| Variable | Default |
+| --- | --- |
+| `--mp-avatar-size-default` | `40px` |
+| `--mp-avatar-font-size-text` | `20px` |
+| `--mp-avatar-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-avatar-text-padding-inline` | `4px` |
+| `--mp-avatar-bg` | `var(--mp-color-fill-4)` |
+| `--mp-avatar-border-width` | `2px` |
+| `--mp-avatar-border-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-avatar-group-item-border` | `var(--mp-sys-color-surface-default)` |
+| `--mp-avatar-group-item-border-width` | `2px` |
+| `--mp-avatar-group-offset` | `-10px` |
+| `--mp-avatar-group-popover-item-spacing` | `8px` |
+| `--mp-avatar-font-weight-text` | `500` |
+| `--mp-avatar-circle-border-radius` | `50%` |
+| `--mp-avatar-square-border-radius` | `4px` |
+| `--mp-avatar-size-trigger-button` | `20px` |
+| `--mp-avatar-trigger-button-bg` | `var(--mp-color-fill-2)` |
+| `--mp-avatar-trigger-button-bg-hover` | `var(--mp-color-fill-3)` |
+| `--mp-avatar-trigger-overlay-icon` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-avatar-trigger-overlay-bg` | `color-mix(in srgb, var(--mp-color-black) 60%, transparent)` |
+| `--mp-avatar-trigger-icon-button` | `var(--mp-sys-color-content-primary)` |
+| `--mp-avatar-spacing-trigger-button-right` | `4px` |
+| `--mp-avatar-spacing-trigger-button-bottom` | `4px` |
+| `--mp-avatar-size-trigger-icon` | `12px` |
+| `--mp-avatar-trigger-button-border-radius` | `50%` |
+| `--mp-avatar-font-size-max-count` | `20px` |
+| `--mp-avatar-max-count-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-avatar-trigger-overlay-font-size` | `16px` |
+| `--mp-avatar-hover-transform` | `scale(1.1)` |
+| `--mp-avatar-motion-duration` | `0.2s` |
+| `--mp-avatar-z-index-trigger` | `1` |
+| `--mp-avatar-z-index-overlay` | `0` |
+| `--mp-avatar-z-index-overlay-hover` | `2` |
+
+Text, summary counts, and button-style trigger icons use the primary content role. Borders follow the ordinary container surface; only icons on the dark interaction overlay use `content-on-dark`. The `fill-4` avatar background, trigger background/hover step, and translucent black overlay remain component visual values. If the `color` prop changes the avatar background, check text contrast and override `text-color` when needed. Maple's dark avatar background remains a component-specific `#303030`.
+
+### Reduced motion
+
+Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.

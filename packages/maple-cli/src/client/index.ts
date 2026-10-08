@@ -173,6 +173,12 @@ export function watchTheme(
 }
 
 export function getMobileIndex() {
+  // Vite's dev server serves mobile.html from its root, even when the PC
+  // document was opened through a nested history-fallback URL.
+  if ((import.meta as ImportMeta & { env: { DEV: boolean } }).env.DEV) {
+    return '/mobile.html'
+  }
+
   const isCf = config._cf.some((path: string) => window.location.origin.includes(path))
   return isCf ? './mobile' : './mobile.html'
 }

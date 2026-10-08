@@ -1,734 +1,205 @@
-import { createApp, h } from 'vue'
+import { createApp, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import Select, { Option } from '..'
-import { delay, trigger, triggerKeyboard } from '../../utils/test'
-import VarOption from '../Option.vue'
-import VarSelect from '../Select'
+import SelectMenu from '../SelectMenu'
+import { getKeyFromValue } from '../utils'
 
-const Wrapper = {
-  components: {
-    [VarSelect.name]: VarSelect,
-    [VarOption.name]: VarOption,
-  },
+const wrappers = []
+afterEach(() => {
+  wrappers.splice(0).forEach((wrapper) => wrapper.unmount())
+})
+const settle = async () => {
+  await nextTick()
+  await nextTick()
 }
+const options = [
+  { value: 0, label: 'Zero' },
+  { value: 1, label: 'One' },
+  { value: 2, label: 'Two', disabled: true },
+]
+const mountSelect = (props = {}, slots = {}) => {
+  const wrapper = mount(Select, { props: { options, ...props }, slots, attachTo: document.body })
+  wrappers.push(wrapper)
+  return wrapper
+}
+const controller = (wrapper) => wrapper.findComponent(SelectMenu).props('controller')
+const choose = (wrapper, value) => controller(wrapper).handleSelect(getKeyFromValue(value), new Event('click'))
 
-test('select plugin', () => {
-  const app = createApp({}).use(Select)
-  expect(app.component(Select.name)).toBeTruthy()
-})
-
-test('option plugin', () => {
-  const app = createApp({}).use(Select)
-  expect(app.component(Option.name)).toBeTruthy()
-})
-
-test('option default slot', () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-    }),
-    template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" />
-        <mp-option>
-          <template #default="{ selected }">
-            <span class="test-default-slot">{{ selected }}</span>
-          </template>
-        </mp-option>
-      </mp-select>
-    `,
+describe('Select public contract', () => {
+  test('keeps slot options registered in virtual mode', async () => {
+    const wrapper = mountSelect(
+      { options: [], virtualListProps: { height: 160 } },
+      {
+        default: () => h(Option, { value: 7, label: 'Virtual slot' }),
+      },
+    )
+    await settle()
+    expect(controller(wrapper).validOptionInfos.some((option) => option.value === 7)).toBe(true)
+    choose(wrapper, 7)
+    expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([7])
   })
 
-  expect(document.querySelector('.test-default-slot').textContent).toBe('false')
-
-  wrapper.unmount()
-})
-
-test('select variant', () => {
-  ;['standard', 'outline'].forEach((variant) => {
-    const wrapper = mount(VarSelect, {
-      props: {
-        value: '',
-        variant,
-      },
+  test('installs Select and Option', () => {
+    const app = createApp({}).use(Select)
+    expect(app.component(Select.name)).toBeTruthy()
+    expect(app.component(Option.name)).toBeTruthy()
+  })
+  for (const variant of ['filled', 'outline', 'standard']) {
+    test('variant ' + variant, () => {
+      const wrapper = mountSelect({ variant })
+      expect(wrapper.find('[class*="field-decorator--variant-' + variant + '"]').exists()).toBe(true)
     })
-
-    expect(wrapper.find(`mp-field-decorator--${variant}`)).toBeTruthy()
-    switch (variant) {
-      case 'standard': {
-        expect(
-          wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('.mp-field-decorator__dot'),
-        ).toBeTruthy()
-        break
-      }
-
-      case 'outline': {
-        expect(wrapper.find('.mp-field-decorator__line').wrapperElement.querySelector('legend')).toBeTruthy()
-        break
-      }
-
-      default:
-        break
-    }
-
-    expect(wrapper.html()).toMatchSnapshot()
-    wrapper.unmount()
+  }
+  for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
+    test('size ' + size, () => {
+      expect(
+        mountSelect({ size })
+          .find('[class*="field-decorator--size-' + size + '"]')
+          .exists(),
+      ).toBe(true)
+    })
+  }
+  test('single selection publishes once and closes the menu', async () => {
+    const wrapper = mountSelect({ defaultOpen: true })
+    const option = wrapper.findComponent(SelectMenu).findAll('[role="option"]')[1]
+    await option.trigger('click')
+    expect(wrapper.emitted('change')).toEqual([[1]])
+    expect(wrapper.emitted('update:open')).toEqual([[false]])
   })
-})
-
-test('select size', async () => {
-  const wrapper = mount(VarSelect, {
-    props: {
-      value: '',
-      size: 'sm',
-    },
+  test('multiple values support zero and preserve disabled selections on clear', async () => {
+    const wrapper = mountSelect({ multiple: true, defaultValue: [2], clearable: true })
+    choose(wrapper, 0)
+    expect(wrapper.emitted('change')).toEqual([[[2, 0]]])
+    controller(wrapper).handleClear(new Event('click'))
+    expect(wrapper.emitted('change').at(-1)).toEqual([[2]])
   })
-
-  expect(wrapper.find('.mp-field-decorator--size-sm').exists()).toBeTruthy()
-  expect(wrapper.html()).toMatchSnapshot()
-
-  await wrapper.setProps({
-    size: 'md',
+  for (const state of ['disabled', 'readonly']) {
+    test(state + ' blocks open, select, clear and removal', () => {
+      const wrapper = mountSelect({ [state]: true, multiple: true, defaultValue: [1], clearable: true })
+      const c = controller(wrapper)
+      c.handleOpenChange(true)
+      choose(wrapper, 0)
+      c.handleClear(new Event('click'))
+      c.handleRemove(getKeyFromValue(1))
+      expect(wrapper.emitted('change')).toBeUndefined()
+      expect(wrapper.emitted('update:open')).toBeUndefined()
+    })
+  }
+  test('disabled options cannot be selected or toggled out', () => {
+    const wrapper = mountSelect({ multiple: true, defaultValue: [2] })
+    choose(wrapper, 2)
+    expect(wrapper.emitted('change')).toBeUndefined()
   })
-
-  expect(wrapper.find('.mp-field-decorator--size-sm').exists()).toBeFalsy()
-
-  wrapper.unmount()
-})
-
-test('select by label', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-    }),
-    template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
+  test('limit applies before publication', () => {
+    const wrapper = mountSelect({ multiple: true, defaultValue: [0], limit: 1 })
+    choose(wrapper, 1)
+    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('exceed-limit')).toHaveLength(1)
   })
-
-  await wrapper.trigger('click')
-  await trigger(document.querySelector('.mp-option'), 'click')
-  expect(wrapper.vm.value).toBe('eat')
-
-  wrapper.unmount()
-})
-
-test('select by value', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-    }),
-    template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" :value="1" />
-        <mp-option label="sleep" :value="2" />
-      </mp-select>
-    `,
+  test('clear is an Event and publishes the canonical empty scalar', async () => {
+    const wrapper = mountSelect({ defaultValue: 1, clearable: true })
+    await settle()
+    await wrapper.get('button[class*="clear-btn"]').trigger('click')
+    expect(wrapper.emitted('change')).toEqual([['']])
+    expect(wrapper.emitted('clear')[0][0]).toBeInstanceOf(Event)
   })
-
-  await wrapper.trigger('click')
-  await trigger(document.querySelector('.mp-option'), 'click')
-  expect(wrapper.vm.value).toBe(1)
-
-  wrapper.unmount()
-})
-
-test('select by disabled', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-    }),
-    template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" disabled />
-        <mp-option label="sleep" disabled />
-      </mp-select>
-    `,
-  })
-
-  await wrapper.trigger('click')
-  await trigger(document.querySelector('.mp-option'), 'click')
-  expect(wrapper.vm.value).toBe('')
-
-  wrapper.unmount()
-})
-
-test('select hint to be false', () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: 'eat',
-    }),
-    template: `
-      <mp-select :hint="false" v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-  })
-
-  expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.unmount()
-})
-
-test('select onFocus', async () => {
-  const onFocus = vi.fn()
-
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-    }),
-    methods: {
-      onFocus,
-    },
-    template: `
-      <mp-select v-model="value" @focus="onFocus">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-  })
-
-  await wrapper.trigger('focus')
-  expect(onFocus).toHaveBeenCalledTimes(1)
-
-  wrapper.unmount()
-})
-
-test('select disabled', async () => {
-  const onFocus = vi.fn()
-  const onBlur = vi.fn()
-
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        disabled: true,
-        value: 'sleep',
-      }),
-      methods: {
-        onFocus,
-        onBlur,
-      },
-      template: `
-      <div class="container"></div>
-      <mp-select
-        clearable
-        :disabled="disabled"
-        v-model="value"
-        @focus="onFocus"
-        @blur="onBlur"
-      >
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await trigger(document.querySelector('.mp-field-decorator'), 'click')
-  expect(onFocus).toHaveBeenCalledTimes(0)
-
-  await wrapper.setData({ disabled: false })
-  await trigger(document.querySelector('.mp-field-decorator'), 'click')
-  await wrapper.setData({ disabled: true })
-  await wrapper.find('.container').trigger('click')
-  expect(onBlur).toHaveBeenCalledTimes(0)
-
-  await wrapper.setData({ disabled: false })
-  await wrapper.trigger('click')
-  await wrapper.setData({ disabled: true })
-  await trigger(document.querySelector('.mp-option'), 'click')
-  expect(wrapper.vm.value).toBe('sleep')
-
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
-  expect(wrapper.vm.value).toBe('sleep')
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select readonly', async () => {
-  const onFocus = vi.fn()
-  const onBlur = vi.fn()
-
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        readonly: true,
-        value: 'sleep',
-      }),
-      methods: {
-        onFocus,
-        onBlur,
-      },
-      template: `
-      <div class="container"></div>
-      <mp-select
-        clearable
-        :readonly="readonly"
-        v-model="value"
-        @focus="onFocus"
-        @blur="onBlur"
-      >
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await wrapper.trigger('click')
-  expect(onFocus).toHaveBeenCalledTimes(0)
-
-  await wrapper.setData({ readonly: false })
-  await trigger(document.querySelector('.mp-field-decorator'), 'click')
-  await wrapper.setData({ readonly: true })
-  await wrapper.find('.container').trigger('click')
-  expect(onBlur).toHaveBeenCalledTimes(0)
-
-  await wrapper.setData({ readonly: false })
-  await trigger(document.querySelector('.mp-field-decorator'), 'click')
-  await wrapper.setData({ readonly: true })
-  await trigger(document.querySelector('.mp-option'), 'click')
-  expect(wrapper.vm.value).toBe('sleep')
-
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
-  expect(wrapper.vm.value).toBe('sleep')
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select clear', async () => {
-  const onClear = vi.fn()
-  const onChange = vi.fn()
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: 'eat',
-      }),
-      methods: {
-        onClear,
-        onChange,
-      },
-      template: `
-      <mp-select clearable v-model="value" @clear="onClear" @change="onChange">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await wrapper.find('.mp-field-decorator__clear-icon').trigger('click')
-  expect(wrapper.vm.value).toBe(undefined)
-
-  expect(onClear).toHaveBeenCalledTimes(1)
-  expect(onChange).toHaveBeenCalledTimes(1)
-
-  wrapper.unmount()
-})
-
-test('select multiple value', async () => {
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: [],
-      }),
-      template: `
-      <mp-select multiple v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await wrapper.trigger('click')
-
-  Array.from(document.querySelectorAll('.mp-option')).forEach((el) => trigger(el, 'click'))
-  expect(wrapper.vm.value).toStrictEqual(['eat', 'sleep'])
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select multiple value in tags', async () => {
-  const onClose = vi.fn()
-  const onChange = vi.fn()
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: [],
-      }),
-      methods: {
-        onClose,
-        onChange,
-      },
-      template: `
-      <mp-select multiple tag v-model="value" @close="onClose" @change="onChange">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await wrapper.trigger('click')
-
-  Array.from(document.querySelectorAll('.mp-option')).forEach((el) => trigger(el, 'click'))
-  expect(wrapper.vm.value).toStrictEqual(['eat', 'sleep'])
-  expect(onChange).toHaveBeenCalledTimes(2)
-  await delay(16)
-
-  await wrapper.find('.mp-tag__close-btn').trigger('click')
-  expect(wrapper.vm.value).toStrictEqual(['sleep'])
-
-  expect(onClose).toHaveBeenCalledTimes(1)
-  expect(onChange).toHaveBeenCalledTimes(3)
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select focus & blur methods', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-    }),
-    template: `
-      <mp-select ref="select" v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-  })
-
-  const { select } = wrapper.vm.$refs
-
-  select.focus()
-  await delay(16)
-  expect(wrapper.html()).toMatchSnapshot()
-
-  select.blur()
-  await delay(16)
-  expect(wrapper.html()).toMatchSnapshot()
-
-  wrapper.unmount()
-})
-
-test('select keyboard select option by space', async () => {
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: '',
-      }),
-      template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await trigger(wrapper, 'focus')
-  await triggerKeyboard(window, 'keyup', { key: ' ' })
-  await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
-  await triggerKeyboard(document.querySelector('.mp-option'), 'focus')
-  await triggerKeyboard(window, 'keyup', { key: ' ' })
-  expect(wrapper.vm.value).toBe('eat')
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select keyboard select option by enter', async () => {
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: '',
-      }),
-      template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await trigger(wrapper, 'focus')
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
-  await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
-  await triggerKeyboard(document.querySelector('.mp-option'), 'focus')
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
-  expect(wrapper.vm.value).toBe('eat')
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select keyboard close menu by escape', async () => {
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: '',
-      }),
-      template: `
-      <mp-select v-model="value">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await wrapper.trigger('focus')
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
-  expect(document.querySelector('.mp-trigger__popup').style.display).toBe('')
-  await triggerKeyboard(window, 'keydown', { key: 'Escape' })
-  expect(document.querySelector('.mp-trigger__popup-wrapper').style.display).toBe('none')
-
-  wrapper.unmount()
-  document.body.innerHTML = ''
-})
-
-test('select offset-y', async () => {
-  const wrapper = mount(
-    {
-      components: {
-        [VarSelect.name]: VarSelect,
-        [VarOption.name]: VarOption,
-      },
-      data: () => ({
-        offsetY: 40,
-      }),
-      template: `
-      <mp-select ref="select" offset-y="40">
-        <mp-option label="eat" />
-        <mp-option label="sleep" />
-        <mp-option label="read" />
-        <mp-option label="game" />
-      </mp-select>
-      `,
-    },
-    { attachTo: document.body },
-  )
-
-  const { select } = wrapper.vm.$refs
-
-  select.focus()
-  await delay(1000)
-
-  const menu = wrapper.findComponent({ name: 'MpTrigger' })
-
-  expect(menu.props('popupTranslate')).toEqual([0, 40])
-
-  wrapper.unmount()
-})
-
-test('select options', async () => {
-  const wrapper = mount(
-    {
-      ...Wrapper,
-      data: () => ({
-        value: '',
-        options: [
-          { label: 'eat', value: 1, disabled: true },
-          { label: 'sleep', value: 2 },
-          { label: 'game', value: 3 },
+  test('slot options register before opening and retain selection slot scope', async () => {
+    const wrapper = mountSelect(
+      { options: [], modelValue: 'a' },
+      {
+        default: () => [
+          h(
+            Option,
+            { label: 'Alpha', value: 'a' },
+            { default: ({ selected }) => h('span', { 'data-slot-option': true }, String(selected)) },
+          ),
+          h(Option, { label: 'Beta', value: 'b' }),
         ],
-      }),
-      template: `
-      <mp-select v-model="value" :options="options">
-      </mp-select>
-    `,
-    },
-    { attachTo: document.body },
-  )
-
-  await wrapper.trigger('click')
-  const options = document.querySelectorAll('.mp-option')
-  await trigger(options[0], 'click')
-  expect(wrapper.vm.value).toBe('')
-
-  await trigger(options[1], 'click')
-  expect(wrapper.vm.value).toBe(2)
-
-  await trigger(options[2], 'click')
-  expect(wrapper.vm.value).toBe(3)
-
-  wrapper.unmount()
-})
-
-test('select options multiple', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: [],
-      options: [
-        { label: 'eat', value: 0, disabled: true },
-        { label: 'sleep', value: 1 },
-        { label: 'game', value: 2 },
-      ],
-    }),
-    template: `
-      <mp-select v-model="value" :options="options" multiple>
-      </mp-select>
-    `,
-  })
-
-  await wrapper.trigger('click')
-  const options = document.querySelectorAll('.mp-option')
-  await trigger(options[0], 'click')
-  expect(wrapper.vm.value).toStrictEqual([])
-
-  await trigger(options[1], 'click')
-  expect(wrapper.vm.value).toStrictEqual([1])
-
-  await trigger(options[2], 'click')
-  expect(wrapper.vm.value).toStrictEqual([1, 2])
-
-  wrapper.unmount()
-})
-
-test('select field-names label', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-      options: [
-        { name: 'eat', value: 1, disabled: true },
-        { name: 'sleep', value: 2 },
-        { name: 'game', value: 3 },
-      ],
-    }),
-    template: `
-      <mp-select v-model="value" :options="options" :field-names="{ label: 'name' }">
-      </mp-select>
-    `,
-  })
-
-  await wrapper.trigger('click')
-  const options = document.querySelectorAll('.mp-option')
-  await trigger(options[0], 'click')
-  expect(wrapper.vm.value).toBe('')
-
-  await trigger(options[1], 'click')
-  expect(wrapper.vm.value).toBe(2)
-
-  await trigger(options[2], 'click')
-  expect(wrapper.vm.value).toBe(3)
-
-  wrapper.unmount()
-})
-
-test('select field-names value', async () => {
-  const wrapper = mount({
-    ...Wrapper,
-    data: () => ({
-      value: '',
-      options: [
-        { label: 'eat', id: 1, disabled: true },
-        { label: 'sleep', id: 2 },
-        { label: 'game', id: 3 },
-      ],
-    }),
-    template: `
-      <mp-select v-model="value" :options="options" :field-names="{ value: 'id' }">
-      </mp-select>
-    `,
-  })
-
-  await wrapper.trigger('click')
-  const options = document.querySelectorAll('.mp-option')
-  await trigger(options[0], 'click')
-  expect(wrapper.vm.value).toBe('')
-
-  await trigger(options[1], 'click')
-  expect(wrapper.vm.value).toBe(2)
-
-  await trigger(options[2], 'click')
-  expect(wrapper.vm.value).toBe(3)
-
-  wrapper.unmount()
-})
-
-describe('test select component slots', () => {
-  test('select clear icon slot', async () => {
-    const wrapper = mount(VarSelect, {
-      props: {
-        clearable: true,
-        modelValue: 'value',
       },
-      slots: {
-        'clear-icon': ({ clear }) => h('button', { class: 'custom-clear-icon', onClick: () => clear() }, 'Clear'),
-      },
+    )
+    await settle()
+    expect(wrapper.find('input').element.value).toBe('')
+    expect(wrapper.text()).toContain('Alpha')
+    expect(wrapper.findComponent(SelectMenu).get('[data-slot-option]').text()).toBe('true')
+    choose(wrapper, 'b')
+    expect(wrapper.emitted('change')).toEqual([['b']])
+  })
+  test('custom field names and asynchronous label replacement', async () => {
+    const wrapper = mountSelect({ modelValue: 1, fieldNames: { value: 'id', label: 'name' }, options: [] })
+    await settle()
+    await wrapper.setProps({ options: [{ id: 1, name: 'First' }] })
+    await settle()
+    expect(wrapper.text()).toContain('First')
+    await wrapper.setProps({ options: [{ id: 1, name: 'Updated' }] })
+    expect(wrapper.text()).toContain('Updated')
+    expect(wrapper.emitted('change')).toBeUndefined()
+  })
+  test('object identities use the configured value field, not label', async () => {
+    const wrapper = mountSelect({
+      fieldNames: { value: 'id' },
+      modelValue: { id: 7 },
+      options: [{ id: { id: 7 }, label: 'Device' }],
     })
-
-    await wrapper.find('.custom-clear-icon').trigger('click')
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.unmount()
+    await settle()
+    expect(wrapper.text()).toContain('Device')
   })
-
-  test('select suffix slot', () => {
-    const wrapper = mount(VarSelect, {
-      props: {
-        clearable: true,
-        modelValue: 'value',
-      },
-      slots: {
-        suffix: () => 'suffix',
-      },
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.unmount()
+  test('focus and blur are native input events and expose methods', async () => {
+    const wrapper = mountSelect()
+    wrapper.vm.focus()
+    await settle()
+    expect(document.activeElement).toBe(wrapper.get('input').element)
+    expect(wrapper.emitted('focus')).toHaveLength(1)
+    wrapper.vm.blur()
+    await settle()
+    expect(wrapper.emitted('blur')).toHaveLength(1)
   })
-
-  test('select prefix slot', () => {
-    const wrapper = mount(VarSelect, {
-      props: {
-        clearable: true,
-        modelValue: 'value',
+  test('keyboard opens, selects and escapes at the input, not window', async () => {
+    const wrapper = mountSelect()
+    await wrapper.get('input').trigger('keydown', { key: 'Enter' })
+    await settle()
+    expect(controller(wrapper).computedOpen).toBe(true)
+    await wrapper.get('input').trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('change')).toEqual([[0]])
+    controller(wrapper).handleOpenChange(true)
+    await settle()
+    await wrapper.get('input').trigger('keydown', { key: 'Escape' })
+    expect(controller(wrapper).computedOpen).toBe(false)
+  })
+  test('search is controlled separately from the selected value', async () => {
+    const wrapper = mountSelect({ filterable: true, defaultInputValue: 'On' })
+    expect(controller(wrapper).computedInputValue).toBe('On')
+    await wrapper.get('input').setValue('Two')
+    expect(wrapper.emitted('update:inputValue').at(-1)).toEqual(['Two'])
+    expect(wrapper.emitted('change')).toBeUndefined()
+  })
+  test('trigger customization is passed to the menu', () => {
+    const wrapper = mountSelect({ triggerProps: { popupTranslate: [0, 40] } })
+    expect(
+      wrapper.findComponent({ name: Select.name.startsWith('Mp') ? 'MpTrigger' : 'CTrigger' }).props('popupTranslate'),
+    ).toEqual([0, 40])
+  })
+  test('custom label, prefix, suffix and clear slots', async () => {
+    const wrapper = mountSelect(
+      { modelValue: 1, clearable: true },
+      {
+        label: ({ data }) => 'Selected: ' + data.label,
+        prefix: () => 'Prefix',
+        suffix: () => 'Suffix',
+        'clear-icon': ({ clear }) => h('button', { class: 'custom-clear', onClick: clear }, 'Clear'),
       },
-      slots: {
-        prefix: () => 'prefix',
-      },
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.unmount()
+    )
+    await settle()
+    expect(wrapper.text()).toContain('Selected: One')
+    expect(wrapper.text()).toContain('Prefix')
+    expect(wrapper.text()).toContain('Suffix')
+    await wrapper.get('.custom-clear').trigger('click')
+    expect(wrapper.emitted('clear')).toHaveLength(1)
+  })
+  test('unresolved values remain clearable through fallback labels', async () => {
+    const wrapper = mountSelect({ modelValue: 'remote', options: [], clearable: true })
+    await settle()
+    expect(wrapper.text()).toContain('remote')
+    expect(wrapper.find('button[class*="clear-btn"]').exists()).toBe(true)
   })
 })

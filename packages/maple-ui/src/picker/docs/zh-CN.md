@@ -549,14 +549,14 @@
 
 | 变量名                                | 默认值                                                                                                                                          |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--picker-background`                 | `#fff`                                                                                                                                          |
-| `--picker-toolbar-height`             | `44px`                                                                                                                                          |
-| `--picker-picked-border`              | `1px solid var(--color-border-2)`                                                                                                               |
-| `--picker-title-font-size`            | `var(--font-size-lg)`                                                                                                                           |
-| `--picker-title-text-color`           | `#555`                                                                                                                                          |
-| `--picker-option-font-size`           | `var(--font-size-lg)`                                                                                                                           |
-| `--picker-option-disabled-text-color` | `var(--color-text-disabled, #c8c9cc)`                                                                                                           |
-| `--picker-option-check-color`         | `var(--color-primary)`                                                                                                                          |
-| `--picker-option-text-color`          | `#555`                                                                                                                                          |
-| `--picker-toolbar-padding`            | `0 4px`                                                                                                                                         |
-| `--picker-mask-background-image`      | `linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4))` |
+| `--mp-picker-background`                 | `#fff`                                                                                                                                          |
+| `--mp-picker-toolbar-height`             | `44px`                                                                                                                                          |
+| `--mp-picker-picked-border`              | `1px solid var(--mp-color-border-2)`                                                                                                               |
+| `--mp-picker-title-font-size`            | `var(--mp-font-size-lg)`                                                                                                                           |
+| `--mp-picker-title-text-color`           | `#555`                                                                                                                                          |
+| `--mp-picker-option-font-size`           | `var(--mp-font-size-lg)`                                                                                                                           |
+| `--mp-picker-option-disabled-text-color` | `var(--mp-color-text-disabled, #c8c9cc)`                                                                                                           |
+| `--mp-picker-option-check-color`         | `var(--mp-sys-color-content-brand)`                                                                                                                          |
+| `--mp-picker-option-text-color`          | `#555`                                                                                                                                          |
+| `--mp-picker-toolbar-padding`            | `0 4px`                                                                                                                                         |
+| `--mp-picker-mask-background-image`      | `linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4))` |

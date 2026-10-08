@@ -17,7 +17,7 @@ export default {
   clearableText: 'Clearable Text',
   relation: 'Label relation value',
   multiple: 'Multiple Selection',
-  tagMultiple: 'Multiple choice with tag style',
+  tagMultiple: 'Multiple choice with show-tags style',
   selectOptions: 'Options API',
   selectOptionsMultiple: 'Options API',
   customFields: 'Custom Fields',

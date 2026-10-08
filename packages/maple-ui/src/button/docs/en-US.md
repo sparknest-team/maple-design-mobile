@@ -139,3 +139,106 @@ Cedar loading-type=default/fill/line becomes loading-mode=default/fill/line; loa
 ## Types
 
 ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
+
+## CSS variable responsibilities and full defaults
+
+status-color is the solid background; status-text-color is its contrasting foreground. Historical status-icon-color supplies readable text/icon colors for text/outline/tonal and default icon-container; status-icon-container-color supplies soft surfaces. Override these pairs together. Disabled colors win over color/text-color Props; loading inherits currentColor unless loading-color is explicit. Focus uses an independent content-brand ring.
+
+state-opacity-hover/active (0.08/0.12) apply to solid/tonal/icon-container; plain-state-opacity-hover/active (0.5/1) apply to text/outline soft surfaces. status-state-layer-color controls solid feedback; state-layer-color controls tonal/icon-container feedback. Active wins hover, blocked states suppress both, and layers stay behind content. internal-button-state-* variables are private and unsupported for customization. Custom backgrounds, ripple animation and disabled contrast are not covered by default contrast checks.
+
+The table lists root defaults, not theme overrides. Dark tertiary changes text to on-bright and its state layer to on-dark; Maple light primary changes text to on-dark and its state layer to on-bright. Sizes and loading motion retain their existing component-specific values.
+
+| Variable | Root default |
+| --- | --- |
+| `--mp-button-default-text-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-primary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
+| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
+| `--mp-button-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
+| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-default-icon-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-primary-icon-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-button-danger-icon-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-button-success-icon-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-button-warning-icon-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-button-info-icon-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-button-default-icon-container-color` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-button-primary-icon-container-color` | `rgb(var(--mp-primary-1))` |
+| `--mp-button-danger-icon-container-color` | `rgb(var(--mp-danger-1))` |
+| `--mp-button-success-icon-container-color` | `rgb(var(--mp-success-1))` |
+| `--mp-button-warning-icon-container-color` | `rgb(var(--mp-warning-1))` |
+| `--mp-button-info-icon-container-color` | `rgb(var(--mp-blue-1))` |
+| `--mp-button-disabled-color` | `var(--mp-color-disabled)` |
+| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-button-mini-padding` | `0 var(--mp-sys-space-4)` |
+| `--mp-button-small-padding` | `0 var(--mp-sys-space-5)` |
+| `--mp-button-normal-padding` | `0 var(--mp-sys-space-6)` |
+| `--mp-button-large-padding` | `0 22px` |
+| `--mp-button-xl-padding` | `0 28px` |
+| `--mp-button-round-padding` | `var(--mp-sys-space-3)` |
+| `--mp-button-mini-height` | `20px` |
+| `--mp-button-small-height` | `28px` |
+| `--mp-button-normal-height` | `36px` |
+| `--mp-button-large-height` | `44px` |
+| `--mp-button-xl-height` | `52px` |
+| `--mp-button-mini-font-size` | `var(--mp-font-size-xs)` |
+| `--mp-button-small-font-size` | `var(--mp-sys-font-size-xs)` |
+| `--mp-button-normal-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-button-large-font-size` | `var(--mp-sys-font-size-lg)` |
+| `--mp-button-xl-font-size` | `var(--mp-sys-font-size-xl)` |
+| `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
+| `--mp-button-line-height` | `1.2` |
+| `--mp-button-stacked-height` | `48px` |
+| `--mp-button-focus-width` | `2px` |
+| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-button-focus-offset` | `2px` |
+| `--mp-button-icon-container-padding` | `var(--mp-sys-space-3)` |
+| `--mp-button-loading-line-height` | `3px` |
+| `--mp-button-loading-line-width` | `40%` |
+| `--mp-button-loading-duration` | `1s` |
+| `--mp-button-loading-static-opacity` | `0.5` |
+| `--mp-button-secondary-icon-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-secondary-icon-container-color` | `rgb(var(--mp-gray-2))` |
+| `--mp-button-tertiary-icon-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-tertiary-icon-container-color` | `rgb(var(--mp-gray-1))` |
+| `--mp-button-mini-stacked-height` | `36px` |
+| `--mp-button-small-stacked-height` | `44px` |
+| `--mp-button-normal-stacked-height` | `var(--mp-button-stacked-height)` |
+| `--mp-button-large-stacked-height` | `56px` |
+| `--mp-button-xl-stacked-height` | `64px` |
+| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
+| `--mp-button-stacked-padding` | `var(--mp-sys-space-2)` |
+| `--mp-button-stacked-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-button-group-border-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-button-default-state-layer-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-primary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-info-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-success-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-warning-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-danger-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-secondary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
+| `--mp-button-state-opacity-hover` | `0.08` |
+| `--mp-button-state-opacity-active` | `0.12` |
+| `--mp-button-plain-state-opacity-hover` | `0.5` |
+| `--mp-button-plain-state-opacity-active` | `1` |
+
+### Motion variables
+
+Built-in effects respect `prefers-reduced-motion: reduce`; loading and closing still update state immediately.
+
+| Token | Default |
+| --- | --- |
+| `--mp-button-transition-duration` | `var(--mp-sys-motion-duration-standard)` |

@@ -94,3 +94,30 @@ Popover inherits Trigger positioning, container, controlled state, dismissal and
 `open()`, `close()`, `resize()`, `allowClose()`, `getReference()`, `setReference()` and `focusReference()`.
 
 The reference is connected to the panel with `aria-controls` and `aria-expanded`. Use Trigger for unstyled positioning. Popover has no `defaultStyle`, `popoverClass`, or `elevation`; customize with tokens, `content-class`, or `content-style`.
+
+## Public CSS variables
+
+Defaults below are the actual :root values. Prefer component variables for customization; internal positioning variables are not public APIs.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `--mp-popover-background` | `var(--mp-sys-color-surface-overlay)` | Panel and arrow background |
+| `--mp-popover-text-color` | `var(--mp-sys-color-content-secondary)` | Content foreground |
+| `--mp-popover-border-color` | `var(--mp-sys-color-border-default)` | Panel and arrow border color |
+| `--mp-popover-border-width` | `1px` | Panel and arrow border width |
+| `--mp-popover-border-radius` | `var(--mp-sys-radius-md)` | Panel corner radius |
+| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | Panel shadow; platform-specific |
+| `--mp-popover-arrow-z-index` | `1` | Arrow layer inside this popup |
+| `--mp-popover-padding-horizontal` | `var(--mp-sys-space-7)` | Horizontal content padding |
+| `--mp-popover-padding-vertical` | `var(--mp-sys-space-6)` | Vertical content padding |
+| `--mp-popover-font-size` | `var(--mp-sys-font-size-md)` | Content font size |
+| `--mp-popover-line-height` | `var(--mp-line-height)` | Content line height |
+| `--mp-popover-title-text-color` | `var(--mp-sys-color-content-primary)` | Title foreground |
+| `--mp-popover-title-font-size` | `var(--mp-sys-font-size-lg)` | Title font size |
+| `--mp-popover-title-font-weight` | `var(--mp-sys-font-weight-medium)` | Title font weight |
+| `--mp-popover-title-content-gap` | `var(--mp-sys-space-2)` | Title/body gap |
+| `--mp-popover-animation-duration` | `var(--mp-sys-motion-duration-standard)` | Enter/leave duration; reduced-motion may override |
+
+Maple dark retains a 2px corner radius. Shadows remain platform-specific. Panel and arrow share background and border tokens, even if Trigger CSS loads last.
+
+With Teleport, apply variables to the actual popup scope (for example via `popup-style`); variables on the reference button do not automatically inherit into the popup.

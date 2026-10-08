@@ -1,40 +1,35 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, watch, type Ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import config from '@config'
-import { getPCLocationInfo } from '@maplejs/maple-cli/client'
 import { Context } from '@maplejs/maple-ui'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { type SiteContext } from '../types'
 import { MenuTypes, type Menu } from '../utils'
 import AppAd from './components/AppAd.vue'
 import AppHeader from './components/AppHeader.vue'
 import AppMobile from './components/AppMobile.vue'
 import AppSidebar from './components/AppSidebar.vue'
+import { getPcSiteRoute } from './route-state'
 
 const context = Context as SiteContext
-const menu: Ref<Menu[]> = ref(config?.pc?.menu ?? [])
-const useMobile = ref(config?.useMobile)
+const menu: Menu[] = config?.pc?.menu ?? []
 const mobileRedirect = config?.mobile?.redirect
-const language: Ref<string> = ref('')
-const componentName: Ref<string | undefined> = ref()
-const menuName: Ref<string> = ref('')
-const hash: Ref<string> = ref('')
-const doc: Ref<HTMLElement | null> = ref(null)
+const doc = ref<HTMLElement | null>(null)
 const route = useRoute()
-
-const getComponentNameByMenuName = (menuName: string) => {
-  const currentMenu = menu.value.find((item) => item.doc === menuName && item.type === MenuTypes.COMPONENT)
-  return currentMenu ? menuName : mobileRedirect.slice(1)
-}
+const router = useRouter()
+const routeState = computed(() => getPcSiteRoute(route.path, route.hash, menu, mobileRedirect, config?.useMobile))
+const language = computed(() => routeState.value.language)
+const menuName = computed(() => routeState.value.menuName)
+const hash = computed(() => routeState.value.hash)
+const componentName = computed(() => routeState.value.componentName)
+const useMobile = computed(() => routeState.value.useMobile)
 
 const init = () => {
-  const { menuName } = getPCLocationInfo()
-
   nextTick(() => {
     const children = document.querySelector('.maple-site-sidebar')!.getElementsByClassName('mp-cell')
-    const index = menu.value.findIndex((item) => item.doc === menuName && item.type !== MenuTypes.TITLE)
+    const index = menu.findIndex((item) => item.doc === menuName.value && item.type !== MenuTypes.TITLE)
 
-    if (index !== -1) {
+    if (index !== -1 && children[index]) {
       children[index].scrollIntoView({
         block: 'center',
         inline: 'start',
@@ -44,10 +39,10 @@ const init = () => {
 }
 
 const handleSidebarChange = (menu: Menu) => {
-  doc.value!.scrollTop = 0
-  componentName.value = getComponentNameByMenuName(menu.doc)
-  menuName.value = menu.doc
-  hash.value = ''
+  if (doc.value) {
+    doc.value.scrollTop = 0
+  }
+  router.push({ path: `/${language.value}/${menu.doc}` })
 }
 
 const confirmClose = () => {
@@ -77,21 +72,11 @@ onMounted(() => {
 })
 
 watch(
-  () => route.path,
-  () => {
-    const { language: lang, menuName: _menuName, hash: _hash } = getPCLocationInfo()
-    if (!lang || !_menuName) {
-      return
+  language,
+  (lang) => {
+    if (lang) {
+      document.title = config?.pc?.title[lang] as string
     }
-
-    componentName.value = getComponentNameByMenuName(_menuName)
-    menuName.value = _menuName
-    hash.value = _hash
-    language.value = lang
-    useMobile.value =
-      menu.value.find((item) => item.doc === _menuName && item.type === MenuTypes.COMPONENT)?.useMobile ??
-      config?.useMobile
-    document.title = config?.pc?.title[lang] as string
   },
   { immediate: true },
 )
@@ -111,16 +96,16 @@ watch(
       </div>
 
       <app-mobile
+        v-if="useMobile"
         :component-name="componentName"
         :language="language"
         :replace="menuName"
         :hash="hash"
-        v-show="useMobile"
       />
     </div>
   </div>
 
-  <mp-popup position="right" :show="context.showPlayground" @click-overlay="confirmClose">
+  <mp-popup placement="right" :open="context.showPlayground" @click-overlay="confirmClose">
     <div class="maple-site-playground-container">
       <iframe
         v-if="context.showPlayground"

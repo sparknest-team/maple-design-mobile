@@ -1,32 +1,18 @@
-import { VNode, VNodeChild, type PropType } from 'vue'
-import { type FieldNames } from '../utils/options'
-
-export type CheckboxGroupOptionLabelRender = (option: CheckboxGroupOption, checked: boolean) => VNodeChild
-
-export interface CheckboxGroupOption {
-  label?: string | VNode | CheckboxGroupOptionLabelRender
-  value?: any
-  disabled?: boolean
-
-  [key: PropertyKey]: any
-}
+import type { PropType } from 'vue'
+import { checkboxGroupValueProps, choiceOptionsProps } from '../checkbox/choice-group-props'
+import type { Orientation } from '../utils/constants'
 
 export const props = {
-  modelValue: {
-    type: Array as PropType<Array<any>>,
-    default: () => [],
-  },
-  max: [String, Number],
-  options: {
-    type: Array as PropType<CheckboxGroupOption[]>,
-    default: () => [],
-  },
-  fieldNames: {
-    type: Object as PropType<FieldNames>,
-    default: undefined,
-  },
+  ...checkboxGroupValueProps,
+  ...choiceOptionsProps,
+  /** 是否禁用；未设置时继承表单 */
+  disabled: { type: Boolean, default: undefined },
+  /** 是否只读；未设置时继承表单 */
+  readonly: { type: Boolean, default: undefined },
+  /** 错误态；未设置时继承表单 */
+  error: { type: Boolean, default: undefined },
   direction: {
-    type: String as PropType<'horizontal' | 'vertical'>,
+    type: String as PropType<Orientation>,
     default: 'horizontal',
   },
 }

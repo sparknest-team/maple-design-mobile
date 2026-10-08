@@ -1,5 +1,7 @@
 # Trigger
 
+Clicking another independent reference closes the previous top layer before opening the new one. Nested popups remain inside their parent. Controlled open state only receives a close request; the owner may reject it.
+
 ### Introduction
 
 A style-agnostic floating-layer primitive for interaction, positioning, teleporting, stacking and open state. Prefer Tooltip, Popover or DropdownMenu for end-user features; use Trigger directly when building another floating component.
@@ -74,3 +76,23 @@ Events: `update:open`, `open-change`, `open`, `opened`, `close`, `closed`, `clic
 ### Accessibility
 
 `trigger="focus"` supports keyboard focus and Escape only closes the top layer. Trigger does not choose an application role or aria relationship; semantic wrappers must provide them.
+
+## Public CSS variables
+
+Defaults below are the actual :root values. Prefer component variables for customization; internal positioning variables are not public APIs.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `--mp-trigger-arrow-background` | `var(--mp-sys-color-surface-overlay)` | Standalone Trigger arrow; wrappers use their own token |
+| `--mp-trigger-arrow-size` | `var(--mp-sys-space-4)` | Arrow square size |
+| `--mp-trigger-arrow-radius` | `var(--mp-sys-radius-sm)` | Arrow corner radius |
+| `--mp-trigger-transition-duration` | `var(--mp-sys-motion-duration-fast)` | Default Trigger fade duration |
+| `--mp-trigger-transition-easing` | `var(--mp-sys-motion-easing-standard)` | Default Trigger easing |
+
+Tooltip and Popover own their arrow appearance: customize their tokens instead of Trigger arrow-background.
+
+With Teleport, apply variables to the actual popup scope (for example via `popup-style`); variables on the reference button do not automatically inherit into the popup.
+
+### Reduced motion
+
+Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.

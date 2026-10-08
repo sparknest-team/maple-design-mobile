@@ -1,8 +1,10 @@
 import { toNumber } from '@maplejs/maple-shared'
 import { clockHour } from '../utils/picker-data'
-import type { AmPm, DisabledTime } from './picker-props'
+import type { AmPm } from './picker-props'
+import { isTimeAllowed, type TimeConstraints } from './time-rules'
 
-type DisableProps = {
+type DisableProps = TimeConstraints & {
+  useSeconds?: boolean
   time: number
   format: string
   ampm: AmPm | undefined
@@ -11,10 +13,7 @@ type DisableProps = {
   max: string | undefined
   min: string | undefined
   disableHour: Array<string>
-  disabledTime: DisabledTime | undefined
 }
-
-export const notConvert = (format: string, ampm: AmPm | undefined): boolean => format === '24hr' || ampm === 'am'
 
 export const convertHour = (format: string, ampm: AmPm | undefined, hour: string) => {
   const hourNum = clockHour(toNumber(hour), format === '24hr' ? undefined : ampm)
@@ -31,77 +30,23 @@ export const getNumberTime = (time: string) => {
   }
 }
 
-export const getIsDisableMinute = (values: Omit<DisableProps, 'minute'>): boolean => {
-  const { time, format, ampm, hour, max, min, disableHour } = values
-  const { hourStr, hourNum } = convertHour(format, ampm, hour)
-  let isBetweenMinMax = false
-  let isDisabledByCallback = false
-
-  if (disableHour.includes(hourStr)) {
+/** Display hours are converted before applying the common 24-hour rules. */
+function isDisabledPart(values: Omit<DisableProps, 'minute'> & { minute?: number }, unit: 'minute' | 'second') {
+  const { hourNum } = convertHour(values.format, values.ampm, values.hour)
+  const minute = unit === 'minute' ? values.time : (values.minute ?? 0)
+  const second = unit === 'second' ? values.time : 0
+  if (values.disableHour.some((hour) => Number(hour) === hourNum)) {
     return true
   }
-
-  if (max && !min) {
-    const { hour: maxHour, minute: maxMinute } = getNumberTime(max)
-    isBetweenMinMax = maxHour === hourNum && time > maxMinute
-  }
-
-  if (!max && min) {
-    const { hour: minHour, minute: minMinute } = getNumberTime(min)
-
-    isBetweenMinMax = minHour === hourNum && time < minMinute
-  }
-
-  if (max && min) {
-    const { hour: maxHour, minute: maxMinute } = getNumberTime(max)
-    const { hour: minHour, minute: minMinute } = getNumberTime(min)
-
-    isBetweenMinMax = (minHour === hourNum && time < minMinute) || (maxHour === hourNum && time > maxMinute)
-  }
-
-  if (values.disabledTime?.minutes) {
-    isDisabledByCallback = values.disabledTime.minutes(time)
-  }
-
-  return isBetweenMinMax || isDisabledByCallback
+  const seconds = unit === 'second' ? [second] : Array.from({ length: values.useSeconds ? 60 : 1 }, (_, value) => value)
+  return !seconds.some((candidate) =>
+    isTimeAllowed(`${hourNum}:${minute}:${candidate}`, {
+      ...values,
+      useSeconds: unit === 'second' || values.useSeconds,
+    }),
+  )
 }
 
-export const getIsDisableSecond = (values: DisableProps): boolean => {
-  const { time, format, ampm, hour, minute, max, min, disableHour } = values
-  const { hourStr, hourNum } = convertHour(format, ampm, hour)
-  let isBetweenMinMax = false
-  let isDisabledByCallback = false
+export const getIsDisableMinute = (values: Omit<DisableProps, 'minute'>): boolean => isDisabledPart(values, 'minute')
 
-  if (disableHour.includes(hourStr)) {
-    return true
-  }
-
-  if (max && !min) {
-    const { hour: maxHour, minute: maxMinute, second: maxSecond } = getNumberTime(max)
-
-    isBetweenMinMax = (maxHour === hourNum && maxMinute < minute) || (maxMinute === minute && time > maxSecond)
-  }
-
-  if (!max && min) {
-    const { hour: minHour, minute: minMinute, second: minSecond } = getNumberTime(min)
-
-    isBetweenMinMax = (minHour === hourNum && minMinute > minute) || (minMinute === minute && time > minSecond)
-  }
-
-  if (max && min) {
-    const { hour: maxHour, minute: maxMinute, second: maxSecond } = getNumberTime(max)
-    const { hour: minHour, minute: minMinute, second: minSecond } = getNumberTime(min)
-
-    isBetweenMinMax =
-      (maxHour === hourNum && maxMinute < minute) ||
-      (minHour === hourNum && minMinute > minute) ||
-      (maxHour === hourNum && maxMinute === minute && time > maxSecond) ||
-      (minHour === hourNum && minMinute === minute && time < minSecond)
-  }
-
-  if (values.disabledTime?.seconds) {
-    isDisabledByCallback = values.disabledTime.seconds(time)
-  }
-
-  return isBetweenMinMax || isDisabledByCallback
-}
+export const getIsDisableSecond = (values: DisableProps): boolean => isDisabledPart(values, 'second')

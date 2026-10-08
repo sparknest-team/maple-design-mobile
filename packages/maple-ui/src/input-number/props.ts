@@ -1,63 +1,62 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { inputProps, type InputVariant } from '../input/props'
 import type { ComponentSize } from '../utils/constants'
 
-export type InputNumberMode = 'embed' | 'button' | 'input'
-export type InputNumberModelEvent = 'change' | 'input'
+export const inputNumberModes = ['embed', 'button', 'input'] as const
+export const inputNumberModelEvents = ['change', 'input'] as const
+export type InputNumberMode = (typeof inputNumberModes)[number]
+export type InputNumberModelEvent = (typeof inputNumberModelEvents)[number]
 export type InputNumberSize = ComponentSize
+export type InputNumberVariant = InputVariant
+export type InputNumberFormatter = (value: string) => string
+export type InputNumberParser = (value: string) => string
 
-export const props = {
-  /** 绑定值 */
+export const inputNumberProps = {
+  /** 受控业务数值；空值为 undefined。 */
   modelValue: Number,
-  /** 默认值，非受控模式下使用 */
+  /** 非受控初始值。 */
   defaultValue: Number,
-  /** 控制按钮布局模式 */
+  /** 按钮布局。 */
   mode: {
     type: String as PropType<InputNumberMode>,
     default: 'embed',
+    validator: (value: InputNumberMode) => inputNumberModes.includes(value),
   },
-  /** 最多保留的小数位数 */
-  precision: Number,
-  /** 增减步长 */
-  step: {
-    type: Number,
-    default: 1,
-  },
-  /** 是否禁用 */
-  disabled: Boolean,
-  /** 是否展示错误状态 */
-  error: Boolean,
-  /** 最大值 */
-  max: {
-    type: Number,
-    default: Infinity,
-  },
-  /** 最小值 */
-  min: {
-    type: Number,
-    default: -Infinity,
-  },
-  /** 格式化输入框展示值 */
-  formatter: Function as PropType<(value: string) => string>,
-  /** 将展示值解析为数字文本 */
-  parser: Function as PropType<(value: string) => string>,
-  /** 输入框占位文本 */
-  placeholder: String,
-  /** 输入框尺寸 */
-  size: {
-    type: String as PropType<InputNumberSize>,
-    default: 'md',
-  },
-  /** 是否允许清空 */
-  clearable: Boolean,
-  /** 触发 v-model 更新的时机 */
+  /** 小数精度，范围 0–100，不小于步长的小数位数。 */
+  precision: { type: Number, validator: (value: number) => Number.isInteger(value) && value >= 0 && value <= 100 },
+  /** 正的有限步长。 */
+  step: { type: Number, default: 1, validator: (value: number) => Number.isFinite(value) && value > 0 },
+  /** 未设置时继承 Group / FormItem / Form。 */
+  disabled: inputProps.disabled,
+  /** 未设置时继承 FormItem。 */
+  error: inputProps.error,
+  /** 最大值。 */
+  max: { type: Number, default: Infinity },
+  /** 最小值。 */
+  min: { type: Number, default: -Infinity },
+  /** 格式化展示文本，不改变业务数字。 */
+  formatter: Function as PropType<InputNumberFormatter>,
+  /** 每次编辑只解析一次原始文本。 */
+  parser: Function as PropType<InputNumberParser>,
+  /** 提示文字。 */
+  placeholder: inputProps.placeholder,
+  /** 五档尺寸，未设置时继承。 */
+  size: inputProps.size,
+  /** 字段外观，未设置时继承 Group，默认 outline。 */
+  variant: inputProps.variant,
+  /** 浮动提示，未设置时继承 Group 和 FieldDecorator 默认值。 */
+  hint: inputProps.hint,
+  /** 是否允许清空。 */
+  clearable: inputProps.clearable,
+  /** model 更新时机；change 始终表示提交。 */
   modelEvent: {
     type: String as PropType<InputNumberModelEvent>,
     default: 'change',
+    validator: (value: InputNumberModelEvent) => inputNumberModelEvents.includes(value),
   },
-  /** 是否只读 */
-  readonly: Boolean,
-  /** 传给原生 input 的补充属性 */
-  inputAttrs: Object as PropType<Record<string, any>>,
+  /** 未设置时继承 Group / FormItem / Form。 */
+  readonly: inputProps.readonly,
+  /** 原生 input 补充属性，受控状态由组件决定。 */
+  inputAttrs: inputProps.inputAttrs,
 }
-
-export type InputNumberProps = ExtractPropTypes<typeof props>
+export type InputNumberProps = ExtractPublicPropTypes<typeof inputNumberProps>

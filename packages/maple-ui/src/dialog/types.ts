@@ -46,6 +46,7 @@ export interface DialogConfig {
   overlayClosable?: boolean
   escToClose?: boolean
   lockScroll?: boolean
+  closeOnRouteChange?: boolean
   popupContainer?: string | HTMLElement | false
   dialogClass?: string | any[]
   dialogStyle?: CSSProperties

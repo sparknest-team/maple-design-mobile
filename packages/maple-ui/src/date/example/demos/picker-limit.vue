@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const date = ref('2020-11-11')
 
-const disabledDate = (val) => parseInt(val.split('-')[2], 10) % 2 === 0
+const disabledDate = (val) => val.getDate() % 2 === 0
 </script>
 
 <template>

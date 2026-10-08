@@ -35,7 +35,7 @@
 | `overlay-closable` | 点击背景区域是否关闭                                   | _boolean_                      | `true`   |
 | `lock-scroll`      | 是否禁止滚动穿透，禁止时滚动背景层不会引发 body 的滚动 | _boolean_                      | `true`   |
 | `unmount-on-close` | 关闭后是否卸载插槽内容                                 | _boolean_                      | `true`   |
-| `popup-container`  | 背景层挂载的位置                                       | _TeleportProps['to'] \| false_ | `'body'` |
+| `popup-container`  | Teleport 挂载位置；`false` 表示原地渲染                | _string \| HTMLElement \| false_ | `'body'` |
 | `esc-to-close`     | 是否支持键盘 ESC 关闭背景层                            | _boolean_                      | `true`   |
 | `z-index`          | 自定义层级                                             | _number_                       | `-`      |
 
@@ -43,6 +43,7 @@
 
 | 事件名       | 说明                | 参数            |
 | ------------ | ------------------- | --------------- |
+| `update:open` | 显示状态变化        | `boolean`       |
 | `click`      | 点击背景层时触发    | `MouseEvent`    |
 | `key-escape` | 点击键盘 ESC 时触发 | `KeyboardEvent` |
 | `open`       | 开始打开时触发      | `-`             |
@@ -56,10 +57,16 @@
 | --------- | ---------- | ---- |
 | `default` | 背景层内容 | `-`  |
 
-### 样式变量
+## 公开 CSS 变量
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+以下为实际 :root 默认值。业务定制优先使用组件变量；内部定位变量不属于公开 API。
 
-| 变量名                          | 默认值              |
-| ------------------------------- | ------------------- |
-| `--mp-overlay-background-color` | `rgba(0, 0, 0, .6)` |
+| 变量 | 默认值 | 意义与场景 |
+| --- | --- | --- |
+| `--mp-overlay-background-color` | `var(--mp-sys-color-scrim)` | 仅遮罩背景，不影响前景内容透明度 |
+| `--mp-overlay-animation-duration` | `var(--mp-sys-motion-duration-slow)` | 组件入退场时长；reduced-motion 可覆盖 |
+| `--mp-overlay-content-z-index` | `var(--mp-sys-layer-raised)` | 内容高于遮罩的局部层级 |
+
+### 减少动态效果
+
+内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。

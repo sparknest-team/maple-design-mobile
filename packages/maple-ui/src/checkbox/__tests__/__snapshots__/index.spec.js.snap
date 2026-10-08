@@ -13,7 +13,7 @@ exports[`checkbox group field-names label 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">eat</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -26,7 +26,7 @@ exports[`checkbox group field-names label 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>sleep</span></div>
+        <div class="mp-checkbox__text">sleep</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -39,7 +39,7 @@ exports[`checkbox group field-names label 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>game</span></div>
+        <div class="mp-checkbox__text">game</div>
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@ exports[`checkbox group field-names value 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">eat</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -72,7 +72,7 @@ exports[`checkbox group field-names value 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>sleep</span></div>
+        <div class="mp-checkbox__text">sleep</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -85,7 +85,7 @@ exports[`checkbox group field-names value 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>game</span></div>
+        <div class="mp-checkbox__text">game</div>
       </div>
     </div>
   </div>
@@ -157,7 +157,7 @@ exports[`checkbox group label is function 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">0-false</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -170,7 +170,7 @@ exports[`checkbox group label is function 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>1-false</span></div>
+        <div class="mp-checkbox__text">1-false</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -183,7 +183,7 @@ exports[`checkbox group label is function 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>2-false</span></div>
+        <div class="mp-checkbox__text">2-false</div>
       </div>
     </div>
   </div>
@@ -203,7 +203,7 @@ exports[`checkbox group label is function 2`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">0-false</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -216,7 +216,7 @@ exports[`checkbox group label is function 2`] = `
           <!--v-if-->
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>1-true</span></div>
+        <div class="mp-checkbox__text">1-true</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -229,7 +229,7 @@ exports[`checkbox group label is function 2`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>2-false</span></div>
+        <div class="mp-checkbox__text">2-false</div>
       </div>
     </div>
   </div>
@@ -249,7 +249,7 @@ exports[`checkbox group label is function 3`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">0-false</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -262,7 +262,7 @@ exports[`checkbox group label is function 3`] = `
           <!--v-if-->
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>1-true</span></div>
+        <div class="mp-checkbox__text">1-true</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -275,7 +275,7 @@ exports[`checkbox group label is function 3`] = `
           <!--v-if-->
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>2-true</span></div>
+        <div class="mp-checkbox__text">2-true</div>
       </div>
     </div>
   </div>
@@ -295,7 +295,7 @@ exports[`checkbox group label is function 4`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>0-false</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">0-false</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -308,7 +308,7 @@ exports[`checkbox group label is function 4`] = `
           <!--v-if-->
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>1-true</span></div>
+        <div class="mp-checkbox__text">1-true</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -321,7 +321,7 @@ exports[`checkbox group label is function 4`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>2-false</span></div>
+        <div class="mp-checkbox__text">2-false</div>
       </div>
     </div>
   </div>
@@ -331,7 +331,6 @@ exports[`checkbox group label is function 4`] = `
 exports[`checkbox group layout direction 1`] = `
 "<div class="mp-checkbox-group__wrap">
   <div class="mp-checkbox-group mp-checkbox-group--vertical">
-    <!--v-if-->
     <div class="mp-checkbox__wrap">
       <div class="mp-checkbox">
         <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
@@ -375,7 +374,7 @@ exports[`checkbox group options 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text mp-checkbox--disabled"><span>eat</span></div>
+        <div class="mp-checkbox__text mp-checkbox--disabled">eat</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -388,7 +387,7 @@ exports[`checkbox group options 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>sleep</span></div>
+        <div class="mp-checkbox__text">sleep</div>
       </div>
     </div>
     <div class="mp-checkbox__wrap">
@@ -401,7 +400,7 @@ exports[`checkbox group options 1`] = `
           </svg>
           <div class="mp-hover-overlay"></div>
         </div>
-        <div class="mp-checkbox__text"><span>game</span></div>
+        <div class="mp-checkbox__text">game</div>
       </div>
     </div>
   </div>

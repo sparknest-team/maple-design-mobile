@@ -72,10 +72,6 @@ function ActionSheet(options?: ActionSheetOptions): Promise<ActionSheetActions |
         unmountInstance()
         singletonOptions === reactiveActionSheetOptions && (singletonOptions = null)
       },
-      onRouteChange: () => {
-        unmountInstance()
-        singletonOptions === reactiveActionSheetOptions && (singletonOptions = null)
-      },
       'onUpdate:open': (value: boolean) => {
         reactiveActionSheetOptions.open = value
       },

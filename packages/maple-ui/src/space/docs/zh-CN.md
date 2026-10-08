@@ -76,16 +76,16 @@
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--mp-space-size-xs-row-gap` | `4px` |
-| `--mp-space-size-xs-column-gap` | `4px` |
-| `--mp-space-size-sm-row-gap` | `8px` |
-| `--mp-space-size-sm-column-gap` | `6px` |
-| `--mp-space-size-md-row-gap` | `12px` |
-| `--mp-space-size-md-column-gap` | `8px` |
-| `--mp-space-size-lg-row-gap` | `16px` |
-| `--mp-space-size-lg-column-gap` | `12px` |
-| `--mp-space-size-xl-row-gap` | `24px` |
-| `--mp-space-size-xl-column-gap` | `16px` |
+| `--mp-space-size-xs-row-gap` | `var(--mp-sys-space-2)` |
+| `--mp-space-size-xs-column-gap` | `var(--mp-sys-space-2)` |
+| `--mp-space-size-sm-row-gap` | `var(--mp-sys-space-4)` |
+| `--mp-space-size-sm-column-gap` | `var(--mp-sys-space-3)` |
+| `--mp-space-size-md-row-gap` | `var(--mp-sys-space-5)` |
+| `--mp-space-size-md-column-gap` | `var(--mp-sys-space-4)` |
+| `--mp-space-size-lg-row-gap` | `var(--mp-sys-space-6)` |
+| `--mp-space-size-lg-column-gap` | `var(--mp-sys-space-5)` |
+| `--mp-space-size-xl-row-gap` | `var(--mp-sys-space-8)` |
+| `--mp-space-size-xl-column-gap` | `var(--mp-sys-space-6)` |
 
 ## 同源实现与平台边界
 

@@ -1,52 +1,26 @@
-import { getCurrentInstance, type ComponentInternalInstance, type ComputedRef } from 'vue'
-import { useChildren, useParent } from '@maplejs/maple-use'
-import { type FormLayout } from './props'
-
-export interface Validation {
-  validate(): Promise<boolean>
-  resetValidation(): void
-  reset(): void
-  field?: string
-}
+import { inject, provide, type ComputedRef, type InjectionKey } from 'vue'
+import { type ComponentSize } from '../utils/constants'
+import { type FormFieldController } from './form-controller'
+import { type FormLayout, type FormRules } from './props'
 
 export interface FormProvider {
-  disabled: ComputedRef<boolean>
-  readonly: ComputedRef<boolean>
+  disabled: ComputedRef<boolean | undefined>
+  readonly: ComputedRef<boolean | undefined>
+  size: ComputedRef<ComponentSize | undefined>
+  rules: ComputedRef<FormRules | undefined>
   model: ComputedRef<Record<string, any> | undefined>
   layout: ComputedRef<FormLayout>
+  registerField: (field: FormFieldController) => () => void
 }
 
-export const FORM_BIND_FORM_ITEM_KEY = Symbol('FORM_BIND_FORM_ITEM_KEY')
+export const FORM_CONTEXT_KEY: InjectionKey<FormProvider> = Symbol('MpFormContext')
 
-export function useForm<C = Validation>() {
-  const { parentProvider, index, bindParent } = useParent<FormProvider, C>(FORM_BIND_FORM_ITEM_KEY)
-
-  const instance = getCurrentInstance()!
-
-  const bindForm = bindParent
-    ? (formItemProvider: C) => {
-        bindParent({ ...formItemProvider, instance })
-      }
-    : null
-
-  return {
-    index,
-    form: parentProvider,
-    bindForm,
-  }
+export function provideForm(form: FormProvider) {
+  provide(FORM_CONTEXT_KEY, form)
 }
 
-export function useFormItems() {
-  const { childProviders, length, bindChildren } = useChildren<
-    FormProvider,
-    Validation & {
-      instance: ComponentInternalInstance
-    }
-  >(FORM_BIND_FORM_ITEM_KEY)
-
+export function useForm() {
   return {
-    length,
-    formItems: childProviders,
-    bindFormItems: bindChildren,
+    form: inject(FORM_CONTEXT_KEY, undefined),
   }
 }

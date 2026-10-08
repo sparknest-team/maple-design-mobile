@@ -1,8 +1,20 @@
 # Date
 
+### Date value formats
+
+Both libraries independently copy the same value, validation and transaction logic. Year/month/date model formats default to `YYYY`, `YYYY-MM`, `YYYY-MM-DD`; date-time defaults to seconds. Set `:use-seconds="false"` for minute precision. `format` controls labels; `value-format` controls models, supporting custom formats, `Date` and `timestamp`. Maple provides year/month/date calendar, wheel and clock presentations; week/quarter remain Cedar presentation capabilities.
+
 ### Intro
 
 Form date field that opens `DatePicker` in a bottom popup. Interaction matches Select picker mode: Cancel discards the draft; Confirm writes `v-model`.
+
+### Shared field and commit protocol
+
+Date, DateRange, Time and TimeRange use independent same-source copies of PickerField and FieldDecorator. Mobile fields do not open the software keyboard: panels edit a draft, Confirm commits it, and Cancel or dismissal discards it. Clear commits an empty value and closes the panel. Range fields retain separate start/end values and overnight hints.
+
+```demo
+../example/demos/en-US/field-protocol.vue
+```
 
 ### Basic Usage
 
@@ -46,28 +58,45 @@ Form date field that opens `DatePicker` in a bottom popup. Interaction matches S
 ../example/demos/en-US/with-form-item.vue
 ```
 
+### Model and display formats
+
+```demo
+../example/demos/en-US/value-formats.vue
+```
+
 ## API
+
+### Shared rules and events
+
+`DateValue = Date | string | number`. Invalid dates and incomplete/reversed ranges cannot be committed. Boundaries are inclusive and use `value-format`; Date or timestamp boundaries are also accepted. Rules are rechecked at confirmation. `disabledTime` returns `disabledHours()`, `disabledMinutes(hour)` and `disabledSeconds(hour, minute)` number lists. Pure panels emit `confirm` after validation; field open state uses `update:open` / `open-change`, not `close`. Nested panel/popup props configure presentation only and cannot override models, rules or ownership listeners. Range `disabled` accepts `[startDisabled, endDisabled]`; a locked endpoint cannot be cleared or modified.
+
 
 ### Props
 
 | Prop                | Description                                                       | Type                         | Default    |
 | ------------------- | ----------------------------------------------------------------- | ---------------------------- | ---------- |
-| `v-model`           | Bound value; date-time string when `show-time`                    | _string \| string[]_         | `-`        |
+| `model-value` | Controlled value | DateValue / DateValue[] (multiple/range) | `undefined` |
+| `default-value` | Uncontrolled initial value, read once | DateValue / DateValue[] (multiple/range) | `undefined` |
+| `format` | Display format or formatter | string / (date: Date) => string | — |
+| `value-format` | Model format, Date or timestamp | string | — |
+| `disable-confirm` | Commit immediately | boolean | field: false; panel: true |
 | `open`              | Controlled popup visibility                                       | _boolean_                    | `-`        |
+| `default-open` | Uncontrolled initial open state | boolean | false |
+| `popup-container` | Popup mount target | string / HTMLElement / (() => HTMLElement) / false | — |
 | `presentation`      | Panel mode: `picker` `calendar` `calendarClock` `calendarPicker`  | _string_                     | `picker`   |
 | `type`              | Picker type: `year` `month` `date`                                | _string_                     | `date`     |
 | `show-time`         | Enable time selection                                             | _boolean_                    | `false`    |
-| `use-seconds`       | Show seconds when `show-time`                                     | _boolean_                    | `false`    |
+| `use-seconds` | Default time precision; explicit format takes priority | boolean | true |
 | `multiple`          | Enable multiple select                                            | _boolean_                    | `false`    |
-| `min`               | Minimum date                                                      | _string_                     | `-`        |
-| `max`               | Maximum date                                                      | _string_                     | `-`        |
-| `disabled-date`     | Returns `true` to disable a date                                  | _(val: string) => boolean_   | `-`        |
-| `disabled-time`     | Disabled time when `show-time` (callback returns true to disable) | _DisabledTime_               | `-`        |
+| `min`               | Minimum date                                                      | DateValue                     | `-`        |
+| `max`               | Maximum date                                                      | DateValue                     | `-`        |
+| `disabled-date` | true disables; side is start or end | (date: Date, side: DateSide) => boolean | — |
+| `disabled-time` | Disabled time lists for this date and endpoint | (date: Date, side: DateSide) => DateDisabledTime | — |
 | `separator`         | Display separator for multiple                                    | _string_                     | `, `       |
 | `date-picker-props` | Props passed to `mp-date-picker`                                  | _Partial\<DatePickerProps\>_ | `{}`       |
 | `popup-props`       | Props passed to popup                                             | _Partial\<PopupProps\>_      | `{}`       |
 | `placeholder`       | Placeholder                                                       | _string_                     | `-`        |
-| `clearable`         | Show clear button                                                 | _boolean_                    | `false`    |
+| `clearable`         | Show clear button                                                 | _boolean_                    | `true`    |
 | `disabled`          | Disabled                                                          | _boolean_                    | `false`    |
 | `readonly`          | Readonly                                                          | _boolean_                    | `false`    |
 | `size`              | Size: `xs` `sm` `md` `lg` `xl`                                    | _ComponentSize_              | `md`       |
@@ -80,9 +109,10 @@ Form date field that opens `DatePicker` in a bottom popup. Interaction matches S
 | `focus`  | Emitted on focus          | `-`            |
 | `blur`   | Emitted on blur           | `-`            |
 | `click`  | Emitted on click          | `event: Event` |
-| `clear`  | Emitted on clear          | `value`        |
-| `close`  | Emitted when popup closes | `value`        |
-| `change` | Emitted after confirm     | `value`        |
+| `clear` | Cleared: undefined for single, [] for multiple/range | — |
+| `open-change` | Open-state change | open: boolean |
+| `change` | Validated value committed | value, date(s), formatted text(s) |
+| `select` | Draft selected, not necessarily committed | value, date(s), formatted text(s) |
 
 ### Methods
 
@@ -99,7 +129,7 @@ Form date field that opens `DatePicker` in a bottom popup. Interaction matches S
 | `prefix`     | Prefix           | `-`                                  |
 | `clear-icon` | Clear icon       | `clear: (e: Event) => void`          |
 | `suffix`     | Suffix           | `-`                                  |
-| `arrow-icon` | Arrow icon       | `focus: boolean, popupOpen: boolean` |
+| `suffix-icon` | Arrow icon       | `focus: boolean, popupOpen: boolean` |
 
 ## DatePicker
 
@@ -173,13 +203,17 @@ Enable `show-time` for date+time. `presentation` controls the UI:
 
 | Prop                | Description                                                                                   | Type                          | Default       |
 | ------------------- | --------------------------------------------------------------------------------------------- | ----------------------------- | ------------- |
-| `v-model`           | Selected date; date-time string when `show-time`                                              | _string[] \| string_          | `undefined`   |
+| `model-value` | Controlled value | DateValue / DateValue[] (multiple/range) | `undefined` |
+| `default-value` | Uncontrolled initial value, read once | DateValue / DateValue[] (multiple/range) | `undefined` |
+| `format` | Display format or formatter | string / (date: Date) => string | — |
+| `value-format` | Model format, Date or timestamp | string | — |
+| `disable-confirm` | Commit immediately | boolean | field: false; panel: true |
 | `type`              | Picker type, optional values `date` `month` `year`                                            | _string_                      | `date`        |
 | `presentation`      | Panel mode: `calendar` `picker` `calendarClock` `calendarPicker`                              | _string_                      | `picker`      |
 | `show-time`         | Enable time selection                                                                         | _boolean_                     | `false`       |
-| `use-seconds`       | Show seconds when `show-time`                                                                 | _boolean_                     | `false`       |
-| `disabled-date`     | Returns `true` to disable a date                                                              | _function_                    | `-`           |
-| `disabled-time`     | Disabled time when `show-time` (callback returns true to disable)                             | _DisabledTime_                | `-`           |
+| `use-seconds` | Default time precision; explicit format takes priority | boolean | true |
+| `disabled-date` | true disables; side is start or end | (date: Date, side: DateSide) => boolean | — |
+| `disabled-time` | Disabled time lists for this date and endpoint | (date: Date, side: DateSide) => DateDisabledTime | — |
 | `time-picker-props` | Props for `mp-time-picker` (`calendarClock`)                                                  | _Partial\<TimePickerProps\>_  | `{}`          |
 | `color`             | Picker color                                                                                  | _string_                      | `-`           |
 | `title-color`       | Color of picker title. If not specified it will use `color` prop or the default picker color. | _string_                      | `-`           |
@@ -187,8 +221,8 @@ Enable `show-time` for date+time. `presentation` controls the UI:
 | `elevation`         | Elevation level, options `true` `false` and level of `0-24`                                   | _number \| boolean_ | `false`       |
 | `button-elevation`  | Elevation level of Button                                                                     | _string \| number \| boolean_ | `true`        |
 | `first-day-of-week` | Sets the first day of the week, starting with 0 for Sunday.                                   | _string \| number_            | `0`           |
-| `min`               | Minimum allowed date/month (ISO 8601 format)                                                  | _string_                      | `-`           |
-| `max`               | Maximum allowed date/month (ISO 8601 format)                                                  | _string_                      | `-`           |
+| `min`               | Minimum allowed date/month (ISO 8601 format)                                                  | DateValue                      | `-`           |
+| `max`               | Maximum allowed date/month (ISO 8601 format)                                                  | DateValue                      | `-`           |
 | `show-current`      | Whether to display the current date                                                           | _boolean_                     | `true`        |
 | `readonly`          | readonly                                                                                      | _boolean_                     | `false`       |
 | `multiple`          | Allow the selection of multiple dates                                                         | _boolean_                     | `false`       |
@@ -200,7 +234,8 @@ Enable `show-time` for date+time. `presentation` controls the UI:
 | Event     | Description                 | arguments                                             |
 | --------- | --------------------------- | ----------------------------------------------------- |
 | `preview` | Emitted after date switched | `year: number` <br>`month: number` <br>`day?: number` |
-| `change`  | Emitted after date changed  | `value: string \| string[]`                           |
+| `change` | Validated value committed | value, date(s), formatted text(s) |
+| `select` | Draft selected, not necessarily committed | value, date(s), formatted text(s) |
 
 ### Slots
 
@@ -221,47 +256,47 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable                                     | Default                |
 | -------------------------------------------- | ---------------------- |
-| `--date-picker-border-radius`                | `4px`                  |
-| `--date-picker-font-size`                    | `var(--font-size-md)`  |
-| `--date-picker-min-width`                    | `290px`                |
-| `--date-picker-main-color`                   | `rgba(0, 0, 0, .87)`   |
-| `--date-picker-title-hint-color`             | `#fff`                 |
-| `--date-picker-title-hint-font-size`         | `var(--font-size-md)`  |
-| `--date-picker-title-height`                 | `105px`                |
-| `--date-picker-title-padding`                | `16px`                 |
-| `--date-picker-title-background`             | `var(--color-primary)` |
-| `--date-picker-title-color`                  | `#fff`                 |
-| `--date-picker-title-year-font-size`         | `var(--font-size-md)`  |
-| `--date-picker-title-year-font-weight`       | `500`                  |
-| `--date-picker-title-year-margin-bottom`     | `8px`                  |
-| `--date-picker-title-year-min-height`        | `21px`                 |
-| `--date-picker-title-date-height`            | `48px`                 |
-| `--date-picker-title-date-font-size`         | `34px`                 |
-| `--date-picker-title-date-font-weight`       | `500`                  |
-| `--date-picker-title-date-range-font-size`   | `20px`                 |
-| `--date-picker-title-date-justify-content`   | `normal`               |
-| `--date-picker-body-padding`                 | `0`                    |
-| `--date-picker-body-background-color`        | `#fff`                 |
-| `--date-picker-body-height`                  | `280px`                |
-| `--date-picker-header-arrow-filter`          | `opacity(0.54)`        |
-| `--date-picker-header-padding`               | `4px 16px`             |
-| `--date-picker-actions-padding`              | `0 8px 12px 8px`       |
-| `--date-picker-header-color`                 | `#555`                 |
-| `--month-picker-padding`                     | `0 12px`               |
-| `--month-picker-item-width`                  | `33%`                  |
-| `--month-picker-item-height`                 | `56px`                 |
-| `--month-picker-item-button-max-width`       | `140px`                |
-| `--year-picker-padding`                      | `0 12px`               |
-| `--year-picker-item-width`                   | `33%`                  |
-| `--year-picker-item-height`                  | `56px`                 |
-| `--year-picker-item-button-max-width`        | `140px`                |
-| `--day-picker-content-item-width`            | `14.28%`               |
-| `--day-picker-content-item-min-height`       | `21px`                 |
-| `--day-picker-content-item-font-size`        | `var(--font-size-sm)`  |
-| `--day-picker-content-item-padding`          | `2px 0`                |
-| `--day-picker-content-item-button-width`     | `32px`                 |
-| `--day-picker-content-item-button-height`    | `32px`                 |
-| `--day-picker-content-item-button-font-size` | `var(--font-size-sm)`  |
-| `--day-picker-head-item-color`               | `rgba(0, 0, 0, 0.38)`  |
-| `--day-picker-head-item-padding`             | `8px 0`                |
-| `--day-picker-head-item-font-weight`         | `600`                  |
+| `--mp-date-picker-border-radius`                | `4px`                  |
+| `--mp-date-picker-font-size`                    | `var(--mp-font-size-md)`  |
+| `--mp-date-picker-min-width`                    | `290px`                |
+| `--mp-date-picker-main-color`                   | `rgba(0, 0, 0, .87)`   |
+| `--mp-date-picker-title-hint-color`             | `#fff`                 |
+| `--mp-date-picker-title-hint-font-size`         | `var(--mp-font-size-md)`  |
+| `--mp-date-picker-title-height`                 | `105px`                |
+| `--mp-date-picker-title-padding`                | `16px`                 |
+| `--mp-date-picker-title-background`             | `var(--mp-color-primary)` |
+| `--mp-date-picker-title-color`                  | `#fff`                 |
+| `--mp-date-picker-title-year-font-size`         | `var(--mp-font-size-md)`  |
+| `--mp-date-picker-title-year-font-weight`       | `500`                  |
+| `--mp-date-picker-title-year-margin-bottom`     | `8px`                  |
+| `--mp-date-picker-title-year-min-height`        | `21px`                 |
+| `--mp-date-picker-title-date-height`            | `48px`                 |
+| `--mp-date-picker-title-date-font-size`         | `34px`                 |
+| `--mp-date-picker-title-date-font-weight`       | `500`                  |
+| `--mp-date-picker-title-date-range-font-size`   | `20px`                 |
+| `--mp-date-picker-title-date-justify-content`   | `normal`               |
+| `--mp-date-picker-body-padding`                 | `0`                    |
+| `--mp-date-picker-body-background-color`        | `#fff`                 |
+| `--mp-date-picker-body-height`                  | `280px`                |
+| `--mp-date-picker-header-arrow-filter`          | `opacity(0.54)`        |
+| `--mp-date-picker-header-padding`               | `4px 16px`             |
+| `--mp-date-picker-actions-padding`              | `0 8px 12px 8px`       |
+| `--mp-date-picker-header-color`                 | `#555`                 |
+| `--mp-month-picker-padding`                     | `0 12px`               |
+| `--mp-month-picker-item-width`                  | `33%`                  |
+| `--mp-month-picker-item-height`                 | `56px`                 |
+| `--mp-month-picker-item-button-max-width`       | `140px`                |
+| `--mp-year-picker-padding`                      | `0 12px`               |
+| `--mp-year-picker-item-width`                   | `33%`                  |
+| `--mp-year-picker-item-height`                  | `56px`                 |
+| `--mp-year-picker-item-button-max-width`        | `140px`                |
+| `--mp-day-picker-content-item-width`            | `14.28%`               |
+| `--mp-day-picker-content-item-min-height`       | `21px`                 |
+| `--mp-day-picker-content-item-font-size`        | `var(--mp-font-size-sm)`  |
+| `--mp-day-picker-content-item-padding`          | `2px 0`                |
+| `--mp-day-picker-content-item-button-width`     | `32px`                 |
+| `--mp-day-picker-content-item-button-height`    | `32px`                 |
+| `--mp-day-picker-content-item-button-font-size` | `var(--mp-font-size-sm)`  |
+| `--mp-day-picker-head-item-color`               | `rgba(0, 0, 0, 0.38)`  |
+| `--mp-day-picker-head-item-padding`             | `8px 0`                |
+| `--mp-day-picker-head-item-font-weight`         | `600`                  |

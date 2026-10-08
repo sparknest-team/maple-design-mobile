@@ -1,6 +1,6 @@
-import { COMMIT_MESSAGE_RE, getCommitMessage, isVersionCommitMessage } from '../release/index.js'
 import fse from 'fs-extra'
 import markdownIt from 'markdown-it'
+import { COMMIT_MESSAGE_RE, getCommitMessage, isVersionCommitMessage } from '../release/index.js'
 import { CHECKLIST_FILE } from '../shared/constant.js'
 import logger from '../shared/logger.js'
 

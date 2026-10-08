@@ -8,6 +8,6 @@ const range24 = ref([])
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-time-range v-model="range24" format="24hr" use-seconds placeholder="含秒的时间范围" clearable />
+    <mp-time-range v-model="range24" format="HH:mm:ss" placeholder="含秒的时间范围" clearable />
   </mp-space>
 </template>

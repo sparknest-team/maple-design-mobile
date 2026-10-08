@@ -9,6 +9,7 @@ const variant = ref<(typeof variants)[number]>('default')
 const component = ref<'button' | 'a'>('button')
 const disabled = ref(false)
 const loading = ref(false)
+const iconContainer = ref(false)
 const clicks = ref(0)
 </script>
 <template>
@@ -37,6 +38,7 @@ const clicks = ref(0)
         ><span class="demo-toggle"><mp-switch v-model="loading" aria-label="Loading" />Loading</span>
       </div>
     </div>
+    <label><input v-model="iconContainer" type="checkbox" /> Icon container</label>
     <div class="demo-preview" data-button-preview>
       <mp-button
         v-for="status in statuses"
@@ -47,6 +49,7 @@ const clicks = ref(0)
         :component="component"
         :disabled="disabled"
         :loading="loading"
+        :icon-container="iconContainer"
         @click="clicks++"
         >{{ status }}</mp-button
       >
