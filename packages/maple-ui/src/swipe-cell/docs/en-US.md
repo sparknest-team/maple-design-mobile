@@ -25,6 +25,9 @@ Swipe left to reveal the right-side action.
 ```demo
 ../example/demos/before-close.vue
 ```
+
+`Dialog.confirm(...)` resolves with an action. Only `confirm` allows closing; `cancel` and `close` preserve the revealed actions. The basic Delete button demonstrates closing only; implement data deletion in your application.
+
 ## API
 
 ### Props

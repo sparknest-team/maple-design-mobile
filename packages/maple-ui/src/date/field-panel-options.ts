@@ -24,9 +24,22 @@ export function dateFieldPanelOptions(
   options: DateFieldProps,
   range: boolean,
 ): DatePanelOptions & Record<string, unknown> {
-  const nested = range && 'dateRangePickerProps' in options ? options.dateRangePickerProps : options.datePickerProps
+  const nested =
+    range && 'dateRangePickerProps' in options
+      ? options.dateRangePickerProps
+      : 'datePickerProps' in options
+        ? options.datePickerProps
+        : undefined
+  const presentation = datePresentationOptions(nested)
+  const nestedOptions = Object.fromEntries(
+    ['datePickerProps', 'pickerProps', 'timePickerProps'].map((key) => {
+      const outer = options[key as keyof DateFieldProps] as Record<string, unknown> | undefined
+      return [key, { ...(presentation[key] as Record<string, unknown> | undefined), ...datePresentationOptions(outer) }]
+    }),
+  )
   return {
-    ...datePresentationOptions(nested),
+    ...presentation,
     ...Object.fromEntries(Object.entries(options).filter(([key]) => !fieldOnly.has(key))),
+    ...nestedOptions,
   }
 }

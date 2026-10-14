@@ -1,4 +1,4 @@
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '../utils/constants'
 
 export type ProgressGroupOrientation = 'horizontal' | 'vertical'
@@ -14,6 +14,8 @@ export interface ProgressGroupItem {
 }
 
 export const progressGroupProps = {
+  /** 分组的无障碍名称 */
+  ariaLabel: String,
   /** 展示模式 */
   mode: { type: String as PropType<ProgressGroupMode>, default: 'line' },
   /** 分段数据 */
@@ -21,7 +23,7 @@ export const progressGroupProps = {
   /** 所有分段相对于该值计算占比 */
   max: { type: Number, default: 100 },
   /** 是否显示累计百分比 */
-  status: { type: Boolean, default: false },
+  showText: { type: Boolean, default: false },
   /** 组件尺寸 */
   size: { type: String as PropType<ComponentSize>, default: 'md' },
   /** 未指定分段颜色时的默认颜色 */

@@ -48,6 +48,12 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 ../example/demos/en-US/state.vue
 ```
 
+### History presentation and slots
+
+```demo
+../example/demos/en-US/presentation.vue
+```
+
 ## API
 
 ### Props
@@ -70,7 +76,7 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 | `loading`                  | Loading state; submission is blocked while loading | _boolean_                 | `false`    |
 | `clearable`                | Whether the value can be cleared                   | _boolean_                 | `false`    |
 | `variant`                  | Input variant: `filled`, `outline`, or `standard`  | _string_                  | `outline`  |
-| `size`                     | Input size                                         | _string_                  | `md`       |
+| `size` | Input size inherited from Form / ConfigProvider | `xs / sm / md / lg / xl` | `md` |
 | `placeholder`              | Placeholder                                        | _string_                  | `-`        |
 | `disabled`                 | Whether Search is disabled                         | _boolean_                 | `false`    |
 | `readonly`                 | Whether Search is readonly                         | _boolean_                 | `false`    |
@@ -79,8 +85,8 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 | `background`               | Outer background color                             | _string_                  | `-`        |
 | `input-background`         | Inner field background color                       | _string_                  | `-`        |
 | `show-action`              | Whether to show the mobile action                  | _boolean_                 | `false`    |
-| `action-text`              | Mobile action text                                 | _string_                  | `取消`     |
-| `action-type`              | Mobile action type: `cancel` or `search`           | _string_                  | `cancel`   |
+| `action-text` | Action text | `string` | Global locale for action-type |
+| `action-type`              | Action type: `cancel` or `search`           | _string_                  | `cancel`   |
 | `search-icon`              | Search icon name                                   | _string_                  | `magnify`  |
 | `max-length`               | Maximum length                                     | _string \| number_        | `-`        |
 | `enterkeyhint`             | Virtual keyboard Enter hint                        | _string_                  | `search`   |
@@ -110,7 +116,7 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 | `button-default` | Shared search button content                   | `-`         |
 | `button-icon`    | Shared search button icon                      | `-`         |
 | `label`          | Left label                                     | `-`         |
-| `action`         | Mobile action content                          | `-`         |
+| `action`         | Action content                          | `-`         |
 
 ### Methods
 
@@ -135,3 +141,29 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 | `modelValue`     | Raw search keyword  | _string_                               |
 | `model`          | Field model object  | _Record<string, unknown> \| undefined_ |
 | `recentSearches` | Next search history | _string[]_                             |
+
+Input event contract: editing emits `input` before `update:modelValue`; committing on blur emits `change` only for a changed value. Clearing emits `clear → input → update:modelValue → change` once, updates the search field model once, and does not submit a search.
+
+Input notifications precede model updates. Enter waits for the Input commit and accepted controlled model before constructing its search result; rejected trim proposals do not replace the actual controlled value. Clear emits clear → input → update:modelValue → change without submitting a search.
+
+## Controlled model contract
+
+Value precedence is `modelValue` > `model[currentField]` > uncontrolled `defaultValue`. A missing/null field in a supplied model renders an empty string. Keep multiple controlled bindings consistent in the parent. `modelField` takes precedence over `defaultField` and the first field.
+
+The supplied model is **never mutated**. Each logical edit emits a fresh `update:model` proposal, clears other declared fields, and preserves unrelated keys. Bind with `v-model:model` or explicitly accept proposals. Switching fields emits one `update:modelField → update:modelValue → update:model → change` sequence. Enter, button and history search wait for the parent update, then report the actual accepted field, value and model—not rejected proposals.
+
+History is neither filtered by input nor persisted internally. The returned history is trimmed, emptied entries removed, deduplicated and bounded. Empty keywords do not add records; negative/non-finite limits produce an empty list. Clear never searches. Cancel proposes an empty value and emits cancel/change without searching.
+
+Editing emits `input → update:modelValue`; changed commits emit `change`. Clear emits `clear → input → update:modelValue → change` once. Disabled, readonly and loading block search, cancel, history and field actions. Form / FormItem / InputGroup state is inherited. Deactivation or unmount cancels pending asynchronous search.
+
+### Platform boundaries
+
+The controller, public API and history content are independently copied. Cedar defaults to `historyPopup=false, shape=square`; Maple defaults to `historyPopup=true, shape=round`. Fullscreen history uses local Drawer / Popup instances. Desktop InputGroup and mobile search-bar layout/touch spacing remain independent. Input supports `xs/sm/md/lg/xl`; outer bar density is configured by Search tokens rather than scaled by size.
+
+### Public types
+
+`SearchProps`, `SearchEmits`, `SearchSlots`, `SearchExpose`, `SearchField`, `SearchResult`.
+
+### Input forwarding
+
+Explicit Input props include `modelModifiers`, `type`, `ariaLabel`, `placeholder`, `maxLength`, `readonly`, `disabled`, `autofocus`, `enterkeyhint`, `textColor`, `focusColor`, `blurColor`, `size`, `variant`, `clearable`, `inputAttrs` and `error`. `inputAttrs` carries native name/autocomplete/ARIA attributes to both outer and fullscreen Input; `error` overrides inherited error state. Search actions, popup cancellation and dialog labels follow the global locale. Programmatic cancel, field and history selection notify Form change once; native edits retain the Input event pipeline.

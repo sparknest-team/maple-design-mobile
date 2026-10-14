@@ -21,6 +21,7 @@ import {
   VITE_RESOLVE_EXTENSIONS,
 } from '../shared/constant.js'
 import { MapleConfig, type MapleConfigHtmlInject, type MapleConfigHtmlInjectPoint } from './maple.config.js'
+import { createSiteImportPlugin, createSiteResolver } from './site-resolver.js'
 
 const uiDocPreviewEntry = createRequire(import.meta.url).resolve('@ui-foundation/ui-doc-preview')
 
@@ -49,6 +50,7 @@ export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
 
   const plugins = [
     MapleStyleImports(resolverOptions),
+    createSiteImportPlugin(SRC_DIR),
     vue({
       include: [/\.vue$/, /\.md$/],
     }),
@@ -56,7 +58,7 @@ export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
     jsx(),
 
     Components({
-      resolvers: [MapleResolver(resolverOptions)],
+      resolvers: [createSiteResolver(SRC_DIR, resolverOptions)],
       dts: false,
     }),
 

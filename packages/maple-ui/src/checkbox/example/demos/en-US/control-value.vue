@@ -6,7 +6,7 @@ const value = ref(false)
 const selected = ref([0])
 </script>
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <p>Boolean models emit booleans; array models use value as the option ID. Current value:{{ value }}</p>
     <mp-checkbox ref="control" v-model="value">Enable notifications</mp-checkbox>
     <mp-space>

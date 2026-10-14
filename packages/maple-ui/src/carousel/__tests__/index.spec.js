@@ -23,9 +23,9 @@ describe('carousel', () => {
       },
     })
 
-    expect(wrapper.findAll('.mp-carousel__navigation-button')).toHaveLength(2)
-    expect(wrapper.find('.mp-carousel__navigation-prev-button svg').exists()).toBe(true)
-    expect(wrapper.find('.mp-carousel__navigation-next-button svg').exists()).toBe(true)
+    expect(wrapper.findAll('.mp-carousel__arrow')).toHaveLength(2)
+    expect(wrapper.find('.mp-carousel__arrow-prev svg').exists()).toBe(true)
+    expect(wrapper.find('.mp-carousel__arrow-next svg').exists()).toBe(true)
     expect(wrapper.findAll('.mp-button')).toHaveLength(0)
   })
 })

@@ -18,6 +18,8 @@ import { props as timeRangePickerPropsSource } from './picker-props'
 export type TimeRangePresentation = 'clock' | 'picker'
 
 export const props = {
+  /** 是否允许手输时间；移动端默认关闭，面板选择不受影响。 */
+  inputEditable: { type: Boolean, default: false },
   /** 隐藏禁用的时间选项；时钟保留刻度角度。 */
   hideDisabledOptions: Boolean,
   /** 有效选择后立即提交并关闭，不显示确认按钮。 */

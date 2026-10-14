@@ -36,14 +36,12 @@
 import {
   computed,
   defineComponent,
-  reactive,
   ref,
   watch,
   type ComputedRef,
   type PropType,
   type Ref,
   type RendererNode,
-  type UnwrapRef,
 } from 'vue'
 import { toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
@@ -90,10 +88,6 @@ export default defineComponent({
     const reverse: Ref<boolean> = ref(false)
     const panelKey: Ref<number> = ref(0)
     const page: Ref<number> = ref(0)
-    const panelBtnDisabled: UnwrapRef<PanelBtnDisabled> = reactive({
-      left: false,
-      right: false,
-    })
 
     const yearList: ComputedRef<Array<number>> = computed(() => {
       if (!props.preview) {
@@ -266,26 +260,14 @@ export default defineComponent({
       },
     )
 
-    watch(
-      () => [yearList.value, props.componentProps.max, props.componentProps.min],
-      (newVal) => {
-        const [list, max, min] = newVal as [number[], string, string]
-        if (max) {
-          panelBtnDisabled.right = !dayjs(`${toNumber(list[list.length - 1])}`).isSameOrBefore(dayjs(max), 'year')
-        }
-
-        if (min) {
-          panelBtnDisabled.left = !dayjs(`${toNumber(list[0])}`).isSameOrAfter(dayjs(min), 'year')
-        }
-
-        if (toNumber(list[0] <= 0)) {
-          panelBtnDisabled.left = false
-        }
-      },
-      {
-        immediate: true,
-      },
-    )
+    const panelBtnDisabled = computed<PanelBtnDisabled>(() => {
+      const list = yearList.value
+      const { max, min } = props.componentProps
+      return {
+        right: !!max && !dayjs(`${toNumber(list[list.length - 1])}`).isSameOrBefore(dayjs(max), 'year'),
+        left: list[0] > 0 && !!min && !dayjs(`${toNumber(list[0])}`).isSameOrAfter(dayjs(min), 'year'),
+      }
+    })
 
     return {
       n,

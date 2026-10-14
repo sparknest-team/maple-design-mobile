@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import Upload from '..'
 import { delay, mockFileReader, mockStubs, triggerKeyboard } from '../../utils/test'
@@ -14,6 +14,14 @@ beforeEach(() => {
 })
 afterEach(() => vi.unstubAllGlobals())
 
+const change = async (wrapper, event) => {
+  Object.defineProperty(wrapper.get('input[type=file]').element, 'files', {
+    value: event.target.files,
+    configurable: true,
+  })
+  await wrapper.get('input[type=file]').trigger('change')
+  await flushPromises()
+}
 const createEvent = (filename, type) => ({
   target: {
     files: [new File([], filename, { type })],
@@ -25,12 +33,12 @@ test('upload releases only owned object URLs on removal and unmount', async () =
   const wrapper = mount(VarUpload, {
     props: { modelValue: [external], 'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }) },
   })
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  const owned = wrapper.vm.modelValue[1].url
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  const owned = wrapper.props('modelValue')[1].url
   expect(URL.createObjectURL).toHaveBeenCalledTimes(1)
   await wrapper.setProps({ modelValue: [external] })
   expect(URL.revokeObjectURL).toHaveBeenCalledWith(owned)
-  await wrapper.vm.handleChange(createEvent('dog.png', 'image/png'))
+  await change(wrapper, createEvent('dog.png', 'image/png'))
   wrapper.unmount()
   expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2)
   expect(URL.revokeObjectURL).not.toHaveBeenCalledWith('blob:external')
@@ -44,7 +52,8 @@ test('upload ignores a pending reader after unmount', async () => {
     })
   const update = vi.fn()
   const wrapper = mount(VarUpload, { props: { beforeRead, 'onUpdate:modelValue': update } })
-  const pending = wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
+  const pending = change(wrapper, createEvent('cat.png', 'image/png'))
+  await flushPromises()
   wrapper.unmount()
   resolve(true)
   await pending
@@ -53,15 +62,15 @@ test('upload ignores a pending reader after unmount', async () => {
 })
 
 test('upload validates replacement file size and handles rejected hooks', async () => {
-  const oversize = vi.fn()
+  const rejected = vi.fn()
   const wrapper = mount(VarUpload, {
-    props: { maxFileSize: 2, beforeRead: () => new File(['large'], 'replacement.png'), onOversize: oversize },
+    props: { maxFileSize: 2, beforeRead: () => new File(['large'], 'replacement.png'), onRejected: rejected },
   })
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  expect(oversize).toHaveBeenCalledTimes(1)
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  expect(rejected).toHaveBeenCalledTimes(1)
   expect(URL.createObjectURL).not.toHaveBeenCalled()
   await wrapper.setProps({ beforeRead: () => Promise.reject(new Error('rejected')) })
-  await expect(wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))).resolves.toBeUndefined()
+  await expect(change(wrapper, createEvent('cat.png', 'image/png'))).resolves.toBeUndefined()
   expect(URL.createObjectURL).not.toHaveBeenCalled()
   wrapper.unmount()
 })
@@ -71,17 +80,17 @@ test('upload plugin', () => {
   expect(app.component(Upload.name)).toBeTruthy()
 })
 
-test('upload onAfterRead', async () => {
-  const onAfterRead = vi.fn()
+test('upload onRead', async () => {
+  const onRead = vi.fn()
 
   const wrapper = mount(VarUpload, {
     props: {
-      onAfterRead,
+      onRead,
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  expect(onAfterRead).toHaveBeenCalledTimes(1)
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  expect(onRead).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
 })
@@ -96,11 +105,11 @@ test('upload beforeAdd', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  expect(wrapper.vm.modelValue).toHaveLength(0)
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  expect(wrapper.props('modelValue')).toHaveLength(0)
 
-  await wrapper.vm.handleChange(createEvent('cat.jpg', 'image/jpg'))
-  expect(wrapper.vm.modelValue).toHaveLength(1)
+  await change(wrapper, createEvent('cat.jpg', 'image/jpg'))
+  expect(wrapper.props('modelValue')).toHaveLength(1)
 
   await wrapper.setProps({
     modelValue: [],
@@ -121,27 +130,28 @@ test('upload beforeAdd', async () => {
     },
   }
 
-  await wrapper.vm.handleChange(event)
-  expect(wrapper.vm.modelValue).toHaveLength(2)
+  await change(wrapper, event)
+  await delay(1100)
+  expect(wrapper.props('modelValue')).toHaveLength(2)
 
   wrapper.unmount()
 })
 
 test('upload beforeRead', async () => {
-  const onAfterRead = vi.fn()
+  const onRead = vi.fn()
 
   const wrapper = mount(VarUpload, {
     props: {
-      onAfterRead,
+      onRead,
       beforeRead: (file) => file.name.endsWith('jpg'),
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  expect(onAfterRead).toHaveBeenCalledTimes(0)
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  expect(onRead).toHaveBeenCalledTimes(0)
 
-  await wrapper.vm.handleChange(createEvent('cat.jpg', 'image/png'))
-  expect(onAfterRead).toHaveBeenCalledTimes(1)
+  await change(wrapper, createEvent('cat.jpg', 'image/png'))
+  expect(onRead).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
 })
@@ -163,7 +173,7 @@ test('upload preview', async () => {
     },
   })
 
-  await wrapper.find('.mp-upload__file').trigger('click')
+  await wrapper.vm.preview(wrapper.props('modelValue')[0])
   await delay(100)
   expect(document.querySelector('[data-image-preview-stage]')).not.toBeNull()
   wrapper.vm.closePreview()
@@ -189,7 +199,7 @@ test('upload preview event', async () => {
       onPreview,
     },
   })
-  await wrapper.find('.mp-upload__file').trigger('click')
+  await wrapper.vm.preview(wrapper.props('modelValue')[0])
   expect(onPreview).toHaveBeenCalledTimes(1)
   wrapper.vm.closePreview()
   await delay(300)
@@ -210,33 +220,33 @@ test('upload prevent default preview', async () => {
           thumbnailUrl: 'https://maplejs.org/cat.jpg',
         },
       ],
-      preventDefaultPreview: true,
+      onPreview: (_file, event) => event.preventDefault(),
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })
 
-  wrapper.setProps({ preventDefaultPreview: true })
+  wrapper.setProps({ onPreview: (_file, event) => event.preventDefault() })
   await delay(100)
-  await wrapper.find('.mp-upload__file').trigger('click')
-  expect(document.querySelectorAll('.mp-popup').length).toBe(1)
+  await wrapper.vm.preview(wrapper.props('modelValue')[0])
+  expect(document.querySelector('[data-image-preview-stage]')).toBeNull()
 
   mockRestoreStubs()
   wrapper.unmount()
   mockRestore()
 })
 
-test('upload onOversize', async () => {
-  const onOversize = vi.fn()
+test('upload onRejected', async () => {
+  const onRejected = vi.fn()
 
   const wrapper = mount(VarUpload, {
     props: {
       maxFileSize: -1,
-      onOversize,
+      onRejected,
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  expect(onOversize).toHaveBeenCalledTimes(1)
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  expect(onRejected).toHaveBeenCalledTimes(1)
 
   wrapper.unmount()
 })
@@ -254,13 +264,13 @@ test('upload onRemove', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
+  await change(wrapper, createEvent('cat.png', 'image/png'))
   expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
 
-  await wrapper.find('.mp-upload__file-close').trigger('click')
+  await wrapper.find('button[aria-label="删除"]').trigger('click')
   expect(onUpdateModelValue).toHaveBeenCalledTimes(2)
   expect(onRemove).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.modelValue).toStrictEqual([])
+  expect(wrapper.props('modelValue')).toStrictEqual([])
 
   wrapper.unmount()
   mockRestore()
@@ -281,14 +291,14 @@ test('upload beforeRemove', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
+  await change(wrapper, createEvent('cat.png', 'image/png'))
   expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
 
-  await wrapper.find('.mp-upload__file-close').trigger('click')
+  await wrapper.find('button[aria-label="删除"]').trigger('click')
   expect(beforeRemove).toHaveBeenCalledTimes(1)
   expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
   expect(onRemove).toHaveBeenCalledTimes(0)
-  expect(wrapper.vm.modelValue).toHaveLength(1)
+  expect(wrapper.props('modelValue')).toHaveLength(1)
 
   wrapper.unmount()
   mockRestore()
@@ -298,27 +308,27 @@ test('upload disabled', async () => {
   const { mockRestore } = mockFileReader('data:image/png;base64,')
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
   const onRemove = vi.fn()
-  const onAfterRead = vi.fn()
+  const onRead = vi.fn()
 
   const wrapper = mount(VarUpload, {
     props: {
       disabled: false,
       modelValue: [],
-      onAfterRead,
+      onRead,
       onRemove,
       'onUpdate:modelValue': onUpdateModelValue,
     },
   })
 
   expect(wrapper.html()).toMatchSnapshot()
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
-  expect(onAfterRead).toHaveBeenCalledTimes(1)
+  await change(wrapper, createEvent('cat.png', 'image/png'))
+  expect(onRead).toHaveBeenCalledTimes(1)
 
   await wrapper.setProps({ disabled: true })
   expect(wrapper.html()).toMatchSnapshot()
-  expect(wrapper.find('.mp-upload__action-input[disabled]').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-upload__input[disabled]').exists()).toBeTruthy()
 
-  await wrapper.find('.mp-upload__file-close').trigger('click')
+  await wrapper.find('button[aria-label="删除"]').trigger('click')
   expect(onRemove).toHaveBeenCalledTimes(0)
 
   wrapper.unmount()
@@ -345,8 +355,8 @@ test('upload length over maxFiles in multiple mode', async () => {
     },
   }
 
-  await wrapper.vm.handleChange(event)
-  expect(wrapper.vm.modelValue.length).toBe(1)
+  await change(wrapper, event)
+  expect(wrapper.props('modelValue').length).toBe(1)
 
   wrapper.unmount()
   mockRestore()
@@ -372,8 +382,8 @@ test('upload hideList', async () => {
     },
   }
 
-  await wrapper.vm.handleChange(event)
-  expect(wrapper.vm.files.length).toBe(0)
+  await change(wrapper, event)
+  expect(wrapper.find('.mp-upload__list').exists()).toBe(false)
 
   wrapper.unmount()
   mockRestore()
@@ -404,9 +414,9 @@ test('upload file utils', () => {
     },
   })
 
-  expect(wrapper.vm.getLoading()).toStrictEqual([modelValue[0]])
-  expect(wrapper.vm.getSuccess()).toStrictEqual([modelValue[1]])
-  expect(wrapper.vm.getError()).toStrictEqual([modelValue[2]])
+  expect(wrapper.vm.getFiles('uploading')).toStrictEqual([modelValue[0]])
+  expect(wrapper.vm.getFiles('success')).toStrictEqual([modelValue[1]])
+  expect(wrapper.vm.getFiles('error')).toStrictEqual([modelValue[2]])
 })
 
 test('upload progress', () => {
@@ -443,11 +453,11 @@ test('upload resolve-type as default when file type is image', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
+  await change(wrapper, createEvent('cat.png', 'image/png'))
   await delay(100)
-  expect(wrapper.vm.files[0].thumbnailUrl.startsWith('blob:')).toBe(true)
-  expect(wrapper.vm.files[0].status).toBe('ready')
-  expect(wrapper.vm.files[0].percent).toBe(0)
+  expect(wrapper.vm.getFiles()[0].thumbnailUrl.startsWith('blob:')).toBe(true)
+  expect(wrapper.vm.getFiles()[0].status).toBe('ready')
+  expect(wrapper.vm.getFiles()[0].percent).toBe(0)
 
   mockRestoreStubs()
   wrapper.unmount()
@@ -467,9 +477,9 @@ test('upload resolve-type as default when file type is not image', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('data.json', 'application/json'))
+  await change(wrapper, createEvent('data.json', 'application/json'))
   await delay(100)
-  expect(wrapper.vm.files[0].thumbnailUrl.includes('data:')).toBe(false)
+  expect(wrapper.vm.getFiles()[0].thumbnailUrl).toBeUndefined()
 
   mockRestoreStubs()
   wrapper.unmount()
@@ -489,9 +499,9 @@ test('upload resolve-type as file when file type is image', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
+  await change(wrapper, createEvent('cat.png', 'image/png'))
   await delay(100)
-  expect(wrapper.vm.files[0].thumbnailUrl).toBe('')
+  expect(wrapper.vm.getFiles()[0].thumbnailUrl).toBeUndefined()
 
   mockRestoreStubs()
   wrapper.unmount()
@@ -511,9 +521,9 @@ test('upload resolve-type as data-url when file type is image', async () => {
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('cat.png', 'image/png'))
+  await change(wrapper, createEvent('cat.png', 'image/png'))
   await delay(100)
-  expect(wrapper.vm.files[0].thumbnailUrl.includes('data:image/png;base64,')).toBe(true)
+  expect(wrapper.vm.getFiles()[0].thumbnailUrl.includes('data:image/png;base64,')).toBe(true)
 
   mockRestoreStubs()
   wrapper.unmount()
@@ -533,30 +543,30 @@ test('upload resolve-type as data-url when file type is not image', async () => 
     },
   })
 
-  await wrapper.vm.handleChange(createEvent('data.json', 'application/json'))
+  await change(wrapper, createEvent('data.json', 'application/json'))
   await delay(100)
-  expect(wrapper.vm.files[0].thumbnailUrl.includes('data:')).toBe(true)
+  expect(wrapper.vm.getFiles()[0].url.includes('data:')).toBe(true)
 
   mockRestoreStubs()
   wrapper.unmount()
   mockRestore()
 })
 
-test('upload onClickAction', async () => {
-  const onClickAction = vi.fn()
+test('upload requestChoose', async () => {
+  const requestChoose = vi.fn()
 
   const wrapper = mount(VarUpload, {
     props: {
       modelValue: [],
-      onClickAction,
+      requestChoose,
     },
   })
 
-  await wrapper.find('.mp-upload__action').trigger('click')
-  expect(onClickAction).toBeCalledTimes(1)
+  await wrapper.find('.mp-upload__trigger').trigger('click')
+  expect(requestChoose).toBeCalledTimes(1)
   await wrapper.setProps({ disabled: true })
-  await wrapper.find('.mp-upload__action').trigger('click')
-  expect(onClickAction).toBeCalledTimes(1)
+  await wrapper.find('.mp-upload__trigger').trigger('click')
+  expect(requestChoose).toBeCalledTimes(1)
   wrapper.unmount()
 })
 
@@ -576,13 +586,13 @@ test('upload showRemoveButton', async () => {
     },
   }
 
-  await wrapper.vm.handleChange(event)
-  expect(wrapper.find('.mp-upload__file-close').exists()).toBe(true)
+  await change(wrapper, event)
+  expect(wrapper.find('button[aria-label="删除"]').exists()).toBe(true)
 
   await wrapper.setProps({
     showRemoveButton: false,
   })
-  expect(wrapper.find('.mp-upload__file-close').exists()).toBe(false)
+  expect(wrapper.find('button[aria-label="删除"]').exists()).toBe(false)
 
   wrapper.unmount()
   mockRestore()
@@ -599,8 +609,8 @@ test('upload keyboard enter for chooseFile', async () => {
     },
   })
 
-  await wrapper.find('.mp-upload__action').trigger('focus')
-  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
+  await wrapper.find('.mp-upload__trigger').trigger('focus')
+  await wrapper.find('.mp-upload__trigger').trigger('keydown', { key: 'Enter' })
   expect(click).toHaveBeenCalledTimes(1)
 
   HTMLInputElement.prototype.click = origin
@@ -618,9 +628,9 @@ test('upload keyboard space for chooseFile', async () => {
     },
   })
 
-  await wrapper.find('.mp-upload__action').trigger('focus')
-  await triggerKeyboard(window, 'keydown', { key: ' ' })
-  await triggerKeyboard(window, 'keyup', { key: ' ' })
+  await wrapper.find('.mp-upload__trigger').trigger('focus')
+  await wrapper.find('.mp-upload__trigger').trigger('keydown', { key: ' ' })
+
   expect(click).toHaveBeenCalledTimes(1)
 
   HTMLInputElement.prototype.click = origin

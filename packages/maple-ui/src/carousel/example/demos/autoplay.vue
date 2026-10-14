@@ -1,73 +1,43 @@
-<script setup></script>
+<script setup>
+import { computed, ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
+
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
+const current = ref(0)
+const playing = ref(true)
+const changes = ref(0)
+const sources = ['cat.jpg', 'cat2.jpg', 'cat3.jpg']
+</script>
 
 <template>
-  <mp-carousel class="carousel" :auto-play="2000">
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat2.jpg'" alt="" />
-    </mp-carousel-item>
-    <mp-carousel-item>
-      <img class="carousel-item" :src="'cat3.jpg'" alt="" />
-    </mp-carousel-item>
-  </mp-carousel>
+  <section class="carousel-autoplay-demo">
+    <label><input v-model="playing" type="checkbox" /> {{ english ? 'Autoplay' : '自动播放' }}</label>
+    <p role="status">
+      {{ english ? 'Current slide' : '当前页' }}：{{ current + 1 }}；{{ english ? 'Changes' : '切换次数' }}：{{
+        changes
+      }}
+    </p>
+    <mp-carousel v-model:current="current" height="180px" :auto-play="playing ? 2000 : false" @change="changes += 1">
+      <mp-carousel-item v-for="(source, index) in sources" :key="source">
+        <img
+          class="carousel-autoplay-demo__image"
+          :src="source"
+          :alt="(english ? 'Demo image ' : '示例图片 ') + (index + 1)"
+        />
+      </mp-carousel-item>
+    </mp-carousel>
+  </section>
 </template>
 
-<style lang="less" scoped>
-.carousel {
-  height: 160px;
-}
-
-.carousel-example {
-  height: 160px;
-}
-
-.carousel-item {
+<style scoped>
+.carousel-autoplay-demo__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-}
-
-.carousel-custom-slide {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4a90d9;
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.carousel-custom-indicators {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-}
-
-.carousel-custom-indicator {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
-  font-size: 12px;
-  border-radius: 50%;
-}
-
-.carousel-custom--active {
-  background: #4a90d9;
-}
-
-.space {
-  height: 20px;
 }
 </style>

@@ -21,7 +21,17 @@ export function useDateSelection(options: DateSelectionOptions) {
     draft.value = cloneFieldValue(options.value())
     settled = false
   }
-  watch(options.value, reset, { deep: true, flush: 'sync' })
+  watch(
+    options.value,
+    () => {
+      // A controlled parent echo is still part of the settled confirmation.
+      // Only a different external value starts a new transaction.
+      if (!settled || !sameDateSelection(options.value(), draft.value, options.rules())) {
+        reset()
+      }
+    },
+    { deep: true, flush: 'sync' },
+  )
   function valid(value: DateSelection) {
     if (!isDateSelectionValid(value, options.rules(), options.range(), options.multiple?.())) {
       return false
@@ -75,5 +85,5 @@ export function useDateSelection(options: DateSelectionOptions) {
     options.onConfirm?.()
     return true
   }
-  return { draft, canConfirm, select, commit, clear, reset }
+  return { draft, canConfirm, valid, select, commit, clear, reset }
 }

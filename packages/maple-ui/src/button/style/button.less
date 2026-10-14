@@ -396,5 +396,36 @@
   &&--disabled {
     color: var(--mp-button-disabled-text-color);
     background-color: var(--mp-button-disabled-color);
+    &.mp-button--variant-text,
+    &.mp-button--variant-outline {
+      background-color: transparent;
+    }
+    .semantic-disabled(@status) {
+      &.mp-button--status-@{status} {
+        color: var(~'--mp-button-@{status}-disabled-color');
+        &.mp-button--variant-default:not(.mp-button--icon-container) {
+          color: var(--mp-button-disabled-solid-text-color);
+          background-color: var(~'--mp-button-@{status}-disabled-color');
+        }
+        &.mp-button--variant-tonal,
+        &.mp-button--variant-default.mp-button--icon-container {
+          background-color: var(~'--mp-button-@{status}-icon-container-color');
+        }
+      }
+    }
+    .neutral-disabled(@status) {
+      &.mp-button--status-@{status}.mp-button--variant-tonal,
+      &.mp-button--status-@{status}.mp-button--variant-default.mp-button--icon-container {
+        background-color: var(~'--mp-button-@{status}-icon-container-color');
+      }
+    }
+    .neutral-disabled(default);
+    .neutral-disabled(secondary);
+    .neutral-disabled(tertiary);
+    .semantic-disabled(primary);
+    .semantic-disabled(info);
+    .semantic-disabled(success);
+    .semantic-disabled(warning);
+    .semantic-disabled(danger);
   }
 }

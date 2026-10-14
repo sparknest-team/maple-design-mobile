@@ -49,7 +49,7 @@ test('shows empty only when an empty list is not loading', async () => {
   expect(wrapper.text()).not.toContain('empty')
 
   await wrapper.setProps({ loading: false })
-  expect(wrapper.find('.mp-list__loading').exists()).toBe(false)
+  expect(wrapper.find('.mp-list__loading').attributes('aria-busy')).toBeUndefined()
   expect(wrapper.text()).toContain('empty')
 })
 

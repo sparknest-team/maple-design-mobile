@@ -1,5 +1,5 @@
 import type { ExtractPublicPropTypes, HTMLAttributes, PropType, StyleValue } from 'vue'
-import type { ComponentSize, Orientation } from './platform'
+import type { ComponentSize, Orientation } from '../utils/constants'
 
 export type TabsKey = string | number
 export type TabsVariant = 'line' | 'card' | 'outline' | 'plain' | 'capsule' | 'enclosed'

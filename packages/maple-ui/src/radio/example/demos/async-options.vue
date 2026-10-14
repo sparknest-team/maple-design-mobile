@@ -13,7 +13,7 @@ async function load() {
 </script>
 
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <p>业务值独立于当前选项，加载或移除选项不会清空已选值：{{ value }}</p>
     <mp-space>
       <mp-button size="sm" @click="load">加载选项</mp-button>

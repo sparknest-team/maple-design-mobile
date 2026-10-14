@@ -64,6 +64,7 @@ packages/
 | 仅检查示例脚本和模板语法 | `pnpm docs:check` |
 | 构建 npm 包及文档 | `pnpm build` |
 | 静态检查（不自动修改） | `pnpm lint:check` |
+| 开发流程不覆盖发布产物的回归 | `pnpm check:dev-boundary` |
 | 跑指定包单测 | `pnpm --dir packages/maple-ui exec vitest run --config ../maple-cli/lib/node/config/vitest.config.js` |
 | 跑指定组件 | `... vitest run src/<component>` |
 | 更新快照 | 上述命令加 `-u` |

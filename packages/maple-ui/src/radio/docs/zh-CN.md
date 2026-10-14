@@ -2,6 +2,8 @@
 
 ### 介绍
 
+基础示例随站点语言切换显示文案，业务值和选中状态不会随语言变化。分组示例覆盖父级接受/拒绝更新、只读和异步选项回显；移除选项不会清空业务值。外层 Space 纵向布局使用 `direction="column"`，选择组自身纵向使用 `direction="vertical"`。
+
 在一组备选项中进行单选。
 
 ### 基本使用
@@ -70,6 +72,7 @@
 ### 分组状态与只读
 
 `model-value !== undefined` 表示受控，父级不回写时保留原值；`default-value` 只初始化非受控值。分组内只由 Group 发出 `update:model-value → change(value, event?)`，并通知 FormItem 一次，子项不重复发值变化事件。
+原生输入的选中值、ARIA 状态和选中样式与模型保持一致。受控分组拒绝选择时，同时恢复原选中项和被点击项；标签、Enter 和空格激活各只提出一次更新。
 Group 的 `disabled`、`readonly`、`error` 未设置时继承表单，显式 `false` 可以覆盖表单；子项不能绕过 Group 的禁用或只读限制。
 
 ```demo
@@ -119,6 +122,14 @@ Tab 进入已选项（没有已选项时进入第一个可用项）；方向键�
 
 ```demo
 ../example/demos/button-sizes.vue
+```
+
+### 原生控件与自定义图标
+
+两端均使用原生 radio input。Group 的 name 供原生表单提交，子项可覆盖。aria-label/input-attrs 作用于 input；组件管理的 type、checked、disabled、tabindex 不允许覆盖。图标插槽仅替换图标；#radio 替换全部可见内容，使用时须提供可访问名称。
+
+```demo
+../example/demos/native-control.vue
 ```
 
 ## API
@@ -237,3 +248,11 @@ Tab 进入已选项（没有已选项时进入第一个可用项）；方向键�
 `{ label?: string; value?: string; disabled?: string; readonly?: string; indeterminate?: string }`
 
 公开导出类型：`RadioOption`、`ChoiceFieldNames`。
+
+### 原生属性与外观补齐
+
+| 组件 | 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- | --- |
+| Radio / RadioGroup | name | 原生字段名，子项覆盖分组 | string | undefined |
+| Radio | aria-label | 原生控件的无障碍名称 | string | undefined |
+| Radio | input-attrs | 原生 input 属性 | InputHTMLAttributes | undefined |

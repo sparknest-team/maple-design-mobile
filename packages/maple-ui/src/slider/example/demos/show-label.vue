@@ -19,9 +19,9 @@ const values = reactive({
 </script>
 
 <template>
-  <mp-slider v-model="values.value5" label-visible="never" />
+  <mp-slider v-model="values.value5" :show-tooltip="false" />
   <mp-slider v-model="values.value6" />
-  <mp-slider v-model="values.value7" label-visible="always" />
+  <mp-slider v-model="values.value7" show-tooltip="always" />
 </template>
 
 <style>

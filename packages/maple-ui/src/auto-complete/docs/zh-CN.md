@@ -111,7 +111,7 @@ shouldOpen 控制是否允许展开，filterOption 控制逐项过滤；它们�
 | `focus / blur` | `event: FocusEvent` |
 | `dropdown-scroll / dropdown-reach-bottom` | `event: Event` |
 
-输入顺序：`update:modelValue → input → search`；选择：`update:modelValue → select → change`；清除：`update:modelValue → clear`。同值选择只发 select。change 表示失焦、Enter 或候选选择产生的提交。Input 负责输入、焦点与清除的 Form 通知，AutoComplete 仅对候选提交通知一次。选择也遵守 maxLength；select 的 value 是最终提交字符串，option.value 保留原始候选。clear 参数为事件，不再是字符串。
+输入顺序：`input → update:modelValue → search`；选择：`update:modelValue → select → change`；清除：`clear → input → update:modelValue → change`。同值选择只发 select。change 表示失焦、Enter 或候选选择产生的提交。Input 负责输入、焦点与清除的 Form 通知，AutoComplete 仅对候选提交通知一次。选择也遵守 maxLength；select 的 value 是最终提交字符串，option.value 保留原始候选。clear 参数为事件，不再是字符串。
 
 ### Slots
 
@@ -157,3 +157,5 @@ import type { AutoCompleteProps, AutoCompleteInstance, AutoCompleteOption, AutoC
 | `--mp-auto-complete-option-text-color-hover` | `var(--mp-sys-color-content-primary)` |
 | `--mp-auto-complete-option-text-color-selected` | `var(--mp-sys-color-content-primary)` |
 | `--mp-auto-complete-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
+
+清空不发 search，也不重新展开候选面板，包括从键盘聚焦的清空按钮回到输入框。受控值由父级决定：连续被拒绝的清空或选择仍各自发出 change 提议；已接受的候选选择只通知 Form 一次。

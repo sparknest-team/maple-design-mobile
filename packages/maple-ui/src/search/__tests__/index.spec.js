@@ -44,15 +44,15 @@ describe('Search', () => {
     input.element.focus()
     await input.trigger('focus')
     await input.setValue('keyword')
-    expect(order).toEqual(['update', 'input'])
+    expect(order).toEqual(['input', 'update'])
 
     await input.trigger('blur')
-    expect(order).toEqual(['update', 'input', 'change'])
+    expect(order).toEqual(['input', 'update', 'change'])
     await input.trigger('blur')
-    expect(order).toEqual(['update', 'input', 'change'])
+    expect(order).toEqual(['input', 'update', 'change'])
   })
 
-  test('clears without edit or search side effects and keeps history visible', async () => {
+  test('clears through one input/change cycle without submitting and keeps history visible', async () => {
     const wrapper = mount(MpSearch, {
       attachTo: document.body,
       props: {
@@ -72,11 +72,14 @@ describe('Search', () => {
 
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([''])
     expect(wrapper.emitted('clear')?.[0]?.[0]).toBeInstanceOf(Event)
-    expect(wrapper.emitted('input')).toBeUndefined()
-    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+    expect(wrapper.emitted('input')).toHaveLength(1)
+    expect(wrapper.emitted('input')[0][0]).toBe('')
+    expect(wrapper.emitted('change')).toHaveLength(1)
+    expect(wrapper.emitted('change')[0][0]).toBe('')
     expect(wrapper.emitted('search')).toBeUndefined()
     expect(document.activeElement).toBe(input.element)
-    expect(wrapper.vm.historyMenuVisible).toBe(true)
+    expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(true)
   })
 
   test('submits once on Enter without actively blurring', async () => {
@@ -143,11 +146,12 @@ describe('Search', () => {
     })
 
     await wrapper.get('.mp-input__inner').setValue('设备 B')
-    expect(model).toEqual({ id: undefined, name: '设备 B' })
+    expect(model).toEqual({ name: '设备 A' })
+    expect(wrapper.emitted('update:model')[0][0]).toEqual({ id: undefined, name: '设备 B' })
     expect(wrapper.emitted('update:model')).toHaveLength(1)
 
     const event = new Event('change')
-    wrapper.vm.handleFieldChange('id', event)
+    wrapper.vm.$.setupState.state.handleFieldChange('id', event)
     await nextTick()
 
     expect(wrapper.emitted('update:modelField')?.[0]).toEqual(['id'])
@@ -198,7 +202,7 @@ describe('Search', () => {
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Maple'])
     expect(wrapper.emitted('search')?.[0]?.[0]).toMatchObject({ modelValue: 'Maple' })
     expect(wrapper.emitted('search')?.[0]?.[1]).toBeInstanceOf(Event)
-    expect(wrapper.vm.historyPopupVisible).toBe(false)
+    expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(false)
   })
 
   test('selects menu history and searches immediately', async () => {
@@ -211,14 +215,14 @@ describe('Search', () => {
     })
 
     await wrapper.get('.mp-input__inner').trigger('focus')
-    expect(wrapper.vm.historyMenuVisible).toBe(true)
+    expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(true)
     document.body.querySelector('.mp-dropdown-menu-option').click()
     await nextTick()
 
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Maple'])
     expect(wrapper.emitted('search')?.[0]?.[0]).toMatchObject({ modelValue: 'Maple' })
     expect(wrapper.emitted('search')?.[0]?.[1]).toBeInstanceOf(Event)
-    expect(wrapper.vm.historyMenuVisible).toBe(false)
+    expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(false)
   })
 
   test('exposes focus and blur methods', async () => {

@@ -1,67 +1,103 @@
-import { InputHTMLAttributes, type PropType } from 'vue'
-import { defineListenerProp } from '../utils/components'
+import type { PropType } from 'vue'
+import type {
+  UploadBeforeRead,
+  UploadBeforeRemove,
+  UploadBeforeUpload,
+  UploadCapture,
+  UploadCreateThumbnailUrl,
+  UploadCustomRequest,
+  UploadData,
+  UploadFileItem,
+  UploadHeaders,
+  UploadImageFit,
+  UploadIsSuccessResponse,
+  UploadListType,
+  UploadResolveType,
+} from './interfaces'
 
-export type UploadStatus = 'ready' | 'reading' | 'uploading' | 'success' | 'error' | 'canceled' | 'removed'
-
-export interface UploadFileItem {
-  uid: string
-  file?: File
-  name?: string
-  size?: number
-  type?: string
-  url?: string
-  thumbnailUrl?: string
-  percent: number
-  fit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
-  status: UploadStatus
-  response?: unknown
-  error?: unknown
-}
-
-export type UploadResolveType = 'object-url' | 'file' | 'data-url'
-
-export const props = {
-  modelValue: {
+export const uploadProps = {
+  modelValue: Array as PropType<UploadFileItem[]>,
+  defaultValue: {
     type: Array as PropType<UploadFileItem[]>,
     default: () => [],
   },
-  accept: {
-    type: String,
-    default: 'image/*',
-  },
-  capture: {
-    type: [String, Boolean] as PropType<InputHTMLAttributes['capture']>,
-    default: undefined,
-  },
+  accept: String,
+  capture: [String, Boolean] as PropType<UploadCapture>,
   multiple: Boolean,
-  readonly: Boolean,
-  disabled: Boolean,
-  elevation: {
-    type: [Boolean, Number],
+  directory: Boolean,
+  draggable: Boolean,
+  disabled: { type: Boolean, default: undefined },
+  readonly: { type: Boolean, default: undefined },
+  elevation: { type: [Boolean, Number], default: false },
+  ripple: { type: Boolean, default: true },
+  requestChoose: Function as PropType<import('./interfaces').UploadRequestChoose>,
+  action: String,
+  method: {
+    type: String,
+    default: 'post',
+  },
+  headers: [Object, Function] as PropType<UploadHeaders>,
+  data: [Object, Function] as PropType<UploadData>,
+  name: {
+    type: [String, Function] as PropType<string | ((file: UploadFileItem) => string)>,
+    default: 'file',
+  },
+  withCredentials: Boolean,
+  customRequest: Function as PropType<UploadCustomRequest>,
+  autoUpload: {
+    type: Boolean,
     default: true,
   },
-  resolveType: {
-    type: String as PropType<UploadResolveType>,
-    default: 'object-url',
+  maxFiles: Number,
+  maxFileSize: Number,
+  maxTotalSize: Number,
+  listType: {
+    type: String as PropType<UploadListType>,
+    default: 'text',
+  },
+  imageFit: {
+    type: String as PropType<UploadImageFit>,
+    default: 'cover',
+  },
+  showFileList: {
+    type: Boolean,
+    default: true,
+  },
+  showUploadButton: {
+    type: Boolean,
+    default: true,
   },
   showRemoveButton: {
     type: Boolean,
     default: true,
   },
-  maxFiles: [Number, String],
-  maxFileSize: [Number, String],
+  showRetryButton: {
+    type: Boolean,
+    default: true,
+  },
+  showCancelButton: {
+    type: Boolean,
+    default: true,
+  },
+  showPreviewButton: {
+    type: Boolean,
+    default: true,
+  },
+  showDownloadButton: Boolean,
+  resolveType: {
+    type: String as PropType<UploadResolveType>,
+    default: 'object-url',
+  },
   preview: {
     type: Boolean,
     default: true,
   },
-  ripple: {
-    type: Boolean,
-    default: true,
-  },
-  showFileList: { type: Boolean, default: true },
-  preventDefaultPreview: Boolean,
-  onClickAction: defineListenerProp<(chooseFile: () => void, event: Event) => void>(),
+  createThumbnailUrl: Function as PropType<UploadCreateThumbnailUrl>,
   beforeAdd: Function as PropType<(files: File[]) => File[] | Promise<File[]>>,
-  beforeRead: Function as PropType<(file: File) => boolean | File | Promise<boolean | File>>,
-  beforeRemove: Function as PropType<(file: UploadFileItem, fileList: UploadFileItem[]) => boolean | Promise<boolean>>,
+  beforeRead: Function as PropType<UploadBeforeRead>,
+  beforeUpload: Function as PropType<UploadBeforeUpload>,
+  beforeRemove: Function as PropType<UploadBeforeRemove>,
+  isSuccessResponse: Function as PropType<UploadIsSuccessResponse>,
 }
+
+export type UploadProps = import('vue').ExtractPublicPropTypes<typeof uploadProps>

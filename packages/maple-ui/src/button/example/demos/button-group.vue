@@ -15,7 +15,7 @@ async function save() {
 <template>
   <p>Sizes</p>
   <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px">
-    <mp-button-group v-for="size in sizes" :key="size" :size="size" status="primary"
+    <mp-button-group v-for="size in sizes" :key="size" :size="size"
       ><mp-button>{{ size }}</mp-button
       ><mp-button>Next</mp-button></mp-button-group
     >
@@ -33,14 +33,14 @@ async function save() {
     :key="String(vertical)"
     style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; margin-bottom: 16px"
   >
-    <mp-button-group v-for="variant in variants" :key="variant" :variant="variant" :vertical="vertical" status="primary"
+    <mp-button-group v-for="variant in variants" :key="variant" :variant="variant" :vertical="vertical"
       ><mp-button>{{ variant }}</mp-button
       ><mp-button>Next</mp-button><mp-button>Last</mp-button></mp-button-group
     >
   </div>
   <p>Inheritance / individual overrides</p>
   <div style="display: flex; flex-wrap: wrap; gap: 16px">
-    <mp-button-group status="primary"
+    <mp-button-group
       ><mp-button>Default</mp-button><mp-button status="success">Success</mp-button
       ><mp-button variant="outline">Outline</mp-button><mp-button disabled>Off</mp-button></mp-button-group
     >
@@ -65,7 +65,7 @@ async function save() {
     <mp-switch v-model="pending" aria-label="Group loading" />Loading preview
   </div>
   <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px">
-    <mp-button-group v-for="stacked in [false, true]" :key="String(stacked)" :stacked="stacked" status="primary">
+    <mp-button-group v-for="stacked in [false, true]" :key="String(stacked)" :stacked="stacked">
       <mp-button :loading="pending" auto-loading @click="save"
         ><template #icon
           ><svg

@@ -3,6 +3,7 @@ import { renderToString } from '@vue/server-renderer'
 import { DOMWrapper, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { InputGroup } from '../../input'
+import { formHost } from '../../input-number/__tests__/form-host'
 import { AutoComplete } from '../index'
 import type { AutoCompleteInstance, AutoCompleteOptionInfo } from '../index'
 
@@ -36,6 +37,83 @@ const options = [
 ]
 
 describe('AutoComplete', () => {
+  test('trimmed input update still produces one normalized search', async () => {
+    const wrapper = mountAutoComplete({ attrs: { modelModifiers: { trim: true } }, props: { options: ['Alpha'] } })
+    const input = wrapper.get('input.mp-input__inner')
+    await input.trigger('focus')
+    await input.setValue(' Alpha ')
+    expect(wrapper.emitted('input')?.[0]?.[0]).toBe(' Alpha ')
+    expect(wrapper.emitted('update:modelValue')).toEqual([['Alpha']])
+    expect(wrapper.emitted('search')?.map((args: any[]) => args[0])).toEqual(['Alpha'])
+  })
+  test('external controlled update while focused resets commit baseline', async () => {
+    const wrapper = mountAutoComplete({ props: { modelValue: 'Alpha', options: ['Alpha'], filterOption: false } })
+    const input = wrapper.get('input.mp-input__inner')
+    await input.trigger('focus')
+    await wrapper.setProps({ modelValue: 'Beta' })
+    await getOptions(input)[0].trigger('click')
+    expect(wrapper.emitted('change')?.map((args: any[]) => args[0])).toEqual(['Alpha'])
+  })
+
+  test('rejected controlled clear remains a new request each time', async () => {
+    const wrapper = mountAutoComplete({ props: { modelValue: 'Alpha', clearable: true, options: ['Alpha'] } })
+    const input = wrapper.get('input.mp-input__inner')
+    await input.trigger('focus')
+    await wrapper.get('.mp-field-decorator__clear-btn').trigger('click')
+    await wrapper.get('.mp-field-decorator__clear-btn').trigger('click')
+    expect(wrapper.emitted('change')?.map((args: any[]) => args[0])).toEqual(['', ''])
+    expect(wrapper.emitted('update:modelValue')).toEqual([[''], ['']])
+    expect((input.element as HTMLInputElement).value).toBe('Alpha')
+    expect(wrapper.emitted('search')).toBeUndefined()
+  })
+  test('keyboard-focused clear button does not reopen dropdown when input regains focus', async () => {
+    const wrapper = mountAutoComplete({
+      props: { defaultValue: 'Alpha', clearable: true, options: ['Alpha', 'Beta'], filterOption: false },
+    })
+    const input = wrapper.get('input.mp-input__inner')
+    const clear = wrapper.get('.mp-field-decorator__clear-btn')
+    ;(clear.element as HTMLButtonElement).focus()
+    await clear.trigger('click')
+    await nextTick()
+    expect(document.activeElement).toBe(input.element)
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(wrapper.emitted('search')).toBeUndefined()
+  })
+  test('rejected repeated selection still emits each change proposal', async () => {
+    const wrapper = mountAutoComplete({ props: { modelValue: 'Alpha', options: ['Beta'], filterOption: false } })
+    const input = wrapper.get('input.mp-input__inner')
+    for (let attempt = 0; attempt < 2; attempt++) {
+      await input.trigger('focus')
+      await nextTick()
+      await getOptions(input)[0].trigger('click')
+    }
+    expect(wrapper.emitted('change')?.map((args: any[]) => args[0])).toEqual(['Beta', 'Beta'])
+    expect(wrapper.emitted('update:modelValue')).toEqual([['Beta'], ['Beta']])
+    expect((input.element as HTMLInputElement).value).toBe('Alpha')
+  })
+  test('Enter option selection notifies Form once without committing stale query', async () => {
+    const changes: Event[] = []
+    const wrapper = mount(
+      formHost({}, { onChange: (event: Event) => changes.push(event) }, () =>
+        h(AutoComplete, { options: ['Alpha'], shouldOpen: () => true }),
+      ),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    const input = wrapper.get('input.mp-input__inner')
+    await input.trigger('focus')
+    await input.setValue('Al')
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await input.trigger('keydown', { key: 'Enter' })
+    expect(changes).toHaveLength(1)
+    expect(
+      wrapper
+        .findComponent(AutoComplete)
+        .emitted('change')
+        ?.map((args: any[]) => args[0]),
+    ).toEqual(['Alpha'])
+  })
+
   test('base markup snapshot', () => {
     expect(mountAutoComplete().html()).toMatchSnapshot()
   })
@@ -73,12 +151,12 @@ describe('AutoComplete', () => {
 
     await input.trigger('focus')
     await input.setValue('Alpha')
-    expect(order).toEqual(['update', 'input', 'search'])
+    expect(order).toEqual(['input', 'update', 'search'])
 
     await input.trigger('blur')
-    expect(order).toEqual(['update', 'input', 'search', 'change'])
+    expect(order).toEqual(['input', 'update', 'search', 'change'])
     await input.trigger('blur')
-    expect(order).toEqual(['update', 'input', 'search', 'change'])
+    expect(order).toEqual(['input', 'update', 'search', 'change'])
   })
 
   test('opens on empty focus and applies built-in filtering', async () => {
@@ -167,7 +245,7 @@ describe('AutoComplete', () => {
     expect(wrapper.emitted('change')).toBeUndefined()
   })
 
-  test('clears with the activation event and no edit or commit side effects', async () => {
+  test('clears through one input/update/change cycle without search or select', async () => {
     const wrapper = mountAutoComplete({
       props: { defaultValue: 'Alpha', options, clearable: true },
       attachTo: document.body,
@@ -183,9 +261,12 @@ describe('AutoComplete', () => {
 
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([''])
     expect(wrapper.emitted('clear')?.[0]?.[0]).toBeInstanceOf(Event)
-    expect(wrapper.emitted('input')).toBeUndefined()
+    expect(wrapper.emitted('input')).toHaveLength(1)
+    expect(wrapper.emitted('input')?.[0]?.[0]).toBe('')
+    expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
     expect(wrapper.emitted('search')).toBeUndefined()
-    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('change')).toHaveLength(1)
+    expect(wrapper.emitted('change')?.[0]?.[0]).toBe('')
     expect(wrapper.emitted('select')).toBeUndefined()
     expect(input.attributes('aria-expanded')).toBe('false')
     expect(document.activeElement).toBe(input.element)

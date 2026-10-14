@@ -1,8 +1,218 @@
 # Design Tokens and CSS Variable Layers
 
+### PreviewGroup: recentering and double-frame settlement (2026-10-14)
+
+Looping retains triplicated images and canonical middle-segment coordinates. Double RAF is state settlement before restoring transition, not animation duration; zero/reduced motion still needs it. The track owner window requests/cancels frames and timers. Close, image replacement (including equal-length/in-place edits), loop changes, new navigation, deactivation and disposal invalidate old work. Consumed callbacks cannot fork tasks or release newer instant phases. Retained inactive/disposed commands are inert; activation canonicalizes current state without replay. Image-content watches settle post-render to avoid contaminating child registration watchEffect dependencies.
+
+Both tracks consume `--c-sys-motion-duration-slow` / `--mp-sys-motion-duration-slow` (currently240ms) and `--c-sys-motion-easing-standard` / `--mp-sys-motion-easing-standard`. Maple replaces its fixed280ms/custom curve with existing system semantics; no new public variables. Instant/moving/reduced motion disable transition. The visual-completion fallback reads actual computed transform/all duration and delay after rendering, including lists, negative delay and zero duration. Private400ms is only for unavailable/unresolved style, never a cap or CSS token. Self transform transitionend can settle early; bubbled and pre-command timestamp events are rejected. Legacy unstamped events and all native cross-document cases are not certified.
+
+Final scoped27 each/full Image Cedar62/Maple114; compiled32 theme/pointer/preference cases,16 paired duration/easing overrides,32 instant/moving consumers. Controlled queues/fake clocks/iframe owners and Less cascade checks are not native browser/OS acceptance; new real cases0. Classification40 files/92 hints,87 pending (not defects), inventory192 files/392 CSS/179 runtime hints unchanged. Form/date inventory drift/144 environment blockers remain. Older pending statements and figures are historical. Evidence: design-ui/audits/evidence/preview-group-track-2026-10-14/results.json.
+
+### ImagePreview: interaction windows and mode observation (2026-10-14)
+
+500ms is touch long-press notification policy;320ms expires double-tap recognition, not CSS completion or delayed close. Private tapTimer clears recognition state (correcting the misleading tapCloseTimer name); public deadlines/zoom/drag remain, with no CSS token. Timer generations consume delivery once and reject canceled, moved, released, closed, replaced-source, inactive or disposed work without clearing newer handles.
+
+Deactivation/disposal detach keyboard, cancel timers, release pointer capture and clear moving state. Retained interaction entries are inert; activation allows fresh gestures without replay. Close/source changes synchronously clear input. The mode helper detaches coarse-pointer MQL while inactive, rejects detached binding deliveries and rereads on activation; this is not reduced-motion. Existing global document/window ownership remains, without native cross-document/touch certification.
+
+Baseline17 each:15 failures/2 controls; final17 each and full Image Cedar35/Maple87 pass. Fake timers/MQL/pointer events/capture spies are not native browser/OS proof; new real cases:0. Vue cleanup guidance informed lifecycle ownership and descriptor/clock restoration. Evidence: design-ui/audits/evidence/image-controller-scheduler-2026-10-14/results.json.
+
+Two Controller candidate files/four interaction-delay hints added:38 classified files/86 hints,93 unclassified (not defects), inventory192 files/392 CSS/179 runtime hints unchanged. Two useInteraction sources have no scanned runtime hint; audit their hashes without inflating candidate statistics. PreviewGroup recentering remains separate; Form/date inventory drift/144 environment blockers remain untouched. Older figures are historical.
+
+### Select: render settlement and keyboard dispatch (2026-10-14)
+
+The shared hook's nextTick waits for rendering/option registration, not popup animation completion. Close/reopen, newer keyboard scrolling, active-key commands, deactivation and disposal invalidate old open work. Consume delivery once even with no enabled option; late options cannot revive it. Retained inactive/disposed keyboard/selection/scroll entries are inert; activation accepts new commands without replay. Normal late dropdown registration remains supported.
+
+Virtual scrolling is delegated-scroll; subsequent DOM scrollTo is native-scroll. Recheck lifecycle/open/request/ref ownership after virtual callbacks before DOM writes. New interaction-dispatch classification identifies synchronous local Arrow routing, distinct from interaction-delay: no timer or CSS duration token. The nextTick route is state-settlement, actual IO is classified separately. Public API, keyboard/identity protocol and CSS variables remain unchanged.
+
+Valid baseline12 each:10 failures/2 controls. Final14 each include late-registration and empty-delivery controls; shared AutoComplete/Cedar Mention regression totals Cedar93/Maple96 pass. Cedar's old Vitest TSX versus.ts transform split prevented the nextTick mock from intercepting the hook; use.test.ts for a valid baseline, not a product defect. Controlled queues/DOM geometry/virtual spies are not native browser/OS or downstream-component certification. Vue cleanup guidance informed lifecycle guards. Evidence: design-ui/audits/evidence/select-scheduler-2026-10-14/results.json.
+
+Inventory192 files/392 CSS/179 runtime hints unchanged;36 files/82 classified hints,97 unclassified (not defects). Maple full lint passes this round without edits to date files; previous23 date demo errors remain historical parallel-work findings, not fixes claimed here. All1019 demo SFCs compile. Form, date inventory drift and144 environment blockers remain; new browser/OS cases:0. Older statistics are historical.
+
+### BackTop: measurement and scroll ownership (2026-10-14)
+
+Visibility RAF is measurement-scheduling; public duration (default200ms)/easing drive JS visual-scroll, not CSS duration tokens. Reduced motion jumps at entry or on the next valid frame after a preference change; necessary measurements remain. Preserve horizontal position/events/scrollToTop, without a new cancel API or CSS variable.
+
+Binding generations reject detached listeners; measurement/animation frames verify ownership and consume once. Replacement/cancellation/deactivation/disposal invalidate old work, which cannot clear newer handles or revive on activation. Recheck after custom easing before writing/rescheduling. RAF/cancellation/performance origin use target.ownerDocument.defaultView. Activation binds fresh listeners/current visibility without resuming old animation.
+
+Initial14 cases per copy:10 failures/4 controls. The measurement replay probe needed mounted-watch settlement; record the probe adjustment separately, not as an extra product defect. Contract probes now patch actual owner RAF/clock. Final14 scoped/full30 each pass. Simulated iframe ownership/cancellation is not native browser/OS or real document-adoption proof. Vue cleanup guidance informed lifecycle/descriptor restoration. Evidence: design-ui/audits/evidence/back-top-scheduler-2026-10-14/results.json.
+
+Consolidated animation scheduling reduces hints4→3 per copy, not functionality. Inventory192 files/392 CSS/179 runtime hints,34 files/70 classified hints,109 unclassified (not defects). Maple1017 demo SFCs compile with0 failures. Affected lint passes, but Maple full lint is blocked by23 formatting/curly errors in parallel date demos, preserved without fixes. Parallel Form/date inventory drift and144 blockers remain; new browser/OS cases:0. Older statistics below are historical.
+
+### InfiniteScroll: measurement tasks and observer bindings (2026-10-14)
+
+RAF and the zero-delay setTimeout fallback coalesce bottom-geometry checks: measurement-scheduling, not visual interpolation/completion. Do not add a CSS duration token or skip necessary measurement for reduced motion. Rebinding, deactivation and disposal cancel pending work and invalidate its generation. Dequeued old callbacks cannot clear newer handles, check the replacement target or revive on activation; consumed callbacks cannot replay. ResizeObserver and content/visibility MutationObserver callbacks also verify binding ownership before scheduling.
+
+Each independent copy reproduced7 failures/3 controls in10 controlled cases; all10 pass after repair. Preserve immediate notification policy, status-cycle locking, target/threshold, check/retry and event ordering; business requests are not owned by this component. Vue cleanup guidance informed deactivation/disposal and detached-observer guards. Controlled JSDOM queues are not native browser/observer timing or cross-document acceptance; new browser/OS cases:0.
+
+Classification32 files/64 hints,117 unclassified (not117 defects), inventory192 files/392 CSS/181 runtime hints unchanged. Parallel Form, date inventory drift and144 environment blockers remain untouched. Evidence: design-ui/audits/evidence/infinite-scroll-scheduler-2026-10-14/results.json. Statistics and pending scopes below are historical.
+
+### VirtualList: post-render correction ownership (2026-10-14)
+
+Both List consumers delegate to VirtualList. Current corrections use Vue nextTick, not direct RAF animation: classify as state-settlement, without a new CSS token or cancellation API. New commands/scroll events, data keys or virtual mode changes, KeepAlive deactivation and disposal invalidate older corrections. Callbacks verify request generation and original container; each post-render correction is consumed once. Retained scrollTo/List.scrollIntoView commands are inert while inactive or disposed. Reactivation does not replay old work; new valid commands remain usable. Logical cancellation does not remove Vue's queued callbacks or undo completed synchronous writes.
+
+Each platform reproduced10 failures/4 controls in14 controlled baseline cases. All15 final cases pass, including an additional duplicate object-correction delivery control. Full List suites: Cedar41/Maple34. Vue cleanup rules informed deactivation/disposal guards. Controlled nextTick/JSDOM is not native RAF/browser acceptance; new real browser/OS cases:0. Existing key/index/align, thresholds, measurement and public API remain unchanged; arbitrary geometry/document adoption is not certified.
+
+Classification30 files/60 hints,121 unclassified, inventory192 files/392 CSS/181 runtime hints. Parallel date CSS inventory drift, Form work and144 environment blockers remain untouched. Evidence: design-ui/audits/evidence/virtual-list-lifecycle-2026-10-14/results.json. Older figures and pending-scope statements below describe their historical batches.
+
+### Icon visual-completion ownership
+
+Icon transition is a public JS name-swap duration, default0; CSS transition-duration and JS waits use the same normalized value (negative/nonfinite becomes0). No new CSS variable or business/interaction timer token. Changing duration cancels the old phase and commits the current name. Replacement, preference changes, deactivation and disposal invalidate timers; dequeued/consumed callbacks cannot roll back names or clear newer animations.
+
+KeepAlive suspends delayed swaps and detaches reduced-motion observation; inactive data remains current, activation commits the latest name without replaying old animation. Read preference from the actual span.ownerDocument.defaultView, reject detached-listener delivery by binding generation, rebind/read on activation. Registry/slot precedence/spin/defaults remain. Nine controlled tests per copy had6 baseline failures/3 controls; full Icon Cedar20/Maple21 pass. Simulated iframe/MQL/timers are not native browser/OS acceptance; same-node adoption without reactivation remains separate.
+
+New responsibilities: visual-completion for visual replacement waits/preference branches, delegated-scroll for calls to another component rather than native DOM scrolling. List.scrollIntoView declares a method and forwards options to VirtualList; this is not local animation or native scrollIntoView proof. Downstream VirtualList RAF/retained commands remain unaudited. Classification28 files/58 hints,123 unclassified, inventory192 files/392 CSS/181 runtime hints unchanged.123 is not a defect count. Parallel Form/date development and144 environment blockers remain untouched.
+
+### IndexBar cancellation and state settlement
+
+IndexBar duration is a JS parameter, default0 with cubic easing for positive values, not a CSS token. Private consumer tasks now own entry/interpolation/list and clickedName two-frame waits; the uncancellable generic helper is no longer used by this consumer. Both generic copies and parallel Form remain unchanged. Replacement/deactivation/disposal cancel owner-window frames and resolve waits false without jumping to an old target. Delivered frames/microtasks verify ownership; old completion cannot unlock a new request. Retained inactive/disposed methods are inert; activation waits for child registration before restoring active/event:false. Public void scrollTo/defaults/events remain, with no new cancellation API or CSS variable.
+
+state-settlement is sequencing, not CSS duration; reduced motion skips interpolation only, not necessary settlement frames. Corrected baseline10 had7 failures/3 controls; real IAB exposed another activation-registration race, covered by consumer test11. Consumer11/task4/existing9 pass (24); final real IAB4/4, nodes0/no warn-error. Entry clicks are native, internal commands/scroll events scripted, not native gesture/OS/cross-document certification. Geometry-probe/fixed-coordinate fixture failures are recorded separately.
+
+Evidence: shared audits/evidence/index-bar-lifecycle-2026-10-14/results.json. Inventory192 files/392 CSS/181 runtime hints;24 files/50 hints classified,131 unclassified, not131 defects. Cedar has no IndexBar equivalent.144 environment blockers, other themes/windows and overlapping Form remain separate. Older statistics/pending scopes below are historical batch records.
+
+### Eight real IAB shared-scroll cases
+
+Each platform runs main-document default300ms/0ms and real same-origin iframe HTMLElement/Window:8/8 pass. Default completion302.5–313.9ms,19 owner native RAF calls each with intermediate coordinates. Zero0.1/0.6ms has0 RAF. All four iframe cases have0 host RAF; final left80/top220 remains stable after50ms; targets0 and no warn/error.
+
+Native fixture-entry clicks; fixture-owned counters forward unchanged to native RAF, without fake clocks/frames. First/middle/last native callback coordinates are excerpts, not full-frame pixel evidence. Observed reduce query isfalse; OS preference was not switched/certified. Form/IndexBar cancellation, other easing/duration/engines remain pending. Original viewed JPEG/hash retained;18 new evidence tests and full browser-evidence185 pass. No product/API/token repair added;144 environment blockers remain.
+
+### JS scroll execution: duration, window and reduced motion
+
+Both elements.scrollTo helpers retain default300ms and caller easing. Zero/negative/NaN/Infinity reaches the target without interpolation RAF. HTMLElement uses its actual ownerDocument.defaultView, Window uses itself, not ambient host RAF. Initial reduced-motion preference completes immediately; a changed owner preference completes on the next frame, without extra listeners. Each frame validates/consumes its generation; consumed/completed replay cannot write or schedule again.
+
+This is JS visual-scroll policy: duration is a function parameter, not a CSS variable/token consumer. Maple IndexBar public duration still defaults to0; its entry frame/doubleRaf remain asynchronous, so helper zero does not mean no component RAF. Form is another named consumer but overlapping parallel work is preserved.
+
+Ten helper tests pass per platform (baseline9 failures/1 default300ms control), plus Maple's existing IndexBar9 tests. Cedar's post-repair probe must target actual document.defaultView rather than a runner global wrapper; that mismatch is not another product failure. Preferences/iframes are simulated, not OS/native browser proof. No cancellation API/inter-call supersession is added. Consumer disposal/deactivation, Form ownership, IndexBar clickedName/doubleRAF/retained commands and real scrolling remain separate audits.
+
+### InputNumber / Countdown four real IAB cases
+
+default/light in the parent document: each platform has one repeat-cancel/unmount and one Countdown pause/KeepAlive case;4/4 pass, final component nodes0 and no warn/error. Entry buttons receive native clicks; internal pointerdown/pointercancel are fixture-scripted, Countdown uses public methods. This is not trusted native long press, dequeued-race, cross-window or OS certification.
+
+Actual first repeat intervals Cedar803.1ms/Maple802.3ms, subsequent152.8/153.1ms. Counts remain stable after cancel and after unmounting a replacement hold before800ms, observing beyond its deadline. Countdown paused callback counts remain13; inactive counts25/26, reset-to900ms counts26/27 remain stable; activation resumes to703/700ms, then final unmounted counts40/41 remain stable. Business clocks and interaction cadence are not visual-motion tokens.
+
+Initial direct component caching deferred new time until activation because its parent skipped the inactive vnode: a fixture coverage issue, not a product failure. Stable cached containers fix that; restart frozen service/reload and rerun all4, without recounting preliminary passes. Original viewed JPEG/hash and19 new evidence tests retained; full browser-evidence chain167 tests passes. No new product/API/token repair;144 environment blockers remain separate.
+
+### Countdown business clock and deactivation
+
+Countdown RAF refreshes business time, not visual interpolation; CSS duration/reduced motion must not alter the clock. Pause and KeepAlive deactivation freeze remaining duration; activation resumes that value without charging inactive time. Inactive time updates/reset may update data and emit change but schedule no RAF; auto-start is deferred to activation, and explicit pause cancels pending resume. Direct inactive start is ignored; disposed start/reset emit and schedule nothing.
+
+Each frame validates and consumes its generation before clearing its handle/calculating/notifying, then rechecks after change listeners. Reentrant reset/pause/start cannot be overwritten by an old frame; consumed frames cannot update twice or replace successors. End emits once, reset permits a new completion. Eight controlled clock/RAF tests pass per platform, six failing at baseline; full Countdown Cedar18/Maple20 pass. No CSS variable/public API additions; simulated RAF is not real browser/OS acceptance.
+
+### InputNumber long-press callback ownership
+
+Each long-press timer validates and consumes its generation before stepping. Old callbacks after stop, replacement, release, deactivation or disposal cannot change the value; a reentrant step that starts another hold cannot cancel that replacement through its return value. Inactive owners reject new holds; reactivation requires a new gesture rather than resuming the old one. Initial800ms/repeat150ms are interaction cadence, not CSS motion tokens. Eight controlled-timer/stale-callback tests pass per platform (seven fail before repair); full InputNumber Cedar45/Maple48 pass. This is not real browser or OS acceptance.
+
+### Runtime timing responsibilities — classification wave two
+
+RAF/setTimeout presence alone does not justify conversion to motion tokens. This batch reviews8 files/26 source hints across both platforms:22 files/44 classified hints in total,133 unclassified. Hints include method declarations: these are not component, defect or acceptance counts. Unclassified sources may include components with previous scoped acceptance.
+
+| Responsibility | Current example and purpose | Token / acceptance boundary |
+| --- | --- | --- |
+| business-clock | Countdown refreshes remaining business time against performance.now/deadline | CSS motion duration is not its clock; reduced visual motion must not shorten business time |
+| interaction-repeat | InputNumber800ms initial hold /150ms repetition | Interaction cadence, not CSS transition; cancellation, stale callbacks and deactivation require lifecycle tests |
+| test-support | delay/flushRaf and RAF/scroll mocks | Retain raw scanner hints without treating mocks as product motion or native browser calls |
+| visual-scroll | elements.scrollTo JS interpolation, default300ms and caller easing | Distinct from direct native-scroll forwarding; audit actual consumers, window ownership, cancellation, zero duration and reduced motion before token conversion |
+
+Maple Form uses default duration/linear; IndexBar uses public duration/easeInOutCubic. Picker's local scrollTo is a different function. No named production call to the Cedar helper was found; that is not bundle reachability certification. No imports of the test.ts helper paths were found in src excluding __tests__; this does not certify the bundle graph either.
+
+Historical classification candidates included repeat checking generation after step(); subsequent InputNumber controlled regressions reproduce and repair that case, as described above. Countdown pause/restart/inactive updates are now reproduced and repaired by subsequent controlled-clock regressions above; scroll helper execution/current preference is now repaired in scoped tests, while consumer cancellation and real reduced-motion behavior remain pending. The classification batch itself added no product repair or lifecycle acceptance. Classification binds full-source hashes, current hint lines and exact excerpts; source changes require manual re-review, never automatic hash refresh. No product/API/CSS-variable changes or new browser/OS passes;144 environment-blocked cases remain.
+
+### Trigger four real IAB lifecycle cases
+
+default/light, two platforms × delayed-unmount / KeepAlive resize: 4 real browser cases pass. Fixture-entry buttons receive native clicks; internal mouseenter is scripted, not trusted native hover, a dequeued-race proof, cross-window visuals or OS acceptance. Pending300ms open is unmounted around101ms; after553ms there is still no update/panel. Remounting the same path actually opens as a positive control, then final nodes return to0. Real ResizeObserver public counts progress1→2 while active, stay2 during deactivation and become3 after reactivation; reopening and final unmount succeed.
+
+Relative performance.now excerpts, public callbacks, DOM stages and original viewed JPEG/hash are retained; console warn/error is empty. No product/API/token change is added. Simulated stale-callback tests remain separate;144 native200%/Safari/Firefox groups, other themes/placements and native hover remain pending.
+
+### ResizeObserver measurement batch ownership
+
+Observer notifications and measurement RAF have separate binding/frame generations. Target replacement, close, deactivation and unmount invalidate old owners: disconnected observers cannot inject old entries into new batches, and dequeued RAF cannot consume or clear replacement work. A frame validates and consumes its generation once, without invalidating future notifications from the current observer. Preserve owner-window cancellation and necessary geometry work; add no motion token or visual-zero measurement policy.
+
+Three new simulated regressions per platform fail before repair and pass afterward; full Trigger Cedar63 / Maple76, resize8 per platform. This verifies scoped tool/Trigger lifecycle, not all consumers or real browser/OS. Same-node document adoption and target changes before watcher flush remain separate acceptance work.
+
+### Trigger bound listener-window cleanup
+
+Scroll cleanup retains the actual binding window instead of resolving the current popup ref. Window replacement, cleared refs and unmount before watcher flush all remove the original handler on its original window; RAF cancellation still uses its scheduling window. Three new simulated regressions per platform fail before repair and pass afterward; full Trigger Cedar60 / Maple73 pass. Inconsistent initial Window spies and initialization remove-call pollution were probe issues, not product failures. Window references are internal ownership, not tokens/API. Same-node document adoption without ref replacement, real browser visuals and OS preferences remain separate acceptance work.
+
+### Trigger measurement RAF window ownership
+
+Positioning / scroll-close RAF batches geometry work, not visual duration. Element scroll uses the event node's ownerDocument.defaultView; window scroll uses the popup's current window. The scheduling window is retained for cancellation. Generations isolate dequeued frames; current event state is cleared before invoking business handling so stale frames cannot consume replacement work. Necessary measurement is not disabled by reduced motion and receives no duration token.
+
+Four simulated iframe/RAF regressions per platform yield 3 failures / 1 pass before repair and full Trigger Cedar57 / Maple70 passing afterward. The initial fixture did not trigger the binding watcher and is not product evidence. Real cross-document visuals and OS preferences remain separate. The subsequent listener-window audit verifies original-window cleanup in simulation; same-node document adoption and browser/OS visuals remain separate.
+
+### Trigger interaction delay ownership
+
+mouse-enter-delay / mouse-leave-delay schedule interaction requests, not visual CSS duration. Cancel, replacement, deactivation and unmount invalidate dequeued callbacks; current work commits once and cannot clear replacement work. Deactivation retains the existing close request then rejects retained requests. Reactivation accepts new requests without replaying old hover delays; disposed owners never schedule again. Internal generations/activity are not public API or tokens. Controlled open behavior and delay defaults are unchanged.
+
+Six new callback-ownership regressions per platform failed before repair and pass afterward; full Trigger suites pass Cedar53 / Maple66. This is simulated callback evidence, not browser-frame or OS acceptance. RAF owner-window cancellation and cross-document positioning remain separate follow-up work; the first classification snapshot's pending-delay note is historical, not a claim that all Trigger responsibilities have now passed.
+
+### Runtime scheduling is not automatically a motion token
+
+The scanner reports line-level hints, not defects or accepted cases. Classify responsibility first: declarations do not execute; measurement RAF batches geometry reads/writes; interaction delays decide when state is requested; business deadlines control display or polling; visual completion waits follow actual CSS completion. A timeout or RAF alone does not justify replacing the first four responsibilities with CSS duration. Reduced motion must not disable necessary measurement or shorten business deadlines.
+
+The first manually reviewed slice covers 14 files / 18 hints: 6 declarations, 6 measurement schedules, 4 interaction delays and 2 native scrolling calls. Layout forwards caller scrollTo options; smooth scrolling and preference behavior are not certified. Trigger owner-window cancellation, dequeued callbacks and delayed-state ownership require separate lifecycle regression. Source hashes and quoted lines guard review drift; changes require re-review, not automatic hash refresh. The other 159 hints are not yet in this classification ledger, including previously audited components; they are not 159 unfixed defects. This classification adds zero browser/OS passes and changes no token layers, defaults or public API.
+
+Current step 6 validation: 80 foreground/solid-fill role checks and 64 primary-white-foreground checks pass. Of 200 foreground/neutral-surface contrast pairs, 94 fall below 4.5:1; this palette does not claim universal ordinary-text contrast compliance.
+
+The current palette uses step 6. Earlier step 7 contrast figures are historical and do not describe the current palette. Solid primary buttons retain white text.
+
+### Message display timer ownership
+
+Local reduce rules work with isolated component styles: Cedar disables root/enter/leave transitions and decorative icon fades; Maple disables transitions and animated displacement while preserving standalone horizontal/center translation. Do not erase layout transforms with transform:none. Compiled validation covers28 actual consumers/paired overrides and68 reduced selector/layout cases, not real OS switching. Defaults, display deadlines, colors and intrinsic child Icon spin semantics remain separate. Preference-only !important does not authorize ordinary theme overrides.
+
+Eight real IAB default/light top-service cases pass: each platform's default, 600ms/linear, explicit zero and same-id reopen while leaving. Default exits measured Cedar104.4ms/Maple153.8ms; long exits603.8ms/604.8ms; final reopened exits604.7ms/612.6ms, with one final closed callback and zero service nodes. Reopen cancels and replaces the old root DOM, not a completed old 600ms leave. Canonical DOM phase/callback excerpts and original JPEG are saved in design-ui/audits/evidence/message-native-2026-10-13. Not every exit yields a captured native end event; actual DOM completion timing remains evidence. Hover, KeepAlive, other themes/positions, native zoom, real OS preference and Safari/Firefox remain outside these eight cases.
+
+Service disposal follows the component's real after-leave → closed completion, not forced 150ms Transition duration or a 200ms fallback. Public CSS duration/easing overrides determine leaving; explicit zero/reduced motion still complete without changing business display time. Close/clear before component mount disposes directly and reports service onClosed without inventing component open/opened/close animation events. Snapshot-based clear does not skip synchronously removed items, and completion while the same-id item is open is ignored. Protocol/source tests are not native long-duration evidence.
+
+Message duration is a business display deadline, not a CSS transition token. Restart, hover pause, clear, deactivation and unmount invalidate stale callbacks; execution checks activity and open. KeepAlive deactivation cancels scheduling; reactivation starts the full current duration, consistently with Notification, not the pre-deactivation remainder. Inactive updates and retained restart methods after unmount cannot schedule work. Hover keeps remaining time; resuming an exhausted positive deadline requests close once, while an explicit paused reset to zero remains persistent. Only finite positive durations schedule auto-close; zero, negative and non-finite values do not. Private state is not an API or CSS variable. Simulated regression tests are not real browser/OS motion evidence.
+
+### Button contrast and palette step 6
+
+primary-7 is a palette step, not a 7:1 ratio or a white-text guarantee. on-dark remains white and on-bright remains black on both platforms. The user explicitly chose to retain white on-dark primary Button text and record its 2.305:1 default/light contrast as a design exception, not AA compliance. The measured on-bright alternative (minimum 6.277:1) is not adopted. Palette values remain unchanged; manual colors and foreground pairs remain caller-controlled. This narrow decision does not relax other text checks.
+
+Normal enabled text uses 4.5:1; qualifying large text uses 3:1, functional icons require a separate non-text assessment, and disabled text is exempt. Background-to-page contrast is not universally 4.5:1. An icon container can contain text; icon=true alone cannot lower its text threshold. The full variant text gate still fails separately. See [text contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) and [non-text contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html).
+
+Manual color/textColor or component variables remain available: on the real Button root use --mp-button-primary-color: rgb(var(--mp-primary-7)) and choose --mp-button-primary-text-color as a paired foreground (Cedar uses c). Recheck theme, backdrop and hover/active layer, adjusting the state-layer token if needed. Overrides are not automatically corrected or prohibited, but default acceptance does not certify arbitrary business colors. Record an intentional lower-contrast exception rather than claiming AA compliance.
+
+### Maple-only LoadingBar motion
+
+--mp-loading-bar-transition-duration (250ms) and --mp-loading-bar-transition-timing-function (ease) control width, opacity and background-color, not all properties. Apply them to the real service ancestor, normally html/body. Internal transitionDuration=0 resets the start and is not a public service option. No Cedar counterpart is invented.
+
+200ms show/tick, 300ms completion hold and 250ms removal floor are scheduling policies, not CSS tokens. After DOM flush, hiding waits max(300ms, resolved width duration+delay); removal waits max(250ms, resolved opacity duration+delay). The completed service unmounts and remounts on start/error. Resolved timing supports s/ms, all, repeated lists and negative delay; later CSS changes/custom animations are not promised. Reduce disables visual transitions, not progress/cleanup; explicit zero keeps cleanup floors.
+
+Repeated finish is deduplicated during delay/closing. start/error cancel obsolete generation-owned callbacks. Options replace the previous configuration; reset clears owned settings. SSR service calls schedule no timers or DOM. The command service is not automatically bound to a caller page lifecycle. Mocked timing/SSR and compiled CSS add no native browser/OS passes.
+
+Native IAB supplementation: six cases (default, long duration with delays, explicit zero, repeated finish, restart, error) passed with final service nodes zero. Long width-to-hide/removal measured 700.9ms/802.9ms. MutationObserver and real computed CSS evidence plus original JPEG are saved at design-ui/audits/evidence/loading-bar-native-2026-10-13. Native clicks launch documented fixture business sequences; this is not real OS preference, native zoom, Safari/Firefox or touch-device acceptance.
+
+Cedar-only Notification separates business duration (3000ms; 0 persistent) from six CSS transition tokens for opacity and directional enter/leave. Close is once per mounted instance and cancels display timers; closed/inactive/disposed generations do not emit again. resetOnUpdate restarts only active/unclosed display time. KeepAlive deactivation cancels and reactivation restarts the full configured duration. TransitionGroup owns leave completion independently. Seventeen service/component/SSR tests, twenty normal compiled consumers/paired overrides and forty-four reduced-motion selectors passed. Local reduce disables opacity/directional transitions and initial movement without global fallback; Six real IAB default/light service cases now pass; real OS and other engine/theme/position matrices remain pending. No Maple counterpart or new token is invented.
+
+Notification native evidence at design-ui/audits/evidence/notification-native-2026-10-13 includes default/long/zero, clear/same-ID re-add, active identity update and native manual close, with original JPEG. Empty framework measurement clones are not service instances. Captured public transition elapsedTime or the observed leave-to/removal chain verifies completion; class timestamps alone are not frame-perfect clocks, and explicit zero is not real OS reduce.
+
+clear releases logical IDs immediately. Re-adding the same ID after clear creates a fresh internal item/component identity and full display timer; updating a still-active ID retains its component. WeakMap item keys are implementation details, not business API or CSS variables. clear remains silent and scoped clear does not affect other positions.
+
+
+All components use palette step 6 for brand and semantic status foregrounds and solid action/status fills. Legacy direct foreground references now use the shared content roles. Light surfaces, disabled colors and explicit preset palettes retain their separate roles. Earlier contrast results for steps 6/8 do not apply to this palette change.
+
+Disabled styles follow Arco: colored solid fills use a lighter status background; text and outline remain transparent with muted status text; tonal keeps its light background. Neutral buttons use disabled neutral colors. Custom color/text-color is suspended while disabled; hover/active feedback and elevation are suppressed.
+
 > This page mirrors the shared standard. `design-ui/standards/design-tokens.md` is the source of truth; update this page and the Cedar page whenever the standard changes.
 
 Cedar and Maple share logical token semantics. Only the platform prefix differs: `--c-` for Cedar and `--mp-` for Maple. Shared semantics do not require every platform dimension to be identical, but tokens with the same logical name must have the same responsibility.
+
+## Preserve token responsibilities during refactoring (2026-10-09)
+
+After sharing component structure or changing the DOM, verify the complete path from each public token to its terminal CSS property again. Keeping a declaration and documentation does not prove customization still works. Internal adapters connect platform defaults; they must not merge distinct motion responsibilities or bypass existing public controls with constants.
+
+For Rate, `--{p}-rate-transition-duration` controls ordinary color/hover transitions, `--{p}-rate-scale-duration` controls the selection scale animation, and `--{p}-rate-transition-timing-function` controls both easing curves (p is c or mp). Platform defaults may differ, but all three controls must have real consumers. Declare internal mappings on the component root rather than :root so public overrides on an instance or its ancestors resolve in the correct scope. Reduced-motion preferences disable these effects.
+
+Documentation layout is not a component token API. Site styles own breakpoints, navigation and preview placement; these do not belong in system color or component geometry contracts. Long variable tables scroll locally. Record consumer checks, responsive layout, keyboard navigation and real-device acceptance separately.
+
+### Optional overrides and instance-size fallbacks
+
+VerificationCode's public `--{p}-verification-code-cell-height`, `cell-max-width` and `input-font-size` tokens default to `initial`: this means no explicit override, not a final pixel value. For these unregistered custom properties, `initial` activates the consuming `var()` fallback, which reads the private mapping for the current instance size. Do not resolve component-local private dimensions at `:root`.
+
+`cell-height` controls cell height; `cell-max-width` is the preferred cell width and may shrink when space is limited; `input-font-size` controls character size; `gutter` controls the gap. The first three follow the xs/sm/md/lg/xl field dimensions unless overridden. Gutter defaults to system space-2; the gutter prop writes an inline value to that public token. Override public tokens on an instance or business container, without depending on private mappings or assuming identical desktop/mobile pixel values.
+
+This is an explicit optional-override → instance-size contract, not a fallback for a missing system token. Set a token to `initial` on an instance to restore its size mapping. `unset` inherits ordinary custom properties from ancestors and is not an equivalent reset. Verify mixed sizes, a customized instance and an untouched neighbor across themes and narrow layouts.
 
 ## Current status (2026-09-30)
 
@@ -59,7 +269,7 @@ Avatar's governed roles are `content-primary` for text, count, and button icon; 
 
 Badge phase three: fills use `status-*` / `action-primary`, while outline text and borders use `content-info/success/warning/danger/brand`. Neutral default outlines use `content-primary`; secondary and tertiary outlines use `content-secondary`. The public outline background works for all statuses, including instances using `color`. Both libraries use light text for the filled primary Badge in the Maple light brand. Compiled CSS checks cover 640 built-in color combinations and 64 outline-background overrides: minimum text contrast is 4.56:1 for fills and 4.97:1 for outlines. Recheck custom colors and backgrounds; unregistered variables remain pending.
 
-The new semantic content roles use palette step 8 for readable colored text, icons, and matching borders on ordinary neutral surfaces. `content-brand` differs from the main content hierarchy (`content-primary`) and primary action emphasis (`action-primary`); changing the action color alone does not change brand text.
+The brand content role uses primary palette step 6; the other semantic content roles also use palette step 6 for readable colored text, icons, and matching borders on ordinary neutral surfaces. `content-brand` differs from the main content hierarchy (`content-primary`) and primary action emphasis (`action-primary`); changing the action color alone does not change brand text.
 
 ## Public and internal component tokens
 
@@ -94,11 +304,11 @@ Use `--{p}-` below for the platform prefix: `p=c` in Cedar and `p=mp` in Maple. 
 | `surface-muted` | `color-fill-1` | Weak filled surfaces and default filled controls. |
 | `content-primary` | `color-text-1` | Main text, headings, and icons on ordinary surfaces. |
 | `content-secondary` | `color-text-2` | Supporting text, secondary actions, and Divider labels. |
-| `content-brand` | `primary-8` (RGB) | Brand text, icons, and matching borders on ordinary neutral surfaces. |
-| `content-info` | `blue-8` (RGB) | Info text, icons, and matching borders on ordinary neutral surfaces. |
-| `content-success` | `success-8` (RGB) | Success text, icons, and matching borders on ordinary neutral surfaces. |
-| `content-warning` | `warning-8` (RGB) | Warning text, icons, and matching borders on ordinary neutral surfaces. |
-| `content-danger` | `danger-8` (RGB) | Danger text, icons, and matching borders on ordinary neutral surfaces. |
+| `content-brand` | `primary-6` (RGB) | Brand text, icons, and matching borders on ordinary neutral surfaces. |
+| `content-info` | `blue-6` (RGB) | Info text, icons, and matching borders on ordinary neutral surfaces. |
+| `content-success` | `success-6` (RGB) | Success text, icons, and matching borders on ordinary neutral surfaces. |
+| `content-warning` | `warning-6` (RGB) | Warning text, icons, and matching borders on ordinary neutral surfaces. |
+| `content-danger` | `danger-6` (RGB) | Danger text, icons, and matching borders on ordinary neutral surfaces. |
 | `content-tertiary` | `color-text-3` | Placeholders and low-emphasis descriptions; verify contrast. |
 | `content-decorative` | `color-text-4` | Non-text decoration, such as Empty icons; not readable text. |
 | `content-disabled` | `color-text-disabled` | Truly disabled content, not decoration. |
@@ -335,11 +545,25 @@ Run node bin/foundation-theme-check.mjs: 448 compiled CSS, override, state-prior
 
 Six new component tokens: hover-transition-duration uses system fast (120ms); icon-spin-duration is 1s; ripple-expand-duration / fade-duration are 200ms / 140ms; skeleton-animation-duration is 1s and transition-duration uses system slow (240ms). Existing paper-transition-duration now uses system slow. Both system duration defaults are value-governed.
 
-Use valid nonnegative CSS time values. Spin/shimmer cycle time is distinct from surface transitions. Icon transition remains a millisecond name-change delay. Ripple CSS durations do not change its 250ms lifecycle timers: each visual duration must remain at or below 250ms until runtime timing is redesigned.
+Use valid nonnegative CSS time values. Spin/shimmer cycle time is distinct from surface transitions. Icon transition remains a millisecond name-change delay. Ripple expand-duration=200ms controls transform, fade-duration=140ms controls opacity appearing/fading, and cubic-bezier only controls expansion easing. Both platforms share these defaults. Runtime reads resolved transition duration/delay from the actual wave's ownerDocument, including s/ms, repeated lists and all; it does not parse unresolved var() strings.
 
-Reduced motion removes surface transitions, stops built-in Icon spin/shrink, suppresses Skeleton shimmer and decorative Ripple while preserving host content/events and state feedback. Icon subscribes after mount, renders the latest name immediately on preference changes, cancels pending name timers and removes its listener on unmount. SSR never reads window. Explicit rotate orientation is preserved. Limited important declarations override only inline Icon transition and Ripple opacity. Custom animation classes/external SVG animations remain caller responsibilities.
+Ripple's two 250ms policies are minimum display from creation and minimum removal grace after fade starts, not visual durations or total lifetime tokens. Internal creation/activation scheduling remains 30ms/20ms. Fade waits for the later of creation+250ms and actual activation+computed transform time; removal waits max(250ms, computed opacity time). Longer 600ms/800ms overrides are no longer truncated. Explicit 0ms, missing CSS or reduce hiding retain cleanup floors. Expansion timing is sampled at creation/activation and fade timing at fade start; arbitrary later CSS changes or custom animation are not promised.
 
-Run node bin/motion-theme-check.mjs: 80 theme/preference cases and 88 duration overrides, plus Icon runtime tests. This is compiled-CSS and simulated-state validation, not browser-frame or visual acceptance.
+Release work is scheduled once per wave. Disable/unmount cancels owned timers/direct wave children, without deleting nested directives. Document listeners use the mounted ownerDocument; cross-document adoption rebinding is not covered. Only host Enter/Space and matching keyup or blur participate. The directive does not grant button semantics, accessible names or business click behavior to an ordinary div. Native IAB six-case timing evidence and permanent unit/compiler tests remain separate from touch-device or real OS reduced-motion acceptance.
+
+Reduced motion removes surface transitions, stops built-in Icon spin/shrink, suppresses Skeleton shimmer and decorative Ripple while preserving host content/events and state feedback. Icon subscribes after mount, renders the latest name immediately on preference changes, cancels pending name timers and removes its listener on unmount. SSR never reads window. Explicit rotate orientation is preserved. Limited important declarations enforce preference over inline Icon transition/Ripple opacity and the documented modal, Notification and Message built-in transitions/starting movement; they do not override theme colors or static positioning. Custom animation classes/external SVG animations remain caller responsibilities.
+
+Run check:motion-themes: 96 theme/preference cases, 88 duration overrides and 176 modal active-class consumers, with reduced starting transforms/base transitions checked. Icon runtime tests remain separate. The source inventory records 192 files / 389 CSS motion declaration candidates / 179 runtime-call candidates (including setTimeout scheduling), not selector reachability or acceptance. Compiled CSS and simulated state add zero real OS/browser passes.
+
+The live drift baseline is design-ui/audits/motion-source-inventory.json. Historical evidence snapshots remain unchanged. Line-based hints include non-motion timers; counts are neither defects nor completed acceptance.
+
+BackTop duration (200ms) and easing (quartOut) are JS requestAnimationFrame scroll parameters, not CSS motion tokens. Existing component variables own geometry, color, focus and stacking. Preference comes from the scroll target ownerDocument window; enabling reduce during scrolling jumps to top on the next frame while preserving horizontal scroll, not synchronously on an OS event. Repeated activation, target replacement, deactivation and disposal invalidate even dequeued callbacks. Visibility coalescing is not visual animation. Mocked RAF/iframe-document and SSR tests add no real browser/OS passes.
+
+Drawer's built-in fade/four-side slides and Popup's fade/center scale/four-side pops stop transitions and starting movement under reduce from their own component styles. Scoped !important is a preference override, not a color override. Popup now owns --mp-popup-transition-duration (250ms) and --mp-popup-transition-timing-function (ease), matching Drawer responsibilities without inventing a Cedar Popup counterpart or borrowing Dialog tokens. Set both on the actual shared ancestor/Teleport host to cover outer fade, content and backdrop; style reaches only content and overlay-style only the backdrop. Use valid nonnegative CSS time values; reduce overrides normal motion.
+
+Completion follows actual Transition callbacks, not a fixed 250ms timer. unmountOnClose preserves content and locks during leaving; rapid reopening cancels closing and preserves state. Completion events fire once per valid phase, and callbacks after disposal are ignored. Initial-open mounted notification behavior is unchanged; complete appear timing is not promised. Custom animation or mismatched inner/outer timing is caller-owned. Native IAB default/600ms/0ms, five placements, reopen and disposal checks have separate evidence; explicit 0ms is not an OS reduced-motion test.
+
+Modal contrast covers 16 platform/theme combinations, 72 default and 80 explicit foreground/background pairs; minimum displayed ratio 5.102:1. Composite a translucent surface onto a known opaque backing, then the foreground onto that surface. Compare unrounded text ratios with 4.5; reject poor custom pairs, unknown backing and invalid colors. These direct component overrides do not make root system aliases recompute under arbitrary local overrides. Custom slots, imagery/gradients, status icons and unstyled colors remain caller-owned. See [WCAG text contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) and [interaction animation](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html); the latter is AAA, and this batch is not WCAG certification.
 
 ## Badge and Tag color boundaries
 
@@ -372,3 +596,64 @@ Remove tag-custom-icon-bg-hover on both platforms and Cedar input-tag-tag-remove
 FieldDecorator owns the InputTag shell; Form no longer repaints its background/border/focus shadow. InputTag content rules now match actual FieldDecorator size/focus/disabled classes, with disabled winning over focus. Remove 33 unused legacy shell tokens without aliases; keep 27 content variables. Consumer checks cover 441 declarations including Cedar-only InputTag, and 80 content state combinations are checked. Shared default count remains 553.
 
 Use field variant background tokens, field-border-radius, field-placeholder-text-color and field-clear-icon-color/size for shell customization; prefer the size prop for geometry and do not override internal variables. Removed tokens have no one-to-one replacement. All five sizes are covered, including xl (32px chip height, 16px input text, 4px vertical padding). Content colors use system roles. Parent disabled/readonly overrides child closable/checkable; loading and explicitly non-closable chips cannot be deleted with Backspace. Explicit custom/status colors remain intact while disabled. Cedar browser spot checks covered size layout, keyboard removal and light/dark focus; this is not whole-library visual acceptance.
+## Field keyboard focus and error state
+
+FieldDecorator draws a separate focus ring when an inner native control matches `:focus-visible`. Error backgrounds and borders retain their danger role while the ring identifies the focused field. Readonly remains focusable; disabled fields do not draw the ring.
+
+The ring reuses `--{prefix}-field-focus-color` (system action-primary), with the existing per-instance `focus-color` override taking precedence. Width and offset reuse `--{prefix}-field-border-width`. No variable or default value is added. The filled fill1 → fill2 → fill3 progression keeps its existing meaning; an error background is not a focus indicator.
+
+The shell uses `:has(:focus-visible)` within the modern-browser support baseline. `node bin/field-focus-check.mjs` verifies both Less outputs and disabled exclusion, but does not replace actual keyboard or visual acceptance.
+
+## Declaration ownership and executable consumers (2026-10-12)
+
+Public component defaults belong in the owning `style/token.less`; implementation styles consume them, while internal state variables may remain close to their implementation. This batch relocates 375 public declarations from 34 implementation files. Both Less compilers verified unchanged effective defaults and non-root rules for the relocation.
+
+The inventory compiles `style/index.less` and Less directly imported by `style/index.ts`, including shared selection presentation styles. Runtime consumers require reviewed executable evidence: Watermark reads a variable into its canvas renderer; FloatingPanel, Time clock and TabBar bind variables through inline styles. Comments and theme assignments are not consumers.
+
+Explicit props take precedence over CSS variables; omitted props should use their variable fallback. Maple TabBar now follows this rule: its visual z-index remains 1, while the prop default is undefined. ImagePreview consumes its arrow hover background only on hover-capable devices and enabled arrows. Counter removes its unused disabled-color; disabled opacity and the actual text/background variables remain supported.
+
+Reduced motion must cover JavaScript as well as CSS. Picker commits without transitionend and settles pending selection when the preference changes to reduce. Its columns are listboxes with active options; ArrowUp/Down and Home/End skip disabled items. This does not redefine the additional selected-values checkmark decoration. Time commits a pending draft without blurring before opening, preserving return focus.
+
+Run `check:token-placement`, `check:field-focus`, and `check:theme-contract`. The generated component reference lists exact names, values, conditions and consumer evidence. Compilation and unit tests do not substitute for browser, device or screen-reader acceptance.
+
+A modal focus root must identify its actual tabbable dialog panel, not the outer overlay container. Maple Popup now marks that panel internally. Test opening, nested ownership, Tab/Shift+Tab wrapping and return focus through the real component. The internal data attribute is not a public CSS/API extension point.
+
+## Variable scopes, aliases and Teleport
+
+Same-document portal moves can blur native focus even when the root ref and ownerDocument stay unchanged. After relocation, refocus only the active top modal, preserve its original close-return target and do not steal from higher layers. Read actual activeElement during acceptance; target/color checks, unit tests and pre-fix screenshots are not post-fix native proof. Save screenshots using their actual encoding and record encoded pixel dimensions separately from CSS viewport dimensions, not as native zoom evidence.
+
+The 2026-10-13 post-fix native IAB follow-up passes ten focus-containment checks across both platforms at default/dark, long content and a 320×640 CSS viewport, plus Tab/Shift+Tab wrapping, Enter close and original-opener restoration. Separate evidence lives in design-ui/audits/evidence/portal-focus-2026-10-13/after.json; preserve all eight historical failures. This is not native 200% zoom or Safari/Firefox proof. After runtime resets, resolve the current browser type and ID instead of assuming an old numeric handle still identifies the same browser.
+
+The bounded recheck at 14:12 Shanghai adds zero accepted cases: Chrome supported operations still time out, Safari/Firefox have no supported sessions, and standard Firefox application paths are absent. Each 48-case suite awaits its own restored supported entry; do not extrapolate IAB evidence. Latest blockers: design-ui/audits/evidence/browser-environment-2026-10-13/recheck-1412.json.
+
+Before/after evidence uses a separate screenshot manifest with encoded dimensions and SHA-256 validation. Connection checks, fixture preparation and static rules add no browser passes. Next executable plans are real same-origin iframe and nested-modal keyboard checks in IAB, recording target-document styles, activeElement chains and locks. These plans are not yet executed and do not replace installed browsers, hardware, real OS reduced-motion or screen readers. Detailed scenarios: design-ui/refactors/token-validation/browser/README.md.
+
+Update: real same-origin iframe and nested-modal acceptance are both complete, 8/8 each. Each target Document loads its own component CSS and theme; Teleport neither copies parent variables nor installs parent stylesheets in the frame. Custom absolute-positioned hosts establish positioned, bounded scrolling containers. Capture the original opener along accessible same-origin ancestor focus chains and restore it on close without stealing new outside focus. Do not bypass cross-origin boundaries or claim their coverage. Both focus implementations were repaired without public API/token changes. Final iframe evidence: design-ui/audits/evidence/iframe-2026-10-13/results.json.
+
+Nested acceptance covers both platforms × four themes, child-first and parent-first closure, plus reopening the parent alone. Only the top layer handles Tab/Escape. Child closure returns to its still-visible parent trigger; final closure returns to the original page opener. Closing a lower parent must not steal the live child's focus. Capture ancestor opener chains when opening, and skip hidden, disabled, inert or disconnected candidates on restoration. Both modal-focus copies now fix this case, without new APIs/CSS variables. Scroll locks last until the final user exits; scrollbar compensation is not added twice. This batch uses default retained mounting, same-library nesting and body targets. Background suppression means native keyboard containment and overlay hit-testing, not screen-reader isolation, cross-library coordination, parent-first unmountOnClose removal or cross-origin acceptance. Eighteen native screenshots and per-step evidence: design-ui/audits/evidence/nested-2026-10-13/results.json. Next is reduced-motion rules/contrast preparation; real OS preferences remain separate.
+
+Native zoom and cross-browser acceptance must separately record browser/version, the browser's own visible zoom percentage, actual DOM owner and screenshots. DPR, viewport resizing and CSS zoom/transform are not sufficient proof of native 200% page zoom. Safari/Firefox acceptance requires the corresponding installed browser: connection timeouts, missing installations and missing control surfaces are environment blockers, not component failures or inherited Chromium passes.
+
+Switching a custom host through inline mode back to body must actually leave the old host and restore body/html inheritance, both while open and after reopening. Merely being a descendant of body is insufficient: the old host may also live inside body. Inline modal scroll locks belong to the actual panel document's body, not the remembered Teleport destination.
+
+Constrain floating dimensions to the actual containing block. `100vw` can include the document scrollbar; Cedar Drawer bounds explicit widths with `max-width: 100%`. This is a structural constraint, not a new design token. Long content may scroll inside a panel; arbitrary business slots still own word breaking, typography and paired foreground/background choices.
+
+Custom-property references resolve before inheritance. A child's system override does not automatically recompute component aliases inherited from the document root. [CSS Variables specification](https://www.w3.org/TR/css-variables-1/#cycles)
+
+| Scenario | Supported customization |
+| --- | --- |
+| Global theme | Use this library's global StyleProvider method at the document root |
+| Local component | Override its actual public component variables; changing only palette/system roles is not a complete scoped-theme rebuild |
+| Local semantic mapping | Redeclare the required component aliases on the same local host |
+| Body Teleport | Inherits body/html, not the calling provider or reference element |
+| Custom popup-container | Put variables on the existing destination host or actual panel |
+| popup-container=false | Retains caller DOM inheritance, with its ancestor clipping, transforms and stacking constraints |
+| Iframe HTMLElement | Accepted from its own realm; load CSS and provide variables in the destination document. Selector strings query the caller document only |
+
+For a Maple Popup, override `--mp-popup-content-background-color` and `--mp-popup-content-text-color` together on the host. Cedar Drawer uses `--c-drawer-bg`, `--c-drawer-header-text-color` and `--c-drawer-content-text-color`. For local system-driven customization, declare the component alias on that host too, for example `--mp-popup-content-background-color: var(--mp-sys-color-surface-raised)`. Changing surface-raised alone does not rebind an already inherited root alias.
+
+Panels and overlays are siblings: panel variables cannot reach the overlay through inheritance. Use their common host or the existing separate panel/overlay style props. We do not copy reference computed styles, rewrite all root defaults or create platform-only component counterparts. This clarifies existing behavior; it adds no tokens or automatic full-theme rebinding. Custom background/foreground combinations require their own contrast checks.
+
+`check:portal-scope` verifies real Teleport destinations, state preservation while moving hosts, old-host lock release, foreign-document validation/event ownership and cleanup. It is not a browser rendering test. A local CSS audit must not reevaluate inherited raw root aliases against descendant overrides. Narrow screens, 200% browser zoom, long content and cross-document focus still require browser acceptance.
+
+When an open modal changes destination documents, its event listeners, focus trap, layer registry and scroll locks must follow the actual destination. DOM adoption changes ownerDocument without necessarily changing the Vue element ref: internal rebinding must track the reactive destination too. Moving back and unmounting must clean up old listeners. This adds no public CSS variables; native iframe focus and CSS inheritance still require browser acceptance.

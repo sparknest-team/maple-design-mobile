@@ -1,8 +1,18 @@
 # InfiniteScroll
 
+Bottom checks use coalesced RAF (zero-delay timeout fallback), not CSS motion duration. Rebinding/deactivation/disposal invalidates old tasks and detached observers; consumed callbacks cannot replay or clear newer handles. Retained inactive/disposed check/retry remain inert; activation uses fresh binding/checks. Business request cancellation belongs to the caller. Controlled lifecycle audit:10/10 per copy, not native browser/OS or cross-document proof.
+
+Demo scroll containers use the current theme background to keep list text readable in dark mode.
+
 A behavioral infinite loader. It handles bottom detection and pagination status only; compose it with `List`, `Cell`, or custom content.
 
 
+
+### Measurement Binding Lifecycle
+
+```demo
+../example/demos/scheduler-lifecycle.vue
+```
 
 ### Basic Usage
 
@@ -57,6 +67,10 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 At the threshold, the component synchronously emits `update:status('loading')` before `load` and immediately locks further checks. Set the status to `idle`, `error`, or `finished` when the request completes. `retry()` emits only `retry`, never an additional `load`.
 
 ## Error Slot
+
+Use a button for custom retry actions so Enter/Space works. The demo clears its simulated request timer on unmount or deactivation to prevent stale updates after leaving the page.
+
+Basic, custom-status and error demos all clear pending requests. After KeepAlive reactivation they can load again from idle without reusing cancelled timers.
 
 The default error area is clickable. A custom error slot receives the same `retry` method:
 

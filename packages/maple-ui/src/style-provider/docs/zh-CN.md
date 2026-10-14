@@ -8,6 +8,8 @@
 
 局部变量按 DOM 继承，嵌套 Provider 可覆盖父级变量；传入 `null` 清除本层覆盖（仍会继承父级）。通过 `popupContainer` 移到 Provider 外的节点不继承局部变量。组件式调用不修改全局主题属性。
 
+局部组件定制优先设置实际 component 变量；只改 palette/system 变量，不会自动重算从根节点继承的组件别名。需要局部联动时在本层显式重声明相关映射；这不是自动完整主题重建。弹层变量放在真实挂载宿主。详见[Design Token 与 CSS 变量分层](#/zh-CN/design-tokens)。
+
 
 
 ### basic

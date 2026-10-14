@@ -81,6 +81,18 @@ describe('copied time field orchestration', () => {
     expect(notifications.close).not.toHaveBeenCalled()
     wrapper.unmount()
   })
+  it('starts a new transaction for a fresh selection after a rejected controlled close', () => {
+    const { controller, notifications, form, wrapper } = setup('09:00', true)
+    controller.select('10:00', true)
+    expect(controller.commit()).toBe(false)
+    controller.select('11:00')
+    expect(controller.commit()).toBe(true)
+    expect(controller.commit()).toBe(false)
+    expect(notifications.change).toHaveBeenCalledTimes(2)
+    expect(form.onChange).toHaveBeenCalledTimes(2)
+    expect(notifications.change).toHaveBeenLastCalledWith('11:00', expect.any(Date))
+    wrapper.unmount()
+  })
   it('rechecks current bounds on immediate commit without notifying Form on failure', () => {
     const { state, controller, notifications, form, wrapper } = setup()
     state.min = '11:00'

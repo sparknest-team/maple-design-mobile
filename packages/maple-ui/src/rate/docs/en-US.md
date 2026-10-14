@@ -73,46 +73,81 @@ Other interaction logic is completed by calling the `change` event.
 ../example/demos/listen-event.vue
 ```
 
+### Keyboard and state
+
+```demo
+../example/demos/keyboard.en-US.vue
+```
+
+### Sizes and symbols
+
+```demo
+../example/demos/sizes-and-symbols.en-US.vue
+```
+
 ## API
 
-### props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| model-value | Controlled value, including zero; external updates emit no events | number | undefined |
+| default-value | Initial uncontrolled value; subsequent changes do not reset it | number | 0 |
+| count | Positive finite number, rounded down; invalid values fall back to 5 | number \| string | 5 |
+| allow-half | Enable half-point steps | boolean | false |
+| clearable | Click the current score again to clear; keyboard boundaries do not clear | boolean | false |
+| grading | Fixed five-face rating; overrides slots and icon props | boolean | false |
+| disabled | Disable interaction; inherits Form when omitted | boolean | undefined |
+| readonly | Focusable but not editable; inherits Form when omitted | boolean | undefined |
+| aria-label | Accessible business label | string | undefined |
+| size | Icon dimension: number/numeric string in px, otherwise CSS length | number \| string | Theme default |
+| gap | Icon spacing: number/numeric string in px, otherwise CSS length | number \| string | Theme default |
+| color | Active color or increasing per-icon threshold color map | string \| Record<string, string> | undefined |
+| empty-color | Inactive color | string | undefined |
+| disabled-color | Disabled color, overriding active/inactive colors | string | undefined |
+| icon | Active icon | string \| Component | Star |
+| half-icon | Half icon | string \| Component | Half star |
+| empty-icon | Inactive icon | string \| Component | Empty star |
+| ripple | Click ripple | boolean | true |
 
-| Prop             | Description | Type | Default | 
-|------------------| ---- | ---- | ---- |
-| `v-model`        | The current rating  | _number_ | `0` |
-| `count`          | Total rating  | _number \| string_ | `5` |
-| `color`          | The color of the icon when selected  | _string_ | `-` |
-| `icon`           | The icon used for a selected rating  | _string \| Component_ | `star-fill` |
-| `empty-color`    | The color of the icon when unchecked | _string_ | `#bdbdbd` |
-| `empty-icon`     | Icon used when unchecked | _string \| Component_ | `star` |
-| `size`           | Icon size, default unit is `px` | _number \| string_ | `-` |
-| `gap`            | Icon spacing, default unit is `px` | _number \| string_ | `-` |
-| `allow-half`           | Whether half selection is allowed | _boolean_ | `false` |
-| `half-icon`      | The half-selected icon; only applies when `allow-half` is `true` | _string \| Component_ | `star-half-full` |
-| `disabled`       | Whether to disable rating | _boolean_ | `false` |
-| `disabled-color` | The color of the icon when disabling grading is only effective when `disabled` is `true` and has higher priority than `color` and `empty-color` | _string_ | `-` |
-| `readonly`       | Whether it is in readonly status. The rating cannot be modified in readonly status. | _boolean_ | `false` |
-| `clearable`      | whether to allow to clear | _boolean_ | `false` |
-| `ripple`         | Whether to use water ripple | _boolean_ | `true` |
-
-Icon rendering precedence is: `grading` > `character` slot > `icon` / `half-icon` / `empty-icon` > platform defaults. String names continue to use global registration; component values work without global registration.
+size/gap do not accept xs/sm/md/lg/xl. Missing, invalid and non-positive values retain theme defaults. CSS var/calc/min/max/clamp lengths are supported. Values normalize to the 1 or 0.5 step and the 0–count range without writing back to the controlled model; non-finite values display zero.
 
 ### Events
 
-| Event | Description | Arguments |
+| Event | Arguments | Description |
 | --- | --- | --- |
-| `change` | Triggered when the rating changes | `value: number` |
+| update:model-value | value: number | User produces a new value |
+| change | value: number | Confirmed new value; no duplicate for equal values |
+| hover-change | value: number | Hover preview; resets to zero on leave/blur/disabled/readonly |
 
-### Style Variables
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+### Slots and methods
 
-| Variable | Default                      |
-| --- |------------------------------|
-| `--rate-color` | `var(--color-text)`          |
-| `--rate-size` | `24px` |
-| `--rate-primary-color` | `var(--color-primary)`       |
-| `--rate-disabled-color` | `var(--color-text-disabled)` |
-| `--rate-error-color` | `var(--color-danger)`        |
-| `--rate-action-padding` | `4px`                        |
+character receives { index, value, active }; index is zero-based, value is one-based. Priority: grading > character > icon/half-icon/empty-icon > defaults. String icons require registration; component icons do not.
 
-尺寸与跨端迁移约定见仓库根目录 `API-MIGRATION.md`。只支持文档列出的档位，不代表支持全部 ComponentSize。
+focus() focuses the control; blur() removes focus. Readonly remains focusable; disabled leaves the Tab sequence. Arrow keys adjust, Home resets and End selects maximum. Child controls and Alt/Ctrl/Meta shortcuts retain keyboard ownership. Touch taps follow the same half-point and clearable rules as mouse clicks.
+
+### Types
+
+RateProps, RateColor, RateIcon, RateInstance, RateExpose, RateEmits, RateCharacterSlotProps.
+
+### Style tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-rate-disabled-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-rate-error-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-rate-active-scale` | `1.2` |
+| `--mp-rate-focus-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-rate-focus-width` | `2px` |
+| `--mp-rate-focus-offset` | `2px` |
+| `--mp-rate-size` | `24px` |
+| `--mp-rate-gap` | `0px` |
+| `--mp-rate-min-height` | `0px` |
+| `--mp-rate-action-padding` | `4px` |
+| `--mp-rate-empty-color` | `var(--mp-color-text)` |
+| `--mp-rate-active-color` | `var(--mp-color-primary)` |
+| `--mp-rate-transition-duration` | `250ms` |
+| `--mp-rate-scale-duration` | `250ms` |
+| `--mp-rate-transition-timing-function` | `ease` |
+
+Both libraries expose the same token suffixes. Cedar retains gold stars and compact spacing; Maple retains primary-color stars and touch padding. Only token defaults and local Form integration differ. Tokens are independently maintained; no runtime is shared.
+
+`transition-duration` controls hover/color transitions, `scale-duration` controls selection animation, and `transition-timing-function` controls easing. Reduced motion disables these animations. `size` and `gap` props override the corresponding tokens for a single instance.

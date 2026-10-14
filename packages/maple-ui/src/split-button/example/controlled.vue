@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
 import { Message } from '@maplejs/maple-ui'
-import { t } from './locale'
+
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
 
 const publish = () => {
-  Message.info(t('published'))
+  Message.info(english.value ? 'Published' : '发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -15,18 +21,18 @@ const open = ref(false)
 <template>
   <mp-space direction="column" align="flex-start">
     <mp-space wrap>
-      <mp-button @click.stop="open = true">{{ t('openMenu') }}</mp-button>
-      <mp-button @click.stop="open = false">{{ t('closeMenu') }}</mp-button>
+      <mp-button @click.stop="open = true">{{ english ? 'Open menu' : '展开菜单' }}</mp-button>
+      <mp-button @click.stop="open = false">{{ english ? 'Close menu' : '关闭菜单' }}</mp-button>
     </mp-space>
-    <mp-split-button v-model:open="open" status="primary" @click="publish" @select="handleSelect">
-      {{ t('publish') }}
+    <mp-split-button v-model:open="open" @click="publish" @select="handleSelect">
+      {{ english ? 'Publish' : '发布' }}
 
       <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
+        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
+        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
+        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite">{{ open ? t('opened') : t('closed') }}</span>
+    <span aria-live="polite">{{ open ? (english ? 'Opened' : '已展开') : english ? 'Closed' : '已关闭' }}</span>
   </mp-space>
 </template>

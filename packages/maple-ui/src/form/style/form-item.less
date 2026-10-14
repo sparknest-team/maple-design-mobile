@@ -16,13 +16,27 @@
 
   &--horizontal,
   &--inline {
-    display: flex;
-    align-items: flex-start;
+    .mp-form-item__label-col {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding-inline-end: var(--mp-form-item-label-gap);
+      min-width: 0;
+
+      &--left {
+        justify-content: flex-start;
+      }
+      &--flex {
+        box-sizing: content-box;
+      }
+      &--auto > .mp-form-item__label {
+        white-space: nowrap;
+        max-width: none;
+        flex-shrink: 0;
+      }
+    }
 
     .mp-form-item__label {
-      flex: 0 0 var(--mp-form-item-label-width);
-      width: var(--mp-form-item-label-width);
-      margin-right: var(--mp-form-item-label-gap);
       margin-bottom: 0;
       min-height: 24px;
       padding-top: 4px;
@@ -30,7 +44,6 @@
     }
 
     .mp-form-item__wrapper {
-      flex: 1;
       min-width: 0;
     }
   }
@@ -38,16 +51,26 @@
   &--inline {
     display: inline-flex;
     width: auto;
+
+    .mp-form-item__label-col {
+      flex: 0 0 var(--mp-form-item-label-width);
+      width: var(--mp-form-item-label-width);
+    }
+
+    .mp-form-item__wrapper {
+      flex: 1;
+    }
     margin-right: var(--mp-form-item-label-gap);
   }
 
   &__label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    max-width: 100%;
     color: var(--mp-form-label-text-color);
     font-size: var(--mp-form-size-md-label-font-size);
     line-height: 1.4;
-    word-break: break-all;
+    word-break: break-word;
   }
 
   &__wrapper {
@@ -56,6 +79,11 @@
 
   &__content {
     width: 100%;
+    &--flex {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 
   &__asterisk {
@@ -77,4 +105,25 @@
     margin-top: var(--mp-form-extra-margin-top);
     line-height: 1.4;
   }
+}
+
+.mp-form-item__label-required-symbol {
+  color: var(--mp-form-required-symbol-color);
+  font-size: var(--mp-form-size-md-label-font-size);
+  line-height: 1;
+  svg {
+    display: inline-block;
+    transform: scale(0.5);
+  }
+}
+.mp-form-item__label-tooltip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  margin-inline-start: var(--mp-form-tooltip-margin-left);
+  color: var(--mp-form-tooltip-text-color);
 }

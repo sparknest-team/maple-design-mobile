@@ -25,6 +25,7 @@ export function useInputValue(
   const valueLength = computed(() => getValueLength(value.value))
   let previousValue = value.value
   let pendingCommittedValue: string | undefined
+  let requestedValue: string | undefined
 
   watch(
     () => props.modelValue,
@@ -35,16 +36,26 @@ export function useInputValue(
     },
   )
 
-  watch(value, (nextValue, oldValue) => {
+  watch(focused, (active) => {
+    if (active) {
+      previousValue = value.value
+    }
+  })
+
+  watch(value, (nextValue) => {
     if (nextValue === pendingCommittedValue) {
       previousValue = nextValue
       pendingCommittedValue = undefined
       return
     }
-    previousValue = focused.value ? oldValue : nextValue
+    if (nextValue === requestedValue || (props.modelModifiers.trim && nextValue === requestedValue?.trim())) {
+      requestedValue = undefined
+      return
+    }
+    previousValue = nextValue
   })
 
-  const updateValue = (text: string) => {
+  const updateValue = (text: string, beforeUpdate?: (value: string) => void) => {
     const nextValue = normalizeTextInputValue(text, {
       numeric: props.type === 'number',
       maxLength: maxLength.value,
@@ -52,6 +63,8 @@ export function useInputValue(
       wordLength: props.wordLength,
       wordSlice: props.wordSlice,
     })
+    beforeUpdate?.(nextValue)
+    requestedValue = nextValue
     localValue.value = nextValue
     emitUpdate(nextValue)
     return nextValue
@@ -70,10 +83,14 @@ export function useInputValue(
     }
   }
 
-  const clearValue = () => {
+  const clearValue = (event: Event, beforeUpdate?: (value: string) => void) => {
     pendingCommittedValue = ''
-    previousValue = ''
-    updateValue('')
+    const previous = value.value
+    updateValue('', beforeUpdate)
+    previousValue = props.modelValue !== undefined ? value.value : ''
+    if (previous !== '') {
+      emitChange('', event)
+    }
   }
 
   return { value, focused, maxLength, errorOnly, valueLength, getValueLength, updateValue, commitValue, clearValue }

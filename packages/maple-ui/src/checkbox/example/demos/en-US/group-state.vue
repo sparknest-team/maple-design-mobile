@@ -11,7 +11,7 @@ const options = [
 </script>
 
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <div>
       <p>Uncontrolled: default-value initializes only</p>
       <mp-checkbox-group :default-value="['a']" :options="options" />

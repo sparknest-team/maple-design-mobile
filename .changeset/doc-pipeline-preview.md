@@ -1,0 +1,9 @@
+---
+"@maplejs/maple-cli": patch
+"@maplejs/maple-vite-plugins": patch
+"@maplejs/maple-ui": patch
+---
+
+Resolve documentation components directly from their public source modules without circular barrel imports. Render standalone demo tags and demo fences through the same live/source pipeline, preserving code samples and demo-file hot updates.
+
+Remove stale Fab source snippets and correct the viewport drag demo's popup target so it remains visible after scrolling.

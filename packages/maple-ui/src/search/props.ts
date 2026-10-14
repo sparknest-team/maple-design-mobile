@@ -1,7 +1,6 @@
-import type { ExtractPropTypes, PropType, StyleValue } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, PropType, StyleValue } from 'vue'
 import type { ButtonProps } from '../button'
 import { inputProps } from '../input'
-import { pickProps } from '../utils/components'
 
 export type SearchShape = 'square' | 'round'
 export type SearchActionType = 'cancel' | 'search'
@@ -12,7 +11,7 @@ export interface SearchField {
   placeholder?: string
 }
 
-export const props = {
+export const searchProps = {
   /** 搜索关键词 */
   modelValue: String,
   /** 默认搜索关键词（非受控状态） */
@@ -67,10 +66,7 @@ export const props = {
   /** 内层搜索框背景色 */
   inputBackground: String,
   /** 移动端操作按钮文字 */
-  actionText: {
-    type: String,
-    default: '取消',
-  },
+  actionText: String,
   /** 移动端操作按钮类型 */
   actionType: {
     type: String as PropType<SearchActionType>,
@@ -83,24 +79,25 @@ export const props = {
     type: String,
     default: 'search',
   },
-  ...pickProps(inputProps, [
-    'modelModifiers',
-    'type',
-    'ariaLabel',
-    'placeholder',
-    'maxLength',
-    'readonly',
-    'disabled',
-    'autofocus',
-    'enterkeyhint',
-    'textColor',
-    'focusColor',
-    'blurColor',
-    'size',
-    'variant',
-  ]),
+  modelModifiers: inputProps.modelModifiers,
+  type: inputProps.type,
+  ariaLabel: inputProps.ariaLabel,
+  placeholder: inputProps.placeholder,
+  maxLength: inputProps.maxLength,
+  readonly: inputProps.readonly,
+  disabled: inputProps.disabled,
+  autofocus: inputProps.autofocus,
+  enterkeyhint: inputProps.enterkeyhint,
+  textColor: inputProps.textColor,
+  focusColor: inputProps.focusColor,
+  blurColor: inputProps.blurColor,
+  size: inputProps.size,
+  variant: { ...inputProps.variant, default: 'outline' },
   /** 是否允许清空 */
   clearable: { type: Boolean, default: false },
+  inputAttrs: inputProps.inputAttrs,
+  error: inputProps.error,
 }
 
-export type SearchProps = ExtractPropTypes<typeof props>
+export type SearchProps = ExtractPublicPropTypes<typeof searchProps>
+export type SearchResolvedProps = ExtractPropTypes<typeof searchProps>

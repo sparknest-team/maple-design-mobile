@@ -2,6 +2,8 @@
 
 ### Intro
 
+`watchLang(callback)` detects both desktop documentation routes and mobile iframe query parameters, including the initial language and subsequent changes. An explicit `pc` or `mobile` argument remains available when needed.
+
 The out-of-the-box `Vue3 component library` rapid prototyping tool provides a series of commands and tools to solve the problem of component library development.
 
 ### Features
@@ -128,6 +130,16 @@ maple-cli dev -d
 ```
 
 #### Build a documentation site
+
+Documentation development resolves components and styles from `src`. It generates `.maple` site pages/configuration without clearing or rewriting npm artifacts in `es` / `lib`, including configuration or research-menu restarts. Demo development does not require a library build first.
+
+Markdown supports standalone `<demo src="../example/demos/basic.vue"></demo>` tags (including self-closing tags) and `demo` fences. Each referenced Vue file renders in its own live card with a source toolbar. Tags inside code samples remain static. Editing a Vue demo updates both the rendered example and its source automatically. The mobile preview continues to render the collection in `example/index.vue`.
+
+Site component resolution follows the public export map directly to source modules, preventing circular barrel imports during documentation chunking. Authored function imports such as `import { Message } from '@maplejs/maple-ui'` retain automatic style injection. This is site-only resolution, not a change to published package entry points or a shared Cedar/Maple runtime.
+
+The standalone Playground still consumes a built component package: run `pnpm build:lib` at the repository root before `pnpm dev:play`. It reads the published entry/CSS and writes browser assets to its own `public` directory; it does not need documentation development stubs.
+
+Restart an already-running dev process once after upgrading the CLI to load the new behavior. The repository gate `pnpm check:dev-boundary` verifies artifact preservation on cold start and configuration/research restarts.
 
 ```shell
 # playground-ignore

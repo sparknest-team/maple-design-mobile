@@ -1,5 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as verificationCodeProps } from './props'
+import { verificationCodeProps } from './props'
 import VerificationCode from './VerificationCode.vue'
 
 withInstall(VerificationCode)
@@ -8,11 +8,13 @@ withPropsDefaultsSetter(VerificationCode, verificationCodeProps)
 export { verificationCodeProps }
 export type {
   VerificationCodeAlign,
+  VerificationCodeVariant,
   VerificationCodeFormatter,
   VerificationCodeProps,
   VerificationCodeSeparator,
   VerificationCodeType,
 } from './props'
+export type { VerificationCodeEmits, VerificationCodeSlots, VerificationCodeExpose } from './types'
 
 export type VerificationCodeInstance = InstanceType<typeof VerificationCode>
 export const _VerificationCodeComponent: typeof VerificationCode = VerificationCode

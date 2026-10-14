@@ -1,6 +1,7 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
-import { props as timePickerPropsSource } from '../time/picker-props'
+import { type PropType } from 'vue'
 import type { DisabledTime } from './time-constraints'
+import type { DateTimePickerOptions } from './time-picker-options'
+import type { DateWheelOptions } from './wheel-options'
 
 type DisabledDate = (val: string) => boolean
 
@@ -18,9 +19,10 @@ export type ComponentProps = {
   type: string
   disabledDate: DisabledDate | undefined
   color: string | undefined
-  firstDayOfWeek: string | number
+  dayStartOfWeek: number
   max: string | undefined
   min: string | undefined
+  abbreviation: boolean
   showCurrent: boolean
   multiple: boolean
   range: boolean
@@ -54,6 +56,9 @@ export const MONTH_LIST: Array<Month> = ['01', '02', '03', '04', '05', '06', '07
 export const WEEK_HEADER: Array<Week> = ['0', '1', '2', '3', '4', '5', '6']
 
 export const props = {
+  pickerProps: { type: Object as PropType<DateWheelOptions>, default: () => ({}) },
+  abbreviation: { type: Boolean, default: true },
+  pickerValue: [String, Array] as PropType<string | string[]>,
   modelValue: [String, Array] as PropType<string | Array<string>>,
   type: {
     type: String as PropType<DatePickerType>,
@@ -70,7 +75,7 @@ export const props = {
   // Maple DisabledTime is `(n)=>boolean` object shape (mobile clock); Cedar DatePicker DisabledTime is Date-based — intentional signature difference, shared name/polarity.
   disabledTime: Object as PropType<DisabledTime>,
   timePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
+    type: Object as PropType<DateTimePickerOptions>,
     default: () => ({}),
   },
   color: String,
@@ -83,8 +88,8 @@ export const props = {
     type: [Boolean, Number],
     default: true,
   },
-  firstDayOfWeek: {
-    type: [String, Number],
+  dayStartOfWeek: {
+    type: Number,
     default: 0,
   },
   min: String,

@@ -125,6 +125,7 @@ ${tokenExports.join('\n')}
 export { vLoading } from './loading'
 export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
+export { useUploader } from './upload'
 ${publicContractExports(publicDirs).join('\n')}
 export type { PopupContainer } from './utils/popup-container'
 `

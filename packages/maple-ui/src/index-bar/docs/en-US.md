@@ -1,5 +1,15 @@
 # IndexBar
 
+### Lifecycle-owned scrolling
+
+New commands replace older scrolling. Deactivation/disposal cancels entry/interpolation/two-frame settlement; retained methods cannot write or notify. Activation waits for child registration before restoring active/event:false. Cancellation stops without jumping to an old target. Public scrollTo still returns void; default0/cubic easing and events remain. Private tasks replace the generic-helper call, with no new public cancellation API/CSS variable. Reduced motion skips interpolation, not necessary list/clickedName settlement frames.
+
+Consumer11/private task4/existing9 pass (24). Final real IAB4/4 covers replacement, settlement, disposal and KeepAlive, nodes0/no warn-error. Scope is default/light parent document with native entry clicks and fixture-scripted commands/scroll events; native gestures, OS and other themes/windows remain separate. The helper records below are historical independent evidence.
+
+Shared helper8 real IAB cases pass: main default/zero and same-origin iframe element/Window on both platforms. Default302.5–313.9ms, zero has no RAF, iframe host RAF0, stable targets and cleanup. This certifies scoped helper execution, not IndexBar entry-frame/doubleRaf/clickedName/disposal cancellation or OS reduced motion.
+
+Earlier helper10 tests per platform and real IAB8 cases are independent tool evidence. IndexBar now privately owns cancellation, owner preference and settlement for zero/nonpositive/nonfinite duration; the generic helper receives no cancellation parameter. Zero duration retains entry/two-frame waits, and CSS tokens do not replace duration. Parallel Form remains untouched.
+
 ### Intro
 
 Hyperlinks to scroll on one page.
@@ -10,6 +20,12 @@ When you click the index bar, it will automatically jump to the corresponding `I
 
 ```demo
 ../example/demos/basic.vue
+```
+
+### Deactivation, disposal and retained commands
+
+```demo
+../example/demos/lifecycle.vue
 ```
 
 ## API

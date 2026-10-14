@@ -1,9 +1,11 @@
 @import './token.less';
+
 .mp-progress-group {
   display: flex;
-  gap: var(--mp-progress-group-gap);
-  color: var(--mp-progress-group-text-color);
-  font-size: var(--mp-progress-group-font-size);
+  gap: var(~'--mp-progress-group-gap');
+  color: var(~'--mp-progress-group-text-color');
+  font-size: var(~'--mp-progress-group-font-size');
+
   &--horizontal {
     width: 100%;
     flex-direction: column;
@@ -26,9 +28,9 @@
     display: flex;
     overflow: hidden;
     isolation: isolate;
-    border-radius: var(--mp-progress-group-radius);
-    background: var(--mp-progress-group-track-color);
-    clip-path: inset(0 round var(--mp-progress-group-radius));
+    border-radius: var(~'--mp-progress-group-radius');
+    background: var(~'--mp-progress-group-track-color');
+    clip-path: inset(0 round var(~'--mp-progress-group-radius'));
   }
   &--horizontal &__track {
     width: 100%;
@@ -49,7 +51,7 @@
     z-index: 1;
     display: block;
     pointer-events: none;
-    border-radius: var(--mp-progress-group-radius);
+    border-radius: var(~'--mp-progress-group-radius');
     transition:
       transform var(--mp-progress-group-transition-duration) ease-out,
       opacity var(--mp-progress-group-transition-duration) ease-out;
@@ -71,8 +73,8 @@
     max-width: var(--mp-progress-group-tooltip-max-width);
     padding: var(--mp-progress-group-tooltip-padding);
     border-radius: var(--mp-progress-group-tooltip-radius);
-    color: var(--mp-progress-group-tooltip-color);
-    background: var(--mp-progress-group-tooltip-bg);
+    color: var(~'--mp-progress-group-tooltip-color');
+    background: var(~'--mp-progress-group-tooltip-bg');
     font-size: var(--mp-progress-group-tooltip-font-size);
     line-height: var(--mp-progress-group-tooltip-line-height);
     pointer-events: none;
@@ -89,21 +91,21 @@
   &__status {
     display: flex;
     justify-content: flex-end;
-    color: var(--mp-progress-group-muted-color);
+    color: var(~'--mp-progress-group-muted-color');
   }
   &--horizontal &__status {
-    width: var(--mp-progress-group-percent);
+    width: var(~'--mp-progress-group-percent');
     min-width: max-content;
   }
   &--vertical &__status {
-    height: var(--mp-progress-group-percent);
+    height: var(~'--mp-progress-group-percent');
     min-height: max-content;
     align-items: flex-end;
   }
   &__legend {
     display: flex;
     flex-direction: column;
-    gap: var(--mp-progress-group-item-gap);
+    gap: var(~'--mp-progress-group-item-gap');
     margin: 0;
     padding: 0;
     list-style: none;
@@ -111,12 +113,12 @@
   &__item {
     display: flex;
     align-items: center;
-    gap: var(--mp-progress-group-item-gap);
+    gap: var(~'--mp-progress-group-item-gap');
     min-width: 0;
   }
   &__dot {
-    width: var(--mp-progress-group-dot-size);
-    height: var(--mp-progress-group-dot-size);
+    width: var(~'--mp-progress-group-dot-size');
+    height: var(~'--mp-progress-group-dot-size');
     flex: none;
     border-radius: 50%;
   }
@@ -132,7 +134,7 @@
   }
   &__value {
     margin-inline-start: auto;
-    color: var(--mp-progress-group-muted-color);
+    color: var(~'--mp-progress-group-muted-color');
   }
   &--circle {
     align-items: center;
@@ -151,7 +153,7 @@
     height: 100%;
   }
   &__circle-track {
-    stroke: var(--mp-progress-group-track-color);
+    stroke: var(~'--mp-progress-group-track-color');
   }
   &__circle-segment {
     cursor: pointer;
@@ -170,8 +172,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--mp-progress-group-text-color);
-    font-weight: var(--mp-progress-group-status-font-weight);
+    color: var(~'--mp-progress-group-text-color');
+    font-weight: var(--mp-progress-group-text-font-weight);
     pointer-events: none;
   }
   &__circle-tooltip {
@@ -211,15 +213,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mp-progress-group__active-segment {
-    transition: none;
-  }
-  .mp-progress-group__tooltip,
-  .mp-progress-group__circle-active-segment {
-    animation: none;
-  }
-}
 @keyframes mp-progress-group-tooltip-in {
   from {
     opacity: 0;
@@ -236,9 +229,26 @@
     opacity: 1;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .mp-progress-group__segment,
   .mp-progress-group__circle-segment {
     transition: none;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-progress-group__active-segment {
+    transition: none;
+  }
+  .mp-progress-group__tooltip,
+  .mp-progress-group__circle-active-segment {
+    animation: none;
+  }
+}
+
+.mp-progress-group__segment:focus-visible,
+.mp-progress-group__circle-segment:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }

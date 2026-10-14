@@ -15,8 +15,10 @@ interface RippleStyles {
 
 interface RippleOptions {
   removeRipple: () => void
+  document: Document
   timers: Set<number>
   keyboardActive: boolean
+  keyboardKey?: string
   color?: string
   disabled?: boolean
   tasker?: number | null
@@ -26,7 +28,34 @@ interface RippleHTMLElement extends HTMLElement {
   _ripple?: RippleOptions
 }
 
-const ANIMATION_DURATION = 250
+const MINIMUM_DISPLAY_DURATION = 250
+const MINIMUM_REMOVAL_DELAY = 250
+const waves = new WeakMap<HTMLElement, { expandUntil: number; released: boolean }>()
+
+function ownedRipples(element: HTMLElement) {
+  return Array.from(element.children).filter((child): child is HTMLElement => waves.has(child as HTMLElement))
+}
+
+function transitionTime(element: HTMLElement, property: string) {
+  const style = element.ownerDocument.defaultView?.getComputedStyle(element)
+  if (!style) {
+    return 0
+  }
+  const properties = style.transitionProperty.split(',').map((value) => value.trim())
+  const durations = style.transitionDuration.split(',')
+  const delays = style.transitionDelay.split(',')
+  const time = (value: string) => {
+    const match = value.trim().match(/^(-?\d*\.?\d+)(ms|s)$/)
+    return match ? Number(match[1]) * (match[2] === 's' ? 1000 : 1) : 0
+  }
+  let result = 0
+  properties.forEach((name, index) => {
+    if (name === property || name === 'all') {
+      result = Math.max(0, time(durations[index % durations.length]) + time(delays[index % delays.length]))
+    }
+  })
+  return result
+}
 
 function schedule(element: RippleHTMLElement, task: () => void, delay: number) {
   const state = element._ripple
@@ -52,7 +81,11 @@ function clearTasks(element: RippleHTMLElement) {
   state.timers.clear()
   state.tasker = null
   state.keyboardActive = false
-  element.querySelectorAll(`.${n()}`).forEach((ripple) => ripple.remove())
+  state.keyboardKey = undefined
+  ownedRipples(element).forEach((ripple) => {
+    waves.delete(ripple)
+    ripple.remove()
+  })
 }
 
 function setStyles(element: RippleHTMLElement) {
@@ -103,7 +136,7 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
     _ripple.tasker = null
 
     const { x, y, centerX, centerY, size }: RippleStyles = computeRippleStyles(this, event)
-    const ripple: RippleHTMLElement = document.createElement('div')
+    const ripple: RippleHTMLElement = this.ownerDocument.createElement('div')
     ripple.classList.add(n())
     ripple.style.opacity = `0`
     ripple.style.transform = `translate(${x}px, ${y}px) scale3d(.3, .3, .3)`
@@ -115,10 +148,16 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
     setStyles(this)
 
     this.appendChild(ripple)
+    waves.set(ripple, { expandUntil: performance.now() + 20 + transitionTime(ripple, 'transform'), released: false })
 
     schedule(
       this,
       () => {
+        const wave = waves.get(ripple)
+        if (!wave) {
+          return
+        }
+        wave.expandUntil = performance.now() + transitionTime(ripple, 'transform')
         ripple.style.transform = `translate(${centerX}px, ${centerY}px) scale3d(1, 1, 1)`
         ripple.style.opacity = `.25`
       },
@@ -136,23 +175,40 @@ function removeRipple(this: RippleHTMLElement) {
   }
 
   const task = () => {
-    const ripples: NodeListOf<RippleHTMLElement> = this.querySelectorAll(`.${n()}`)
+    const ripples = ownedRipples(this)
     if (!ripples.length) {
       return
     }
 
-    const lastRipple: RippleHTMLElement = ripples[ripples.length - 1]
-    const delay: number = ANIMATION_DURATION - performance.now() + Number(lastRipple.dataset.createdAt)
-
-    schedule(
-      this,
-      () => {
-        lastRipple.style.opacity = `0`
-
-        schedule(this, () => lastRipple.parentNode?.removeChild(lastRipple), ANIMATION_DURATION)
-      },
-      delay,
-    )
+    const lastRipple = ripples[ripples.length - 1]
+    const wave = waves.get(lastRipple)!
+    if (wave.released) {
+      return
+    }
+    wave.released = true
+    const remaining = () =>
+      Math.max(
+        0,
+        Math.max(wave.expandUntil, Number(lastRipple.dataset.createdAt) + MINIMUM_DISPLAY_DURATION) - performance.now(),
+      )
+    const fade = () => {
+      // Activation may have run late: use its actual start, not the planned timer time.
+      const delay = remaining()
+      if (delay > 0) {
+        schedule(this, fade, delay)
+        return
+      }
+      lastRipple.style.opacity = '0'
+      schedule(
+        this,
+        () => {
+          waves.delete(lastRipple)
+          lastRipple.remove()
+        },
+        Math.max(MINIMUM_REMOVAL_DELAY, transitionTime(lastRipple, 'opacity')),
+      )
+    }
+    schedule(this, fade, remaining())
   }
 
   _ripple.tasker ? schedule(this, task, 30) : task()
@@ -172,25 +228,36 @@ function forbidRippleTask(this: RippleHTMLElement) {
 }
 
 function createKeyboardRipple(this: RippleHTMLElement, event: KeyboardEvent) {
-  if (!this._ripple || this._ripple.keyboardActive || !(event.key === ' ' || event.key === 'Enter')) {
+  if (
+    event.target !== this ||
+    !this._ripple ||
+    this._ripple.keyboardActive ||
+    !(event.key === ' ' || event.key === 'Enter')
+  ) {
     return
   }
 
   createRipple.call(this, event)
   this._ripple.keyboardActive = true
+  this._ripple.keyboardKey = event.key
 }
 
-function removeKeyboardRipple(this: RippleHTMLElement) {
+function removeKeyboardRipple(this: RippleHTMLElement, event: Event) {
   if (!this._ripple?.keyboardActive) {
+    return
+  }
+  if (event.type === 'keyup' && (event as KeyboardEvent).key !== this._ripple.keyboardKey) {
     return
   }
 
   removeRipple.call(this)
   this._ripple.keyboardActive = false
+  this._ripple.keyboardKey = undefined
 }
 
 function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
   el._ripple = {
+    document: el.ownerDocument,
     tasker: null,
     color: binding.value?.color,
     disabled: binding.value?.disabled,
@@ -206,9 +273,9 @@ function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>
   el.addEventListener('keyup', removeKeyboardRipple)
   el.addEventListener('blur', removeKeyboardRipple)
 
-  document.addEventListener('touchend', el._ripple.removeRipple, { passive: true })
-  document.addEventListener('touchcancel', el._ripple.removeRipple, { passive: true })
-  document.addEventListener('dragend', el._ripple.removeRipple, { passive: true })
+  el._ripple.document.addEventListener('touchend', el._ripple.removeRipple, { passive: true })
+  el._ripple.document.addEventListener('touchcancel', el._ripple.removeRipple, { passive: true })
+  el._ripple.document.addEventListener('dragend', el._ripple.removeRipple, { passive: true })
 }
 
 function unmounted(el: RippleHTMLElement) {
@@ -225,9 +292,9 @@ function unmounted(el: RippleHTMLElement) {
     return
   }
 
-  document.removeEventListener('touchend', el._ripple!.removeRipple)
-  document.removeEventListener('touchcancel', el._ripple!.removeRipple)
-  document.removeEventListener('dragend', el._ripple!.removeRipple)
+  el._ripple.document.removeEventListener('touchend', el._ripple.removeRipple)
+  el._ripple.document.removeEventListener('touchcancel', el._ripple.removeRipple)
+  el._ripple.document.removeEventListener('dragend', el._ripple.removeRipple)
   delete el._ripple
 }
 

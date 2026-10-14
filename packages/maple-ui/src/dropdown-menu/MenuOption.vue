@@ -10,9 +10,9 @@
 import { computed, inject, ref, useSlots } from 'vue'
 import { useEventListener } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
+import { useOptionAppearance } from './appearance'
 import { menuInjectionKey, menuLevelKey } from './context'
 import { props as optionProps } from './option-props'
-import { useOptionAppearance } from './platform'
 import DropdownMenuView from './render'
 import { menuSelectionKey } from './selection'
 

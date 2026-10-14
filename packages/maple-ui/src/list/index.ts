@@ -14,7 +14,15 @@ const List = withInstall(
 withPropsDefaultsSetter(List, listProps)
 
 export { listProps, List, ListItem }
-export type { ListProps, ListSize } from './props'
+export type {
+  ListProps,
+  ListSize,
+  ListVirtualListProps,
+  ListScrollbarProps,
+  ListExpose,
+  ListSlots,
+  ListEmits,
+} from './props'
 
 export type ListInstance = InstanceType<typeof _List>
 export type ListItemInstance = InstanceType<typeof ListItem>

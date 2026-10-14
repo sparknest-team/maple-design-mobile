@@ -1,3 +1,6 @@
 import '../../style/index.less'
 import '../../form-details/style'
+import '../../row/style'
+import '../../col/style'
+import '../../tooltip/style'
 import './index.less'

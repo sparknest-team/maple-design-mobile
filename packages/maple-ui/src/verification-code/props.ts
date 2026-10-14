@@ -1,66 +1,33 @@
-import type { ExtractPropTypes, PropType, VNode } from 'vue'
-import { fieldDecoratorProps } from '../field-decorator'
-import { FieldDecoratorVariant } from '../field-decorator/props'
-import { defineListenerProp, pickProps } from '../utils/components'
-import type { ComponentSize } from '../utils/constants'
+import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
+import { inputProps } from '../input/props'
 
 export type VerificationCodeType = 'digit' | 'text' | 'alphanumeric'
-
 export type VerificationCodeAlign = 'start' | 'center' | 'end'
-
-export type VerificationCodeSeparator = (index: number, character: string) => VNode | string | null | undefined
-
+export type VerificationCodeSeparator = (index: number, character: string) => VNodeChild
 export type VerificationCodeFormatter = (inputValue: string, index: number, value: string) => string | boolean
-
-export const props = {
-  modelValue: String,
-  defaultValue: {
-    type: String,
-    default: '',
-  },
-  length: {
-    type: Number,
-    default: 6,
-    validator: (value: unknown) => Number.isInteger(value) && Number(value) > 0,
-  },
-  size: {
-    type: String as PropType<ComponentSize>,
-    default: 'md',
-  },
-  type: {
-    type: String as PropType<VerificationCodeType>,
-    default: 'digit',
-  },
-  variant: {
-    type: String as PropType<FieldDecoratorVariant>,
-    default: 'outline',
-  },
-  disabled: Boolean,
-  masked: Boolean,
-  maskSymbol: {
-    type: String,
-    default: '•',
-  },
-  readonly: Boolean,
-  error: Boolean,
-  autofocus: Boolean,
-  gutter: {
-    type: [String, Number],
-    default: 8,
-  },
-  align: {
-    type: String as PropType<VerificationCodeAlign>,
-    default: 'center',
-  },
-  allowPaste: {
-    type: Boolean,
-    default: true,
-  },
-  pasteTransform: Function as PropType<(value: string) => string>,
-  separator: Function as PropType<VerificationCodeSeparator>,
-  formatter: Function as PropType<VerificationCodeFormatter>,
-  ariaLabel: String,
-  ...pickProps(fieldDecoratorProps, ['textColor', 'focusColor', 'blurColor']),
+export type VerificationCodeVariant = import('../input/props').InputVariant
+export const verificationCodeProps = {
+  /** 受控整码 */ modelValue: String,
+  /** 非受控初值 */ defaultValue: { type: String, default: '' },
+  /** 字符数量 */ length: { type: Number, default: 6, validator: (v: number) => Number.isInteger(v) && v > 0 },
+  /** 字符集合 */ type: { type: String as PropType<VerificationCodeType>, default: 'digit' },
+  /** 输入外观 */ variant: inputProps.variant,
+  /** 五档尺寸，继承表单 */ size: inputProps.size,
+  /** 禁用，继承表单 */ disabled: inputProps.disabled,
+  /** 只读，继承表单 */ readonly: inputProps.readonly,
+  /** 错误，继承表单 */ error: inputProps.error,
+  /** 显示掩码 */ masked: Boolean,
+  /** 掩码首个 Unicode 字符 */ maskSymbol: { type: String, default: '•' },
+  /** 挂载时聚焦 */ autofocus: Boolean,
+  /** 单元格间距，数值为 px */ gutter: [String, Number],
+  /** 水平对齐 */ align: { type: String as PropType<VerificationCodeAlign>, default: 'center' },
+  /** 允许粘贴 */ allowPaste: { type: Boolean, default: true },
+  /** 粘贴预处理 */ pasteTransform: Function as PropType<(value: string) => string>,
+  /** 格间分隔符 */ separator: Function as PropType<VerificationCodeSeparator>,
+  /** 字符格式化，false 拒绝 */ formatter: Function as PropType<VerificationCodeFormatter>,
+  /** 无障碍组名 */ ariaLabel: String,
+  /** 实例文字颜色 */ textColor: inputProps.textColor,
+  /** 实例聚焦颜色 */ focusColor: inputProps.focusColor,
+  /** 实例失焦颜色 */ blurColor: inputProps.blurColor,
 }
-
-export type VerificationCodeProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type VerificationCodeProps = ExtractPublicPropTypes<typeof verificationCodeProps>

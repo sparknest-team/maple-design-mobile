@@ -11,10 +11,12 @@
 </template>
 <script setup lang="ts">
 import { inject } from 'vue'
+import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
-import { createNamespace } from './platform'
 import { tabsItemsProps } from './props'
+import type { TabsItemsSlots } from './types'
 
+defineSlots<TabsItemsSlots>()
 defineOptions({ name: createNamespace('tabs-items').name })
 defineProps(tabsItemsProps)
 const ctx = inject(tabsInjectionKey)!

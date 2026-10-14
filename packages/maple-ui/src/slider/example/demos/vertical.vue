@@ -1,46 +1,37 @@
 <script setup>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
-const values = reactive({
-  value: 3,
-  value1: [24, 50],
-  value2: 25,
-  value3: 40,
-  value4: 20,
-  value5: 20,
-  value6: 70,
-  value7: 50,
-  value9: [5, 38],
-  value10: [7, 64],
-  value11: 0,
-  value12: 50,
-  value13: [7, 64],
-})
+const value = ref(50)
+const pair = ref([7, 64])
 </script>
 
 <template>
-  <mp-space justify="space-around">
-    <div style="height: 300px">
-      <mp-slider v-model="values.value12" orientation="vertical" />
-    </div>
-    <div style="height: 300px">
-      <mp-slider v-model="values.value13" range label-visible="always" orientation="vertical" />
-    </div>
-  </mp-space>
+  <section class="slider-vertical-demo">
+    <mp-space justify="space-around">
+      <div class="slider-vertical-demo__track">
+        <mp-slider v-model="value" orientation="vertical" aria-label="Vertical value" />
+      </div>
+      <div class="slider-vertical-demo__track">
+        <mp-slider
+          v-model="pair"
+          range
+          show-tooltip="always"
+          orientation="vertical"
+          :aria-label="['Vertical minimum', 'Vertical maximum']"
+        />
+      </div>
+    </mp-space>
+    <output aria-label="Vertical values">{{ value }} / {{ pair[0] }}–{{ pair[1] }}</output>
+  </section>
 </template>
 
-<style>
-.slider-example__block {
-  width: 24px;
-  border: 1px solid #52af77;
-  color: #52af77;
-  height: 24px;
-  margin: 0 -12px;
+<style scoped>
+.slider-vertical-demo {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 12px;
-  background-color: #fff;
+  flex-direction: column;
+  gap: 16px;
+}
+.slider-vertical-demo__track {
+  height: 300px;
 }
 </style>

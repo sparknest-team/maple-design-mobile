@@ -7,8 +7,8 @@ const items = [
 </script>
 
 <template>
-  <mp-progress-group :items="items" :max="128" status>
-    <template #status="{ value, max }">已使用 {{ value }} / {{ max }} GB</template>
+  <mp-progress-group :items="items" :max="128" show-text>
+    <template #text="{ value, max }">已使用 {{ value }} / {{ max }} GB</template>
     <template #item-trailing="{ item }">{{ item.value }} GB</template>
     <template #tooltip="{ item, percent }"
       >{{ item.label }} · {{ item.value }} GB · {{ Math.round(percent) }}%</template

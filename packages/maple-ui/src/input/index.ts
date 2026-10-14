@@ -44,3 +44,13 @@ export const _InputGroupLabelComponent = _InputGroupLabel
 export { Input, _InputPassword as InputPassword, _InputGroup as InputGroup, _InputGroupLabel as InputGroupLabel }
 
 export default Input
+
+export type {
+  InputEmits,
+  InputSlots,
+  InputExpose,
+  InputGroupSlots,
+  InputPasswordEmits,
+  InputPasswordSlots,
+  InputPasswordExpose,
+} from './types'

@@ -6,7 +6,7 @@ The floating action button component, press to display a group of action buttons
 
 The live preview starts expanded. Actions show a Message and collapse the menu. Changing direction moves the button to a compatible edge. Use click on touch devices; hover is intended for a mouse.
 
-The preview uses `fixed=false` and `popup-container=false`. Drag mode switches to viewport positioning and uses touch gestures. The default popup target is body.
+The local preview uses `fixed=false` and `popup-container=false`. Drag mode restores the default body target and viewport positioning; retaining `popup-container=false` would interpret viewport coordinates in a local container. Dragging uses touch gestures. Switching it off returns to the preview container.
 
 The preview scrolls with the page instead of covering the controls or floating button. Drag mode moves the button to the selected viewport corner; switching it off returns the button to the preview.
 
@@ -22,26 +22,6 @@ The preview scrolls with the page instead of covering the controls or floating b
 ../example/demos/status.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const status = ref('primary')
-</script>
-
-<template>
-  <mp-select v-model="status">
-    <mp-option label="default" value="default"/>
-    <mp-option label="primary" value="primary"/>
-    <mp-option label="info" value="info"/>
-    <mp-option label="success" value="success"/>
-    <mp-option label="warning" value="warning"/>
-    <mp-option label="dangerous" value="danger"/>
-  </mp-select>
-
-  <mp-fab :status="status" />
-</template>
-```
 
 ### Trigger Position
 
@@ -49,24 +29,6 @@ const status = ref('primary')
 ../example/demos/position.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const position = ref('right-bottom')
-</script>
-
-<template>
-  <mp-radio-group v-model="position">
-    <mp-radio value="left-top">left-top</mp-radio>
-    <mp-radio value="right-top">right-top</mp-radio>
-    <mp-radio value="left-bottom">left-bottom</mp-radio>
-    <mp-radio value="right-bottom">right-bottom</mp-radio>
-  </mp-radio-group>
-
-  <mp-fab status="primary" :position="position" />
-</template>
-```
 
 ### Trigger Method
 
@@ -74,35 +36,6 @@ const position = ref('right-bottom')
 ../example/demos/trigger.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const trigger = ref('click')
-</script>
-
-<template>
-  <mp-radio-group v-model="trigger">
-    <mp-radio value="click">click</mp-radio>
-    <mp-radio value="hover">hover</mp-radio>
-  </mp-radio-group>
-   
-  <mp-fab status="primary" :trigger="trigger">
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete />
-    </mp-button>
-  </mp-fab>
-</template>
-```
 
 ### Action Menu Popup Direction
 
@@ -110,24 +43,6 @@ const trigger = ref('click')
 ../example/demos/direction.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const direction = ref('top')
-</script>
-
-<template>
-   <mp-radio-group v-model="direction">
-      <mp-radio value="top">top</mp-radio>
-      <mp-radio value="right">right</mp-radio>
-      <mp-radio value="bottom">bottom</mp-radio>
-      <mp-radio value="left">left</mp-radio>
-   </mp-radio-group>
-
-   <mp-fab status="primary" :direction="direction" />
-</template>
-```
 
 ### Drag
 
@@ -135,19 +50,6 @@ const direction = ref('top')
 ../example/demos/drag.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const drag = ref(false)
-</script>
-
-<template>
-  <mp-switch v-model="drag" />
-
-  <mp-fab :drag="drag" />
-</template>
-```
 
 ### Disabled
 
@@ -155,19 +57,6 @@ const drag = ref(false)
 ../example/demos/disabled.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const disabled = ref(false)
-</script>
-
-<template>
-   <mp-switch v-model="disabled" />
-
-   <mp-fab :disabled="disabled" />
-</template>
-```
 
 ### Trigger Show/Hide
 
@@ -175,23 +64,6 @@ const disabled = ref(false)
 ../example/demos/visibility.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const open = ref(true)
-
-function toggle() {
-  open.value = !open.value
-}
-</script>
-
-<template>
-  <mp-button status="primary" @click.stop="toggle">Toggle</mp-button>
-
-  <mp-fab :open="open" status="primary" />
-</template>
-```
 
 ### Action Menu Expand/Collapse
 
@@ -199,37 +71,6 @@ function toggle() {
 ../example/demos/controlled.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const active = ref(false)
-
-function toggle() {
-  active.value = !active.value
-}
-</script>
-
-<template>
-  <mp-button status="primary" @click.stop="toggle">Toggle</mp-button>
-   
-  <mp-fab v-model:active="active" status="primary">
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete />
-    </mp-button>
-  </mp-fab>
-</template>
-
-```
 
 ### Custom Trigger
 
@@ -237,45 +78,6 @@ function toggle() {
 ../example/demos/custom-trigger.vue
 ```
 
-```html
-<template>
-  <mp-fab>
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete />
-    </mp-button>
-    
-    <template #trigger="{ active }">
-      <mp-button class="trigger" status="primary" round>
-        <m-icon-heart-fill v-if="active" :size="24" />
-        <m-icon-heart-half-full v-else :size="24" />
-      </mp-button>
-    </template>
-   </mp-fab>
-</template>
-
-<style>
-.trigger {
-   width: 64px !important;
-   height: 64px !important;
-   border-radius: 8px !important;
-}
-
-.fade {
-   transition-property: opacity, transform;
-   opacity: 0;
-   transform: rotate(90deg)
-}
-</style>
-```
 ## API
 
 ### Props

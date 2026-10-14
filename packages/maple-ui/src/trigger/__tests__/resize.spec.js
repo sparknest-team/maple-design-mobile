@@ -4,6 +4,107 @@ import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import { useTriggerResize } from '../resize'
 
+test('a canceled dequeued measurement frame cannot consume replacement entries', async () => {
+  const env = fixture(),
+    target = ref(document.createElement('button')),
+    update = vi.fn()
+  const wrapper = mount({
+    setup() {
+      useTriggerResize(
+        () => [target.value],
+        () => true,
+        update,
+      )
+      return () => h('div')
+    },
+  })
+  try {
+    env.flush()
+    update.mockClear()
+    env.observers.at(-1).callback([{ target: target.value }])
+    const oldFrame = [...env.frames.values()][0]
+    target.value = document.createElement('button')
+    await nextTick()
+    const newEntry = { target: target.value }
+    env.observers.at(-1).callback([newEntry])
+    oldFrame()
+    expect(update).not.toHaveBeenCalled()
+    env.flush()
+    expect(update.mock.calls).toEqual([[[newEntry]]])
+  } finally {
+    wrapper.unmount()
+    env.restore()
+  }
+})
+
+test('a disconnected observer cannot inject old entries into a new binding', async () => {
+  const env = fixture(),
+    target = ref(document.createElement('button')),
+    update = vi.fn()
+  const wrapper = mount({
+    setup() {
+      useTriggerResize(
+        () => [target.value],
+        () => true,
+        update,
+      )
+      return () => h('div')
+    },
+  })
+  try {
+    env.flush()
+    update.mockClear()
+    const oldObserver = env.observers.at(-1)
+    const oldEntry = { target: target.value }
+    target.value = document.createElement('button')
+    await nextTick()
+    const newEntry = { target: target.value }
+    oldObserver.callback([oldEntry])
+    env.observers.at(-1).callback([newEntry])
+    env.flush()
+    expect(update.mock.calls).toEqual([[[newEntry]]])
+  } finally {
+    wrapper.unmount()
+    env.restore()
+  }
+})
+
+test('deactivation invalidates dequeued frames across reactivation', async () => {
+  const env = fixture(),
+    active = ref(true),
+    target = document.createElement('button'),
+    update = vi.fn()
+  const child = {
+    setup() {
+      useTriggerResize(
+        () => [target],
+        () => true,
+        update,
+      )
+      return () => h('div')
+    },
+  }
+  const wrapper = mount({ render: () => h(KeepAlive, null, () => (active.value ? h(child) : null)) })
+  try {
+    await nextTick()
+    env.flush()
+    update.mockClear()
+    env.observers.at(-1).callback([{ target }])
+    const oldFrame = [...env.frames.values()][0]
+    active.value = false
+    await nextTick()
+    active.value = true
+    await nextTick()
+    oldFrame()
+    expect(update).not.toHaveBeenCalled()
+    env.flush()
+    expect(update).toHaveBeenCalledTimes(1)
+  } finally {
+    wrapper.unmount()
+    env.restore()
+  }
+})
+
 function fixture() {
   const observers = []
   const frames = new Map()

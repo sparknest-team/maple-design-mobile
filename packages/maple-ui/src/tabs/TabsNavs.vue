@@ -43,10 +43,12 @@
 </template>
 <script setup lang="ts">
 import { computed, inject, nextTick, onActivated, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
-import { createNamespace } from './platform'
 import { tabsNavsProps } from './props'
+import type { TabsNavsExpose, TabsNavsSlots } from './types'
 
+defineSlots<TabsNavsSlots>()
 defineOptions({ name: createNamespace('tabs-navs').name, inheritAttrs: false })
 defineProps(tabsNavsProps)
 const ctx = inject(tabsInjectionKey)!
@@ -150,7 +152,8 @@ onMounted(() => {
 onActivated(refresh)
 onBeforeUnmount(() => {
   observer?.disconnect()
+  observer = undefined
   window.removeEventListener('resize', resize)
 })
-defineExpose({ resize })
+defineExpose<TabsNavsExpose>({ resize })
 </script>

@@ -7,11 +7,13 @@ import EnActionDemo from './demos/en-US/action.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
 import EnFieldsDemo from './demos/en-US/fields.vue'
 import EnHistoryDemo from './demos/en-US/history.vue'
+import EnPresentationDemo from './demos/en-US/presentation.vue'
 import EnSearchButtonDemo from './demos/en-US/search-button.vue'
 import EnShapeDemo from './demos/en-US/shape.vue'
 import EnStateDemo from './demos/en-US/state.vue'
 import FieldsDemo from './demos/fields.vue'
 import HistoryDemo from './demos/history.vue'
+import PresentationDemo from './demos/presentation.vue'
 import SearchButtonDemo from './demos/search-button.vue'
 import ShapeDemo from './demos/shape.vue'
 import StateDemo from './demos/state.vue'
@@ -66,5 +68,10 @@ onThemeChange()
     <app-type>{{ english ? 'States' : '状态' }}</app-type>
     <EnStateDemo v-if="english" />
     <StateDemo v-else />
+  </section>
+  <section data-demo="presentation">
+    <app-type>{{ english ? 'History presentation and slots' : '历史展示与插槽' }}</app-type>
+    <EnPresentationDemo v-if="english" />
+    <PresentationDemo v-else />
   </section>
 </template>

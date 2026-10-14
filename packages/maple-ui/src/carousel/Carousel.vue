@@ -1,811 +1,671 @@
-<template>
-  <div
-    ref="carouselEl"
-    v-hover="handleHovering"
-    :class="
-      classes(
-        n(),
-        [effect === 'fade', n('--fade')],
-        [effect === 'card', n('--card')],
-        [height, n('--custom-height')],
-        [indicator && indicatorPosition === 'outer' && !vertical, n('--outer')],
-        [indicator && indicatorPosition === 'outer' && vertical, n('--outer-vertical')],
-      )
-    "
-    :style="height ? { height: toSizeUnit(height) } : undefined"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
-    <!-- Track (only for slide/card effect) -->
-    <div
-      v-if="effect !== 'fade'"
-      :class="classes(n('track'), [vertical, n('--vertical')])"
-      :style="{
-        width: !vertical ? toSizeUnit(trackSize) : undefined,
-        height: vertical ? toSizeUnit(trackSize) : undefined,
-        transform: `translate${vertical ? 'Y' : 'X'}(${toSizeUnit(trackTranslate)})`,
-        transitionDuration: lockDuration ? '0ms' : `${toNumber(moveSpeed)}ms`,
-        transitionTimingFunction: transitionTimingFunction,
-        gap: spaceBetween ? toSizeUnit(spaceBetween) : undefined,
-      }"
-      @touchstart="handleTouchstart"
-      @touchmove="handleTouchmove"
-      @touchend="handleTouchend"
-      @mousedown="handleMousedown"
-      @wheel="handleWheel"
-    >
-      <slot />
-    </div>
-
-    <!-- Fade container -->
-    <div
-      v-if="effect === 'fade'"
-      :class="n('fade-container')"
-      @touchstart="handleTouchstart"
-      @touchmove="handleTouchmove"
-      @touchend="handleTouchend"
-      @mousedown="handleMousedown"
-      @wheel="handleWheel"
-    >
-      <slot />
-    </div>
-
-    <!-- Prev Navigation -->
-    <slot
-      v-if="showArrow !== 'never'"
-      name="prev"
-      v-bind="{
-        index,
-        length,
-        prev,
-        next,
-        to,
-        hovering,
-      }"
-    >
-      <transition :name="getNavigationAnimation('prev')">
-        <div
-          v-if="showArrow === 'always' || hovering"
-          :class="classes(n('navigation'), n('navigation-prev'), [vertical, n('--navigation-vertical-prev')])"
-        >
-          <button
-            type="button"
-            :disabled="!loop && index === 0"
-            :class="classes(n('navigation-button'), n('navigation-prev-button'), arrowClass)"
-            @click="prev({ event: true, isManual: true })"
-          >
-            <MIconChevronUp v-if="vertical" />
-            <MIconChevronLeft v-else />
-          </button>
-        </div>
-      </transition>
-    </slot>
-
-    <!-- Next Navigation -->
-    <slot
-      v-if="showArrow !== 'never'"
-      name="next"
-      v-bind="{
-        index,
-        length,
-        prev,
-        next,
-        to,
-        hovering,
-      }"
-    >
-      <transition :name="getNavigationAnimation('next')">
-        <div
-          v-if="showArrow === 'always' || hovering"
-          :class="classes(n('navigation'), n('navigation-next'), [vertical, n('--navigation-vertical-next')])"
-        >
-          <button
-            type="button"
-            :disabled="!loop && index === length - 1"
-            :class="classes(n('navigation-button'), n('navigation-next-button'), arrowClass)"
-            @click="next({ event: true, isManual: true })"
-          >
-            <MIconChevronDown v-if="vertical" />
-            <MIconChevronRight v-else />
-          </button>
-        </div>
-      </transition>
-    </slot>
-
-    <!-- Indicator -->
-    <slot
-      name="indicator"
-      v-bind="{
-        index,
-        length,
-        hovering,
-        prev,
-        next,
-        to,
-      }"
-    >
-      <div
-        v-if="indicator && length"
-        :class="
-          classes(
-            n('indicators'),
-            indicatorClass,
-            [vertical || indicatorPosition === 'left' || indicatorPosition === 'right', n('--indicators-vertical')],
-            [indicatorPosition === 'top', n('--indicators-top')],
-            [indicatorPosition === 'left', n('--indicators-left')],
-            [indicatorPosition === 'right', n('--indicators-right')],
-            [indicatorPosition === 'outer', n('--indicators-outer')],
-          )
-        "
-      >
-        <div
-          v-for="(l, idx) in length"
-          :key="l"
-          :class="
-            classes(
-              n('indicator'),
-              [indicatorType === 'line', n('--indicator-line')],
-              [index === idx, n('--indicator-active')],
-              [vertical || indicatorPosition === 'left' || indicatorPosition === 'right', n('--indicator-vertical')],
-            )
-          "
-          :style="{
-            background: indicatorColor,
-            ...(indicatorType === 'slider' && index === idx ? { width: '16px' } : {}),
-          }"
-          @click="trigger === 'click' && to(idx)"
-          @mouseenter="trigger === 'hover' && to(idx)"
-        ></div>
-      </div>
-    </slot>
-  </div>
-</template>
-
-<script lang="ts">
-import { computed, defineComponent, onActivated, onMounted, ref, watch } from 'vue'
+<template><Render /></template>
+<script setup lang="ts">
 import {
-  IconChevronDown as MIconChevronDown,
-  IconChevronLeft as MIconChevronLeft,
-  IconChevronRight as MIconChevronRight,
-  IconChevronUp as MIconChevronUp,
-} from '@maplejs/icons-vue'
-import { call, clamp, doubleRaf, isNumber, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { onSmartUnmounted, onWindowResize, useEventListener, useTouch, useVModel } from '@maplejs/maple-use'
-import Hover from '../hover'
-import { usePopup } from '../popup/provide'
+  cloneVNode,
+  computed,
+  Fragment,
+  h,
+  isVNode,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  provide,
+  ref,
+  useAttrs,
+  watch,
+  type CSSProperties,
+  type VNode,
+} from 'vue'
 import { createNamespace } from '../utils/components'
-import { toSizeUnit } from '../utils/elements'
-import { type CarouselItemProvider } from './item-provide'
-import { props, type CarouselToOptions } from './props'
-import { useCarouselItems, useCarouselResizeListeners, type CarouselProvider } from './provide'
+import { carouselInjectionKey } from './context'
+import { DownIcon, NextIcon, PreviousIcon, UpIcon } from './icons'
+import { carouselLayout, normalizeIndex, requiresSlideClone, slideOffset, visibleSlides } from './layout'
+import { carouselProps } from './props'
+import type { CarouselEmits, CarouselExpose, CarouselSlots, CarouselToOptions } from './types'
+import { useCarouselLocale } from './use-carousel-locale'
 
-const SWIPE_DELAY = 250
-const SWIPE_OFFSET = 20
-
-const { name, n, classes } = createNamespace('carousel')
-
-export default defineComponent({
-  name,
-  directives: { Hover },
-  components: {
-    MIconChevronUp,
-    MIconChevronLeft,
-    MIconChevronDown,
-    MIconChevronRight,
-  },
-  props,
-  emits: ['change', 'update:current'],
-  setup(props, { emit }) {
-    const carouselEl = ref<HTMLElement | null>(null)
-    const size = ref(0)
-    const vertical = computed(() => props.direction === 'vertical')
-    const trackSize = ref(0)
-    const trackTranslate = ref(0)
-    const lockDuration = ref(false)
-    const index = ref(0)
-    const hovering = ref(false)
-    const isDragging = ref(false)
-    const dragStartX = ref(0)
-    const dragStartY = ref(0)
-    const dragTranslate = ref(0)
-    const { carouselItems, bindCarouselItems, length } = useCarouselItems()
-    const { carouselResizeListeners, bindCarouselResizeListeners } = useCarouselResizeListeners()
-    const { popup, bindPopup } = usePopup()
-    const {
-      deltaX,
-      deltaY,
-      moveX,
-      moveY,
-      offsetX,
-      offsetY,
-      touching,
-      direction,
-      startTime,
-      startTouch,
-      moveTouch,
-      endTouch,
-    } = useTouch()
-    const isExpectDirection = computed(() => direction.value === props.direction)
-
-    const showArrow = computed(() => props.showArrow)
-
-    const slideSize = computed(() => {
-      if (props.slidesPerView === 'auto') {
-        return size.value
-      }
-      return size.value / Math.max(1, toNumber(props.slidesPerView))
-    })
-
-    const currentIndexModel = useVModel(props, 'current', { emit, eventName: 'update:current' })
-
-    const activeIndex = computed({
-      get: () => currentIndexModel.value ?? index.value,
-      set: (val: number) => {
-        if (props.current !== undefined) {
-          currentIndexModel.value = val
-        }
-        index.value = val
-      },
-    })
-
-    let initializedIndex = false
-    let timer = -1
-    const carouselProvider: CarouselProvider = {
-      size,
-      currentIndex: activeIndex,
-      vertical,
-      effect: computed(() => props.effect),
-      loop: computed(() => props.loop),
-      length,
+defineOptions({ name: createNamespace('carousel').name, inheritAttrs: false })
+const props = defineProps(carouselProps)
+const emit = defineEmits<CarouselEmits>()
+const slots = defineSlots<CarouselSlots>()
+const attrs = useAttrs()
+const text = useCarouselLocale()
+const { n, classes } = createNamespace('carousel')
+const root = ref<HTMLElement>()
+const viewportEl = ref<HTMLElement>()
+const track = ref<HTMLElement>()
+const keys = ref<Array<string | number | symbol>>([])
+const viewport = ref(0)
+const measured = ref<number[]>([])
+const measuredGap = ref(0)
+const local = ref(props.defaultCurrent)
+const current = computed(() => normalizeIndex(props.current ?? local.value, keys.value.length))
+const vertical = computed(() => props.direction === 'vertical')
+const layout = computed(() =>
+  carouselLayout(
+    viewport.value,
+    keys.value.length,
+    props.effect === 'fade' ? 1 : props.slidesPerView,
+    measuredGap.value,
+    measured.value,
+  ),
+)
+const cycle = computed(() => layout.value.total + measuredGap.value)
+const offset = computed(() =>
+  props.loop
+    ? (layout.value.offsets[current.value] || 0) -
+      (props.centeredSlides ? (viewport.value - (layout.value.sizes[current.value] || viewport.value)) / 2 : 0)
+    : slideOffset(layout.value, current.value, viewport.value, props.centeredSlides),
+)
+const motionOffset = ref<number>()
+const noMotion = ref(false)
+const transitionStart = ref<number>()
+const renderedOffset = computed(() => motionOffset.value ?? offset.value)
+function itemShift(index: number) {
+  if (!props.loop || !cycle.value || props.effect === 'fade') {
+    return 0
+  }
+  const position = Math.min(
+    renderedOffset.value - dragOffset.value,
+    transitionStart.value ?? renderedOffset.value - dragOffset.value,
+  )
+  const start = layout.value.offsets[index] || 0
+  const size = layout.value.sizes[index] || 0
+  return Math.ceil((position - start - size + 0.5) / cycle.value) * cycle.value
+}
+const visible = computed(() =>
+  props.effect === 'fade'
+    ? [current.value]
+    : visibleSlides(
+        { ...layout.value, offsets: layout.value.offsets.map((start, index) => start + itemShift(index)) },
+        renderedOffset.value,
+        viewport.value,
+        current.value,
+      ),
+)
+const hovering = ref(false)
+const focused = ref(false)
+const dragging = ref(false)
+const dragOffset = ref(0)
+let active = false
+let hidden = false
+let timer: ReturnType<typeof setTimeout> | undefined
+let motionGeneration = 0
+let settleTimer: ReturnType<typeof setTimeout> | undefined
+let animationFrame = 0
+let observer: ResizeObserver | undefined
+let visibilityObserver: MutationObserver | undefined
+let owner: Document | undefined
+let pointer: { id: number; start: number; cross: number; last: number; time: number; target: HTMLElement } | undefined
+let suppressClick = false
+const autoConfig = computed(() => {
+  const config = props.autoPlay
+  const raw =
+    typeof config === 'object' ? (config.interval ?? 3000) : typeof config === 'number' ? config : config ? 3000 : 0
+  return {
+    interval: Number.isFinite(raw) && raw > 0 ? raw : 0,
+    hover: typeof config === 'object' ? config.hoverToPause !== false : typeof config !== 'number',
+  }
+})
+function stop() {
+  if (timer !== undefined) {
+    clearTimeout(timer)
+  }
+  timer = undefined
+}
+function schedule() {
+  stop()
+  if (
+    !active ||
+    hidden ||
+    owner?.visibilityState === 'hidden' ||
+    focused.value ||
+    dragging.value ||
+    (hovering.value && autoConfig.value.hover) ||
+    !autoConfig.value.interval ||
+    keys.value.length < 2 ||
+    (!props.loop && current.value === keys.value.length - 1)
+  ) {
+    return
+  }
+  timer = setTimeout(() => {
+    to(current.value + 1, { isManual: false })
+    schedule()
+  }, autoConfig.value.interval)
+}
+function to(index: number, options: CarouselToOptions = {}) {
+  if (!keys.value.length || !Number.isFinite(index)) {
+    return
+  }
+  const next = normalizeIndex(index, keys.value.length, props.loop)
+  if (next === current.value) {
+    return
+  }
+  const previous = current.value
+  if (props.current === undefined) {
+    local.value = next
+  }
+  // Controlled consumers must always receive the model proposal, even when notification is suppressed.
+  emit('update:current', next)
+  if (options.event !== false) {
+    emit('change', next, previous, options.isManual ?? true)
+  }
+  schedule()
+}
+function next(options?: CarouselToOptions) {
+  to(current.value + 1, options)
+}
+function prev(options?: CarouselToOptions) {
+  to(current.value - 1, options)
+}
+function itemStyle(index: number): CSSProperties {
+  if (props.effect === 'fade') {
+    return {}
+  }
+  const dimension = vertical.value ? 'height' : 'width'
+  const shift = itemShift(index)
+  return {
+    translate: shift ? (vertical.value ? '0 ' + shift + 'px' : shift + 'px 0') : undefined,
+    [dimension]:
+      props.slidesPerView === 'auto'
+        ? 'auto'
+        : viewport.value
+          ? layout.value.sizes[index] + 'px'
+          : 100 / (Number(props.slidesPerView) || 1) + '%',
+    flexShrink: 0,
+  }
+}
+provide(carouselInjectionKey, {
+  keys: computed(() => keys.value),
+  current,
+  visible,
+  itemStyle,
+  slideLabel: (index: number) => text.value.slide(index + 1, keys.value.length),
+})
+function checkVisibility() {
+  hidden = false
+  for (let el: HTMLElement | null | undefined = root.value; el; el = el.parentElement) {
+    const style = el.ownerDocument.defaultView?.getComputedStyle(el)
+    if (
+      el.hidden ||
+      el.getAttribute('aria-hidden') === 'true' ||
+      style?.display === 'none' ||
+      style?.visibility === 'hidden'
+    ) {
+      hidden = true
+      break
     }
-
-    bindCarouselItems(carouselProvider)
-
-    useEventListener(() => window, 'keydown', handleKeydown)
-
-    call(bindPopup, null)
-    call(bindCarouselResizeListeners, null)
-
-    watch(
-      () => length.value,
-      async () => {
-        await doubleRaf()
-
-        initIndex()
-        resize()
-      },
-    )
-
-    if (popup) {
-      watch(
-        () => popup.open.value,
-        async (show) => {
-          if (show) {
-            await doubleRaf()
-            resize()
-          } else {
-            stopAutoplay()
+  }
+}
+function resize() {
+  if (!active || !viewportEl.value) {
+    return
+  }
+  checkVisibility()
+  viewport.value = vertical.value ? viewportEl.value.clientHeight : viewportEl.value.clientWidth
+  if (track.value) {
+    const style = track.value.ownerDocument.defaultView?.getComputedStyle(track.value)
+    const rawGap = vertical.value ? (style?.rowGap ?? '') : (style?.columnGap ?? '')
+    if (rawGap.includes('%') || rawGap.includes('calc(')) {
+      const probe = viewportEl.value.ownerDocument.createElement('div')
+      Object.assign(probe.style, {
+        position: 'absolute',
+        visibility: 'hidden',
+        pointerEvents: 'none',
+        width: vertical.value ? '0' : rawGap,
+        height: vertical.value ? rawGap : '0',
+      })
+      viewportEl.value.appendChild(probe)
+      const rect = probe.getBoundingClientRect()
+      measuredGap.value = Math.max(0, vertical.value ? rect.height : rect.width)
+      probe.remove()
+    } else {
+      measuredGap.value = Math.max(0, parseFloat(rawGap) || 0)
+    }
+    const next = Array.from(track.value.children).map((el) => {
+      const box = el.getBoundingClientRect()
+      return vertical.value
+        ? (el as HTMLElement).offsetHeight || box.height
+        : (el as HTMLElement).offsetWidth || box.width
+    })
+    if (JSON.stringify(next) !== JSON.stringify(measured.value)) {
+      measured.value = next
+    }
+  }
+  schedule()
+}
+function editable(target: EventTarget | null) {
+  return !!(target as Element | null)?.closest?.(
+    'input,textarea,select,button,a,[contenteditable]:not([contenteditable="false"]),[data-carousel-no-drag]',
+  )
+}
+function cancelPointer(clearClick = true) {
+  if (clearClick) {
+    suppressClick = false
+  }
+  const capture = pointer
+  pointer = undefined
+  dragging.value = false
+  dragOffset.value = 0
+  if (capture?.target.hasPointerCapture?.(capture.id)) {
+    capture.target.releasePointerCapture(capture.id)
+  }
+  schedule()
+}
+function pointerDown(event: PointerEvent) {
+  if (
+    !active ||
+    keys.value.length < 2 ||
+    event.isPrimary === false ||
+    event.button > 0 ||
+    editable(event.target) ||
+    (event.pointerType === 'mouse' ? !props.draggable : !props.touchable)
+  ) {
+    return
+  }
+  const target = event.currentTarget as HTMLElement
+  pointer = {
+    id: event.pointerId,
+    start: vertical.value ? event.clientY : event.clientX,
+    cross: vertical.value ? event.clientX : event.clientY,
+    last: 0,
+    time: Date.now(),
+    target,
+  }
+  dragging.value = true
+  suppressClick = false
+  stop()
+  target.setPointerCapture?.(event.pointerId)
+}
+function pointerMove(event: PointerEvent) {
+  if (!pointer || pointer.id !== event.pointerId) {
+    return
+  }
+  const delta = (vertical.value ? event.clientY : event.clientX) - pointer.start
+  const cross = Math.abs((vertical.value ? event.clientX : event.clientY) - pointer.cross)
+  if (Math.abs(delta) < cross && !suppressClick) {
+    cancelPointer()
+    return
+  }
+  pointer.last = delta
+  if (Math.abs(delta) > 5) {
+    suppressClick = true
+    if (event.cancelable) {
+      event.preventDefault()
+    }
+  }
+  dragOffset.value = props.effect === 'fade' ? 0 : delta
+}
+function pointerUp(event: PointerEvent) {
+  if (!pointer || pointer.id !== event.pointerId) {
+    return
+  }
+  const delta = (vertical.value ? event.clientY : event.clientX) - pointer.start
+  const duration = Date.now() - pointer.time
+  const threshold = Math.max(20, (layout.value.sizes[current.value] || viewport.value) / 4)
+  const shouldMove = Math.abs(delta) >= threshold || (duration < 250 && Math.abs(delta) >= 20)
+  cancelPointer(false)
+  if (shouldMove) {
+    suppressClick = true
+  }
+  if (shouldMove) {
+    to(current.value + (delta < 0 ? 1 : -1))
+  }
+}
+function keydown(event: KeyboardEvent) {
+  if (!props.keyboard || editable(event.target) || event.altKey || event.ctrlKey || event.metaKey) {
+    return
+  }
+  const previous = vertical.value ? 'ArrowUp' : 'ArrowLeft'
+  const following = vertical.value ? 'ArrowDown' : 'ArrowRight'
+  if (![previous, following, 'Home', 'End'].includes(event.key)) {
+    return
+  }
+  event.preventDefault()
+  to(
+    event.key === 'Home'
+      ? 0
+      : event.key === 'End'
+        ? keys.value.length - 1
+        : current.value + (event.key === previous ? -1 : 1),
+  )
+}
+let wheelTime = 0
+function wheel(event: WheelEvent) {
+  if (!props.mousewheel || editable(event.target) || keys.value.length < 2 || Math.abs(event.deltaY) < 10) {
+    return
+  }
+  if (event.cancelable) {
+    event.preventDefault()
+  }
+  if (Date.now() - wheelTime < 200) {
+    return
+  }
+  wheelTime = Date.now()
+  to(current.value + (event.deltaY > 0 ? 1 : -1))
+}
+function focusin() {
+  focused.value = true
+  schedule()
+}
+function focusout(event: FocusEvent) {
+  if (!root.value?.contains(event.relatedTarget as Node)) {
+    focused.value = false
+    schedule()
+  }
+}
+function attach() {
+  if (active) {
+    return
+  }
+  active = true
+  owner = root.value?.ownerDocument
+  if (typeof ResizeObserver !== 'undefined') {
+    observer = new ResizeObserver(resize)
+    if (viewportEl.value) {
+      observer.observe(viewportEl.value)
+    }
+    for (const el of Array.from(track.value?.children ?? [])) {
+      observer.observe(el)
+    }
+  }
+  if (typeof MutationObserver !== 'undefined') {
+    visibilityObserver = new MutationObserver(resize)
+    for (let el: HTMLElement | null | undefined = root.value; el; el = el.parentElement) {
+      visibilityObserver.observe(el, { attributes: true, attributeFilter: ['class', 'style', 'hidden', 'aria-hidden'] })
+    }
+  }
+  owner?.addEventListener('visibilitychange', resize)
+  owner?.defaultView?.addEventListener('resize', resize)
+  viewportEl.value?.addEventListener('wheel', wheel, { passive: false })
+  resize()
+}
+function detach() {
+  active = false
+  motionGeneration++
+  clearTimeout(settleTimer)
+  owner?.defaultView?.cancelAnimationFrame(animationFrame)
+  motionOffset.value = undefined
+  noMotion.value = false
+  cancelPointer()
+  stop()
+  observer?.disconnect()
+  observer = undefined
+  visibilityObserver?.disconnect()
+  visibilityObserver = undefined
+  owner?.removeEventListener('visibilitychange', resize)
+  owner?.defaultView?.removeEventListener('resize', resize)
+  viewportEl.value?.removeEventListener('wheel', wheel)
+  focused.value = false
+  hovering.value = false
+  transitionStart.value = undefined
+}
+onMounted(attach)
+onActivated(attach)
+onDeactivated(detach)
+onBeforeUnmount(detach)
+watch(
+  current,
+  (index, previous) => {
+    const generation = ++motionGeneration
+    schedule()
+    clearTimeout(settleTimer)
+    owner?.defaultView?.cancelAnimationFrame(animationFrame)
+    let from =
+      motionOffset.value ??
+      (props.loop
+        ? (layout.value.offsets[previous] || 0) -
+          (props.centeredSlides ? (viewport.value - (layout.value.sizes[previous] || viewport.value)) / 2 : 0)
+        : slideOffset(layout.value, previous, viewport.value, props.centeredSlides))
+    const transform = track.value && owner?.defaultView?.getComputedStyle(track.value).transform
+    if (transform?.startsWith('matrix(')) {
+      const matrix = transform.slice(7, -1).split(',').map(Number)
+      from = -(matrix[vertical.value ? 5 : 4] || 0)
+    }
+    noMotion.value = false
+    motionOffset.value = undefined
+    transitionStart.value = undefined
+    if (!active || !props.loop || props.effect === 'fade' || keys.value.length < 2 || !cycle.value) {
+      return
+    }
+    if (previous === keys.value.length - 1 && index === 0) {
+      motionOffset.value = offset.value + cycle.value
+    } else if (previous === 0 && index === keys.value.length - 1) {
+      motionOffset.value = offset.value - cycle.value
+    }
+    const destination = renderedOffset.value
+    // One real instance cannot occupy two places. Snap if the union needs more than one cycle.
+    if (requiresSlideClone(layout.value, from, destination, viewport.value, cycle.value)) {
+      noMotion.value = true
+      motionOffset.value = undefined
+    } else {
+      transitionStart.value = from
+    }
+    nextTick(() => {
+      if (!active || generation !== motionGeneration) {
+        return
+      }
+      const raw = track.value && owner?.defaultView?.getComputedStyle(track.value).transitionDuration
+      const duration = props.moveSpeed ?? (raw ? parseFloat(raw) * (raw.includes('ms') ? 1 : 1000) : 180)
+      settleTimer = setTimeout(
+        () => {
+          noMotion.value = true
+          motionOffset.value = undefined
+          transitionStart.value = undefined
+          const view = owner?.defaultView
+          if (view) {
+            animationFrame = view.requestAnimationFrame(() => {
+              animationFrame = view.requestAnimationFrame(() => {
+                noMotion.value = false
+              })
+            })
           }
         },
+        noMotion.value ? 0 : Math.max(0, duration || 0),
       )
-    }
-
-    onActivated(resize)
-    onMounted(resize)
-    onSmartUnmounted(stopAutoplay)
-    onWindowResize(resize)
-
-    function findCarouselItem(idx: number) {
-      return carouselItems.find(({ index }) => index.value === idx) as CarouselItemProvider
-    }
-
-    function getItemOffset(idx: number) {
-      const sp = toNumber(props.spaceBetween)
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      let offset = idx * (sv + sp)
-
-      if (props.centeredSlides && props.slidesPerView !== 'auto') {
-        const totalVisible = toNumber(props.slidesPerView)
-        const visibleWidth = totalVisible * sv + (totalVisible - 1) * sp
-        offset = idx * (sv + sp) - (size.value - visibleWidth) / 2
-      }
-
-      return offset
-    }
-
-    function dispatchCarouselItems() {
-      if (!props.loop || length.value <= 1) {
-        return
-      }
-
-      const sp = toNumber(props.spaceBetween)
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const totalSlideSize = length.value * (sv + sp) - sp
-
-      if (trackTranslate.value >= 0) {
-        findCarouselItem(length.value - 1).setTranslate(-trackSize.value)
-      }
-
-      if (trackTranslate.value <= -(trackSize.value - size.value)) {
-        findCarouselItem(0).setTranslate(trackSize.value)
-      }
-
-      if (trackTranslate.value > -(trackSize.value - size.value) && trackTranslate.value < 0) {
-        findCarouselItem(length.value - 1).setTranslate(0)
-        findCarouselItem(0).setTranslate(0)
-      }
-    }
-
-    function getCarouselIndex(targetCarouselIndex?: number) {
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const sp = toNumber(props.spaceBetween)
-      const carouselIndex = isNumber(targetCarouselIndex)
-        ? targetCarouselIndex
-        : Math.floor((trackTranslate.value - (sv + sp) / 2) / -(sv + sp))
-
-      const { loop } = props
-
-      if (carouselIndex <= -1) {
-        return loop ? -1 : 0
-      }
-
-      if (carouselIndex >= length.value) {
-        return loop ? length.value : length.value - 1
-      }
-
-      return carouselIndex
-    }
-
-    function carouselIndexToIndex(carouselIndex: number) {
-      const { loop } = props
-
-      if (carouselIndex === -1) {
-        return loop ? length.value - 1 : 0
-      }
-
-      if (carouselIndex === length.value) {
-        return loop ? 0 : length.value - 1
-      }
-
-      return carouselIndex
-    }
-
-    function clampIndex(index: number) {
-      if (props.loop) {
-        if (index < 0) {
-          return length.value + index
-        }
-
-        if (index >= length.value) {
-          return index - length.value
-        }
-
-        return index
-      }
-
-      return clamp(index, 0, length.value - 1)
-    }
-
-    async function fixPosition() {
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const sp = toNumber(props.spaceBetween)
-      const overLeft = trackTranslate.value >= sv + sp
-      const overRight = trackTranslate.value <= -trackSize.value
-      const leftTranslate = 0
-      const rightTranslate = -(trackSize.value - size.value)
-
-      lockDuration.value = true
-
-      if (overLeft || overRight) {
-        trackTranslate.value = overRight ? leftTranslate : rightTranslate
-        findCarouselItem(0).setTranslate(0)
-        findCarouselItem(length.value - 1).setTranslate(0)
-      }
-
-      await doubleRaf()
-      lockDuration.value = false
-    }
-
-    function initIndex() {
-      if (initializedIndex) {
-        return
-      }
-
-      const startIndex = props.current !== undefined ? toNumber(props.current) : toNumber(props.defaultCurrent)
-      index.value = clampIndex(startIndex)
-      initializedIndex = true
-    }
-
-    const computedAutoPlay = computed(() => {
-      const { autoPlay } = props
-      if (!autoPlay) {
-        return { interval: 0, hoverToPause: false }
-      }
-      if (typeof autoPlay === 'object') {
-        return { interval: toNumber(autoPlay.interval) || 3000, hoverToPause: autoPlay.hoverToPause ?? true }
-      }
-      const num = toNumber(autoPlay)
-      return num && num > 0 ? { interval: num, hoverToPause: false } : { interval: 3000, hoverToPause: true }
     })
-
-    function startAutoplay() {
-      const { interval } = computedAutoPlay.value
-
-      if (!interval || interval <= 0 || length.value <= 1) {
-        return
-      }
-
-      stopAutoplay()
-
-      timer = window.setTimeout(() => {
-        next({ event: true, isManual: false })
-        startAutoplay()
-      }, interval)
-    }
-
-    function stopAutoplay() {
-      timer && clearTimeout(timer)
-      timer = -1
-    }
-
-    function handleMouseEnter() {
-      if (computedAutoPlay.value.hoverToPause) {
-        stopAutoplay()
-      }
-    }
-
-    function handleMouseLeave() {
-      if (computedAutoPlay.value.hoverToPause) {
-        startAutoplay()
-      }
-    }
-
-    async function handleTouchstart(event: TouchEvent) {
-      if (length.value <= 1 || !props.touchable) {
-        return
-      }
-
-      startTouch(event)
-      stopAutoplay()
-      await fixPosition()
-      lockDuration.value = true
-    }
-
-    function handleTouchmove(event: TouchEvent) {
-      const { touchable } = props
-
-      if (!touching.value || !touchable) {
-        return
-      }
-
-      moveTouch(event)
-
-      if (!isExpectDirection.value) {
-        return
-      }
-
-      preventDefault(event)
-      trackTranslate.value += vertical.value ? moveY.value : moveX.value
-      dispatchCarouselItems()
-    }
-
-    function handleTouchend() {
-      if (!touching.value) {
-        return
-      }
-
-      endTouch()
-
-      if (!isExpectDirection.value) {
-        return
-      }
-
-      const { onChange } = props
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const sp = toNumber(props.spaceBetween)
-
-      const positive = vertical.value ? deltaY.value < 0 : deltaX.value < 0
-      const offset = vertical.value ? offsetY.value : offsetX.value
-      const quickSwiping = performance.now() - startTime.value <= SWIPE_DELAY && offset >= SWIPE_OFFSET
-      const swipeIndex = quickSwiping
-        ? positive
-          ? getCarouselIndex(index.value + 1)
-          : getCarouselIndex(index.value - 1)
-        : getCarouselIndex()
-
-      const targetIdx = carouselIndexToIndex(swipeIndex)
-      const prevIdx = index.value
-      index.value = targetIdx
-
-      lockDuration.value = false
-
-      if (swipeIndex === length.value && props.loop) {
-        // Forward wrap: last → first — offset item 0 to end of track for seamless loop
-        carouselItems.forEach((item) => item.setTranslate(0))
-        findCarouselItem(0)?.setTranslate(trackSize.value)
-        trackTranslate.value = length.value * -(sv + sp)
-      } else if (swipeIndex === -1 && props.loop) {
-        // Backward wrap: first → last — offset last item to start of track
-        carouselItems.forEach((item) => item.setTranslate(0))
-        findCarouselItem(length.value - 1)?.setTranslate(-trackSize.value)
-        trackTranslate.value = sv + sp
-      } else {
-        trackTranslate.value = targetIdx * -(sv + sp)
-        carouselItems.forEach((item) => item.setTranslate(0))
-      }
-
-      startAutoplay()
-
-      if (prevIdx !== index.value) {
-        emit('update:current', index.value)
-        emit('change', index.value, prevIdx, true)
-      }
-    }
-
-    function handleMousedown(event: MouseEvent) {
-      if (length.value <= 1 || !props.draggable || props.touchable) {
-        return
-      }
-
-      isDragging.value = true
-      dragStartX.value = event.clientX
-      dragStartY.value = event.clientY
-      dragTranslate.value = trackTranslate.value
-      stopAutoplay()
-
-      const handleMousemove = (e: MouseEvent) => {
-        if (!isDragging.value) {
-          return
-        }
-
-        const diff = vertical.value ? e.clientY - dragStartY.value : e.clientX - dragStartX.value
-        trackTranslate.value = dragTranslate.value + diff
-        dispatchCarouselItems()
-      }
-
-      const handleMouseup = () => {
-        if (!isDragging.value) {
-          return
-        }
-
-        isDragging.value = false
-        const diff = vertical.value
-          ? (event as unknown as MouseEvent).clientY - dragStartY.value
-          : (event as unknown as MouseEvent).clientX - dragStartX.value
-
-        document.removeEventListener('mousemove', handleMousemove)
-        document.removeEventListener('mouseup', handleMouseup)
-
-        const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-        const sp = toNumber(props.spaceBetween)
-        const { onChange } = props
-        const positive = diff < 0
-        const absDiff = Math.abs(diff)
-        const quickSwiping = absDiff >= SWIPE_OFFSET
-        const swipeIndex = quickSwiping
-          ? positive
-            ? getCarouselIndex(index.value + 1)
-            : getCarouselIndex(index.value - 1)
-          : getCarouselIndex()
-
-        const targetIdx = carouselIndexToIndex(swipeIndex)
-        const prevIdx = index.value
-        index.value = targetIdx
-
-        lockDuration.value = false
-        trackTranslate.value = targetIdx * -(sv + sp)
-
-        // Reset carousel item translates after drag to prevent blank on next drag
-        carouselItems.forEach((item) => item.setTranslate(0))
-
-        startAutoplay()
-
-        if (prevIdx !== index.value) {
-          emit('update:current', index.value)
-          emit('change', index.value, prevIdx, true)
-        }
-      }
-
-      document.addEventListener('mousemove', handleMousemove)
-      document.addEventListener('mouseup', handleMouseup)
-    }
-
-    function handleWheel(event: WheelEvent) {
-      if (!props.mousewheel || length.value <= 1) {
-        return
-      }
-
-      preventDefault(event)
-
-      const delta = event.deltaY
-
-      if (Math.abs(delta) < 10) {
-        return
-      }
-
-      if (delta > 0) {
-        next()
-      } else {
-        prev()
-      }
-    }
-
-    function handleHovering(value: boolean) {
-      if (showArrow.value === 'hover') {
-        hovering.value = value
-      }
-    }
-
-    function getNavigationAnimation(type: 'prev' | 'next') {
-      if (showArrow.value !== 'hover') {
-        return ''
-      }
-
-      return n(`--navigation${vertical.value ? '-vertical' : ''}-${type}-animation`)
-    }
-
-    function handleKeydown(event: KeyboardEvent) {
-      if (!props.keyboard || !carouselItems.length) {
-        return
-      }
-
-      const focusingCarouselItemIndex = carouselItems.findIndex(({ isFocusing }) => isFocusing.value)
-      if (focusingCarouselItemIndex === -1) {
-        return
-      }
-
-      const { key } = event
-
-      preventDefault(event)
-
-      if (key === 'ArrowLeft' || key === 'ArrowUp') {
-        prev()
-      }
-
-      if (key === 'ArrowRight' || key === 'ArrowDown') {
-        next()
-      }
-    }
-
-    // expose
-    function resize() {
-      if (!carouselEl.value) {
-        return
-      }
-
-      lockDuration.value = true
-
-      size.value = vertical.value ? carouselEl.value.offsetHeight : carouselEl.value.offsetWidth
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const sp = toNumber(props.spaceBetween)
-      trackSize.value = length.value * (sv + sp) - sp
-      trackTranslate.value = index.value * -(sv + sp)
-
-      carouselItems.forEach((carouselItem) => {
-        carouselItem.setTranslate(0)
-      })
-
-      startAutoplay()
-
-      setTimeout(() => {
-        lockDuration.value = false
-      })
-
-      carouselResizeListeners.forEach(({ onResize }) => {
-        onResize()
-      })
-    }
-
-    // expose
-    async function next(options?: CarouselToOptions) {
-      if (length.value <= 1) {
-        return
-      }
-
-      initIndex()
-
-      const { loop } = props
-      const currentIndex = index.value
-      index.value = clampIndex(currentIndex + 1)
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const sp = toNumber(props.spaceBetween)
-
-      if (options?.event !== false) {
-        emit('update:current', index.value)
-        emit('change', index.value, currentIndex, options?.isManual ?? false)
-      }
-
-      await fixPosition()
-
-      if (currentIndex === length.value - 1 && loop) {
-        findCarouselItem(0).setTranslate(trackSize.value)
-        trackTranslate.value = length.value * -(sv + sp)
-        return
-      }
-
-      if (currentIndex !== length.value - 1) {
-        trackTranslate.value = index.value * -(sv + sp)
-      }
-    }
-
-    // expose
-    async function prev(options?: CarouselToOptions) {
-      if (length.value <= 1) {
-        return
-      }
-
-      initIndex()
-
-      const { loop } = props
-      const currentIndex = index.value
-      index.value = clampIndex(currentIndex - 1)
-      const sv = props.slidesPerView === 'auto' ? size.value : slideSize.value
-      const sp = toNumber(props.spaceBetween)
-
-      if (options?.event !== false) {
-        emit('update:current', index.value)
-        emit('change', index.value, currentIndex, options?.isManual ?? false)
-      }
-
-      await fixPosition()
-
-      if (currentIndex === 0 && loop) {
-        findCarouselItem(length.value - 1).setTranslate(-trackSize.value)
-        trackTranslate.value = sv + sp
-        return
-      }
-
-      if (currentIndex !== 0) {
-        trackTranslate.value = index.value * -(sv + sp)
-      }
-    }
-
-    // expose
-    function to(idx: number, options?: CarouselToOptions) {
-      if (length.value <= 1 || idx === index.value) {
-        return
-      }
-
-      idx = idx < 0 ? 0 : idx
-      idx = idx >= length.value ? length.value : idx
-
-      const task = idx > index.value ? next : prev
-      const count = Math.abs(idx - index.value)
-
-      Array.from({ length: count }).forEach((_, index) => {
-        task({ event: index === count - 1 ? options?.event : false })
-      })
-    }
-
-    return {
-      length,
-      index,
-      activeIndex,
-      vertical,
-      carouselEl,
-      trackSize,
-      trackTranslate,
-      lockDuration,
-      hovering,
-      showArrow,
-      n,
-      toSizeUnit,
-      classes,
-      handleTouchstart,
-      handleTouchmove,
-      handleTouchend,
-      handleMousedown,
-      handleWheel,
-      handleMouseEnter,
-      handleMouseLeave,
-      next,
-      prev,
-      to,
-      resize,
-      toNumber,
-      handleHovering,
-      getNavigationAnimation,
-    }
   },
-})
+  { flush: 'sync' },
+)
+watch(
+  () => [
+    props.direction,
+    props.slidesPerView,
+    props.spaceBetween,
+    props.effect,
+    props.centeredSlides,
+    props.autoPlay,
+    props.loop,
+    props.touchable,
+    props.draggable,
+  ],
+  () => {
+    motionGeneration++
+    clearTimeout(settleTimer)
+    motionOffset.value = undefined
+    transitionStart.value = undefined
+    cancelPointer()
+    nextTick(resize)
+  },
+  { deep: true },
+)
+const toSize = (value: string | number | undefined) =>
+  typeof value === 'number' || (typeof value === 'string' && /^\d+(\.\d+)?$/.test(value)) ? value + 'px' : value
+function flatten(nodes: unknown): VNode[] {
+  return (Array.isArray(nodes) ? nodes : [nodes]).flatMap((node) =>
+    isVNode(node) ? (node.type === Fragment ? flatten(node.children) : [node]) : [],
+  )
+}
+const Render = () => {
+  const nodes = flatten(slots.default?.()).filter(
+    (node) => (node.type as { name?: string }).name === createNamespace('carousel-item').name,
+  )
+  const items = nodes.map((node, index) => cloneVNode(node, { key: node.key ?? '__carousel_' + index }))
+  const nextKeys = items.map((node) => node.key!)
+  if (nextKeys.length !== keys.value.length || nextKeys.some((key, index) => key !== keys.value[index])) {
+    keys.value = nextKeys
+    nextTick(() => {
+      if (active) {
+        observer?.disconnect()
+        if (viewportEl.value) {
+          observer?.observe(viewportEl.value)
+        }
+        for (const el of Array.from(track.value?.children ?? [])) {
+          observer?.observe(el)
+        }
+        resize()
+      }
+    })
+  }
+  const scope = { index: current.value, length: keys.value.length, hovering: hovering.value, next, prev, to, resize }
+  const duration: CSSProperties = {
+    '--mp-internal-carousel-duration':
+      props.moveSpeed !== undefined && Number.isFinite(props.moveSpeed)
+        ? Math.max(0, props.moveSpeed) + 'ms'
+        : undefined,
+    '--mp-internal-carousel-easing': props.transitionTimingFunction,
+  }
+  return h(
+    'div',
+    {
+      ...attrs,
+      ref: root,
+      role: 'region',
+      'aria-roledescription': 'carousel',
+      'aria-label': props.ariaLabel ?? text.value.label,
+      tabindex: props.keyboard ? 0 : undefined,
+      class: [
+        classes(
+          n(),
+          n('--' + props.effect),
+          [vertical.value, n('--vertical')],
+          [props.indicatorPosition === 'outer', n('--outer')],
+        ),
+        attrs.class,
+      ],
+      style: [duration, { height: toSize(props.height) }, attrs.style as CSSProperties],
+      onMouseenter: () => {
+        hovering.value = true
+        schedule()
+      },
+      onMouseleave: () => {
+        hovering.value = false
+        schedule()
+      },
+      onFocusin: focusin,
+      onFocusout: focusout,
+      onKeydown: keydown,
+    },
+    [
+      h(
+        'div',
+        {
+          ref: viewportEl,
+          class: n('viewport'),
+          style: { touchAction: props.touchable ? (vertical.value ? 'pan-x' : 'pan-y') : 'auto' },
+          onPointerdown: pointerDown,
+          onPointermove: pointerMove,
+          onPointerup: pointerUp,
+          onPointercancel: () => cancelPointer(),
+          onLostpointercapture: () => {
+            if (pointer) {
+              cancelPointer()
+            }
+          },
+          onClickCapture: (event: MouseEvent) => {
+            if (suppressClick) {
+              event.preventDefault()
+              event.stopPropagation()
+              suppressClick = false
+            }
+          },
+          onDragstart: (event: DragEvent) => {
+            if (props.draggable && !editable(event.target)) {
+              event.preventDefault()
+            }
+          },
+        },
+        [
+          h(
+            'div',
+            {
+              ref: track,
+              class: n('track'),
+              style: {
+                gap: toSize(props.spaceBetween),
+                transform:
+                  props.effect === 'fade'
+                    ? undefined
+                    : 'translate' +
+                      (vertical.value ? 'Y' : 'X') +
+                      '(' +
+                      (-renderedOffset.value + dragOffset.value) +
+                      'px)',
+                transitionDuration: dragging.value || noMotion.value ? '0ms' : undefined,
+              },
+            },
+            items,
+          ),
+        ],
+      ),
+      ...(props.showArrow !== 'never' && (props.showArrow === 'always' || hovering.value || focused.value)
+        ? [
+            slots.prev?.(scope) ??
+              h(
+                'button',
+                {
+                  type: 'button',
+                  class: [n('arrow'), n('arrow-prev'), props.arrowClass],
+                  'aria-label': props.previousButtonAriaLabel ?? text.value.previous,
+                  disabled: !keys.value.length || (!props.loop && current.value === 0),
+                  onClick: () => prev(),
+                },
+                [h(vertical.value ? UpIcon : PreviousIcon)],
+              ),
+            slots.next?.(scope) ??
+              h(
+                'button',
+                {
+                  type: 'button',
+                  class: [n('arrow'), n('arrow-next'), props.arrowClass],
+                  'aria-label': props.nextButtonAriaLabel ?? text.value.next,
+                  disabled: !keys.value.length || (!props.loop && current.value === keys.value.length - 1),
+                  onClick: () => next(),
+                },
+                [h(vertical.value ? DownIcon : NextIcon)],
+              ),
+          ]
+        : []),
+      slots.indicator?.(scope) ??
+        (props.indicator && keys.value.length > 1
+          ? h(
+              'div',
+              { class: [n('indicators'), n('--indicators-' + props.indicatorPosition), props.indicatorClass] },
+              keys.value.map((key, index) =>
+                h('button', {
+                  key,
+                  type: 'button',
+                  class: classes(n('indicator'), n('--indicator-' + props.indicatorType), [
+                    index === current.value,
+                    n('--indicator-active'),
+                  ]),
+                  'aria-label': text.value.goto(index + 1),
+                  'aria-current': index === current.value ? 'true' : undefined,
+                  style: props.indicatorColor ? { background: props.indicatorColor } : undefined,
+                  onClick: () => to(index),
+                  onPointerenter: (event: PointerEvent) => {
+                    if (props.trigger === 'hover' && event.pointerType === 'mouse') {
+                      to(index)
+                    }
+                  },
+                }),
+              ),
+            )
+          : null),
+    ],
+  )
+}
+defineExpose<CarouselExpose>({ next, prev, to, resize })
 </script>

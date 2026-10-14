@@ -21,23 +21,14 @@
 
 <script lang="ts">
 import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
-import {
-  call,
-  doubleRaf,
-  getRect,
-  getScrollLeft,
-  getScrollTop,
-  isPlainObject,
-  requestAnimationFrame,
-  toNumber,
-} from '@maplejs/maple-shared'
+import { getRect, getScrollLeft, getScrollTop, isPlainObject, toNumber } from '@maplejs/maple-shared'
 import { onSmartMounted } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
-import { getParentScroller, toPxNum, scrollTo as varScrollTo } from '../utils/elements'
-import { easeInOutCubic } from '../utils/shared'
+import { getParentScroller, toPxNum } from '../utils/elements'
 import { type IndexAnchorProvider } from './anchor-provide'
 import { props, type ClickOptions, type IndexBarScrollToOptions } from './props'
 import { useIndexAnchors, type IndexBarProvider } from './provide'
+import { createIndexScrollTask } from './scroll-task'
 
 const { name, n, classes } = createNamespace('index-bar')
 
@@ -58,6 +49,10 @@ export default defineComponent({
 
     let scroller: HTMLElement | Window | null = null
     let isDeactivated = false
+    let disposed = false
+    type ScrollTask = ReturnType<typeof createIndexScrollTask>
+    let scrollTask: ScrollTask | undefined
+    let listTask: ScrollTask | undefined
     const indexBarProvider: IndexBarProvider = {
       active,
       sticky,
@@ -66,38 +61,69 @@ export default defineComponent({
       zIndex,
     }
 
-    watch(
-      () => length.value,
-      async () => {
-        await doubleRaf()
-        anchorNameList.value = indexAnchors
-          .filter(({ name }) => name.value != null)
-          .map(({ name }) => name.value) as Array<string | number>
-      },
-    )
+    watch(() => length.value, refreshAnchorNames, { flush: 'post' })
 
     onSmartMounted(setupScroller)
 
-    onBeforeUnmount(removeScrollerListener)
+    onBeforeUnmount(() => {
+      disposed = true
+      cancelTasks()
+      removeScrollerListener()
+    })
 
     onDeactivated(() => {
       isDeactivated = true
+      cancelTasks()
       removeScrollerListener()
     })
 
     onActivated(() => {
-      if (!isDeactivated || active.value === undefined) {
+      if (!isDeactivated) {
         return
       }
-
-      anchorClick({
-        anchorName: active.value,
-        options: { event: false },
-      })
       isDeactivated = false
+      refreshAnchorNames()
+      if (active.value !== undefined) {
+        scheduleScroll(active.value, { event: false }, true)
+      }
     })
 
     bindIndexAnchors(indexBarProvider)
+
+    function cancelTasks() {
+      scrollTask?.cancel()
+      listTask?.cancel()
+      scrollTask = listTask = undefined
+      clickedName.value = ''
+    }
+
+    function beginScroll() {
+      const view = barEl.value?.ownerDocument.defaultView
+      if (disposed || isDeactivated || !scroller || !view) {
+        return
+      }
+      scrollTask?.cancel()
+      clickedName.value = ''
+      const task: ScrollTask = createIndexScrollTask(view, () => !disposed && !isDeactivated && scrollTask === task)
+      scrollTask = task
+      return task
+    }
+
+    async function refreshAnchorNames() {
+      listTask?.cancel()
+      const view = barEl.value?.ownerDocument.defaultView
+      if (disposed || isDeactivated || !view) {
+        return
+      }
+      const task: ScrollTask = createIndexScrollTask(view, () => !disposed && !isDeactivated && listTask === task)
+      listTask = task
+      if (!(await task.frames(2)) || !task.valid()) {
+        return
+      }
+      anchorNameList.value = indexAnchors
+        .filter(({ name }) => name.value != null)
+        .map(({ name }) => name.value) as Array<string | number>
+    }
 
     function emitEvent(anchor: IndexAnchorProvider | number | string, options?: IndexBarScrollToOptions) {
       const anchorName = isPlainObject(anchor) ? anchor.name.value : anchor
@@ -120,6 +146,9 @@ export default defineComponent({
     }
 
     function handleScroll() {
+      if (disposed || isDeactivated || !scroller || !barEl.value) {
+        return
+      }
       const scrollTop = getScrollTop(scroller!)
       const scrollHeight = scroller === window ? document.body.scrollHeight : (scroller as HTMLElement).scrollHeight
       const offsetTop = getOffsetTop()
@@ -141,17 +170,32 @@ export default defineComponent({
       })
     }
 
-    async function anchorClick({ anchorName, manualCall = false, options }: ClickOptions) {
+    async function anchorClick(
+      { anchorName, manualCall = false, options }: ClickOptions,
+      supplied?: ScrollTask,
+      force = false,
+    ) {
+      if (disposed || isDeactivated || !scroller || !barEl.value || (supplied && !supplied.valid())) {
+        return
+      }
+      const previousTask = scrollTask
       if (manualCall) {
         emit('click', anchorName)
       }
-
-      if (anchorName === active.value && !isDeactivated) {
+      if (disposed || isDeactivated || scrollTask !== previousTask || (supplied && !supplied.valid())) {
+        return
+      }
+      if (anchorName === active.value && clickedName.value === '' && !force && !supplied) {
         return
       }
 
       const indexAnchor = indexAnchors.find(({ name }: IndexAnchorProvider) => anchorName === name.value)
       if (!indexAnchor) {
+        return
+      }
+
+      const task = supplied ?? beginScroll()
+      if (!task?.valid()) {
         return
       }
 
@@ -162,19 +206,20 @@ export default defineComponent({
 
       clickedName.value = anchorName
       emitEvent(anchorName, options)
-
-      await varScrollTo(scroller!, {
-        left,
-        top,
-        animation: easeInOutCubic,
-        duration: toNumber(props.duration),
-      })
-
-      await doubleRaf()
+      if (!task.valid() || !(await task.scroll(scroller!, left, top, toNumber(props.duration)))) {
+        return
+      }
+      if (!(await task.frames(2)) || !task.valid()) {
+        return
+      }
       clickedName.value = ''
     }
 
     function setupScroller() {
+      if (disposed || !barEl.value) {
+        return
+      }
+      removeScrollerListener()
       scroller = getParentScroller(barEl.value as HTMLElement)
       scroller.addEventListener('scroll', handleScroll)
     }
@@ -189,8 +234,20 @@ export default defineComponent({
     }
 
     // expose
+    function scheduleScroll(index: number | string, options?: IndexBarScrollToOptions, force = false) {
+      const task = beginScroll()
+      if (!task) {
+        return
+      }
+      void task.frames(1).then((completed) => {
+        if (completed) {
+          void anchorClick({ anchorName: index, options }, task, force)
+        }
+      })
+    }
+
     function scrollTo(index: number | string, options?: IndexBarScrollToOptions) {
-      requestAnimationFrame(() => anchorClick({ anchorName: index, options }))
+      scheduleScroll(index, options)
     }
 
     return {

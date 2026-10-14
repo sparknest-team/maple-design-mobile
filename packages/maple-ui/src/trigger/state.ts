@@ -1,4 +1,4 @@
-import { computed, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
+import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
 
 export interface TriggerStateOptions {
   open?: boolean
@@ -11,7 +11,11 @@ export function useTriggerState(options: TriggerStateOptions, emit: TriggerState
   const localOpen = ref(options.open ?? options.defaultOpen ?? false)
   const visible = computed(() => options.open ?? localOpen.value)
   let timer: ReturnType<typeof setTimeout> | undefined
+  let generation = 0
+  let suspended = false
+  let disposed = false
   const cancel = () => {
+    generation++
     if (timer !== undefined) {
       clearTimeout(timer)
     }
@@ -19,10 +23,18 @@ export function useTriggerState(options: TriggerStateOptions, emit: TriggerState
   }
   const request = (value: boolean, delay = 0) => {
     cancel()
+    if (disposed || suspended) {
+      return
+    }
+    const currentGeneration = generation
     if ((value && options.disabled) || value === visible.value) {
       return
     }
     const commit = () => {
+      if (currentGeneration !== generation || disposed || suspended) {
+        return
+      }
+      generation++
       timer = undefined
       if ((value && options.disabled) || value === visible.value) {
         return
@@ -55,10 +67,17 @@ export function useTriggerState(options: TriggerStateOptions, emit: TriggerState
       }
     },
   )
+  onActivated(() => {
+    suspended = false
+  })
   onDeactivated(() => {
     cancel()
     request(false)
+    suspended = true
   })
-  onBeforeUnmount(cancel)
+  onBeforeUnmount(() => {
+    disposed = true
+    cancel()
+  })
   return { visible, request, cancel }
 }

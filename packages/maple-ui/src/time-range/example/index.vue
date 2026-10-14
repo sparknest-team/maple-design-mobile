@@ -15,6 +15,7 @@ import EnFormatModelDemo from './demos/en-US/format-model.vue'
 import EnPanelBehaviorDemo from './demos/en-US/panel-behavior.vue'
 import EnSelectionEventsDemo from './demos/en-US/selection-events.vue'
 import EnStepDemo from './demos/en-US/step.vue'
+import EnTextEntryDemo from './demos/en-US/text-entry.vue'
 import EnWheelLimitsDemo from './demos/en-US/wheel-limits.vue'
 import FieldAppearanceDemo from './demos/field-appearance.vue'
 import FormatModelDemo from './demos/format-model.vue'
@@ -25,6 +26,7 @@ import PickerSecondsDemo from './demos/picker-seconds.vue'
 import SelectionEventsDemo from './demos/selection-events.vue'
 import SeparatorDemo from './demos/separator.vue'
 import StepDemo from './demos/step.vue'
+import TextEntryDemo from './demos/text-entry.vue'
 import WheelLimitsDemo from './demos/wheel-limits.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 
@@ -38,6 +40,11 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="text-entry">
+    <app-type>{{ english ? 'Text entry' : '手输与面板选择' }}</app-type>
+    <EnTextEntryDemo v-if="english" />
+    <TextEntryDemo v-else />
+  </section>
   <section data-demo="field-appearance">
     <app-type>{{ english ? 'Field appearance' : '字段外壳与错误状态' }}</app-type>
     <EnFieldAppearanceDemo v-if="english" />

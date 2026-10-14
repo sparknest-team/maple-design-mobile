@@ -2,6 +2,8 @@ import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Fab from '..'
+import Switch from '../../switch'
+import DragDemo from '../example/demos/drag.vue'
 
 test('default container renders a visible trigger and allows expanding actions', async () => {
   const wrapper = mount(Fab, { slots: { default: () => h('button', 'Action') } })
@@ -42,6 +44,27 @@ test('switching preview to viewport drag and back preserves the trigger', async 
     await wrapper.setProps({ popupContainer: false, fixed: false, drag: false })
     expect(wrapper.find('.mp-fab__trigger').element).toBe(trigger)
     expect(wrapper.find('.mp-fab--absolute').exists()).toBe(true)
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('the real drag demo teleports viewport mode out of the scrolling preview', async () => {
+  const wrapper = mount(DragDemo, { global: { components: { MpFab: Fab, MpSwitch: Switch } } })
+  try {
+    await nextTick()
+    expect(wrapper.find('.mp-drag--local').exists()).toBe(true)
+    await wrapper.get('[role="switch"]').trigger('click')
+    await nextTick()
+    const trigger = document.body.querySelector('.mp-fab__trigger')
+    expect(trigger).toBeTruthy()
+    expect(wrapper.find('.mp-fab__trigger').exists()).toBe(false)
+    expect(trigger.closest('.mp-drag').classList.contains('mp-drag--local')).toBe(false)
+    expect(trigger.closest('.mp-drag').parentElement).toBe(document.body)
+    await wrapper.get('[role="switch"]').trigger('click')
+    await nextTick()
+    expect(wrapper.find('.mp-fab__trigger').exists()).toBe(true)
+    expect(wrapper.find('.mp-drag--local').exists()).toBe(true)
   } finally {
     wrapper.unmount()
   }

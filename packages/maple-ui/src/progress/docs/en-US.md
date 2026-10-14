@@ -1,84 +1,108 @@
 # Progress
 
-### Intro
+Displays determinate or indeterminate progress. Cedar and Maple maintain independent copies of the same implementation.
 
-Display the current progress of an operation flow.
-
-### Basic Usage
+### basic-usage
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
-### Other Styles
-
-Set the stroke width, progress bar color and track color through the attributes of `status`, `stroke-width`, `color`, `track-color`.
+### status
 
 ```demo
-../example/demos/style.vue
+../example/demos/status.vue
 ```
 
-### Progress Circle
+### size
+
+```demo
+../example/demos/size.vue
+```
+
+### circle
 
 ```demo
 ../example/demos/circle.vue
 ```
 
-### Indeterminate Animation
+### step
 
-Enable indeterminate animation through the `indeterminate` attribute when loading progress is unknown.
+```demo
+../example/demos/step.vue
+```
+
+### loop
+
+```demo
+../example/demos/loop.vue
+```
+
+### advanced
+
+```demo
+../example/demos/advanced.vue
+```
+
+### More styles and indeterminate progress
+
+```demo
+../example/demos/style.vue
+```
 
 ```demo
 ../example/demos/indeterminate-progress.vue
 ```
 
-## API
+### API
 
-### Props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| mode | Line or circle | `line \| circle` | `line` |
+| percent | Decimal 0–100; numeric strings supported; invalid values become zero, out-of-range values clamp | `number \| string` | `0` |
+| size | xs/sm/md/lg/xl or CSS length; line thickness / circle diameter | `ProgressSize` | `md` |
+| stroke-width | Overrides thickness, numbers in px | `number \| string` | size preset |
+| steps | Line segments, floored and clamped to 0–1000; ignored when indeterminate | `number` | `0` |
+| status | default/primary/secondary/tertiary/info/success/warning/danger; default becomes success at 100 unless indeterminate | `ProgressStatus` | `default` |
+| color | Solid or gradient stops; overrides status | `ProgressColor` | — |
+| track-color | Background track color | `string` | — |
+| buffer-color | Remaining line track decoration, not a second progress value | `ProgressColor` | — |
+| track | Show track and buffer decoration | `boolean` | `true` |
+| show-text | Show text; xs circle hides text | `boolean` | `true` |
+| text-class | Text container class | `string` | — |
+| rotate | Clockwise angle from twelve o'clock | `number` | `0` |
+| animation | Determinate continuous line shimmer | `boolean` | `false` |
+| indeterminate | Unknown progress; omits aria-valuenow | `boolean` | `false` |
 
-| prop          | Description                                                                         | Type     | Default   |
-|---------------|-------------------------------------------------------------------------------------|----------|-----------|
-| `mode`        | Mode of Progress. Optional value is `line, circle`                                | _string_ | `line`  |
-| `status` | default / primary / secondary / tertiary / info / success / warning / danger | _string_ | `default` |
-| percent | Percentage, 0–100; numeric strings accepted; decimal precision retained | number / string | 0 |
-| stroke-width | 显式线宽优先于 size 的预设厚度 | `number \| string` | 按 size 档位 |
-| `color`       | Color of the progress bar (The circular progress bar sets the gradient color, please use object. Gradient is the same as svg's linearGradient element)                                    | _string \| object_ | `-` |
-| `track-color` | Color of the progress track                                                         | _string_ | `-` |
-| `show-text`       | Whether the show-text is visible or not                                                 | _boolean_ | `false`   |
-| `text-class` | Custom text class name                                                             | _string_ | `-`       |
-| `track`       | Whether the progress track is visible or not                                        | _boolean_ | `true`    |
-| `indeterminate` | Whether the indeterminate animation is visible or not                                     | _boolean_ | `false` |
-| size | circle 外径 / line 轨道厚度；数字按 px，字符串可用 CSS 长度 | `ComponentSize \| number \| string` | `md` |
-| `rotate`      | Origin of progress (only supports circle progress)                                  | _number_ | `0`       |
+### Sizes and slots
 
-### Slots
+All five presets are implemented. Thickness: 2/3/4/6/8px; circle diameter: 16/48/64/80/96px. Custom numbers and numeric strings use px; CSS lengths such as rem, percentages and calc are retained. Invalid or nonpositive lengths fall back to md. stroke-width overrides thickness. Percentage circle sizes require a defined parent width. Cedar inherits ConfigProvider size; Maple defaults to md.
 
-| Name | Description | SlotProps |
-| ----- | -------------- | -------- |
-| `default` | Custom text | `-` |
+Both text and default slots receive `{ percent: number }`; text wins. Unknown progress displays an ellipsis by default. Supply aria-label for the task name. The component is display-only and emits no value updates. Built-in animations respect reduced motion.
 
-### Style Variables
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+### Types
+
+Exports ProgressProps, ProgressInstance, ProgressSize, ProgressMode, ProgressStatus, ProgressColor and progressProps.
+
+### Style variables
 
 | Variable | Default |
 | --- | --- |
-| `--progress-font-size` | `var(--font-size-sm)` |
-| `--progress-track-color` | `#d8d8d8` |
-| `--progress-label-color` | `#555` |
-| `--progress-background` | `var(--color-primary)` |
-| `--progress-default-color` | `#f5f5f5` |
-| `--progress-primary-color` | `var(--color-primary)`|
-| `--progress-danger-color` |  `var(--color-danger)`|
-| `--progress-success-color` | `var(--color-success)`|
-| `--progress-warning-color` |  `var(--color-warning)`|
-| `--progress-info-color` | `var(--color-info)`|
-| `--progress-line-border-radius` | `0px`|
-尺寸与跨端迁移约定见仓库根目录 `API-MIGRATION.md`。只支持文档列出的档位，不代表支持全部 ComponentSize。
+| `--mp-progress-font-size` | `var(--mp-sys-font-size-sm)` |
+| `--mp-progress-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-progress-track-color` | `var(--mp-sys-color-state-hover)` |
+| `--mp-progress-default-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-progress-primary-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-progress-secondary-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-progress-tertiary-color` | `var(--mp-sys-color-content-tertiary)` |
+| `--mp-progress-info-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-progress-success-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-progress-warning-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-progress-danger-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-progress-line-border-radius` | `9999px` |
+| `--mp-progress-text-gap` | `var(--mp-sys-space-4)` |
+| `--mp-progress-steps-gap` | `var(--mp-sys-space-2)` |
+| `--mp-progress-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-progress-animation-duration` | `1.5s` |
 
-## Percent contract / 百分比契约
-
-percent 使用 0～100，12.5 表示 12.5%；数字字符串可用，不接受百分号、CSS 单位或十六进制字符串。超范围截断，NaN/Infinity/非法值回退 0。
-Cedar 旧值需要乘以 100（0.5 → 50）；不会自动猜测比例。文案插槽和 aria 值均为 0～100，Maple 圆环不再先取整计算。
-
-percent uses 0–100, including decimal numeric strings. CSS units and percent signs are invalid. Finite out-of-range values are clamped; invalid/non-finite values become 0.
-Migrate Cedar ratios by multiplying by 100; there is no automatic ratio detection. Slot and accessible values use percentages; Maple circle geometry no longer rounds first.
+Determinate circle success/danger states show completion/failure icons, including xs. The text slot overrides them; numeric ARIA is retained.

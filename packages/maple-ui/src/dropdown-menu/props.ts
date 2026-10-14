@@ -1,16 +1,15 @@
 import type { PropType } from 'vue'
-import {
-  componentSizes,
-  menuDefaults,
-  rootPlatformProps,
-  triggerPropDefaults,
-  type ComponentSize,
-  type DropdownMenuPosition,
-  type DropdownMenuReference,
-  type DropdownMenuSubmenuTrigger,
-} from './platform'
+import { triggerProps as triggerPropDefaults } from '../trigger'
+import { componentSizes, type ComponentSize } from '../utils/constants'
+import { menuDefaults } from './appearance'
 import type { DropdownMenuFieldNames } from './selection'
-import type { DropdownMenuOption, MenuValue } from './types'
+import type {
+  DropdownMenuOption,
+  DropdownMenuPosition,
+  DropdownMenuReference,
+  DropdownMenuSubmenuTrigger,
+  MenuValue,
+} from './types'
 
 export type { DropdownMenuOption, MenuOptionLabel, MenuOptionLabelRender } from './types'
 export type DropdownMenuSize = ComponentSize
@@ -51,7 +50,8 @@ export const dropdownMenuProps = {
   placement: { type: String as PropType<DropdownMenuPosition>, default: 'bottom' },
   /** 外部触发元素 */
   reference: { type: [String, Object] as PropType<DropdownMenuReference>, default: undefined },
-  ...rootPlatformProps,
+  /** 定位策略，所有层级子菜单响应式继承。 */
+  strategy: triggerPropDefaults.strategy,
   /** 浮层挂载容器 */
   popupContainer: triggerPropDefaults.popupContainer,
   /** 浮层类名 */

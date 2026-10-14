@@ -32,11 +32,17 @@
 - 同一挂载容器和位置内，相同 `id` 更新原实例，不创建重复 DOM。
 - 仅当 `resetOnUpdate` 为 `true` 时，相同 id 更新会重新计算完整显示时长。
 - `pauseOnHover` 保存剩余时间，鼠标离开后从剩余时间继续。
+- 展示期限独立于 CSS 动效；重启、hover 暂停、清理或卸载使旧计时回调失效，执行时再次检查 open。
+- KeepAlive 停用取消计时，激活从当前配置完整 duration 重启；停用更新和卸载后保留的 restart 不调度。
+- hover 正时长已耗尽时恢复会请求关闭；显式重置为0仍常驻。仅有限正 duration 自动关闭，负数和非有限值不调度。
+- 服务等待真实离场完成，不再强制150ms或200ms退出。未挂载就 close/clear 直接清理并报告服务 onClosed，不伪造组件 open/opened/close 动画事件；业务 duration 独立于 CSS 过渡。
+- 真实IAB default/light/top服务默认、600ms、零和离场重开四组已通过；重开可替换根DOM，其他主题／位置、hover、KeepAlive及真实OS仍需独立验收。
+- 局部减少动效取消进出过渡和动画位移，保留独立提示的水平/居中静态定位、颜色及业务展示期限；不依赖全局极短时长，隔离Less检查不是实际OS验收。
 - 队列按 `popupContainer + position` 隔离；`Message.clear(position?)` 可按位置清理。
 
 ## 视觉变体
 
-视觉变体与 status 独立：neutral 是中性浮层与状态图标；tonal 是低强调状态色底与深色正文；solid 是高强调实色底与配套前景。Cedar 默认 neutral，Maple 默认 solid，显式传入同一 variant 即得到同一套颜色语义。default/loading 的 solid 保留深色底，loading 图标仍表达进度。两端导出 MessageVariant，函数调用、setDefaultOptions 和相同 id 更新都支持 variant。
+视觉变体与 status 独立：neutral 是中性浮层与状态图标；tonal 是低强调状态色底与深色正文；solid 是高强调实色底与配套前景。Cedar 与 Maple 默认均为 neutral；显式 solid / tonal 保持相同视觉语义。default/loading 的 solid 保留深色底，loading 图标仍表达进度。两端导出 MessageVariant，函数调用、setDefaultOptions 和相同 id 更新都支持 variant。
 
 ```demo
 ../example/demos/variant.vue
@@ -51,7 +57,7 @@
 | `open` / `v-model:open` | 是否显示（组件）                   | `boolean`                                                    | `false`         |
 | `id`                    | 队列内唯一标识                     | `string \| number`                                           | 自动生成        |
 | `status`                | 语义状态                           | `default \| info \| success \| warning \| danger \| loading` | `default`       |
-| variant | 视觉强调层级 | `neutral \| tonal \| solid` | `solid` |
+| variant | 视觉强调层级 | `neutral \| tonal \| solid` | `neutral` |
 | `position`              | 显示位置                           | `top \| center \| bottom`                                    | `top`           |
 | `content`               | 内容                               | `MessageContent`                                             | -               |
 | `icon`                  | 自定义图标                         | `MessageContent`                                             | -               |
@@ -88,7 +94,7 @@
 
 ## 公开 CSS 变量
 
-视觉变体与 status 独立：neutral 是中性浮层与状态图标；tonal 是低强调状态色底与深色正文；solid 是高强调实色底与配套前景。Cedar 默认 neutral，Maple 默认 solid，显式传入同一 variant 即得到同一套颜色语义。default/loading 的 solid 保留深色底，loading 图标仍表达进度。两端导出 MessageVariant，函数调用、setDefaultOptions 和相同 id 更新都支持 variant。
+视觉变体与 status 独立：neutral 是中性浮层与状态图标；tonal 是低强调状态色底与深色正文；solid 是高强调实色底与配套前景。Cedar 与 Maple 默认均为 neutral；显式 solid / tonal 保持相同视觉语义。default/loading 的 solid 保留深色底，loading 图标仍表达进度。两端导出 MessageVariant，函数调用、setDefaultOptions 和相同 id 更新都支持 variant。
 
 颜色命名为 `--mp-message-{variant}-{status}-{bg|content-color|icon-color|border-color|close-color}`。bg 控制面板底，content-color 控制正文与未单独设色的 action，icon-color 控制状态图标，border-color 控制边线，close-color 控制关闭按钮。自定义背景时需要同时验证三个前景。几何变量保留端侧密度，不要求两端强行同值。变量必须作用于实际 Teleport 容器祖先。
 

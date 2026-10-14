@@ -45,4 +45,14 @@ export {
   _TabsItems as TabsItems,
 }
 export * from './props'
+export type {
+  TabsEmits,
+  TabsSlots,
+  TabNavSlots,
+  TabPaneSlots,
+  TabsNavsSlots,
+  TabsItemsSlots,
+  TabItemSlots,
+  TabsNavsExpose,
+} from './types'
 export default Tabs

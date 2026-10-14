@@ -1,0 +1,5 @@
+- [x] Add 250ms/ease component tokens and compiled preference/override checks.
+- [x] Fix completion deduplication, stale timer ownership and option replacement/reset.
+- [x] Consume resolved width/opacity timing, unmount on completion and remount safely.
+- [x] Cover defaults, long timing, zero timing, restart, error, SSR and closing repetition.
+- [x] Sync component docs, examples, menu guides, catalog and changeset.

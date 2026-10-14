@@ -1,85 +1,120 @@
-# 进度条
+# Progress 进度条
 
-### 介绍
+两端主体、API 与样式独立同源。
 
-展示操作的当前进度。
-
-### 基本使用
+### 基础用法
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
-### 其他样式
-
-通过 `status`、`stroke-width`、`color`、`track-color` 属性设置线宽、进度条颜色、轨道颜色。
+### 八种状态
 
 ```demo
-../example/demos/style.vue
+../example/demos/status.vue
 ```
 
-### 环形进度条
+### 五档与自定义尺寸
+
+```demo
+../example/demos/size.vue
+```
+
+### 环形进度
 
 ```demo
 ../example/demos/circle.vue
 ```
 
-### 不间断动画
+### 分段进度
 
-当加载进度未知时，通过 `indeterminate` 属性开启不间断动画。
+```demo
+../example/demos/step.vue
+```
+
+### 不确定进度与动画
+
+```demo
+../example/demos/loop.vue
+```
+
+### 渐变、起点、隐藏轨道与文本
+
+```demo
+../example/demos/advanced.vue
+```
+
+### 更多样式与不确定进度
+
+```demo
+../example/demos/style.vue
+```
 
 ```demo
 ../example/demos/indeterminate-progress.vue
 ```
 
-## API
+### Props
 
-### 属性
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| mode | 线形或环形 | `line \| circle` | `line` |
+| percent | 0–100 百分比，保留小数；支持十进制数字字符串，非法值归零，越界裁剪 | `number \| string` | `0` |
+| size | 五档预设或自定义长度；线形厚度、环形直径 | `ProgressSize` | `md` |
+| stroke-width | 覆盖轨道厚度，数字按 px，字符串支持 CSS 长度 | `number \| string` | 随 size |
+| steps | 仅线形的分段数，向下取整并限制为 0–1000；不确定模式忽略 | `number` | `0` |
+| status | default/primary/secondary/tertiary/info/success/warning/danger；default 确定进度达到 100 时推导 success | `ProgressStatus` | `default` |
+| color | 进度颜色或渐变 stop 映射，优先于 status | `string \| Record<string, string>` | — |
+| track-color | 背景轨道颜色 | `string` | — |
+| buffer-color | 线形剩余轨道装饰色/渐变，不代表独立缓冲百分比 | `ProgressColor` | — |
+| track | 显示背景轨道；false 同时隐藏缓冲装饰层 | `boolean` | `true` |
+| show-text | 显示文本；xs 环形隐藏文本避免溢出 | `boolean` | `true` |
+| text-class | 文本容器类名 | `string` | — |
+| rotate | 环形起点从十二点顺时针旋转的角度 | `number` | `0` |
+| animation | 确定线形进度扫光动画，不应用于 steps | `boolean` | `false` |
+| indeterminate | 不确定进度；省略 aria-valuenow，不自动推导成功 | `boolean` | `false` |
 
-| 参数            | 说明                                                              | 类型       | 默认值       |
-|---------------|-----------------------------------------------------------------|----------|-----------|
-| `mode`        | `progress` 的模式，可选值为 `line, circle`                            | _string_ | `line`  |
-| `status` | default / primary / secondary / tertiary / info / success / warning / danger | _string_ | `default` |
-| percent | Percentage, 0–100; numeric strings accepted; decimal precision retained | number / string | 0 |
-| stroke-width | 显式线宽优先于 size 的预设厚度 | `number \| string` | 按 size 档位 |
-| `color`       | `progress` 的颜色 (环形进度条设置渐变色请使用object, 渐变同svg的linearGradient元素)                                                  | _string \| object_ | `-` |
-| `track-color` | `progress` 轨道的颜色                                                | _string_ | `-` |
-| `show-text`       | 是否显示百分比文本                                                    | _boolean_ | `false`   |
-| `text-class` | 自定义文本的类名                                                 | _string_ | `-`       |
-| `track`       | 是否显示 `progress` 的轨道                                             | _boolean_ | `true`    |
-| `indeterminate` | 是否显示不间断动画                                                        | _boolean_ | `false` |
-| size | circle 外径 / line 轨道厚度；数字按 px，字符串可用 CSS 长度 | `ComponentSize \| number \| string` | `md` |
-| `rotate`      | `progress` 的原点（仅支持环形进度条）                                        | _number_ | `0`       |
+### 尺寸语义
 
-### 插槽
+| size | xs | sm | md | lg | xl |
+| --- | --- | --- | --- | --- | --- |
+| 线形厚度 / 环形默认描边 (px) | 2 | 3 | 4 | 6 | 8 |
+| 环形直径 (px) | 16 | 48 | 64 | 80 | 96 |
 
-| 名称 | 说明 | 参数 |
-| ----- | -------------- | -------- |
-| `default` | 自定义文本 | `-` |
+`size=12` / `size="12"` 表示 12px；`size="2rem"`、`"50%"`、`"calc(100% - 2px)"` 保留 CSS 长度。自定义线形 size 控制厚度，自定义环形 size 控制直径；stroke-width 始终优先控制厚度。非正数或非法长度回退 md。环形百分比直径需要父容器有明确宽度。五档均实际实现，xs 环形不显示文本。Cedar 未传 size 时继承 ConfigProvider，Maple 未传时默认 md。
+
+### Slots
+
+| 插槽 | 参数 | 说明 |
+| --- | --- | --- |
+| text | `{ percent: number }` | 优先级高于 default |
+| default | `{ percent: number }` | 自定义显示文本 |
+
+不确定进度默认显示省略号，可用 text 插槽提供业务文案。组件本身不操作值、无更新事件；请提供 `aria-label` 标识业务任务。所有内置动画尊重系统减少动态效果设置。
+
+### 类型定义
+
+导出 `ProgressProps`、`ProgressInstance`、`ProgressSize`、`ProgressMode`、`ProgressStatus`、`ProgressColor` 和运行时 `progressProps`。
 
 ### 样式变量
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
 
-| 变量名 | 默认值 |
+| 变量 | 默认值 |
 | --- | --- |
-| `--progress-font-size` | `var(--font-size-sm)` |
-| `--progress-track-color` | `#d8d8d8` |
-| `--progress-label-color` | `#555` |
-| `--progress-background` | `var(--color-primary)` |
-| `--progress-default-color` | `#f5f5f5` |
-| `--progress-primary-color` | `var(--color-primary)`|
-| `--progress-danger-color` |  `var(--color-danger)`|
-| `--progress-success-color` | `var(--color-success)`|
-| `--progress-warning-color` |  `var(--color-warning)`|
-| `--progress-info-color` | `var(--color-info)`|
-| `--progress-line-border-radius` | `0px`|
+| `--mp-progress-font-size` | `var(--mp-sys-font-size-sm)` |
+| `--mp-progress-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-progress-track-color` | `var(--mp-sys-color-state-hover)` |
+| `--mp-progress-default-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-progress-primary-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-progress-secondary-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-progress-tertiary-color` | `var(--mp-sys-color-content-tertiary)` |
+| `--mp-progress-info-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-progress-success-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-progress-warning-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-progress-danger-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-progress-line-border-radius` | `9999px` |
+| `--mp-progress-text-gap` | `var(--mp-sys-space-4)` |
+| `--mp-progress-steps-gap` | `var(--mp-sys-space-2)` |
+| `--mp-progress-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-progress-animation-duration` | `1.5s` |
 
-尺寸与跨端迁移约定见仓库根目录 `API-MIGRATION.md`。只支持文档列出的档位，不代表支持全部 ComponentSize。
-
-## Percent contract / 百分比契约
-
-percent 使用 0～100，12.5 表示 12.5%；数字字符串可用，不接受百分号、CSS 单位或十六进制字符串。超范围截断，NaN/Infinity/非法值回退 0。
-Cedar 旧值需要乘以 100（0.5 → 50）；不会自动猜测比例。文案插槽和 aria 值均为 0～100，Maple 圆环不再先取整计算。
-
-percent uses 0–100, including decimal numeric strings. CSS units and percent signs are invalid. Finite out-of-range values are clamped; invalid/non-finite values become 0.
-Migrate Cedar ratios by multiplying by 100; there is no automatic ratio detection. Slot and accessible values use percentages; Maple circle geometry no longer rounds first.
+环形确定进度的 success/danger 默认显示完成/失败图标（包括 xs）；text 插槽可覆盖，ARIA 数值始终保留。

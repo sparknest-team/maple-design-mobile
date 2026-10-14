@@ -1,203 +1,189 @@
 <template>
-  <div :class="n('wrap')">
-    <div :class="n()" @click="handleClick">
-      <div
-        ref="action"
-        v-hover:desktop="handleHovering"
-        v-ripple="{ disabled: formReadonly || readonly || formDisabled || disabled || !ripple }"
-        :class="
-          classes(
-            n('action'),
-            [checked || isIndeterminate, n('--checked'), n('--unchecked')],
-            [mergedError || checkboxGroupErrorMessage, n('--error')],
-            [formDisabled || disabled, n('--disabled')],
-          )
-        "
-        :style="{ color: checked || isIndeterminate ? checkedColor : uncheckedColor }"
-        :tabindex="disabled || formDisabled ? undefined : '0'"
-        @keydown="keyboard.keydown"
-        @keyup="keyboard.keyup"
-        @focus="handleFocus"
-        @blur="handleBlur"
-      >
-        <slot v-if="isIndeterminate" name="indeterminate-icon">
-          <MIconMinusBoxFill :class="n('icon')" :size="iconSize" mp-checkbox-cover />
+  <label
+    :class="
+      classes(
+        n(),
+        [checked, n('--checked')],
+        [indeterminate, n('--indeterminate')],
+        [mergedDisabled, n('--disabled')],
+        [mergedReadonly, n('--readonly')],
+        [mergedError, n('--error')],
+      )
+    "
+    :style="controlStyle"
+    :aria-disabled="mergedDisabled || undefined"
+    @click="handleClick"
+  >
+    <input
+      ref="input"
+      :class="n('input')"
+      type="checkbox"
+      :name="name ?? group?.name"
+      :value="value"
+      :checked="checked"
+      :indeterminate="indeterminate"
+      :disabled="mergedDisabled"
+      :aria-label="ariaLabel"
+      :aria-checked="indeterminate ? 'mixed' : checked"
+      :aria-readonly="mergedReadonly || undefined"
+      :aria-invalid="mergedError || undefined"
+      @change="handleChange"
+      @keydown="keyboard.keydown"
+      @keyup="keyboard.keyup"
+      @focus="handleFocus"
+      @blur="handleBlur"
+    />
+    <span
+      v-ripple="{ disabled: mergedDisabled || mergedReadonly || !ripple }"
+      :class="n('control')"
+      :aria-hidden="customControl ? undefined : true"
+    >
+      <choice-label
+        v-if="customControl"
+        :content="customControl({ checked, disabled: mergedDisabled, indeterminate })"
+      />
+      <template v-else>
+        <slot v-if="indeterminate" name="indeterminate-icon">
+          <span :class="n('icon')"><span :class="n('mark')" /></span>
         </slot>
-        <slot v-if="checked && !isIndeterminate" name="checked-icon">
-          <MIconCheckboxMarkedFill :class="n('icon')" :size="iconSize" mp-checkbox-cover />
+        <slot v-else-if="checked" name="checked-icon">
+          <span :class="n('icon')">
+            <svg :class="n('check')" viewBox="0 0 12 12" focusable="false">
+              <path d="M2 6l2.5 2.5L10 3" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
+          </span>
         </slot>
-        <slot v-if="!checked && !isIndeterminate" name="unchecked-icon">
-          <MIconCheckboxBlank :class="n('icon')" :size="iconSize" mp-checkbox-cover />
-        </slot>
-        <mp-hover-overlay
-          :hovering="!disabled && !formDisabled && hovering"
-          :focusing="!disabled && !formDisabled && isFocusing"
-        />
-      </div>
-
-      <div
-        v-if="$slots.default"
-        :class="
-          classes(
-            n('text'),
-            [mergedError || checkboxGroupErrorMessage, n('--error')],
-            [formDisabled || disabled, n('--disabled')],
-          )
-        "
-        @click="handleTextClick"
-      >
-        <slot :checked="checked" />
-      </div>
-    </div>
-  </div>
+        <slot v-else name="unchecked-icon"><span :class="n('icon')" /></slot>
+      </template>
+    </span>
+    <span v-if="$slots.default" :class="n('label')"><slot :checked="checked" /></span>
+  </label>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import {
-  IconCheckboxBlank as MIconCheckboxBlank,
-  IconCheckboxMarkedFill as MIconCheckboxMarkedFill,
-  IconMinusBoxFill as MIconMinusBoxFill,
-} from '@maplejs/icons-vue'
-import { call } from '@maplejs/maple-shared'
-import { useCheckboxControl } from '../checkbox/use-choice-control'
-import { useChoiceKeyboard } from '../checkbox/use-choice-keyboard'
-import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
-import Ripple from '../ripple'
+<script setup lang="ts">
+import { computed, inject, nextTick, ref, useSlots, watch, type CSSProperties } from 'vue'
+import vRipple from '../ripple'
 import { createNamespace } from '../utils/components'
-import { props } from './props'
-import { useCheckboxGroup, type CheckboxProvider } from './provide'
+import { ChoiceLabel } from './choice-label'
+import type { CheckboxModel } from './choice-value-props'
+import { checkboxGroupKey } from './context'
+import { checkboxProps } from './props'
 import { useChoiceRegistration } from './use-checkbox-group-methods'
+import { useCheckboxControl } from './use-choice-control'
 import { useChoiceForm } from './use-choice-form'
+import { useChoiceKeyboard } from './use-choice-keyboard'
 
-const { name, n, classes } = createNamespace('checkbox')
-
-export default defineComponent({
-  name,
-  directives: { Ripple, Hover },
-  components: {
-    MIconMinusBoxFill,
-    MIconCheckboxMarkedFill,
-    MIconCheckboxBlank,
-    MpHoverOverlay,
+defineOptions({ name: createNamespace('checkbox').name })
+const { n, classes } = createNamespace('checkbox')
+const props = defineProps(checkboxProps)
+const emit = defineEmits<{
+  'update:modelValue': [value: CheckboxModel]
+  change: [value: CheckboxModel, event?: Event]
+  click: [event: MouseEvent]
+  focus: [event: FocusEvent]
+  blur: [event: FocusEvent]
+}>()
+const slots = useSlots()
+const group = !props.uninjectGroupContext ? inject(checkboxGroupKey, undefined) : undefined
+const input = ref<HTMLInputElement>()
+const state = useChoiceForm({
+  get disabled() {
+    return props.disabled ?? group?.disabled
   },
+  get readonly() {
+    return props.readonly ?? group?.readonly
+  },
+  get error() {
+    return props.error ?? group?.error
+  },
+})
+const mergedDisabled = computed(() =>
+  Boolean(group?.disabled || state.mergedDisabled.value || (!checked.value && group?.isMaxed)),
+)
+const mergedReadonly = computed(() => Boolean(group?.readonly || state.mergedReadonly.value))
+const mergedError = computed(() => Boolean(group?.error || state.mergedError.value))
+const { checked, toggle } = useCheckboxControl(
   props,
-  emits: ['change', 'click', 'update:modelValue', 'focus', 'blur'],
-  setup(props, { emit }) {
-    const action = ref<HTMLElement | null>(null)
-    const isFocusing = ref(false)
-    const isIndeterminate = computed(() => props.indeterminate)
-    const optionValue = computed(() => props.value)
-    const { checkboxGroup, bindCheckboxGroup } = useCheckboxGroup()
-    const { hovering, handleHovering } = useHoverOverlay()
-    const state = useChoiceForm({
-      get disabled() {
-        return props.disabled ?? checkboxGroup?.disabled.value
-      },
-      get readonly() {
-        return props.readonly ?? checkboxGroup?.readonly.value
-      },
-      get error() {
-        return props.error ?? checkboxGroup?.errorMessage.value
-      },
-    })
-    const { mergedError, eventHandlers } = state
-    const mergedDisabled = computed(() => checkboxGroup?.disabled.value || state.mergedDisabled.value)
-    const mergedReadonly = computed(() => checkboxGroup?.readonly.value || state.mergedReadonly.value)
-    const { checked, toggle } = useCheckboxControl(
-      props,
-      (value, event) => {
-        emit('update:modelValue', value)
-        emit('change', value, event)
-        eventHandlers.value.onChange?.(event)
-      },
-      () => mergedDisabled.value || mergedReadonly.value,
-      checkboxGroup
-        ? {
-            value: () => checkboxGroup.modelValue.value,
-            change: (next, event) => {
-              next.includes(props.value)
-                ? checkboxGroup.onChecked(props.value, event)
-                : checkboxGroup.onUnchecked(props.value, event)
-            },
-          }
-        : undefined,
-    )
-
-    useChoiceRegistration(checkboxGroup?.registerChoice, {
-      value: () => props.value,
-      disabled: () => mergedDisabled.value,
-      readonly: () => mergedReadonly.value,
-      element: () => action.value,
-    })
-
-    const checkboxProvider: CheckboxProvider = {
-      value: optionValue,
-      checked,
-      disabled: mergedDisabled,
-      readonly: mergedReadonly,
+  (value, event) => {
+    emit('update:modelValue', value)
+    emit('change', value, event)
+    state.eventHandlers.value?.onChange?.(event)
+  },
+  () => mergedDisabled.value || mergedReadonly.value,
+  group ? { value: () => group.computedValue, change: group.handleChange } : undefined,
+)
+useChoiceRegistration(group?.registerChoice, {
+  value: () => props.value,
+  disabled: () => Boolean(group?.disabled || state.mergedDisabled.value),
+  readonly: () => mergedReadonly.value,
+  element: () => input.value,
+})
+const customControl = computed(() => slots.checkbox ?? group?.slots.checkbox)
+const controlStyle = computed<CSSProperties>(() => ({
+  '--mp-internal-checkbox-instance-checked-color': props.checkedColor,
+  '--mp-internal-checkbox-instance-unchecked-color': props.uncheckedColor,
+  '--mp-internal-checkbox-instance-size': typeof props.iconSize === 'number' ? `${props.iconSize}px` : props.iconSize,
+}))
+const keyboard = useChoiceKeyboard(
+  () => input.value?.click(),
+  () => mergedDisabled.value || mergedReadonly.value,
+)
+function handleClick(event: MouseEvent) {
+  if (mergedDisabled.value || mergedReadonly.value) {
+    event.preventDefault()
+    if (!mergedDisabled.value) {
+      emit('click', event)
     }
-
-    call(bindCheckboxGroup, checkboxProvider)
-
-    const keyboard = useChoiceKeyboard(
-      () => action.value?.click(),
-      () => mergedDisabled.value || mergedReadonly.value,
-    )
-
-    function handleClick(e: Event) {
-      if (mergedDisabled.value) {
-        return
-      }
-
-      emit('click', e)
-
-      if (mergedReadonly.value) {
-        return
-      }
-
-      toggle(undefined, e)
+    return
+  }
+  if (event.target === input.value) {
+    event.stopPropagation()
+    emit('click', event)
+    return
+  }
+  // Preserve embedded links/buttons. Forward decorative/label clicks once.
+  const target = event.target as HTMLElement
+  if (target.closest('button, a, input, select, textarea, [contenteditable="true"]')) {
+    return
+  }
+  event.preventDefault()
+  input.value?.focus()
+  input.value?.click()
+}
+function handleChange(event: Event) {
+  if (!mergedDisabled.value && !mergedReadonly.value) {
+    toggle((event.target as HTMLInputElement).checked, event)
+  }
+  nextTick(() => {
+    if (input.value) {
+      input.value.checked = checked.value
+      input.value.indeterminate = props.indeterminate
     }
-
-    function handleTextClick() {
-      action.value!.focus()
+  })
+}
+function handleFocus(event: FocusEvent) {
+  emit('focus', event)
+  state.eventHandlers.value?.onFocus?.(event)
+}
+function handleBlur(event: FocusEvent) {
+  keyboard.reset()
+  emit('blur', event)
+  state.eventHandlers.value?.onBlur?.(event)
+}
+watch(checked, (value) => {
+  if (input.value) {
+    input.value.checked = value
+  }
+})
+defineExpose({
+  toggle,
+  focus(options?: FocusOptions) {
+    if (!mergedDisabled.value) {
+      input.value?.focus(options)
     }
-
-    return {
-      action,
-      keyboard,
-      isFocusing,
-      isIndeterminate,
-      checked,
-      mergedError,
-      checkboxGroupErrorMessage: checkboxGroup?.errorMessage,
-      formDisabled: mergedDisabled,
-      formReadonly: mergedReadonly,
-      hovering,
-      n,
-      classes,
-      handleHovering,
-      handleClick,
-      handleTextClick,
-      toggle,
-      focus: (options?: FocusOptions) => {
-        if (!mergedDisabled.value) {
-          action.value?.focus(options)
-        }
-      },
-      blur: () => action.value?.blur(),
-      handleFocus(event: FocusEvent) {
-        isFocusing.value = true
-        emit('focus', event)
-        eventHandlers.value.onFocus?.(event)
-      },
-      handleBlur(event: FocusEvent) {
-        keyboard.reset()
-        isFocusing.value = false
-        emit('blur', event)
-        eventHandlers.value.onBlur?.(event)
-      },
-    }
+  },
+  blur() {
+    input.value?.blur()
   },
 })
 </script>

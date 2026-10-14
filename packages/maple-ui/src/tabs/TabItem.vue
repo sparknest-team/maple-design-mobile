@@ -13,10 +13,12 @@
 </template>
 <script setup lang="ts">
 import { computed, getCurrentInstance, inject, ref, watch } from 'vue'
+import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
-import { createNamespace, providePanelVisibility } from './platform'
 import { tabItemProps, type TabsKey } from './props'
+import type { TabItemSlots } from './types'
 
+defineSlots<TabItemSlots>()
 defineOptions({ name: createNamespace('tab-item').name })
 const props = defineProps(tabItemProps)
 const ctx = inject(tabsInjectionKey)!
@@ -35,5 +37,4 @@ const mounted = computed(
     active.value ||
     (!(props.destroyOnHide ?? ctx.props.destroyOnHide) && (!(props.lazyLoad ?? ctx.props.lazyLoad) || visited.value)),
 )
-providePanelVisibility(active)
 </script>

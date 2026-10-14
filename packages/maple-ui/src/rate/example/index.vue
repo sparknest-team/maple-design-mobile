@@ -8,7 +8,11 @@ import CustomRatingIconStyleDemo from './demos/custom-rating-icon-style.vue'
 import CustomTotalRatingDemo from './demos/custom-total-rating.vue'
 import DisabledAndReadonlyDemo from './demos/disabled-and-readonly.vue'
 import HalfStarDemo from './demos/half-star.vue'
+import KeyboardEnDemo from './demos/keyboard.en-US.vue'
+import KeyboardDemo from './demos/keyboard.vue'
 import ListenEventDemo from './demos/listen-event.vue'
+import SymbolsEnDemo from './demos/sizes-and-symbols.en-US.vue'
+import SymbolsDemo from './demos/sizes-and-symbols.vue'
 
 onThemeChange()
 const language = ref('zh-CN')
@@ -58,5 +62,13 @@ watchLang((value) => {
   <section data-demo="listen-event">
     <app-type>{{ english ? 'Listen Event' : '监听事件' }}</app-type>
     <ListenEventDemo />
+  </section>
+  <section data-demo="keyboard">
+    <app-type>{{ english ? 'Keyboard and State' : '键盘与状态' }}</app-type>
+    <KeyboardEnDemo v-if="english" /><KeyboardDemo v-else />
+  </section>
+  <section data-demo="sizes-and-symbols">
+    <app-type>{{ english ? 'Sizes and Symbols' : '尺寸与符号' }}</app-type>
+    <SymbolsEnDemo v-if="english" /><SymbolsDemo v-else />
   </section>
 </template>

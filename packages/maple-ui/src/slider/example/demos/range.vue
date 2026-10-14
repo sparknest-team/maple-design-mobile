@@ -19,7 +19,7 @@ const values = reactive({
 </script>
 
 <template>
-  <mp-slider v-model="values.value11" :max="210" :min="-50" label-visible="always" />
+  <mp-slider v-model="values.value11" :max="210" :min="-50" show-tooltip="always" />
 </template>
 
 <style>

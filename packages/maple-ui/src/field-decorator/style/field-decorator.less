@@ -19,6 +19,12 @@
   cursor: text;
   transition: background-color var(--mp-field-hint-duration);
 
+  // Error and filled backgrounds must not hide keyboard focus.
+  &:has(:focus-visible):not(&--disabled) {
+    outline: var(--mp-field-border-width) solid var(--mp-field-custom-focus, var(--mp-field-focus-color));
+    outline-offset: var(--mp-field-border-width);
+  }
+
   .size(@size) {
     &--size-@{size} {
       --mp-internal-field-height: var(~'--mp-field-size-@{size}-height');

@@ -1,77 +1,62 @@
 # Slider
 
-### Intro
+Select a value or non-crossing interval within finite bounds.
 
-Used to take values within a given range.
-
-### Basic Usage
+### basic-usage
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
-### Step Size
-
-Set step increment by `step`.
+### step-size
 
 ```demo
 ../example/demos/step-size.vue
 ```
 
-### Dual Thumbs
-
-Open the double slider mode through the `range` attribute. Make sure the `value` is an array.
+### dual-thumb
 
 ```demo
 ../example/demos/dual-thumb.vue
 ```
 
-### Range
+### range
 
 ```demo
 ../example/demos/range.vue
 ```
 
-### Disable
+### disable
 
 ```demo
 ../example/demos/disable.vue
 ```
 
-### Readonly
+### readonly
 
 ```demo
 ../example/demos/readonly.vue
 ```
 
-### Slider Size
-
-Control the size of slider through `track-height` and `thumb-size`.
+### slider-size
 
 ```demo
 ../example/demos/slider-size.vue
 ```
 
-### Custom Style
+### custom-style
 
 ```demo
 ../example/demos/custom-style.vue
 ```
 
-### Custom Button
-
-The props such as `label-visible`, `label-text-color`, `thumb-size` are invalid when using slot custom buttons.
+### custom-btn
 
 ```demo
 ../example/demos/custom-btn.vue
 ```
 
-### Show Label
-Control the display of labels through the `label-visible` attribute.
-
-
-
-> For form validation of the slider, please use the [FormItem component](#/en-US/form-item).
+### show-label
 
 ```demo
 ../example/demos/show-label.vue
@@ -79,64 +64,85 @@ Control the display of labels through the `label-visible` attribute.
 
 ### Vertical
 
-Set the `orientation` attribute value to `vertical` to make the slider display vertically.
+The parent provides a 300px height. Moving up increases the value; moving down decreases it. Range endpoints cannot cross. There is no separate reverse prop.
 
 ```demo
 ../example/demos/vertical.vue
 ```
 
+### Ticks, Marks and Numeric Input
+
+Numeric input follows the slider step and bounds. Range endpoints cannot cross each other.
+
+```demo
+../example/demos/keyboard-input.vue
+```
+
+### Tooltips and Custom Handles
+
+```demo
+../example/demos/touch-and-labels.vue
+```
+
+### Controlled and Non-crossing Range
+
+The range accepts model updates. The fixed-value slider records proposals without accepting them; readonly and disabled sliders keep their values.
+
+```demo
+../example/demos/controlled-range.vue
+```
+
 ## API
 
-### Props
+| Prop | Meaning | Type | Default |
+| --- | --- | --- | --- |
+| model-value / default-value | Controlled value / initial uncontrolled value | `SliderValue` | undefined / 0 |
+| min / max | Bounds; invalid values use 0/100, max<=min disables interaction | `number\|string` | 0 / 100 |
+| step | Positive finite step aligned to min; max remains reachable | `number\|string` | 1 |
+| range | Fixed low/high thumbs; initial reversed values are sorted | `boolean` | false |
+| orientation | Vertical requires parent height | `horizontal\|vertical` | horizontal |
+| disabled / readonly / error | Inherit applicable Form state when omitted | `boolean` | inherited |
+| show-ticks / marks | Step ticks (up to 1000) / labels at numeric positions | `boolean / Record<number,string>` | false / undefined |
+| show-input | InputNumber; Enter or blur commits via the same model | `boolean` | false |
+| show-tooltip | true on hover/focus/drag, false hidden, always persistent | `boolean\|'always'` | true |
+| format-tooltip | Formats tooltip and aria-valuetext | `(number)=>string\|number` | raw value |
+| aria-label | Name, or separate names for range thumbs | `string\|[string,string]` | — |
+| active-color / track-color / thumb-color | Fill, track and thumb colors | `string` | tokens |
+| label-color / label-text-color | Tooltip colors | `string` | tokens |
+| track-height / thumb-size | CSS lengths; numbers are px; invalid values leave token defaults | `number\|string` | tokens |
 
-| Prop | Description                                                              | Type | Default |
-| ----- |--------------------------------------------------------------------------| -------- | ---------- |
-| `v-model` | The value of slider                                                      | _number \| [number, number]_ | `0` |
-| `step`| Step size. The value must greater than 0                                 | _string \| number_ | `1` |
-| `range`| Whether open the dual thumb mode                                         | _boolean_ | `false` |
-| `max` | The maximum value the slider can slide to                                | _string \| number_ | `100`           |
-| `min` | The minimum value the slider can slide to                                | _string \| number_ | `0`           |
-| `label-visible` | Whether to display labels, the optional value is `always, normal, never` | _string_ | `normal` |
-| `label-text-color` | Color of label text                                                      | _string_ | `-` |
-| `label-color`  | Background color of label                                                | _string_ | `-`               |
-| `active-color` | Background color of actived track                                        | _string_ | `-`               |
-| `track-color`  | Background color of track                                                | _string_ | `-`               |
-| `track-height` | Height of track                                                          | _string \| number_ | `-` |
-| `thumb-size` | Size of thumb                                                            | _string \| number_ | `-` |
-| `thumb-color`   | Background color of thumb                                                | _string_ | `-`               |
-| `disabled`| Whether to disable slider                                                | _boolean_  | `false` |
-| `readonly`| Whether to readonly slider                                               | _boolean_  | `false` |
-| `orientation` | Direction of slider, Can be set to `vertical horizontal`                           | _string_ | `horizontal` |
-### Events
+### Interaction
 
-| Event | Description | arguments |
-| ----- | -------- | -------- |
-| `change` |  Emitted after slider changed | `value`: current value |
-| `start` | Emitted when start dragged | `-` |
-| `end` | Emitted when end dragged | `value`: current value |
+Arrows move one step; PageUp/PageDown ten steps; Home/End reach the available endpoints. Range ARIA bounds follow the other thumb. Coincident thumbs can be separated by clicking below/above their value. Readonly retains focus; disabled is removed from Tab order. Embedded interactive slot content retains its keyboard handling.
 
-### Slots
+Pointer Events cover mouse/touch/pen; pointerup applies final coordinates. Cancel/lost capture ends the latest proposal. Disabling, unmounting or KeepAlive deactivation removes listeners/capture. Controlled values change only after parent acceptance; normalization does not emit. InputNumber does not duplicate parent Form validation.
 
-| Name | Description | SlotProps |
-| ----- | -------------- | -------- |
-| `button` | Custom button | `currentValue`: current value |
+### Events, slots and methods
 
-### Style Variables
+update:model-value and change carry SliderValue once per distinct proposal. start has no payload; end carries the final proposal, not a guarantee of controlled acceptance. Keyboard and number-input actions each emit a start/end pair; a pointer drag emits one pair.
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+button slot receives `{ currentValue,index }`; custom content retains tooltip/keyboard/ARIA. Exposes focus(index=0) in displayed order and blur(). Removed label-visible is replaced directly by show-tooltip; no alias.
+
+Exports SliderProps, SliderValue, SliderOrientation, SliderTooltipFormatter, SliderTooltipVisibility, SliderEmits, SliderSlots, SliderExpose, SliderInstance and sliderProps. Libraries maintain independent copies; only installation/Form wiring differ.
+
+### Style variables
 
 | Variable | Default |
 | --- | --- |
-| `--slider-error-color` | `var(--color-danger)` |
-| `--slider-track-background` | `#bdbdbd` |
-| `--slider-track-height` | `2px` |
-| `--slider-track-border-radius` | `0` |
-| `--slider-track-fill-border-radius` | `0` |
-| `--slider-track-fill-background` | `var(--color-primary)` |
-| `--slider-thumb-block-background` | `var(--color-primary)` |
-| `--slider-thumb-ripple-background` | `var(--color-primary)` |
-| `--slider-thumb-label-background` | `var(--color-primary)` |
-| `--slider-thumb-label-font-size` | `var(--font-size-sm)` |
-| `--slider-thumb-label-text-color` | `var(--color-white)` |
-| `--slider-thumb-size` | `12px` |
-| `--slider-disabled-opacity` | `var(--opacity-disabled)` |
+| `--mp-slider-active-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-slider-track-color` | `var(--mp-sys-color-state-hover)` |
+| `--mp-slider-thumb-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-slider-thumb-border-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-slider-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-slider-tooltip-background` | `var(--mp-sys-color-surface-tooltip)` |
+| `--mp-slider-tooltip-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-slider-error-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-slider-disabled-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-slider-track-height` | `4px` |
+| `--mp-slider-thumb-size` | `16px` |
+| `--mp-slider-control-height` | `var(--mp-sys-control-height-md)` |
+| `--mp-slider-font-size` | `var(--mp-sys-font-size-sm)` |
+| `--mp-slider-gap` | `var(--mp-sys-space-4)` |
+| `--mp-slider-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-slider-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
+| `--mp-slider-input-width` | `80px` |

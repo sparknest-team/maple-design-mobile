@@ -1,6 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
-import type { DropdownMenuSubmenuTrigger } from './platform'
-import type { MenuValue } from './types'
+import type { DropdownMenuStrategy, DropdownMenuSubmenuTrigger, MenuValue } from './types'
 
 export interface MenuOptionInfo {
   value?: MenuValue
@@ -9,6 +8,7 @@ export interface MenuOptionInfo {
 }
 
 export interface MenuContext {
+  strategy: Ref<DropdownMenuStrategy>
   popupMaxHeight: Ref<boolean | number>
   modelValue?: Ref<MenuValue>
   /** Owned by the root so every level expands the same way. */

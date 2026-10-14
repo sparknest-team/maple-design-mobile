@@ -1,0 +1,4 @@
+- [x] Align independent directive runtime and transition timing with the Cedar-led contract.
+- [x] Add 12 permanent timing/ownership cases and verify all Ripple tests.
+- [x] Verify actual CSS consumers and native IAB default/long/zero timing.
+- [x] Synchronize bilingual docs, demos, menu guides, generated catalog and patch Changeset.

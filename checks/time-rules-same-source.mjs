@@ -9,6 +9,7 @@ const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
 for (const [left, right] of [
   ['_utils/picker-data.ts', 'utils/picker-data.ts'],
   ['time/time-rules.ts', 'time/time-rules.ts'],
+  ['time/__tests__/text-entry.test.ts', 'time/__tests__/text-entry.test.ts'],
   ['time/panel-emits.ts', 'time/panel-emits.ts'],
   ['time/__tests__/range-owner-contract.test.ts', 'time/__tests__/range-owner-contract.test.ts'],
   ['time/field-placeholders.ts', 'time/field-placeholders.ts'],
@@ -113,6 +114,22 @@ for (const root of [cedar, maple]) {
   )
   assert.match(content, /TimeFieldContentProps/, 'field view consumes the typed owner state')
 }
+// Both fields consume the API; only the deliberate device default differs.
+for (const component of ['time', 'time-range']) {
+  assert.match(
+    readFileSync(resolve(cedar, component, 'props.ts'), 'utf8'),
+    /inputEditable:\s*\{\s*type: Boolean,\s*default: true/,
+  )
+  assert.match(
+    readFileSync(resolve(maple, component, 'props.ts'), 'utf8'),
+    /inputEditable:\s*\{\s*type: Boolean,\s*default: false/,
+  )
+}
+for (const root of [cedar, maple]) {
+  const view = readFileSync(resolve(root, 'time/presentation/TimeFieldContent.vue'), 'utf8')
+  assert.match(view, /:editable="[^"]*fieldProps.inputEditable/)
+  assert.match(view, /@commit="state.commitText"/)
+}
 console.log(
-  'Time foundation: 33 independent source/test pairs, 4 panel and 2 field presentation boundaries verified; field owners copied, local views remain independent.',
+  'Time foundation: 34 independent source/test pairs, 4 panel and 2 field presentation boundaries verified; field owners copied, local views remain independent.',
 )

@@ -1,243 +1,183 @@
-# 文件上传
+# Upload 上传
 
-### 介绍
+读取、队列和请求采用两端独立复制的同源实现；未配置 action/custom-request 时仅读取，供业务自行管理进度与结果。
 
-提供了文件读取、图片/视频预览能力。通过监听 `after-read` 事件获取文件上传服务器。
+## 案例
+
+### 只读取文件
+
+<demo src="../example/demos/read-only.vue"></demo>
+
+### 手动队列和可取消请求
+
+可直接“加入示例文件”，也可选择本地文件；两种方式均不访问网络。点击提交后观察进度，取消会停止活动请求，重试会重新上传。开启“首次请求失败”时，同一文件首次失败、重试成功。活动请求数在完成、取消、失败及离开 Demo 后清零。
+
+<demo src="../example/demos/queue-request.vue"></demo>
+
+### 替换后的约束校验
+
+<demo src="../example/demos/replacement-validation.vue"></demo>
+
+### 图卡、插槽与自定义预览
+
+<demo src="../example/demos/custom-surface.vue"></demo>
+
+### 外部管理进度
+
+<demo src="../example/demos/external-state.vue"></demo>
 
 ### 基本使用
 
-```demo
-../example/demos/basic-usage.vue
-```
+<demo src="../example/demos/basic-usage.vue"></demo>
 
-### 文件预览
+### 批次筛选
 
-通过分析文件的 url 后缀名判断文件类型，支持图片和视频预览。
+<demo src="../example/demos/before-add.vue"></demo>
 
-```demo
-../example/demos/preview.vue
-```
+### 读取前确认
+
+<demo src="../example/demos/before-read.vue"></demo>
+
+### 删除前确认
+
+<demo src="../example/demos/before-remove.vue"></demo>
+
+### 接管文件选择
+
+<demo src="../example/demos/click-action.vue"></demo>
 
 ### 自定义预览
 
-```demo
-../example/demos/custom-preview.vue
-```
+<demo src="../example/demos/custom-preview.vue"></demo>
 
-### 上传状态
+### 自定义文件项
 
-提供了 `loading`、 `success`、 `error` 三种上传状态，并提供了工具函数快速获取对应状态的文件。
-
-```demo
-../example/demos/state.vue
-```
-
-### 使用进度条
-
-```demo
-../example/demos/use-progress.vue
-```
-
-### 文件数量限制
-
-```demo
-../example/demos/max-files.vue
-```
-
-### 文件大小限制
-
-超过限制会被阻止读取，可以通过监听 `oversize` 事件获取文件。
-
-```demo
-../example/demos/max-file-size.vue
-```
-
-### 文件列表过滤
-
-通过 `before-add` 钩子过滤原生 `File[]`，返回新的 `File[]`（支持 Promise）。
-
-```demo
-../example/demos/before-add.vue
-```
-
-### 上传预处理
-
-通过注册 `before-read` 钩子对文件进行操作，返回假值阻止文件读取。
-
-```demo
-../example/demos/before-read.vue
-```
-
-### 上传按钮点击事件
-
-通过注册 `click-action` 事件可以拦截上传按钮的点击行为，通过回调中的 `chooseFile` 方法进行手动触发浏览器选择文件操作。
-
-```demo
-../example/demos/click-action.vue
-```
+<demo src="../example/demos/custom-render.vue"></demo>
 
 ### 禁用
 
-```demo
-../example/demos/disabled.vue
-```
+<demo src="../example/demos/disabled.vue"></demo>
+
+### 单文件大小限制
+
+<demo src="../example/demos/max-file-size.vue"></demo>
+
+### 文件数量限制
+
+<demo src="../example/demos/max-files.vue"></demo>
+
+### 图片和视频预览
+
+<demo src="../example/demos/preview.vue"></demo>
 
 ### 只读
 
-```demo
-../example/demos/readonly.vue
-```
-
-### 删除前处理
-
-删除文件之前会触发 `before-remove` 钩子，返回假值阻止删除操作。
-
-```demo
-../example/demos/before-remove.vue
-```
-
-### 自定义上传样式
-
-
-
-> 上传组件的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
-
-```demo
-../example/demos/style.vue
-```
-
-### 自定义渲染
-
-通过 `show-file-list` 隐藏组件的文件列表，自定义文件列表的渲染逻辑。
-
-```demo
-../example/demos/custom-render.vue
-```
+<demo src="../example/demos/readonly.vue"></demo>
 
 ### 自定义删除按钮
 
-```demo
-../example/demos/remove-button-slot.vue
-```
+<demo src="../example/demos/remove-button-slot.vue"></demo>
+
+### 所有队列状态
+
+<demo src="../example/demos/state.vue"></demo>
+
+### 自定义选择按钮
+
+<demo src="../example/demos/style.vue"></demo>
+
+### 外部上传进度
+
+<demo src="../example/demos/use-progress.vue"></demo>
 
 ## API
 
-### 属性
+### Props
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `v-model` | 文件列表 | _UploadFileItem[]_ | `[]` |
-| `accept` | 接受的文件类型，与原生属性一致 | _string_ | `image/*` |
-| `capture` | 获取文件方式，与原生属性一致 | _string_ | `-` |
-| `multiple` | 是否多选文件 | _boolean_ | `false` |
-| `readonly` | 是否只读 | _boolean_ | `false` |
-| `disabled` | 是否禁用 | _boolean_ | `false` |
-| `elevation`| 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效 | _number \| boolean_|   `true`    |
-| `show-remove-button` | 是否可以删除 | _boolean_ | `true` |
-| `max-files` | 最大文件个数 | _string \| number_ | `-` |
-| `max-file-size` | 最大文件大小，单位为 `byte` | _string \| number_ | `-` |
-| `preview` | 是否允许预览 | _boolean_ | `true` |
-| `prevent-default-preview` | 阻止默认预览行为 | _boolean_ | `false` |
-| `ripple` | 是否开启水波纹 | _boolean_ | `true` |
-| `show-file-list` | 是否显示文件列表 | _boolean_ | `true` |
-| `resolve-type` | object-url: Blob URL; file: File only; data-url: Base64 URL | _UploadResolveType_ | `object-url` |
-
-### 拦截钩子（Props，不是通知事件）
-
-使用 `:before-add`、`:before-read`、`:before-remove` 传入函数。
-
-| Prop | Signature |
-| --- | --- |
-| beforeAdd | `(files: File[]) => File[] / Promise<File[]>` |
-| beforeRead | `(file: File) => boolean / File / Promise<boolean / File>` |
-| beforeRemove | `(file: UploadFileItem, files: UploadFileItem[]) => boolean / Promise<boolean>` |
-
-beforeRead 返回 false 或拒绝 Promise 时跳过文件；返回 File 时替换读取对象。beforeRemove 返回 true 才允许移除；拒绝 Promise 时不移除。
-
-### UploadFileItem
-
-手工创建列表项必须提供唯一字符串 uid、status、percent。object-url 由组件持有，移除列表项或卸载时释放；不要跨组件长期保存此临时 URL。Maple 不发起网络上传，应用负责更新上传过程状态。fit 是 Maple 的逐文件封面扩展。
-
-| Field | Type |
-| --- | --- |
-| uid | string (required) |
-| size | number (bytes) |
-| type | string (MIME) |
-| response / error | unknown |
-
-
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `file` | 原生文件 | _File_ | `-` |
-| `name` | 文件名 | _string_ | `-` |
-| `url` | 文件地址 | _string_ | `-` |
-| `thumbnailUrl` | 封面图 | _string_ | `-` |
-| `fit` | 封面图填充模式，可选值为 `fill` `contain` `cover` `none` `scale-down` | _string_ | `-` |
-| `status` | ready / reading / uploading / success / error / canceled / removed | _UploadStatus_ | `ready` |
-| `percent` | 文件上传进度，范围 [0, 100] | _number_ | `-` |
-
-### 方法
-
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `chooseFile` | 触发选择文件动作，显示文件列表 | `-` | `-` |
-| `closePreview` | 关闭预览文件弹出层 | `-` | `-` |
-| `getLoading` | 获取 `status` 等于 `uploading` 的文件集合| `-` | `UploadFileItem[]` |
-| `getSuccess` | 获取 `status` 等于 `success` 的文件集合| `-` | `UploadFileItem[]` |
-| `getError` |  获取 `status` 等于 `error` 的文件集合 | `-` | `UploadFileItem[]` |
-
-### 事件
-
-| 事件名 | 说明 | 参数 |
+| 属性 | 类型 | 默认值/说明 |
 | --- | --- | --- |
+| model-value / default-value | UploadFileItem[] | 受控值 / 非受控初值[] |
+| accept / capture | string / 原生capture | 未指定 |
+| multiple / directory / draggable | boolean | false |
+| disabled / readonly | boolean | undefined，继承Form，显式false优先 |
+| action / method | string | 无 / post |
+| headers / data | object 或 async(file) => object | 请求准备阶段仍可取消 |
+| name | string / (file) => string | file |
+| with-credentials | boolean | false |
+| custom-request | (UploadRequestOptions) => UploadRequest / Promise / void | 自定义transport，可返回abort |
+| auto-upload | boolean | true；必须同时有action或custom-request才启动 |
+| max-files / max-file-size / max-total-size | number | 未指定；大小单位字节，max-files>0生效 |
+| resolve-type | file / data-url / object-url | object-url；所有文件生成url，图片生成thumbnailUrl |
+| create-thumbnail-url | (options) => string / Promise | 自定义URL归调用方所有，不自动回收 |
+| before-add | async(files) => File[] | 批次筛选/替换 |
+| before-read | async(file) => boolean / File | false/reject拒绝；替换后重新校验 |
+| before-upload | async(item) => boolean / File / Blob | false/reject取消准备；替换后重新校验 |
+| before-remove | async(item,list) => boolean | false/reject不删除 |
+| is-success-response | (xhr,item) => boolean | 默认HTTP2xx |
+| request-choose | (chooseFile,event) => void / Promise | 接管选择入口，异常不会自动打开文件框 |
+| list-type | text / picture / picture-card | text，两端均支持 |
+| image-fit | fill / contain / cover / none / scale-down | cover；item.fit优先 |
+| preview | boolean | true |
+| show-file-list / show-upload-button / show-remove-button | boolean | true |
+| show-retry-button / show-cancel-button / show-preview-button | boolean | true |
+| show-download-button | boolean | false；禁用时不可操作 |
+| elevation / ripple | boolean或number / boolean | false / true |
 
+UploadFileItem 的 uid、status、percent 必填，name/size/type/file/url/thumbnailUrl/fit/response/error 可选。status为ready/reading/uploading/success/error/canceled/removed。
 
-| `after-read` | 文件读取后触发 | `file: UploadFileItem` |
-| `oversize` | 文件超过限制大小时触发 | `file: UploadFileItem` |
+### Events
 
-| `remove` | 文件删除时触发 | `file: UploadFileItem` |
-| `preview` | 文件预览时触发 | `file: UploadFileItem` |
-| `click-action`| 拦截上传按钮的点击行为 | `chooseFile: () => void, event: Event` |
+- update:model-value(files)，change(files, changedFile?)：队列提议顺序，Form每次change仅一次。进度与状态更新也属于change。
+- read(item)：读取完成，可自行接管业务上传；不是服务端成功。
+- rejected(UploadRejectedFile[])：reason为accept/before-add/before-read/read-error/max-file-size/max-total-size/max-files。
+- exceed(nativeFiles, acceptedList)：超过数量时通知。
+- progress(item,event?)、success(item)、error(item)：当前有效请求通知；旧请求/取消回调不生效。
+- remove(item)：通过删除钩子后的删除提议。
+- preview(item, UploadPreviewEvent)：调用event.preventDefault()取消内建图片/视频预览；程序调用也可取消，originalEvent可选。
 
-### 插槽
+### Slots
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 上传按钮内容 | `-` |
-| `remove-button` ***3.8.0*** | 删除按钮 | `remove: () => void` |
+- trigger({chooseFile,dragOver,disabled})：自定义选择入口。
+- item({file,index,remove,retry,abort})：自定义整项。
+- remove-button({file,index,remove,retry,abort})：自定义删除操作。
 
-### 样式变量
+### Expose
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+chooseFile()、submit(file?)、abort(file?)、retry(file)、remove(file)、reset()、clearSuccess()、clearError()、getFiles(status?)、preview(file)、closePreview()。useUploader(options)提供同源无UI逻辑，另有addFiles(files)和input/drag处理接口。
 
-| 变量名 | 默认值 |
+### 受控与生命周期
+
+受控父级拒绝新增时只发读取与列表提议，不自动上传；后续父级接受该uid才会自动上传一次。同tick提议事务合并，跨tick仍以实际父级列表为真源，拒绝项目不占总大小；父级负责迟到列表替换的一致性。显式remove未接受项、reset或卸载会释放其生成URL；任意外部URL不会被回收。内建预览保留自己的URL使用权至关闭，不关闭其他组件后来打开的预览。
+
+取消覆盖before-upload、异步headers/data/name及异步custom-request句柄阶段；重试和外部同uid换File令旧回调失效。before-read和before-upload的替换会复查限制，max-total-size只累计已接受项及当前正在准备的合法批次/请求。禁用/只读禁止选择、移除、提交等更改；只读允许预览/下载。KeepAlive停用取消当前准备/请求，恢复后允许新操作。
+
+## 类型定义
+
+UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
+
+## 样式变量
+
+两端公共后缀一致，所有默认值见下表（前缀分别为c/mp）。
+
+| 变量 | 默认值 |
 | --- | --- |
-| `--upload-action-background`            | `#f7f8fa`                                                                                    |
-| `--upload-action-icon-color`            | `#888`                                                                                       |
-| `--upload-action-icon-size`             | `24px`                                                                                       |
-| `--upload-action-margin`                | `0 10px 10px 0`                                                                              |
-| `--upload-file-size`                    | `80px`                                                                                       |
-| `--upload-file-margin`                  | `0 10px 10px 0`                                                                              |
-| `--upload-file-name-background`         | `#f7f8fa`                                                                                    |
-| `--upload-file-name-color`              | `#888`                                                                                       |
-| `--upload-file-name-font-size`          | `12px`                                                                                       |
-| `--upload-file-name-padding`            | `10px`                                                                                       |
-| `--upload-file-border-radius`            | `0`                                                                                       |
-| `--upload-file-text-align`              | `center`                                                                                     |
-| `--upload-file-close-background`        | `rgba(0, 0, 0, 0.3)`                                                                         |
-| `--upload-file-close-size`              | `24px`                                                                                       |
-| `--upload-file-close-icon-font-size`    | `14px`                                                                                       |
-| `--upload-file-close-icon-color`        | `#fff`                                                                                       |
-| `--upload-file-cover-fit`               | `thumbnailUrl`                                                                                      |
-| `--upload-file-cover-background`        | `#f7f8fa`                                                                                    |
-| `--upload-preview-video-width`          | `100vw`                                                                                      |
-| `--upload-preview-video-height`         | `100vw`                                                                                      |
-| `--upload-file-indicator-height`        | `4px`                                                                                        |
-| `--upload-file-indicator-normal-color`  | `var(--color-disabled)`                                                                      |
-| `--upload-file-indicator-success-color` | `var(--color-success)`                                                                       |
-| `--upload-file-indicator-error-color`   | `var(--color-danger)`                                                                        |
-| `--upload-file-progress-color`   | `var(--color-primary)`                                                                        |
-| `--upload-disabled-color`               | `#ddd`                                                                                       |
-| `--upload-disabled-text-color`          | `var(--color-text-disabled)`                                                                                       |
-| `--upload-loading-background`           | `linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0))` |
+| --mp-upload-gap | var(--mp-sys-space-4) |
+| --mp-upload-trigger-min-height | var(--mp-sys-control-height-md) |
+| --mp-upload-trigger-padding-horizontal | var(--mp-sys-space-6) |
+| --mp-upload-trigger-draggable-min-height | calc(var(--mp-sys-control-height-md) * 2) |
+| --mp-upload-card-size | calc(var(--mp-sys-control-height-md) * 2) |
+| --mp-upload-item-min-height | var(--mp-sys-control-height-md) |
+| --mp-upload-item-padding | var(--mp-sys-space-4) |
+| --mp-upload-thumb-size | var(--mp-sys-control-height-lg) |
+| --mp-upload-border-radius | var(--mp-sys-radius-md) |
+| --mp-upload-border-color | var(--mp-sys-color-border-default) |
+| --mp-upload-background | var(--mp-sys-color-surface-default) |
+| --mp-upload-text-color | var(--mp-sys-color-content-primary) |
+| --mp-upload-secondary-text-color | var(--mp-sys-color-content-secondary) |
+| --mp-upload-hover-background | var(--mp-sys-color-state-hover) |
+| --mp-upload-active-color | var(--mp-sys-color-action-primary) |
+| --mp-upload-error-color | var(--mp-sys-color-content-danger) |
+| --mp-upload-action-size | var(--mp-sys-control-touch-target) |
+| --mp-upload-progress-height | var(--mp-sys-space-2) |
+| --mp-upload-disabled-opacity | .56 |
+| --mp-upload-font-size | var(--mp-sys-font-size-md) |

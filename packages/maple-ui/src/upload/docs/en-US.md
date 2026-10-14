@@ -1,244 +1,148 @@
 # Upload
 
-### Intro
+Both libraries maintain independent copies of the upload queue, file reader and request core. Without action/custom-request, reading only creates ready items for application-managed uploads.
 
-It provides the ability to read files and preview pictures and videos.
-Get the file upload server by listening for `after-read` events.
+## Examples
 
-### Basic Usage
+### read-only
 
-```demo
-../example/demos/basic-usage.vue
-```
+<demo src="../example/demos/en-US/read-only.vue"></demo>
 
-### File Preview
+### queue-request
 
-By analyzing the file URL suffix name to determine the file type, support image and video preview.
+Add a generated example file or choose a local file; neither sends a network request. Submit manually, observe progress, cancel, and retry. Enable the first-attempt failure option to exercise error recovery. Active requests return to zero after completion, cancellation, failure, or leaving the demo.
 
-```demo
-../example/demos/preview.vue
-```
+<demo src="../example/demos/en-US/queue-request.vue"></demo>
 
-### Custom Preview
+### replacement-validation
 
-```demo
-../example/demos/custom-preview.vue
-```
+<demo src="../example/demos/en-US/replacement-validation.vue"></demo>
 
-### Upload State
+### custom-surface
 
-Three uploading states, `loading`, `success` and `error`, are provided, and tool functions are provided to quickly obtain files with corresponding states.
+<demo src="../example/demos/en-US/custom-surface.vue"></demo>
 
-```demo
-../example/demos/state.vue
-```
+### external-state
 
-### Use Progress
+<demo src="../example/demos/en-US/external-state.vue"></demo>
 
-```demo
-../example/demos/use-progress.vue
-```
+### Basic usage
 
-### File Maxlength
+<demo src="../example/demos/en-US/basic-usage.vue"></demo>
 
-```demo
-../example/demos/max-files.vue
-```
+### Batch filtering
 
-### File Size Limit
+<demo src="../example/demos/en-US/before-add.vue"></demo>
 
-If the limit is exceeded, the file will be blocked. You can get the file by listening for the `oversize` event.
+### Before reading
 
-```demo
-../example/demos/max-file-size.vue
-```
+<demo src="../example/demos/en-US/before-read.vue"></demo>
 
-### File List Filter
+### Before removing
 
-Use the beforeAdd prop to filter native File[] before reading; return File[] or Promise<File[]>.
+<demo src="../example/demos/en-US/before-remove.vue"></demo>
 
-```demo
-../example/demos/before-add.vue
-```
+### Custom file chooser
 
-### Upload Preprocessing
+<demo src="../example/demos/en-US/click-action.vue"></demo>
 
-Operate on a file by registering the beforeRead prop that returns a false value to prevent the file from being read.
+### Custom preview
 
-```demo
-../example/demos/before-read.vue
-```
+<demo src="../example/demos/en-US/custom-preview.vue"></demo>
 
-### Upload Button Click Event
+### Custom file item
 
-By listen the `click-action` event, you can intercept the click behavior of the upload button, and manually trigger the browser to select the file through the `chooseFile` method in the callback.
-
-```demo
-../example/demos/click-action.vue
-```
+<demo src="../example/demos/en-US/custom-render.vue"></demo>
 
 ### Disabled
 
-```demo
-../example/demos/disabled.vue
-```
+<demo src="../example/demos/en-US/disabled.vue"></demo>
+
+### File size limit
+
+<demo src="../example/demos/en-US/max-file-size.vue"></demo>
+
+### File count limit
+
+<demo src="../example/demos/en-US/max-files.vue"></demo>
+
+### Image and video preview
+
+<demo src="../example/demos/en-US/preview.vue"></demo>
 
 ### Readonly
 
-```demo
-../example/demos/readonly.vue
-```
+<demo src="../example/demos/en-US/readonly.vue"></demo>
 
-### Remove Preprocessing
+### Custom remove button
 
-Before deleting the file, the beforeRemove prop is triggered, and a falsy value is returned to prevent the delete operation.
+<demo src="../example/demos/en-US/remove-button-slot.vue"></demo>
 
-```demo
-../example/demos/before-remove.vue
-```
+### Queue states
 
-### Customize Upload Styles
+<demo src="../example/demos/en-US/state.vue"></demo>
 
+### Custom trigger
 
+<demo src="../example/demos/en-US/style.vue"></demo>
 
-> For form validation of the upload, please use the [FormItem component](#/en-US/form-item).
+### External progress
 
-```demo
-../example/demos/style.vue
-```
-
-### Custom Render File List
-
-You can use the `show-file-list` to hide component files list, then you can render this list by custom.
-
-```demo
-../example/demos/custom-render.vue
-```
-
-### Custom Remove Button
-
-```demo
-../example/demos/remove-button-slot.vue
-```
+<demo src="../example/demos/en-US/use-progress.vue"></demo>
 
 ## API
 
-### Props
+Controlled model-value takes precedence over default-value. File items require uid/status/percent; metadata, raw file, URLs, fit, response and error are optional. States: ready, reading, uploading, success, error, canceled, removed.
 
-| Prop | Description | Type | Default |
-| --- | ----------------------------------------------------------------------- | --- | --- |
-| `v-model`  | File list | _UploadFileItem[]_ | `[]` |
-| `accept`   | Accepted file type, consistent with the native attribute | _string_ | `image/*` |
-| `capture`  | Get the file, the same as the native property | _string_ | `-` |
-| `multiple` | Whether to select multiple files | _boolean_ | `false` |
-| `readonly` | Whether the readonly | _boolean_ | `false` |
-| `disabled` | Whether the disabled | _boolean_ | `false` |
-| `elevation`| Elevation level, options `true` `false` and level of `0-24`, not in simple mode | _number \| boolean_|  `true` |
-| `show-remove-button` | Whether the showRemoveButton | _boolean_ | `true` |
-| `max-files` | Maximum number of files | _string \| number_ | `-` |
-| `max-file-size`   | Maximum file size, the unit is `byte` | _string \| number_ | `-` |
-| `preview` | Whether to allow preview | _boolean_ | `true` |
-| `prevent-default-preview` | Prevent default preview behavior | _boolean_ | `false` |
-| `ripple`    | Whether to open ripple | _boolean_ | `true` |
-| `show-file-list` | Whether to show the file list | _boolean_ | `true` |
-| `resolve-type` | object-url: Blob URL; file: File only; data-url: Base64 URL | _UploadResolveType_ | `object-url` |
+File selection: accept, capture, multiple, directory, draggable, disabled, readonly, request-choose. Form state is inherited; explicit false overrides it. request-choose receives chooseFile/event and may be async.
 
-### Interceptor props (not notification events)
+Reading: resolve-type=file/data-url/object-url (default object-url), create-thumbnail-url, before-add(files), before-read(file), max-files, max-file-size and max-total-size (bytes). Replacement files are validated again; only accepted items count toward size limits.
 
-Pass functions using `:before-add`, `:before-read`, and `:before-remove`.
+Requests: action, method=post, headers/data (objects or async functions), name=file, with-credentials=false, custom-request, auto-upload=true, before-upload, is-success-response. No configured transport means no request. before-upload may replace with File/Blob, subject to renewed validation. before-remove may reject removal. False/rejected hooks do not produce unhandled failures.
 
-| Prop | Signature |
-| --- | --- |
-| beforeAdd | `(files: File[]) => File[] / Promise<File[]>` |
-| beforeRead | `(file: File) => boolean / File / Promise<boolean / File>` |
-| beforeRemove | `(file: UploadFileItem, files: UploadFileItem[]) => boolean / Promise<boolean>` |
-
-beforeRead returning false or rejecting skips the file; a returned File replaces the source. beforeRemove must resolve true to remove a file.
-
-### UploadFileItem
-
-Manually created items require a unique string uid, status and percent. Object URLs belong to the component and are revoked when items are removed or the component unmounts. Maple does not send network requests; the application updates upload state. Per-file fit is a Maple extension.
-
-| Field | Type |
-| --- | --- |
-| uid | string (required) |
-| size | number (bytes) |
-| type | string (MIME) |
-| response / error | unknown |
-
-
-
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `file` | Native file | _File_ | `-` |
-| `name` | File name | _string_ | `-` |
-| `url` | File url | _string_ | `-` |
-| `thumbnailUrl` | File cover image | _string_ | `-` |
-| `fit` | Cover image fill mode, Optional value is `fill` `contain` `cover` `none` `scale-down` | _string_ | `-` |
-| `status` | ready / reading / uploading / success / error / canceled / removed | _UploadStatus_ | `ready` |
-| `percent` | Progress 0–100 | _number_ | `0` |
-
-### Methods
-
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `chooseFile` | Trigger the file selection action and display the file list | `-` | `-` |
-| `closePreview` | Close preview file popup | `-` | `-` |
-| `getLoading` | Gets a collection of files for `status` is `uploading` | `-` | `UploadFileItem[]` |
-| `getSuccess` | Gets a collection of files for `status` is `success` | `-` | `UploadFileItem[]` |
-| `getError` |  Gets a collection of files for `status` is `error` | `-` | `UploadFileItem[]` |
+Appearance: list-type=text/picture/picture-card (default text), image-fit=cover (item.fit overrides it), elevation=false, ripple=true, preview=true. show-file-list, show-upload-button, show-remove-button, show-retry-button, show-cancel-button and show-preview-button default true; show-download-button defaults false.
 
 ### Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
+update:model-value(files) then change(files, changedFile?) reports queue proposals and one Form change notification. read(item) means reading completed, not server success. rejected(items) provides reasons accept/before-add/before-read/read-error/max-file-size/max-total-size/max-files; exceed(files,list) reports count overflow. progress(item,event?), success(item), error(item), remove(item) report current operations. preview(item,event) receives UploadPreviewEvent; preventDefault() cancels built-in preview even for programmatic calls, originalEvent is optional.
 
+### Slots and exposed methods
 
-| `after-read` | Triggered after the file is read | `file: UploadFileItem` |
-| `oversize` | Triggered when the file size limit is exceeded | `file: UploadFileItem` |
+trigger({chooseFile,dragOver,disabled}), item({file,index,remove,retry,abort}), remove-button with the same item scope.
 
-| `remove` | Triggered when deleting a file. There is a true value to prevent deleting a file (support promise) | `file: UploadFileItem` |
-| `preview` | Triggered when a file is preview | `file: UploadFileItem` |
-| `click-action`| Intercept click behavior of upload button | `chooseFile: () => void, event: Event` |
+chooseFile(), submit(file?), abort(file?), retry(file), remove(file), reset(), clearSuccess(), clearError(), getFiles(status?), preview(file), closePreview(). useUploader(options) additionally exposes addFiles(files) and native picker/drag handlers.
 
-### Slots
+### Controlled state and cleanup
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Upload action content | `-` |
-| `remove-button` ***3.8.0*** | Remove button | `remove: () => void` |
+Rejected additions never auto-upload. A delayed accepted uid starts auto-upload once. Same-tick proposals merge transactionally; across ticks the parent's actual list remains authoritative, and parents own consistency of delayed list replacements. Generated object URLs are owned by the uploader; supplied/custom URLs are never revoked. Remove pending proposals, reset or unmount to release unaccepted resources. Active previews retain their URLs until closed.
 
-### Style Variables
+Cancellation covers before-upload, async headers/data/name and pending custom request handles. Retry and external File identity replacement invalidate old callbacks. Concurrent accepted replacement preparations reserve total size. KeepAlive deactivation invalidates preparation and cancels current requests; activation allows new work. Disabled/readonly prevent changes; readonly still allows preview/download. Each instance only closes its own preview handle.
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+## Types
 
-| Variable | Default |
+UploadProps, UploadEmits, UploadSlots, UploadExpose, UploadPublicMethods, UploadFileItem, UploadStatus, UploadListType, UploadResolveType, UploadImageFit, UploadCapture, UploadRejectedFile, UploadRejectedReason, UploadRequestOptions, UploadRequest, UploadCustomRequest, UploadProgressEvent, UploadData, UploadHeaders, UploadBeforeRead, UploadBeforeUpload, UploadBeforeRemove, UploadCreateThumbnailUrl, UploadIsSuccessResponse, UploadRequestChoose, UploadPreviewEvent, UseUploaderOptions, UploadInstance.
+
+## Style variables
+
+| Token | Default |
 | --- | --- |
-| `--upload-action-background`            | `#f7f8fa`                                                                                    |
-| `--upload-action-icon-color`            | `#888`                                                                                       |
-| `--upload-action-icon-size`             | `24px`                                                                                       |
-| `--upload-action-margin`                | `0 10px 10px 0`                                                                              |
-| `--upload-file-size`                    | `80px`                                                                                       |
-| `--upload-file-margin`                  | `0 10px 10px 0`                                                                              |
-| `--upload-file-name-background`         | `#f7f8fa`                                                                                    |
-| `--upload-file-name-color`              | `#888`                                                                                       |
-| `--upload-file-name-font-size`          | `12px`                                                                                       |
-| `--upload-file-name-padding`            | `10px`                                                                                       |
-| `--upload-file-border-radius`            | `0`                                                                                       |
-| `--upload-file-text-align`              | `center`                                                                                     |
-| `--upload-file-close-background`        | `rgba(0, 0, 0, 0.3)`                                                                         |
-| `--upload-file-close-size`              | `24px`                                                                                       |
-| `--upload-file-close-icon-font-size`    | `14px`                                                                                       |
-| `--upload-file-close-icon-color`        | `#fff`                                                                                       |
-| `--upload-file-cover-fit`               | `thumbnailUrl`                                                                                      |
-| `--upload-file-cover-background`        | `#f7f8fa`                                                                                    |
-| `--upload-preview-video-width`          | `100vw`                                                                                      |
-| `--upload-preview-video-height`         | `100vw`                                                                                      |
-| `--upload-file-indicator-height`        | `4px`                                                                                        |
-| `--upload-file-indicator-normal-color`  | `var(--color-disabled)`                                                                      |
-| `--upload-file-indicator-success-color` | `var(--color-success)`                                                                       |
-| `--upload-file-indicator-error-color`   | `var(--color-danger)`                                                                        |
-| `--upload-file-progress-color`   | `var(--color-primary)`                                                                        |
-| `--upload-disabled-color`               | `#ddd`              |
-| `--upload-disabled-text-color`          | `var(--color-text-disabled)`      |
-| `--upload-loading-background`           | `linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0))` |
+| --mp-upload-gap | var(--mp-sys-space-4) |
+| --mp-upload-trigger-min-height | var(--mp-sys-control-height-md) |
+| --mp-upload-trigger-padding-horizontal | var(--mp-sys-space-6) |
+| --mp-upload-trigger-draggable-min-height | calc(var(--mp-sys-control-height-md) * 2) |
+| --mp-upload-card-size | calc(var(--mp-sys-control-height-md) * 2) |
+| --mp-upload-item-min-height | var(--mp-sys-control-height-md) |
+| --mp-upload-item-padding | var(--mp-sys-space-4) |
+| --mp-upload-thumb-size | var(--mp-sys-control-height-lg) |
+| --mp-upload-border-radius | var(--mp-sys-radius-md) |
+| --mp-upload-border-color | var(--mp-sys-color-border-default) |
+| --mp-upload-background | var(--mp-sys-color-surface-default) |
+| --mp-upload-text-color | var(--mp-sys-color-content-primary) |
+| --mp-upload-secondary-text-color | var(--mp-sys-color-content-secondary) |
+| --mp-upload-hover-background | var(--mp-sys-color-state-hover) |
+| --mp-upload-active-color | var(--mp-sys-color-action-primary) |
+| --mp-upload-error-color | var(--mp-sys-color-content-danger) |
+| --mp-upload-action-size | var(--mp-sys-control-touch-target) |
+| --mp-upload-progress-height | var(--mp-sys-space-2) |
+| --mp-upload-disabled-opacity | .56 |
+| --mp-upload-font-size | var(--mp-sys-font-size-md) |

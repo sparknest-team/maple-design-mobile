@@ -1,3 +1,3 @@
 <template>
-  <mp-button block status="primary">Full width</mp-button>
+  <mp-button block>Full width</mp-button>
 </template>

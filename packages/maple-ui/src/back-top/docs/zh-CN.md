@@ -1,8 +1,16 @@
 # BackTop 回到顶部
 
+显示测量帧与duration／easing滚动动画分别管理归属；换目标、停用、卸载及已消费旧回调不能重放。easing后再核对请求；RAF申请／取消与时间原点使用目标所属窗口。保留命令在停用／卸载后无效，激活不恢复旧动画。两端专项各14／完整各30通过，受控队列／iframe不是原生浏览器／OS验收。默认200ms与API不变，不新增CSS变量。
+
 滚动页面或指定容器的回顶按钮，支持原生键盘操作。
 
 ## 案例
+
+### 调度生命周期
+
+```demo
+../example/demos/scheduler-lifecycle.vue
+```
 
 ### 基础用法
 
@@ -31,6 +39,8 @@
 示例使用独立局部容器，避免多个卡片争用页面回顶按钮。不传 `target-container` 时监听页面，不自动查找滚动祖先。无效或未匹配的选择器会隐藏按钮；异步容器使用返回元素的响应式 getter。`popup-container` 只控制按钮挂载位置，不改变滚动目标。
 
 ## API
+
+BackTop 的 duration（200ms）与 easing（quartOut）是 JS requestAnimationFrame 滚动参数，不是 CSS 动效 Token；现有组件变量只负责几何、配色、焦点及层级。减少动效偏好读取滚动目标 ownerDocument 的窗口；动画途中开启时在下一帧立即回顶，保留横向滚动，不承诺同步 OS 事件回调。重复点击、目标切换、停用或卸载使旧帧失效，包括已经出队的回调。滚动可见性合帧不是视觉动画。此处以模拟 RAF／iframe 文档与 SSR 回归验证，不增加真实浏览器／OS 通过数。
 
 ### Props
 

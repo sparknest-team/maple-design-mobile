@@ -32,6 +32,8 @@ let contentObserver: MutationObserver | null = null
 let visibilityObserver: MutationObserver | null = null
 let frameId: number | null = null
 let timeoutId: number | null = null
+let bindingGeneration = 0
+let checkGeneration = 0
 
 watch(
   () => props.status,
@@ -143,6 +145,12 @@ function bindScroller(initial = false) {
   if (!scroller) {
     return
   }
+  const generation = bindingGeneration
+  const scheduleBoundCheck = () => {
+    if (generation === bindingGeneration) {
+      scheduleCheck()
+    }
+  }
 
   scroller.addEventListener('scroll', scheduleCheck, { passive: true })
   window.addEventListener('resize', scheduleCheck, { passive: true })
@@ -151,11 +159,14 @@ function bindScroller(initial = false) {
   if (typeof ResizeObserver !== 'undefined') {
     let skipInitialNotification = initial && !props.immediate
     resizeObserver = new ResizeObserver(() => {
+      if (generation !== bindingGeneration) {
+        return
+      }
       if (skipInitialNotification) {
         skipInitialNotification = false
         return
       }
-      scheduleCheck()
+      scheduleBoundCheck()
     })
     resizeObserver.observe(rootEl.value!)
     if (scroller instanceof HTMLElement && scroller !== rootEl.value) {
@@ -164,9 +175,9 @@ function bindScroller(initial = false) {
   }
 
   if (typeof MutationObserver !== 'undefined') {
-    contentObserver = new MutationObserver(scheduleCheck)
+    contentObserver = new MutationObserver(scheduleBoundCheck)
     contentObserver.observe(rootEl.value!, { childList: true, subtree: true, characterData: true })
-    visibilityObserver = new MutationObserver(scheduleCheck)
+    visibilityObserver = new MutationObserver(scheduleBoundCheck)
     let ancestor = rootEl.value!.parentElement
     while (ancestor && ancestor !== document.body) {
       visibilityObserver.observe(ancestor, {
@@ -182,6 +193,7 @@ function bindScroller(initial = false) {
 }
 
 function cleanupBindings() {
+  bindingGeneration++
   cancelScheduledCheck()
   scroller?.removeEventListener('scroll', scheduleCheck)
   if (typeof window !== 'undefined') {
@@ -205,6 +217,7 @@ function handleVisibilityChange() {
   }
 }
 function cancelScheduledCheck() {
+  checkGeneration++
   if (frameId !== null && typeof window !== 'undefined') {
     window.cancelAnimationFrame?.(frameId)
   }
@@ -218,7 +231,12 @@ function scheduleCheck() {
   if (!mounted || !active || frameId !== null || timeoutId !== null || typeof window === 'undefined') {
     return
   }
+  const generation = ++checkGeneration
   const run = () => {
+    if (generation !== checkGeneration || !mounted || !active) {
+      return
+    }
+    checkGeneration++
     frameId = null
     timeoutId = null
     check()

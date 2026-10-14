@@ -9,17 +9,19 @@
 <script setup lang="ts">
 import { computed, h, nextTick, provide, ref, useSlots, watch } from 'vue'
 import type { TriggerInstance } from '../trigger'
+import Trigger from '../trigger'
 import { useTriggerState } from '../trigger/state'
 import { createNamespace } from '../utils/components'
+import { rootTriggerAppearance } from './appearance'
 import { menuInjectionKey } from './context'
 import DropdownMenuPanel from './DropdownMenuPanel.vue'
 import { useMenuKeyboard } from './keyboard'
 import { useMenuLevel } from './level'
 import DropdownMenuOptions from './options'
-import { rootTriggerAppearance, Trigger, type DropdownMenuReference } from './platform'
 import { dropdownMenuProps } from './props'
 import DropdownMenuView from './render'
 import { menuSelectionKey, useMenuSelection } from './selection'
+import type { DropdownMenuReference } from './types'
 
 defineOptions({ name: createNamespace('dropdown-menu').name })
 const props = defineProps(dropdownMenuProps)
@@ -69,6 +71,7 @@ const selection = useMenuSelection(props, (value, option, event, selectedValue) 
 })
 provide(menuSelectionKey, selection)
 provide(menuInjectionKey, {
+  strategy: computed(() => props.strategy),
   popupMaxHeight: computed(() => props.popupMaxHeight),
   modelValue: computed(() => props.modelValue),
   submenuTrigger: computed(() => props.submenuTrigger),

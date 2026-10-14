@@ -96,6 +96,12 @@ Prefer passing `icon`, `extra` or a VNode directly on the option; all three also
 ../example/demos/placement.vue
 ```
 
+### Positioning strategy
+
+Both root and nested menus use the same reactive `strategy` (`absolute` by default or `fixed`). Changing it does not change selection or close the menu. `popup-container` independently controls mounting; `fixed` does not automatically escape transformed ancestors.
+
+<demo src="../example/demos/en-US/positioning.vue"></demo>
+
 ## API
 
 ### Props
@@ -111,7 +117,7 @@ Prefer passing `icon`, `extra` or a VNode directly on the option; all three also
 | `trigger` | Root menu trigger | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | How every submenu level expands | _'click' \| 'hover'_ | `'click'` |
 | `placement` | Popup placement | _DropdownMenuPosition_ | `'bottom'` |
-| `strategy` | Floating-layer positioning strategy | _'absolute' \| 'fixed'_ | `'absolute'` |
+| `strategy` | Positioning strategy inherited by every submenu | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | External trigger element | _string \| HTMLElement_ | `-` |
 | `popup-container` | Popup mount container | _string \| HTMLElement \| false_ | `-` |
 | `popup-class` | Popup class name | _string \| array \| object_ | `-` |

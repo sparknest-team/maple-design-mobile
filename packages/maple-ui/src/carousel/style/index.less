@@ -1,4 +1,172 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
 @import './token.less';
-@import './carousel';
-@import './carousel-item';
+.mp-carousel {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  &__viewport {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  &__track {
+    display: flex;
+    height: 100%;
+    transition: transform var(--mp-internal-carousel-duration, var(--mp-carousel-transition-duration))
+      var(--mp-internal-carousel-easing, var(--mp-carousel-transition-timing-function));
+  }
+  &--vertical &__track {
+    flex-direction: column;
+  }
+  &--outer {
+    padding-bottom: var(--mp-carousel-indicator-outer-margin-bottom);
+  }
+  &--fade &__track {
+    display: grid;
+  }
+  &--fade .mp-carousel-item {
+    grid-area: 1 / 1;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--mp-internal-carousel-duration, var(--mp-carousel-fade-duration))
+      var(--mp-internal-carousel-easing, var(--mp-carousel-transition-timing-function));
+    &--active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  &--card .mp-carousel-item {
+    transform: scale(var(--mp-carousel-card-scale));
+    opacity: var(--mp-carousel-card-opacity);
+    transition:
+      transform var(--mp-internal-carousel-duration, var(--mp-carousel-card-duration))
+        var(--mp-internal-carousel-easing, var(--mp-carousel-transition-timing-function)),
+      opacity var(--mp-internal-carousel-duration, var(--mp-carousel-card-duration))
+        var(--mp-internal-carousel-easing, var(--mp-carousel-transition-timing-function));
+    &--active {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: var(--mp-carousel-navigation-z-index);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    width: var(--mp-carousel-arrow-size);
+    height: var(--mp-carousel-arrow-size);
+    background: var(--mp-carousel-arrow-background);
+    color: var(--mp-carousel-arrow-color);
+    font-size: var(--mp-carousel-arrow-font-size);
+    cursor: pointer;
+    &:disabled {
+      opacity: var(--mp-carousel-arrow-disabled-opacity);
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      outline: var(--mp-carousel-focus-width) solid var(--mp-carousel-focus-color);
+      outline-offset: var(--mp-carousel-focus-offset);
+    }
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+  &__arrow-prev {
+    left: var(--mp-carousel-arrow-margin);
+  }
+  &__arrow-next {
+    right: var(--mp-carousel-arrow-margin);
+  }
+  &--vertical &__arrow {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  &--vertical &__arrow-prev {
+    top: var(--mp-carousel-arrow-margin);
+  }
+  &--vertical &__arrow-next {
+    top: auto;
+    bottom: var(--mp-carousel-arrow-margin);
+  }
+  &__indicators {
+    position: absolute;
+    z-index: var(--mp-carousel-navigation-z-index);
+    display: flex;
+    gap: var(--mp-carousel-indicator-gap);
+    align-items: center;
+    bottom: var(--mp-carousel-indicator-position);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &--indicators-top {
+    top: var(--mp-carousel-indicator-position);
+    bottom: auto;
+  }
+  &--indicators-left,
+  &--indicators-right {
+    flex-direction: column;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+  &--indicators-left {
+    left: var(--mp-carousel-indicator-position);
+  }
+  &--indicators-right {
+    left: auto;
+    right: var(--mp-carousel-indicator-position);
+  }
+  &__indicator {
+    border: 0;
+    padding: 0;
+    border-radius: 50%;
+    width: var(--mp-carousel-indicator-dot-size);
+    height: var(--mp-carousel-indicator-dot-size);
+    cursor: pointer;
+    background: var(--mp-carousel-indicator-color-default);
+  }
+  &--indicator-active {
+    background: var(--mp-carousel-indicator-color-active);
+  }
+  &--indicator-line,
+  &--indicator-slider {
+    width: var(--mp-carousel-indicator-line-width);
+    height: var(--mp-carousel-indicator-line-height);
+    border-radius: var(--mp-carousel-indicator-line-border-radius);
+  }
+  &--indicator-slider {
+    flex-grow: 1;
+  }
+  &__indicator:focus-visible {
+    outline: var(--mp-carousel-focus-width) solid var(--mp-carousel-focus-color);
+    outline-offset: var(--mp-carousel-focus-offset);
+  }
+}
+.mp-carousel-item {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  height: 100%;
+}
+@media (hover: hover) {
+  .mp-carousel__arrow:hover:not(:disabled) {
+    background: var(--mp-carousel-arrow-background-hover);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-carousel__track,
+  .mp-carousel--fade .mp-carousel-item,
+  .mp-carousel--card .mp-carousel-item {
+    transition: none;
+  }
+}

@@ -102,15 +102,14 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable                        | Default                      |
 |---------------------------------|------------------------------|
-| `--counter-padding`             | `0 4px`                      |
-| `--counter-font-color`          | `#fff`                       |
-| `--counter-background`          | `var(--color-primary)`       |
-| `--counter-input-width`         | `28px`                       |
-| `--counter-input-margin`        | `0 4px`                      |
-| `--counter-input-font-size`     | `14px`                       |
-| `--counter-button-size`         | `28px`                       |
-| `--counter-button-text-color`         | `#fff`                       |
-| `--counter-button-icon-size`    | `100%`                       |
-| `--counter-disabled-color`      | `var(--color-disabled)`      |
-| `--counter-disabled-opacity`    | `var(--opacity-disabled)`    |
-| `--counter-error-color`         | `var(--color-danger)`        |
+| `--mp-counter-padding`             | `0 4px`                      |
+| `--mp-counter-font-color`          | `#fff`                       |
+| `--mp-counter-background`          | `var(--mp-color-primary)`       |
+| `--mp-counter-input-width`         | `28px`                       |
+| `--mp-counter-input-margin`        | `0 4px`                      |
+| `--mp-counter-input-font-size`     | `14px`                       |
+| `--mp-counter-button-size`         | `28px`                       |
+| `--mp-counter-button-text-color`         | `#fff`                       |
+| `--mp-counter-button-icon-size`    | `100%`                       |
+| `--mp-counter-disabled-opacity`    | `var(--mp-opacity-disabled)`    |
+| `--mp-counter-error-color`         | `var(--mp-color-danger)`        |

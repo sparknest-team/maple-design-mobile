@@ -4,28 +4,25 @@
     v-bind="{ ...$attrs, ...bindings }"
     :model-value="rangeValue"
     @update:model-value="select"
+    @update:picker-value="navigate"
   >
     <template v-for="name in forwardedSlots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
   </RangeContent>
-  <CalendarContent v-else v-bind="{ ...$attrs, ...bindings }" :model-value="calendarValue" @update:model-value="select">
+  <CalendarContent
+    v-else
+    v-bind="{ ...$attrs, ...bindings }"
+    :model-value="calendarValue"
+    @update:model-value="select"
+    @update:picker-value="navigate"
+  >
     <template v-for="(_, name) in $slots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
   </CalendarContent>
-  <div v-if="options.disableConfirm === false" :class="n('actions')">
-    <slot name="actions" :confirm="() => emit('confirm')" :disabled="!canConfirm"
-      ><Button :disabled="!canConfirm" @click="emit('confirm')">{{
-        (provided ?? t)('pickerConfirmButtonText')
-      }}</Button></slot
-    >
-  </div>
 </template>
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
-import Button from '../../button'
 import { props as rangeProps } from '../../date-range/presentation-props'
 import RangeContent from '../../date-range/presentation/RangeContent.vue'
-import { t } from '../../locale'
-import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
 import { calendarValueFormat, fromCalendarValue, toCalendarValue } from '../calendar-value'
 import { isDateDisabled } from '../date-rules'
@@ -41,8 +38,7 @@ const props = defineProps<DatePanelContentProps>()
 const { n } = createNamespace('date-picker')
 const slots = useSlots()
 const forwardedSlots = computed(() => Object.keys(slots).filter((name) => name !== 'actions'))
-const emit = defineEmits(['select', 'confirm'])
-const { t: provided } = injectLocaleProvider()
+const emit = defineEmits(['select', 'confirm', 'navigate'])
 const activeIndex = useRangeFieldIndex()
 const calendarValue = computed(() => {
   const value = toCalendarValue(props.value, props.options)
@@ -72,6 +68,10 @@ const bindings = computed(() => {
           ),
         }
       : {}),
+    pickerValue: (() => {
+      const viewport = toCalendarValue(props.pickerValue, props.options)
+      return Array.isArray(viewport) ? viewport.map((part) => part ?? '') : viewport
+    })(),
     useSeconds: dateUsesSeconds(options),
     timePickerProps: datePresentationOptions(
       'timePickerProps' in options ? (options.timePickerProps as Record<string, unknown>) : undefined,
@@ -112,6 +112,9 @@ const bindings = computed(() => {
     },
   }
 })
+function navigate(value: string | string[] | undefined) {
+  emit('navigate', fromCalendarValue(value, props.options))
+}
 function select(value: string | string[] | undefined) {
   emit('select', fromCalendarValue(value, props.options))
 }

@@ -40,14 +40,25 @@
 ../example/demos/custom.vue
 ```
 
+### 超额数据与键盘提示
+
+```demo
+../example/demos/overflow-keyboard.vue
+```
+
+线形与环形按数据顺序累计裁剪到 max；图例和提示仍保留每项原始占比。例如 70+50 时第二段实际显示 30%，图例仍为 50%。非有限值和负数归零，非法 max 回退 100。Tab 聚焦可见分段展示提示，Escape 关闭；鼠标离开不会关闭仍处于焦点的提示。用 aria-label 为整个分组命名。
+
+size 五档均实现，仅影响线形厚度（2/4/8/12/16px）；环形用 circle-size（支持 number/CSS长度）和 stroke-width。累计文本开关为 show-text，自定义插槽为 text，已删除旧布尔 status / status 插槽。
+
 ### Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
+| aria-label | 分组的无障碍名称 | `string` | — |
 | items | 分段数据 | `ProgressGroupItem[]` | `[]` |
 | mode | 展示模式 | `line \| circle` | `line` |
 | max | 计算占比时的总值 | `number` | `100` |
-| status | 是否展示累计百分比 | `boolean` | `false` |
+| show-text | 是否展示累计百分比 | `boolean` | `false` |
 | size | 进度轨尺寸 | `xs \| sm \| md \| lg \| xl` | `md` |
 | color | 默认分段颜色 | `string` | `content-brand` |
 | circle-size | 环形模式的直径 | `number \| string` | `120` |
@@ -59,7 +70,7 @@
 
 | 名称 | 插槽参数 |
 | --- | --- |
-| status | `{ percent, value, max }` |
+| text | `{ percent, value, max }` |
 | tooltip | `{ item, index, percent }` |
 | item / item-leading / item-label / item-trailing | `{ item, index, percent }` |
 
@@ -67,14 +78,14 @@
 
 | 变量 | 默认值 |
 | --- | --- |
-| `--mp-progress-group-gap` | `8px` |
-| `--mp-progress-group-item-gap` | `6px` |
-| `--mp-progress-group-dot-size` | `8px` |
-| `--mp-progress-group-radius` | `999px` |
+| `--mp-progress-group-gap` | `var(--mp-sys-space-3)` |
+| `--mp-progress-group-item-gap` | `var(--mp-sys-space-2)` |
+| `--mp-progress-group-dot-size` | `var(--mp-sys-space-4)` |
+| `--mp-progress-group-radius` | `9999px` |
 | `--mp-progress-group-track-color` | `var(--mp-sys-color-state-hover)` |
 | `--mp-progress-group-text-color` | `var(--mp-sys-color-content-primary)` |
 | `--mp-progress-group-muted-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-progress-group-font-size` | `14px` |
+| `--mp-progress-group-font-size` | `var(--mp-sys-font-size-sm)` |
 | `--mp-progress-group-tooltip-bg` | `var(--mp-sys-color-surface-tooltip)` |
 | `--mp-progress-group-tooltip-color` | `var(--mp-sys-color-content-on-dark)` |
 
@@ -94,7 +105,7 @@ Built-in effects respect `prefers-reduced-motion: reduce`. Track thickness appli
 | `--mp-progress-group-tooltip-font-size` | `var(--mp-sys-font-size-xs)` |
 | `--mp-progress-group-tooltip-line-height` | `1.4` |
 | `--mp-progress-group-tooltip-offset` | `var(--mp-sys-space-4)` |
-| `--mp-progress-group-status-font-weight` | `var(--mp-sys-font-weight-medium)` |
+| `--mp-progress-group-text-font-weight` | `var(--mp-sys-font-weight-medium)` |
 | `--mp-progress-group-size-xs-thickness` | `2px` |
 | `--mp-progress-group-size-sm-thickness` | `4px` |
 | `--mp-progress-group-size-md-thickness` | `8px` |

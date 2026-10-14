@@ -14,7 +14,7 @@ import type {
 } from './types'
 
 const baseOptions: MessageOptions = {
-  variant: 'solid',
+  variant: 'neutral',
   status: 'default',
   position: 'top',
   duration: 3000,
@@ -40,7 +40,6 @@ class MessageManager {
   readonly position: MessagePosition
   private destroyed = false
   private readonly instances = new Map<string | number, { restartTimer?: () => void }>()
-  private readonly closeTimers = new Map<string | number, ReturnType<typeof setTimeout>>()
 
   constructor(target: HTMLElement, position: MessagePosition, appContext?: AppContext) {
     this.position = position
@@ -99,11 +98,6 @@ class MessageManager {
     const id = options.id ?? `__message_${++seed}`
     const existing = this.items.find((item) => item.id === id)
     if (existing) {
-      const closeTimer = this.closeTimers.get(id)
-      if (closeTimer !== undefined) {
-        clearTimeout(closeTimer)
-      }
-      this.closeTimers.delete(id)
       Object.assign(existing, options, { id, open: true, revision: existing.revision + 1 })
       if (existing.resetOnUpdate) {
         nextTick(() => this.instances.get(id)?.restartTimer?.())
@@ -120,14 +114,13 @@ class MessageManager {
       return
     }
     item.open = false
-    this.closeTimers.set(
-      id,
-      setTimeout(() => this.finishClose(item), 200),
-    )
+    if (!this.instances.has(id)) {
+      this.finishClose(item)
+    }
   }
 
   clear() {
-    this.items.forEach((item) => this.close(item.id))
+    ;[...this.items].forEach((item) => this.close(item.id))
   }
 
   private handle(id: string | number): MessageReturn {
@@ -151,11 +144,6 @@ class MessageManager {
     if (index < 0) {
       return
     }
-    const closeTimer = this.closeTimers.get(item.id)
-    if (closeTimer !== undefined) {
-      clearTimeout(closeTimer)
-    }
-    this.closeTimers.delete(item.id)
     this.items.splice(index, 1)
     item.onClosed?.(item.id)
     this.destroyIfEmpty()

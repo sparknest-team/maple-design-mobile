@@ -6,6 +6,7 @@ const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'succes
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 const size = ref<(typeof sizes)[number]>('md')
 const variant = ref<(typeof variants)[number]>('default')
+const status = ref<(typeof statuses)[number]>('default')
 const component = ref<'button' | 'a'>('button')
 const disabled = ref(false)
 const loading = ref(false)
@@ -38,11 +39,15 @@ const clicks = ref(0)
         ><span class="demo-toggle"><mp-switch v-model="loading" aria-label="Loading" />Loading</span>
       </div>
     </div>
+    <div class="demo-control">
+      <span class="demo-label">Status</span>
+      <mp-radio-group v-model="status">
+        <mp-radio v-for="value in statuses" :key="value" :value="value">{{ value }}</mp-radio>
+      </mp-radio-group>
+    </div>
     <label><input v-model="iconContainer" type="checkbox" /> Icon container</label>
     <div class="demo-preview" data-button-preview>
       <mp-button
-        v-for="status in statuses"
-        :key="status"
         :variant="variant"
         :status="status"
         :size="size"

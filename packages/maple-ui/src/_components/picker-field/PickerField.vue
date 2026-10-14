@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId, watch, type ComponentPublicInstance } from 'vue'
+import { computed, nextTick, ref, useId, watch, type ComponentPublicInstance } from 'vue'
 import { IconCalendar, IconClockCircle } from '@maplejs/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
@@ -94,6 +94,14 @@ watch(
 const composing = ref(false)
 const editing = ref([...props.texts])
 const dirty = ref(false)
+watch(
+  () => [props.editable, props.disabled, props.readonly],
+  () => {
+    editing.value = [...props.texts]
+    dirty.value = false
+    composing.value = false
+  },
+)
 const values = computed(() => (props.range ? [props.texts[0] ?? '', props.texts[1] ?? ''] : [props.texts[0] ?? '']))
 watch(
   () => props.texts,
@@ -150,6 +158,12 @@ function commit(event: Event, index: number) {
   }
   dirty.value = false
   emit('commit', [...editing.value], index, event)
+  nextTick(() => {
+    // Accepted updates have flushed; invalid or rejected drafts return to the model.
+    if (!dirty.value && !composing.value) {
+      editing.value = [...props.texts]
+    }
+  })
 }
 function handleBlur(event: FocusEvent, index: number) {
   if (inputs.includes(event.relatedTarget as HTMLInputElement)) {
@@ -187,5 +201,5 @@ function handleKeydown(event: KeyboardEvent, index: number) {
   }
   emit('keydown', event)
 }
-defineExpose({ focus, blur })
+defineExpose({ focus, blur, commit: (event: Event) => commit(event, activeIndex.value) })
 </script>

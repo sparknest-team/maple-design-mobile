@@ -11,7 +11,7 @@ const drag = ref(false)
   <div v-if="!drag" class="fab-demo-stage">
     <mp-fab :fixed="false" :popup-container="false" />
   </div>
-  <mp-fab v-else drag :popup-container="false" position="right-bottom" />
+  <mp-fab v-else drag position="right-bottom" />
 </template>
 
 <style scoped>

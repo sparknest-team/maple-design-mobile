@@ -9,6 +9,9 @@ let counter: number
 const originalRaf = globalThis.requestAnimationFrame
 const originalCancelRaf = globalThis.cancelAnimationFrame
 const originalMatchMedia = globalThis.matchMedia
+const ownerView = document.defaultView!
+const ownerRaf = Object.getOwnPropertyDescriptor(ownerView, 'requestAnimationFrame')
+const ownerCancelRaf = Object.getOwnPropertyDescriptor(ownerView, 'cancelAnimationFrame')
 beforeEach(() => {
   frames = new Map()
   counter = 0
@@ -17,12 +20,33 @@ beforeEach(() => {
     return counter
   })
   vi.stubGlobal('cancelAnimationFrame', (id: number) => frames.delete(id))
+  Object.defineProperty(ownerView, 'requestAnimationFrame', {
+    configurable: true,
+    value: globalThis.requestAnimationFrame,
+  })
+  Object.defineProperty(ownerView, 'cancelAnimationFrame', {
+    configurable: true,
+    value: globalThis.cancelAnimationFrame,
+  })
+  if (ownerView.performance !== performance) {
+    vi.spyOn(ownerView.performance, 'now').mockImplementation(() => performance.now())
+  }
 })
 afterEach(() => {
   vi.stubGlobal('requestAnimationFrame', originalRaf)
   vi.stubGlobal('cancelAnimationFrame', originalCancelRaf)
   vi.stubGlobal('matchMedia', originalMatchMedia)
   vi.restoreAllMocks()
+  if (ownerRaf) {
+    Object.defineProperty(ownerView, 'requestAnimationFrame', ownerRaf)
+  } else {
+    Reflect.deleteProperty(ownerView, 'requestAnimationFrame')
+  }
+  if (ownerCancelRaf) {
+    Object.defineProperty(ownerView, 'cancelAnimationFrame', ownerCancelRaf)
+  } else {
+    Reflect.deleteProperty(ownerView, 'cancelAnimationFrame')
+  }
 })
 async function frame(time = performance.now() + 1000) {
   const callbacks = [...frames.values()]
@@ -37,6 +61,59 @@ function container(top = 300) {
   return el
 }
 describe('BackTop copied contract', () => {
+  test('a preference change during animation finishes without another frame', async () => {
+    let reduced = false
+    vi.stubGlobal('matchMedia', () => ({ matches: reduced }))
+    const target = container(400)
+    vi.spyOn(performance, 'now').mockReturnValue(0)
+    const wrapper = mount(BackTop, { props: { targetContainer: target, popupContainer: false, duration: 1000 } })
+    try {
+      await wrapper.get('button').trigger('click')
+      await frame(100)
+      reduced = true
+      await frame(150)
+      expect(target.scrollTop).toBe(0)
+      expect(target.scrollLeft).toBe(37)
+      expect(frames.size).toBe(0)
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  test('a callback already taken from the queue cannot mutate a replaced target', async () => {
+    const first = container(400),
+      second = container(500)
+    vi.spyOn(performance, 'now').mockReturnValue(0)
+    const wrapper = mount(BackTop, { props: { targetContainer: first, popupContainer: false, duration: 1000 } })
+    try {
+      await wrapper.get('button').trigger('click')
+      const stale = [...frames.values()][0]
+      await wrapper.setProps({ targetContainer: second })
+      stale(200)
+      expect(first.scrollTop).toBe(400)
+      expect(second.scrollTop).toBe(500)
+      expect(frames.size).toBe(0)
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  test('foreign targets use their own document motion preference', async () => {
+    const iframe = document.createElement('iframe')
+    document.body.append(iframe)
+    const view = iframe.contentWindow!
+    Object.defineProperty(view, 'matchMedia', { configurable: true, value: () => ({ matches: true }) })
+    vi.stubGlobal('matchMedia', () => ({ matches: false }))
+    const target = iframe.contentDocument!.createElement('div')
+    target.scrollTop = 400
+    const wrapper = mount(BackTop, { props: { targetContainer: target, popupContainer: false } })
+    try {
+      wrapper.vm.scrollToTop()
+      expect(target.scrollTop).toBe(0)
+      expect(frames.size).toBe(0)
+    } finally {
+      wrapper.unmount()
+      iframe.remove()
+    }
+  })
   test('native accessible button, position, immediate scroll and one event', async () => {
     const target = container()
     const wrapper = mount(BackTop, {

@@ -1,5 +1,12 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
+
+const demoLanguage = ref('zh-CN')
+const english = computed(() => demoLanguage.value === 'en-US')
+watchLang((value) => {
+  demoLanguage.value = value
+})
 
 const values = reactive({
   value: false,
@@ -34,7 +41,7 @@ const {
 </script>
 
 <template>
-  <mp-checkbox v-model="value4" disabled>当前的值: {{ value4 }}</mp-checkbox>
+  <mp-checkbox v-model="value4" disabled>{{ english ? 'Current value' : '当前的值' }}: {{ value4 }}</mp-checkbox>
 </template>
 
 <style lang="less" scoped>

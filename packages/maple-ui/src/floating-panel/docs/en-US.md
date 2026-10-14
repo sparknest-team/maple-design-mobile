@@ -5,6 +5,8 @@ A panel floating at the bottom of the page, is often used to provide additional 
 
 ### Basic Usage
 
+The demo is confined to a 400px container using `popup-container=false` and a local fixed-position containing block, so it does not cover the documentation. Application panels still default to the window bottom. Custom anchors are 80, 180 and 320px; the header-only example lets content scroll without resizing the panel.
+
 ```demo
 ../example/demos/basic.vue
 ```

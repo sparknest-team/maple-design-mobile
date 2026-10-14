@@ -308,7 +308,7 @@ test('input clear does not emit change on the following blur', async () => {
   await wrapper.find('button').trigger('click')
   await wrapper.find('.mp-input__inner').trigger('blur')
   expect(wrapper.emitted('clear')).toHaveLength(1)
-  expect(wrapper.emitted('change')).toBeUndefined()
+  expect(wrapper.emitted('change')).toHaveLength(1)
   wrapper.unmount()
 })
 

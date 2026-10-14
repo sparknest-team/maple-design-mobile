@@ -33,7 +33,6 @@ export type {
 } from './types'
 export type { DropdownMenuSize } from './props'
 export type { MenuOptionProps } from './option-props'
-export type { DropdownMenuSubmenuTrigger } from './platform'
 
 export type DropdownMenuInstance = InstanceType<typeof _DropdownMenu>
 export type MenuOptionInstance = InstanceType<typeof _MenuOption>
@@ -42,3 +41,5 @@ export const _DropdownMenuComponent: typeof DropdownMenu = DropdownMenu
 export const _MenuOptionComponent: typeof _MenuOption = _MenuOption
 
 export default DropdownMenu
+
+export type { DropdownMenuStrategy, DropdownMenuSubmenuTrigger, DropdownMenuReference } from './types'

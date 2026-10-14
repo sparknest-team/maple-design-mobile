@@ -4,7 +4,7 @@
       :is="mergedComponent.list"
       v-bind="listAttrs"
       :style="
-        paddingPosition === 'list'
+        virtualEnabled && paddingPosition === 'list'
           ? {
               paddingTop: `${frontPadding}px`,
               paddingBottom: `${behindPadding}px`,
@@ -17,7 +17,7 @@
         ref="contentRef"
         v-bind="contentAttrs"
         :style="
-          paddingPosition === 'content'
+          virtualEnabled && paddingPosition === 'content'
             ? {
                 paddingTop: `${frontPadding}px`,
                 paddingBottom: `${behindPadding}px`,
@@ -27,11 +27,11 @@
       >
         <VirtualListItem
           v-for="(item, index) of currentList"
-          :key="getItemKey(item, start + index)"
+          :key="getItemKey(item, virtualEnabled ? start + index : index)"
           :has-item-size="hasItemSize"
           :set-item-size="setItemSize"
         >
-          <slot name="item" :item="item" :index="start + index" />
+          <slot name="item" :item="item" :index="virtualEnabled ? start + index : index" />
         </VirtualListItem>
       </Component>
     </Component>
@@ -39,7 +39,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, PropType, ref, toRefs } from 'vue'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  PropType,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import { isNumber, isObject } from '../../_utils/is'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import { useSize } from './hooks/use-size'
@@ -118,6 +130,30 @@ export default defineComponent({
 
     const containerRef = ref<HTMLElement>()
     const contentRef = ref<HTMLElement>()
+    let scrollRequest = 0
+    let mounted = false
+    let active = true
+    let disposed = false
+    const available = () => mounted && active && !disposed && !!containerRef.value
+    const isCurrent = (request: number, element: HTMLElement) =>
+      available() && request === scrollRequest && containerRef.value === element
+    onMounted(() => {
+      mounted = true
+    })
+    onActivated(() => {
+      if (!disposed) {
+        active = true
+      }
+    })
+    onDeactivated(() => {
+      active = false
+      scrollRequest++
+    })
+    onBeforeUnmount(() => {
+      disposed = true
+      mounted = active = false
+      scrollRequest++
+    })
 
     const style = computed(() => {
       return {
@@ -151,8 +187,14 @@ export default defineComponent({
       buffer,
     })
 
+    const virtualEnabled = computed(() => !props.threshold || data.value.length > props.threshold)
+    watch([dataKeys, virtualEnabled], () => {
+      scrollRequest++
+      setStart(start.value)
+    })
+
     const currentList = computed(() => {
-      if (props.threshold && data.value.length <= props.threshold) {
+      if (!virtualEnabled.value) {
         return data.value
       }
 
@@ -160,15 +202,26 @@ export default defineComponent({
     })
 
     const onScroll = (ev: Event) => {
+      if (!available()) {
+        return
+      }
+      const element = containerRef.value!
+      const request = ++scrollRequest
       const { scrollTop, scrollHeight, offsetHeight } = ev.target as HTMLElement
       const _start = getStartByScroll(scrollTop)
-      if (_start !== start.value) {
+      if (virtualEnabled.value && _start !== start.value) {
         setStart(_start)
         nextTick(() => {
+          if (!isCurrent(request, element)) {
+            return
+          }
           scrollTo(scrollTop)
         })
       }
       emit('scroll', ev)
+      if (!isCurrent(request, element)) {
+        return
+      }
       const bottom = Math.floor(scrollHeight - (scrollTop + offsetHeight))
       if (bottom <= 0) {
         emit('reach-bottom', ev)
@@ -176,28 +229,63 @@ export default defineComponent({
     }
 
     const scrollTo = (options: ScrollOptions) => {
-      if (containerRef.value) {
-        if (isNumber(options)) {
-          containerRef.value.scrollTop = options
-        } else {
-          const { align = 'top' } = options
-          const _index = options.index ?? dataKeys.value.indexOf(options.key ?? '')
-          setStart(_index - buffer.value)
-          containerRef.value.scrollTop = getScrollOffset(_index)
-          nextTick(() => {
-            if (containerRef.value) {
-              const _scrollTop = getScrollOffset(_index)
-              if (_scrollTop !== containerRef.value.scrollTop) {
-                containerRef.value.scrollTop = _scrollTop
-              }
-            }
-          })
-        }
+      if (!available()) {
+        return
       }
+      const element = containerRef.value
+      if (!element) {
+        return
+      }
+      const request = ++scrollRequest
+      if (isNumber(options)) {
+        if (Number.isFinite(options)) {
+          element.scrollTop = Math.max(0, options)
+        }
+        return
+      }
+      const index = options.index ?? dataKeys.value.indexOf(options.key ?? '')
+      if (!Number.isInteger(index) || index < 0 || index >= dataKeys.value.length) {
+        return
+      }
+      const align = options.align ?? 'top'
+      const apply = () => {
+        const target = containerRef.value
+        if (!target || !isCurrent(request, element)) {
+          return
+        }
+        const top = getScrollOffset(index)
+        const bottom = getScrollOffset(index + 1)
+        const viewport = target.clientHeight || target.offsetHeight
+        const current = target.scrollTop
+        const next =
+          align === 'bottom'
+            ? bottom - viewport
+            : align === 'auto'
+              ? top < current
+                ? top
+                : bottom > current + viewport
+                  ? bottom - viewport
+                  : current
+              : top
+        target.scrollTop = Math.max(0, next)
+      }
+      if (virtualEnabled.value) {
+        setStart(index - buffer.value)
+      }
+      apply()
+      let corrected = false
+      nextTick(() => {
+        if (corrected) {
+          return
+        }
+        corrected = true
+        apply()
+      })
     }
 
     return {
       prefixCls,
+      virtualEnabled,
       containerRef,
       contentRef,
       frontPadding,

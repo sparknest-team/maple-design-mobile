@@ -1,6 +1,18 @@
 # Time
 
+If a parent keeps the popup open after confirmation, repeated confirmation without a new selection is deduplicated. A fresh time selection starts a new transaction and can be confirmed again.
+
+While expanded, the native combobox uses `aria-controls` to identify its own named popup. Closing updates the state and removes the link. `aria-label` and `aria-describedby` reach the native input. Custom selected/trigger slots must preserve accessible names, keyboard operation and state associations.
+
 In clock and wheel modes, min/max are inclusive same-day bounds. A minute stays selectable when some of its seconds are available. Second constraints compare the complete clock value, not seconds from a different hour. Use TimeRange show-next-day for overnight ranges, rather than reversed min/max.
+
+### Text entry
+
+`input-editable` defaults to `false` (Cedar: `true`). When enabled, tap the input to type; use the clock button or ArrowDown to open the picker/clock panel. Enter or blur commits; Escape cancels. Parsing, steps, bounds and disabled rules match panel selection. Invalid or rejected controlled edits restore the model value. Disabling editing, readonly or disabled state discards drafts. IME composition and moving between range inputs do not commit.
+
+```demo
+../example/demos/en-US/text-entry.vue
+```
 
 ### Intro
 
@@ -192,6 +204,7 @@ The field uses independently copied PickerField → FieldDecorator layers. Panel
 | `time-picker-props` | Props passed to `mp-time-picker`                        | _Partial\<TimePickerProps\>_ | `{}`       |
 | `picker-props`      | Props passed to `mp-picker`                             | _Partial\<PickerProps\>_     | `{}`       |
 | `popup-props`       | Props passed to popup                                   | _Partial\<PopupProps\>_      | `{}`       |
+| `input-editable` | Allow text entry; panel selection remains available | _boolean_ | `false` |
 | `placeholder`       | Placeholder                                             | _string_                     | `-`        |
 | `clearable`         | Show clear button                                       | _boolean_                    | `false`    |
 | `disabled`          | Disabled                                                | _boolean_                    | `false`    |

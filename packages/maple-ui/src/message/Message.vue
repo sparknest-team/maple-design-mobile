@@ -1,12 +1,6 @@
 <template>
   <Teleport :to="popupTarget" :disabled="popupContainer === false">
-    <Transition
-      :name="`${n()}-fade`"
-      appear
-      :duration="150"
-      @after-enter="emit('opened')"
-      @after-leave="emit('closed')"
-    >
+    <Transition :name="`${n()}-fade`" appear @after-enter="emit('opened')" @after-leave="emit('closed')">
       <div
         v-if="open"
         :class="[n(), { [n('standalone')]: popupContainer !== false }, n(`standalone-${position}`)]"

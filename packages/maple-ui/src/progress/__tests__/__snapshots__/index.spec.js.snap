@@ -1,21 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`test progress component props > circle progress color 1`] = `
-"<div class="mp-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-  <!--v-if-->
-  <div class="mp-progress__circle" style="width: 64px; height: auto; aspect-ratio: 1;"><svg class="mp-progress__circle-svg" viewBox="0 0 42.666666666666664 42.666666666666664">
-      <defs>
-        <linearGradient id="mp-progress-mock-id" x1="100%" y1="0%" x2="0%" y2="0%">
-          <stop offset="0%" stop-color="#3fecff"></stop>
-          <stop offset="100%" stop-color="#6149f6"></stop>
-        </linearGradient>
-      </defs>
-      <path class="mp-progress__circle-background" d="M 21.333333333333332 21.333333333333332 m 0 -20 a 20 20
-        0 1 1 0 40 a 20 20 0 1 1 0 -40" fill="transparent" stroke-width="2.6666666666666665" stroke-dasharray="125.66370614359172"></path>
-      <path class="mp-progress__circle-certain mp-progress__circle--default" d="M 21.333333333333332 21.333333333333332 m 0 -20 a 20 20
-        0 1 1 0 40 a 20 20 0 1 1 0 -40" fill="transparent" stroke-width="2.6666666666666665" stroke-dasharray="125.66370614359172" stroke-dashoffset="125.66370614359172" style="stroke: url(#mp-progress-mock-id); transform: rotateZ(0deg); transform-origin: 50% 50%;"></path>
-    </svg>
-    <!--v-if-->
+exports[`Progress complete contract > installs and renders default text 1`] = `
+"<div class="mp-progress mp-progress--line mp-progress--md mp-progress--default" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+  <div class="mp-progress__line">
+    <div class="mp-progress__track" style="height: 4px;">
+      <!--v-if-->
+      <div class="mp-progress__bar" style="width: 0%;"></div>
+    </div><span class="mp-progress__text">0%</span>
   </div>
 </div>"
 `;

@@ -6,25 +6,35 @@
   >
     <template v-if="resolvedPresentation === 'picker'">
       <div :class="n('values')">
-        <div :class="classes(n('value'), [activeTab === 'start', n('value--active')])" @click="activeTab = 'start'">
+        <button
+          type="button"
+          :aria-pressed="activeTab === 'start'"
+          :class="classes(n('value'), [activeTab === 'start', n('value--active')])"
+          @click="activeTab = 'start'"
+        >
           <template v-if="showTime">
-            <div :class="n('value-date')">{{ startDisplay.date }}</div>
-            <div :class="n('value-time')">{{ startDisplay.time }}</div>
+            <span :class="n('value-date')">{{ startDisplay.date }}</span>
+            <span :class="n('value-time')">{{ startDisplay.time }}</span>
           </template>
           <template v-else>
             {{ startValue }}
           </template>
-        </div>
+        </button>
         <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover><MIconChevronRight /></mp-icon>
-        <div :class="classes(n('value'), [activeTab === 'end', n('value--active')])" @click="activeTab = 'end'">
+        <button
+          type="button"
+          :aria-pressed="activeTab === 'end'"
+          :class="classes(n('value'), [activeTab === 'end', n('value--active')])"
+          @click="activeTab = 'end'"
+        >
           <template v-if="showTime">
-            <div :class="n('value-date')">{{ endDisplay.date }}</div>
-            <div :class="n('value-time')">{{ endDisplay.time }}</div>
+            <span :class="n('value-date')">{{ endDisplay.date }}</span>
+            <span :class="n('value-time')">{{ endDisplay.time }}</span>
           </template>
           <template v-else>
             {{ endValue }}
           </template>
-        </div>
+        </button>
       </div>
 
       <div v-if="columnLabels.length" :class="n('column-labels')">
@@ -44,15 +54,21 @@
     </template>
 
     <template v-else-if="isCalendarTime">
-      <div :class="classes(n('values'), [focusKind === 'date', n('values--active')])" @click="focusKind = 'date'">
-        <div :class="n('value')">{{ startDisplay.date }}</div>
+      <button
+        type="button"
+        :aria-pressed="focusKind === 'date'"
+        :class="classes(n('values'), [focusKind === 'date', n('values--active')])"
+        @click="focusKind = 'date'"
+      >
+        <span :class="n('value')">{{ startDisplay.date }}</span>
         <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover><MIconChevronRight /></mp-icon>
-        <div :class="n('value')">{{ endDisplay.date }}</div>
-      </div>
+        <span :class="n('value')">{{ endDisplay.date }}</span>
+      </button>
 
       <mp-date-picker
         v-show="focusKind === 'date'"
         :model-value="calendarModelValue"
+        :picker-value="pickerValueForCalendar"
         v-bind="datePickerBindingProps"
         range
         :type="type"
@@ -61,12 +77,14 @@
         :disabled-date="disabledDate"
         :readonly="readonly"
         :elevation="false"
-        @update:model-value="handleCalendarDateUpdate"
+        @range-candidate="handleCalendarDateUpdate"
+        @update:picker-value="emitPickerViewport"
       />
 
       <div v-if="focusKind === 'time' && resolvedPresentation === 'calendarClock'" :class="n('datetime-clock')">
         <mp-time-picker
           :key="`clock-${activeTab}`"
+          presentation="clock"
           :model-value="activeDisplay.time"
           v-bind="{ ...timePickerBindingProps, ...dateTimeConstraints(disabledTime) }"
           disable-confirm
@@ -94,24 +112,29 @@
       </template>
 
       <div :class="n('view-tabs')">
-        <div
+        <button
+          type="button"
+          :aria-pressed="focusKind === 'time' && activeTab === 'start'"
           :class="classes(n('view-tab'), [focusKind === 'time' && activeTab === 'start', n('view-tab--active')])"
           @click="selectTimeSide('start')"
         >
           <span :class="n('view-tab-text')">{{ startDisplay.time }}</span>
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
+          :aria-pressed="focusKind === 'time' && activeTab === 'end'"
           :class="classes(n('view-tab'), [focusKind === 'time' && activeTab === 'end', n('view-tab--active')])"
           @click="selectTimeSide('end')"
         >
           <span :class="n('view-tab-text')">{{ endDisplay.time }}</span>
-        </div>
+        </button>
       </div>
     </template>
 
     <mp-date-picker
       v-else
       :model-value="modelValue"
+      :picker-value="pickerValueForCalendar"
       v-bind="datePickerBindingProps"
       range
       :type="type"
@@ -121,6 +144,7 @@
       :readonly="readonly"
       :elevation="false"
       @update:model-value="handleCalendarUpdate"
+      @update:picker-value="emitPickerViewport"
     />
 
     <div v-if="$slots.actions" :class="n('actions')">
@@ -150,14 +174,18 @@ import {
   resolveDateTimePresentation,
   splitDateTimeDisplay,
 } from '../../date/datetime'
+import { normalizeDateRange } from '../../date/normalize-date-range'
 import MpDatePicker from '../../date/presentation/CalendarContent.vue'
 import { dateTimeConstraints } from '../../date/time-constraints'
+import { dateTimePickerOptions } from '../../date/time-picker-options'
+import { dateWheelOptions } from '../../date/wheel-options'
 import MpIcon from '../../icon'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../../picker'
 import MpTimePicker from '../../time/TimePicker.vue'
 import { createNamespace, formatElevation } from '../../utils/components'
+import { dateRangeCalendarOptions } from '../calendar-options'
 import { props } from '../presentation-props'
 
 const { name, n, classes } = createNamespace('date-range-picker')
@@ -172,8 +200,12 @@ export default defineComponent({
     MpTimePicker,
   },
   props,
-  emits: ['change', 'update:modelValue'],
+  emits: ['change', 'update:modelValue', 'update:pickerValue'],
   setup(props, { emit }) {
+    const pickerValueForCalendar = computed(() => props.pickerValue)
+    function emitPickerViewport(value: string | string[]) {
+      emit('update:pickerValue', value)
+    }
     const { t: pt } = injectLocaleProvider()
     const translate = (key: string) => (pt ? pt : t)(key as any)
     const activeIndex = useRangeFieldIndex()
@@ -210,9 +242,14 @@ export default defineComponent({
     const activeDisplay = computed(() => (activeTab.value === 'start' ? startDisplay.value : endDisplay.value))
     const calendarModelValue = computed(() => [startDisplay.value.date, endDisplay.value.date])
 
-    const datePickerBindingProps = computed(() => ({ ...props.datePickerProps }))
-    const pickerBindingProps = computed(() => ({ ...props.pickerProps }))
-    const timePickerBindingProps = computed(() => ({ ...props.timePickerProps }))
+    const datePickerBindingProps = computed(() => ({
+      ...dateRangeCalendarOptions(props.datePickerProps),
+      presentation: 'calendar' as const,
+      dayStartOfWeek: props.dayStartOfWeek,
+      abbreviation: props.abbreviation,
+    }))
+    const pickerBindingProps = computed(() => dateWheelOptions(props.pickerProps))
+    const timePickerBindingProps = computed(() => dateTimePickerOptions(props.timePickerProps))
 
     const columnLabels = computed(() => {
       if (resolvedPresentation.value !== 'picker') {
@@ -275,8 +312,14 @@ export default defineComponent({
     const timeOnlyPickerValue = computed(() => parseTimeParts(activeDisplay.value.time, props.useSeconds))
 
     function emitValue(next: string[]) {
-      emit('update:modelValue', next)
-      emit('change', next)
+      const normalized = normalizeDateRange(next, {
+        type: props.type,
+        showTime: props.showTime,
+        useSeconds: props.useSeconds,
+        exchangeTime: props.exchangeTime,
+      })
+      emit('update:modelValue', normalized)
+      emit('change', normalized)
     }
 
     function updateSide(side: 'start' | 'end', date: string) {
@@ -335,6 +378,8 @@ export default defineComponent({
 
     return {
       dateTimeConstraints,
+      pickerValueForCalendar,
+      emitPickerViewport,
       n,
       classes,
       formatElevation,

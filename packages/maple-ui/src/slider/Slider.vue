@@ -1,580 +1,345 @@
 <template>
-  <div :class="classes(n(orientation), n('$--box'))">
-    <div
-      ref="sliderEl"
-      :class="
-        classes(n(`${orientation}-block`), [isDisabled, n('--disabled')], [mergedError, n(`${orientation}--error`)])
-      "
-      @click="handleClick"
-    >
-      <div :class="n(`${orientation}-track`)">
-        <div
-          :class="n(`${orientation}-track-background`)"
-          :style="{
-            background: trackColor,
-            height: isVertical ? '100%' : toSizeUnit(trackHeight),
-            width: isVertical ? toSizeUnit(trackHeight) : '100%',
-          }"
-        ></div>
-        <div :class="n(`${orientation}-track-fill`)" :style="getFillStyle"></div>
-      </div>
-      <div
-        v-for="item in thumbList"
-        :key="item.enumValue"
-        :class="n(`${orientation}-thumb`)"
-        :style="thumbStyle(item)"
-        :tabindex="isDisabled ? undefined : '0'"
-        role="slider"
-        :aria-valuemin="min"
-        :aria-valuemax="max"
-        :aria-valuenow="item.value"
-        :aria-disabled="isDisabled"
-        :aria-valuetext="`${item.text}`"
-        @touchstart.stop="start($event, item.enumValue)"
-        @touchmove.stop="move"
-        @focusin="handleFocus(item)"
-        @focusout="handleBlur(item)"
+  <div
+    :class="
+      classes(
+        n(),
+        n(`--${orientation}`),
+        [isDisabled, n('--disabled')],
+        [mergedReadonly, n('--readonly')],
+        [mergedError, n('--error')],
+        [marks, n('--marks')],
+      )
+    "
+    :style="customStyle"
+  >
+    <div ref="track" :class="n('track')" @pointerdown="pointerDown($event)" @click="clickTrack">
+      <div :class="n('rail')"></div>
+      <div :class="n('fill')" :style="fillStyle"></div>
+      <span
+        v-for="tick in ticks"
+        :key="tick"
+        :class="classes(n('tick'), [tick >= values[0] && tick <= values[1], n('tick--active')])"
+        :style="position(tick)"
+        aria-hidden="true"
+      ></span>
+      <span
+        v-for="mark in markList"
+        :key="mark.value"
+        :class="n('mark')"
+        :style="position(mark.value)"
+        aria-hidden="true"
+        >{{ mark.label }}</span
       >
-        <slot name="button" :current-value="item.text">
-          <div
-            v-hover:desktop="(value: boolean) => hover(value, item)"
-            :class="n(`${orientation}-thumb-block`)"
-            :style="{
-              background: thumbColor,
-            }"
-          ></div>
-          <div
-            :class="
-              classes(n(`${orientation}-thumb-ripple`), [
-                thumbsProps[item.enumValue].active,
-                n(`${orientation}-thumb-ripple--active`),
-              ])
-            "
-            :style="{
-              background: thumbsProps[item.enumValue].active ? thumbColor : undefined,
-            }"
-          >
-            <mp-hover-overlay :hovering="!isDisabled && item.hovering" :focusing="!isDisabled && item.focusing" />
-          </div>
-          <div
-            :class="
-              classes(n(`${orientation}-thumb-label`), [
-                showLabel(item.enumValue),
-                n(`${orientation}-thumb-label--active`),
-              ])
-            "
-            :style="{
-              background: labelColor,
-              color: labelTextColor,
-              height: toSizeUnit(thumbSize),
-              width: toSizeUnit(thumbSize),
-            }"
-          >
-            <span>{{ item.text }}</span>
-          </div>
-        </slot>
+      <div
+        v-for="index in indices"
+        :key="index"
+        :class="classes(n('thumb'), [dragIndex === index, n('thumb--dragging')])"
+        :style="position(values[index])"
+        role="slider"
+        :tabindex="isDisabled ? undefined : 0"
+        :aria-label="thumbLabel(index)"
+        :aria-valuemin="index === 1 && range ? values[0] : bounds.min"
+        :aria-valuemax="index === 0 ? values[1] : bounds.max"
+        :aria-valuenow="values[index]"
+        :aria-valuetext="String(format(values[index]))"
+        :aria-orientation="orientation"
+        :aria-disabled="isDisabled || undefined"
+        :aria-readonly="mergedReadonly || undefined"
+        :aria-invalid="mergedError || undefined"
+        :aria-describedby="tooltipVisible(index) ? `${tooltipId}-${index}` : undefined"
+        @pointerdown.stop="pointerDown($event, index)"
+        @keydown="keydown($event, index)"
+        @focus="onFocus(index)"
+        @blur="onBlur"
+        @mouseenter="hovered = index"
+        @mouseleave="hovered = -1"
+      >
+        <slot name="button" :current-value="values[index]" :index="index"><span :class="n('handle')"></span></slot>
+        <span v-if="tooltipVisible(index)" :id="`${tooltipId}-${index}`" :class="n('tooltip')" role="tooltip">{{
+          format(values[index])
+        }}</span>
       </div>
     </div>
+    <slider-input
+      v-if="showInput"
+      :model-value="values"
+      :min="bounds.min"
+      :max="bounds.max"
+      :step="bounds.step"
+      :range="range"
+      :disabled="isDisabled"
+      :readonly="mergedReadonly"
+      :error="mergedError"
+      :aria-label="ariaLabel"
+      @change="inputChange"
+      @focus="eventHandlers?.onFocus?.()"
+      @blur="eventHandlers?.onBlur?.()"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, reactive, ref, watch, type CSSProperties } from 'vue'
-import {
-  call,
-  clamp,
-  error,
-  getRect,
-  hasOwn,
-  isArray,
-  isNumber,
-  preventDefault,
-  toNumber,
-  warn,
-} from '@maplejs/maple-shared'
-import { onSmartMounted, onWindowResize, useEventListener } from '@maplejs/maple-use'
-import { useFormItem } from '../form/item-provide'
-import { useForm } from '../form/provide'
-import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onDeactivated, ref, useId, watch } from 'vue'
 import { createNamespace } from '../utils/components'
-import { getLeft, toSizeUnit } from '../utils/elements'
-import { props, Thumbs, type ThumbProps, type ThumbsListProps, type ThumbsProps } from './props'
-
-const { name, n, classes } = createNamespace('slider')
-
-export default defineComponent({
-  name,
-  components: {
-    MpHoverOverlay,
-  },
-  directives: { Hover },
-  props,
-  emits: ['change', 'update:modelValue', 'start', 'end'],
-  setup(props, { emit }) {
-    const maxDistance = ref(0)
-    const sliderEl = ref<HTMLElement | null>(null)
-    const isScroll = ref(false)
-    const scope = computed(() => toNumber(props.max) - toNumber(props.min))
-    const unitWidth = computed(() => (maxDistance.value / scope.value) * toNumber(props.step))
-    const isDisabled = computed(() => props.disabled || form?.disabled.value)
-    const isReadonly = computed(() => props.readonly || form?.readonly.value)
-    const isVertical = computed(() => props.orientation === 'vertical')
-    const focusingFirst = ref(false)
-    const focusingSecond = ref(false)
-    const { form } = useForm()
-    const { mergedError, eventHandlers } = useFormItem()
-    const { hovering: hoveringFirst, handleHovering: handleHoveringFirst } = useHoverOverlay()
-    const { hovering: hoveringSecond, handleHovering: handleHoveringSecond } = useHoverOverlay()
-
-    const thumbList = computed(() => {
-      const { modelValue, range } = props
-      let list: ThumbsListProps[] = []
-
-      if (range && isArray(modelValue)) {
-        list = [
-          {
-            value: getValue(modelValue[0]),
-            enumValue: Thumbs.First,
-            text: toPrecision(modelValue[0]),
-            hovering: hoveringFirst.value,
-            focusing: focusingFirst.value,
-            handleHovering: handleHoveringFirst,
-            handleFocusing(value: boolean) {
-              focusingFirst.value = value
-            },
-          },
-          {
-            value: getValue(modelValue[1]),
-            enumValue: Thumbs.Second,
-            text: toPrecision(modelValue[1]),
-            hovering: hoveringSecond.value,
-            focusing: focusingSecond.value,
-            handleHovering: handleHoveringSecond,
-            handleFocusing(value: boolean) {
-              focusingSecond.value = value
-            },
-          },
-        ]
-      } else if (isNumber(modelValue)) {
-        list = [
-          {
-            value: getValue(modelValue),
-            enumValue: Thumbs.First,
-            text: toPrecision(modelValue),
-            hovering: hoveringFirst.value,
-            focusing: focusingFirst.value,
-            handleHovering: handleHoveringFirst,
-            handleFocusing(value: boolean) {
-              focusingFirst.value = value
-            },
-          },
-        ]
-      }
-
-      return list
-    })
-
-    const getFillStyle = computed<CSSProperties>(() => {
-      const { activeColor, range, modelValue } = props
-
-      const gap = range && isArray(modelValue) ? getValue(Math.min(modelValue[0], modelValue[1])) : 0
-
-      const fillLength =
-        range && isArray(modelValue)
-          ? getValue(Math.max(modelValue[0], modelValue[1])) - gap
-          : getValue(modelValue as number)
-
-      return isVertical.value
-        ? {
-            left: '0px',
-            height: `${fillLength}%`,
-            bottom: `${gap}%`,
-            background: activeColor,
-          }
-        : {
-            top: '0px',
-            width: `${fillLength}%`,
-            left: `${gap}%`,
-            background: activeColor,
-          }
-    })
-
-    const thumbsProps = reactive<ThumbsProps>({
-      [Thumbs.First]: getThumbProps(),
-      [Thumbs.Second]: getThumbProps(),
-    })
-
-    let activeThumb: Thumbs
-
-    watch([() => props.modelValue, () => props.step], ([modelValue, step]) => {
-      if (!stepValidator() || !valueValidator() || isScroll.value) {
-        return
-      }
-
-      setProps(modelValue as number | number[], toNumber(step))
-    })
-
-    watch(maxDistance, () => setProps())
-
-    onSmartMounted(() => {
-      if (!stepValidator() || !valueValidator()) {
-        return
-      }
-
-      resizeMaxDistance()
-    })
-
-    onBeforeUnmount(removeDocumentEvents)
-    useEventListener(() => window, 'keydown', handleKeydown)
-    onWindowResize(resizeMaxDistance)
-
-    function resizeMaxDistance() {
-      maxDistance.value = (sliderEl.value as HTMLElement)[isVertical.value ? 'offsetHeight' : 'offsetWidth']
-    }
-
-    function getThumbProps(): ThumbProps {
-      return {
-        startPosition: 0,
-        currentOffset: 0,
-        active: false,
-        percentValue: 0,
-      }
-    }
-
-    function getOffset(e: MouseEvent) {
-      const currentTarget = e.currentTarget as HTMLElement
-
-      if (!currentTarget) {
-        return 0
-      }
-
-      if (!isVertical.value) {
-        return e.clientX - getLeft(currentTarget)
-      }
-
-      return maxDistance.value - (e.clientY - getRect(currentTarget).top)
-    }
-
-    function thumbStyle(thumb: ThumbsListProps) {
-      const key = isVertical.value ? 'bottom' : 'left'
-
-      return {
-        [key]: `${thumb.value}%`,
-        zIndex: thumbsProps[thumb.enumValue].active ? 1 : undefined,
-      }
-    }
-
-    function showLabel(type: keyof ThumbsProps) {
-      if (props.labelVisible === 'always') {
-        return true
-      }
-
-      if (props.labelVisible === 'never') {
-        return false
-      }
-
-      return thumbsProps[type].active
-    }
-
-    function getValue(value: number) {
-      const { min, max } = props
-
-      if (value < toNumber(min)) {
-        return 0
-      }
-
-      if (value > toNumber(max)) {
-        return 100
-      }
-
-      return ((value - toNumber(min)) / scope.value) * 100
-    }
-
-    function toPrecision(value: number) {
-      if (!isNumber(value)) {
-        return 0
-      }
-
-      const num = clamp(value, toNumber(props.min), toNumber(props.max))
-      const isInteger = parseInt(`${num}`, 10) === num
-
-      return isInteger ? num : toNumber(num.toPrecision(5))
-    }
-
-    function hover(value: boolean, item: ThumbsListProps) {
-      if (isDisabled.value) {
-        return
-      }
-
-      item.handleHovering(value)
-    }
-
-    function emitChange(value: number | number[]) {
-      emit('change', value)
-      emit('update:modelValue', value)
-      eventHandlers.value.onChange?.()
-    }
-
-    function setPercent(moveDistance: number, type: keyof ThumbsProps) {
-      let rangeValue: Array<number> = []
-      const { step, range, modelValue, min } = props
-      const stepNumber = toNumber(step)
-      const roundDistance = Math.round(moveDistance / unitWidth.value)
-      const curValue = roundDistance * stepNumber + toNumber(min)
-      const prevValue = thumbsProps[type].percentValue * stepNumber + toNumber(min)
-
-      thumbsProps[type].percentValue = roundDistance
-
-      if (range && isArray(modelValue)) {
-        rangeValue = type === Thumbs.First ? [curValue, modelValue[1]] : [modelValue[0], curValue]
-      }
-
-      if (prevValue !== curValue) {
-        const value = range ? rangeValue.map((value) => toPrecision(value)) : toPrecision(curValue)
-        emitChange(value)
-      }
-    }
-
-    function getType(offset: number): keyof ThumbsProps {
-      if (!props.range) {
-        return Thumbs.First
-      }
-
-      const thumb1Distance = thumbsProps[Thumbs.First].percentValue * unitWidth.value
-      const thumb2Distance = thumbsProps[Thumbs.Second].percentValue * unitWidth.value
-      const offsetToThumb1 = Math.abs(offset - thumb1Distance)
-      const offsetToThumb2 = Math.abs(offset - thumb2Distance)
-
-      return offsetToThumb1 <= offsetToThumb2 ? Thumbs.First : Thumbs.Second
-    }
-
-    function addDocumentEvents() {
-      document.addEventListener('touchmove', move, { passive: false })
-      document.addEventListener('touchend', end)
-      document.addEventListener('touchcancel', end)
-    }
-
-    function removeDocumentEvents() {
-      document.removeEventListener('touchmove', move)
-      document.removeEventListener('touchend', end)
-      document.removeEventListener('touchcancel', end)
-    }
-
-    function start(event: TouchEvent, type: keyof ThumbsProps) {
-      resizeMaxDistance()
-
-      if (!isDisabled.value) {
-        thumbsProps[type].active = true
-      }
-
-      activeThumb = type
-      addDocumentEvents()
-
-      if (isDisabled.value || isReadonly.value) {
-        return
-      }
-
-      emit('start')
-      isScroll.value = true
-      const { clientX, clientY } = event.touches[0]
-      thumbsProps[type].startPosition = isVertical.value ? clientY : clientX
-    }
-
-    function move(event: TouchEvent) {
-      preventDefault(event)
-
-      if (isDisabled.value || isReadonly.value || !isScroll.value) {
-        return
-      }
-
-      const { startPosition, currentOffset } = thumbsProps[activeThumb]
-      const { clientX, clientY } = event.touches[0]
-
-      let moveDistance = (isVertical.value ? startPosition - clientY : clientX - startPosition) + currentOffset
-
-      if (moveDistance <= 0) {
-        moveDistance = 0
-      } else if (moveDistance >= maxDistance.value) {
-        moveDistance = maxDistance.value
-      }
-
-      setPercent(moveDistance, activeThumb)
-    }
-
-    function end() {
-      removeDocumentEvents()
-
-      const { range, modelValue, step, min } = props
-
-      if (!isDisabled.value) {
-        thumbsProps[activeThumb].active = false
-      }
-
-      if (isDisabled.value || isReadonly.value) {
-        return
-      }
-
-      let rangeValue: Array<number> = []
-
-      thumbsProps[activeThumb].currentOffset = thumbsProps[activeThumb].percentValue * unitWidth.value
-
-      const curValue = thumbsProps[activeThumb].percentValue * toNumber(step) + toNumber(min)
-
-      if (range && isArray(modelValue)) {
-        rangeValue = activeThumb === Thumbs.First ? [curValue, modelValue[1]] : [modelValue[0], curValue]
-      }
-
-      emit('end', range ? rangeValue : curValue)
-      isScroll.value = false
-    }
-
-    function handleClick(event: MouseEvent) {
-      if (isDisabled.value || isReadonly.value) {
-        return
-      }
-
-      if ((event.target as HTMLElement).closest(`.${n('thumb')}`)) {
-        return
-      }
-
-      const offset = getOffset(event)
-      const type = getType(offset)
-      activeThumb = type
-      setPercent(offset, type)
-      end()
-    }
-
-    function stepValidator() {
-      if (toNumber(props.step) <= 0) {
-        warn('Slider', '"step" should be > 0')
-        return false
-      }
-
-      return true
-    }
-
-    function valueValidator() {
-      const { range, modelValue } = props
-
-      if (range && !isArray(modelValue)) {
-        error('Slider', '"modelValue" should be an Array')
-        return false
-      }
-
-      if (!range && isArray(modelValue)) {
-        error('Slider', '"modelValue" should be a Number')
-        return false
-      }
-
-      if (range && isArray(modelValue) && modelValue.length < 2) {
-        error('Slider', '"modelValue" should have two value')
-        return false
-      }
-
-      return true
-    }
-
-    function setProps(modelValue = props.modelValue, step = toNumber(props.step)) {
-      const getPercent = (value: number) => {
-        const { min, max } = props
-
-        if (value < toNumber(min)) {
-          return 0
-        }
-
-        if (value > toNumber(max)) {
-          return scope.value / step
-        }
-
-        return (value - toNumber(min)) / step
-      }
-
-      if (props.range && isArray(modelValue)) {
-        thumbsProps[Thumbs.First].percentValue = getPercent(modelValue[0])
-        thumbsProps[Thumbs.First].currentOffset = thumbsProps[Thumbs.First].percentValue * unitWidth.value
-        thumbsProps[Thumbs.Second].percentValue = getPercent(modelValue[1])
-        thumbsProps[Thumbs.Second].currentOffset = thumbsProps[Thumbs.Second].percentValue * unitWidth.value
-      } else if (isNumber(modelValue)) {
-        thumbsProps[Thumbs.First].currentOffset = getPercent(modelValue) * unitWidth.value
-      }
-    }
-
-    function moveFocusingThumb(offset: 1 | -1, value: number | number[]) {
-      const stepValue = toNumber(props.step)
-
-      if (isArray(value)) {
-        const updatedFirstValue = value[0] + (focusingFirst.value ? offset * stepValue : 0)
-        const updatedSecondValue = value[1] + (focusingSecond.value ? offset * stepValue : 0)
-        return [updatedFirstValue, updatedSecondValue].map(toPrecision)
-      }
-
-      return toPrecision(value + offset * stepValue)
-    }
-
-    function handleKeydown(event: KeyboardEvent) {
-      type ArrowKey = 'ArrowRight' | 'ArrowUp' | 'ArrowLeft' | 'ArrowDown'
-
-      const keyToOffset: Record<ArrowKey, 1 | -1> = {
-        ArrowRight: 1,
-        ArrowUp: 1,
-        ArrowLeft: -1,
-        ArrowDown: -1,
-      }
-
-      const { key } = event
-
-      if (!hasOwn(keyToOffset, key) || isReadonly.value || isDisabled.value) {
-        return
-      }
-
-      if (props.range && !focusingFirst.value && !focusingSecond.value) {
-        return
-      }
-
-      if (!props.range && !focusingFirst.value) {
-        return
-      }
-
-      preventDefault(event)
-      const offset = keyToOffset[key as ArrowKey]
-      const value = moveFocusingThumb(offset, props.modelValue)
-      emitChange(value)
-    }
-
-    function handleFocus(item: ThumbsListProps) {
-      if (isDisabled.value) {
-        return
-      }
-
-      item.handleFocusing(true)
-    }
-
-    function handleBlur(item: ThumbsListProps) {
-      item.handleFocusing(false)
-    }
-
-    return {
-      sliderEl,
-      getFillStyle,
-      isDisabled,
-      isVertical,
-      mergedError,
-      thumbsProps,
-      thumbList,
-      handleFocus,
-      handleBlur,
-      n,
-      classes,
-      thumbStyle,
-      hover,
-      toSizeUnit,
-      toNumber,
-      showLabel,
-      start,
-      move,
-      end,
-      handleClick,
-    }
-  },
+import { positiveLength } from '../utils/size-length'
+import { sliderBounds, sliderValues, snap, stepValue } from './model'
+import { sliderProps } from './props'
+import type { SliderEmits, SliderExpose, SliderSlots, SliderValue } from './props'
+import SliderInput from './SliderInput.vue'
+import { useSliderForm } from './use-slider-form'
+
+defineOptions({ name: createNamespace('slider').name })
+const { n, classes } = createNamespace('slider')
+const props = defineProps(sliderProps)
+const emit = defineEmits<SliderEmits>()
+defineSlots<SliderSlots>()
+const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useSliderForm(props)
+const bounds = computed(() => sliderBounds(props.min, props.max, props.step))
+const internal = ref<SliderValue>(props.defaultValue)
+const values = computed(() =>
+  sliderValues(props.modelValue === undefined ? internal.value : props.modelValue, props.range, bounds.value),
+)
+const isDisabled = computed(() => mergedDisabled.value || bounds.value.min === bounds.value.max)
+const blocked = computed(() => isDisabled.value || mergedReadonly.value)
+const indices = computed(() => (props.range ? [0, 1] : [1]))
+const track = ref<HTMLElement>()
+const hovered = ref(-1)
+const focused = ref(-1)
+const dragIndex = ref(-1)
+const tooltipId = `${n('tooltip')}-${useId()}`
+const format = (value: number) => props.formatTooltip?.(value) ?? value
+const thumbLabel = (index: number) => (Array.isArray(props.ariaLabel) ? props.ariaLabel[index] : props.ariaLabel)
+const tooltipVisible = (index: number) =>
+  !isDisabled.value &&
+  props.showTooltip !== false &&
+  (props.showTooltip === 'always' || focused.value === index || hovered.value === index || dragIndex.value === index)
+const percent = (value: number) =>
+  bounds.value.max === bounds.value.min ? 0 : ((value - bounds.value.min) / (bounds.value.max - bounds.value.min)) * 100
+const position = (value: number) =>
+  props.orientation === 'vertical' ? { bottom: percent(value) + '%' } : { left: percent(value) + '%' }
+const fillStyle = computed(() =>
+  props.orientation === 'vertical'
+    ? { bottom: percent(values.value[0]) + '%', height: percent(values.value[1]) - percent(values.value[0]) + '%' }
+    : { left: percent(values.value[0]) + '%', width: percent(values.value[1]) - percent(values.value[0]) + '%' },
+)
+const ticks = computed(() => {
+  if (!props.showTicks) {
+    return []
+  }
+  const count = Math.floor((bounds.value.max - bounds.value.min) / bounds.value.step)
+  if (!Number.isFinite(count) || count >= 1000) {
+    return []
+  }
+  return Array.from({ length: count + 1 }, (_, index) =>
+    snap(bounds.value.min + index * bounds.value.step, bounds.value),
+  )
 })
+const markList = computed(() =>
+  Object.entries(props.marks ?? {})
+    .map(([value, label]) => ({ value: Number(value), label }))
+    .filter((mark) => Number.isFinite(mark.value) && mark.value >= bounds.value.min && mark.value <= bounds.value.max),
+)
+const customStyle = computed(() => ({
+  '--mp-slider-active-color': props.activeColor,
+  '--mp-slider-track-color': props.trackColor,
+  '--mp-slider-thumb-color': props.thumbColor,
+  '--mp-slider-tooltip-background': props.labelColor,
+  '--mp-slider-tooltip-color': props.labelTextColor,
+  '--mp-slider-track-height':
+    props.trackHeight == null ? undefined : positiveLength(props.trackHeight, '') || undefined,
+  '--mp-slider-thumb-size': props.thumbSize == null ? undefined : positiveLength(props.thumbSize, '') || undefined,
+}))
+const publicValue = (pair = values.value): SliderValue => (props.range ? ([...pair] as [number, number]) : pair[1])
+let lastProposal: SliderValue | undefined
+function same(a: SliderValue | undefined, b: SliderValue) {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
+function update(index: number, value: number) {
+  if (blocked.value) {
+    return
+  }
+  const pair = [...values.value] as [number, number]
+  pair[index] =
+    index === 0 ? Math.min(snap(value, bounds.value), pair[1]) : Math.max(snap(value, bounds.value), pair[0])
+  const next = publicValue(pair)
+  if (same(next, publicValue())) {
+    lastProposal = next
+    return
+  }
+  if (same(lastProposal, next)) {
+    return
+  }
+  lastProposal = next
+  if (props.modelValue === undefined) {
+    internal.value = next
+  }
+  emit('update:modelValue', next)
+  emit('change', next)
+  eventHandlers.value?.onChange?.()
+}
+function onFocus(index: number) {
+  focused.value = index
+  eventHandlers.value?.onFocus?.()
+}
+function onBlur() {
+  focused.value = -1
+  eventHandlers.value?.onBlur?.()
+}
+function focus(index = 0) {
+  track.value?.querySelectorAll<HTMLElement>('[role="slider"]')[index]?.focus()
+}
+function blur() {
+  track.value?.querySelectorAll<HTMLElement>('[role="slider"]').forEach((el) => el.blur())
+}
+defineExpose<SliderExpose>({ focus, blur })
+
+let pointerId: number | undefined
+let owner: Document | undefined
+let capture: HTMLElement | undefined
+let rect: DOMRect | undefined
+function coordinate(event: PointerEvent | MouseEvent) {
+  if (!rect) {
+    return bounds.value.min
+  }
+  const length = props.orientation === 'vertical' ? rect.height : rect.width
+  if (length <= 0) {
+    return undefined
+  }
+  const ratio =
+    props.orientation === 'vertical' ? (rect.bottom - event.clientY) / length : (event.clientX - rect.left) / length
+  return bounds.value.min + Math.min(1, Math.max(0, ratio)) * (bounds.value.max - bounds.value.min)
+}
+function nearest(value: number) {
+  if (!props.range) {
+    return 1
+  }
+  if (values.value[0] === values.value[1]) {
+    return value < values.value[0] ? 0 : 1
+  }
+  return Math.abs(value - values.value[0]) < Math.abs(value - values.value[1]) ? 0 : 1
+}
+function cleanup() {
+  owner?.removeEventListener('pointermove', pointerMove)
+  owner?.removeEventListener('pointerup', pointerEnd)
+  owner?.removeEventListener('pointercancel', pointerEnd)
+  capture?.removeEventListener('lostpointercapture', pointerEnd)
+  if (pointerId !== undefined && capture?.hasPointerCapture?.(pointerId)) {
+    capture.releasePointerCapture(pointerId)
+  }
+  owner = undefined
+  capture = undefined
+  pointerId = undefined
+  dragIndex.value = -1
+  lastProposal = undefined
+}
+function pointerMove(event: PointerEvent) {
+  if (event.pointerId !== pointerId || blocked.value || dragIndex.value < 0) {
+    return
+  }
+  event.preventDefault()
+  const value = coordinate(event)
+  if (value !== undefined) {
+    update(dragIndex.value, value)
+  }
+}
+function pointerEnd(event: PointerEvent) {
+  if (event.pointerId !== pointerId || dragIndex.value < 0) {
+    return
+  }
+  if (event.type === 'pointerup') {
+    pointerMove(event)
+  }
+  const value = lastProposal ?? publicValue()
+  cleanup()
+  emit('end', value)
+}
+function pointerDown(event: PointerEvent, index?: number) {
+  if (blocked.value || dragIndex.value >= 0 || event.button > 0 || event.isPrimary === false || !track.value) {
+    return
+  }
+  rect = track.value.getBoundingClientRect()
+  const value = coordinate(event)
+  if (value === undefined) {
+    return
+  }
+  event.preventDefault()
+  dragIndex.value = index ?? nearest(value)
+  lastProposal = undefined
+  pointerId = event.pointerId
+  owner = track.value.ownerDocument
+  capture = event.currentTarget as HTMLElement
+  capture.setPointerCapture?.(event.pointerId)
+  capture.addEventListener('lostpointercapture', pointerEnd)
+  owner.addEventListener('pointermove', pointerMove, { passive: false })
+  owner.addEventListener('pointerup', pointerEnd)
+  owner.addEventListener('pointercancel', pointerEnd)
+  track.value.querySelectorAll<HTMLElement>('[role="slider"]')[props.range ? dragIndex.value : 0]?.focus()
+  emit('start')
+  if (index === undefined) {
+    update(dragIndex.value, value)
+  }
+}
+function clickTrack(event: MouseEvent) {
+  if (event.detail !== 0 || blocked.value || (event.target as HTMLElement).closest('[role="slider"]')) {
+    return
+  }
+  rect = track.value?.getBoundingClientRect()
+  const value = coordinate(event)
+  if (value === undefined) {
+    return
+  }
+  lastProposal = undefined
+  emit('start')
+  update(nearest(value), value)
+  emit('end', lastProposal ?? publicValue())
+  lastProposal = undefined
+}
+function keydown(event: KeyboardEvent, index: number) {
+  if (blocked.value || event.target !== event.currentTarget || event.altKey || event.ctrlKey || event.metaKey) {
+    return
+  }
+  const delta: Record<string, number> = {
+    ArrowRight: 1,
+    ArrowUp: 1,
+    ArrowLeft: -1,
+    ArrowDown: -1,
+    PageUp: 10,
+    PageDown: -10,
+  }
+  let value: number
+  if (event.key === 'Home') {
+    value = bounds.value.min
+  } else if (event.key === 'End') {
+    value = bounds.value.max
+  } else if (event.key in delta) {
+    value = stepValue(values.value[index], delta[event.key], bounds.value)
+  } else {
+    return
+  }
+  event.preventDefault()
+  event.stopPropagation()
+  lastProposal = undefined
+  emit('start')
+  update(index, value)
+  emit('end', lastProposal ?? publicValue())
+  lastProposal = undefined
+}
+function inputChange(index: number, value?: number) {
+  if (blocked.value) {
+    return
+  }
+  lastProposal = undefined
+  emit('start')
+  update(index, value ?? bounds.value.min)
+  emit('end', lastProposal ?? publicValue())
+  lastProposal = undefined
+}
+watch(blocked, (value) => {
+  if (value) {
+    cleanup()
+  }
+})
+watch(() => [props.range, props.orientation, props.min, props.max, props.step], cleanup)
+onBeforeUnmount(cleanup)
+onDeactivated(cleanup)
 </script>

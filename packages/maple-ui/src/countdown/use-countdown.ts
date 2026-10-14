@@ -1,4 +1,4 @@
-import { onActivated, onDeactivated, onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
+import { onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { TimeData } from './props'
 
 const SECOND = 1000
@@ -66,7 +66,9 @@ export function useCountdown(
   let running = false
   let ended = false
   let mounted = false
+  let suspended = false
   let resumeOnActivate = false
+  let generation = 0
   let handle: number | undefined
 
   function display() {
@@ -75,30 +77,36 @@ export function useCountdown(
     emit('change', timeData.value)
   }
   function cancel() {
+    generation += 1
     if (handle !== undefined) {
       cancelAnimationFrame(handle)
     }
     handle = undefined
   }
-  function tick() {
-    handle = undefined
-    if (!running) {
+  function tick(expectedGeneration = generation) {
+    if (expectedGeneration !== generation || !running || suspended || !mounted) {
       return
     }
+    handle = undefined
+    const currentGeneration = ++generation
     remaining = Math.max(0, deadline - performance.now())
     display()
+    // A change listener can pause/reset/start another run.
+    if (currentGeneration !== generation || !running || suspended || !mounted) {
+      return
+    }
     if (remaining === 0) {
       running = false
       if (!ended) {
         ended = true
         emit('end')
       }
-    } else if (running) {
-      handle = requestAnimationFrame(tick)
+    } else {
+      handle = requestAnimationFrame(() => tick(currentGeneration))
     }
   }
   function start() {
-    if (!mounted || running || ended) {
+    if (!mounted || suspended || running || ended) {
       return
     }
     running = true
@@ -106,6 +114,7 @@ export function useCountdown(
     tick()
   }
   function pause() {
+    resumeOnActivate = false
     if (running) {
       remaining = Math.max(0, deadline - performance.now())
     }
@@ -113,12 +122,23 @@ export function useCountdown(
     cancel()
   }
   function reset() {
+    if (!mounted) {
+      return
+    }
     pause()
     remaining = duration()
     ended = false
+    const currentGeneration = generation
     display()
+    if (currentGeneration !== generation || !mounted) {
+      return
+    }
     if (props.autoStart) {
-      start()
+      if (suspended) {
+        resumeOnActivate = true
+      } else {
+        start()
+      }
     }
   }
   watch(() => props.time, reset)
@@ -133,10 +153,13 @@ export function useCountdown(
     reset()
   })
   onDeactivated(() => {
-    resumeOnActivate = running
+    const shouldResume = running
     pause()
+    suspended = true
+    resumeOnActivate = shouldResume
   })
   onActivated(() => {
+    suspended = false
     if (resumeOnActivate) {
       resumeOnActivate = false
       start()

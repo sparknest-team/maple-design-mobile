@@ -1,0 +1,5 @@
+- [x] Add Maple-only 250ms/ease motion tokens and compiled consumers.
+- [x] Align independent lifecycle helper and permanent regressions with Cedar.
+- [x] Verify 9 native IAB Popup lifecycle cases.
+- [x] Update bilingual docs, demo, shared guides and generated references.
+- [x] Add a minor Changeset for the new CSS token API.

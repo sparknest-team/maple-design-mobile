@@ -154,3 +154,7 @@ Option `label` is searchable plain text. Use `render` or the `option` slot for c
 ### CascaderPanel
 
 Use CascaderPanel (mp-cascader-panel), also exposed as Cascader.CascaderPanel, for a standalone Menu panel without a field or popup. It supports options, modelValue/defaultValue, multiple, pathMode, checkStrictly, fieldNames, loadMore, disabled, expandTrigger and expandChild; emits update:modelValue, and change; and provides an empty slot.
+
+### Field and mobile presentation styles
+
+The copied field shell keeps the same token declarations as Cedar. Mobile presentation-only variables are declared separately in `src/_components/selection-field/presentation/style/token.less` and loaded with the local presentation stylesheet. Their names and defaults remain unchanged: `--mp-selection-presentation-max-height` (`65vh`), `--mp-selection-presentation-bg` (`var(--mp-sys-color-surface-overlay)`) and `--mp-selection-presentation-padding` (`var(--mp-sys-space-5)`). They do not add mobile presentation behavior to Cedar.

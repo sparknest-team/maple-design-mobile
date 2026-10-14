@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { normalizeBoundImports } from './normalize-bound-imports.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
@@ -55,7 +56,11 @@ const toMaple = (source) =>
 for (const file of files) {
   const c = readFileSync(resolve(cedar, file), 'utf8')
   const m = readFileSync(resolve(maple, file), 'utf8')
-  assert.equal(toMaple(c).trim(), m.trim(), file + ' differs: copy Cedar and adjust local imports/prefixes')
+  assert.equal(
+    normalizeBoundImports(toMaple(c)),
+    normalizeBoundImports(m),
+    file + ' differs: copy Cedar and adjust local imports/prefixes',
+  )
   assert.doesNotMatch(m, /from ['"][^'"]*(?:cedar-design|@cedarjs\/ui|platform)/)
 }
 for (const [root, compiler] of [

@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
 import { Message } from '@maplejs/maple-ui'
-import { t } from './locale'
+
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
 
 const publish = () => {
-  Message.info(t('published'))
+  Message.info(english.value ? 'Published' : '发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -14,41 +21,35 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   <mp-space wrap>
     <mp-split-button
       disabled
-      status="primary"
       :button-props="{ disabled: false }"
       :trigger-button-props="{ disabled: false }"
       @click="publish"
       @select="handleSelect"
     >
-      {{ t('allDisabled') }}
+      {{ english ? 'All disabled' : '整体禁用' }}
 
       <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
+        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
+        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
+        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <mp-split-button status="primary" :button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ t('mainDisabled') }}
+    <mp-split-button :button-props="{ disabled: true }" @click="publish" @select="handleSelect">
+      {{ english ? 'Main disabled' : '仅禁用主按钮' }}
 
       <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
+        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
+        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
+        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <mp-split-button
-      status="primary"
-      :trigger-button-props="{ disabled: true }"
-      @click="publish"
-      @select="handleSelect"
-    >
-      {{ t('triggerDisabled') }}
+    <mp-split-button :trigger-button-props="{ disabled: true }" @click="publish" @select="handleSelect">
+      {{ english ? 'Menu disabled' : '仅禁用菜单按钮' }}
 
       <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
+        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
+        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
+        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
   </mp-space>

@@ -66,22 +66,14 @@ import { useInputComposition } from '../utils/input-composition'
 import InputFeedback from './InputFeedback.vue'
 import { captureInputSelection, splitInputAttrs } from './native-attrs'
 import { inputProps } from './props'
+import type { InputEmits, InputSlots } from './types'
 import { useInputForm } from './use-input-form'
 import { useInputValue } from './use-input-value'
 
 defineOptions({ name: createNamespace('input').name, inheritAttrs: false })
 const props = defineProps(inputProps)
-const emit = defineEmits<{
-  'update:modelValue': [value: string]
-  input: [value: string, event: Event]
-  change: [value: string, event: Event]
-  'press-enter': [event: KeyboardEvent]
-  keydown: [event: KeyboardEvent]
-  clear: [event: Event]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-  click: [event: MouseEvent]
-}>()
+const emit = defineEmits<InputEmits>()
+defineSlots<InputSlots>()
 const { n, classes } = createNamespace('input')
 const attrs = useAttrs()
 const inputRef = ref<HTMLInputElement>()
@@ -124,9 +116,10 @@ function processInput(event: Event) {
   }
   const input = event.target as HTMLInputElement
   const restore = captureInputSelection(input)
-  const nextValue = updateValue(input.value)
-  emit('input', nextValue, event)
-  eventHandlers.value?.onInput?.(event)
+  updateValue(input.value, (nextValue) => {
+    emit('input', nextValue, event)
+    eventHandlers.value?.onInput?.(event)
+  })
   nextTick(() => restore(value.value))
 }
 function handleInput(event: Event) {
@@ -146,24 +139,44 @@ function handleFocus(event: FocusEvent) {
 }
 function handleBlur(event: FocusEvent) {
   focused.value = false
-  commitValue(event)
+  if (!mergedDisabled.value && !mergedReadonly.value) {
+    commitValue(event)
+  }
   emit('blur', event)
   eventHandlers.value?.onBlur?.(event)
 }
 function handleKeydown(event: KeyboardEvent) {
   emit('keydown', event)
-  if (event.key === 'Enter' && !event.isComposing && !composition.isComposing.value) {
+  if (event.defaultPrevented) {
+    return
+  }
+  if (
+    event.key === 'Enter' &&
+    !mergedDisabled.value &&
+    !mergedReadonly.value &&
+    !event.isComposing &&
+    !composition.isComposing.value
+  ) {
     commitValue(event)
     emit('press-enter', event)
   }
 }
 function handleClear(event: Event) {
-  if (!props.clearable || mergedDisabled.value || mergedReadonly.value || !value.value) {
+  if (
+    !props.clearable ||
+    mergedDisabled.value ||
+    mergedReadonly.value ||
+    composition.isComposing.value ||
+    !value.value
+  ) {
     return
   }
-  clearValue()
   emit('clear', event)
   eventHandlers.value?.onClear?.(event)
+  clearValue(event, (nextValue) => {
+    emit('input', nextValue, event)
+    eventHandlers.value?.onInput?.(event)
+  })
   focus()
 }
 function handleClick(event: MouseEvent) {

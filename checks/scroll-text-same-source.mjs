@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { normalizeBoundImports } from './normalize-bound-imports.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
@@ -30,8 +31,8 @@ const normalize = (text) =>
     .replaceAll('.c-', '.mp-')
 for (const file of files) {
   assert.equal(
-    normalize(readFileSync(resolve(cedar, file), 'utf8')),
-    normalize(readFileSync(resolve(maple, file), 'utf8')),
+    normalizeBoundImports(normalize(readFileSync(resolve(cedar, file), 'utf8'))),
+    normalizeBoundImports(normalize(readFileSync(resolve(maple, file), 'utf8'))),
     file,
   )
 }

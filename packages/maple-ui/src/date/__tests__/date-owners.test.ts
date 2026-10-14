@@ -73,6 +73,41 @@ describe('date family owner integration', () => {
     expect(wrapper.emitted('clear')?.[0]).toEqual([])
     wrapper.unmount()
   })
+  for (const range of [false, true]) {
+    it(`starts a fresh selection after controlled close is rejected (range=${range})`, () => {
+      const initial = range ? ['2025-01-01', '2025-01-03'] : '2025-01-01'
+      const first = range ? ['2025-01-02', '2025-01-04'] : '2025-01-02'
+      const second = range ? ['2025-01-05', '2025-01-07'] : '2025-01-05'
+      const { wrapper, state } = mountField({ modelValue: initial, open: true }, range)
+      expect(state.select(first)).toBe(true)
+      expect(state.confirm()).toBe(true)
+      expect(state.confirm()).toBe(false)
+      expect(state.open.value).toBe(true)
+      expect(state.select(second)).toBe(true)
+      expect(state.confirm()).toBe(true)
+      expect(state.confirm()).toBe(false)
+      expect(wrapper.emitted('change')?.map(([value]) => value)).toEqual([first, second])
+      expect(wrapper.emitted('update:open')).toHaveLength(2)
+      expect(state.open.value).toBe(true)
+      wrapper.unmount()
+    })
+    it(`does not retry close when the parent echoes a committed model (range=${range})`, async () => {
+      const initial = range ? ['2025-01-01', '2025-01-03'] : '2025-01-01'
+      const first = range ? ['2025-01-02', '2025-01-04'] : '2025-01-02'
+      const second = range ? ['2025-01-05', '2025-01-07'] : '2025-01-05'
+      const { wrapper, state } = mountField({ modelValue: initial, open: true }, range)
+      state.select(first)
+      expect(state.confirm()).toBe(true)
+      await wrapper.setProps({ fieldProps: { modelValue: first, open: true } })
+      expect(state.confirm()).toBe(false)
+      expect(wrapper.emitted('update:open')).toHaveLength(1)
+      state.select(second)
+      expect(state.confirm()).toBe(true)
+      expect(wrapper.emitted('change')?.map(([value]) => value)).toEqual([first, second])
+      expect(wrapper.emitted('update:open')).toHaveLength(2)
+      wrapper.unmount()
+    })
+  }
   it('pure panels can preview then confirm and reject blocked candidates', async () => {
     const wrapper = shallowMount(DatePanel, {
       props: { options: { modelValue: '2025-01-01', disableConfirm: false, max: '2025-01-03' } },

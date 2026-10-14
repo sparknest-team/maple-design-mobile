@@ -11,7 +11,7 @@
         [variant, n('--variant')],
       )
     "
-    :style="`z-index:${zIndex}`"
+    :style="{ zIndex: zIndex ?? 'var(--mp-tab-bar-z-index)' }"
     v-bind="$attrs"
   >
     <slot />

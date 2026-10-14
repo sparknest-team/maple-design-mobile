@@ -128,6 +128,18 @@ maple-cli dev -d
 
 #### 构建文档站点
 
+文档开发直接解析 `src` 中的组件和样式，只生成 `.maple` 站点配置与页面，不清空或改写 npm 发布用的 `es` / `lib`。修改配置或调研菜单触发重启时同样遵守此边界；不用先构建 npm 包才能展示 Demo。
+
+Markdown 支持独立一行的 `<demo src="../example/demos/basic.vue"></demo>`（也可自闭合）与 `demo` 代码围栏。两种写法都读取实际 Vue 文件，每个文件对应独立运行卡片和源码工具条；代码示例中的标签不会执行。修改 Vue 示例会自动更新运行内容与源码，无需手动同步静态副本。右侧手机预览继续读取 `example/index.vue` 的示例集合。
+
+Demo 的 `watchLang(callback)` 默认从当前站点路由读取语言：中间卡片使用 `#/en-US/component`，手机集合使用 `#/component?language=en-US`。初次挂载及顶部语言切换均同步，无需局部 locale 激活；必要时仍可显式指定 `pc` 或 `mobile`。
+
+文档站自动组件引用依据公开导出表直达源码模块，避免组件内部再经过全库根入口导致循环分包；显式函数导入仍可写 `import { Message } from '@maplejs/maple-ui'`，自动样式注入保留。该解析只作用于站点，不改变 npm 包入口或共享两库运行时。
+
+独立 Playground 仍需要已构建的组件包：先在仓库根执行 `pnpm build:lib`，再执行 `pnpm dev:play`。它读取发布入口与 CSS 并将浏览器资源写入自己的 `public`，不是文档 dev 的占位入口。
+
+升级 CLI 开发流程后，已经启动的旧 dev 进程需要手动重启一次才能使用新逻辑。仓库门禁 `pnpm check:dev-boundary` 验证冷启动和配置/调研重启不会破坏发布文件。
+
 ```shell
 # playground-ignore
 maple-cli build

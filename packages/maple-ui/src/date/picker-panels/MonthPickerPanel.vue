@@ -31,8 +31,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, watch } from 'vue'
-import type { ComputedRef, PropType, Ref, RendererNode, UnwrapRef } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
+import type { ComputedRef, PropType, Ref, RendererNode } from 'vue'
 import { toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
@@ -41,6 +41,7 @@ import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
+import { dateMonthLabel } from '../date-labels'
 import { MONTH_LIST } from '../picker-props'
 import type { Choose, ComponentProps, Month, PanelBtnDisabled, Preview } from '../picker-props'
 import PanelHeader from './PanelHeader.vue'
@@ -85,10 +86,6 @@ export default defineComponent({
     const reverse: Ref<boolean> = ref(false)
     const panelKey: Ref<number> = ref(0)
     const headerEl: Ref<RendererNode | null> = ref(null)
-    const panelBtnDisabled: UnwrapRef<PanelBtnDisabled> = reactive({
-      left: false,
-      right: false,
-    })
 
     const { t: pt } = injectLocaleProvider()
 
@@ -96,7 +93,10 @@ export default defineComponent({
 
     const isCurrentYear: ComputedRef<boolean> = computed(() => props.preview.previewYear === currentYear)
 
-    const getMonthAbbr = (key: Month): string => (pt || t)('datePickerMonthDict')?.[key].abbr ?? ''
+    const getMonthAbbr = (key: Month): string => {
+      const month = (pt || t)('datePickerMonthDict')?.[key]
+      return dateMonthLabel(props.componentProps.abbreviation, month?.abbr ?? '', month?.name ?? '')
+    }
 
     const inRange = (key: string): boolean => {
       const {
@@ -249,18 +249,14 @@ export default defineComponent({
       headerEl.value!.checkDate(checkType)
     }
 
-    watch(
-      () => [props.preview.previewYear, props.componentProps.max, props.componentProps.min],
-      ([year, max, min]) => {
-        if (max) {
-          panelBtnDisabled.right = !dayjs(`${toNumber(year) + 1}`).isSameOrBefore(dayjs(max), 'year')
-        }
-        if (min) {
-          panelBtnDisabled.left = !dayjs(`${toNumber(year) - 1}`).isSameOrAfter(dayjs(min), 'year')
-        }
-      },
-      { immediate: true },
-    )
+    const panelBtnDisabled = computed<PanelBtnDisabled>(() => {
+      const year = toNumber(props.preview.previewYear)
+      const { max, min } = props.componentProps
+      return {
+        right: !!max && !dayjs(`${year + 1}`).isSameOrBefore(dayjs(max), 'year'),
+        left: !!min && !dayjs(`${year - 1}`).isSameOrAfter(dayjs(min), 'year'),
+      }
+    })
 
     return {
       n,

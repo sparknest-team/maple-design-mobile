@@ -7,37 +7,45 @@ A multiline plain-text editor for comments, feedback, and other longer content.
 ### Basic usage
 
 ```demo
-../example/demos/demo-1.vue
+../example/demos/en-US/demo-1.vue
 ```
 
 ### Variants
 
 ```demo
-../example/demos/demo-2.vue
+../example/demos/en-US/demo-2.vue
 ```
 
 ### Hint
 
 ```demo
-../example/demos/demo-3.vue
+../example/demos/en-US/demo-3.vue
 ```
 
 ### Sizes
 
 ```demo
-../example/demos/demo-4.vue
+../example/demos/en-US/demo-4.vue
 ```
 
 ### Length and resize
 
 ```demo
-../example/demos/demo-5.vue
+../example/demos/en-US/demo-5.vue
 ```
 
 ### States
 
 ```demo
-../example/demos/demo-6.vue
+../example/demos/en-US/demo-6.vue
+```
+
+### Body and event contract
+
+The two libraries maintain independent copies of the body. Input emits input before update:modelValue. Clearing emits clear → input → update:modelValue → change once each; Form receives each semantic once. Readonly/disabled/composing controls cannot clear. A rejected controlled value is restored, including input types without selection APIs.
+
+```demo
+../example/demos/en-US/body-contract.vue
 ```
 
 ## API
@@ -53,13 +61,12 @@ A multiline plain-text editor for comments, feedback, and other longer content.
 | `variant`         | `filled \| outline \| standard`              | _string_                                            | `outline`  |
 | `size`            | `xs \| sm \| md \| lg \| xl`                 | _string_                                            | `md`       |
 | `clearable`       | Enables the clear action                     | _boolean_                                           | `false`    |
-| `disabled`        | Disables editing                             | _boolean_                                           | `false`    |
-| `readonly`        | Makes the value read-only                    | _boolean_                                           | `false`    |
-| `error`           | Enables the visual error state               | _boolean_                                           | `false`    |
+| `disabled`        | Disables editing                             | _boolean_                                           | `undefined` |
+| `readonly`        | Makes the value read-only                    | _boolean_                                           | `undefined` |
+| `error`           | Enables the visual error state               | _boolean_                                           | `undefined` |
 | `rows`            | Native visible row count                     | _string \| number_                                  | `-`        |
 | `resize`          | Allows vertical manual resizing              | _boolean_                                           | `false`    |
 | `auto-size`       | Grows with content with optional row bounds  | _boolean \| { minRows?: number; maxRows?: number }_ | `false`    |
-
 | `max-length`      | Truncating or error-only length limit        | _number \| { length: number; errorOnly?: boolean }_ | `0`        |
 | `show-word-limit` | Shows the length counter                     | _boolean_                                           | `false`    |
 | `word-length`     | Custom length function                       | _(value: string) => number_                         | `-`        |
@@ -68,7 +75,7 @@ A multiline plain-text editor for comments, feedback, and other longer content.
 | `autofocus`       | Focuses after mount                          | _boolean_                                           | `false`    |
 | `enterkeyhint`    | Virtual-keyboard Enter hint                  | _string_                                            | `-`        |
 | `textarea-attrs`  | Supplemental native textarea attributes      | _object_                                            | `-`        |
-| `hint`            | Uses Maple's floating placeholder            | _boolean_                                           | `true`     |
+| `hint` | Floating hint; inherits Group/library default | _boolean_ | `undefined` |
 | `line`            | Shows the decorator line                     | _boolean_                                           | `true`     |
 | `text-color`      | Custom text color                            | _string_                                            | `-`        |
 | `focus-color`     | Custom focus color                           | _string_                                            | `-`        |
@@ -83,7 +90,7 @@ Inside Form/FormItem, omitted `size`, `disabled`, `readonly`, and `error` inheri
 | `input`   | User input after IME composition               | `value: string, event: Event` |
 | `change`  | Changed value committed on blur                | `value: string, event: Event` |
 | `keydown` | Native keydown signal; Enter remains a newline | `event: KeyboardEvent`        |
-| `clear`   | Clear action without synthetic input/change    | `event: Event`                |
+| `clear`   | Clear → input → update:model-value → change    | `event: Event`                |
 | `focus`   | Focus                                          | `event: FocusEvent`           |
 | `blur`    | Blur                                           | `event: FocusEvent`           |
 
@@ -131,3 +138,11 @@ import type {
 | `--mp-textarea-counter-margin-top`              | `--mp-sys-space-2`                |
 
 Counter layout is platform-specific: Cedar positions the counter inside the field using counter-inset-inline-end, counter-inset-block-end and scrollbar-offset; Maple renders an external counter row using counter-margin-top. Only the variables relevant to each layout are exposed; color and font-size remain shared.
+
+### Native layout and public types
+
+size supports xs/sm/md/lg/xl for the FieldDecorator shell; textarea height and text metrics remain controlled by rows, auto-size and textarea Tokens. Default manual resize is true on Cedar and false on Maple. InputGroup defaults and Form state apply; a child's explicit value wins. focus(options?), blur(), select() and textareaRef are exposed.
+
+`TextareaProps`、`TextareaVariant`、`TextareaMaxLength`、`TextareaAutoSize`、`TextareaEmits`、`TextareaSlots`、`TextareaExpose`、`TextareaInstance`。
+
+Native methods: `focus(options?: FocusOptions)`, `blur()`, `select()`; `textareaRef` is the native element.

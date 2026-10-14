@@ -1,16 +1,22 @@
 <script setup>
 import { Dialog } from '@maplejs/maple-ui'
 
+let confirming = false
+
 async function beforeClose({ position }) {
+  if (confirming) {
+    return false
+  }
   if (position !== 'right') {
     return true
   }
 
+  confirming = true
   try {
-    await Dialog({ title: '确认删除？' })
-    return true
-  } catch {
-    return false
+    const action = await Dialog.confirm({ title: '确认删除？' })
+    return action === 'confirm'
+  } finally {
+    confirming = false
   }
 }
 </script>

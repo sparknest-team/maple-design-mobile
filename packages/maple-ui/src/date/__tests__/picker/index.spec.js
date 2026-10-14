@@ -1,12 +1,13 @@
 import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs/esm'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import Date from '../..'
 import { delay, mockConsole, mockScrollIntoView, triggerDrag } from '../../../utils/test'
 import VarDatePicker from '../../DatePicker.vue'
 
 mockScrollIntoView()
+afterEach(() => vi.useRealTimers())
 
 const [currentYear, currentMonth] = dayjs().format('YYYY-MM').split('-')
 
@@ -109,6 +110,9 @@ test('datePicker style and type', async () => {
 })
 
 test('datePicker disabledDate', () => {
+  // 当前按钮也受禁用规则控制，固定为偶数日避免快照随运行日期漂移。
+  vi.useFakeTimers({ toFake: ['Date'] })
+  vi.setSystemTime(new globalThis.Date(2026, 0, 2, 9))
   const wrapper = mount(VarDatePicker, {
     props: {
       disabledDate: (val) => val.getDate() % 2 === 0,
@@ -118,12 +122,13 @@ test('datePicker disabledDate', () => {
 
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
+  vi.useRealTimers()
 })
 
-test('datePicker firstDayOfWeek', async () => {
+test('datePicker dayStartOfWeek', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
-      firstDayOfWeek: '3',
+      dayStartOfWeek: 3,
       modelValue: '2021-03-01',
       presentation: 'calendar',
     },
@@ -242,26 +247,17 @@ test('datePicker multiple', async () => {
   await elements[1].trigger('click')
   await elements[2].trigger('click')
 
-  expect(wrapper.vm.date).toEqual([
-    '2021-05-19',
-    `${currentYear}-${currentMonth}-01`,
-    `${currentYear}-${currentMonth}-02`,
-    `${currentYear}-${currentMonth}-03`,
-  ])
+  expect(wrapper.vm.date).toEqual(['2021-05-19', '2021-05-01', '2021-05-02', '2021-05-03'])
 
   await elements[0].trigger('click')
-  expect(wrapper.vm.date).toEqual([
-    '2021-05-19',
-    `${currentYear}-${currentMonth}-02`,
-    `${currentYear}-${currentMonth}-03`,
-  ])
+  expect(wrapper.vm.date).toEqual(['2021-05-19', '2021-05-02', '2021-05-03'])
 
   await wrapper.setData({ type: 'month', date: ['2021-05'] })
   await delay(0)
 
   const btn = wrapper.find('ul').find('button')
   await btn.trigger('click')
-  expect(wrapper.vm.date).toEqual(['2021-05', `${currentYear}-01`])
+  expect(wrapper.vm.date).toEqual(['2021-05', '2021-01'])
 
   await wrapper.setData({ type: 'year', date: ['2021'] })
   await delay(0)
@@ -298,7 +294,7 @@ test('datePicker range', async () => {
   await elements[0].trigger('click')
   await elements[2].trigger('click')
 
-  expect(wrapper.vm.date).toEqual([`${currentYear}-${currentMonth}-01`, `${currentYear}-${currentMonth}-03`])
+  expect(wrapper.vm.date).toEqual(['2021-05-01', '2021-05-03'])
 
   await wrapper.setData({ type: 'month', date: null })
   await wrapper.setData({ type: 'month', date: ['2021-05', '2021-06'] })
@@ -307,7 +303,7 @@ test('datePicker range', async () => {
   const lis = wrapper.find('.mp-month-picker__content').find('ul').findAll('li').slice(0, 3)
   await lis[0].find('button').trigger('click')
   await lis[2].find('button').trigger('click')
-  expect(wrapper.vm.date).toEqual([`${currentYear}-01`, `${currentYear}-03`])
+  expect(wrapper.vm.date).toEqual(['2021-01', '2021-03'])
   expect(wrapper.vm.date).toHaveLength(2)
 
   await wrapper.setData({ type: 'year', date: [currentYear, `${+currentYear + 2}`] })

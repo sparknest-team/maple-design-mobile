@@ -136,3 +136,15 @@ test('date-range-picker show-time picker', async () => {
 
   wrapper.unmount()
 })
+
+test('range calendar forwards numeric week start and updates it reactively', async () => {
+  const wrapper = mount(VarDateRangePicker, {
+    props: { modelValue: ['2024-01-01', '2024-01-15'], presentation: 'calendar', dayStartOfWeek: 1 },
+  })
+  await delay(0)
+  expect(wrapper.find('.mp-day-picker__head li').text()).toBe('一')
+  await wrapper.setProps({ dayStartOfWeek: 6 })
+  await delay(0)
+  expect(wrapper.find('.mp-day-picker__head li').text()).toBe('六')
+  wrapper.unmount()
+})

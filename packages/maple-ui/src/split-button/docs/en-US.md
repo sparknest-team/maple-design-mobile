@@ -1,5 +1,11 @@
 # SplitButton
 
+Demo text follows the site language selector. Middle cards and the right-hand mobile collection load the same Vue source without activating a local locale dictionary.
+
+Disabled segments reuse Button disabled colors and suppress interaction feedback. Disabling the entire group also removes its elevation; disabling only the menu button blocks menu opening and closes an uncontrolled open menu.
+
+Both segments inherit the same variant, status and custom colors. The arrow uses the icon slot without enabling the separate icon-container palette.
+
 ### Introduction
 
 Combines a primary action button with a menu of related actions. The main button performs the action and the trailing button opens the menu.

@@ -10,7 +10,7 @@ describe('ProgressGroup', () => {
   ]
 
   it('renders segments, legend and total status', () => {
-    const wrapper = mount(ProgressGroup, { props: { items, max: 128, status: true } })
+    const wrapper = mount(ProgressGroup, { props: { items, max: 128, showText: true } })
     expect(wrapper.findAll('[role="progressbar"]')).toHaveLength(3)
     expect(wrapper.find('.mp-progress-group__status').text()).toBe('58%')
     expect(wrapper.findAll('.mp-progress-group__item')).toHaveLength(3)
@@ -25,7 +25,7 @@ describe('ProgressGroup', () => {
   })
 
   it('renders cumulative circular segments', () => {
-    const wrapper = mount(ProgressGroup, { props: { items, max: 128, mode: 'circle', status: true } })
+    const wrapper = mount(ProgressGroup, { props: { items, max: 128, mode: 'circle', showText: true } })
     expect(wrapper.findAll('.mp-progress-group__circle-segment')).toHaveLength(3)
     expect(wrapper.find('.mp-progress-group__circle-status').text()).toBe('58%')
   })

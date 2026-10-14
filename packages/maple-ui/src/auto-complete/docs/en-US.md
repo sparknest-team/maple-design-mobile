@@ -111,7 +111,7 @@ Opening and filtering are independent: shouldOpen controls opening, filterOption
 | `focus / blur` | `event: FocusEvent` |
 | `dropdown-scroll / dropdown-reach-bottom` | `event: Event` |
 
-Typing: `update:modelValue → input → search`; selection: `update:modelValue → select → change`; clear: `update:modelValue → clear`. Selecting the same value emits only select. change is a commit on blur, Enter or selection. Input owns typing/focus/clear Form notifications; AutoComplete notifies Form once for suggestion commits. Selection applies maxLength; select.value is the committed string, while option.value retains the original suggestion. clear receives an event, not a string.
+Typing: `input → update:modelValue → search`; selection: `update:modelValue → select → change`; clear: `clear → input → update:modelValue → change`. Selecting the same value emits only select. change is a commit on blur, Enter or selection. Input owns typing/focus/clear Form notifications; AutoComplete notifies Form once for suggestion commits. Selection applies maxLength; select.value is the committed string, while option.value retains the original suggestion. clear receives an event, not a string.
 
 ### Slots
 
@@ -157,3 +157,5 @@ import type { AutoCompleteProps, AutoCompleteInstance, AutoCompleteOption, AutoC
 | `--mp-auto-complete-option-text-color-hover` | `var(--mp-sys-color-content-primary)` |
 | `--mp-auto-complete-option-text-color-selected` | `var(--mp-sys-color-content-primary)` |
 | `--mp-auto-complete-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
+
+Clear does not emit search or reopen suggestions, including when keyboard focus returns from the clear button. Controlled values remain authoritative: repeated rejected clear/selection proposals still emit their own change events. Accepted selections notify Form only once.

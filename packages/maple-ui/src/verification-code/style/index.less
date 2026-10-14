@@ -1,2 +1,52 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './verification-code';
+@import './token.less';
+.mp-verification-code {
+  box-sizing: border-box;
+  width: 100%;
+  &__cells {
+    display: flex;
+    align-items: center;
+    gap: var(--mp-verification-code-gutter);
+    width: 100%;
+  }
+  &__cell {
+    flex: 0 1 var(--mp-verification-code-cell-max-width, var(--mp-internal-verification-code-size));
+    min-width: 0;
+    height: var(--mp-verification-code-cell-height, var(--mp-internal-verification-code-size));
+  }
+  &__separator {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  &--align-start &__cells {
+    justify-content: flex-start;
+  }
+  &--align-center &__cells {
+    justify-content: center;
+  }
+  &--align-end &__cells {
+    justify-content: flex-end;
+  }
+  .mp-input__inner {
+    text-align: center;
+    font-size: var(--mp-verification-code-input-font-size, var(--mp-internal-verification-code-font-size));
+    min-width: 0;
+  }
+  .mp-field-decorator {
+    padding: 0;
+    height: 100%;
+  }
+  .mp-input {
+    height: 100%;
+  }
+  .size(@size) {
+    &--size-@{size} {
+      --mp-internal-verification-code-size: var(~'--mp-field-size-@{size}-height');
+      --mp-internal-verification-code-font-size: var(~'--mp-field-size-@{size}-font-size');
+    }
+  }
+  .size(xs);
+  .size(sm);
+  .size(md);
+  .size(lg);
+  .size(xl);
+}

@@ -7,7 +7,7 @@ const items = [
 </script>
 
 <template>
-  <mp-progress-group :items="items" :max="128" status />
+  <mp-progress-group :items="items" :max="128" show-text />
 </template>
 
 <style scoped>

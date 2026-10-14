@@ -1,6 +1,6 @@
 import '../../style/index.less'
 import '../../_components/selection-field/style'
-import '../../_components/selection-field/style/presentation.less'
+import '../../_components/selection-field/presentation/style/index.less'
 import '../../_components/selection-scrollbar/style'
 import '../../trigger/style'
 import '../../empty/style'

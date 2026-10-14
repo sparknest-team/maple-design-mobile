@@ -5,7 +5,7 @@
   }
   &-fade-enter-active,
   &-fade-leave-active {
-    transition: opacity 0.25s;
+    transition: opacity var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 
   &-pop-center-enter-from,
@@ -14,7 +14,7 @@
   }
   &-pop-center-enter-active,
   &-pop-center-leave-active {
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 
   &-pop-bottom-enter-from,
@@ -23,7 +23,7 @@
   }
   &-pop-bottom-enter-active,
   &-pop-bottom-leave-active {
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 
   &-pop-top-enter-from,
@@ -32,7 +32,7 @@
   }
   &-pop-top-enter-active,
   &-pop-top-leave-active {
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 
   &-pop-left-enter-from,
@@ -41,7 +41,7 @@
   }
   &-pop-left-enter-active,
   &-pop-left-leave-active {
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 
   &-pop-right-enter-from,
@@ -50,7 +50,7 @@
   }
   &-pop-right-enter-active,
   &-pop-right-leave-active {
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 }
 
@@ -73,12 +73,12 @@
     bottom: 0;
     left: 0;
     background-color: var(--mp-popup-overlay-background-color);
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
   }
 
   &__content {
     overflow: auto;
-    transition: all 0.25s;
+    transition: all var(--mp-popup-transition-duration) var(--mp-popup-transition-timing-function);
     pointer-events: auto;
   }
 
@@ -131,5 +131,27 @@
 
   &--pointer-events-none {
     pointer-events: none;
+  }
+}
+// Cover built-in motion classes, not arbitrary consumer-supplied transitions.
+.popup-reduced-motion(@name) {
+  .@{name}-enter-active,
+  .@{name}-leave-active,
+  .@{name}-enter-from,
+  .@{name}-leave-to {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .popup-reduced-motion(mp-fade);
+  .popup-reduced-motion(mp-pop-center);
+  .popup-reduced-motion(mp-pop-left);
+  .popup-reduced-motion(mp-pop-right);
+  .popup-reduced-motion(mp-pop-top);
+  .popup-reduced-motion(mp-pop-bottom);
+  .mp-popup__content,
+  .mp-popup__overlay {
+    transition: none !important;
   }
 }

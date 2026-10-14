@@ -1,0 +1,69 @@
+import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import { afterEach, expect, test, vi } from 'vitest'
+import SplitButton from '..'
+import Button from '../../button'
+import { MenuOption } from '../../dropdown-menu'
+import Radio, { RadioGroup } from '../../radio'
+import Space from '../../space'
+import AsyncAction from '../example/async-action.vue'
+import Basic from '../example/basic.vue'
+import Controlled from '../example/controlled.vue'
+import CustomIcon from '../example/custom-icon.vue'
+import Disabled from '../example/disabled.vue'
+import Popup from '../example/popup.vue'
+import Sizes from '../example/sizes.vue'
+import Variants from '../example/variants.vue'
+
+const { listeners, info } = vi.hoisted(() => ({ listeners: [], info: vi.fn() }))
+vi.mock('@maplejs/maple-cli/client', () => ({
+  watchLang: (callback) => {
+    callback('zh-CN')
+    listeners.push(callback)
+  },
+}))
+vi.mock('@maplejs/maple-ui', () => ({ Message: { info } }))
+
+const components = Object.fromEntries(
+  [SplitButton, Button, Space, MenuOption, Radio, RadioGroup].map((component) => [component.name, component]),
+)
+const wrappers = []
+afterEach(() => {
+  wrappers.splice(0).forEach((wrapper) => wrapper.unmount())
+  listeners.length = 0
+  info.mockClear()
+})
+
+test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Sizes, Variants])(
+  'actual demo labels follow the site language without an uninitialized local locale: %s',
+  async (demo) => {
+    const wrapper = mount(demo, {
+      global: { components, stubs: { MIconMenuDown: true } },
+    })
+    wrappers.push(wrapper)
+    const menu = wrapper.findComponent(SplitButton)
+    expect(menu.vm.$slots.content).toBeTruthy()
+    // Rendered slot VNodes exist even before teleport content is opened.
+    const labels = () =>
+      menu.vm.$slots
+        .content()
+        .filter((node) => node.props?.label)
+        .map((node) => node.props.label)
+    expect(labels()).toEqual(['保存草稿', '保存并发布', '暂无权限'])
+    listeners.forEach((callback) => callback('en-US'))
+    await nextTick()
+    expect(labels()).toEqual(['Save draft', 'Save and publish', 'Unavailable'])
+    expect(wrapper.find('button').text()).not.toBe('')
+  },
+)
+
+test('primary action uses the current translated message', async () => {
+  const wrapper = mount(Basic, { global: { components } })
+  wrappers.push(wrapper)
+  await wrapper.find('button').trigger('click')
+  expect(info).toHaveBeenLastCalledWith('发布成功')
+  listeners.forEach((callback) => callback('en-US'))
+  await nextTick()
+  await wrapper.find('button').trigger('click')
+  expect(info).toHaveBeenLastCalledWith('Published')
+})

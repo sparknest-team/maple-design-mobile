@@ -1,10 +1,17 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
 
 const formData = reactive({ username: '', password: '' })
-const handleSubmit = ({ errors }) => Message(`Submit: ${errors ? 'invalid' : 'valid'}`)
-const handleReset = () => Message('Form reset')
+const result = ref('Not submitted')
+const handleSubmit = ({ errors }) => {
+  result.value = errors ? 'Invalid' : 'Valid'
+  Message(`Submit: ${errors ? 'invalid' : 'valid'}`)
+}
+const handleReset = () => {
+  result.value = 'Reset'
+  Message('Form reset')
+}
 </script>
 
 <template>
@@ -17,9 +24,11 @@ const handleReset = () => Message('Form reset')
         <mp-input v-model="formData.password" type="password" placeholder="Password" />
       </mp-form-item>
       <mp-space>
-        <mp-button status="primary" native-type="submit">Submit</mp-button>
-        <mp-button native-type="reset">Reset</mp-button>
+        <mp-button status="primary" html-type="submit">Submit</mp-button>
+        <mp-button html-type="reset">Reset</mp-button>
       </mp-space>
     </mp-space>
   </mp-form>
+  <p role="status">Submit result: {{ result }}</p>
+  <pre>{{ formData }}</pre>
 </template>

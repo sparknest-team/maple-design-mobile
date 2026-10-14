@@ -6,17 +6,21 @@ import BasicUsageDemo from './demos/basic-usage.vue'
 import CheckboxGroupOptionsDemo from './demos/checkbox-group-options.vue'
 import CheckboxGroupDemo from './demos/checkbox-group.vue'
 import ControlValueDemo from './demos/control-value.vue'
+import CustomControlDemo from './demos/custom-control.vue'
 import CustomFieldsDemo from './demos/custom-fields.vue'
 import DisabledDemo from './demos/disabled.vue'
 import EnglishAsyncOptionsDemo from './demos/en-US/async-options.vue'
 import EnglishControlValueDemo from './demos/en-US/control-value.vue'
+import EnglishCustomControlDemo from './demos/en-US/custom-control.vue'
 import EnglishGroupMethodsDemo from './demos/en-US/group-methods.vue'
 import EnglishGroupStateDemo from './demos/en-US/group-state.vue'
+import EnglishNativeControlDemo from './demos/en-US/native-control.vue'
 import EnglishOptionDataDemo from './demos/en-US/option-data.vue'
 import GroupMethodsDemo from './demos/group-methods.vue'
 import GroupStateDemo from './demos/group-state.vue'
 import IndeterminateDemo from './demos/indeterminate.vue'
 import MaxDemo from './demos/max.vue'
+import NativeControlDemo from './demos/native-control.vue'
 import OptionDataDemo from './demos/option-data.vue'
 import ReadonlyDemo from './demos/readonly.vue'
 import SetStateDemo from './demos/set-state.vue'
@@ -136,5 +140,13 @@ onThemeChange()
   <section data-demo="group-methods">
     <app-type>{{ english ? 'Group methods' : '分组批量方法' }}</app-type>
     <EnglishGroupMethodsDemo v-if="english" /><GroupMethodsDemo v-else />
+  </section>
+  <section data-demo="native-control">
+    <app-type>{{ english ? 'Native controls and keyboard' : '原生控件与键盘' }}</app-type>
+    <EnglishNativeControlDemo v-if="english" /><NativeControlDemo v-else />
+  </section>
+  <section data-demo="custom-control">
+    <app-type>{{ english ? 'Custom control appearance' : '自定义控件外观' }}</app-type>
+    <EnglishCustomControlDemo v-if="english" /><CustomControlDemo v-else />
   </section>
 </template>

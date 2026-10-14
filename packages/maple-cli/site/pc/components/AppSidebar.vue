@@ -1,27 +1,27 @@
 <template>
   <div class="maple-site-sidebar mp-elevation--3">
     <a
-      class="maple-site-sidebar__link"
       v-for="(item, index) in menu"
       :key="index"
+      class="maple-site-sidebar__link"
       :href="item.type !== MenuTypes.TITLE ? `#/${language}/${item.doc}` : undefined"
       @click.prevent="changeRoute(item)"
     >
       <mp-cell
-        class="maple-site-sidebar__item"
         :id="item.doc"
+        v-ripple="{
+          disabled: item.type === menuTypes.TITLE,
+        }"
+        class="maple-site-sidebar__item"
         :class="{
           'maple-site-sidebar__item--active': item.doc === menuName,
           'maple-site-sidebar__cell': item.type !== menuTypes.TITLE,
           'maple-site-sidebar__title': item.type === menuTypes.TITLE,
           'maple-site-sidebar__cell--child': item.parent,
         }"
-        v-ripple="{
-          disabled: item.type === menuTypes.TITLE,
-        }"
       >
         <span class="maple-site-sidebar__indicator"></span>
-        <span class="maple-site-sidebar__item--title" v-if="item.type === menuTypes.TITLE">{{
+        <span v-if="item.type === menuTypes.TITLE" class="maple-site-sidebar__item--title">{{
           item.text[language]
         }}</span>
         <span v-else>{{ item.text[language] }}</span>
@@ -80,7 +80,10 @@ const changeRoute = (item: Menu) => {
     display: block;
     color: initial;
     text-decoration: none;
-    outline: none;
+    &:focus-visible {
+      outline: 2px solid var(--site-config-color-link);
+      outline-offset: -2px;
+    }
   }
 
   &__item {

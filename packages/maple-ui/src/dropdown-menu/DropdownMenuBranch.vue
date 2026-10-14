@@ -5,7 +5,9 @@
 <script setup lang="ts">
 import { computed, h, inject, nextTick, ref } from 'vue'
 import type { TriggerInstance } from '../trigger'
+import Trigger from '../trigger'
 import { createNamespace } from '../utils/components'
+import { menuDefaults, submenuTriggerAppearance } from './appearance'
 import { dropdownMenuBranchProps } from './branch-props'
 import { menuInjectionKey } from './context'
 import DropdownMenuPanel from './DropdownMenuPanel.vue'
@@ -13,7 +15,6 @@ import { useMenuKeyboard } from './keyboard'
 import { useMenuLevel } from './level'
 import MenuOption from './MenuOption.vue'
 import DropdownMenuOptions from './options'
-import { menuDefaults, submenuTriggerAppearance, Trigger } from './platform'
 import DropdownMenuView from './render'
 import { createMenuTree, menuSelectionKey } from './selection'
 
@@ -80,6 +81,7 @@ const viewOptions = computed(() => {
     triggerRef,
     triggerProps: {
       ...submenuTriggerAppearance(),
+      strategy: menu?.strategy.value ?? 'absolute',
       open: computedOpen.value,
       trigger: trigger.value,
       placement: 'right-start',

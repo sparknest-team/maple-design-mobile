@@ -1,2 +1,174 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './slider';
+@import './token.less';
+.mp-slider {
+  display: flex;
+  align-items: center;
+  gap: var(--mp-slider-gap);
+  width: 100%;
+  box-sizing: border-box;
+  font-size: var(--mp-slider-font-size);
+  color: var(--mp-slider-text-color);
+  &__track {
+    position: relative;
+    flex: 1;
+    height: var(--mp-slider-control-height);
+    min-width: 0;
+    cursor: pointer;
+    touch-action: pan-y;
+  }
+  &__rail,
+  &__fill {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: var(--mp-slider-track-height);
+    border-radius: var(--mp-slider-radius);
+  }
+  &__rail {
+    width: 100%;
+    background: var(--mp-slider-track-color);
+  }
+  &__fill {
+    background: var(--mp-slider-active-color);
+  }
+  &__thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--mp-slider-thumb-size);
+    height: var(--mp-slider-thumb-size);
+    border-radius: 50%;
+    outline: none;
+    z-index: 1;
+    touch-action: pan-y;
+  }
+  &__handle {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: inherit;
+    background: var(--mp-slider-thumb-color);
+    border: var(--mp-internal-slider-border-width) solid var(--mp-slider-thumb-border-color);
+    transition: box-shadow var(--mp-slider-transition-duration);
+  }
+  &__thumb:focus-visible {
+    outline: var(--mp-internal-slider-border-width) solid var(--mp-slider-active-color);
+    outline-offset: var(--mp-internal-slider-focus-offset);
+  }
+  &__thumb--dragging {
+    z-index: 2;
+  }
+  &__tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + var(--mp-slider-gap));
+    transform: translateX(-50%);
+    width: max-content;
+    pointer-events: none;
+    padding: var(--mp-slider-gap);
+    background: var(--mp-slider-tooltip-background);
+    color: var(--mp-slider-tooltip-color);
+    border-radius: var(--mp-slider-radius);
+  }
+  &__tick {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--mp-slider-track-height);
+    height: var(--mp-slider-track-height);
+    background: var(--mp-slider-thumb-color);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  &__tick--active {
+    background: var(--mp-slider-active-color);
+  }
+  &__mark {
+    position: absolute;
+    top: calc(50% + var(--mp-internal-slider-mark-offset));
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  &--marks {
+    padding-bottom: var(--mp-slider-control-height);
+  }
+  &__inputs {
+    display: flex;
+    gap: var(--mp-slider-gap);
+    flex: none;
+  }
+  &__inputs > * {
+    width: var(--mp-slider-input-width);
+  }
+  &--readonly &__track,
+  &--disabled &__track {
+    cursor: default;
+  }
+  &--error &__fill {
+    background: var(--mp-slider-error-color);
+  }
+  &--error &__handle {
+    border-color: var(--mp-slider-error-color);
+  }
+  &--disabled &__fill,
+  &--disabled &__tick--active {
+    background: var(--mp-slider-disabled-color);
+  }
+  &--disabled &__handle {
+    border-color: var(--mp-slider-disabled-color);
+  }
+  &--vertical {
+    flex-direction: column;
+    width: auto;
+    height: 100%;
+    min-height: var(--mp-slider-control-height);
+  }
+  &--vertical &__track {
+    width: var(--mp-slider-control-height);
+    height: 100%;
+    min-height: 0;
+    touch-action: pan-x;
+  }
+  &--vertical &__rail,
+  &--vertical &__fill {
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--mp-slider-track-height);
+  }
+  &--vertical &__rail {
+    height: 100%;
+    bottom: 0;
+  }
+  &--vertical &__thumb {
+    top: auto;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    touch-action: pan-x;
+  }
+  &--vertical &__tooltip {
+    left: calc(100% + var(--mp-slider-gap));
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+  &--vertical &__tick {
+    top: auto;
+    left: 50%;
+    transform: translate(-50%, 50%);
+  }
+  &--vertical &__mark {
+    top: auto;
+    left: calc(50% + var(--mp-internal-slider-mark-offset));
+    transform: translateY(50%);
+  }
+  &--vertical&--marks {
+    padding-bottom: 0;
+    padding-inline-end: var(--mp-slider-control-height);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-slider__handle {
+    transition: none;
+  }
+}

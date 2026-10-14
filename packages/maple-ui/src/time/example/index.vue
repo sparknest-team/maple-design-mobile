@@ -29,6 +29,7 @@ import EnReadonlyDemo from './demos/en-US/readonly.vue'
 import EnSelectionEventsDemo from './demos/en-US/selection-events.vue'
 import EnShowSecondDemo from './demos/en-US/show-second.vue'
 import EnStepDemo from './demos/en-US/step.vue'
+import EnTextEntryDemo from './demos/en-US/text-entry.vue'
 import EnWheelLimitsDemo from './demos/en-US/wheel-limits.vue'
 import EnWithFormItemDemo from './demos/en-US/with-form-item.vue'
 import FieldAppearanceDemo from './demos/field-appearance.vue'
@@ -47,6 +48,7 @@ import ReadonlyDemo from './demos/readonly.vue'
 import SelectionEventsDemo from './demos/selection-events.vue'
 import ShowSecondDemo from './demos/show-second.vue'
 import StepDemo from './demos/step.vue'
+import TextEntryDemo from './demos/text-entry.vue'
 import WheelLimitsDemo from './demos/wheel-limits.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 
@@ -60,6 +62,11 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="text-entry">
+    <app-type>{{ english ? 'Text entry' : '手输与面板选择' }}</app-type>
+    <EnTextEntryDemo v-if="english" />
+    <TextEntryDemo v-else />
+  </section>
   <section data-demo="field-appearance">
     <app-type>{{ english ? 'Field appearance' : '字段外壳与错误状态' }}</app-type>
     <EnFieldAppearanceDemo v-if="english" />

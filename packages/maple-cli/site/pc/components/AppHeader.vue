@@ -2,28 +2,28 @@
   <div class="maple-site-header">
     <div class="maple-site-header__lead">
       <img class="maple-site-header__logo" :src="siteLogo" @click="backRoot" />
-      <div class="maple-site-header__title" v-if="title" @click="backRoot">{{ title }}</div>
+      <div v-if="title" class="maple-site-header__title" @click="backRoot">{{ title }}</div>
     </div>
 
     <div class="maple-site-header__tail">
       <div
+        v-if="isShowVersion"
         class="maple-site-header__versions"
         @mouseenter="isOpenVersionsMenu = true"
         @mouseleave="isOpenVersionsMenu = false"
-        v-if="isShowVersion"
       >
         <span style="font-size: 16px">{{ currentVersion }}</span>
         <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
-            class="maple-site-header__animation-list maple-site-header__animation-versions mp-elevation--5"
             v-show="isOpenVersionsMenu"
+            class="maple-site-header__animation-list maple-site-header__animation-versions mp-elevation--5"
             :style="{ pointerEvents: isOpenVersionsMenu ? 'auto' : 'none' }"
           >
             <mp-cell
               v-for="(i, key) in versionItems"
-              v-ripple
               :key="key"
+              v-ripple
               :class="{ 'maple-site-header__animation-list--active': currentVersion === i.label }"
               @click="open(i.link)"
             >
@@ -34,49 +34,49 @@
       </div>
 
       <a
+        v-if="ai"
+        v-ripple
         class="maple-site-header__link"
         style="width: auto; border-radius: 3px; padding: 0 12px; height: 40px"
         target="_blank"
         :href="ai"
-        v-ripple
-        v-if="ai"
       >
         <span>AI Agent</span>
       </a>
       <a
+        v-if="changelog"
+        v-ripple
         class="maple-site-header__link"
         style="margin-right: 8px"
         target="_blank"
         :href="changelog"
-        v-ripple
-        v-if="changelog"
       >
         <mp-icon :size="28"><MIconHistory /></mp-icon>
       </a>
-      <a class="maple-site-header__link" target="_blank" :href="playground" v-ripple v-if="playground">
+      <a v-if="playground" v-ripple class="maple-site-header__link" target="_blank" :href="playground">
         <mp-icon :size="24"><MIconCodeJson /></mp-icon>
       </a>
-      <a class="maple-site-header__link" target="_blank" :href="github" v-ripple v-if="github">
+      <a v-if="github" v-ripple class="maple-site-header__link" target="_blank" :href="github">
         <mp-icon :size="28"><MIconGithub /></mp-icon>
       </a>
       <div
+        v-if="themes.length > 1"
         class="maple-site-header__theme"
         @mouseenter="isOpenThemeMenu = true"
         @mouseleave="isOpenThemeMenu = false"
-        v-if="themes.length > 1"
       >
         <mp-icon :size="28"><MIconPaletteFill /></mp-icon>
         <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
-            class="maple-site-header__animation-list mp-elevation--5"
             v-show="isOpenThemeMenu"
+            class="maple-site-header__animation-list mp-elevation--5"
             :style="{ pointerEvents: isOpenThemeMenu ? 'auto' : 'none' }"
           >
             <mp-cell
               v-for="t in themes"
-              v-ripple
               :key="t.value"
+              v-ripple
               :class="{ 'maple-site-header__animation-list--active': currentTheme === t.value }"
               @click="() => toggleTheme(t.value as Theme)"
               >{{ t[language as keyof typeof t] }}
@@ -89,8 +89,8 @@
         class="maple-site-header__language"
         :aria-label="language === 'en-US' ? 'Language' : '语言'"
         :value="language"
-        @change="handleLanguageChange(($event.target as HTMLSelectElement).value)"
         style="color: inherit; background: transparent; border: 0; font: inherit; cursor: pointer"
+        @change="handleLanguageChange(($event.target as HTMLSelectElement).value)"
       >
         <option v-for="(value, key) in nonEmptyLanguages" :key="key" :value="key">{{ value }}</option>
       </select>
@@ -108,14 +108,13 @@ import {
   IconGithub as MIconGithub,
   IconHistory as MIconHistory,
   IconPaletteFill as MIconPaletteFill,
-  IconTranslate as MIconTranslate,
 } from '@maplejs/icons-vue'
 import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maplejs/maple-cli/client'
 import { useRouter } from 'vue-router'
 import { removeEmpty, resolveSiteAsset } from '../../utils'
 
 export default defineComponent({
-  components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill, MIconTranslate },
+  components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill },
   name: 'AppHeader',
   props: {
     language: {
@@ -249,12 +248,6 @@ export default defineComponent({
     align-items: center;
   }
 
-  @media screen and (max-width: 562px) {
-    &__tail {
-      display: none;
-    }
-  }
-
   &__versions {
     border-radius: 3px;
     height: 40px;
@@ -375,6 +368,16 @@ export default defineComponent({
 
   &__animation-versions {
     left: -7px;
+  }
+
+  @media screen and (max-width: 562px) {
+    padding: 0 16px;
+
+    &__versions,
+    &__link,
+    &__theme {
+      display: none;
+    }
   }
 }
 </style>

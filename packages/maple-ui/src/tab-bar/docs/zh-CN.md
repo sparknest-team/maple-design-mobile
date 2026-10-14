@@ -96,7 +96,7 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 | `fixed`          | 是否固定在底部         | _boolean_ | `false` |
 | `border`         | 是否显示外边框         | _boolean_ | `false` |
 | `safe-area`       | 是否开启底部安全区适配 | _boolean_ | `false` |
-| `z-index`        | 元素 z-index      | _number \| string_ | `1` |
+| `z-index`        | 元素 z-index；显式传入时优先于 CSS 变量 | _number \| string_ | `undefined`（CSS 默认 `1`） |
 | `active-color`   | 选中标签的颜色         | _string_ | `-` |
 | `inactive-color` | 未选中标签的颜色        | _string_ | `-` |
 | `placeholder`  ***3.2.11***   | 是否在底部生成相同高度的占位元素(需设置 `fixed`)  | _boolean_ | `false` |
@@ -150,6 +150,8 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
 
 #### TabBar Variables
+
+未传 `z-index` 时消费 `--mp-tab-bar-z-index`，因此局部主题覆盖可以生效；显式数值或 CSS 字符串属性优先。默认视觉层级仍为 `1`，但属性默认值不再固定为 `1`。
 
 | 变量名 | 默认值 |
 | --- | --- |

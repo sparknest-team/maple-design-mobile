@@ -9,6 +9,13 @@ export default defineConfig({
   },
   overrides: [
     {
+      // Repository utility tests use Node's built-in runner, not component Vitest.
+      files: ['scripts/quality/*.test.mjs'],
+      rules: {
+        'vitest/no-import-node-test': 'off',
+      },
+    },
+    {
       files: ['packages/maple-ui/src/*/example/**/*.vue'],
       rules: {
         'no-undef': 'error',

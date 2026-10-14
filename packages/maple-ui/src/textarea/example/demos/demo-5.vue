@@ -9,6 +9,7 @@ const limitedValue = ref('')
     v-model="limitedValue"
     clearable
     :max-length="100"
+    show-word-limit
     placeholder="最多输入 100 个字符"
     resize
     :rows="4"

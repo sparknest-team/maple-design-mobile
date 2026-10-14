@@ -9,6 +9,22 @@ import zhHK from './zh-HK'
 import zhTW from './zh-TW'
 
 export type Message = {
+  'carousel.label': string
+  'carousel.previous': string
+  'carousel.next': string
+  'carousel.slide': string
+  'carousel.goto': string
+  'upload.buttonText': string
+  'upload.drag': string
+  'upload.preview': string
+  'upload.download': string
+  'upload.cancel': string
+  'upload.retry': string
+  'upload.delete': string
+  'upload.close': string
+  'search.history': string
+  'search.search': string
+  'search.cancel': string
   // Dialog
   dialogTitle: string
   dialogConfirmButtonText: string
@@ -32,6 +48,7 @@ export type Message = {
   datePickerMonthDict: Record<Month, { name: string; abbr: string }>
   datePickerWeekDict: Record<Week, { name: string; abbr: string }>
   datePickerSelected: string
+  datePickerNowButtonText: string
   datePickerHint: string
   datePickerColumnYear: string
   datePickerColumnMonth: string

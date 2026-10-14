@@ -40,7 +40,7 @@ API、组件结构、事件参数、受控状态、生命周期与键盘模型�
 | 溢出箭头 auto | 精细指针显示 | 触摸隐藏，鼠标仍显示 | 依据实际 pointer，不依据 UA 或屏幕宽度 |
 | hover | 有鼠标时支持 | 连接鼠标时同样支持 | 不删减移动端 API |
 | swipeable | 显式启用可用 | 显式启用可用 | 默认一致，避免平台隐式差异 |
-| 全局设置 | ConfigProvider size/rtl | Maple 默认设置与外部 dir | platform.ts 适配库内上下文 |
+| 全局设置 | ConfigProvider size/rtl | Maple 默认设置与外部 dir | 职责明确的 use-tabs-configuration.ts 读取各自配置 |
 
 视觉变体用途：line 用于常规分区；card 用于工作区页签；outline 用于独立描边标签；plain 用于轻量文字导航；capsule 为圆角分段；enclosed 为矩形分组。移动端支持所有变体，不用 API 限制业务选择。
 
@@ -57,7 +57,7 @@ API、组件结构、事件参数、受控状态、生命周期与键盘模型�
 
 ## 同源边界
 
-两端 props.ts、context.ts、五个 SFC、共享行为测试逐字一致；Less 除命名空间外一致。允许差异仅：platform.ts、index.ts 导入与注册、token.less 默认值、平台文档及主题映射。质量脚本 checks/tabs-same-source.mjs 校验这些边界，并比较运行时导出名称与 token 后缀。新增公共能力必须同步两端。
+两端 props.ts、context.ts、六个 SFC、共享行为测试逐字一致；Less 除命名空间外一致。允许差异仅：use-tabs-configuration.ts、index.ts 导入与注册、token.less 默认值、平台文档及主题映射。质量脚本 design-ui/bin/tabs-core-check.mjs 校验这些边界，并比较运行时导出名称与 token 后缀。新增公共能力必须同步两端。
 
 ## 使用边界
 
@@ -68,3 +68,9 @@ Tabs 适合页内内容分区。应用底部主导航使用 TabBar；粘性导�
 ## 内部样式 API 补充
 
 Tabs 提供 item-class / item-style（内容内层）、item-wrapper-class / item-wrapper-style（每页面板外层）、tab-class / tab-style（导航标签外层）。两端定义、挂载位置与合并规则一致，间距通过样式属性或 token 定制。Tabs 现在为 25 项 Props。
+
+## 独立同源与公开类型
+
+两端独立维护 Tabs、TabPane、TabsNavs、TabNav、TabsItems、TabItem 六件套，不跨库引用运行时，也不使用通用平台配置。size 的 xs/sm/md/lg/xl 五档均已实现。Cedar 继承 ConfigProvider 的 size/rtl；Maple 默认 md，支持 setPropsDefaults、显式 size 与 DOM dir。面板通过原生 hidden 显隐，InfiniteScroll 直接观察可见性，不再依赖旧面板注册。
+
+公开类型包括 TabsEmits、TabsSlots、TabPaneSlots、TabsNavsSlots、TabNavSlots、TabsItemsSlots、TabItemSlots、TabsNavsExpose。自有实例方法仅 TabsNavs.resize()；其余成员没有自有命令式方法或通知事件，选择及编辑事件归属 Tabs。

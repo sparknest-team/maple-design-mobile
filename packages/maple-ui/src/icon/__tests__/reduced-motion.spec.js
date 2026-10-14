@@ -5,7 +5,8 @@ import Icon from '..'
 
 test.each([false, true])('Icon respects live reduced motion, initially %s', async (initial) => {
   vi.useFakeTimers()
-  const original = window.matchMedia
+  const view = document.defaultView
+  const original = view.matchMedia
   let listener
   const remove = vi.fn()
   const media = {
@@ -15,7 +16,7 @@ test.each([false, true])('Icon respects live reduced motion, initially %s', asyn
     }),
     removeEventListener: remove,
   }
-  window.matchMedia = vi.fn(() => media)
+  view.matchMedia = vi.fn(() => media)
   let wrapper
   try {
     wrapper = mount(Icon, {
@@ -52,7 +53,7 @@ test.each([false, true])('Icon respects live reduced motion, initially %s', asyn
     expect(vi.getTimerCount()).toBe(baselineTimers)
   } finally {
     wrapper?.unmount()
-    window.matchMedia = original
+    view.matchMedia = original
     vi.useRealTimers()
   }
 })

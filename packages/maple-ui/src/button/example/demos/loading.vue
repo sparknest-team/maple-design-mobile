@@ -43,7 +43,6 @@ const variant = ref<(typeof variants)[number]>('default')
         :loading-size="size"
         :loading-mode="mode"
         :variant="variant"
-        status="primary"
         >{{ type }}</mp-button
       >
     </div>

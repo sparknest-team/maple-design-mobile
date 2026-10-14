@@ -2,6 +2,7 @@ import { onMounted, onUnmounted } from 'vue'
 import config from '@config'
 import { StyleProvider, Themes } from '@maplejs/maple-ui'
 import AppType from './appType'
+import { resolveDemoLanguage } from './language'
 
 interface PCLocationInfo {
   language: string
@@ -84,10 +85,9 @@ export function persistTheme(theme: Theme, scope: ThemeScope = 'site') {
   window.localStorage.setItem(getThemeStorageKey(scope), theme)
 }
 
-export function watchLang(cb: (lang: string) => void, platform: 'pc' | 'mobile' = 'mobile') {
+export function watchLang(cb: (lang: string) => void, platform?: 'pc' | 'mobile') {
   const handleHashchange = () => {
-    const language = platform === 'mobile' ? (getHashSearch().get('language') ?? 'zh-CN') : getPCLocationInfo().language
-    cb(language)
+    cb(resolveDemoLanguage(window.location.hash, platform))
   }
 
   useRouteListener(handleHashchange)

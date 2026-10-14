@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
 import { watchLang } from '@maplejs/maple-cli/client'
 import type { InfiniteScrollStatus } from '@maplejs/maple-ui'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')
+let timer: ReturnType<typeof setTimeout> | undefined
 const items = ref<number[]>([])
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -14,13 +15,23 @@ watchLang((value) => {
 })
 
 function load() {
-  setTimeout(() => {
+  clearTimeout(timer)
+  timer = setTimeout(() => {
+    timer = undefined
     for (let index = 0; index < 12; index++) {
       items.value.push(items.value.length + 1)
     }
     status.value = items.value.length >= 60 ? 'finished' : 'idle'
   }, 500)
 }
+onBeforeUnmount(() => clearTimeout(timer))
+onDeactivated(() => {
+  clearTimeout(timer)
+  timer = undefined
+  if (status.value === 'loading') {
+    status.value = 'idle'
+  }
+})
 </script>
 
 <template>
@@ -35,6 +46,6 @@ function load() {
 .infinite-scroll-demo {
   height: 280px;
   overflow-y: auto;
-  background: #fcfcfc;
+  background: var(--mp-color-bg-1);
 }
 </style>

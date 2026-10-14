@@ -6,6 +6,9 @@
     :range="range"
     :root-class="rootClass"
     :state="state"
+    @update:picker-value="emit('update:pickerValue', $event)"
+    @picker-value-change="(value, dates, texts) => emit('picker-value-change', value, dates, texts)"
+    @select-shortcut="emit('select-shortcut', $event)"
   >
     <template v-for="(_, name) in $slots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
   </DateFieldContent>
@@ -17,16 +20,12 @@ import { useFieldFocus } from '../_components/picker-field/use-field-focus'
 import { useFieldOpen } from '../_components/picker-field/use-field-open'
 import { useFieldValue } from '../_components/picker-field/use-field-value'
 import { createNamespace } from '../utils/components'
-import {
-  dateDisplayFormat,
-  dateEventPayload,
-  formatDateValue,
-  outputDateValue,
-  parseDateValue,
-  type DateSelection,
-} from './date-value'
+import { scopeDateOptions } from './date-locale'
+import { dateEventPayload, formatDateValue, outputDateValue, parseDateText, type DateSelection } from './date-value'
+import { dateFieldPanelOptions } from './field-panel-options'
 import type { DateFieldControlProps, DateFieldProps, DateFieldState } from './field-state'
 import DateFieldContent from './presentation/DateFieldContent.vue'
+import { useDateLocale } from './presentation/use-date-locale'
 import { useDateFieldForm } from './presentation/use-field-form'
 import { useDateFieldLocale } from './presentation/use-field-locale'
 import { useDateSelection } from './use-date-selection'
@@ -40,6 +39,9 @@ const props = defineProps({
 const emit = defineEmits([
   'update:modelValue',
   'update:open',
+  'update:pickerValue',
+  'picker-value-change',
+  'select-shortcut',
   'change',
   'select',
   'clear',
@@ -48,25 +50,33 @@ const emit = defineEmits([
   'focus',
   'blur',
 ])
+const language = useDateLocale()
+const fieldProps = computed(() =>
+  scopeDateOptions(
+    props.fieldProps,
+    language.value,
+    dateFieldPanelOptions(props.fieldProps, props.range).dayStartOfWeek ?? 0,
+  ),
+)
 const content = ref<InstanceType<typeof DateFieldContent>>()
 provideRangeField()
 const model = useFieldValue<DateSelection>({
-  value: () => props.fieldProps.modelValue,
-  defaultValue: () => props.fieldProps.defaultValue,
+  value: () => fieldProps.value.modelValue,
+  defaultValue: () => fieldProps.value.defaultValue,
 })
-const form = useDateFieldForm(() => props.fieldProps)
+const form = useDateFieldForm(() => fieldProps.value)
 const locale = useDateFieldLocale()
 const disabledParts = computed(() =>
   [0, 1].map(
     (index) =>
-      form.disabled.value || Boolean(Array.isArray(props.fieldProps.disabled) && props.fieldProps.disabled[index]),
+      form.disabled.value || Boolean(Array.isArray(fieldProps.value.disabled) && fieldProps.value.disabled[index]),
   ),
 )
 const disabled = computed(() => (props.range ? disabledParts.value.every(Boolean) : form.disabled.value))
 const blocked = computed(() => disabled.value || form.readonly.value)
 const open = useFieldOpen({
-  value: () => props.fieldProps.open,
-  defaultValue: () => props.fieldProps.defaultOpen,
+  value: () => fieldProps.value.open,
+  defaultValue: () => fieldProps.value.defaultOpen,
   blocked: () => blocked.value,
   onChange: (value) => {
     emit('update:open', value)
@@ -75,18 +85,18 @@ const open = useFieldOpen({
 })
 const selection = useDateSelection({
   value: () => model.value.value,
-  rules: () => props.fieldProps,
+  rules: () => fieldProps.value,
   range: () => props.range,
-  multiple: () => 'multiple' in props.fieldProps && Boolean(props.fieldProps.multiple),
+  multiple: () => 'multiple' in fieldProps.value && Boolean(fieldProps.value.multiple),
   disabledParts: () => (props.range ? disabledParts.value : []),
   blocked: () => blocked.value,
   onSelect: (value) => {
-    const payload = dateEventPayload(value, props.fieldProps)
+    const payload = dateEventPayload(value, fieldProps.value)
     emit('select', value, payload.dates, payload.texts)
   },
   onCommit: (value) => {
     model.setValue(value)
-    const payload = dateEventPayload(value, props.fieldProps)
+    const payload = dateEventPayload(value, fieldProps.value)
     emit('update:modelValue', value)
     emit('change', value, payload.dates, payload.texts)
     form.events.value?.onChange?.()
@@ -108,7 +118,7 @@ const focus = useFieldFocus({
   },
 })
 const controlProps = computed<DateFieldControlProps>(() => {
-  const options = props.fieldProps
+  const options = fieldProps.value
   const value = model.value.value
   const values = Array.isArray(value) ? value : [value]
   const placeholder = options.placeholder ?? locale.placeholder(props.range, options.type)
@@ -119,6 +129,10 @@ const controlProps = computed<DateFieldControlProps>(() => {
       : [placeholder]
   return {
     kind: 'date',
+    editable:
+      options.inputEditable !== false &&
+      typeof options.format !== 'function' &&
+      !('multiple' in options && options.multiple),
     range: props.range,
     texts:
       'multiple' in options && options.multiple
@@ -158,7 +172,7 @@ const state: DateFieldState = {
   focus: focus.handleFocus,
   blur: focus.handleBlur,
   clear: () => {
-    if (!props.fieldProps.clearable || !selection.clear()) {
+    if (!fieldProps.value.clearable || !selection.clear()) {
       return false
     }
     emit('clear')
@@ -178,8 +192,8 @@ const state: DateFieldState = {
   },
   commitText: (texts) => {
     const values = texts.map((text) => {
-      const date = parseDateValue(text, { ...props.fieldProps, valueFormat: dateDisplayFormat(props.fieldProps) })
-      return date && outputDateValue(date.toDate(), props.fieldProps)
+      const date = parseDateText(text, fieldProps.value)
+      return date && outputDateValue(date.toDate(), fieldProps.value)
     })
     if (values.some((value) => value === undefined)) {
       return

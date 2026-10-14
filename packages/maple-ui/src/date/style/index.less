@@ -1,3 +1,41 @@
+@import './token.less';
+@import './token.less';
 // Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
 @import './date';
 @import './date-picker';
+
+.mp-date-panel__layout {
+  display: flex;
+  width: 100%;
+  gap: var(--mp-sys-space-2);
+  align-items: flex-start;
+  &--bottom {
+    flex-direction: column;
+    > .mp-date-shortcuts {
+      order: 1;
+    }
+  }
+  &--right > .mp-date-shortcuts {
+    order: 1;
+  }
+}
+.mp-date-panel__main {
+  min-width: 0;
+  flex: 1;
+}
+.mp-date-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mp-sys-space-2);
+  &--left,
+  &--right {
+    flex-direction: column;
+  }
+}
+
+.mp-date-panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--mp-sys-space-2);
+}

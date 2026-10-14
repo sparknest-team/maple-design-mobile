@@ -1,5 +1,5 @@
 <template>
-  <form :class="n()" @submit="handleSubmit" @reset="handleReset">
+  <form :id="id" :class="n()" @submit="handleSubmit" @reset="handleReset">
     <slot />
   </form>
 </template>
@@ -13,6 +13,7 @@ import { linear } from '../utils/shared'
 import { createFormController, type FormFieldController, type FormValidateErrors } from './form-controller'
 import { props } from './props'
 import { provideForm, type FormProvider } from './provide'
+import { useFormLabelWidths } from './use-form-label-width'
 
 const { name, n } = createNamespace('form')
 
@@ -21,12 +22,15 @@ export default defineComponent({
   props,
   emits: ['submit', 'submit-success', 'submit-failed', 'reset'],
   setup(props, { emit }) {
+    const id = computed(() => props.id)
     const disabled = computed(() => props.disabled)
     const readonly = computed(() => props.readonly)
     const size = computed(() => props.size)
     const rules = computed(() => props.rules)
     const model = computed(() => props.model)
     const layout = computed(() => props.layout)
+    const labelWidths = useFormLabelWidths()
+    const layoutOptions = computed(() => ({ ...props, maxLabelWidth: labelWidths.maxLabelWidth.value }))
     let pendingScroll: ReturnType<typeof setTimeout> | undefined
     const cancelScroll = () => clearTimeout(pendingScroll)
     onBeforeUnmount(cancelScroll)
@@ -69,12 +73,16 @@ export default defineComponent({
 
     const controller = createFormController({ onInvalid: scrollToInvalid })
     const formProvider: FormProvider = {
+      id,
       disabled,
       readonly,
       size,
       rules,
       model,
       layout,
+      layoutOptions,
+      setLabelWidth: labelWidths.setLabelWidth,
+      removeLabelWidth: labelWidths.removeLabelWidth,
       registerField: controller.registerField,
     }
     provideForm(formProvider)

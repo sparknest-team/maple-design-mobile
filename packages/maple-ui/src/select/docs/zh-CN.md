@@ -1,5 +1,7 @@
 # 选择框
 
+活动选项nextTick滚动只等渲染，不等CSS动画完成。关闭／重开、新导航、停用、卸载使旧任务失效；回调只消费一次，空列表也不重放。保留选择／键盘／滚动入口在停用／卸载后无效，激活允许新命令；晚登记下拉仍支持。虚拟回调后再核对状态才写DOM。两端专项各14、共享消费者Cedar93／Maple96回归通过，受控队列不算浏览器／OS或完整下游认证；API与CSS变量不变。
+
 ### 异步设备与 ID 回显
 
 ```demo
@@ -90,6 +92,12 @@
 ### 展示与提交规则
 
 Menu 即选即提交。List 单选即选即提交，多选编辑草稿；Picker 单选、多选都编辑草稿。确认只提交一次；取消、遮罩关闭、Escape、切换展示方式都丢弃草稿。外部更新 modelValue 优先于草稿。Cedar 仅支持 Menu；Maple 在独立复制的控制器与 Menu 上增加 List、Picker 扩展，不共享运行时或实例。
+
+### 交互调度生命周期
+
+```demo
+../example/demos/scheduler-lifecycle.vue
+```
 
 ## API
 
@@ -188,3 +196,7 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | `--mp-select-popup-option-icon-margin-right` | `var(--mp-sys-space-4)` |
 
 单选和多选选项统一使用 popup-option-padding-horizontal。组件没有隐式搜索高亮 DOM；自定义选项插槽负责其高亮片段样式。已删除无效的 multi-popup-option-padding-horizontal 与 popup-option-highlight-* 变量。
+
+### 字段与移动展示的样式边界
+
+同源字段外壳的 Token 声明与 Cedar 保持一致。移动展示专属变量放在独立的 `src/_components/selection-field/presentation/style/token.less`，随本地 presentation 样式加载，不混入公共字段声明。名称与默认值不变：`--mp-selection-presentation-max-height` 为 `65vh`、`--mp-selection-presentation-bg` 为 `var(--mp-sys-color-surface-overlay)`、`--mp-selection-presentation-padding` 为 `var(--mp-sys-space-5)`；不向 Cedar 添加移动展示能力。

@@ -37,20 +37,8 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-  ref,
-  watch,
-  type ComputedRef,
-  type PropType,
-  type Ref,
-  type RendererNode,
-  type UnwrapRef,
-} from 'vue'
+import { computed, defineComponent, ref, type ComputedRef, type PropType, type Ref, type RendererNode } from 'vue'
 import { toNumber } from '@maplejs/maple-shared'
-import { onSmartMounted } from '@maplejs/maple-use'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
 import isSameOrBefore from 'dayjs/esm/plugin/isSameOrBefore/index.js'
@@ -107,14 +95,9 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const [currentYear, currentMonth, currentDay] = props.current.split('-')
-    const days: Ref<Array<number>> = ref([])
     const reverse: Ref<boolean> = ref(false)
     const panelKey: Ref<number> = ref(0)
     const headerEl: Ref<RendererNode | null> = ref(null)
-    const panelBtnDisabled: UnwrapRef<PanelBtnDisabled> = reactive({
-      left: false,
-      right: false,
-    })
 
     const { t: pt } = injectLocaleProvider()
 
@@ -129,7 +112,7 @@ export default defineComponent({
     )
 
     const sortWeekList: ComputedRef<Array<Week>> = computed(() => {
-      const index = WEEK_HEADER.findIndex((week: Week) => week === props.componentProps.firstDayOfWeek)
+      const index = WEEK_HEADER.findIndex((week: Week) => week === String(props.componentProps.dayStartOfWeek))
 
       if (index === -1 || index === 0) {
         return WEEK_HEADER
@@ -142,7 +125,7 @@ export default defineComponent({
 
     const filterDay = (day: number): number | string => (day > 0 ? day : '')
 
-    const initDate = () => {
+    const days = computed(() => {
       const {
         preview: { previewMonth, previewYear },
       }: { preview: Preview } = props
@@ -150,25 +133,17 @@ export default defineComponent({
       const monthNum = calendarMonthDays(Number(previewYear), Number(previewMonth))
       const firstDayToWeek = dayjs(`${previewYear}-${previewMonth}-01`).day()
       const index = sortWeekList.value.findIndex((week: Week) => week === `${firstDayToWeek}`)
-      days.value = [...Array(index).fill(-1), ...Array.from(Array(monthNum + 1).keys())].filter((value) => value)
-    }
+      return [...Array(index).fill(-1), ...Array.from(Array(monthNum + 1).keys())].filter((value) => value)
+    })
 
-    const initHeader = () => {
-      const {
-        preview: { previewYear, previewMonth },
-        componentProps: { max, min },
-      }: { preview: Preview; componentProps: ComponentProps } = props
-
-      if (max) {
-        const date = `${previewYear}-${toNumber(previewMonth) + 1}`
-        panelBtnDisabled.right = !dayjs(date).isSameOrBefore(dayjs(max), 'month')
+    const panelBtnDisabled = computed<PanelBtnDisabled>(() => {
+      const { previewYear, previewMonth } = props.preview
+      const { max, min } = props.componentProps
+      return {
+        right: !!max && !dayjs(`${previewYear}-${toNumber(previewMonth) + 1}`).isSameOrBefore(dayjs(max), 'month'),
+        left: !!min && !dayjs(`${previewYear}-${toNumber(previewMonth) - 1}`).isSameOrAfter(dayjs(min), 'month'),
       }
-
-      if (min) {
-        const date = `${previewYear}-${toNumber(previewMonth) - 1}`
-        panelBtnDisabled.left = !dayjs(date).isSameOrAfter(dayjs(min), 'month')
-      }
-    }
+    })
 
     const inRange = (day: number) => {
       const {
@@ -329,21 +304,6 @@ export default defineComponent({
     const forwardRef = (checkType: string) => {
       headerEl.value!.checkDate(checkType)
     }
-
-    onSmartMounted(() => {
-      initDate()
-      initHeader()
-    })
-
-    watch(
-      () => props.preview,
-      () => {
-        initDate()
-        initHeader()
-      },
-    )
-
-    watch(() => [props.componentProps.max, props.componentProps.min], initHeader)
 
     return {
       n,

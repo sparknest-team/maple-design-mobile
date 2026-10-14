@@ -1,51 +1,61 @@
-<script setup>
-import { computed, reactive, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { SearchResult } from '@maplejs/maple-ui'
 
-const modelField = ref('name')
-const model = reactive({})
-const fields = computed(() => [
-  {
-    value: 'id',
-    label: '设备ID',
-    placeholder: '请输入ID',
-  },
-  {
-    value: 'name',
-    label: '设备名称',
-    placeholder: '请输入名称',
-  },
-  {
-    value: 'desc',
-    label: '设备描述',
-    placeholder: '请输入描述',
-  },
-])
-function handleSearch(result) {
-  console.log('search', result)
+const field = ref('name')
+const model = ref<Record<string, unknown>>({ name: '设备 A', tenant: 'demo' })
+const accepted = ref(true)
+const history = ref(['设备 A', '42'])
+const result = ref<SearchResult>()
+const fields = [
+  { value: 'name', label: '设备名称', placeholder: '输入名称' },
+  { value: 'id', label: '设备 ID', placeholder: '输入 ID' },
+]
+function updateModel(proposal: Record<string, unknown>) {
+  if (accepted.value) {
+    model.value = proposal
+  }
 }
-function handleChange(value) {
-  console.log('change', value, model)
+function updateField(proposal: string) {
+  if (accepted.value) {
+    field.value = proposal
+  }
 }
-function reset() {
-  Object.keys(model).forEach((key) => {
-    delete model[key]
-  })
+function search(next: SearchResult) {
+  result.value = next
+  history.value = next.recentSearches
 }
 </script>
-
 <template>
-  <mp-space direction="column" :size="['3vmin', 0]">
+  <div class="search-demo">
+    <label><input v-model="accepted" type="checkbox" />接受模型更新（取消后演示受控拒绝）</label>
     <mp-search
-      v-model:model-field="modelField"
       :model="model"
+      :model-field="field"
       :fields="fields"
-      :select-style="{ minWidth: '28vmin' }"
-      show-action
-      action-type="search"
-      action-text="搜索"
-      @change="handleChange"
-      @search="handleSearch"
+      :recent-searches="history"
+      :history-popup="false"
+      search-button
+      button-text="搜索"
+      clearable
+      @update:model="updateModel"
+      @update:model-field="updateField"
+      @search="search"
     />
-    <mp-button variant="text" @click="reset">重置</mp-button>
-  </mp-space>
+    <mp-button variant="text" @click="model = { name: '外部替换', tenant: 'demo' }">外部替换模型</mp-button>
+    <div>已接受模型：{{ model }}</div>
+    <pre v-if="result">{{ JSON.stringify(result, null, 2) }}</pre>
+  </div>
 </template>
+<style scoped>
+.search-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 100%;
+}
+.search-demo pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+</style>

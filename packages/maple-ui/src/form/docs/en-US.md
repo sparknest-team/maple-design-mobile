@@ -24,7 +24,7 @@ Use the Form instance to reset fields, clear validation, validate, and toggle di
 
 ### Form Events
 
-Handle native form submission and reset behavior with the `submit` and `reset` events.
+Use Button's `html-type="submit"` / `html-type="reset"` to trigger native form events. The demo displays validation results and current model values; reset restores the initial values and clears errors.
 
 ```demo
 ../example/demos/en-US/events.vue
@@ -38,6 +38,26 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 ../example/demos/en-US/clear-trigger.vue
 ```
 
+### Responsive label columns
+
+Horizontal layouts default to 5/24 label and 19/24 control columns. Cedar defaults to horizontal; Maple defaults to vertical. Only horizontal uses column proportions and auto width. Responsive options use viewport breakpoints. FormItem overrides Form; Col/style objects replace inherited objects. label-col-flex overrides auto-label-width: unit strings set width, numbers are Col grow ratios, not pixels. The control fills the remainder. Hidden labels leave full-width controls. Automatic width updates on label changes/removal and stays isolated per form. Use vertical or a fixed width for long labels on narrow screens.
+
+```demo
+../example/demos/en-US/label-columns.vue
+```
+
+### Fixed label width
+
+```demo
+../example/demos/en-US/fixed-label-width.vue
+```
+
+### Automatic label width
+
+```demo
+../example/demos/en-US/auto-label-width.vue
+```
+
 ## API
 
 ### Props
@@ -46,8 +66,16 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
+| `id` | Native form id; an explicit value prefixes normalized field container ids | _string_ | `-` |
 | `model` | The form data object, `FormItem` reads and writes to it using `field` | _Record<string, any>_ | `-` |
 | `layout` | Form item layout: `vertical`, `horizontal`, or `inline`; can be overridden by `FormItem.layout` | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'` |
+| `label-align` | Label alignment | _'left' \| 'right'_ | `'right'` |
+| `label-col-props` | Horizontal label Col options, including breakpoints | _FormColProps_ | `{ span: 5, offset: 0 }` |
+| `wrapper-col-props` | Horizontal control Col options | _FormColProps_ | `{ span: 19, offset: 0 }` |
+| `label-col-style` | Per-instance label column style | _CSSProperties_ | `-` |
+| `wrapper-col-style` | Per-instance control column style | _CSSProperties_ | `-` |
+| `label-col-flex` | Label flex; unit strings set width, numbers are grow ratios | _number \| string_ | `-` |
+| `auto-label-width` | Align eligible horizontal labels to their maximum natural width | _boolean_ | `false` |
 | `size` | Form control size inherited by FormItem and controls | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
 | `rules` | Validation rules keyed by field name | _Record<string, rule \| rule[]>_ | `-` |
 | `readonly` | Whether controls are readonly | _boolean_ | `-` |
@@ -86,6 +114,20 @@ Handle native form submission and reset behavior with the `submit` and `reset` e
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Form content | `-` |
+
+### Label and content decoration
+
+```demo
+../example/demos/en-US/decoration.vue
+```
+
+### Presentation status
+
+Explicit validate-status overrides automatic presentation without changing validation results. Only error shows errors; other statuses show help. Automatic validation goes validating → success/error; clearValidate restores the unvalidated state. A message-only setFields sets error; empty status/message clears it.
+
+```demo
+../example/demos/en-US/presentation-status.vue
+```
 
 ## FormItem
 
@@ -132,6 +174,8 @@ Use `help` for guidance and `extra` for supplementary information.
 
 Custom controls use `FormItem.useFormItem` (or `Form.useFormItem`) to participate in validation.
 
+The demo uses a native button with checkbox semantics and Enter/Space activation. Read `mergedDisabled` / `mergedReadonly` to inherit Form and FormItem state. Omitted boolean settings stay `undefined`, avoiding accidental overrides. Notify `eventHandlers.onChange` after updating the model and forward focus/blur events.
+
 ```demo
 ../example/demos/en-US/custom-control.vue
 ```
@@ -144,7 +188,21 @@ Custom controls use `FormItem.useFormItem` (or `Form.useFormItem`) to participat
 | --- | --- | --- | --- |
 | `field` | Field path in `Form.model`, supports `a.b` | _string_ | `''` |
 | `label` | Label text; when set, renders outer label and disables floating hint | _string_ | `-` |
+| `tooltip` | Label hint (hover, keyboard focus or touch click) | _string_ | `-` |
+| `show-colon` | Append a colon to the label | _boolean_ | `false` |
+| `label-component` | Native label element name | _string_ | `'label'` |
+| `label-attrs` | Native label attributes; for targets the control's actual id | _HTMLAttributes & Record<string, unknown>_ | `-` |
+| `content-class` | Content container class | _string \| array \| object_ | `-` |
+| `content-flex` | Enable flex layout; disable for custom Grid | _boolean_ | `true` |
 | `layout` | Layout: `vertical`, `horizontal`, or `inline`; inherits `Form.layout` when omitted | _'vertical' \| 'horizontal' \| 'inline'_ | `-` |
+| `label-align` | Label alignment | _'left' \| 'right'_ | `-` |
+| `label-col-props` | Horizontal label Col options, including breakpoints | _FormColProps_ | `-` |
+| `wrapper-col-props` | Horizontal control Col options | _FormColProps_ | `-` |
+| `label-col-style` | Per-instance label column style | _CSSProperties_ | `-` |
+| `wrapper-col-style` | Per-instance control column style | _CSSProperties_ | `-` |
+| `label-col-flex` | Label flex; unit strings set width, numbers are grow ratios | _number \| string_ | `-` |
+| `row-props` | Form item Row options, including gutter, align, justify and wrap | _RowProps_ | `-` |
+| `row-class` | Layout container class | _string \| array \| object_ | `-` |
 | `required` | Required (asterisk + auto required rule) | _boolean_ | `false` |
 | `hide-label` | Hide label | _boolean_ | `false` |
 | `feedback` | Show input validation feedback, including pending async validation | _boolean_ | `false` |

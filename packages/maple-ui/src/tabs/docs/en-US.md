@@ -75,3 +75,9 @@ Switch the orientation and indicator position, or reverse the declaration order 
 ## Styling hooks
 
 Tabs exposes `item-class` / `item-style` for each content inner element, `item-wrapper-class` / `item-wrapper-style` for each tabpanel wrapper, and `tab-class` / `tab-style` for each navigation item wrapper. Classes merge with internal classes; styles accept Vue StyleValue. All six props update reactively. `body-padding` and `header-padding` are removed; customize content spacing through `item-style` and header spacing through TabsNavs style or CSS tokens.
+
+## Independent source and public types
+
+Both libraries contain their own copies of Tabs, TabPane, TabsNavs, TabNav, TabsItems and TabItem. There is no cross-library runtime or platform module. All five size presets are implemented. Cedar inherits ConfigProvider size/RTL; Maple defaults to md, supports setPropsDefaults, and uses explicit size/DOM dir. Panel visibility uses native hidden; InfiniteScroll observes that visibility directly.
+
+Public types include TabsEmits, TabsSlots, TabPaneSlots, TabsNavsSlots, TabNavSlots, TabsItemsSlots, TabItemSlots and TabsNavsExpose. The only component-specific exposed method is TabsNavs.resize(). Other members have no own imperative methods or events; selection/edit events belong to Tabs.

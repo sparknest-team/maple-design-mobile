@@ -1,5 +1,15 @@
 # TimeRange 时间范围
 
+滚轮与时钟面板的起止标题均为原生按钮，支持 Tab 聚焦、Enter/空格激活；`aria-pressed` 表示当前编辑端。切换编辑端不会提交草稿。秒级边界示例明确开启 `input-editable`，可同时验证文本与面板约束。
+
+### 手输与面板选择
+
+`input-editable` 默认为 `false`（Cedar 为 `true`）。开启后点击输入区手输，点击时钟按钮或按 ↓ 打开 picker/clock 面板。回车或失焦提交，Esc 撤销；格式、步长、边界和禁用规则与面板一致。无效输入或父级拒绝受控更新时回到模型值。切换为不可编辑、只读或禁用会丢弃未提交输入；输入法组合期间以及范围两端切换焦点时不提交。
+
+```demo
+../example/demos/text-entry.vue
+```
+
 ### 介绍
 
 表单时间范围**字段**，点击后底部弹出选择面板。交互与 `Time` 一致：取消丢弃草稿，确认后才写回 `v-model`。
@@ -49,6 +59,8 @@
 ../example/demos/next-day.vue
 ```
 
+此示例开启文本编辑并显示模型，保留 22:00→次日06:00 的端点顺序；清除为 `undefined`，可通过重置按钮恢复。`show-next-day` 表示时间顺序与标签，不将模型自动转换为下一日日期。
+
 ### 禁用
 
 ```demo
@@ -83,6 +95,8 @@
 ../example/demos/step.vue
 ```
 
+可切换十二小时面板，分钟/秒步长保持不变；显式 `HH:mm:ss` 仍决定模型格式，AM/PM 选择转换为对应的 24 小时值。
+
 `format` 与 Cedar 一致：用于字符串模型的解析、显示和提交格式。默认 `HH:mm:ss`；仅开启 `use12-hours` 时默认 `hh:mm:ss a`。不选秒使用 `HH:mm`，大写 AM/PM 使用 `hh:mm A`，固定文字使用 `[Time] HH:mm`。模型支持格式化字符串、按本地时间读取的 Date 和毫秒时间戳；输出始终为格式化字符串（范围为数组）。非法输入不自动纠正或回写。`min/max` 仍使用 24 小时 `HH:mm[:ss]` 字符串，禁用回调始终接收真实的 0–23 小时。Time 旧 `use-seconds` 和 format 枚举已删除，不保留别名。
 
 ### 模型类型与固定文字
@@ -98,6 +112,10 @@
 ```demo
 ../example/demos/default-state.vue
 ```
+
+示例可分别拒绝值更新与展开更新：拒绝时保留父级模型/显隐，提案单独显示；重新打开从父级模型恢复。关闭请求不代表父级已接受。
+
+父级拒绝关闭、面板保持展开时，没有新选择的重复确认不会重复提交；再次选择新时间会开启新事务，可重新确认提交。
 
 ### 选择与提交
 
@@ -198,6 +216,7 @@ Maple 的 pickerProps 可配置 optionHeight/optionCount 等外观，不可替�
 | `picker-props`            | 透传给 `mp-picker`（picker 模式）                                                                      | _Partial\<PickerProps\>_          | `{}`       |
 | `time-range-picker-props` | 透传给 `mp-time-range-picker`                                                                          | _Partial\<TimeRangePickerProps\>_ | `{}`       |
 | `popup-props`             | 透传给弹窗的属性                                                                                       | _Partial\<PopupProps\>_           | `{}`       |
+| `input-editable` | 是否允许手输；关闭后仍可面板选择 | _boolean_ | `false` |
 | `placeholder` | 起止占位符；字符串用于两端，数组分别设置 | _string \| string[]_ | `-` |
 | `clearable`               | 是否可清除                                                                                             | _boolean_                         | `false`    |
 | `disabled`                | 是否禁用                                                                                               | _boolean_                         | `false`    |

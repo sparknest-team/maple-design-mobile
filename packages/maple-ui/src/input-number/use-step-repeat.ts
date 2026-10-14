@@ -1,4 +1,4 @@
-import { onDeactivated, onScopeDispose } from 'vue'
+import { onActivated, onDeactivated, onScopeDispose } from 'vue'
 
 /** Each component instance owns its timer. No DOM event redispatch. */
 export function useStepRepeat() {
@@ -6,6 +6,7 @@ export function useStepRepeat() {
   let owner: Window | undefined
   let generation = 0
   let disposed = false
+  let suspended = false
 
   function stop() {
     generation += 1
@@ -22,10 +23,9 @@ export function useStepRepeat() {
 
   function start(step: () => boolean, targetWindow?: Window | null) {
     stop()
-    if (disposed) {
+    if (disposed || suspended) {
       return
     }
-    const currentGeneration = generation
     owner = targetWindow ?? (typeof window === 'undefined' ? undefined : window)
     if (!owner) {
       return
@@ -34,19 +34,36 @@ export function useStepRepeat() {
     owner.addEventListener('pointerup', stop)
     owner.addEventListener('pointercancel', stop)
     owner.addEventListener('blur', stop)
-    const repeat = () => {
-      if (!step()) {
-        stop()
-        return
-      }
-      if (currentGeneration === generation) {
-        timer = setTimeout(repeat, 150)
+    const createRepeat = (): (() => void) => {
+      const currentGeneration = ++generation
+      return () => {
+        if (disposed || suspended || currentGeneration !== generation) {
+          return
+        }
+        timer = undefined
+        // Consume before user code: reentrant start/stop owns a different generation.
+        const consumedGeneration = ++generation
+        const shouldRepeat = step()
+        if (consumedGeneration !== generation) {
+          return
+        }
+        if (!shouldRepeat) {
+          stop()
+          return
+        }
+        timer = setTimeout(createRepeat(), 150)
       }
     }
-    timer = setTimeout(repeat, 800)
+    timer = setTimeout(createRepeat(), 800)
   }
 
-  onDeactivated(stop)
+  onActivated(() => {
+    suspended = false
+  })
+  onDeactivated(() => {
+    suspended = true
+    stop()
+  })
   onScopeDispose(() => {
     disposed = true
     stop()

@@ -22,6 +22,8 @@
 
 ### 关闭前确认
 
+`Dialog.confirm(...)` 返回动作值，只有 `confirm` 允许收起；取消或关闭返回 `false`，保留已展开的操作区。普通示例中的“删除”只演示关闭动作，业务删除需自行处理。
+
 ```demo
 ../example/demos/before-close.vue
 ```

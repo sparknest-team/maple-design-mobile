@@ -51,6 +51,8 @@ export function useTimeFieldController<T extends TimeCommitInput>(options: Contr
     if (options.blocked()) {
       return false
     }
+    // A new user selection starts a new transaction even if the parent kept the panel open.
+    transaction.reset()
     transaction.draft.value = cloneFieldValue(value)
     options.onSelect(cloneFieldValue(value), getTimeEventDates(value, options.rules()))
     if (commit) {

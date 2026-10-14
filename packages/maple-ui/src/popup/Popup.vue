@@ -20,6 +20,7 @@
           <div
             v-show="mergedOpen"
             ref="contentRef"
+            data-modal-focus-root
             :class="contentClasses"
             :style="{ zIndex: mergedZIndex }"
             tabindex="-1"
@@ -41,7 +42,6 @@ import { createNamespace } from '../utils/components'
 import { useModalSurface } from '../utils/modal-surface'
 import { popupProps } from './props'
 import { usePopupItems } from './provide'
-import './style'
 
 defineOptions({
   name: createNamespace('popup').name,

@@ -13,7 +13,7 @@ async function load() {
 </script>
 
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <p>Values survive loading and removing options:{{ value }}</p>
     <mp-space>
       <mp-button size="sm" @click="load">Load options</mp-button>

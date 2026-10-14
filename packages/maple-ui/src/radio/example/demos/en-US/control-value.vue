@@ -5,7 +5,7 @@ const control = ref()
 const value = ref(null)
 </script>
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <p>null means unselected; repeated selection does not deselect. Current value:{{ value }}</p>
     <mp-radio ref="control" v-model="value" :value="false">Select the false option</mp-radio>
     <mp-space>

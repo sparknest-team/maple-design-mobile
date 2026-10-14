@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { demoFilesForLanguage } from './demo-language-files.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/maple-ui/package.json'))
@@ -190,10 +191,7 @@ function checkDemoDocs(component, examples) {
     const code = readFileSync(filename, 'utf8')
     const references = [...code.matchAll(/\.\.\/example\/demos\/([^\s]+\.vue)/g)].map((match) => match[1])
     const uniqueReferences = [...new Set(references)].sort()
-    const localizedFiles = demoFiles.filter((demo) => demo.startsWith(`${language}/`))
-    const expectedFiles = localizedFiles.length
-      ? localizedFiles
-      : demoFiles.filter((demo) => !/^(?:zh-CN|en-US)\//.test(demo))
+    const expectedFiles = demoFilesForLanguage(demoFiles, language)
     const missing = expectedFiles.filter((demo) => !uniqueReferences.includes(demo))
     const unknown = uniqueReferences.filter((demo) => !demoFiles.includes(demo))
     const apiHeadingCount = code.match(/^## API$/gm)?.length ?? 0

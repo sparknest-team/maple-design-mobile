@@ -2,6 +2,9 @@ import type {
   AffixProps,
   BadgeProps,
   CardProps,
+  DropdownMenuProps,
+  DropdownMenuStrategy,
+  DropdownMenuSubmenuTrigger,
   MessageProps,
   PaginationProps,
   PopupContainer,
@@ -55,3 +58,11 @@ const oldInterceptor: SwitchProps = { beforeChange: (value, done) => done(value)
 // @ts-expect-error Shadow levels are numbers, not numeric strings.
 const oldElevation: SwitchProps = { handleElevation: '4' }
 void [fractionalProgress, tonalSwitch, oldVariant, oldInterceptor, oldElevation]
+
+const menuStrategy: DropdownMenuStrategy = 'fixed'
+const submenuTrigger: DropdownMenuSubmenuTrigger = 'click'
+const positionedMenu: DropdownMenuProps = { strategy: menuStrategy, submenuTrigger }
+const defaultMenu: DropdownMenuProps = {}
+// @ts-expect-error strategy is not a CSS position free-form string
+const invalidMenuStrategy: DropdownMenuStrategy = 'sticky'
+void [positionedMenu, defaultMenu, invalidMenuStrategy]

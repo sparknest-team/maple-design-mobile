@@ -1,5 +1,12 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
+
+const demoLanguage = ref('zh-CN')
+const english = computed(() => demoLanguage.value === 'en-US')
+watchLang((value) => {
+  demoLanguage.value = value
+})
 
 const values = reactive({
   value: false,
@@ -32,15 +39,15 @@ const {
   fieldValue,
 } = toRefs(values)
 const options = computed(() => [
-  { label: '吃饭', value: 0 },
-  { label: '睡觉', value: 1 },
-  { label: '游戏', value: 2, disabled: true },
+  { label: english.value ? 'Eat' : '吃饭', value: 0 },
+  { label: english.value ? 'Sleep' : '睡觉', value: 1 },
+  { label: english.value ? 'Game' : '游戏', value: 2, disabled: true },
 ])
 </script>
 
 <template>
   <mp-checkbox-group v-model="optionsValue" :options="options" />
-  <div class="relation">当前的值: {{ optionsValue }}</div>
+  <div class="relation">{{ english ? 'Current value' : '当前的值' }}: {{ optionsValue }}</div>
 </template>
 
 <style lang="less" scoped>

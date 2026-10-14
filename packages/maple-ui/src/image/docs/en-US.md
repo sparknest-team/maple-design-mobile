@@ -1,8 +1,24 @@
 # Image
 
+Track scheduling is now independently reviewed (earlier pending notes are historical): close/image/loop changes, deactivation and disposal invalidate work; callbacks consume once, activation only canonicalizes current coordinates, retained commands never replay. Double RAF is settlement even at zero duration; triplicated looping remains. Both tracks consume system slow/standard (currently240ms), replacing Maple's fixed280ms. Recenter reads actual transform duration+delay;400ms is only unresolved-style fallback. Scoped27 each/full Image Cedar62/Maple114 and32 Less cascade cases are controlled evidence, not native browser acceptance.
+
+### PreviewGroup track lifecycle / 轨道生命周期
+
+```demo
+../example/demos/en-US/track-lifecycle.vue
+```
+
+Preview long press500ms and double-tap recognition320ms are interaction policy, not CSS duration/close delay. Release/move/close/source replacement/deactivation/disposal invalidate stale timers; consumed callbacks cannot replay. Inactive/disposed input entries are inert. Deactivation detaches keyboard/mode observation, releases capture and clears moving; activation reads current mode and accepts fresh gestures. Scoped17 each/full Cedar35/Maple87 pass using controlled timers/MQL/events, not native touch/browser/OS proof. PreviewGroup track scheduling remains separately pending; no API/token change.
+
 Display images with captions, loading fallback and preview. Example groups match Cedar.
 
 ## Examples
+
+### Preview Interaction Lifecycle
+
+```demo
+../example/demos/en-US/controller-lifecycle.vue
+```
 
 ### Basic usage
 
@@ -268,6 +284,8 @@ Or import separately
 ### Imperative preview
 
 `imagePreview(url | url[] | options)` returns `ImagePreviewHandle | undefined`. The handle provides `open / close / prev / next / to / reset / zoomTo / zoomIn / zoomOut / rotateLeft / rotateRight / toggleFullscreen` methods.
+
+Replacing an imperative preview disposes the previous instance and invokes its `onClosed` once, just like normal closure. Use this callback to release owned resources such as Object URLs. Old handles never close newer previews. If `onClosed` synchronously opens a new preview, that newer call wins and the interrupted outer call returns `undefined`.
 
 ## ImagePreview API
 

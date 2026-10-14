@@ -1,5 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as searchProps } from './props'
+import { searchProps } from './props'
 import Search from './Search.vue'
 
 withInstall(Search)
@@ -13,3 +13,5 @@ export type SearchInstance = InstanceType<typeof Search>
 export const _SearchComponent: typeof Search = Search
 
 export default Search
+
+export type { SearchEmits, SearchSlots, SearchExpose } from './types'

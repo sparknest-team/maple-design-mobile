@@ -15,6 +15,8 @@ const context = Context as SiteContext
 const menu: Menu[] = config?.pc?.menu ?? []
 const mobileRedirect = config?.mobile?.redirect
 const doc = ref<HTMLElement | null>(null)
+const sidebarOpen = ref(false)
+const sidebarToggle = ref<HTMLButtonElement | null>(null)
 const route = useRoute()
 const router = useRouter()
 const routeState = computed(() => getPcSiteRoute(route.path, route.hash, menu, mobileRedirect, config?.useMobile))
@@ -44,6 +46,26 @@ const handleSidebarChange = (menu: Menu) => {
   }
   router.push({ path: `/${language.value}/${menu.doc}` })
 }
+
+const closeSidebar = async () => {
+  if (!sidebarOpen.value) {
+    return
+  }
+  sidebarOpen.value = false
+  await nextTick()
+  sidebarToggle.value?.focus()
+}
+
+watch(
+  () => route.fullPath,
+  async () => {
+    if (sidebarOpen.value) {
+      sidebarOpen.value = false
+      await nextTick()
+      doc.value?.focus()
+    }
+  },
+)
 
 const confirmClose = () => {
   const key = 'MAPLE_UI_PLAYGROUND_HAS_BEEN_CLOSED'
@@ -88,12 +110,35 @@ watch(
 
     <app-header :language="language" />
 
-    <div class="maple-site-content">
-      <app-sidebar :language="language" :menu="menu" :menu-name="menuName" @change="handleSidebarChange" />
+    <button
+      ref="sidebarToggle"
+      class="maple-site-sidebar-toggle"
+      type="button"
+      aria-controls="maple-site-navigation"
+      :aria-expanded="sidebarOpen"
+      @click="sidebarOpen = !sidebarOpen"
+    >
+      {{ language === 'en-US' ? 'Documentation menu' : '文档目录' }}
+    </button>
 
-      <div class="maple-site-doc-container" ref="doc" :class="[!useMobile && 'maple-site-doc-container--pc-only']">
+    <div class="maple-site-content" :class="{ 'maple-site-content--navigation-open': sidebarOpen }">
+      <app-sidebar
+        id="maple-site-navigation"
+        :language="language"
+        :menu="menu"
+        :menu-name="menuName"
+        @change="handleSidebarChange"
+        @keydown.esc="closeSidebar"
+      />
+
+      <main
+        ref="doc"
+        class="maple-site-doc-container"
+        tabindex="-1"
+        :class="[!useMobile && 'maple-site-doc-container--pc-only']"
+      >
         <router-view />
-      </div>
+      </main>
 
       <app-mobile
         v-if="useMobile"
@@ -246,7 +291,11 @@ iframe {
   }
 
   &-site {
-    min-width: 1200px;
+    min-width: 0;
+
+    &-sidebar-toggle {
+      display: none;
+    }
 
     &-content {
       display: flex;
@@ -256,7 +305,7 @@ iframe {
 
     &-doc-container {
       flex: 1 0 0;
-      min-width: 500px;
+      min-width: 0;
       padding: 0 32px;
       overflow-x: hidden;
 
@@ -463,6 +512,82 @@ iframe {
       width: 100%;
       height: 100%;
     }
+  }
+}
+
+@media (max-width: 1199px) {
+  .maple-site-content {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .maple-site-sidebar {
+    width: 220px;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .maple-site-doc-container {
+    grid-column: 2;
+    padding: 0 24px;
+  }
+
+  .maple-site-mobile {
+    grid-column: 2;
+    position: static;
+    width: calc(100% - 48px);
+    max-width: 375px;
+    height: 640px;
+    margin: 24px auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .maple-site-sidebar-toggle {
+    display: block;
+    min-height: 44px;
+    margin: 12px 16px;
+    padding: 8px 16px;
+    border: 1px solid var(--site-config-color-border);
+    border-radius: 4px;
+    background: var(--site-config-color-bar);
+    color: var(--site-config-color-text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .maple-site-content {
+    display: block;
+  }
+
+  .maple-site-sidebar {
+    display: none;
+    position: static;
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+  }
+
+  .maple-site-content--navigation-open .maple-site-sidebar {
+    display: block;
+  }
+
+  .maple-site-doc-container {
+    padding: 0 16px;
+  }
+
+  .maple-site-doc {
+    overflow-wrap: anywhere;
+
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  .maple-site-playground-container {
+    width: 100vw;
   }
 }
 </style>

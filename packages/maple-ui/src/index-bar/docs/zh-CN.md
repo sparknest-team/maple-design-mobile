@@ -1,5 +1,15 @@
 # 索引栏
 
+### 生命周期与滚动任务
+
+新命令替换旧滚动；停用／卸载取消入口、插值及两帧稳定等待，保留命令不再写入／通知。激活等子锚点登记后恢复active位置，event:false不重复change。取消不跳旧目标，公开scrollTo仍返回void，duration默认0、正值cubic easing不变。组件私有任务替代原通用工具调用，不新增公共取消API／CSS变量。减少动效跳插值，但不跳列表／clickedName的必要两帧状态稳定。
+
+消费者11＋私有任务4＋既有9共24测试通过，真实IAB四组4/4（替换、两帧状态、卸载、KeepAlive），节点0、无warn/error。范围仅default/light父文档，入口原生点击而内部命令／scroll事件由夹具脚本发出；原生手势、其他主题／窗口及OS仍独立待验。下文共享工具结果为历史工具证据，不替代本批消费者回归。
+
+共享工具补充8组真实IAB（两端各主文档默认／零时长与同源iframe元素／Window）通过，默认302.5–313.9ms、零时长无RAF、iframe宿主RAF0、位置稳定及目标清零。它验证工具执行，不认证IndexBar首帧／doubleRaf／clickedName／卸载取消，也不认证OS减少动效。
+
+此前工具各端10项和真实IAB8组为独立工具证据。IndexBar当前由私有可取消任务管理零／非正／非有限时长、owner偏好及稳定帧；通用工具不新增取消参数，Form不受本批影响。零时长仍有入口／两帧等待，CSS动效Token不替代duration。
+
 ### 介绍
 
 用于跳转到页面指定位置。
@@ -10,6 +20,12 @@
 
 ```demo
 ../example/demos/basic.vue
+```
+
+### 停用、卸载与保留命令
+
+```demo
+../example/demos/lifecycle.vue
 ```
 
 ## API

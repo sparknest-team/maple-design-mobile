@@ -1,5 +1,12 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
+
+const demoLanguage = ref('zh-CN')
+const english = computed(() => demoLanguage.value === 'en-US')
+watchLang((value) => {
+  demoLanguage.value = value
+})
 
 const values = reactive({
   value: false,
@@ -17,10 +24,10 @@ const { value, value2, value3, value4, value5, value6, value9, optionValue, fiel
 
 <template>
   <mp-radio-group v-model="value9" direction="vertical">
-    <mp-radio :value="0">吃饭</mp-radio>
-    <mp-radio :value="1">睡觉</mp-radio>
+    <mp-radio :value="0">{{ english ? 'Eat' : '吃饭' }}</mp-radio>
+    <mp-radio :value="1">{{ english ? 'Sleep' : '睡觉' }}</mp-radio>
   </mp-radio-group>
-  <div class="relation">当前的值: {{ value9 }}</div>
+  <div class="relation">{{ english ? 'Current value' : '当前的值' }}: {{ value9 }}</div>
 
   <div class="space"></div>
 </template>

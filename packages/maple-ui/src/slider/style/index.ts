@@ -1,3 +1,3 @@
 import '../../style/index.less'
-import '../../hover/style'
+import '../../input-number/style'
 import './index.less'

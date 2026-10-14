@@ -60,7 +60,6 @@ describe.each([
     const wrapper = mountField(Field, {
       props: { readonly: true },
       slots: { prefix: '<button class="custom-action">action</button>' },
-      global: { stubs: { PickerField: { template: '<div><slot name="prefix" /></div>' } } },
     })
     fieldState(wrapper).focus()
     expect(wrapper.emitted('focus')).toHaveLength(1)

@@ -9,18 +9,14 @@
     :disabled="disabled"
     :elevation="elevation"
   >
-    <Button
-      v-bind="{ ...buttonProps, onClick: clickHandlers }"
-      :auto-loading="autoLoading"
-      :disabled="disabled || buttonProps?.disabled"
-    >
+    <Button v-bind="{ ...buttonProps, onClick: clickHandlers }" :auto-loading="autoLoading" :disabled="actionDisabled">
       <slot />
     </Button>
 
     <DropdownMenu
       ref="menuRef"
       v-model:open="computedOpen"
-      :disabled="disabled"
+      :disabled="triggerDisabled"
       :trigger="trigger"
       :placement="placement"
       :popup-container="popupContainer"
@@ -33,8 +29,7 @@
     >
       <Button
         v-bind="triggerButtonProps"
-        :disabled="disabled || triggerButtonProps?.disabled"
-        icon-container
+        :disabled="triggerDisabled"
         :aria-expanded="computedOpen"
         aria-haspopup="menu"
       >
@@ -69,6 +64,8 @@ const emit = defineEmits(['update:open', 'open-change', 'select'])
 
 const { n } = createNamespace('split-button')
 const menuRef = ref<DropdownMenuInstance>()
+const actionDisabled = computed(() => !!(props.disabled || props.buttonProps?.disabled))
+const triggerDisabled = computed(() => !!(props.disabled || props.triggerButtonProps?.disabled))
 const clickHandlers = computed(() =>
   [props.buttonProps?.onClick, props.onClick]
     .flat()
@@ -89,7 +86,7 @@ const handleSelect = (value: unknown, option: Record<string, unknown>, event: Ev
   emit('select', value, option, event)
 
 const open = () => {
-  if (!props.disabled) {
+  if (!triggerDisabled.value) {
     menuRef.value?.open()
   }
 }

@@ -16,6 +16,7 @@ function setStyle() {
     LoadingBar.resetDefaultOptions()
   } else {
     LoadingBar.setDefaultOptions({
+      top: '54px',
       errorColor: '#ff8800',
       color: '#10afef',
       height: '5px',

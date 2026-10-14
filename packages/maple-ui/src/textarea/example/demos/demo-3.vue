@@ -7,7 +7,7 @@ const noHintValue = ref('')
 
 <template>
   <mp-space direction="column" :size="[16, 0]">
-    <mp-textarea v-model="hintValue" :rows="3" placeholder="聚焦或有值时上浮" />
+    <mp-textarea v-model="hintValue" hint :rows="3" placeholder="聚焦或有值时上浮" />
     <mp-textarea v-model="noHintValue" :hint="false" :rows="3" placeholder="作为原生占位符展示" />
   </mp-space>
 </template>

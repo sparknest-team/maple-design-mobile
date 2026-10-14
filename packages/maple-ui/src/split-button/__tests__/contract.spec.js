@@ -26,12 +26,48 @@ afterEach(() => {
 })
 
 describe('SplitButton copied contract', () => {
-  test.each(['outline', 'text', 'tonal'])('arrow preserves the %s variant without default icon fill', (variant) => {
-    const wrapper = render({ variant, status: 'primary' })
+  test.each(
+    ['default', 'outline', 'text', 'tonal'].flatMap((variant) =>
+      ['default', 'primary', 'info', 'success', 'warning', 'danger', 'secondary', 'tertiary'].map((status) => [
+        variant,
+        status,
+      ]),
+    ),
+  )('both segments inherit %s / %s without a separate icon-container palette', (variant, status) => {
+    const wrapper = render({ variant, status })
+    const buttons = wrapper.findAll('button')
+    expect(buttons).toHaveLength(2)
+    for (const button of buttons) {
+      expect(button.classes().some((name) => name.endsWith('--variant-' + variant))).toBe(true)
+      expect(button.classes().some((name) => name.endsWith('--status-' + status))).toBe(true)
+      expect(button.classes().some((name) => name.includes('--icon-container'))).toBe(false)
+    }
+    expect(wrapper.findAllComponents(Button)[1].vm.$slots.icon).toBeTruthy()
+  })
+
+  test('both segments react to group appearance changes and inherit custom colors', async () => {
+    const wrapper = render({ status: 'primary' })
+    await wrapper.setProps({ variant: 'tonal', status: 'danger', color: '#123456', textColor: '#ffffff' })
+    for (const button of wrapper.findAll('button')) {
+      expect(button.classes().some((name) => name.endsWith('--variant-tonal'))).toBe(true)
+      expect(button.classes().some((name) => name.endsWith('--status-danger'))).toBe(true)
+    }
+    await wrapper.setProps({ variant: 'default' })
+    const buttons = wrapper.findAll('button')
+    expect(buttons[1].attributes('style')).toBe(buttons[0].attributes('style'))
+    expect(buttons[1].element.style.background).toBe('rgb(18, 52, 86)')
+    expect(buttons[1].element.style.color).toBe('rgb(255, 255, 255)')
+  })
+
+  test('explicit trigger appearance remains configurable', () => {
+    const wrapper = render({
+      status: 'primary',
+      triggerButtonProps: { variant: 'outline', status: 'danger', iconContainer: true },
+    })
     const arrow = wrapper.findAll('button')[1]
-    expect(arrow.classes().some((name) => name.endsWith('--variant-' + variant))).toBe(true)
+    expect(arrow.classes().some((name) => name.endsWith('--variant-outline'))).toBe(true)
+    expect(arrow.classes().some((name) => name.endsWith('--status-danger'))).toBe(true)
     expect(arrow.classes().some((name) => name.endsWith('--icon-container'))).toBe(true)
-    expect(arrow.classes().some((name) => name.endsWith('--icon-container-primary'))).toBe(false)
   })
 
   test('keep-open selection still emits feedback', async () => {
@@ -147,6 +183,66 @@ describe('SplitButton copied contract', () => {
     await nextTick()
     expect(onClick).not.toHaveBeenCalled()
     expect(wrapper.emitted('update:open')).toBeUndefined()
+  })
+
+  test.each(['default', 'outline', 'text', 'tonal'])(
+    'disabled %s uses Button disabled state and clears custom colors',
+    async (variant) => {
+      const wrapper = render({ variant, status: 'primary', disabled: true, color: '#123456', textColor: '#ffffff' })
+      for (const button of wrapper.findAll('button')) {
+        expect(button.attributes('disabled')).toBeDefined()
+        expect(button.classes().some((name) => name.endsWith('--disabled'))).toBe(true)
+        expect(button.element.style.color).toBe('')
+        expect(button.element.style.background).toBe('')
+        await button.trigger('focus')
+        expect(button.classes().some((name) => name.endsWith('--focus'))).toBe(false)
+      }
+      expect(wrapper.classes().some((name) => name.includes('elevation--'))).toBe(false)
+      expect(wrapper.findComponent(DropdownMenu).props('disabled')).toBe(true)
+      await wrapper.setProps({ disabled: false })
+      for (const button of wrapper.findAll('button')) {
+        expect(button.attributes('disabled')).toBeUndefined()
+        expect(button.classes().some((name) => name.endsWith('--disabled'))).toBe(false)
+      }
+      if (variant === 'default') {
+        expect(wrapper.classes().some((name) => name.includes('elevation--'))).toBe(true)
+        expect(wrapper.findAll('button')[1].element.style.background).toBe('rgb(18, 52, 86)')
+      }
+    },
+  )
+
+  test('disabled trigger blocks menu methods and keyboard opening while main action stays enabled', async () => {
+    const onClick = vi.fn()
+    const wrapper = render({ triggerButtonProps: { disabled: true }, onClick })
+    const buttons = wrapper.findAll('button')
+    expect(buttons[0].attributes('disabled')).toBeUndefined()
+    expect(buttons[1].attributes('disabled')).toBeDefined()
+    expect(wrapper.findComponent(DropdownMenu).props('disabled')).toBe(true)
+    await buttons[0].trigger('click')
+    expect(onClick).toHaveBeenCalledTimes(1)
+    wrapper.vm.open()
+    wrapper.findComponent(DropdownMenu).vm.open()
+    await buttons[1].trigger('keydown', { key: 'ArrowDown' })
+    await nextTick()
+    expect(wrapper.emitted('update:open')).toBeUndefined()
+    await wrapper.setProps({ triggerButtonProps: { disabled: false } })
+    wrapper.vm.open()
+    await nextTick()
+    expect(buttons[1].attributes('aria-expanded')).toBe('true')
+    await wrapper.setProps({ triggerButtonProps: { disabled: true } })
+    await nextTick()
+    expect(buttons[1].attributes('aria-expanded')).toBe('false')
+  })
+
+  test('disabled main action leaves menu available', async () => {
+    const onClick = vi.fn()
+    const wrapper = render({ buttonProps: { disabled: true }, onClick })
+    expect(wrapper.findComponent(DropdownMenu).props('disabled')).toBe(false)
+    await wrapper.findAll('button')[0].trigger('click')
+    expect(onClick).not.toHaveBeenCalled()
+    wrapper.vm.open()
+    await nextTick()
+    expect(wrapper.findAll('button')[1].attributes('aria-expanded')).toBe('true')
   })
 
   test('renders the two buttons during SSR', async () => {

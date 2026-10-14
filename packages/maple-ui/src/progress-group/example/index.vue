@@ -6,6 +6,7 @@ import CircleDemo from './demos/circle.vue'
 import ColorDemo from './demos/color.vue'
 import CustomDemo from './demos/custom.vue'
 import OrientationDemo from './demos/orientation.vue'
+import OverflowKeyboardDemo from './demos/overflow-keyboard.vue'
 import SizeDemo from './demos/size.vue'
 
 const language = ref('zh-CN')
@@ -46,5 +47,9 @@ onThemeChange()
   <section data-demo="custom">
     <app-type>{{ english ? 'Custom Content' : '自定义内容' }}</app-type>
     <CustomDemo />
+  </section>
+  <section data-demo="overflow-keyboard">
+    <app-type>{{ english ? 'Overflow and Keyboard' : '超额与键盘提示' }}</app-type
+    ><OverflowKeyboardDemo />
   </section>
 </template>

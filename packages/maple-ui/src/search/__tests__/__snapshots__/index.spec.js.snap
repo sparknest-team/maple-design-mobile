@@ -8,8 +8,7 @@ exports[`Search > renders the shared defaults 1`] = `
     <div class="mp-search__input mp-input">
       <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline"><span class="mp-field-decorator__prefix"><button class="mp-search__icon-button" type="button" aria-label="搜索"><span class="mp-icon mp-search__search-icon" style="transition-duration: 0ms;" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16a6.5 6.5 0 1 1 0-13m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg></span></button></span><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" enterkeyhint="search" value=""></span>
         <!--v-if-->
-        <!--v-if-->
-        <!--v-if-->
+        <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
       </div>
     </div>
   </div>

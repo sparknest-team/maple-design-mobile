@@ -229,13 +229,13 @@ test('radio group options', async () => {
 
   expect(wrapper.vm.value).toStrictEqual(null)
 
-  await trigger(children[0], 'click')
+  await trigger(children[0].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(0)
 
-  await trigger(children[1], 'click')
+  await trigger(children[1].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
-  await trigger(children[2], 'click')
+  await trigger(children[2].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
   wrapper.unmount()
@@ -267,9 +267,9 @@ test('radio accessibility', async () => {
   const children = wrapper.findAll('.mp-radio')
   const option = children[0]
 
-  await trigger(option, 'click')
+  await trigger(option.find('input'), 'click')
 
-  expect(option.attributes('aria-checked')).toBe('true')
+  expect(option.find('input').attributes('aria-checked')).toBe('true')
 
   wrapper.unmount()
 })
@@ -301,13 +301,13 @@ test('radio group field-names label', async () => {
 
   expect(wrapper.vm.value).toStrictEqual(null)
 
-  await trigger(children[0], 'click')
+  await trigger(children[0].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(0)
 
-  await trigger(children[1], 'click')
+  await trigger(children[1].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
-  await trigger(children[2], 'click')
+  await trigger(children[2].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
   wrapper.unmount()
@@ -340,13 +340,13 @@ test('radio group field-names value', async () => {
 
   expect(wrapper.vm.value).toStrictEqual(null)
 
-  await trigger(children[0], 'click')
+  await trigger(children[0].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(0)
 
-  await trigger(children[1], 'click')
+  await trigger(children[1].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
-  await trigger(children[2], 'click')
+  await trigger(children[2].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
   wrapper.unmount()
@@ -379,13 +379,13 @@ test('radio group label is VNode', async () => {
 
   expect(wrapper.vm.value).toStrictEqual(null)
 
-  await trigger(children[0], 'click')
+  await trigger(children[0].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(0)
 
-  await trigger(children[1], 'click')
+  await trigger(children[1].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
-  await trigger(children[2], 'click')
+  await trigger(children[2].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
 
   wrapper.unmount()
@@ -419,14 +419,14 @@ test('radio group label is function', async () => {
 
   expect(wrapper.vm.value).toStrictEqual(null)
 
-  await trigger(children[0], 'click')
+  await trigger(children[0].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(0)
 
-  await trigger(children[1], 'click')
+  await trigger(children[1].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
   expect(wrapper.html()).toMatchSnapshot()
 
-  await trigger(children[2], 'click')
+  await trigger(children[2].find('input'), 'click')
   expect(wrapper.vm.value).toStrictEqual(1)
   expect(wrapper.html()).toMatchSnapshot()
 
@@ -451,13 +451,13 @@ test('radio keyboard Enter', async () => {
   })
 
   const children = wrapper.findAllComponents({ name: 'mp-radio' })
-  await trigger(children[0].find('.mp-radio__action'), 'focus')
-  await children[0].find('.mp-radio__action').trigger('keydown', { key: 'Enter' })
+  await trigger(children[0].find('input[type="radio"]'), 'focus')
+  await children[0].find('input[type="radio"]').trigger('keydown', { key: 'Enter' })
   expect(wrapper.vm.value).toBe(1)
 
-  await trigger(children[1].find('.mp-radio__action'), 'focus')
-  await children[1].find('.mp-radio__action').trigger('keydown', { key: ' ' })
-  await children[1].find('.mp-radio__action').trigger('keyup', { key: ' ' })
+  await trigger(children[1].find('input[type="radio"]'), 'focus')
+  await children[1].find('input[type="radio"]').trigger('keydown', { key: ' ' })
+  await children[1].find('input[type="radio"]').trigger('keyup', { key: ' ' })
 
   expect(wrapper.vm.value).toBe(2)
   wrapper.unmount()
@@ -481,26 +481,26 @@ test('radio group keyboard Arrow', async () => {
   })
 
   const children = wrapper.findAllComponents({ name: 'mp-radio' })
-  await trigger(children[0].find('.mp-radio__action'), 'focus')
+  await trigger(children[0].find('input[type="radio"]'), 'focus')
 
-  await children[0].find('.mp-radio__action').trigger('keydown', { key: 'ArrowRight' })
-  await trigger(children[0].find('.mp-radio__action'), 'blur')
-  await trigger(children[1].find('.mp-radio__action'), 'focus')
+  await children[0].find('input[type="radio"]').trigger('keydown', { key: 'ArrowRight' })
+  await trigger(children[0].find('input[type="radio"]'), 'blur')
+  await trigger(children[1].find('input[type="radio"]'), 'focus')
   expect(wrapper.vm.value).toBe(2)
 
-  await children[1].find('.mp-radio__action').trigger('keydown', { key: 'ArrowRight' })
-  await trigger(children[1].find('.mp-radio__action'), 'blur')
-  await trigger(children[0].find('.mp-radio__action'), 'focus')
+  await children[1].find('input[type="radio"]').trigger('keydown', { key: 'ArrowRight' })
+  await trigger(children[1].find('input[type="radio"]'), 'blur')
+  await trigger(children[0].find('input[type="radio"]'), 'focus')
   expect(wrapper.vm.value).toBe(1)
 
-  await children[0].find('.mp-radio__action').trigger('keydown', { key: 'ArrowLeft' })
-  await trigger(children[0].find('.mp-radio__action'), 'blur')
-  await trigger(children[1].find('.mp-radio__action'), 'focus')
+  await children[0].find('input[type="radio"]').trigger('keydown', { key: 'ArrowLeft' })
+  await trigger(children[0].find('input[type="radio"]'), 'blur')
+  await trigger(children[1].find('input[type="radio"]'), 'focus')
   expect(wrapper.vm.value).toBe(2)
 
-  await children[1].find('.mp-radio__action').trigger('keydown', { key: 'ArrowUp' })
-  await trigger(children[1].find('.mp-radio__action'), 'blur')
-  await trigger(children[0].find('.mp-radio__action'), 'focus')
+  await children[1].find('input[type="radio"]').trigger('keydown', { key: 'ArrowUp' })
+  await trigger(children[1].find('input[type="radio"]'), 'blur')
+  await trigger(children[0].find('input[type="radio"]'), 'focus')
   expect(wrapper.vm.value).toBe(1)
 
   wrapper.unmount()

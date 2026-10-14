@@ -1600,250 +1600,25 @@
         },
         {
           "name": "mp-carousel",
-          "attributes": [
-            {
-              "name": "current(v-model)",
-              "description": "Current slide index (0-based)",
-              "default": "-",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-current",
-              "description": "Default current slide index (0-based)",
-              "default": "0",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loop",
-              "description": "Whether to loop infinitely",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-play",
-              "description": "Autoplay; `true` uses 3000ms, a number is the interval in ms, or `{ interval, hoverToPause }`",
-              "default": "false",
-              "value": {
-                "type": "boolean | number | CarouselAutoPlayConfig",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "move-speed",
-              "description": "Transition duration (ms)",
-              "default": "300",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "Indicator trigger",
-              "default": "click",
-              "value": {
-                "type": "CarouselTriggerEvent",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "direction",
-              "description": "Slide direction",
-              "default": "horizontal",
-              "value": {
-                "type": "'horizontal' | 'vertical'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-arrow",
-              "description": "When to show navigation arrows",
-              "default": "never",
-              "value": {
-                "type": "CarouselArrowType",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "arrow-class",
-              "description": "Custom class for navigation arrows",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator",
-              "description": "Whether to show indicators",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-type",
-              "description": "Indicator type",
-              "default": "dot",
-              "value": {
-                "type": "CarouselIndicatorType",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-position",
-              "description": "Indicator position",
-              "default": "bottom",
-              "value": {
-                "type": "CarouselIndicatorPosition",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-class",
-              "description": "Custom class for indicator",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indicator-color",
-              "description": "Color of indicator",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "height",
-              "description": "Carousel container height",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "transition-timing-function",
-              "description": "CSS transition timing function",
-              "default": "cubic-bezier(0.25, 0.8, 0.5, 1)",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "touchable",
-              "description": "Whether to enable touch swiping",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "draggable",
-              "description": "Whether to enable mouse dragging",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mousewheel",
-              "description": "Whether to enable mousewheel navigation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "keyboard",
-              "description": "Whether to enable keyboard arrow navigation",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "slides-per-view",
-              "description": "Number of slides visible per view. `'auto'` uses slide's own width",
-              "default": "1",
-              "value": {
-                "type": "number | 'auto'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "space-between",
-              "description": "Gap between slides",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "effect",
-              "description": "Transition effect (mobile)",
-              "default": "slide",
-              "value": {
-                "type": "CarouselEffect",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "centered-slides",
-              "description": "Center the active slide (with `slides-per-view`, mobile)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
+          "attributes": [],
           "events": [
             {
               "name": "update:current",
-              "description": "Emitted when the v-model value updates (0-based)"
+              "description": "index: number"
             },
             {
               "name": "change",
-              "description": "Emitted when the active slide changes (0-based)"
+              "description": "index: number, previousIndex: number, isManual: boolean"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Carousel items, place `CarouselItem` here"
+              "description": "CarouselItem"
             },
             {
-              "name": "prev",
-              "description": "Custom previous button"
-            },
-            {
-              "name": "next",
-              "description": "Custom next button"
-            },
-            {
-              "name": "indicator",
-              "description": "Custom indicator"
+              "name": "prev / next / indicator",
+              "description": "{ index, length, hovering, prev, next, to, resize }"
             }
           ]
         },
@@ -2053,6 +1828,24 @@
               "default": "undefined",
               "value": {
                 "type": "ChoiceFieldNames",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "name",
+              "description": "Native input name inherited by children",
+              "default": "undefined",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible group name",
+              "default": "undefined",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             }
@@ -2589,6 +2382,15 @@
               }
             },
             {
+              "name": "input-editable",
+              "description": "Allow text entry; function format/multiple stays readonly",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "format",
               "description": "Display format or formatter",
               "default": "—",
@@ -2737,7 +2539,7 @@
               "description": "Props passed to `mp-date-picker`",
               "default": "{}",
               "value": {
-                "type": "Partial\\<DatePickerProps\\>",
+                "type": "DatePickerOptions",
                 "kind": "expression"
               }
             },
@@ -2880,6 +2682,15 @@
               }
             },
             {
+              "name": "input-editable",
+              "description": "Allow text entry; function format/multiple stays readonly",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "format",
               "description": "Display format or formatter",
               "default": "—",
@@ -3016,10 +2827,10 @@
             },
             {
               "name": "date-picker-props",
-              "description": "Props for `mp-date-picker` (calendar)",
+              "description": "Appearance options for the internal calendar (allowlist)",
               "default": "{}",
               "value": {
-                "type": "Partial\\<DatePickerProps\\>",
+                "type": "DateRangeCalendarOptions",
                 "kind": "expression"
               }
             },
@@ -3028,7 +2839,7 @@
               "description": "Props for `mp-picker` (picker)",
               "default": "{}",
               "value": {
-                "type": "Partial\\<PickerProps\\>",
+                "type": "DateWheelOptions",
                 "kind": "expression"
               }
             },
@@ -3037,7 +2848,7 @@
               "description": "Props for `mp-date-range-picker`",
               "default": "{}",
               "value": {
-                "type": "Partial\\<DateRangePickerProps\\>",
+                "type": "DateRangePickerOptions",
                 "kind": "expression"
               }
             },
@@ -3669,7 +3480,7 @@
             },
             {
               "name": "strategy",
-              "description": "Floating-layer positioning strategy",
+              "description": "Positioning strategy inherited by every submenu",
               "default": "'absolute'",
               "value": {
                 "type": "'absolute' | 'fixed'",
@@ -4350,6 +4161,15 @@
           "name": "mp-form",
           "attributes": [
             {
+              "name": "id",
+              "description": "Native form id; an explicit value prefixes normalized field container ids",
+              "default": "-",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "model",
               "description": "The form data object, `FormItem` reads and writes to it using `field`",
               "default": "-",
@@ -4364,6 +4184,69 @@
               "default": "'vertical'",
               "value": {
                 "type": "'vertical' | 'horizontal' | 'inline'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label-align",
+              "description": "Label alignment",
+              "default": "'right'",
+              "value": {
+                "type": "'left' | 'right'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label-col-props",
+              "description": "Horizontal label Col options, including breakpoints",
+              "default": "{ span: 5, offset: 0 }",
+              "value": {
+                "type": "FormColProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "wrapper-col-props",
+              "description": "Horizontal control Col options",
+              "default": "{ span: 19, offset: 0 }",
+              "value": {
+                "type": "FormColProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label-col-style",
+              "description": "Per-instance label column style",
+              "default": "-",
+              "value": {
+                "type": "CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "wrapper-col-style",
+              "description": "Per-instance control column style",
+              "default": "-",
+              "value": {
+                "type": "CSSProperties",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label-col-flex",
+              "description": "Label flex; unit strings set width, numbers are grow ratios",
+              "default": "-",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-label-width",
+              "description": "Align eligible horizontal labels to their maximum natural width",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -5453,76 +5336,9 @@
         },
         {
           "name": "mp-list",
-          "attributes": [
-            {
-              "name": "data",
-              "description": "Data passed to the `item` slot",
-              "default": "-",
-              "value": {
-                "type": "`unknown[]`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "List item size",
-              "default": "'md'",
-              "value": {
-                "type": "`'sm' | 'md' | 'lg'`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "bordered",
-              "description": "Show the outer border",
-              "default": "true",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "split",
-              "description": "Show separators between list items",
-              "default": "true",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "loading",
-              "description": "Initial full-list loading or refreshing",
-              "default": "false",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            }
-          ],
+          "attributes": [],
           "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Manual content; takes priority over `data`"
-            },
-            {
-              "name": "item",
-              "description": "Data item content"
-            },
-            {
-              "name": "header",
-              "description": "Header"
-            },
-            {
-              "name": "footer",
-              "description": "Footer"
-            },
-            {
-              "name": "empty",
-              "description": "Empty content shown when not loading"
-            }
-          ]
+          "slots": []
         },
         {
           "name": "mp-loading",
@@ -7354,123 +7170,9 @@
         },
         {
           "name": "mp-progress",
-          "attributes": [
-            {
-              "name": "mode",
-              "description": "Mode of Progress. Optional value is `line, circle`",
-              "default": "line",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "status",
-              "description": "default / primary / secondary / tertiary / info / success / warning / danger",
-              "default": "default",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "percent",
-              "description": "Percentage, 0–100; numeric strings accepted; decimal precision retained",
-              "default": "0",
-              "value": {
-                "type": "number / string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "stroke-width",
-              "description": "显式线宽优先于 size 的预设厚度",
-              "default": "按 size 档位",
-              "value": {
-                "type": "`number | string`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Color of the progress bar (The circular progress bar sets the gradient color, please use object. Gradient is the same as svg's linearGradient element)",
-              "default": "-",
-              "value": {
-                "type": "string | object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "track-color",
-              "description": "Color of the progress track",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-text",
-              "description": "Whether the show-text is visible or not",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-class",
-              "description": "Custom text class name",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "track",
-              "description": "Whether the progress track is visible or not",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "indeterminate",
-              "description": "Whether the indeterminate animation is visible or not",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "circle 外径 / line 轨道厚度；数字按 px，字符串可用 CSS 长度",
-              "default": "md",
-              "value": {
-                "type": "`ComponentSize | number | string`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "rotate",
-              "description": "Origin of progress (only supports circle progress)",
-              "default": "0",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            }
-          ],
+          "attributes": [],
           "events": [],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Custom text"
-            }
-          ]
+          "slots": []
         },
         {
           "name": "mp-progress-group",
@@ -7709,8 +7411,16 @@
           "attributes": [],
           "events": [
             {
+              "name": "update:model-value",
+              "description": "value: number"
+            },
+            {
               "name": "change",
-              "description": "Triggered when the rating changes"
+              "description": "value: number"
+            },
+            {
+              "name": "hover-change",
+              "description": "value: number"
             }
           ],
           "slots": []
@@ -7949,10 +7659,10 @@
             },
             {
               "name": "size",
-              "description": "Input size",
+              "description": "Input size inherited from Form / ConfigProvider",
               "default": "md",
               "value": {
-                "type": "string",
+                "type": "`xs / sm / md / lg / xl`",
                 "kind": "expression"
               }
             },
@@ -8030,16 +7740,16 @@
             },
             {
               "name": "action-text",
-              "description": "Mobile action text",
-              "default": "取消",
+              "description": "Action text",
+              "default": "Global locale for action-type",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "action-type",
-              "description": "Mobile action type: `cancel` or `search`",
+              "description": "Action type: `cancel` or `search`",
               "default": "cancel",
               "value": {
                 "type": "string",
@@ -8143,7 +7853,7 @@
             },
             {
               "name": "action",
-              "description": "Mobile action content"
+              "description": "Action content"
             }
           ]
         },
@@ -8326,172 +8036,9 @@
         },
         {
           "name": "mp-slider",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "The value of slider",
-              "default": "0",
-              "value": {
-                "type": "number | [number, number]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "step",
-              "description": "Step size. The value must greater than 0",
-              "default": "1",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "range",
-              "description": "Whether open the dual thumb mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "The maximum value the slider can slide to",
-              "default": "100",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "The minimum value the slider can slide to",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "label-visible",
-              "description": "Whether to display labels, the optional value is `always, normal, never`",
-              "default": "normal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "label-text-color",
-              "description": "Color of label text",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "label-color",
-              "description": "Background color of label",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-color",
-              "description": "Background color of actived track",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "track-color",
-              "description": "Background color of track",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "track-height",
-              "description": "Height of track",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "thumb-size",
-              "description": "Size of thumb",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "thumb-color",
-              "description": "Background color of thumb",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether to disable slider",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether to readonly slider",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "orientation",
-              "description": "Direction of slider, Can be set to `vertical horizontal`",
-              "default": "horizontal",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Emitted after slider changed"
-            },
-            {
-              "name": "start",
-              "description": "Emitted when start dragged"
-            },
-            {
-              "name": "end",
-              "description": "Emitted when end dragged"
-            }
-          ],
-          "slots": [
-            {
-              "name": "button",
-              "description": "Custom button"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-space",
@@ -9418,8 +8965,8 @@
             },
             {
               "name": "z-index",
-              "description": "Z-index",
-              "default": "1",
+              "description": "Z-index; an explicit prop overrides the CSS variable",
+              "default": "undefined (CSS default 1)",
               "value": {
                 "type": "number | string",
                 "kind": "expression"
@@ -9773,7 +9320,7 @@
             {
               "name": "disabled",
               "description": "Disables editing",
-              "default": "false",
+              "default": "undefined",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -9782,7 +9329,7 @@
             {
               "name": "readonly",
               "description": "Makes the value read-only",
-              "default": "false",
+              "default": "undefined",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -9791,7 +9338,7 @@
             {
               "name": "error",
               "description": "Enables the visual error state",
-              "default": "false",
+              "default": "undefined",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -9898,8 +9445,8 @@
             },
             {
               "name": "hint",
-              "description": "Uses Maple's floating placeholder",
-              "default": "true",
+              "description": "Floating hint; inherits Group/library default",
+              "default": "undefined",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -9957,7 +9504,7 @@
             },
             {
               "name": "clear",
-              "description": "Clear action without synthetic input/change"
+              "description": "Clear → input → update:model-value → change"
             },
             {
               "name": "focus",
@@ -10151,6 +9698,15 @@
               "default": "{}",
               "value": {
                 "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-editable",
+              "description": "Allow text entry; panel selection remains available",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -10455,6 +10011,15 @@
               "default": "{}",
               "value": {
                 "type": "Partial\\<PopupProps\\>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-editable",
+              "description": "Allow text entry; panel selection remains available",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -11024,175 +10589,90 @@
         },
         {
           "name": "mp-upload",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "File list",
-              "default": "[]",
-              "value": {
-                "type": "UploadFileItem[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "accept",
-              "description": "Accepted file type, consistent with the native attribute",
-              "default": "image/*",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "capture",
-              "description": "Get the file, the same as the native property",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "multiple",
-              "description": "Whether to select multiple files",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`, not in simple mode",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-remove-button",
-              "description": "Whether the showRemoveButton",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max-files",
-              "description": "Maximum number of files",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max-file-size",
-              "description": "Maximum file size, the unit is `byte`",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "preview",
-              "description": "Whether to allow preview",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "prevent-default-preview",
-              "description": "Prevent default preview behavior",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to open ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-file-list",
-              "description": "Whether to show the file list",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "resolve-type",
-              "description": "object-url: Blob URL; file: File only; data-url: Base64 URL",
-              "default": "object-url",
-              "value": {
-                "type": "UploadResolveType",
-                "kind": "expression"
-              }
-            }
-          ],
+          "attributes": [],
           "events": [
             {
-              "name": "after-read",
-              "description": "Triggered after the file is read"
+              "name": "--mp-upload-gap",
+              "description": "var(--mp-sys-space-4)"
             },
             {
-              "name": "oversize",
-              "description": "Triggered when the file size limit is exceeded"
+              "name": "--mp-upload-trigger-min-height",
+              "description": "var(--mp-sys-control-height-md)"
             },
             {
-              "name": "remove",
-              "description": "Triggered when deleting a file. There is a true value to prevent deleting a file (support promise)"
+              "name": "--mp-upload-trigger-padding-horizontal",
+              "description": "var(--mp-sys-space-6)"
             },
             {
-              "name": "preview",
-              "description": "Triggered when a file is preview"
+              "name": "--mp-upload-trigger-draggable-min-height",
+              "description": "calc(var(--mp-sys-control-height-md) * 2)"
             },
             {
-              "name": "click-action",
-              "description": "Intercept click behavior of upload button"
+              "name": "--mp-upload-card-size",
+              "description": "calc(var(--mp-sys-control-height-md) * 2)"
+            },
+            {
+              "name": "--mp-upload-item-min-height",
+              "description": "var(--mp-sys-control-height-md)"
+            },
+            {
+              "name": "--mp-upload-item-padding",
+              "description": "var(--mp-sys-space-4)"
+            },
+            {
+              "name": "--mp-upload-thumb-size",
+              "description": "var(--mp-sys-control-height-lg)"
+            },
+            {
+              "name": "--mp-upload-border-radius",
+              "description": "var(--mp-sys-radius-md)"
+            },
+            {
+              "name": "--mp-upload-border-color",
+              "description": "var(--mp-sys-color-border-default)"
+            },
+            {
+              "name": "--mp-upload-background",
+              "description": "var(--mp-sys-color-surface-default)"
+            },
+            {
+              "name": "--mp-upload-text-color",
+              "description": "var(--mp-sys-color-content-primary)"
+            },
+            {
+              "name": "--mp-upload-secondary-text-color",
+              "description": "var(--mp-sys-color-content-secondary)"
+            },
+            {
+              "name": "--mp-upload-hover-background",
+              "description": "var(--mp-sys-color-state-hover)"
+            },
+            {
+              "name": "--mp-upload-active-color",
+              "description": "var(--mp-sys-color-action-primary)"
+            },
+            {
+              "name": "--mp-upload-error-color",
+              "description": "var(--mp-sys-color-content-danger)"
+            },
+            {
+              "name": "--mp-upload-action-size",
+              "description": "var(--mp-sys-control-touch-target)"
+            },
+            {
+              "name": "--mp-upload-progress-height",
+              "description": "var(--mp-sys-space-2)"
+            },
+            {
+              "name": "--mp-upload-disabled-opacity",
+              "description": ".56"
+            },
+            {
+              "name": "--mp-upload-font-size",
+              "description": "var(--mp-sys-font-size-md)"
             }
           ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Upload action content"
-            },
-            {
-              "name": "remove-button",
-              "description": "Remove button"
-            }
-          ]
+          "slots": []
         },
         {
           "name": "mp-utilities",
@@ -11202,234 +10682,9 @@
         },
         {
           "name": "mp-verification-code",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "Bound value",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-value",
-              "description": "Default value (uncontrolled)",
-              "default": "''",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "length",
-              "description": "Number of cells",
-              "default": "6",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Size: `xs` `sm` `md` `lg` `xl`",
-              "default": "md",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "type",
-              "description": "`digit` `text` `alphanumeric` (Maple)",
-              "default": "digit",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "variant",
-              "description": "`standard` `outline` (Maple)",
-              "default": "outline",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "masked",
-              "description": "Mask mode",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mask-symbol",
-              "description": "Mask character (Maple)",
-              "default": "•",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "error",
-              "description": "Error state",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "autofocus",
-              "description": "Autofocus (Maple)",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "gutter",
-              "description": "Cell gutter (Maple)",
-              "default": "8",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align",
-              "description": "`start` `center` `end` (Maple)",
-              "default": "center",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "allow-paste",
-              "description": "Allow paste (Maple)",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "paste-transform",
-              "description": "Paste transformer (Maple)",
-              "default": "-",
-              "value": {
-                "type": "(value: string) => string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "separator",
-              "description": "Separator renderer",
-              "default": "-",
-              "value": {
-                "type": "(index: number, character: string) => VNode | string | null",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "formatter",
-              "description": "Input formatter",
-              "default": "-",
-              "value": {
-                "type": "(inputValue: string, index: number, value: string) => string | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "aria-label",
-              "description": "Aria label",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "text-color",
-              "description": "Text color (Maple)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "focus-color",
-              "description": "Focus color (Maple)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "blur-color",
-              "description": "Blur color (Maple)",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "description": "Value changed"
-            },
-            {
-              "name": "finish",
-              "description": "All cells filled"
-            },
-            {
-              "name": "input",
-              "description": "Cell input"
-            },
-            {
-              "name": "click",
-              "description": "Root click (Maple)"
-            },
-            {
-              "name": "paste",
-              "description": "Paste (Maple)"
-            }
-          ],
-          "slots": [
-            {
-              "name": "separator",
-              "description": "Custom separator"
-            }
-          ]
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-watermark",

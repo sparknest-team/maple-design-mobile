@@ -1,32 +1,26 @@
-# 滑块
+# Slider 滑块
 
-### 介绍
+在有限数值范围内选择单值或区间。
 
-用于在给定范围内取值。
-
-### 基本使用
+### 基础用法
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
-### 指定步长
-
-通过 `step` 属性来设置步进增量。
+### 步长
 
 ```demo
 ../example/demos/step-size.vue
 ```
 
-### 双滑块
-
-通过 `range` 属性开启双滑块模式，确保 `value` 的值是一个数组。
+### 范围
 
 ```demo
 ../example/demos/dual-thumb.vue
 ```
 
-### 选择范围
+### 自定义边界
 
 ```demo
 ../example/demos/range.vue
@@ -44,100 +38,124 @@
 ../example/demos/readonly.vue
 ```
 
-### 不同大小
-
-通过 `track-height` 和 `thumb-size` 控制slider的大小。
+### 几何尺寸
 
 ```demo
 ../example/demos/slider-size.vue
 ```
 
-### 自定义样式
+### 颜色
 
 ```demo
 ../example/demos/custom-style.vue
 ```
 
-### 自定义按钮
-
-使用插槽自定义按钮时，`label-visible`、`label-text-color`、`thumb-size` 等属性均无效。
+### 自定义拇指
 
 ```demo
 ../example/demos/custom-btn.vue
 ```
 
-### 显示标签
-通过 `label-visible` 属性控制标签的显示。
-
-
-
-> 滑块的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+### 提示
 
 ```demo
 ../example/demos/show-label.vue
 ```
 
-### 垂直方向
+### 垂直
 
-通过设置 `orientation` 属性值为 `vertical` 来让滑块垂直显示。
+父容器提供 300px 高度。上移增大、下移减小；范围两端仍不能交叉。没有独立 reverse 属性。
 
 ```demo
 ../example/demos/vertical.vue
 ```
 
+### 刻度、标记和数字输入
+
+数字输入遵守滑块步长和上下界；范围的两个端点不能互相越过。
+
+```demo
+../example/demos/keyboard-input.vue
+```
+
+### 触控提示与定制
+
+```demo
+../example/demos/touch-and-labels.vue
+```
+
+### 受控与非交叉范围
+
+范围示例接受模型更新；固定值滑块仅记录提议、不接受更新。只读和禁用滑块保持原值。
+
+```demo
+../example/demos/controlled-range.vue
+```
+
 ## API
 
-### 属性
+### Props
 
-| 参数                 | 说明                                | 类型 | 默认值               |
-|--------------------|-----------------------------------| ------ |-------------------|
-| `v-model`          | 当前进度值                             | _number \| [number, number]_ | `0` |
-| `step`             | 步长，取值必须大于 0                       | _string \| number_           | `1` |
-| `range`            | 是否启用双滑块                           | _boolean_ | `false`           |
-| `max`              | 最大值                               | _string \| number_ | `100`           |
-| `min`              | 最小值                               | _string \| number_ | `0`           |
-| `label-visible`    | 是否显示标签，可选值为 `always normal never` | _string_ | `normal`          |
-| `label-text-color` | 标签文字颜色                            | _string_ | `-`            |
-| `label-color`      | 标签颜色                              | _string_ | `-`               |
-| `active-color`     | 已激活的轨道背景颜色                        | _string_ | `-`               |
-| `track-color`      | 轨道背景颜色                            | _string_ | `-`               |
-| `track-height`     | 轨道的高度                             | _string \| number_           | `-` |
-| `thumb-size`       | 滑块的大小                             | _string \| number_           | `-` |
-| `thumb-color`      | 滑块的背景颜色                           | _string_ | `-`               |
-| `disabled`         | 是否禁用                              | _boolean_ | `false`           |
-| `readonly`         | 是否只读                              | _boolean_ | `false`           |
-| `orientation`        | 显示方向，可选值为 `vertical horizontal`        | _string_ | `horizontal` |
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| model-value | 受控值；range 使用二元组 | `SliderValue` | — |
+| default-value | 非受控初始值 | `SliderValue` | `0` |
+| min / max | 有限边界，数字字符串可用；非法值回退 0/100；max<=min 不可交互 | `number \| string` | `0 / 100` |
+| step | 正有限步长，非法值回退1，按min对齐；max端点可达 | `number \| string` | `1` |
+| range | 两个固定低/高端，不可交叉；初始倒序自动排序 | `boolean` | `false` |
+| orientation | 整体朝向，垂直需要父容器提供高度 | `horizontal \| vertical` | `horizontal` |
+| disabled / readonly / error | 未传时继承FormItem/Form适用状态；只读可聚焦但不可改值 | `boolean` | 继承 |
+| show-ticks | 按step显示刻度，过密时省略，最多1000个 | `boolean` | `false` |
+| marks | 有限范围内位置到文本的映射 | `Record<number,string>` | — |
+| show-input | 显示InputNumber；Enter或失焦提交，使用同一归一化规则 | `boolean` | `false` |
+| show-tooltip | true悬浮/聚焦/拖动显示；false隐藏；always常驻 | `boolean \| 'always'` | `true` |
+| format-tooltip | 提示与aria-valuetext格式化 | `(value:number)=>string\|number` | 原值 |
+| aria-label | 可访问名称；范围可分别传入两个名称 | `string \| [string,string]` | — |
+| active-color / track-color / thumb-color | 轨道激活色/背景色/拇指底色 | `string` | CSS变量 |
+| label-color / label-text-color | 提示背景/文字色 | `string` | CSS变量 |
+| track-height / thumb-size | 轨道厚度/拇指直径，数字px或CSS长度；非法值保留主题默认 | `number \| string` | CSS变量 |
 
-### 事件
+### 行为与键盘
 
-| 事件名 | 说明 | 回调参数 |
-| ----- | -------- | -------- |
-| `change` |  值改变时触发| `value`: 当前进度|
-| `start` | 开始拖动时触发 | `-` |
-| `end` | 结束拖动时触发 | `value`: 当前进度 |
+方向键按step增加/减少，PageUp/PageDown为10步，Home/End到可用端点。范围的ARIA min/max随另一个拇指变化；重合时向左/下点击可分开低端，向右/上可分开高端。拇指内业务交互元素的键盘事件不被接管。只读保留焦点与提示，禁用不进入Tab顺序。
 
-### 插槽
+Pointer Events统一鼠标、触控、笔；pointerup提交最后坐标，pointercancel/丢失capture结束最近提议。禁用、卸载、KeepAlive失活会清理监听与capture且不继续发值事件。横向允许页面纵向滚动，纵向允许横向滚动。
 
-| 名称 | 说明 | 参数 |
-| ----- | -------------- | -------- |
-| `button` | 自定义滑动按钮 | `currentValue`: 当前进度 |
+受控模式只有父级回写才能改变显示；模型归一化不自动emit。change/update:model-value只报告不同提议，end携带最终提议，不保证父级接受。键盘及数字输入每次操作各有start/end；拖动是一组start/end。InputNumber内部不重复触发Form验证。已移除旧label-visible，直接使用show-tooltip，无兼容别名。
+
+### Events
+
+| 事件 | 参数 | 含义 |
+| --- | --- | --- |
+| update:model-value | `SliderValue` | 请求更新 |
+| change | `SliderValue` | 不同数值提议，与模型事件配对 |
+| start | — | 交互开始 |
+| end | `SliderValue` | 交互结束的最终提议 |
+
+### Slots / Methods
+
+button插槽收到`{ currentValue:number,index:number }`；自定义内容不移除键盘、ARIA与提示。focus(index=0)按显示顺序聚焦拇指，blur()移出焦点。
+
+导出SliderProps、SliderValue、SliderOrientation、SliderTooltipFormatter、SliderTooltipVisibility、SliderEmits、SliderSlots、SliderExpose、SliderInstance和运行时sliderProps。两端主体/样式独立复制；仅安装和Form接线使用各库独立实现。
 
 ### 样式变量
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-| 变量名 | 默认值 |
+| 变量 | 默认值 |
 | --- | --- |
-| `--slider-error-color` | `var(--color-danger)` |
-| `--slider-track-background` | `#bdbdbd` |
-| `--slider-track-height` | `2px` |
-| `--slider-track-border-radius` | `0` |
-| `--slider-track-fill-border-radius` | `0` |
-| `--slider-track-fill-background` | `var(--color-primary)` |
-| `--slider-thumb-block-background` | `var(--color-primary)` |
-| `--slider-thumb-ripple-background` | `var(--color-primary)` |
-| `--slider-thumb-label-background` | `var(--color-primary)` |
-| `--slider-thumb-label-font-size` | `var(--font-size-sm)` |
-| `--slider-thumb-label-text-color` | `var(--color-white)` |
-| `--slider-thumb-size` | `12px` |
-| `--slider-disabled-opacity` | `var(--opacity-disabled)` |
+| `--mp-slider-active-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-slider-track-color` | `var(--mp-sys-color-state-hover)` |
+| `--mp-slider-thumb-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-slider-thumb-border-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-slider-text-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-slider-tooltip-background` | `var(--mp-sys-color-surface-tooltip)` |
+| `--mp-slider-tooltip-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-slider-error-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-slider-disabled-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-slider-track-height` | `4px` |
+| `--mp-slider-thumb-size` | `16px` |
+| `--mp-slider-control-height` | `var(--mp-sys-control-height-md)` |
+| `--mp-slider-font-size` | `var(--mp-sys-font-size-sm)` |
+| `--mp-slider-gap` | `var(--mp-sys-space-4)` |
+| `--mp-slider-radius` | `var(--mp-sys-radius-md)` |
+| `--mp-slider-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
+| `--mp-slider-input-width` | `80px` |

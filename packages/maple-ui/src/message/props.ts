@@ -14,7 +14,7 @@ export const messageProps = {
   /** 视觉强调层级，与语义状态独立 */
   variant: {
     type: String as PropType<MessageVariant>,
-    default: 'solid',
+    default: 'neutral',
     validator: (value: MessageVariant) => messageVariants.includes(value),
   },
   status: {

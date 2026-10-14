@@ -1,5 +1,9 @@
 # InputNumber
 
+One real IAB default/light repeat lifecycle case passes per platform: actual first/subsequent repeat, stable after cancellation, fresh hold unmounted before800ms and stable beyond deadline, final nodes0. Entry click is native but internal pointerdown/pointercancel is scripted; not native long press/touch, dequeued-race, cross-window or OS evidence.
+
+Each long-press timer validates and consumes its generation before stepping. Old callbacks after stop, replacement, release, deactivation or disposal cannot change the value; a reentrant step that starts another hold cannot cancel that replacement through its return value. Inactive owners reject new holds; reactivation requires a new gesture rather than resuming the old one. Initial800ms/repeat150ms are interaction cadence, not CSS motion tokens. Eight controlled-timer/stale-callback tests pass per platform (seven fail before repair); full InputNumber Cedar45/Maple48 pass. This is not real browser or OS acceptance.
+
 InputNumber edits and commits JavaScript numbers. The libraries own independent copies of the view, controller, styles and API; no runtime instance is shared.
 
 - A defined model-value is controlled; default-value only initializes uncontrolled state. Drafts may differ while editing. A rejected proposal restores the parent value after commit. External updates never emit user events or trigger validation.

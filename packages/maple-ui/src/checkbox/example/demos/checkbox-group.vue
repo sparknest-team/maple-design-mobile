@@ -1,5 +1,12 @@
 <script setup>
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
+
+const demoLanguage = ref('zh-CN')
+const english = computed(() => demoLanguage.value === 'en-US')
+watchLang((value) => {
+  demoLanguage.value = value
+})
 
 const values = reactive({
   value: false,
@@ -35,14 +42,14 @@ const {
 
 <template>
   <mp-checkbox-group ref="group" v-model="value6">
-    <mp-checkbox :value="0">吃饭</mp-checkbox>
-    <mp-checkbox :value="1">睡觉</mp-checkbox>
+    <mp-checkbox :value="0">{{ english ? 'Eat' : '吃饭' }}</mp-checkbox>
+    <mp-checkbox :value="1">{{ english ? 'Sleep' : '睡觉' }}</mp-checkbox>
   </mp-checkbox-group>
-  <div class="relation">当前的值: {{ value6 }}</div>
+  <div class="relation">{{ english ? 'Current value' : '当前的值' }}: {{ value6 }}</div>
   <mp-divider size-y="14px" />
   <mp-space :size="[0, 10]">
-    <mp-button status="primary" @click="$refs.group.checkAll()">全选</mp-button>
-    <mp-button status="primary" @click="$refs.group.inverseAll()">反选</mp-button>
+    <mp-button status="primary" @click="$refs.group.checkAll()">{{ english ? 'Check all' : '全选' }}</mp-button>
+    <mp-button status="primary" @click="$refs.group.inverseAll()">{{ english ? 'Invert' : '反选' }}</mp-button>
   </mp-space>
 </template>
 

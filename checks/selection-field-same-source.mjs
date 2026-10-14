@@ -37,6 +37,8 @@ const groups = {
 groups['picker-field'].push('use-field-focus.ts', '__tests__/focus.spec.ts')
 const normalize = (source) =>
   source
+    // Less import quote style is formatter-owned, not a runtime difference.
+    .replace(/@import "([^"]+)";/g, "@import '$1';")
     .replaceAll('@cedarjs/icons-vue', '@maplejs/icons-vue')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('--c-', '--mp-')

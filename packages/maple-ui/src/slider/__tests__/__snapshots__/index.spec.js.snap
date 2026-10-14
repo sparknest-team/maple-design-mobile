@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Slider > installs, snapshots and SSR 1`] = `
+"<div class="mp-slider mp-slider--horizontal">
+  <div class="mp-slider__track">
+    <div class="mp-slider__rail"></div>
+    <div class="mp-slider__fill" style="left: 0%; width: 0%;"></div>
+    <div class="mp-slider__thumb" style="left: 0%;" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0" aria-orientation="horizontal"><span class="mp-slider__handle"></span>
+      <!--v-if-->
+    </div>
+  </div>
+  <!--v-if-->
+</div>"
+`;

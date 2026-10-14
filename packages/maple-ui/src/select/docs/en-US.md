@@ -1,5 +1,7 @@
 # Select
 
+Render-settled active-option scrolling is not CSS animation completion. Close/reopen, newer navigation, deactivation or disposal invalidate old work; consumed callbacks never replay, including empty options. Inactive/disposed retained selection/keyboard/scroll entries are inert; activation accepts fresh commands. Late dropdown registration remains supported. Virtual callbacks are rechecked before DOM scrolling. Scoped14 each/shared consumer regression Cedar93/Maple96 pass with controlled queues, not native browser/OS or full downstream proof. No API/CSS token change.
+
 ### Async device labels
 
 ```demo
@@ -92,6 +94,12 @@ Single: tap to select and close. Multiple: tap to toggle draft selection, **Done
 ### Presentation and commit rules
 
 Menu commits immediately. List commits single values immediately; multiple values use a draft. Picker always uses a draft. Confirm publishes once; cancel, overlay dismissal, Escape and presentation changes discard edits. External model replacements win over drafts. Cedar only supports Menu; Maple adds independently implemented List and Picker extensions to copied controllers and Menu code. No shared runtime or state.
+
+### Interaction Scheduling Lifecycle
+
+```demo
+../example/demos/en-US/scheduler-lifecycle.vue
+```
 
 ## API
 
@@ -190,3 +198,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | `--mp-select-popup-option-icon-margin-right` | `var(--mp-sys-space-4)` |
 
 Single and multiple options share popup-option-padding-horizontal. There is no implicit search-highlight element; custom option slots own any highlighted substring styling. Unconsumed multi-popup-option-padding-horizontal and popup-option-highlight-* variables have been removed.
+
+### Field and mobile presentation styles
+
+The copied field shell keeps the same token declarations as Cedar. Mobile presentation-only variables are declared separately in `src/_components/selection-field/presentation/style/token.less` and loaded with the local presentation stylesheet. Their names and defaults remain unchanged: `--mp-selection-presentation-max-height` (`65vh`), `--mp-selection-presentation-bg` (`var(--mp-sys-color-surface-overlay)`) and `--mp-selection-presentation-padding` (`var(--mp-sys-space-5)`). They do not add mobile presentation behavior to Cedar.

@@ -40,6 +40,14 @@
 ../example/demos/demo-6.vue
 ```
 
+### 主体与事件契约
+
+两端维护独立复制的主体。输入按 input → update:modelValue 通知；清空按 clear → input → update:modelValue → change 通知，各一次，Form 对应语义也各接收一次。只读、禁用和组合输入期间禁止清空。受控提议被拒绝后恢复原生内容，包括不支持光标 API 的输入类型。
+
+```demo
+../example/demos/body-contract.vue
+```
+
 ## API
 
 ### 属性
@@ -53,13 +61,12 @@
 | `variant`         | `filled \| outline \| standard`    | _string_                                            | `outline`  |
 | `size`            | `xs \| sm \| md \| lg \| xl`       | _string_                                            | `md`       |
 | `clearable`       | 是否允许清空                       | _boolean_                                           | `false`    |
-| `disabled`        | 是否禁用                           | _boolean_                                           | `false`    |
-| `readonly`        | 是否只读                           | _boolean_                                           | `false`    |
-| `error`           | 是否显示错误状态                   | _boolean_                                           | `false`    |
-| `rows`            | 原生可见行数                       | _string \| number_                                  | `-`        |
+| `disabled`        | 是否禁用                           | _boolean_                                           | `undefined` |
+| `readonly`        | 是否只读                           | _boolean_                                           | `undefined` |
+| `error`           | 是否显示错误状态                   | _boolean_                                           | `undefined` |
+| `rows`            | 原生可见行数，仍受 min-height Token 约束                       | _string \| number_                                  | `-`        |
 | `resize`          | 是否允许纵向拖动调整尺寸           | _boolean_                                           | `false`    |
 | `auto-size`       | 自动高度，可设置最小/最大行数      | _boolean \| { minRows?: number; maxRows?: number }_ | `false`    |
-
 | `max-length`      | 最大长度；对象形式可启用仅错误模式 | _number \| { length: number; errorOnly?: boolean }_ | `0`        |
 | `show-word-limit` | 是否显示字数统计                   | _boolean_                                           | `false`    |
 | `word-length`     | 自定义长度计算方法                 | _(value: string) => number_                         | `-`        |
@@ -68,7 +75,7 @@
 | `autofocus`       | 是否自动聚焦                       | _boolean_                                           | `false`    |
 | `enterkeyhint`    | 虚拟键盘回车键提示                 | _string_                                            | `-`        |
 | `textarea-attrs`  | 内部 textarea 元素的补充原生属性   | _object_                                            | `-`        |
-| `hint`            | 是否使用移动端浮动 placeholder     | _boolean_                                           | `true`     |
+| `hint` | 浮动提示；未设置时继承分组/库默认 | _boolean_ | `undefined` |
 | `line`            | 是否显示装饰线                     | _boolean_                                           | `true`     |
 | `text-color`      | 自定义文字颜色                     | _string_                                            | `-`        |
 | `focus-color`     | 自定义聚焦颜色                     | _string_                                            | `-`        |
@@ -83,7 +90,7 @@
 | `input`   | IME 完成后的用户输入                | `value: string, event: Event` |
 | `change`  | 失焦提交且值变化时触发              | `value: string, event: Event` |
 | `keydown` | 用户按键时触发；Enter 不提交 change | `event: KeyboardEvent`        |
-| `clear`   | 用户清空时触发，不伴随 input/change | `event: Event`                |
+| `clear`   | 用户清空时触发，按 clear → input → update:model-value → change 通知 | `event: Event`                |
 | `focus`   | 获得焦点时触发                      | `event: FocusEvent`           |
 | `blur`    | 失去焦点时触发                      | `event: FocusEvent`           |
 
@@ -130,4 +137,11 @@ import type {
 | `--mp-textarea-counter-font-size`              | `--mp-sys-font-size-xs`          |
 | `--mp-textarea-counter-margin-top`              | `--mp-sys-space-2`               |
 
-计数器布局为显式平台差异：Cedar 内置计数器使用 counter-inset-inline-end、counter-inset-block-end 与 scrollbar-offset；Maple 外置计数行使用 counter-margin-top。仅公开本端真实生效的布局变量，颜色与字号语义仍保持共享。
+
+### 原生布局与公开类型
+
+size 支持 xs/sm/md/lg/xl 的 FieldDecorator 外壳密度；文本域高度/文字度量仍由 rows、auto-size 和 Textarea Token 控制。Cedar 默认允许手动 resize，Maple 默认关闭。继承 InputGroup 与 Form 状态，子项显式值优先；提供 focus(options?)、blur()、select() 和 textareaRef。
+
+`TextareaProps`、`TextareaVariant`、`TextareaMaxLength`、`TextareaAutoSize`、`TextareaEmits`、`TextareaSlots`、`TextareaExpose`、`TextareaInstance`。
+
+原生方法：`focus(options?: FocusOptions)`、`blur()`、`select()`；`textareaRef` 为原生元素。

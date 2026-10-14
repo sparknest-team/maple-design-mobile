@@ -48,6 +48,12 @@
 ../example/demos/state.vue
 ```
 
+### 历史展示与插槽
+
+```demo
+../example/demos/presentation.vue
+```
+
 ## API
 
 ### 属性
@@ -70,7 +76,7 @@
 | `loading`                  | 是否处于加载状态；加载时禁止提交                | _boolean_                 | `false`    |
 | `clearable`                | 是否可清除                                      | _boolean_                 | `false`    |
 | `variant`                  | 输入框风格，可选 `filled` `outline` `standard`  | _string_                  | `outline`  |
-| `size`                     | 输入框尺寸                                      | _string_                  | `md`       |
+| `size` | 输入尺寸，继承 Form / ConfigProvider | `xs / sm / md / lg / xl` | `md` |
 | `placeholder`              | 占位符                                          | _string_                  | `-`        |
 | `disabled`                 | 是否禁用                                        | _boolean_                 | `false`    |
 | `readonly`                 | 是否只读                                        | _boolean_                 | `false`    |
@@ -78,9 +84,9 @@
 | `shape`                    | 内层搜索框形状，可选 `round` `square`           | _string_                  | `round`    |
 | `background`               | 外层背景色                                      | _string_                  | `-`        |
 | `input-background`         | 内层搜索框背景色                                | _string_                  | `-`        |
-| `show-action`              | 是否显示移动端操作按钮                          | _boolean_                 | `false`    |
-| `action-text`              | 移动端操作按钮文字                              | _string_                  | `取消`     |
-| `action-type`              | 移动端操作类型，可选 `cancel` `search`          | _string_                  | `cancel`   |
+| `show-action`              | 是否显示操作按钮                          | _boolean_                 | `false`    |
+| `action-text` | 操作按钮文字 | `string` | 跟随全局语言与 action-type |
+| `action-type`              | 操作类型，可选 `cancel` `search`          | _string_                  | `cancel`   |
 | `search-icon`              | 搜索图标名称                                    | _string_                  | `magnify`  |
 | `max-length`               | 最大长度                                        | _string \| number_        | `-`        |
 | `enterkeyhint`             | 虚拟键盘回车键提示                              | _string_                  | `search`   |
@@ -110,7 +116,7 @@
 | `button-default` | 公共搜索按钮内容                     | `-`         |
 | `button-icon`    | 公共搜索按钮图标                     | `-`         |
 | `label`          | 左侧标签                             | `-`         |
-| `action`         | 移动端操作按钮内容                   | `-`         |
+| `action`         | 操作按钮内容                   | `-`         |
 
 ### 方法
 
@@ -135,3 +141,29 @@
 | `modelValue`     | 原始搜索关键词 | _string_                               |
 | `model`          | 字段表单对象   | _Record<string, unknown> \| undefined_ |
 | `recentSearches` | 下一份搜索历史 | _string[]_                             |
+
+输入事件约定：编辑时先 `input`、再 `update:modelValue`；失焦提交仅在值变化时触发 `change`。清空依次触发 `clear → input → update:modelValue → change`，各一次，同时只更新一次搜索字段模型，不自动执行搜索。
+
+输入事件先于模型更新。Enter 会等待 Input 提交及受控模型回填后生成搜索结果；父级拒绝 trim 提议时，搜索仍使用实际受控值。清空按 clear → input → update:modelValue → change 通知，不自动执行搜索。
+
+## 受控模型协议
+
+值优先级为 `modelValue` > `model[当前字段]` > 非受控 `defaultValue`。传入 `model` 且存在当前字段时，缺失/null 字段显示空字符串；同时绑定多个模型时，应在父级保持它们一致。`modelField` 优先于 `defaultField` 和第一项字段；受控值不会被内部强制覆盖。
+
+`model` **不会被原地修改**。每次逻辑更新发出一份 `update:model` 新对象，清空已声明的其他字段、保留未声明属性；请使用 `v-model:model` 或显式接受提议。字段切换只产生一次 `update:modelField → update:modelValue → update:model → change`。父级可拒绝提议，Enter、按钮、历史项搜索均等待一轮更新后读取实际接受的字段、关键词和模型。
+
+历史不按输入过滤，也不内部持久化；`search` 返回的新历史统一 trim、去空、去重并截取最大数量。空关键词不添加记录，非有限/负数最大数量按 0 处理。清空不执行搜索；取消提议空字符串并发出 cancel/change，不提交搜索。
+
+输入编辑发出 `input → update:modelValue`；提交值变化时才发出 `change`。清空为 `clear → input → update:modelValue → change`，仅一次。只读、禁用、loading 会阻止搜索/取消/历史/字段操作；禁用和只读可继承 Form / FormItem / InputGroup。失活或卸载会取消未完成的异步搜索。
+
+### 跨端边界
+
+双方控制器、公开 API 和历史内容独立同源。Cedar 默认 `historyPopup=false, shape=square`，Maple 默认 `historyPopup=true, shape=round`；显式开启后分别使用本地 Drawer / Popup，不共享实例。Cedar 保留 InputGroup，Maple 保留移动搜索条布局和触控间距。Input 支持 `xs/sm/md/lg/xl`，外层条高度/间距仍由 Search token 控制，并非整个条随 size 等比例缩放。
+
+### 公开类型
+
+`SearchProps`, `SearchEmits`, `SearchSlots`, `SearchExpose`, `SearchField`, `SearchResult`.
+
+### Input 属性透传
+
+显式支持 `modelModifiers`、`type`、`ariaLabel`、`placeholder`、`maxLength`、`readonly`、`disabled`、`autofocus`、`enterkeyhint`、`textColor`、`focusColor`、`blurColor`、`size`、`variant`、`clearable`、`inputAttrs`、`error`。`inputAttrs` 将原生 name/autocomplete/ARIA 等属性传给外侧和全屏内输入框；`error` 可覆盖继承的错误状态。搜索、弹层取消和弹层标签沿用全局多语言系统。取消、字段、历史程序更新各通知一次 Form change，原生编辑沿用 Input 事件链。

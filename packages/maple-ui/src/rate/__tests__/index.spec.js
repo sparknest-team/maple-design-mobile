@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Rate from '..'
 import { createRegisteredIconComponents, delay, trigger } from '../../utils/test'
-import VarRate from '../Rate.vue'
+import VarRate from '../rate-core'
 
 test('rate use', () => {
   const app = createApp({}).use(Rate)

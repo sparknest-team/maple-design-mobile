@@ -4,12 +4,14 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import ContextMenuDemo from './demos/context-menu.vue'
 import ControlledDemo from './demos/controlled.vue'
 import DisabledStateDemo from './demos/disabled-state.vue'
+import PositioningEnglishDemo from './demos/en-US/positioning.vue'
 import FooterDemo from './demos/footer.vue'
 import GroupDemo from './demos/group.vue'
 import OptionContentDemo from './demos/option-content.vue'
 import OverflowActionsDemo from './demos/overflow-actions.vue'
 import PlacementDemo from './demos/placement.vue'
 import PopupMaxHeightDemo from './demos/popup-max-height.vue'
+import PositioningDemo from './demos/positioning.vue'
 import SelectionDemo from './demos/selection.vue'
 import SubmenuDemo from './demos/submenu.vue'
 import TriggerDemo from './demos/trigger.vue'
@@ -24,6 +26,12 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="positioning">
+    <app-type>{{ english ? 'Positioning Strategy' : '定位策略' }}</app-type>
+    <PositioningEnglishDemo v-if="english" />
+    <PositioningDemo v-else />
+  </section>
+
   <section data-demo="overflow-actions">
     <app-type>{{ english ? 'Overflow Actions' : '更多操作' }}</app-type>
     <OverflowActionsDemo />

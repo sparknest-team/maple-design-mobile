@@ -10,14 +10,34 @@ Public variables may be overridden on the rendered component root or the real po
 
 Source: `src/_components/picker-field/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-picker-field-gap` | Public | `8px` | Local CSS<br>`gap` |
 | `--mp-picker-field-input-min-width` | Public | `3em` | Local CSS<br>`min-width` |
 
+</div>
+
+## _components/selection-field/presentation
+
+Source: `src/_components/selection-field/presentation/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-selection-presentation-bg` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background` |
+| `--mp-selection-presentation-max-height` | Public | `65vh` | Local CSS<br>`max-height` |
+| `--mp-selection-presentation-padding` | Public | `var(--mp-sys-space-5)` | Local CSS<br>`padding` |
+
+</div>
+
 ## _components/selection-field
 
 Source: `src/_components/selection-field/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -27,9 +47,13 @@ Source: `src/_components/selection-field/style/token.less`
 | `--mp-selection-field-loading-duration` | Public | `1s` | Local CSS<br>`animation` |
 | `--mp-selection-field-search-min-width` | Public | `3em` | Local CSS<br>`min-width` |
 
+</div>
+
 ## _components/selection-scrollbar
 
 Source: `src/_components/selection-scrollbar/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -42,9 +66,36 @@ Source: `src/_components/selection-scrollbar/style/token.less`
 | `--mp-scrollbar-track-border-size` | Public | `1px` | Local CSS<br>`border-bottom`, `border-left`, `border-right`, `border-top`, `margin`, `right` |
 | `--mp-scrollbar-track-size` | Public | `15px` | Local CSS<br>`height`, `margin`, `width` |
 
+</div>
+
+## action-sheet
+
+Source: `src/action-sheet/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-action-sheet-action-item-color` | Public | `#333` | Local CSS<br>`color` |
+| `--mp-action-sheet-action-item-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
+| `--mp-action-sheet-action-item-height` | Public | `48px` | Local CSS<br>`height`, `max-height` |
+| `--mp-action-sheet-action-item-padding` | Public | `0 18px` | Local CSS<br>`padding` |
+| `--mp-action-sheet-background` | Public | `#fff` | Local CSS<br>`background` |
+| `--mp-action-sheet-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-action-sheet-border-top` | Public | `none` | Local CSS<br>`border-top` |
+| `--mp-action-sheet-icon-margin` | Public | `0 20px 0 0` | Local CSS<br>`margin` |
+| `--mp-action-sheet-icon-size` | Public | `24px` | Local CSS<br>`font-size`, `height`, `width` |
+| `--mp-action-sheet-title-color` | Public | `#888` | Local CSS<br>`color` |
+| `--mp-action-sheet-title-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-action-sheet-title-padding` | Public | `10px 16px` | Local CSS<br>`padding` |
+
+</div>
+
 ## alert
 
 Source: `src/alert/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -131,9 +182,13 @@ Source: `src/alert/style/token.less`
 | `--mp-alert-tonal-warning-icon` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
 | `--mp-alert-tonal-warning-title` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
 
+</div>
+
 ## auto-complete
 
 Source: `src/auto-complete/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -156,9 +211,13 @@ Source: `src/auto-complete/style/token.less`
 | `--mp-auto-complete-popup-max-height` | Public | `200px` | Cross-component CSS<br>`max-height` |
 | `--mp-auto-complete-popup-padding-vertical` | Public | `var(--mp-sys-space-2)` | Cross-component CSS<br>`padding` |
 
+</div>
+
 ## avatar
 
 Source: `src/avatar/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -195,9 +254,13 @@ Source: `src/avatar/style/token.less`
 | `--mp-avatar-z-index-overlay-hover` | Public | `2` | Local CSS<br>`z-index` |
 | `--mp-avatar-z-index-trigger` | Public | `1` | Local CSS<br>`z-index` |
 
+</div>
+
 ## back-top
 
 Source: `src/back-top/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -215,9 +278,13 @@ Source: `src/back-top/style/token.less`
 | `--mp-back-top-text-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
 | `--mp-back-top-z-index` | Public | `var(--mp-z-index-local-sticky)` | Local CSS<br>`z-index` |
 
+</div>
+
 ## badge
 
 Source: `src/badge/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -300,9 +367,13 @@ Source: `src/badge/style/token.less`
 | `--mp-badge-variant-outline-status-warning-text-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`border`, `color` |
 | `--mp-badge-variant-outline-text-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`border`, `color` |
 
+</div>
+
 ## breadcrumb
 
 Source: `src/breadcrumb/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -311,7 +382,7 @@ Source: `src/breadcrumb/style/token.less`
 | `--mp-breadcrumb-dropdown-icon` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
 | `--mp-breadcrumb-font-weight-active` | Public | `400` | Local CSS<br>`font-weight` |
 | `--mp-breadcrumb-icon-color` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
-| `--mp-breadcrumb-item-active-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`color` |
+| `--mp-breadcrumb-item-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
 | `--mp-breadcrumb-item-inactive-color` | Public | `#888` | Local CSS<br>`color` |
 | `--mp-breadcrumb-item-separator-font-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-breadcrumb-item-separator-margin` | Public | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | Local CSS<br>`margin` |
@@ -330,25 +401,31 @@ Source: `src/breadcrumb/style/token.less`
 | `--mp-breadcrumb-text-color` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
 | `--mp-breadcrumb-text-color-active` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
 
+</div>
+
 ## button
 
 Source: `src/button/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-button-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-button-content-gap` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`gap` |
 | `--mp-button-danger-color` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`background-color` |
+| `--mp-button-danger-disabled-color` | Public | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
 | `--mp-button-danger-icon-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-button-danger-icon-container-color` | Public | `rgb(var(--mp-danger-1))` | Local CSS<br>`background-color` |
 | `--mp-button-danger-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-danger-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-button-danger-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-button-default-color` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
 | `--mp-button-default-icon-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-button-default-icon-container-color` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
 | `--mp-button-default-state-layer-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`background-color` |
 | `--mp-button-default-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
-| `--mp-button-disabled-color` | Public | `var(--mp-color-disabled)` | Local CSS<br>`background-color` |
+| `--mp-button-disabled-color` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
+| `--mp-button-disabled-solid-text-color` | Public | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | Local CSS<br>`color` |
 | `--mp-button-disabled-text-color` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-button-focus-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`outline` |
 | `--mp-button-focus-offset` | Public | `2px` | Local CSS<br>`outline-offset` |
@@ -356,10 +433,11 @@ Source: `src/button/style/token.less`
 | `--mp-button-group-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-button-icon-container-padding` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`padding` |
 | `--mp-button-info-color` | Public | `var(--mp-sys-color-status-info)` | Local CSS<br>`background-color` |
+| `--mp-button-info-disabled-color` | Public | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
 | `--mp-button-info-icon-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`color` |
 | `--mp-button-info-icon-container-color` | Public | `rgb(var(--mp-blue-1))` | Local CSS<br>`background-color` |
 | `--mp-button-info-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-info-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-button-info-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-button-large-font-size` | Public | `var(--mp-sys-font-size-lg)` | Local CSS<br>`font-size` |
 | `--mp-button-large-height` | Public | `44px` | Local CSS<br>`height`, `min-width`, `width` |
 | `--mp-button-large-padding` | Public | `0 22px` | Local CSS<br>`padding` |
@@ -380,16 +458,17 @@ Source: `src/button/style/token.less`
 | `--mp-button-plain-state-opacity-active` | Public | `1` | Local CSS<br>`opacity` |
 | `--mp-button-plain-state-opacity-hover` | Public | `0.5` | Local CSS<br>`opacity` |
 | `--mp-button-primary-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background-color` |
+| `--mp-button-primary-disabled-color` | Public | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
 | `--mp-button-primary-icon-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
 | `--mp-button-primary-icon-container-color` | Public | `rgb(var(--mp-primary-1))` | Local CSS<br>`background-color` |
 | `--mp-button-primary-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-primary-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-button-primary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-button-round-padding` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`padding` |
 | `--mp-button-secondary-color` | Public | `rgb(var(--mp-gray-6))` | Local CSS<br>`background-color` |
 | `--mp-button-secondary-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-button-secondary-icon-container-color` | Public | `rgb(var(--mp-gray-2))` | Local CSS<br>`background-color` |
 | `--mp-button-secondary-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-secondary-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-button-secondary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-button-small-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
 | `--mp-button-small-height` | Public | `28px` | Local CSS<br>`height`, `min-width`, `width` |
 | `--mp-button-small-padding` | Public | `0 var(--mp-sys-space-5)` | Local CSS<br>`padding` |
@@ -402,29 +481,35 @@ Source: `src/button/style/token.less`
 | `--mp-button-state-opacity-active` | Public | `0.12` | Local CSS<br>`opacity` |
 | `--mp-button-state-opacity-hover` | Public | `0.08` | Local CSS<br>`opacity` |
 | `--mp-button-success-color` | Public | `var(--mp-sys-color-status-success)` | Local CSS<br>`background-color` |
+| `--mp-button-success-disabled-color` | Public | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
 | `--mp-button-success-icon-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
 | `--mp-button-success-icon-container-color` | Public | `rgb(var(--mp-success-1))` | Local CSS<br>`background-color` |
 | `--mp-button-success-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-success-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-button-success-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-button-tertiary-color` | Public | `rgb(var(--mp-gray-7))` | Local CSS<br>`background-color` |
 | `--mp-button-tertiary-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-button-tertiary-icon-container-color` | Public | `rgb(var(--mp-gray-1))` | Local CSS<br>`background-color` |
-| `--mp-button-tertiary-state-layer-color` | Public | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-button-tertiary-text-color` | Public | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme="dark"]`) | Local CSS<br>`color` |
+| `--mp-button-tertiary-state-layer-color` | Public | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-button-tertiary-text-color` | Public | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | Local CSS<br>`color` |
 | `--mp-button-transition-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-button-warning-color` | Public | `var(--mp-sys-color-status-warning)` | Local CSS<br>`background-color` |
+| `--mp-button-warning-disabled-color` | Public | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
 | `--mp-button-warning-icon-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
 | `--mp-button-warning-icon-container-color` | Public | `rgb(var(--mp-warning-1))` | Local CSS<br>`background-color` |
 | `--mp-button-warning-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-warning-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-button-warning-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-button-xl-font-size` | Public | `var(--mp-sys-font-size-xl)` | Local CSS<br>`font-size` |
 | `--mp-button-xl-height` | Public | `52px` | Local CSS<br>`height`, `min-width`, `width` |
 | `--mp-button-xl-padding` | Public | `0 28px` | Local CSS<br>`padding` |
 | `--mp-button-xl-stacked-height` | Public | `64px` | Local CSS<br>`height`, `min-width` |
 
+</div>
+
 ## card
 
 Source: `src/card/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -477,18 +562,50 @@ Source: `src/card/style/token.less`
 | `--mp-card-title-padding` | Public | `0 12px` | Local CSS<br>`padding` |
 | `--mp-card-title-row-margin` | Public | `12px 0` | Local CSS<br>`margin` |
 
+</div>
+
 ## carousel
 
 Source: `src/carousel/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-carousel-card-duration` | Public | `300ms` | Local CSS<br>`transition` |
-| `--mp-carousel-fade-duration` | Public | `300ms` | Local CSS<br>`transition` |
+| `--mp-carousel-arrow-background` | Public | `rgb(0 0 0 / 35%)` | Local CSS<br>`background` |
+| `--mp-carousel-arrow-background-hover` | Public | `rgb(0 0 0 / 55%)` | Local CSS<br>`background` |
+| `--mp-carousel-arrow-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
+| `--mp-carousel-arrow-disabled-opacity` | Public | `0.4` | Local CSS<br>`opacity` |
+| `--mp-carousel-arrow-font-size` | Public | `var(--mp-sys-font-size-xl)` | Local CSS<br>`font-size` |
+| `--mp-carousel-arrow-margin` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`bottom`, `left`, `right`, `top` |
+| `--mp-carousel-arrow-size` | Public | `var(--mp-sys-control-height-md)` | Local CSS<br>`height`, `width` |
+| `--mp-carousel-card-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
+| `--mp-carousel-card-opacity` | Public | `0.6` | Local CSS<br>`opacity` |
+| `--mp-carousel-card-scale` | Public | `0.85` | Local CSS<br>`transform` |
+| `--mp-carousel-fade-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
+| `--mp-carousel-focus-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`outline` |
+| `--mp-carousel-focus-offset` | Public | `2px` | Local CSS<br>`outline-offset` |
+| `--mp-carousel-focus-width` | Public | `2px` | Local CSS<br>`outline` |
+| `--mp-carousel-indicator-color-active` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background` |
+| `--mp-carousel-indicator-color-default` | Public | `rgb(255 255 255 / 35%)` | Local CSS<br>`background` |
+| `--mp-carousel-indicator-dot-size` | Public | `8px` | Local CSS<br>`height`, `width` |
+| `--mp-carousel-indicator-gap` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`gap` |
+| `--mp-carousel-indicator-line-border-radius` | Public | `var(--mp-sys-radius-sm)` | Local CSS<br>`border-radius` |
+| `--mp-carousel-indicator-line-height` | Public | `3px` | Local CSS<br>`height` |
+| `--mp-carousel-indicator-line-width` | Public | `20px` | Local CSS<br>`width` |
+| `--mp-carousel-indicator-outer-margin-bottom` | Public | `var(--mp-sys-space-8)` | Local CSS<br>`padding-bottom` |
+| `--mp-carousel-indicator-position` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`bottom`, `left`, `right`, `top` |
+| `--mp-carousel-navigation-z-index` | Public | `10` | Local CSS<br>`z-index` |
+| `--mp-carousel-transition-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
+| `--mp-carousel-transition-timing-function` | Public | `ease` | Local CSS<br>`transition` |
+
+</div>
 
 ## cascader
 
 Source: `src/cascader/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -520,28 +637,84 @@ Source: `src/cascader/style/token.less`
 | `--mp-cascader-size-item-icon` | Public | `12px` | Local CSS<br>`font-size`, `margin-top`, `padding-right` |
 | `--mp-cascader-slide-margin` | Public | `120px` | Local CSS<br>`margin-left` |
 
+</div>
+
+## cell
+
+Source: `src/cell/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-cell-border-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
+| `--mp-cell-border-left` | Public | `12px` | Local CSS<br>`left` |
+| `--mp-cell-border-right` | Public | `12px` | Local CSS<br>`right` |
+| `--mp-cell-color` | Public | `var(--mp-color-text)` | Local CSS<br>`color` |
+| `--mp-cell-description-color` | Public | `rgba(0, 0, 0, 0.6)` | Local CSS<br>`color` |
+| `--mp-cell-description-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-cell-description-margin-top` | Public | `4px` | Local CSS<br>`margin-top` |
+| `--mp-cell-extra-left` | Public | `8px` | Local CSS<br>`margin-left` |
+| `--mp-cell-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-cell-icon-right` | Public | `8px` | Local CSS<br>`margin-right` |
+| `--mp-cell-min-height` | Public | `40px` | Local CSS<br>`min-height` |
+| `--mp-cell-padding` | Public | `10px 12px` | Local CSS<br>`padding` |
+
+</div>
+
 ## checkbox
 
 Source: `src/checkbox/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-checkbox-action-padding` | Public | `6px` | Local CSS<br>`padding`, `transform` |
+| `--mp-checkbox-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-checkbox-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
-| `--mp-checkbox-control-size` | Public | `24px` | Local CSS<br>`font-size` |
+| `--mp-checkbox-control-size` | Public | `24px` | Local CSS<br>`height`, `width` |
 | `--mp-checkbox-group-gap` | Public | `0` | Local CSS<br>`gap` |
 | `--mp-checkbox-label-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-checkbox-label-gap` | Public | `0` | Local CSS<br>`margin-inline-start` |
 | `--mp-checkbox-label-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-checkbox-label-text-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
+| `--mp-internal-checkbox-action-radius` | Internal | `50%` | Local CSS<br>`border-radius` |
+| `--mp-internal-checkbox-background` | Internal | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
+| `--mp-internal-checkbox-background-disabled` | Internal | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
+| `--mp-internal-checkbox-border-radius` | Internal | `2px` | Local CSS<br>`border-radius` |
+| `--mp-internal-checkbox-border-width` | Internal | `1px` | Local CSS<br>`border` |
+| `--mp-internal-checkbox-focus-offset` | Internal | `2px` | Local CSS<br>`outline-offset` |
+| `--mp-internal-checkbox-focus-width` | Internal | `2px` | Local CSS<br>`outline` |
+| `--mp-internal-checkbox-hover-background` | Internal | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background-color` |
+| `--mp-internal-checkbox-mark-color` | Internal | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color`, `color` |
+| `--mp-internal-checkbox-mark-height` | Internal | `2px` | Local CSS<br>`height` |
+| `--mp-internal-checkbox-mark-radius` | Internal | `1px` | Local CSS<br>`border-radius` |
+| `--mp-internal-checkbox-mark-size` | Internal | `75%` | Local CSS<br>`height`, `width` |
+
+</div>
+
+## code
+
+Source: `src/code/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-code-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-code-line-height` | Public | `1.7` | Local CSS<br>`line-height` |
+
+</div>
 
 ## collapse
 
 Source: `src/collapse/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -577,27 +750,153 @@ Source: `src/collapse/style/token.less`
 | `--mp-collapse-title-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-collapse-title-text-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 
+</div>
+
 ## count-to
 
 Source: `src/count-to/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-count-to-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-count-to-text-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
 
+</div>
+
 ## countdown
 
 Source: `src/countdown/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-countdown-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-countdown-text-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
 
+</div>
+
+## counter
+
+Source: `src/counter/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-counter-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
+| `--mp-counter-button-icon-size` | Public | `100%` | Local CSS<br>`font-size` |
+| `--mp-counter-button-size` | Public | `28px` | Local CSS<br>`border-radius`, `height`, `width` |
+| `--mp-counter-button-text-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-counter-disabled-opacity` | Public | `var(--mp-opacity-disabled)` | Local CSS<br>`opacity` |
+| `--mp-counter-error-color` | Public | `var(--mp-color-danger)` | Local CSS<br>`background` |
+| `--mp-counter-font-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-counter-input-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-counter-input-margin` | Public | `0 4px` | Local CSS<br>`margin` |
+| `--mp-counter-input-width` | Public | `28px` | Local CSS<br>`width` |
+| `--mp-counter-padding` | Public | `0 4px` | Local CSS<br>`padding` |
+
+</div>
+
+## date
+
+Source: `src/date/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-date-input-trigger-outline-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`outline` |
+| `--mp-date-input-trigger-outline-offset` | Public | `var(--mp-sys-space-1)` | Local CSS<br>`outline-offset` |
+| `--mp-date-input-trigger-outline-width` | Public | `var(--mp-sys-space-1)` | Local CSS<br>`outline` |
+| `--mp-date-input-trigger-padding` | Public | `0` | Local CSS<br>`padding` |
+| `--mp-date-picker-actions-padding` | Public | `0 8px 12px 8px` | Local CSS<br>`padding` |
+| `--mp-date-picker-body-background-color` | Public | `#fff` | Local CSS<br>`background`, `background-color` |
+| `--mp-date-picker-body-height` | Public | `280px` | Local CSS<br>`height` |
+| `--mp-date-picker-body-padding` | Public | `0` | Local CSS<br>`padding` |
+| `--mp-date-picker-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-date-picker-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-date-picker-header-arrow-filter` | Public | `opacity(0.54)` | Local CSS<br>`filter` |
+| `--mp-date-picker-header-color` | Public | `#555` | Local CSS<br>`color` |
+| `--mp-date-picker-header-padding` | Public | `4px 16px` | Local CSS<br>`padding` |
+| `--mp-date-picker-main-color` | Public | `rgba(0, 0, 0, 0.87)` | Local CSS<br>`color` |
+| `--mp-date-picker-min-width` | Public | `290px` | Local CSS<br>`min-width` |
+| `--mp-date-picker-title-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
+| `--mp-date-picker-title-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-date-picker-title-date-font-size` | Public | `34px` | Local CSS<br>`font-size` |
+| `--mp-date-picker-title-date-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
+| `--mp-date-picker-title-date-height` | Public | `48px` | Local CSS<br>`height` |
+| `--mp-date-picker-title-date-justify-content` | Public | `normal` | Local CSS<br>`justify-content` |
+| `--mp-date-picker-title-date-range-font-size` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-date-picker-title-height` | Public | `105px` | Local CSS<br>`min-height` |
+| `--mp-date-picker-title-hint-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-date-picker-title-hint-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-date-picker-title-padding` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-date-picker-title-year-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-date-picker-title-year-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
+| `--mp-date-picker-title-year-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
+| `--mp-date-picker-title-year-min-height` | Public | `21px` | Local CSS<br>`min-height` |
+| `--mp-date-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
+| `--mp-date-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
+| `--mp-date-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
+| `--mp-date-toolbar-padding` | Public | `var(--mp-picker-toolbar-padding, 0 4px)` | Local CSS<br>`padding` |
+| `--mp-day-picker-content-item-button-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-day-picker-content-item-button-height` | Public | `32px` | Local CSS<br>`height` |
+| `--mp-day-picker-content-item-button-width` | Public | `32px` | Local CSS<br>`width` |
+| `--mp-day-picker-content-item-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-day-picker-content-item-min-height` | Public | `21px` | Local CSS<br>`min-height` |
+| `--mp-day-picker-content-item-padding` | Public | `2px 0` | Local CSS<br>`padding` |
+| `--mp-day-picker-content-item-width` | Public | `14.28%` | Local CSS<br>`width` |
+| `--mp-day-picker-head-item-color` | Public | `rgba(0, 0, 0, 0.38)` | Local CSS<br>`color` |
+| `--mp-day-picker-head-item-font-weight` | Public | `600` | Local CSS<br>`font-weight` |
+| `--mp-day-picker-head-item-padding` | Public | `8px 0` | Local CSS<br>`padding` |
+| `--mp-month-picker-item-button-max-width` | Public | `140px` | Local CSS<br>`max-width` |
+| `--mp-month-picker-item-height` | Public | `56px` | Local CSS<br>`height` |
+| `--mp-month-picker-item-width` | Public | `33%` | Local CSS<br>`width` |
+| `--mp-month-picker-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-year-picker-item-button-max-width` | Public | `140px` | Local CSS<br>`max-width` |
+| `--mp-year-picker-item-height` | Public | `56px` | Local CSS<br>`height` |
+| `--mp-year-picker-item-width` | Public | `33%` | Local CSS<br>`width` |
+| `--mp-year-picker-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+
+</div>
+
+## date-range
+
+Source: `src/date-range/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-date-range-picker-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background` |
+| `--mp-date-range-picker-border-radius` | Public | `var(--mp-date-picker-border-radius, 4px)` | Local CSS<br>`border-radius` |
+| `--mp-date-range-picker-column-label-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-date-range-picker-column-label-font-size` | Public | `13px` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-column-label-height` | Public | `36px` | Local CSS<br>`height` |
+| `--mp-date-range-picker-value-active-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`background`, `color` |
+| `--mp-date-range-picker-value-arrow-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`color` |
+| `--mp-date-range-picker-value-arrow-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-value-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-date-range-picker-value-date-font-size` | Public | `13px` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-value-time-font-size` | Public | `22px` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-values-font-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-values-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
+| `--mp-date-range-picker-values-height` | Public | `56px` | Local CSS<br>`min-height` |
+| `--mp-date-range-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
+| `--mp-date-range-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
+| `--mp-date-range-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
+| `--mp-date-range-toolbar-padding` | Public | `var(--mp-picker-toolbar-padding, 0 4px)` | Local CSS<br>`padding` |
+
+</div>
+
 ## dialog
 
 Source: `src/dialog/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -640,9 +939,13 @@ Source: `src/dialog/style/token.less`
 | `--mp-dialog-title-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-dialog-width` | Public | `280px` | Local CSS<br>`width` |
 
+</div>
+
 ## divider
 
 Source: `src/divider/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -672,18 +975,56 @@ Source: `src/divider/style/token.less`
 | `--mp-divider-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-divider-text-padding` | Public | `8px` | Local CSS<br>`padding` |
 
+</div>
+
 ## dropdown-menu
 
 Source: `src/dropdown-menu/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
+| `--mp-dropdown-menu-background-color` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
+| `--mp-dropdown-menu-border-color` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background-color`, `border`, `border-top` |
+| `--mp-dropdown-menu-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-dropdown-menu-group-title-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-group-title-height` | Public | `24px` | Local CSS<br>`height`, `line-height` |
+| `--mp-dropdown-menu-group-title-padding` | Public | `8px 12px 4px` | Local CSS<br>`padding` |
+| `--mp-dropdown-menu-group-title-text-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-dropdown-menu-max-height` | Public | `278px` | Local CSS<br>`max-height` |
+| `--mp-dropdown-menu-option-arrow-icon-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-option-arrow-padding` | Public | `0 6px 0 8px` | Local CSS<br>`padding` |
 | `--mp-dropdown-menu-option-bg-disabled` | Public | `transparent` | Local CSS<br>`background` |
+| `--mp-dropdown-menu-option-bg-hover` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background-color` |
 | `--mp-dropdown-menu-option-bg-selected-hover` | Public | `var(--mp-dropdown-menu-option-selected-background)` | Local CSS<br>`background` |
+| `--mp-dropdown-menu-option-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
+| `--mp-dropdown-menu-option-icon-margin-right` | Public | `8px` | Local CSS<br>`margin-right` |
+| `--mp-dropdown-menu-option-lg-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-option-lg-height` | Public | `46px` | Local CSS<br>`height` |
+| `--mp-dropdown-menu-option-md-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-option-md-height` | Public | `38px` | Local CSS<br>`height` |
+| `--mp-dropdown-menu-option-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-dropdown-menu-option-selected-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
+| `--mp-dropdown-menu-option-selected-text-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-dropdown-menu-option-sm-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-option-sm-height` | Public | `30px` | Local CSS<br>`height` |
+| `--mp-dropdown-menu-option-suffix-margin-left` | Public | `16px` | Local CSS<br>`margin-left` |
+| `--mp-dropdown-menu-option-text-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-dropdown-menu-option-xl-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-option-xl-height` | Public | `54px` | Local CSS<br>`height` |
+| `--mp-dropdown-menu-option-xs-font-size` | Public | `var(--mp-font-size-xs)` | Local CSS<br>`font-size` |
+| `--mp-dropdown-menu-option-xs-height` | Public | `24px` | Local CSS<br>`height` |
+| `--mp-dropdown-menu-padding` | Public | `4px 0` | Local CSS<br>`margin`, `padding` |
+| `--mp-dropdown-menu-padding-vertical` | Public | `4px` | Local CSS<br>`margin-top` |
+
+</div>
 
 ## ellipsis
 
 Source: `src/ellipsis/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -691,9 +1032,13 @@ Source: `src/ellipsis/style/token.less`
 | `--mp-ellipsis-focus-offset` | Public | `2px` | Local CSS<br>`outline-offset` |
 | `--mp-ellipsis-focus-width` | Public | `2px` | Local CSS<br>`outline` |
 
+</div>
+
 ## empty
 
 Source: `src/empty/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -710,15 +1055,43 @@ Source: `src/empty/style/token.less`
 | `--mp-empty-size-xl` | Public | `160px` | Local CSS<br>`font-size`, `height`, `width` |
 | `--mp-empty-size-xs` | Public | `80px` | Local CSS<br>`font-size`, `height`, `width` |
 
+</div>
+
+## fab
+
+Source: `src/fab/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-fab-action-border-radius` | Public | `50%` | Local CSS<br>`border-radius` |
+| `--mp-fab-action-margin` | Public | `6px` | Local CSS<br>`margin` |
+| `--mp-fab-action-size` | Public | `40px` | Local CSS<br>`height`, `width` |
+| `--mp-fab-actions-padding` | Public | `10px 0` | Local CSS<br>`padding` |
+| `--mp-fab-bottom` | Public | `16px` | Local CSS<br>`bottom` |
+| `--mp-fab-left` | Public | `16px` | Local CSS<br>`left` |
+| `--mp-fab-right` | Public | `16px` | Local CSS<br>`right` |
+| `--mp-fab-top` | Public | `70px` | Local CSS<br>`top` |
+| `--mp-fab-transition-standard-easing` | Public | `cubic-bezier(0.4, 0, 0.2, 1)` | Local CSS<br>`transition` |
+| `--mp-fab-trigger-active-icon-size` | Public | `22px` | Local CSS<br>`font-size` |
+| `--mp-fab-trigger-border-radius` | Public | `50%` | Local CSS<br>`border-radius` |
+| `--mp-fab-trigger-inactive-icon-size` | Public | `26px` | Local CSS<br>`font-size` |
+| `--mp-fab-trigger-size` | Public | `56px` | Local CSS<br>`height`, `width` |
+
+</div>
+
 ## field-decorator
 
 Source: `src/field-decorator/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-field-blur-color` | Public | `var(--mp-sys-color-content-tertiary)` | Local CSS<br>`border-bottom`, `color` |
 | `--mp-field-border-radius` | Public | `4px` | Local CSS<br>`border-end-end-radius`, `border-end-start-radius`, `border-radius`, `border-start-end-radius`, `border-start-start-radius` |
-| `--mp-field-border-width` | Public | `1px` | Local CSS<br>`border`, `border-bottom`, `margin-inline-start`, `min-height`, `outline`, `padding-inline-start` |
+| `--mp-field-border-width` | Public | `1px` | Local CSS<br>`border`, `border-bottom`, `margin-inline-start`, `min-height`, `outline`, `outline-offset`, `padding-inline-start` |
 | `--mp-field-clear-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-field-clear-icon-size` | Public | `var(--mp-field-icon-size)` | Local CSS<br>`font-size` |
 | `--mp-field-clear-padding` | Public | `4px` | Local CSS<br>`padding` |
@@ -739,15 +1112,15 @@ Source: `src/field-decorator/style/token.less`
 | `--mp-field-placeholder-text-color` | Public | `var(--mp-sys-color-content-tertiary)` | Local CSS<br>`color` |
 | `--mp-field-prefix-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-field-size-lg-font-size` | Public | `16px` | Local CSS<br>`font-size` |
-| `--mp-field-size-lg-height` | Public | `56px` | Local CSS<br>`min-height` |
+| `--mp-field-size-lg-height` | Public | `56px` | Local CSS<br>`flex`, `height`, `min-height` |
 | `--mp-field-size-md-font-size` | Public | `16px` | Local CSS<br>`font-size` |
-| `--mp-field-size-md-height` | Public | `48px` | Local CSS<br>`min-height` |
+| `--mp-field-size-md-height` | Public | `48px` | Local CSS<br>`flex`, `height`, `min-height` |
 | `--mp-field-size-sm-font-size` | Public | `14px` | Local CSS<br>`font-size` |
-| `--mp-field-size-sm-height` | Public | `40px` | Local CSS<br>`min-height` |
+| `--mp-field-size-sm-height` | Public | `40px` | Local CSS<br>`flex`, `height`, `min-height` |
 | `--mp-field-size-xl-font-size` | Public | `18px` | Local CSS<br>`font-size` |
-| `--mp-field-size-xl-height` | Public | `64px` | Local CSS<br>`min-height` |
+| `--mp-field-size-xl-height` | Public | `64px` | Local CSS<br>`flex`, `height`, `min-height` |
 | `--mp-field-size-xs-font-size` | Public | `12px` | Local CSS<br>`font-size` |
-| `--mp-field-size-xs-height` | Public | `32px` | Local CSS<br>`min-height` |
+| `--mp-field-size-xs-height` | Public | `32px` | Local CSS<br>`flex`, `height`, `min-height` |
 | `--mp-field-suffix-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-field-variant-filled-background` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background` |
 | `--mp-field-variant-filled-background-disabled` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background` |
@@ -766,9 +1139,34 @@ Source: `src/field-decorator/style/token.less`
 | `--mp-field-variant-standard-line-size` | Public | `1px` | Local CSS<br>`border-bottom` |
 | `--mp-field-variant-standard-line-size-focus` | Public | `2px` | Local CSS<br>`border-bottom-width` |
 
+</div>
+
+## floating-panel
+
+Source: `src/floating-panel/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-floating-panel-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color`, `box-shadow` |
+| `--mp-floating-panel-border-radius` | Public | `0` | Local CSS<br>`border-top-left-radius`, `border-top-right-radius` |
+| `--mp-floating-panel-border-top` | Public | `none` | Local CSS<br>`border-top` |
+| `--mp-floating-panel-header-height` | Public | `30px` | Local CSS<br>`height` |
+| `--mp-floating-panel-toolbar-background` | Public | `#ddd` | Local CSS<br>`background` |
+| `--mp-floating-panel-toolbar-border-radius` | Public | `10px` | Local CSS<br>`border-radius` |
+| `--mp-floating-panel-toolbar-height` | Public | `3px` | Local CSS<br>`height` |
+| `--mp-floating-panel-toolbar-width` | Public | `20px` | Local CSS<br>`width` |
+| `--mp-floating-panel-transition-timing-function` | Public | `cubic-bezier(0.18, 0.89, 0.32, 1.28)` | Runtime reference (not visibility proof)<br>`floating-panel/FloatingPanel.vue` |
+| `--mp-floating-panel-z-index` | Public | `999` | Local CSS<br>`z-index` |
+
+</div>
+
 ## form
 
 Source: `src/form/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -776,17 +1174,39 @@ Source: `src/form/style/token.less`
 | `--mp-form-extra-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-form-extra-text-font-size` | Public | `12px` | Local CSS<br>`font-size` |
 | `--mp-form-item-asterisk-margin` | Public | `4px` | Local CSS<br>`margin-left`, `margin-right` |
-| `--mp-form-item-label-gap` | Public | `12px` | Local CSS<br>`margin-right` |
+| `--mp-form-item-label-gap` | Public | `12px` | Local CSS<br>`margin-right`, `padding-inline-end` |
 | `--mp-form-item-label-width` | Public | `88px` | Local CSS<br>`flex`, `width` |
 | `--mp-form-label-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-form-required-symbol-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-form-size-md-item-margin-bottom` | Public | `16px` | Local CSS<br>`margin-bottom` |
 | `--mp-form-size-md-label-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-form-tooltip-margin-left` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`margin-inline-start` |
+| `--mp-form-tooltip-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-form-vertical-label-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
+
+</div>
+
+## form-details
+
+Source: `src/form-details/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-form-details-error-message-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
+| `--mp-form-details-extra-message-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-form-details-font-size` | Public | `12px` | Local CSS<br>`font-size` |
+| `--mp-form-details-margin-top` | Public | `6px` | Local CSS<br>`margin-top` |
+| `--mp-form-details-message-margin-right` | Public | `4px` | Local CSS<br>`margin-right` |
+
+</div>
 
 ## hover
 
 Source: `src/hover/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -794,31 +1214,83 @@ Source: `src/hover/style/token.less`
 | `--mp-hover-overlay-opacity` | Public | `0.04` | Local CSS<br>`opacity` |
 | `--mp-hover-transition-duration` | Public | `var(--mp-sys-motion-duration-fast)` | Local CSS<br>`transition` |
 
+</div>
+
 ## icon
 
 Source: `src/icon/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-icon-size` | Public | `inherit` | Local CSS<br>`font-size` |
 | `--mp-icon-spin-duration` | Public | `1s` | Local CSS<br>`animation` |
 
+</div>
+
+## image
+
+Source: `src/image/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-image-preview-arrow-background` | Public | `rgb(38 38 0.41304348%)` | Local CSS<br>`background-color` |
+| `--mp-image-preview-arrow-background-hover` | Public | `rgb(56 56 0.58333333%)` | Local CSS<br>`background-color` |
+| `--mp-image-preview-arrow-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-image-preview-close-icon-right` | Public | `14px` | Local CSS<br>`right` |
+| `--mp-image-preview-close-icon-top` | Public | `14px` | Local CSS<br>`top` |
+| `--mp-image-preview-swipe-indicators-padding` | Public | `16px 0` | Local CSS<br>`padding` |
+| `--mp-image-preview-swipe-indicators-text-color` | Public | `#ddd` | Local CSS<br>`color` |
+| `--mp-image-preview-zoom-container-background` | Public | `#000` | Cross-component CSS<br>`background-color` |
+
+</div>
+
+## index-bar
+
+Source: `src/index-bar/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-index-bar-list-bottom` | Public | `auto` | Local CSS<br>`bottom` |
+| `--mp-index-bar-list-item-active-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
+| `--mp-index-bar-list-item-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-index-bar-list-item-font-size` | Public | `var(--mp-font-size-xs)` | Local CSS<br>`font-size` |
+| `--mp-index-bar-list-item-height` | Public | `14px` | Local CSS<br>`height` |
+| `--mp-index-bar-list-item-padding` | Public | `0 10px` | Local CSS<br>`padding` |
+| `--mp-index-bar-list-left` | Public | `auto` | Local CSS<br>`left` |
+| `--mp-index-bar-list-right` | Public | `0` | Local CSS<br>`right` |
+| `--mp-index-bar-list-top` | Public | `50%` | Local CSS<br>`top` |
+| `--mp-index-bar-list-transform` | Public | `translate(0, -50%)` | Local CSS<br>`transform` |
+
+</div>
+
 ## infinite-scroll
 
 Source: `src/infinite-scroll/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-infinite-scroll-error-color` | Public | `var(--mp-color-danger)` | Local CSS<br>`color` |
+| `--mp-infinite-scroll-error-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-infinite-scroll-loading-gap` | Public | `8px` | Local CSS<br>`gap` |
 | `--mp-infinite-scroll-status-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
 | `--mp-infinite-scroll-status-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-infinite-scroll-status-min-height` | Public | `50px` | Local CSS<br>`min-height` |
 | `--mp-infinite-scroll-status-padding` | Public | `12px 0` | Local CSS<br>`padding` |
 
+</div>
+
 ## input
 
 Source: `src/input/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -834,9 +1306,13 @@ Source: `src/input/style/token.less`
 | `--mp-input-feedback-validating-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
 | `--mp-input-feedback-warning-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
 
+</div>
+
 ## input-number
 
 Source: `src/input-number/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -860,16 +1336,20 @@ Source: `src/input-number/style/token.less`
 | `--mp-input-number-step-button-transition-duration` | Public | `0.2s` | Local CSS<br>`transition` |
 | `--mp-input-number-step-button-width` | Public | `var(--mp-sys-control-height-md)` | Local CSS<br>`width` |
 
+</div>
+
 ## link
 
 Source: `src/link/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-link-bg-active` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background-color` |
 | `--mp-link-bg-hover` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
 | `--mp-link-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
-| `--mp-link-danger-color` | Public | `var(--mp-color-danger)` | Local CSS<br>`color` |
+| `--mp-link-danger-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-link-default-color` | Public | `#555` | Local CSS<br>`color` |
 | `--mp-link-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
 | `--mp-link-focus-color` | Public | `currentColor` | Local CSS<br>`outline` |
@@ -878,16 +1358,16 @@ Source: `src/link/style/token.less`
 | `--mp-link-focus-width` | Public | `2px` | Local CSS<br>`outline` |
 | `--mp-link-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-link-icon-size` | Public | `1em` | Local CSS<br>`font-size` |
-| `--mp-link-info-color` | Public | `var(--mp-color-info)` | Local CSS<br>`color` |
+| `--mp-link-info-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`color` |
 | `--mp-link-line-height` | Public | `1.5` | Local CSS<br>`line-height` |
 | `--mp-link-margin-icon-right` | Public | `0.25em` | Local CSS<br>`margin-right` |
 | `--mp-link-padding-horizontal` | Public | `0.25em` | Local CSS<br>`padding` |
 | `--mp-link-padding-vertical` | Public | `1px` | Local CSS<br>`padding` |
-| `--mp-link-primary-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`color` |
+| `--mp-link-primary-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
 | `--mp-link-secondary-color` | Public | `rgb(var(--mp-gray-6))` | Local CSS<br>`color` |
 | `--mp-link-size-icon` | Public | `var(--mp-link-icon-size)` | Local CSS<br>`font-size` |
 | `--mp-link-spin-duration` | Public | `1s` | Local CSS<br>`animation` |
-| `--mp-link-success-color` | Public | `var(--mp-color-success)` | Local CSS<br>`color` |
+| `--mp-link-success-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
 | `--mp-link-tertiary-color` | Public | `rgb(var(--mp-gray-7))` | Local CSS<br>`color` |
 | `--mp-link-text-color` | Public | `var(--mp-link-primary-color)` | Local CSS<br>`color` |
 | `--mp-link-text-color-active` | Public | `var(--mp-link-text-color)` | Local CSS<br>`color` |
@@ -915,21 +1395,94 @@ Source: `src/link/style/token.less`
 | `--mp-link-text-color-warning-hover` | Public | `var(--mp-link-text-color-warning)` | Local CSS<br>`color` |
 | `--mp-link-text-color-warning-loading` | Public | `var(--mp-link-disabled-color)` | Local CSS<br>`color` |
 | `--mp-link-transition-duration` | Public | `0.15s` | Local CSS<br>`transition` |
-| `--mp-link-warning-color` | Public | `var(--mp-color-warning)` | Local CSS<br>`color` |
+| `--mp-link-warning-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
+
+</div>
+
+## list
+
+Source: `src/list/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-list-background` | Public | `var(--mp-color-bg-1)` | Local CSS<br>`background` |
+| `--mp-list-border-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border`, `border-bottom`, `border-top` |
+| `--mp-list-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-list-border-width` | Public | `1px` | Local CSS<br>`border`, `border-bottom`, `border-top` |
+| `--mp-list-empty-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-list-empty-padding` | Public | `24px 16px` | Local CSS<br>`padding` |
+| `--mp-list-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-list-font-size-header` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-list-font-weight-header` | Public | `500` | Local CSS<br>`font-weight` |
+| `--mp-list-item-prefix-margin-right` | Public | `12px` | Local CSS<br>`margin-right` |
+| `--mp-list-item-suffix-margin-left` | Public | `12px` | Local CSS<br>`margin-left` |
+| `--mp-list-line-height` | Public | `1.5` | Local CSS<br>`line-height` |
+| `--mp-list-line-height-header` | Public | `1.5` | Local CSS<br>`line-height` |
+| `--mp-list-loading-padding` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-lg-padding-horizontal-footer` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-lg-padding-horizontal-header` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-lg-padding-horizontal-item` | Public | `20px` | Local CSS<br>`padding` |
+| `--mp-list-size-lg-padding-vertical-footer` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-lg-padding-vertical-header` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-lg-padding-vertical-item` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-md-padding-horizontal-footer` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-md-padding-horizontal-header` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-md-padding-horizontal-item` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-md-padding-vertical-footer` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-md-padding-vertical-header` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-md-padding-vertical-item` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-sm-padding-horizontal-footer` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-sm-padding-horizontal-header` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-list-size-sm-padding-horizontal-item` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-sm-padding-vertical-footer` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-sm-padding-vertical-header` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-list-size-sm-padding-vertical-item` | Public | `8px` | Local CSS<br>`padding` |
+| `--mp-list-text-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-list-text-color-header` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+
+</div>
+
+## loading
+
+Source: `src/loading/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-loading-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`background-color`, `color` |
+| `--mp-loading-desc-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-loading-desc-margin` | Public | `8px 0 0` | Local CSS<br>`margin` |
+| `--mp-loading-directive-z-index` | Public | `2000` | Local CSS<br>`z-index` |
+| `--mp-loading-indicator-size` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-loading-opacity` | Public | `0.38` | Local CSS<br>`opacity` |
+| `--mp-loading-overlay-background` | Public | `color-mix(in srgb, var(--mp-color-bg-white) 62%, transparent)` | Local CSS<br>`background` |
+
+</div>
 
 ## loading-bar
 
 Source: `src/loading-bar/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-loading-bar-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`background-color` |
 | `--mp-loading-bar-error-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`background-color` |
 | `--mp-loading-bar-height` | Public | `3px` | Local CSS<br>`height` |
+| `--mp-loading-bar-transition-duration` | Public | `250ms` | Local CSS<br>`transition` |
+| `--mp-loading-bar-transition-timing-function` | Public | `ease` | Local CSS<br>`transition` |
+
+</div>
 
 ## message
 
 Source: `src/message/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1045,9 +1598,64 @@ Source: `src/message/style/token.less`
 | `--mp-message-wrapper-margin-top` | Public | `5%` | Local CSS<br>`top` |
 | `--mp-message-z-index` | Public | `2000` | Local CSS<br>`z-index` |
 
+</div>
+
+## notice-bar
+
+Source: `src/notice-bar/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-notice-bar-close-margin` | Public | `0 0 0 8px` | Local CSS<br>`margin` |
+| `--mp-notice-bar-danger-background` | Public | `var(--mp-color-danger)` | Local CSS<br>`background` |
+| `--mp-notice-bar-danger-color` | Public | `var(--mp-color-white)` | Local CSS<br>`color` |
+| `--mp-notice-bar-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-notice-bar-height` | Public | `40px` | Local CSS<br>`min-height` |
+| `--mp-notice-bar-icon-margin` | Public | `0 8px 0 0` | Local CSS<br>`margin` |
+| `--mp-notice-bar-icon-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-notice-bar-info-background` | Public | `var(--mp-color-info)` | Local CSS<br>`background` |
+| `--mp-notice-bar-info-color` | Public | `var(--mp-color-white)` | Local CSS<br>`color` |
+| `--mp-notice-bar-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-notice-bar-success-background` | Public | `var(--mp-color-success)` | Local CSS<br>`background` |
+| `--mp-notice-bar-success-color` | Public | `var(--mp-color-white)` | Local CSS<br>`color` |
+| `--mp-notice-bar-warning-background` | Public | `var(--mp-color-warning)` | Local CSS<br>`background` |
+| `--mp-notice-bar-warning-color` | Public | `var(--mp-color-white)` | Local CSS<br>`color` |
+
+</div>
+
+## number-keyboard
+
+Source: `src/number-keyboard/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-number-keyboard-background` | Public | `var(--mp-color-bg-1)` | Local CSS<br>`background` |
+| `--mp-number-keyboard-close-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-number-keyboard-close-font-size` | Public | `var(--mp-font-size-lg, 16px)` | Local CSS<br>`font-size` |
+| `--mp-number-keyboard-delete-icon-size` | Public | `22px` | Local CSS<br>`font-size` |
+| `--mp-number-keyboard-header-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-number-keyboard-header-font-size` | Public | `var(--mp-font-size-md, 14px)` | Local CSS<br>`font-size` |
+| `--mp-number-keyboard-header-height` | Public | `34px` | Local CSS<br>`height` |
+| `--mp-number-keyboard-key-active-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-number-keyboard-key-background` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background` |
+| `--mp-number-keyboard-key-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-number-keyboard-key-font-size` | Public | `22px` | Local CSS<br>`font-size` |
+| `--mp-number-keyboard-key-gap` | Public | `6px` | Local CSS<br>`gap` |
+| `--mp-number-keyboard-key-height` | Public | `48px` | Local CSS<br>`height`, `min-height` |
+| `--mp-number-keyboard-padding` | Public | `6px` | Local CSS<br>`padding` |
+| `--mp-number-keyboard-sidebar-width` | Public | `25%` | Local CSS<br>`width` |
+
+</div>
+
 ## overlay
 
 Source: `src/overlay/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1055,9 +1663,13 @@ Source: `src/overlay/style/token.less`
 | `--mp-overlay-background-color` | Public | `var(--mp-sys-color-scrim)` | Local CSS<br>`background-color` |
 | `--mp-overlay-content-z-index` | Public | `var(--mp-sys-layer-raised)` | Local CSS<br>`z-index` |
 
+</div>
+
 ## page-header
 
 Source: `src/page-header/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1075,17 +1687,21 @@ Source: `src/page-header/style/token.less`
 | `--mp-page-header-title-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
 | `--mp-page-header-title-font-weight` | Public | `600` | Local CSS<br>`font-weight` |
 
+</div>
+
 ## pagination
 
 Source: `src/pagination/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-pagination-active-background` | Public | `var(--mp-color-primary-light-1)` | Local CSS<br>`background` |
-| `--mp-pagination-active-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`color` |
+| `--mp-pagination-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
 | `--mp-pagination-disabled-background` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background` |
 | `--mp-pagination-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
-| `--mp-pagination-focus-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`outline` |
+| `--mp-pagination-focus-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`outline` |
 | `--mp-pagination-focus-offset` | Public | `1px` | Local CSS<br>`outline-offset` |
 | `--mp-pagination-focus-space` | Public | `3px` | Local CSS<br>`padding` |
 | `--mp-pagination-focus-width` | Public | `2px` | Local CSS<br>`outline` |
@@ -1107,9 +1723,13 @@ Source: `src/pagination/style/token.less`
 | `--mp-pagination-text-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
 | `--mp-pagination-touch-size` | Public | `44px` | Local CSS<br>`min-height` |
 
+</div>
+
 ## paper
 
 Source: `src/paper/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1119,17 +1739,35 @@ Source: `src/paper/style/token.less`
 | `--mp-paper-border-width` | Public | `1px` | Local CSS<br>`border` |
 | `--mp-paper-transition-duration` | Public | `var(--mp-sys-motion-duration-slow)` | Local CSS<br>`transition` |
 
+</div>
+
 ## picker
 
 Source: `src/picker/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
+| `--mp-picker-background` | Public | `var(--mp-color-body)` | Local CSS<br>`background`, `background-image` |
+| `--mp-picker-mask-background-image` | Public | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | Local CSS<br>`background-image` |
 | `--mp-picker-option-check-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-picker-option-disabled-text-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
+| `--mp-picker-option-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-picker-option-text-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-picker-picked-border` | Public | `1px solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom`, `border-top` |
+| `--mp-picker-title-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-picker-title-text-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-picker-toolbar-height` | Public | `44px` | Local CSS<br>`height` |
+| `--mp-picker-toolbar-padding` | Public | `0 4px` | Local CSS<br>`padding` |
+
+</div>
 
 ## popover
 
 Source: `src/popover/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1150,35 +1788,73 @@ Source: `src/popover/style/token.less`
 | `--mp-popover-title-font-weight` | Public | `var(--mp-sys-font-weight-medium)` | Local CSS<br>`font-weight` |
 | `--mp-popover-title-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 
+</div>
+
 ## popup
 
 Source: `src/popup/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-popup-content-background-color` | Public | `var(--mp-sys-color-surface-raised)` | Local CSS<br>`background-color` |
 | `--mp-popup-content-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-popup-overlay-background-color` | Public | `var(--mp-sys-color-scrim)` | Local CSS<br>`background-color` |
+| `--mp-popup-transition-duration` | Public | `250ms` | Local CSS<br>`transition` |
+| `--mp-popup-transition-timing-function` | Public | `ease` | Local CSS<br>`transition` |
+
+</div>
+
+## progress
+
+Source: `src/progress/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-internal-progress-highlight` | Internal | `rgb(255 255 5.1%)` | Local CSS<br>`background` |
+| `--mp-progress-animation-duration` | Public | `1.5s` | Local CSS<br>`animation`, `animation-delay` |
+| `--mp-progress-danger-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
+| `--mp-progress-default-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-progress-font-size` | Public | `var(--mp-sys-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-progress-info-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`color` |
+| `--mp-progress-line-border-radius` | Public | `9999px` | Local CSS<br>`border-radius` |
+| `--mp-progress-primary-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-progress-secondary-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-progress-steps-gap` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`gap` |
+| `--mp-progress-success-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
+| `--mp-progress-tertiary-color` | Public | `var(--mp-sys-color-content-tertiary)` | Local CSS<br>`color` |
+| `--mp-progress-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-progress-text-gap` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`gap` |
+| `--mp-progress-track-color` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background`, `stroke` |
+| `--mp-progress-transition-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
+| `--mp-progress-warning-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
+
+</div>
 
 ## progress-group
 
 Source: `src/progress-group/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-progress-group-dot-size` | Public | `8px` | Local CSS<br>`height`, `width` |
-| `--mp-progress-group-font-size` | Public | `14px` | Local CSS<br>`font-size` |
-| `--mp-progress-group-gap` | Public | `8px` | Local CSS<br>`gap` |
-| `--mp-progress-group-item-gap` | Public | `6px` | Local CSS<br>`gap` |
+| `--mp-progress-group-dot-size` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`height`, `width` |
+| `--mp-progress-group-font-size` | Public | `var(--mp-sys-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-progress-group-gap` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`gap` |
+| `--mp-progress-group-item-gap` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`gap` |
 | `--mp-progress-group-muted-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-progress-group-radius` | Public | `999px` | Local CSS<br>`border-radius`, `clip-path` |
+| `--mp-progress-group-radius` | Public | `9999px` | Local CSS<br>`border-radius`, `clip-path` |
 | `--mp-progress-group-size-lg-thickness` | Public | `12px` | Local CSS<br>`height`, `width` |
 | `--mp-progress-group-size-md-thickness` | Public | `8px` | Local CSS<br>`height`, `width` |
 | `--mp-progress-group-size-sm-thickness` | Public | `4px` | Local CSS<br>`height`, `width` |
 | `--mp-progress-group-size-xl-thickness` | Public | `16px` | Local CSS<br>`height`, `width` |
 | `--mp-progress-group-size-xs-thickness` | Public | `2px` | Local CSS<br>`height`, `width` |
-| `--mp-progress-group-status-font-weight` | Public | `var(--mp-sys-font-weight-medium)` | Local CSS<br>`font-weight` |
 | `--mp-progress-group-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-progress-group-text-font-weight` | Public | `var(--mp-sys-font-weight-medium)` | Local CSS<br>`font-weight` |
 | `--mp-progress-group-tooltip-bg` | Public | `var(--mp-sys-color-surface-tooltip)` | Local CSS<br>`background` |
 | `--mp-progress-group-tooltip-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-progress-group-tooltip-duration` | Public | `var(--mp-sys-motion-duration-fast)` | Local CSS<br>`animation` |
@@ -1191,9 +1867,29 @@ Source: `src/progress-group/style/token.less`
 | `--mp-progress-group-track-color` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background`, `stroke` |
 | `--mp-progress-group-transition-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`animation`, `transition` |
 
+</div>
+
+## pull-refresh
+
+Source: `src/pull-refresh/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-pull-refresh-background` | Public | `#fff` | Local CSS<br>`background-color` |
+| `--mp-pull-refresh-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-pull-refresh-icon-size` | Public | `25px` | Local CSS<br>`font-size` |
+| `--mp-pull-refresh-size` | Public | `40px` | Local CSS<br>`height`, `width` |
+| `--mp-pull-refresh-success-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
+
+</div>
+
 ## radio
 
 Source: `src/radio/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1206,22 +1902,91 @@ Source: `src/radio/style/token.less`
 | `--mp-internal-radio-segment-hover` | Internal | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background` |
 | `--mp-internal-radio-segment-padding` | Internal | `12px` | Local CSS<br>`padding-inline` |
 | `--mp-internal-radio-segment-radius` | Internal | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
-| `--mp-radio-action-padding` | Public | `6px` | Local CSS<br>`padding`, `transform` |
+| `--mp-radio-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-radio-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-radio-control-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
-| `--mp-radio-control-size` | Public | `24px` | Local CSS<br>`font-size` |
+| `--mp-radio-control-size` | Public | `24px` | Local CSS<br>`font-size`, `height`, `width` |
 | `--mp-radio-group-gap` | Public | `0` | Local CSS<br>`gap` |
 | `--mp-radio-label-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-radio-label-gap` | Public | `0` | Local CSS<br>`margin-inline-start` |
 | `--mp-radio-label-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-radio-label-text-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 
+</div>
+
+## rate
+
+Source: `src/rate/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-rate-action-padding` | Public | `4px` | Local CSS<br>`padding` |
+| `--mp-rate-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-rate-active-scale` | Public | `1.2` | Local CSS<br>`transform` |
+| `--mp-rate-disabled-color` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
+| `--mp-rate-empty-color` | Public | `var(--mp-color-text)` | Local CSS<br>`color` |
+| `--mp-rate-error-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
+| `--mp-rate-focus-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`outline` |
+| `--mp-rate-focus-offset` | Public | `2px` | Local CSS<br>`outline-offset` |
+| `--mp-rate-focus-width` | Public | `2px` | Local CSS<br>`outline` |
+| `--mp-rate-gap` | Public | `0px` | Local CSS<br>`margin-right` |
+| `--mp-rate-min-height` | Public | `0px` | Local CSS<br>`min-height` |
+| `--mp-rate-scale-duration` | Public | `250ms` | Local CSS<br>`animation` |
+| `--mp-rate-size` | Public | `24px` | Local CSS<br>`font-size` |
+| `--mp-rate-transition-duration` | Public | `250ms` | Local CSS<br>`transition` |
+| `--mp-rate-transition-timing-function` | Public | `ease` | Local CSS<br>`animation`, `transition` |
+
+</div>
+
+## result
+
+Source: `src/result/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-result-background` | Public | `var(--mp-color-bg-white)` | Local CSS<br>`background-color` |
+| `--mp-result-border-radius` | Public | `3px` | Local CSS<br>`border-radius` |
+| `--mp-result-content-margin` | Public | `20px 0 0` | Local CSS<br>`margin` |
+| `--mp-result-danger-border-color` | Public | `rgba(244, 67, 54, 0.3)` | Local CSS<br>`border-color` |
+| `--mp-result-danger-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`fill` |
+| `--mp-result-empty-border-color` | Public | `rgba(158, 158, 158, 0.3)` | Local CSS<br>`border-color` |
+| `--mp-result-empty-color` | Public | `#9e9e9e` | Local CSS<br>`fill` |
+| `--mp-result-extra-margin` | Public | `20px 0 0` | Local CSS<br>`margin` |
+| `--mp-result-image-size` | Public | `80px` | Local CSS<br>`height`, `width` |
+| `--mp-result-info-border-color` | Public | `rgba(0, 175, 239, 0.3)` | Local CSS<br>`border-color` |
+| `--mp-result-info-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`fill` |
+| `--mp-result-padding` | Public | `24px` | Local CSS<br>`padding` |
+| `--mp-result-question-border-color` | Public | `rgba(96, 125, 139, 0.3)` | Local CSS<br>`border-color` |
+| `--mp-result-question-color` | Public | `#607d8b` | Local CSS<br>`fill` |
+| `--mp-result-subtitle-color` | Public | `rgba(0, 0, 0, 0.6)` | Local CSS<br>`color` |
+| `--mp-result-subtitle-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-result-subtitle-line-height` | Public | `1.6` | Local CSS<br>`line-height` |
+| `--mp-result-subtitle-margin` | Public | `10px 0 0` | Local CSS<br>`margin` |
+| `--mp-result-success-border-color` | Public | `rgba(0, 196, 143, 0.3)` | Local CSS<br>`border-color` |
+| `--mp-result-success-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`fill` |
+| `--mp-result-title-color` | Public | `#444` | Local CSS<br>`color` |
+| `--mp-result-title-font-size` | Public | `32px` | Local CSS<br>`font-size` |
+| `--mp-result-title-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
+| `--mp-result-title-margin` | Public | `15px 0 0` | Local CSS<br>`margin` |
+| `--mp-result-warning-border-color` | Public | `rgba(255, 159, 0, 0.3)` | Local CSS<br>`border-color` |
+| `--mp-result-warning-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`fill` |
+
+</div>
+
 ## ripple
 
 Source: `src/ripple/style/token.less`
+
+expand-duration / fade-duration reach transform / opacity transitions; runtime also reads their resolved duration/delay from the actual wave to avoid premature fading/removal. The two 250ms minimum lifecycle policies are not CSS tokens. See the design guide for sampling boundaries and cleanup ownership. This indirect timing consumption is not a literal var() runtime reference.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1230,9 +1995,49 @@ Source: `src/ripple/style/token.less`
 | `--mp-ripple-expand-duration` | Public | `200ms` | Local CSS<br>`transition` |
 | `--mp-ripple-fade-duration` | Public | `140ms` | Local CSS<br>`transition` |
 
+</div>
+
+## search
+
+Source: `src/search/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-search-action-color-text` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-search-action-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-search-action-spacing-inline-start` | Public | `16px` | Local CSS<br>`margin-inline-start` |
+| `--mp-search-color-bg` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
+| `--mp-search-color-icon` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-search-field-color-bg` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background` |
+| `--mp-search-field-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-search-field-size-min-height` | Public | `36px` | Local CSS<br>`border-radius`, `line-height`, `min-height` |
+| `--mp-search-field-spacing-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-search-history-item-color-border` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border-bottom` |
+| `--mp-search-history-item-color-text` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-search-history-item-size-min-height` | Public | `44px` | Local CSS<br>`min-height` |
+| `--mp-search-history-spacing-padding` | Public | `8px 16px 24px` | Local CSS<br>`padding` |
+| `--mp-search-icon-spacing` | Public | `8px` | Local CSS<br>`margin-inline-end` |
+| `--mp-search-label-color-text` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-search-label-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-search-label-spacing-inline-end` | Public | `10px` | Local CSS<br>`margin-inline-end` |
+| `--mp-search-opacity-disabled` | Public | `0.6` | Local CSS<br>`opacity` |
+| `--mp-search-select-icon-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-search-select-icon-spacing` | Public | `2px` | Local CSS<br>`margin-inline-start` |
+| `--mp-search-select-size-max-width` | Public | `120px` | Local CSS<br>`max-width` |
+| `--mp-search-select-size-min-width` | Public | `72px` | Local CSS<br>`min-width` |
+| `--mp-search-size-icon` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-search-size-min-height` | Public | `48px` | Local CSS<br>`min-height` |
+| `--mp-search-spacing-padding` | Public | `8px 16px` | Local CSS<br>`padding` |
+
+</div>
+
 ## select
 
 Source: `src/select/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1263,9 +2068,28 @@ Source: `src/select/style/token.less`
 | `--mp-select-popup-option-text-color-selected` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-select-popup-padding-vertical` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding` |
 
+</div>
+
+## signature
+
+Source: `src/signature/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-signature-background-color` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background` |
+| `--mp-signature-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-signature-height` | Public | `200px` | Local CSS<br>`height` |
+| `--mp-signature-stroke-color` | Public | `#333` | Local CSS<br>`color` |
+
+</div>
+
 ## skeleton
 
 Source: `src/skeleton/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1292,9 +2116,44 @@ Source: `src/skeleton/style/token.less`
 | `--mp-skeleton-title-width` | Public | `50%` | Local CSS<br>`width` |
 | `--mp-skeleton-transition-duration` | Public | `var(--mp-sys-motion-duration-slow)` | Local CSS<br>`transition` |
 
+</div>
+
+## slider
+
+Source: `src/slider/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-internal-slider-border-width` | Internal | `2px` | Local CSS<br>`border`, `outline` |
+| `--mp-internal-slider-focus-offset` | Internal | `3px` | Local CSS<br>`outline-offset` |
+| `--mp-internal-slider-mark-offset` | Internal | `8px` | Local CSS<br>`left`, `top` |
+| `--mp-slider-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`background`, `outline` |
+| `--mp-slider-control-height` | Public | `var(--mp-sys-control-height-md)` | Local CSS<br>`height`, `min-height`, `padding-bottom`, `padding-inline-end`, `width` |
+| `--mp-slider-disabled-color` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`background`, `border-color` |
+| `--mp-slider-error-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`background`, `border-color` |
+| `--mp-slider-font-size` | Public | `var(--mp-sys-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-slider-gap` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`bottom`, `gap`, `left`, `padding` |
+| `--mp-slider-input-width` | Public | `80px` | Local CSS<br>`width` |
+| `--mp-slider-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
+| `--mp-slider-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-slider-thumb-border-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`border` |
+| `--mp-slider-thumb-color` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
+| `--mp-slider-thumb-size` | Public | `16px` | Local CSS<br>`height`, `width` |
+| `--mp-slider-tooltip-background` | Public | `var(--mp-sys-color-surface-tooltip)` | Local CSS<br>`background` |
+| `--mp-slider-tooltip-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
+| `--mp-slider-track-color` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background` |
+| `--mp-slider-track-height` | Public | `4px` | Local CSS<br>`height`, `width` |
+| `--mp-slider-transition-duration` | Public | `var(--mp-sys-motion-duration-fast)` | Local CSS<br>`transition` |
+
+</div>
+
 ## space
 
 Source: `src/space/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1309,9 +2168,13 @@ Source: `src/space/style/token.less`
 | `--mp-space-size-xs-column-gap` | Public | `var(--mp-sys-space-2)` | Reviewed dynamic runtime<br>`space/Space.tsx: getSize -> gapStyle -> style.gap` |
 | `--mp-space-size-xs-row-gap` | Public | `var(--mp-sys-space-2)` | Reviewed dynamic runtime<br>`space/Space.tsx: getSize -> gapStyle -> style.gap` |
 
+</div>
+
 ## statistic
 
 Source: `src/statistic/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1332,9 +2195,13 @@ Source: `src/statistic/style/token.less`
 | `--mp-statistic-value-font-size` | Public | `28px` | Local CSS<br>`font-size` |
 | `--mp-statistic-value-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
 
+</div>
+
 ## steps
 
 Source: `src/steps/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1454,9 +2321,26 @@ Source: `src/steps/style/token.less`
 | `--mp-steps-transition-timing-function-linear` | Public | `cubic-bezier(0, 0, 1, 1)` | Local CSS<br>`transition` |
 | `--mp-steps-vertical-item-min-height` | Public | `90px` | Local CSS<br>`min-height` |
 
+</div>
+
+## swipe-cell
+
+Source: `src/swipe-cell/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-swipe-cell-background` | Public | `transparent` | Local CSS<br>`background` |
+| `--mp-swipe-cell-transition` | Public | `transform 0.2s ease` | Local CSS<br>`transition` |
+
+</div>
+
 ## switch
 
 Source: `src/switch/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1494,9 +2378,69 @@ Source: `src/switch/style/token.less`
 | `--mp-switch-track-error-background` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`background`, `border-color` |
 | `--mp-switch-width` | Public | `40px` | Local CSS<br>`min-width` |
 
+</div>
+
+## tab-bar
+
+Source: `src/tab-bar/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-tab-bar-background-color` | Public | `var(--mp-color-bg-2)` | Local CSS<br>`background-color` |
+| `--mp-tab-bar-border-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border-top` |
+| `--mp-tab-bar-fab-border-radius` | Public | `50%` | Local CSS<br>`border-radius` |
+| `--mp-tab-bar-fab-offset` | Public | `4px` | Local CSS<br>`margin-right`, `right` |
+| `--mp-tab-bar-height` | Public | `50px` | Local CSS<br>`height`, `margin-left`, `margin-right`, `right`, `width` |
+| `--mp-tab-bar-item-active-background-color` | Public | `transparent` | Local CSS<br>`background-color` |
+| `--mp-tab-bar-item-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-tab-bar-item-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-tab-bar-item-icon-margin-bottom` | Public | `5px` | Local CSS<br>`margin-top` |
+| `--mp-tab-bar-item-icon-size` | Public | `22px` | Local CSS<br>`font-size` |
+| `--mp-tab-bar-item-inactive-color` | Public | `var(--mp-color-text-2)` | Local CSS<br>`color` |
+| `--mp-tab-bar-item-line-height` | Public | `1` | Local CSS<br>`line-height` |
+| `--mp-tab-bar-item-variant-active-background-color` | Public | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` | Local CSS<br>`background-color` |
+| `--mp-tab-bar-item-variant-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-tab-bar-item-variant-icon-container-border-radius` | Public | `100px` | Local CSS<br>`border-radius` |
+| `--mp-tab-bar-item-variant-icon-container-height` | Public | `30px` | Local CSS<br>`height` |
+| `--mp-tab-bar-item-variant-icon-container-max-width` | Public | `58px` | Local CSS<br>`max-width` |
+| `--mp-tab-bar-variant-height` | Public | `66px` | Local CSS<br>`height` |
+| `--mp-tab-bar-z-index` | Public | `1` | Runtime reference (not visibility proof)<br>`tab-bar/TabBar.vue` |
+
+</div>
+
+## table
+
+Source: `src/table/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-table-background` | Public | `#fff` | Local CSS<br>`background` |
+| `--mp-table-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-table-footer-border-top` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-top` |
+| `--mp-table-row-height` | Public | `46px` | Local CSS<br>`height`, `min-height` |
+| `--mp-table-row-padding` | Public | `0 16px` | Local CSS<br>`padding` |
+| `--mp-table-tbody-td-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-table-tbody-td-text-align` | Public | `left` | Local CSS<br>`text-align` |
+| `--mp-table-tbody-td-text-color` | Public | `#555` | Local CSS<br>`color` |
+| `--mp-table-tbody-tr-border-bottom` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
+| `--mp-table-tbody-tr-hover-background` | Public | `#eee` | Local CSS<br>`background` |
+| `--mp-table-thead-border-bottom` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
+| `--mp-table-thead-th-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-table-thead-th-text-align` | Public | `left` | Local CSS<br>`text-align` |
+| `--mp-table-thead-th-text-color` | Public | `rgba(0, 0, 0, 0.6)` | Local CSS<br>`color` |
+| `--mp-table-thead-tr-border-bottom` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
+
+</div>
+
 ## tabs
 
 Source: `src/tabs/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1541,15 +2485,19 @@ Source: `src/tabs/style/token.less`
 | `--mp-tabs-title-text-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-tabs-touch-target` | Public | `var(--mp-sys-control-touch-target)` | Local CSS<br>`min-height`, `min-width` |
 
+</div>
+
 ## tag
 
 Source: `src/tag/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-tag-bg-not-checked-hover` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background-color` |
-| `--mp-tag-blue-bg` | Public | `rgb(var(--mp-blue-1))`<br>`rgba(var(--mp-blue-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-blue-bg-hover` | Public | `rgb(var(--mp-blue-2))`<br>`rgba(var(--mp-blue-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-blue-bg` | Public | `rgb(var(--mp-blue-1))`<br>`rgba(var(--mp-blue-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-blue-bg-hover` | Public | `rgb(var(--mp-blue-2))`<br>`rgba(var(--mp-blue-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-blue-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-blue-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-blue-icon-color` | Public | `rgb(var(--mp-blue-9))` | Local CSS<br>`color` |
@@ -1557,8 +2505,8 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-tag-border-type` | Public | `solid` | Local CSS<br>`border` |
 | `--mp-tag-border-width` | Public | `1px` | Local CSS<br>`border`, `line-height` |
-| `--mp-tag-brand-bg` | Public | `rgb(var(--mp-brand-1))`<br>`rgba(var(--mp-brand-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-brand-bg-hover` | Public | `rgb(var(--mp-brand-2))`<br>`rgba(var(--mp-brand-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-brand-bg` | Public | `rgb(var(--mp-brand-1))`<br>`rgba(var(--mp-brand-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-brand-bg-hover` | Public | `rgb(var(--mp-brand-2))`<br>`rgba(var(--mp-brand-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-brand-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-brand-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-brand-icon-color` | Public | `rgb(var(--mp-brand-9))` | Local CSS<br>`color` |
@@ -1566,8 +2514,8 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-close-font-size` | Public | `var(--mp-tag-size-md-font-size)` | Local CSS<br>`font-size` |
 | `--mp-tag-close-margin-left` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`margin-left`, `margin-right` |
 | `--mp-tag-custom-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
-| `--mp-tag-cyan-bg` | Public | `rgb(var(--mp-cyan-1))`<br>`rgba(var(--mp-cyan-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-cyan-bg-hover` | Public | `rgb(var(--mp-cyan-2))`<br>`rgba(var(--mp-cyan-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-cyan-bg` | Public | `rgb(var(--mp-cyan-1))`<br>`rgba(var(--mp-cyan-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-cyan-bg-hover` | Public | `rgb(var(--mp-cyan-2))`<br>`rgba(var(--mp-cyan-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-cyan-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-cyan-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-cyan-icon-color` | Public | `rgb(var(--mp-cyan-9))` | Local CSS<br>`color` |
@@ -1579,65 +2527,65 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-default-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-tag-default-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-tag-fade-duration` | Public | `var(--mp-sys-motion-duration-fast)` | Local CSS<br>`transition` |
-| `--mp-tag-gold-bg` | Public | `rgb(var(--mp-gold-1))`<br>`rgba(var(--mp-gold-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-gold-bg-hover` | Public | `rgb(var(--mp-gold-2))`<br>`rgba(var(--mp-gold-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-gold-bg` | Public | `rgb(var(--mp-gold-1))`<br>`rgba(var(--mp-gold-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-gold-bg-hover` | Public | `rgb(var(--mp-gold-2))`<br>`rgba(var(--mp-gold-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-gold-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-gold-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-gold-icon-color` | Public | `rgb(var(--mp-gold-9))` | Local CSS<br>`color` |
 | `--mp-tag-gold-text-color` | Public | `rgb(var(--mp-gold-9))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-gray-bg` | Public | `rgb(var(--mp-gray-2))`<br>`rgba(var(--mp-gray-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-gray-bg-hover` | Public | `rgb(var(--mp-gray-3))`<br>`rgba(var(--mp-gray-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-gray-bg` | Public | `rgb(var(--mp-gray-2))`<br>`rgba(var(--mp-gray-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-gray-bg-hover` | Public | `rgb(var(--mp-gray-3))`<br>`rgba(var(--mp-gray-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-gray-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-gray-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-gray-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-tag-gray-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-green-bg` | Public | `rgb(var(--mp-green-1))`<br>`rgba(var(--mp-green-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-green-bg-hover` | Public | `rgb(var(--mp-green-2))`<br>`rgba(var(--mp-green-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-green-bg` | Public | `rgb(var(--mp-green-1))`<br>`rgba(var(--mp-green-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-green-bg-hover` | Public | `rgb(var(--mp-green-2))`<br>`rgba(var(--mp-green-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-green-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-green-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-green-icon-color` | Public | `rgb(var(--mp-green-9))` | Local CSS<br>`color` |
 | `--mp-tag-green-text-color` | Public | `rgb(var(--mp-green-9))` | Local CSS<br>`border-color`, `color` |
 | `--mp-tag-icon-margin-right` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`margin-left`, `margin-right` |
-| `--mp-tag-lime-bg` | Public | `rgb(var(--mp-lime-1))`<br>`rgba(var(--mp-lime-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-lime-bg-hover` | Public | `rgb(var(--mp-lime-2))`<br>`rgba(var(--mp-lime-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-lime-bg` | Public | `rgb(var(--mp-lime-1))`<br>`rgba(var(--mp-lime-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-lime-bg-hover` | Public | `rgb(var(--mp-lime-2))`<br>`rgba(var(--mp-lime-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-lime-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-lime-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-lime-icon-color` | Public | `rgb(var(--mp-lime-9))` | Local CSS<br>`color` |
 | `--mp-tag-lime-text-color` | Public | `rgb(var(--mp-lime-9))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-magenta-bg` | Public | `rgb(var(--mp-magenta-1))`<br>`rgba(var(--mp-magenta-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-magenta-bg-hover` | Public | `rgb(var(--mp-magenta-2))`<br>`rgba(var(--mp-magenta-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-magenta-bg` | Public | `rgb(var(--mp-magenta-1))`<br>`rgba(var(--mp-magenta-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-magenta-bg-hover` | Public | `rgb(var(--mp-magenta-2))`<br>`rgba(var(--mp-magenta-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-magenta-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-magenta-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-magenta-icon-color` | Public | `rgb(var(--mp-magenta-9))` | Local CSS<br>`color` |
 | `--mp-tag-magenta-text-color` | Public | `rgb(var(--mp-magenta-9))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-orange-bg` | Public | `rgb(var(--mp-orange-1))`<br>`rgba(var(--mp-orange-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-orange-bg-hover` | Public | `rgb(var(--mp-orange-2))`<br>`rgba(var(--mp-orange-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-orange-bg` | Public | `rgb(var(--mp-orange-1))`<br>`rgba(var(--mp-orange-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-orange-bg-hover` | Public | `rgb(var(--mp-orange-2))`<br>`rgba(var(--mp-orange-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-orange-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-orange-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-orange-icon-color` | Public | `rgb(var(--mp-orange-9))` | Local CSS<br>`color` |
 | `--mp-tag-orange-text-color` | Public | `rgb(var(--mp-orange-9))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-orangered-bg` | Public | `rgb(var(--mp-orangered-1))`<br>`rgba(var(--mp-orangered-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-orangered-bg-hover` | Public | `rgb(var(--mp-orangered-2))`<br>`rgba(var(--mp-orangered-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-orangered-bg` | Public | `rgb(var(--mp-orangered-1))`<br>`rgba(var(--mp-orangered-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-orangered-bg-hover` | Public | `rgb(var(--mp-orangered-2))`<br>`rgba(var(--mp-orangered-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-orangered-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-orangered-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-orangered-icon-color` | Public | `rgb(var(--mp-orangered-9))` | Local CSS<br>`color` |
 | `--mp-tag-orangered-text-color` | Public | `rgb(var(--mp-orangered-9))` | Local CSS<br>`border-color`, `color` |
 | `--mp-tag-padding-horizontal` | Public | `10px` | Local CSS<br>`padding` |
 | `--mp-tag-padding-vertical` | Public | `0` | Local CSS<br>`line-height`, `padding` |
-| `--mp-tag-pinkpurple-bg` | Public | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-pinkpurple-bg-hover` | Public | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-pinkpurple-bg` | Public | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-pinkpurple-bg-hover` | Public | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-pinkpurple-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-pinkpurple-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-pinkpurple-icon-color` | Public | `rgb(var(--mp-pinkpurple-9))` | Local CSS<br>`color` |
 | `--mp-tag-pinkpurple-text-color` | Public | `rgb(var(--mp-pinkpurple-9))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-purple-bg` | Public | `rgb(var(--mp-purple-1))`<br>`rgba(var(--mp-purple-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-purple-bg-hover` | Public | `rgb(var(--mp-purple-2))`<br>`rgba(var(--mp-purple-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-purple-bg` | Public | `rgb(var(--mp-purple-1))`<br>`rgba(var(--mp-purple-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-purple-bg-hover` | Public | `rgb(var(--mp-purple-2))`<br>`rgba(var(--mp-purple-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-purple-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-purple-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-purple-icon-color` | Public | `rgb(var(--mp-purple-9))` | Local CSS<br>`color` |
 | `--mp-tag-purple-text-color` | Public | `rgb(var(--mp-purple-9))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-red-bg` | Public | `rgb(var(--mp-red-1))`<br>`rgba(var(--mp-red-6), 0.2)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
-| `--mp-tag-red-bg-hover` | Public | `rgb(var(--mp-red-2))`<br>`rgba(var(--mp-red-6), 0.35)` (`:root[maple-theme="dark"]`) | Local CSS<br>`background-color` |
+| `--mp-tag-red-bg` | Public | `rgb(var(--mp-red-1))`<br>`rgba(var(--mp-red-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
+| `--mp-tag-red-bg-hover` | Public | `rgb(var(--mp-red-2))`<br>`rgba(var(--mp-red-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-red-border-color` | Public | `transparent` | Local CSS<br>`border` |
 | `--mp-tag-red-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-red-icon-color` | Public | `rgb(var(--mp-red-9))` | Local CSS<br>`color` |
@@ -1678,15 +2626,19 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-variant-outline-status-tertiary-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`border`, `color` |
 | `--mp-tag-variant-outline-status-warning-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`border`, `color` |
 
+</div>
+
 ## textarea
 
 Source: `src/textarea/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-textarea-counter-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-textarea-counter-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
-| `--mp-textarea-counter-margin-top` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`margin-top` |
+| `--mp-textarea-counter-margin-top` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`margin-block-start` |
 | `--mp-textarea-font-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-textarea-height` | Public | `auto` | Local CSS<br>`height` |
 | `--mp-textarea-line-height` | Public | `1.5` | Local CSS<br>`line-height` |
@@ -1695,17 +2647,109 @@ Source: `src/textarea/style/token.less`
 | `--mp-textarea-padding-vertical` | Public | `0` | Local CSS<br>`padding` |
 | `--mp-textarea-placeholder-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 
+</div>
+
+## time
+
+Source: `src/time/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-time-picker-actions-padding` | Public | `0 8px 12px 8px` | Local CSS<br>`padding` |
+| `--mp-time-picker-body-background` | Public | `#fff` | Local CSS<br>`background-color` |
+| `--mp-time-picker-body-height` | Public | `288px` | Local CSS<br>`height` |
+| `--mp-time-picker-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-time-picker-clock-bottom` | Public | `27px` | Local CSS<br>`bottom` |
+| `--mp-time-picker-clock-container-background` | Public | `#e0e0e0` | Local CSS<br>`background` |
+| `--mp-time-picker-clock-container-height` | Public | `256px` | Local CSS<br>`height` |
+| `--mp-time-picker-clock-container-width` | Public | `256px` | Local CSS<br>`width` |
+| `--mp-time-picker-clock-hand-after-height` | Public | `4px` | Local CSS<br>`height` |
+| `--mp-time-picker-clock-hand-after-width` | Public | `4px` | Local CSS<br>`width` |
+| `--mp-time-picker-clock-hand-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background-color` |
+| `--mp-time-picker-clock-hand-before-border-width` | Public | `2px` | Local CSS<br>`border` |
+| `--mp-time-picker-clock-hand-before-height` | Public | `10px` | Local CSS<br>`height` |
+| `--mp-time-picker-clock-hand-before-width` | Public | `10px` | Local CSS<br>`width` |
+| `--mp-time-picker-clock-hand-border-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`border-color` |
+| `--mp-time-picker-clock-hand-bottom` | Public | `50%` | Local CSS<br>`bottom` |
+| `--mp-time-picker-clock-hand-height` | Public | `calc(50% - 4px)` | Local CSS<br>`height` |
+| `--mp-time-picker-clock-hand-left` | Public | `calc(50% - 1px)` | Local CSS<br>`left` |
+| `--mp-time-picker-clock-hand-width` | Public | `2px` | Local CSS<br>`width` |
+| `--mp-time-picker-clock-item-active-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
+| `--mp-time-picker-clock-item-active-color` | Public | `var(--mp-color-white)` | Local CSS<br>`color` |
+| `--mp-time-picker-clock-item-disable-background` | Public | `#bdbdbd` | Runtime reference (not visibility proof)<br>`time/Clock.vue` |
+| `--mp-time-picker-clock-item-disable-color` | Public | `rgba(0, 0, 0, 0.26)` | Local CSS<br>`color` |
+| `--mp-time-picker-clock-item-height` | Public | `32px` | Local CSS<br>`height` |
+| `--mp-time-picker-clock-item-text-color` | Public | `#555` | Local CSS<br>`color` |
+| `--mp-time-picker-clock-item-width` | Public | `32px` | Local CSS<br>`width` |
+| `--mp-time-picker-clock-left` | Public | `27px` | Local CSS<br>`left` |
+| `--mp-time-picker-clock-right` | Public | `27px` | Local CSS<br>`right` |
+| `--mp-time-picker-clock-top` | Public | `27px` | Local CSS<br>`top` |
+| `--mp-time-picker-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-time-picker-inner-bottom` | Public | `36px` | Local CSS<br>`bottom` |
+| `--mp-time-picker-inner-left` | Public | `36px` | Local CSS<br>`left` |
+| `--mp-time-picker-inner-right` | Public | `36px` | Local CSS<br>`right` |
+| `--mp-time-picker-inner-top` | Public | `36px` | Local CSS<br>`top` |
+| `--mp-time-picker-min-width` | Public | `290px` | Local CSS<br>`min-width` |
+| `--mp-time-picker-title-ampm-border` | Public | `none` | Local CSS<br>`border`, `border-bottom` |
+| `--mp-time-picker-title-ampm-border-radius` | Public | `0` | Local CSS<br>`border-radius` |
+| `--mp-time-picker-title-ampm-button-active-background` | Public | `transparent` | Local CSS<br>`background` |
+| `--mp-time-picker-title-ampm-button-padding` | Public | `2px` | Local CSS<br>`padding` |
+| `--mp-time-picker-title-ampm-margin-left` | Public | `10px` | Local CSS<br>`margin-left` |
+| `--mp-time-picker-title-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
+| `--mp-time-picker-title-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-time-picker-title-height` | Public | `105px` | Local CSS<br>`min-height` |
+| `--mp-time-picker-title-hint-color` | Public | `'#fff'` | Local CSS<br>`color` |
+| `--mp-time-picker-title-hint-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-time-picker-title-hint-min-height` | Public | `21px` | Local CSS<br>`min-height` |
+| `--mp-time-picker-title-inactive-opacity` | Public | `0.6` | Local CSS<br>`opacity` |
+| `--mp-time-picker-title-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
+| `--mp-time-picker-title-padding` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-time-picker-title-time-active-background` | Public | `rgba(255, 255, 255, 0.28)` | Local CSS<br>`background` |
+| `--mp-time-picker-title-time-background` | Public | `rgba(255, 255, 255, 0.12)` | Local CSS<br>`background` |
+| `--mp-time-picker-title-time-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-time-picker-title-time-container-justify-content` | Public | `flex-end` | Local CSS<br>`justify-content` |
+| `--mp-time-picker-title-time-font-size` | Public | `50px` | Local CSS<br>`font-size` |
+| `--mp-time-picker-title-time-margin` | Public | `0 5px` | Local CSS<br>`margin` |
+| `--mp-time-picker-title-time-padding` | Public | `4px 6px` | Local CSS<br>`padding` |
+| `--mp-time-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
+| `--mp-time-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
+| `--mp-time-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
+| `--mp-time-toolbar-padding` | Public | `var(--mp-picker-toolbar-padding, 0 4px)` | Local CSS<br>`padding` |
+
+</div>
+
 ## time-range
 
 Source: `src/time-range/style/token.less`
 
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
+| `--mp-time-range-picker-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background` |
+| `--mp-time-range-picker-border-radius` | Public | `var(--mp-time-picker-border-radius, 4px)` | Local CSS<br>`border-radius` |
 | `--mp-time-range-picker-next-day-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-time-range-picker-value-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-time-range-picker-value-arrow-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`color` |
+| `--mp-time-range-picker-value-arrow-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-time-range-picker-value-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-time-range-picker-values-font-size` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-time-range-picker-values-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
+| `--mp-time-range-picker-values-height` | Public | `56px` | Local CSS<br>`height` |
+| `--mp-time-range-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
+| `--mp-time-range-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
+| `--mp-time-range-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
+| `--mp-time-range-toolbar-padding` | Public | `var(--mp-picker-toolbar-padding, 0 4px)` | Local CSS<br>`padding` |
+
+</div>
 
 ## tooltip
 
 Source: `src/tooltip/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1733,9 +2777,13 @@ Source: `src/tooltip/style/token.less`
 | `--mp-tooltip-status-warning-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
 | `--mp-tooltip-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 
+</div>
+
 ## trigger
 
 Source: `src/trigger/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
@@ -1744,3 +2792,63 @@ Source: `src/trigger/style/token.less`
 | `--mp-trigger-arrow-size` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`height`, `width` |
 | `--mp-trigger-transition-duration` | Public | `var(--mp-sys-motion-duration-fast)` | Local CSS<br>`transition` |
 | `--mp-trigger-transition-easing` | Public | `var(--mp-sys-motion-easing-standard)` | Local CSS<br>`transition` |
+
+</div>
+
+## upload
+
+Source: `src/upload/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-upload-action-size` | Public | `var(--mp-sys-control-touch-target)` | Local CSS<br>`height`, `width` |
+| `--mp-upload-active-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`accent-color`, `border-color`, `outline` |
+| `--mp-upload-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
+| `--mp-upload-border-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border` |
+| `--mp-upload-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
+| `--mp-upload-card-size` | Public | `calc(var(--mp-sys-control-height-md) * 2)` | Local CSS<br>`height`, `min-height`, `width` |
+| `--mp-upload-disabled-opacity` | Public | `0.56` | Local CSS<br>`opacity` |
+| `--mp-upload-error-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
+| `--mp-upload-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-upload-gap` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`gap` |
+| `--mp-upload-hover-background` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background` |
+| `--mp-upload-item-min-height` | Public | `var(--mp-sys-control-height-md)` | Local CSS<br>`min-height` |
+| `--mp-upload-item-padding` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`padding` |
+| `--mp-upload-progress-height` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`height` |
+| `--mp-upload-secondary-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-upload-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-upload-thumb-size` | Public | `var(--mp-sys-control-height-lg)` | Local CSS<br>`height`, `width` |
+| `--mp-upload-trigger-draggable-min-height` | Public | `calc(var(--mp-sys-control-height-md) * 2)` | Local CSS<br>`min-height` |
+| `--mp-upload-trigger-min-height` | Public | `var(--mp-sys-control-height-md)` | Local CSS<br>`min-height` |
+| `--mp-upload-trigger-padding-horizontal` | Public | `var(--mp-sys-space-6)` | Local CSS<br>`padding-inline` |
+
+</div>
+
+## verification-code
+
+Source: `src/verification-code/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-verification-code-cell-height` | Public | `initial` | Local CSS<br>`height` |
+| `--mp-verification-code-cell-max-width` | Public | `initial` | Local CSS<br>`flex` |
+| `--mp-verification-code-gutter` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`gap` |
+| `--mp-verification-code-input-font-size` | Public | `initial` | Local CSS<br>`font-size` |
+
+</div>
+
+## watermark
+
+Source: `src/watermark/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-watermark-content-color` | Public | `rgba(0, 0, 0, 0.15)` | Runtime reference (not visibility proof)<br>`watermark/watermark.tsx` |
+
+</div>

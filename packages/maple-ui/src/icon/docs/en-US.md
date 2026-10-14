@@ -1,5 +1,13 @@
 # Icon
 
+## Transition lifecycle
+
+transition is a public visual replacement duration, default0, not a new CSS token. CSS/JS share one normalized value (negative/nonfinite becomes0). Duration changes cancel old phases and commit the current name. Replacement/preference/deactivation/disposal invalidate stale and consumed callbacks. KeepAlive suspends animations and detaches observation; activation shows the latest name without replay. Preference uses the actual span owner window and stale listener bindings are rejected. Registry/slot precedence/spin remain. Nine simulated tests per copy had6 failures/3 controls; full Icon Cedar20/Maple21 pass, not native browser/OS proof.
+
+```demo
+../example/demos/lifecycle.vue
+```
+
 ## Introduction
 
 SVG Vue component icon library.
@@ -120,4 +128,4 @@ Default Icon size now inherits the host font size on both platforms. Set size="2
 | --- | --- |
 | `--mp-icon-spin-duration` | `1s` |
 
-Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes skip delays and cancel pending transitions. Ripple duration tokens control CSS only: its 250ms lifecycle timers are unchanged, so keep each visual duration at or below 250ms. Custom animation classes remain the caller’s responsibility.
+Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes show the latest value and cancel pending phases, using the same normalized CSS/JS duration. Custom animation classes remain the caller's responsibility. See Ripple's own documentation for its duration/cleanup policy; its historical250ms policy is not an Icon duration limit.

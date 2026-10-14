@@ -1,5 +1,17 @@
 # Time 时间
 
+父级在确认后保持弹层展开时，没有新选择的重复确认不会重复提交；新的时间选择会开启新事务，可以再次确认。
+
+展开时，原生 combobox 通过 `aria-controls` 关联当前实例的命名弹层；关闭后同步更新状态并移除关联。`aria-label`、`aria-describedby` 可传递给原生控件。自定义 selected/触发插槽需自行保留可访问名称、键盘操作和状态关联。
+
+### 手输与面板选择
+
+`input-editable` 默认为 `false`（Cedar 为 `true`）。开启后点击输入区手输，点击时钟按钮或按 ↓ 打开 picker/clock 面板。回车或失焦提交，Esc 撤销；格式、步长、边界和禁用规则与面板一致。无效输入或父级拒绝受控更新时回到模型值。切换为不可编辑、只读或禁用会丢弃未提交输入；输入法组合期间以及范围两端切换焦点时不提交。
+
+```demo
+../example/demos/text-entry.vue
+```
+
 ### 介绍
 
 表单时间**字段**，点击后底部弹出 `TimePicker`。交互对齐 Select 的 picker 模式：取消丢弃草稿，确认后才写回 `v-model`。
@@ -192,6 +204,7 @@ Maple 的 pickerProps 可配置 optionHeight/optionCount 等外观，不可替�
 | `time-picker-props` | 透传给 `mp-time-picker` 的属性              | _Partial\<TimePickerProps\>_ | `{}`       |
 | `picker-props`      | 透传给 `mp-picker` 的属性                   | _Partial\<PickerProps\>_     | `{}`       |
 | `popup-props`       | 透传给弹窗的属性                            | _Partial\<PopupProps\>_      | `{}`       |
+| `input-editable` | 是否允许手输；关闭后仍可面板选择 | _boolean_ | `false` |
 | `placeholder`       | 占位符                                      | _string_                     | `-`        |
 | `clearable`         | 是否可清除                                  | _boolean_                    | `false`    |
 | `disabled`          | 是否禁用                                    | _boolean_                    | `false`    |

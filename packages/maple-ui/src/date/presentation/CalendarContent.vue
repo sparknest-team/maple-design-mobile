@@ -18,6 +18,7 @@
         </div>
       </div>
       <mp-picker
+        v-bind="pickerBindingProps"
         :toolbar="false"
         :columns="dateTimeColumns"
         :model-value="dateTimePickerValue"
@@ -139,6 +140,7 @@
       </div>
       <div v-if="resolvedPresentation === 'calendarClock' && datetimeView === 'time'" :class="n('datetime-clock')">
         <mp-time-picker
+          presentation="clock"
           :model-value="displayDateTimeParts.time"
           v-bind="{ ...timePickerBindingProps, ...dateTimeConstraints(disabledTime) }"
           disable-confirm
@@ -155,6 +157,7 @@
           </div>
         </div>
         <mp-picker
+          v-bind="pickerBindingProps"
           :toolbar="false"
           :columns="timeOnlyColumns"
           :model-value="timeOnlyPickerValue"
@@ -177,7 +180,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch, type RendererNode } from 'vue'
+import { computed, defineComponent, nextTick, ref, watch, type RendererNode } from 'vue'
 import { call, doubleRaf, error, isArray, toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
@@ -187,6 +190,7 @@ import { _PickerComponent as MpPicker } from '../../picker'
 import MpTimePicker from '../../time/TimePicker.vue'
 import { createNamespace, formatElevation } from '../../utils/components'
 import { padStart } from '../../utils/shared'
+import { useDateCurrent } from '../date-current'
 import {
   buildDateOrDateTimeColumns,
   buildTimeOnlyColumns,
@@ -203,6 +207,7 @@ import {
   resolveDateTimePresentation,
   splitDateTimeDisplay,
 } from '../datetime'
+import { normalizeDateRange } from '../normalize-date-range'
 import DayPickerPanel from '../picker-panels/DayPickerPanel.vue'
 import MonthPickerPanel from '../picker-panels/MonthPickerPanel.vue'
 import YearPickerPanel from '../picker-panels/YearPickerPanel.vue'
@@ -218,6 +223,8 @@ import {
   type Week,
 } from '../presentation-props'
 import { dateTimeConstraints } from '../time-constraints'
+import { dateTimePickerOptions } from '../time-picker-options'
+import { dateWheelOptions } from '../wheel-options'
 
 const { name, n, classes } = createNamespace('date-picker')
 
@@ -231,7 +238,7 @@ export default defineComponent({
     MpTimePicker,
   },
   props,
-  emits: ['change', 'update:modelValue', 'preview'],
+  emits: ['change', 'update:modelValue', 'preview', 'range-candidate', 'update:pickerValue'],
   setup(props, { emit }) {
     const activeIndex = useRangeFieldIndex()
     const { t: pt } = injectLocaleProvider()
@@ -257,14 +264,16 @@ export default defineComponent({
     const yearPanelEl = ref<RendererNode | null>(null)
     const monthPanelEl = ref<RendererNode | null>(null)
     const dayPanelEl = ref<RendererNode | null>(null)
+    const showCurrent = useDateCurrent(() => props.showCurrent)
     const componentProps = computed<ComponentProps>(() => ({
       disabledDate: props.disabledDate,
       type: props.type,
       color: props.color,
-      firstDayOfWeek: props.firstDayOfWeek,
+      dayStartOfWeek: props.dayStartOfWeek,
       min: props.min,
       max: props.max,
-      showCurrent: props.showCurrent,
+      abbreviation: props.abbreviation,
+      showCurrent: showCurrent.value,
       multiple: props.multiple,
       range: props.range,
       buttonElevation: props.buttonElevation,
@@ -376,8 +385,11 @@ export default defineComponent({
     let touchDirection: TouchDirection | undefined
 
     watch(
-      () => props.modelValue,
-      (value) => {
+      // Range adapters create a fresh array on render. An equal model must not
+      // erase the first click while the user is choosing the second endpoint.
+      () => (isArray(props.modelValue) ? JSON.stringify(props.modelValue) : props.modelValue),
+      () => {
+        const value = props.modelValue
         if (!checkValue() || invalidFormatDate(value)) {
           return
         }
@@ -402,6 +414,47 @@ export default defineComponent({
       { immediate: true },
     )
 
+    function syncPickerViewport() {
+      const candidate = Array.isArray(props.pickerValue) ? props.pickerValue[0] : props.pickerValue
+      const date = candidate ? dayjs(candidate) : undefined
+      if (date?.isValid()) {
+        previewYear.value = date.format('YYYY')
+        previewMonth.value = date.format('MM') as Month
+      }
+    }
+    watch([() => props.pickerValue, () => props.modelValue], syncPickerViewport, {
+      immediate: true,
+      deep: true,
+      flush: 'post',
+    })
+    function notifyPickerViewport() {
+      const anchor =
+        props.type === 'year'
+          ? previewYear.value
+          : props.type === 'month'
+            ? `${previewYear.value}-${previewMonth.value}`
+            : `${previewYear.value}-${previewMonth.value}-01${props.showTime ? ` 00:00${props.useSeconds ? ':00' : ''}` : ''}`
+      const value = Array.isArray(props.pickerValue)
+        ? [
+            anchor,
+            dayjs(anchor)
+              .add(1, props.type === 'year' ? 'year' : 'month')
+              .format(
+                props.type === 'year'
+                  ? 'YYYY'
+                  : props.type === 'month'
+                    ? 'YYYY-MM'
+                    : props.showTime
+                      ? props.useSeconds
+                        ? 'YYYY-MM-DD HH:mm:ss'
+                        : 'YYYY-MM-DD HH:mm'
+                      : 'YYYY-MM-DD',
+              ),
+          ]
+        : anchor
+      emit('update:pickerValue', value)
+      nextTick(syncPickerViewport)
+    }
     watch(getPanelType, resetState)
 
     function clickEl(type: string) {
@@ -461,9 +514,8 @@ export default defineComponent({
       activeIndex.value = rangeDone.value ? 0 : 1
 
       if (rangeDone.value) {
-        const isChangeOrder = dayjs(rangeDate.value[0]).isAfter(rangeDate.value[1])
-        const date = isChangeOrder ? [rangeDate.value[1], rangeDate.value[0]] : [...rangeDate.value]
-
+        emit('range-candidate', [...rangeDate.value])
+        const date = normalizeDateRange([...rangeDate.value], { type: props.type })
         emit('update:modelValue', date)
         emit('change', date)
       }
@@ -558,6 +610,7 @@ export default defineComponent({
         )
       }
 
+      notifyPickerViewport()
       isMonthPanel.value = false
     }
 
@@ -584,6 +637,7 @@ export default defineComponent({
         )
       }
 
+      notifyPickerViewport()
       isYearPanel.value = false
     }
 
@@ -608,6 +662,7 @@ export default defineComponent({
         previewMonth.value = MONTH_LIST.find((month) => toNumber(month) === checkIndex) as Month
       }
 
+      notifyPickerViewport()
       call(
         (...args: any[]) => emit('preview', ...args),
         toNumber(previewYear.value),
@@ -765,7 +820,8 @@ export default defineComponent({
     )
     const timeOnlyPickerValue = computed(() => parseTimeParts(displayDateTimeParts.value.time, props.useSeconds))
 
-    const timePickerBindingProps = computed(() => ({ ...props.timePickerProps }))
+    const pickerBindingProps = computed(() => dateWheelOptions(props.pickerProps))
+    const timePickerBindingProps = computed(() => dateTimePickerOptions(props.timePickerProps))
 
     function handleDateTimePickerChange(values: (string | number)[]) {
       if (props.readonly) {
@@ -828,6 +884,7 @@ export default defineComponent({
       timeOnlyColumns,
       dateTimePickerValue,
       timeOnlyPickerValue,
+      pickerBindingProps,
       timePickerBindingProps,
       handleDateTimePickerChange,
       handleTimeOnlyPickerChange,

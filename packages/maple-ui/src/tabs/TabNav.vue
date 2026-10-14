@@ -43,10 +43,12 @@
 </template>
 <script setup lang="ts">
 import { computed, getCurrentInstance, inject, nextTick, ref } from 'vue'
+import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
-import { createNamespace } from './platform'
 import { tabNavProps, type TabsKey } from './props'
+import type { TabNavSlots } from './types'
 
+defineSlots<TabNavSlots>()
 defineOptions({ name: createNamespace('tab-nav').name })
 const props = defineProps(tabNavProps)
 const ctx = inject(tabsInjectionKey)!

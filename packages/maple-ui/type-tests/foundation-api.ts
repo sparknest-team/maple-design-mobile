@@ -24,16 +24,16 @@ useVModel(props, 'value', {
     void value
   },
 })
-// @ts-expect-error the default request event is update:open, not change
 useVModel(props, 'open', {
+  // @ts-expect-error the default request event is update:open, not change
   emit: (event: 'change', value: boolean) => {
     void event
     void value
   },
 })
-// @ts-expect-error the custom request event must be accepted by the emitter
 useVModel(props, 'value', {
   eventName: 'change',
+  // @ts-expect-error the custom request event must be accepted by the emitter
   emit: (event: 'other', value: number) => {
     void event
     void value
@@ -62,6 +62,7 @@ const menuSelection: DropdownMenuProps = {
   options: menuOptions,
   fieldNames: fields,
   submenuTrigger: 'hover',
+  strategy: 'fixed',
   popupContainer: false,
 }
 void menuSelection
@@ -85,9 +86,9 @@ const tooltipControls: TooltipProps = {
   showArrow: true,
   contentClass: 'content',
   popupClass: 'position',
-  backgroundColor: 'red',
+  color: 'red',
   textColor: 'white',
-  xs: true,
+  size: 'xs',
 }
 const popoverControls: PopoverProps = {
   title: 'Title',
@@ -127,3 +128,9 @@ const menuMethods = (menu: DropdownMenuInstance) => {
 }
 void optionProps
 void menuMethods
+
+// @ts-expect-error removed alias; use color
+const removedTooltipBackground: TooltipProps = { backgroundColor: 'red' }
+// @ts-expect-error removed alias; use size
+const removedTooltipXs: TooltipProps = { xs: true }
+void [removedTooltipBackground, removedTooltipXs]

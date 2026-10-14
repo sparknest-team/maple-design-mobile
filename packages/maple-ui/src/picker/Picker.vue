@@ -55,9 +55,19 @@
       </div>
       <div :class="n('columns')" :style="{ height: `${columnHeight}px` }">
         <div
-          v-for="c in scrollColumns"
-          :key="c.id"
+          v-for="(c, columnIndex) in scrollColumns"
+          :key="columnIndex"
           :class="n('column')"
+          role="listbox"
+          :tabindex="c.column.some((option) => !isOptionDisabled(option)) ? 0 : -1"
+          :aria-label="`${title ?? (pt ? pt : t)('pickerTitle')} ${columnIndex + 1}`"
+          :aria-disabled="c.column.every(isOptionDisabled) || undefined"
+          :aria-activedescendant="
+            c.column[c.index] && !isOptionDisabled(c.column[c.index])
+              ? `${controlId}-${columnIndex}-${c.index}`
+              : undefined
+          "
+          @keydown="handleColumnKeydown($event, c)"
           @touchstart.passive="handleTouchstart($event, c)"
           @touchmove.prevent="handleTouchmove($event, c)"
           @touchend="handleTouchend(c)"
@@ -74,7 +84,11 @@
           >
             <div
               v-for="(option, index) in c.column"
+              :id="`${controlId}-${columnIndex}-${index}`"
               :key="getValue(option)"
+              role="option"
+              :aria-selected="index === c.index && !isOptionDisabled(option)"
+              :aria-disabled="isOptionDisabled(option) || undefined"
               :class="
                 classes(
                   n('option'),
@@ -110,7 +124,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, Transition, watch, type ComponentPublicInstance } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  onScopeDispose,
+  ref,
+  Transition,
+  useId,
+  watch,
+  type ComponentPublicInstance,
+} from 'vue'
 import { IconCheck as MIconCheck } from '@maplejs/icons-vue'
 import { call, clamp, clampArrayRange, toNumber } from '@maplejs/maple-shared'
 import { useTouch, useVModel } from '@maplejs/maple-use'
@@ -170,6 +194,29 @@ export default defineComponent({
     'key-escape',
   ],
   setup(props, { emit }) {
+    const controlId = useId()
+    const reducedMotion = ref(false)
+    let motionQuery: MediaQueryList | undefined
+    function syncMotion() {
+      reducedMotion.value = Boolean(motionQuery?.matches)
+      if (reducedMotion.value) {
+        for (const column of scrollColumns.value) {
+          if (column.duration) {
+            column.duration = 0
+            column.scrolling = false
+            handleScrollColumnChange(column)
+          }
+        }
+      }
+    }
+    onMounted(() => {
+      if (typeof window.matchMedia === 'function') {
+        motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+        syncMotion()
+        motionQuery.addEventListener?.('change', syncMotion)
+      }
+    })
+    onScopeDispose(() => motionQuery?.removeEventListener?.('change', syncMotion))
     const modelValue = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
     const scrollColumns = ref<ScrollColumn[]>([])
     const visibleColumnsCount = computed(() => toNumber(props.columnsCount))
@@ -369,7 +416,7 @@ export default defineComponent({
 
     function scrollTo(scrollColumn: ScrollColumn, duration = 0) {
       updateTranslate(scrollColumn)
-      scrollColumn.duration = duration
+      scrollColumn.duration = reducedMotion.value ? 0 : duration
     }
 
     function momentum(scrollColumn: ScrollColumn, distance: number, duration: number) {
@@ -377,12 +424,42 @@ export default defineComponent({
     }
 
     function handleClick(scrollColumn: ScrollColumn, index: number) {
-      if (dragging.value) {
+      if (dragging.value || isOptionDisabled(scrollColumn.column[index])) {
         return
       }
 
       scrollColumn.index = index
       scrollTo(scrollColumn, TRANSITION_DURATION)
+      if (!scrollColumn.duration) {
+        handleScrollColumnChange(scrollColumn)
+      }
+    }
+
+    function handleColumnKeydown(event: KeyboardEvent, column: ScrollColumn) {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) {
+        return
+      }
+      if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
+        return
+      }
+      event.preventDefault()
+      event.stopPropagation()
+      const enabled = column.column.flatMap((option, index) => (isOptionDisabled(option) ? [] : [index]))
+      const target =
+        event.key === 'Home'
+          ? enabled[0]
+          : event.key === 'End'
+            ? enabled[enabled.length - 1]
+            : event.key === 'ArrowDown'
+              ? enabled.find((index) => index > column.index)
+              : [...enabled].reverse().find((index) => index < column.index)
+      if (target === undefined || target === column.index) {
+        return
+      }
+      column.index = target
+      column.scrolling = false
+      scrollTo(column)
+      handleScrollColumnChange(column)
     }
 
     function handleTouchstart(event: TouchEvent, scrollColumn: ScrollColumn) {
@@ -418,7 +495,8 @@ export default defineComponent({
       scrollColumn.prevY = 0
       const distance = scrollColumn.translate - scrollColumn.momentumPrevY
       const duration = performance.now() - scrollColumn.momentumTime
-      const shouldMomentum = Math.abs(distance) >= MOMENTUM_ALLOW_DISTANCE && duration <= MOMENTUM_RECORD_TIME
+      const shouldMomentum =
+        !reducedMotion.value && Math.abs(distance) >= MOMENTUM_ALLOW_DISTANCE && duration <= MOMENTUM_RECORD_TIME
       const oldTranslate = scrollColumn.translate
 
       if (shouldMomentum) {
@@ -430,7 +508,8 @@ export default defineComponent({
       scrollColumn.scrolling = scrollColumn.translate !== oldTranslate
 
       // Can't trigger transition end when not scrolling, change needs to be triggered manually.
-      if (!scrollColumn.scrolling) {
+      if (!scrollColumn.scrolling || !scrollColumn.duration) {
+        scrollColumn.scrolling = false
         handleScrollColumnChange(scrollColumn)
       }
     }
@@ -510,6 +589,8 @@ export default defineComponent({
     }
 
     return {
+      controlId,
+      handleColumnKeydown,
       optionHeight,
       optionCount,
       scrollColumns,

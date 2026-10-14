@@ -6,9 +6,9 @@ withInstall(Rate)
 withPropsDefaultsSetter(Rate, rateProps)
 
 export { rateProps }
-export type { RateColor, RateIcon, RateProps } from './props'
+export type { RateColor, RateIcon, RateProps, RateExpose, RateEmits, RateCharacterSlotProps } from './props'
 
-export type RateInstance = InstanceType<typeof Rate>
+export type RateInstance = import('./props').RateExpose & InstanceType<typeof Rate>
 export const _RateComponent: typeof Rate = Rate
 
 export default Rate

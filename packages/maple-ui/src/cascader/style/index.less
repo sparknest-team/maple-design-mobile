@@ -150,7 +150,7 @@
     }
 
     .mp-icon-check {
-      color: rgb(var(~'--mp-primary-6'));
+      color: var(--mp-sys-color-content-brand);
     }
 
     .mp-cascader-option-loading-icon {
@@ -158,7 +158,7 @@
       top: 50%;
       right: var(~'--mp-cascader-padding-item-right');
       margin-top: calc(var(~'--mp-cascader-size-item-icon') / -2);
-      color: rgb(var(~'--mp-primary-6'));
+      color: var(--mp-sys-color-content-brand);
       font-size: var(~'--mp-cascader-size-item-icon');
     }
   }
@@ -168,11 +168,11 @@
     color: var(~'--mp-cascader-item-text-color-hover');
     background-color: var(~'--mp-cascader-item-bg-hover');
 
-    .mp-checkbox:not(.mp-checkbox-disabled):not(.mp-checkbox-checked):hover .mp-checkbox-icon-hover::before {
+    .mp-checkbox:not(.mp-checkbox--disabled):not(.mp-checkbox--checked):hover .mp-checkbox__control {
       background-color: var(~'--mp-cascader-checkbox-bg-hover');
     }
 
-    .mp-radio:not(.mp-radio-disabled):not(.mp-radio-checked):hover .mp-radio-icon-hover::before {
+    .mp-radio:not(.mp-radio--disabled):not(.mp-radio--checked):hover .mp-radio__control {
       background-color: var(~'--mp-cascader-checkbox-bg-hover');
     }
   }

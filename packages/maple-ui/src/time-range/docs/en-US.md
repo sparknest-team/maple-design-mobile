@@ -1,5 +1,15 @@
 # TimeRange
 
+Wheel and clock endpoint headings are native buttons: Tab focuses them and Enter/Space activates them; `aria-pressed` identifies the active editor. Switching sides does not commit drafts. The second-level boundary demo explicitly enables `input-editable` to exercise both text and panel validation.
+
+### Text entry
+
+`input-editable` defaults to `false` (Cedar: `true`). When enabled, tap the input to type; use the clock button or ArrowDown to open the picker/clock panel. Enter or blur commits; Escape cancels. Parsing, steps, bounds and disabled rules match panel selection. Invalid or rejected controlled edits restore the model value. Disabling editing, readonly or disabled state discards drafts. IME composition and moving between range inputs do not commit.
+
+```demo
+../example/demos/en-US/text-entry.vue
+```
+
 ### Intro
 
 Form time-range **field**. Cancel discards the draft; Confirm writes `v-model`.
@@ -85,6 +95,8 @@ When the end time is earlier than the start (overnight), enable `show-next-day` 
 ../example/demos/next-day.vue
 ```
 
+The demo enables text entry and shows the model, preserving 22:00→next-day06:00 endpoint order. Clearing returns `undefined`; Reset restores the range. `show-next-day` describes clock ordering and the label, not automatic next-day calendar arithmetic.
+
 ### disabled
 
 ```demo
@@ -112,6 +124,8 @@ Disabled callbacks match Cedar: disabled-hours, disabled-minutes and disabled-se
 ../example/demos/en-US/step.vue
 ```
 
+Switch to a 12-hour panel without changing minute/second intervals. The explicit `HH:mm:ss` format still controls the model; AM/PM choices map to the corresponding 24-hour value.
+
 `format` now has the same meaning as Cedar: it parses string models and controls display and emitted strings. The default is `HH:mm:ss`; with `use12-hours` and no explicit format it is `hh:mm:ss a`. Use `HH:mm` to omit seconds, `hh:mm A` for uppercase AM/PM, and `[Time] HH:mm` for literal text. Models accept formatted strings, local Date objects, or millisecond timestamps; output is always a formatted string (an array for ranges). Invalid input is not normalized or written back. `min`/`max` remain 24-hour `HH:mm[:ss]` strings, and disabled callbacks always receive actual hours 0–23. The old Time `use-seconds` and format enum have been removed, without aliases.
 
 ### Model types and literals
@@ -127,6 +141,10 @@ Disabled callbacks match Cedar: disabled-hours, disabled-minutes and disabled-se
 ```demo
 ../example/demos/en-US/default-state.vue
 ```
+
+Use the acceptance switches to reject value or visibility requests independently. Rejected requests leave parent state unchanged; proposals are shown separately. Reopening restores the parent model. A close request does not imply parent acceptance.
+
+When the parent rejects closing, repeated confirmation without a new selection does not commit again. A fresh time selection starts a new transaction that can be confirmed while the panel remains open.
 
 ### Selection and commit
 
@@ -227,6 +245,7 @@ The field uses independently copied PickerField → FieldDecorator layers. Panel
 | `picker-props`            | Props for `mp-picker` (picker)                                                                                            | _Partial\<PickerProps\>_          | `{}`       |
 | `time-range-picker-props` | Props for `mp-time-range-picker`                                                                                          | _Partial\<TimeRangePickerProps\>_ | `{}`       |
 | `popup-props`             | Props for popup                                                                                                           | _Partial\<PopupProps\>_           | `{}`       |
+| `input-editable` | Allow text entry; panel selection remains available | _boolean_ | `false` |
 | `placeholder` | Endpoint placeholders; a string labels both endpoints | _string \| string[]_ | `-` |
 | `clearable`               | Clearable                                                                                                                 | _boolean_                         | `false`    |
 | `disabled`                | Disabled                                                                                                                  | _boolean_                         | `false`    |

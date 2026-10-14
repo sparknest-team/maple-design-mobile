@@ -170,7 +170,7 @@ function expandDemoFiles(source: string, id: string, onDemo?: (path: string) => 
   let index = 0
   const demos: DemoFile[] = []
 
-  source = source.replace(/```demo\s*\n([^\n]+)\n```/g, (_, request: string) => {
+  const addDemo = (request: string) => {
     const demoRequest = request.trim()
     const demoPath = resolve(dirname(id), demoRequest)
     onDemo?.(demoPath)
@@ -180,7 +180,38 @@ function expandDemoFiles(source: string, id: string, onDemo?: (path: string) => 
     demos.push(demo)
 
     return demoPlaceholder(demos.length - 1)
-  })
+  }
+
+  // Parse blocks first so documentation code samples containing <demo> remain
+  // static code; both supported live-demo syntaxes use the same file pipeline.
+  const offsets = [0]
+  for (const line of source.split('\n')) {
+    offsets.push(offsets[offsets.length - 1] + line.length + 1)
+  }
+  const edits: Array<{ start: number; end: number; content: string }> = []
+  const demoTag = /<demo\b[^>]*\bsrc\s*=\s*(['"])([^'"]+)\1[^>]*(?:\/>|>\s*<\/demo>)/g
+  for (const token of markdownIt({ html: true }).parse(source, {})) {
+    if (!token.map) {
+      continue
+    }
+    const start = offsets[token.map[0]]
+    const end = Math.min(offsets[token.map[1]], source.length)
+    if (token.type === 'fence' && token.info.trim() === 'demo') {
+      edits.push({ start, end, content: `${addDemo(token.content)}\n` })
+    } else if (
+      (token.type === 'html_block' || token.type === 'inline') &&
+      token.content.replace(demoTag, '').trim() === ''
+    ) {
+      const original = source.slice(start, end)
+      const content = original.replace(demoTag, (_, _quote: string, request: string) => `\n\n${addDemo(request)}\n\n`)
+      if (content !== original) {
+        edits.push({ start, end, content })
+      }
+    }
+  }
+  for (const edit of edits.reverse()) {
+    source = source.slice(0, edit.start) + edit.content + source.slice(edit.end)
+  }
 
   if (!demos.length && /\/src\/[^/]+\/docs\/[^/]+\.md$/.test(id.replaceAll('\\', '/'))) {
     const exampleIndexPath = resolve(dirname(id), '../example/index.vue')

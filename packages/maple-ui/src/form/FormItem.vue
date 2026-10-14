@@ -1,47 +1,75 @@
 <template>
-  <div
-    ref="formItemRef"
-    :class="
-      classes(n(), n('$--box'), n(`--${mergedLayout}`), [noStyle, n('--no-style')], [showLabel, n('--with-label')])
-    "
+  <mp-row
+    :ref="setFormItemRef"
+    :div="mergedLayout !== 'horizontal' || !showLabel || noStyle"
+    :wrap="layoutWrap"
+    :class="[
+      rowClass,
+      classes(n(), n('$--box'), n(`--${mergedLayout}`), [noStyle, n('--no-style')], [showLabel, n('--with-label')]),
+    ]"
+    v-bind="rowProps"
   >
-    <div v-if="showLabel" :class="n('label')">
-      <span v-if="showAsterisk && asteriskPosition === 'start'" :class="classes(n('asterisk'), n('asterisk--start'))">
-        *
-      </span>
-      <slot name="label">{{ label }}</slot>
-      <span v-if="showAsterisk && asteriskPosition === 'end'" :class="classes(n('asterisk'), n('asterisk--end'))">
-        *
-      </span>
-    </div>
+    <mp-col
+      v-if="showLabel"
+      v-bind="labelCol"
+      :style="labelStyle"
+      :class="
+        classes(
+          n('label-col'),
+          [labelAlign === 'left', n('label-col--left')],
+          [fixedLabel, n('label-col--flex')],
+          [measureLabel, n('label-col--auto')],
+        )
+      "
+    >
+      <FormItemLabel
+        :measure-width="measureLabel"
+        :registry="labelRegistry"
+        :required="showAsterisk"
+        :show-colon="showColon"
+        :asterisk-position="asteriskPosition"
+        :component="labelComponent"
+        :attrs="labelAttrs"
+        :tooltip="tooltip"
+      >
+        <slot name="label">{{ label }}</slot>
+      </FormItemLabel>
+    </mp-col>
 
-    <div :class="n('wrapper')">
-      <div :class="n('content')">
+    <mp-col :class="n('wrapper')" v-bind="wrapperCol" :style="wrapperStyle">
+      <div :class="[n('content'), { [n('content--flex')]: contentFlex }, contentClass]">
         <slot />
       </div>
 
-      <mp-form-details v-if="!noStyle" :error-message="errorMessage" :extra-message="extra">
+      <mp-form-details v-if="!noStyle" :error-message="displayErrorMessage" :extra-message="extra">
         <template v-if="$slots.extra" #extra-message>
           <slot name="extra" />
         </template>
       </mp-form-details>
 
-      <div v-if="!noStyle && !errorMessage && (help || $slots.help)" :class="n('help')">
+      <div v-if="!noStyle && !displayErrorMessage && (help || $slots.help)" :class="n('help')">
         <slot name="help">{{ help }}</slot>
       </div>
-    </div>
-  </div>
+    </mp-col>
+  </mp-row>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, useSlots } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import { cloneDeep, normalizeToArray } from '@maplejs/maple-shared'
+import Col from '../col'
 import MpFormDetails from '../form-details'
+import Row from '../row'
 import { createRequestGuard } from '../utils/async-request'
 import { createNamespace, useValidation } from '../utils/components'
+import { getFormElementId } from './form-id'
+import FormItemLabel from './FormItemLabel.vue'
+import { resolveFormItemStatus, type FormItemValidateStatus } from './item-decoration'
 import { props, type FormItemValidateTrigger } from './item-props'
 import { bindFormItem, useFormItem, type FormItemEventHandlers, type FormItemProvider } from './item-provide'
 import { useForm } from './provide'
+import { useFormItemLayout } from './use-form-item-layout'
 import { getValueByPath, isEmptyValue, setValueByPath } from './utils'
 import { hasValidateTrigger } from './validate-trigger'
 
@@ -50,7 +78,10 @@ const { name, n, classes } = createNamespace('form-item')
 export default defineComponent({
   name,
   components: {
+    FormItemLabel,
     MpFormDetails,
+    MpRow: Row,
+    MpCol: Col,
   },
   props,
   emits: ['validate'],
@@ -59,7 +90,7 @@ export default defineComponent({
     const { form } = useForm()
     const { errorMessage, validate: v, resetValidation } = useValidation()
     const validationTask = createRequestGuard()
-    const validationStatus = ref<'success' | 'error' | 'validating'>()
+    const validationStatus = ref<FormItemValidateStatus>()
     const initialValue = ref<any>()
     const hasCapturedInitial = ref(false)
     const formItemRef = ref<HTMLElement>()
@@ -68,8 +99,30 @@ export default defineComponent({
     const { hasOuterLabel: parentHasOuterLabel } = useFormItem()
     const showLabel = computed(() => !props.noStyle && !props.hideLabel && (!!props.label || !!slots.label))
     const hasOuterLabel = computed(() => (props.noStyle ? parentHasOuterLabel.value : showLabel.value))
-    const showAsterisk = computed(() => props.required && !props.hideAsterisk)
-    const mergedLayout = computed(() => props.layout || form?.layout.value || 'vertical')
+    const showAsterisk = computed(() => (props.required || hasRequiredRule(mergedRules.value)) && !props.hideAsterisk)
+    const resolvedLayout = useFormItemLayout(
+      () => ({ ...props, hideLabel: !showLabel.value }),
+      () => form?.layoutOptions.value ?? {},
+      'vertical',
+    )
+    const {
+      layout: mergedLayout,
+      labelAlign,
+      labelCol,
+      wrapperCol: resolvedWrapperCol,
+      labelStyle,
+      wrapperStyle,
+      wrap: layoutWrap,
+      fixedLabel,
+      measureLabel,
+    } = resolvedLayout
+    const wrapperCol = computed(() => ({
+      ...resolvedWrapperCol.value,
+      ...(form?.id.value && props.field ? { id: getFormElementId(form.id.value, props.field) } : {}),
+    }))
+    function setFormItemRef(instance: Element | ComponentPublicInstance | null) {
+      formItemRef.value = instance ? (('$el' in instance ? instance.$el : instance) as HTMLElement) : undefined
+    }
     const mergedDisabled = computed(() => props.disabled ?? form?.disabled.value ?? false)
     const mergedReadonly = computed(() => props.readonly ?? form?.readonly.value ?? false)
     const mergedSize = computed(() => props.size ?? form?.size.value)
@@ -95,14 +148,16 @@ export default defineComponent({
       captureInitialValue()
     })
 
+    const displayStatus = computed(() => resolveFormItemStatus(props.validateStatus, validationStatus.value))
+    const displayErrorMessage = computed(() => (displayStatus.value === 'error' ? errorMessage.value : ''))
     const formItemProvider: FormItemProvider = {
-      error: computed(() => (props.validateStatus ?? validationStatus.value) === 'error' || !!errorMessage.value),
-      errorMessage: computed(() => errorMessage.value),
+      error: computed(() => displayStatus.value === 'error'),
+      errorMessage: displayErrorMessage,
       disabled: mergedDisabled,
       readonly: mergedReadonly,
       size: mergedSize,
       hasOuterLabel,
-      feedback: computed(() => (props.feedback ? (props.validateStatus ?? validationStatus.value) : undefined)),
+      feedback: computed(() => (props.feedback ? displayStatus.value : undefined)),
       eventHandlers,
       validateWithTrigger,
     }
@@ -185,14 +240,15 @@ export default defineComponent({
       if (!data || typeof data !== 'object') {
         return
       }
-      const fieldData = data as { value?: unknown; message?: string; status?: string }
+      const fieldData = data as { value?: unknown; message?: string; status?: FormItemValidateStatus | '' }
       if ('value' in fieldData && props.field && form?.model.value) {
         setValueByPath(form.model.value, props.field, cloneDeep(fieldData.value))
       }
-      if (fieldData.status === 'error' || fieldData.message) {
+      if ('status' in fieldData || 'message' in fieldData) {
+        validationTask.invalidate()
+        validationStatus.value =
+          fieldData.status === '' ? undefined : (fieldData.status ?? (fieldData.message ? 'error' : undefined))
         errorMessage.value = fieldData.message || ''
-      } else if ('status' in fieldData || 'message' in fieldData) {
-        clearValidate()
       }
     }
 
@@ -216,10 +272,20 @@ export default defineComponent({
       n,
       classes,
       formItemRef,
+      setFormItemRef,
+      labelRegistry: form,
+      labelAlign,
+      labelCol,
+      wrapperCol,
+      labelStyle,
+      wrapperStyle,
+      layoutWrap,
+      fixedLabel,
+      measureLabel,
       showLabel,
       showAsterisk,
       mergedLayout,
-      errorMessage,
+      displayErrorMessage,
       validate,
       clearValidate,
       resetField,

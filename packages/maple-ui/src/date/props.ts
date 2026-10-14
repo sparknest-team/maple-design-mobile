@@ -3,7 +3,10 @@ import { dateRuleProps, dateSingleValueProps } from '../date/core-props'
 import type { DateValue } from '../date/date-value'
 import { fieldDecoratorProps } from '../field-decorator/props'
 import { popupContainerProp, type PopupContainer } from '../utils/popup-container'
+import type { DatePickerOptions } from './picker-props'
 import { props as panelProps } from './picker-props'
+import type { DateTimePickerOptions } from './time-picker-options'
+import type { DateWheelOptions } from './wheel-options'
 
 export const props = {
   ...dateRuleProps,
@@ -21,10 +24,10 @@ export const props = {
     type: Object as PropType<Record<string, unknown> & { popupContainer?: PopupContainer }>,
     default: () => ({}),
   },
-  datePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  datePickerProps: { type: Object as PropType<DatePickerOptions>, default: () => ({}) },
 
-  timePickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
-  pickerProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  timePickerProps: { type: Object as PropType<DateTimePickerOptions>, default: () => ({}) },
+  pickerProps: { type: Object as PropType<DateWheelOptions>, default: () => ({}) },
   inputEditable: { type: Boolean, default: true },
   disabled: { type: Boolean, default: undefined },
   readonly: { type: Boolean, default: undefined },

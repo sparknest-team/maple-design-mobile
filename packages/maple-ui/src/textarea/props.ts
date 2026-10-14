@@ -1,95 +1,66 @@
-import type { ExtractPropTypes, InputHTMLAttributes, PropType } from 'vue'
-import { fieldDecoratorProps } from '../field-decorator'
-import { pickProps } from '../utils/components'
-
-export type TextareaVariant = 'filled' | 'outline' | 'standard'
-
-export interface TextareaMaxLength {
-  length: number
-  errorOnly?: boolean
-}
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { inputProps, type InputMaxLength, type InputVariant } from '../input/props'
+import { textareaDefaults } from './defaults'
 
 export interface TextareaAutoSize {
   minRows?: number
   maxRows?: number
 }
-
-export type WordLength = (value: string) => number
-export type WordSlice = (value: string, maxLength: number) => string
-
+export type TextareaMaxLength = InputMaxLength
+export type TextareaVariant = InputVariant
+export type { WordLength, WordSlice } from '../input/props'
 export const textareaProps = {
-  /** 绑定值 */
-  modelValue: String,
-  /** v-model 修饰符 */
-  modelModifiers: {
-    type: Object as PropType<{ trim?: boolean }>,
-    default: () => ({}),
-  },
-  /** 非受控初始值 */
-  defaultValue: { type: String, default: '' },
-  /** 文本域行数 */
+  /** 与 Input 保持一致的 modelValue 契约。 */
+  modelValue: inputProps.modelValue,
+  /** 与 Input 保持一致的 modelModifiers 契约。 */
+  modelModifiers: inputProps.modelModifiers,
+  /** 与 Input 保持一致的 defaultValue 契约。 */
+  defaultValue: inputProps.defaultValue,
+  /** 与 Input 保持一致的 placeholder 契约。 */
+  placeholder: inputProps.placeholder,
+  /** 与 Input 保持一致的 disabled 契约。 */
+  disabled: inputProps.disabled,
+  /** 与 Input 保持一致的 readonly 契约。 */
+  readonly: inputProps.readonly,
+  /** 与 Input 保持一致的 variant 契约。 */
+  variant: inputProps.variant,
+  /** 与 Input 保持一致的 size 契约。 */
+  size: inputProps.size,
+  /** 与 Input 保持一致的 error 契约。 */
+  error: inputProps.error,
+  /** 与 Input 保持一致的 maxLength 契约。 */
+  maxLength: inputProps.maxLength,
+  /** 与 Input 保持一致的 showWordLimit 契约。 */
+  showWordLimit: inputProps.showWordLimit,
+  /** 与 Input 保持一致的 clearable 契约。 */
+  clearable: inputProps.clearable,
+  /** 与 Input 保持一致的 wordLength 契约。 */
+  wordLength: inputProps.wordLength,
+  /** 与 Input 保持一致的 wordSlice 契约。 */
+  wordSlice: inputProps.wordSlice,
+  /** 与 Input 保持一致的 ariaLabel 契约。 */
+  ariaLabel: inputProps.ariaLabel,
+  /** 与 Input 保持一致的 autofocus 契约。 */
+  autofocus: inputProps.autofocus,
+  /** 与 Input 保持一致的 enterkeyhint 契约。 */
+  enterkeyhint: inputProps.enterkeyhint,
+  /** 与 Input 保持一致的 hint 契约。 */
+  hint: inputProps.hint,
+  /** 与 Input 保持一致的 line 契约。 */
+  line: inputProps.line,
+  /** 与 Input 保持一致的 textColor 契约。 */
+  textColor: inputProps.textColor,
+  /** 与 Input 保持一致的 focusColor 契约。 */
+  focusColor: inputProps.focusColor,
+  /** 与 Input 保持一致的 blurColor 契约。 */
+  blurColor: inputProps.blurColor,
+  /** 原生文本域行数。 */
   rows: [String, Number],
-  /** 最大输入长度 */
-  maxLength: {
-    type: [Number, Object] as PropType<number | TextareaMaxLength>,
-    default: 0,
-  },
-  /** 是否显示字数统计 */
-  showWordLimit: { type: Boolean, default: false },
-  /** 字符长度计算方法 */
-  wordLength: Function as PropType<WordLength>,
-  /** 字符截取方法 */
-  wordSlice: Function as PropType<WordSlice>,
-  /** 是否只读 */
-  readonly: { type: Boolean, default: undefined },
-  /** 是否允许垂直拖动调整尺寸 */
-  resize: { type: Boolean, default: false },
-  /** 是否根据内容自动调整高度 */
-  autoSize: {
-    type: [Boolean, Object] as PropType<boolean | TextareaAutoSize>,
-    default: false,
-  },
-  /** 是否自动聚焦 */
-  autofocus: Boolean,
-  /** 无障碍标签 */
-  ariaLabel: String,
-  /** 虚拟键盘回车键提示 */
-  enterkeyhint: String as PropType<InputHTMLAttributes['enterKeyHint']>,
-  /** 透传给原生 textarea 的属性 */
-  textareaAttrs: Object as PropType<Record<string, any>>,
-  /** 聚焦事件 */
-  /** 失焦事件 */
-  /** 输入事件 */
-  /** 值变化事件 */
-  /** 键盘按下事件 */
-  /** 清空事件 */
-  /** v-model 更新事件 */
-  ...pickProps(fieldDecoratorProps, [
-    'size',
-    'variant',
-    'placeholder',
-    'line',
-    'hint',
-    'textColor',
-    'focusColor',
-    'blurColor',
-    'disabled',
-    'clearable',
-  ]),
-  /** 尺寸，未指定时继承表单 */
-  size: { ...fieldDecoratorProps.size, default: undefined },
-  /** 外观变体 */
-  variant: {
-    type: String as PropType<TextareaVariant>,
-    default: 'outline',
-  },
-  /** 是否禁用 */
-  disabled: { type: Boolean, default: undefined },
-  /** 是否允许清空 */
-  clearable: { type: Boolean, default: false },
-  /** 是否显示错误状态 */
-  error: { type: Boolean, default: undefined },
+  /** 允许垂直调整高度；autoSize 开启时忽略。 */
+  resize: { type: Boolean, default: textareaDefaults.resize },
+  /** 按内容调整高度，可限制最小/最大行数。 */
+  autoSize: { type: [Boolean, Object] as PropType<boolean | TextareaAutoSize>, default: false },
+  /** 原生属性；受控值、状态和组件事件不可覆盖。 */
+  textareaAttrs: Object as PropType<Record<string, unknown>>,
 }
-
-export type TextareaProps = import('vue').ExtractPublicPropTypes<typeof textareaProps>
-export const props = textareaProps
+export type TextareaProps = ExtractPublicPropTypes<typeof textareaProps>

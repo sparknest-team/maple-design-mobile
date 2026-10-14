@@ -17,3 +17,5 @@ export type {
 export { textareaProps }
 export const _TextareaComponent: typeof Textarea = Textarea
 export default Textarea
+
+export type { TextareaEmits, TextareaSlots, TextareaExpose } from './types'

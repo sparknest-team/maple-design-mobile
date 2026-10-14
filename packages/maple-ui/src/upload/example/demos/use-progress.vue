@@ -1,129 +1,25 @@
 <script setup>
-import { onUnmounted, reactive } from 'vue'
+import { onUnmounted, ref } from 'vue'
 
-const values = reactive({
-  files: [],
-  files2: [
-    {
-      uid: 'example-1',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'ready',
-    },
-    {
-      uid: 'example-2',
-      percent: 0,
-      url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-      thumbnailUrl: 'cover.jpg',
-      status: 'ready',
-    },
-  ],
-  files3: [
-    {
-      uid: 'example-3',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'uploading',
-    },
-    {
-      uid: 'example-4',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'success',
-    },
-    {
-      uid: 'example-5',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'error',
-    },
-  ],
-  files4: [],
-  files5: [],
-  files6: [],
-  files7: [],
-  files8: [],
-  files9: [],
-  files11: [
-    {
-      uid: 'example-6',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'ready',
-    },
-  ],
-  files12: [
-    {
-      uid: 'example-7',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'uploading',
-    },
-    {
-      uid: 'example-8',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'success',
-    },
-    {
-      uid: 'example-9',
-      percent: 0,
-      url: 'cat.jpg',
-      thumbnailUrl: 'cat.jpg',
-      status: 'error',
-    },
-  ],
-  files13: [],
-  files14: [],
-  files15: [],
-})
-let timer
-function handleAfterRead3(file) {
+const files = ref([])
+const timers = new Set()
+function start(file) {
   file.status = 'uploading'
-  file.percent = 0
-
-  timer = window.setInterval(() => {
+  const timer = setInterval(() => {
+    file.percent = Math.min(file.percent + 10, 100)
     if (file.percent === 100) {
-      window.clearInterval(timer)
       file.status = 'success'
-      return
+      clearInterval(timer)
+      timers.delete(timer)
     }
-    file.percent += 10
-  }, 250)
+  }, 200)
+  timers.add(timer)
 }
-onUnmounted(() => {
-  window.clearInterval(timer)
-})
+onUnmounted(() => timers.forEach((timer) => clearInterval(timer)))
 </script>
 
 <template>
-  <mp-upload v-model="values.files13" @after-read="handleAfterRead3" />
+  <div>
+    <mp-upload v-model="files" @read="start"></mp-upload>
+  </div>
 </template>
-
-<style lang="less" scoped>
-.space {
-  height: 40px;
-}
-
-.custom-upload-file {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 12px;
-  object-fit: cover;
-}
-
-.custom-remove-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-}
-</style>

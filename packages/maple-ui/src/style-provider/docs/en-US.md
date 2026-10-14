@@ -13,6 +13,8 @@ Independent source copies in Cedar and Maple use identical behavior, installatio
 
 Use `<mp-style-provider :style-vars="vars" tag="section">`. Variables follow DOM inheritance; nested providers override ancestors. Passing null clears only the local override. Content moved outside the provider by popupContainer does not inherit its variables. Local providers never change the document theme.
 
+Prefer direct component variables for local customization. A palette/system override does not rebind component aliases already inherited from the root; redeclare the required mappings locally. This is not an automatic full-theme rebuild. Put popup overrides on the actual destination host. See [Design Tokens and CSS Variable Layers](#/en-US/design-tokens).
+
 ## Global variables
 
 ```ts

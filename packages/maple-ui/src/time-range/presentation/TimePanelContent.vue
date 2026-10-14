@@ -1,14 +1,24 @@
 <template>
   <div :class="classes(n(), formatElevation(elevation, 2))">
     <div :class="n('values')">
-      <div :class="classes(n('value'), [activeTab === 'start', n('value--active')])" @click="activeTab = 'start'">
+      <button
+        type="button"
+        :aria-pressed="activeTab === 'start'"
+        :class="classes(n('value'), [activeTab === 'start', n('value--active')])"
+        @click="activeTab = 'start'"
+      >
         {{ formatLabel(startValue) }}
-      </div>
+      </button>
       <mp-icon :class="n('value-arrow')" mp-time-range-picker-cover><MIconChevronRight /></mp-icon>
-      <div :class="classes(n('value'), [activeTab === 'end', n('value--active')])" @click="activeTab = 'end'">
+      <button
+        type="button"
+        :aria-pressed="activeTab === 'end'"
+        :class="classes(n('value'), [activeTab === 'end', n('value--active')])"
+        @click="activeTab = 'end'"
+      >
         <span>{{ formatLabel(endValue) }}</span>
         <span v-if="showNextDayLabel" :class="n('next-day')">{{ nextDayText }}</span>
-      </div>
+      </button>
     </div>
 
     <template v-if="presentation === 'picker'">

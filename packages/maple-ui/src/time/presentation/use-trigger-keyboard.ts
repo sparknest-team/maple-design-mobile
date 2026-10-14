@@ -1,12 +1,35 @@
 import type { Ref } from 'vue'
 
-/** Readonly mobile trigger keys. Bind locally, never to window or other fields. */
-export function useTriggerKeyboard(options: { open: Ref<boolean>; blocked: () => boolean; cancel: () => void }) {
+/** Mobile trigger keys; editable native inputs retain text key ownership. Bind locally, never to window or other fields. */
+export function useTriggerKeyboard(options: {
+  open: Ref<boolean>
+  blocked: () => boolean
+  cancel: () => void
+  beforeOpen?: (event: KeyboardEvent) => void
+}) {
+  function requestOpen(event: KeyboardEvent) {
+    options.beforeOpen?.(event)
+    options.open.value = true
+  }
   function ignores(event: KeyboardEvent) {
-    if (event.isComposing || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
+    if (
+      event.isComposing ||
+      event.keyCode === 229 ||
+      event.defaultPrevented ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey
+    ) {
       return true
     }
     const target = event.target as HTMLElement | null
+    if (
+      target?.tagName === 'INPUT' &&
+      !(target as HTMLInputElement).readOnly &&
+      !['ArrowDown', 'Escape', 'Tab'].includes(event.key)
+    ) {
+      return true
+    }
     return Boolean(target?.closest('button, a, select, textarea, [contenteditable="true"]'))
   }
   function handleKeydown(event: KeyboardEvent) {
@@ -33,7 +56,7 @@ export function useTriggerKeyboard(options: { open: Ref<boolean>; blocked: () =>
       event.preventDefault()
     } else if (event.key === 'Enter' || event.key === 'ArrowDown') {
       event.preventDefault()
-      options.open.value = true
+      requestOpen(event)
     }
   }
   function handleKeyup(event: KeyboardEvent) {
@@ -41,7 +64,7 @@ export function useTriggerKeyboard(options: { open: Ref<boolean>; blocked: () =>
       return
     }
     event.preventDefault()
-    options.open.value = true
+    requestOpen(event)
   }
   return { handleKeydown, handleKeyup }
 }

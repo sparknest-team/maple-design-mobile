@@ -1,25 +1,27 @@
 <script setup>
-import Form from '..'
+import { computed } from 'vue'
+import { Form } from '@maplejs/maple-ui'
 
 const props = defineProps({
   modelValue: Boolean,
-  disabled: Boolean,
-  readonly: Boolean,
+  disabled: { type: Boolean, default: undefined },
+  readonly: { type: Boolean, default: undefined },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const { useForm, useFormItem } = Form
-const { form } = useForm()
-const { mergedError, eventHandlers } = useFormItem()
+const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = Form.useFormItem({
+  disabled: computed(() => props.disabled),
+  readonly: computed(() => props.readonly),
+})
 
-function handleClick() {
-  if (props.readonly || props.disabled || form?.readonly.value || form?.disabled.value) {
+function handleClick(event) {
+  if (mergedReadonly.value || mergedDisabled.value) {
     return
   }
 
   emit('update:modelValue', !props.modelValue)
-  eventHandlers.value.onChange?.()
+  eventHandlers.value.onChange?.(event)
 }
 </script>
 
@@ -27,15 +29,25 @@ function handleClick() {
   <div
     class="mp-custom-form-component"
     :class="{
-      'mp-custom-form-component--disabled': disabled || form?.disabled.value,
+      'mp-custom-form-component--disabled': mergedDisabled || mergedReadonly,
       'mp-custom-form-component--error': mergedError,
     }"
   >
-    <div class="mp-custom-form-component__container" @click="handleClick">
+    <button
+      type="button"
+      role="checkbox"
+      class="mp-custom-form-component__container"
+      :aria-checked="modelValue"
+      :aria-readonly="mergedReadonly"
+      :disabled="mergedDisabled"
+      @click="handleClick"
+      @focus="eventHandlers.onFocus?.($event)"
+      @blur="eventHandlers.onBlur?.($event)"
+    >
       <m-icon-checkbox-marked-circle-fill v-if="modelValue" class="mp-custom-form-component__icon" />
       <m-icon-close-circle-fill v-else class="mp-custom-form-component__icon" />
       <slot />
-    </div>
+    </button>
   </div>
 </template>
 
@@ -46,6 +58,17 @@ function handleClick() {
   &__container {
     display: flex;
     align-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: inherit;
+
+    &:focus-visible {
+      outline: 2px solid var(--mp-color-primary);
+      outline-offset: 3px;
+    }
   }
 
   &__icon {

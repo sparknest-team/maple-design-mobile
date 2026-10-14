@@ -153,3 +153,7 @@ Menu 即选即提交。List 单选即选即提交，多选编辑草稿；Picker 
 ### CascaderPanel
 
 也可以独立使用 `CascaderPanel`（`mp-cascader-panel`），或 `Cascader.CascaderPanel`。这是无输入框、无弹层的 Menu 面板；支持 options、modelValue/defaultValue、multiple、pathMode、checkStrictly、fieldNames、loadMore、disabled、expandTrigger 和 expandChild。事件为 update:modelValue、change；empty 插槽自定义空状态。
+
+### 字段与移动展示的样式边界
+
+同源字段外壳的 Token 声明与 Cedar 保持一致。移动展示专属变量放在独立的 `src/_components/selection-field/presentation/style/token.less`，随本地 presentation 样式加载，不混入公共字段声明。名称与默认值不变：`--mp-selection-presentation-max-height` 为 `65vh`、`--mp-selection-presentation-bg` 为 `var(--mp-sys-color-surface-overlay)`、`--mp-selection-presentation-padding` 为 `var(--mp-sys-space-5)`；不向 Cedar 添加移动展示能力。

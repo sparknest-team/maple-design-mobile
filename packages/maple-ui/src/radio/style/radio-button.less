@@ -57,7 +57,7 @@ each(xs sm md lg xl, {
   }
 }
 
-.mp-radio:focus-within {
+.mp-radio--button:has(> .mp-radio__input:focus-visible) {
   outline: var(--mp-internal-radio-focus-width) solid var(--mp-radio-control-color-checked);
   outline-offset: var(--mp-internal-radio-focus-offset);
 }

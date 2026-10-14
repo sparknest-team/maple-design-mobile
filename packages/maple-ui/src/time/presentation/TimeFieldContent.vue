@@ -11,17 +11,37 @@
     <PickerField
       v-bind="{ ...splitInputAttrs($attrs).native, ...state.controlProps.value }"
       ref="field"
-      :cursor="state.disabled.value || state.readonly.value ? '' : 'pointer'"
+      :aria-controls="state.open.value ? popupId : undefined"
+      :editable="fieldProps.inputEditable"
+      :cursor="state.disabled.value || state.readonly.value || fieldProps.inputEditable ? '' : 'pointer'"
+      @commit="state.commitText"
       @click="click"
       @clear="state.clear"
       @focus="state.focus"
       @blur="state.blur"
     >
       <template v-for="name in fieldSlots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
-      <template v-if="$slots['suffix-icon']" #arrow-icon="scope"><slot name="suffix-icon" v-bind="scope" /></template>
+      <template v-if="fieldProps.inputEditable || $slots['suffix-icon']" #arrow-icon="scope">
+        <button
+          v-if="fieldProps.inputEditable"
+          type="button"
+          :class="n('input-trigger')"
+          :aria-label="locale.title()"
+          aria-haspopup="dialog"
+          :aria-expanded="state.open.value"
+          :aria-controls="state.open.value ? popupId : undefined"
+          :disabled="state.disabled.value || state.readonly.value"
+          @click.stop="openPanel"
+        >
+          <slot name="suffix-icon" v-bind="scope"><IconClockCircle aria-hidden="true" /></slot>
+        </button>
+        <slot v-else name="suffix-icon" v-bind="scope" />
+      </template>
       <template v-if="$slots.suffix" #suffix><slot name="suffix" /></template>
     </PickerField>
     <TimePopup
+      :id="popupId"
+      :aria-label="title"
       :open="state.open.value"
       :range="range"
       :popup-props="popupProps"
@@ -66,7 +86,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref, useId, useSlots } from 'vue'
+import { IconClockCircle } from '@maplejs/icons-vue'
 import PickerField from '../../_components/picker-field/PickerField.vue'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { _PickerComponent as MpPicker } from '../../picker'
@@ -88,12 +109,15 @@ import { useTriggerKeyboard } from './use-trigger-keyboard'
 
 defineOptions({ name: createNamespace('time-field-content').name, inheritAttrs: false })
 const props = defineProps<TimeFieldContentProps>()
+const popupId = useId()
+const { n } = createNamespace('time')
 const field = ref<InstanceType<typeof PickerField>>()
 const locale = useTimeFieldLocale()
 const { handleKeydown, handleKeyup } = useTriggerKeyboard({
   open: props.state.open,
   blocked: () => props.state.disabled.value || props.state.readonly.value,
   cancel: () => props.state.cancel(),
+  beforeOpen: (event) => field.value?.commit(event),
 })
 const timePanelProps = computed(() => getTimePanelPresentationProps(props.fieldProps.timePickerProps))
 const rangePanelProps = computed(() =>
@@ -147,7 +171,19 @@ function select(value: TimeCommitInput) {
 }
 function click(event: Event) {
   props.state.click(event)
+  const target = event.target as HTMLElement | null
+  if (props.fieldProps.inputEditable && target?.closest('input')) {
+    return
+  }
   if (!props.state.disabled.value && !props.state.readonly.value) {
+    field.value?.commit(event)
+    props.state.setOpen(true)
+  }
+}
+function openPanel(event: MouseEvent) {
+  props.state.click(event)
+  if (!props.state.disabled.value && !props.state.readonly.value) {
+    field.value?.blur()
     props.state.setOpen(true)
   }
 }
@@ -161,7 +197,7 @@ function pickerChange(values: (string | number)[]) {
   }
 }
 const slots = useSlots()
-const fieldNames = ['prefix', 'selected', 'clear-icon']
+const fieldNames = ['prefix', 'selected', 'separator', 'clear-icon']
 const fieldSlots = computed(() => fieldNames.filter((name) => Boolean(slots[name])))
 defineExpose({ focus: (index = 0) => field.value?.focus(index), blur: () => field.value?.blur() })
 </script>

@@ -1,0 +1,10 @@
+:root {
+  --mp-loading-color: var(--mp-color-primary);
+  --mp-loading-opacity: 0.38;
+  --mp-loading-indicator-size: 20px;
+  --mp-loading-desc-margin: 8px 0 0;
+  --mp-loading-desc-color: var(--mp-sys-color-content-brand);
+  // 与包裹模式的 content opacity: 0.38 互补，使 v-mp-loading 的视觉效果一致。
+  --mp-loading-overlay-background: color-mix(in srgb, var(--mp-color-bg-white) 62%, transparent);
+  --mp-loading-directive-z-index: 2000;
+}

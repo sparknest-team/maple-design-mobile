@@ -96,6 +96,12 @@
 ../example/demos/placement.vue
 ```
 
+### 定位策略
+
+根菜单和各级子菜单响应式使用同一 `strategy`，默认 `absolute`，可选 `fixed`。切换策略不会改变激活值或主动关闭菜单。`popup-container` 独立控制挂载位置；`fixed` 不保证脱离 transform 祖先的包含块。
+
+<demo src="../example/demos/positioning.vue"></demo>
+
 ## API
 
 ### 属性
@@ -111,7 +117,7 @@
 | `trigger` | 根菜单触发方式 | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | 各级子菜单的展开方式，对所有层级统一生效 | _'click' \| 'hover'_ | `'click'` |
 | `placement` | 弹出位置 | _DropdownMenuPosition_ | `'bottom'` |
-| `strategy` | 浮层定位策略 | _'absolute' \| 'fixed'_ | `'absolute'` |
+| `strategy` | 根菜单及全部子菜单的定位策略 | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | 外部触发元素 | _string \| HTMLElement_ | `-` |
 | `popup-container` | 浮层挂载容器 | _string \| HTMLElement \| false_ | `-` |
 | `popup-class` | 浮层类名 | _string \| array \| object_ | `-` |

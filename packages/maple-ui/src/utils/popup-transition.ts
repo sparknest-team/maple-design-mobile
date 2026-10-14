@@ -7,16 +7,19 @@ export function usePopupTransition(
 ) {
   let live = false,
     suspended = false
+  let phase: 'opening' | 'opened' | 'closing' | 'closed' = active() ? 'opening' : 'closed'
   const rendered = ref(active()),
     leaving = ref(false)
-  const shouldRender = computed(() => active() || (!unmount() && rendered.value))
+  const shouldRender = computed(() => active() || leaving.value || (!unmount() && rendered.value))
   function opened() {
-    if (live && !suspended && active()) {
+    if (live && !suspended && active() && phase === 'opening') {
+      phase = 'opened'
       emit('opened')
     }
   }
   function closed() {
-    if (live && !suspended && !active()) {
+    if (live && !suspended && !active() && phase === 'closing') {
+      phase = 'closed'
       leaving.value = false
       emit('closed')
     }
@@ -25,6 +28,7 @@ export function usePopupTransition(
     active,
     (open) => {
       leaving.value = !open
+      phase = open ? 'opening' : 'closing'
       if (open) {
         rendered.value = true
       }

@@ -5,7 +5,7 @@ exports[`form events 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-input">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--error">
             <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="" aria-invalid="true"></span>
@@ -39,7 +39,7 @@ exports[`form events 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-input">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
             <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value=""></span>
@@ -62,7 +62,7 @@ exports[`form with auto-complete 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-auto-complete">
           <div class="mp-input">
             <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--error">
@@ -100,7 +100,7 @@ exports[`form with auto-complete 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-auto-complete">
           <div class="mp-input">
             <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
@@ -127,21 +127,9 @@ exports[`form with checkbox 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-checkbox__wrap">
-          <div class="mp-checkbox">
-            <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--disabled">
-              <!--v-if-->
-              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
-                <!--v-if-->
-                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
-              </svg>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--disabled" aria-disabled="true"><input class="mp-checkbox__input" type="checkbox" disabled="" aria-checked="false" value="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -156,21 +144,9 @@ exports[`form with checkbox 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-checkbox__wrap">
-          <div class="mp-checkbox">
-            <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
-              <!--v-if-->
-              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
-                <!--v-if-->
-                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
-              </svg>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly"><input class="mp-checkbox__input" type="checkbox" aria-checked="false" value="true" aria-readonly="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -185,21 +161,9 @@ exports[`form with checkbox 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-checkbox__wrap">
-          <div class="mp-checkbox">
-            <div class="mp-checkbox__action mp-checkbox--unchecked mp-checkbox--error" tabindex="0">
-              <!--v-if-->
-              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
-                <!--v-if-->
-                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
-              </svg>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly mp-checkbox--error"><input class="mp-checkbox__input" type="checkbox" aria-checked="false" value="true" aria-readonly="true" aria-invalid="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <div class="mp-form-details">
           <div class="mp-form-details__error-message">
@@ -225,21 +189,9 @@ exports[`form with checkbox 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-checkbox__wrap">
-          <div class="mp-checkbox">
-            <div class="mp-checkbox__action mp-checkbox--unchecked" tabindex="0">
-              <!--v-if-->
-              <!--v-if--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon mp-checkbox__icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img" mp-checkbox-cover="">
-                <!--v-if-->
-                <path d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"></path>
-              </svg>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly"><input class="mp-checkbox__input" type="checkbox" aria-checked="false" value="true" aria-readonly="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -254,7 +206,7 @@ exports[`form with counter 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2 mp-counter--disabled"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--round mp-elevation--2 mp-counter__decrement-button mp-counter--not-allowed" type="button" mp-counter-cover="">
               <!--v-if-->
@@ -281,7 +233,7 @@ exports[`form with counter 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--round mp-elevation--2 mp-counter__decrement-button" type="button" mp-counter-cover="">
               <!--v-if-->
@@ -308,7 +260,7 @@ exports[`form with counter 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2 mp-counter--error"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--round mp-elevation--2 mp-counter__decrement-button" type="button" mp-counter-cover="">
               <!--v-if-->
@@ -346,7 +298,7 @@ exports[`form with counter 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-counter mp--box">
           <div class="mp-counter__controller mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--round mp-elevation--2 mp-counter__decrement-button" type="button" mp-counter-cover="">
               <!--v-if-->
@@ -373,7 +325,7 @@ exports[`form with input 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-input mp-input--disabled">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--disabled">
             <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" disabled="" value=""></span>
@@ -396,7 +348,7 @@ exports[`form with input 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-input">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--readonly">
             <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="" readonly=""></span>
@@ -419,7 +371,7 @@ exports[`form with input 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-input">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--readonly mp-field-decorator--error">
             <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="" readonly="" aria-invalid="true"></span>
@@ -453,7 +405,7 @@ exports[`form with input 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-input">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--readonly">
             <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="" readonly=""></span>
@@ -476,16 +428,9 @@ exports[`form with radio 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-radio__wrap">
-          <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked mp-radio--disabled"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-radio mp-radio--disabled"><input class="mp-radio__input" type="radio" disabled="" aria-checked="false" value="true"><span class="mp-radio__control" aria-hidden="true"><span class="mp-radio__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -500,16 +445,9 @@ exports[`form with radio 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-radio__wrap">
-          <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-radio mp-radio--readonly"><input class="mp-radio__input" type="radio" aria-checked="false" value="true" tabindex="0" aria-readonly="true"><span class="mp-radio__control" aria-hidden="true"><span class="mp-radio__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -524,16 +462,9 @@ exports[`form with radio 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-radio__wrap">
-          <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked mp-radio--error" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-radio mp-radio--readonly mp-radio--error"><input class="mp-radio__input" type="radio" aria-checked="false" value="true" tabindex="0" aria-readonly="true" aria-invalid="true"><span class="mp-radio__control" aria-hidden="true"><span class="mp-radio__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <div class="mp-form-details">
           <div class="mp-form-details__error-message">
@@ -559,16 +490,9 @@ exports[`form with radio 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-radio__wrap">
-          <div role="radio" aria-checked="false" class="mp-radio">
-            <div class="mp-radio__action mp-radio--unchecked" tabindex="0"><span class="mp-icon mp-radio__icon" style="transition-duration: 0ms;" mp-radio-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
-            <!--v-if-->
-          </div>
-        </div>
-      </div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><label class="mp-radio mp-radio--readonly"><input class="mp-radio__input" type="radio" aria-checked="false" value="true" tabindex="0" aria-readonly="true"><span class="mp-radio__control" aria-hidden="true"><span class="mp-radio__icon"></span></span>
+          <!--v-if-->
+        </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -583,7 +507,7 @@ exports[`form with rate 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-rate mp-rate--disabled" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-disabled="true">
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
@@ -606,8 +530,8 @@ exports[`form with rate 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-rate mp-rate--error" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-disabled="true">
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-rate mp-rate--readonly mp-rate--error" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" tabindex="0" aria-readonly="true" aria-invalid="true">
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
@@ -640,8 +564,8 @@ exports[`form with rate 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-rate" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-disabled="true">
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-rate mp-rate--readonly" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" tabindex="0" aria-readonly="true">
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
           <div class="mp-rate__content"><span class="mp-icon mp-rate__content-icon" style="transition-duration: 0ms;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03z"></path></svg></span></div>
@@ -663,7 +587,7 @@ exports[`form with select 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-select">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-filled mp-field-decorator--disabled mp-selection-field mp-selection-field--multiple">
             <!--v-if--><span class="mp-field-decorator__middle"><span class="mp-selection-field__content" style="text-align: left;"><span class="mp-selection-field__selection"><transition-stub name="mp-tag-fade" appear="false" persisted="false" css="true"><span class="mp-selection-field__tag mp-tag mp-tag--size-sm mp-tag--variant-default mp-tag--status-default mp-tag--checked"><!--v-if-->option1<!--v-if--><!--v-if--></span></transition-stub>
@@ -688,7 +612,7 @@ exports[`form with select 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-select">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-filled mp-field-decorator--readonly mp-selection-field mp-selection-field--multiple">
             <!--v-if--><span class="mp-field-decorator__middle"><span class="mp-selection-field__content" style="text-align: left;"><span class="mp-selection-field__selection"><transition-stub name="mp-tag-fade" appear="false" persisted="false" css="true"><span class="mp-selection-field__tag mp-tag mp-tag--size-sm mp-tag--variant-default mp-tag--status-default mp-tag--checked"><!--v-if-->option1<!--v-if--><!--v-if--></span></transition-stub>
@@ -713,7 +637,7 @@ exports[`form with select 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-select">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-filled mp-field-decorator--readonly mp-field-decorator--error mp-selection-field mp-selection-field--multiple">
             <!--v-if--><span class="mp-field-decorator__middle"><span class="mp-selection-field__content" style="text-align: left;"><span class="mp-selection-field__selection"><transition-stub name="mp-tag-fade" appear="false" persisted="false" css="true"><span class="mp-selection-field__tag mp-tag mp-tag--size-sm mp-tag--variant-default mp-tag--status-default mp-tag--checked"><!--v-if-->option1<!--v-if--><!--v-if--></span></transition-stub>
@@ -749,7 +673,7 @@ exports[`form with select 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
+      <div class="mp-form-item__content mp-form-item__content--flex">
         <div class="mp-select">
           <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-filled mp-field-decorator--readonly mp-selection-field mp-selection-field--multiple">
             <!--v-if--><span class="mp-field-decorator__middle"><span class="mp-selection-field__content" style="text-align: left;"><span class="mp-selection-field__selection"><transition-stub name="mp-tag-fade" appear="false" persisted="false" css="true"><span class="mp-selection-field__tag mp-tag mp-tag--size-sm mp-tag--variant-default mp-tag--status-default mp-tag--checked"><!--v-if-->option1<!--v-if--><!--v-if--></span></transition-stub>
@@ -774,21 +698,16 @@ exports[`form with slider 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-slider__horizontal mp--box">
-          <div class="mp-slider__horizontal-block mp-slider--disabled">
-            <div class="mp-slider__horizontal-track">
-              <div class="mp-slider__horizontal-track-background" style="width: 100%;"></div>
-              <div class="mp-slider__horizontal-track-fill" style="top: 0px; width: 5%; left: 0%;"></div>
-            </div>
-            <div class="mp-slider__horizontal-thumb" style="left: 5%;" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" aria-disabled="true" aria-valuetext="5">
-              <div class="mp-slider__horizontal-thumb-block"></div>
-              <div class="mp-slider__horizontal-thumb-ripple">
-                <div class="mp-hover-overlay"></div>
-              </div>
-              <div class="mp-slider__horizontal-thumb-label"><span>5</span></div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-slider mp-slider--horizontal mp-slider--disabled">
+          <div class="mp-slider__track">
+            <div class="mp-slider__rail"></div>
+            <div class="mp-slider__fill" style="left: 0%; width: 5%;"></div>
+            <div class="mp-slider__thumb" style="left: 5%;" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" aria-valuetext="5" aria-orientation="horizontal" aria-disabled="true"><span class="mp-slider__handle"></span>
+              <!--v-if-->
             </div>
           </div>
+          <!--v-if-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -805,21 +724,16 @@ exports[`form with slider 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-slider__horizontal mp--box">
-          <div class="mp-slider__horizontal-block mp-slider__horizontal--error">
-            <div class="mp-slider__horizontal-track">
-              <div class="mp-slider__horizontal-track-background" style="width: 100%;"></div>
-              <div class="mp-slider__horizontal-track-fill" style="top: 0px; width: 5%; left: 0%;"></div>
-            </div>
-            <div class="mp-slider__horizontal-thumb" style="left: 5%;" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" aria-disabled="false" aria-valuetext="5" tabindex="0">
-              <div class="mp-slider__horizontal-thumb-block"></div>
-              <div class="mp-slider__horizontal-thumb-ripple">
-                <div class="mp-hover-overlay"></div>
-              </div>
-              <div class="mp-slider__horizontal-thumb-label"><span>5</span></div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-slider mp-slider--horizontal mp-slider--readonly mp-slider--error">
+          <div class="mp-slider__track">
+            <div class="mp-slider__rail"></div>
+            <div class="mp-slider__fill" style="left: 0%; width: 5%;"></div>
+            <div class="mp-slider__thumb" style="left: 5%;" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" aria-valuetext="5" aria-orientation="horizontal" tabindex="0" aria-readonly="true" aria-invalid="true"><span class="mp-slider__handle"></span>
+              <!--v-if-->
             </div>
           </div>
+          <!--v-if-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -847,21 +761,16 @@ exports[`form with slider 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-slider__horizontal mp--box">
-          <div class="mp-slider__horizontal-block">
-            <div class="mp-slider__horizontal-track">
-              <div class="mp-slider__horizontal-track-background" style="width: 100%;"></div>
-              <div class="mp-slider__horizontal-track-fill" style="top: 0px; width: 5%; left: 0%;"></div>
-            </div>
-            <div class="mp-slider__horizontal-thumb" style="left: 5%;" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" aria-disabled="false" aria-valuetext="5" tabindex="0">
-              <div class="mp-slider__horizontal-thumb-block"></div>
-              <div class="mp-slider__horizontal-thumb-ripple">
-                <div class="mp-hover-overlay"></div>
-              </div>
-              <div class="mp-slider__horizontal-thumb-label"><span>5</span></div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-slider mp-slider--horizontal mp-slider--readonly">
+          <div class="mp-slider__track">
+            <div class="mp-slider__rail"></div>
+            <div class="mp-slider__fill" style="left: 0%; width: 5%;"></div>
+            <div class="mp-slider__thumb" style="left: 5%;" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" aria-valuetext="5" aria-orientation="horizontal" tabindex="0" aria-readonly="true"><span class="mp-slider__handle"></span>
+              <!--v-if-->
             </div>
           </div>
+          <!--v-if-->
         </div>
       </div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
@@ -878,7 +787,7 @@ exports[`form with switch 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content"><button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md mp-switch--disabled" aria-checked="false" aria-disabled="true" disabled=""><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button></div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md mp-switch--disabled" aria-checked="false" aria-disabled="true" disabled=""><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -893,7 +802,7 @@ exports[`form with switch 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content"><button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md mp-switch--error" aria-checked="false" aria-readonly="true"><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button></div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md mp-switch--error" aria-checked="false" aria-readonly="true"><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <div class="mp-form-details">
           <div class="mp-form-details__error-message">
@@ -919,7 +828,7 @@ exports[`form with switch 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content"><button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md" aria-checked="false" aria-readonly="true"><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button></div>
+      <div class="mp-form-item__content mp-form-item__content--flex"><button type="button" role="switch" class="mp-switch mp-switch--variant-circle mp-switch--size-md" aria-checked="false" aria-readonly="true"><span class="mp-switch__track" aria-hidden="true"></span><span class="mp-switch__text"></span><span class="mp-switch__handle" style="box-shadow: 0 1px 3px var(--mp-switch-shadow-color);"><!--v-if--></span></button></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true">
         <!--v-if-->
       </transition-stub>
@@ -934,14 +843,12 @@ exports[`form with upload 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-upload mp--box">
-          <div class="mp-upload__file-list">
-            <div class="mp-upload--outline-none mp-upload__action mp-elevation--2 mp-upload--disabled"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*" disabled=""><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+          <div class="mp-upload__content">
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
+            <div class="mp-upload__list"></div>
           </div>
-          <!--v-if-->
           <!--teleport start-->
           <!--teleport end-->
         </div>
@@ -960,14 +867,12 @@ exports[`form with upload 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-upload mp--box">
-          <div class="mp-upload__file-list">
-            <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*" disabled=""><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+          <div class="mp-upload__content">
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
+            <div class="mp-upload__list"></div>
           </div>
-          <!--v-if-->
           <!--teleport start-->
           <!--teleport end-->
         </div>
@@ -986,14 +891,12 @@ exports[`form with upload 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-upload mp--box">
-          <div class="mp-upload__file-list">
-            <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*" disabled=""><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+          <div class="mp-upload__content">
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
+            <div class="mp-upload__list"></div>
           </div>
-          <!--v-if-->
           <!--teleport start-->
           <!--teleport end-->
         </div>
@@ -1023,14 +926,12 @@ exports[`form with upload 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div class="mp-form-item__content">
-        <div class="mp-upload mp--box">
-          <div class="mp-upload__file-list">
-            <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*" disabled=""><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-              <div class="mp-hover-overlay"></div>
-            </div>
+      <div class="mp-form-item__content mp-form-item__content--flex">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+          <div class="mp-upload__content">
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
+            <div class="mp-upload__list"></div>
           </div>
-          <!--v-if-->
           <!--teleport start-->
           <!--teleport end-->
         </div>

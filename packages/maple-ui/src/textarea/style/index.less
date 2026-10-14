@@ -1,2 +1,62 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './textarea';
+@import './token.less';
+
+.mp-textarea {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  text-align: start;
+
+  .mp-field-decorator {
+    height: auto;
+    min-height: var(--mp-textarea-min-height);
+  }
+  .mp-field-decorator__middle {
+    align-items: stretch;
+  }
+  &__inner {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: var(--mp-textarea-height);
+    min-height: var(--mp-textarea-min-height);
+    margin: 0;
+    padding: var(--mp-textarea-padding-vertical) var(--mp-textarea-padding-horizontal);
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    caret-color: var(--mp-field-custom-focus, var(--mp-field-focus-color));
+    font: inherit;
+    font-size: var(--mp-textarea-font-size);
+    line-height: var(--mp-textarea-line-height);
+    cursor: inherit;
+    -webkit-appearance: none;
+    &::placeholder {
+      color: var(--mp-textarea-placeholder-color);
+    }
+    &:disabled {
+      color: var(--mp-field-control-text-color-disabled);
+      -webkit-text-fill-color: var(--mp-field-control-text-color-disabled);
+      &::placeholder {
+        color: var(--mp-field-control-text-color-disabled);
+      }
+    }
+  }
+  .mp-field-decorator--error &__inner {
+    caret-color: var(--mp-field-error-color);
+  }
+  &__mirror {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+  &__word-limit {
+    margin-block-start: var(--mp-textarea-counter-margin-top);
+    color: var(--mp-textarea-counter-color);
+    font-size: var(--mp-textarea-counter-font-size);
+    text-align: end;
+  }
+}

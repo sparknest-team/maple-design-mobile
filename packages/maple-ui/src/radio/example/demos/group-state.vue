@@ -11,7 +11,7 @@ const options = [
 </script>
 
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <div>
       <p>非受控：default-value 只用于初始值</p>
       <mp-radio-group :default-value="'a'" :options="options" />

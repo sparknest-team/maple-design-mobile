@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
 import { Message } from '@maplejs/maple-ui'
-import { t } from './locale'
+
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
 
 const publish = () => {
-  Message.info(t('published'))
+  Message.info(english.value ? 'Published' : '发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -13,20 +20,13 @@ const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 
 <template>
   <mp-space wrap align="center">
-    <mp-split-button
-      v-for="size in sizes"
-      :key="size"
-      :size="size"
-      status="primary"
-      @click="publish"
-      @select="handleSelect"
-    >
+    <mp-split-button v-for="size in sizes" :key="size" :size="size" @click="publish" @select="handleSelect">
       {{ size }}
 
       <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
+        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
+        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
+        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
   </mp-space>

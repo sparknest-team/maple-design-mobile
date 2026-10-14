@@ -24,10 +24,10 @@ test('message component is controlled and exposes an accessible close button', a
 })
 
 test('message variants apply to component, service, defaults and id updates', async () => {
-  expect(messageProps.variant.default).toBe('solid')
+  expect(messageProps.variant.default).toBe('neutral')
   expect(messageProps.variant.validator('tonal')).toBe(true)
   const wrapper = mount(VarMessage, { props: { open: true, popupContainer: false, duration: 0 } })
-  expect(wrapper.find('.mp-message--variant-solid').exists()).toBe(true)
+  expect(wrapper.find('.mp-message--variant-neutral').exists()).toBe(true)
   for (const variant of ['neutral', 'tonal', 'solid']) {
     await wrapper.setProps({ variant })
     expect(wrapper.find('.mp-message--variant-' + variant).exists()).toBe(true)

@@ -1,26 +1,3 @@
-:root {
-  --mp-picker-background: var(--mp-color-body);
-  --mp-picker-toolbar-height: 44px;
-  --mp-picker-picked-border: 1px solid var(--mp-color-border-2);
-  --mp-picker-title-font-size: var(--mp-font-size-lg);
-  --mp-picker-title-text-color: var(--mp-color-text-1);
-  --mp-picker-option-font-size: var(--mp-font-size-lg);
-  --mp-picker-option-text-color: var(--mp-color-text-1);
-  --mp-picker-option-disabled-text-color: var(--mp-color-text-disabled);
-  --mp-picker-toolbar-padding: 0 4px;
-  --mp-picker-mask-background-image:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--mp-picker-background) 90%, transparent),
-      color-mix(in srgb, var(--mp-picker-background) 40%, transparent)
-    ),
-    linear-gradient(
-      0deg,
-      color-mix(in srgb, var(--mp-picker-background) 90%, transparent),
-      color-mix(in srgb, var(--mp-picker-background) 40%, transparent)
-    );
-}
-
 .mp-picker {
   width: 100%;
   background: var(--mp-picker-background);
@@ -41,6 +18,9 @@
   &__column {
     flex: 1;
     overflow: hidden;
+    &:focus-visible {
+      outline-color: var(--mp-sys-color-action-primary);
+    }
   }
 
   &__option {
@@ -115,5 +95,12 @@
   &__title {
     color: var(--mp-picker-title-text-color);
     font-size: var(--mp-picker-title-font-size);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-picker,
+  .mp-picker__picked {
+    transition: none;
   }
 }

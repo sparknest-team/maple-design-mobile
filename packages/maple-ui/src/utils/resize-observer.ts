@@ -16,12 +16,22 @@ export function useElementResize(
   let observed: Element[] = []
   const currentTargets = () => [...new Set(targets().filter((element): element is Element => !!element))]
   let pending: readonly ResizeObserverEntry[] = []
-  const schedule = (entries: readonly ResizeObserverEntry[] = []) => {
+  let bindingGeneration = 0
+  let frameGeneration = 0
+  const schedule = (entries: readonly ResizeObserverEntry[] = [], binding = bindingGeneration) => {
+    if (binding !== bindingGeneration || !mounted || suspended || !enabled() || !view) {
+      return
+    }
     pending = [...pending, ...entries]
     if (frame !== undefined || !view) {
       return
     }
+    const currentFrame = ++frameGeneration
     frame = view.requestAnimationFrame(() => {
+      if (binding !== bindingGeneration || currentFrame !== frameGeneration) {
+        return
+      }
+      frameGeneration++
       frame = undefined
       const entries = pending
       pending = []
@@ -32,6 +42,8 @@ export function useElementResize(
   }
   const onResize = () => schedule()
   const clear = () => {
+    bindingGeneration++
+    frameGeneration++
     observer?.disconnect()
     observer = undefined
     observed = []
@@ -56,7 +68,8 @@ export function useElementResize(
     const Observer =
       (view as (Window & { ResizeObserver?: typeof ResizeObserver }) | undefined)?.ResizeObserver ?? fallback
     if (Observer) {
-      observer = new Observer((entries) => schedule(entries))
+      const binding = bindingGeneration
+      observer = new Observer((entries) => schedule(entries, binding))
       for (const element of elements) {
         // The polyfill requires SVG measurement; partial DOM hosts may omit it.
         if (

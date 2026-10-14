@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
 import { Message } from '@maplejs/maple-ui'
-import { t } from './locale'
+
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
 
 const lastAction = ref('')
 const handleSelect = (value: unknown, option: { label?: unknown }) => {
@@ -13,7 +19,6 @@ const handleSelect = (value: unknown, option: { label?: unknown }) => {
 <template>
   <mp-space direction="column" align="flex-start">
     <mp-split-button
-      status="primary"
       placement="bottom-start"
       :offset-y="8"
       :popup-max-height="160"
@@ -21,14 +26,20 @@ const handleSelect = (value: unknown, option: { label?: unknown }) => {
       @click="lastAction = 'publish'"
       @select="handleSelect"
     >
-      {{ t('choose') }}
+      {{ english ? 'Choose action' : '选择操作' }}
       <template #content>
-        <mp-menu-option :label="t('saveNow')" value="draft" />
-        <mp-menu-option :label="t('saveAndPublish')" value="publish" />
-        <mp-menu-option :label="t('unavailable')" value="restricted" disabled />
+        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
+        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
+        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite">{{ t('lastAction') }}: {{ lastAction || t('none') }}</span>
-    <span>{{ t('popupHint') }}</span>
+    <span aria-live="polite"
+      >{{ english ? 'Last action' : '最近操作' }}: {{ lastAction || (english ? 'None' : '暂无操作') }}</span
+    >
+    <span>{{
+      english
+        ? 'The menu stays open after selection; click outside to close.'
+        : '选择后菜单保持展开，可连续选择；点击外部关闭。'
+    }}</span>
   </mp-space>
 </template>

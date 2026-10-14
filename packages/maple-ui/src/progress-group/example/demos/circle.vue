@@ -8,9 +8,9 @@ const items = [
 
 <template>
   <div class="progress-group-example__circles">
-    <mp-progress-group mode="circle" :items="items" status />
-    <mp-progress-group mode="circle" :items="items" circle-size="42vw" :stroke-width="12" status>
-      <template #status="{ value, max }">
+    <mp-progress-group mode="circle" :items="items" show-text />
+    <mp-progress-group mode="circle" :items="items" circle-size="42vw" :stroke-width="12" show-text>
+      <template #text="{ value, max }">
         <div class="progress-group-example__circle-status">
           <strong>{{ value }}</strong
           ><small>/ {{ max }} GB</small>

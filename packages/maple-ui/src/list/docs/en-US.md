@@ -1,5 +1,13 @@
 # List
 
+VirtualList lifecycle audit: superseded requests, changed data, deactivation and disposal invalidate old nextTick corrections; retained inactive/disposed commands are inert and activation does not replay old work. Corrections are not RAF interpolation and introduce no CSS token/API. All15 scoped cases per copy pass; full List Cedar41/Maple34. New real browser cases:0. Existing key/index/align and measurement contracts remain. The classification note below is historical.
+
+```demo
+../example/demos/en-US/virtual-lifecycle.vue
+```
+
+`scrollIntoView` forwards options to the internal VirtualList `scrollTo` only in virtual mode; it is not a direct native DOM scrollIntoView or a local motion timer. Native scrolling, preferences and retained-command lifecycle require a separate VirtualList consumer audit. Source hints are not visual acceptance; this classification changes no List API/implementation.
+
 A presentational list. Compose it with `InfiniteScroll` for pagination.
 
 
@@ -49,64 +57,87 @@ You can also provide list content directly. When both the default slot and `data
 
 `loading` represents an initial full-list load or refresh, not next-page loading. An empty list does not render its empty state while loading.
 
+### Bounded scrolling
+
+```demo
+../example/demos/en-US/bounded-scroll.vue
+```
+
+### Virtual navigation
+
+```demo
+../example/demos/en-US/virtual-navigation.vue
+```
+
 ## API
 
-### Props
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| data | Data consumed by item slot | unknown[] | undefined |
+| size | Implemented sizes only; xs/xl are not supported | 'sm' \| 'md' \| 'lg' | md |
+| bordered | Outer border | boolean | true |
+| split | Item/header/footer separators, independent of border | boolean | true |
+| loading | Initial loading/refresh feedback, not pagination state | boolean | false |
+| max-height | Maximum ordinary viewport height; number in px or CSS length, zero means unlimited | number \| string | 0 |
+| virtual-list-props | Data virtualization; ignored when default slot exists | ListVirtualListProps | undefined |
+| scrollbar | Ordinary viewport custom scrollbar; false uses native scrolling | boolean \| ListScrollbarProps | true |
 
-| Prop       | Description                             | Type                   | Default |
-| ---------- | --------------------------------------- | ---------------------- | ------- |
-| `data`     | Data passed to the `item` slot          | `unknown[]`            | `-`     |
-| `size`     | List item size                          | `'sm' \| 'md' \| 'lg'` | `'md'`  |
-| `bordered` | Show the outer border                   | `boolean`              | `true`  |
-| `split`    | Show separators between list items      | `boolean`              | `true`  |
-| `loading`  | Initial full-list loading or refreshing | `boolean`              | `false` |
+Virtual mode owns its scroll viewport and does not nest a custom scrollbar. virtualListProps.height takes precedence over maxHeight; otherwise the virtual height defaults to 200px. Invalid or non-positive max-height values leave height unlimited.
 
-### Slots
+ListVirtualListProps includes height, threshold, fixedSize, estimatedSize, buffer, itemKey and component. Data is supplied by List.data; the deprecated isStaticItemHeight field is not supported. All rows render when the data length is at or below threshold. Dynamic rows use measured heights with estimatedSize as fallback; buffer controls prerendered rows.
 
-| Name      | Description                                | Props             |
-| --------- | ------------------------------------------ | ----------------- |
-| `default` | Manual content; takes priority over `data` | `-`               |
-| `item`    | Data item content                          | `{ item, index }` |
-| `header`  | Header                                     | `-`               |
-| `footer`  | Footer                                     | `-`               |
-| `empty`   | Empty content shown when not loading       | `-`               |
+ListScrollbarProps includes type: 'track'|'embed', outerClass, outerStyle, hide, disableHorizontal and disableVertical. Object fields use camelCase.
 
-### ListItem
+### Events and methods
 
-| Name      | Description    |
-| --------- | -------------- |
-| `prefix`  | Prefix content |
-| `default` | Main content   |
-| `suffix`  | Suffix content |
+- scroll(event: Event): one notification for each actual scroll event.
+- scrollIntoView({ index?, key?, align }): virtual item navigation, index takes precedence; align is top/bottom/auto. Auto retains the position of a fully visible item and otherwise moves enough to reveal it. Invalid targets and non-virtual lists do nothing.
 
-## Style Variables
+### Slots and types
 
-| Variable                    | Default                    |
-| --------------------------- | -------------------------- |
-| `--mp-list-background`      | `var(--mp-color-bg-1)`     |
-| `--mp-list-border-color`    | `var(--mp-color-border-2)` |
-| `--mp-list-border-radius`   | `4px`                      |
-| `--mp-list-header-padding`  | `12px 16px`                |
-| `--mp-list-footer-padding`  | `12px 16px`                |
-| `--mp-list-empty-padding`   | `24px 16px`                |
-| `--mp-list-empty-color`     | `var(--mp-color-text-3)`   |
-| `--mp-list-loading-padding` | `16px`                     |
-| `--mp-list-item-padding-sm` | `8px 12px`                 |
-| `--mp-list-item-padding-md` | `12px 16px`                |
-| `--mp-list-item-padding-lg` | `16px 20px`                |
-| `--mp-list-item-gap`        | `12px`                     |
+List slots: default (takes precedence over data and disables virtualization), item({ item, index }), header, footer, empty. Empty is displayed only without default content/data and while not loading.
 
-## ListItem
+ListItem slots: prefix, default, suffix. Items preserve listitem semantics; business interactions remain in slots.
 
-A presentational item for `List`; it can also be used independently.
+Types: ListProps, ListSize, ListVirtualListProps, ListScrollbarProps, ListExpose, ListSlots, ListEmits, ListInstance, ListItemInstance.
 
-### API
+List displays content; compose InfiniteScroll for pagination instead of duplicating its loading state machine inside List.
 
-### Slots
+## Style tokens
 
-| Name      | Description    |
-| --------- | -------------- |
-| `prefix`  | Prefix content |
-| `default` | Main content   |
-| `suffix`  | Suffix content |
-
+| Token | Default |
+| --- | --- |
+| `--mp-list-background` | `var(--mp-color-bg-1)` |
+| `--mp-list-empty-padding` | `24px 16px` |
+| `--mp-list-empty-color` | `var(--mp-color-text-3)` |
+| `--mp-list-loading-padding` | `16px` |
+| `--mp-list-border-width` | `1px` |
+| `--mp-list-border-color` | `var(--mp-color-border-2)` |
+| `--mp-list-border-radius` | `4px` |
+| `--mp-list-text-color` | `var(--mp-color-text-1)` |
+| `--mp-list-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-list-line-height` | `1.5` |
+| `--mp-list-text-color-header` | `var(--mp-color-text-1)` |
+| `--mp-list-font-size-header` | `var(--mp-sys-font-size-md)` |
+| `--mp-list-font-weight-header` | `500` |
+| `--mp-list-line-height-header` | `1.5` |
+| `--mp-list-item-prefix-margin-right` | `12px` |
+| `--mp-list-item-suffix-margin-left` | `12px` |
+| `--mp-list-size-sm-padding-vertical-header` | `12px` |
+| `--mp-list-size-sm-padding-horizontal-header` | `16px` |
+| `--mp-list-size-sm-padding-vertical-footer` | `12px` |
+| `--mp-list-size-sm-padding-horizontal-footer` | `16px` |
+| `--mp-list-size-sm-padding-vertical-item` | `8px` |
+| `--mp-list-size-sm-padding-horizontal-item` | `12px` |
+| `--mp-list-size-md-padding-vertical-header` | `12px` |
+| `--mp-list-size-md-padding-horizontal-header` | `16px` |
+| `--mp-list-size-md-padding-vertical-footer` | `12px` |
+| `--mp-list-size-md-padding-horizontal-footer` | `16px` |
+| `--mp-list-size-md-padding-vertical-item` | `12px` |
+| `--mp-list-size-md-padding-horizontal-item` | `16px` |
+| `--mp-list-size-lg-padding-vertical-header` | `12px` |
+| `--mp-list-size-lg-padding-horizontal-header` | `16px` |
+| `--mp-list-size-lg-padding-vertical-footer` | `12px` |
+| `--mp-list-size-lg-padding-horizontal-footer` | `16px` |
+| `--mp-list-size-lg-padding-vertical-item` | `16px` |
+| `--mp-list-size-lg-padding-horizontal-item` | `20px` |

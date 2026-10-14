@@ -15,7 +15,7 @@ export const props = {
   },
   zIndex: {
     type: [Number, String] as PropType<number | string>,
-    default: 1,
+    default: undefined,
   },
   fixed: Boolean,
   border: Boolean,

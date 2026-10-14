@@ -104,6 +104,14 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 ../example/demos/native-attrs.vue
 ```
 
+### 主体与事件契约
+
+两端维护独立复制的主体。输入按 input → update:modelValue 通知；清空按 clear → input → update:modelValue → change 通知，各一次，Form 对应语义也各接收一次。只读、禁用和组合输入期间禁止清空。受控提议被拒绝后恢复原生内容，包括不支持光标 API 的输入类型。
+
+```demo
+../example/demos/event-pipeline.vue
+```
+
 ## API
 
 ### 属性
@@ -159,7 +167,7 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | `press-enter` | 按下 Enter 时触发               | `event: KeyboardEvent`        |
 | `keydown`     | 按键时触发                     | `event: KeyboardEvent`        |
 
-超过 `max-length` 时，`update:model-value` 和 `input` 传出截断后的值。清空更新模型并触发 `clear`，随后失焦不会补发 `change`。
+超过 `max-length` 时，`update:model-value` 和 `input` 传出截断后的值。清空按 `clear → input → update:model-value → change` 通知，随后失焦不会补发 `change`。
 
 ### 插槽
 
@@ -195,3 +203,5 @@ Input 自身提供以下变量；容器外观相关变量请参考 [FieldDecorat
 | `--mp-input-feedback-error-color` | `var(--mp-sys-color-content-danger)` |
 | `--mp-input-feedback-validating-color` | `var(--mp-sys-color-content-brand)` |
 | `--mp-input-feedback-duration` | `1s` |
+
+公开类型 / Public types: `InputEmits`, `InputSlots`, `InputExpose`, `InputGroupSlots`, `InputPasswordEmits`, `InputPasswordSlots`, `InputPasswordExpose`.

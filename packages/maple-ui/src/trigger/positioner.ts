@@ -56,26 +56,41 @@ export interface TriggerPositioner {
   update(): void
 }
 
-function rafThrottle(callback: (event?: Event) => void) {
+function rafThrottle(callback: (event?: Event) => void, ownerView: () => Window | null | undefined) {
   let frame: number | undefined
+  let frameView: Window | undefined
   let latest: Event | undefined
+  let generation = 0
   const run = (event?: Event) => {
     latest = event
     if (frame !== undefined) {
       return
     }
-    const view = (event?.target as Node | null)?.ownerDocument?.defaultView ?? window
+    const view = (event?.target as Node | null)?.ownerDocument?.defaultView ?? ownerView()
+    if (!view) {
+      return
+    }
+    frameView = view
+    const currentGeneration = generation
     frame = view.requestAnimationFrame(() => {
+      if (currentGeneration !== generation) {
+        return
+      }
+      generation++
       frame = undefined
-      callback(latest)
+      frameView = undefined
+      const currentEvent = latest
       latest = undefined
+      callback(currentEvent)
     })
   }
   run.cancel = () => {
-    if (frame !== undefined && typeof window !== 'undefined') {
-      window.cancelAnimationFrame(frame)
+    generation++
+    if (frame !== undefined) {
+      frameView?.cancelAnimationFrame(frame)
     }
     frame = undefined
+    frameView = undefined
     latest = undefined
   }
   return run
@@ -91,6 +106,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
   let scrollElements: HTMLElement[] = []
   let scrollPositions = new WeakMap<Element, [number, number]>()
   let windowPosition: [number, number] | undefined
+  let scrollView: Window | null | undefined
 
   function update() {
     const reference = context.reference.value
@@ -158,41 +174,47 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     }
   }
 
-  const scrolling = rafThrottle((event) => {
-    const shouldClose = options.scrollToClose || context.globalScrollToClose.value
-    if (shouldClose && event?.target) {
-      const target = event.target as HTMLElement
-      const previous = scrollPositions.get(target) ?? [target.scrollTop, target.scrollLeft]
-      scrollPositions.set(target, previous)
+  const scrolling = rafThrottle(
+    (event) => {
+      const shouldClose = options.scrollToClose || context.globalScrollToClose.value
+      if (shouldClose && event?.target) {
+        const target = event.target as HTMLElement
+        const previous = scrollPositions.get(target) ?? [target.scrollTop, target.scrollLeft]
+        scrollPositions.set(target, previous)
+        if (
+          Math.abs(target.scrollTop - previous[0]) >= options.scrollToCloseDistance ||
+          Math.abs(target.scrollLeft - previous[1]) >= options.scrollToCloseDistance
+        ) {
+          context.requestClose()
+          return
+        }
+      }
+      update()
+    },
+    () => context.popup.value?.ownerDocument.defaultView,
+  )
+
+  const windowScrolling = rafThrottle(
+    () => {
+      const popup = context.popup.value
+      const root = popup?.ownerDocument.scrollingElement ?? popup?.ownerDocument.documentElement
+      if (!root) {
+        return
+      }
+      const current: [number, number] = [root.scrollTop, root.scrollLeft]
+      windowPosition ??= current
       if (
-        Math.abs(target.scrollTop - previous[0]) >= options.scrollToCloseDistance ||
-        Math.abs(target.scrollLeft - previous[1]) >= options.scrollToCloseDistance
+        (options.scrollToClose || context.globalScrollToClose.value) &&
+        (Math.abs(current[0] - windowPosition[0]) >= options.scrollToCloseDistance ||
+          Math.abs(current[1] - windowPosition[1]) >= options.scrollToCloseDistance)
       ) {
         context.requestClose()
         return
       }
-    }
-    update()
-  })
-
-  const windowScrolling = rafThrottle(() => {
-    const popup = context.popup.value
-    const root = popup?.ownerDocument.scrollingElement ?? popup?.ownerDocument.documentElement
-    if (!root) {
-      return
-    }
-    const current: [number, number] = [root.scrollTop, root.scrollLeft]
-    windowPosition ??= current
-    if (
-      (options.scrollToClose || context.globalScrollToClose.value) &&
-      (Math.abs(current[0] - windowPosition[0]) >= options.scrollToCloseDistance ||
-        Math.abs(current[1] - windowPosition[1]) >= options.scrollToCloseDistance)
-    ) {
-      context.requestClose()
-      return
-    }
-    update()
-  })
+      update()
+    },
+    () => context.popup.value?.ownerDocument.defaultView,
+  )
 
   function unbindScroll() {
     scrolling.cancel()
@@ -200,8 +222,8 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     for (const element of scrollElements) {
       element.removeEventListener('scroll', scrolling)
     }
-    const view = context.popup.value?.ownerDocument.defaultView
-    view?.removeEventListener('scroll', windowScrolling)
+    scrollView?.removeEventListener('scroll', windowScrolling)
+    scrollView = undefined
     scrollElements = []
     scrollPositions = new WeakMap()
     windowPosition = undefined
@@ -226,7 +248,8 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     }
     const root = popup.ownerDocument.scrollingElement ?? popup.ownerDocument.documentElement
     windowPosition = [root.scrollTop, root.scrollLeft]
-    popup.ownerDocument.defaultView?.addEventListener('scroll', windowScrolling, { passive: true })
+    scrollView = popup.ownerDocument.defaultView
+    scrollView?.addEventListener('scroll', windowScrolling, { passive: true })
   }
 
   watch(

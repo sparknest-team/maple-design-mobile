@@ -2,6 +2,8 @@
 
 ### 介绍
 
+基础示例随站点语言切换显示文案，业务值和选中状态不会随语言变化。分组示例覆盖父级接受/拒绝更新、只读和异步选项回显；移除选项不会清空业务值。外层 Space 纵向布局使用 `direction="column"`，选择组自身纵向使用 `direction="vertical"`。
+
 在一组备选项中进行多选。
 
 ### 基本使用
@@ -130,6 +132,20 @@ CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max=
 ../example/demos/group-methods.vue
 ```
 
+### 原生控件与外观
+
+两端主体均独立复制为原生 checkbox + label。Tab 聚焦，空格/Enter 切换；只读可聚焦，禁用不可聚焦。半选通过 aria-checked="mixed" 表达，点击标签只激活一次。没有可见标签时设置 aria-label；name 传到原生输入，子项未设置时继承 Group。
+
+icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档位；默认图标 Cedar 为 14px、Maple 为 24px。实例颜色仅作用于普通状态，错误和禁用颜色优先。checkbox 插槽覆盖整个控件外观（也可在 Group 上统一设置），checked-icon、unchecked-icon、indeterminate-icon 仅替换对应图标。以上图标槽是装饰内容，不应放置另一个独立可聚焦控件。
+
+```demo
+../example/demos/native-control.vue
+```
+
+```demo
+../example/demos/custom-control.vue
+```
+
 ## API
 
 `ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[]`；`RadioModel = ChoiceValue | null`。
@@ -149,6 +165,8 @@ CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max=
 | `direction`            | 布局方向，可选值为 `horizontal` `vertical` | _string_                                   | `horizontal` |
 | options | 选项；传入时替代默认插槽 | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> | undefined |
 | field-names | 选项字段映射 | ChoiceFieldNames | undefined |
+| name | 组内原生输入字段名 | string | undefined |
+| aria-label | 分组无障碍名称 | string | undefined |
 
 #### CheckboxOption
 
@@ -175,6 +193,9 @@ CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max=
 | `readonly` | 未设置时继承分组/表单 | _boolean_ | `undefined` |
 | `error` | 错误态，继承分组/表单 | _boolean_ | `undefined` |
 | `indeterminate`   | 是否为不确定状态（样式优先级最高） | _boolean_          | `false` |
+| uninject-group-context | 脱离外层 CheckboxGroup，仍参与表单 | boolean | false |
+| name | 原生字段名，未设置时继承 Group | string | undefined |
+| aria-label | 无可见标签时的无障碍名称 | string | undefined |
 | `ripple`          | 是否开启水波纹                     | _boolean_          | `true`  |
 
 ### 方法
@@ -224,6 +245,9 @@ CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max=
 | label | 选项标签 | data: CheckboxOption, checked: boolean |
 
 #### Checkbox Slots
+
+组件与分组都支持 checkbox 插槽，参数为 { checked, disabled, indeterminate }。
+
 
 | 插槽名               | 说明           | 参数                        |
 | -------------------- | -------------- | --------------------------- |

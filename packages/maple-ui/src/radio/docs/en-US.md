@@ -2,6 +2,8 @@
 
 ### Intro
 
+Basic demos follow the site language without changing business values or selection. Group demos cover accepted/rejected updates, readonly state and asynchronous option labels; removing options does not clear the model. Use `direction="column"` on the outer Space and `direction="vertical"` on the choice group itself.
+
 Single selection among multiple options.
 
 ### Basic Usage
@@ -70,6 +72,7 @@ Customize the format of the data in `options` through the `field-names` attribut
 ### Group state and readonly
 
 A defined `model-value` is controlled: rejected updates do not change the selection. `default-value` initializes uncontrolled state only. Only Group emits `update:model-value → change(value, event?)` and notifies FormItem once; children do not duplicate these notifications.
+Native checked values, ARIA state and selection styles stay synchronized with the model. A rejected group selection restores both the previous and clicked inputs; label, Enter and Space activation each propose one update.
 Group inherits `disabled`, `readonly` and `error` from the form when omitted. An explicit `false` overrides the form; children cannot bypass a locked group.
 
 ```demo
@@ -119,6 +122,14 @@ Both libraries support `variant="button"`. RadioGroup supports `xs / sm / md / l
 
 ```demo
 ../example/demos/en-US/button-sizes.vue
+```
+
+### Native control and custom icons
+
+Both libraries render a native radio input. Use name on the group for native form submission; aria-label/input-attrs address the input. Managed type, checked, disabled and tabindex take precedence over input-attrs. Icon slots replace only the icon; #radio replaces the complete visible content, so provide an accessible name.
+
+```demo
+../example/demos/en-US/native-control.vue
 ```
 
 ## API
@@ -237,3 +248,11 @@ Both libraries support `variant="button"`. RadioGroup supports `xs / sm / md / l
 `{ label?: string; value?: string; disabled?: string; readonly?: string; indeterminate?: string }`
 
 Exported types：`RadioOption`、`ChoiceFieldNames`。
+
+### Additional native and appearance Props
+
+| Component | Prop | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| Radio / RadioGroup | name | Native field name; child overrides group | string | undefined |
+| Radio | aria-label | Native accessible name | string | undefined |
+| Radio | input-attrs | Native input attributes | InputHTMLAttributes | undefined |

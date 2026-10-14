@@ -9,34 +9,62 @@ export function useBackTop(props: BackTopProps) {
   let listener: HTMLElement | Window | undefined
   let scrollFrame: number | undefined
   let animationFrame: number | undefined
+  let animationGeneration = 0
+  let animationFrameGeneration = 0
+  let scrollGeneration = 0
+  let bindingGeneration = 0
+  let scrollOwner: Window | undefined
+  let animationOwner: Window | undefined
+  let scrollListener: (() => void) | undefined
 
   function cancelAnimation() {
+    animationGeneration += 1
+    animationFrameGeneration += 1
     if (animationFrame !== undefined) {
-      cancelAnimationFrame(animationFrame)
+      animationOwner?.cancelAnimationFrame(animationFrame)
     }
     animationFrame = undefined
+    animationOwner = undefined
   }
   function update() {
     const height = Number(props.visibleHeight ?? 200)
     visible.value = !!target && target.scrollTop >= (Number.isFinite(height) ? Math.max(0, height) : 200)
   }
   function onScroll() {
-    if (scrollFrame !== undefined) {
+    if (!active || !target || scrollFrame !== undefined) {
       return
     }
-    scrollFrame = requestAnimationFrame(() => {
+    const element = target
+    const view = element.ownerDocument.defaultView
+    if (!view) {
+      return
+    }
+    const generation = ++scrollGeneration
+    scrollOwner = view
+    scrollFrame = view.requestAnimationFrame(() => {
+      if (!active || target !== element || generation !== scrollGeneration) {
+        return
+      }
+      scrollGeneration++
       scrollFrame = undefined
+      scrollOwner = undefined
       update()
     })
   }
   function cleanup() {
-    listener?.removeEventListener('scroll', onScroll)
+    bindingGeneration++
+    scrollGeneration++
+    if (scrollListener) {
+      listener?.removeEventListener('scroll', scrollListener)
+    }
+    scrollListener = undefined
     listener = undefined
     cancelAnimation()
     if (scrollFrame !== undefined) {
-      cancelAnimationFrame(scrollFrame)
+      scrollOwner?.cancelAnimationFrame(scrollFrame)
     }
     scrollFrame = undefined
+    scrollOwner = undefined
     target = undefined
     visible.value = false
   }
@@ -66,7 +94,13 @@ export function useBackTop(props: BackTopProps) {
     cleanup()
     target = nextTarget
     listener = nextListener
-    listener?.addEventListener('scroll', onScroll, { passive: true })
+    const generation = bindingGeneration
+    scrollListener = () => {
+      if (generation === bindingGeneration) {
+        onScroll()
+      }
+    }
+    listener?.addEventListener('scroll', scrollListener, { passive: true })
     update()
   }
   function scrollToTop() {
@@ -75,24 +109,65 @@ export function useBackTop(props: BackTopProps) {
     }
     cancelAnimation()
     const element = target
+    const generation = animationGeneration
     const start = element.scrollTop
     const duration = Number(props.duration ?? 200)
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    const reduced = prefersReducedMotion(element)
     if (reduced || !Number.isFinite(duration) || duration <= 0 || start <= 0) {
       element.scrollTop = 0
       update()
       return
     }
-    const easing = props.easing ?? 'quartOut'
-    const begin = performance.now()
-    const step = (now: number) => {
-      const progress = Math.min(1, Math.max(0, (now - begin) / duration))
-      element.scrollTop = progress === 1 ? 0 : start * (1 - ease(progress, easing))
-      update()
-      animationFrame = progress < 1 ? requestAnimationFrame(step) : undefined
+    const view = element.ownerDocument.defaultView
+    if (!view) {
+      return
     }
-    animationFrame = requestAnimationFrame(step)
+    const easing = props.easing ?? 'quartOut'
+    const begin = view.performance.now()
+    const isCurrent = () => active && target === element && generation === animationGeneration
+    const schedule = () => {
+      if (!isCurrent()) {
+        return
+      }
+      const frameGeneration = ++animationFrameGeneration
+      animationOwner = view
+      animationFrame = view.requestAnimationFrame((now) => {
+        if (!isCurrent() || frameGeneration !== animationFrameGeneration) {
+          return
+        }
+        animationFrameGeneration++
+        animationFrame = undefined
+        step(now)
+      })
+    }
+    const step = (now: number) => {
+      if (!isCurrent()) {
+        return
+      }
+      const reduced = prefersReducedMotion(element)
+      if (!isCurrent()) {
+        return
+      }
+      const progress = Math.min(1, Math.max(0, (now - begin) / duration))
+      const next = reduced || progress === 1 ? 0 : start * (1 - ease(progress, easing))
+      // User easing/scroll setters can synchronously cancel or dispose this request.
+      if (!isCurrent()) {
+        return
+      }
+      element.scrollTop = next
+      if (!isCurrent()) {
+        return
+      }
+      update()
+      if (!reduced && progress < 1) {
+        schedule()
+      } else {
+        animationOwner = undefined
+      }
+    }
+    schedule()
   }
+
   function activate() {
     active = true
     bind()
@@ -122,6 +197,15 @@ export function useBackTop(props: BackTopProps) {
   )
   watch(() => props.visibleHeight, update)
   return { visible, mounted, scrollToTop }
+}
+function prefersReducedMotion(element: HTMLElement) {
+  const view = element.ownerDocument.defaultView
+  return (
+    (view?.matchMedia
+      ? view.matchMedia('(prefers-reduced-motion: reduce)')
+      : window.matchMedia?.('(prefers-reduced-motion: reduce)')
+    )?.matches ?? false
+  )
 }
 export function ease(progress: number, easing: BackTopEasing) {
   if (typeof easing === 'function') {

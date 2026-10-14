@@ -2,11 +2,11 @@
 :root {
   --mp-button-transition-duration: var(--mp-sys-motion-duration-standard);
   --mp-button-default-text-color: var(--mp-sys-color-content-primary);
-  --mp-button-primary-text-color: var(--mp-sys-color-content-on-bright);
-  --mp-button-danger-text-color: var(--mp-sys-color-content-on-bright);
-  --mp-button-success-text-color: var(--mp-sys-color-content-on-bright);
-  --mp-button-warning-text-color: var(--mp-sys-color-content-on-bright);
-  --mp-button-info-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-primary-text-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-danger-text-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-success-text-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-warning-text-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-info-text-color: var(--mp-sys-color-content-on-dark);
   --mp-button-default-color: var(--mp-sys-color-surface-default);
   --mp-button-primary-color: var(--mp-sys-color-action-primary);
   --mp-button-danger-color: var(--mp-sys-color-status-danger);
@@ -14,7 +14,7 @@
   --mp-button-warning-color: var(--mp-sys-color-status-warning);
   --mp-button-info-color: var(--mp-sys-color-status-info);
   --mp-button-secondary-color: rgb(var(--mp-gray-6));
-  --mp-button-secondary-text-color: var(--mp-sys-color-content-on-bright);
+  --mp-button-secondary-text-color: var(--mp-sys-color-content-on-dark);
   --mp-button-tertiary-color: rgb(var(--mp-gray-7));
   --mp-button-tertiary-text-color: var(--mp-sys-color-content-on-dark);
   --mp-button-default-icon-color: var(--mp-sys-color-content-primary);
@@ -29,8 +29,14 @@
   --mp-button-success-icon-container-color: rgb(var(--mp-success-1));
   --mp-button-warning-icon-container-color: rgb(var(--mp-warning-1));
   --mp-button-info-icon-container-color: rgb(var(--mp-blue-1));
-  --mp-button-disabled-color: var(--mp-color-disabled);
+  --mp-button-disabled-color: var(--mp-color-fill-2);
   --mp-button-disabled-text-color: var(--mp-sys-color-content-disabled);
+  --mp-button-disabled-solid-text-color: var(--mp-sys-color-content-on-dark);
+  --mp-button-primary-disabled-color: rgb(var(--mp-primary-3));
+  --mp-button-info-disabled-color: rgb(var(--mp-blue-3));
+  --mp-button-success-disabled-color: rgb(var(--mp-success-3));
+  --mp-button-warning-disabled-color: rgb(var(--mp-warning-3));
+  --mp-button-danger-disabled-color: rgb(var(--mp-danger-3));
   --mp-button-border-radius: var(--mp-sys-radius-md);
   --mp-button-mini-padding: 0 var(--mp-sys-space-4);
   --mp-button-small-padding: 0 var(--mp-sys-space-5);
@@ -97,6 +103,12 @@
 }
 
 :root[maple-theme='dark'] {
+  --mp-button-disabled-solid-text-color: rgba(255, 255, 255, 0.3);
+  --mp-button-info-disabled-color: rgba(var(--mp-blue-6), 0.5);
+  --mp-button-danger-disabled-color: rgba(var(--mp-danger-6), 0.5);
+  --mp-button-warning-disabled-color: rgba(var(--mp-warning-6), 0.5);
+  --mp-button-success-disabled-color: rgba(var(--mp-success-6), 0.5);
+  --mp-button-primary-disabled-color: rgba(var(--mp-primary-6), 0.5);
   --mp-button-tertiary-text-color: var(--mp-sys-color-content-on-bright);
   --mp-button-tertiary-state-layer-color: var(--mp-sys-color-content-on-dark);
 }

@@ -2,6 +2,7 @@
 import { computed, reactive, ref, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import EventDemo from './demos/event.vue'
+import MotionTokenDemo from './demos/motion-token.vue'
 import OverlayStyleDemo from './demos/overlay-style.vue'
 import PopupPositionDemo from './demos/popup-position.vue'
 
@@ -39,5 +40,9 @@ onThemeChange()
   <section data-demo="event">
     <app-type>{{ english ? 'Event' : '注册事件' }}</app-type>
     <EventDemo />
+  </section>
+  <section data-demo="motion-token">
+    <app-type>{{ english ? 'Motion Tokens' : '动效 Token' }}</app-type>
+    <MotionTokenDemo :english="english" />
   </section>
 </template>

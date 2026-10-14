@@ -549,14 +549,20 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable                              | Default                                                                                                                                         |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--mp-picker-background`                 | `#fff`                                                                                                                                          |
+| `--mp-picker-background`                 | `var(--mp-color-body)`                                                                                                                                          |
 | `--mp-picker-toolbar-height`             | `44px`                                                                                                                                          |
 | `--mp-picker-picked-border`              | `1px solid var(--mp-color-border-2)`                                                                                                               |
 | `--mp-picker-title-font-size`            | `var(--mp-font-size-lg)`                                                                                                                           |
-| `--mp-picker-title-text-color`           | `#555`                                                                                                                                          |
+| `--mp-picker-title-text-color`           | `var(--mp-color-text-1)`                                                                                                                                          |
 | `--mp-picker-option-font-size`           | `var(--mp-font-size-lg)`                                                                                                                           |
-| `--mp-picker-option-disabled-text-color` | `var(--mp-color-text-disabled, #c8c9cc)`                                                                                                           |
+| `--mp-picker-option-disabled-text-color` | `var(--mp-color-text-disabled)`                                                                                                           |
 | `--mp-picker-option-check-color`         | `var(--mp-sys-color-content-brand)`                                                                                                                          |
-| `--mp-picker-option-text-color`          | `#555`                                                                                                                                          |
+| `--mp-picker-option-text-color`          | `var(--mp-color-text-1)`                                                                                                                                          |
 | `--mp-picker-toolbar-padding`            | `0 4px`                                                                                                                                         |
-| `--mp-picker-mask-background-image`      | `linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4))` |
+| `--mp-picker-mask-background-image`      | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)), linear-gradient(0deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent))` |
+
+### Keyboard and reduced motion
+
+Each enabled column is a tabbable listbox. ArrowUp/Down and Home/End move among enabled options. aria-selected identifies the current wheel option; selected-values is an additional checkmark decoration. Empty and all-disabled columns are not tab stops.
+
+Reduced motion commits selections without transitionend. Dynamic preference changes settle pending scrolling, and unmount removes the preference listener.

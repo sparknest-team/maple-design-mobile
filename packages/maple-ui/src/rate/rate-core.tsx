@@ -7,15 +7,14 @@ import {
   IconStarFill,
   IconStarHalfFull,
 } from '@maplejs/icons-vue'
-import { useFormItem } from '../form/item-provide'
-import { useForm } from '../form/provide'
 import Icon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { positiveLength } from '../utils/size-length'
 import { rateProps, type RateColor, type RateIcon as RateIconValue } from './props'
+import { useRateForm } from './use-rate-form'
 
-const { name, n } = createNamespace('rate')
+const { name, n, classes } = createNamespace('rate')
 const defaultIcons = {
   full: IconStarFill,
   empty: IconStar,
@@ -29,49 +28,51 @@ export default defineComponent({
   name,
   props: rateProps,
   emits: ['change', 'hover-change', 'update:modelValue'],
-  setup(props, { emit, slots }) {
+  setup(props, { emit, slots, expose }) {
+    const root = ref<HTMLElement>()
+    expose({ focus: () => root.value?.focus(), blur: () => root.value?.blur() })
     const innerValue = ref(props.defaultValue)
     const hoverValue = ref(0)
     const animation = ref(false)
-    const count = computed(() => Math.max(1, Math.floor(Number(props.count) || 5)))
-    const value = computed(() => props.modelValue ?? innerValue.value)
-    const displayValue = computed(() => hoverValue.value || normalize(value.value))
-    const { form } = useForm()
-    const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useFormItem({
-      disabled: computed(() => props.disabled),
-      readonly: computed(() => props.readonly),
-      formDisabled: form?.disabled,
-      formReadonly: form?.readonly,
-    })
+    const count = computed(() =>
+      props.grading
+        ? 5
+        : Number.isFinite(Number(props.count)) && Number(props.count) > 0
+          ? Math.max(1, Math.floor(Number(props.count)))
+          : 5,
+    )
+    const value = computed(() => normalize(props.modelValue !== undefined ? props.modelValue : innerValue.value))
+    const displayValue = computed(() => normalize(hoverValue.value || value.value))
+    const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useRateForm(props)
     const interactionDisabled = computed(() => mergedDisabled.value || mergedReadonly.value)
 
-    watch(
-      () => props.modelValue,
-      (next) => {
-        if (next == null) {
-          innerValue.value = 0
-        }
-      },
-    )
+    watch(interactionDisabled, (disabled) => {
+      if (disabled) {
+        resetHover()
+      }
+    })
 
     function normalize(next: number) {
       const step = props.allowHalf ? 0.5 : 1
-      return Math.min(props.grading ? 5 : count.value, Math.max(0, Math.round(next / step) * step))
+      return Math.min(count.value, Math.max(0, Math.round((Number.isFinite(next) ? next : 0) / step) * step))
     }
 
-    function setValue(next: number, event?: Event) {
+    function setValue(next: number, clear = false) {
       if (interactionDisabled.value) {
         return
       }
       const previous = value.value
       const normalized = normalize(next)
-      const result = props.clearable && normalized === previous ? 0 : normalized
-      animation.value = true
-      innerValue.value = result
-      emit('update:modelValue', result)
-      if (result !== previous || props.clearable) {
-        emit('change', result)
+      const result = clear && props.clearable && normalized === previous ? 0 : normalized
+      if (result === previous) {
+        return
       }
+      animation.value = true
+      if (props.modelValue === undefined) {
+        innerValue.value = result
+      }
+      emit('update:modelValue', result)
+      emit('change', result)
       eventHandlers.value?.onChange?.()
     }
 
@@ -148,15 +149,24 @@ export default defineComponent({
     }
 
     function keydown(event: KeyboardEvent) {
+      if (
+        interactionDisabled.value ||
+        event.target !== event.currentTarget ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey
+      ) {
+        return
+      }
       const step = props.allowHalf ? 0.5 : 1
       if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
-        setValue(value.value + step, event)
+        setValue(value.value + step)
       } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
-        setValue(value.value - step, event)
+        setValue(value.value - step)
       } else if (event.key === 'Home') {
-        setValue(0, event)
+        setValue(0)
       } else if (event.key === 'End') {
-        setValue(props.grading ? 5 : count.value, event)
+        setValue(count.value)
       } else {
         return
       }
@@ -167,21 +177,28 @@ export default defineComponent({
       h(
         'div',
         {
-          class: [
+          ref: root,
+          class: classes(
             n(),
-            {
-              [n('--readonly')]: props.readonly,
-              [n('--disabled')]: mergedDisabled.value,
-              [n('--error')]: mergedError.value,
-            },
-          ],
+            [mergedReadonly.value, n('--readonly')],
+            [mergedDisabled.value, n('--disabled')],
+            [mergedError.value, n('--error')],
+          ),
           style: { fontSize: positiveLength(props.size, '') },
           role: 'slider',
-          tabindex: interactionDisabled.value ? undefined : 0,
+          tabindex: mergedDisabled.value ? undefined : 0,
           'aria-valuemin': 0,
           'aria-valuemax': props.grading ? 5 : count.value,
           'aria-valuenow': value.value,
-          'aria-disabled': interactionDisabled.value || undefined,
+          'aria-disabled': mergedDisabled.value || undefined,
+          'aria-readonly': mergedReadonly.value || undefined,
+          'aria-invalid': mergedError.value || undefined,
+          'aria-label': props.ariaLabel || undefined,
+          onFocus: () => eventHandlers.value?.onFocus?.(),
+          onBlur: () => {
+            resetHover()
+            eventHandlers.value?.onBlur?.()
+          },
           onKeydown: keydown,
           onMouseleave: resetHover,
         },
@@ -189,8 +206,8 @@ export default defineComponent({
           const index = offset + 1
           const half = props.allowHalf && index - 0.5 === displayValue.value
           const active = index <= displayValue.value
-          const selectedColor = props.disabled ? props.disabledColor : colorAt(index, props.color)
-          const emptyColor = props.disabled ? props.disabledColor : props.emptyColor
+          const selectedColor = mergedDisabled.value ? props.disabledColor : colorAt(index, props.color)
+          const emptyColor = mergedDisabled.value ? props.disabledColor : props.emptyColor
           return withDirectives(
             h(
               'div',
@@ -198,7 +215,7 @@ export default defineComponent({
                 class: [
                   n('content'),
                   {
-                    [n('--primary')]: active && !selectedColor,
+                    [n('--primary')]: (active || half) && !selectedColor,
                     [n('content-half')]: half,
                     [n('content-full')]: active,
                     [n('content-scale')]: animation.value && index <= value.value,
@@ -211,7 +228,7 @@ export default defineComponent({
                 onMousemove: (event: MouseEvent) => hover(index, event),
                 onClick: (event: MouseEvent) => {
                   const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
-                  setValue(props.allowHalf && event.clientX - rect.left <= rect.width / 2 ? index - 0.5 : index, event)
+                  setValue(props.allowHalf && event.clientX - rect.left <= rect.width / 2 ? index - 0.5 : index, true)
                 },
                 onAnimationend: () => {
                   animation.value = false

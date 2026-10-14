@@ -96,7 +96,7 @@ The button is centered for an even number of tabs and right aligned for an odd n
 | `fixed`         |  Whether to fixed bottom                            | _boolean_ | `false` |
 | `border`        | Whether to show border                              | _boolean_ | `false` |
 | `safe-area`       | Whether to enable bottom safe area adaptation | _boolean_ | `false` |
-| `z-index`       | Z-index                                             | _number \| string_ | `1` |
+| `z-index`       | Z-index; an explicit prop overrides the CSS variable | _number \| string_ | `undefined` (CSS default `1`) |
 | `active-color`  | Color of active tab item                            | _string_ | `-` |
 | `inactive-color` | Color of inactive tab item                          | _string_ | `-` |
 | `placeholder` ***3.2.11***  | Whether to generate placeholder elements of the same height at the bottom (`fixed` required)  | _boolean_ | `false` |
@@ -150,6 +150,8 @@ Without active, selection is maintained internally. When active is provided, upd
 Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
 
 #### TabBar Variables
+
+When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An explicit number or CSS string takes precedence. The visual default remains `1`; the prop itself no longer defaults to `1`.
 
 | Variable | Default |
 | --- | --- |

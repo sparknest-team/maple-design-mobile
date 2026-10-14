@@ -7,6 +7,7 @@ const reserved = new Set([
   'readonly',
   'type',
   'mode',
+  'presentation',
   'format',
   'valueFormat',
   'showTime',

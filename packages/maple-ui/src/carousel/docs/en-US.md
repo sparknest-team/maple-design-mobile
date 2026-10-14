@@ -2,7 +2,7 @@
 
 ### Intro
 
-Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are mobile-only.
+Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are shared.
 
 ### Basic Usage
 
@@ -17,6 +17,8 @@ Displays a collection of items that can be scrolled and swiped. Demos match Ceda
 ```
 
 ### Autoplay
+
+The demo uses a 2000ms interval. Displayed slide numbers start at 1; API indices remain zero-based. Toggle playback off/on to stop/resume. Focus inside the carousel also pauses playback.
 
 Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
 
@@ -38,7 +40,7 @@ Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the
 
 ### Navigation Arrows
 
-Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. Mobile default is `never`.
+Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. Both libraries default to `always`.
 
 ```demo
 ../example/demos/navigation.vue
@@ -118,114 +120,121 @@ Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indic
 ../example/demos/handle-change.vue
 ```
 
+### controlled
+
+```demo
+../example/demos/controlled.vue
+```
+
+### auto-sized
+
+```demo
+../example/demos/auto-sized.vue
+```
+
+### interactive-content
+
+```demo
+../example/demos/interactive-content.vue
+```
+
 ## API
 
-### Props
-
-#### Carousel Props
+### Carousel Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `current`(v-model) | Current slide index (0-based) | _number_ | `-` |
-| `default-current` | Default current slide index (0-based) | _number_ | `0` |
-| `loop` | Whether to loop infinitely | _boolean_ | `true` |
-| `auto-play` | Autoplay; `true` uses 3000ms, a number is the interval in ms, or `{ interval, hoverToPause }` | _boolean \| number \| CarouselAutoPlayConfig_ | `false` |
-| `move-speed` | Transition duration (ms) | _string \| number_ | `300` |
-| `trigger` | Indicator trigger | _CarouselTriggerEvent_ | `click` |
-| `direction` | Slide direction | _'horizontal' \| 'vertical'_ | `horizontal` |
-| `show-arrow` | When to show navigation arrows | _CarouselArrowType_ | `never` |
-| `arrow-class` | Custom class for navigation arrows | _string_ | `-` |
-| `indicator` | Whether to show indicators | _boolean_ | `true` |
-| `indicator-type` | Indicator type | _CarouselIndicatorType_ | `dot` |
-| `indicator-position` | Indicator position | _CarouselIndicatorPosition_ | `bottom` |
-| `indicator-class` | Custom class for indicator | _string_ | `-` |
-| `indicator-color` | Color of indicator | _string_ | `-` |
-| `height` | Carousel container height | _string_ | `-` |
-| `transition-timing-function` | CSS transition timing function | _string_ | `cubic-bezier(0.25, 0.8, 0.5, 1)` |
-| `touchable` | Whether to enable touch swiping | _boolean_ | `true` |
-| `draggable` | Whether to enable mouse dragging | _boolean_ | `false` |
-| `mousewheel` | Whether to enable mousewheel navigation | _boolean_ | `false` |
-| `keyboard` | Whether to enable keyboard arrow navigation | _boolean_ | `false` |
-| `slides-per-view` | Number of slides visible per view. `'auto'` uses slide's own width | _number \| 'auto'_ | `1` |
-| `space-between` | Gap between slides | _string \| number_ | `0` |
-| `effect` | Transition effect (mobile) | _CarouselEffect_ | `slide` |
-| `centered-slides` | Center the active slide (with `slides-per-view`, mobile) | _boolean_ | `false` |
+| `current` | Controlled zero-based index | `number` | `undefined` |
+| `default-current` | Uncontrolled initial index | `number` | `0` |
+| `loop` | Loop without duplicating instances | `boolean` | `true` |
+| `auto-play` | Autoplay configuration | `boolean \| number \| CarouselAutoPlayConfig` | `false` |
+| `move-speed` | Explicit duration in milliseconds | `number` | `undefined (token)` |
+| `trigger` | Indicator trigger | `click \| hover` | `click` |
+| `direction` | Slide direction | `horizontal \| vertical` | `horizontal` |
+| `show-arrow` | Arrow visibility | `always \| hover \| never` | `always` |
+| `arrow-class` | Additional arrow class | `string` | `undefined` |
+| `indicator` | Show indicators | `boolean` | `true` |
+| `indicator-type` | Indicator appearance | `dot \| line \| slider` | `dot` |
+| `indicator-position` | Indicator position | `bottom \| top \| left \| right \| outer` | `bottom` |
+| `indicator-class` | Additional indicator class | `string` | `undefined` |
+| `indicator-color` | Custom indicator background | `string` | `undefined` |
+| `height` | Container height; numbers are px | `number \| string` | `undefined` |
+| `transition-timing-function` | Explicit timing function | `string` | `undefined (token)` |
+| `touchable` | Touch dragging | `boolean` | `true` |
+| `draggable` | Mouse dragging, independent of touch | `boolean` | `false` |
+| `mousewheel` | Wheel navigation | `boolean` | `false` |
+| `keyboard` | Scoped arrow/Home/End navigation | `boolean` | `false` |
+| `slides-per-view` | Visible count; auto uses item size | `number \| auto` | `1` |
+| `space-between` | Item gap; numbers/numeric strings are px | `number \| string` | `0` |
+| `effect` | Effect; all supported by both libraries | `slide \| fade \| card` | `slide` |
+| `centered-slides` | Center active slide | `boolean` | `false` |
+| `aria-label` | Carousel accessible name | `string` | Locale |
+| `previous-button-aria-label` | Previous button accessible name | `string` | Locale |
+| `next-button-aria-label` | Next button accessible name | `string` | Locale |
+
+### Model and interaction
+All indices are zero-based. A controlled action proposes update:current followed by change(index, previousIndex, isManual); it does not move until the owner accepts current. External assignment does not emit another change. Options { event: false } suppress change only, never the model proposal. All user navigation is manual; autoplay is not.
+
+loop wraps original slide instances without duplicate component state. In non-loop, non-centered layouts the final viewport is clamped to avoid blank space; the active item may move within that last visible group without moving the track. Partially visible slides remain accessible; fully offscreen slides are inert. fade always displays exactly one item. auto uses an explicit width (horizontal) or height (vertical) on CarouselItem; provide container height for vertical layouts. Only CarouselItem children, optionally inside Vue fragments, count as slides.
+
+Autoplay true uses 3000ms and hover pause; a number sets milliseconds without hover pause. The object form supports interval/hoverToPause. Focus, dragging, document/ancestor visibility and KeepAlive always pause playback. Reduced motion disables transitions. Interactive child controls retain keyboard/pointer behavior; data-carousel-no-drag exempts custom interactive content. show-arrow=hover also reveals arrows on focus.
 
 ### Events
-
-#### Carousel Events
-
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `update:current` | Emitted when the v-model value updates (0-based) | `index: number` |
-| `change` | Emitted when the active slide changes (0-based) | `index: number` <br/> `prevIndex: number` <br/> `isManual: boolean` |
+| Event | Arguments |
+| --- | --- |
+| update:current | index: number |
+| change | index: number, previousIndex: number, isManual: boolean |
 
 ### Slots
-
-#### Carousel Slots
-
-| Slot | Description | Arguments |
-| --- | --- | --- |
-| `default` | Carousel items, place `CarouselItem` here | `-` |
-| `prev` | Custom previous button | `{ index, length, prev, next, to, hovering }` |
-| `next` | Custom next button | `{ index, length, prev, next, to, hovering }` |
-| `indicator` | Custom indicator | `{ index, length, prev, next, to, hovering }` |
+| Slot | Scope |
+| --- | --- |
+| default | CarouselItem |
+| prev / next / indicator | { index, length, hovering, prev, next, to, resize } |
 
 ### Methods
+| Method | Signature |
+| --- | --- |
+| prev / next | (options?: CarouselToOptions) => void |
+| to | (index: number, options?: CarouselToOptions) => void |
+| resize | () => void |
 
-#### Carousel Methods
-
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `resize` | Recalculate carousel dimensions | `-` | `-` |
-| `next` | Switch to next slide | `options?: CarouselToOptions` | `-` |
-| `prev` | Switch to previous slide | `options?: CarouselToOptions` | `-` |
-| `to` | Jump to specified index | `index: number, options?: CarouselToOptions` | `-` |
+CarouselItem has no own props, events or methods; its default slot contains slide content.
 
 ### Types
+CarouselProps, CarouselItemProps, CarouselInstance, CarouselItemInstance, CarouselEmits, CarouselSlots, CarouselItemSlots, CarouselExpose, CarouselSlotScope, CarouselToOptions, CarouselChangeData, CarouselDirection, CarouselEffect, CarouselAutoPlayConfig, CarouselArrowType, CarouselIndicatorType, CarouselIndicatorPosition, CarouselTriggerEvent.
 
-```ts
-type CarouselTriggerEvent = 'click' | 'hover'
-type CarouselArrowType = 'always' | 'hover' | 'never'
-type CarouselIndicatorType = 'dot' | 'line' | 'slider'
-type CarouselIndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'outer'
-type CarouselEffect = 'slide' | 'fade' | 'card'
-type CarouselAutoPlayConfig = {
-  interval?: number
-  hoverToPause?: boolean
-}
-type CarouselToOptions = {
-  event?: boolean
-  isManual?: boolean
-}
-```
-
-### Style Variables
-
-#### Carousel Variables
-
-| Variable | Default |
-| --- | --- |
-| `--carousel-indicator-color` | `#fff` |
-| `--carousel-indicators-offset` | `10px` |
-| `--carousel-indicator-offset` | `4px` |
-| `--carousel-navigation-z-index` | `9` |
-| `--carousel-navigation-button-width` | `36px` |
-| `--carousel-navigation-button-height` | `36px` |
-| `--carousel-navigation-button-border-radius` | `50%` |
-| `--carousel-navigation-button-background` | `rgba(0, 0, 0, 0.35)` |
-| `--carousel-navigation-button-color` | `#fff` |
-| `--carousel-navigation-icon-size` | `20px` |
-| `--carousel-navigation-prev-left` | `8px` |
-| `--carousel-navigation-next-right` | `8px` |
-| `--carousel-navigation-prev-top` | `8px` |
-| `--carousel-navigation-next-bottom` | `8px` |
-
-### State and timing variables
-
-Fade and card transitions use independently overridable durations, both defaulting to 300ms.
+### Style variables
 
 | Token | Default |
 | --- | --- |
-| `--mp-carousel-fade-duration` | `300ms` |
-| `--mp-carousel-card-duration` | `300ms` |
+| `--mp-carousel-indicator-dot-size` | `8px` |
+| `--mp-carousel-indicator-position` | `var(--mp-sys-space-4)` |
+| `--mp-carousel-indicator-gap` | `var(--mp-sys-space-3)` |
+| `--mp-carousel-indicator-color-default` | `rgb(255 255 255 / 35%)` |
+| `--mp-carousel-indicator-color-active` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-carousel-indicator-outer-margin-bottom` | `var(--mp-sys-space-8)` |
+| `--mp-carousel-indicator-line-width` | `20px` |
+| `--mp-carousel-indicator-line-height` | `3px` |
+| `--mp-carousel-indicator-line-border-radius` | `var(--mp-sys-radius-sm)` |
+| `--mp-carousel-arrow-size` | `var(--mp-sys-control-height-md)` |
+| `--mp-carousel-arrow-font-size` | `var(--mp-sys-font-size-xl)` |
+| `--mp-carousel-arrow-margin` | `var(--mp-sys-space-4)` |
+| `--mp-carousel-arrow-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-carousel-arrow-background` | `rgb(0 0 0 / 35%)` |
+| `--mp-carousel-arrow-background-hover` | `rgb(0 0 0 / 55%)` |
+| `--mp-carousel-arrow-disabled-opacity` | `0.4` |
+| `--mp-carousel-navigation-z-index` | `10` |
+| `--mp-carousel-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-carousel-transition-timing-function` | `ease` |
+| `--mp-carousel-fade-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-carousel-card-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-carousel-card-scale` | `0.85` |
+| `--mp-carousel-card-opacity` | `0.6` |
+| `--mp-carousel-focus-width` | `2px` |
+| `--mp-carousel-focus-offset` | `2px` |
+| `--mp-carousel-focus-color` | `var(--mp-sys-color-content-brand)` |
+
+
+### Loop transition boundary
+
+Slides remain single component instances. Ordinary next/previous transitions recycle only after the outgoing page leaves the viewport. A long or centered jump that would need one slide in two positions snaps without animation; it does not clone interactive content or queue an unbounded series of transitions. When the number of slides is smaller than the requested visible count, no duplicate slides are fabricated. Accessibility labels follow the global Locale; explicit label props override it.

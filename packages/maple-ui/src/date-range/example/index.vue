@@ -11,20 +11,28 @@ import EnContractDemo from './demos/en-US/boundaries.vue'
 import EnCalendarModeDemo from './demos/en-US/calendar-mode.vue'
 import EnDateTimeDemo from './demos/en-US/date-time.vue'
 import EnDisabledDemo from './demos/en-US/disabled.vue'
+import EnEntryBoundaryDemo from './demos/en-US/entry-boundary.vue'
+import EnFieldPanelToolsDemo from './demos/en-US/field-panel-tools.vue'
 import EnPickerBasicDemo from './demos/en-US/picker-basic.vue'
 import EnPickerCalendarDemo from './demos/en-US/picker-calendar.vue'
 import EnPickerDateTimeDemo from './demos/en-US/picker-date-time.vue'
 import EnPickerReadonlyDemo from './demos/en-US/picker-readonly.vue'
 import EnPickerTypeDemo from './demos/en-US/picker-type.vue'
+import EnRejectedCloseDemo from './demos/en-US/rejected-close.vue'
 import EnSeparatorDemo from './demos/en-US/separator.vue'
+import EnTextEntryDemo from './demos/en-US/text-entry.vue'
 import EnTypeDemo from './demos/en-US/type.vue'
 import EnWithFormItemDemo from './demos/en-US/with-form-item.vue'
+import EntryBoundaryDemo from './demos/entry-boundary.vue'
+import FieldPanelToolsDemo from './demos/field-panel-tools.vue'
 import PickerBasicDemo from './demos/picker-basic.vue'
 import PickerCalendarDemo from './demos/picker-calendar.vue'
 import PickerDateTimeDemo from './demos/picker-date-time.vue'
 import PickerReadonlyDemo from './demos/picker-readonly.vue'
 import PickerTypeDemo from './demos/picker-type.vue'
+import RejectedCloseDemo from './demos/rejected-close.vue'
 import SeparatorDemo from './demos/separator.vue'
+import TextEntryDemo from './demos/text-entry.vue'
 import TypeDemo from './demos/type.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 
@@ -38,6 +46,22 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="rejected-close">
+    <app-type>{{ english ? 'Rejected controlled close' : '受控关闭被拒绝' }}</app-type>
+    <EnRejectedCloseDemo v-if="english" /><RejectedCloseDemo v-else />
+  </section>
+  <section data-demo="field-panel-tools">
+    <app-type>{{ english ? 'Field viewport and shortcut events' : '字段视口与快捷项事件' }}</app-type>
+    <EnFieldPanelToolsDemo v-if="english" /><FieldPanelToolsDemo v-else />
+  </section>
+  <section data-demo="text-entry">
+    <app-type>{{ english ? 'Text entry and panel selection' : '手输与面板选择' }}</app-type>
+    <EnTextEntryDemo v-if="english" /><TextEntryDemo v-else />
+  </section>
+  <section data-demo="entry-boundary">
+    <app-type>{{ english ? 'Field and embedded panel' : '字段与嵌入式面板' }}</app-type>
+    <EnEntryBoundaryDemo v-if="english" /><EntryBoundaryDemo v-else />
+  </section>
   <section data-demo="boundaries">
     <app-type>{{ english ? 'Bounds and endpoint rules' : '边界和端点禁用' }}</app-type>
     <EnContractDemo v-if="english" /><ContractDemo v-else />

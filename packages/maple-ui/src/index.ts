@@ -227,6 +227,7 @@ export { _WatermarkComponent } from './watermark'
 export { vLoading } from './loading'
 export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
+export { useUploader } from './upload'
 export { actionSheetProps } from './action-sheet'
 export type {
   ActionSheetActions,
@@ -288,19 +289,24 @@ export { cardProps } from './card'
 export type { CardProps, CardVariant, CardSize, CardDirection, CardFit, CardInstance } from './card'
 export { carouselProps, carouselItemProps } from './carousel'
 export type {
-  CarouselArrowType,
-  CarouselAutoPlayConfig,
-  CarouselChangeData,
-  CarouselDirection,
-  CarouselEffect,
-  CarouselIndicatorPosition,
-  CarouselIndicatorType,
-  CarouselProps,
-  CarouselToOptions,
-  CarouselTriggerEvent,
   CarouselInstance,
   CarouselItemInstance,
+  CarouselProps,
   CarouselItemProps,
+  CarouselArrowType,
+  CarouselAutoPlayConfig,
+  CarouselIndicatorPosition,
+  CarouselIndicatorType,
+  CarouselTriggerEvent,
+  CarouselDirection,
+  CarouselEffect,
+  CarouselToOptions,
+  CarouselChangeData,
+  CarouselEmits,
+  CarouselSlots,
+  CarouselItemSlots,
+  CarouselExpose,
+  CarouselSlotScope,
 } from './carousel'
 export { cascaderPanelProps, cascaderProps } from './cascader'
 export type {
@@ -320,6 +326,7 @@ export type {
   CheckboxGroupInstance,
   CheckboxProps,
   CheckboxGroupProps,
+  CheckboxValue,
   CheckboxMethods,
   CheckboxModel,
   CheckboxOption,
@@ -361,6 +368,17 @@ export type {
   DateSelection,
   DateSide,
   DateValueOptions,
+  DatePickerType,
+  DatePickerOptions,
+  DateWeekStart,
+  DateEventPayload,
+  DateChangeArgs,
+  DateEmits,
+  DatePickerEmits,
+  DateShortcut,
+  DateShortcutsPosition,
+  DateTimePickerOptions,
+  DateWheelOptions,
 } from './date'
 export { dateRangeProps, dateRangePickerProps } from './date-range'
 export type {
@@ -372,6 +390,10 @@ export type {
   DateRangePickerProps,
   DateRangePickerPresentation,
   DateRangePickerType,
+  DateRangePickerOptions,
+  DateRangeEmits,
+  DateRangePickerEmits,
+  DateRangeCalendarOptions,
 } from './date-range'
 export { dialogProps } from './dialog'
 export type {
@@ -414,9 +436,11 @@ export type {
   MenuOptionLabelRender,
   DropdownMenuSize,
   MenuOptionProps,
-  DropdownMenuSubmenuTrigger,
   DropdownMenuInstance,
   MenuOptionInstance,
+  DropdownMenuStrategy,
+  DropdownMenuSubmenuTrigger,
+  DropdownMenuReference,
 } from './dropdown-menu'
 export { ellipsisProps } from './ellipsis'
 export type { EllipsisProps, EllipsisExpandTrigger, EllipsisInstance } from './ellipsis'
@@ -441,6 +465,12 @@ export type {
   FormItemInstance,
   FormProps,
   FormItemProps,
+  FormLayout,
+  FormLabelAlign,
+  FormColProps,
+  FormLabelFlex,
+  FormItemAsteriskPosition,
+  FormItemValidateStatus,
 } from './form'
 export { formDetailsProps } from './form-details'
 export type { FormDetailsInstance, FormDetailsProps } from './form-details'
@@ -491,6 +521,13 @@ export type {
   InputPasswordInstance,
   InputGroupInstance,
   InputGroupLabelInstance,
+  InputEmits,
+  InputSlots,
+  InputExpose,
+  InputGroupSlots,
+  InputPasswordEmits,
+  InputPasswordSlots,
+  InputPasswordExpose,
 } from './input'
 export { inputNumberProps } from './input-number'
 export type {
@@ -507,7 +544,17 @@ export type { LazyHTMLElement, LazyInstance } from './lazy'
 export { linkProps } from './link'
 export type { LinkProps, LinkUnderline, LinkInstance } from './link'
 export { listProps } from './list'
-export type { ListProps, ListSize, ListInstance, ListItemInstance } from './list'
+export type {
+  ListProps,
+  ListSize,
+  ListVirtualListProps,
+  ListScrollbarProps,
+  ListExpose,
+  ListSlots,
+  ListEmits,
+  ListInstance,
+  ListItemInstance,
+} from './list'
 export { loadingProps } from './loading'
 export type { LoadingInstance, LoadingProps, LoadingSize, LoadingType } from './loading'
 export { loadingBarProps } from './loading-bar'
@@ -547,7 +594,14 @@ export type { PopoverInstance, PopoverPlacement, PopoverProps, PopoverTrigger } 
 export { popupProps } from './popup'
 export type { PopupPlacement, PopupProps, PopupInstance } from './popup'
 export { progressProps } from './progress'
-export type { ProgressInstance, ProgressProps, ProgressSize, ProgressStatus, ProgressMode } from './progress'
+export type {
+  ProgressInstance,
+  ProgressProps,
+  ProgressColor,
+  ProgressSize,
+  ProgressStatus,
+  ProgressMode,
+} from './progress'
 export { progressGroupProps } from './progress-group'
 export type {
   ProgressGroupInstance,
@@ -568,16 +622,39 @@ export type {
   RadioModel,
   RadioOption,
   RadioVariant,
+  RadioEmits,
+  RadioGroupEmits,
+  RadioSlots,
+  RadioGroupSlots,
+  RadioValue,
 } from './radio'
 export { rateProps } from './rate'
-export type { RateColor, RateIcon, RateProps, RateInstance } from './rate'
+export type {
+  RateColor,
+  RateIcon,
+  RateProps,
+  RateExpose,
+  RateEmits,
+  RateCharacterSlotProps,
+  RateInstance,
+} from './rate'
 export { resultProps } from './result'
 export type { ResultProps, ResultStatus, ResultInstance } from './result'
 export type { RippleInstance } from './ripple'
 export { rowProps } from './row'
 export type { RowProps, RowGutter, RowAlign, RowJustify, RowInstance } from './row'
 export { searchProps } from './search'
-export type { SearchActionType, SearchField, SearchProps, SearchShape, SearchResult, SearchInstance } from './search'
+export type {
+  SearchActionType,
+  SearchField,
+  SearchProps,
+  SearchShape,
+  SearchResult,
+  SearchInstance,
+  SearchEmits,
+  SearchSlots,
+  SearchExpose,
+} from './search'
 export { selectProps, optionProps, optgroupProps } from './select'
 export type {
   OptgroupInstance,
@@ -608,7 +685,17 @@ export type {
   SkeletonSize,
 } from './skeleton'
 export { sliderProps } from './slider'
-export type { SliderOrientation, SliderInstance, SliderProps } from './slider'
+export type {
+  SliderOrientation,
+  SliderValue,
+  SliderTooltipFormatter,
+  SliderTooltipVisibility,
+  SliderEmits,
+  SliderSlots,
+  SliderExpose,
+  SliderProps,
+  SliderInstance,
+} from './slider'
 export { spaceProps } from './space'
 export type {
   SpaceInstance,
@@ -665,6 +752,14 @@ export type {
   TabItemInstance,
   TabPaneInstance,
   TabsItemsInstance,
+  TabsEmits,
+  TabsSlots,
+  TabNavSlots,
+  TabPaneSlots,
+  TabsNavsSlots,
+  TabsItemsSlots,
+  TabItemSlots,
+  TabsNavsExpose,
   TabsKey,
   TabsVariant,
   TabsTrigger,
@@ -681,7 +776,16 @@ export type {
 export { tagProps } from './tag'
 export type { TagInstance, TagColor, TagProps, TagVariant } from './tag'
 export { textareaProps } from './textarea'
-export type { TextareaInstance, TextareaAutoSize, TextareaMaxLength, TextareaProps, TextareaVariant } from './textarea'
+export type {
+  TextareaInstance,
+  TextareaAutoSize,
+  TextareaMaxLength,
+  TextareaProps,
+  TextareaVariant,
+  TextareaEmits,
+  TextareaSlots,
+  TextareaExpose,
+} from './textarea'
 export { timeProps, timePickerProps } from './time'
 export type {
   TimeInstance,
@@ -719,14 +823,52 @@ export type {
   TriggerStrategy,
 } from './trigger'
 export { uploadProps } from './upload'
-export type { UploadFileItem, UploadStatus, UploadResolveType, UploadInstance, UploadProps } from './upload'
+export type {
+  UploadInstance,
+  UploadProps,
+  UseUploaderOptions,
+  UploadStatus,
+  UploadListType,
+  UploadImageFit,
+  UploadResolveType,
+  UploadCapture,
+  UploadRejectedReason,
+  UploadFileItem,
+  UploadRejectedFile,
+  UploadProgressEvent,
+  UploadData,
+  UploadHeaders,
+  UploadRequestOptions,
+  UploadRequest,
+  UploadCustomRequest,
+  UploadThumbnailOptions,
+  UploadCreateThumbnailUrl,
+  UploadBeforeRead,
+  UploadBeforeUpload,
+  UploadBeforeRemove,
+  UploadIsSuccessResponse,
+  UploadRenderFile,
+  UploadPublicMethods,
+  UploadTriggerSlotProps,
+  UploadItemSlotProps,
+  UploadStyleProps,
+  UploadPreviewEvent,
+  UploadRequestChoose,
+  UploadEmits,
+  UploadSlots,
+  UploadExpose,
+} from './upload'
 export { verificationCodeProps } from './verification-code'
 export type {
   VerificationCodeAlign,
+  VerificationCodeVariant,
   VerificationCodeFormatter,
   VerificationCodeProps,
   VerificationCodeSeparator,
   VerificationCodeType,
+  VerificationCodeEmits,
+  VerificationCodeSlots,
+  VerificationCodeExpose,
   VerificationCodeInstance,
 } from './verification-code'
 export { watermarkProps } from './watermark'

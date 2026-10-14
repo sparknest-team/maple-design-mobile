@@ -1,0 +1,4 @@
+- [x] Reproduce preference/target cancellation failures before repair.
+- [x] Keep independent BackTop source and regression copies aligned with Cedar.
+- [x] Verify BackTop, Button test boundary, SSR, types and affected lint.
+- [x] Update shared and menu guides, component docs and patch changeset.

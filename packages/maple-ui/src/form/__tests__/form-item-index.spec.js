@@ -50,7 +50,7 @@ test('form-item validation', async () => {
   await delay(10)
 
   expect(wrapper.find('.mp-form-item__label').text()).toContain('用户名')
-  expect(wrapper.find('.mp-form-item__asterisk').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-form-item__label-required-symbol').exists()).toBeTruthy()
   expect(wrapper.find('.mp-form-details__error-message').text()).toBe('用户名不能为空')
 
   wrapper.vm.model.username = 'maple'

@@ -1,3 +1,117 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './checkbox';
-@import './checkbox-group';
+@import './token.less';
+
+.mp-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  color: var(--mp-internal-checkbox-instance-unchecked-color, var(--mp-checkbox-control-color));
+  font-size: var(--mp-checkbox-label-font-size);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    clip-path: inset(50%);
+  }
+  &__control {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    padding: var(--mp-checkbox-action-padding);
+    border-radius: var(--mp-internal-checkbox-action-radius);
+    transition: background-color var(--mp-checkbox-animation-duration);
+  }
+  &__input:focus-visible + &__control {
+    outline: var(--mp-internal-checkbox-focus-width) solid var(--mp-checkbox-control-color-checked);
+    outline-offset: var(--mp-internal-checkbox-focus-offset);
+  }
+  &__icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-sizing: border-box;
+    width: var(--mp-internal-checkbox-instance-size, var(--mp-checkbox-control-size));
+    height: var(--mp-internal-checkbox-instance-size, var(--mp-checkbox-control-size));
+    border: var(--mp-internal-checkbox-border-width) solid currentColor;
+    border-radius: var(--mp-internal-checkbox-border-radius);
+    background-color: var(--mp-internal-checkbox-background);
+    transition:
+      background-color var(--mp-checkbox-animation-duration),
+      border-color var(--mp-checkbox-animation-duration);
+  }
+  &__check {
+    display: block;
+    width: var(--mp-internal-checkbox-mark-size);
+    height: var(--mp-internal-checkbox-mark-size);
+    color: var(--mp-internal-checkbox-mark-color);
+  }
+  &__mark {
+    width: var(--mp-internal-checkbox-mark-size);
+    height: var(--mp-internal-checkbox-mark-height);
+    border-radius: var(--mp-internal-checkbox-mark-radius);
+    background-color: var(--mp-internal-checkbox-mark-color);
+  }
+  &__label {
+    margin-inline-start: var(--mp-checkbox-label-gap);
+    color: var(--mp-checkbox-label-text-color);
+  }
+  &--checked,
+  &--indeterminate {
+    color: var(--mp-internal-checkbox-instance-checked-color, var(--mp-checkbox-control-color-checked));
+  }
+  &--checked &__icon,
+  &--indeterminate &__icon {
+    background-color: currentColor;
+  }
+  &--error {
+    color: var(--mp-checkbox-control-color-error);
+  }
+  &--disabled {
+    color: var(--mp-checkbox-control-color-disabled);
+    cursor: not-allowed;
+  }
+  &--disabled &__icon {
+    background-color: var(--mp-internal-checkbox-background-disabled);
+  }
+  &--disabled&--checked &__icon,
+  &--disabled&--indeterminate &__icon {
+    background-color: currentColor;
+  }
+  &--disabled &__label {
+    color: var(--mp-checkbox-label-text-color-disabled);
+  }
+}
+
+@media (hover: hover) {
+  .mp-checkbox:not(.mp-checkbox--disabled):not(.mp-checkbox--readonly):hover .mp-checkbox__control {
+    background-color: var(--mp-internal-checkbox-hover-background);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-checkbox__control,
+  .mp-checkbox__icon {
+    transition: none;
+  }
+}
+.mp-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mp-checkbox-group-gap);
+  &--horizontal {
+    flex-direction: row;
+  }
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -47,3 +47,6 @@ Cedar 完成实现后独立复制到 Maple，替换命名空间与导入路径�
 ## 错误与禁用边框变量
 
 以下后缀分别加上 `--c-field-` / `--mp-field-`：`variant-outline-border-color-error` 控制 outline 错误边框；`variant-standard-line-color-error` 控制 standard 错误底线；`variant-standard-line-color-disabled` 控制 standard 禁用底线，默认引用 system border-subtle。禁用优先于错误、hover 和 focus。三个入口均支持局部覆盖；错误提示文字仍由 `field-error-color` 管理。内部变量不是业务 API，已确认无消费的遗留内部声明直接删除，不提供别名。
+## 键盘焦点
+
+内部原生控件命中 `:focus-visible` 时，外壳独立绘制焦点环，错误背景和边框不会覆盖它。只读允许聚焦，禁用不绘制焦点环。颜色使用实例 focus-color 或 field-focus-color，宽度和外偏移复用 field-border-width；适用于 Input、Textarea、Date 和 Time 等消费者。

@@ -14,6 +14,9 @@
   },
   "include": [
     "type-tests/aligned-api.ts",
-    "type-tests/foundation-api.ts"
+    "type-tests/foundation-api.ts",
+    "type-tests/time-text-entry.ts",
+    "type-tests/form-layout.ts",
+    "type-tests/date-panel-api.ts"
   ]
 }

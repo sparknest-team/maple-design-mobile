@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import { computed, inject, ref, unref, useSlots } from 'vue'
 import { createNamespace } from '../utils/components'
+import { panelAppearance } from './appearance'
 import { menuInjectionKey } from './context'
-import { panelAppearance } from './platform'
 import DropdownMenuView from './render'
 
 defineOptions({ name: createNamespace('dropdown-menu-panel').name })

@@ -4,6 +4,7 @@ import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomColorDemo from './demos/custom-color.vue'
 import DisabledStatusDemo from './demos/disabled-status.vue'
+import MotionTokenDemo from './demos/motion-token.vue'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -28,5 +29,9 @@ onThemeChange()
   <section data-demo="disabled-status">
     <app-type>{{ english ? 'Disabled Status' : '禁用状态' }}</app-type>
     <DisabledStatusDemo />
+  </section>
+  <section data-demo="motion-token">
+    <app-type>{{ english ? 'Motion Token Timing' : '动效 Token 时序' }}</app-type>
+    <MotionTokenDemo :english="english" />
   </section>
 </template>

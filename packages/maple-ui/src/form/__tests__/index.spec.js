@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Form from '..'
 import VarAutoComplete from '../../auto-complete/auto-complete'
@@ -386,13 +386,14 @@ test('form with rate', async () => {
 })
 
 test('form with upload', async () => {
-  const onAfterRead = vi.fn()
+  const onRead = vi.fn()
 
-  const createEvent = (filename) => ({
-    target: {
-      files: [new File([], filename)],
-    },
-  })
+  const chooseFile = async (wrapper, filename) => {
+    const input = wrapper.find('input[type="file"]')
+    Object.defineProperty(input.element, 'files', { configurable: true, value: [new File([], filename)] })
+    await input.trigger('change')
+    await flushPromises()
+  }
 
   const wrapper = mount({
     ...Wrapper,
@@ -402,15 +403,16 @@ test('form with upload', async () => {
       model: { value: [] },
     }),
     methods: {
-      onAfterRead,
+      onRead,
     },
     template: `
       <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v.length > 0 || 'You must upload one file at least']">
           <mp-upload
             ref="upload"
+            resolve-type="file"
             v-model="model.value"
-            @after-read="onAfterRead"
+            @read="onRead"
           />
         </mp-form-item>
       </mp-form>
@@ -419,18 +421,26 @@ test('form with upload', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.vm.$refs.upload.handleChange(createEvent('cat.png'))
-  expect(onAfterRead).toHaveBeenCalledTimes(0)
+  await chooseFile(wrapper, 'cat.png')
+  expect(onRead).toHaveBeenCalledTimes(0)
 
   await wrapper.setData({ disabled: false, readonly: true })
   expect(wrapper.html()).toMatchSnapshot()
 
-  await wrapper.vm.$refs.upload.handleChange(createEvent('cat.png'))
-  expect(onAfterRead).toHaveBeenCalledTimes(0)
+  await chooseFile(wrapper, 'cat.png')
+  expect(onRead).toHaveBeenCalledTimes(0)
 
   const { form } = wrapper.vm.$refs
   await expectValidate(form, wrapper, 'You must upload one file at least')
   await expectReset(form, wrapper)
+
+  await wrapper.setData({ readonly: false })
+  await chooseFile(wrapper, 'cat.png')
+  expect(onRead).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.model.value).toHaveLength(1)
+  await form.validate()
+  await flushPromises()
+  expect(wrapper.find('.mp-form-details__error-message').exists()).toBe(false)
 
   wrapper.unmount()
 })
@@ -518,16 +528,12 @@ test('form with slider', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 
-  const el = wrapper.find('.mp-slider__horizontal-thumb-label')
-  await trigger(el, 'touchstart', 0, 0)
-  await trigger(document, 'touchmove', 20, 0)
-  await trigger(document, 'touchend', 40, 0)
+  const el = wrapper.get('[role="slider"]')
+  await el.trigger('keydown', { key: 'ArrowRight' })
   expect(wrapper.vm.model.value).toBe(5)
 
   await wrapper.setData({ disabled: false, readonly: true })
-  await trigger(el, 'touchstart', 20, 0)
-  await trigger(document, 'touchmove', 10, 0)
-  await trigger(document, 'touchend', 70, 0)
+  await el.trigger('keydown', { key: 'ArrowRight' })
   expect(wrapper.vm.model.value).toBe(5)
 
   expect(onChange).toHaveBeenCalledTimes(0)
@@ -539,9 +545,7 @@ test('form with slider', async () => {
   await expectReset(form, wrapper)
 
   await wrapper.setData({ disabled: false, readonly: false })
-  await trigger(el, 'touchstart', 20, 0)
-  await trigger(document, 'touchmove', 10, 0)
-  await trigger(document, 'touchend', 70, 0)
+  await el.trigger('keydown', { key: 'ArrowRight' })
   expect(wrapper.vm.model.value).not.toBe(5)
 
   expect(onChange).toHaveBeenCalled()

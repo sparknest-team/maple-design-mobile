@@ -56,7 +56,7 @@ const Wrapper = {
 }
 
 test('overlay show', async () => {
-  const wrapper = mount(Wrapper)
+  const wrapper = mount(Wrapper, { global: { stubs: { transition: false } } })
   expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
 
   await wrapper.setData({ open: true })
@@ -66,7 +66,9 @@ test('overlay show', async () => {
   expect(overlay.find('.mp-overlay__content').text()).toContain('default slot content')
 
   await wrapper.setData({ open: false })
-  expect(document.body.querySelector('.mp-overlay')).toBeFalsy()
+  expect(document.body.querySelector('.mp-overlay')).toBeTruthy()
+  await vi.waitFor(() => expect(wrapper.findComponent(VarOverlay).emitted('closed')).toHaveLength(1))
+  await vi.waitFor(() => expect(document.body.querySelector('.mp-overlay')).toBeFalsy())
 
   wrapper.unmount()
 })

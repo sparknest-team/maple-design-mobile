@@ -8,7 +8,7 @@ import Space from '../../space'
 import Controlled from '../example/controlled.vue'
 
 vi.mock('@maplejs/maple-ui', () => ({ Message: { info: vi.fn() } }))
-vi.mock('../example/locale', () => ({ t: (key) => key }))
+vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
 
 test('controlled demo stays open after the external click, then closes on selection or outside click', async () => {
   const host = document.createElement('div')
@@ -23,14 +23,14 @@ test('controlled demo stays open after the external click, then closes on select
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
   try {
-    button('openMenu').element.click()
+    button('展开菜单').element.click()
     await settle()
-    expect(wrapper.text()).toContain('opened')
+    expect(wrapper.text()).toContain('已展开')
     expect(wrapper.find('[aria-haspopup="menu"]').attributes('aria-expanded')).toBe('true')
     document.querySelector('[data-dropdown-menu-item]').click()
     await settle()
     expect(wrapper.find('[aria-haspopup="menu"]').attributes('aria-expanded')).toBe('false')
-    button('openMenu').element.click()
+    button('展开菜单').element.click()
     await settle()
     document.body.click()
     await settle()

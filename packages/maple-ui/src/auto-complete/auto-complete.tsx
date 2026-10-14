@@ -1,5 +1,5 @@
 import type { StyleValue, VNode } from 'vue'
-import { computed, defineComponent, ref, toRefs, useId, watch } from 'vue'
+import { computed, defineComponent, nextTick, ref, toRefs, useId, watch } from 'vue'
 import VirtualList from '../_components/virtual-list-v2'
 import { isFunction, isNull, isUndefined } from '../_utils/is'
 import Input from '../input'
@@ -49,6 +49,9 @@ export default defineComponent({
     const innerValue = ref(props.defaultValue)
     const computedValue = computed(() => props.modelValue ?? innerValue.value)
     let committedValue = computedValue.value
+    let pendingCommittedValue: string | undefined
+    let requestedInputValue: string | undefined
+    let clearing = false
 
     watch(modelValue, (value) => {
       if (isUndefined(value) || isNull(value)) {
@@ -57,7 +60,13 @@ export default defineComponent({
     })
 
     watch(computedValue, (value) => {
-      if (!focused.value) {
+      if (value === pendingCommittedValue) {
+        committedValue = value
+        pendingCommittedValue = undefined
+        requestedInputValue = undefined
+      } else if (value === requestedInputValue) {
+        requestedInputValue = undefined
+      } else {
         committedValue = value
       }
     })
@@ -93,7 +102,7 @@ export default defineComponent({
     const getOptionId = (key: string) => `${listboxId}-option-${encodeURIComponent(key)}`
 
     const handleOpenChange = (nextOpen: boolean) => {
-      open.value = nextOpen && editable.value
+      open.value = nextOpen && editable.value && !clearing
     }
 
     const closeDropdown = () => {
@@ -119,7 +128,10 @@ export default defineComponent({
       if (value === committedValue) {
         return false
       }
-      committedValue = value
+      pendingCommittedValue = value
+      if (value === computedValue.value) {
+        committedValue = value
+      }
       emit('change', value, ev)
       if (notifyForm) {
         eventHandlers.value?.onChange?.(ev)
@@ -156,13 +168,26 @@ export default defineComponent({
       closeDropdown()
     }
 
+    let pendingSearch: { value: string; event: Event } | undefined
+    let clearEvent: Event | undefined
+    const handleInputUpdate = (value: string) => {
+      requestedInputValue = value
+      updateValue(value)
+      const search = pendingSearch
+      pendingSearch = undefined
+      if (search) {
+        emit('search', value, search.event)
+        openDropdown()
+      }
+    }
+
     const handleInput = (value: string, ev: Event) => {
       if (!editable.value) {
         return
       }
       emit('input', value, ev)
-      emit('search', value, ev)
-      openDropdown()
+      pendingSearch = ev === clearEvent ? undefined : { value, event: ev }
+      clearEvent = undefined
     }
 
     const handleChange = (value: string, ev: Event) => {
@@ -173,14 +198,21 @@ export default defineComponent({
     }
 
     const handleClear = (ev: Event) => {
-      committedValue = ''
+      clearing = true
+      nextTick(() => {
+        clearing = false
+      })
+      clearEvent = ev
+      pendingSearch = undefined
       closeDropdown()
       emit('clear', ev)
     }
 
     const handleFocus = (ev: FocusEvent) => {
       focused.value = true
-      openDropdown()
+      if (!clearing) {
+        openDropdown()
+      }
       emit('focus', ev)
     }
 
@@ -346,7 +378,7 @@ export default defineComponent({
                 suffix: slots.suffix,
                 'clear-icon': slots['clear-icon'],
               }}
-              onUpdate:modelValue={updateValue}
+              onUpdate:modelValue={handleInputUpdate}
               onInput={handleInput}
               onChange={handleChange}
               onClear={handleClear}

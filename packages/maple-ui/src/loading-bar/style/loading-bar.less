@@ -2,11 +2,20 @@
   position: fixed;
   left: 0;
   top: 0;
-  transition: all 0.25s;
+  transition:
+    width var(--mp-loading-bar-transition-duration) var(--mp-loading-bar-transition-timing-function),
+    opacity var(--mp-loading-bar-transition-duration) var(--mp-loading-bar-transition-timing-function),
+    background-color var(--mp-loading-bar-transition-duration) var(--mp-loading-bar-transition-timing-function);
   height: var(--mp-loading-bar-height);
   background-color: var(--mp-loading-bar-color);
 
   &--error {
     background-color: var(--mp-loading-bar-error-color);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-loading-bar {
+    transition: none !important;
   }
 }

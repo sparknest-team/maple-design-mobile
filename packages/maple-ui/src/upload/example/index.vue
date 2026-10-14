@@ -1,110 +1,147 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
-import BasicUsageDemo from './demos/basic-usage.vue'
-import BeforeAddDemo from './demos/before-add.vue'
-import BeforeReadDemo from './demos/before-read.vue'
-import BeforeRemoveDemo from './demos/before-remove.vue'
-import ClickActionDemo from './demos/click-action.vue'
-import CustomPreviewDemo from './demos/custom-preview.vue'
-import CustomRenderDemo from './demos/custom-render.vue'
-import DisabledDemo from './demos/disabled.vue'
-import MaxFileSizeDemo from './demos/max-file-size.vue'
-import MaxFilesDemo from './demos/max-files.vue'
-import PreviewDemo from './demos/preview.vue'
-import ReadonlyDemo from './demos/readonly.vue'
-import RemoveButtonSlotDemo from './demos/remove-button-slot.vue'
-import StateDemo from './demos/state.vue'
-import StyleDemo from './demos/style.vue'
-import UseProgressDemo from './demos/use-progress.vue'
+import { ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
+import Demo5 from './demos/basic-usage.vue'
+import Demo6 from './demos/before-add.vue'
+import Demo7 from './demos/before-read.vue'
+import Demo8 from './demos/before-remove.vue'
+import Demo9 from './demos/click-action.vue'
+import Demo10 from './demos/custom-preview.vue'
+import Demo11 from './demos/custom-render.vue'
+import Demo3 from './demos/custom-surface.vue'
+import Demo12 from './demos/disabled.vue'
+import Demo5En from './demos/en-US/basic-usage.vue'
+import Demo6En from './demos/en-US/before-add.vue'
+import Demo7En from './demos/en-US/before-read.vue'
+import Demo8En from './demos/en-US/before-remove.vue'
+import Demo9En from './demos/en-US/click-action.vue'
+import Demo10En from './demos/en-US/custom-preview.vue'
+import Demo11En from './demos/en-US/custom-render.vue'
+import Demo3En from './demos/en-US/custom-surface.vue'
+import Demo12En from './demos/en-US/disabled.vue'
+import Demo4En from './demos/en-US/external-state.vue'
+import Demo13En from './demos/en-US/max-file-size.vue'
+import Demo14En from './demos/en-US/max-files.vue'
+import Demo15En from './demos/en-US/preview.vue'
+import Demo1En from './demos/en-US/queue-request.vue'
+import Demo0En from './demos/en-US/read-only.vue'
+import Demo16En from './demos/en-US/readonly.vue'
+import Demo17En from './demos/en-US/remove-button-slot.vue'
+import Demo2En from './demos/en-US/replacement-validation.vue'
+import Demo18En from './demos/en-US/state.vue'
+import Demo19En from './demos/en-US/style.vue'
+import Demo20En from './demos/en-US/use-progress.vue'
+import Demo4 from './demos/external-state.vue'
+import Demo13 from './demos/max-file-size.vue'
+import Demo14 from './demos/max-files.vue'
+import Demo15 from './demos/preview.vue'
+import Demo1 from './demos/queue-request.vue'
+import Demo0 from './demos/read-only.vue'
+import Demo16 from './demos/readonly.vue'
+import Demo17 from './demos/remove-button-slot.vue'
+import Demo2 from './demos/replacement-validation.vue'
+import Demo18 from './demos/state.vue'
+import Demo19 from './demos/style.vue'
+import Demo20 from './demos/use-progress.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
+const english = ref(false)
+watchLang((lang) => {
+  english.value = lang === 'en-US'
 })
-onThemeChange()
 </script>
-
 <template>
+  <section data-demo="read-only">
+    <h3>{{ english ? 'Read files' : '只读取文件' }}</h3>
+    <component :is="english ? Demo0En : Demo0" />
+  </section>
+  <section data-demo="queue-request">
+    <h3>{{ english ? 'Queue and cancellation' : '手动队列和取消' }}</h3>
+    <component :is="english ? Demo1En : Demo1" />
+  </section>
+  <section data-demo="replacement-validation">
+    <h3>{{ english ? 'Replacement validation' : '替换后校验' }}</h3>
+    <component :is="english ? Demo2En : Demo2" />
+  </section>
+  <section data-demo="custom-surface">
+    <h3>{{ english ? 'Picture cards and slots' : '图卡和插槽' }}</h3>
+    <component :is="english ? Demo3En : Demo3" />
+  </section>
+  <section data-demo="external-state">
+    <h3>{{ english ? 'External status' : '外部状态' }}</h3>
+    <component :is="english ? Demo4En : Demo4" />
+  </section>
   <section data-demo="basic-usage">
-    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
-    <BasicUsageDemo />
+    <h3>{{ english ? 'Basic usage' : '基本使用' }}</h3>
+    <component :is="english ? Demo5En : Demo5" />
   </section>
-
-  <section data-demo="preview">
-    <app-type>{{ english ? 'File Preview' : '文件预览' }}</app-type>
-    <PreviewDemo />
-  </section>
-
-  <section data-demo="custom-preview">
-    <app-type>{{ english ? 'Custom Preview' : '自定义预览' }}</app-type>
-    <CustomPreviewDemo />
-  </section>
-
-  <section data-demo="state">
-    <app-type>{{ english ? 'Upload State' : '上传状态' }}</app-type>
-    <StateDemo />
-  </section>
-
-  <section data-demo="use-progress">
-    <app-type>{{ english ? 'Use Progress' : '使用进度条' }}</app-type>
-    <UseProgressDemo />
-  </section>
-
-  <section data-demo="max-files">
-    <app-type>{{ english ? 'Max Files' : '文件数量限制' }}</app-type>
-    <MaxFilesDemo />
-  </section>
-
-  <section data-demo="max-file-size">
-    <app-type>{{ english ? 'File Size Limit' : '文件大小限制' }}</app-type>
-    <MaxFileSizeDemo />
-  </section>
-
   <section data-demo="before-add">
-    <app-type>{{ english ? 'File List Filter' : '文件列表过滤' }}</app-type>
-    <BeforeAddDemo />
+    <h3>{{ english ? 'Batch filtering' : '批次筛选' }}</h3>
+    <component :is="english ? Demo6En : Demo6" />
   </section>
-
   <section data-demo="before-read">
-    <app-type>{{ english ? 'Upload Preprocessing' : '上传预处理' }}</app-type>
-    <BeforeReadDemo />
+    <h3>{{ english ? 'Before reading' : '读取前确认' }}</h3>
+    <component :is="english ? Demo7En : Demo7" />
   </section>
-
-  <section data-demo="click-action">
-    <app-type>{{ english ? 'Upload Button Click Event' : '上传按钮点击事件' }}</app-type>
-    <ClickActionDemo />
-  </section>
-
-  <section data-demo="disabled">
-    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
-    <DisabledDemo />
-  </section>
-
-  <section data-demo="readonly">
-    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
-    <ReadonlyDemo />
-  </section>
-
   <section data-demo="before-remove">
-    <app-type>{{ english ? 'Remove Preprocessing' : '删除前处理' }}</app-type>
-    <BeforeRemoveDemo />
+    <h3>{{ english ? 'Before removing' : '删除前确认' }}</h3>
+    <component :is="english ? Demo8En : Demo8" />
   </section>
-
-  <section data-demo="style">
-    <app-type>{{ english ? 'Customize upload styles' : '自定义上传样式' }}</app-type>
-    <StyleDemo />
+  <section data-demo="click-action">
+    <h3>{{ english ? 'Custom file chooser' : '接管文件选择' }}</h3>
+    <component :is="english ? Demo9En : Demo9" />
   </section>
-
+  <section data-demo="custom-preview">
+    <h3>{{ english ? 'Custom preview' : '自定义预览' }}</h3>
+    <component :is="english ? Demo10En : Demo10" />
+  </section>
   <section data-demo="custom-render">
-    <app-type>{{ english ? 'Custom render file list' : '自定义渲染文件列表' }}</app-type>
-    <CustomRenderDemo />
+    <h3>{{ english ? 'Custom file item' : '自定义文件项' }}</h3>
+    <component :is="english ? Demo11En : Demo11" />
   </section>
-
+  <section data-demo="disabled">
+    <h3>{{ english ? 'Disabled' : '禁用' }}</h3>
+    <component :is="english ? Demo12En : Demo12" />
+  </section>
+  <section data-demo="max-file-size">
+    <h3>{{ english ? 'File size limit' : '单文件大小限制' }}</h3>
+    <component :is="english ? Demo13En : Demo13" />
+  </section>
+  <section data-demo="max-files">
+    <h3>{{ english ? 'File count limit' : '文件数量限制' }}</h3>
+    <component :is="english ? Demo14En : Demo14" />
+  </section>
+  <section data-demo="preview">
+    <h3>{{ english ? 'Image and video preview' : '图片和视频预览' }}</h3>
+    <component :is="english ? Demo15En : Demo15" />
+  </section>
+  <section data-demo="readonly">
+    <h3>{{ english ? 'Readonly' : '只读' }}</h3>
+    <component :is="english ? Demo16En : Demo16" />
+  </section>
   <section data-demo="remove-button-slot">
-    <app-type>{{ english ? 'Custom Remove Button' : '自定义删除按钮' }}</app-type>
-    <RemoveButtonSlotDemo />
+    <h3>{{ english ? 'Custom remove button' : '自定义删除按钮' }}</h3>
+    <component :is="english ? Demo17En : Demo17" />
+  </section>
+  <section data-demo="state">
+    <h3>{{ english ? 'Queue states' : '所有队列状态' }}</h3>
+    <component :is="english ? Demo18En : Demo18" />
+  </section>
+  <section data-demo="style">
+    <h3>{{ english ? 'Custom trigger' : '自定义选择按钮' }}</h3>
+    <component :is="english ? Demo19En : Demo19" />
+  </section>
+  <section data-demo="use-progress">
+    <h3>{{ english ? 'External progress' : '外部上传进度' }}</h3>
+    <component :is="english ? Demo20En : Demo20" />
   </section>
 </template>
+<style scoped>
+section {
+  padding: 16px;
+  border-bottom: 1px solid var(--mp-sys-color-border-default);
+}
+h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+</style>

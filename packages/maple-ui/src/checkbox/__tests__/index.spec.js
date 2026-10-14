@@ -1,10 +1,13 @@
 import { createApp, h } from 'vue'
-import { mount } from '@vue/test-utils'
+import { mount as baseMount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Checkbox, { CheckboxGroup } from '..'
 import { delay, trigger, triggerKeyboard } from '../../utils/test'
 import VarCheckbox from '../Checkbox'
 import VarCheckboxGroup from '../CheckboxGroup'
+
+// Native checkbox activation dispatches change only when attached to the document.
+const mount = (component, options = {}) => baseMount(component, { attachTo: document.body, ...options })
 
 test('checkbox group plugin', () => {
   const app = createApp({}).use(Checkbox)
@@ -493,17 +496,17 @@ test('checkbox keyboard Enter', async () => {
   })
 
   const children = wrapper.findAllComponents({ name: 'mp-checkbox' })
-  await trigger(children[0].find('.mp-checkbox__action'), 'focus')
-  await children[0].find('.mp-checkbox__action').trigger('keydown', { key: 'Enter' })
+  await trigger(children[0].find('input[type="checkbox"]'), 'focus')
+  await children[0].find('input[type="checkbox"]').trigger('keydown', { key: 'Enter' })
   expect(wrapper.vm.value).toStrictEqual([1])
 
-  await trigger(children[1].find('.mp-checkbox__action'), 'focus')
-  await children[1].find('.mp-checkbox__action').trigger('keydown', { key: ' ' })
-  await children[1].find('.mp-checkbox__action').trigger('keyup', { key: ' ' })
+  await trigger(children[1].find('input[type="checkbox"]'), 'focus')
+  await children[1].find('input[type="checkbox"]').trigger('keydown', { key: ' ' })
+  await children[1].find('input[type="checkbox"]').trigger('keyup', { key: ' ' })
 
   expect(wrapper.vm.value).toStrictEqual([1, 2])
 
-  await children[1].find('.mp-checkbox__action').trigger('keydown', { key: 'Enter' })
+  await children[1].find('input[type="checkbox"]').trigger('keydown', { key: 'Enter' })
   expect(wrapper.vm.value).toStrictEqual([1])
 
   wrapper.unmount()

@@ -1,5 +1,102 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './radio';
-@import './radio-group';
-
+@import './token.less';
+@import './radio-core-token.less';
+.mp-radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: var(--mp-radio-label-font-size);
+  cursor: pointer;
+  &--disabled {
+    cursor: not-allowed;
+  }
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    clip-path: inset(50%);
+    overflow: hidden;
+    opacity: 0;
+  }
+  &__control {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    padding: var(--mp-radio-action-padding);
+    border-radius: var(--mp-internal-radio-circle-radius);
+  }
+  &__icon {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    width: var(--mp-internal-radio-instance-size, var(--mp-radio-control-size));
+    height: var(--mp-internal-radio-instance-size, var(--mp-radio-control-size));
+    font-size: var(--mp-internal-radio-instance-size, var(--mp-radio-control-size));
+    border: var(--mp-internal-radio-circle-border) solid currentColor;
+    border-radius: var(--mp-internal-radio-circle-radius);
+    &::after {
+      content: '';
+      position: absolute;
+      inset: var(--mp-internal-radio-dot-inset);
+      border-radius: inherit;
+      background: currentColor;
+      transform: scale(0);
+      transition: transform var(--mp-radio-animation-duration);
+    }
+  }
+  &__control {
+    color: var(--mp-internal-radio-instance-unchecked, var(--mp-radio-control-color));
+  }
+  &--checked &__control {
+    color: var(--mp-internal-radio-instance-checked, var(--mp-radio-control-color-checked));
+  }
+  &--checked &__icon::after {
+    transform: scale(1);
+  }
+  &--error:not(.mp-radio--disabled) &__control {
+    color: var(--mp-radio-control-color-error);
+  }
+  &--disabled &__control {
+    color: var(--mp-radio-control-color-disabled);
+  }
+  &__label {
+    margin-inline-start: var(--mp-radio-label-gap);
+    color: var(--mp-radio-label-text-color);
+  }
+  &--disabled &__label {
+    color: var(--mp-radio-label-text-color-disabled);
+  }
+  &__input:focus-visible ~ &__control {
+    outline: var(--mp-internal-radio-focus-width) solid var(--mp-radio-control-color-checked);
+    outline-offset: var(--mp-internal-radio-focus-offset);
+  }
+}
+@media (hover: hover) {
+  .mp-radio:not(.mp-radio--disabled):hover .mp-radio__control {
+    background: var(--mp-internal-radio-hover-bg);
+  }
+}
+.mp-radio-group {
+  display: inline-flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: var(--mp-radio-group-gap);
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  &--horizontal {
+    flex-direction: row;
+  }
+}
 @import './radio-button.less';
+@media (prefers-reduced-motion: reduce) {
+  .mp-radio__icon::after {
+    transition: none;
+  }
+}

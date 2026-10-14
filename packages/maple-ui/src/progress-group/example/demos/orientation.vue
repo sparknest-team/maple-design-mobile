@@ -8,12 +8,12 @@ const items = [
 
 <template>
   <div class="progress-group-example__orientations">
-    <mp-progress-group :items="items" status />
+    <mp-progress-group :items="items" show-text />
     <mp-progress-group
       :items="items"
       orientation="vertical"
       size="lg"
-      status
+      show-text
       class="progress-group-example__vertical"
     />
   </div>

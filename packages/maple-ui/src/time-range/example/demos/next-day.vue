@@ -1,12 +1,32 @@
-<script setup>
-import { reactive, ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { watchLang } from '@maplejs/maple-cli/client'
 
-const range = ref([])
-const nextDayRange = ref(['22:00', '06:00'])
+const language = ref('zh-CN')
+const english = computed(() => language.value === 'en-US')
+watchLang((value) => {
+  language.value = value
+})
+
+const range = ref<string[] | undefined>(['22:00', '06:00'])
+const reset = () => {
+  range.value = ['22:00', '06:00']
+}
 </script>
 
 <template>
-  <mp-space direction="column" size="lg">
-    <mp-time-range v-model="nextDayRange" format="HH:mm" show-next-day placeholder="跨天时段" clearable />
-  </mp-space>
+  <section class="time-overnight-demo">
+    <mp-time-range v-model="range" format="HH:mm" input-editable show-next-day clearable />
+    <output aria-label="Overnight model">{{ range === undefined ? 'undefined' : JSON.stringify(range) }}</output>
+    <mp-button @click="reset">{{ english ? 'Reset' : '重置' }}</mp-button>
+  </section>
 </template>
+
+<style scoped>
+.time-overnight-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+}
+</style>

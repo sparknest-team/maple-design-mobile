@@ -5,6 +5,7 @@ import BasicDemo from './demos/basic.vue'
 import CustomClearIconDemo from './demos/custom-clear-icon.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
 import EnCustomClearIconDemo from './demos/en-US/custom-clear-icon.vue'
+import EnPipelineDemo from './demos/en-US/event-pipeline.vue'
 import EnFormFeedbackDemo from './demos/en-US/form-feedback.vue'
 import EnGroupStateDemo from './demos/en-US/group-state.vue'
 import EnGroupDemo from './demos/en-US/group.vue'
@@ -18,6 +19,7 @@ import EnSizeDemo from './demos/en-US/size.vue'
 import EnStateDemo from './demos/en-US/state.vue'
 import EnTypeDemo from './demos/en-US/type.vue'
 import EnVariantDemo from './demos/en-US/variant.vue'
+import PipelineDemo from './demos/event-pipeline.vue'
 import FormFeedbackDemo from './demos/form-feedback.vue'
 import GroupStateDemo from './demos/group-state.vue'
 import GroupDemo from './demos/group.vue'
@@ -130,5 +132,9 @@ onThemeChange()
     <app-type>{{ english ? 'Native Attributes' : '原生属性' }}</app-type>
     <EnNativeAttrsDemo v-if="english" />
     <NativeAttrsDemo v-else />
+  </section>
+  <section data-demo="event-pipeline">
+    <app-type>{{ english ? 'Event pipeline' : '事件顺序' }}</app-type
+    ><EnPipelineDemo v-if="english" /><PipelineDemo v-else />
   </section>
 </template>

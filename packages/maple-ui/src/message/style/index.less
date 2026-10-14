@@ -1,3 +1,22 @@
 @import './token.less';
 // Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
 @import './message';
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-message-fade-enter-active,
+  .mp-message-fade-leave-active {
+    transition: none !important;
+  }
+  .mp-message-fade-enter-from,
+  .mp-message-fade-leave-to {
+    transform: none !important;
+  }
+  .mp-message__standalone.mp-message-fade-enter-from,
+  .mp-message__standalone.mp-message-fade-leave-to {
+    transform: translateX(-50%) !important;
+  }
+  .mp-message__standalone-center.mp-message-fade-enter-from,
+  .mp-message__standalone-center.mp-message-fade-leave-to {
+    transform: translate(-50%, -50%) !important;
+  }
+}

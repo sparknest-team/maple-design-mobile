@@ -57,7 +57,7 @@ describe('textarea value and events', () => {
     expect(controlled.get('textarea').element.value).toBe('fixed')
   })
 
-  test('emits update before input and waits for composition end', async () => {
+  test('emits input before update and waits for composition end', async () => {
     const order = []
     const wrapper = mount(MpTextarea, {
       props: {
@@ -74,7 +74,7 @@ describe('textarea value and events', () => {
 
     await textarea.trigger('compositionend')
     await textarea.trigger('input')
-    expect(order).toEqual(['update', 'input'])
+    expect(order).toEqual(['input', 'update'])
   })
 
   test('commits once on blur and preserves Enter for newlines', async () => {
@@ -112,7 +112,7 @@ describe('textarea value and events', () => {
     expect(wrapper.emitted('change')?.[0]?.[0]).toBe('draft')
   })
 
-  test('clears with keyboard without input or change and keeps focus', async () => {
+  test('clears through a native button and each semantic once and keeps focus', async () => {
     const wrapper = mount(MpTextarea, {
       attachTo: document.body,
       props: { defaultValue: 'hello', clearable: true },
@@ -120,17 +120,17 @@ describe('textarea value and events', () => {
     const textarea = wrapper.get('textarea')
     await textarea.trigger('focus')
 
-    await wrapper.get('.mp-textarea__clear-icon').trigger('keydown', { key: 'Enter' })
+    await wrapper.get('button').trigger('click')
     await nextTick()
 
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([''])
     expect(wrapper.emitted('clear')?.[0]?.[0]).toBeInstanceOf(Event)
-    expect(wrapper.emitted('input')).toBeUndefined()
-    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('input')).toHaveLength(1)
+    expect(wrapper.emitted('change')).toHaveLength(1)
     expect(document.activeElement).toBe(textarea.element)
 
     await textarea.trigger('blur')
-    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('change')).toHaveLength(1)
     wrapper.unmount()
   })
 })
@@ -142,7 +142,7 @@ describe('textarea length and integration', () => {
     })
     await limited.get('textarea').setValue('four')
     expect(limited.emitted('update:modelValue')?.[0]).toEqual(['fou'])
-    expect(limited.get('.mp-textarea__length').text()).toBe('3/3')
+    expect(limited.get('.mp-textarea__word-limit').text()).toBe('3/3')
 
     const errorOnly = mount(MpTextarea, {
       props: {
@@ -153,7 +153,7 @@ describe('textarea length and integration', () => {
     })
     expect(errorOnly.get('textarea').element.value).toBe('four')
     expect(errorOnly.get('textarea').attributes('aria-invalid')).toBe('true')
-    expect(errorOnly.get('.mp-textarea__length').text()).toBe('4/3')
+    expect(errorOnly.get('.mp-textarea__word-limit').text()).toBe('4/3')
 
     const controlled = mount(MpTextarea, {
       props: { modelValue: 'four', maxLength: 3 },
@@ -193,7 +193,7 @@ describe('textarea length and integration', () => {
     expect(textarea.attributes('aria-describedby')).toBe('help')
     expect(wrapper.find('.prefix').exists()).toBe(true)
     expect(wrapper.find('.suffix').exists()).toBe(true)
-    expect(wrapper.get('.mp-textarea__length').text()).toBe('2/2')
+    expect(wrapper.get('.mp-textarea__word-limit').text()).toBe('2/2')
 
     await textarea.setValue('abcdef')
     expect(nativeInput).not.toHaveBeenCalled()

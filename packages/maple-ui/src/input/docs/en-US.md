@@ -104,6 +104,14 @@ Use FormItem `feedback` and `validate-status` for validation feedback. An outer 
 ../example/demos/en-US/native-attrs.vue
 ```
 
+### Body and event contract
+
+The two libraries maintain independent copies of the body. Input emits input before update:modelValue. Clearing emits clear → input → update:modelValue → change once each; Form receives each semantic once. Readonly/disabled/composing controls cannot clear. A rejected controlled value is restored, including input types without selection APIs.
+
+```demo
+../example/demos/en-US/event-pipeline.vue
+```
+
 ## API
 
 ### Props
@@ -159,7 +167,7 @@ Validation rules belong on `mp-form-item`. See the [Form component](#/en-US/form
 | `press-enter` | Emitted when Enter is pressed                   | `event: KeyboardEvent`        |
 | `keydown`     | Emitted on keydown            | `event: KeyboardEvent`        |
 
-When `max-length` is exceeded, `update:model-value` and `input` emit the truncated value. Clearing updates the model and emits `clear`, without emitting `input` or `change`; the following blur does not emit `change`.
+When `max-length` is exceeded, `update:model-value` and `input` emit the truncated value. Clearing emits `clear → input → update:model-value → change` once each; the following blur does not repeat `change`.
 
 ### Slots
 
@@ -195,3 +203,5 @@ Input provides the variables below. See [FieldDecorator](#/en-US/field-decorator
 | `--mp-input-feedback-error-color` | `var(--mp-sys-color-content-danger)` |
 | `--mp-input-feedback-validating-color` | `var(--mp-sys-color-content-brand)` |
 | `--mp-input-feedback-duration` | `1s` |
+
+公开类型 / Public types: `InputEmits`, `InputSlots`, `InputExpose`, `InputGroupSlots`, `InputPasswordEmits`, `InputPasswordSlots`, `InputPasswordExpose`.

@@ -1,10 +1,12 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import AutoSizedDemo from './demos/auto-sized.vue'
 import AutoplayHoverPauseDemo from './demos/autoplay-hover-pause.vue'
 import AutoplayDemo from './demos/autoplay.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CenteredSlidesDemo from './demos/centered-slides.vue'
+import ControlledDemo from './demos/controlled.vue'
 import CustomIndicatorDemo from './demos/custom-indicator.vue'
 import EffectCardDemo from './demos/effect-card.vue'
 import EffectFadeDemo from './demos/effect-fade.vue'
@@ -13,6 +15,7 @@ import ForbidLoopDemo from './demos/forbid-loop.vue'
 import HandleChangeDemo from './demos/handle-change.vue'
 import IndicatorPositionDemo from './demos/indicator-position.vue'
 import IndicatorTypeDemo from './demos/indicator-type.vue'
+import InteractiveContentDemo from './demos/interactive-content.vue'
 import KeyboardDemo from './demos/keyboard.vue'
 import MousewheelDemo from './demos/mousewheel.vue'
 import MultiSlidesDemo from './demos/multi-slides.vue'
@@ -118,5 +121,17 @@ onThemeChange()
   <section data-demo="handle-change">
     <app-type>{{ english ? 'Handle Change' : '监听切换' }}</app-type>
     <HandleChangeDemo />
+  </section>
+  <section data-demo="controlled">
+    <app-type>{{ english ? 'Controlled selection' : '受控切换' }}</app-type
+    ><ControlledDemo />
+  </section>
+  <section data-demo="auto-sized">
+    <app-type>{{ english ? 'Auto-sized slides' : '自动尺寸' }}</app-type
+    ><AutoSizedDemo />
+  </section>
+  <section data-demo="interactive-content">
+    <app-type>{{ english ? 'Interactive contents' : '交互内容' }}</app-type
+    ><InteractiveContentDemo />
   </section>
 </template>

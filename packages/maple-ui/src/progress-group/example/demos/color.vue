@@ -15,7 +15,7 @@ const trackOnlyItems = [{ value: 16 }, { value: 22, color: '#722ed1' }, { value:
         { label: 'Tests', value: 35 },
       ]"
       color="#ff7d00"
-      status
+      show-text
     />
     <mp-progress-group :items="trackOnlyItems" size="lg" />
   </mp-space>

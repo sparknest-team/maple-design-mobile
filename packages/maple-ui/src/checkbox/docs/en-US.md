@@ -2,6 +2,8 @@
 
 ### Intro
 
+Basic demos follow the site language without changing business values or selection. Group demos cover accepted/rejected updates, readonly state and asynchronous option labels; removing options does not clear the model. Use `direction="column"` on the outer Space and `direction="vertical"` on the choice group itself.
+
 A group of options for multiple choices.
 
 ### Basic Usage
@@ -130,6 +132,20 @@ Reordering, mounting, unmounting and KeepAlive activation are read correctly; ca
 ../example/demos/en-US/group-methods.vue
 ```
 
+### Native controls and appearance
+
+Both libraries use independently copied native checkbox and label bodies. Tab focuses, Space/Enter toggles. A readonly control stays focusable; a disabled control is not focusable. Mixed state is exposed as aria-checked="mixed". A label click triggers one activation. Use aria-label when no visible label is supplied; name is forwarded to native inputs and inherited from the group.
+
+The icon-size prop is a pixel number or CSS length string, not a ComponentSize preset. The default control size is 14px in Cedar and 24px in Maple. Instance colors apply to ordinary states; error and disabled colors take precedence. The checkbox slot overrides the whole visual control (including the group's checkbox slot), while checked-icon, unchecked-icon and indeterminate-icon replace only each icon. These slots are decorative: do not put independent focusable controls inside them.
+
+```demo
+../example/demos/en-US/native-control.vue
+```
+
+```demo
+../example/demos/en-US/custom-control.vue
+```
+
 ## API
 
 `ChoiceValue = string | number | boolean`;`CheckboxModel = boolean | ChoiceValue[]`;`RadioModel = ChoiceValue | null`.
@@ -149,6 +165,8 @@ Reordering, mounting, unmounting and KeepAlive activation are read correctly; ca
 | `direction`            | The layout direction, optional value is `horizontal` `vertical` | _string_                                   | `horizontal` |
 | options | Options; replaces default slot when supplied | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> | undefined |
 | field-names | Option field mapping | ChoiceFieldNames | undefined |
+| name | Native input name inherited by children | string | undefined |
+| aria-label | Accessible group name | string | undefined |
 
 #### CheckboxOption
 
@@ -175,6 +193,9 @@ Reordering, mounting, unmounting and KeepAlive activation are read correctly; ca
 | `readonly` | Inherits group/form when omitted | _boolean_ | `undefined` |
 | `error` | Error; inherits group/form | _boolean_ | `undefined` |
 | `indeterminate`   | Whether indeterminate status(style has the highest priority) | _boolean_          | `false` |
+| uninject-group-context | Ignore surrounding CheckboxGroup; form state still applies | boolean | false |
+| name | Native name, inherited from Group | string | undefined |
+| aria-label | Accessible name without visible label | string | undefined |
 | `ripple`          | Whether to open ripple                                       | _boolean_          | `true`  |
 
 ### Methods
@@ -224,6 +245,9 @@ Reordering, mounting, unmounting and KeepAlive activation are read correctly; ca
 | label | Option label | data: CheckboxOption, checked: boolean |
 
 #### Checkbox Slots
+
+The component and group both support the checkbox slot with { checked, disabled, indeterminate }.
+
 
 | Name                 | Description        | SlotProps                     |
 | -------------------- | ------------------ | ----------------------------- |

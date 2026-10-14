@@ -24,6 +24,8 @@
 
 ### 表单事件
 
+Button 使用 `html-type="submit"` / `html-type="reset"` 触发原生表单事件。示例同时展示校验结果和当前模型；重置恢复初始值并清除错误。
+
 通过 `submit` 与 `reset` 事件处理原生表单提交和重置行为。
 
 ```demo
@@ -38,6 +40,26 @@
 ../example/demos/clear-trigger.vue
 ```
 
+### 响应式标签栅格
+
+horizontal 默认标签占 5/24、内容占 19/24；Cedar 默认 horizontal，Maple 默认 vertical。只有横向布局使用栅格比例和自动宽度，响应式参数按视口断点生效。FormItem 显式覆盖 Form，Col/style 对象整项替换。label-col-flex 优先于 auto-label-width：带单位字符串表示宽度，数字表示 Col 伸缩比例，并非 px；内容填满剩余空间。隐藏标签后内容占满。自动宽度随标签变化、字段移除更新，各表单独立计算。窄屏长标签可用 vertical 或固定宽度。
+
+```demo
+../example/demos/label-columns.vue
+```
+
+### 固定标签宽度
+
+```demo
+../example/demos/fixed-label-width.vue
+```
+
+### 自动标签宽度
+
+```demo
+../example/demos/auto-label-width.vue
+```
+
 ## API
 
 ### 属性
@@ -46,8 +68,16 @@
 
 | 参数 | 说明                                        | 类型 | 默认值 |
 | --- |-------------------------------------------| --- | -- |
+| `id` | 表单原生 id；显式设置时作为字段容器 id 前缀（嵌套路径归一化） | _string_ | `-` |
 | `model` | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据 | _Record<string, any>_ | `-` |
 | `layout` | 表单项布局方式，可选值为 `vertical` `horizontal` `inline`；可被 `FormItem.layout` 覆盖 | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'` |
+| `label-align` | 标签对齐 | _'left' \| 'right'_ | `'right'` |
+| `label-col-props` | 横向标签 Col 参数，支持响应式断点 | _FormColProps_ | `{ span: 5, offset: 0 }` |
+| `wrapper-col-props` | 横向内容 Col 参数 | _FormColProps_ | `{ span: 19, offset: 0 }` |
+| `label-col-style` | 标签列逐实例样式 | _CSSProperties_ | `-` |
+| `wrapper-col-style` | 内容列逐实例样式 | _CSSProperties_ | `-` |
+| `label-col-flex` | 标签 flex；单位字符串为宽度，数字为伸缩比例 | _number \| string_ | `-` |
+| `auto-label-width` | 对齐参与自动计算的横向标签最大自然宽度 | _boolean_ | `false` |
 | `size` | 表单控件尺寸，由 FormItem 和控件继承 | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
 | `rules` | 按字段名配置的表单校验规则 | _Record<string, rule \| rule[]>_ | `-` |
 | `readonly` | 是否只读                                      | _boolean_ | `-` |
@@ -86,6 +116,20 @@
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | 表单内容 | `-` |
+
+### 标签与内容装饰
+
+```demo
+../example/demos/decoration.vue
+```
+
+### 校验展示状态
+
+显式 validate-status 优先于自动状态；仅 error 显示错误，其他状态显示 help。它不改变 validate 的真实结果。自动校验经过 validating → success/error；clearValidate 恢复未校验状态。setFields 仅传 message 设为 error，status=''、message='' 可清空。
+
+```demo
+../example/demos/presentation-status.vue
+```
 
 ## FormItem 表单项
 
@@ -132,6 +176,8 @@
 
 自定义控件通过 `FormItem.useFormItem`（或 `Form.useFormItem`）接入错误态和校验触发器。
 
+示例使用原生按钮提供 Enter/Space 操作与 checkbox 语义，读取 `mergedDisabled` / `mergedReadonly` 继承 Form 和 FormItem 状态。未传的布尔配置使用 `undefined`，避免覆盖父级；点击切换值后通知 `eventHandlers.onChange`，焦点事件也交给表单。
+
 ```demo
 ../example/demos/custom-control.vue
 ```
@@ -144,7 +190,21 @@
 | --- | --- | --- | --- |
 | `field` | 对应 `Form.model` 中的字段路径，支持 `a.b` | _string_ | `''` |
 | `label` | 标签文本；有值时渲染外置标签，并自动关闭控件浮动 hint | _string_ | `-` |
+| `tooltip` | 标签提示；支持悬停、键盘聚焦和触摸点击 | _string_ | `-` |
+| `show-colon` | 标签后显示冒号 | _boolean_ | `false` |
+| `label-component` | 标签原生元素名 | _string_ | `'label'` |
+| `label-attrs` | 标签原生属性；for 应指向控件的真实 id | _HTMLAttributes & Record<string, unknown>_ | `-` |
+| `content-class` | 内容容器 class | _string \| array \| object_ | `-` |
+| `content-flex` | 内容层启用 flex；业务 Grid 布局可关闭 | _boolean_ | `true` |
 | `layout` | 布局方式，可选值为 `vertical` `horizontal` `inline`；未传时继承 `Form.layout` | _'vertical' \| 'horizontal' \| 'inline'_ | `-` |
+| `label-align` | 标签对齐 | _'left' \| 'right'_ | `-` |
+| `label-col-props` | 横向标签 Col 参数，支持响应式断点 | _FormColProps_ | `-` |
+| `wrapper-col-props` | 横向内容 Col 参数 | _FormColProps_ | `-` |
+| `label-col-style` | 标签列逐实例样式 | _CSSProperties_ | `-` |
+| `wrapper-col-style` | 内容列逐实例样式 | _CSSProperties_ | `-` |
+| `label-col-flex` | 标签 flex；单位字符串为宽度，数字为伸缩比例 | _number \| string_ | `-` |
+| `row-props` | 表单项 Row 参数；支持 gutter、align、justify、wrap | _RowProps_ | `-` |
+| `row-class` | 布局容器 class | _string \| array \| object_ | `-` |
 | `required` | 是否必填（显示星号，并自动追加必填规则） | _boolean_ | `false` |
 | `hide-label` | 是否隐藏标签 | _boolean_ | `false` |
 | `feedback` | 在输入框显示校验反馈图标，异步校验期间显示加载状态 | _boolean_ | `false` |
@@ -187,7 +247,7 @@
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--mp-form-item-label-width` | `88px`（`horizontal` 布局下标签宽度） |
+| `--mp-form-item-label-width` | `88px`（`inline` 布局下标签宽度） |
 | `--mp-form-item-label-gap` | `12px` |
 
 ### 类型定义

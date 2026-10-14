@@ -1,2 +1,180 @@
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './upload';
+@import './token.less';
+.mp-upload {
+  box-sizing: border-box;
+  color: var(--mp-upload-text-color);
+  font-size: var(--mp-upload-font-size);
+  &__input {
+    display: none;
+  }
+  &__content,
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mp-upload-gap);
+  }
+  &__trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    gap: var(--mp-upload-gap);
+    min-height: var(--mp-upload-trigger-min-height);
+    padding-inline: var(--mp-upload-trigger-padding-horizontal);
+    border: 1px solid var(--mp-upload-border-color);
+    border-radius: var(--mp-upload-border-radius);
+    background: var(--mp-upload-background);
+    cursor: pointer;
+    &--draggable {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: var(--mp-upload-trigger-draggable-min-height);
+      justify-content: center;
+      border-style: dashed;
+    }
+    &--dragover {
+      border-color: var(--mp-upload-active-color);
+    }
+    &[aria-disabled='true'] {
+      opacity: var(--mp-upload-disabled-opacity);
+      cursor: not-allowed;
+    }
+  }
+  &__item {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-height: var(--mp-upload-item-min-height);
+    padding: var(--mp-upload-item-padding);
+    gap: var(--mp-upload-gap);
+    border-radius: var(--mp-upload-border-radius);
+    &:hover {
+      background: var(--mp-upload-hover-background);
+    }
+    &--error {
+      color: var(--mp-upload-error-color);
+    }
+  }
+  &__thumb {
+    flex: none;
+    width: var(--mp-upload-thumb-size);
+    height: var(--mp-upload-thumb-size);
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: var(--mp-upload-border-radius);
+    background: var(--mp-upload-background);
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__meta {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--mp-upload-gap);
+  }
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &__size {
+    color: var(--mp-upload-secondary-text-color);
+  }
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__action {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--mp-upload-action-size);
+    height: var(--mp-upload-action-size);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    &:disabled {
+      opacity: var(--mp-upload-disabled-opacity);
+      cursor: not-allowed;
+    }
+    svg {
+      width: 1em;
+      height: 1em;
+    }
+  }
+  &__progress {
+    width: 100%;
+    height: var(--mp-upload-progress-height);
+    accent-color: var(--mp-upload-active-color);
+  }
+  &--picture-card &__content,
+  &--picture-card &__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  &--picture-card &__item {
+    width: var(--mp-upload-card-size);
+    flex-direction: column;
+    border: 1px solid var(--mp-upload-border-color);
+  }
+  &--picture-card &__thumb {
+    width: 100%;
+    height: var(--mp-upload-card-size);
+  }
+  &--picture-card &__meta {
+    width: 100%;
+  }
+  &--picture-card &__trigger {
+    width: var(--mp-upload-card-size);
+    min-height: var(--mp-upload-card-size);
+    justify-content: center;
+  }
+  &__trigger:focus-visible,
+  &__action:focus-visible,
+  &__thumb:focus-visible {
+    outline: var(--mp-sys-space-1) solid var(--mp-upload-active-color);
+    outline-offset: var(--mp-sys-space-1);
+  }
+}
+
+.mp-upload--picture-card .mp-upload__item {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+.mp-upload--picture-card .mp-upload__meta {
+  position: absolute;
+  inset: auto 0 0;
+  box-sizing: border-box;
+  padding: var(--mp-upload-item-padding);
+  background: var(--mp-sys-color-scrim);
+  color: var(--mp-sys-color-content-on-dark);
+}
+.mp-upload--picture-card .mp-upload__actions {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--mp-sys-color-scrim);
+  color: var(--mp-sys-color-content-on-dark);
+  opacity: 0;
+  pointer-events: none;
+}
+.mp-upload--picture-card .mp-upload__actions > * {
+  pointer-events: auto;
+}
+.mp-upload--picture-card .mp-upload__item:hover .mp-upload__actions,
+.mp-upload--picture-card .mp-upload__item:focus-within .mp-upload__actions {
+  opacity: 1;
+}
+@media (hover: none) {
+  .mp-upload--picture-card .mp-upload__actions {
+    position: static;
+    opacity: 1;
+  }
+}

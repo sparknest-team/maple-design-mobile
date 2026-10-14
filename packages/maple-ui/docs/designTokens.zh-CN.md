@@ -1,8 +1,224 @@
 # Design Token 与 CSS 变量分层
 
+### PreviewGroup：轨道重定位与双帧释放（2026-10-14）
+
+循环轨道保留三份图片与中间段规范坐标；双帧 RAF 是跳转后恢复 transition 的 state-settlement，不是动效时长，零时长／减少动效仍需此稳定过程。轨道节点的 ownerDocument.defaultView 申请和取消帧／计时器；关闭、替换图片（含等长替换和原位编辑）、改变 loop、停用、卸载及新导航使旧任务失效。帧／渲染回调只消费一次，旧交付不能释放新 instant 阶段；停用／卸载保留命令无效，激活只规范化当前坐标，不恢复旧任务。图片内容监听在 post 阶段结算，避免子图片 watchEffect 注册被同步轨道读取污染。
+
+CSS 两端轨道共同消费 `--c-sys-motion-duration-slow`／`--mp-sys-motion-duration-slow`（当前 240ms）与 `--c-sys-motion-easing-standard`／`--mp-sys-motion-easing-standard`；Maple 原固定 280ms／自定义曲线改用既有系统语义，不新增公开变量。instant、moving 和减少动效关闭 CSS transition。JS visual-completion fallback 在渲染后读取当前 transform／all 的实际 computed duration 与 delay，遵守列表对应、负 delay 和零时长；仅样式缺失／不可解析时使用私有 400ms 保底，不是上限或 CSS Token。当前自身 transform transitionend 可提前结算；忽略冒泡及时间戳早于新命令的事件，不承诺无时间戳旧事件或所有原生跨文档情形已验收。
+
+专项最终两端各 27 项，完整 Image Cedar 62／Maple 114 项；32 组 Less／条件级联检查、16 组时长与曲线成对覆写、32 组 instant/moving 消费检查。受控 nextTick／RAF／假时钟／iframe owner 与编译检查均不算真实浏览器／OS，新真实验收 0。新增两候选文件／6 提示：40 文件／92 已分类提示、87 待审（不是缺陷数）；库存仍 192 文件／392 CSS／179 运行时提示。Form、日期库存漂移和 144 环境阻塞保留。旧章节中的“PreviewGroup 待审”与数字为历史批次。证据：design-ui/audits/evidence/preview-group-track-2026-10-14/results.json。
+
+### ImagePreview：交互窗口与模式监听（2026-10-14）
+
+500ms用于触摸长按通知，320ms用于双击识别窗口到期，不是CSS动画完成／关闭等待。私有tapTimer只清理双击状态，旧名tapCloseTimer已纠正；公开期限／缩放／拖动协议不变，不新增CSS Token。计时器分别核对代次并消费一次，取消／移动／抬手／关闭／换src／停用／卸载后的旧交付不能通知或清掉新句柄。
+
+停用／卸载清理键盘、计时器、pointer capture与moving状态；保留交互入口无效，激活只允许新手势，不恢复旧手势。关闭和src变化同步清理输入。输入模式helper在停用解绑coarse-pointer MQL，绑定代次拒绝迟交付，激活重新读取当前模式；不是reduced-motion查询。文档／窗口归属仍使用既有全局document/window，本批不认证实际跨文档或原生触控。
+
+各端17项基线15失败／2正常对照，最终17全部通过，完整Image Cedar35／Maple87通过。控制队列、fake timers／MQL／pointer events与capture spies不是原生浏览器／OS证据；真实新增0。Vue技能落实停用／卸载、消费归属、测试descriptor及假时钟恢复。证据：design-ui/audits/evidence/image-controller-scheduler-2026-10-14/results.json。
+
+候选分类新增两Controller文件／四条interaction-delay，累计38文件／86提示、93待审（非缺陷数），库存192文件／392 CSS／179运行时提示不变。另两份useInteraction源码无本扫描runtime命中，纳入专项hash证据但不虚增分类数字。PreviewGroup轨道重定位仍待单独审查；Form、日期库存漂移和144环境阻塞保留。旧数字保持历史批次。
+
+### Select：渲染后滚动与键盘派发（2026-10-14）
+
+Select shared hook 的 nextTick 是等待渲染／选项登记，不是“弹层动画结束”或CSS动效完成。打开任务在关闭、重新打开、键盘新滚动、活动键命令、停用或卸载后失效；回调消费一次，即使当时没有可用选项也不能在选项稍后到达时重放。停用／卸载保留键盘、选项选择与滚动入口无效，激活允许新命令但不恢复旧任务。正常晚注册下拉节点仍可收到当前打开的滚动。
+
+虚拟列表调用是delegated-scroll；随后可能发生的DOM scrollTo是native-scroll。虚拟回调返回后重新核对生命周期、open、请求及ref归属，防止同步关闭／卸载／替换后继续写DOM。键盘Arrow的本地同步派发新增interaction-dispatch分类，与interaction-delay区别：它没有延迟／计时器，不应生成CSS时长Token。nextTick调用点归state-settlement，实际IO独立标注。不新增CSS变量／公开API，不改变键盘与选项身份协议。
+
+两端12项有效基线各10失败／2对照，修复后各14通过（补晚登记与空列表消费对照）；含共享hook的AutoComplete及Cedar Mention回归Cedar93／Maple96通过。Cedar旧Vitest TSX与.ts hook转换模式导致nextTick mock未接入，专项采用.test.ts取得有效基线；不是产品缺陷。受控队列／DOM几何及fake虚拟列表不等于真实浏览器／OS或完整下游组件验收。Vue技能用于停用／卸载和旧任务清理。证据：design-ui/audits/evidence/select-scheduler-2026-10-14/results.json。
+
+当前192文件／392 CSS／179运行时提示不变，36文件／82提示已分类、97待审（不是缺陷数）。Maple本轮全库lint通过，未修改日期文件，之前23项日期示例错误属并行历史，不计本批修复；1019示例编译0失败。Form、日期库存漂移及144环境阻塞保留，真实浏览器／OS新增0。下文数字保留历史批次。
+
+### BackTop：测量帧与滚动插值分离（2026-10-14）
+
+显示阈值RAF属于measurement-scheduling；duration（默认200ms）／easing驱动JS插值，属于visual-scroll，不是CSS transition Token。减少动效入口直接回顶，运行中偏好变化在下一有效帧完成；必要显示测量仍保留。保持横向位置、事件与scrollToTop，不新增取消API／CSS变量。
+
+绑定代次隔离旧监听；测量与动画帧分别核对归属并只消费一次。换目标、取消、停用及卸载使旧任务失效，不能清新句柄、更新新目标或激活后复活。自定义easing后再次核对请求归属，防止其同步取消／卸载后继续写入或排帧。RAF、cancelAnimationFrame及performance.now来自target.ownerDocument.defaultView。激活绑定新监听／更新显示，不恢复旧动画。
+
+两端初测各14项10失败／4对照；测量回放需先等待挂载watch稳定，探针调整单列，不额外计产品缺陷。旧契约改为替换实际owner RAF／时钟。最终专项各14、完整各30通过；模拟iframe验证owner时钟与取消，不是实际跨文档浏览器／OS认证。Vue技能用于停用／卸载与descriptor恢复。证据：design-ui/audits/evidence/back-top-scheduler-2026-10-14/results.json。
+
+合并动画排帧入口，每端候选4→3条（未删功能）；当前192文件／392 CSS／179运行时提示，34文件／70提示已分类，109待审（不是缺陷数）。Maple1017示例编译0失败；两端受影响lint通过，但Maple全库lint被并行日期示例23项格式／curly错误阻塞，按范围保留，不宣称全库通过。Form、日期库存漂移和144环境阻塞保持，真实浏览器／OS新增0。以下旧数字保留各批历史时点。
+
+### InfiniteScroll：测量任务与观察器绑定（2026-10-14）
+
+InfiniteScroll 的 RAF 与零延迟 setTimeout fallback 用于合并触底几何检查，归入 measurement-scheduling；不是视觉插值／完成等待，不应新增 CSS duration Token 或套用 reduced-motion。绑定被替换、停用或卸载时取消待任务并使代次失效；已出队旧回调不得清掉新句柄、检测新目标或在激活后复活，已消费回调不可重放。ResizeObserver／内容及可见性 MutationObserver 同时核对绑定代次，解绑后的迟交付不能安排新测量。
+
+两端各10项受控队列基线7失败／3正常对照，修复后各10通过。保留 immediate 初始通知策略、状态循环与同步去重、target／阈值、check／retry 及事件顺序；本轮不接管业务请求。Vue清理规范用于停用／卸载和解绑旧观察器。受控 JSDOM 队列不等于原生浏览器、观察器时序或跨文档验收，真实浏览器／OS新增0。
+
+累计32文件／64提示分类，117提示待审（不是缺陷数），库存192文件／392 CSS／181运行时提示不变。Form、日期库存漂移及144环境阻塞保持。证据：design-ui/audits/evidence/infinite-scroll-scheduler-2026-10-14/results.json。以下数字和待审范围保留历史批次时点。
+
+### VirtualList：渲染后补偿与命令归属（2026-10-14）
+
+两端 List 下游 VirtualList 当前使用 Vue nextTick 进行渲染后滚动补偿，不再直接安排 RAF；这是 state-settlement，不是 CSS 动效时长，不新增 Token 或取消 API。新命令／新滚动、数据键或虚拟模式改变、KeepAlive 停用及卸载会使旧补偿失效；回调同时核对请求代次与原容器，渲染后补偿只消费一次。停用／卸载后的保留 scrollTo 或 List.scrollIntoView 无效，重新激活不重放旧补偿，新的有效命令可正常执行。逻辑取消不会删除 Vue 已排队的回调，也不撤销先前同步完成的滚动。
+
+各端14项受控基线10失败／4正常对照，修复后各15项通过（新增对象补偿重复交付对照）；连同既有 List 回归 Cedar41／Maple34通过。Vue 清理规则促使停用和卸载均失效；受控 nextTick／JSDOM 验证不等于浏览器或原生 RAF 验收，新增真实浏览器／OS为0。key／index／align、阈值、测量及公开 API 保持，不宣称任意几何／跨文档场景完成。
+
+累计30文件／60提示已分类，121提示待审，库存192文件／392 CSS／181运行时提示不变。全局库存仍有并行日期 CSS 行漂移，Form 与144环境阻塞保持，不刷新未审日期快照。证据：design-ui/audits/evidence/virtual-list-lifecycle-2026-10-14/results.json。下文数字及“待审”范围保留各批历史时点，以本节为当前 VirtualList 状态。
+
+### Icon 名称切换：视觉完成等待
+
+Icon 的 transition 是公开JS名称切换时长，默认0；内联CSS transition-duration与JS等待使用同一个归一化值，负值／非有限值按0。不新增CSS变量、不把业务时间或交互延迟改成Token。运行时改变transition取消旧阶段并立即提交当前名称；名称被替换、减少动效变化、停用或卸载取消旧计时，已出队／已消费回调不能回滚名称或清除新动画。
+
+KeepAlive停用期间不安排名称动画，移除减少动效监听；数据保持最新名称，激活直接显示最新值，不重放旧动画。监听从真实span.ownerDocument.defaultView读取，绑定代次拒绝解绑旧监听的延迟交付；重新激活重新绑定并读取当前偏好。具名注册、slot优先、spin与默认值保持。模拟iframe／MQL／计时器各端9项基线6失败／3正常对照，修复后完整Icon Cedar20／Maple21通过；不是实际OS／浏览器验收。同节点不停用直接跨文档adopt仍待验。
+
+分类新增visual-completion（视觉替换等待，含偏好分支）和delegated-scroll（调用另一组件滚动，非原生DOM操作）。两端List.scrollIntoView只是方法声明及向VirtualList转发options，不能把这些源码提示当作本地动画或原生scrollIntoView通过；下游VirtualList的RAF和保留命令仍独立待审。累计28文件／58提示已分类，剩余123提示，库存192文件／392 CSS／181运行时提示不变。123不是缺陷数。Form并行改造、日期开发和144环境阻塞保持。
+
+### IndexBar 消费者：取消与状态稳定帧
+
+IndexBar 的 duration 是 JS 插值参数，默认0、正值保留 cubic easing，不是CSS Token。组件私有可取消任务接管入口、插值、列表／clickedName两帧等待，不再调用不能取消的通用滚动工具；两端共享工具及并行Form不改。替换／停用／卸载取消实际owner窗口待帧并让等待返回false，不跳旧目标；已交付帧及微任务仍核对归属，旧完成不能解锁新跳转。停用／卸载保留方法无效；激活等子锚点登记后恢复active/event:false。公开void scrollTo及事件／默认值不变，不新增取消API／CSS变量。
+
+新增职责state-settlement：两帧等待是状态顺序，不是CSS动效时长。减少动效只跳插值，不跳必要稳定帧。初始10项纠正探针后基线7失败／3对照，真实IAB又复现激活定位早于子登记，补第11项。消费者11＋任务4＋既有9共24通过；最终真实IAB四组4/4、节点0、无warn/error。入口原生点击，内部命令／scroll事件脚本派发；不认证原生手势／OS／组件跨文档。固定0／480坐标及几何探针错误单列，不计产品缺陷。
+
+证据见共享audits/evidence/index-bar-lifecycle-2026-10-14/results.json。当前库存192文件／392 CSS／181运行时提示，24文件／50提示已分类、131未分类；不是131个缺陷。Cedar无对应IndexBar，不虚构组件。144环境阻塞、其他主题／窗口、并行Form仍独立待验；下文旧数字及待验范围保留各批历史时点。
+
+### 共享滚动真实 IAB 八组
+
+两端各主文档默认300ms／0ms、真实同源iframe HTMLElement／Window，共8/8通过。默认实际完成302.5–313.9ms，各19次owner原生RAF、含中间坐标；0ms为0.1／0.6ms，owner RAF0。iframe四组宿主RAF0，终点left80／top220且50ms后稳定，目标节点清零，控制台无warn/error。
+
+入口原生点击；夹具自己的计数包装原样转发native RAF，不替换时钟／帧实现。数据是原生回调首／中／末坐标摘要，不是全帧像素证明。当前reduce查询观察为false，未切换／认证OS偏好；Form／IndexBar取消、其他easing／时长／引擎仍待验。原始JPEG已查看及hash验证；18项新增证据门禁、全浏览器证据185项通过。本批无产品修复／Token/API变化，144环境阻塞保持。
+
+### JS 滚动工具：时长、窗口与减少动效
+
+两端 elements.scrollTo 的默认300ms与调用方 easing 保持；0／负值／NaN／Infinity直接到目标，不排插值 RAF。HTMLElement 使用实际 ownerDocument.defaultView，Window 使用目标自身；不从宿主全局 window 借帧。初始减少动效偏好直接到目标，运行中偏好变化在下一帧收敛；没有额外监听资源。每帧验证并消费代次，已消费／完成帧不能再写入或调度。
+
+这是JS视觉滚动的执行策略，duration是函数参数，不是CSS变量；不用CSS Token冒充其消费。Maple IndexBar公开duration默认0，仍保持0；自身首帧与doubleRaf流程仍异步，工具零时长不意味着整组件没有RAF。Maple Form是实际另一个消费者，但正在并行改造，本批不接管。
+
+两端各10项工具测试通过（基线9失败／1默认300ms对照通过），Maple既有IndexBar9项通过。Cedar探针在修复后需改绑实际document.defaultView，宿主包装对象差异不记新产品失败。减少动效与iframe均为模拟，不等于OS或真实浏览器。未新增取消API／跨调用自动替换：调用方卸载／停用、Form并行归属、IndexBar clickedName／doubleRAF／保留命令及真实滚动仍待专项，不能外推为全消费者生命周期已通过。
+
+### InputNumber／Countdown 真实 IAB 四组
+
+default/light、父文档，两端各长按取消／卸载与Countdown暂停／KeepAlive一组，4/4真实浏览器通过，最终组件节点均0、无warn/error。入口按钮原生点击；内部pointerdown／pointercancel由夹具脚本派发，Countdown使用公开方法。不声称原生长按、已出队竞态、跨窗口或OS通过。
+
+长按实际首次重复间隔Cedar803.1ms／Maple802.3ms，后续152.8／153.1ms；取消后约220ms和重新按下后约100ms卸载、超过800ms期限观察都无额外更新。Countdown暂停回调计数保持13，停用保持Cedar25／Maple26，停用重置900ms后26／27保持；激活恢复计时至703／700ms，卸载后40／41保持。减少动效、业务时钟和交互节奏的边界不变。
+
+初测直接缓存组件，父级不渲染inactive vnode导致time只在激活时传入，是夹具覆盖问题而非产品失败；改稳定缓存容器后冻结服务重启／重载，最终四组完整重跑，不重复计初测。原始JPEG已查看／校验哈希；19项新增证据门禁及浏览器证据全链167项通过。没有新增产品源码／API／Token修复；144环境阻塞仍独立。
+
+### Countdown 业务时钟与停用边界
+
+Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration／减少动效不能改变业务计时。暂停与 KeepAlive 停用冻结剩余时间，重新激活按冻结值续跑，不把停用期间计入消耗。停用时更新 time／reset 可更新剩余数据及 change 通知，但不申请 RAF；auto-start 的启动延后到激活，手动 pause 取消待恢复。停用期间直接 start 被忽略，卸载后的 start／reset 不再通知或调度。
+
+每帧在清空句柄、计算和通知前验证代次，并在 change 回调后再次核对；回调内 reset／pause／start 的新任务不能被旧帧覆盖，已消费帧不能再次更新或抢占后继帧。结束只通知一次，reset 允许新一轮结束。两端受控时钟／RAF各8项通过，其中6项基线失败；完整Countdown Cedar18／Maple20项通过。没有新增CSS变量／公开API，模拟RAF不等于真实浏览器／OS验收。
+
+### InputNumber 长按回调归属
+
+长按每个计时回调在步进前校验并消费自身代次，取消、替换、释放、停用和卸载后的旧回调不修改值；步进内部重新开始长按，也不能被旧回调的返回值停止。停用期间不接受新的长按任务，重新激活后需要新的用户长按，不自动恢复旧手势。首次800ms、重复150ms是交互节奏，不是CSS动效时长，不新增动效Token。两端各8项受控计时／旧回调测试通过（其中7项先失败），完整InputNumber Cedar45／Maple48项通过；不等于真实浏览器或OS验收。
+
+### 运行时计时的职责边界（分类第二批）
+
+不能按“出现 RAF／setTimeout”就统一替换为动效 Token。本批核对两端8个文件／26条源码提示；累计22文件／44条已分类，133条未分类。提示数量包括方法声明，不是组件数量、缺陷数量或验收通过数；未分类也包含此前已有专项验收的组件。
+
+| 职责 | 当前例子与使用场景 | Token／验收边界 |
+| --- | --- | --- |
+| business-clock | Countdown 用 deadline 与 performance.now 更新业务剩余时间 | 不消费 CSS 动效时长；减少视觉动效不能缩短业务时间 |
+| interaction-repeat | InputNumber 长按首次800ms、重复150ms | 交互节奏不是 CSS 过渡；取消、旧回调与停用需生命周期专项 |
+| test-support | delay／flushRaf、RAF与scroll mock | 保留原始扫描提示但不当产品动效；模拟方法声明也不证明浏览器调用 |
+| visual-scroll | elements.scrollTo 的 JS 插值，默认300ms、调用方 easing | 与直接 native-scroll 转发区分；须按实际消费者核对窗口、取消、零时长及减少动效，不盲目接全局 CSS Token |
+
+Maple Form 的滚动到校验项调用默认时长／linear；IndexBar 使用公开 duration／easeInOutCubic。Picker 的同名局部方法不是此工具；Cedar 未找到此工具的具名生产调用，不能据此宣称产物不可达。src 排除 __tests__ 后未发现上述 test.ts 路径导入，也不替代打包依赖图认证。
+
+分类批次历史候选包含长按先 step 后验代次；该项已由后续 InputNumber 受控回归复现并修复，见长按回调归属小节。Countdown 暂停／重启及停用更新已由后续受控业务时钟回归复现并修复，见对应小节；滚动工具执行／当前偏好已在后续受控回归修复，但消费者取消和真实减少动效仍待专项，不外推生命周期通过。分类记录逐文件绑定完整源码哈希、当前候选行与原文，变化必须重新审阅，不自动刷新哈希。本批无产品源码／API／CSS变量变化，无新增真实浏览器或OS通过；144组环境阻塞保持。
+
+### Trigger 真实 IAB 生命周期四组
+
+default/light，两端各延迟取消／KeepAlive尺寸测量，共4组真实浏览器通过。原生点击夹具入口，内部mouseenter由脚本发出：不能称原生hover、人工已出队竞态、跨窗口视觉或OS证明。300ms待打开在约101ms卸载，约553ms后仍无打开／面板；重新挂载同路径实际打开（正向对照），最终节点0。KeepAlive活动实际resize计数1→2，停用期间保持2，恢复后3，重新打开并最终卸载。
+
+真实浏览器计时／ResizeObserver／公开回调与DOM阶段保存相对performance.now摘要，截图原始JPEG已查看并校验哈希，控制台无warn/error。没有新增产品修复或Token/API；此前模拟旧回调验证仍独立，144组原生200%／Safari／Firefox阻塞保持，其他主题／位置和原生hover仍待验。
+
+
+### ResizeObserver 测量批次的归属
+
+ResizeObserver通知与RAF测量分别保存绑定代次／帧代次。换目标、关闭、停用或卸载使旧绑定和旧帧失效；已断开的observer不能把旧entries混入新批次，旧RAF不能清空／提前消费新任务。帧执行前验证代次并消费一次；保留当前窗口取消和必要测量，不新增动效Token、不把测量减少成视觉零时长。绑定代次不因正常一帧完成而失效，当前observer后续通知仍能调度。
+
+两端模拟回归各新增3项先失败后通过，Trigger完整Cedar63／Maple76项通过，resize专项各8项。范围是工具及Trigger模拟生命周期，不等于所有消费者／真实浏览器或OS已通过；同节点跨document adopt与未刷新目标边界仍需专项验证。
+
+
+### Trigger 已绑定监听窗口的清理
+
+scroll监听记录实际绑定窗口，解绑不从当前popup ref反查。更换窗口、ref被清空或watcher尚未刷新就卸载，都在原窗口移除原处理器；RAF取消仍使用原申请窗口。两端新增模拟回归各3项先失败后通过，完整Trigger Cedar60／Maple73项通过；初轮Window spy不一致及初始化remove记录污染均属探针问题，不记产品失败。内部窗口引用不是CSS变量或API，不新增Token；同一DOM节点不换ref直接跨document adopt、真实浏览器视觉／OS仍需独立验收。
+
+
+### Trigger 测量 RAF 的窗口归属
+
+定位／滚动关闭使用 RAF 合并测量，不是视觉动效时长。元素滚动优先用事件节点 ownerDocument.defaultView；窗口滚动用当前浮层所在窗口。保存申请窗口并由同一窗口取消，代次守卫隔离已出队旧帧；在调用业务处理前清空本次事件，旧帧不能消费后续新滚动或清掉新任务。必要几何测量不因 reduced-motion 被取消，不新增 RAF 时长 Token。
+
+两端 iframe 模拟回归各4项：正确绑定夹具后先3失败／1通过，修复后完整 Trigger Cedar57／Maple70项通过。初轮夹具未触发绑定 watcher、不作产品证据。此为模拟窗口／回调验证；真实跨文档视觉和OS偏好仍独立。旧scroll监听原窗口解绑已在后续专项完成模拟回归；同节点跨document adopt和真实浏览器／OS仍不在此证明范围。
+
+
+### Trigger 交互延迟的归属
+
+mouse-enter-delay／mouse-leave-delay 是交互请求延迟，不是 CSS 视觉时长。取消、替换请求、停用或卸载使已出队旧回调失效；当前回调只提交一次，不能清理新任务。停用仍发原有关闭请求，随后拒绝保留方法启动任务；重新激活只接受新请求，不重放旧 hover 延迟。卸载后保留方法永久不调度。内部代次／活动状态不公开、不成为 Token；受控 open 仍由调用方决定，不新增 API 或修改延迟默认值。
+
+两端新增模拟回调归属各6项先失败后通过，完整 Trigger Cedar53／Maple66项通过；这不是浏览器帧／真实OS证明。RAF owner-window取消及跨文档定位仍需下一批独立验证；职责分类中的旧“尚待回归”说明属于首批分类时点，不把延迟回归扩大为整个 Trigger 验收。
+
+
+### 运行时调度不等于动效 Token
+
+源码扫描是逐行线索，不是缺陷或验收计数。先判定职责：声明／类型签名没有运行；测量 RAF 只合并几何读写；交互延迟决定何时请求状态变化；业务期限决定展示／轮询多久；视觉完成等待才应跟随实际 CSS 过渡完成。前四类不能仅因出现 setTimeout／RAF 就改用 CSS 动效时长，减少动效也不能取消必要测量或缩短业务期限。
+
+首批人工分类 14 文件／18 条线索：6 声明、6 测量调度、4 交互延迟、2 原生滚动调用。Layout 原生 scrollTo 保留调用者 options，不等于已验证 smooth 或减少动效；Trigger RAF 的 owner-window 取消、已出队回调归属，交互延迟的失效回调，仍需独立生命周期回归。分类保存源码哈希／原行，变更时重新审阅，不能自动刷新哈希冒充复核。剩余159条尚未录入此分类表，包含已有专项审计，不等于159个未修问题。分类新增浏览器／OS通过均为0，不改变变量层级、默认值或公开API。
+
+
+第 6 阶当前验证：80 项主题前景／实心背景角色检查及 64 组 primary 白字检查通过。200 组文字／中性表面对比度中 94 组低于 4.5:1，本次配色不声明普通文字对比度全部通过。
+
+当前已统一改为第 6 阶；前文第 7 阶的对比度统计属于历史结果，不适用于当前配色。primary 实心按钮继续使用白色文案。
+
+### Button 配色、7 阶与对比度边界
+
+色板的 primary-7 是颜色档位，不是 7:1 对比度，也不保证白字可读。两端 on-dark 始终是白色前景、on-bright 始终是黑色前景。用户已明确选择主色 Button 保留 on-dark 白字，将 default/light 的 2.305:1 记录为设计例外，不声称该组合满足 AA。此前最低 6.277:1 的 on-bright 候选方案不采用。色板／背景不改，业务仍可手动选择 7 阶及配套前景；此窄范围设计决定不降低其他文字检查阈值。
+
+普通可操作按钮文字按 4.5:1；符合大字号条件的文字可按 3:1，纯功能图标按非文字 3:1 条款评估，禁用态文字不套普通文字阈值。按钮背景与页面并非一律要求 4.5:1。icon 容器仍可能有文字插槽，不能只凭 icon 属性就放宽文字标准。目前全变体文字门禁仍保留失败，不把局部通过说成全库通过。依据：[文字对比度](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)、[非文字对比度](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html)。
+
+业务可以使用 color/textColor 或组件变量手动选 primary-7：例如在实际 Button 根节点设置 --c-button-primary-color: rgb(var(--c-primary-7)) 与 --c-button-primary-text-color: var(--c-sys-color-content-on-bright)，Maple 对应换成 mp 前缀。背景与文字成对选择，并复核 hover/active 叠色及实际主题／底色；必要时再覆盖状态层变量。不会自动改色或禁止低对比度覆写，但默认配色通过不替业务覆写背书。若坚持白字／指定色阶，可明确记录设计取舍，不声称该组合满足 AA。
+
+### Message 展示计时的回调归属
+
+Message 的 duration 是业务展示计时，不是 CSS 进出动效 Token。重启、hover 暂停、clear、停用或卸载使已出队的旧回调失效；执行时核对活动状态和 open，同一调度只处理一次。KeepAlive 停用取消，激活从当前配置的完整 duration 重启（与 Notification 一致），不是继续停用前剩余时间；停用更新或卸载后保留的 restart 不启动任务。hover 仍保存剩余时间，正时长已耗尽时 resume 请求关闭一次，不误变常驻；暂停期间显式重置为0则仍常驻。只有有限正 duration 安排自动关闭，0、负数及非有限值不安排；内部代次／状态不是公开 API／CSS 变量。两端独立源码的模拟回归不是实际浏览器／OS 动效证明。
+
+Message 服务退出由组件真实 Transition 的 after-leave→closed→条目清理负责：不再强制150ms完成，也不以200ms兜底提前卸载。公开 transition-duration／timing-function 的覆写能决定实际离场；显式零或减少动效仍走完成链，不延长业务 duration。尚未挂载就 close/clear 的条目没有离场，直接清理并报告服务 onClosed；不伪造组件 open/opened/close 动画事件。clear 用当前条目快照，同步删除不跳项；同ID重开时忽略仍为open的旧完成。模拟完成协议与源码门禁不是实际浏览器长时长通过，原生IAB仍待补。
+
+Message 真实 IAB default/light、top 服务八组已通过：两端默认、600ms/linear、显式零和离场途中同ID重开。默认离场 Cedar104.4ms／Maple153.8ms，长离场603.8ms／604.8ms，重开最终604.7ms／612.6ms；重开后的业务展示期限约1204.9ms／1203.6ms，最终closed各一次、节点归零。重开会取消旧根DOM并创建新根，不将旧节点移除算作完成600ms离场；不保证所有退出捕获原生end事件，以真实leave-to→清理链留证。原生JPEG和规范化时序摘要见 design-ui/audits/evidence/message-native-2026-10-13。未覆盖hover、KeepAlive、其他主题／位置、真实OS、原生缩放或Safari／Firefox。
+
+Message 局部 reduce 规则在独立组件样式生效：Cedar 取消根/进出过渡及图标淡入动画；Maple 取消进出过渡和动画位移，但保留独立提示的 translateX(-50%)／居中 translate(-50%, -50%) 静态定位。不能用 transform:none 抹掉布局定位。现有 duration/easing 消费者与覆写编译28项、减少动效选择器/布局68项通过；不更改 Token 默认值、显示期限或颜色，不依赖全局极短时长。这里的 !important 仅用于内置动效偏好，不授权普通主题覆盖。子图标自身 spin 属于 Icon 的独立规范；不冒充真实 OS 动态切换验收。
+
+### Maple LoadingBar 动效与生命周期
+
+LoadingBar 为 Maple 独有服务，不新增 Cedar 对应 Token。公开 --mp-loading-bar-transition-duration 默认 250ms、--mp-loading-bar-transition-timing-function 默认 ease，控制 width、opacity、background-color；不再使用 transition: all。设置在服务真实祖先（通常 documentElement/body），业务卡片内部无法传到服务。transitionDuration 内部 0ms 用于起始复位，不是公开选项。
+
+200ms 显示等待／进度 tick、300ms 完成停留与 250ms 清理下限是调度策略，不是 CSS Token。完成宽度更新并刷新 DOM 后，等待 max(300ms, 实际 width transition duration+delay) 再隐藏；隐藏刷新后等待 max(250ms, 实际 opacity duration+delay) 卸载服务，下一次 start/error 重新挂载。解析实际节点计算样式，支持 s/ms、all、列表重复和负 delay；不承诺开始等待后的任意 CSS 改动或自定义 animation。reduce 关闭视觉过渡，进度与清理仍工作；显式 0ms 仍保留下限。
+
+重复 finish 在延迟及关闭阶段去重；start/error 取消过时任务并使已出队回调失效。setDefaultOptions 替换完整配置，resetDefaultOptions 清除全部已拥有配置；无 DOM 的 SSR 调用不挂载或安排计时器。Vue 清理规范用于计时器归属与完成后卸载；命令服务不冒充调用页面自动绑定的生命周期。模拟时钟／计算样式、SSR 与 Less 编译不能记为真实浏览器／OS 验收。
+
+真实 IAB 补验：默认、长时长加 delay、显式零、重复完成、重启、失败六组通过，最终服务节点归零；长时长隐藏／卸载等待实测 700.9ms／802.9ms。MutationObserver、真实计算样式与原生 JPEG 证据见 design-ui/audits/evidence/loading-bar-native-2026-10-13。原生点击触发夹具的明确业务序列，不外推真实 OS 偏好、原生缩放、Safari／Firefox 或设备触摸。
+
+Cedar 独有 Notification：duration（3000ms，0 持续）是业务展示时长；六项 CSS transition Token 独立控制 opacity 和左右进出。close 每个挂载实例只发一次并取消计时；关闭／停用／卸载后的过时回调失效。reset-on-update 仅重启活动且未关闭实例；KeepAlive 停用取消，激活从完整配置时长重新开始。列表由 TransitionGroup 的实际离场完成负责卸载。17 项服务／组件／SSR、20项正常编译消费者／成对覆写及44项减少动效选择器通过。局部 reduce 取消 opacity／方向过渡和起始位移，不依赖全局兜底；真实 IAB 的 default/light 服务六组已通过；真实 OS 和其他引擎／主题／位置矩阵仍待验收，不新增 Token 或伪造 Maple 对应组件。
+
+Notification 真实证据见 design-ui/audits/evidence/notification-native-2026-10-13：默认／长离场／零、clear同ID重加、活动身份保持与原生手动关闭，保留原生JPEG。框架空测量克隆不算通知实例；以公开transition elapsedTime或真实leave-to／移除链核对完成，class时间戳不冒充帧级时钟，显式零不等于真实OS减少动效。
+
+clear 同步释放逻辑 ID；clear 后重加相同 ID 使用新的内部条目／组件身份及完整展示计时，更新仍活动的 ID 则保持实例。WeakMap 实例键仅是实现细节，不作为业务 API 或 CSS 变量。clear 保持静默，指定位置清理不影响其他位置。
+
+
+全组件品牌与 info/success/warning/danger 的前景色、实心操作／状态背景统一使用第 6 阶；原先直接引用色板的前景声明已接入共享 content 角色。浅色表面、禁用淡色与显式预设色板保留各自职责。此前第 6／8 阶的对比度结果不能作为本次第 6 阶调整的通过结论。
+
+Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状态背景；text/outline 保持透明背景并淡化状态文字；tonal 保留浅色背景。中性按钮使用中性禁用色。禁用时暂停 color/text-color 覆盖，关闭 hover/active 反馈和阴影。
+
 > 本页是共享规范的文档站镜像。事实来源为 `design-ui/standards/design-tokens.md`；规范更新时应同步更新本页与 Cedar 对应页面。
 
 Cedar 与 Maple 使用同一套逻辑 Token 语义，只允许品牌前缀不同：Cedar 为 `--c-`，Maple 为 `--mp-`。共享不是要求所有像素值都相同，而是要求同名 Token 表达同一职责；确需不同的触控尺寸、密度和平台结构必须显式登记。
+
+## 重构时保留 Token 职责（2026-10-09）
+
+组件主体或 DOM 同源化后，公开变量必须重新核验到终端 CSS 属性的完整链路；保留声明和文档并不代表定制仍有效。内部适配层只连接平台默认值，不得把不同职责合并成一个时长或用硬编码绕过已有公开入口。
+
+Rate 是一个具体例子：两端的 `--{p}-rate-transition-duration` 控制普通颜色／hover 过渡，`--{p}-rate-scale-duration` 控制选中缩放动画，`--{p}-rate-transition-timing-function` 控制两者缓动（p 为 c 或 mp）。Cedar 与 Maple 的默认时长和曲线允许平台差异，但三个入口必须真实消费。内部映射声明在组件根节点，而不是 :root，确保实例及祖先的公开变量覆盖在当前作用域解析。减少动态效果偏好优先关闭这些动效。
+
+文档站布局不是组件 Token API。断点、目录与预览区的排列由站点样式负责，不加入 system 颜色或组件尺寸契约；长变量表应局部滚动。源码消费检查、断点布局、键盘导航和真实设备验收应分别记录，不能互相替代。
+
+### 可选覆盖与按实例尺寸回退
+
+VerificationCode 的公开变量 `--{p}-verification-code-cell-height`、`cell-max-width`、`input-font-size` 默认声明为 `initial`：它表示未指定覆盖，而不是最终高度／宽度／字号。在这些未注册的自定义属性上，`initial` 使消费处的 `var()` fallback 生效；消费处再读取当前实例 size 对应的私有映射。不要在 `:root` 中引用仅在组件根节点定义的私有尺寸，否则默认值无法在正确作用域解析。
+
+`cell-height` 控制单格高度，`cell-max-width` 控制单格首选宽度（空间不足时允许收缩），`input-font-size` 控制字符字号，`gutter` 控制相邻格间距。前三项未覆盖时跟随 xs/sm/md/lg/xl 字段尺寸，gutter 默认引用 system space-2；组件 gutter 属性会写入同名内联变量。业务在组件实例或业务容器上覆盖这些公开变量，不依赖私有映射，也不应把一个平台的像素值当作跨端统一标准。
+
+这是明确的“可选覆盖 → 实例 size”契约，不是为缺失的内部 system Token 兜底。取消某个覆盖以恢复 size 时可在目标实例设置该变量为 `initial`；`unset` 对普通可继承的自定义属性会继承祖先值，不能当作同义重置。验收应同时放置不同 size、自定义实例和未覆盖邻居，并检查明暗主题与窄屏收缩。
 
 ## 当前状态与阅读方式（2026-09-30）
 
@@ -76,7 +292,7 @@ Cedar 与 Maple 使用同一套逻辑 Token 语义，只允许品牌前缀不同
 | surface | `page / default / raised / overlay / muted / tooltip` | 页面、普通容器、浮层、覆盖层、弱化填充表面 |
 | scrim | `sys-color-scrim` | 半透明遮罩；与承载内容的 surface 分开。 |
 | content | `primary / secondary / tertiary / decorative / disabled / on-dark / on-bright` | 普通表面上的内容层级，及已确认深色／亮色底上的对比前景；后两者须成对选择 |
-| content（语义色） | `brand / info / success / warning / danger` | 普通中性表面上的可读彩色文字、图标及同色描边，对应色板第 8 阶 |
+| content（语义色） | `brand / info / success / warning / danger` | 普通中性表面上的彩色文字、图标及同色描边；品牌色与 info/success/warning/danger 均使用对应色板第 6 阶 |
 | border | `subtle / default / strong` | 弱分隔、常规边框、强调边框 |
 | action | `primary` | 主操作及品牌交互强调 |
 | status | `info / success / warning / danger` | 状态填充和强调色；普通表面上的可读彩色文字选对应 `content-*` |
@@ -90,7 +306,7 @@ Avatar 也已纳入跨端颜色治理：文字、汇总数量和按钮图标使�
 
 Badge 第三阶段治理：填充背景使用 `status-*`／`action-primary`，轮廓文字和描边使用 `content-info/success/warning/danger/brand`；default 轮廓使用 `content-primary`，secondary／tertiary 使用 `content-secondary`。轮廓背景变量对所有状态和 `color` 属性均生效。两端的 Maple 浅色品牌均为填充 primary 配置浅字。编译后的 CSS 验证覆盖 640 个内置配色组合及 64 个轮廓背景覆盖场景，填充文字最低 4.56:1，轮廓文字最低 4.97:1；自定义色与背景需重新验证，其余未登记变量仍待治理。
 
-新增的 `content-brand/info/success/warning/danger` 引用对应色板第 8 阶，适用于普通中性表面上的可读彩色文字、图标和同色描边。`content-brand` 与 `content-primary`（主要内容层级）、`action-primary`（主操作强调）职责不同；仅覆盖主操作色不会自动改变品牌文字色。
+`content-brand` 引用 primary 第 6 阶；`content-info/success/warning/danger` 引用对应色板第 6 阶，适用于普通中性表面上的可读彩色文字、图标和同色描边。`content-brand` 与 `content-primary`（主要内容层级）、`action-primary`（主操作强调）职责不同；仅覆盖主操作色不会自动改变品牌文字色。
 
 ## Component 与 Internal
 
@@ -129,11 +345,11 @@ Token 名顺序固定为：组件 → variant/status/size → interaction state 
 | `surface-muted` | `color-fill-1` | filled 默认态或弱化填充；不是禁用态的统称。 |
 | `content-primary` | `color-text-1` | 标题、主要正文及普通表面上的主要图标。 |
 | `content-secondary` | `color-text-2` | 辅助文字、次要操作与 Divider 标签。 |
-| `content-brand` | `primary-8`（RGB） | 普通中性表面上的品牌文字、图标及同色描边。 |
-| `content-info` | `blue-8`（RGB） | 普通中性表面上的信息文字、图标及同色描边。 |
-| `content-success` | `success-8`（RGB） | 普通中性表面上的成功文字、图标及同色描边。 |
-| `content-warning` | `warning-8`（RGB） | 普通中性表面上的警告文字、图标及同色描边。 |
-| `content-danger` | `danger-8`（RGB） | 普通中性表面上的危险文字、图标及同色描边。 |
+| `content-brand` | `primary-6`（RGB） | 普通中性表面上的品牌文字、图标及同色描边。 |
+| `content-info` | `blue-6`（RGB） | 普通中性表面上的信息文字、图标及同色描边。 |
+| `content-success` | `success-6`（RGB） | 普通中性表面上的成功文字、图标及同色描边。 |
+| `content-warning` | `warning-6`（RGB） | 普通中性表面上的警告文字、图标及同色描边。 |
+| `content-danger` | `danger-6`（RGB） | 普通中性表面上的危险文字、图标及同色描边。 |
 | `content-tertiary` | `color-text-3` | 占位、低强调说明；必要时检查文字对比度。 |
 | `content-decorative` | `color-text-4` | 空状态等非文字装饰图形；不可用于需要阅读的文字。 |
 | `content-disabled` | `color-text-disabled` | 真正不可交互的内容；不能拿来表示装饰。 |
@@ -191,7 +407,7 @@ Token 名顺序固定为：组件 → variant/status/size → interaction state 
 [data-theme='custom'] { --c-sys-color-surface-raised: #fff8ef; }
 ```
 
-覆写组件背景时，应同时检查其文字、图标、边框和交互态的对比度；`content-on-dark` 只适合背景确实保持深色的场景。`var()` 的 fallback 只能用于明确的外部兼容边界，不应掩盖缺失的内部 system Token。颜色混合和透明度属于需要解释的组件行为，不应靠孤立的硬编码颜色掩盖。
+覆写组件背景时，应同时检查其文字、图标、边框和交互态的对比度；`content-on-dark` 只适合背景确实保持深色的场景。`var()` 的 fallback 仅用于明确的外部兼容边界或已记录的可选覆盖（如 VerificationCode 的实例 size 回退），不应掩盖缺失的内部 system Token。颜色混合和透明度属于需要解释的组件行为，不应靠孤立的硬编码颜色掩盖。
 
 `--{p}-internal-{component}-...` 是私有实现变量，允许因内部重构改变。按实例由属性注入的变量则属于“运行时传值通道”，例如 Divider 的 `opacity`：它可能与公开组件 Token 同名空间，但没有可供主题作者覆盖的 `:root` 默认值。组件文档要明确是静态默认值、主题覆盖值、还是运行时写入值。
 
@@ -259,7 +475,7 @@ Maple 暗色主题移除独立的 Alert 颜色覆盖，继承同一组件默认�
 | button-{status}-text-color | 普通 default 的对比前景。彩色与 secondary 默认用 content-on-bright；tertiary 浅色用 on-dark、暗色用 on-bright；default 用 content-primary。Maple 品牌浅色的深橙 primary 使用 on-dark。 |
 | button-{status}-icon-color | 历史名称保留，实际是 text、outline、tonal 及 default icon-container 的可读前景。primary 使用 content-brand，业务状态使用对应 content-*，default 使用 content-primary，secondary/tertiary 使用 content-secondary。不是只作用于图标。 |
 | button-{status}-icon-container-color | 历史名称保留，实际是 tonal、default icon-container 及透明变体交互反馈的浅色表面。彩色取 primary/blue/success/warning/danger 第 1 阶；secondary/tertiary 取 gray-2/1；default 使用 surface-muted。 |
-| button-disabled-color / disabled-text-color | 禁用背景沿用 color-disabled，文字使用 content-disabled。高于所有变体与 icon-container；disabled 时暂停 color/text-color 属性的内联覆盖，恢复启用后恢复自定义色。 |
+| button-disabled-color / disabled-text-color / disabled-solid-text-color / {status}-disabled-color | 中性禁用底色／文字、彩色实心禁用文字和状态淡色；按 variant 与 status 使用。text/outline 保持透明，tonal 保留浅底，disabled 暂停内联颜色覆盖。 |
 | button-focus-color / focus-width / focus-offset | 焦点环独立于按钮文字，默认 content-brand / 2px / 2px；避免实心按钮的白色文字变成白底上不可见的焦点环。 |
 
 Maple 暗色不再用一套独立的白字与实心图标容器颜色覆盖上述关系；它继承组件默认值及暗色色板。只保留现有几何覆盖。两端同名 Token 职责相同，不要求把所有尺寸都套成输入框的控制高度。
@@ -604,13 +820,27 @@ Space 使用物理 CSS row-gap / column-gap，与 flex direction 不交换：xs 
 | icon-spin-duration | 1s；内置旋转单周期，不控制名称替换的等待时间 |
 | ripple-expand-duration / ripple-fade-duration | 200ms / 140ms；分别控制 CSS transform 扩散与 opacity 变化，保留 ripple-cubic-bezier 的扩散曲线职责 |
 
-所有 CSS 时长需要有效、非负的时间值。Icon 的 transition 属性依然表示毫秒数的名称切换等待，不能通过 spin-duration 改变。Ripple 现有 250ms 生命周期计时（最小展示／移除等待）不读取 CSS 变量；每段视觉时长应不超过 250ms。要支持更长自定义波纹，必须在后续阶段同时改造运行时计时，不得只延长 CSS 后声称动画完整。计时器不是设计 Token，不能从调色或密度层推导。
+所有 CSS 时长需要有效、非负的时间值。Icon 的 transition 属性依然表示毫秒数的名称切换等待，不能通过 spin-duration 改变。Ripple 的 expand-duration（200ms）控制 transform 扩散，fade-duration（140ms）控制 opacity 显现／消退，cubic-bezier 仅控制扩散曲线；两端默认值与消费者一致。运行时从实际波纹节点所属文档读取计算后的 transform／opacity transition 时长与 delay（支持 s/ms、列表重复与 all），不直接解析未解析的 var()。250ms 分别是从节点创建起的最小展示时间和开始淡出后的最小移除等待，不是视觉 duration、总生命周期或 CSS Token。创建 30ms／激活 20ms 是内部调度；快速释放仍走最小展示流程。
 
-prefers-reduced-motion: reduce 是用户偏好，不是主题或公开 CSS 开关。内置策略如下：Hover / Paper / Skeleton 表面立即响应、保留状态颜色；Icon 停止 spin，内置缩放取消，名称立即切到最新值；Skeleton 隐藏扫光但保留占位；Ripple 不显示装饰波纹，指令仍正常清理节点，不影响宿主事件。必要的 !important 仅用于压过 Icon 内联 transition 和 Ripple 内联 opacity，不用于普通主题覆盖。用户显式 rotate 朝向保持不变。
+释放等待扩散的实际激活时间 + transform duration/delay 与创建时间 +250ms 的较晚者；开始淡出后等待 max(250ms, opacity duration+delay) 才删除。默认节奏不变，600ms／800ms 等较长覆写不再截断；显式 0ms、无样式或 reduce 隐藏仍保留清理下限。扩散时序在创建／激活阶段采样，消退时序在开始淡出时采样，不承诺之后任意 CSS 改动或 animation 的时序。计时器不是设计 Token，不能从调色或密度层推导。
+
+每个波纹只安排一次释放，禁用／卸载取消所属定时器和直接子波纹，不误删嵌套指令；文档释放事件注册／清理使用挂载时 ownerDocument，跨文档搬迁的监听重新绑定不在本契约内。键盘只接管本宿主 Enter／Space，对应 keyup 或 blur 释放，无关键不抢占。指令不授予宿主按钮语义、可访问名称或点击业务能力；在已有交互元素上使用，不能只加 v-ripple 便声称普通 div 可访问。真实 IAB 默认／长时长／0ms 六组与两端永久回归分别留证；不外推真机触摸、真实 OS 偏好或全库动效通过。
+
+prefers-reduced-motion: reduce 是用户偏好，不是主题或公开 CSS 开关。内置策略如下：Hover / Paper / Skeleton 表面立即响应、保留状态颜色；Icon 停止 spin，内置缩放取消，名称立即切到最新值；Skeleton 隐藏扫光但保留占位；Ripple 不显示装饰波纹，指令仍正常清理节点，不影响宿主事件。必要的 !important 仅用于压过 Icon 内联 transition、Ripple 内联 opacity 及已列明的模态／Notification／Message 内置过渡和起始位移，不用于普通主题覆盖。用户显式 rotate 朝向保持不变。
 
 Icon 在挂载后订阅偏好，减少动态效果在切换途中开启时会取消旧计时器；关闭偏好不会对未变化的名称重新播放动画。卸载移除监听并清理等待。SSR 不读取 window，也不建立监听。自定义 animation-class、外部 SVG 的自有动画和业务加载指示器需调用方另行适配；本策略并不替代可访问名称或加载状态提示。
 
-验证入口 node bin/motion-theme-check.mjs 已接入 check:theme-contract：80 组主题／偏好组合、88 项时长覆盖检查；Icon 单测验证初始偏好、动态变化、切换取消与卸载清理。此检查使用编译后 CSS 和模拟状态，不等同于真实浏览器动画帧、视觉或系统设置切换验收。
+验证入口 check:motion-themes 已接入 check:theme-contract：96 组主题／偏好组合、88 项时长覆盖、176 项模态 active 选择器消费检查，并检查 reduce 下起始 transform 与 Popup 基础过渡。Icon 单测仍负责初始／动态偏好、切换取消与卸载。motion-source-inventory.mjs --check 维护源码候选清单：两端 192 个文件、389 处 CSS 动效声明候选、179 处运行时调用候选（新增 setTimeout 调度线索）；存在局部 media 或计时器不代表已通过，源清单也不证明选择器可达。此检查是实际 Less 编译及模拟状态，新增真实 OS／浏览器验收为 0。
+
+漂移门禁使用 design-ui/audits/motion-source-inventory.json 当前基线，历史证据快照保持不变。逐行线索包含非动效计时器，数量不代表缺陷或完成的验收。
+
+BackTop 的 duration（200ms）与 easing（quartOut）是 JS requestAnimationFrame 滚动参数，不是 CSS 动效 Token；现有组件变量只负责几何、配色、焦点及层级。减少动效偏好读取滚动目标 ownerDocument 的窗口；动画途中开启时在下一帧立即回顶，保留横向滚动，不承诺同步 OS 事件回调。重复点击、目标切换、停用或卸载使旧帧失效，包括已经出队的回调。滚动可见性合帧不是视觉动画。此处以模拟 RAF／iframe 文档与 SSR 回归验证，不增加真实浏览器／OS 通过数。
+
+模态动效补验：Cedar Drawer 的 fade／四方向 slide 和 Maple Popup 的 fade／center 缩放／四方向 pop，在 reduce 下关闭内置过渡与起始位移／缩放。规则在组件样式入口生效，不依赖全局入口的极短时长兜底；必要的 !important 仅作用于这些内置动效和 Popup 基础过渡，不覆盖主题颜色。Maple Popup 通过 --mp-popup-transition-duration（250ms）与 --mp-popup-transition-timing-function（ease）控制内置 fade／pop 和内容／遮罩基础过渡；职责命名与 Cedar Drawer 对齐，但保留平台组件默认值，不借用 Dialog Token，也不伪造 Cedar Popup 变量。两项应设置在 Teleport 后实际共同祖先或挂载宿主；style 只传给内容、overlay-style 只传给遮罩，不能控制整层关闭时长。CSS 时间必须有效且非负；reduce 规则优先于常规覆写。
+
+生命周期由实际 Transition 完成回调驱动，不设固定 250ms JS 等待：unmountOnClose 在关闭途中保留内容与锁，完成后卸载；快速重开取消关闭，保留内容状态；每个有效打开／关闭阶段的完成事件只发一次，销毁后的回调不再发事件。自定义动画及内容／外层不同步的覆写由调用方负责；初始打开保留既有 mounted 通知行为，不承诺完整 appear 动画计时。IAB 默认／600ms／0ms、五方向与重开／销毁实测另存证据，0ms 是显式 CSS 覆写，不是 OS reduced-motion 验收。
+
+模态配色补验：16 个平台／主题组合，72 组默认配色加 80 组显式背景／文字覆写，最低显示值 5.102:1。透明表面先合成到已知不透明实际背景，再合成透明前景；文字门禁按未舍入比值与 4.5 比较。低对比度自定义覆盖、未知半透明底层及非法颜色必须拒绝，不把覆盖可消费误当成可读性通过。这里覆写的是直接组件变量，不保证根 system 别名会随任意局部覆盖重新计算；业务插槽、图片／渐变背景、自定义状态图标及 unstyled 的配色由调用方负责。依据：[WCAG 文字对比度](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)；动效偏好参考 [交互动效说明](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html)，后者为 AAA 条款，不宣称本批完成 WCAG 认证。
 
 ## 自动闭环与后续视觉验收
 
@@ -674,3 +904,77 @@ InputTag 的内容密度、默认标签底色和禁用文字由 input-tag-* 控�
 迁移时按职责选择实际入口：外壳背景用 field-variant-{variant}-background 系列，圆角用 field-border-radius，占位文字用 field-placeholder-text-color，清除图标用 field-clear-icon-color / field-clear-icon-size。几何优先使用 size 属性；不要覆盖 internal 变量。旧无消费变量不存在逐项等价替代；内容标签使用下列 InputTag 自身变量。
 
 InputTag 保留 27 项内容变量，已加入无消费检查；两端 Badge / Tag 加 Cedar InputTag 共检查 441 项声明，内容 size / focus / disabled 级联覆盖 80 组。共享默认值契约仍为 553 项；Cedar-only InputTag 不冒充跨端共享组件。默认文字、禁用文字、标签底色与焦点底色分别引用 content-primary、content-disabled、surface-default、state-hover。禁用状态只重绘中性标签，不覆盖显式 color / status；业务自定义颜色的可读性由业务负责。父级 disabled / readonly 优先于 tagProps.closable / checkable，loading 或显式不可关闭的标签也不能用 Backspace 删除。已完成 Cedar 浏览器五档布局、xl 输入与键盘删除、明暗模式以及禁用自定义色的抽验，不代表全组件视觉验收。
+## 字段键盘焦点与错误状态
+
+FieldDecorator 的键盘焦点环与背景、错误边框分别表达不同状态。内部原生输入或按钮命中 `:focus-visible` 时，外壳绘制独立焦点环；错误态保留 danger 背景/边框，同时显示焦点位置。只读仍可聚焦，禁用不绘制焦点环。
+
+焦点环颜色复用 `--{prefix}-field-focus-color`（system action-primary）；实例 `focus-color` 的已有自定义通道优先。线宽与外偏移复用 `--{prefix}-field-border-width`，没有新增变量或修改默认值。filled 的 fill1 → fill2 → fill3 规则保持原语义；错误背景不承担焦点指示职责。
+
+样式通过 `:has(:focus-visible)` 关联外壳与内部控件，按现代浏览器支持基线验收；编译检查 `node bin/field-focus-check.mjs` 验证两端 Less 产物及禁用排除，不能替代真实键盘和视觉验收。
+
+## 声明归档与真实消费路径（2026-10-12）
+
+组件公共默认变量统一声明在所属 `style/token.less`，实现样式只消费变量；内部状态变量仍可贴近实现。此次将 34 个实现样式文件中的 375 处公共声明归档，归档前后有效默认值与非根规则均经两端 Less 编译比对一致。不要把 CSS 归档理解为重新设计默认配色。
+
+全量目录同时检查 `style/index.less` 和 `style/index.ts` 直接导入的 Less。共享 selection 的 presentation 样式是合法入口；忽略它会误判变量无消费者。Watermark 在运行时读取变量并用于画布，FloatingPanel、Time 时钟和 TabBar 通过实际行内样式消费变量；这些可执行路径需单独登记，不接受注释或主题赋值充当证据。
+
+属性与变量应有明确优先级：显式属性优先，未传属性时使用对应 CSS 变量。Maple TabBar 的 `z-index` 现遵循此规则，默认视觉值仍为 `1`，属性默认值为 `undefined`。ImagePreview 的箭头 hover 变量仅在可悬停设备且箭头可用时生效。Counter 无消费的 disabled-color 已移除，禁用仍由 disabled-opacity 及实际文字／背景变量表达。
+
+动效规则须同时约束 CSS 与 JavaScript：Maple Picker 在 reduced-motion 下立即提交选择，不等待 transitionend；偏好动态变为 reduce 时收束待提交滚动。键盘列为 listbox，当前项为 option，方向键与 Home/End 跳过禁用项；这不改变 selected-values 的附加勾选标记语义。Time 打开面板先提交输入草稿而不提前 blur，确保弹层关闭后回到原输入。
+
+检查入口：`check:token-placement`、`check:field-focus` 和 `check:theme-contract`；完整变量名称、值、条件和消费路径以自动生成的组件变量参考为准。编译与单测不能替代跨浏览器、真机和屏幕阅读器验收。
+
+弹层焦点根必须指向实际具有 tabindex 的面板，而不是外层遮罩容器。Maple Popup 已补齐内部焦点根标记；打开、嵌套层接管、Tab/Shift+Tab 循环及关闭后的触发器恢复均需以真实组件验收。这个内部 data 属性不是业务 CSS/API 扩展入口。
+
+## 变量作用域、别名求值与 Teleport
+
+同文档切换弹层宿主时，即使面板引用和 ownerDocument 不变，DOM 移动仍可能让原生焦点丢失。顶层活动模态须在迁移完成后恢复面板内焦点，并保留最初的关闭返回目标，不抢占更高弹层。验收必须读取实际 activeElement，而不是只检查挂载与颜色；同源单测和旧截图不能代替修复后的原生复验。截图格式按实际编码保存，导出像素尺寸与 CSS viewport 分开记录，不用于推断原生缩放。
+
+2026-10-13 修复后 IAB 原生跟进：两端在 default/dark、长文本、320×640 CSS viewport 下各五次 host／inline／body 迁移，10/10 焦点包含检查通过，并验证 Tab／Shift+Tab 循环、Enter 关闭与原触发器恢复。证据独立保存在 design-ui/audits/evidence/portal-focus-2026-10-13/after.json；旧八次失败不改写。这不是 200% 原生缩放或 Safari／Firefox 通过证明。运行环境重置后应重新确认浏览器类型与当前 ID，避免将旧句柄误认成同一浏览器。
+
+同日 14:12 有界环境复查没有新增通过：Chrome 支持接口调用仍超时，Safari／Firefox 无支持会话，Firefox 标准应用路径未找到。三套各 48 组必须等待相应支持入口恢复；历史 IAB 证据不外推。最新阻塞记录见 design-ui/audits/evidence/browser-environment-2026-10-13/recheck-1412.json。
+
+修复前后证据采用独立截图清单，校验实际编码尺寸及 SHA-256；连接复查、夹具准备和静态规则检查不增加浏览器通过数量。后续可先推进 IAB 真实同源 iframe 与嵌套弹层键盘验收，必须记录目标文档的样式、activeElement 焦点链和滚动锁；这些仍是待执行计划，不替代外部浏览器、真机、真实 OS reduced-motion 或屏幕阅读器。详细场景见 design-ui/refactors/token-validation/browser/README.md。
+
+更新：真实同源 iframe 批次已完成 8/8，嵌套弹层批次也已完成 8/8。每个目标 Document 必须独立加载组件 CSS 与主题；跨文档 Teleport 不复制父文档变量，也不会让父文档样式表自动进入 iframe。自定义绝对定位宿主必须建立定位、尺寸和滚动边界。父文档触发 iframe 模态时，应沿可访问同源焦点链保存最初触发器，关闭后恢复，不抢占用户已移至外部控件的焦点。跨源不可访问边界不绕过，不能外推为已验收。两端焦点修复无 API／Token 变更；最终证据见 design-ui/audits/evidence/iframe-2026-10-13/results.json。
+
+嵌套模态按两端 × 四主题实测，分别执行子层先关、父层先关与父层单独重开：仅栈顶响应 Tab／Escape，子层关闭回到仍可见的父层触发器，最后一层关闭回到页面原始触发器。父层先关闭时不能抢占仍打开的子层焦点；子层须在打开时保存祖先 opener 链，关闭时跳过已隐藏、禁用、inert 或断开的候选，避免焦点落到 BODY。两端 modal-focus 已修复该问题，无新 API／CSS 变量。滚动锁保留至最后一个使用者退出，滚动条补偿不重复累加。本批使用默认保留挂载、同库嵌套和 body 目标；背景抑制仅证明真实键盘约束与遮罩命中，不声称屏幕阅读器隔离、跨库协调、父层 unmountOnClose 移除或跨源已通过。18 张原图及分步证据见 design-ui/audits/evidence/nested-2026-10-13/results.json；后续为 reduced-motion 规则／配色准备，真实 OS 偏好另验。
+
+原生缩放与跨浏览器验收必须分别记录浏览器／版本、浏览器自身显示的缩放百分比、实际 DOM 挂载祖先和截图。DPR、缩窄 viewport、CSS zoom／transform 只能提供其他类型的证据，不能单独证明原生 200% 页面缩放。Safari／Firefox 需要对应产品的实际浏览器结果；连接超时、缺少安装或缺少控制入口标为环境阻塞，不作为组件失败，也不能沿用 Chromium 结果记为通过。
+
+
+局部主题有两道边界：真实 DOM 祖先，以及变量的声明位置。自定义属性中的 `var()` 在继承前解析；子节点改 system 变量，不会自动重新计算从根节点继承的组件别名。[CSS 变量规范](https://www.w3.org/TR/css-variables-1/#cycles)
+
+| 场景 | 正确入口 |
+| --- | --- |
+| 全局切换主题 | 在文档根作用域通过本库 StyleProvider 全局方法切换；根层依赖链一起重算 |
+| 定制局部组件 | 覆盖实际消费的公开 component 变量；只改 palette/system 不等于完整的局部主题重建 |
+| 局部 system 到 component 映射 | 在同一局部宿主显式重新声明需要的组件别名，不依赖根层旧映射 |
+| Teleport 到 body | 继承 body/html；触发器、调用处 Provider 的局部变量不自动复制过去 |
+| 指定 popup-container | 宿主必须已经存在；变量放在目标宿主或真正面板上 |
+| popup-container=false | 保留调用位置的 DOM 继承；同时承担祖先 overflow、transform、定位和层叠的约束 |
+| iframe 宿主元素 | 允许来自另一文档的 HTMLElement；对方文档必须自行加载样式并提供变量，字符串选择器只查调用方文档 |
+
+从自定义宿主经 inline 切回 body 时，必须真正迁出旧宿主，恢复 body/html 的变量继承；“仍属于 body 的后代”不是有效断言，因为旧宿主也可能位于 body 内。打开中切换和关闭后重新打开都遵守此规则。inline 状态的滚动锁按实际面板文档的 body 归属，不沿用之前的宿主锁。
+
+浮层尺寸以实际包含块为边界；`100vw` 可能包含页面滚动条宽度，不能用它替代容器可用宽度。Cedar Drawer 对显式宽度保留 `max-width: 100%` 上限，这是结构约束，不是新增设计 Token。长内容允许面板内部滚动；任意业务插槽的断词、字号与前景／背景配对仍由业务显式设计。
+
+例如同一页面的 Cedar Drawer 与 Maple Popup 可以共享一个真实宿主，但各自覆盖本库变量，不能依赖另一端前缀：
+
+```css
+.portal-theme {
+  --c-drawer-bg: #182230;
+  --c-drawer-header-text-color: #f8f9fc;
+  --c-drawer-content-text-color: #f8f9fc;
+  --mp-popup-content-background-color: #182230;
+  --mp-popup-content-text-color: #f8f9fc;
+}
+```
+
+若需要联动局部 system 色，在该宿主同时声明对应组件变量，例如 `--mp-popup-content-background-color: var(--mp-sys-color-surface-raised)`；只在宿主设置 surface-raised 不足以重算根上已经声明的别名。面板与遮罩是兄弟节点，面板变量不会向上或横向传给遮罩；共同覆盖放在共同宿主，或分别使用各组件现有的面板／overlay 样式属性。
+
+不自动复制触发器 computed style、不批量重写 root 默认值，也不为另一端不存在的组件制造变量。本条明确现有定制范围，不新增 Token、不承诺局部 StyleProvider 会自动重建全部主题依赖链。自定义前景和背景需配对检查，本文的示例不是任意插槽配色保证。
+
+`check:portal-scope` 使用真实 Teleport，检查 body／选择器／元素／inline 挂载、宿主切换后的实例状态、旧宿主滚动锁释放、跨文档参数与事件归属及卸载清理。DOM 和生命周期测试不计算浏览器像素；CSS 检查器验证局部覆盖时不能把根层的原始别名表达式带到子节点后重新求值。窄屏、200% 浏览器缩放、长文本、跨文档焦点和浏览器实际继承仍需独立实测。
+
+打开中的模态面板跨文档切换挂载目标时，事件监听、焦点约束、弹层栈和滚动锁必须随实际目标迁移；同一 DOM 被 adopt 后 ownerDocument 会变化，但 Vue 元素引用可能不变，内部逻辑不得仅依赖该引用触发重绑。迁回原文档和卸载都要清理旧监听。此契约不增加公开 CSS 变量，真实 iframe 焦点与样式仍需浏览器验收。

@@ -1,4 +1,4 @@
-import { computed, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch, type Ref } from 'vue'
+import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch, type Ref } from 'vue'
 import { useZIndex } from '../context/zIndex'
 import { useModalFocus } from './modal-focus'
 import type { PopupContainer } from './popup-container'
@@ -57,23 +57,36 @@ export function useModalSurface(options: ModalSurfaceOptions) {
     }
     return typeof document === 'undefined' ? undefined : document
   })
+  // Track the reactive destination: DOM adoption does not change the root ref.
+  const modalDocument = () =>
+    options.popupContainer() === false
+      ? (options.root.value?.ownerDocument ?? popupDocument.value)
+      : popupDocument.value
   const scrollLockTarget = computed(() => {
     const target = popupContainerTarget.value
-    return typeof target === 'string' ? popupDocument.value?.body : target
+    return options.popupContainer() === false || typeof target === 'string' ? modalDocument()?.body : target
   })
   const layerActive = () => mergedOpen.value && !teleportDisabled.value
   const { zIndex } = useZIndex(layerActive, 3)
   const mergedZIndex = computed(() => options.zIndex() ?? zIndex.value)
-  const { onStackTop } = usePopupLayer(
-    layerActive,
-    mergedZIndex,
-    () => options.root.value?.ownerDocument ?? popupDocument.value,
-  )
+  const { onStackTop } = usePopupLayer(layerActive, mergedZIndex, modalDocument)
   const { focus, restore } = useModalFocus(
     () => options.root.value?.querySelector<HTMLElement>('[data-modal-focus-root]') ?? options.root.value,
     () => mergedOpen.value,
     onStackTop,
     options.lockScroll,
+    modalDocument,
+  )
+
+  // Same-document Teleport moves keep the root ref and ownerDocument, but the
+  // browser can blur the moved control. Refocus after the DOM move without
+  // recapturing the original outside trigger or stealing from a higher layer.
+  watch(
+    [popupContainerTarget, () => options.popupContainer() === false],
+    () => {
+      nextTick(focus)
+    },
+    { flush: 'post' },
   )
 
   useScrollLock(
@@ -134,13 +147,13 @@ export function useModalSurface(options: ModalSurfaceOptions) {
   }
   function bind() {
     unbind()
-    boundDocument = popupDocument.value
+    boundDocument = modalDocument()
     boundWindow = boundDocument?.defaultView ?? undefined
     boundDocument?.addEventListener('keydown', handleKeydown)
     boundWindow?.addEventListener('hashchange', handleRouteChange)
     boundWindow?.addEventListener('popstate', handleRouteChange)
   }
-  watch(popupDocument, bind, { flush: 'post' })
+  watch(modalDocument, bind, { flush: 'post' })
   onMounted(bind)
   onActivated(() => {
     teleportDisabled.value = false

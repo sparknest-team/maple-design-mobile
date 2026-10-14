@@ -1,27 +1,23 @@
 <template><Render /></template>
 
 <script setup lang="ts">
-import { computed, h, nextTick, provide, ref, useAttrs, useId, useSlots, type VNode } from 'vue'
+import { computed, h, nextTick, provide, ref, useAttrs, useId, type VNode } from 'vue'
+import { createNamespace } from '../utils/components'
 import { flatten, tabsInjectionKey, type TabEntry } from './context'
-import { createNamespace, useTabsPlatform } from './platform'
 import { tabsProps, type TabsKey } from './props'
 import TabNav from './TabNav.vue'
 import TabsItems from './TabsItems.vue'
 import TabsNavs from './TabsNavs.vue'
+import type { TabsEmits, TabsSlots } from './types'
+import { useTabsConfiguration } from './use-tabs-configuration'
 
 defineOptions({ name: createNamespace('tabs').name, inheritAttrs: false })
 const props = defineProps(tabsProps)
-const emit = defineEmits<{
-  'update:active': [key: TabsKey]
-  change: [key: TabsKey]
-  'tab-click': [key: TabsKey, event: Event]
-  add: [event: Event]
-  delete: [key: TabsKey, event: Event]
-}>()
-const slots = useSlots()
+const emit = defineEmits<TabsEmits>()
+const slots = defineSlots<TabsSlots>()
 const attrs = useAttrs()
 const { n, classes } = createNamespace('tabs')
-const { size, rtl } = useTabsPlatform(computed(() => props.size))
+const { size, rtl } = useTabsConfiguration(computed(() => props.size))
 const uid = useId()
 const local = ref(props.defaultActive)
 const focused = ref<TabsKey>()

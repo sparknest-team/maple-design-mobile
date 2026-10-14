@@ -1,5 +1,13 @@
 # Countdown
 
+One real IAB default/light clock lifecycle case passes per platform: decrement, public pause/start, stable inactive callbacks, inactive time reset-to900ms without background ticking, reactivation and stable callbacks after unmount, final nodes0. Stable cached containers deliver inactive props; deferred parent delivery is not mislabeled a product defect. Not dequeued-race/cross-window/OS certification.
+
+### Countdown business clock and deactivation
+
+Countdown RAF refreshes business time, not visual interpolation; CSS duration/reduced motion must not alter the clock. Pause and KeepAlive deactivation freeze remaining duration; activation resumes that value without charging inactive time. Inactive time updates/reset may update data and emit change but schedule no RAF; auto-start is deferred to activation, and explicit pause cancels pending resume. Direct inactive start is ignored; disposed start/reset emit and schedule nothing.
+
+Each frame validates and consumes its generation before clearing its handle/calculating/notifying, then rechecks after change listeners. Reentrant reset/pause/start cannot be overwritten by an old frame; consumed frames cannot update twice or replace successors. End emits once, reset permits a new completion. Eight controlled clock/RAF tests pass per platform, six failing at baseline; full Countdown Cedar18/Maple20 pass. No CSS variable/public API additions; simulated RAF is not real browser/OS acceptance.
+
 ### Intro
 
 For real-time display of countdown values, with millisecond precision.

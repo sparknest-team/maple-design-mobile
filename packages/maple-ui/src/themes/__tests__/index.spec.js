@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
 import Themes from '..'
 
@@ -78,7 +80,13 @@ test('dark avatar keeps semantic content and surface roles', () => {
 })
 
 test('dark badge keeps governed status roles', () => {
-  for (const theme of [Themes.default.dark, Themes.maple.dark]) {
+  // Semantic defaults live in the component; dark themes only override real exceptions.
+  const badgeTokens = readFileSync(resolve(__dirname, '../../badge/style/token.less'), 'utf8')
+  const defaults = Object.fromEntries(
+    [...badgeTokens.matchAll(/(--mp-badge-[\w-]+):\s*([^;]+);/g)].map((match) => [match[1], match[2]]),
+  )
+  for (const overrides of [Themes.default.dark, Themes.maple.dark]) {
+    const theme = { ...defaults, ...overrides }
     expect(theme['--mp-badge-description-text-color']).toBe('var(--mp-sys-color-content-primary)')
     expect(theme['--mp-badge-status-default-text-color']).toBe('var(--mp-sys-color-content-on-bright)')
     expect(theme['--mp-badge-text-color']).toBe('var(--mp-sys-color-content-on-bright)')

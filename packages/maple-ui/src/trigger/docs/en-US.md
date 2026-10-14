@@ -1,5 +1,15 @@
 # Trigger
 
+Real IAB default/light completes delayed-unmount and KeepAlive resize on both platforms (four cases), including a positive timer/remount control and final panel nodes0. Entry buttons use native clicks; mouseenter is fixture-scripted, not native-hover, cross-window or OS acceptance.
+
+Observer bindings and measurement RAF batches use separate generations. Old entries and dequeued frames after replacement/deactivation cannot consume new measurement tasks; necessary geometry work remains independent of CSS motion duration.
+
+Replacing/clearing the popup ref or unmounting before watcher flush removes scroll listeners on their original binding window, independent of the current ref. Simulated regression does not cover same-node document adoption or real browser/OS visuals.
+
+Positioning / scroll-close RAF uses the event element or popup owner window and is canceled on its original scheduling window. Dequeued frames after close/unbind cannot consume replacement scrolling work. RAF is measurement scheduling, not CSS duration; original listener-window cleanup is verified by the subsequent simulated audit; same-node document adoption and real browser visuals remain separate.
+
+mouse-enter-delay / mouse-leave-delay are interaction delays, separate from CSS enter/leave duration. Cancel, replacement, KeepAlive deactivation and unmount invalidate dequeued commits; retained requests cannot schedule while inactive or disposed. Reactivation accepts new requests without replaying old delays. Controlled open remains caller-owned.
+
 Clicking another independent reference closes the previous top layer before opening the new one. Nested popups remain inside their parent. Controlled open state only receives a close request; the owner may reject it.
 
 ### Introduction

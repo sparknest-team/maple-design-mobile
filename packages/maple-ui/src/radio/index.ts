@@ -1,6 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import { props as radioGroupProps } from './group-props'
-import { props as radioProps } from './props'
+import { radioGroupProps, radioProps } from './props'
 import _Radio from './Radio.vue'
 import RadioGroup from './RadioGroup.vue'
 
@@ -23,11 +22,14 @@ export const _RadioComponent: typeof Radio = Radio
 export const _RadioGroupComponent: typeof RadioGroup = RadioGroup
 
 export default Radio
-export type RadioProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
-export type RadioGroupProps = import('vue').ExtractPublicPropTypes<typeof import('./group-props').props>
+export type RadioProps = import('vue').ExtractPublicPropTypes<typeof import('./props').radioProps>
+export type RadioGroupProps = import('vue').ExtractPublicPropTypes<typeof import('./props').radioGroupProps>
 
 export type { RadioMethods, RadioModel } from './props'
 
 export type { RadioOption } from './types'
 
 export type { RadioVariant } from './variant'
+
+export type { RadioEmits, RadioGroupEmits, RadioSlots, RadioGroupSlots } from './props'
+export type { RadioValue } from './props'

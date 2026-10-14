@@ -549,14 +549,20 @@
 
 | 变量名                                | 默认值                                                                                                                                          |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--mp-picker-background`                 | `#fff`                                                                                                                                          |
+| `--mp-picker-background`                 | `var(--mp-color-body)`                                                                                                                                          |
 | `--mp-picker-toolbar-height`             | `44px`                                                                                                                                          |
 | `--mp-picker-picked-border`              | `1px solid var(--mp-color-border-2)`                                                                                                               |
 | `--mp-picker-title-font-size`            | `var(--mp-font-size-lg)`                                                                                                                           |
-| `--mp-picker-title-text-color`           | `#555`                                                                                                                                          |
+| `--mp-picker-title-text-color`           | `var(--mp-color-text-1)`                                                                                                                                          |
 | `--mp-picker-option-font-size`           | `var(--mp-font-size-lg)`                                                                                                                           |
-| `--mp-picker-option-disabled-text-color` | `var(--mp-color-text-disabled, #c8c9cc)`                                                                                                           |
+| `--mp-picker-option-disabled-text-color` | `var(--mp-color-text-disabled)`                                                                                                           |
 | `--mp-picker-option-check-color`         | `var(--mp-sys-color-content-brand)`                                                                                                                          |
-| `--mp-picker-option-text-color`          | `#555`                                                                                                                                          |
+| `--mp-picker-option-text-color`          | `var(--mp-color-text-1)`                                                                                                                                          |
 | `--mp-picker-toolbar-padding`            | `0 4px`                                                                                                                                         |
-| `--mp-picker-mask-background-image`      | `linear-gradient(180deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4)),linear-gradient(0deg, hsla(0, 0%, 100%, 0.9), hsla(0, 0%, 100%, 0.4))` |
+| `--mp-picker-mask-background-image`      | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)), linear-gradient(0deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent))` |
+
+### 键盘与减少动效
+
+每个可操作列为一个 listbox，可用 Tab 聚焦；方向键上下移动，Home/End 到首尾可用项，跳过禁用项。aria-selected 表达当前滚轮项；selected-values 只表达额外勾选标记，两者职责不同。空列和全禁用列不进入 Tab 顺序。
+
+减少动效偏好下，选择立即提交且不等待 transitionend；偏好动态切换时收束待提交滚动，卸载时移除监听。

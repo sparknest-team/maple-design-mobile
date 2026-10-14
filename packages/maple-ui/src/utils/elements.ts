@@ -209,28 +209,54 @@ export function scrollTo(
   element: HTMLElement | Window,
   { top = 0, left = 0, duration = 300, animation }: ScrollToOptions,
 ): Promise<void> {
+  const view = 'ownerDocument' in element ? element.ownerDocument.defaultView : element
+  const motionDuration = Number.isFinite(duration) && duration > 0 ? duration : 0
+  const prefersReducedMotion = () => {
+    if (typeof view?.matchMedia !== 'function') {
+      return false
+    }
+    return view.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }
   const startTime = Date.now()
-
   const scrollTop = getScrollTop(element)
   const scrollLeft = getScrollLeft(element)
 
   return new Promise((resolve) => {
-    const frame = () => {
-      const progress = (Date.now() - startTime) / duration
-
-      if (progress < 1) {
-        const nextTop = scrollTop + (top - scrollTop) * animation(progress)
-        const nextLeft = scrollLeft + (left - scrollLeft) * animation(progress)
-
-        element.scrollTo(nextLeft, nextTop)
-        requestAnimationFrame(frame)
-      } else {
-        element.scrollTo(left, top)
-        resolve()
+    let completed = false
+    let generation = 0
+    const finish = () => {
+      if (completed) {
+        return
       }
+      completed = true
+      generation += 1
+      element.scrollTo(left, top)
+      resolve()
     }
-
-    requestAnimationFrame(frame)
+    const schedule = () => {
+      const currentGeneration = ++generation
+      view!.requestAnimationFrame(() => frame(currentGeneration))
+    }
+    const frame = (currentGeneration: number) => {
+      if (completed || currentGeneration !== generation) {
+        return
+      }
+      generation += 1
+      const progress = Math.max(0, (Date.now() - startTime) / motionDuration)
+      if (prefersReducedMotion() || progress >= 1) {
+        finish()
+        return
+      }
+      const nextTop = scrollTop + (top - scrollTop) * animation(progress)
+      const nextLeft = scrollLeft + (left - scrollLeft) * animation(progress)
+      element.scrollTo(nextLeft, nextTop)
+      schedule()
+    }
+    if (!view || motionDuration === 0 || prefersReducedMotion()) {
+      finish()
+    } else {
+      schedule()
+    }
   })
 }
 

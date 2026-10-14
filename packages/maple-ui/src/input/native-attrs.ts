@@ -34,20 +34,26 @@ const nativeKeys = new Set([
   'onSelect',
 ])
 
-export function splitInputAttrs(attrs: Record<string, unknown>) {
+export function splitInputAttrs(attrs: Record<string, unknown>, extraNativeKeys: readonly string[] = []) {
   const native: Record<string, unknown> = {}
   const root: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(attrs)) {
-    const target = nativeKeys.has(key) || key.startsWith('aria-') || key.startsWith('data-') ? native : root
+    const target =
+      nativeKeys.has(key) || extraNativeKeys.includes(key) || key.startsWith('aria-') || key.startsWith('data-')
+        ? native
+        : root
     target[key] = value
   }
   return { native, root }
 }
 
 /** Capture before normalization; restore selections including position zero. */
-export function captureInputSelection(input: HTMLInputElement) {
+export function captureInputSelection(input: HTMLInputElement | HTMLTextAreaElement) {
   const { selectionStart: start, selectionEnd: end, selectionDirection: direction, value } = input
   return (nextValue: string) => {
+    if (input.value !== nextValue) {
+      input.value = nextValue
+    }
     if (start == null || end == null || value === nextValue) {
       return
     }

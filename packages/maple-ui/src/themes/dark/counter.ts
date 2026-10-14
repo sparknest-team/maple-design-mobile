@@ -8,7 +8,6 @@ export default {
   '--mp-counter-button-size': '28px',
   '--mp-counter-button-text-color': '#fff',
   '--mp-counter-button-icon-size': '100%',
-  '--mp-counter-disabled-color': 'var(--mp-color-disabled)',
   '--mp-counter-disabled-opacity': 'var(--mp-opacity-disabled)',
   '--mp-counter-error-color': 'var(--mp-color-danger)',
 }

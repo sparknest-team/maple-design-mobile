@@ -229,3 +229,9 @@ TabNav 与 TabItem 使用同一个 Vue `key`，必须为字符串或数字，在
 | `--mp-tabs-size-xl-tab-height` | `var(--mp-sys-control-height-xl)` |
 | `--mp-tabs-size-xl-tab-padding` | `var(--mp-sys-space-5) var(--mp-sys-space-8)` |
 | `--mp-tabs-size-xl-tab-font-size` | `var(--mp-sys-font-size-xl)` |
+
+## 独立同源与公开类型
+
+两端独立维护 Tabs、TabPane、TabsNavs、TabNav、TabsItems、TabItem 六件套，不跨库引用运行时，也不使用通用平台配置。size 的 xs/sm/md/lg/xl 五档均已实现。Cedar 继承 ConfigProvider 的 size/rtl；Maple 默认 md，支持 setPropsDefaults、显式 size 与 DOM dir。面板通过原生 hidden 显隐，InfiniteScroll 直接观察可见性，不再依赖旧面板注册。
+
+公开类型包括 TabsEmits、TabsSlots、TabPaneSlots、TabsNavsSlots、TabNavSlots、TabsItemsSlots、TabItemSlots、TabsNavsExpose。自有实例方法仅 TabsNavs.resize()；其余成员没有自有命令式方法或通知事件，选择及编辑事件归属 Tabs。

@@ -1,5 +1,9 @@
 # LoadingBar
 
+The service uses --mp-loading-bar-transition-duration (250ms) and --mp-loading-bar-transition-timing-function (ease) for width/opacity/background-color. Apply tokens to its real html/body ancestor, not a business card. Reduce disables transitions, not progress/cleanup. After DOM flush, hiding waits max(300ms, resolved width duration+delay); unmounting waits max(250ms, resolved opacity duration+delay). The 200ms show/tick and cleanup floors are scheduling policies, not CSS tokens; later arbitrary CSS changes/custom animation are not promised.
+
+Repeated finish is deduplicated; start/error cancel obsolete tasks. Completion unmounts the service and the next load remounts. setDefaultOptions replaces the full configuration and resetDefaultOptions clears owned settings. SSR calls create no DOM/timers.
+
 ### Intro
 
 Display loading progress at the top of the page.
@@ -41,5 +45,7 @@ Normal/error strokes use readable content-brand/content-danger, not action/statu
 | `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` |
 | `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` |
 | `--mp-loading-bar-height` | `3px` |
+| `--mp-loading-bar-transition-duration` | `250ms` |
+| `--mp-loading-bar-transition-timing-function` | `ease` |
 
 Theme variables must be placed on the actual DOM ancestor after Teleport. Content-local variables do not propagate to outer service containers.

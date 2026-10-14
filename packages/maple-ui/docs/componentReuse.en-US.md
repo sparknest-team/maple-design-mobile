@@ -4,9 +4,9 @@ The labels mean: Same source (verified copies), Logic copies (verified), Same so
 
 # Cedar / Maple 跨端代码复用调研
 
-审计日期：2026-09-30。基于当前工作区源码（包含正在进行的 API 对齐改动），不是发布版本保证。标记规则更新：2026-09-21；已完成的完整同源与逻辑同源均有独立源码门禁。
+审计日期：2026-10-09。基于当前工作区源码（包含正在进行的 API 对齐改动），不是发布版本保证。标记规则更新：2026-09-21；已完成的完整同源与逻辑同源均有独立源码门禁。
 
-已同源 44 组；待同源 0 组；待适配 11 组；逻辑待同源 3 组；逻辑已同源 12 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
+已同源 56 组；待同源 0 组；待适配 0 组；逻辑待同源 0 组；逻辑已同源 15 组；独立 1 组。按组件族计数，包含子组件及异名 Drawer / Popup；不等于菜单条目数量。
 
 ## 菜单标记
 
@@ -23,7 +23,7 @@ The labels mean: Same source (verified copies), Logic copies (verified), Same so
 
 ## 调研依据和限制
 
-重新运行 api-contract-inventory.mjs，从 TypeScript 根入口追踪得到 Cedar 127 / Maple 119 个运行时 Props 导出，95 个同名导出可比较（包含子组件）。Props 名称相同不能证明默认值、类型、事件、插槽、方法和行为完全一致。额外检查了主体模板/TSX、事件触发、插槽、计时与弹层依赖；详细 Props 键差异见下方附录。Search 等根导出不对称也单独列为候选。
+重新运行 api-contract-inventory.mjs，从 TypeScript 根入口追踪得到 Cedar 129 / Maple 119 个运行时 Props 导出，97 个同名导出可比较（包含子组件）。Props 名称相同不能证明默认值、类型、事件、插槽、方法和行为完全一致。额外检查了主体模板/TSX、事件触发、插槽、计时与弹层依赖；详细 Props 键差异见下方附录。单独登记尚未收口的能力与主体差异，不把历史根导出不对称当作当前结论。
 
 copied-components-check.mjs 覆盖完整同源主体；copied-foundations-check.mjs 覆盖逻辑同源控制器。安装入口、主题 token、图标及端侧视图仍由两库独立维护。新增检查不会自动升级分类，须完成双端验证后更新。
 
@@ -54,56 +54,57 @@ copied-components-check.mjs 覆盖完整同源主体；copied-foundations-check.
 | collapse | collapse | 已同源 | 2026-09-15 完成独立源码复制；Collapse/CollapseItem 主体 SFC、9 项公共 Props、change/toggleAll、键盘与 destroyOnHide 纳入一致性检查。去掉 Maple elevation；默认图标与尺寸 token 由各库 platform 适配。 |
 | pagination | pagination | 已同源 | 统一主体 SFC、23 项 Props、4 个事件、6 个插槽、分页状态与按钮和布局；12 组 demo 对齐。Locale、Input、Select 使用显式平台适配，480px 容器自动简洁模式；同源检查覆盖 13 个实现文件。 |
 | empty | empty | 已同源 | 2026-09-15 完成独立源码复制；主体 SFC、6 项 Props、click、image/default/extra 插槽与尺寸档位纳入一致性检查。去掉 icon/inConfigProvider；ConfigProvider 空状态、默认图标、locale 与尺寸 token 由各库 platform 适配。 |
-| result | result | 已同源 | 2026-09-20 完成独立源码复制：Result 主体渲染、公共 Props、状态图形、animation/imageSize、插槽与关键 token 已统一，并由 lightweight-feedback-same-source 门禁验证。两端仅保留图标资源和本地入口适配。 |
+| result | result | 已同源 | 2026-09-20 完成独立源码复制：Result 主体渲染、公共 Props、状态图形、animation/imageSize、插槽与关键 token 已统一，并由 lightweight-feedback-same-source 门禁验证。两端仅保留图标资源和本地入口适配。 第二十五批：主体格式、图形及规范 Token 门禁复验，所有状态、imageSize/动画/插槽与 SSR 验证通过。 |
 | link | link | 已同源 | 以 Cedar 原生链接与 hoverable 为基础，补齐键盘焦点、加载动画、动态图标插槽及禁用属性透传；主体、Props、主样式和配对测试独立复制并验证，保留本地图标和主题 token。 |
-| loading | loading | 已同源 | 2026-09-20 完成独立源码复制：Loading 主体渲染、公共 Props、五类动画、数值尺寸、hideIcon、内容遮罩、插槽与关键 token 已统一，并由 lightweight-feedback-same-source 门禁验证。 |
+| loading | loading | 已同源 | 2026-09-20 完成独立源码复制：Loading 主体渲染、公共 Props、五类动画、数值尺寸、hideIcon、内容遮罩、插槽与关键 token 已统一，并由 lightweight-feedback-same-source 门禁验证。 第二十五批：统一格式并改为从规范 style/token.less 验证 Token，动画、数值尺寸、SSR 回归复验。 |
 | grid | grid | 已同源 | Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。 |
 | input-number | input-number | 已同源 | 主体、19 项 Props、数值编辑/提交控制器、独立 Decimal 运算、触控长按、样式及 Token 已独立复制；14 对核心/视图/样式/测试文件和 7 对 Demo 纳入一致性门禁。两端分别接入本库表单与全局多语言，77 项测试及双端类型检查和包构建通过；Checkbox / Radio 另批处理。 |
-| ellipsis | ellipsis | 已同源 | 主体、Props、样式/Token 与配对测试独立复制；统一受控 expand/defaultExpand、键盘展开、Tooltip 配置与内容回退，移除多余外壳。与 BackTop 共 12 对文件门禁，仅前缀/本地导入不同。 |
-| progress | progress | 待适配 | Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。 |
-| progress-group | progress-group | 待适配 | Progress 百分比和尺寸已有一致性检查；steps/animation/bufferColor 与 rotate/textClass/track 不同，对齐公共 line/circle，保留扩展渲染；Group 的 tooltip 触发也需适配。 |
-| back-top | back-top | 已同源 | 主体、Props、滚动控制器、样式/Token 和配对测试独立复制；默认监听页面，200ms/quartOut，支持动态目标、原生键盘、KeepAlive/卸载取消及 SSR。与 Ellipsis 共 12 对文件门禁，不共享运行时。 |
+| ellipsis | ellipsis | 已同源 | 主体、Props、样式/Token 与配对测试独立复制；统一受控 expand/defaultExpand、键盘展开、Tooltip 配置与内容回退，移除多余外壳。与 BackTop 共 12 对文件门禁，仅前缀/本地导入不同。 第二十五批：主体、样式和配对测试复验；模板与副作用导入仍严格比较，受控展开/键盘与 Tooltip 接入不漂移。 |
+| progress | progress | 已同源 | 2026-10-09 主体/Props/样式/Token 独立复制，家族双端136项测试及14源/样式/测试对和5Demo门禁通过。Progress 保留 number|string size、0–100 percent，补齐 steps/buffer/track/rotate/渐变/未知进度与圆形状态图标；Group 统一 showText/#text、超额裁剪、键盘 Tooltip 和 SSR。本地安装/ConfigProvider 尺寸接线独立，真实浏览器视觉仍单列待验收。 |
+| progress-group | progress-group | 已同源 | 2026-10-09 主体/Props/样式/Token 独立复制，家族双端136项测试及14源/样式/测试对和5Demo门禁通过。Progress 保留 number|string size、0–100 percent，补齐 steps/buffer/track/rotate/渐变/未知进度与圆形状态图标；Group 统一 showText/#text、超额裁剪、键盘 Tooltip 和 SSR。本地安装/ConfigProvider 尺寸接线独立，真实浏览器视觉仍单列待验收。 |
+| back-top | back-top | 已同源 | 主体、Props、滚动控制器、样式/Token 和配对测试独立复制；默认监听页面，200ms/quartOut，支持动态目标、原生键盘、KeepAlive/卸载取消及 SSR。与 Ellipsis 共 12 对文件门禁，不共享运行时。 第二十五批：复制样式与规范格式，保留严格滚动/取消/SSR 契约；绑定导入排序与本地别名规范化不忽略主体。 |
 | watermark | watermark | 已同源 | 2026-09-20 已完成独立同源：统一 Canvas renderer、Props/types、文字与图片、多行/自动测量、repeat/staggered、grayscale、antiTamper、fullscreen、error/redraw、SSR 和生命周期；Maple 已删除 foreignObject content 插槽及 resize 旧方法。两端主体仅保留前缀、本地 import 和主题标识差异，并纳入源码门禁。 |
-| checkbox | checkbox | 待适配 | Group/独立值模型、选项映射/类型、label 插槽、readonly/半选与局部激活已独立复制；CheckboxGroup 批量方法完成。RadioGroup 局部箭头/Home/End、单一 Tab 入口、动态 DOM 顺序和 KeepAlive 清理已复制；Radio button 与五档高度的样式/变体已复制。19 对核心/样式/测试与 11 对 Demo 纳入门禁。主体结构、圆形控件样式和端侧视觉差异仍待收口，保留待适配。 |
-| radio | radio | 待适配 | Group/独立值模型、选项映射/类型、label 插槽、readonly/半选与局部激活已独立复制；CheckboxGroup 批量方法完成。RadioGroup 局部箭头/Home/End、单一 Tab 入口、动态 DOM 顺序和 KeepAlive 清理已复制；Radio button 与五档高度的样式/变体已复制。19 对核心/样式/测试与 11 对 Demo 纳入门禁。主体结构、圆形控件样式和端侧视觉差异仍待收口，保留待适配。 |
-| rate | rate | 待适配 | 可同源对齐命中计算、范围/步长与值模型；Rate 的 grading 与图标扩展、Slider 的 marks/showInput/showTicks 与触控标签/颜色不同，统一 pointer 交互后再同源对齐主体。 |
-| slider | slider | 待适配 | 可同源对齐命中计算、范围/步长与值模型；Rate 的 grading 与图标扩展、Slider 的 marks/showInput/showTicks 与触控标签/颜色不同，统一 pointer 交互后再同源对齐主体。 |
-| input | input | 待适配 | 2026-09-22 已将受控/非受控值、trim 提交、change 去重、清空基线、数字文本/长度归一化与输入法重复提交抽为两端独立复制的同源逻辑；超长输入均截断并上报归一化值，FormItem 的 change/input/focus/blur/clear 触发条件也已对齐。Input 主体仍分别为 Cedar TSX 与 Maple SFC，hint/line/颜色及 FieldDecorator 展示不同，尚未完成主体同源。 |
-| textarea | textarea | 待适配 | 2026-09-22 已将长度归一化、输入法去重、自动高度尺寸计算抽为两端独立复制的同源逻辑；FormItem 触发条件及 size/disabled/readonly/error 状态继承也已对齐。PC 与移动端的默认 resize、尺寸观察器、FieldDecorator 展示和移动端 hint/line/颜色仍不同，主体尚未同源。 |
-| verification-code | verification-code | 待适配 | 输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。 |
-| search | search | 待适配 | 输入内核可对齐，但 defaultValue、字数统计、hint/line/颜色、modelModifiers 及粘贴/输入法行为不同；Search 还需核对历史、结果、搜索字段与取消动作，不能仅按根 Props 导出名判断。 |
+| checkbox | checkbox | 已同源 | 2026-10-09 主体已独立复制：原生 input/label、Group、Props、Context、BEM 样式及图标/实例外观/原生属性补齐；15 对主体/公开类型/测试/样式门禁及既有组核心门禁通过。本库 Form/安装接线、契约登记的 PC/触控密度默认值独立保留；无共享运行时。逐组件行为/SSR/主题通过，真实浏览器视觉仍单列待验收。 |
+| radio | radio | 已同源 | 2026-10-09 主体已独立复制：原生 input/label、Group、Props、Context、BEM 样式及图标/实例外观/原生属性补齐；15 对主体/公开类型/测试/样式门禁及既有组核心门禁通过。本库 Form/安装接线、契约登记的 PC/触控密度默认值独立保留；无共享运行时。逐组件行为/SSR/主题通过，真实浏览器视觉仍单列待验收。 |
+| rate | rate | 已同源 | 2026-10-09 已完成主体、Props/公开类型、交互、样式规则及15公共Token后缀独立复制同源；错误/禁用/焦点使用系统角色，私有映射在组件根支持局部覆盖。金色/主色与几何默认差异纳入主题契约，仅Form/安装/图标接线本地维护；源码/类型/实际Less门禁与两端交互测试通过。 第二十五批：修复门禁失效起始标记，必须比较真实 rate-core 主体；Props/主体/交互测试重新验证，图标与 Form 本地接线保留。 |
+| slider | slider | 已同源 | 2026-10-09 完成主体、Props/公开类型、值归一化、Pointer/键盘、范围/小数步长、marks/ticks/InputNumber、标签/颜色与样式Token独立复制同源；showTooltip统一false/true/always并移除labelVisible。Form/provider/安装接线留本库；成对交互测试、3组Demo与实际Less编译门禁覆盖。 |
+| input | input | 已同源 | 2026-10-09 完成主体复核：Input/InputGroup/Password、Props/公开类型、值模型、原生属性和样式规则独立复制同源；输入及清空管线、受控拒绝、IME、表单/键盘回归已补齐，24对Input/Textarea门禁防漂移。保留本库Form/安装接线与FieldDecorator已登记的PC hover/移动常驻清空表现。 |
+| textarea | textarea | 已同源 | 2026-10-09 以完善后的Cedar SFC独立复制至Maple；hint/line/实例颜色、原生attrs、清空/计数、IME/长度、自动高度及KeepAlive清理一致，公开Emits/Slots/Expose与Demo补齐。resize默认Cedar开启/Maple关闭及尺寸密度登记为平台差异；没有共享运行时。 |
+| verification-code | verification-code | 已同源 | 2026-10-09：验证码主体、Props/Emits/Slots/Expose、四项Token、样式与四组Demo独立复制同源，11对保留类型声明的门禁通过。Cedar22/Maple27专项测试通过，覆盖受控拒绝、IME/Unicode、短信填入、粘贴、单格替换、Form单通知及KeepAlive取消；仅各库Form/安装接线保留独立。未宣称浏览器视觉全验。 |
+| search | search | 逻辑已同源 | 2026-10-09：Search控制器、Props/Emits/Slots/Expose、历史内容及配对Demo独立复制，9对源码和25项公共Token门禁通过；Cedar30/Maple36测试通过。不可变model、受控拒绝、Form单通知、弹窗内外取消/焦点、全局语言、inputAttrs/error及实际variant效果已补齐；仅保留PC InputGroup/移动条、Drawer/Popup、本地接线和登记的默认密度/historyPopup/shape差异。 |
 | infinite-scroll | infinite-scroll | 已同源 | 2026-09-21 完成独立源码复制：主体 SFC、Props 与关键样式纳入同源门禁，统一分页状态机、CSS length 阈值、滚动容器、可见性恢复、KeepAlive 与清理行为。两端 locale.ts 仅桥接各自的全局语言系统，不持有独立语言状态，也不共享运行时。 |
-| list | list | 待适配 | InfiniteScroll Props 同名，可同源对齐观察与加载状态；List 的 maxHeight/scrollbar/virtualListProps 仅 Cedar 有，虚拟化应是扩展能力。 |
+| list | list | 已同源 | 2026-10-09 完成List/ListItem SFC、Props/类型、样式规则及34公共Token后缀独立复制同源；Maple补maxHeight/scrollbar/virtualListProps/scrollIntoView。两端VirtualList修复align/数据缩小/threshold。render-adapter仅接本库Scrollbar与ConfigProvider空态，默认密度登记为平台差异；9对主体/API/样式/测试/Demo门禁覆盖。 |
 | image | image | 已同源 | 2026-09-15 完成独立源码复制；Image/Preview/PreviewGroup 主体 SFC、加载回退、预览控制器与命令式 API 纳入一致性检查。去掉 platform.config；懒加载用原生 loading、图标/默认加载器/默认值由各库 platform 与 setPropsDefaults 适配。 |
 | overlay | overlay | 已同源 | 2026-09-21 完成独立同源：主体 SFC、Props 和结构样式已复制并纳入门禁；统一 popup-layer/z-index、容器滚动锁、真实 Teleport Document、背景 pointer 序列、最上层 ESC、受控状态、KeepAlive 和过渡生命周期。 |
 | dialog | dialog | 逻辑已同源 | 2026-09-21 完成逻辑同源。两端 Dialog 直接消费同源 modal-surface，不再嵌套 Popup 或维护端侧弹层状态机；use-dialog、use-dialog-drag、service 三份核心均为独立复制并纳入门禁，统一 beforeClose 竞态、拖拽、Promise/update/close、默认配置、宿主销毁及 app context。PC 与移动端保留各自 DOM、图标和样式。 |
 | style-provider | style-provider | 已同源 | 主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。 |
-| select | select | 已同源 | 主体、控制器、选项与搜索/虚拟列表算法、Menu 及语义样式已独立复制并纳入 check:selection-presentations；Cedar 仅 menu，Maple 通过静态扩展文件提供 list/picker 和移动触摸样式。公共 API 以 Cedar 为准；本地 Form/空状态接入独立，无跨库运行时、共享实例或 platform 配置。 |
-| cascader | cascader | 已同源 | 主体、控制器、树/路径/搜索/懒加载算法、CascaderPanel、Menu 与语义样式已独立复制；草稿会话由控制器统一持有。Cedar 仅 menu，Maple 的 list/picker 位于独立静态扩展文件；公共源码纳入 check:selection-presentations，保留本地系统接入与移动触摸样式差异，不共享运行时代码。 |
-| auto-complete | auto-complete | 已同源 | 2026-09-23 主体、Props、类型出口、Menu 样式和配对交互/SSR 测试完成独立同源复制；两端直接消费本地 Input、Trigger、Select 选项算法。统一 shouldOpen/过滤、分组、异步候选、虚拟列表、长度规则、Form 继承及焦点事件，补齐 hint/颜色/键盘提示；无跨库运行时或 platform 配置，AutoComplete 不提供滚轮 presentation。 |
-| date | date | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。 |
-| date-range | date-range | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。 |
-| time | time | 逻辑已同源 | 2026-09-23：Time/TimeRange 入口、TimeField 主体及字段状态协议已从 Cedar 独立复制到 Maple，值、草稿、确认/取消、清除、焦点和通知控制器同源。两库各自维护源码及实例，无共享运行时或 platform 配置；桌面 Trigger/列表与移动 Popup/滚轮/时钟，以及本地 Form、全局多语言接入和候选初始化保留在独立 presentation 文件。31 对时间源码/测试门禁覆盖；外观和纯时间面板仍单独验收。 |
-| time-range | time-range | 逻辑已同源 | 2026-09-23：Time/TimeRange 入口、TimeField 主体及字段状态协议已从 Cedar 独立复制到 Maple，值、草稿、确认/取消、清除、焦点和通知控制器同源。两库各自维护源码及实例，无共享运行时或 platform 配置；桌面 Trigger/列表与移动 Popup/滚轮/时钟，以及本地 Form、全局多语言接入和候选初始化保留在独立 presentation 文件。31 对时间源码/测试门禁覆盖；外观和纯时间面板仍单独验收。 |
-| date-picker | date-picker | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。 |
-| date-range-picker | date-range-picker | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；21 对源码/测试门禁覆盖。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。 |
+| select | select | 已同源 | 主体、控制器、选项与搜索/虚拟列表算法、Menu 及语义样式已独立复制并纳入 check:selection-presentations；Cedar 仅 menu，Maple 通过静态扩展文件提供 list/picker 和移动触摸样式。公共 API 以 Cedar 为准；本地 Form/空状态接入独立，无跨库运行时、共享实例或 platform 配置。 第二十五批：公共源码保留严格主体比较，仅规范本地绑定导入的排序；Select/Checkbox BEM 同步原生同源控件，移动 presentation 扩展独立。 |
+| cascader | cascader | 已同源 | 主体、控制器、树/路径/搜索/懒加载算法、CascaderPanel、Menu 与语义样式已独立复制；草稿会话由控制器统一持有。Cedar 仅 menu，Maple 的 list/picker 位于独立静态扩展文件；公共源码纳入 check:selection-presentations，保留本地系统接入与移动触摸样式差异，不共享运行时代码。 第二十五批：公共源码、路径算法与样式完成复制收口，移除旧 Checkbox/Radio hover 类名，使用 --状态与 __control；list/picker 仍为本地扩展。 |
+| auto-complete | auto-complete | 已同源 | 2026-09-23 主体、Props、类型出口、Menu 样式和配对交互/SSR 测试完成独立同源复制；两端直接消费本地 Input、Trigger、Select 选项算法。统一 shouldOpen/过滤、分组、异步候选、虚拟列表、长度规则、Form 继承及焦点事件，补齐 hint/颜色/键盘提示；无跨库运行时或 platform 配置，AutoComplete 不提供滚轮 presentation。 第二十五批：主体、Props、配对44项交互测试及样式复制收口；绑定导入按本地路径排序，不忽略主体、模板或副作用导入顺序。 |
+| date | date | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；42 对源码/测试门禁覆盖；第十一批对齐 showCurrent、showNowButton 与 exchangeTime，当前动作复用统一校验/确认，删除旧按钮名和 Cedar 全局时间交换覆盖；第十批统一快捷项、视口控制/通知、预览与确认校验，保留独立复制源码。第九批拆清字段/纯面板 API，复制公共面板 Props/事件协议并补齐入口与展示 Options 类型；Cedar 纯面板移除字段/浮层 Prop 泄漏，Maple dayStartOfWeek 改为整数 0–6 并修复范围日历转发，旧 firstDayOfWeek 不保留。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。第十二批两端独立复制月份标签函数，补齐 abbreviation（仅日历月份网格），保留标题/星期/滚轮不变；第十三批删除 Cedar 日期级 locale 覆盖，Maple 范围内嵌日历仅接外观白名单，字段空默认不覆盖嵌套外观；修复范围日历误用滚轮默认展示。第十四批时间展示类型/白名单独立复制，Maple 单值/范围日期时间滚轮只接尺寸与外观，calendarClock 明确时钟；Cedar 内嵌时间精度服从日期根。第十五批删除 Cedar 字段无效 pickerProps/范围 datePickerProps，Maple 保留真实插件；旧 Demo 初始时间迁移到日期顶层。第十六批语言/周起始改为本库命名空间内的实例元数据，不覆盖宿主 Dayjs 默认或基础语言；模型字符串固定英文协议，展示/手输走全局界面语言，多实例更新/卸载和跨年周比较已回归。第十七批默认周文本按实例语言/周起始严格反解析并复用禁用/范围提交；季度由当前 Dayjs 原生支持，追加回归。第十八批两端公共所有者统一可编辑条件，单值/范围真实手输测试独立复制；Maple 原生输入与日历按钮/Popup 分离，Enter/blur、IME、拒绝回写、禁用和范围顺序已验证，multiple/函数格式保留面板选择。移动按钮 Token 登记为明确本地扩展；浏览器软键盘/触控验收未做。第十九批补齐 Maple 日期字段视口/快捷项事件转发，单值/范围完整所有者链路及真实日历导航回归；拒绝嵌套受控视口不改选择值，默认快捷项仍走确认。第二十批 Maple 字段嵌套 Options 删除无效 presentation，根字段/纯面板模式保留；两端复制过滤器阻止嵌套选择器，根模式动态切换不改模型，发布类型根正例/嵌套反例验证。 第二十一批补齐 Maple 周起始日动态更新的真实日期列回归（单值/范围及字段），本地格子改为响应式派生，与 Cedar 原有响应式行为一致；切换不提交模型。 第二十二批修复 Maple 日/月/年导航移除 min/max 后遗留禁用状态；十二个实际单值/范围及字段回归验证按端恢复，不改模型。导航禁用属于本地展示，日期候选约束仍使用两库独立同源规则。 |
+| date-range | date-range | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；42 对源码/测试门禁覆盖；第十一批对齐 showCurrent、showNowButton 与 exchangeTime，当前动作复用统一校验/确认，删除旧按钮名和 Cedar 全局时间交换覆盖；第十批统一快捷项、视口控制/通知、预览与确认校验，保留独立复制源码。第九批拆清字段/纯面板 API，复制公共面板 Props/事件协议并补齐入口与展示 Options 类型；Cedar 纯面板移除字段/浮层 Prop 泄漏，Maple dayStartOfWeek 改为整数 0–6 并修复范围日历转发，旧 firstDayOfWeek 不保留。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。第十二批两端独立复制月份标签函数，补齐 abbreviation（仅日历月份网格），保留标题/星期/滚轮不变；第十三批删除 Cedar 日期级 locale 覆盖，Maple 范围内嵌日历仅接外观白名单，字段空默认不覆盖嵌套外观；修复范围日历误用滚轮默认展示。第十四批时间展示类型/白名单独立复制，Maple 单值/范围日期时间滚轮只接尺寸与外观，calendarClock 明确时钟；Cedar 内嵌时间精度服从日期根。第十五批删除 Cedar 字段无效 pickerProps/范围 datePickerProps，Maple 保留真实插件；旧 Demo 初始时间迁移到日期顶层。第十六批语言/周起始改为本库命名空间内的实例元数据，不覆盖宿主 Dayjs 默认或基础语言；模型字符串固定英文协议，展示/手输走全局界面语言，多实例更新/卸载和跨年周比较已回归。第十七批默认周文本按实例语言/周起始严格反解析并复用禁用/范围提交；季度由当前 Dayjs 原生支持，追加回归。第十八批两端公共所有者统一可编辑条件，单值/范围真实手输测试独立复制；Maple 原生输入与日历按钮/Popup 分离，Enter/blur、IME、拒绝回写、禁用和范围顺序已验证，multiple/函数格式保留面板选择。移动按钮 Token 登记为明确本地扩展；浏览器软键盘/触控验收未做。第十九批补齐 Maple 日期字段视口/快捷项事件转发，单值/范围完整所有者链路及真实日历导航回归；拒绝嵌套受控视口不改选择值，默认快捷项仍走确认。第二十批 Maple 字段嵌套 Options 删除无效 presentation，根字段/纯面板模式保留；两端复制过滤器阻止嵌套选择器，根模式动态切换不改模型，发布类型根正例/嵌套反例验证。 第二十一批补齐 Maple 周起始日动态更新的真实日期列回归（单值/范围及字段），本地格子改为响应式派生，与 Cedar 原有响应式行为一致；切换不提交模型。 第二十二批修复 Maple 日/月/年导航移除 min/max 后遗留禁用状态；十二个实际单值/范围及字段回归验证按端恢复，不改模型。导航禁用属于本地展示，日期候选约束仍使用两库独立同源规则。 |
+| time | time | 逻辑已同源 | 2026-09-23：Time/TimeRange 入口、TimeField 主体及字段状态协议已从 Cedar 独立复制到 Maple，值、草稿、确认/取消、清除、焦点和通知控制器同源。两库各自维护源码及实例，无共享运行时或 platform 配置；桌面 Trigger/列表与移动 Popup/滚轮/时钟，以及本地 Form、全局多语言接入和候选初始化保留在独立 presentation 文件。34 对时间源码/测试门禁覆盖；外观和纯时间面板仍单独验收。 2026-10-12：两端 inputEditable 已消费同源 PickerField/时间解析与提交链；Cedar 默认 true、Maple 默认 false。移动端可手输，时钟按钮/ArrowDown 打开原有面板，未增加共享运行时。 |
+| time-range | time-range | 逻辑已同源 | 2026-09-23：Time/TimeRange 入口、TimeField 主体及字段状态协议已从 Cedar 独立复制到 Maple，值、草稿、确认/取消、清除、焦点和通知控制器同源。两库各自维护源码及实例，无共享运行时或 platform 配置；桌面 Trigger/列表与移动 Popup/滚轮/时钟，以及本地 Form、全局多语言接入和候选初始化保留在独立 presentation 文件。34 对时间源码/测试门禁覆盖；外观和纯时间面板仍单独验收。 2026-10-12：两端 inputEditable 已消费同源 PickerField/时间解析与提交链；Cedar 默认 true、Maple 默认 false。移动端可手输，时钟按钮/ArrowDown 打开原有面板，未增加共享运行时。 |
+| date-picker | date-picker | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；42 对源码/测试门禁覆盖；第十一批对齐 showCurrent、showNowButton 与 exchangeTime，当前动作复用统一校验/确认，删除旧按钮名和 Cedar 全局时间交换覆盖；第十批统一快捷项、视口控制/通知、预览与确认校验，保留独立复制源码。第九批拆清字段/纯面板 API，复制公共面板 Props/事件协议并补齐入口与展示 Options 类型；Cedar 纯面板移除字段/浮层 Prop 泄漏，Maple dayStartOfWeek 改为整数 0–6 并修复范围日历转发，旧 firstDayOfWeek 不保留。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。第十二批两端独立复制月份标签函数，补齐 abbreviation（仅日历月份网格），保留标题/星期/滚轮不变；第十三批删除 Cedar 日期级 locale 覆盖，Maple 范围内嵌日历仅接外观白名单，字段空默认不覆盖嵌套外观；修复范围日历误用滚轮默认展示。第十四批时间展示类型/白名单独立复制，Maple 单值/范围日期时间滚轮只接尺寸与外观，calendarClock 明确时钟；Cedar 内嵌时间精度服从日期根。第十五批删除 Cedar 字段无效 pickerProps/范围 datePickerProps，Maple 保留真实插件；旧 Demo 初始时间迁移到日期顶层。第十六批语言/周起始改为本库命名空间内的实例元数据，不覆盖宿主 Dayjs 默认或基础语言；模型字符串固定英文协议，展示/手输走全局界面语言，多实例更新/卸载和跨年周比较已回归。第十七批默认周文本按实例语言/周起始严格反解析并复用禁用/范围提交；季度由当前 Dayjs 原生支持，追加回归。第十八批两端公共所有者统一可编辑条件，单值/范围真实手输测试独立复制；Maple 原生输入与日历按钮/Popup 分离，Enter/blur、IME、拒绝回写、禁用和范围顺序已验证，multiple/函数格式保留面板选择。移动按钮 Token 登记为明确本地扩展；浏览器软键盘/触控验收未做。第十九批补齐 Maple 日期字段视口/快捷项事件转发，单值/范围完整所有者链路及真实日历导航回归；拒绝嵌套受控视口不改选择值，默认快捷项仍走确认。纯面板保留面板 API，不新增字段手输或浮层状态；外观仍按各端 presentation 单独验收。第二十批 Maple 字段嵌套 Options 删除无效 presentation，根字段/纯面板模式保留；两端复制过滤器阻止嵌套选择器，根模式动态切换不改模型，发布类型根正例/嵌套反例验证。 第二十一批补齐 Maple 周起始日动态更新的真实日期列回归（单值/范围及字段），本地格子改为响应式派生，与 Cedar 原有响应式行为一致；切换不提交模型。 第二十二批修复 Maple 日/月/年导航移除 min/max 后遗留禁用状态；十二个实际单值/范围及字段回归验证按端恢复，不改模型。导航禁用属于本地展示，日期候选约束仍使用两库独立同源规则。 |
+| date-range-picker | date-range-picker | 逻辑已同源 | 2026-09-30：日期族模型/严格解析、Date 禁用回调、包含边界、时分秒分级约束、范围提交、字段与纯面板主体和事件已独立复制；42 对源码/测试门禁覆盖；第十一批对齐 showCurrent、showNowButton 与 exchangeTime，当前动作复用统一校验/确认，删除旧按钮名和 Cedar 全局时间交换覆盖；第十批统一快捷项、视口控制/通知、预览与确认校验，保留独立复制源码。第九批拆清字段/纯面板 API，复制公共面板 Props/事件协议并补齐入口与展示 Options 类型；Cedar 纯面板移除字段/浮层 Prop 泄漏，Maple dayStartOfWeek 改为整数 0–6 并修复范围日历转发，旧 firstDayOfWeek 不保留。两端默认秒精度，format/valueFormat、defaultValue/defaultOpen、type、select/change/confirm/open-change/clear 对齐。桌面日历/Trigger 与移动滚轮/时钟/Popup 保留本地 presentation，Form 与全局多语言各自接入；Maple 多选和 Cedar 周/季度为明确展示能力差异，无共享运行时或 platform 配置。第十二批两端独立复制月份标签函数，补齐 abbreviation（仅日历月份网格），保留标题/星期/滚轮不变；第十三批删除 Cedar 日期级 locale 覆盖，Maple 范围内嵌日历仅接外观白名单，字段空默认不覆盖嵌套外观；修复范围日历误用滚轮默认展示。第十四批时间展示类型/白名单独立复制，Maple 单值/范围日期时间滚轮只接尺寸与外观，calendarClock 明确时钟；Cedar 内嵌时间精度服从日期根。第十五批删除 Cedar 字段无效 pickerProps/范围 datePickerProps，Maple 保留真实插件；旧 Demo 初始时间迁移到日期顶层。第十六批语言/周起始改为本库命名空间内的实例元数据，不覆盖宿主 Dayjs 默认或基础语言；模型字符串固定英文协议，展示/手输走全局界面语言，多实例更新/卸载和跨年周比较已回归。第十七批默认周文本按实例语言/周起始严格反解析并复用禁用/范围提交；季度由当前 Dayjs 原生支持，追加回归。第十八批两端公共所有者统一可编辑条件，单值/范围真实手输测试独立复制；Maple 原生输入与日历按钮/Popup 分离，Enter/blur、IME、拒绝回写、禁用和范围顺序已验证，multiple/函数格式保留面板选择。移动按钮 Token 登记为明确本地扩展；浏览器软键盘/触控验收未做。第十九批补齐 Maple 日期字段视口/快捷项事件转发，单值/范围完整所有者链路及真实日历导航回归；拒绝嵌套受控视口不改选择值，默认快捷项仍走确认。纯面板保留面板 API，不新增字段手输或浮层状态；外观仍按各端 presentation 单独验收。第二十批 Maple 字段嵌套 Options 删除无效 presentation，根字段/纯面板模式保留；两端复制过滤器阻止嵌套选择器，根模式动态切换不改模型，发布类型根正例/嵌套反例验证。 第二十一批补齐 Maple 周起始日动态更新的真实日期列回归（单值/范围及字段），本地格子改为响应式派生，与 Cedar 原有响应式行为一致；切换不提交模型。 第二十二批修复 Maple 日/月/年导航移除 min/max 后遗留禁用状态；十二个实际单值/范围及字段回归验证按端恢复，不改模型。导航禁用属于本地展示，日期候选约束仍使用两库独立同源规则。 |
 | time-picker | time-picker | 逻辑已同源 | 2026-09-30：纯时间面板的值、草稿、校验和选择/确认事务已独立复制；两端范围入口均直接持有范围状态，Cedar 不再经单值面板转调。类型化事件声明和范围事件编排同源，脚本入口收口为 script setup。列表与滚轮/时钟内容及手势留在独立 presentation 文件，两库各有源码及实例，无共享运行时。33 对源码/测试与 4 个面板展示边界门禁覆盖；端侧外观保持差异，浏览器视觉验收另行进行。 |
 | time-range-picker | time-range-picker | 逻辑已同源 | 2026-09-30：纯时间面板的值、草稿、校验和选择/确认事务已独立复制；两端范围入口均直接持有范围状态，Cedar 不再经单值面板转调。类型化事件声明和范围事件编排同源，脚本入口收口为 script setup。列表与滚轮/时钟内容及手势留在独立 presentation 文件，两库各有源码及实例，无共享运行时。33 对源码/测试与 4 个面板展示边界门禁覆盖；端侧外观保持差异，浏览器视觉验收另行进行。 |
-| dropdown-menu | dropdown-menu | 已同源 | 2026-09-11 由 Cedar DropdownMenu 独立同源复制：逻辑层（selection/level/keyboard/options）与共享渲染器一致，平台差异集中在 platform.ts。命令菜单只做单选，多选与级联改由 Select / Cascader 承担；子菜单展开方式由根组件 submenu-trigger 统一控制，移动端默认 click。旧 Menu / MenuGroup / MenuSubmenu 已废弃，不再保留别名。 |
+| dropdown-menu | dropdown-menu | 逻辑已同源 | 2026-10-09 复核：Props、selection/level/keyboard/options 与公共定位选项独立复制；strategy 响应式传递到所有子菜单，公开定位/子菜单类型补齐。两端保留 Scrollbar/原生列表、hover/click、动画、触控涟漪等视图差异，因此纠正旧“已同源”为“逻辑已同源”，不宣称整个主体一致。移除 platform 聚合层，差异留在 appearance.ts；无共享运行时或旧 API 别名。DropdownMenu 与 SplitButton 配对交互回归通过。 |
 | popover | popover | 已同源 | 2026-09-20 完成独立同源复制：主体、Props、platform 外观映射、title/body DOM、结构样式及语义契约纳入门禁。双端统一 click、bottom、箭头、10px 间距和关闭缓存默认值，删除 defaultStyle、popoverClass、elevation；通过 Trigger referenceAttrs 关联 aria-controls/expanded。仅前缀、本地导入和主题 token 值不同。 |
 | tooltip | tooltip | 已同源 | 2026-09-20 完成独立同源复制：主体、Props、platform 外观映射、结构样式与语义契约纳入门禁。双端统一 hover+focus、top、箭头、10px 间距、关闭卸载、xs/md、status、color/textColor，删除 backgroundColor 和布尔 xs；通过 Trigger referenceAttrs 关联 role=tooltip 与 aria-describedby。仅前缀、本地导入和主题 token 值不同。 |
 | trigger | trigger | 已同源 | 2026-09-20 完成独立同源复制：Trigger 主体、最终 Props/types、无依赖定位器、结构样式、token 职责和定位契约测试已纳入 copied-components-check。两端统一十二方位、absolute/fixed、popupOffset、popupTranslate、cover、翻转避让、滚动与尺寸更新；Maple 删除 @popperjs/core、offsetX/offsetY 与 cascadeOptimization。仅 platform.ts 保留各库容器、层级、全局配置及 ResizeObserver 接线，不共享运行时核心或实例。 |
 | split-button | split-button | 已同源 | 2026-09-08 完成独立同源复制：主体、21 项 Props、样式依赖入口和契约测试纳入一致性检查；统一异步点击、受控状态、禁用优先级、向下箭头及 open/close/resize。Cedar Menu 补齐浮层类名和屏幕轴偏移适配；两端 Menu 保留独立平台实现，无跨库运行时或实例共享。 |
-| form | form | 逻辑已同源 | 2026-09-21 完成 Form 内核独立同源复制：字段注册与卸载、定向/全量校验、错误聚合、异步批次竞态、reset/clear/setFields 已统一，并由 check:form-kernel 防漂移；两端 validate 都返回 undefined 或字段错误映射，submit/success/failed 载荷同义，scrollToError 均按实际 DOM 顺序选择 start/end。Cedar 的 b-validate 规则适配、栅格标签与 Maple 的函数/Zod 规则适配、移动端 details 仍各自维护。 |
-| tabs | tabs | 逻辑待同源 | Tabs 有编辑/新增与 sticky/safeArea 差异；Carousel 有键盘 aria 与 centeredSlides/effect 差异；同源对齐索引、切换/自动播放状态机，导航和手势保留适配。 |
-| carousel | carousel | 逻辑待同源 | Tabs 有编辑/新增与 sticky/safeArea 差异；Carousel 有键盘 aria 与 centeredSlides/effect 差异；同源对齐索引、切换/自动播放状态机，导航和手势保留适配。 |
-| message | message | 逻辑已同源 | 2026-09-21 完成逻辑同源：两端独立复制相同的可调用服务、按容器与位置隔离的队列、剩余时间计时、id 更新、幂等关闭和宿主销毁逻辑，并纳入轻量反馈一致性门禁。API 已统一为 default/info/success/warning/danger/loading、top/center/bottom、action、pauseOnHover、resetOnUpdate 与完整生命周期；删除 normal、模态阻断及端侧外观 Props。PC 紧凑提示与移动卡片样式各自维护。 |
-| upload | upload | 逻辑待同源 | PC 有 action/customRequest/headers/自动上传等完整请求能力，移动主要负责文件选择和展示；先同源对齐文件模型、校验和预览，不能直接替换上传管线。 |
+| form | form | 逻辑已同源 | 2026-10-12：表单字段登记、校验调度、reset/clear 与异步竞态，以及标签/内容栅格 Props、布局继承、自然标签宽度登记/测量和生命周期逻辑均独立复制；12 对源码/行为测试门禁覆盖。Form/Item 支持响应式 Col、固定标签 flex、动态自动宽度和局部覆盖。Cedar 默认横向、Maple 默认纵向；本地规则引擎、表单注入、错误滚动与 FormDetails/标签外观保留独立展示，没有共享运行时、实例或 platform 配置。 补齐显式 Form.id 字段容器前缀与 Cedar formItemProps/严格 FormItemProps 入口导出。 Cedar 已移除无效 mergeProps 并补齐 Item.size；第八批补齐 Maple 六项普通装饰 API，FormItem Props 31/31 差集为零。装饰 Props、标签渲染、状态优先规则与配对测试独立复制；显式状态只覆盖展示，真实校验结果不变，自动状态 validating → success/error，清空恢复未校验。规则类型、默认布局与本地消息视图保留差异，不将 Props 名称相同算作全部主体一致。 |
+| tabs | tabs | 已同源 | 2026-10-09：Tabs/TabPane/TabsNavs/TabNav/TabsItems/TabItem六件套主体、Props、事件、插槽及TabsNavs.resize已同源；13对源码和40项Token消费门禁、Cedar57/Maple56含InfiniteScroll专项通过。删除platform与无消费者绑定，仅本库配置/安装和四项已登记外观默认值独立，未扩建Maple全局Provider。 |
+| carousel | carousel | 已同源 | 2026-10-09：Carousel / CarouselItem 主体、Props、布局、Pointer、受控状态、生命周期、样式与配对测试独立复制；12 对源码及 26 项 token 门禁，Cedar 25 / Maple 26 项测试通过。仅前缀、本地安装、图标及全局 Locale 接入不同。不复制子组件实例；无法连续覆盖的跨页跳转直接定位。 |
+| message | message | 逻辑已同源 | 2026-09-21 完成逻辑同源：两端独立复制相同的可调用服务、按容器与位置隔离的队列、剩余时间计时、id 更新、幂等关闭和宿主销毁逻辑，并纳入轻量反馈一致性门禁。API 已统一为 default/info/success/warning/danger/loading、top/center/bottom、action、pauseOnHover、resetOnUpdate 与完整生命周期；删除 normal、模态阻断及端侧外观 Props。PC 紧凑提示与移动卡片样式各自维护。 第二十五批：默认 variant 两端统一 neutral，组件/函数/默认重置一致；补齐独立复制的计时器暂停/恢复/更新/卸载和默认变体回归，不保留旧默认兼容。 |
+| upload | upload | 逻辑已同源 | 2026-10-09：Upload 主体、Props、读取/队列/请求/取消/URL 所有权/useUploader 与样式独立复制，20 对源码门禁、Cedar 41 / Maple 68 项测试通过；Form 与全局 Locale 本地接入，视频预览保留 Cedar Drawer / Maple Popup。中英 Demo 各 21 项，能力补齐；无共享运行时或兼容旧 API。 |
 | table | table | 独立 | Cedar 42 个 Props（列、选择、树、分页、虚拟滚动等），Maple 仅 3 个容器 Props；语义层级不同，不建议对齐整个 Table。 |
 | drawer | popup | 逻辑已同源 | 2026-09-21 完成逻辑同源改造。两端各自保存字节级一致的 modal-surface 控制器，并由同源门禁约束；已统一 open/defaultOpen、unmountOnClose、遮罩 pointer 序列、层级、焦点、容器锁滚动、ESC、显式路由关闭和生命周期。Cedar Drawer 保留标题/页脚/宽高及 beforeClose，Maple Popup 保留 center、安全区和移动转场。 |
 | row | row | 已同源 | Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。 |
 | col | col | 已同源 | Grid/GridItem/Row/Col 主体、Props、响应式逻辑、样式和契约测试已按包内复制统一；Row/Col 有独立源码、安装和样式入口，两端 demo 配对。 入口职责已分离：Grid 仅包含 Grid.Item；Row/Col 独立入口、注册、文档与 Demo，不再通过 Grid 转导出。 |
 | paper | paper | 已同源 | Cedar 新增 Paper；两端底层表面主体、Props、样式、token 和契约测试独立复制并验证。bordered 与 elevation 独立，无 variant、无默认 padding；保留尺寸、圆角与可选水波，不共享核心或实例。 |
+| ripple | ripple | 已同源 | 第二十五批补录指令：主体、动画、键盘、禁用/卸载清理规则独立复制；两端真实样式入口编译与生命周期测试验证，Token 默认值和包/命名空间接线本地维护，无共享运行时。 |
 
 ## 后续维护与实施
 
@@ -127,7 +128,7 @@ Cedar 的 Tree / Transfer / Descriptions / Timeline / FilterForm 等，以及 Ma
 仅比较实际公开运行时 Props 的键，不把工具目录当组件，也不据此声称事件、插槽、方法或行为完全相同。
 已批准且实施的语义迁移见 api-alignment-plan.md；剩余集合差异是后续能力规划清单，不自动求并集。
 
-Cedar：127 个 Props 导出；Maple：119 个；同名可比较：95 个。
+Cedar：129 个 Props 导出；Maple：119 个；同名可比较：97 个。
 
 | Props | Cedar / Maple 键数量 | 仅 Cedar | 仅 Maple |
 | --- | --- | --- | --- |
@@ -143,27 +144,29 @@ Cedar：127 个 Props 导出；Maple：119 个；同名可比较：95 个。
 | buttonGroupProps | 9 / 9 | — | — |
 | buttonProps | 25 / 25 | — | — |
 | cardProps | 19 / 19 | — | — |
-| carouselProps | 25 / 24 | `ariaLabel`, `nextButtonAriaLabel`, `previousButtonAriaLabel` | `centeredSlides`, `effect` |
+| carouselItemProps | 0 / 0 | — | — |
+| carouselProps | 27 / 27 | — | — |
 | cascaderPanelProps | 0 / 0 | — | — |
 | cascaderProps | 43 / 45 | — | `pickerProps`, `popupProps` |
-| checkboxGroupProps | 9 / 9 | — | — |
-| checkboxProps | 8 / 11 | `uninjectGroupContext` | `checkedColor`, `iconSize`, `ripple`, `uncheckedColor` |
+| checkboxGroupProps | 11 / 11 | — | — |
+| checkboxProps | 14 / 14 | — | — |
 | colProps | 10 / 10 | — | — |
 | collapseItemProps | 5 / 5 | — | — |
 | collapseProps | 9 / 9 | — | — |
 | countToProps | 6 / 6 | — | — |
 | countdownProps | 3 / 3 | — | — |
-| datePickerProps | 37 / 26 | `abbreviation`, `clearable`, `dayStartOfWeek`, `defaultOpen`, `defaultPickerValue`, `disabledInput`, `error`, `locale`, `open`, `pickerValue`, `placeholder`, `placement`, `popupContainer`, `previewShortcut`, `shortcuts`, `shortcutsPosition`, `showConfirmBtn`, `showNowBtn`, `size`, `triggerProps`, `unmountOnClose`, `variant` | `buttonElevation`, `color`, `elevation`, `firstDayOfWeek`, `hint`, `multiple`, `presentation`, `range`, `showCurrent`, `titleColor`, `touchable` |
-| dateProps | 33 / 35 | — | `multiple`, `presentation` |
-| dateRangePickerProps | 38 / 19 | `abbreviation`, `clearable`, `dayStartOfWeek`, `defaultOpen`, `defaultPickerValue`, `disabledInput`, `error`, `exchangeTime`, `locale`, `open`, `pickerValue`, `placeholder`, `placement`, `popupContainer`, `previewShortcut`, `separator`, `shortcuts`, `shortcutsPosition`, `showConfirmBtn`, `size`, `triggerProps`, `unmountOnClose`, `variant` | `datePickerProps`, `elevation`, `pickerProps`, `presentation` |
-| dateRangeProps | 34 / 35 | — | `presentation` |
+| datePickerProps | 24 / 34 | — | `buttonElevation`, `color`, `elevation`, `hint`, `multiple`, `pickerProps`, `presentation`, `range`, `titleColor`, `touchable` |
+| dateProps | 32 / 35 | — | `multiple`, `pickerProps`, `presentation` |
+| dateRangePickerProps | 24 / 28 | — | `datePickerProps`, `elevation`, `pickerProps`, `presentation` |
+| dateRangeProps | 32 / 35 | — | `datePickerProps`, `pickerProps`, `presentation` |
 | dialogProps | 45 / 45 | — | — |
 | dividerProps | 10 / 10 | — | — |
-| dropdownMenuProps | 25 / 26 | — | `strategy` |
+| dropdownMenuProps | 26 / 26 | — | — |
 | ellipsisProps | 5 / 5 | — | — |
 | emptyProps | 6 / 6 | — | — |
 | fieldDecoratorProps | 20 / 20 | — | — |
-| formProps | 15 / 8 | `autoLabelWidth`, `id`, `labelAlign`, `labelColProps`, `labelColStyle`, `wrapperColProps`, `wrapperColStyle` | — |
+| formItemProps | 31 / 31 | — | — |
+| formProps | 16 / 16 | — | — |
 | gridItemProps | 3 / 3 | — | — |
 | gridProps | 5 / 5 | — | — |
 | hoverOverlayProps | 2 / 2 | — | — |
@@ -177,7 +180,7 @@ Cedar：127 个 Props 导出；Maple：119 个；同名可比较：95 个。
 | inputPasswordProps | 27 / 27 | — | — |
 | inputProps | 24 / 24 | — | — |
 | linkProps | 9 / 9 | — | — |
-| listProps | 8 / 5 | `maxHeight`, `scrollbar`, `virtualListProps` | — |
+| listProps | 8 / 8 | — | — |
 | loadingProps | 7 / 7 | — | — |
 | menuOptionProps | 9 / 9 | — | — |
 | messageProps | 14 / 14 | — | — |
@@ -188,19 +191,19 @@ Cedar：127 个 Props 导出；Maple：119 个；同名可比较：95 个。
 | paginationProps | 23 / 23 | — | — |
 | paperProps | 8 / 8 | — | — |
 | popoverProps | 45 / 45 | — | — |
-| progressGroupProps | 10 / 10 | — | — |
-| progressProps | 12 / 12 | `animation`, `bufferColor`, `steps` | `rotate`, `textClass`, `track` |
-| radioGroupProps | 11 / 11 | — | — |
-| radioProps | 8 / 11 | `uninjectGroupContext` | `checkedColor`, `iconSize`, `ripple`, `uncheckedColor` |
-| rateProps | 17 / 17 | — | — |
+| progressGroupProps | 11 / 11 | — | — |
+| progressProps | 15 / 15 | — | — |
+| radioGroupProps | 12 / 12 | — | — |
+| radioProps | 15 / 15 | — | — |
+| rateProps | 18 / 18 | — | — |
 | resultProps | 5 / 5 | — | — |
 | rowProps | 5 / 5 | — | — |
-| searchProps | 19 / 37 | — | `actionText`, `actionType`, `ariaLabel`, `autofocus`, `background`, `blurColor`, `enterkeyhint`, `focusColor`, `historyPopup`, `inputBackground`, `label`, `maxLength`, `modelModifiers`, `searchIcon`, `shape`, `showAction`, `textColor`, `type` |
+| searchProps | 39 / 39 | — | — |
 | selectProps | 45 / 47 | — | `pickerProps`, `popupProps` |
 | skeletonLineProps | 4 / 4 | — | — |
 | skeletonProps | 12 / 12 | — | — |
 | skeletonShapeProps | 2 / 2 | — | — |
-| sliderProps | 13 / 16 | `defaultValue`, `formatTooltip`, `marks`, `showInput`, `showTicks`, `showTooltip` | `activeColor`, `labelColor`, `labelTextColor`, `labelVisible`, `readonly`, `thumbColor`, `thumbSize`, `trackColor`, `trackHeight` |
+| sliderProps | 23 / 23 | — | — |
 | spaceProps | 6 / 6 | — | — |
 | splitButtonProps | 21 / 21 | — | — |
 | statisticProps | 16 / 16 | — | — |
@@ -216,15 +219,15 @@ Cedar：127 个 Props 导出；Maple：119 个；同名可比较：95 个。
 | tabsNavsProps | 0 / 0 | — | — |
 | tabsProps | 25 / 25 | — | — |
 | tagProps | 14 / 14 | — | — |
-| textareaProps | 21 / 26 | — | `blurColor`, `focusColor`, `hint`, `line`, `textColor` |
+| textareaProps | 26 / 26 | — | — |
 | timePickerProps | 16 / 20 | `showNextDay`, `type` | `color`, `elevation`, `hint`, `pickerProps`, `presentation`, `titleColor` |
-| timeProps | 30 / 31 | `inputEditable` | `pickerProps`, `presentation` |
+| timeProps | 30 / 32 | — | `pickerProps`, `presentation` |
 | timeRangePickerProps | 15 / 19 | — | `elevation`, `pickerProps`, `presentation`, `timePickerProps` |
-| timeRangeProps | 32 / 34 | `inputEditable` | `pickerProps`, `presentation`, `timePickerProps` |
+| timeRangeProps | 32 / 35 | — | `pickerProps`, `presentation`, `timePickerProps` |
 | tooltipProps | 48 / 48 | — | — |
 | triggerProps | 43 / 43 | — | — |
-| uploadProps | 37 / 19 | `action`, `autoUpload`, `beforeUpload`, `createThumbnailUrl`, `customRequest`, `data`, `defaultValue`, `directory`, `draggable`, `headers`, `imageFit`, `isSuccessResponse`, `listType`, `maxTotalSize`, `method`, `name`, `showCancelButton`, `showDownloadButton`, `showPreviewButton`, `showRetryButton`, `showUploadButton`, `withCredentials` | `elevation`, `onClickAction`, `preventDefaultPreview`, `ripple` |
-| verificationCodeProps | 11 / 22 | — | `align`, `allowPaste`, `autofocus`, `blurColor`, `focusColor`, `gutter`, `maskSymbol`, `pasteTransform`, `textColor`, `type`, `variant` |
+| uploadProps | 40 / 40 | — | — |
+| verificationCodeProps | 22 / 22 | — | — |
 | watermarkProps | 15 / 15 | — | — |
 
 ## 仅 Cedar 根入口存在的 Props 导出
@@ -233,4 +236,4 @@ Cedar：127 个 Props 导出；Maple：119 个；同名可比较：95 个。
 
 ## 仅 Maple 根入口存在的 Props 导出
 
-`actionSheetProps`, `carouselItemProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `floatingPanelProps`, `formDetailsProps`, `formItemProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `noticeBarProps`, `numberKeyboardProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`
+`actionSheetProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `floatingPanelProps`, `formDetailsProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `noticeBarProps`, `numberKeyboardProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`

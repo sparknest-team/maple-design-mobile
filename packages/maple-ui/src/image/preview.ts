@@ -8,26 +8,47 @@ let singletonApp: App | null = null
 let singletonHost: HTMLElement | null = null
 let singletonOptions: ImagePreviewOptions | null = null
 let singletonHandle: ImagePreviewHandle | null = null
+let singletonFinalize: (() => void) | null = null
+let previewGeneration = 0
 let defaultOptions: ImagePreviewOptions = {}
 
 function unmountCurrent() {
   const app = singletonApp
   const host = singletonHost
+  const finalize = singletonFinalize
   singletonApp = null
   singletonHost = null
   singletonOptions = null
   singletonHandle = null
-  app?.unmount()
-  host?.parentNode?.removeChild(host)
+  singletonFinalize = null
+  try {
+    app?.unmount()
+  } finally {
+    host?.parentNode?.removeChild(host)
+    finalize?.()
+  }
 }
 
 function previewImage(options: UserImagePreviewOptions): ImagePreviewHandle | undefined {
   if (typeof window === 'undefined') {
     return
   }
+  const generation = ++previewGeneration
   unmountCurrent()
+  // An onClosed callback may open a newer preview while the previous one is disposed.
+  if (generation !== previewGeneration) {
+    return
+  }
 
   const normalized = normalizePreviewOptions(options, defaultOptions) as ImagePreviewOptions
+  let finalized = false
+  const finalize = () => {
+    if (finalized) {
+      return
+    }
+    finalized = true
+    normalized.onClosed?.()
+  }
   const images = normalized.images?.length ? normalized.images : normalized.src ? [normalized.src] : []
   const reactiveOptions = reactive({ ...normalized, images, src: images[0], open: true })
   singletonOptions = reactiveOptions as unknown as ImagePreviewOptions
@@ -50,15 +71,17 @@ function previewImage(options: UserImagePreviewOptions): ImagePreviewHandle | un
         },
         onOpenChange: (open: boolean) => normalized.onOpenChange?.(open),
         onClosed: () => {
-          normalized.onClosed?.()
           if (singletonApp === app) {
             unmountCurrent()
+          } else {
+            finalize()
           }
         },
       }),
   })
   singletonHost = host
   singletonApp = app
+  singletonFinalize = finalize
   app.mount(host)
 
   const call = (method: string, ...args: unknown[]) => componentRef.value?.[method]?.(...args)

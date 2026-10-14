@@ -1,99 +1,119 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`upload disabled 1`] = `
-"<div class="mp-upload mp--box">
-  <div class="mp-upload__file-list">
-    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-      <div class="mp-hover-overlay"></div>
-    </div>
+"<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
+  <div class="mp-upload__content">
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
+    <div class="mp-upload__list"></div>
   </div>
-  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
 `;
 
 exports[`upload disabled 2`] = `
-"<div class="mp-upload mp--box">
-  <div class="mp-upload__file-list">
-    <div class="mp-upload__file mp-elevation--2">
-      <div class="mp-upload__file-name">cat.png</div>
-      <div class="mp-upload__file-close"><span class="mp-icon mp-upload__file-close-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6z"></path></svg></span></div><img role="img" class="mp-upload__file-cover" src="blob:upload-0" alt="cat.png">
-      <div class="mp-upload__file-indicator">
-        <div class="mp-upload__progress" style="width: 0%;"></div>
+"<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+  <div class="mp-upload__content">
+    <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
+    <div class="mp-upload__list">
+      <div class="mp-upload__item mp-upload__item--ready">
+        <!--v-if-->
+        <div class="mp-upload__meta"><span class="mp-upload__name">cat.png</span><span class="mp-upload__size">0 B</span>
+          <!--v-if-->
+          <!--v-if-->
+        </div>
+        <div class="mp-upload__actions"><button type="button" class="mp-upload__action" aria-label="预览" disabled=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
+              <!--v-if-->
+              <path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"></path>
+            </svg></button>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if--><button type="button" class="mp-upload__action" aria-label="删除" disabled=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
+              <!--v-if-->
+              <path d="M13.46 12 19 17.54V19h-1.46L12 13.46 6.46 19H5v-1.46L10.54 12 5 6.46V5h1.46L12 10.54 17.54 5H19v1.46z"></path>
+            </svg></button>
+        </div>
       </div>
     </div>
-    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2 mp-upload--disabled"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*" disabled=""><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-      <div class="mp-hover-overlay"></div>
-    </div>
   </div>
-  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
 `;
 
 exports[`upload hideList 1`] = `
-"<div class="mp-upload mp--box">
-  <div class="mp-upload__file-list">
-    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-      <div class="mp-hover-overlay"></div>
-    </div>
+"<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
+  <div class="mp-upload__content">
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
+    <!--v-if-->
   </div>
-  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
 `;
 
 exports[`upload length over maxFiles in multiple mode 1`] = `
-"<div class="mp-upload mp--box">
-  <div class="mp-upload__file-list">
-    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-      <div class="mp-hover-overlay"></div>
-    </div>
+"<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
+  <div class="mp-upload__content">
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
+    <div class="mp-upload__list"></div>
   </div>
-  <div class="mp-upload__length">0 / 1</div>
   <!--teleport start-->
   <!--teleport end-->
 </div>"
 `;
 
 exports[`upload progress 1`] = `
-"<div class="mp-upload mp--box">
-  <div class="mp-upload__file-list">
-    <div class="mp-upload__file mp-elevation--2 mp-upload--loading">
-      <div class="mp-upload__file-name">progress</div>
-      <div class="mp-upload__file-close"><span class="mp-icon mp-upload__file-close-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6z"></path></svg></span></div>
-      <!--v-if-->
-      <div class="mp-upload__file-indicator">
-        <div class="mp-upload__progress" style="width: 40%;"></div>
+"<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
+  <div class="mp-upload__content">
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
+    <div class="mp-upload__list">
+      <div class="mp-upload__item mp-upload__item--uploading">
+        <!--v-if-->
+        <div class="mp-upload__meta"><span class="mp-upload__name">progress</span><span class="mp-upload__size"></span><progress class="mp-upload__progress" max="100" aria-label="progress" value="40"></progress>
+          <!--v-if-->
+        </div>
+        <div class="mp-upload__actions">
+          <!--v-if-->
+          <!--v-if--><button type="button" class="mp-upload__action" aria-label="取消"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
+              <!--v-if-->
+              <path d="M13.46 12 19 17.54V19h-1.46L12 13.46 6.46 19H5v-1.46L10.54 12 5 6.46V5h1.46L12 10.54 17.54 5H19v1.46z"></path>
+            </svg></button>
+          <!--v-if--><button type="button" class="mp-upload__action" aria-label="删除"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
+              <!--v-if-->
+              <path d="M13.46 12 19 17.54V19h-1.46L12 13.46 6.46 19H5v-1.46L10.54 12 5 6.46V5h1.46L12 10.54 17.54 5H19v1.46z"></path>
+            </svg></button>
+        </div>
       </div>
     </div>
-    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-      <div class="mp-hover-overlay"></div>
-    </div>
   </div>
-  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"
 `;
 
 exports[`upload remove button slot 1`] = `
-"<div class="mp-upload mp--box">
-  <div class="mp-upload__file-list">
-    <div class="mp-upload__file mp-elevation--2">
-      <div class="mp-upload__file-name">https://maplejs.org/cat.jpg</div>remove<img role="img" class="mp-upload__file-cover" src="https://maplejs.org/cat.jpg">
-      <div class="mp-upload__file-indicator">
-        <div class="mp-upload__progress"></div>
+"<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
+  <div class="mp-upload__content">
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
+    <div class="mp-upload__list">
+      <div class="mp-upload__item mp-upload__item--undefined">
+        <!--v-if-->
+        <div class="mp-upload__meta"><span class="mp-upload__name"></span><span class="mp-upload__size"></span>
+          <!--v-if-->
+          <!--v-if-->
+        </div>
+        <div class="mp-upload__actions"><button type="button" class="mp-upload__action" aria-label="预览"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
+              <!--v-if-->
+              <path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"></path>
+            </svg></button>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->remove
+        </div>
       </div>
     </div>
-    <div class="mp-upload--outline-none mp-upload__action mp-elevation--2" tabindex="0"><input type="file" autocomplete="off" class="mp-upload__action-input" accept="image/*"><span class="mp-icon mp-upload__action-icon" style="transition-duration: 0ms;" mp-upload-cover=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path></svg></span>
-      <div class="mp-hover-overlay"></div>
-    </div>
   </div>
-  <!--v-if-->
   <!--teleport start-->
   <!--teleport end-->
 </div>"

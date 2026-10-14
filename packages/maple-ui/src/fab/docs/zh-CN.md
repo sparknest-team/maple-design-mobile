@@ -6,7 +6,7 @@
 
 右侧示例提供实时预览区，初始展开动作，点击动作后弹出 Message 并收起。调整方向时会将按钮移到可容纳菜单的一侧，避免菜单跑出屏幕。hover 适合鼠标操作，触摸设备建议使用 click。
 
-预览使用 `fixed=false`、`popup-container=false`，定位在预览容器内。开启拖拽后改为屏幕固定定位；拖拽使用触摸手势。默认挂载到 body，也可以显式指定容器。
+普通预览使用 `fixed=false`、`popup-container=false`，定位在预览容器内。开启拖拽后恢复默认 body 挂载和屏幕固定定位，不能继续指定 `popup-container=false`，否则会按局部定位解释屏幕坐标。拖拽使用触摸手势；关闭后返回预览容器。
 
 预览区随页面正常滚动，不吸顶覆盖控制项或屏幕上的 Fab。开启拖拽后按钮离开预览区，显示在屏幕所选角落；关闭拖拽则返回预览区。
 
@@ -22,26 +22,6 @@
 ../example/demos/status.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const status = ref('primary')
-</script>
-
-<template>
-  <mp-select v-model="status">
-    <mp-option label="默认" value="default"/>
-    <mp-option label="主要" value="primary"/>
-    <mp-option label="信息" value="info"/>
-    <mp-option label="成功" value="success"/>
-    <mp-option label="警告" value="warning"/>
-    <mp-option label="危险" value="danger"/>
-  </mp-select>
-
-  <mp-fab :status="status" />
-</template>
-```
 
 ### 触发器位置
 
@@ -49,24 +29,6 @@ const status = ref('primary')
 ../example/demos/position.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const position = ref('right-bottom')
-</script>
-
-<template>
-  <mp-radio-group v-model="position">
-    <mp-radio value="left-top">left-top</mp-radio>
-    <mp-radio value="right-top">right-top</mp-radio>
-    <mp-radio value="left-bottom">left-bottom</mp-radio>
-    <mp-radio value="right-bottom">right-bottom</mp-radio>
-  </mp-radio-group>
-
-  <mp-fab :position="position" />
-</template>
-```
 
 ### 触发方式
 
@@ -74,35 +36,6 @@ const position = ref('right-bottom')
 ../example/demos/trigger.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const trigger = ref('click')
-</script>
-
-<template>
-  <mp-radio-group v-model="trigger">
-    <mp-radio value="click">click</mp-radio>
-    <mp-radio value="hover">hover</mp-radio>
-  </mp-radio-group>
-
-  <mp-fab status="primary" :trigger="trigger">
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete />
-    </mp-button>
-  </mp-fab>
-</template>
-```
 
 ### 动作菜单弹出方向
 
@@ -110,37 +43,6 @@ const trigger = ref('click')
 ../example/demos/direction.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const direction = ref('top')
-</script>
-
-<template>
-  <mp-radio-group v-model="direction">
-    <mp-radio value="top">top</mp-radio>
-    <mp-radio value="right">right</mp-radio>
-    <mp-radio value="bottom">bottom</mp-radio>
-    <mp-radio value="left">left</mp-radio>
-  </mp-radio-group>
-
-  <mp-fab status="primary" :direction="direction">
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete />
-    </mp-button>
-  </mp-fab>
-</template>
-```
 
 ### 开启拖拽
 
@@ -148,19 +50,6 @@ const direction = ref('top')
 ../example/demos/drag.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const drag = ref(false)
-</script>
-
-<template>
-  <mp-switch v-model="drag" />
-
-  <mp-fab :drag="drag" />
-</template>
-```
 
 ### 禁用
 
@@ -168,19 +57,6 @@ const drag = ref(false)
 ../example/demos/disabled.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const disabled = ref(false)
-</script>
-
-<template>
-  <mp-switch v-model="disabled" />
-
-  <mp-fab :disabled="disabled" />
-</template>
-```
 
 ### 触发器显示/隐藏
 
@@ -188,23 +64,6 @@ const disabled = ref(false)
 ../example/demos/visibility.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const open = ref(true)
-
-function toggle() {
-  open.value = !open.value
-}
-</script>
-
-<template>
-  <mp-button status="primary" @click.stop="toggle">切换</mp-button>
-
-  <mp-fab :open="open" />
-</template>
-```
 
 ### 动作菜单展开/收起
 
@@ -212,36 +71,6 @@ function toggle() {
 ../example/demos/controlled.vue
 ```
 
-```html
-<script setup>
-import { ref } from 'vue'
-
-const active = ref(false)
-
-function toggle() {
-  active.value = !active.value
-}
-</script>
-
-<template>
-  <mp-button status="primary" @click.stop="toggle">切换</mp-button>
-
-  <mp-fab v-model:active="active" status="primary">
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete />
-    </mp-button>
-  </mp-fab>
-</template>
-```
 
 ### 自定义触发器
 
@@ -249,45 +78,6 @@ function toggle() {
 ../example/demos/custom-trigger.vue
 ```
 
-```html
-<template>
-  <mp-fab>
-    <mp-button status="info" icon-container>
-      <m-icon-user-circle-fill :size="24" />
-    </mp-button>
-    <mp-button status="success" icon-container>
-      <m-icon-checkbox-marked-circle-fill :size="24" />
-    </mp-button>
-    <mp-button status="warning" icon-container>
-      <m-icon-bell-fill :size="24" />
-    </mp-button>
-    <mp-button status="danger" icon-container>
-      <m-icon-delete :size="24" />
-    </mp-button>
-
-    <template #trigger="{ active }">
-      <mp-button class="trigger" status="primary" round>
-        <m-icon-heart-fill v-if="active" :size="24" />
-        <m-icon-heart-half-full v-else :size="24" />
-      </mp-button>
-    </template>
-  </mp-fab>
-</template>
-
-<style>
-.trigger {
-  width: 64px !important;
-  height: 64px !important;
-  border-radius: 8px !important;
-}
-
-.fade {
-  transition-property: opacity, transform;
-  opacity: 0;
-  transform: rotate(90deg)
-}
-</style>
-```
 ## API
 
 ### 属性

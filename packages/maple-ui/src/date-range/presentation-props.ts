@@ -1,13 +1,17 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
+import { type PropType } from 'vue'
 import { props as datePickerPropsSource } from '../date/presentation-props'
 import type { DisabledTime } from '../date/time-constraints'
-import { pickerProps as pickerPropsSource } from '../picker'
-import { props as timePickerPropsSource } from '../time/picker-props'
+import type { DateTimePickerOptions } from '../date/time-picker-options'
+import type { DateWheelOptions } from '../date/wheel-options'
+import type { DateRangeCalendarOptions } from './calendar-options'
 
 export type DateRangePickerType = 'year' | 'month' | 'date'
 export type DateRangePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
 
 export const props = {
+  abbreviation: datePickerPropsSource.abbreviation,
+  exchangeTime: { type: Boolean, default: true },
+  pickerValue: [String, Array] as PropType<string | string[]>,
   modelValue: {
     type: Array as PropType<string[]>,
     default: () => [],
@@ -20,6 +24,7 @@ export const props = {
     type: String as PropType<DateRangePickerType>,
     default: 'date',
   },
+  dayStartOfWeek: datePickerPropsSource.dayStartOfWeek,
   showTime: Boolean,
   useSeconds: Boolean,
   min: String,
@@ -27,15 +32,15 @@ export const props = {
   disabledDate: Function as PropType<(val: string) => boolean>,
   disabledTime: Object as PropType<DisabledTime>,
   datePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof datePickerPropsSource>>>,
+    type: Object as PropType<DateRangeCalendarOptions>,
     default: () => ({}),
   },
   pickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof pickerPropsSource>>>,
+    type: Object as PropType<DateWheelOptions>,
     default: () => ({}),
   },
   timePickerProps: {
-    type: Object as PropType<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>,
+    type: Object as PropType<DateTimePickerOptions>,
     default: () => ({}),
   },
   readonly: Boolean,

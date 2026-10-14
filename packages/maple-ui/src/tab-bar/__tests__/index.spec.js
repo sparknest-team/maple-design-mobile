@@ -28,6 +28,18 @@ const Wrapper = {
   `,
 }
 
+test('tab-bar uses its CSS z-index unless an explicit prop overrides it', async () => {
+  const wrapper = mount(VarTabBar)
+  expect(wrapper.get('.mp-tab-bar').element.style.zIndex).toBe('var(--mp-tab-bar-z-index)')
+  await wrapper.setProps({ zIndex: 7 })
+  expect(wrapper.get('.mp-tab-bar').element.style.zIndex).toBe('7')
+  await wrapper.setProps({ zIndex: 'var(--app-nav-layer)' })
+  expect(wrapper.get('.mp-tab-bar').element.style.zIndex).toBe('var(--app-nav-layer)')
+  await wrapper.setProps({ zIndex: undefined })
+  expect(wrapper.get('.mp-tab-bar').element.style.zIndex).toBe('var(--mp-tab-bar-z-index)')
+  wrapper.unmount()
+})
+
 test('tab-bar plugin', () => {
   const app = createApp({}).use(TabBar)
   expect(app.component(TabBar.name)).toBeTruthy()

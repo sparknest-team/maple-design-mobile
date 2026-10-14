@@ -1,14 +1,28 @@
-:root {
-  --mp-date-toolbar-height: var(--mp-picker-toolbar-height, 44px);
-  --mp-date-toolbar-padding: var(--mp-picker-toolbar-padding, 0 4px);
-  --mp-date-title-text-color: var(--mp-picker-title-text-color, #555);
-  --mp-date-title-font-size: var(--mp-picker-title-font-size, 16px);
-}
-
 .mp-date {
   width: 100%;
   text-align: left;
   outline: none;
+
+  &__input-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--mp-date-input-trigger-padding);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: var(--mp-date-input-trigger-outline-width) solid var(--mp-date-input-trigger-outline-color);
+      outline-offset: var(--mp-date-input-trigger-outline-offset);
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+  }
 
   &__panel {
     background: var(--mp-color-fill-2);

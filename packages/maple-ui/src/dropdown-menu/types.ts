@@ -1,7 +1,10 @@
 import type { CSSProperties, HTMLAttributes, VNodeChild } from 'vue'
+import type { TriggerProps } from '../trigger'
 
 export type { DropdownMenuFieldNames } from './selection'
-export type { DropdownMenuPosition } from './platform'
+export type { TriggerPlacement as DropdownMenuPosition, Reference as DropdownMenuReference } from '../trigger'
+export type DropdownMenuSubmenuTrigger = 'click' | 'hover'
+export type DropdownMenuStrategy = NonNullable<TriggerProps['strategy']>
 export type { DropdownMenuProps } from './props'
 
 export type MenuValue = string | number | boolean | Record<string, any> | undefined
